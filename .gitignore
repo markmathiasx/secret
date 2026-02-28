@@ -12,3 +12,8 @@ pnpm-debug.log*
 coverage
 *.sqlite
 *.sqlite-journal
+
+.env.local
+.next
+node_modules
+
