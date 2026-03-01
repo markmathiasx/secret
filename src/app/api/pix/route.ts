@@ -15,6 +15,9 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, error: "Dados inválidos." }, { status: 400 });
   }
 
-  const payload = makePixPayload({ title: parsed.data.title, amount: parsed.data.amount });
+  const payload = makePixPayload({
+  description: parsed.data.title || "Pagamento MDH 3D",
+  amount: parsed.data.amount,
+});
   return NextResponse.json({ ok: true, payload });
 }
