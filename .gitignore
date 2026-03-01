@@ -17,3 +17,5 @@ coverage
 .next
 node_modules
 
+tsconfig.tsbuildinfo
+*.log
