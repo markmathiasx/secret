@@ -3,13 +3,14 @@ import "server-only";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { and, eq, gt } from "drizzle-orm";
-import { randomBytes, scryptSync, timingSafeEqual, createHash, createHmac } from "node:crypto";
+import { randomBytes, timingSafeEqual, createHash, createHmac, scryptSync } from "node:crypto";
+import bcrypt from "bcryptjs";
 import { getDb, isDatabaseConfigured } from "@/db/client";
 import { adminSessions } from "@/db/schema";
 import { adminConfig } from "@/lib/constants";
 import { databaseUnavailableMessage } from "@/lib/database-status";
 
-const SESSION_TTL_MS = 1000 * 60 * 60 * 24 * 14;
+const SESSION_TTL_MS = 1000 * 60 * 60 * 24 * Math.max(1, Number(process.env.ADMIN_SESSION_TTL_DAYS || 14));
 
 type ParsedSession = {
   email: string;
@@ -27,24 +28,33 @@ function getSessionSecret() {
   return secret;
 }
 
-function hashAdminPasswordValue(password: string, salt: string) {
-  return scryptSync(password, salt, 64).toString("hex");
-}
-
 export function makeAdminPasswordHash(password: string) {
-  const salt = randomBytes(16).toString("hex");
-  return `s2:${salt}:${hashAdminPasswordValue(password, salt)}`;
+  return bcrypt.hashSync(password, 12);
 }
 
 function verifyPasswordHash(password: string, hash: string) {
-  const [scheme, salt, digest] = hash.split(":");
-  if (scheme !== "s2" || !salt || !digest) return false;
+  if (hash.startsWith("$2")) {
+    return bcrypt.compareSync(password, hash);
+  }
 
-  const expected = Buffer.from(digest, "hex");
-  const actual = Buffer.from(hashAdminPasswordValue(password, salt), "hex");
+  if (hash.startsWith("s2:")) {
+    const parts = hash.split(":");
+    if (parts.length !== 3) return false;
 
-  if (expected.length !== actual.length) return false;
-  return timingSafeEqual(expected, actual);
+    const [, saltHex, digestHex] = parts;
+    if (!saltHex || !digestHex) return false;
+
+    try {
+      const expected = Buffer.from(digestHex, "hex");
+      const actual = scryptSync(password, Buffer.from(saltHex, "hex"), expected.length);
+      if (actual.length !== expected.length) return false;
+      return timingSafeEqual(actual, expected);
+    } catch {
+      return false;
+    }
+  }
+
+  return false;
 }
 
 function signSessionParts(email: string, expiresAt: number, token: string) {
@@ -116,6 +126,7 @@ export async function createAdminSession(input: { email: string; ipAddress?: str
   const expiresAt = Date.now() + SESSION_TTL_MS;
   const value = buildSessionValue(input.email.toLowerCase(), expiresAt, token);
   const db = requireSessionStore();
+  await db.delete(adminSessions).where(eq(adminSessions.email, input.email.toLowerCase()));
   await db.insert(adminSessions).values({
     email: input.email.toLowerCase(),
     sessionTokenHash: hashSessionToken(token),

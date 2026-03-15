@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import type { Product } from "@/lib/catalog";
 import type { CartCustomerDraft } from "@/components/cart-provider";
+import { buttonFamilies } from "@/components/ui/buttons";
 import { CONTACT_PREFERENCES, PAYMENT_METHODS, SOURCE_CHANNELS } from "@/lib/commerce";
 import { formatCurrency } from "@/lib/utils";
 
@@ -185,7 +186,7 @@ export function AdminManualOrderForm({ products }: ManualOrderFormProps) {
           <button
             type="button"
             onClick={() => setItems((current) => [...current, { productId: products[0]?.id || "", quantity: 1 }])}
-            className="rounded-full border border-cyan-400/25 bg-cyan-400/12 px-4 py-2 text-sm font-semibold text-cyan-100"
+            className={buttonFamilies.secondary}
           >
             Adicionar item
           </button>
@@ -293,7 +294,7 @@ export function AdminManualOrderForm({ products }: ManualOrderFormProps) {
       <button
         type="submit"
         disabled={status === "loading"}
-        className="w-full rounded-full border border-cyan-400/25 bg-cyan-400/12 px-5 py-3 text-sm font-semibold text-cyan-100 disabled:opacity-60"
+        className={`${buttonFamilies.secondary} w-full disabled:opacity-60`}
       >
         {status === "loading" ? "Criando pedido..." : "Criar pedido manual"}
       </button>

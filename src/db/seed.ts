@@ -14,7 +14,21 @@ async function main() {
   const reportPath = resolve(process.cwd(), "public", "catalog-assets", "catalog-image-report.json");
   const imageReport = existsSync(reportPath)
     ? new Map(
-        (((JSON.parse(readFileSync(reportPath, "utf8")) as { items?: Array<{ slug: string; status: "imported" | "placeholder" | "failed"; provider: string; sourceUrl: string; localPath: string; query: string }> }).items) || []).map((item) => [item.slug, item])
+        (
+          (
+            JSON.parse(readFileSync(reportPath, "utf8")) as {
+              items?: Array<{
+                productId: string;
+                slug: string;
+                status: "imported" | "placeholder" | "failed";
+                provider: string;
+                sourceUrl: string;
+                localPath: string;
+                query: string;
+              }>;
+            }
+          ).items || []
+        ).map((item) => [item.productId || item.slug, item])
       )
     : new Map();
 
@@ -37,11 +51,11 @@ async function main() {
   }
 
   for (const product of catalog) {
-    const localFile = resolve(process.cwd(), "public", "catalog-assets", `${product.slug}.webp`);
+    const localFile = resolve(process.cwd(), "public", "catalog-assets", `${product.id}.webp`);
     const imageExists = existsSync(localFile);
-    const reportEntry = imageReport.get(product.slug);
+    const reportEntry = imageReport.get(product.id) || imageReport.get(product.slug);
     const imageStatus = reportEntry?.status === "failed" ? "failed" : reportEntry?.status || (imageExists ? "imported" : "placeholder");
-    const imagePath = imageExists ? `/catalog-assets/${product.slug}.webp` : null;
+    const imagePath = imageExists ? `/catalog-assets/${product.id}.webp` : null;
 
     await db
       .insert(products)
@@ -111,10 +125,10 @@ async function main() {
   await db.delete(catalogImageMappings);
   await db.insert(catalogImageMappings).values(
     catalog.map((product) => {
-      const localPath = existsSync(resolve(process.cwd(), "public", "catalog-assets", `${product.slug}.webp`))
-        ? `/catalog-assets/${product.slug}.webp`
+      const localPath = existsSync(resolve(process.cwd(), "public", "catalog-assets", `${product.id}.webp`))
+        ? `/catalog-assets/${product.id}.webp`
         : null;
-      const reportEntry = imageReport.get(product.slug);
+      const reportEntry = imageReport.get(product.id) || imageReport.get(product.slug);
       const status: "imported" | "placeholder" | "failed" =
         reportEntry?.status || (localPath ? "imported" : "placeholder");
 

@@ -1,6 +1,13 @@
-"use client";
-
+import type { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Callback de autenticacao",
+  robots: {
+    index: false,
+    follow: false
+  }
+};
 
 export default function AuthCallback() {
   return (

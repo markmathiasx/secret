@@ -1,5 +1,6 @@
 "use client";
 
+<<<<<<< ours
 import { useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, Filter, Search, SlidersHorizontal, Sparkles, X } from "lucide-react";
 import { CatalogCard } from "@/components/catalog-card";
@@ -134,6 +135,36 @@ export function CatalogExplorer({
       category: initialCategory || "all",
       query: initialQuery || "",
       totalProducts: products.length
+=======
+import { useMemo, useState } from "react";
+import Link from "next/link";
+import { categories, collections, getProductUrl, type Product } from "@/lib/catalog";
+import { formatCurrency } from "@/lib/utils";
+import { ProductImageGallery } from "@/components/product-image-gallery";
+import { FavoriteButton } from "@/components/favorite-button";
+
+const PAGE_SIZE = 60;
+const badges = ["Mais vendido", "Foto real", "Pronta entrega", "Sob encomenda", "Personalizável"];
+
+export function CatalogExplorer({ products }: { products: Product[] }) {
+  const [query, setQuery] = useState("");
+  const [category, setCategory] = useState("Todos");
+  const [collection, setCollection] = useState("Todas");
+  const [visible, setVisible] = useState(PAGE_SIZE);
+
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    return products.filter((item) => {
+      const matchQuery = !q
+        ? true
+        : [item.name, item.category, item.theme, item.description, item.collection, ...item.tags]
+            .join(" ")
+            .toLowerCase()
+            .includes(q);
+      const matchCategory = category === "Todos" ? true : item.category === category;
+      const matchCollection = collection === "Todas" ? true : item.collection === collection;
+      return matchQuery && matchCategory && matchCollection;
+>>>>>>> theirs
     });
   }, [initialCategory, initialQuery, products.length]);
 
@@ -142,10 +173,29 @@ export function CatalogExplorer({
     const selectedCategorySet = new Set(selectedCategories);
     const selectedCollectionSet = new Set(selectedCollections);
 
+<<<<<<< ours
     const filtered = products.filter((product) => {
       const searchPool = [product.name, product.category, product.theme, product.description, product.collection, ...product.tags]
         .join(" ")
         .toLowerCase();
+=======
+  return (
+    <div className="space-y-6">
+      <div className="rounded-[32px] border border-white/10 bg-white/5 p-5">
+        <div className="grid gap-4 lg:grid-cols-[1.2fr_0.4fr_0.4fr]">
+          <label className="text-sm text-white/70">
+            <span className="mb-2 block">Buscar peça</span>
+            <input
+              value={query}
+              onChange={(e) => {
+                setQuery(e.target.value);
+                setVisible(PAGE_SIZE);
+              }}
+              placeholder="Busque por tema, categoria ou uso"
+              className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none"
+            />
+          </label>
+>>>>>>> theirs
 
       return (
         (normalizedQuery ? searchPool.includes(normalizedQuery) : true) &&
@@ -246,21 +296,21 @@ export function CatalogExplorer({
   ]);
 
   const filterPanel = (
-    <div className="rounded-[32px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.03))] p-5 shadow-[0_18px_48px_rgba(2,8,23,0.28)]">
+    <div className="premium-panel rounded-[32px] p-5">
       <div className="flex items-start justify-between gap-3">
         <div>
           <p className="text-xs uppercase tracking-[0.22em] text-cyan-200/80">Filtros</p>
-          <h2 className="mt-2 text-2xl font-black text-white">Refine sua selecao</h2>
+                <h2 className="mt-2 text-2xl font-black text-white">Encontre a peca certa para comprar agora</h2>
         </div>
         <div className="flex items-center gap-2">
-          <div className="rounded-full border border-white/10 bg-white/5 p-2 text-white/65">
+          <div className="premium-card rounded-full p-2 text-white/65">
             <SlidersHorizontal className="h-4 w-4" />
           </div>
           <button
             type="button"
             onClick={() => setMobileFiltersOpen(false)}
             ref={mobileFilterCloseButtonRef}
-            className="rounded-full border border-white/10 bg-white/5 p-2 text-white/65 lg:hidden"
+            className="premium-btn premium-btn-secondary premium-icon-btn lg:hidden"
             aria-label="Fechar filtros"
           >
             <X className="h-4 w-4" />
@@ -270,12 +320,12 @@ export function CatalogExplorer({
 
       <label className="mt-5 block text-sm text-white/68">
           <span className="mb-2 block">Buscar na colecao</span>
-        <div className="flex items-center rounded-2xl border border-white/10 bg-black/20 px-4 py-3">
+        <div className="premium-input-shell rounded-2xl px-4 py-3">
           <Search className="h-4 w-4 text-white/45" />
           <input
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="hello kitty, suporte, presente, vaso..."
+            placeholder="anime, presente, organizador, setup..."
             className="ml-3 w-full bg-transparent text-white outline-none placeholder:text-white/35"
             aria-label="Buscar dentro do catálogo"
           />
@@ -289,7 +339,7 @@ export function CatalogExplorer({
               key={scope}
               type="button"
               onClick={() => setQuery(scope)}
-              className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium text-white/72 transition hover:text-white"
+              className="premium-chip px-3 py-1.5 text-xs font-medium"
             >
               {scope}
             </button>
@@ -307,7 +357,7 @@ export function CatalogExplorer({
                   key={product.id}
                   type="button"
                   onClick={() => setQuery(product.name)}
-                  className="flex items-center justify-between gap-3 rounded-[20px] border border-white/10 bg-white/5 px-3 py-2 text-left text-sm text-white/78 transition hover:border-white/20 hover:text-white"
+                  className="premium-card premium-card-hover flex items-center justify-between gap-3 rounded-[20px] px-3 py-2 text-left text-sm text-white/78 hover:text-white"
                 >
                   <span className="truncate">{product.name}</span>
                   <span className="shrink-0 text-[11px] uppercase tracking-[0.18em] text-cyan-200/75">
@@ -316,9 +366,9 @@ export function CatalogExplorer({
                 </button>
               ))
             ) : (
-              <div className="rounded-[20px] border border-dashed border-white/10 bg-black/20 px-3 py-3 text-sm text-white/55">
-                Nenhuma sugestao boa apareceu para esse termo ainda. Continue buscando ou use os atalhos para explorar a colecao.
-              </div>
+                <div className="premium-card rounded-[20px] border-dashed bg-black/20 px-3 py-3 text-sm text-white/55">
+                Ainda nao apareceu a melhor sugestao para esse termo. Tente buscar por tema, tipo de presente ou utilidade da peca.
+                </div>
             )}
           </div>
         </div>
@@ -336,10 +386,10 @@ export function CatalogExplorer({
             return (
               <label
                 key={category}
-                className={`flex cursor-pointer items-center justify-between rounded-2xl border px-3 py-2.5 text-sm transition ${
+                className={`premium-card premium-card-hover flex cursor-pointer items-center justify-between rounded-2xl px-3 py-2.5 text-sm ${
                   active
                     ? "border-cyan-300/40 bg-cyan-400/10 text-cyan-100"
-                    : "border-white/10 bg-white/5 text-white/72 hover:border-white/20 hover:text-white"
+                    : "text-white/72 hover:text-white"
                 }`}
               >
                 <span>{category}</span>
@@ -367,10 +417,10 @@ export function CatalogExplorer({
             return (
               <label
                 key={collection}
-                className={`flex cursor-pointer items-center justify-between rounded-2xl border px-3 py-2.5 text-sm transition ${
+                className={`premium-card premium-card-hover flex cursor-pointer items-center justify-between rounded-2xl px-3 py-2.5 text-sm ${
                   active
                     ? "border-cyan-300/40 bg-cyan-400/10 text-cyan-100"
-                    : "border-white/10 bg-white/5 text-white/72 hover:border-white/20 hover:text-white"
+                    : "text-white/72 hover:text-white"
                 }`}
               >
                 <span>{collection}</span>
@@ -392,10 +442,10 @@ export function CatalogExplorer({
           {priceRanges.map((range) => (
             <label
               key={range.id}
-              className={`flex cursor-pointer items-center justify-between rounded-2xl border px-3 py-2.5 text-sm transition ${
+              className={`premium-card premium-card-hover flex cursor-pointer items-center justify-between rounded-2xl px-3 py-2.5 text-sm ${
                 priceRange === range.id
                   ? "border-emerald-300/35 bg-emerald-400/10 text-emerald-100"
-                  : "border-white/10 bg-white/5 text-white/72 hover:border-white/20 hover:text-white"
+                  : "text-white/72 hover:text-white"
               }`}
             >
               <span>{range.label}</span>
@@ -417,10 +467,10 @@ export function CatalogExplorer({
           {leadTimes.map((item) => (
             <label
               key={item.id}
-              className={`flex cursor-pointer items-center justify-between rounded-2xl border px-3 py-2.5 text-sm transition ${
+              className={`premium-card premium-card-hover flex cursor-pointer items-center justify-between rounded-2xl px-3 py-2.5 text-sm ${
                 leadTime === item.id
                   ? "border-amber-300/35 bg-amber-300/10 text-amber-100"
-                  : "border-white/10 bg-white/5 text-white/72 hover:border-white/20 hover:text-white"
+                  : "text-white/72 hover:text-white"
               }`}
             >
               <span>{item.label}</span>
@@ -436,7 +486,7 @@ export function CatalogExplorer({
         </div>
       </div>
 
-      <label className="mt-5 flex items-center justify-between rounded-[24px] border border-white/10 bg-white/5 px-4 py-3 text-sm text-white/75">
+      <label className="premium-card mt-5 flex items-center justify-between rounded-[24px] px-4 py-3 text-sm text-white/75">
                 <span className="inline-flex items-center gap-2">
                   <Sparkles className="h-4 w-4 text-cyan-200" />
                   Destaques da loja
@@ -452,7 +502,7 @@ export function CatalogExplorer({
       <button
         type="button"
         onClick={clearFilters}
-        className="mt-5 w-full rounded-full border border-white/10 bg-black/20 px-4 py-3 text-sm font-semibold text-white/70 transition hover:text-white"
+        className="premium-btn premium-btn-ghost mt-5 w-full"
       >
         Limpar filtros
       </button>
@@ -466,19 +516,19 @@ export function CatalogExplorer({
           <button
             type="button"
             onClick={() => setMobileFiltersOpen(true)}
-            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white/84"
+            className="premium-btn premium-btn-secondary px-4 py-2 text-sm"
           >
             <Filter className="h-4 w-4" />
             Filtros {activeFiltersCount ? `(${activeFiltersCount})` : ""}
           </button>
-          <div className="rounded-full border border-cyan-400/20 bg-cyan-400/10 px-3 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-cyan-100">
+          <div className="premium-badge premium-badge-info px-3 py-2 text-xs">
             {filteredAndSorted.length} itens
           </div>
           <label className="min-w-0 flex-1">
             <select
               value={sortBy}
               onChange={(event) => setSortBy(event.target.value as SortOption)}
-              className="w-full rounded-full border border-white/10 bg-black/20 px-4 py-2 text-sm text-white outline-none"
+              className="premium-select rounded-full px-4 py-2 text-sm"
             >
               {sortOptions.map((option) => (
                 <option key={option.id} value={option.id}>
@@ -488,6 +538,7 @@ export function CatalogExplorer({
             </select>
           </label>
         </div>
+<<<<<<< ours
       </div>
 
       <div className="grid gap-6 lg:grid-cols-[18rem_minmax(0,1fr)]">
@@ -506,16 +557,172 @@ export function CatalogExplorer({
             {filterPanel}
           </div>
         </aside>
+=======
+
+        <div className="mt-4 flex flex-wrap items-center gap-3 text-sm text-white/60">
+          <span>{filtered.length} resultados disponíveis</span>
+          <span className="h-1 w-1 rounded-full bg-white/30" />
+          <span>Preço inicial, prazo e acabamento em todos os cards</span>
+        </div>
+      </div>
+
+      <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+        {visibleItems.map((product, index) => (
+          <article key={product.id} className="group rounded-[28px] border border-white/10 bg-card p-5 transition hover:-translate-y-1 hover:border-cyan-300/30">
+            <div className="relative">
+              <ProductImageGallery product={product} compact />
+              <div className="absolute right-3 top-3">
+                <FavoriteButton productId={product.id} />
+              </div>
+            </div>
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
 
         <div className="space-y-5">
-          <div className="section-shell rounded-[32px] p-5">
+            <div className="section-shell rounded-[32px] p-5">
             <div className="flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
               <div>
-                <p className="text-xs uppercase tracking-[0.22em] text-cyan-200/80">Selecao da loja</p>
+<<<<<<< ours
+                <p className="text-xs uppercase tracking-[0.22em] text-cyan-200/80">Vitrine curada</p>
                 <h2 className="mt-2 text-3xl font-black text-white">{filteredAndSorted.length} produtos na sua selecao</h2>
                 <p className="mt-2 text-sm leading-7 text-white/62">
-                  Compare rapido por faixa de preco, prazo, categoria e colecao sem perder a leitura visual da loja.
+                  Compare por preco, prazo, categoria e colecao sem perder a leitura elegante e organizada da vitrine.
                 </p>
+=======
+                <p className="text-xs uppercase tracking-[0.2em] text-cyan-200/80">{product.category}</p>
+                <h3 className="mt-2 text-lg font-semibold text-white">{product.name}</h3>
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
               </div>
 
               <label className="hidden text-sm text-white/68 lg:block">
@@ -523,7 +730,7 @@ export function CatalogExplorer({
                 <select
                   value={sortBy}
                   onChange={(event) => setSortBy(event.target.value as SortOption)}
-                  className="min-w-64 rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none"
+                  className="premium-select min-w-64"
                 >
                   {sortOptions.map((option) => (
                     <option key={option.id} value={option.id}>
@@ -534,6 +741,14 @@ export function CatalogExplorer({
               </label>
             </div>
 
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
             <div className="mt-4 flex flex-wrap items-center gap-2 text-sm text-white/55">
               <span>
                 Página {page} de {totalPages}
@@ -541,35 +756,166 @@ export function CatalogExplorer({
               <span className="h-1 w-1 rounded-full bg-white/30" />
               <span>{activeFiltersCount} filtro(s) ativo(s)</span>
               <span className="h-1 w-1 rounded-full bg-white/30" />
-              <span>quick view, Pix em destaque e leitura mais comercial</span>
+              <span>Pix em destaque, prazo visivel e vitrine organizada</span>
             </div>
 
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
             <div className="mt-4 flex flex-wrap gap-2">
-              {["Pix com melhor valor", "Quick view", "Filtros previsiveis", "Guest checkout"].map((item) => (
-                <span key={item} className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs uppercase tracking-[0.18em] text-white/60">
+              {["Mais pedidos", "Pix com melhor valor", "Filtros claros", "Compra simples"].map((item) => (
+                <span key={item} className="premium-badge premium-badge-neutral h-auto px-3 py-1.5 text-xs">
                   {item}
                 </span>
               ))}
+=======
+            <div className="mt-3 flex flex-wrap gap-2">
+              <span className="rounded-full border border-violet-300/25 bg-violet-400/10 px-2.5 py-1 text-[11px] text-violet-100">{badges[index % badges.length]}</span>
+              <span className="rounded-full border border-white/10 px-2.5 py-1 text-[11px] text-white/75">PLA premium</span>
+>>>>>>> theirs
+=======
+            <div className="mt-3 flex flex-wrap gap-2">
+              <span className="rounded-full border border-violet-300/25 bg-violet-400/10 px-2.5 py-1 text-[11px] text-violet-100">{badges[index % badges.length]}</span>
+              <span className="rounded-full border border-white/10 px-2.5 py-1 text-[11px] text-white/75">PLA premium</span>
+>>>>>>> theirs
+=======
+            <div className="mt-3 flex flex-wrap gap-2">
+              <span className="rounded-full border border-violet-300/25 bg-violet-400/10 px-2.5 py-1 text-[11px] text-violet-100">{badges[index % badges.length]}</span>
+              <span className="rounded-full border border-white/10 px-2.5 py-1 text-[11px] text-white/75">PLA premium</span>
+>>>>>>> theirs
+=======
+            <div className="mt-3 flex flex-wrap gap-2">
+              <span className="rounded-full border border-violet-300/25 bg-violet-400/10 px-2.5 py-1 text-[11px] text-violet-100">{badges[index % badges.length]}</span>
+              <span className="rounded-full border border-white/10 px-2.5 py-1 text-[11px] text-white/75">PLA premium</span>
+>>>>>>> theirs
+=======
+            <div className="mt-3 flex flex-wrap gap-2">
+              <span className="rounded-full border border-violet-300/25 bg-violet-400/10 px-2.5 py-1 text-[11px] text-violet-100">{badges[index % badges.length]}</span>
+              <span className="rounded-full border border-white/10 px-2.5 py-1 text-[11px] text-white/75">PLA premium</span>
+>>>>>>> theirs
+=======
+            <div className="mt-3 flex flex-wrap gap-2">
+              <span className="rounded-full border border-violet-300/25 bg-violet-400/10 px-2.5 py-1 text-[11px] text-violet-100">{badges[index % badges.length]}</span>
+              <span className="rounded-full border border-white/10 px-2.5 py-1 text-[11px] text-white/75">PLA premium</span>
+>>>>>>> theirs
+=======
+            <div className="mt-3 flex flex-wrap gap-2">
+              <span className="rounded-full border border-violet-300/25 bg-violet-400/10 px-2.5 py-1 text-[11px] text-violet-100">{badges[index % badges.length]}</span>
+              <span className="rounded-full border border-white/10 px-2.5 py-1 text-[11px] text-white/75">PLA premium</span>
+>>>>>>> theirs
+=======
+            <div className="mt-3 flex flex-wrap gap-2">
+              <span className="rounded-full border border-violet-300/25 bg-violet-400/10 px-2.5 py-1 text-[11px] text-violet-100">{badges[index % badges.length]}</span>
+              <span className="rounded-full border border-white/10 px-2.5 py-1 text-[11px] text-white/75">PLA premium</span>
+>>>>>>> theirs
+=======
+            <div className="mt-3 flex flex-wrap gap-2">
+              <span className="rounded-full border border-violet-300/25 bg-violet-400/10 px-2.5 py-1 text-[11px] text-violet-100">{badges[index % badges.length]}</span>
+              <span className="rounded-full border border-white/10 px-2.5 py-1 text-[11px] text-white/75">PLA premium</span>
+>>>>>>> theirs
+=======
+            <div className="mt-3 flex flex-wrap gap-2">
+              <span className="rounded-full border border-violet-300/25 bg-violet-400/10 px-2.5 py-1 text-[11px] text-violet-100">{badges[index % badges.length]}</span>
+              <span className="rounded-full border border-white/10 px-2.5 py-1 text-[11px] text-white/75">PLA premium</span>
+>>>>>>> theirs
+=======
+            <div className="mt-3 flex flex-wrap gap-2">
+              <span className="rounded-full border border-violet-300/25 bg-violet-400/10 px-2.5 py-1 text-[11px] text-violet-100">{badges[index % badges.length]}</span>
+              <span className="rounded-full border border-white/10 px-2.5 py-1 text-[11px] text-white/75">PLA premium</span>
+>>>>>>> theirs
+=======
+            <div className="mt-3 flex flex-wrap gap-2">
+              <span className="rounded-full border border-violet-300/25 bg-violet-400/10 px-2.5 py-1 text-[11px] text-violet-100">{badges[index % badges.length]}</span>
+              <span className="rounded-full border border-white/10 px-2.5 py-1 text-[11px] text-white/75">PLA premium</span>
+>>>>>>> theirs
             </div>
           </div>
 
+<<<<<<< ours
           {paginated.length ? (
             <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
               {paginated.map((product) => (
                 <CatalogCard key={product.id} product={product} onQuickView={setQuickViewProduct} />
               ))}
+=======
+            <div className="mt-3 flex flex-wrap gap-2">
+              <span className="rounded-full border border-violet-300/25 bg-violet-400/10 px-2.5 py-1 text-[11px] text-violet-100">{badges[index % badges.length]}</span>
+              <span className="rounded-full border border-white/10 px-2.5 py-1 text-[11px] text-white/75">PLA premium</span>
+>>>>>>> theirs
+=======
+            <div className="mt-3 flex flex-wrap gap-2">
+              <span className="rounded-full border border-violet-300/25 bg-violet-400/10 px-2.5 py-1 text-[11px] text-violet-100">{badges[index % badges.length]}</span>
+              <span className="rounded-full border border-white/10 px-2.5 py-1 text-[11px] text-white/75">PLA premium</span>
+>>>>>>> theirs
+=======
+            <div className="mt-3 flex flex-wrap gap-2">
+              <span className="rounded-full border border-violet-300/25 bg-violet-400/10 px-2.5 py-1 text-[11px] text-violet-100">{badges[index % badges.length]}</span>
+              <span className="rounded-full border border-white/10 px-2.5 py-1 text-[11px] text-white/75">PLA premium</span>
+>>>>>>> theirs
+=======
+            <div className="mt-3 flex flex-wrap gap-2">
+              <span className="rounded-full border border-violet-300/25 bg-violet-400/10 px-2.5 py-1 text-[11px] text-violet-100">{badges[index % badges.length]}</span>
+              <span className="rounded-full border border-white/10 px-2.5 py-1 text-[11px] text-white/75">PLA premium</span>
+>>>>>>> theirs
+=======
+            <div className="mt-3 flex flex-wrap gap-2">
+              <span className="rounded-full border border-violet-300/25 bg-violet-400/10 px-2.5 py-1 text-[11px] text-violet-100">{badges[index % badges.length]}</span>
+              <span className="rounded-full border border-white/10 px-2.5 py-1 text-[11px] text-white/75">PLA premium</span>
+>>>>>>> theirs
+=======
+            <div className="mt-3 flex flex-wrap gap-2">
+              <span className="rounded-full border border-violet-300/25 bg-violet-400/10 px-2.5 py-1 text-[11px] text-violet-100">{badges[index % badges.length]}</span>
+              <span className="rounded-full border border-white/10 px-2.5 py-1 text-[11px] text-white/75">PLA premium</span>
+>>>>>>> theirs
+=======
+            <div className="mt-3 flex flex-wrap gap-2">
+              <span className="rounded-full border border-violet-300/25 bg-violet-400/10 px-2.5 py-1 text-[11px] text-violet-100">{badges[index % badges.length]}</span>
+              <span className="rounded-full border border-white/10 px-2.5 py-1 text-[11px] text-white/75">PLA premium</span>
+>>>>>>> theirs
+=======
+            <div className="mt-3 flex flex-wrap gap-2">
+              <span className="rounded-full border border-violet-300/25 bg-violet-400/10 px-2.5 py-1 text-[11px] text-violet-100">{badges[index % badges.length]}</span>
+              <span className="rounded-full border border-white/10 px-2.5 py-1 text-[11px] text-white/75">PLA premium</span>
+>>>>>>> theirs
+=======
+            <div className="mt-3 flex flex-wrap gap-2">
+              <span className="rounded-full border border-violet-300/25 bg-violet-400/10 px-2.5 py-1 text-[11px] text-violet-100">{badges[index % badges.length]}</span>
+              <span className="rounded-full border border-white/10 px-2.5 py-1 text-[11px] text-white/75">PLA premium</span>
+>>>>>>> theirs
+=======
+            <div className="mt-3 flex flex-wrap gap-2">
+              <span className="rounded-full border border-violet-300/25 bg-violet-400/10 px-2.5 py-1 text-[11px] text-violet-100">{badges[index % badges.length]}</span>
+              <span className="rounded-full border border-white/10 px-2.5 py-1 text-[11px] text-white/75">PLA premium</span>
+>>>>>>> theirs
+=======
+            <div className="mt-3 flex flex-wrap gap-2">
+              <span className="rounded-full border border-violet-300/25 bg-violet-400/10 px-2.5 py-1 text-[11px] text-violet-100">{badges[index % badges.length]}</span>
+              <span className="rounded-full border border-white/10 px-2.5 py-1 text-[11px] text-white/75">PLA premium</span>
+>>>>>>> theirs
             </div>
           ) : (
             <div className="section-shell rounded-[32px] px-6 py-12 text-center">
-              <h3 className="text-2xl font-black text-white">Nenhum item combinou com essa busca</h3>
+              <h3 className="text-2xl font-black text-white">Ainda não apareceu a peça certa</h3>
               <p className="mx-auto mt-3 max-w-2xl text-sm leading-7 text-white/60">
-                Ajuste busca, faixa de preco ou categoria. Se preferir, fale com a MDH 3D no WhatsApp e a gente te ajuda a chegar no item certo mais rapido.
+                Ajuste a busca, a faixa de preço ou a categoria. Se preferir, fale com a MDH 3D no WhatsApp e receba sugestões mais alinhadas ao que você quer presentear, organizar ou decorar.
               </p>
               <div className="mt-6 flex flex-wrap justify-center gap-3">
                 <button
                   type="button"
                   onClick={clearFilters}
-                  className="rounded-full border border-cyan-400/25 bg-cyan-400/12 px-5 py-3 text-sm font-semibold text-cyan-100 transition hover:border-cyan-300/55 hover:bg-cyan-300/18"
+                  className="premium-btn premium-btn-primary"
                 >
                     Limpar selecao
                   </button>
@@ -577,15 +923,134 @@ export function CatalogExplorer({
                   href={catalogHelpHref}
                   target="_blank"
                   rel="noreferrer"
-                  className="rounded-full border border-emerald-400/25 bg-emerald-400/14 px-5 py-3 text-sm font-semibold text-emerald-100 transition hover:border-emerald-300/55 hover:bg-emerald-300/18"
+                  className="premium-btn premium-btn-emerald"
                 >
                     Pedir ajuda no WhatsApp
                   </a>
+=======
+            <p className="mt-3 min-h-[72px] text-sm leading-6 text-white/62">{product.description}</p>
+
+            <p className="mt-3 min-h-[72px] text-sm leading-6 text-white/62">{product.description}</p>
+
+            <p className="mt-3 min-h-[72px] text-sm leading-6 text-white/62">{product.description}</p>
+
+            <p className="mt-3 min-h-[72px] text-sm leading-6 text-white/62">{product.description}</p>
+
+            <p className="mt-3 min-h-[72px] text-sm leading-6 text-white/62">{product.description}</p>
+
+            <p className="mt-3 min-h-[72px] text-sm leading-6 text-white/62">{product.description}</p>
+
+            <p className="mt-3 min-h-[72px] text-sm leading-6 text-white/62">{product.description}</p>
+
+            <p className="mt-3 min-h-[72px] text-sm leading-6 text-white/62">{product.description}</p>
+
+            <p className="mt-3 min-h-[72px] text-sm leading-6 text-white/62">{product.description}</p>
+
+            <p className="mt-3 min-h-[72px] text-sm leading-6 text-white/62">{product.description}</p>
+
+            <p className="mt-3 min-h-[72px] text-sm leading-6 text-white/62">{product.description}</p>
+
+            <p className="mt-3 min-h-[72px] text-sm leading-6 text-white/62">{product.description}</p>
+
+            <p className="mt-3 min-h-[72px] text-sm leading-6 text-white/62">{product.description}</p>
+
+            <p className="mt-3 min-h-[72px] text-sm leading-6 text-white/62">{product.description}</p>
+
+            <p className="mt-3 min-h-[72px] text-sm leading-6 text-white/62">{product.description}</p>
+
+            <p className="mt-3 min-h-[72px] text-sm leading-6 text-white/62">{product.description}</p>
+
+            <p className="mt-3 min-h-[72px] text-sm leading-6 text-white/62">{product.description}</p>
+
+            <p className="mt-3 min-h-[72px] text-sm leading-6 text-white/62">{product.description}</p>
+
+            <p className="mt-3 min-h-[72px] text-sm leading-6 text-white/62">{product.description}</p>
+
+            <p className="mt-3 min-h-[72px] text-sm leading-6 text-white/62">{product.description}</p>
+
+            <p className="mt-3 min-h-[72px] text-sm leading-6 text-white/62">{product.description}</p>
+
+            <p className="mt-3 min-h-[72px] text-sm leading-6 text-white/62">{product.description}</p>
+
+            <p className="mt-3 min-h-[72px] text-sm leading-6 text-white/62">{product.description}</p>
+
+            <div className="mt-5 flex items-end justify-between gap-3">
+              <div>
+                <p className="text-xs text-white/45">A partir de</p>
+                <p className="text-2xl font-bold text-white">{formatCurrency(product.pricePix)}</p>
+                <p className="text-xs text-white/45">Acabamento fosco ou acetinado</p>
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
               </div>
             </div>
           )}
 
-          <div className="rounded-[32px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.02))] p-4 shadow-[0_18px_48px_rgba(2,8,23,0.22)]">
+          <div className="premium-panel rounded-[32px] p-4">
             <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
               <p className="text-sm text-white/60">
                 Mostrando {rangeStart} a {rangeEnd} de {filteredAndSorted.length} itens
@@ -596,7 +1061,7 @@ export function CatalogExplorer({
                   type="button"
                   onClick={() => setPage((current) => Math.max(1, current - 1))}
                   disabled={page === 1}
-                  className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white/75 transition hover:text-white disabled:cursor-not-allowed disabled:opacity-40"
+                  className="premium-btn premium-btn-secondary px-4 py-2 text-sm disabled:cursor-not-allowed disabled:opacity-40"
                 >
                   <ChevronLeft className="h-4 w-4" />
                   Anterior
@@ -607,10 +1072,10 @@ export function CatalogExplorer({
                     key={pageNumber}
                     type="button"
                     onClick={() => setPage(pageNumber)}
-                    className={`rounded-full border px-4 py-2 text-sm font-semibold transition ${
+                    className={`premium-btn px-4 py-2 text-sm ${
                       pageNumber === page
-                        ? "border-cyan-300/35 bg-cyan-400/12 text-cyan-100"
-                        : "border-white/10 bg-white/5 text-white/70 hover:text-white"
+                        ? "premium-btn-secondary border-cyan-300/35 bg-cyan-400/12 text-cyan-100"
+                        : "premium-btn-secondary"
                     }`}
                   >
                     {pageNumber}
@@ -621,7 +1086,7 @@ export function CatalogExplorer({
                   type="button"
                   onClick={() => setPage((current) => Math.min(totalPages, current + 1))}
                   disabled={page === totalPages}
-                  className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white/75 transition hover:text-white disabled:cursor-not-allowed disabled:opacity-40"
+                  className="premium-btn premium-btn-secondary px-4 py-2 text-sm disabled:cursor-not-allowed disabled:opacity-40"
                 >
                   Próxima
                   <ChevronRight className="h-4 w-4" />

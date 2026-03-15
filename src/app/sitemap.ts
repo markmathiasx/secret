@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getProductUrl } from "@/lib/catalog";
 import { listStorefrontProducts } from "@/lib/catalog-server";
+import { categoryLandingEntries, guideEntries } from "@/lib/seo-content";
 import { getSiteUrl } from "@/lib/seo";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -10,7 +11,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages = [
     "",
     "/catalogo",
+    "/guias",
     "/divulgacao",
+    "/politica-de-cookies",
     "/politica-de-privacidade",
     "/termos",
     "/trocas-e-devolucoes",
@@ -30,5 +33,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: product.featured ? 0.8 : 0.6
   }));
 
-  return [...staticPages, ...productPages];
+  const categoryPages = categoryLandingEntries.map((entry) => ({
+    url: `${base}/categorias/${entry.slug}`,
+    lastModified: new Date(),
+    changeFrequency: "weekly" as const,
+    priority: 0.75
+  }));
+
+  const guidePages = guideEntries.map((guide) => ({
+    url: `${base}/guias/${guide.slug}`,
+    lastModified: new Date("2026-03-15"),
+    changeFrequency: "monthly" as const,
+    priority: 0.72
+  }));
+
+  return [...staticPages, ...categoryPages, ...guidePages, ...productPages];
 }

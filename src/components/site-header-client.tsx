@@ -193,6 +193,7 @@ export function SiteHeaderClient({ customer = null }: SiteHeaderClientProps) {
   }, [mobileNavOpen]);
 
   const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+  const customerFirstName = customer?.fullName.trim().split(/\s+/)[0] || null;
 
   const cartLines = useMemo(() => items, [items]);
 
@@ -255,7 +256,7 @@ export function SiteHeaderClient({ customer = null }: SiteHeaderClientProps) {
 
   return (
     <>
-      <header className="sticky top-0 z-50 border-b border-white/10 bg-slate-950/80 backdrop-blur-xl">
+      <header className="sticky top-0 z-50 border-b border-white/10 bg-slate-950/72 backdrop-blur-2xl">
         <div className="border-b border-white/10 bg-[linear-gradient(90deg,rgba(16,185,129,0.16),rgba(34,211,238,0.16),rgba(251,191,36,0.16))]">
           <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-2 text-[11px] uppercase tracking-[0.22em] text-white/70 sm:px-6">
             <span>Loja oficial MDH 3D</span>
@@ -273,7 +274,7 @@ export function SiteHeaderClient({ customer = null }: SiteHeaderClientProps) {
               <Image src="/logo-mdh.jpg" alt="Logo MDH 3D" width={50} height={50} className="rounded-2xl border border-white/10 object-cover" />
               <div className="min-w-0">
                 <p className="truncate text-lg font-semibold tracking-[0.18em] text-white">MDH 3D</p>
-                <p className="truncate text-xs text-white/55">presentes criativos, setup, decoracao e pecas sob encomenda</p>
+                <p className="truncate text-xs text-white/55">presentes criativos, setup, decoracao e personalizados</p>
               </div>
             </Link>
 
@@ -288,7 +289,7 @@ export function SiteHeaderClient({ customer = null }: SiteHeaderClientProps) {
                   });
                   setSearchOpen(false);
                 }}
-                className="group flex items-center rounded-full border border-white/12 bg-white/5 px-4 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] transition focus-within:border-cyan-300/40 focus-within:bg-white/8"
+                className="premium-input-shell px-4"
               >
                 <Search className="h-4 w-4 text-white/45" />
                 <input
@@ -309,7 +310,7 @@ export function SiteHeaderClient({ customer = null }: SiteHeaderClientProps) {
                 {categoryParam ? <input type="hidden" name="category" value={categoryParam} /> : null}
                 <button
                   type="submit"
-                  className="ml-3 rounded-full border border-cyan-400/25 bg-cyan-400/12 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-cyan-100 transition hover:border-cyan-300/55 hover:bg-cyan-300/18"
+                  className="premium-btn premium-btn-primary ml-3 px-4 py-2 text-xs uppercase tracking-[0.18em]"
                 >
                   Buscar
                 </button>
@@ -332,7 +333,7 @@ export function SiteHeaderClient({ customer = null }: SiteHeaderClientProps) {
                           key={scope}
                           type="button"
                           onClick={() => setQuery(scope)}
-                          className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] text-white/70"
+                          className="premium-chip h-auto px-3 py-1 text-[11px]"
                         >
                           {scope}
                         </button>
@@ -343,11 +344,11 @@ export function SiteHeaderClient({ customer = null }: SiteHeaderClientProps) {
                   {searchLoading ? (
                     <div className="grid gap-2" aria-live="polite">
                       {[0, 1, 2].map((item) => (
-                        <div key={item} className="flex items-center gap-3 rounded-[22px] border border-white/10 bg-white/5 p-3">
-                          <div className="h-14 w-14 animate-pulse rounded-2xl bg-white/10" />
+                        <div key={item} className="premium-card flex items-center gap-3 rounded-[22px] p-3">
+                          <div className="premium-skeleton h-14 w-14 rounded-2xl" />
                           <div className="flex-1 space-y-2">
-                            <div className="h-4 w-2/3 animate-pulse rounded-full bg-white/10" />
-                            <div className="h-3 w-1/2 animate-pulse rounded-full bg-white/10" />
+                            <div className="premium-skeleton h-4 w-2/3 rounded-full" />
+                            <div className="premium-skeleton h-3 w-1/2 rounded-full" />
                           </div>
                         </div>
                       ))}
@@ -371,8 +372,8 @@ export function SiteHeaderClient({ customer = null }: SiteHeaderClientProps) {
                           }}
                           role="option"
                           aria-selected={activeSuggestionIndex === index}
-                          className={`flex items-center gap-3 rounded-[22px] border bg-white/5 p-3 transition hover:border-cyan-300/35 ${
-                            activeSuggestionIndex === index ? "border-cyan-300/35" : "border-white/10"
+                          className={`premium-card premium-card-hover flex items-center gap-3 rounded-[22px] p-3 ${
+                            activeSuggestionIndex === index ? "border-cyan-300/35" : ""
                           }`}
                         >
                           <ProductMediaImage product={product} className="h-14 w-14 rounded-2xl object-cover" />
@@ -386,7 +387,7 @@ export function SiteHeaderClient({ customer = null }: SiteHeaderClientProps) {
                       ))}
                     </div>
                   ) : (
-                    <div className="rounded-[22px] border border-dashed border-white/10 bg-black/20 px-4 py-4 text-sm text-white/55">
+                    <div className="premium-card rounded-[22px] border-dashed px-4 py-4 text-sm text-white/55">
                       Ainda nao apareceu uma sugestao boa para esse termo. Abra o catalogo completo e refine pela selecao da loja.
                     </div>
                   )}
@@ -397,16 +398,16 @@ export function SiteHeaderClient({ customer = null }: SiteHeaderClientProps) {
             <div className="flex items-center justify-end gap-2 sm:gap-3">
               <Link
                 href={customer ? "/conta" : "/login"}
-                className="hidden items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-3 text-sm font-medium text-white/78 transition hover:border-white/20 hover:text-white lg:inline-flex"
+                className="premium-btn premium-btn-secondary hidden lg:inline-flex"
               >
                 <UserRound className="h-4 w-4" />
-                <span>{customer ? "Conta" : "Entrar"}</span>
+                <span>{customerFirstName ? `Ola, ${customerFirstName}` : "Entrar"}</span>
               </Link>
 
               {!customer ? (
                 <Link
                   href="/login?mode=register"
-                  className="hidden items-center gap-2 rounded-full border border-cyan-400/25 bg-cyan-400/12 px-3 py-3 text-sm font-medium text-cyan-100 transition hover:border-cyan-300/55 hover:bg-cyan-300/18 xl:inline-flex"
+                  className="premium-btn premium-btn-primary hidden xl:inline-flex"
                 >
                   <UserRound className="h-4 w-4" />
                   <span>Cadastrar</span>
@@ -415,7 +416,7 @@ export function SiteHeaderClient({ customer = null }: SiteHeaderClientProps) {
 
               <Link
                 href="/acompanhar-pedido"
-                className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-3 text-sm font-medium text-white/78 transition hover:border-white/20 hover:text-white"
+                className="premium-btn premium-btn-secondary"
               >
                 <UserRound className="h-4 w-4" />
                 <span className="hidden xl:inline">Acompanhar</span>
@@ -424,7 +425,7 @@ export function SiteHeaderClient({ customer = null }: SiteHeaderClientProps) {
               <button
                 type="button"
                 onClick={() => setCartOpen(true)}
-                className="relative inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-3 text-sm font-medium text-white/85 transition hover:border-white/20 hover:text-white"
+                className="premium-btn premium-btn-secondary relative"
                 aria-label="Abrir carrinho"
               >
                 <ShoppingBag className="h-4 w-4" />
@@ -439,7 +440,7 @@ export function SiteHeaderClient({ customer = null }: SiteHeaderClientProps) {
                 target="_blank"
                 rel="noreferrer"
                 onClick={() => trackWhatsAppClick({ placement: "header_primary" })}
-                className="inline-flex items-center gap-2 rounded-full border border-emerald-400/25 bg-emerald-400/14 px-3 py-3 text-sm font-semibold text-emerald-100 transition hover:border-emerald-300/55 hover:bg-emerald-300/18"
+                className="premium-btn premium-btn-emerald"
               >
                 <MessageCircleMore className="h-4 w-4" />
                 <span className="hidden md:inline">WhatsApp</span>
@@ -448,7 +449,7 @@ export function SiteHeaderClient({ customer = null }: SiteHeaderClientProps) {
               <button
                 type="button"
                 onClick={() => setMobileNavOpen(true)}
-                className="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 p-3 text-white/82 transition hover:text-white lg:hidden"
+                className="premium-btn premium-btn-secondary premium-icon-btn lg:hidden"
                 aria-label="Abrir navegação"
               >
                 <Menu className="h-4 w-4" />
@@ -462,14 +463,14 @@ export function SiteHeaderClient({ customer = null }: SiteHeaderClientProps) {
                 <button
                   type="button"
                   onClick={() => setCategoryMenuOpen((current) => !current)}
-                  className="inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-cyan-400/18 bg-cyan-400/10 px-4 py-2 text-sm font-semibold text-cyan-100 transition hover:border-cyan-300/40 hover:bg-cyan-300/12"
+                  className="premium-btn premium-btn-primary h-auto whitespace-nowrap px-4 py-2 text-sm"
                 >
                   Categorias
                   <ChevronDown className={`h-4 w-4 transition ${categoryMenuOpen ? "rotate-180" : ""}`} />
                 </button>
 
                 {categoryMenuOpen ? (
-                  <div className="absolute left-0 top-[calc(100%+0.75rem)] z-10 w-[min(92vw,34rem)] rounded-[28px] border border-white/10 bg-slate-950/95 p-4 shadow-2xl backdrop-blur-xl">
+                  <div className="premium-dialog-shell absolute left-0 top-[calc(100%+0.75rem)] z-10 w-[min(92vw,34rem)] rounded-[28px] p-4">
                     <div className="mb-3 flex items-center justify-between">
                       <p className="text-xs uppercase tracking-[0.2em] text-white/45">Navegue por categoria</p>
                       <Link
@@ -486,10 +487,10 @@ export function SiteHeaderClient({ customer = null }: SiteHeaderClientProps) {
                           key={category}
                           href={buildCatalogHref(queryParam, category)}
                           onClick={() => setCategoryMenuOpen(false)}
-                          className={`rounded-2xl border px-4 py-3 text-sm transition ${
+                          className={`premium-card premium-card-hover rounded-2xl px-4 py-3 text-sm ${
                             categoryParam === category
-                              ? "border-cyan-300/50 bg-cyan-400/12 text-cyan-100"
-                              : "border-white/10 bg-white/5 text-white/78 hover:border-white/20 hover:text-white"
+                              ? "border-cyan-300/50 text-cyan-100"
+                              : "text-white/78 hover:text-white"
                           }`}
                         >
                           {category}
@@ -507,10 +508,10 @@ export function SiteHeaderClient({ customer = null }: SiteHeaderClientProps) {
                   <Link
                     key={link.href}
                     href={link.href}
-                    className={`whitespace-nowrap rounded-full border px-4 py-2 text-sm transition ${
+                    className={`premium-chip whitespace-nowrap px-4 py-2 text-sm ${
                       active
                         ? "border-white/20 bg-white/12 text-white"
-                        : "border-white/10 bg-white/5 text-white/70 hover:border-white/20 hover:text-white"
+                        : ""
                     }`}
                   >
                     {link.label}
@@ -519,17 +520,17 @@ export function SiteHeaderClient({ customer = null }: SiteHeaderClientProps) {
               })}
               <Link
                 href="/acompanhar-pedido"
-                className="hidden whitespace-nowrap rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/70 transition hover:text-white md:inline-flex"
+                className="premium-chip hidden whitespace-nowrap px-4 py-2 text-sm md:inline-flex"
               >
                 Pedido
               </Link>
             </nav>
 
             <div className="hidden items-center gap-2 lg:flex">
-              <span className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs uppercase tracking-[0.18em] text-white/50">
+              <span className="premium-badge premium-badge-neutral">
                 Curadoria MDH 3D
               </span>
-              <span className="rounded-full border border-amber-300/20 bg-amber-300/10 px-3 py-2 text-xs uppercase tracking-[0.18em] text-amber-100">
+              <span className="premium-badge premium-badge-warning">
                 Pix com melhor valor
               </span>
             </div>
@@ -544,7 +545,7 @@ export function SiteHeaderClient({ customer = null }: SiteHeaderClientProps) {
             aria-modal="true"
             aria-label="Carrinho"
             onClick={(event) => event.stopPropagation()}
-            className="ml-auto flex h-full w-full max-w-xl flex-col border-l border-white/10 bg-[linear-gradient(180deg,rgba(9,14,28,0.98),rgba(3,7,18,0.98))] shadow-2xl"
+            className="premium-drawer-shell ml-auto flex h-full w-full max-w-xl flex-col border-l"
           >
             <div className="flex items-center justify-between border-b border-white/10 px-5 py-5">
               <div>
@@ -555,7 +556,7 @@ export function SiteHeaderClient({ customer = null }: SiteHeaderClientProps) {
                 ref={cartCloseButtonRef}
                 type="button"
                 onClick={() => setCartOpen(false)}
-                className="rounded-full border border-white/10 bg-white/5 p-2 text-white/80 transition hover:text-white"
+                className="premium-btn premium-btn-secondary premium-icon-btn"
                 aria-label="Fechar carrinho"
               >
                 <X className="h-5 w-5" />
@@ -566,7 +567,7 @@ export function SiteHeaderClient({ customer = null }: SiteHeaderClientProps) {
               <>
                 <div className="flex-1 space-y-4 overflow-y-auto px-5 py-5">
                   {cartLines.map((entry) => (
-                      <div key={entry.productId} className="rounded-[28px] border border-white/10 bg-white/5 p-4">
+                      <div key={entry.productId} className="premium-card rounded-[28px] p-4">
                       <div className="flex gap-4">
                         <Link href={getProductUrl(entry.snapshot)} onClick={() => setCartOpen(false)} className="shrink-0">
                           <ProductMediaImage
@@ -595,7 +596,7 @@ export function SiteHeaderClient({ customer = null }: SiteHeaderClientProps) {
                             <button
                               type="button"
                               onClick={() => removeItem(entry.productId)}
-                              className="rounded-full border border-white/10 bg-white/5 p-2 text-white/55 transition hover:text-white"
+                              className="premium-btn premium-btn-ghost premium-icon-btn text-white/55 hover:text-white"
                               aria-label={`Remover ${entry.snapshot.name}`}
                             >
                               <Trash2 className="h-4 w-4" />
@@ -608,11 +609,11 @@ export function SiteHeaderClient({ customer = null }: SiteHeaderClientProps) {
                               <p className="text-lg font-bold text-white">{formatCurrency(entry.snapshot.pricePix)}</p>
                             </div>
 
-                            <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/20 px-2 py-1">
+                            <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/20 px-2 py-1 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]">
                               <button
                                 type="button"
                                 onClick={() => updateQuantity(entry.productId, entry.quantity - 1)}
-                                className="rounded-full p-1 text-white/70 transition hover:text-white"
+                                className="premium-btn premium-btn-ghost premium-icon-btn h-8 min-h-8 min-w-8 p-0 text-white/70 hover:text-white"
                                 aria-label={`Diminuir quantidade de ${entry.snapshot.name}`}
                               >
                                 <Minus className="h-4 w-4" />
@@ -621,7 +622,7 @@ export function SiteHeaderClient({ customer = null }: SiteHeaderClientProps) {
                               <button
                                 type="button"
                                 onClick={() => updateQuantity(entry.productId, entry.quantity + 1)}
-                                className="rounded-full p-1 text-white/70 transition hover:text-white"
+                                className="premium-btn premium-btn-ghost premium-icon-btn h-8 min-h-8 min-w-8 p-0 text-white/70 hover:text-white"
                                 aria-label={`Aumentar quantidade de ${entry.snapshot.name}`}
                               >
                                 <Plus className="h-4 w-4" />
@@ -635,7 +636,7 @@ export function SiteHeaderClient({ customer = null }: SiteHeaderClientProps) {
                 </div>
 
                 <div className="border-t border-white/10 px-5 py-5">
-                  <div className="rounded-[28px] border border-white/10 bg-white/5 p-5">
+                  <div className="premium-card rounded-[28px] p-5">
                     <div className="flex items-center justify-between text-sm text-white/65">
                       <span>Total estimado no Pix</span>
                       <span className="text-xl font-black text-white">{formatCurrency(subtotalPix)}</span>
@@ -654,7 +655,7 @@ export function SiteHeaderClient({ customer = null }: SiteHeaderClientProps) {
                         target="_blank"
                         rel="noreferrer"
                         onClick={() => trackWhatsAppClick({ placement: "cart_drawer", itemCount: cartLines.length })}
-                        className="inline-flex items-center justify-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-400/15 px-5 py-3 text-sm font-semibold text-emerald-100 transition hover:border-emerald-300/55 hover:bg-emerald-300/18"
+                        className="premium-btn premium-btn-emerald"
                       >
                         <MessageCircleMore className="h-4 w-4" />
                         Enviar carrinho no WhatsApp
@@ -664,14 +665,14 @@ export function SiteHeaderClient({ customer = null }: SiteHeaderClientProps) {
                         <Link
                           href="/carrinho"
                           onClick={() => setCartOpen(false)}
-                          className="flex-1 rounded-full border border-white/10 bg-white/5 px-4 py-3 text-center text-sm font-semibold text-white/80 transition hover:text-white"
+                          className="premium-btn premium-btn-secondary flex-1"
                         >
                           Abrir carrinho
                         </Link>
                         <button
                           type="button"
                           onClick={clearCart}
-                          className="rounded-full border border-white/10 bg-black/20 px-4 py-3 text-sm font-semibold text-white/60 transition hover:text-white"
+                          className="premium-btn premium-btn-ghost"
                         >
                           Limpar
                         </button>
@@ -682,7 +683,7 @@ export function SiteHeaderClient({ customer = null }: SiteHeaderClientProps) {
               </>
             ) : (
               <div className="flex flex-1 flex-col items-center justify-center px-5 text-center">
-                <div className="rounded-full border border-white/10 bg-white/5 p-5">
+                <div className="premium-card rounded-full p-5">
                   <ShoppingBag className="h-8 w-8 text-cyan-200" />
                 </div>
                 <h2 className="mt-5 text-2xl font-black text-white">Carrinho vazio</h2>
@@ -692,7 +693,7 @@ export function SiteHeaderClient({ customer = null }: SiteHeaderClientProps) {
                 <Link
                   href="/catalogo"
                   onClick={() => setCartOpen(false)}
-                  className="mt-6 rounded-full border border-cyan-400/25 bg-cyan-400/12 px-5 py-3 text-sm font-semibold text-cyan-100 transition hover:border-cyan-300/55 hover:bg-cyan-300/18"
+                  className="premium-btn premium-btn-primary mt-6"
                 >
                   Abrir catálogo
                 </Link>
@@ -709,7 +710,7 @@ export function SiteHeaderClient({ customer = null }: SiteHeaderClientProps) {
             aria-modal="true"
             aria-label="Navegação da loja"
             onClick={(event) => event.stopPropagation()}
-            className="ml-auto flex h-full w-full max-w-sm flex-col border-l border-white/10 bg-[linear-gradient(180deg,rgba(9,14,28,0.98),rgba(3,7,18,0.98))] p-5 shadow-2xl"
+            className="premium-drawer-shell ml-auto flex h-full w-full max-w-sm flex-col border-l p-5"
           >
             <div className="flex items-center justify-between">
               <div>
@@ -720,7 +721,7 @@ export function SiteHeaderClient({ customer = null }: SiteHeaderClientProps) {
                 ref={mobileNavCloseButtonRef}
                 type="button"
                 onClick={() => setMobileNavOpen(false)}
-                className="rounded-full border border-white/10 bg-white/5 p-2 text-white/80"
+                className="premium-btn premium-btn-secondary premium-icon-btn"
                 aria-label="Fechar navegação"
               >
                 <X className="h-5 w-5" />
@@ -733,7 +734,7 @@ export function SiteHeaderClient({ customer = null }: SiteHeaderClientProps) {
                   key={link.href}
                   href={link.href}
                   onClick={() => setMobileNavOpen(false)}
-                  className="rounded-[24px] border border-white/10 bg-white/5 px-4 py-3 text-sm font-semibold text-white/84"
+                  className="premium-card premium-card-hover rounded-[24px] px-4 py-3 text-sm font-semibold text-white/84"
                 >
                   {link.label}
                 </Link>
@@ -744,15 +745,15 @@ export function SiteHeaderClient({ customer = null }: SiteHeaderClientProps) {
               <Link
                 href={customer ? "/conta" : "/login"}
                 onClick={() => setMobileNavOpen(false)}
-                className="rounded-[24px] border border-white/10 bg-black/20 px-4 py-3 text-sm text-white/78"
+                className="premium-card rounded-[24px] px-4 py-3 text-sm text-white/78"
               >
-                {customer ? "Minha conta" : "Entrar na conta"}
+                {customerFirstName ? `Minha conta (${customerFirstName})` : "Entrar na conta"}
               </Link>
               {!customer ? (
                 <Link
                   href="/login?mode=register"
                   onClick={() => setMobileNavOpen(false)}
-                  className="rounded-[24px] border border-cyan-400/25 bg-cyan-400/12 px-4 py-3 text-sm font-semibold text-cyan-100"
+                  className="premium-btn premium-btn-primary rounded-[24px]"
                 >
                   Criar conta
                 </Link>
@@ -760,14 +761,14 @@ export function SiteHeaderClient({ customer = null }: SiteHeaderClientProps) {
               <Link
                 href="/acompanhar-pedido"
                 onClick={() => setMobileNavOpen(false)}
-                className="rounded-[24px] border border-white/10 bg-black/20 px-4 py-3 text-sm text-white/78"
+                className="premium-card rounded-[24px] px-4 py-3 text-sm text-white/78"
               >
                 Acompanhar pedido
               </Link>
               <Link
                 href="/catalogo"
                 onClick={() => setMobileNavOpen(false)}
-                className="rounded-[24px] border border-cyan-400/25 bg-cyan-400/12 px-4 py-3 text-sm font-semibold text-cyan-100"
+                className="premium-btn premium-btn-primary rounded-[24px]"
               >
                 Abrir catálogo agora
               </Link>
@@ -779,13 +780,13 @@ export function SiteHeaderClient({ customer = null }: SiteHeaderClientProps) {
                   trackWhatsAppClick({ placement: "header_mobile_menu" });
                   setMobileNavOpen(false);
                 }}
-                className="rounded-[24px] border border-emerald-400/25 bg-emerald-400/14 px-4 py-3 text-sm font-semibold text-emerald-100"
+                className="premium-btn premium-btn-emerald rounded-[24px]"
               >
                 Falar no WhatsApp
               </a>
             </div>
 
-            <div className="mt-auto rounded-[28px] border border-white/10 bg-white/5 p-4 text-sm text-white/62">
+            <div className="premium-card mt-auto rounded-[28px] p-4 text-sm text-white/62">
               {customer
                 ? `Sessao ativa para ${customer.fullName}. Sua conta ajuda a repetir pedidos e acompanhar compras sem perder o funil principal.`
                 : "Presentes, utilidades e decoracao com compra guiada. A conta propria da loja e opcional para comprar, mas agiliza recompras e acompanhamento."}

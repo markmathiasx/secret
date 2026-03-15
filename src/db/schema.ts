@@ -44,7 +44,8 @@ export const orderEventTypeEnum = pgEnum("order_event_type", [
   "manual_order_created",
   "payment_reference_created",
   "payment_webhook_received",
-  "customer_updated"
+  "customer_updated",
+  "risk_flagged"
 ]);
 export const analyticsEventNameEnum = pgEnum("analytics_event_name", [
   "view_home",
@@ -60,6 +61,8 @@ export const analyticsEventNameEnum = pgEnum("analytics_event_name", [
   "click_whatsapp",
   "admin_order_status_updated"
 ]);
+
+export const auditActorTypeEnum = pgEnum("audit_actor_type", ["admin", "customer", "system", "anonymous"]);
 
 const timestamps = {
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
@@ -140,14 +143,17 @@ export const customers = pgTable(
   {
     id: uuid("id").defaultRandom().primaryKey(),
     fullName: varchar("full_name", { length: 160 }).notNull(),
-    whatsapp: varchar("whatsapp", { length: 32 }).notNull(),
+    whatsapp: text("whatsapp").notNull(),
+    whatsappHash: varchar("whatsapp_hash", { length: 64 }).notNull(),
+    whatsappLast4: varchar("whatsapp_last4", { length: 4 }).notNull(),
     email: varchar("email", { length: 160 }),
     contactPreference: contactPreferenceEnum("contact_preference").default("whatsapp").notNull(),
     notes: text("notes"),
     ...timestamps
   },
   (table) => ({
-    whatsappIdx: index("customers_whatsapp_idx").on(table.whatsapp),
+    whatsappHashIdx: index("customers_whatsapp_hash_idx").on(table.whatsappHash),
+    whatsappLast4Idx: index("customers_whatsapp_last4_idx").on(table.whatsappLast4),
     emailIdx: index("customers_email_idx").on(table.email)
   })
 );
@@ -199,14 +205,14 @@ export const addresses = pgTable(
     customerId: uuid("customer_id")
       .references(() => customers.id, { onDelete: "cascade" })
       .notNull(),
-    postalCode: varchar("postal_code", { length: 16 }).notNull(),
-    street: varchar("street", { length: 180 }).notNull(),
-    number: varchar("number", { length: 20 }).notNull(),
-    complement: varchar("complement", { length: 120 }),
-    reference: varchar("reference", { length: 160 }),
-    neighborhood: varchar("neighborhood", { length: 120 }).notNull(),
-    city: varchar("city", { length: 120 }).notNull(),
-    state: varchar("state", { length: 2 }).notNull(),
+    postalCode: text("postal_code").notNull(),
+    street: text("street").notNull(),
+    number: text("number").notNull(),
+    complement: text("complement"),
+    reference: text("reference"),
+    neighborhood: text("neighborhood").notNull(),
+    city: text("city").notNull(),
+    state: text("state").notNull(),
     ...timestamps
   },
   (table) => ({
@@ -237,6 +243,11 @@ export const orders = pgTable(
     internalNotes: text("internal_notes"),
     whatsappReference: varchar("whatsapp_reference", { length: 160 }),
     marketplaceReference: varchar("marketplace_reference", { length: 160 }),
+    reviewRequired: boolean("review_required").default(false).notNull(),
+    riskScore: integer("risk_score").default(0).notNull(),
+    riskSignals: jsonb("risk_signals").$type<string[]>().default(sql`'[]'::jsonb`).notNull(),
+    ipAddressHash: varchar("ip_address_hash", { length: 64 }),
+    reviewNote: text("review_note"),
     placedAt: timestamp("placed_at", { withTimezone: true }).defaultNow().notNull(),
     ...timestamps
   },
@@ -245,7 +256,8 @@ export const orders = pgTable(
     customerIdx: index("orders_customer_idx").on(table.customerId),
     channelIdx: index("orders_channel_idx").on(table.sourceChannelId),
     operationalStatusIdx: index("orders_operational_status_idx").on(table.operationalStatus),
-    paymentStatusIdx: index("orders_payment_status_idx").on(table.paymentStatus)
+    paymentStatusIdx: index("orders_payment_status_idx").on(table.paymentStatus),
+    reviewRequiredIdx: index("orders_review_required_idx").on(table.reviewRequired, table.riskScore)
   })
 );
 
@@ -381,6 +393,27 @@ export const analyticsEvents = pgTable(
   })
 );
 
+export const auditLogs = pgTable(
+  "audit_logs",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    actorType: auditActorTypeEnum("actor_type").notNull(),
+    actorId: varchar("actor_id", { length: 160 }),
+    action: varchar("action", { length: 120 }).notNull(),
+    resourceType: varchar("resource_type", { length: 80 }).notNull(),
+    resourceId: varchar("resource_id", { length: 191 }),
+    ipAddressHash: varchar("ip_address_hash", { length: 64 }),
+    userAgent: text("user_agent"),
+    payload: jsonb("payload").$type<Record<string, unknown>>().default(sql`'{}'::jsonb`).notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull()
+  },
+  (table) => ({
+    actionIdx: index("audit_logs_action_idx").on(table.action),
+    resourceIdx: index("audit_logs_resource_idx").on(table.resourceType, table.resourceId),
+    createdAtIdx: index("audit_logs_created_at_idx").on(table.createdAt)
+  })
+);
+
 export const productRelations = relations(products, ({ many }) => ({
   imageMappings: many(catalogImageMappings),
   orderItems: many(orderItems)
@@ -512,3 +545,4 @@ export type PaymentRecordRow = typeof paymentRecords.$inferSelect;
 export type OrderEventRow = typeof orderEvents.$inferSelect;
 export type AdminNoteRow = typeof adminNotes.$inferSelect;
 export type AnalyticsEventRow = typeof analyticsEvents.$inferSelect;
+export type AuditLogRow = typeof auditLogs.$inferSelect;

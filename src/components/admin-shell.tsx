@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { buttonFamilies } from "@/components/ui/buttons";
 
 type AdminShellProps = {
   title: string;
@@ -11,7 +12,7 @@ type AdminShellProps = {
 export function AdminShell({ title, eyebrow = "Operação MDH 3D", description, email, children }: AdminShellProps) {
   return (
     <section className="mx-auto max-w-7xl px-6 py-10">
-      <div className="mb-8 overflow-hidden rounded-[36px] border border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(34,211,238,0.15),transparent_28%),radial-gradient(circle_at_bottom_right,rgba(16,185,129,0.14),transparent_26%),linear-gradient(135deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02))] p-6 shadow-[0_24px_80px_rgba(2,8,23,0.28)]">
+      <div className="premium-panel mb-8 overflow-hidden rounded-[36px] p-6">
         <div className="flex flex-col gap-5 xl:flex-row xl:items-end xl:justify-between">
           <div className="max-w-3xl">
             <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">{eyebrow}</p>
@@ -19,27 +20,27 @@ export function AdminShell({ title, eyebrow = "Operação MDH 3D", description, 
             {description ? <p className="mt-4 max-w-2xl text-sm leading-7 text-white/68">{description}</p> : null}
           </div>
 
-          <div className="rounded-[28px] border border-white/10 bg-black/20 px-5 py-4 text-sm text-white/70">
+          <div className="premium-card rounded-[28px] bg-black/20 px-5 py-4 text-sm text-white/70">
             <div className="text-[11px] uppercase tracking-[0.22em] text-white/45">Sessão</div>
             <div className="mt-2 font-semibold text-white">{email}</div>
           </div>
         </div>
 
         <div className="mt-6 flex flex-wrap gap-3">
-          <Link href="/admin" className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white/80 transition hover:text-white">
+          <Link href="/admin" className={buttonFamilies.secondary}>
             Dashboard
           </Link>
-          <Link href="/admin/pedidos" className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white/80 transition hover:text-white">
+          <Link href="/admin/pedidos" className={buttonFamilies.secondary}>
             Pedidos
           </Link>
-          <Link href="/admin/novo-pedido" className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white/80 transition hover:text-white">
+          <Link href="/admin/novo-pedido" className={buttonFamilies.secondary}>
             Novo pedido manual
           </Link>
-          <a href="/api/health" target="_blank" rel="noreferrer" className="rounded-full border border-emerald-400/25 bg-emerald-400/10 px-4 py-2 text-sm font-semibold text-emerald-100 transition hover:border-emerald-300/50">
+          <a href="/api/health" target="_blank" rel="noreferrer" className={buttonFamilies.primaryPix}>
             Health
           </a>
           <form action="/api/admin/logout" method="post">
-            <button className="rounded-full border border-rose-400/25 bg-rose-400/10 px-4 py-2 text-sm font-semibold text-rose-100 transition hover:border-rose-300/50">
+            <button className={buttonFamilies.danger}>
               Sair
             </button>
           </form>

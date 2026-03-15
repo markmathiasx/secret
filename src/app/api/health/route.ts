@@ -11,10 +11,12 @@ function readImageReport() {
     const reportPath = resolve(process.cwd(), "public", "catalog-assets", "catalog-image-report.json");
     if (!existsSync(reportPath)) return null;
     return JSON.parse(readFileSync(reportPath, "utf8")) as {
-      imported?: number;
-      placeholder?: number;
-      failed?: number;
-      total?: number;
+      counters?: {
+        imported?: number;
+        placeholder?: number;
+        failed?: number;
+      };
+      items?: Array<unknown>;
     };
   } catch {
     return null;
@@ -25,9 +27,9 @@ export async function GET() {
   const imageDir = resolve(process.cwd(), "public", "catalog-assets");
   const imageReport = readImageReport();
   const featuredCheck = [
-    "hello-kitty-organizer-compact.webp",
-    "placa-pix-premium-compact.webp",
-    "suporte-controle-duplo-compact.webp"
+    "mdh-hello-kitty-organizer-desk.webp",
+    "mdh-suporte-controle-duplo-desk.webp",
+    "mdh-dragao-articulado-premium-plus.webp"
   ];
 
   const status = {
@@ -46,10 +48,10 @@ export async function GET() {
       featuredAssetsReady: featuredCheck.every((file) => existsSync(resolve(imageDir, file))),
       images: imageReport
         ? {
-            total: imageReport.total || catalog.length,
-            imported: imageReport.imported || 0,
-            placeholder: imageReport.placeholder || 0,
-            failed: imageReport.failed || 0
+            total: imageReport.items?.length || catalog.length,
+            imported: imageReport.counters?.imported || 0,
+            placeholder: imageReport.counters?.placeholder || 0,
+            failed: imageReport.counters?.failed || 0
           }
         : null
     },

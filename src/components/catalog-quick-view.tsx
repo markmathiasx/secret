@@ -61,18 +61,18 @@ export function CatalogQuickView({ product, open, onClose }: CatalogQuickViewPro
         aria-modal="true"
         aria-label={`Quick view de ${product.name}`}
         onClick={(event) => event.stopPropagation()}
-        className="mx-auto flex h-full w-full max-w-6xl flex-col overflow-hidden rounded-[36px] border border-white/10 bg-[linear-gradient(180deg,rgba(10,16,30,0.98),rgba(3,8,19,0.98))] shadow-2xl"
+        className="premium-dialog-shell mx-auto flex h-full w-full max-w-6xl flex-col overflow-hidden rounded-[36px]"
       >
         <div className="flex items-center justify-between border-b border-white/10 px-5 py-5">
           <div>
-            <p className="text-xs uppercase tracking-[0.2em] text-cyan-200/80">Visao rapida</p>
+            <p className="text-xs uppercase tracking-[0.2em] text-cyan-200/80">Veja de perto</p>
             <h2 className="mt-2 text-2xl font-black text-white">{product.name}</h2>
           </div>
           <button
             ref={closeButtonRef}
             type="button"
             onClick={onClose}
-            className="rounded-full border border-white/10 bg-white/5 p-2 text-white/75 transition hover:text-white focus:outline-none focus:ring-2 focus:ring-cyan-300/60"
+            className="premium-btn premium-btn-secondary premium-icon-btn text-white/75 hover:text-white"
             aria-label="Fechar quick view"
           >
             <X className="h-5 w-5" />
@@ -86,20 +86,20 @@ export function CatalogQuickView({ product, open, onClose }: CatalogQuickViewPro
 
           <div className="flex flex-col p-5">
             <div className="flex flex-wrap gap-2">
-              <span className="rounded-full border border-amber-300/20 bg-amber-300/10 px-3 py-1 text-xs uppercase tracking-[0.18em] text-amber-100">
+              <span className="premium-badge premium-badge-warning text-xs">
                 {badge}
               </span>
-              <span className="rounded-full border border-cyan-400/20 bg-cyan-400/10 px-3 py-1 text-xs uppercase tracking-[0.18em] text-cyan-100">
+              <span className="premium-badge premium-badge-info text-xs">
                 {product.collection}
               </span>
-              <span className="rounded-full border border-white/10 px-3 py-1 text-xs uppercase tracking-[0.18em] text-white/65">
+              <span className="premium-badge premium-badge-neutral text-xs">
                 {product.category}
               </span>
-              <span className="rounded-full border border-white/10 px-3 py-1 text-xs uppercase tracking-[0.18em] text-white/65">
+              <span className="premium-badge premium-badge-neutral text-xs">
                 {product.productionWindow}
               </span>
-              <span className="rounded-full border border-white/10 px-3 py-1 text-xs uppercase tracking-[0.18em] text-white/65">
-                {product.imageStatus === "imported" ? "Foto da peca" : "Visual ilustrativo"}
+              <span className="premium-badge premium-badge-neutral text-xs">
+                {product.imageStatus === "imported" ? "Foto da peca" : "Visual da colecao"}
               </span>
             </div>
 
@@ -107,48 +107,48 @@ export function CatalogQuickView({ product, open, onClose }: CatalogQuickViewPro
             <p className="mt-3 text-sm leading-7 text-white/58">{subtitle}</p>
 
             <div className="mt-4 flex flex-wrap gap-2">
-              <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] uppercase tracking-[0.18em] text-white/68">
-                {product.theme}
-              </span>
-              <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] uppercase tracking-[0.18em] text-white/68">
-                {product.materials[0]}
-              </span>
-              <span className="rounded-full border border-emerald-400/20 bg-emerald-400/10 px-3 py-1 text-[11px] uppercase tracking-[0.18em] text-emerald-100">
-                Pix com melhor valor
-              </span>
-            </div>
+                <span className="premium-badge premium-badge-neutral h-auto px-3 py-1 text-[11px]">
+                  {product.theme}
+                </span>
+                <span className="premium-badge premium-badge-neutral h-auto px-3 py-1 text-[11px]">
+                  {product.materials[0]}
+                </span>
+                <span className="premium-badge premium-badge-success h-auto px-3 py-1 text-[11px]">
+                  Pix com melhor valor
+                </span>
+              </div>
 
             <div className="mt-6 grid gap-4 sm:grid-cols-3">
-              <div className="rounded-[24px] border border-emerald-400/20 bg-emerald-400/10 p-4">
+              <div className="premium-card rounded-[24px] border-emerald-400/20 bg-emerald-400/10 p-4">
                 <p className="text-sm text-emerald-100/70">Pix</p>
                 <p className="mt-2 text-2xl font-black text-white">{formatCurrency(product.pricePix)}</p>
               </div>
-              <div className="rounded-[24px] border border-white/10 bg-white/5 p-4">
+              <div className="premium-card rounded-[24px] p-4">
                 <p className="text-sm text-white/55">Cartão</p>
                 <p className="mt-2 text-2xl font-black text-white">{formatCurrency(product.priceCard)}</p>
               </div>
-              <div className="rounded-[24px] border border-white/10 bg-white/5 p-4">
+              <div className="premium-card rounded-[24px] p-4">
                 <p className="text-sm text-white/55">Parcelamento</p>
                 <p className="mt-2 text-lg font-bold text-white">{formatInstallment(product.priceCard)}</p>
               </div>
             </div>
 
             <div className="mt-6 grid gap-3 sm:grid-cols-3">
-              <div className="rounded-[24px] border border-white/10 bg-black/20 p-4 text-sm text-white/65">
+              <div className="premium-card rounded-[24px] bg-black/20 p-4 text-sm text-white/65">
                 <p className="text-xs uppercase tracking-[0.18em] text-white/45">SKU</p>
                 <p className="mt-2 font-semibold text-white">{product.sku}</p>
               </div>
-              <div className="rounded-[24px] border border-white/10 bg-black/20 p-4 text-sm text-white/65">
+              <div className="premium-card rounded-[24px] bg-black/20 p-4 text-sm text-white/65">
                 <p className="text-xs uppercase tracking-[0.18em] text-white/45">Peso</p>
                 <p className="mt-2 font-semibold text-white">{product.grams} g</p>
               </div>
-              <div className="rounded-[24px] border border-white/10 bg-black/20 p-4 text-sm text-white/65">
+              <div className="premium-card rounded-[24px] bg-black/20 p-4 text-sm text-white/65">
                 <p className="text-xs uppercase tracking-[0.18em] text-white/45">Producao</p>
                 <p className="mt-2 font-semibold text-white">{product.hours} h</p>
               </div>
             </div>
 
-            <div className="mt-6 rounded-[24px] border border-white/10 bg-black/20 p-4 text-sm leading-7 text-white/64">
+            <div className="premium-card mt-6 rounded-[24px] bg-black/20 p-4 text-sm leading-7 text-white/64">
               <p className="text-xs uppercase tracking-[0.18em] text-white/45">Ideal para</p>
               <p className="mt-2">{idealFor}</p>
             </div>
@@ -157,7 +157,7 @@ export function CatalogQuickView({ product, open, onClose }: CatalogQuickViewPro
               <p className="text-xs uppercase tracking-[0.18em] text-white/45">Cores disponíveis</p>
               <div className="mt-3 flex flex-wrap gap-2">
                 {product.colors.map((color) => (
-                  <span key={color} className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-sm text-white/70">
+                  <span key={color} className="premium-chip px-3 py-1.5 text-sm">
                     {color}
                   </span>
                 ))}
@@ -168,7 +168,7 @@ export function CatalogQuickView({ product, open, onClose }: CatalogQuickViewPro
               <p className="text-xs uppercase tracking-[0.18em] text-white/45">Tags</p>
               <div className="mt-3 flex flex-wrap gap-2">
                 {product.tags.map((tag) => (
-                  <span key={tag} className="rounded-full border border-white/10 px-3 py-1 text-xs text-white/58">
+                  <span key={tag} className="premium-chip h-auto px-3 py-1 text-xs">
                     {tag}
                   </span>
                 ))}
@@ -177,20 +177,20 @@ export function CatalogQuickView({ product, open, onClose }: CatalogQuickViewPro
 
             <div className="mt-6 grid gap-3 sm:grid-cols-3">
               {[
-                "Veja preco e prazo sem sair da colecao.",
-                "Adicione ao carrinho com um toque e siga para o checkout.",
-                "Se quiser validar cor ou detalhe, leve a conversa para o WhatsApp."
+                "Veja preco, prazo e estilo da peca sem sair da vitrine.",
+                "Adicione ao carrinho com um toque e continue a compra no seu ritmo.",
+                "Se quiser validar cor, nome ou acabamento, fale com a gente no WhatsApp."
               ].map((item) => (
-                <div key={item} className="rounded-[24px] border border-white/10 bg-black/20 p-4 text-sm leading-7 text-white/62">
+                <div key={item} className="premium-card rounded-[24px] bg-black/20 p-4 text-sm leading-7 text-white/62">
                   {item}
                 </div>
               ))}
             </div>
 
             <div className="mt-auto pt-8">
-              <div className="mb-4 flex items-center justify-between rounded-[24px] border border-white/10 bg-white/5 px-4 py-3 text-sm text-white/65">
+              <div className="premium-card mb-4 flex items-center justify-between rounded-[24px] px-4 py-3 text-sm text-white/65">
                 <span>Quantidade no carrinho</span>
-                <span className="rounded-full border border-cyan-400/20 bg-cyan-400/10 px-3 py-1 font-semibold text-cyan-100">
+                <span className="premium-badge premium-badge-info font-semibold normal-case tracking-[0.04em]">
                   {cartQuantity}
                 </span>
               </div>
@@ -199,7 +199,7 @@ export function CatalogQuickView({ product, open, onClose }: CatalogQuickViewPro
                 <button
                   type="button"
                   onClick={() => addItem(toCartProductSnapshot(product))}
-                  className="inline-flex items-center justify-center gap-2 rounded-full border border-cyan-400/25 bg-cyan-400/12 px-5 py-3 text-sm font-semibold text-cyan-100 transition hover:border-cyan-300/55 hover:bg-cyan-300/18"
+                  className="premium-btn premium-btn-primary"
                 >
                   <ShoppingBag className="h-4 w-4" />
                   Adicionar ao carrinho
@@ -209,7 +209,7 @@ export function CatalogQuickView({ product, open, onClose }: CatalogQuickViewPro
                   <Link
                     href={getProductUrl(product)}
                     onClick={onClose}
-                    className="inline-flex items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm font-semibold text-white/80 transition hover:text-white"
+                    className="premium-btn premium-btn-secondary"
                   >
                     <Eye className="h-4 w-4" />
                     Ver página completa
@@ -219,7 +219,7 @@ export function CatalogQuickView({ product, open, onClose }: CatalogQuickViewPro
                     target="_blank"
                     rel="noreferrer"
                     onClick={() => trackWhatsAppClick({ placement: "quick_view", productId: product.id })}
-                    className="inline-flex items-center justify-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-400/15 px-5 py-3 text-sm font-semibold text-emerald-100 transition hover:border-emerald-300/55 hover:bg-emerald-300/18"
+                    className="premium-btn premium-btn-emerald"
                   >
                     <MessageCircleMore className="h-4 w-4" />
                     Tirar dúvida no WhatsApp

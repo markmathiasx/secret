@@ -134,12 +134,16 @@ export async function getRelatedProducts(product: Product, limit = 4) {
     .filter((item) => item.id !== product.id)
     .sort((left, right) => {
       const leftScore =
+        Number(left.featured) +
         Number(left.collection === product.collection) * 4 +
         Number(left.category === product.category) * 3 +
+        Number(left.theme === product.theme) * 2 +
         left.tags.filter((tag) => product.tags.includes(tag)).length;
       const rightScore =
+        Number(right.featured) +
         Number(right.collection === product.collection) * 4 +
         Number(right.category === product.category) * 3 +
+        Number(right.theme === product.theme) * 2 +
         right.tags.filter((tag) => product.tags.includes(tag)).length;
 
       return rightScore - leftScore || left.pricePix - right.pricePix;

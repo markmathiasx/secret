@@ -1,19 +1,12 @@
-Coloque seus videos aqui para a home trocar os placeholders automaticamente.
+Politica de midia da MDH 3D
 
-Formatos suportados:
-- .mp4
-- .webm
-- .mov
+Nao use video como fundo global do site.
 
-Sugestao de nomes:
-- timelapse-impressao-01.mp4
-- close-acabamento-01.mp4
-- antes-depois-pintura-01.mp4
-- entrega-rj-01.mp4
-- trafego-mercado-livre-01.mp4
-- trafego-shopee-01.mp4
+Se um video voltar no futuro, ele deve ficar restrito a hero da home e seguir estas regras:
+- nunca como fundo de pagina inteira
+- sempre com muted
+- sempre com loop
+- sempre com playsInline
+- sempre com poster image
 
-Dica:
-- videos curtos entre 6 e 10 segundos
-- gravados em pe ou quadrado para funcionar bem no celular
-- sem musicas com copyright
+Se o storefront estiver bonito e claro com foto estatica, mantenha foto estatica.

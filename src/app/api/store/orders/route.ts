@@ -1,11 +1,20 @@
 import QRCode from "qrcode";
 import { NextResponse } from "next/server";
+import { appendAuditLog } from "@/lib/audit";
 import { recordAnalyticsEvent } from "@/lib/analytics-server";
 import { customerAuthConfig, whatsappNumber } from "@/lib/constants";
 import { getCustomerSession } from "@/lib/customer-auth";
 import { createMercadoPagoPreference } from "@/lib/payments";
 import { makePixPayload } from "@/lib/pix";
-import { getClientIp, checkRateLimit } from "@/lib/security";
+import {
+  appendRateLimitHeaders,
+  assessOrderRisk,
+  checkRateLimit,
+  enforceSameOrigin,
+  getClientIp,
+  isSecurityError,
+  peekRateLimit
+} from "@/lib/security";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 import { attachPaymentProviderData, buildOrderWhatsAppSummary, createOrder, createOrderSchema } from "@/lib/order-service";
 import { databaseUnavailableMessage, isDatabaseRuntimeError } from "@/lib/database-status";
@@ -23,19 +32,46 @@ function readCookieValue(cookieHeader: string, name: string) {
 export async function POST(request: Request) {
   const ip = getClientIp(request.headers);
   const userAgent = request.headers.get("user-agent");
-  const rateLimit = checkRateLimit(`store_order:${ip}`, 10, 60_000);
-
-  if (!rateLimit.ok) {
-    return NextResponse.json({ ok: false, message: "Muitas tentativas de checkout. Tente novamente em instantes." }, { status: 429 });
-  }
 
   try {
+    enforceSameOrigin(request);
+    const rateLimit = checkRateLimit(`store_order:${ip}`, 10, 60_000);
+    const hourlyLimit = checkRateLimit(`store_order_hour:${ip}`, 6, 60 * 60_000);
+
+    if (!rateLimit.ok) {
+      return appendRateLimitHeaders(
+        NextResponse.json({ ok: false, message: "Muitas tentativas de checkout. Tente novamente em instantes." }, { status: 429 }),
+        rateLimit
+      );
+    }
+
+    if (!hourlyLimit.ok) {
+      return appendRateLimitHeaders(
+        NextResponse.json({ ok: false, message: "Limite de pedidos por hora atingido para este IP." }, { status: 429 }),
+        hourlyLimit
+      );
+    }
+
     const body = await request.json();
     const input = createOrderSchema.parse(body);
     const sessionCookie = readCookieValue(request.headers.get("cookie") || "", customerAuthConfig.sessionCookieName);
     const customerSession = await getCustomerSession(sessionCookie);
+    const risk = assessOrderRisk({
+      ipAddress: ip,
+      headers: request.headers,
+      paymentMethod: input.paymentMethod,
+      state: input.customer.state,
+      shippingAmount: input.shippingAmount,
+      hasEmail: Boolean(input.customer.email),
+      ordersThisHour: peekRateLimit(`store_order_hour:${ip}`)
+    });
     const created = await createOrder(input, {
-      customerAccountId: customerSession?.account.id || null
+      customerAccountId: customerSession?.account.id || null,
+      risk: {
+        ...risk,
+        note: risk.reviewRequired ? "Pedido sinalizado automaticamente por regras de risco." : null,
+        ipAddress: ip
+      }
     });
     const whatsappSummary = await buildOrderWhatsAppSummary(created.order.id);
     const whatsappUrl = buildWhatsAppLink(whatsappNumber, whatsappSummary?.message || `Pedido ${created.order.orderNumber}`);
@@ -52,6 +88,23 @@ export async function POST(request: Request) {
         sourceChannelId: input.sourceChannelId,
         totalAmount: created.order.totalAmount,
         itemCount: created.items.length
+      }
+    });
+
+    await appendAuditLog({
+      actorType: customerSession?.account.id ? "customer" : "anonymous",
+      actorId: customerSession?.account.id || null,
+      action: "order_created",
+      resourceType: "order",
+      resourceId: created.order.id,
+      ipAddress: ip,
+      userAgent,
+      payload: {
+        orderNumber: created.order.orderNumber,
+        paymentMethod: input.paymentMethod,
+        sourceChannelId: input.sourceChannelId,
+        riskScore: risk.score,
+        reviewRequired: risk.reviewRequired
       }
     });
 
@@ -83,7 +136,8 @@ export async function POST(request: Request) {
         }
       });
 
-      return NextResponse.json(
+      return appendRateLimitHeaders(
+        NextResponse.json(
         {
           ok: true,
           orderId: created.order.id,
@@ -96,6 +150,8 @@ export async function POST(request: Request) {
           }
         },
         { status: 201 }
+        ),
+        rateLimit
       );
     }
 
@@ -138,7 +194,8 @@ export async function POST(request: Request) {
         }
       });
 
-      return NextResponse.json(
+      return appendRateLimitHeaders(
+        NextResponse.json(
         {
           ok: true,
           orderId: created.order.id,
@@ -153,6 +210,8 @@ export async function POST(request: Request) {
           }
         },
         { status: 201 }
+        ),
+        rateLimit
       );
     }
 
@@ -169,7 +228,8 @@ export async function POST(request: Request) {
       }
     });
 
-    return NextResponse.json(
+    return appendRateLimitHeaders(
+      NextResponse.json(
       {
         ok: true,
         orderId: created.order.id,
@@ -180,8 +240,13 @@ export async function POST(request: Request) {
         }
       },
       { status: 201 }
+      ),
+      rateLimit
     );
   } catch (error) {
+    if (isSecurityError(error)) {
+      return NextResponse.json({ ok: false, message: error.message }, { status: error.status });
+    }
     const databaseUnavailable = isDatabaseRuntimeError(error);
     return NextResponse.json(
       {

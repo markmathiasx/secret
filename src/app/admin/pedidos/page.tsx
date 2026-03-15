@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { AdminShell } from "@/components/admin-shell";
+import { buttonFamilies } from "@/components/ui/buttons";
 import { requireAdminSession } from "@/lib/admin-auth";
 import { listOrders } from "@/lib/order-service";
 import {
@@ -117,10 +118,10 @@ export default async function AdminOrdersPage({ searchParams }: OrdersPageProps)
         </div>
 
         <div className="mt-4 flex flex-wrap gap-3">
-          <button className="rounded-full border border-cyan-400/25 bg-cyan-400/12 px-5 py-3 text-sm font-semibold text-cyan-100">
+          <button className={buttonFamilies.secondary}>
             Filtrar
           </button>
-          <Link href="/admin/pedidos" className="rounded-full border border-white/10 bg-black/20 px-5 py-3 text-sm font-semibold text-white/70">
+          <Link href="/admin/pedidos" className={buttonFamilies.tertiary}>
             Limpar
           </Link>
           <span className="inline-flex items-center rounded-full border border-white/10 bg-black/20 px-4 py-3 text-sm text-white/60">
@@ -136,7 +137,7 @@ export default async function AdminOrdersPage({ searchParams }: OrdersPageProps)
           { title: "Site", href: "/admin/pedidos?sourceChannelId=site" },
           { title: "WhatsApp", href: "/admin/pedidos?sourceChannelId=whatsapp" }
         ].map((item) => (
-          <Link key={item.title} href={item.href} className="rounded-[24px] border border-white/10 bg-black/20 px-4 py-4 text-sm font-semibold text-white/80 transition hover:border-white/20">
+          <Link key={item.title} href={item.href} className={`${buttonFamilies.tertiary} justify-start rounded-[24px] px-4 py-4 text-sm`}>
             {item.title}
           </Link>
         ))}
@@ -165,6 +166,11 @@ export default async function AdminOrdersPage({ searchParams }: OrdersPageProps)
                       <div className="font-medium text-white">{row.customer.fullName}</div>
                       <div className="text-xs text-white/45">{row.customer.whatsapp}</div>
                       {row.customer.email ? <div className="text-xs text-white/45">{row.customer.email}</div> : null}
+                      {row.order.reviewRequired ? (
+                        <div className="mt-2 inline-flex rounded-full border border-amber-300/25 bg-amber-300/12 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-amber-100">
+                          Revisao manual
+                        </div>
+                      ) : null}
                     </td>
                     <td className="py-4 pr-4">{sourceChannelLabels[row.order.sourceChannelId as keyof typeof sourceChannelLabels] || row.order.sourceChannelId}</td>
                     <td className="py-4 pr-4">
@@ -174,10 +180,13 @@ export default async function AdminOrdersPage({ searchParams }: OrdersPageProps)
                     <td className="py-4 pr-4">
                       <div>{paymentStatusLabels[row.order.paymentStatus]}</div>
                       <div className="text-xs text-white/45">{row.latestPayment?.method || row.order.paymentMethod}</div>
+                      {row.order.riskScore ? (
+                        <div className="text-[11px] text-amber-100/80">Risco {row.order.riskScore}</div>
+                      ) : null}
                     </td>
                     <td className="py-4 pr-4 font-semibold text-white">{formatCurrency(row.order.totalAmount)}</td>
                     <td className="py-4 pr-0 text-right">
-                      <Link href={`/admin/pedidos/${row.order.id}`} className="rounded-full border border-white/10 bg-black/20 px-4 py-2 text-xs font-semibold text-white/80">
+                      <Link href={`/admin/pedidos/${row.order.id}`} className={buttonFamilies.tertiary}>
                         Detalhe
                       </Link>
                     </td>

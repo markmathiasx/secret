@@ -2,13 +2,16 @@ import "server-only";
 
 import { cookies } from "next/headers";
 import { and, desc, eq, gt } from "drizzle-orm";
-import { randomBytes, scryptSync, timingSafeEqual, createHash, createHmac } from "node:crypto";
+import { randomBytes, timingSafeEqual, createHash, createHmac } from "node:crypto";
+import bcrypt from "bcryptjs";
 import { getDb, isDatabaseConfigured } from "@/db/client";
 import { customerAccounts, customerSessions, customers } from "@/db/schema";
 import { adminConfig, customerAuthConfig } from "@/lib/constants";
+import { decryptField } from "@/lib/data-protection";
 import { databaseUnavailableMessage } from "@/lib/database-status";
 
-const SESSION_TTL_MS = 1000 * 60 * 60 * 24 * 30;
+const SESSION_TTL_MS =
+  1000 * 60 * 60 * 24 * Math.max(1, Number(process.env.CUSTOMER_SESSION_TTL_DAYS || 30));
 
 type ParsedCustomerSession = {
   email: string;
@@ -17,6 +20,13 @@ type ParsedCustomerSession = {
 };
 
 export type CustomerViewer = {
+  session: typeof customerSessions.$inferSelect;
+  account: typeof customerAccounts.$inferSelect;
+  customer: typeof customers.$inferSelect | null;
+};
+
+type ResolvedCustomerSession = {
+  parsed: ParsedCustomerSession;
   session: typeof customerSessions.$inferSelect;
   account: typeof customerAccounts.$inferSelect;
   customer: typeof customers.$inferSelect | null;
@@ -40,24 +50,13 @@ function getSessionSecret() {
   return createHash("sha256").update(`mdh-customer:${secret}`).digest("hex");
 }
 
-function hashPasswordValue(password: string, salt: string) {
-  return scryptSync(password, salt, 64).toString("hex");
-}
-
 export function makeCustomerPasswordHash(password: string) {
-  const salt = randomBytes(16).toString("hex");
-  return `s2:${salt}:${hashPasswordValue(password, salt)}`;
+  return bcrypt.hashSync(password, 12);
 }
 
 function verifyPasswordHash(password: string, hash: string) {
-  const [scheme, salt, digest] = hash.split(":");
-  if (scheme !== "s2" || !salt || !digest) return false;
-
-  const expected = Buffer.from(digest, "hex");
-  const actual = Buffer.from(hashPasswordValue(password, salt), "hex");
-
-  if (expected.length !== actual.length) return false;
-  return timingSafeEqual(expected, actual);
+  if (!hash.startsWith("$2")) return false;
+  return bcrypt.compareSync(password, hash);
 }
 
 function signSessionParts(email: string, expiresAt: number, token: string) {
@@ -106,6 +105,15 @@ function parseSessionValue(value: string | undefined | null): ParsedCustomerSess
 
 function hashSessionToken(token: string) {
   return createHash("sha256").update(`${getSessionSecret()}:${token}`).digest("hex");
+}
+
+function decryptCustomerRecord(customer: typeof customers.$inferSelect | null) {
+  if (!customer) return null;
+
+  return {
+    ...customer,
+    whatsapp: decryptField(customer.whatsapp)
+  };
 }
 
 function requireSessionStore() {
@@ -194,6 +202,7 @@ export async function createCustomerSession(input: {
   const expiresAt = Date.now() + SESSION_TTL_MS;
   const value = buildSessionValue(normalizeEmail(input.email), expiresAt, token);
   const db = requireSessionStore();
+  await db.delete(customerSessions).where(eq(customerSessions.accountId, input.accountId));
 
   await db.insert(customerSessions).values({
     accountId: input.accountId,
@@ -214,7 +223,7 @@ export async function createCustomerSession(input: {
   };
 }
 
-export async function getCustomerSession(value: string | undefined | null): Promise<CustomerViewer | null> {
+async function resolveCustomerSession(value: string | undefined | null): Promise<ResolvedCustomerSession | null> {
   const parsed = parseSessionValue(value);
   if (!parsed || !isDatabaseConfigured()) return null;
 
@@ -242,7 +251,7 @@ export async function getCustomerSession(value: string | undefined | null): Prom
     if (!account) return null;
     if (normalizeEmail(account.email) !== parsed.email) return null;
 
-    const customer = account.customerId
+    const customerRecord = account.customerId
       ? (
           await db
             .select()
@@ -252,15 +261,82 @@ export async function getCustomerSession(value: string | undefined | null): Prom
         )[0] || null
       : null;
 
-    await db
-      .update(customerSessions)
-      .set({ lastSeenAt: new Date() })
-      .where(eq(customerSessions.id, session.id));
-
-    return { session, account, customer };
+    return {
+      parsed,
+      session,
+      account,
+      customer: decryptCustomerRecord(customerRecord)
+    };
   } catch {
     return null;
   }
+}
+
+export async function getCustomerSession(value: string | undefined | null): Promise<CustomerViewer | null> {
+  const resolved = await resolveCustomerSession(value);
+  if (!resolved) return null;
+
+  try {
+    const db = getDb();
+    await db
+      .update(customerSessions)
+      .set({ lastSeenAt: new Date() })
+      .where(eq(customerSessions.id, resolved.session.id));
+  } catch {
+    return null;
+  }
+
+  return {
+    session: resolved.session,
+    account: resolved.account,
+    customer: resolved.customer
+  };
+}
+
+export async function refreshCustomerSession(
+  value: string | undefined | null,
+  input?: {
+    ipAddress?: string | null;
+    userAgent?: string | null;
+  }
+) {
+  const resolved = await resolveCustomerSession(value);
+  if (!resolved) return null;
+
+  const token = randomBytes(24).toString("base64url");
+  const expiresAt = Date.now() + SESSION_TTL_MS;
+  const nextValue = buildSessionValue(normalizeEmail(resolved.account.email), expiresAt, token);
+
+  const db = requireSessionStore();
+  await db
+    .update(customerSessions)
+    .set({
+      sessionTokenHash: hashSessionToken(token),
+      ipAddress: input?.ipAddress || resolved.session.ipAddress,
+      userAgent: input?.userAgent || resolved.session.userAgent,
+      expiresAt: new Date(expiresAt),
+      lastSeenAt: new Date()
+    })
+    .where(eq(customerSessions.id, resolved.session.id));
+
+  return {
+    viewer: {
+      session: {
+        ...resolved.session,
+        sessionTokenHash: hashSessionToken(token),
+        ipAddress: input?.ipAddress || resolved.session.ipAddress,
+        userAgent: input?.userAgent || resolved.session.userAgent,
+        expiresAt: new Date(expiresAt),
+        lastSeenAt: new Date()
+      },
+      account: resolved.account,
+      customer: resolved.customer
+    },
+    cookie: {
+      value: nextValue,
+      expiresAt
+    }
+  };
 }
 
 export async function destroyCustomerSession(value: string | undefined | null) {

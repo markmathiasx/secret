@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { AdminShell } from "@/components/admin-shell";
+import { buttonFamilies } from "@/components/ui/buttons";
 import { requireAdminSession } from "@/lib/admin-auth";
 import { getDashboardStats, listOrders } from "@/lib/order-service";
 import { formatCurrency } from "@/lib/utils";
@@ -59,6 +60,7 @@ export default async function AdminHome() {
         ))}
       </div>
 
+<<<<<<< ours
       <div className="mt-6 grid gap-3 rounded-[30px] border border-white/10 bg-white/5 p-5 shadow-[0_18px_48px_rgba(2,8,23,0.18)] lg:grid-cols-4">
         {[
           { title: "Fila completa", href: "/admin/pedidos", copy: "Busca, filtros por origem, pagamento e operação." },
@@ -92,7 +94,7 @@ export default async function AdminHome() {
             <p className="text-xs uppercase tracking-[0.22em] text-cyan-200">Fila recente</p>
             <h2 className="mt-2 text-2xl font-black text-white">Pedidos mais recentes</h2>
           </div>
-          <Link href="/admin/pedidos" className="rounded-full border border-cyan-400/25 bg-cyan-400/12 px-4 py-2 text-sm font-semibold text-cyan-100">
+          <Link href="/admin/pedidos" className={buttonFamilies.secondary}>
             Ver fila completa
           </Link>
         </div>
@@ -127,7 +129,7 @@ export default async function AdminHome() {
                     </td>
                     <td className="py-4 pr-4 font-semibold text-white">{formatCurrency(row.order.totalAmount)}</td>
                     <td className="py-4 pr-0 text-right">
-                      <Link href={`/admin/pedidos/${row.order.id}`} className="rounded-full border border-white/10 bg-black/20 px-4 py-2 text-xs font-semibold text-white/80">
+                      <Link href={`/admin/pedidos/${row.order.id}`} className={buttonFamilies.tertiary}>
                         Abrir
                       </Link>
                     </td>
@@ -143,6 +145,16 @@ export default async function AdminHome() {
               : "Nenhum pedido encontrado ainda. Depois de rodar migrations e seed, o checkout real passa a alimentar esta fila."}
           </div>
         )}
+=======
+      <div className="rounded-[32px] border border-white/10 bg-white/5 p-6">
+        <h2 className="text-xl font-bold text-white">Checklist rápido</h2>
+        <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-white/65">
+          <li>Definir ADMIN_PASSWORD</li>
+          <li>Adicionar mídia real em biblioteca local de mídia</li>
+          <li>Ativar login social (Supabase) quando quiser</li>
+          <li>Revisar preços e zonas de entrega</li>
+        </ul>
+>>>>>>> theirs
       </div>
     </AdminShell>
   );

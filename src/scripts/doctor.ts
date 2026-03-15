@@ -81,6 +81,7 @@ async function checkDatabaseConnection(): Promise<CheckResult> {
 
 function checkRequiredEnv(): CheckResult[] {
   const required = ["DATABASE_URL", "ADMIN_EMAIL", "ADMIN_PASSWORD_HASH", "ADMIN_SESSION_SECRET", "PIX_KEY"];
+  const recommended = ["CUSTOMER_SESSION_SECRET", "FIELD_ENCRYPTION_KEY"];
   const optional = ["MERCADOPAGO_ACCESS_TOKEN", "NEXT_PUBLIC_SUPABASE_URL", "NEXT_PUBLIC_SUPABASE_ANON_KEY"];
 
   const results: CheckResult[] = required.map((key) => ({
@@ -88,6 +89,29 @@ function checkRequiredEnv(): CheckResult[] {
     status: process.env[key] ? "ok" : "fail",
     detail: process.env[key] ? "presente" : "ausente"
   }));
+
+  const adminPasswordHash = process.env.ADMIN_PASSWORD_HASH || "";
+  if (adminPasswordHash && !adminPasswordHash.startsWith("$2")) {
+    results.push({
+      label: "Hash admin",
+      status: adminPasswordHash.startsWith("s2:") ? "warn" : "fail",
+      detail: adminPasswordHash.startsWith("s2:")
+        ? "formato legado detectado; o runtime aceita transitoriamente, mas o ideal e regenerar bcrypt com npm run admin:hash -- <senha>"
+        : "formato nao reconhecido; regenere com npm run admin:hash -- <senha>"
+    });
+  }
+
+  for (const key of recommended) {
+    results.push({
+      label: `Env ${key}`,
+      status: process.env[key] ? "ok" : "warn",
+      detail: process.env[key]
+        ? "presente"
+        : key === "FIELD_ENCRYPTION_KEY"
+          ? "ausente; o runtime pode derivar fallback, mas para producao enterprise configure uma chave dedicada"
+          : "ausente; o runtime pode derivar fallback, mas em deploy o recomendado e configurar explicitamente"
+    });
+  }
 
   for (const key of optional) {
     results.push({
@@ -107,10 +131,10 @@ function checkRequiredEnv(): CheckResult[] {
 function checkCatalogImages(): CheckResult {
   const catalogDir = resolve(process.cwd(), "public", "catalog-assets");
   const curatedCandidates = [
-    "hello-kitty-organizer-compact.webp",
-    "placa-pix-premium-compact.webp",
-    "suporte-controle-duplo-compact.webp",
-    "vaso-geometrico-wave-compact.webp"
+    "mdh-hello-kitty-organizer-desk.webp",
+    "mdh-suporte-controle-duplo-desk.webp",
+    "mdh-dragao-articulado-premium-plus.webp",
+    "mdh-nome-3d-signature-collector.webp"
   ];
   const present = curatedCandidates.filter((file) => existsSync(resolve(catalogDir, file)));
 

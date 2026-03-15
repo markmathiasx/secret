@@ -1,25 +1,32 @@
 import { NextResponse } from "next/server";
-import { checkRateLimit, getClientIp } from "@/lib/security";
+import { appendRateLimitHeaders, checkRateLimit, enforceSameOrigin, getClientIp, isSecurityError } from "@/lib/security";
 import { lookupPublicOrder, orderLookupSchema } from "@/lib/order-service";
 import { sourceChannelLabels } from "@/lib/commerce";
 import { databaseUnavailableMessage } from "@/lib/database-status";
 
 export async function POST(request: Request) {
-  const ip = getClientIp(request.headers);
-  const rateLimit = checkRateLimit(`order_lookup:${ip}`, 10, 60_000);
-
-  if (!rateLimit.ok) {
-    return NextResponse.json({ ok: false, message: "Muitas consultas em sequência. Aguarde alguns instantes." }, { status: 429 });
-  }
-
-  const raw = await request.json().catch(() => null);
-  const parsed = orderLookupSchema.safeParse(raw);
-
-  if (!parsed.success) {
-    return NextResponse.json({ ok: false, message: "Informe número do pedido e e-mail ou WhatsApp válidos." }, { status: 400 });
-  }
-
   try {
+    enforceSameOrigin(request);
+    const ip = getClientIp(request.headers);
+    const rateLimit = checkRateLimit(`order_lookup:${ip}`, 10, 60_000);
+
+    if (!rateLimit.ok) {
+      return appendRateLimitHeaders(
+        NextResponse.json({ ok: false, message: "Muitas consultas em sequência. Aguarde alguns instantes." }, { status: 429 }),
+        rateLimit
+      );
+    }
+
+    const raw = await request.json().catch(() => null);
+    const parsed = orderLookupSchema.safeParse(raw);
+
+    if (!parsed.success) {
+      return appendRateLimitHeaders(
+        NextResponse.json({ ok: false, message: "Informe numero do pedido e e-mail ou WhatsApp validos." }, { status: 400 }),
+        rateLimit
+      );
+    }
+
     const input = parsed.data;
     const detail = await lookupPublicOrder(input);
 
@@ -27,7 +34,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ ok: false, message: "Pedido não encontrado para esta combinação de dados." }, { status: 404 });
     }
 
-    return NextResponse.json({
+    return appendRateLimitHeaders(NextResponse.json({
       ok: true,
       order: {
         orderNumber: detail.order.orderNumber,
@@ -48,8 +55,11 @@ export async function POST(request: Request) {
           createdAt: event.createdAt
         }))
       }
-    });
-  } catch {
+    }), rateLimit);
+  } catch (error) {
+    if (isSecurityError(error)) {
+      return NextResponse.json({ ok: false, message: error.message }, { status: error.status });
+    }
     return NextResponse.json(
       {
         ok: false,

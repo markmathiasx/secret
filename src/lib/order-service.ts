@@ -15,6 +15,7 @@ import {
   products,
   sourceChannels,
   type AdminNoteRow,
+  type AddressRow,
   type CustomerRow,
   type OrderEventRow,
   type OrderItemRow,
@@ -35,21 +36,58 @@ import {
   type SourceChannelId
 } from "@/lib/commerce";
 import { type Product } from "@/lib/catalog";
+import {
+  decryptField,
+  encryptField,
+  hashIpAddress,
+  hashLookupValue,
+  maskSensitiveObject,
+  normalizeEmailAddress,
+  normalizePhoneNumber,
+  sanitizeTextInput
+} from "@/lib/data-protection";
+
+const safeTrimmedString = (max: number, min = 0) =>
+  z
+    .string()
+    .transform((value) => sanitizeTextInput(value, max))
+    .refine((value) => value.length >= min, `Campo deve ter pelo menos ${min} caracteres.`);
+
+const optionalSafeString = (max: number) =>
+  z
+    .string()
+    .optional()
+    .or(z.literal(""))
+    .transform((value) => sanitizeTextInput(value, max));
 
 export const customerSchema = z.object({
-  fullName: z.string().min(3).max(160),
-  whatsapp: z.string().min(10).max(20),
-  email: z.string().email().max(160).optional().or(z.literal("")),
+  fullName: safeTrimmedString(160, 3),
+  whatsapp: z
+    .string()
+    .transform((value) => normalizePhoneNumber(value))
+    .refine((value) => value.length >= 10 && value.length <= 20, "WhatsApp invalido."),
+  email: z
+    .string()
+    .optional()
+    .or(z.literal(""))
+    .transform((value) => normalizeEmailAddress(value))
+    .refine((value) => !value || z.string().email().safeParse(value).success, "Email invalido."),
   contactPreference: z.enum(["whatsapp", "email", "phone"]).default("whatsapp"),
-  notes: z.string().max(400).optional().or(z.literal("")),
-  postalCode: z.string().min(8).max(10),
-  street: z.string().min(3).max(180),
-  number: z.string().min(1).max(20),
-  complement: z.string().max(120).optional().or(z.literal("")),
-  reference: z.string().max(160).optional().or(z.literal("")),
-  neighborhood: z.string().min(2).max(120),
-  city: z.string().min(2).max(120),
-  state: z.string().min(2).max(2)
+  notes: optionalSafeString(400),
+  postalCode: z
+    .string()
+    .transform((value) => value.replace(/\D/g, ""))
+    .refine((value) => value.length === 8, "CEP invalido."),
+  street: safeTrimmedString(180, 3),
+  number: safeTrimmedString(20, 1),
+  complement: optionalSafeString(120),
+  reference: optionalSafeString(160),
+  neighborhood: safeTrimmedString(120, 2),
+  city: safeTrimmedString(120, 2),
+  state: z
+    .string()
+    .transform((value) => sanitizeTextInput(value, 2).toUpperCase())
+    .refine((value) => /^[A-Z]{2}$/.test(value), "UF invalida.")
 });
 
 const checkoutItemSchema = z.object({
@@ -65,14 +103,14 @@ export const createOrderSchema = z.object({
     .enum(["site", "whatsapp", "instagram", "shopee", "mercado_livre", "amazon", "americanas", "other"])
     .default("site"),
   shippingAmount: z.coerce.number().min(0).max(500).default(0),
-  customerNotes: z.string().max(600).optional().or(z.literal("")),
-  whatsappReference: z.string().max(160).optional().or(z.literal("")),
-  marketplaceReference: z.string().max(160).optional().or(z.literal(""))
+  customerNotes: optionalSafeString(600),
+  whatsappReference: optionalSafeString(160),
+  marketplaceReference: optionalSafeString(160)
 });
 
 export const orderLookupSchema = z.object({
-  orderNumber: z.string().min(5).max(32),
-  credential: z.string().min(5).max(160)
+  orderNumber: safeTrimmedString(32, 5),
+  credential: safeTrimmedString(160, 5)
 });
 
 export type CreateOrderInput = z.infer<typeof createOrderSchema>;
@@ -110,10 +148,6 @@ function assertDatabase() {
   }
 }
 
-function normalizePhone(value: string) {
-  return value.replace(/\D/g, "");
-}
-
 function toDateSegment(date = new Date()) {
   return date.toISOString().slice(0, 10).replace(/-/g, "");
 }
@@ -121,6 +155,29 @@ function toDateSegment(date = new Date()) {
 function formatAddressSummary(address: OrderJoined["address"]) {
   if (!address) return "Retirada/combinar";
   return `${address.street}, ${address.number}${address.complement ? `, ${address.complement}` : ""} - ${address.neighborhood}, ${address.city}/${address.state}`;
+}
+
+function decryptCustomerRow(row: CustomerRow): CustomerRow {
+  return {
+    ...row,
+    whatsapp: decryptField(row.whatsapp)
+  };
+}
+
+function decryptAddressRow(row: AddressRow | null) {
+  if (!row) return null;
+
+  return {
+    ...row,
+    postalCode: decryptField(row.postalCode),
+    street: decryptField(row.street),
+    number: decryptField(row.number),
+    complement: decryptField(row.complement),
+    reference: decryptField(row.reference),
+    neighborhood: decryptField(row.neighborhood),
+    city: decryptField(row.city),
+    state: decryptField(row.state)
+  };
 }
 
 async function syncCustomerAccount(tx: any, input: {
@@ -194,13 +251,19 @@ async function nextOrderNumber(tx: any) {
 }
 
 async function upsertCustomerAndAddress(tx: any, input: CreateOrderInput["customer"]) {
-  const whatsapp = normalizePhone(input.whatsapp);
-  const email = input.email?.trim().toLowerCase() || null;
+  const whatsapp = normalizePhoneNumber(input.whatsapp);
+  const email = normalizeEmailAddress(input.email) || null;
+  const whatsappHash = hashLookupValue(whatsapp);
+  const whatsappLast4 = whatsapp.slice(-4);
 
   const [existingCustomer] = await tx
     .select()
     .from(customers)
-    .where(email ? or(eq(customers.whatsapp, whatsapp), eq(customers.email, email)) : eq(customers.whatsapp, whatsapp))
+    .where(
+      email
+        ? or(eq(customers.whatsappHash, whatsappHash), eq(customers.email, email))
+        : eq(customers.whatsappHash, whatsappHash)
+    )
     .limit(1);
 
   let customerId = existingCustomer?.id;
@@ -210,7 +273,9 @@ async function upsertCustomerAndAddress(tx: any, input: CreateOrderInput["custom
       .update(customers)
       .set({
         fullName: input.fullName,
-        whatsapp,
+        whatsapp: encryptField(whatsapp),
+        whatsappHash,
+        whatsappLast4,
         email,
         contactPreference: input.contactPreference as ContactPreference,
         notes: input.notes || null,
@@ -222,7 +287,9 @@ async function upsertCustomerAndAddress(tx: any, input: CreateOrderInput["custom
       .insert(customers)
       .values({
         fullName: input.fullName,
-        whatsapp,
+        whatsapp: encryptField(whatsapp)!,
+        whatsappHash,
+        whatsappLast4,
         email,
         contactPreference: input.contactPreference as ContactPreference,
         notes: input.notes || null
@@ -233,19 +300,19 @@ async function upsertCustomerAndAddress(tx: any, input: CreateOrderInput["custom
   }
 
   const [address] = await tx
-    .insert(addresses)
-    .values({
-      customerId: customerId!,
-      postalCode: input.postalCode,
-      street: input.street,
-      number: input.number,
-      complement: input.complement || null,
-      reference: input.reference || null,
-      neighborhood: input.neighborhood,
-      city: input.city,
-      state: input.state.toUpperCase()
-    })
-    .returning({ id: addresses.id });
+      .insert(addresses)
+      .values({
+        customerId: customerId!,
+        postalCode: encryptField(input.postalCode)!,
+        street: encryptField(input.street)!,
+        number: encryptField(input.number)!,
+        complement: encryptField(input.complement || null),
+        reference: encryptField(input.reference || null),
+        neighborhood: encryptField(input.neighborhood)!,
+        city: encryptField(input.city)!,
+        state: encryptField(input.state.toUpperCase())!
+      })
+      .returning({ id: addresses.id });
 
   return {
     customerId: customerId!,
@@ -266,7 +333,19 @@ export async function upsertCustomerProfile(input: z.infer<typeof customerSchema
   });
 }
 
-export async function createOrder(input: CreateOrderInput, options?: { customerAccountId?: string | null }) {
+export async function createOrder(
+  input: CreateOrderInput,
+  options?: {
+    customerAccountId?: string | null;
+    risk?: {
+      reviewRequired: boolean;
+      score: number;
+      signals: string[];
+      note?: string | null;
+      ipAddress?: string | null;
+    };
+  }
+) {
   assertDatabase();
   const parsed = createOrderSchema.parse(input);
   const db = getDb();
@@ -331,7 +410,12 @@ export async function createOrder(input: CreateOrderInput, options?: { customerA
         totalAmount,
         customerNotes: parsed.customerNotes || null,
         whatsappReference: parsed.whatsappReference || null,
-        marketplaceReference: parsed.marketplaceReference || null
+        marketplaceReference: parsed.marketplaceReference || null,
+        reviewRequired: options?.risk?.reviewRequired || false,
+        riskScore: options?.risk?.score || 0,
+        riskSignals: options?.risk?.signals || [],
+        ipAddressHash: hashIpAddress(options?.risk?.ipAddress),
+        reviewNote: options?.risk?.note || null
       })
       .returning();
 
@@ -366,6 +450,16 @@ export async function createOrder(input: CreateOrderInput, options?: { customerA
       nextOperationalStatus: operationalStatus,
       nextPaymentStatus: paymentStatus
     });
+
+    if (options?.risk?.reviewRequired) {
+      await tx.insert(orderEvents).values({
+        orderId: order.id,
+        eventType: "risk_flagged",
+        description: `Pedido sinalizado para revisão manual. Motivos: ${options.risk.signals.join(", ")}.`,
+        nextOperationalStatus: operationalStatus,
+        nextPaymentStatus: paymentStatus
+      });
+    }
 
     return {
       order,
@@ -408,6 +502,40 @@ export async function listOrdersForCustomerAccount(input: {
   return rows;
 }
 
+export async function listAddressesForCustomerAccount(input: {
+  customerId?: string | null;
+  email?: string | null;
+  limit?: number;
+}) {
+  assertDatabase();
+  const db = getDb();
+  const limit = Math.max(1, Math.min(input.limit || 6, 12));
+  const normalizedEmail = input.email?.trim().toLowerCase() || null;
+
+  if (input.customerId) {
+    const rows = await db
+      .select()
+      .from(addresses)
+      .where(eq(addresses.customerId, input.customerId))
+      .orderBy(desc(addresses.createdAt))
+      .limit(limit);
+    return rows.map((row) => decryptAddressRow(row)!);
+  }
+
+  if (!normalizedEmail) {
+    return [];
+  }
+
+  return db
+    .select({ address: addresses })
+    .from(addresses)
+    .innerJoin(customers, eq(customers.id, addresses.customerId))
+    .where(eq(customers.email, normalizedEmail))
+    .orderBy(desc(addresses.createdAt))
+    .limit(limit)
+    .then((rows) => rows.map((row) => decryptAddressRow(row.address)!));
+}
+
 export async function getOrderDetail(orderId: string) {
   assertDatabase();
   const db = getDb();
@@ -415,7 +543,7 @@ export async function getOrderDetail(orderId: string) {
   const [orderRow] = await db.select().from(orders).where(eq(orders.id, orderId)).limit(1);
   if (!orderRow) return null;
 
-  const [customerRow] = await db.select().from(customers).where(eq(customers.id, orderRow.customerId)).limit(1);
+  const [customerRowRaw] = await db.select().from(customers).where(eq(customers.id, orderRow.customerId)).limit(1);
   const [addressRow] = orderRow.addressId
     ? await db.select().from(addresses).where(eq(addresses.id, orderRow.addressId)).limit(1)
     : [null];
@@ -430,8 +558,8 @@ export async function getOrderDetail(orderId: string) {
 
   return {
     order: orderRow,
-    customer: customerRow!,
-    address: addressRow,
+    customer: decryptCustomerRow(customerRowRaw!),
+    address: decryptAddressRow(addressRow),
     items,
     payments,
     events,
@@ -450,7 +578,7 @@ export async function getOrderByNumber(orderNumber: string) {
 export async function lookupPublicOrder(input: z.infer<typeof orderLookupSchema>) {
   assertDatabase();
   const parsed = orderLookupSchema.parse(input);
-  const normalizedCredential = normalizePhone(parsed.credential);
+  const normalizedCredential = normalizePhoneNumber(parsed.credential);
   const db = getDb();
 
   const [orderRow] = await db.select().from(orders).where(eq(orders.orderNumber, parsed.orderNumber)).limit(1);
@@ -461,7 +589,7 @@ export async function lookupPublicOrder(input: z.infer<typeof orderLookupSchema>
 
   const credentialMatches =
     customerRow.email?.toLowerCase() === parsed.credential.trim().toLowerCase() ||
-    normalizePhone(customerRow.whatsapp) === normalizedCredential;
+    customerRow.whatsappHash === hashLookupValue(normalizedCredential);
 
   if (!credentialMatches) return null;
 
@@ -471,6 +599,9 @@ export async function lookupPublicOrder(input: z.infer<typeof orderLookupSchema>
 export async function listOrders(filters: OrderListFilters = {}) {
   assertDatabase();
   const db = getDb();
+  const queryDigits = normalizePhoneNumber(filters.query || "");
+  const queryWhatsappHash = queryDigits.length >= 10 ? hashLookupValue(queryDigits) : "";
+  const queryWhatsappLast4 = queryDigits.length >= 4 ? queryDigits.slice(-4) : "";
   const rows = await db
     .select({
       order: orders,
@@ -490,8 +621,9 @@ export async function listOrders(filters: OrderListFilters = {}) {
           ? or(
               ilike(orders.orderNumber, `%${filters.query}%`),
               ilike(customers.fullName, `%${filters.query}%`),
-              ilike(customers.whatsapp, `%${filters.query}%`),
-              ilike(customers.email, `%${filters.query}%`)
+              ilike(customers.email, `%${filters.query}%`),
+              queryWhatsappHash ? eq(customers.whatsappHash, queryWhatsappHash) : undefined,
+              queryWhatsappLast4 ? eq(customers.whatsappLast4, queryWhatsappLast4) : undefined
             )
           : undefined
       )
@@ -517,6 +649,7 @@ export async function listOrders(filters: OrderListFilters = {}) {
 
   return rows.map((row) => ({
     ...row,
+    customer: decryptCustomerRow(row.customer),
     latestPayment: paymentMap.get(row.order.id)?.[0] || null
   }));
 }
@@ -551,7 +684,8 @@ export async function appendOrderEvent(input: {
     | "manual_order_created"
     | "payment_reference_created"
     | "payment_webhook_received"
-    | "customer_updated";
+    | "customer_updated"
+    | "risk_flagged";
   description: string;
   previousOperationalStatus?: OperationalStatus | null;
   nextOperationalStatus?: OperationalStatus | null;
@@ -617,15 +751,16 @@ export async function updateOrderPayment(input: {
   const latestPayment = detail.payments[0];
 
   if (latestPayment) {
+    const sanitizedCardLast4 = String(input.cardLast4 || "").replace(/\D/g, "").slice(-4);
     await db
       .update(paymentRecords)
       .set({
         status: input.status,
-        verificationNote: input.verificationNote || latestPayment.verificationNote,
-        pixReference: input.pixReference || latestPayment.pixReference,
-        cardBrand: input.cardBrand || latestPayment.cardBrand,
-        cardLast4: input.cardLast4 || latestPayment.cardLast4,
-        cardHolderName: input.cardHolderName || latestPayment.cardHolderName,
+        verificationNote: sanitizeTextInput(input.verificationNote || latestPayment.verificationNote || "", 500) || null,
+        pixReference: sanitizeTextInput(input.pixReference || latestPayment.pixReference || "", 160) || null,
+        cardBrand: sanitizeTextInput(input.cardBrand || latestPayment.cardBrand || "", 40) || null,
+        cardLast4: sanitizedCardLast4 || latestPayment.cardLast4,
+        cardHolderName: sanitizeTextInput(input.cardHolderName || latestPayment.cardHolderName || "", 160) || null,
         confirmedAt: input.status === "paid" ? new Date() : latestPayment.confirmedAt,
         updatedAt: new Date()
       })
@@ -654,7 +789,7 @@ export async function createAdminNote(input: { orderId: string; content: string;
   await db.insert(adminNotes).values({
     orderId: input.orderId,
     author: input.author,
-    content: input.content
+    content: sanitizeTextInput(input.content, 2_000)
   });
 
   await db.insert(orderEvents).values({
@@ -682,8 +817,8 @@ export async function attachPaymentProviderData(input: {
     .set({
       provider: input.provider,
       providerPaymentId: input.providerPaymentId || detail.payments[0].providerPaymentId,
-      verificationNote: input.verificationNote || detail.payments[0].verificationNote,
-      rawPayload: input.rawPayload || detail.payments[0].rawPayload,
+      verificationNote: sanitizeTextInput(input.verificationNote || detail.payments[0].verificationNote || "", 500) || null,
+      rawPayload: (maskSensitiveObject(input.rawPayload || detail.payments[0].rawPayload) as Record<string, unknown>) || detail.payments[0].rawPayload,
       updatedAt: new Date()
     })
     .where(eq(paymentRecords.id, detail.payments[0].id));

@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { NextResponse } from "next/server";
+import { appendAuditLog } from "@/lib/audit";
 import { customerAuthConfig } from "@/lib/constants";
 import {
   createCustomerSession,
@@ -7,41 +8,49 @@ import {
   sanitizeCustomerRedirectPath
 } from "@/lib/customer-auth";
 import { databaseUnavailableMessage, isDatabaseRuntimeError } from "@/lib/database-status";
-import { checkRateLimit, getClientIp } from "@/lib/security";
+import { maskEmail, sanitizeTextInput } from "@/lib/data-protection";
+import { appendRateLimitHeaders, checkRateLimit, enforceSameOrigin, getClientIp, isSecurityError } from "@/lib/security";
 
 const registerSchema = z.object({
-  fullName: z.string().min(3).max(160),
+  fullName: z.string().min(3).max(160).transform((value) => sanitizeTextInput(value, 160)),
   email: z.string().email().max(160),
   password: z
     .string()
     .min(8)
     .max(128)
-    .refine((value) => /[a-z]/i.test(value) && /\d/.test(value), "Senha fraca"),
+    .refine((value) => /[a-z]/i.test(value) && /\d/.test(value) && /[^A-Za-z0-9]/.test(value), "Senha fraca"),
   next: z.string().optional()
 });
 
 export async function POST(request: Request) {
   const ip = getClientIp(request.headers);
-  const rateLimit = checkRateLimit(`customer_register:${ip}`, 5, 60_000);
-
-  if (!rateLimit.ok) {
-    return NextResponse.json(
-      { ok: false, error: "Muitas tentativas de cadastro. Tente novamente em instantes." },
-      { status: 429 }
-    );
-  }
-
   const body = await request.json().catch(() => ({}));
-  const parsed = registerSchema.safeParse(body);
-
-  if (!parsed.success) {
-    return NextResponse.json(
-      { ok: false, error: "Revise nome, e-mail e senha. Use pelo menos 8 caracteres com letras e numeros." },
-      { status: 400 }
-    );
-  }
-
   try {
+    enforceSameOrigin(request);
+    const rateLimit = checkRateLimit(`customer_register:${ip}`, 5, 60_000);
+
+    if (!rateLimit.ok) {
+      return appendRateLimitHeaders(
+        NextResponse.json(
+          { ok: false, error: "Muitas tentativas de cadastro. Tente novamente em instantes." },
+          { status: 429 }
+        ),
+        rateLimit
+      );
+    }
+
+    const parsed = registerSchema.safeParse(body);
+
+    if (!parsed.success) {
+      return appendRateLimitHeaders(
+        NextResponse.json(
+          { ok: false, error: "Revise nome, e-mail e senha. Use pelo menos 8 caracteres com letras, numeros e simbolos." },
+          { status: 400 }
+        ),
+        rateLimit
+      );
+    }
+
     const account = await registerCustomerAccount(parsed.data);
     const session = await createCustomerSession({
       accountId: account.id,
@@ -63,15 +72,38 @@ export async function POST(request: Request) {
       value: session.value,
       httpOnly: true,
       secure: secureCookie,
-      sameSite: "lax",
+      sameSite: "strict",
       path: "/",
       expires: new Date(session.expiresAt)
     });
 
-    return response;
+    await appendAuditLog({
+      actorType: "customer",
+      actorId: account.id,
+      action: "customer_register_success",
+      resourceType: "customer_account",
+      resourceId: account.id,
+      ipAddress: ip,
+      userAgent: request.headers.get("user-agent"),
+      payload: { email: maskEmail(account.email) }
+    });
+
+    return appendRateLimitHeaders(response, rateLimit);
   } catch (error) {
+    if (isSecurityError(error)) {
+      return NextResponse.json({ ok: false, error: error.message }, { status: error.status });
+    }
     const databaseUnavailable = isDatabaseRuntimeError(error);
     const message = error instanceof Error ? error.message : "Nao foi possivel criar sua conta agora.";
+
+    await appendAuditLog({
+      actorType: "anonymous",
+      action: "customer_register_failed",
+      resourceType: "customer_account",
+      ipAddress: ip,
+      userAgent: request.headers.get("user-agent"),
+      payload: { error: message, email: maskEmail((body as any)?.email || "") }
+    });
 
     return NextResponse.json(
       {

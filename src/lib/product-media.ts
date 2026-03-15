@@ -4,6 +4,15 @@ function encodeSvg(content: string) {
   return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(content)}`;
 }
 
+function escapeSvgText(value: string) {
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&apos;");
+}
+
 export type ProductMediaLike = Pick<Product, "name" | "sku" | "category"> & {
   imagePath?: string | null;
   imageAlt?: string | null;
@@ -28,6 +37,10 @@ export type ProductMediaAsset = {
 };
 
 export function makeProductPlaceholder(product: Pick<Product, "name" | "sku" | "category">) {
+  const safeName = escapeSvgText(product.name);
+  const safeSku = escapeSvgText(product.sku);
+  const safeCategory = escapeSvgText(product.category);
+
   return encodeSvg(`
     <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" viewBox="0 0 1200 1200" fill="none">
       <defs>
@@ -46,11 +59,11 @@ export function makeProductPlaceholder(product: Pick<Product, "name" | "sku" | "
       <circle cx="230" cy="1040" r="220" fill="#10b981" fill-opacity="0.08" />
       <rect x="64" y="64" width="1072" height="1072" rx="56" stroke="url(#line)" stroke-opacity="0.6" />
       <text x="96" y="150" fill="#67e8f9" font-size="34" font-family="Arial, sans-serif" letter-spacing="10">MDH 3D</text>
-      <text x="96" y="1030" fill="#ffffff" fill-opacity="0.55" font-size="34" font-family="Arial, sans-serif">${product.sku}</text>
-      <text x="96" y="950" fill="#ffffff" fill-opacity="0.7" font-size="42" font-family="Arial, sans-serif">${product.category}</text>
+      <text x="96" y="1030" fill="#ffffff" fill-opacity="0.55" font-size="34" font-family="Arial, sans-serif">${safeSku}</text>
+      <text x="96" y="950" fill="#ffffff" fill-opacity="0.7" font-size="42" font-family="Arial, sans-serif">${safeCategory}</text>
       <foreignObject x="96" y="240" width="1008" height="560">
         <div xmlns="http://www.w3.org/1999/xhtml" style="display:flex;height:100%;align-items:center;color:white;font-family:Arial,sans-serif;font-size:72px;font-weight:700;line-height:1.1;">
-          ${product.name}
+          ${safeName}
         </div>
       </foreignObject>
     </svg>
@@ -73,9 +86,9 @@ export function getProductPrimaryMedia(product: ProductMediaLike): ProductMediaA
     id: `${product.sku}-hero`,
     src,
     alt: product.imageAlt || `${product.name} - hero do produto`,
-    label: isPlaceholder ? "Visual ambientado" : "Foto principal",
+    label: isPlaceholder ? "Visual da colecao" : "Foto principal",
     caption: isPlaceholder
-      ? "Visual ilustrativo criado para manter a experiencia da loja elegante mesmo antes da foto final."
+      ? "Apresentacao criada para mostrar estilo, proporcao e presenca visual da peca com clareza na vitrine."
       : product.merchandising || "Foto principal da peca na colecao da MDH 3D.",
     kind: "hero",
     objectPosition: "center center",
@@ -91,13 +104,13 @@ function getDetailCaption(product: ProductMediaLike) {
   ].filter(Boolean);
 
   return parts.length
-    ? `Escala, producao e prazo em uma leitura rapida: ${parts.join(" • ")}.`
-    : "Detalhe pensado para mostrar escala, acabamento e presenca visual.";
+    ? `Tamanho, acabamento e prazo em uma leitura rapida: ${parts.join(" • ")}.`
+    : "Detalhe pensado para valorizar acabamento, escala e presenca visual.";
 }
 
 function getLifestyleCaption(product: ProductMediaLike) {
   const parts = [product.collection || null, product.theme || null, product.category].filter(Boolean);
-  return `Ambientacao sugerida para ${parts.join(" • ")} dentro da loja.`;
+  return `Inspiracao de uso para ${parts.join(" • ")} em uma composicao elegante e comercial.`;
 }
 
 export function getProductGallerySources(product: ProductMediaLike): ProductMediaAsset[] {

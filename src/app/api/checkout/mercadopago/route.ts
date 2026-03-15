@@ -3,26 +3,30 @@ import { isDatabaseConfigured } from "@/db/client";
 import { getStorefrontProductById } from "@/lib/catalog-server";
 import { databaseUnavailableMessage, isDatabaseRuntimeError } from "@/lib/database-status";
 import { createMercadoPagoPreference } from "@/lib/payments";
-import { getClientIp, checkRateLimit } from "@/lib/security";
+import { appendRateLimitHeaders, checkRateLimit, enforceSameOrigin, getClientIp, isSecurityError } from "@/lib/security";
 
 export async function POST(request: Request) {
-  const ip = getClientIp(request.headers);
-  const rateLimit = checkRateLimit(`checkout:${ip}`, 8, 60_000);
-
-  if (!rateLimit.ok) {
-    return NextResponse.json({ message: "Muitas tentativas de checkout." }, { status: 429 });
-  }
-
-  if (!isDatabaseConfigured()) {
-    return NextResponse.json(
-      {
-        message: `${databaseUnavailableMessage} Use o checkout canonico em /checkout quando a conexao com o banco estiver pronta.`
-      },
-      { status: 503 }
-    );
-  }
-
   try {
+    enforceSameOrigin(request);
+    const ip = getClientIp(request.headers);
+    const rateLimit = checkRateLimit(`checkout:${ip}`, 8, 60_000);
+
+    if (!rateLimit.ok) {
+      return appendRateLimitHeaders(NextResponse.json({ message: "Muitas tentativas de checkout." }, { status: 429 }), rateLimit);
+    }
+
+    if (!isDatabaseConfigured()) {
+      return appendRateLimitHeaders(
+        NextResponse.json(
+          {
+            message: `${databaseUnavailableMessage} Use o checkout canonico em /checkout quando a conexao com o banco estiver pronta.`
+          },
+          { status: 503 }
+        ),
+        rateLimit
+      );
+    }
+
     const body = await request.json();
     const product = await getStorefrontProductById(String(body.productId || ""), { fallbackToSeed: false });
 
@@ -40,8 +44,11 @@ export async function POST(request: Request) {
       return NextResponse.json(preference, { status: 400 });
     }
 
-    return NextResponse.json(preference);
+    return appendRateLimitHeaders(NextResponse.json(preference), rateLimit);
   } catch (error) {
+    if (isSecurityError(error)) {
+      return NextResponse.json({ message: error.message }, { status: error.status });
+    }
     return NextResponse.json(
       {
         message: isDatabaseRuntimeError(error)

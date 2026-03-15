@@ -75,7 +75,7 @@ export function ProductImageGallery({ product, compact = false, overlayClassName
             </span>
             <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/35 px-3 py-1 text-[11px] uppercase tracking-[0.18em] text-white/78">
               {activeItem.isPlaceholder ? <Sparkles className="h-3.5 w-3.5 text-amber-200" /> : <ImageIcon className="h-3.5 w-3.5 text-cyan-200" />}
-              {activeItem.isPlaceholder ? "Visual ilustrativo" : "Foto da peca"}
+              {activeItem.isPlaceholder ? "Visual da colecao" : "Foto da peca"}
             </span>
           </div>
           <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 bg-gradient-to-t from-black/80 via-black/35 to-transparent px-4 py-4">
@@ -118,7 +118,7 @@ export function ProductImageGallery({ product, compact = false, overlayClassName
           </div>
 
           <div className="rounded-[28px] border border-white/10 bg-black/20 p-4">
-            <p className="text-[11px] uppercase tracking-[0.18em] text-cyan-200/75">Leitura rapida</p>
+            <p className="text-[11px] uppercase tracking-[0.18em] text-cyan-200/75">Detalhes da peca</p>
             <h3 className="mt-2 text-lg font-semibold text-white">{product.name}</h3>
             <p className="mt-3 text-sm leading-7 text-white/64">{activeItem.caption}</p>
             <div className="mt-4 grid gap-2 text-sm text-white/62">
@@ -131,8 +131,8 @@ export function ProductImageGallery({ product, compact = false, overlayClassName
                 <strong className="text-white">{product.productionWindow}</strong>
               </div>
               <div className="flex items-center justify-between gap-3">
-                <span>Status da midia</span>
-                <strong className="text-white">{activeItem.isPlaceholder ? "Visual ilustrativo" : "Foto pronta"}</strong>
+                <span>Apresentacao</span>
+                <strong className="text-white">{activeItem.isPlaceholder ? "Visual da colecao" : "Foto pronta"}</strong>
               </div>
             </div>
           </div>
@@ -225,7 +225,7 @@ export function ProductImageGallery({ product, compact = false, overlayClassName
                 </div>
 
                 <div className="mt-auto rounded-[28px] border border-white/10 bg-black/20 p-4 text-sm text-white/64">
-                  A galeria continua bonita mesmo quando a foto final ainda nao entrou. O visual ilustrativo protege a experiencia da loja sem quebrar a compra.
+                  Quando a foto final ainda nao esta disponivel, a loja mantem uma apresentacao elegante da peca para voce comprar com mais clareza e confianca.
                 </div>
               </div>
             </div>

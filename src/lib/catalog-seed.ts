@@ -88,22 +88,22 @@ const curatedThemes: ThemeDefinition[] = [
     materials: ["PLA premium", "PLA silk sob consulta"],
     finishNotes: "Pode receber nome frontal, detalhes em cor contrastante e acabamento acetinado.",
     tags: ["hello kitty", "kawaii", "organizador", "presente criativo", "mesa fofa"],
-    publishedVariants: ["compact", "desk", "plus"],
+    publishedVariants: ["desk", "plus"],
     featuredVariants: ["desk", "plus"],
     variantNames: {
-      compact: "Organizador Hello Kitty Mini",
-      desk: "Organizador Hello Kitty Desk",
-      plus: "Estacao Hello Kitty Duo"
+      compact: "Organizador Hello Kitty Pocket",
+      desk: "Organizador Hello Kitty Atelier",
+      plus: "Estacao Hello Kitty Signature"
     },
     variantSubtitles: {
-      compact: "Versao enxuta para mesa pequena, com visual fofo e utilidade imediata.",
-      desk: "Equilibrio entre espaco, organizacao e presenca visual para uso diario.",
-      plus: "Leitura mais premium para presente, setup completo ou composicao com outros itens."
+      compact: "Versao compacta para lembranca fofa, nicho pequeno ou mesa delicada.",
+      desk: "Versao mais comercial para mesa, penteadeira ou kit de presente com presença visual.",
+      plus: "Leitura mais premium para presente especial, setup tematico ou composicao com outros itens."
     },
     variantBadges: {
-      compact: "Presente fofo",
+      compact: "Delicado",
       desk: "Mais pedido",
-      plus: "Setup favorito"
+      plus: "Presente premium"
     }
   },
   {
@@ -153,15 +153,15 @@ const curatedThemes: ThemeDefinition[] = [
     materials: ["PLA premium"],
     finishNotes: "Pode receber nome, número e acabamento envelhecido.",
     tags: ["one piece", "placa", "decor geek", "parede", "presente anime"],
-    publishedVariants: ["compact", "plus"],
+    publishedVariants: ["plus"],
     featuredVariants: ["plus"],
     variantNames: {
-      compact: "Placa Wanted One Piece Mini",
-      plus: "Placa Wanted One Piece Decor"
+      compact: "Placa Wanted One Piece Frame",
+      plus: "Quadro Wanted One Piece"
     },
     variantSubtitles: {
-      compact: "Formato ideal para bancada ou composicao com outros itens geek.",
-      plus: "Leitura de parede mais marcante para presentear ou montar um canto tematico."
+      compact: "Formato enxuto para bancada ou composicao com outros itens geek.",
+      plus: "Leitura de parede mais marcante para presentear ou montar um canto tematico com mais personalidade."
     },
     variantBadges: {
       compact: "Presente geek",
@@ -171,7 +171,7 @@ const curatedThemes: ThemeDefinition[] = [
   {
     category: "Setup & Organizacao",
     theme: "Suporte Controle Duplo",
-    collection: "Setup Organizado",
+    collection: "Setup com personalidade",
     merchandising: "Campeao de setup para quem quer mesa limpa e visual gamer mais arrumado.",
     description:
       "Suporte robusto para dois controles, com base estavel e desenho pensado para organizar sem pesar a mesa.",
@@ -202,7 +202,7 @@ const curatedThemes: ThemeDefinition[] = [
   {
     category: "Setup & Organizacao",
     theme: "Headset Dock Neon",
-    collection: "Setup Organizado",
+    collection: "Setup com personalidade",
     merchandising: "Peça que valoriza o setup em foto, video curto e uso diario.",
     description:
       "Dock para headset com linhas mais fluidas e leitura premium, pensado para setups RGB e mesas com identidade.",
@@ -280,15 +280,15 @@ const curatedThemes: ThemeDefinition[] = [
     materials: ["PLA premium"],
     finishNotes: "Pode receber brasão, iniciais ou base temática.",
     tags: ["rpg", "dice tower", "fantasia", "presente geek", "mesa de jogo"],
-    publishedVariants: ["compact", "plus"],
+    publishedVariants: ["plus"],
     featuredVariants: ["plus"],
     variantNames: {
       compact: "Dice Tower Mistica Compacta",
-      plus: "Dice Tower Mistica Signature"
+      plus: "Dice Tower Arcana"
     },
     variantSubtitles: {
       compact: "Versao de entrada para mesa pequena ou presente rapido.",
-      plus: "Mais presença e leitura de peça premium para quem ama RPG."
+      plus: "Mais presença e leitura de peça premium para quem ama RPG, fantasia e mesa bem montada."
     },
     variantBadges: {
       compact: "Nicho geek",
@@ -311,12 +311,12 @@ const curatedThemes: ThemeDefinition[] = [
     materials: ["PLA premium"],
     finishNotes: "Pode receber versão fosca, marmorizada ou kit com múltiplos tamanhos.",
     tags: ["vaso", "decoracao", "casa", "presente casa", "minimalista"],
-    publishedVariants: ["compact", "plus", "collector"],
+    publishedVariants: ["plus", "collector"],
     featuredVariants: ["plus"],
     variantNames: {
       compact: "Vaso Wave Mini",
       plus: "Vaso Wave Decor",
-      collector: "Vaso Wave Statement"
+      collector: "Vaso Wave Atelier"
     },
     variantSubtitles: {
       compact: "Peça delicada para mesa lateral, nicho ou kit de presente.",
@@ -380,7 +380,7 @@ const curatedThemes: ThemeDefinition[] = [
     featuredVariants: ["collector"],
     variantNames: {
       compact: "Mandala Orbit Decor",
-      collector: "Mandala Orbit Statement"
+      collector: "Mandala Orbit Signature"
     },
     variantSubtitles: {
       compact: "Boa para compor parede ou nicho com leitura leve e elegante.",
@@ -392,9 +392,9 @@ const curatedThemes: ThemeDefinition[] = [
     }
   },
   {
-    category: "Sob Encomenda",
+    category: "Personalizados",
     theme: "Placa Pix Premium",
-    collection: "Sob Encomenda",
+    collection: "Sob medida",
     merchandising: "Linha comercial de giro rapido, ideal para loja local e atendimento por Instagram.",
     description:
       "Placa Pix com presenca comercial limpa para balcão, recepcao, evento ou vitrine, pronta para elevar a percepcao do seu negocio.",
@@ -407,7 +407,7 @@ const curatedThemes: ThemeDefinition[] = [
     materials: ["PLA premium", "Acrilico via parceiro sob consulta"],
     finishNotes: "Recebe QR, logo, arroba e acabamento comercial sob medida.",
     tags: ["placa pix", "negocio", "balcao", "personalizado", "empresa"],
-    publishedVariants: ["compact", "plus", "collector"],
+    publishedVariants: ["compact", "collector"],
     featuredVariants: ["compact", "collector"],
     variantNames: {
       compact: "Placa Pix de Balcao",
@@ -422,13 +422,13 @@ const curatedThemes: ThemeDefinition[] = [
     variantBadges: {
       compact: "Giro rapido",
       plus: "Comercial",
-      collector: "Sob encomenda"
+      collector: "Sob medida"
     }
   },
   {
-    category: "Sob Encomenda",
+    category: "Personalizados",
     theme: "Nome 3D Signature",
-    collection: "Sob Encomenda",
+    collection: "Sob medida",
     merchandising: "Peça versatil para festa, quarto, escritorio e presente com alto valor percebido.",
     description:
       "Nome em 3D com visual limpo e leitura elegante para cenarios afetivos, decoracao, eventos e marca pessoal.",
@@ -441,16 +441,16 @@ const curatedThemes: ThemeDefinition[] = [
     materials: ["PLA premium", "PLA silk sob consulta"],
     finishNotes: "Totalmente personalizável em texto, cor e estilo de base.",
     tags: ["nome 3d", "presente", "decoracao", "festa", "personalizado"],
-    publishedVariants: ["compact", "desk", "collector"],
+    publishedVariants: ["desk", "collector"],
     featuredVariants: ["collector"],
     variantNames: {
       compact: "Nome 3D para Mesa",
-      desk: "Nome 3D para Nicho",
+      desk: "Nome 3D Decor",
       collector: "Nome 3D Signature"
     },
     variantSubtitles: {
       compact: "Formato simpatico para presente, lembranca ou mesa compacta.",
-      desk: "Equilibrio entre decoracao e presenca visual para nicho ou aparador.",
+      desk: "Equilibrio entre decoracao e presenca visual para nicho, aparador ou bancada.",
       collector: "Leitura premium para presente especial, evento ou quarto autoral."
     },
     variantBadges: {
@@ -503,8 +503,8 @@ function buildProductionWindow(hours: number) {
   return "2-4 dias";
 }
 
-function buildImagePath(slug: string) {
-  return `/catalog-assets/${slug}.webp`;
+function buildImagePath(productId: string) {
+  return `/catalog-assets/${productId}.webp`;
 }
 
 function createCatalog(): Product[] {
@@ -550,7 +550,7 @@ function createCatalog(): Product[] {
         productionWindow: buildProductionWindow(hours),
         imageHint: `${theme.theme} ${theme.category}`,
         imageQuery: `${theme.theme} ${theme.category} ${theme.collection} 3d print product`,
-        imagePath: buildImagePath(slug),
+        imagePath: buildImagePath(id),
         imageAlt: `${name} da MDH 3D`,
         imageStatus: "pending",
         sortOrder,
@@ -565,7 +565,7 @@ function createCatalog(): Product[] {
           finishHighlight: theme.finishHighlight,
           socialProof: theme.socialProof,
           giftable: theme.category !== "Setup & Organizacao",
-          readyForAds: theme.collection !== "Sob Encomenda"
+          readyForAds: theme.collection !== "Sob medida"
         }
       };
     })

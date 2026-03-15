@@ -73,7 +73,7 @@ export function DeliveryCalculator({ adminMode = false }: { adminMode?: boolean 
       <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Calcule seu frete aqui</p>
       <h2 className="mt-2 text-2xl font-black text-white">Entrega local no Rio de Janeiro</h2>
       <p className="mt-3 text-sm leading-7 text-white/60">
-        Informe seu CEP para receber uma estimativa inicial de frete normal e prazo. O valor final pode variar se a peça for muito volumosa.
+        Informe seu CEP para receber uma estimativa inicial de frete e prazo. Assim fica mais facil decidir com seguranca antes de concluir a compra.
       </p>
 
       <div className="mt-5 flex flex-col gap-3 sm:flex-row">
@@ -103,10 +103,10 @@ export function DeliveryCalculator({ adminMode = false }: { adminMode?: boolean 
           <div className="rounded-[24px] border border-cyan-400/20 bg-cyan-400/10 p-5">
             <p className="text-sm text-cyan-100/70">Frete normal estimado</p>
             <p className="mt-1 text-3xl font-black text-cyan-50">{formatCurrency(zone.fee)}</p>
-            <p className="mt-2 text-sm text-cyan-100/75">Prazo normal: {zone.eta}</p>
+            <p className="mt-2 text-sm text-cyan-100/75">Prazo estimado: {zone.eta}</p>
             <p className="mt-3 text-xs leading-6 text-cyan-100/70">
-              Produção e agenda de rota podem ajustar o prazo para 1, 2 ou 3 dias úteis no checkout.
-              {adminMode ? ` Expresso interno sugerido: ${formatCurrency(zone.fee * 2)}.` : " Expresso disponível sob consulta."}
+              O valor final e confirmado antes do fechamento do pedido, especialmente em pecas maiores ou compras com personalizacao.
+              {adminMode ? ` Sugestao de expresso interno: ${formatCurrency(zone.fee * 2)}.` : " Se voce precisar de mais agilidade, consulte disponibilidade para entrega expressa."}
             </p>
           </div>
         </div>

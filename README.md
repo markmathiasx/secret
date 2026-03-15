@@ -14,7 +14,7 @@ Loja operacional da **MDH 3D** em **Next 15 + PostgreSQL/Supabase + Drizzle**, p
 ## O que já existe
 
 - home de conversão premium
-- catálogo curado com 48 SKUs
+- catálogo curado com 23 SKUs publicados
 - quick view, carrinho persistente e checkout guest
 - criação real de cliente, endereço, pedido, itens, pagamento e timeline
 - painel privado em `/admin`
@@ -25,6 +25,7 @@ Loja operacional da **MDH 3D** em **Next 15 + PostgreSQL/Supabase + Drizzle**, p
 - importador automático de imagens com Openverse/Wikimedia + placeholder premium
 - healthcheck em `/api/health`
 - instrumentação pronta para GA4 + analytics interno em banco
+- hub editorial em `/guias` para crescimento orgânico
 
 ## Variáveis de ambiente
 
@@ -38,6 +39,9 @@ ADMIN_EMAIL=
 ADMIN_PASSWORD_HASH=
 ADMIN_SESSION_SECRET=
 CUSTOMER_SESSION_SECRET=
+ADMIN_SESSION_TTL_DAYS=14
+CUSTOMER_SESSION_TTL_DAYS=30
+FIELD_ENCRYPTION_KEY=
 
 MERCADOPAGO_ACCESS_TOKEN=
 MERCADOPAGO_WEBHOOK_SECRET=
@@ -49,6 +53,7 @@ PIX_RECEIVER_CITY=
 NEXT_PUBLIC_WHATSAPP_NUMBER=5521920137249
 NEXT_PUBLIC_INSTAGRAM_URL=https://www.instagram.com/mdh_impressao3d/
 NEXT_PUBLIC_GA_MEASUREMENT_ID=
+GOOGLE_SITE_VERIFICATION=
 
 NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_ANON_KEY=
@@ -83,6 +88,29 @@ Para conta do cliente, o padrão canônico agora é:
 Se `CUSTOMER_SESSION_SECRET` ainda não existir no ambiente local, o runtime consegue derivar um fallback a partir de `ADMIN_SESSION_SECRET` para não travar a rodada. Mesmo assim, em deploy o recomendado é configurar `CUSTOMER_SESSION_SECRET` explicitamente.
 
 O painel `/admin` depende de sessão persistida em banco. Se a `DATABASE_URL` estiver indisponível, o login admin falha de forma explícita em vez de aceitar cookie sem persistência.
+
+## Seguranca operacional
+
+- senhas de admin e cliente usam `bcrypt` com custo `12`
+- cookies de sessao usam `HttpOnly`, `SameSite=Strict` e `Secure` em HTTPS
+- logins e checkout possuem rate limit e bloqueio progressivo de tentativa
+- campos sensiveis de cliente e endereco podem ser criptografados em repouso com `FIELD_ENCRYPTION_KEY`
+- pedidos podem ser sinalizados para revisao manual por risco
+- logs de auditoria registram acoes criticas com mascara de dados
+- nunca armazenamos numero completo de cartao nem CVV
+
+Para um deploy serio, configure explicitamente:
+
+- `FIELD_ENCRYPTION_KEY`
+- `ADMIN_SESSION_SECRET`
+- `CUSTOMER_SESSION_SECRET`
+- `ADMIN_PASSWORD_HASH`
+
+Se o hash de admin foi gerado antes da migracao para `bcrypt`, gere um novo com:
+
+```powershell
+npm run admin:hash -- sua-senha-forte
+```
 
 ## Bootstrap local
 
@@ -145,8 +173,11 @@ Passos:
 6. Se `MERCADOPAGO_ACCESS_TOKEN` não estiver configurado, a loja segue vendendo com Pix + WhatsApp e o cartão fica desabilitado no checkout.
 7. Rodar `npm run doctor` depois do deploy para confirmar env, imagens e conexão.
 8. Se quiser telemetria externa, preencher `NEXT_PUBLIC_GA_MEASUREMENT_ID`; sem isso, o tracking interno continua funcionando de forma silenciosa.
-9. Login social por Supabase pode continuar como camada opcional futura, mas o fluxo principal do cliente agora e email + senha da propria loja.
-10. Nenhuma rota crítica de amanhã depende de `localStorage`, mock em memória ou seed mutável para pedido, pagamento, sessão admin ou status.
+9. Para Google Search Console, preencha `GOOGLE_SITE_VERIFICATION` e envie o `sitemap.xml` publicado.
+10. Login social por Supabase pode continuar como camada opcional futura, mas o fluxo principal do cliente agora e email + senha da propria loja.
+11. Nenhuma rota crítica de amanhã depende de `localStorage`, mock em memória ou seed mutável para pedido, pagamento, sessão admin ou status.
+12. Em Supabase, mantenha backups automaticos habilitados e registre um procedimento simples de restauracao por snapshot antes de grandes mudancas de schema.
+13. Guarde `FIELD_ENCRYPTION_KEY` e segredos de sessao em cofre de segredos da Vercel; nao versionar nem reciclar entre ambientes.
 
 ## Troubleshooting de deploy na Vercel
 

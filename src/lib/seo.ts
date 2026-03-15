@@ -1,11 +1,24 @@
+import type { Metadata } from "next";
 import type { Product } from "@/lib/catalog";
 import { brand, socialLinks, supportEmail, whatsappNumber } from "@/lib/constants";
 import { getProductUrl } from "@/lib/catalog";
-import { getProductGallerySources } from "@/lib/product-media";
+import { getProductGallerySources, getProductPrimaryMedia } from "@/lib/product-media";
 import { formatCurrency } from "@/lib/utils";
 
 export function getSiteUrl() {
-  return process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  const explicitUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+  const vercelUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL?.trim() || process.env.VERCEL_URL?.trim();
+
+  if (explicitUrl) {
+    return explicitUrl.replace(/\/+$/, "");
+  }
+
+  if (vercelUrl) {
+    const normalized = vercelUrl.replace(/^https?:\/\//i, "").replace(/\/+$/, "");
+    return `https://${normalized}`;
+  }
+
+  return "http://localhost:3000";
 }
 
 export function getAbsoluteUrl(path = "") {
@@ -14,14 +27,48 @@ export function getAbsoluteUrl(path = "") {
   return `${getSiteUrl()}${path.startsWith("/") ? path : `/${path}`}`;
 }
 
+export function buildPageMetadata(input: {
+  title: string;
+  description: string;
+  path: string;
+  imageAlt?: string;
+  type?: "website" | "article";
+}): Metadata {
+  const canonical = getAbsoluteUrl(input.path);
+  const imageAlt = input.imageAlt || input.title;
+
+  return {
+    title: input.title,
+    description: input.description,
+    alternates: {
+      canonical
+    },
+    openGraph: {
+      title: input.title,
+      description: input.description,
+      url: canonical,
+      type: input.type || "website",
+      images: [{ url: getAbsoluteUrl("/logo-mdh.jpg"), alt: imageAlt }]
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: input.title,
+      description: input.description,
+      images: [getAbsoluteUrl("/logo-mdh.jpg")]
+    }
+  };
+}
+
 export function getOrganizationStructuredData() {
   return {
     "@context": "https://schema.org",
-    "@type": "Store",
+    "@type": "Organization",
     "@id": `${getSiteUrl()}#organization`,
     name: brand.name,
     legalName: brand.legalName,
     description: brand.slogan,
+    url: getSiteUrl(),
+    logo: getAbsoluteUrl("/logo-mdh.jpg"),
     email: supportEmail,
     telephone: `+${whatsappNumber}`,
     address: {
@@ -31,6 +78,13 @@ export function getOrganizationStructuredData() {
       addressCountry: "BR"
     },
     areaServed: "BR",
+    contactPoint: {
+      "@type": "ContactPoint",
+      telephone: `+${whatsappNumber}`,
+      contactType: "customer support",
+      areaServed: "BR",
+      availableLanguage: ["pt-BR"]
+    },
     sameAs: [socialLinks.instagram, socialLinks.facebook].filter((item) => Boolean(item && item !== "#"))
   };
 }
@@ -63,13 +117,19 @@ export function getStoreStructuredData() {
         contactType: "customer support"
       }
     },
+    parentOrganization: {
+      "@id": `${getSiteUrl()}#organization`
+    },
     hasMerchantReturnPolicy: getReturnPolicyStructuredData()
   };
 }
 
 export function getShippingStructuredData() {
   return {
+    "@id": `${getSiteUrl()}/entregas#shipping-policy`,
     "@type": "OfferShippingDetails",
+    shippingSettingsLink: `${getSiteUrl()}/entregas`,
+    doesNotShip: false,
     shippingRate: {
       "@type": "MonetaryAmount",
       currency: "BRL",
@@ -99,12 +159,28 @@ export function getShippingStructuredData() {
 
 export function getReturnPolicyStructuredData() {
   return {
+    "@id": `${getSiteUrl()}/trocas-e-devolucoes#return-policy`,
     "@type": "MerchantReturnPolicy",
+    url: `${getSiteUrl()}/trocas-e-devolucoes`,
     applicableCountry: "BR",
     returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnWindow",
     merchantReturnDays: 7,
     returnMethod: "https://schema.org/ReturnByMail",
     returnFees: "https://schema.org/FreeReturn"
+  };
+}
+
+export function getShippingPolicyStructuredData() {
+  return {
+    "@context": "https://schema.org",
+    ...getShippingStructuredData()
+  };
+}
+
+export function getReturnPolicyPageStructuredData() {
+  return {
+    "@context": "https://schema.org",
+    ...getReturnPolicyStructuredData()
   };
 }
 
@@ -123,7 +199,22 @@ export function getWebsiteStructuredData() {
   };
 }
 
-export function getBreadcrumbStructuredData(items: Array<{ name: string; item: string }>) {
+export function getFaqStructuredData(items: ReadonlyArray<{ q: string; a: string }>) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((item) => ({
+      "@type": "Question",
+      name: item.q,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.a
+      }
+    }))
+  };
+}
+
+export function getBreadcrumbStructuredData(items: ReadonlyArray<{ name: string; item: string }>) {
   return {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -175,6 +266,9 @@ export function getProductStructuredData(product: Product) {
     .map((asset) => getAbsoluteUrl(asset.src))
     .filter((url) => !url.startsWith("data:"));
   const safeImageUrls = imageUrls.length ? imageUrls : [getAbsoluteUrl("/logo-mdh.jpg")];
+  const ratingValue = Number(product.metadata.ratingValue);
+  const reviewCount = Number(product.metadata.reviewCount);
+  const primaryMedia = getProductPrimaryMedia(product);
 
   return {
     "@context": "https://schema.org",
@@ -186,6 +280,10 @@ export function getProductStructuredData(product: Product) {
     image: safeImageUrls,
     description: product.description,
     category: product.category,
+    audience: {
+      "@type": "Audience",
+      audienceType: product.category
+    },
     brand: {
       "@type": "Brand",
       "@id": `${getSiteUrl()}#organization`,
@@ -238,6 +336,20 @@ export function getProductStructuredData(product: Product) {
         name: "Tema",
         value: product.theme
       }
-    ]
+    ],
+    ...(ratingValue > 0 && reviewCount > 0
+      ? {
+          aggregateRating: {
+            "@type": "AggregateRating",
+            ratingValue: ratingValue.toFixed(1),
+            reviewCount
+          }
+        }
+      : {}),
+    subjectOf: {
+      "@type": "ImageObject",
+      contentUrl: getAbsoluteUrl(primaryMedia.src),
+      caption: primaryMedia.caption
+    }
   };
 }

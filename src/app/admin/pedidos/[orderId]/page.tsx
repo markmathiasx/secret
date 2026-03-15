@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AdminShell } from "@/components/admin-shell";
+import { buttonFamilies } from "@/components/ui/buttons";
 import { requireAdminSession } from "@/lib/admin-auth";
 import { getOrderDetail } from "@/lib/order-service";
 import {
@@ -60,6 +61,8 @@ export default async function AdminOrderDetailPage({ params, searchParams }: Ord
         ? "Nao foi possivel atualizar os dados de pagamento."
         : query.error === "note-create-failed"
           ? "Nao foi possivel registrar a nota interna."
+          : query.error === "forbidden"
+            ? "A acao foi bloqueada pela camada de seguranca da sessao."
           : "";
 
   return (
@@ -82,18 +85,18 @@ export default async function AdminOrderDetailPage({ params, searchParams }: Ord
         <div className="space-y-6">
           <section className="rounded-[32px] border border-white/10 bg-white/5 p-6">
             <div className="mb-6 flex flex-wrap gap-3">
-              <Link href="/admin/pedidos" className="rounded-full border border-white/10 bg-black/20 px-4 py-2 text-sm font-semibold text-white/80">
+              <Link href="/admin/pedidos" className={buttonFamilies.tertiary}>
                 Voltar para a fila
               </Link>
               <a
                 href={customerWhatsappHref}
                 target="_blank"
                 rel="noreferrer"
-                className="rounded-full border border-emerald-400/25 bg-emerald-400/12 px-4 py-2 text-sm font-semibold text-emerald-100"
+                className={buttonFamilies.primaryPix}
               >
                 Chamar cliente no WhatsApp
               </a>
-              <Link href={`/acompanhar-pedido?order=${detail.order.orderNumber}`} className="rounded-full border border-white/10 bg-black/20 px-4 py-2 text-sm font-semibold text-white/80">
+              <Link href={`/acompanhar-pedido?order=${detail.order.orderNumber}`} className={buttonFamilies.tertiary}>
                 Ver consulta publica
               </Link>
             </div>
@@ -142,6 +145,28 @@ export default async function AdminOrderDetailPage({ params, searchParams }: Ord
               ))}
             </div>
 
+            {detail.order.reviewRequired ? (
+              <div className="mt-6 rounded-[24px] border border-amber-300/25 bg-amber-300/12 p-4">
+                <p className="text-xs uppercase tracking-[0.18em] text-amber-100/80">Risco e revisao</p>
+                <p className="mt-2 text-sm leading-7 text-amber-50">
+                  Este pedido foi sinalizado para revisao manual com score {detail.order.riskScore}.
+                  {detail.order.reviewNote ? ` ${detail.order.reviewNote}` : ""}
+                </p>
+                {detail.order.riskSignals.length ? (
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {detail.order.riskSignals.map((signal) => (
+                      <span
+                        key={signal}
+                        className="rounded-full border border-amber-200/20 bg-black/20 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-amber-100/80"
+                      >
+                        {signal}
+                      </span>
+                    ))}
+                  </div>
+                ) : null}
+              </div>
+            ) : null}
+
             <div className="mt-6 rounded-[24px] border border-white/10 bg-black/20 p-4">
               <p className="text-xs uppercase tracking-[0.18em] text-white/45">Itens</p>
               <div className="mt-4 space-y-3">
@@ -188,14 +213,14 @@ export default async function AdminOrderDetailPage({ params, searchParams }: Ord
               <form action={`/api/admin/orders/${detail.order.id}/status`} method="post">
                 <input type="hidden" name="redirectTo" value={`/admin/pedidos/${detail.order.id}`} />
                 <input type="hidden" name="nextStatus" value="in_production" />
-                <button className="w-full rounded-full border border-white/10 bg-black/20 px-4 py-2 text-sm font-semibold text-white/80">
+                <button className={`${buttonFamilies.tertiary} w-full`}>
                   Marcar em producao
                 </button>
               </form>
               <form action={`/api/admin/orders/${detail.order.id}/status`} method="post">
                 <input type="hidden" name="redirectTo" value={`/admin/pedidos/${detail.order.id}`} />
                 <input type="hidden" name="nextStatus" value="completed" />
-                <button className="w-full rounded-full border border-white/10 bg-black/20 px-4 py-2 text-sm font-semibold text-white/80">
+                <button className={`${buttonFamilies.tertiary} w-full`}>
                   Marcar finalizado
                 </button>
               </form>
@@ -212,7 +237,7 @@ export default async function AdminOrderDetailPage({ params, searchParams }: Ord
                   ))}
                 </select>
               </label>
-              <button className="w-full rounded-full border border-cyan-400/25 bg-cyan-400/12 px-5 py-3 text-sm font-semibold text-cyan-100">
+              <button className={`${buttonFamilies.secondary} w-full`}>
                 Salvar operação
               </button>
             </form>
@@ -255,7 +280,7 @@ export default async function AdminOrderDetailPage({ params, searchParams }: Ord
                 <span className="mb-2 block">Observação</span>
                 <textarea name="verificationNote" defaultValue={detail.payments[0]?.verificationNote || ""} className="min-h-28 w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none" />
               </label>
-              <button className="w-full rounded-full border border-emerald-400/25 bg-emerald-400/12 px-5 py-3 text-sm font-semibold text-emerald-100">
+              <button className={`${buttonFamilies.primaryPix} w-full`}>
                 Salvar pagamento
               </button>
             </form>
@@ -263,7 +288,7 @@ export default async function AdminOrderDetailPage({ params, searchParams }: Ord
               <input type="hidden" name="redirectTo" value={`/admin/pedidos/${detail.order.id}`} />
               <input type="hidden" name="status" value="paid" />
               <input type="hidden" name="verificationNote" value="Pagamento confirmado manualmente pelo painel." />
-              <button className="w-full rounded-full border border-white/10 bg-black/20 px-5 py-3 text-sm font-semibold text-white/80">
+              <button className={`${buttonFamilies.tertiary} w-full`}>
                 Confirmar pagamento manualmente
               </button>
             </form>
@@ -279,7 +304,7 @@ export default async function AdminOrderDetailPage({ params, searchParams }: Ord
                 placeholder="Adicione contexto de produção, atendimento ou conferência."
                 className="min-h-32 w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none"
               />
-              <button className="w-full rounded-full border border-white/10 bg-black/20 px-5 py-3 text-sm font-semibold text-white/80">
+              <button className={`${buttonFamilies.tertiary} w-full`}>
                 Registrar nota
               </button>
             </form>

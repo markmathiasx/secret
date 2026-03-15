@@ -1,11 +1,35 @@
 import Link from "next/link";
-import { operationalStatusLabels, paymentStatusLabels, sourceChannelLabels, type SourceChannelId } from "@/lib/commerce";
+import {
+  contactPreferenceLabels,
+  operationalStatusLabels,
+  paymentStatusLabels,
+  sourceChannelLabels,
+  type ContactPreference,
+  type SourceChannelId
+} from "@/lib/commerce";
 import { formatCurrency } from "@/lib/utils";
 
 type CustomerAccountPageProps = {
   customerName: string;
   email: string;
-  linkedCustomerName?: string | null;
+  customerProfile?: {
+    fullName: string;
+    whatsapp: string;
+    contactPreference: ContactPreference;
+    notes?: string | null;
+  } | null;
+  addresses: Array<{
+    id: string;
+    postalCode: string;
+    street: string;
+    number: string;
+    complement: string | null;
+    reference: string | null;
+    neighborhood: string;
+    city: string;
+    state: string;
+    createdAt: Date;
+  }>;
   orders: Array<{
     order: {
       id: string;
@@ -32,20 +56,23 @@ function formatPlacedAt(date: Date) {
 export function CustomerAccountPage({
   customerName,
   email,
-  linkedCustomerName,
+  customerProfile,
+  addresses,
   orders
 }: CustomerAccountPageProps) {
+  const firstName = customerName.trim().split(/\s+/)[0] || customerName;
+
   return (
     <section className="mx-auto max-w-6xl px-6 py-16">
       <div className="grid gap-6 xl:grid-cols-[0.8fr_1.2fr]">
         <aside className="section-shell rounded-[36px] p-6">
           <p className="text-xs uppercase tracking-[0.22em] text-cyan-200">Conta MDH 3D</p>
-          <h1 className="mt-3 text-4xl font-black text-white">Sua conta está ativa</h1>
+          <h1 className="mt-3 text-4xl font-black text-white">Ola, {firstName}</h1>
           <p className="mt-3 text-sm leading-7 text-white/62">
-            Use esta area para voltar ao catalogo, acompanhar pedidos ligados ao seu cadastro e sair com seguranca quando quiser.
+            Use esta area para revisar seus dados, acompanhar pedidos ligados ao seu cadastro e sair com seguranca quando quiser.
           </p>
 
-          <div className="mt-6 space-y-3 rounded-[28px] border border-white/10 bg-black/20 p-5">
+          <div className="premium-card mt-6 space-y-3 rounded-[28px] bg-black/20 p-5">
             <div>
               <p className="text-[11px] uppercase tracking-[0.18em] text-white/45">Nome da conta</p>
               <p className="mt-2 text-lg font-semibold text-white">{customerName}</p>
@@ -56,27 +83,61 @@ export function CustomerAccountPage({
             </div>
             <div>
               <p className="text-[11px] uppercase tracking-[0.18em] text-white/45">Cliente vinculado</p>
-              <p className="mt-2 text-white/78">{linkedCustomerName || "Vai aparecer assim que um pedido for ligado a esta conta."}</p>
+              <p className="mt-2 text-white/78">
+                {customerProfile?.fullName || "Vai aparecer assim que um pedido for ligado a esta conta."}
+              </p>
+            </div>
+          </div>
+
+          <div className="premium-card mt-6 space-y-3 rounded-[28px] bg-black/20 p-5">
+            <div>
+              <p className="text-[11px] uppercase tracking-[0.18em] text-white/45">WhatsApp principal</p>
+              <p className="mt-2 text-white/78">{customerProfile?.whatsapp || "Vai aparecer no primeiro pedido ligado a esta conta."}</p>
+            </div>
+            <div>
+              <p className="text-[11px] uppercase tracking-[0.18em] text-white/45">Contato preferido</p>
+              <p className="mt-2 text-white/78">
+                {customerProfile?.contactPreference
+                  ? contactPreferenceLabels[customerProfile.contactPreference]
+                  : "Definido no checkout quando houver pedido vinculado"}
+              </p>
+            </div>
+            {customerProfile?.notes ? (
+              <div>
+                <p className="text-[11px] uppercase tracking-[0.18em] text-white/45">Observacoes salvas</p>
+                <p className="mt-2 text-sm leading-7 text-white/62">{customerProfile.notes}</p>
+              </div>
+            ) : null}
+          </div>
+
+          <div className="premium-card mt-6 grid gap-3 rounded-[28px] bg-black/20 p-5 sm:grid-cols-2">
+            <div>
+              <p className="text-[11px] uppercase tracking-[0.18em] text-white/45">Pedidos recentes</p>
+              <p className="mt-2 text-2xl font-black text-white">{orders.length}</p>
+            </div>
+            <div>
+              <p className="text-[11px] uppercase tracking-[0.18em] text-white/45">Endereços salvos</p>
+              <p className="mt-2 text-2xl font-black text-white">{addresses.length}</p>
             </div>
           </div>
 
           <div className="mt-6 grid gap-3">
             <Link
               href="/catalogo"
-              className="inline-flex items-center justify-center rounded-full border border-cyan-400/25 bg-cyan-400/12 px-5 py-3 text-sm font-semibold text-cyan-100"
+              className="premium-btn premium-btn-primary"
             >
               Voltar para a loja
             </Link>
             <Link
               href="/acompanhar-pedido"
-              className="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm font-semibold text-white/78"
+              className="premium-btn premium-btn-secondary"
             >
               Acompanhar pedido por numero
             </Link>
             <form action="/api/auth/logout" method="post">
               <button
                 type="submit"
-                className="inline-flex w-full items-center justify-center rounded-full border border-white/10 bg-black/20 px-5 py-3 text-sm font-semibold text-white/72"
+                className="premium-btn premium-btn-ghost inline-flex w-full items-center justify-center text-white/72"
               >
                 Sair da conta
               </button>
@@ -84,13 +145,52 @@ export function CustomerAccountPage({
           </div>
         </aside>
 
-        <div className="section-shell rounded-[36px] p-6">
+        <div className="space-y-6">
+          <div className="section-shell rounded-[36px] p-6">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <p className="text-xs uppercase tracking-[0.22em] text-cyan-200">Enderecos salvos</p>
+                <h2 className="mt-2 text-3xl font-black text-white">Base da sua conta</h2>
+              </div>
+              <span className="premium-badge premium-badge-neutral text-xs">
+                {addresses.length} endereco(s)
+              </span>
+            </div>
+
+            {addresses.length ? (
+              <div className="mt-6 grid gap-3 md:grid-cols-2">
+                {addresses.map((address) => (
+                  <article key={address.id} className="premium-card rounded-[28px] bg-black/20 p-5">
+                    <p className="text-[11px] uppercase tracking-[0.18em] text-cyan-200/75">Entrega cadastrada</p>
+                    <h3 className="mt-2 text-lg font-semibold text-white">
+                      {address.street}, {address.number}
+                    </h3>
+                    <p className="mt-2 text-sm leading-7 text-white/58">
+                      {address.complement ? `${address.complement} • ` : ""}
+                      {address.neighborhood} • {address.city}/{address.state}
+                    </p>
+                    <p className="mt-2 text-sm text-white/45">CEP {address.postalCode}</p>
+                    {address.reference ? <p className="mt-2 text-sm text-white/45">Referencia: {address.reference}</p> : null}
+                  </article>
+                ))}
+              </div>
+            ) : (
+              <div className="premium-card mt-6 rounded-[28px] border-dashed bg-black/20 p-6">
+                <p className="text-lg font-semibold text-white">Nenhum endereco salvo ainda</p>
+                <p className="mt-3 text-sm leading-7 text-white/58">
+                  Assim que voce fechar um pedido com esta conta, o endereco usado entra aqui para agilizar suas proximas compras.
+                </p>
+              </div>
+            )}
+          </div>
+
+          <div className="section-shell rounded-[36px] p-6">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
               <p className="text-xs uppercase tracking-[0.22em] text-cyan-200">Pedidos ligados a esta conta</p>
               <h2 className="mt-2 text-3xl font-black text-white">Historico recente</h2>
             </div>
-            <span className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs uppercase tracking-[0.18em] text-white/50">
+            <span className="premium-badge premium-badge-neutral text-xs">
               {orders.length} pedido(s)
             </span>
           </div>
@@ -98,7 +198,7 @@ export function CustomerAccountPage({
           {orders.length ? (
             <div className="mt-6 space-y-3">
               {orders.map((entry) => (
-                <article key={entry.order.id} className="rounded-[28px] border border-white/10 bg-black/20 p-5">
+                <article key={entry.order.id} className="premium-card rounded-[28px] bg-black/20 p-5">
                   <div className="flex flex-wrap items-start justify-between gap-4">
                     <div>
                       <p className="text-[11px] uppercase tracking-[0.18em] text-cyan-200/75">
@@ -115,10 +215,10 @@ export function CustomerAccountPage({
                   </div>
 
                   <div className="mt-4 flex flex-wrap gap-2">
-                    <span className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs text-white/72">
+                    <span className="premium-badge premium-badge-neutral px-3 py-2 text-xs normal-case tracking-[0.04em]">
                       {operationalStatusLabels[entry.order.operationalStatus]}
                     </span>
-                    <span className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs text-white/72">
+                    <span className="premium-badge premium-badge-neutral px-3 py-2 text-xs normal-case tracking-[0.04em]">
                       {paymentStatusLabels[entry.order.paymentStatus]}
                     </span>
                   </div>
@@ -126,13 +226,13 @@ export function CustomerAccountPage({
                   <div className="mt-4 flex flex-wrap gap-3">
                     <Link
                       href={`/acompanhar-pedido?order=${entry.order.orderNumber}`}
-                      className="rounded-full border border-cyan-400/25 bg-cyan-400/12 px-4 py-2 text-sm font-semibold text-cyan-100"
+                      className="premium-btn premium-btn-primary px-4 py-2 text-sm"
                     >
                       Ver andamento
                     </Link>
                     <Link
                       href="/catalogo"
-                      className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white/75"
+                      className="premium-btn premium-btn-secondary px-4 py-2 text-sm"
                     >
                       Comprar de novo
                     </Link>
@@ -141,13 +241,14 @@ export function CustomerAccountPage({
               ))}
             </div>
           ) : (
-            <div className="mt-6 rounded-[28px] border border-dashed border-white/10 bg-black/20 p-6">
+            <div className="premium-card mt-6 rounded-[28px] border-dashed bg-black/20 p-6">
               <p className="text-lg font-semibold text-white">Nenhum pedido ligado ainda</p>
               <p className="mt-3 text-sm leading-7 text-white/58">
                 Assim que voce finalizar um pedido com esta conta ou com o mesmo e-mail, o historico aparece aqui para facilitar recompras e acompanhamento.
               </p>
             </div>
           )}
+          </div>
         </div>
       </div>
     </section>

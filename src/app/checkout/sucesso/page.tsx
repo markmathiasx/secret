@@ -1,4 +1,13 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Pedido registrado",
+  robots: {
+    index: false,
+    follow: false
+  }
+};
 
 type CheckoutSuccessPageProps = {
   searchParams: Promise<{ order?: string }>;
@@ -27,4 +36,3 @@ export default async function CheckoutSuccessPage({ searchParams }: CheckoutSucc
     </section>
   );
 }
-

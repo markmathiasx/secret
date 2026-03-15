@@ -1,12 +1,39 @@
 import Link from "next/link";
+import { buttonFamilies } from "@/components/ui/buttons";
 import { ProductMediaImage } from "@/components/product-media-image";
 import type { Product } from "@/lib/catalog";
 import { formatCurrency } from "@/lib/utils";
 import { getProductUrl } from "@/lib/catalog";
+import { FavoriteButton } from "@/components/favorite-button";
+
+const badgeByIndex = ["Foto real", "Sob encomenda", "Personalizável", "Mais vendido", "Pronta entrega"];
 
 export function CatalogGrid({ products }: { products: Product[] }) {
   return (
     <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
       {products.map((product) => (
         <article key={product.id} className="group overflow-hidden rounded-[30px] border border-white/10 bg-card transition hover:-translate-y-1 hover:border-cyan-300/30">
           <div className="relative overflow-hidden">
@@ -22,9 +49,83 @@ export function CatalogGrid({ products }: { products: Product[] }) {
               <span className="rounded-full border border-cyan-400/20 bg-cyan-400/12 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-cyan-100">
                 {product.productionWindow}
               </span>
+=======
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+      {products.map((product, index) => (
+        <article key={product.id} className="group rounded-[28px] border border-white/10 bg-card p-5 transition hover:-translate-y-1 hover:border-cyan-300/30">
+          <div className="relative">
+            <ProductVisual product={product} compact />
+            <div className="absolute right-3 top-3">
+              <FavoriteButton productId={product.id} />
             </div>
           </div>
 
+          <div className="mt-4 flex items-start justify-between gap-3">
+            <div>
+              <p className="text-xs uppercase tracking-[0.2em] text-cyan-200/80">{product.category}</p>
+              <h3 className="mt-2 text-lg font-semibold text-white">{product.name}</h3>
+>>>>>>> theirs
+            </div>
+          </div>
+
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
           <div className="space-y-4 p-5">
             <div className="flex items-start justify-between gap-3">
               <div>
@@ -54,10 +155,224 @@ export function CatalogGrid({ products }: { products: Product[] }) {
             </div>
 
             <div className="flex items-center justify-between gap-3">
-              <p className="text-xs text-white/45">Pix em destaque, prazo visivel e cara de presente ou decor.</p>
-              <Link href={getProductUrl(product)} className="rounded-full border border-cyan-400/25 bg-cyan-400/10 px-4 py-2 text-sm font-semibold text-cyan-100 transition hover:border-cyan-300/50 hover:bg-cyan-300/15">
+              <p className="text-xs text-white/45">Pix em destaque, prazo visivel e uma selecao que mistura presente, decor e utilidade.</p>
+              <Link href={getProductUrl(product)} className={buttonFamilies.secondary}>
                 Ver produto
               </Link>
+=======
+          <div className="mt-3 flex flex-wrap gap-2">
+            <span className="rounded-full border border-violet-300/25 bg-violet-400/10 px-2 py-1 text-[11px] text-violet-100">{badgeByIndex[index % badgeByIndex.length]}</span>
+            <span className="rounded-full border border-white/15 bg-black/30 px-2 py-1 text-[11px] text-white/75">Material PLA Premium</span>
+          </div>
+
+<<<<<<< ours
+=======
+          <div className="mt-3 flex flex-wrap gap-2">
+            <span className="rounded-full border border-violet-300/25 bg-violet-400/10 px-2 py-1 text-[11px] text-violet-100">{badgeByIndex[index % badgeByIndex.length]}</span>
+            <span className="rounded-full border border-white/15 bg-black/30 px-2 py-1 text-[11px] text-white/75">Material PLA Premium</span>
+          </div>
+
+<<<<<<< ours
+>>>>>>> theirs
+=======
+          <div className="mt-3 flex flex-wrap gap-2">
+            <span className="rounded-full border border-violet-300/25 bg-violet-400/10 px-2 py-1 text-[11px] text-violet-100">{badgeByIndex[index % badgeByIndex.length]}</span>
+            <span className="rounded-full border border-white/15 bg-black/30 px-2 py-1 text-[11px] text-white/75">Material PLA Premium</span>
+          </div>
+
+<<<<<<< ours
+>>>>>>> theirs
+=======
+          <div className="mt-3 flex flex-wrap gap-2">
+            <span className="rounded-full border border-violet-300/25 bg-violet-400/10 px-2 py-1 text-[11px] text-violet-100">{badgeByIndex[index % badgeByIndex.length]}</span>
+            <span className="rounded-full border border-white/15 bg-black/30 px-2 py-1 text-[11px] text-white/75">Material PLA Premium</span>
+          </div>
+
+<<<<<<< ours
+>>>>>>> theirs
+=======
+          <div className="mt-3 flex flex-wrap gap-2">
+            <span className="rounded-full border border-violet-300/25 bg-violet-400/10 px-2 py-1 text-[11px] text-violet-100">{badgeByIndex[index % badgeByIndex.length]}</span>
+            <span className="rounded-full border border-white/15 bg-black/30 px-2 py-1 text-[11px] text-white/75">Material PLA Premium</span>
+          </div>
+
+<<<<<<< ours
+>>>>>>> theirs
+=======
+          <div className="mt-3 flex flex-wrap gap-2">
+            <span className="rounded-full border border-violet-300/25 bg-violet-400/10 px-2 py-1 text-[11px] text-violet-100">{badgeByIndex[index % badgeByIndex.length]}</span>
+            <span className="rounded-full border border-white/15 bg-black/30 px-2 py-1 text-[11px] text-white/75">Material PLA Premium</span>
+          </div>
+
+<<<<<<< ours
+>>>>>>> theirs
+=======
+          <div className="mt-3 flex flex-wrap gap-2">
+            <span className="rounded-full border border-violet-300/25 bg-violet-400/10 px-2 py-1 text-[11px] text-violet-100">{badgeByIndex[index % badgeByIndex.length]}</span>
+            <span className="rounded-full border border-white/15 bg-black/30 px-2 py-1 text-[11px] text-white/75">Material PLA Premium</span>
+          </div>
+
+<<<<<<< ours
+>>>>>>> theirs
+=======
+          <div className="mt-3 flex flex-wrap gap-2">
+            <span className="rounded-full border border-violet-300/25 bg-violet-400/10 px-2 py-1 text-[11px] text-violet-100">{badgeByIndex[index % badgeByIndex.length]}</span>
+            <span className="rounded-full border border-white/15 bg-black/30 px-2 py-1 text-[11px] text-white/75">Material PLA Premium</span>
+          </div>
+
+<<<<<<< ours
+>>>>>>> theirs
+=======
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+          <div className="mt-3 flex flex-wrap gap-2">
+            <span className="rounded-full border border-violet-300/25 bg-violet-400/10 px-2 py-1 text-[11px] text-violet-100">{badgeByIndex[index % badgeByIndex.length]}</span>
+            <span className="rounded-full border border-white/15 bg-black/30 px-2 py-1 text-[11px] text-white/75">Material PLA Premium</span>
+          </div>
+
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+          <p className="mt-4 text-sm leading-6 text-white/68 line-clamp-3">{product.description}</p>
+
+          <div className="mt-5 flex items-end justify-between gap-3">
+            <div>
+              <p className="text-xs text-white/45">A partir de</p>
+              <p className="text-2xl font-bold text-white">{formatCurrency(product.pricePix)}</p>
+              <p className="text-xs text-white/50">Prazo {product.productionWindow}</p>
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
             </div>
           </div>
         </article>

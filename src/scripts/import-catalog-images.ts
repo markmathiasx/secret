@@ -195,7 +195,7 @@ async function readPreviousReport(reportPath: string) {
   try {
     const raw = await readFile(reportPath, "utf8");
     const parsed = JSON.parse(raw) as { items?: ImageReportEntry[] };
-    return new Map((parsed.items || []).map((item) => [item.slug, item]));
+    return new Map((parsed.items || []).map((item) => [item.productId || item.slug, item]));
   } catch {
     return new Map<string, ImageReportEntry>();
   }
@@ -217,13 +217,13 @@ async function main() {
   };
 
   for (const product of catalog) {
-    const outputPath = resolve(assetsDir, `${product.slug}.webp`);
-    const localPath = `/catalog-assets/${product.slug}.webp`;
+    const outputPath = resolve(assetsDir, `${product.id}.webp`);
+    const localPath = `/catalog-assets/${product.id}.webp`;
     let provider = "placeholder";
     let sourceUrl = "";
     let status: "imported" | "placeholder" | "failed" = "placeholder";
     let query = product.imageQuery;
-    const previous = previousReport.get(product.slug);
+    const previous = previousReport.get(product.id) || previousReport.get(product.slug);
     const shouldRetry = refresh || !existsSync(outputPath) || previous?.status === "placeholder" || previous?.status === "failed";
 
     if (shouldRetry) {
