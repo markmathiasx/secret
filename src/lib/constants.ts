@@ -4,7 +4,7 @@ export const brand = {
   city: "Rio de Janeiro",
   state: "RJ",
   slogan: "Impressão 3D premium para decoração, utilidades, anime, geek e personalizados",
-  instagramHandle: process.env.NEXT_PUBLIC_BRAND_INSTAGRAM_HANDLE || "mdh___021"
+  instagramHandle: process.env.NEXT_PUBLIC_BRAND_INSTAGRAM_HANDLE || "mdh_impressao3d"
 };
 
 function parseList(value?: string) {
