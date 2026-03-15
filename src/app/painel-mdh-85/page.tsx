@@ -5,6 +5,7 @@ import { adminConfig, supportEmail } from "@/lib/constants";
 const checklist = [
   "Trocar ADMIN_PASSWORD e ADMIN_SESSION_TOKEN no .env.local antes de publicar.",
   "Validar mídia institucional da home e seção de produção.",
+  "Subir vídeos reais em biblioteca local de mídia para a home.",
   "Cadastrar suas peças campeãs com fotos próprias.",
   "Conectar WhatsApp Cloud API e testar webhook.",
   "Ativar domínio próprio e SSL via Vercel + Cloudflare."

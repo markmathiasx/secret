@@ -1,18 +1,30 @@
+import Link from "next/link";
 import { DeliveryCalculator } from "@/components/delivery-calculator";
-import { deliveryZones } from "@/lib/constants";
+import { deliveryZones, whatsappMessage, whatsappNumber } from "@/lib/constants";
 import { formatCurrency } from "@/lib/utils";
 import { DeliveryMap } from "@/components/delivery-map";
 
+const bullets = ["Produção própria no RJ", "Rotas locais com prazo confirmado", "Acompanhamento pelo WhatsApp", "Atendimento para urgências"]; 
+
 export default function Page() {
+  const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+
   return (
     <section className="mx-auto max-w-6xl px-6 py-16">
-      <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Institucional</p>
-      <h1 className="mt-3 text-4xl font-black text-white">Frete e prazo</h1>
+      <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Entrega MDH 3D</p>
+      <h1 className="mt-3 text-4xl font-black text-white">Frete local e prazos com previsibilidade no Rio de Janeiro</h1>
       <p className="mt-4 max-w-3xl text-base leading-8 text-white/72">
-        Operação inicial local no Rio de Janeiro, com entrega própria por moto ou carro. Aqui o cliente calcula o frete estimado por CEP e recebe prazo normal de 1 a 3 dias úteis.
+        Nossas entregas priorizam segurança da peça, confirmação de janela e comunicação ativa com o cliente durante o fluxo.
       </p>
 
       <div className="mt-8 grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+      <div className="mt-6 flex flex-wrap gap-2">
+        {bullets.map((item) => (
+          <span key={item} className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/75">{item}</span>
+        ))}
+      </div>
+
+      <div className="mt-8">
         <DeliveryCalculator />
         <DeliveryMap />
       </div>
@@ -22,9 +34,14 @@ export default function Page() {
           <div key={zone.region} className="rounded-[28px] border border-white/10 bg-white/5 p-5">
             <p className="text-sm font-semibold text-white">{zone.region}</p>
             <p className="mt-2 text-2xl font-black text-cyan-100">{formatCurrency(zone.fee)}</p>
-            <p className="mt-2 text-sm text-white/60">Prazo normal: {zone.eta}</p>
+            <p className="mt-2 text-sm text-white/60">Prazo estimado: {zone.eta}</p>
           </div>
         ))}
+      </div>
+
+      <div className="mt-8 flex flex-wrap gap-3">
+        <a href={whatsappHref} className="rounded-full border border-emerald-300/35 bg-emerald-400/15 px-5 py-3 text-sm font-semibold text-emerald-100">Confirmar entrega no WhatsApp</a>
+        <Link href="/catalogo" className="rounded-full border border-white/15 bg-white/5 px-5 py-3 text-sm font-semibold text-white">Voltar ao catálogo</Link>
       </div>
     </section>
   );

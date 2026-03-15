@@ -37,6 +37,7 @@ export const pix = {
 
 export const socialLinks = {
   instagram: process.env.NEXT_PUBLIC_INSTAGRAM_URL || `https://www.instagram.com/${brand.instagramHandle}`,
+  tiktok: process.env.NEXT_PUBLIC_TIKTOK_URL || "#",
   facebook: process.env.NEXT_PUBLIC_FACEBOOK_URL || "#"
 };
 
@@ -77,4 +78,10 @@ export const homepageCollections = [
   "Casa",
   "Escritorio",
   "Personalizados"
+  "Mais vendidos",
+  "Anime e Geek",
+  "Utilidades e Organização",
+  "Personalizados",
+  "Presentes e Decoração",
+  "Peças para setup e escritório"
 ] as const;

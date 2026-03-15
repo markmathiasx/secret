@@ -16,5 +16,9 @@ export async function POST(request: Request) {
   }
 
   const payload = makePixPayload({ description: parsed.data.title, amount: parsed.data.amount });
+  const payload = makePixPayload({
+  description: parsed.data.title || "Pagamento MDH 3D",
+  amount: parsed.data.amount,
+});
   return NextResponse.json({ ok: true, payload });
 }

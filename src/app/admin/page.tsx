@@ -18,6 +18,7 @@ export default function AdminHome() {
         <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-white/65">
           <li>Definir ADMIN_PASSWORD</li>
           <li>Validar mídia institucional da vitrine</li>
+          <li>Adicionar mídia real em biblioteca local de mídia</li>
           <li>Ativar login social (Supabase) quando quiser</li>
           <li>Revisar preços e zonas de entrega</li>
         </ul>
