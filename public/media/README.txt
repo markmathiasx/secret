@@ -1,4 +1,4 @@
-Coloque seus videos aqui para a home trocar os placeholders automaticamente.
+Biblioteca local de videos para a vitrine da MDH 3D.
 
 Formatos suportados:
 - .mp4

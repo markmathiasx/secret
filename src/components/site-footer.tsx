@@ -7,12 +7,36 @@ function isConfigured(url?: string) {
 
 export function SiteFooter() {
   return (
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
     <footer className="mt-16 border-t border-white/10 bg-black/25 backdrop-blur">
+=======
+    <footer className="mt-12 border-t border-white/10 bg-black/30 backdrop-blur">
+>>>>>>> theirs
+=======
+    <footer className="mt-12 border-t border-white/10 bg-black/30 backdrop-blur">
+>>>>>>> theirs
+=======
+    <footer className="mt-12 border-t border-white/10 bg-black/30 backdrop-blur">
+>>>>>>> theirs
+=======
+    <footer className="mt-12 border-t border-white/10 bg-black/30 backdrop-blur">
+>>>>>>> theirs
       <div className="mx-auto grid max-w-7xl gap-8 px-6 py-12 md:grid-cols-2 xl:grid-cols-4">
         <div>
           <h3 className="text-lg font-semibold text-white">{brand.name}</h3>
+<<<<<<< ours
           <p className="mt-3 text-sm leading-7 text-white/65">{brand.slogan}</p>
           <p className="mt-3 text-sm text-white/45">Operacao local no Rio de Janeiro com atendimento comercial direto.</p>
+=======
+          <p className="mt-2 text-sm text-white/65">{brand.slogan}</p>
+          <p className="mt-3 text-sm text-white/45">Produção local e entrega no Rio de Janeiro - RJ</p>
+<<<<<<< ours
+>>>>>>> theirs
+=======
+>>>>>>> theirs
         </div>
 
         <div>
@@ -27,6 +51,7 @@ export function SiteFooter() {
         </div>
 
         <div>
+<<<<<<< ours
           <h4 className="text-sm font-semibold uppercase tracking-[0.18em] text-white/55">Atendimento</h4>
           <div className="mt-3 flex flex-col gap-2 text-sm text-white/72">
             {whatsappContacts.map((contact) => (
@@ -34,17 +59,39 @@ export function SiteFooter() {
                 {contact.label}: +{contact.number}
               </span>
             ))}
+=======
+          <h4 className="text-sm font-semibold uppercase tracking-[0.18em] text-white/60">Atendimento</h4>
+          <div className="mt-3 flex flex-col gap-2 text-sm text-white/70">
+            <span>WhatsApp com atendimento humano</span>
+<<<<<<< ours
+>>>>>>> theirs
+=======
+>>>>>>> theirs
             <span>E-mail: {supportEmail}</span>
             <span>Instagram: @{brand.instagramHandle}</span>
           </div>
         </div>
 
         <div>
+<<<<<<< ours
+<<<<<<< ours
           <h4 className="text-sm font-semibold uppercase tracking-[0.18em] text-white/55">Comercio e seguranca</h4>
           <div className="mt-3 flex flex-col gap-2 text-sm text-white/72">
             <span>Pix, cartao e boleto</span>
             <span>Fluxo pronto para vitrine propria e marketplaces</span>
             <span>Confirmacao no app com CPF final {pix.cpfSuffix}</span>
+=======
+=======
+>>>>>>> theirs
+          <h4 className="text-sm font-semibold uppercase tracking-[0.18em] text-white/60">Pagamento e segurança</h4>
+          <div className="mt-3 flex flex-col gap-2 text-sm text-white/70">
+            <span>Pix, cartão e boleto</span>
+            <span>Checkout com QR Code e código copia e cola</span>
+            <span className="text-white/55">Confirmação no app: CPF final {pix.cpfSuffix}</span>
+<<<<<<< ours
+>>>>>>> theirs
+=======
+>>>>>>> theirs
           </div>
         </div>
       </div>
@@ -56,6 +103,7 @@ export function SiteFooter() {
           </span>
 
           <div className="flex gap-4">
+<<<<<<< ours
             {isConfigured(socialLinks.instagram) ? (
               <a className="hover:text-white" href={socialLinks.instagram} target="_blank" rel="noreferrer">
                 Instagram
@@ -71,6 +119,11 @@ export function SiteFooter() {
                 Facebook
               </a>
             ) : null}
+=======
+            <a className="hover:text-white" href={socialLinks.instagram} target="_blank" rel="noreferrer">Instagram</a>
+            <a className="hover:text-white" href={socialLinks.tiktok} target="_blank" rel="noreferrer">TikTok</a>
+            <a className="hover:text-white" href={socialLinks.facebook} target="_blank" rel="noreferrer">Facebook</a>
+>>>>>>> theirs
           </div>
         </div>
       </div>

@@ -4,6 +4,8 @@ export const brand = {
   city: "Rio de Janeiro",
   state: "RJ",
   slogan: "Impressao 3D premium para anime, geek, decoracao, utilitarios e personalizados",
+  description:
+    "Impressao 3D premium no Rio de Janeiro com pecas para presentes, setup, decoracao, utilitarios e projetos personalizados.",
   instagramHandle: process.env.NEXT_PUBLIC_BRAND_INSTAGRAM_HANDLE || "mdh___021"
 };
 
@@ -37,8 +39,8 @@ export const pix = {
 
 export const socialLinks = {
   instagram: process.env.NEXT_PUBLIC_INSTAGRAM_URL || `https://www.instagram.com/${brand.instagramHandle}`,
-  tiktok: process.env.NEXT_PUBLIC_TIKTOK_URL || "",
-  facebook: process.env.NEXT_PUBLIC_FACEBOOK_URL || ""
+  tiktok: process.env.NEXT_PUBLIC_TIKTOK_URL || "#",
+  facebook: process.env.NEXT_PUBLIC_FACEBOOK_URL || "#"
 };
 
 export const adminConfig = {
@@ -72,13 +74,57 @@ export const deliveryZones = [
 ] as const;
 
 export const homepageCollections = [
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
   "Anime",
   "Geek",
   "Utilitarios",
   "Personalizados",
   "Decoracao",
   "Escritorio"
+=======
+=======
+>>>>>>> theirs
+  "Mais vendidos",
+  "Anime e Geek",
+  "Utilidades e Organização",
+  "Personalizados",
+  "Presentes e Decoração",
+  "Peças para setup e escritório"
+<<<<<<< ours
+>>>>>>> theirs
+=======
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+  "Anime",
+  "Geek",
+  "Utilidades",
+  "Casa",
+  "Escritorio",
+  "Personalizados"
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
 ] as const;
+
+export const homepageCategories = homepageCollections;
 
 export const catalogCollections = [
   "Mais vendidos",
@@ -102,6 +148,16 @@ export const materialHighlights = [
     title: "Acabamento tecnico",
     text: "Preparacao, remocao de suportes e revisao visual antes de liberar cada pedido para entrega."
   }
+] as const;
+
+export const materialsShowcase = materialHighlights;
+
+export const finishShowcase = [
+  "Fosco premium",
+  "Textura tecnica",
+  "Silk acetinado",
+  "Camada fina para detalhe",
+  "Personalizacao de cor"
 ] as const;
 
 export const trustHighlights = [
@@ -129,3 +185,34 @@ export const faqHighlights = [
     answer: "Clientes logados veem um painel pessoal com atalhos, historico e espaco para favoritos e pedidos."
   }
 ] as const;
+
+export const faqItems = faqHighlights.map((item) => ({
+  q: item.question,
+  a: item.answer
+}));
+
+export const footerLinks = [
+  { href: "/catalogo", label: "Catalogo" },
+  { href: "/entregas", label: "Frete e prazo" },
+  { href: "/faq", label: "FAQ" },
+  { href: "/politica-de-privacidade", label: "Politica de privacidade" },
+  { href: "/termos", label: "Termos de uso" },
+  { href: "/trocas-e-devolucoes", label: "Trocas e devolucoes" }
+] as const;
+
+const commercialCategoryMap: Record<string, string> = {
+  Anime: "Anime",
+  Geek: "Geek",
+  Games: "Geek",
+  Utilitarios: "Utilitarios",
+  Casa: "Utilitarios",
+  Oficina: "Utilitarios",
+  Personalizados: "Personalizados",
+  Decoracao: "Decoracao",
+  Escritorio: "Escritorio",
+  Pets: "Personalizados"
+};
+
+export function getCommercialCategory(category: string) {
+  return commercialCategoryMap[category] || category;
+}

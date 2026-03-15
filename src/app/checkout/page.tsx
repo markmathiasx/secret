@@ -18,6 +18,14 @@ const statusMap = {
   }
 } as const;
 
+<<<<<<< ours
+<<<<<<< ours
+export const dynamic = "force-dynamic";
+
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
 export default async function CheckoutPage({
   searchParams
 }: {

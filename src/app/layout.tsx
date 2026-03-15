@@ -1,57 +1,265 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { SiteHeader } from "@/components/site-header";
-import { SiteFooter } from "@/components/site-footer";
-import { WhatsAppFloat } from "@/components/whatsapp-float";
 import { PwaRegister } from "@/components/pwa-register";
 import { SiteAssistant } from "@/components/site-assistant";
+import { SiteFooter } from "@/components/site-footer";
+import { SiteHeader } from "@/components/site-header";
+import { WhatsAppFloat } from "@/components/whatsapp-float";
 import { brand, socialLinks, supportEmail, whatsappNumber } from "@/lib/constants";
 import { getSiteUrl } from "@/lib/env";
 
 const siteUrl = getSiteUrl();
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://mdh-3d.vercel.app";
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://mdh-3d.vercel.app";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
     default: "MDH 3D | Impressao 3D premium no Rio de Janeiro",
+=======
+    default: "MDH 3D | Loja de impressões 3D no Rio de Janeiro",
+>>>>>>> theirs
+=======
+    default: "MDH 3D | Loja de impressões 3D no Rio de Janeiro",
+>>>>>>> theirs
     template: "%s | MDH 3D"
   },
   description:
-    "Loja de impressao 3D premium no Rio de Janeiro com pecas anime, geek, utilitarios, decoracao, escritorio e personalizados sob encomenda.",
+<<<<<<< ours
+    "Impressao 3D premium no Rio de Janeiro com pecas anime, geek, decoracao, escritorio, utilitarios e personalizados sob encomenda.",
+=======
+    "Loja de projetos impressos em 3D com foco em anime, gamer, decoração, utilidades, personalizados e entrega local no Rio de Janeiro.",
+  metadataBase: new URL(siteUrl),
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
   applicationName: "MDH 3D",
   alternates: { canonical: "/" },
+<<<<<<< ours
+<<<<<<< ours
   openGraph: {
-    type: "website",
-    locale: "pt_BR",
-    url: siteUrl,
-    siteName: "MDH 3D",
     title: "MDH 3D | Impressao 3D premium no Rio de Janeiro",
     description:
-      "Catalogo comercial com pecas 3D para decoracao, presentes, setup, utilitarios e personalizados, com entrega local no RJ.",
-    images: [{ url: "/logo-mdh.jpg", width: 1200, height: 900, alt: "MDH 3D" }]
+      "Catalogo comercial de impressao 3D com atendimento local no RJ, acabamento premium e fluxo pronto para site e marketplaces.",
+    url: siteUrl,
+    siteName: "MDH 3D",
+    locale: "pt_BR",
+    type: "website",
+    images: [
+      {
+        url: "/backgrounds/hero-printer-fallback.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Bastidores da producao MDH 3D"
+      }
+    ]
   },
   twitter: {
     card: "summary_large_image",
     title: "MDH 3D | Impressao 3D premium",
-    description: "Pecas sob encomenda com operacao propria, atendimento humano e entrega local no Rio de Janeiro.",
-    images: ["/logo-mdh.jpg"]
+    description: "Pecas 3D sob medida com entrega local no Rio de Janeiro.",
+    images: ["/backgrounds/hero-printer-fallback.jpg"]
+=======
+=======
+>>>>>>> theirs
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "MDH 3D"
+>>>>>>> theirs
   },
+  category: "ecommerce",
+  keywords: [
+    "impressao 3d",
+    "rio de janeiro",
+    "presentes personalizados",
+    "pecas geek",
+    "decoracao 3d",
+    "catalogo 3d"
+  ],
+  authors: [{ name: brand.legalName }],
+  creator: brand.name,
+  publisher: brand.name,
   icons: {
-    icon: [
-      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
-      { url: "/icon-512.png", sizes: "512x512", type: "image/png" }
-    ],
+    icon: [{ url: "/icon-192.png", sizes: "192x192", type: "image/png" }],
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }]
+  },
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+  other: {
+    "contact:email": supportEmail,
+    "contact:phone_number": whatsappNumber,
+    "social:instagram": socialLinks.instagram || ""
   }
 };
 
-const structuredData = {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+=======
+    default: "MDH 3D | Storefront premium de impressão 3D",
+    template: "%s | MDH 3D"
+  },
+  description: "Loja premium de impressão 3D no Rio de Janeiro com peças geek, personalizadas e utilitárias sob encomenda.",
+  applicationName: "MDH 3D",
+  alternates: { canonical: "/" },
+=======
+  alternates: {
+    canonical: "/"
+  },
+>>>>>>> theirs
+=======
+  alternates: {
+    canonical: "/"
+  },
+>>>>>>> theirs
+=======
+  alternates: {
+    canonical: "/"
+  },
+>>>>>>> theirs
+=======
+  alternates: {
+    canonical: "/"
+  },
+>>>>>>> theirs
+  openGraph: {
+    type: "website",
+<<<<<<< ours
+<<<<<<< ours
+=======
+    default: "MDH 3D | Storefront premium de impressão 3D",
+    template: "%s | MDH 3D"
+  },
+  description: "Loja premium de impressão 3D no Rio de Janeiro com peças geek, personalizadas e utilitárias sob encomenda.",
+  applicationName: "MDH 3D",
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+>>>>>>> theirs
+    siteName: "MDH 3D",
+    title: "MDH 3D | Storefront premium de impressão 3D",
+    description: "Peças 3D premium com catálogo comercial, orçamento rápido e atendimento via WhatsApp.",
+    url: siteUrl,
+    locale: "pt_BR",
+    images: [{ url: "/logo-mdh.jpg", width: 1200, height: 630, alt: "MDH 3D" }]
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "MDH 3D | Impressão 3D premium",
+    description: "Catálogo comercial com peças geek, organização e personalizados.",
+<<<<<<< ours
+=======
+=======
+>>>>>>> theirs
+    locale: "pt_BR",
+    url: siteUrl,
+    siteName: "MDH 3D",
+    title: "MDH 3D",
+    description: "Impressões 3D sob encomenda com site próprio, WhatsApp e pagamentos digitais.",
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+    images: [{ url: "/logo-mdh.jpg", width: 1200, height: 900, alt: "Logo MDH 3D" }]
+=======
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+    url: siteUrl,
+    siteName: "MDH 3D",
+    locale: "pt_BR",
+    type: "website",
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+=======
+=======
+=======
+    images: ["/logo-mdh.jpg"]
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "MDH 3D",
+    description: "Impressões 3D sob encomenda com entrega local no Rio de Janeiro.",
+>>>>>>> theirs
+    images: ["/logo-mdh.jpg"]
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "MDH 3D",
+    description: "Impressões 3D sob encomenda com entrega local no Rio de Janeiro.",
+>>>>>>> theirs
+    images: ["/logo-mdh.jpg"]
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "MDH 3D",
+    description: "Impressões 3D sob encomenda com entrega local no Rio de Janeiro.",
+>>>>>>> theirs
+    images: ["/logo-mdh.jpg"]
+>>>>>>> theirs
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "MDH 3D",
+<<<<<<< ours
+    description: "Impressões 3D sob encomenda com atendimento rápido e frete local no RJ.",
+<<<<<<< ours
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+    description: "Impressões 3D sob encomenda com entrega local no Rio de Janeiro.",
+>>>>>>> theirs
+    images: ["/logo-mdh.jpg"]
+  },
+=======
+    images: ["/logo-mdh.jpg"]
+  },
+>>>>>>> theirs
+  robots: { index: true, follow: true }
+};
+
+const organizationLd = {
   "@context": "https://schema.org",
   "@type": "Store",
   name: brand.name,
-  description: "Impressao 3D premium com producao propria, catalogo comercial e entrega local no Rio de Janeiro.",
   url: siteUrl,
-  image: `${siteUrl}/logo-mdh.jpg`,
   email: supportEmail,
   telephone: `+${whatsappNumber}`,
   address: {
@@ -60,28 +268,30 @@ const structuredData = {
     addressRegion: brand.state,
     addressCountry: "BR"
   },
-  areaServed: "Rio de Janeiro",
-  paymentAccepted: ["Pix", "Cartao", "Boleto"],
-  sameAs: [socialLinks.instagram, socialLinks.facebook, socialLinks.tiktok].filter(
-    (item) => Boolean(item && item !== "#")
-  )
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+  sameAs: [socialLinks.instagram, socialLinks.facebook, socialLinks.tiktok].filter((item) => Boolean(item && item !== "#"))
+=======
+  sameAs: [socialLinks.instagram, socialLinks.facebook].filter((item) => Boolean(item && item !== "#"))
+>>>>>>> theirs
+=======
+  sameAs: [socialLinks.instagram, socialLinks.facebook].filter((item) => Boolean(item && item !== "#"))
+>>>>>>> theirs
+=======
+  sameAs: [socialLinks.instagram, socialLinks.facebook, socialLinks.tiktok].filter((item) => Boolean(item && item !== "#"))
+>>>>>>> theirs
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+>>>>>>> theirs
   return (
     <html lang="pt-BR">
-      <body className="min-h-screen bg-base text-white antialiased">
-        <script
-          type="application/ld+json"
-          suppressHydrationWarning
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-        />
+      <body className="min-h-screen text-white antialiased">
         <PwaRegister />
-        <div className="relative flex min-h-screen flex-col">
-          <SiteHeader />
-          <main className="flex-1">{children}</main>
-          <SiteFooter />
-        </div>
+        <SiteHeader />
+        <main>{children}</main>
+        <SiteFooter />
         <SiteAssistant />
         <WhatsAppFloat />
       </body>

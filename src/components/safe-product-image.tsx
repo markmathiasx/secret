@@ -1,7 +1,23 @@
 "use client";
 
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
+=======
+import { useMemo, useState } from "react";
+>>>>>>> theirs
+=======
+import { useMemo, useState } from "react";
+>>>>>>> theirs
+=======
+import { useMemo, useState } from "react";
+>>>>>>> theirs
+=======
+import { useMemo, useState } from "react";
+>>>>>>> theirs
 import type { Product } from "@/lib/catalog";
 import { getProductImageCandidates, productPlaceholderSrc } from "@/lib/product-images";
 
@@ -10,6 +26,10 @@ type Props = {
   candidates?: string[];
   alt: string;
   className?: string;
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
   sizes?: string;
   priority?: boolean;
   onResolved?: (src: string) => void;
@@ -24,6 +44,27 @@ export function SafeProductImage({
   priority = false,
   onResolved
 }: Props) {
+=======
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+  onResolved?: (src: string) => void;
+};
+
+export function SafeProductImage({ product, candidates, alt, className, onResolved }: Props) {
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
   const candidateList = useMemo(() => {
     if (candidates?.length) return candidates;
     if (product) return getProductImageCandidates(product);
@@ -31,6 +72,10 @@ export function SafeProductImage({
   }, [candidates, product]);
 
   const [index, setIndex] = useState(0);
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
 
   useEffect(() => {
     setIndex(0);
@@ -47,6 +92,32 @@ export function SafeProductImage({
       sizes={sizes}
       priority={priority}
       className={className}
+=======
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+  const src = candidateList[index] || productPlaceholderSrc;
+
+  return (
+    <img
+      src={src}
+      alt={alt}
+      className={className}
+      loading="lazy"
+      decoding="async"
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
       onLoad={() => onResolved?.(src)}
       onError={() => setIndex((prev) => (prev < candidateList.length - 1 ? prev + 1 : prev))}
     />

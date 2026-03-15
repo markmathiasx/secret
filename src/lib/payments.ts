@@ -1,6 +1,7 @@
 import MercadoPagoConfig, { Preference } from "mercadopago";
 import { getSiteUrl } from "@/lib/env";
 import { formatCurrency } from "@/lib/utils";
+import { getSiteUrl } from "@/lib/env";
 
 export async function createMercadoPagoPreference(input: {
   title: string;
@@ -8,7 +9,26 @@ export async function createMercadoPagoPreference(input: {
   quantity?: number;
   externalReference: string;
 }) {
+<<<<<<< ours
+  const accessToken = process.env.MERCADOPAGO_ACCESS_TOKEN?.trim();
+=======
   const accessToken = process.env.MERCADOPAGO_ACCESS_TOKEN;
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
   const siteUrl = getSiteUrl();
 
   if (!accessToken) {
@@ -19,35 +39,44 @@ export async function createMercadoPagoPreference(input: {
     } as const;
   }
 
-  const client = new MercadoPagoConfig({ accessToken });
-  const preference = new Preference(client);
+  try {
+    const client = new MercadoPagoConfig({ accessToken });
+    const preference = new Preference(client);
 
-  const response = await preference.create({
-    body: {
-      external_reference: input.externalReference,
-      items: [
-        {
-          id: input.externalReference,
-          title: input.title,
-          quantity: input.quantity || 1,
-          currency_id: "BRL",
-          unit_price: input.unitPrice
-        }
-      ],
-      back_urls: {
-        success: `${siteUrl}/checkout?status=success`,
-        pending: `${siteUrl}/checkout?status=pending`,
-        failure: `${siteUrl}/checkout?status=failure`
-      },
-      auto_return: "approved",
-      notification_url: `${siteUrl}/api/webhooks/mercadopago`
-    }
-  });
+    const response = await preference.create({
+      body: {
+        external_reference: input.externalReference,
+        items: [
+          {
+            id: input.externalReference,
+            title: input.title,
+            quantity: input.quantity || 1,
+            currency_id: "BRL",
+            unit_price: input.unitPrice
+          }
+        ],
+        back_urls: {
+          success: `${siteUrl}/checkout?status=success`,
+          pending: `${siteUrl}/checkout?status=pending`,
+          failure: `${siteUrl}/checkout?status=failure`
+        },
+        auto_return: "approved",
+        notification_url: `${siteUrl}/api/webhooks/mercadopago`
+      }
+    });
 
-  return {
-    ok: true,
-    initPoint: response.init_point,
-    sandboxInitPoint: response.sandbox_init_point,
-    id: response.id
-  } as const;
+    return {
+      ok: true,
+      initPoint: response.init_point,
+      sandboxInitPoint: response.sandbox_init_point,
+      id: response.id
+    } as const;
+  } catch (error) {
+    return {
+      ok: false,
+      reason: "mercadopago_error",
+      fallbackMessage: `Nao foi possivel abrir o checkout agora. Continue por Pix ou WhatsApp. Valor estimado: ${formatCurrency(input.unitPrice)}.`,
+      details: error instanceof Error ? error.message : "Falha desconhecida no Mercado Pago."
+    } as const;
+  }
 }

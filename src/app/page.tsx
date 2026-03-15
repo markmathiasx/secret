@@ -1,63 +1,173 @@
+"use client";
+
 import Link from "next/link";
+<<<<<<< ours
+<<<<<<< ours
+=======
+=======
+>>>>>>> theirs
+import { useEffect, useMemo, useState } from "react";
+import { Hero } from "@/components/hero";
+>>>>>>> theirs
 import { CatalogGrid } from "@/components/catalog-grid";
 import { DeliveryCalculator } from "@/components/delivery-calculator";
 import { Hero } from "@/components/hero";
+import { HomeEntryGate } from "@/components/home-entry-gate";
 import { HomePersonalized } from "@/components/home-personalized";
 import { MediaStrip } from "@/components/media-strip";
 import { QuoteForm } from "@/components/quote-form";
-import { catalog, featuredCatalog } from "@/lib/catalog";
-import { getProductionVideoMedia } from "@/lib/media";
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+import { featuredCatalog } from "@/lib/catalog";
+<<<<<<< ours
+import {
+  faqItems,
+  finishShowcase,
+  homepageCategories,
+  materialsShowcase,
+  socialLinks,
+  trustHighlights,
+  whatsappMessage,
+  whatsappNumber
+} from "@/lib/constants";
+
+const categoryDescriptions: Record<(typeof homepageCategories)[number], string> = {
+  Anime: "Colecionaveis, luminarias, bustos e pecas de fandom com foco em presente e decoracao.",
+  Geek: "Suportes, itens de setup, colecao e vitrines para publico gamer e cultura pop.",
+  Utilitarios: "Pecas para organizar, resolver rotinas e melhorar uso diario em casa ou no trabalho.",
+  Personalizados: "Nomes, logos, brindes, placas e pecas sob medida para pessoas e marcas.",
+  Decoracao: "Vasos, esculturas, centros de mesa e composicoes para ambientes com assinatura visual.",
+  Escritorio: "Docks, suportes, bandejas e organizacao premium para mesa, estacao de trabalho e setup."
+};
+
+const channels = ["Venda direta no site", "Atendimento pelo WhatsApp", "Mercado Livre", "Shopee"];
+=======
+=======
+import { featuredCatalog } from "@/lib/catalog";
+>>>>>>> theirs
 import { homepageCollections, socialLinks, whatsappMessage, whatsappNumber } from "@/lib/constants";
+import { supabaseBrowser } from "@/lib/supabase/browser";
+
+const sectionCards = [
+  { title: "Sob encomenda", text: "Projetos com briefing completo de material, escala e acabamento para peças únicas." },
+  { title: "Personalizados", text: "Nomes, logos, brindes e itens especiais com foco em presente, setup e marca." },
+  { title: "Materiais e acabamentos", text: "PLA premium, controle de qualidade e revisão visual antes de liberar para entrega." },
+  { title: "Entrega local e prazos", text: "Operação no RJ com janela combinada e suporte direto no WhatsApp." }
+];
 
 const processSteps = [
-  {
-    title: "1. Briefing e validacao",
-    text: "Voce envia referencia, uso, cor e prazo. A MDH define viabilidade, acabamento e valor antes de produzir."
-  },
-  {
-    title: "2. Producao propria",
-    text: "A impressao acontece em equipamento calibrado, com acompanhamento tecnico e escolha de material conforme o objetivo da peca."
-  },
-  {
-    title: "3. Revisao e entrega",
-    text: "Cada item passa por limpeza, conferencia visual e orientacao de envio para chegar com cara de produto final, nao de prototipo."
-  }
+  { title: "1. Briefing e validação", text: "Você define referência, cor, uso e prazo. Nossa equipe confirma viabilidade e custo." },
+  { title: "2. Produção própria", text: "Impressão em equipamento calibrado, com monitoramento técnico e acabamento dedicado." },
+  { title: "3. Revisão e entrega", text: "Conferência final, embalagem segura e envio local com confirmação de recebimento." }
 ];
+<<<<<<< ours
+>>>>>>> theirs
+=======
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+import { DeliveryCalculator } from "@/components/delivery-calculator";
+import { catalog, featuredCatalog } from "@/lib/catalog";
+import { homepageCollections, whatsappMessage, whatsappNumber } from "@/lib/constants";
+import { HomeEntryGate } from "@/components/home-entry-gate";
+import { HomePersonalized } from "@/components/home-personalized";
 
-const trustBlocks = [
-  {
-    title: "Por que comprar da MDH 3D",
-    text: "Voce fala com quem produz, recebe prazo claro, opcoes de pagamento e uma vitrine que facilita a decisao de compra."
-  },
-  {
-    title: "Pronta entrega e sob encomenda",
-    text: "Separacao clara entre itens com saida rapida, projetos personalizaveis e pecas feitas sob briefing."
-  },
-  {
-    title: "Conteudo pensado para redes",
-    text: "A loja ja nasce pronta para alimentar Instagram, TikTok e portfolio visual com pecas que parecem compartilhaveis."
-  }
-];
+const curatedCategories = ["Anime", "Geek", "Utilidades", "Personalizados", "Escritorio", "Casa"] as const;
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
 
 export default function HomePage() {
   const bestSellers = featuredCatalog.slice(0, 8);
-  const readyToShip = catalog.filter((item) => item.grams <= 120).slice(0, 4);
-  const customProjects = catalog.filter((item) => item.category === "Personalizados" || item.category === "Oficina").slice(0, 4);
-  const processMedia = getProductionVideoMedia();
+  const formProduct = featuredCatalog[0];
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
   const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+=======
+=======
+>>>>>>> theirs
+  const [name, setName] = useState<string | null>(null);
+  const whatsappHref = useMemo(() => `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`, []);
+
+  useEffect(() => {
+    const client = supabaseBrowser;
+    if (!client) return;
+    client.auth.getUser().then(({ data }) => {
+      const label = data.user?.user_metadata?.full_name || data.user?.user_metadata?.name || data.user?.email?.split("@")[0] || null;
+      setName(label);
+
+      if (data.user?.id) {
+        client.from("profiles").upsert({ id: data.user.id, email: data.user.email, full_name: label }, { onConflict: "id" });
+      }
+    });
+  }, []);
+<<<<<<< ours
+>>>>>>> theirs
 
   return (
     <div className="pb-20">
+<<<<<<< ours
+<<<<<<< ours
+      <HomeEntryGate />
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+  const bestSellers = featuredCatalog.slice(0, 8);
+  const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+=======
+>>>>>>> theirs
+
+  return (
+    <div>
+      <HomeEntryGate />
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
       <Hero />
       <HomePersonalized />
 
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
       <section className="mx-auto max-w-7xl px-6 py-16 md:py-20">
         <div className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Curadoria MDH 3D</p>
-            <h2 className="mt-2 text-3xl font-bold text-white md:text-4xl">Mais vendidos com apelo real de conversao</h2>
-            <p className="mt-3 max-w-2xl text-sm leading-7 text-white/60">
-              Selecao com foco em clique, pedido por WhatsApp, pronta entrega, presentes e pecas personalizaveis.
+            <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Mais vendidos</p>
+            <h2 className="mt-2 text-3xl font-black text-white md:text-4xl">Selecao com maior saida para conversao rapida</h2>
+            <p className="mt-3 max-w-2xl text-sm leading-7 text-white/65 md:text-base">
+              Curadoria comercial para apresentar primeiro as pecas que ja performam bem em venda direta, social e marketplace.
             </p>
           </div>
           <Link
@@ -67,156 +177,578 @@ export default function HomePage() {
             Ver catalogo completo
           </Link>
         </div>
-
         <CatalogGrid products={bestSellers} />
       </section>
+=======
+      <Hero />
+      <HomePersonalized />
+>>>>>>> theirs
 
-      <section className="mx-auto max-w-7xl px-6 pb-12">
+<<<<<<< ours
+      <section className="mx-auto max-w-7xl px-6 py-16">
+        <div className="mb-8">
+          <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Categorias</p>
+          <h2 className="mt-2 text-3xl font-black text-white md:text-4xl">Colecoes pensadas para vender com clareza</h2>
+        </div>
+
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          {homepageCategories.map((item, index) => (
+            <article key={item} className="rounded-[28px] border border-white/10 bg-white/5 p-5">
+              <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">{String(index + 1).padStart(2, "0")}</p>
+              <h3 className="mt-3 text-2xl font-semibold text-white">{item}</h3>
+              <p className="mt-3 text-sm leading-7 text-white/65">{categoryDescriptions[item]}</p>
+            </article>
+=======
+=======
+>>>>>>> theirs
+      {name ? (
+        <section className="mx-auto max-w-7xl px-6 py-10">
+          <div className="rounded-[30px] border border-cyan-300/25 bg-cyan-400/10 p-6">
+            <p className="text-sm text-cyan-100">Bem-vindo de volta, {name}. Seus favoritos e solicitações ficam salvos para acelerar o próximo pedido.</p>
+            <div className="mt-4 flex flex-wrap gap-3">
+              <Link href="/conta#favoritos" className="rounded-full border border-cyan-300/30 bg-black/30 px-4 py-2 text-sm text-white">Favoritos</Link>
+              <Link href="/conta" className="rounded-full border border-cyan-300/30 bg-black/30 px-4 py-2 text-sm text-white">Minha conta</Link>
+            </div>
+          </div>
+        </section>
+      ) : null}
+
+      <section className="mx-auto max-w-7xl px-6 py-14">
+        <div className="mb-8 flex items-end justify-between gap-4">
+<<<<<<< ours
+          <div>
+            <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Mais vendidos</p>
+            <h2 className="mt-2 text-3xl font-bold text-white">Seleção com maior saída para conversão imediata</h2>
+=======
+=======
+>>>>>>> theirs
+      <section className="mx-auto max-w-7xl px-6 py-16 md:py-20">
+        <div className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+          <div>
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+            <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Coleções</p>
+            <h2 className="mt-2 text-3xl font-bold text-white md:text-4xl">Visual premium para uma loja de impressão 3D confiável</h2>
+            <p className="mt-3 max-w-2xl text-sm leading-7 text-white/60 md:text-base">
+              A homepage combina descoberta visual, blocos com hierarquia clara e cards consistentes para facilitar navegação, orçamento e fechamento.
+            </p>
+          </div>
+          <Link href="/catalogo" className="rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm font-semibold text-white transition hover:border-cyan-300/40 hover:bg-white/10">
+            Abrir os 1000 exemplos
+          </Link>
+=======
+          <div>
+            <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Mais vendidos</p>
+            <h2 className="mt-2 text-3xl font-bold text-white">Seleção com maior saída para conversão imediata</h2>
+          </div>
+          <Link href="/catalogo" className="rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm text-white">Ver catálogo</Link>
+>>>>>>> theirs
+        </div>
+        <CatalogGrid products={featuredCatalog.slice(0, 8)} />
+      </section>
+
+<<<<<<< ours
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {homepageCollections.map((item, index) => (
             <div key={item} className="rounded-[28px] border border-white/10 bg-white/5 p-5">
               <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">{String(index + 1).padStart(2, "0")}</p>
               <h3 className="mt-3 text-xl font-semibold text-white">{item}</h3>
-              <p className="mt-2 text-sm leading-6 text-white/60">
-                Categoria pensada para venda diaria, descoberta rapida e mensagem comercial mais clara.
-              </p>
+              <p className="mt-2 text-sm leading-6 text-white/60">Curadoria visual pensada para facilitar descoberta, clique e pedido por WhatsApp.</p>
+=======
+            <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Curadoria MDH 3D</p>
+            <h2 className="mt-2 text-3xl font-bold text-white">Mais vendidos e coleções com maior conversão</h2>
+            <p className="mt-3 max-w-2xl text-sm leading-7 text-white/65">
+              Seleção comercial para venda diária com foco em itens de alta procura, personalização e recompra.
+            </p>
+          </div>
+          <Link href="/catalogo" className="rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm font-semibold text-white">
+            Ver catálogo
+          </Link>
+        </div>
+
+        <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-6">
+          {homepageCollections.map((item, index) => (
+            <div key={item} className="rounded-[22px] border border-white/10 bg-white/5 p-4">
+              <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">0{index + 1}</p>
+              <h3 className="mt-2 text-lg font-semibold text-white">{item}</h3>
+>>>>>>> theirs
+=======
+            <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Curadoria MDH 3D</p>
+            <h2 className="mt-2 text-3xl font-bold text-white">Mais vendidos e coleções com maior conversão</h2>
+            <p className="mt-3 max-w-2xl text-sm leading-7 text-white/65">
+              Seleção comercial para venda diária com foco em itens de alta procura, personalização e recompra.
+            </p>
+          </div>
+          <Link href="/catalogo" className="rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm font-semibold text-white">
+            Ver catálogo
+          </Link>
+        </div>
+
+        <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-6">
+          {homepageCollections.map((item, index) => (
+            <div key={item} className="rounded-[22px] border border-white/10 bg-white/5 p-4">
+              <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">0{index + 1}</p>
+              <h3 className="mt-2 text-lg font-semibold text-white">{item}</h3>
+>>>>>>> theirs
+=======
+            <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Curadoria MDH 3D</p>
+            <h2 className="mt-2 text-3xl font-bold text-white">Mais vendidos e coleções com maior conversão</h2>
+            <p className="mt-3 max-w-2xl text-sm leading-7 text-white/65">
+              Seleção comercial para venda diária com foco em itens de alta procura, personalização e recompra.
+            </p>
+          </div>
+          <Link href="/catalogo" className="rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm font-semibold text-white">
+            Ver catálogo
+          </Link>
+        </div>
+
+        <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-6">
+          {homepageCollections.map((item, index) => (
+            <div key={item} className="rounded-[22px] border border-white/10 bg-white/5 p-4">
+              <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">0{index + 1}</p>
+              <h3 className="mt-2 text-lg font-semibold text-white">{item}</h3>
+>>>>>>> theirs
+=======
+            <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Curadoria MDH 3D</p>
+            <h2 className="mt-2 text-3xl font-bold text-white">Mais vendidos e coleções com maior conversão</h2>
+            <p className="mt-3 max-w-2xl text-sm leading-7 text-white/65">
+              Seleção comercial para venda diária com foco em itens de alta procura, personalização e recompra.
+            </p>
+          </div>
+          <Link href="/catalogo" className="rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm font-semibold text-white">
+            Ver catálogo
+          </Link>
+        </div>
+
+        <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-6">
+          {homepageCollections.map((item, index) => (
+            <div key={item} className="rounded-[22px] border border-white/10 bg-white/5 p-4">
+              <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">0{index + 1}</p>
+              <h3 className="mt-2 text-lg font-semibold text-white">{item}</h3>
+>>>>>>> theirs
             </div>
+=======
+      <section className="mx-auto max-w-7xl px-6 pb-14">
+        <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-6">
+          {homepageCollections.map((item) => (
+            <Link key={item} href="/catalogo" className="rounded-[22px] border border-white/10 bg-white/5 p-4 text-sm font-medium text-white/90 hover:border-cyan-300/30">
+              {item}
+            </Link>
+>>>>>>> theirs
           ))}
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 py-12 md:py-16">
-        <div className="grid gap-8 lg:grid-cols-2">
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+      <section className="mx-auto max-w-7xl px-6 py-16 md:py-20">
+        <div className="mb-8 flex items-end justify-between gap-4">
           <div>
-            <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Pronta entrega</p>
-            <h2 className="mt-2 text-3xl font-bold text-white">Itens leves, rapidos e com alta recompra</h2>
-            <p className="mt-3 text-sm leading-7 text-white/60">
-              Pecas para presente, setup, casa e utilidade com janela curta de producao e bom giro comercial.
+            <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Catálogo destaque</p>
+            <h2 className="mt-2 text-3xl font-bold text-white md:text-4xl">Produtos campeões para começar vendendo</h2>
+<<<<<<< ours
+>>>>>>> theirs
+=======
+      <section className="mx-auto max-w-7xl px-6 pb-14">
+        <div className="grid gap-6 lg:grid-cols-2">
+          <div className="rounded-[30px] border border-white/10 bg-white/5 p-6">
+            <h3 className="text-2xl font-bold text-white">Peças em alta</h3>
+            <p className="mt-3 text-sm leading-7 text-white/70">Modelos geek, itens para setup e personalizados seguem entre os mais compartilhados da semana.</p>
+            <div className="mt-5 flex gap-3">
+              <a href={socialLinks.instagram} target="_blank" rel="noreferrer" className="rounded-full border border-pink-300/30 bg-pink-400/10 px-4 py-2 text-xs font-semibold text-pink-100">Ver no Instagram</a>
+              <a href={socialLinks.tiktok} target="_blank" rel="noreferrer" className="rounded-full border border-violet-300/30 bg-violet-400/10 px-4 py-2 text-xs font-semibold text-violet-100">Ver no TikTok</a>
+            </div>
+          </div>
+          <div className="rounded-[30px] border border-white/10 bg-white/5 p-6">
+            <h3 className="text-2xl font-bold text-white">Conteúdo da semana</h3>
+            <p className="mt-3 text-sm leading-7 text-white/70">Bastidores da produção, acabamento e entrega para aumentar confiança de quem chega pelas redes.</p>
+            <a href={socialLinks.facebook} target="_blank" rel="noreferrer" className="mt-5 inline-flex rounded-full border border-blue-300/30 bg-blue-400/10 px-4 py-2 text-xs font-semibold text-blue-100">Acompanhar no Facebook</a>
+>>>>>>> theirs
+          </div>
+          <Link href="/catalogo" className="rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm text-white">Ver catálogo</Link>
+        </div>
+        <CatalogGrid products={featuredCatalog.slice(0, 8)} />
+      </section>
+
+      <section className="mx-auto max-w-7xl px-6 pb-14">
+        <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-6">
+          {homepageCollections.map((item) => (
+            <Link key={item} href="/catalogo" className="rounded-[22px] border border-white/10 bg-white/5 p-4 text-sm font-medium text-white/90 hover:border-cyan-300/30">
+              {item}
+            </Link>
+>>>>>>> theirs
+          ))}
+        </div>
+      </section>
+
+<<<<<<< ours
+<<<<<<< ours
+      <MediaStrip />
+
+<<<<<<< ours
+      <section className="mx-auto max-w-7xl px-6 py-16">
+        <div className="mb-8">
+          <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Materiais e acabamentos</p>
+          <h2 className="mt-2 text-3xl font-black text-white md:text-4xl">Escolha visual, resistencia e prazo sem adivinhacao</h2>
+        </div>
+
+        <div className="grid gap-5 lg:grid-cols-[1fr_0.92fr]">
+          <div className="grid gap-4">
+            {materialsShowcase.map((item) => (
+              <article key={item.title} className="rounded-[28px] border border-white/10 bg-white/5 p-5">
+                <h3 className="text-xl font-semibold text-white">{item.title}</h3>
+                <p className="mt-3 text-sm leading-7 text-white/65">{item.text}</p>
+              </article>
+            ))}
+          </div>
+
+          <div className="rounded-[30px] border border-white/10 bg-white/5 p-6">
+            <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Acabamentos em destaque</p>
+            <div className="mt-5 grid gap-3 sm:grid-cols-2">
+              {finishShowcase.map((finish) => (
+                <div key={finish} className="rounded-[22px] border border-white/10 bg-black/20 px-4 py-4 text-sm text-white/75">
+                  {finish}
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-6 rounded-[24px] border border-cyan-300/20 bg-cyan-400/10 p-5">
+              <p className="text-sm font-semibold text-white">Operacao multicanal</p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {channels.map((channel) => (
+                  <span key={channel} className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/75">
+                    {channel}
+                  </span>
+                ))}
+              </div>
+            </div>
+=======
+      <section className="mx-auto max-w-7xl px-6 pb-14">
+        <div className="grid gap-6 lg:grid-cols-2">
+          <div className="rounded-[30px] border border-white/10 bg-white/5 p-6">
+            <h3 className="text-2xl font-bold text-white">Peças em alta</h3>
+            <p className="mt-3 text-sm leading-7 text-white/70">Modelos geek, itens para setup e personalizados seguem entre os mais compartilhados da semana.</p>
+            <div className="mt-5 flex gap-3">
+              <a href={socialLinks.instagram} target="_blank" rel="noreferrer" className="rounded-full border border-pink-300/30 bg-pink-400/10 px-4 py-2 text-xs font-semibold text-pink-100">Ver no Instagram</a>
+              <a href={socialLinks.tiktok} target="_blank" rel="noreferrer" className="rounded-full border border-violet-300/30 bg-violet-400/10 px-4 py-2 text-xs font-semibold text-violet-100">Ver no TikTok</a>
+            </div>
+          </div>
+          <div className="rounded-[30px] border border-white/10 bg-white/5 p-6">
+            <h3 className="text-2xl font-bold text-white">Conteúdo da semana</h3>
+            <p className="mt-3 text-sm leading-7 text-white/70">Bastidores da produção, acabamento e entrega para aumentar confiança de quem chega pelas redes.</p>
+            <a href={socialLinks.facebook} target="_blank" rel="noreferrer" className="mt-5 inline-flex rounded-full border border-blue-300/30 bg-blue-400/10 px-4 py-2 text-xs font-semibold text-blue-100">Acompanhar no Facebook</a>
+>>>>>>> theirs
+          </div>
+        </div>
+      </section>
+
+<<<<<<< ours
+      <section className="mx-auto max-w-7xl px-6 py-16">
+        <div className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
+          <div className="rounded-[32px] border border-white/10 bg-white/5 p-6">
+            <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Entrega local e confianca</p>
+            <h2 className="mt-2 text-3xl font-black text-white">Rio de Janeiro com prazo claro e suporte humano</h2>
+            <p className="mt-4 text-sm leading-7 text-white/65">
+              A operacao local combina confirmacao de rota, pagamento pratico, WhatsApp ativo e acompanhamento comercial para reduzir atrito de compra.
             </p>
-            <div className="mt-6">
-              <CatalogGrid products={readyToShip} />
+
+            <div className="mt-6 grid gap-3">
+              {trustHighlights.map((item) => (
+                <div key={item} className="rounded-[22px] border border-white/10 bg-black/20 px-4 py-4 text-sm text-white/75">
+                  {item}
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-6 flex flex-wrap gap-3">
+              <a
+                href={whatsappHref}
+                className="rounded-full border border-emerald-300/30 bg-emerald-400/10 px-5 py-3 text-sm font-semibold text-emerald-100"
+              >
+                Pedir atendimento no WhatsApp
+              </a>
+              {socialLinks.instagram !== "#" ? (
+                <a
+                  href={socialLinks.instagram}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="rounded-full border border-white/15 bg-white/5 px-5 py-3 text-sm font-semibold text-white"
+                >
+                  Ver conteudo da producao
+                </a>
+              ) : null}
             </div>
           </div>
 
-          <div>
-            <p className="text-xs uppercase tracking-[0.2em] text-violet-200">Sob encomenda e personalizaveis</p>
-            <h2 className="mt-2 text-3xl font-bold text-white">Projetos que agregam valor de marca e ticket medio</h2>
-            <p className="mt-3 text-sm leading-7 text-white/60">
-              Nomes em 3D, brindes, logos, brindes corporativos e pecas de briefing fechado para presente ou negocio.
-            </p>
-            <div className="mt-6">
-              <CatalogGrid products={customProjects} />
+          <DeliveryCalculator />
+        </div>
+      </section>
+
+      {formProduct ? (
+        <section id="orcamento" className="mx-auto max-w-7xl px-6 py-16">
+          <div className="grid gap-6 lg:grid-cols-[0.92fr_1.08fr]">
+            <div className="rounded-[32px] border border-white/10 bg-white/5 p-6">
+              <p className="text-xs uppercase tracking-[0.2em] text-violet-200">Pedir orcamento</p>
+              <h2 className="mt-2 text-3xl font-black text-white">Envie sua ideia e receba orientacao comercial</h2>
+              <p className="mt-4 text-sm leading-7 text-white/65">
+                Nosso fluxo de orcamento funciona tanto para quem ja escolheu um item do catalogo quanto para projetos especiais, brindes e personalizacoes.
+              </p>
+
+              <div className="mt-6 grid gap-3">
+                {[
+                  "Briefing por WhatsApp ou site",
+                  "Validacao de material e acabamento",
+                  "Prazo e entrega local confirmados antes da producao"
+                ].map((item) => (
+                  <div key={item} className="rounded-[22px] border border-white/10 bg-black/20 px-4 py-4 text-sm text-white/75">
+                    {item}
+                  </div>
+                ))}
+              </div>
+=======
+=======
+>>>>>>> theirs
+      <section className="mx-auto max-w-7xl px-6 pb-14">
+        <div className="rounded-[30px] border border-white/10 bg-white/5 p-6">
+          <h3 className="text-2xl font-bold text-white">Como produzimos as peças</h3>
+          <p className="mt-2 text-sm text-white/70">Processo completo em três etapas para garantir padrão visual e confiança na entrega.</p>
+          <div className="mt-4 grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+            <div className="overflow-hidden rounded-2xl border border-white/10">
+              <video className="aspect-video w-full object-cover" src="/media/finishing-closeup.mp4" controls poster="/backgrounds/process-detail.jpg" />
             </div>
+            <div className="space-y-3">
+              {processSteps.map((item) => (
+                <div key={item.title} className="rounded-2xl border border-white/10 bg-black/25 p-4">
+                  <p className="font-semibold text-white">{item.title}</p>
+                  <p className="mt-2 text-sm text-white/70">{item.text}</p>
+                </div>
+              ))}
+            </div>
+<<<<<<< ours
+=======
+>>>>>>> theirs
+          </div>
+        </div>
+=======
+      <section className="mx-auto max-w-7xl px-6 py-16">
+        <div className="mb-8">
+          <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Mais vendidos</p>
+          <h2 className="mt-2 text-3xl font-bold text-white">Produtos campeões em orçamento e fechamento</h2>
+        </div>
+        <CatalogGrid products={bestSellers} />
+>>>>>>> theirs
+=======
+      <section className="mx-auto max-w-7xl px-6 py-16">
+        <div className="mb-8">
+          <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Mais vendidos</p>
+          <h2 className="mt-2 text-3xl font-bold text-white">Produtos campeões em orçamento e fechamento</h2>
+        </div>
+        <CatalogGrid products={bestSellers} />
+>>>>>>> theirs
+      </section>
+
+=======
+      <section className="mx-auto max-w-7xl px-6 py-16">
+        <div className="mb-8">
+          <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Mais vendidos</p>
+          <h2 className="mt-2 text-3xl font-bold text-white">Produtos campeões em orçamento e fechamento</h2>
+        </div>
+        <CatalogGrid products={bestSellers} />
+      </section>
+
+>>>>>>> theirs
+=======
+      <section className="mx-auto max-w-7xl px-6 py-16">
+        <div className="mb-8">
+          <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Mais vendidos</p>
+          <h2 className="mt-2 text-3xl font-bold text-white">Produtos campeões em orçamento e fechamento</h2>
+        </div>
+        <CatalogGrid products={bestSellers} />
+      </section>
+
+>>>>>>> theirs
+      {curatedCategories.map((category) => {
+        const items = catalog.filter((item) => item.category === category).slice(0, 4);
+        if (!items.length) return null;
+        return (
+          <section key={category} className="mx-auto max-w-7xl px-6 py-12">
+            <div className="mb-6 flex items-end justify-between gap-4">
+              <h3 className="text-2xl font-bold text-white">{category}</h3>
+              <Link href="/catalogo" className="text-sm font-semibold text-cyan-200 hover:text-cyan-100">Ver mais</Link>
+            </div>
+            <CatalogGrid products={items} />
+          </section>
+        );
+      })}
+
+      <MediaStrip />
+
+<<<<<<< ours
+      <section className="mx-auto max-w-7xl px-6 pb-14">
+        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+          {sectionCards.map((card) => (
+            <div key={card.title} className="rounded-[28px] border border-white/10 bg-white/5 p-6">
+              <h4 className="font-semibold text-white">{card.title}</h4>
+              <p className="mt-2 text-sm text-white/65">{card.text}</p>
+>>>>>>> theirs
+=======
+=======
+>>>>>>> theirs
+      <section className="mx-auto grid max-w-7xl gap-8 px-6 py-16 lg:grid-cols-[0.95fr_1.05fr] md:py-20">
+        <QuoteForm initialProduct={formProduct} />
+        <DeliveryCalculator />
+      </section>
+
+      <section className="mx-auto max-w-7xl px-6 py-16 md:py-20">
+        <div className="grid gap-5 lg:grid-cols-3">
+          {[
+            {
+              title: "Entrega local no Rio de Janeiro",
+              text: "Cobertura por região com prazo claro e suporte rápido para pedidos sob encomenda."
+            },
+            {
+              title: "Pagamento flexível",
+              text: "Pix, cartão e boleto com jornada simples para converter orçamento em pedido."
+            },
+            {
+              title: "Atendimento comercial",
+              text: "WhatsApp ativo para negociação, personalização e acompanhamento de produção."
+            }
+          ].map((card) => (
+            <div key={card.title} className="rounded-[32px] border border-white/10 bg-white/5 p-6">
+              <h3 className="text-xl font-bold text-white">{card.title}</h3>
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+              <p className="mt-3 text-sm leading-7 text-white/60">{card.text}</p>
+>>>>>>> theirs
+=======
+              <p className="mt-3 text-sm leading-7 text-white/65">{card.text}</p>
+>>>>>>> theirs
+=======
+              <p className="mt-3 text-sm leading-7 text-white/65">{card.text}</p>
+>>>>>>> theirs
+=======
+              <p className="mt-3 text-sm leading-7 text-white/65">{card.text}</p>
+>>>>>>> theirs
+=======
+              <p className="mt-3 text-sm leading-7 text-white/65">{card.text}</p>
+>>>>>>> theirs
+=======
           </div>
         </div>
       </section>
 
       <MediaStrip />
 
-      <section className="mx-auto max-w-7xl px-6 py-16 md:py-20">
-        <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr]">
-          <div className="rounded-[32px] border border-white/10 bg-white/5 p-6">
-            <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Como produzimos as pecas</p>
-            <h2 className="mt-2 text-3xl font-bold text-white">Processo premium em 3 etapas claras</h2>
-            <p className="mt-3 text-sm leading-7 text-white/60">
-              A secao explica o fluxo da MDH 3D com video real de acabamento, o que ajuda a construir confianca antes do pedido.
-            </p>
-
-            <div className="mt-6 overflow-hidden rounded-[28px] border border-white/10">
-              {processMedia.hasVideo ? (
-                <video
-                  className="aspect-video w-full object-cover"
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  poster={processMedia.posterSrc}
-                >
-                  {processMedia.sources.map((source) => (
-                    <source key={source.src} src={source.src} type={source.type} />
-                  ))}
-                </video>
-              ) : (
-                <img src={processMedia.fallbackImageSrc} alt="Acabamento MDH 3D" className="aspect-video w-full object-cover" />
-              )}
+      <section className="mx-auto max-w-7xl px-6 pb-14">
+        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+          {sectionCards.map((card) => (
+            <div key={card.title} className="rounded-[28px] border border-white/10 bg-white/5 p-6">
+              <h4 className="font-semibold text-white">{card.title}</h4>
+              <p className="mt-2 text-sm text-white/65">{card.text}</p>
+>>>>>>> theirs
             </div>
+
+            <QuoteForm initialProduct={formProduct} />
           </div>
+        </section>
+      ) : null}
 
-          <div className="space-y-4">
-            {processSteps.map((item) => (
-              <div key={item.title} className="rounded-[28px] border border-white/10 bg-white/5 p-6">
-                <h3 className="text-xl font-semibold text-white">{item.title}</h3>
-                <p className="mt-3 text-sm leading-7 text-white/65">{item.text}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="mx-auto grid max-w-7xl gap-8 px-6 py-16 lg:grid-cols-[0.95fr_1.05fr] md:py-20">
-        <QuoteForm initialProduct={bestSellers[0]} />
-        <DeliveryCalculator />
-      </section>
-
-      <section className="mx-auto max-w-7xl px-6 py-16 md:py-20">
-        <div className="grid gap-5 lg:grid-cols-3">
-          {trustBlocks.map((card) => (
-            <div key={card.title} className="rounded-[32px] border border-white/10 bg-white/5 p-6">
-              <h3 className="text-xl font-bold text-white">{card.title}</h3>
-              <p className="mt-3 text-sm leading-7 text-white/65">{card.text}</p>
-            </div>
-          ))}
-        </div>
-
-        <div className="mt-8 grid gap-4 rounded-[30px] border border-emerald-300/25 bg-emerald-400/10 px-6 py-6 md:grid-cols-[1fr_auto_auto] md:items-center">
+      <section className="mx-auto max-w-7xl px-6 py-16">
+        <div className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <p className="text-sm font-semibold text-emerald-100">Pronto para fechar seu pedido?</p>
-            <p className="mt-1 text-sm text-emerald-100/80">
-              Atendimento direto para orcamento, personalizacao, prazo e entrega local.
-            </p>
+            <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">FAQ</p>
+            <h2 className="mt-2 text-3xl font-black text-white md:text-4xl">Respostas para decidir com mais seguranca</h2>
           </div>
-          <a
-            href={whatsappHref}
-            className="rounded-full border border-emerald-200/40 bg-emerald-300/25 px-5 py-3 text-sm font-semibold text-emerald-50"
+          <Link
+            href="/faq"
+            className="rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm font-semibold text-white transition hover:border-cyan-300/40 hover:bg-white/10"
           >
-            Pedir orcamento no WhatsApp
-          </a>
-          <Link href="/catalogo" className="rounded-full border border-white/15 bg-white/10 px-5 py-3 text-sm font-semibold text-white">
-            Abrir catalogo
+            Abrir FAQ completo
           </Link>
         </div>
 
-        <div className="mt-8 flex flex-wrap gap-3">
-          {socialLinks.instagram ? (
+        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+          {faqItems.map((item) => (
+            <article key={item.q} className="rounded-[28px] border border-white/10 bg-white/5 p-6">
+              <h3 className="text-lg font-semibold text-white">{item.q}</h3>
+              <p className="mt-3 text-sm leading-7 text-white/68">{item.a}</p>
+            </article>
+          ))}
+        </div>
+
+        <div className="mt-8 flex flex-wrap items-center justify-between gap-4 rounded-[28px] border border-emerald-300/25 bg-emerald-400/10 px-6 py-5">
+          <div>
+            <p className="text-sm font-semibold text-emerald-100">Pronto para fechar seu pedido?</p>
+            <p className="text-xs text-emerald-100/80">Atendimento direto para orçamento, personalização e prazo.</p>
+          </div>
+          <a href={whatsappHref} className="rounded-full border border-emerald-200/40 bg-emerald-300/25 px-5 py-2.5 text-sm font-semibold text-emerald-50">
+            Pedir orçamento no WhatsApp
+          </a>
+        </div>
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+      </section>
+
+<<<<<<< ours
+      <section className="mx-auto max-w-7xl px-6 py-16">
+        <div className="rounded-[36px] border border-cyan-300/20 bg-cyan-400/10 p-8 text-center shadow-glow md:p-10">
+          <p className="text-xs uppercase tracking-[0.2em] text-cyan-100">WhatsApp direto</p>
+          <h2 className="mt-3 text-3xl font-black text-white md:text-4xl">Fale com a MDH 3D e acelere seu pedido</h2>
+          <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-white/75 md:text-base">
+            Ideal para pecas personalizadas, duvidas sobre entrega no RJ, validacao de cor, ajuste de tamanho e fechamento rapido.
+          </p>
+          <div className="mt-6 flex flex-wrap justify-center gap-3">
             <a
-              href={socialLinks.instagram}
-              target="_blank"
-              rel="noreferrer"
-              className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/80"
+              href={whatsappHref}
+              className="rounded-full bg-cyan-400 px-6 py-3 text-sm font-semibold text-slate-950 transition hover:scale-[1.01]"
             >
-              Instagram
+              Chamar no WhatsApp
             </a>
-          ) : null}
-          {socialLinks.tiktok ? (
-            <a
-              href={socialLinks.tiktok}
-              target="_blank"
-              rel="noreferrer"
-              className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/80"
+            <Link
+              href="/catalogo"
+              className="rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-semibold text-white"
             >
-              TikTok
-            </a>
-          ) : null}
-          {socialLinks.facebook ? (
-            <a
-              href={socialLinks.facebook}
-              target="_blank"
-              rel="noreferrer"
-              className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/80"
-            >
-              Facebook
-            </a>
-          ) : null}
+              Continuar no catalogo
+            </Link>
+          </div>
+=======
+      <section className="mx-auto max-w-7xl px-6 pb-14" id="orcamento">
+        <QuoteForm initialProduct={formProduct} />
+        <div className="mt-5 flex flex-wrap gap-3">
+          <a href={whatsappHref} className="inline-flex rounded-full border border-emerald-300/40 bg-emerald-400/10 px-6 py-3 text-sm font-semibold text-emerald-100">
+            Falar no WhatsApp
+          </a>
+          <Link href="/entregas" className="inline-flex rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-semibold text-white">
+            Ver entrega e prazos
+          </Link>
+>>>>>>> theirs
+        </div>
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+=======
+>>>>>>> theirs
+      </section>
+
+      <section className="mx-auto max-w-7xl px-6 pb-14" id="orcamento">
+        <QuoteForm initialProduct={formProduct} />
+        <div className="mt-5 flex flex-wrap gap-3">
+          <a href={whatsappHref} className="inline-flex rounded-full border border-emerald-300/40 bg-emerald-400/10 px-6 py-3 text-sm font-semibold text-emerald-100">
+            Falar no WhatsApp
+          </a>
+          <Link href="/entregas" className="inline-flex rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-semibold text-white">
+            Ver entrega e prazos
+          </Link>
         </div>
       </section>
     </div>

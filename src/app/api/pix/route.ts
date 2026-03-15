@@ -15,10 +15,34 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, error: "Dados invalidos." }, { status: 400 });
   }
 
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
   const payload = makePixPayload({
-    description: parsed.data.title,
+    description: parsed.data.title || "Pagamento MDH 3D",
     amount: parsed.data.amount
   });
 
+=======
+  const payload = makePixPayload({ description: parsed.data.title, amount: parsed.data.amount });
+>>>>>>> theirs
+=======
+  const payload = makePixPayload({ description: parsed.data.title, amount: parsed.data.amount });
+>>>>>>> theirs
+=======
+  const payload = makePixPayload({ description: parsed.data.title, amount: parsed.data.amount });
+>>>>>>> theirs
+=======
+  const payload = makePixPayload({ description: parsed.data.title, amount: parsed.data.amount });
+>>>>>>> theirs
+=======
+  const payload = makePixPayload({ description: parsed.data.title, amount: parsed.data.amount });
+>>>>>>> theirs
+=======
+  const payload = makePixPayload({ description: parsed.data.title, amount: parsed.data.amount });
+>>>>>>> theirs
   return NextResponse.json({ ok: true, payload });
 }
