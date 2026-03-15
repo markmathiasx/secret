@@ -2,20 +2,26 @@ import MercadoPagoConfig, { Preference } from "mercadopago";
 import { getSiteUrl } from "@/lib/env";
 import { formatCurrency } from "@/lib/utils";
 
-export async function createMercadoPagoPreference(input: {
+type MercadoPagoPreferenceItem = {
+  id: string;
   title: string;
+  quantity: number;
   unitPrice: number;
-  quantity?: number;
+};
+
+export async function createMercadoPagoPreference(input: {
+  items: MercadoPagoPreferenceItem[];
   externalReference: string;
 }) {
   const accessToken = process.env.MERCADOPAGO_ACCESS_TOKEN;
   const siteUrl = getSiteUrl();
+  const estimatedTotal = input.items.reduce((total, item) => total + item.unitPrice * item.quantity, 0);
 
   if (!accessToken) {
     return {
       ok: false,
       reason: "missing_access_token",
-      fallbackMessage: `Configure o MERCADOPAGO_ACCESS_TOKEN para gerar checkout real. Valor estimado: ${formatCurrency(input.unitPrice)}.`
+      fallbackMessage: `Configure o MERCADOPAGO_ACCESS_TOKEN para gerar checkout real. Valor estimado: ${formatCurrency(estimatedTotal)}.`
     } as const;
   }
 
@@ -25,15 +31,13 @@ export async function createMercadoPagoPreference(input: {
   const response = await preference.create({
     body: {
       external_reference: input.externalReference,
-      items: [
-        {
-          id: input.externalReference,
-          title: input.title,
-          quantity: input.quantity || 1,
-          currency_id: "BRL",
-          unit_price: input.unitPrice
-        }
-      ],
+      items: input.items.map((item) => ({
+        id: item.id,
+        title: item.title,
+        quantity: item.quantity,
+        currency_id: "BRL",
+        unit_price: item.unitPrice
+      })),
       back_urls: {
         success: `${siteUrl}/checkout?status=success`,
         pending: `${siteUrl}/checkout?status=pending`,

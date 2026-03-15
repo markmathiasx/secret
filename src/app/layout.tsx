@@ -5,6 +5,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { WhatsAppFloat } from "@/components/whatsapp-float";
 import { PwaRegister } from "@/components/pwa-register";
 import { SiteAssistant } from "@/components/site-assistant";
+import { StoreProvider } from "@/components/store-provider";
 import { brand, socialLinks, supportEmail, whatsappNumber } from "@/lib/constants";
 import { getSiteUrl } from "@/lib/env";
 
@@ -70,12 +71,14 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="pt-BR">
       <body className="bg-base text-white antialiased">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationLd) }} />
-        <SiteHeader />
-        <main>{children}</main>
-        <SiteFooter />
-        <WhatsAppFloat />
-        <SiteAssistant />
-        <PwaRegister />
+        <StoreProvider>
+          <SiteHeader />
+          <main>{children}</main>
+          <SiteFooter />
+          <WhatsAppFloat />
+          <SiteAssistant />
+          <PwaRegister />
+        </StoreProvider>
       </body>
     </html>
   );

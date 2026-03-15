@@ -1,11 +1,13 @@
 "use client";
 
 import { useMemo, useState, type FormEvent } from "react";
+import { useStore } from "@/components/store-provider";
 import type { Product } from "@/lib/catalog";
 import { estimateDeliveryFeeKm } from "@/lib/delivery";
 import { formatCurrency } from "@/lib/utils";
 
 export function QuoteForm({ initialProduct }: { initialProduct: Product }) {
+  const { addQuote } = useStore();
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
   const [distanceKm, setDistanceKm] = useState<number>(0);
@@ -38,8 +40,23 @@ export function QuoteForm({ initialProduct }: { initialProduct: Product }) {
         return;
       }
 
+      addQuote({
+        id: data.quoteId,
+        productId: initialProduct.id,
+        productName: initialProduct.name,
+        paymentMethod: String(formData.get("paymentMethod") || "pix"),
+        neighborhood: String(formData.get("neighborhood") || ""),
+        colorPreference: String(formData.get("colorPreference") || initialProduct.colors[0]),
+        estimatedPricePix: initialProduct.pricePix,
+        estimatedPriceCard: initialProduct.priceCard,
+        estimatedDeliveryFee: deliveryFee,
+        estimatedTotalPix: Number((initialProduct.pricePix + deliveryFee).toFixed(2)),
+        createdAt: new Date().toISOString()
+      });
       setStatus("success");
       setMessage(`Orçamento registrado. Código: ${data.quoteId}`);
+      event.currentTarget.reset();
+      setDistanceKm(0);
     } catch {
       setStatus("error");
       setMessage("Erro de rede ao enviar orçamento.");

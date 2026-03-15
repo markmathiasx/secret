@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ProductImageGallery } from "@/components/product-image-gallery";
-import { QuoteForm } from "@/components/quote-form";
 import { DeliveryCalculator } from "@/components/delivery-calculator";
 import { PixPaymentCard } from "@/components/pix-payment-card";
+import { ProductImageGallery } from "@/components/product-image-gallery";
+import { ProductPurchasePanel } from "@/components/product-purchase-panel";
+import { QuoteForm } from "@/components/quote-form";
+import { StoreProductCard } from "@/components/store-product-card";
 import { catalog, findProductBySlug, getProductUrl } from "@/lib/catalog";
 import { formatCurrency } from "@/lib/utils";
-import { ProductImage } from "@/components/product-image";
 
 export function generateStaticParams() {
   return catalog.slice(0, 120).map((product) => ({ slug: getProductUrl(product).split("/").pop()! }));
@@ -24,9 +25,14 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr]">
         <div>
           <div className="mb-5 flex flex-wrap gap-2 text-xs text-white/60">
-            <Link href="/catalogo" className="rounded-full border border-white/10 px-3 py-1">Catálogo</Link>
-            <span className="rounded-full border border-cyan-400/20 bg-cyan-400/10 px-3 py-1 text-cyan-100">{product.collection}</span>
+            <Link href="/catalogo" className="rounded-full border border-white/10 px-3 py-1">
+              Catálogo
+            </Link>
+            <span className="rounded-full border border-cyan-400/20 bg-cyan-400/10 px-3 py-1 text-cyan-100">
+              {product.collection}
+            </span>
             <span className="rounded-full border border-white/10 px-3 py-1">{product.category}</span>
+            <span className="rounded-full border border-white/10 px-3 py-1">{product.sku}</span>
           </div>
 
           <ProductImageGallery product={product} />
@@ -37,30 +43,33 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
             <div className="mt-6 grid gap-4 sm:grid-cols-3">
               <div className="rounded-[24px] border border-white/10 bg-black/20 p-4">
-                <p className="text-sm text-white/55">Pix</p>
+                <p className="text-sm text-white/55">Preço base</p>
                 <p className="mt-2 text-2xl font-black text-cyan-100">{formatCurrency(product.pricePix)}</p>
               </div>
               <div className="rounded-[24px] border border-white/10 bg-black/20 p-4">
-                <p className="text-sm text-white/55">Cartão</p>
-                <p className="mt-2 text-2xl font-black text-white">{formatCurrency(product.priceCard)}</p>
+                <p className="text-sm text-white/55">Horas de produção</p>
+                <p className="mt-2 text-2xl font-black text-white">{product.hours} h</p>
               </div>
               <div className="rounded-[24px] border border-white/10 bg-black/20 p-4">
-                <p className="text-sm text-white/55">Marketplace</p>
-                <p className="mt-2 text-2xl font-black text-white">{formatCurrency(product.marketplaceSuggested)}</p>
+                <p className="text-sm text-white/55">Material / peso</p>
+                <p className="mt-2 text-2xl font-black text-white">{product.grams} g</p>
               </div>
             </div>
 
             <div className="mt-6 flex flex-wrap gap-2">
               {product.tags.map((tag) => (
-                <span key={tag} className="rounded-full border border-white/10 px-3 py-1 text-xs text-white/60">{tag}</span>
+                <span key={tag} className="rounded-full border border-white/10 px-3 py-1 text-xs text-white/60">
+                  {tag}
+                </span>
               ))}
             </div>
           </div>
         </div>
 
         <div className="space-y-8">
-          <QuoteForm initialProduct={product} />
+          <ProductPurchasePanel product={product} />
           <DeliveryCalculator />
+          <QuoteForm initialProduct={product} />
           <PixPaymentCard title={product.name} amount={product.pricePix} />
         </div>
       </div>
@@ -69,14 +78,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         <h2 className="text-2xl font-bold text-white">Projetos parecidos</h2>
         <div className="mt-6 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
           {related.map((item) => (
-            <Link key={item.id} href={getProductUrl(item)} className="rounded-[28px] border border-white/10 bg-white/5 p-4 transition hover:border-cyan-300/30">
-              <div className="relative mb-4 aspect-square w-full overflow-hidden rounded-[22px]">
-                <ProductImage src={`/catalog-assets/${item.id}.webp`} alt={item.name} label={`${item.name} • ${item.category}`} sizes="(max-width: 1200px) 50vw, 20vw" />
-              </div>
-              <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">{item.category}</p>
-              <h3 className="mt-2 text-lg font-semibold text-white">{item.name}</h3>
-              <p className="mt-2 text-sm text-white/60">{formatCurrency(item.pricePix)} no Pix</p>
-            </Link>
+            <StoreProductCard key={item.id} product={item} />
           ))}
         </div>
       </div>
