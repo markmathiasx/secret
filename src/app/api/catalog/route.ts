@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
-import { catalog } from "@/lib/catalog";
+import { listStorefrontProducts } from "@/lib/catalog-server";
 
 export async function GET() {
-  return NextResponse.json({ total: catalog.length, items: catalog });
+  const items = await listStorefrontProducts();
+  return NextResponse.json({ total: items.length, items });
 }

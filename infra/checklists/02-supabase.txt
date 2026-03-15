@@ -1,0 +1,8 @@
+SUPABASE - PASSO A PASSO
+1. Criar projeto
+2. Copiar Project URL
+3. Copiar anon/publishable key
+4. Copiar service_role/secret key (somente servidor)
+5. Se usar auth Google, configurar provider Google
+6. Se usar storage, criar bucket
+7. Se usar tabelas do app, ativar policies/RLS

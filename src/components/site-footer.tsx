@@ -30,8 +30,8 @@ export function SiteFooter() {
         <div>
           <h4 className="text-sm font-semibold uppercase tracking-[0.18em] text-white/60">Pagamento</h4>
           <div className="mt-3 flex flex-col gap-2 text-sm text-white/70">
-            <span>Pix, cartão e boleto</span>
-            <span>Mercado Livre e Shopee em paralelo</span>
+            <span>Pix, cartão e outros meios sob consulta</span>
+            <span>Canais externos como Shopee e Mercado Livre continuam atendidos em paralelo</span>
             <span className="text-white/55">Pix com QR Code e copia e cola no checkout</span>
             <span className="text-white/55">Recebedor confirmado no app: CPF final {pix.cpfSuffix}</span>
           </div>

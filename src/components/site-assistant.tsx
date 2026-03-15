@@ -3,7 +3,9 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { Bot, MessageCircleMore, Send, UserRound, X, Sparkles } from "lucide-react";
-import { catalog, getProductUrl, type Product } from "@/lib/catalog";
+import { ProductMediaImage } from "@/components/product-media-image";
+import { trackWhatsAppClick } from "@/lib/analytics-client";
+import { getProductUrl, type Product } from "@/lib/catalog";
 import { formatCurrency } from "@/lib/utils";
 import { socialLinks, whatsappMessage, whatsappNumber } from "@/lib/constants";
 
@@ -16,11 +18,15 @@ type ChatMessage = {
 };
 
 const quickPrompts = [
-  "boa noite",
-  "quero um hello kitty",
-  "quero suporte de controle",
-  "calcular frete",
-  "falar com humano"
+  "quero anime",
+  "quero geek",
+  "quero presente",
+  "quero decoração",
+  "quero suporte",
+  "quero personalizado",
+  "quero entrega",
+  "quero pagar no Pix",
+  "quero falar com atendimento"
 ];
 
 function normalize(text: string) {
@@ -31,27 +37,12 @@ function normalize(text: string) {
     .trim();
 }
 
-function scoreProduct(product: Product, query: string) {
-  const q = normalize(query);
-  const haystack = normalize([product.name, product.theme, product.category, product.description, product.collection, ...product.tags].join(" "));
-
-  let score = 0;
-  if (normalize(product.name).includes(q)) score += 9;
-  if (normalize(product.theme).includes(q)) score += 7;
-  if (normalize(product.category).includes(q)) score += 4;
-  q.split(/\s+/).forEach((token) => {
-    if (token && haystack.includes(token)) score += 1;
+async function fetchSuggestedProducts(query: string) {
+  const response = await fetch(`/api/catalog/search?q=${encodeURIComponent(query)}&limit=3`, {
+    cache: "no-store"
   });
-  return score;
-}
-
-function pickProducts(query: string) {
-  return catalog
-    .map((product) => ({ product, score: scoreProduct(product, query) }))
-    .filter((item) => item.score > 0)
-    .sort((a, b) => b.score - a.score || a.product.pricePix - b.product.pricePix)
-    .slice(0, 3)
-    .map((item) => item.product);
+  const data = await response.json().catch(() => ({}));
+  return Array.isArray(data?.items) ? (data.items as Product[]) : [];
 }
 
 function greetingFor(text: string) {
@@ -71,7 +62,7 @@ function thanksFor(text: string) {
   return null;
 }
 
-function botReply(input: string): Omit<ChatMessage, "id"> {
+async function botReply(input: string): Promise<Omit<ChatMessage, "id">> {
   const clean = input.trim();
   const lower = normalize(clean);
 
@@ -99,14 +90,28 @@ function botReply(input: string): Omit<ChatMessage, "id"> {
   if (lower.includes("instagram") || lower.includes("insta")) {
     return {
       role: "bot",
-      text: "O Instagram oficial da loja é @mdh___021. Se quiser, também posso te mostrar produtos aqui no site.",
+      text: "O Instagram oficial da loja é @mdh_impressao3d. Se quiser, também posso te mostrar produtos aqui no site.",
     };
   }
 
   if (lower.includes("frete") || lower.includes("cep") || lower.includes("entrega")) {
     return {
       role: "bot",
-      text: "Para frete no RJ, use a página de Frete com seu CEP. Se preferir, me mande a distância em km que eu te passo uma estimativa rápida."
+      text: "A MDH 3D atende com entrega local no RJ e também organiza retirada/combinação. Você pode usar a página de Frete e depois fechar os detalhes no checkout ou no WhatsApp."
+    };
+  }
+
+  if (lower.includes("pix") || lower.includes("cartao") || lower.includes("cartão") || lower.includes("parcel")) {
+    return {
+      role: "bot",
+      text: "No site você pode gerar pedido real com Pix ou cartão. Pix costuma ter o melhor preço, e no cartão eu já mostro o parcelamento estimado."
+    };
+  }
+
+  if (lower.includes("material") || lower.includes("acabamento") || lower.includes("cor") || lower.includes("personaliz")) {
+    return {
+      role: "bot",
+      text: "A MDH 3D trabalha principalmente com PLA premium, além de variações sob consulta. Posso te mostrar itens com foco em presente, setup, decoração ou personalizados."
     };
   }
 
@@ -117,7 +122,7 @@ function botReply(input: string): Omit<ChatMessage, "id"> {
     };
   }
 
-  const matches = pickProducts(lower);
+  const matches = await fetchSuggestedProducts(lower);
 
   if (!matches.length) {
     return {
@@ -143,7 +148,7 @@ function ProductSuggestion({ product }: { product: Product }) {
   return (
     <div className="rounded-2xl border border-white/10 bg-black/25 p-3">
       <div className="flex gap-3">
-        <img src={`/catalog-assets/${product.id}.webp`} alt={product.name} className="h-16 w-16 rounded-2xl object-cover" />
+        <ProductMediaImage product={product} className="h-16 w-16 rounded-2xl object-cover" />
         <div className="min-w-0 flex-1">
           <p className="text-[11px] uppercase tracking-[0.18em] text-cyan-200/80">{product.category}</p>
           <p className="mt-1 text-sm font-semibold text-white">{product.name}</p>
@@ -163,6 +168,7 @@ function ProductSuggestion({ product }: { product: Product }) {
 export function SiteAssistant() {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
+  const [pending, setPending] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: makeId(),
@@ -175,22 +181,43 @@ export function SiteAssistant() {
     return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
   }, []);
 
-  function sendMessage(prefill?: string) {
+  async function sendMessage(prefill?: string) {
     const raw = (prefill ?? value).trim();
-    if (!raw) return;
+    if (!raw || pending) return;
 
     const userMessage: ChatMessage = { id: makeId(), role: "user", text: raw };
-    const reply: ChatMessage = { id: makeId(), ...botReply(raw) };
-
-    setMessages((current) => [...current, userMessage, reply]);
+    setMessages((current) => [...current, userMessage]);
     setValue("");
     setOpen(true);
+
+    setPending(true);
+    try {
+      const reply: ChatMessage = { id: makeId(), ...(await botReply(raw)) };
+      setMessages((current) => [...current, reply]);
+    } catch {
+      setMessages((current) => [
+        ...current,
+        {
+          id: makeId(),
+          role: "bot",
+          text: "Tive uma falha rápida ao consultar a vitrine. Você pode tentar novamente ou falar comigo no WhatsApp.",
+          human: true
+        }
+      ]);
+    } finally {
+      setPending(false);
+    }
   }
 
   return (
     <>
       {open ? (
-        <div className="fixed bottom-24 left-4 z-50 w-[380px] max-w-[calc(100vw-2rem)] overflow-hidden rounded-[28px] border border-white/10 bg-slate-950/94 shadow-2xl backdrop-blur-xl">
+        <div
+          role="dialog"
+          aria-modal="false"
+          aria-label="Assistente da MDH 3D"
+          className="fixed bottom-24 left-4 z-50 w-[380px] max-w-[calc(100vw-2rem)] overflow-hidden rounded-[28px] border border-white/10 bg-slate-950/94 shadow-2xl backdrop-blur-xl"
+        >
           <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
             <div className="flex items-center gap-3">
               <span className="rounded-2xl border border-cyan-400/20 bg-cyan-400/10 p-2 text-cyan-100">
@@ -206,7 +233,7 @@ export function SiteAssistant() {
             </button>
           </div>
 
-          <div className="max-h-[60vh] space-y-4 overflow-y-auto px-4 py-4">
+          <div className="max-h-[60vh] space-y-4 overflow-y-auto px-4 py-4" aria-live="polite">
             {messages.map((message) => (
               <div key={message.id} className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}>
                 <div className={`max-w-[92%] rounded-3xl px-4 py-3 ${message.role === "user" ? "bg-cyan-400 text-slate-950" : "border border-white/10 bg-white/5 text-white"}`}>
@@ -226,7 +253,11 @@ export function SiteAssistant() {
 
                   {message.human ? (
                     <div className="mt-3 flex flex-wrap gap-2">
-                      <a href={waHref} className="inline-flex rounded-full border border-emerald-400/25 bg-emerald-400/10 px-4 py-2 text-xs font-semibold text-emerald-100">
+                      <a
+                        href={waHref}
+                        onClick={() => trackWhatsAppClick({ placement: "site_assistant" })}
+                        className="inline-flex rounded-full border border-emerald-400/25 bg-emerald-400/10 px-4 py-2 text-xs font-semibold text-emerald-100"
+                      >
                         Falar com humano no WhatsApp
                       </a>
                       <a href={socialLinks.instagram} target="_blank" rel="noreferrer" className="inline-flex rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold text-white/80">
@@ -237,6 +268,17 @@ export function SiteAssistant() {
                 </div>
               </div>
             ))}
+            {pending ? (
+              <div className="flex justify-start">
+                <div className="max-w-[92%] rounded-3xl border border-white/10 bg-white/5 px-4 py-3 text-white">
+                  <div className="mb-2 flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] opacity-70">
+                    <Sparkles className="h-3.5 w-3.5" />
+                    <span>MDH</span>
+                  </div>
+                  <p className="text-sm leading-6">Buscando opcoes parecidas na vitrine...</p>
+                </div>
+              </div>
+            ) : null}
           </div>
 
           <div className="border-t border-white/10 px-4 py-3">
@@ -257,12 +299,13 @@ export function SiteAssistant() {
                 value={value}
                 onChange={(e) => setValue(e.target.value)}
                 onKeyDown={(e) => {
-                  if (e.key === "Enter") sendMessage();
+                  if (e.key === "Enter") void sendMessage();
                 }}
                 placeholder="Ex.: quero um hello kitty preto"
                 className="flex-1 rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white outline-none"
+                disabled={pending}
               />
-              <button onClick={() => sendMessage()} className="rounded-2xl bg-cyan-400 px-4 text-slate-950">
+              <button onClick={() => void sendMessage()} disabled={pending} className="rounded-2xl bg-cyan-400 px-4 text-slate-950 disabled:opacity-60">
                 <Send className="h-4 w-4" />
               </button>
             </div>

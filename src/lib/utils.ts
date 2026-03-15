@@ -12,6 +12,10 @@ export function formatCurrency(value: number) {
   }).format(value);
 }
 
+export function formatInstallment(total: number, installments = 6) {
+  return `${installments}x de ${formatCurrency(total / installments)}`;
+}
+
 export function slugify(value: string) {
   return value
     .normalize("NFD")

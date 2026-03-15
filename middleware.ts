@@ -5,8 +5,9 @@ import { adminConfig } from "@/lib/constants";
 export function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
 
-  if (path === "/admin" || path.startsWith("/admin/")) {
-    return new NextResponse("Not Found", { status: 404 });
+  if (path.startsWith(adminConfig.legacyPath)) {
+    const target = path.replace(adminConfig.legacyPath, adminConfig.panelPath) || adminConfig.panelPath;
+    return NextResponse.redirect(new URL(target, request.url));
   }
 
   const response = NextResponse.next();
@@ -18,7 +19,7 @@ export function middleware(request: NextRequest) {
     "img-src 'self' data: https:",
     "media-src 'self' https:",
     "font-src 'self' data:",
-    "connect-src 'self' https://api.mercadopago.com https://graph.facebook.com https://viacep.com.br https://*.supabase.co wss://*.supabase.co https://*.supabase.in wss://*.supabase.in",
+    "connect-src 'self' https://api.mercadopago.com https://viacep.com.br https://*.supabase.co wss://*.supabase.co https://*.supabase.in wss://*.supabase.in",
     "frame-src https://www.mercadopago.com.br https://www.mercadopago.com",
     "object-src 'none'",
     "base-uri 'self'",
@@ -26,7 +27,9 @@ export function middleware(request: NextRequest) {
     "frame-ancestors 'none'"
   ];
 
-  if (process.env.NODE_ENV === "production") {
+  const isProduction = process.env.NODE_ENV === "production";
+
+  if (isProduction) {
     cspRules.push("upgrade-insecure-requests");
   }
 
@@ -38,13 +41,8 @@ export function middleware(request: NextRequest) {
   response.headers.set("Cross-Origin-Opener-Policy", "same-origin");
   response.headers.set("Cross-Origin-Resource-Policy", "same-site");
   response.headers.set("Permissions-Policy", "camera=(), microphone=(), geolocation=(), payment=() ");
-  response.headers.set("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload");
-
-  if (path.startsWith(adminConfig.hiddenPath) && !path.startsWith(`${adminConfig.hiddenPath}/login`)) {
-    const adminCookie = request.cookies.get(adminConfig.sessionCookieName)?.value;
-    if (!adminCookie || adminCookie !== adminConfig.sessionToken) {
-      return NextResponse.redirect(new URL(`${adminConfig.hiddenPath}/login`, request.url));
-    }
+  if (isProduction) {
+    response.headers.set("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload");
   }
 
   return response;

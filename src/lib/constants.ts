@@ -4,7 +4,7 @@ export const brand = {
   city: "Rio de Janeiro",
   state: "RJ",
   slogan: "Impressão 3D premium para decoração, utilidades, anime, geek e personalizados",
-  instagramHandle: process.env.NEXT_PUBLIC_BRAND_INSTAGRAM_HANDLE || "mdh___021"
+  instagramHandle: process.env.NEXT_PUBLIC_BRAND_INSTAGRAM_HANDLE || "mdh_impressao3d"
 };
 
 function parseList(value?: string) {
@@ -26,9 +26,9 @@ export const whatsappContacts = [
 export const whatsappNumber = whatsappContacts[0]?.number || "5521920137249";
 export const whatsappMessage =
   process.env.NEXT_PUBLIC_WHATSAPP_MESSAGE ||
-  "Oi! Vim pelo site da MDH 3D e quero um orçamento.";
+  "Oi! Vim pelo site da MDH 3D e quero atendimento.";
 
-export const supportEmail = process.env.STAFF_NOTIFY_EMAIL || "mdhatendimento@gmail.com";
+export const supportEmail = process.env.STAFF_NOTIFY_EMAIL || "contato@mdh3d.local";
 
 export const pix = {
   provider: process.env.NEXT_PUBLIC_PIX_PROVIDER || "PicPay",
@@ -36,15 +36,16 @@ export const pix = {
 };
 
 export const socialLinks = {
-  instagram: process.env.NEXT_PUBLIC_INSTAGRAM_URL || `https://www.instagram.com/${brand.instagramHandle}`,
+  instagram: process.env.NEXT_PUBLIC_INSTAGRAM_URL || "https://www.instagram.com/mdh_impressao3d/",
   facebook: process.env.NEXT_PUBLIC_FACEBOOK_URL || "#"
 };
 
 export const adminConfig = {
-  email: process.env.ADMIN_EMAIL || "markmathias01@gmail.com",
-  hiddenPath: "/painel-mdh-85",
-  sessionCookieName: "mdh_admin",
-  sessionToken: process.env.ADMIN_SESSION_TOKEN || "mdh_troque_este_token_no_env"
+  email: process.env.ADMIN_EMAIL || "admin@mdh3d.local",
+  loginPath: "/admin/login",
+  panelPath: "/admin",
+  legacyPath: "/painel-mdh-85",
+  sessionCookieName: "mdh_admin_session"
 };
 
 const num = (value: string | undefined, fallback: number) => {

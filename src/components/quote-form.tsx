@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useMemo, useState, type FormEvent } from "react";
 import type { Product } from "@/lib/catalog";
 import { estimateDeliveryFeeKm } from "@/lib/delivery";
@@ -8,6 +9,7 @@ import { formatCurrency } from "@/lib/utils";
 export function QuoteForm({ initialProduct }: { initialProduct: Product }) {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
+  const [whatsAppUrl, setWhatsAppUrl] = useState("");
   const [distanceKm, setDistanceKm] = useState<number>(0);
 
   const deliveryFee = useMemo(() => {
@@ -19,6 +21,7 @@ export function QuoteForm({ initialProduct }: { initialProduct: Product }) {
     event.preventDefault();
     setStatus("loading");
     setMessage("");
+    setWhatsAppUrl("");
 
     const formData = new FormData(event.currentTarget);
     const payload = Object.fromEntries(formData.entries());
@@ -39,7 +42,8 @@ export function QuoteForm({ initialProduct }: { initialProduct: Product }) {
       }
 
       setStatus("success");
-      setMessage(`Orçamento registrado. Código: ${data.quoteId}`);
+      setMessage(`Estimativa pronta. Código: ${data.quoteId}`);
+      setWhatsAppUrl(data.whatsappUrl || "");
     } catch {
       setStatus("error");
       setMessage("Erro de rede ao enviar orçamento.");
@@ -88,6 +92,11 @@ export function QuoteForm({ initialProduct }: { initialProduct: Product }) {
       </button>
 
       {message ? <p className={`mt-4 text-sm ${status === "success" ? "text-emerald-300" : "text-rose-300"}`}>{message}</p> : null}
+      {status === "success" && whatsAppUrl ? (
+        <Link href={whatsAppUrl} target="_blank" rel="noreferrer" className="mt-4 inline-flex rounded-full border border-emerald-400/25 bg-emerald-400/10 px-5 py-3 text-sm font-semibold text-emerald-100">
+          Continuar no WhatsApp
+        </Link>
+      ) : null}
     </form>
   );
 }

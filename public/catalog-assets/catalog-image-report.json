@@ -1,0 +1,491 @@
+{
+  "generatedAt": "2026-03-14T22:15:36.600Z",
+  "refresh": true,
+  "counters": {
+    "imported": 44,
+    "placeholder": 4,
+    "failed": 0
+  },
+  "items": [
+    {
+      "productId": "mdh-hello-kitty-organizer-compact",
+      "slug": "hello-kitty-organizer-compact",
+      "sku": "MDH-0001",
+      "provider": "openverse",
+      "status": "imported",
+      "localPath": "/catalog-assets/hello-kitty-organizer-compact.webp",
+      "sourceUrl": "https://www.flickr.com/photos/71753457@N00/352200409",
+      "query": "cute desk organizer"
+    },
+    {
+      "productId": "mdh-hello-kitty-organizer-desk",
+      "slug": "hello-kitty-organizer-desk",
+      "sku": "MDH-0002",
+      "provider": "openverse",
+      "status": "imported",
+      "localPath": "/catalog-assets/hello-kitty-organizer-desk.webp",
+      "sourceUrl": "https://www.flickr.com/photos/71753457@N00/352200409",
+      "query": "cute desk organizer"
+    },
+    {
+      "productId": "mdh-hello-kitty-organizer-plus",
+      "slug": "hello-kitty-organizer-plus",
+      "sku": "MDH-0003",
+      "provider": "openverse",
+      "status": "imported",
+      "localPath": "/catalog-assets/hello-kitty-organizer-plus.webp",
+      "sourceUrl": "https://www.flickr.com/photos/71753457@N00/352200409",
+      "query": "cute desk organizer"
+    },
+    {
+      "productId": "mdh-hello-kitty-organizer-collector",
+      "slug": "hello-kitty-organizer-collector",
+      "sku": "MDH-0004",
+      "provider": "openverse",
+      "status": "imported",
+      "localPath": "/catalog-assets/hello-kitty-organizer-collector.webp",
+      "sourceUrl": "https://www.flickr.com/photos/71753457@N00/352200409",
+      "query": "cute desk organizer"
+    },
+    {
+      "productId": "mdh-naruto-kunai-display-compact",
+      "slug": "naruto-kunai-display-compact",
+      "sku": "MDH-0011",
+      "provider": "placeholder",
+      "status": "placeholder",
+      "localPath": "/catalog-assets/naruto-kunai-display-compact.webp",
+      "sourceUrl": "generated:placeholder",
+      "query": "Naruto Kunai Display Anime 3d print"
+    },
+    {
+      "productId": "mdh-naruto-kunai-display-desk",
+      "slug": "naruto-kunai-display-desk",
+      "sku": "MDH-0012",
+      "provider": "placeholder",
+      "status": "placeholder",
+      "localPath": "/catalog-assets/naruto-kunai-display-desk.webp",
+      "sourceUrl": "generated:placeholder",
+      "query": "Naruto Kunai Display Anime 3d print"
+    },
+    {
+      "productId": "mdh-naruto-kunai-display-plus",
+      "slug": "naruto-kunai-display-plus",
+      "sku": "MDH-0013",
+      "provider": "placeholder",
+      "status": "placeholder",
+      "localPath": "/catalog-assets/naruto-kunai-display-plus.webp",
+      "sourceUrl": "generated:placeholder",
+      "query": "Naruto Kunai Display Anime 3d print"
+    },
+    {
+      "productId": "mdh-naruto-kunai-display-collector",
+      "slug": "naruto-kunai-display-collector",
+      "sku": "MDH-0014",
+      "provider": "placeholder",
+      "status": "placeholder",
+      "localPath": "/catalog-assets/naruto-kunai-display-collector.webp",
+      "sourceUrl": "generated:placeholder",
+      "query": "Naruto Kunai Display Anime 3d print"
+    },
+    {
+      "productId": "mdh-one-piece-wanted-plaque-compact",
+      "slug": "one-piece-wanted-plaque-compact",
+      "sku": "MDH-0021",
+      "provider": "openverse",
+      "status": "imported",
+      "localPath": "/catalog-assets/one-piece-wanted-plaque-compact.webp",
+      "sourceUrl": "https://www.flickr.com/photos/153584064@N07/31914900697",
+      "query": "wanted poster wall decor"
+    },
+    {
+      "productId": "mdh-one-piece-wanted-plaque-desk",
+      "slug": "one-piece-wanted-plaque-desk",
+      "sku": "MDH-0022",
+      "provider": "openverse",
+      "status": "imported",
+      "localPath": "/catalog-assets/one-piece-wanted-plaque-desk.webp",
+      "sourceUrl": "https://www.flickr.com/photos/153584064@N07/31914900697",
+      "query": "wanted poster wall decor"
+    },
+    {
+      "productId": "mdh-one-piece-wanted-plaque-plus",
+      "slug": "one-piece-wanted-plaque-plus",
+      "sku": "MDH-0023",
+      "provider": "openverse",
+      "status": "imported",
+      "localPath": "/catalog-assets/one-piece-wanted-plaque-plus.webp",
+      "sourceUrl": "https://www.flickr.com/photos/153584064@N07/31914900697",
+      "query": "wanted poster wall decor"
+    },
+    {
+      "productId": "mdh-one-piece-wanted-plaque-collector",
+      "slug": "one-piece-wanted-plaque-collector",
+      "sku": "MDH-0024",
+      "provider": "openverse",
+      "status": "imported",
+      "localPath": "/catalog-assets/one-piece-wanted-plaque-collector.webp",
+      "sourceUrl": "https://www.flickr.com/photos/153584064@N07/31914900697",
+      "query": "wanted poster wall decor"
+    },
+    {
+      "productId": "mdh-suporte-controle-duplo-compact",
+      "slug": "suporte-controle-duplo-compact",
+      "sku": "MDH-0031",
+      "provider": "openverse",
+      "status": "imported",
+      "localPath": "/catalog-assets/suporte-controle-duplo-compact.webp",
+      "sourceUrl": "https://www.flickr.com/photos/35341360@N00/148381238",
+      "query": "game controller stand"
+    },
+    {
+      "productId": "mdh-suporte-controle-duplo-desk",
+      "slug": "suporte-controle-duplo-desk",
+      "sku": "MDH-0032",
+      "provider": "openverse",
+      "status": "imported",
+      "localPath": "/catalog-assets/suporte-controle-duplo-desk.webp",
+      "sourceUrl": "https://www.flickr.com/photos/35341360@N00/148381238",
+      "query": "game controller stand"
+    },
+    {
+      "productId": "mdh-suporte-controle-duplo-plus",
+      "slug": "suporte-controle-duplo-plus",
+      "sku": "MDH-0033",
+      "provider": "openverse",
+      "status": "imported",
+      "localPath": "/catalog-assets/suporte-controle-duplo-plus.webp",
+      "sourceUrl": "https://www.flickr.com/photos/35341360@N00/148381238",
+      "query": "game controller stand"
+    },
+    {
+      "productId": "mdh-suporte-controle-duplo-collector",
+      "slug": "suporte-controle-duplo-collector",
+      "sku": "MDH-0034",
+      "provider": "openverse",
+      "status": "imported",
+      "localPath": "/catalog-assets/suporte-controle-duplo-collector.webp",
+      "sourceUrl": "https://www.flickr.com/photos/35341360@N00/148381238",
+      "query": "game controller stand"
+    },
+    {
+      "productId": "mdh-headset-dock-neon-compact",
+      "slug": "headset-dock-neon-compact",
+      "sku": "MDH-0041",
+      "provider": "openverse",
+      "status": "imported",
+      "localPath": "/catalog-assets/headset-dock-neon-compact.webp",
+      "sourceUrl": "https://www.flickr.com/photos/48126477@N05/8010674154",
+      "query": "headphone stand setup"
+    },
+    {
+      "productId": "mdh-headset-dock-neon-desk",
+      "slug": "headset-dock-neon-desk",
+      "sku": "MDH-0042",
+      "provider": "openverse",
+      "status": "imported",
+      "localPath": "/catalog-assets/headset-dock-neon-desk.webp",
+      "sourceUrl": "https://www.flickr.com/photos/48126477@N05/8010674154",
+      "query": "headphone stand setup"
+    },
+    {
+      "productId": "mdh-headset-dock-neon-plus",
+      "slug": "headset-dock-neon-plus",
+      "sku": "MDH-0043",
+      "provider": "openverse",
+      "status": "imported",
+      "localPath": "/catalog-assets/headset-dock-neon-plus.webp",
+      "sourceUrl": "https://www.flickr.com/photos/48126477@N05/8010674154",
+      "query": "headphone stand setup"
+    },
+    {
+      "productId": "mdh-headset-dock-neon-collector",
+      "slug": "headset-dock-neon-collector",
+      "sku": "MDH-0044",
+      "provider": "openverse",
+      "status": "imported",
+      "localPath": "/catalog-assets/headset-dock-neon-collector.webp",
+      "sourceUrl": "https://www.flickr.com/photos/48126477@N05/8010674154",
+      "query": "headphone stand setup"
+    },
+    {
+      "productId": "mdh-dragao-articulado-premium-compact",
+      "slug": "dragao-articulado-premium-compact",
+      "sku": "MDH-0051",
+      "provider": "openverse",
+      "status": "imported",
+      "localPath": "/catalog-assets/dragao-articulado-premium-compact.webp",
+      "sourceUrl": "https://www.flickr.com/photos/52450054@N04/49412298977",
+      "query": "dragon figurine"
+    },
+    {
+      "productId": "mdh-dragao-articulado-premium-desk",
+      "slug": "dragao-articulado-premium-desk",
+      "sku": "MDH-0052",
+      "provider": "openverse",
+      "status": "imported",
+      "localPath": "/catalog-assets/dragao-articulado-premium-desk.webp",
+      "sourceUrl": "https://www.flickr.com/photos/52450054@N04/49412298977",
+      "query": "dragon figurine"
+    },
+    {
+      "productId": "mdh-dragao-articulado-premium-plus",
+      "slug": "dragao-articulado-premium-plus",
+      "sku": "MDH-0053",
+      "provider": "openverse",
+      "status": "imported",
+      "localPath": "/catalog-assets/dragao-articulado-premium-plus.webp",
+      "sourceUrl": "https://www.flickr.com/photos/52450054@N04/49412298977",
+      "query": "dragon figurine"
+    },
+    {
+      "productId": "mdh-dragao-articulado-premium-collector",
+      "slug": "dragao-articulado-premium-collector",
+      "sku": "MDH-0054",
+      "provider": "openverse",
+      "status": "imported",
+      "localPath": "/catalog-assets/dragao-articulado-premium-collector.webp",
+      "sourceUrl": "https://www.flickr.com/photos/52450054@N04/49412298977",
+      "query": "dragon figurine"
+    },
+    {
+      "productId": "mdh-dice-tower-mistica-compact",
+      "slug": "dice-tower-mistica-compact",
+      "sku": "MDH-0061",
+      "provider": "openverse",
+      "status": "imported",
+      "localPath": "/catalog-assets/dice-tower-mistica-compact.webp",
+      "sourceUrl": "https://www.flickr.com/photos/27482959@N08/5364706165",
+      "query": "dice tower"
+    },
+    {
+      "productId": "mdh-dice-tower-mistica-desk",
+      "slug": "dice-tower-mistica-desk",
+      "sku": "MDH-0062",
+      "provider": "openverse",
+      "status": "imported",
+      "localPath": "/catalog-assets/dice-tower-mistica-desk.webp",
+      "sourceUrl": "https://www.flickr.com/photos/27482959@N08/5364706165",
+      "query": "dice tower"
+    },
+    {
+      "productId": "mdh-dice-tower-mistica-plus",
+      "slug": "dice-tower-mistica-plus",
+      "sku": "MDH-0063",
+      "provider": "openverse",
+      "status": "imported",
+      "localPath": "/catalog-assets/dice-tower-mistica-plus.webp",
+      "sourceUrl": "https://www.flickr.com/photos/27482959@N08/5364706165",
+      "query": "dice tower"
+    },
+    {
+      "productId": "mdh-dice-tower-mistica-collector",
+      "slug": "dice-tower-mistica-collector",
+      "sku": "MDH-0064",
+      "provider": "openverse",
+      "status": "imported",
+      "localPath": "/catalog-assets/dice-tower-mistica-collector.webp",
+      "sourceUrl": "https://www.flickr.com/photos/27482959@N08/5364706165",
+      "query": "dice tower"
+    },
+    {
+      "productId": "mdh-vaso-geometrico-wave-compact",
+      "slug": "vaso-geometrico-wave-compact",
+      "sku": "MDH-0071",
+      "provider": "openverse",
+      "status": "imported",
+      "localPath": "/catalog-assets/vaso-geometrico-wave-compact.webp",
+      "sourceUrl": "https://www.flickr.com/photos/58661913@N00/28111883015",
+      "query": "geometric vase"
+    },
+    {
+      "productId": "mdh-vaso-geometrico-wave-desk",
+      "slug": "vaso-geometrico-wave-desk",
+      "sku": "MDH-0072",
+      "provider": "openverse",
+      "status": "imported",
+      "localPath": "/catalog-assets/vaso-geometrico-wave-desk.webp",
+      "sourceUrl": "https://www.flickr.com/photos/58661913@N00/28111883015",
+      "query": "geometric vase"
+    },
+    {
+      "productId": "mdh-vaso-geometrico-wave-plus",
+      "slug": "vaso-geometrico-wave-plus",
+      "sku": "MDH-0073",
+      "provider": "openverse",
+      "status": "imported",
+      "localPath": "/catalog-assets/vaso-geometrico-wave-plus.webp",
+      "sourceUrl": "https://www.flickr.com/photos/58661913@N00/28111883015",
+      "query": "geometric vase"
+    },
+    {
+      "productId": "mdh-vaso-geometrico-wave-collector",
+      "slug": "vaso-geometrico-wave-collector",
+      "sku": "MDH-0074",
+      "provider": "openverse",
+      "status": "imported",
+      "localPath": "/catalog-assets/vaso-geometrico-wave-collector.webp",
+      "sourceUrl": "https://www.flickr.com/photos/58661913@N00/28111883015",
+      "query": "geometric vase"
+    },
+    {
+      "productId": "mdh-luminaria-lua-vazada-compact",
+      "slug": "luminaria-lua-vazada-compact",
+      "sku": "MDH-0081",
+      "provider": "openverse",
+      "status": "imported",
+      "localPath": "/catalog-assets/luminaria-lua-vazada-compact.webp",
+      "sourceUrl": "https://www.flickr.com/photos/26876910@N08/3685121078",
+      "query": "moon lamp"
+    },
+    {
+      "productId": "mdh-luminaria-lua-vazada-desk",
+      "slug": "luminaria-lua-vazada-desk",
+      "sku": "MDH-0082",
+      "provider": "openverse",
+      "status": "imported",
+      "localPath": "/catalog-assets/luminaria-lua-vazada-desk.webp",
+      "sourceUrl": "https://www.flickr.com/photos/26876910@N08/3685121078",
+      "query": "moon lamp"
+    },
+    {
+      "productId": "mdh-luminaria-lua-vazada-plus",
+      "slug": "luminaria-lua-vazada-plus",
+      "sku": "MDH-0083",
+      "provider": "openverse",
+      "status": "imported",
+      "localPath": "/catalog-assets/luminaria-lua-vazada-plus.webp",
+      "sourceUrl": "https://www.flickr.com/photos/26876910@N08/3685121078",
+      "query": "moon lamp"
+    },
+    {
+      "productId": "mdh-luminaria-lua-vazada-collector",
+      "slug": "luminaria-lua-vazada-collector",
+      "sku": "MDH-0084",
+      "provider": "openverse",
+      "status": "imported",
+      "localPath": "/catalog-assets/luminaria-lua-vazada-collector.webp",
+      "sourceUrl": "https://www.flickr.com/photos/26876910@N08/3685121078",
+      "query": "moon lamp"
+    },
+    {
+      "productId": "mdh-mandala-orbit-compact",
+      "slug": "mandala-orbit-compact",
+      "sku": "MDH-0091",
+      "provider": "openverse",
+      "status": "imported",
+      "localPath": "/catalog-assets/mandala-orbit-compact.webp",
+      "sourceUrl": "https://www.flickr.com/photos/16533652@N00/2077047",
+      "query": "mandala wall decor"
+    },
+    {
+      "productId": "mdh-mandala-orbit-desk",
+      "slug": "mandala-orbit-desk",
+      "sku": "MDH-0092",
+      "provider": "openverse",
+      "status": "imported",
+      "localPath": "/catalog-assets/mandala-orbit-desk.webp",
+      "sourceUrl": "https://www.flickr.com/photos/16533652@N00/2077047",
+      "query": "mandala wall decor"
+    },
+    {
+      "productId": "mdh-mandala-orbit-plus",
+      "slug": "mandala-orbit-plus",
+      "sku": "MDH-0093",
+      "provider": "openverse",
+      "status": "imported",
+      "localPath": "/catalog-assets/mandala-orbit-plus.webp",
+      "sourceUrl": "https://www.flickr.com/photos/16533652@N00/2077047",
+      "query": "mandala wall decor"
+    },
+    {
+      "productId": "mdh-mandala-orbit-collector",
+      "slug": "mandala-orbit-collector",
+      "sku": "MDH-0094",
+      "provider": "openverse",
+      "status": "imported",
+      "localPath": "/catalog-assets/mandala-orbit-collector.webp",
+      "sourceUrl": "https://www.flickr.com/photos/16533652@N00/2077047",
+      "query": "mandala wall decor"
+    },
+    {
+      "productId": "mdh-placa-pix-premium-compact",
+      "slug": "placa-pix-premium-compact",
+      "sku": "MDH-0101",
+      "provider": "openverse",
+      "status": "imported",
+      "localPath": "/catalog-assets/placa-pix-premium-compact.webp",
+      "sourceUrl": "https://www.flickr.com/photos/22714323@N06/3893422625",
+      "query": "cashier counter sign"
+    },
+    {
+      "productId": "mdh-placa-pix-premium-desk",
+      "slug": "placa-pix-premium-desk",
+      "sku": "MDH-0102",
+      "provider": "openverse",
+      "status": "imported",
+      "localPath": "/catalog-assets/placa-pix-premium-desk.webp",
+      "sourceUrl": "https://www.flickr.com/photos/22714323@N06/3893422625",
+      "query": "cashier counter sign"
+    },
+    {
+      "productId": "mdh-placa-pix-premium-plus",
+      "slug": "placa-pix-premium-plus",
+      "sku": "MDH-0103",
+      "provider": "openverse",
+      "status": "imported",
+      "localPath": "/catalog-assets/placa-pix-premium-plus.webp",
+      "sourceUrl": "https://www.flickr.com/photos/22714323@N06/3893422625",
+      "query": "cashier counter sign"
+    },
+    {
+      "productId": "mdh-placa-pix-premium-collector",
+      "slug": "placa-pix-premium-collector",
+      "sku": "MDH-0104",
+      "provider": "openverse",
+      "status": "imported",
+      "localPath": "/catalog-assets/placa-pix-premium-collector.webp",
+      "sourceUrl": "https://www.flickr.com/photos/22714323@N06/3893422625",
+      "query": "cashier counter sign"
+    },
+    {
+      "productId": "mdh-nome-3d-signature-compact",
+      "slug": "nome-3d-signature-compact",
+      "sku": "MDH-0111",
+      "provider": "openverse",
+      "status": "imported",
+      "localPath": "/catalog-assets/nome-3d-signature-compact.webp",
+      "sourceUrl": "https://www.flickr.com/photos/96713863@N00/541534950",
+      "query": "custom name sign"
+    },
+    {
+      "productId": "mdh-nome-3d-signature-desk",
+      "slug": "nome-3d-signature-desk",
+      "sku": "MDH-0112",
+      "provider": "openverse",
+      "status": "imported",
+      "localPath": "/catalog-assets/nome-3d-signature-desk.webp",
+      "sourceUrl": "https://www.flickr.com/photos/96713863@N00/541534950",
+      "query": "custom name sign"
+    },
+    {
+      "productId": "mdh-nome-3d-signature-plus",
+      "slug": "nome-3d-signature-plus",
+      "sku": "MDH-0113",
+      "provider": "openverse",
+      "status": "imported",
+      "localPath": "/catalog-assets/nome-3d-signature-plus.webp",
+      "sourceUrl": "https://www.flickr.com/photos/96713863@N00/541534950",
+      "query": "custom name sign"
+    },
+    {
+      "productId": "mdh-nome-3d-signature-collector",
+      "slug": "nome-3d-signature-collector",
+      "sku": "MDH-0114",
+      "provider": "openverse",
+      "status": "imported",
+      "localPath": "/catalog-assets/nome-3d-signature-collector.webp",
+      "sourceUrl": "https://www.flickr.com/photos/96713863@N00/541534950",
+      "query": "custom name sign"
+    }
+  ]
+}

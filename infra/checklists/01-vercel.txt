@@ -1,0 +1,7 @@
+VERCEL - PASSO A PASSO
+1. Criar conta na Vercel
+2. Importar o repositório GitHub
+3. Deploy inicial
+4. Abrir Project Settings > Environment Variables
+5. Preencher as variáveis da .env.production.sample
+6. Fazer redeploy depois de alterar env vars

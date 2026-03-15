@@ -28,11 +28,14 @@ if (-not (Test-Path '.env.local')) {
 
 Write-Step '3) Conferindo campos obrigatorios do admin'
 $envText = Get-Content '.env.local' -Raw
-if ($envText -match 'ADMIN_PASSWORD=troque-por-uma-senha-forte') {
-  Write-Host 'ATENCAO: troque a linha ADMIN_PASSWORD no .env.local antes de publicar.' -ForegroundColor Yellow
+if ($envText -match 'ADMIN_PASSWORD_HASH=' -and $envText -notmatch 'ADMIN_PASSWORD_HASH=.+') {
+  Write-Host 'ATENCAO: gere e preencha ADMIN_PASSWORD_HASH no .env.local antes de operar o painel.' -ForegroundColor Yellow
 }
-if ($envText -match 'ADMIN_SESSION_TOKEN=troque-por-um-token-grande-e-aleatorio') {
-  Write-Host 'ATENCAO: troque a linha ADMIN_SESSION_TOKEN no .env.local antes de publicar.' -ForegroundColor Yellow
+if ($envText -match 'ADMIN_SESSION_SECRET=troque-por-um-segredo-longo-e-aleatorio') {
+  Write-Host 'ATENCAO: troque ADMIN_SESSION_SECRET no .env.local antes de operar o painel.' -ForegroundColor Yellow
+}
+if ($envText -match 'DATABASE_URL=postgresql://postgres:postgres@127.0.0.1:5432/mdh3d') {
+  Write-Host 'ATENCAO: revise a DATABASE_URL. Em Supabase prefira Session pooler IPv4 em Connect > Session pooler.' -ForegroundColor Yellow
 }
 
 Write-Step '4) Abrindo no VS Code (se disponivel)'
@@ -48,12 +51,12 @@ npm install
 
 Write-Step '6) Como acessar'
 Write-Host 'Site publico:        http://localhost:3000' -ForegroundColor White
-Write-Host 'Painel admin oculto: http://localhost:3000/painel-mdh-85/login' -ForegroundColor White
-Write-Host 'Login cliente:       http://localhost:3000/login' -ForegroundColor White
+Write-Host 'Painel admin:        http://localhost:3000/admin/login' -ForegroundColor White
+Write-Host 'Login cliente:       http://localhost:3000/login (opcional)' -ForegroundColor White
 
 Write-Step '7) Observacoes importantes'
-Write-Host 'Google/Apple/SMS so funcionam quando voce preencher o Supabase no .env.local e ativar os providers.' -ForegroundColor Yellow
-Write-Host 'Sem Supabase o site continua funcionando normalmente, inclusive catalogo, frete, bot e WhatsApp.' -ForegroundColor Yellow
+Write-Host 'O funil principal de venda usa DATABASE_URL + Drizzle + Postgres/Supabase. Admin e pedido real nao operam sem banco.' -ForegroundColor Yellow
+Write-Host 'Login/conta publica por Supabase continuam opcionais e fora do caminho principal de compra.' -ForegroundColor Yellow
 Write-Host 'Para deixar online sem depender do seu PC, publique no GitHub + Vercel. Depois use Cloudflare no dominio.' -ForegroundColor Yellow
 Write-Host 'Para a home mostrar videos, jogue arquivos .mp4/.webm em public/media.' -ForegroundColor Yellow
 
