@@ -7,6 +7,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { WhatsAppFloat } from "@/components/whatsapp-float";
 import { PwaRegister } from "@/components/pwa-register";
 import { SiteAssistant } from "@/components/site-assistant";
+import { getCurrentCustomerSession } from "@/lib/customer-auth";
 import {
   getAbsoluteUrl,
   getOrganizationStructuredData,
@@ -21,7 +22,7 @@ export const metadata: Metadata = {
     template: "%s | MDH 3D"
   },
   description:
-    "Catálogo curado de impressões 3D para anime, setup, decoração, utilidades e personalizados, com pedido real, Pix, checkout leve e atendimento no WhatsApp.",
+    "Curadoria de pecas 3D para presentes, setup, decoracao e personalizados, com Pix, compra simples e atendimento no WhatsApp.",
   metadataBase: new URL(getSiteUrl()),
   applicationName: "MDH 3D",
   keywords: [
@@ -50,14 +51,14 @@ export const metadata: Metadata = {
     locale: "pt_BR",
     siteName: "MDH 3D",
     title: "MDH 3D",
-    description: "Impressões 3D sob encomenda com catálogo curado, checkout leve, Pix, WhatsApp e painel operacional.",
+    description: "Pecas 3D sob encomenda com curadoria para presentes, setup, decoracao e personalizados.",
     url: getSiteUrl(),
     images: [{ url: getAbsoluteUrl("/logo-mdh.jpg"), alt: "MDH 3D" }]
   },
   twitter: {
     card: "summary_large_image",
     title: "MDH 3D",
-    description: "Loja premium de impressões 3D com catálogo curado, Pix e atendimento rápido no WhatsApp.",
+    description: "Loja premium de pecas 3D com curadoria, Pix e atendimento rapido no WhatsApp.",
     images: [getAbsoluteUrl("/logo-mdh.jpg")]
   },
   alternates: {
@@ -69,7 +70,15 @@ const organizationLd = getOrganizationStructuredData();
 const websiteLd = getWebsiteStructuredData();
 const storePolicyLd = getStoreStructuredData();
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  const customerSession = await getCurrentCustomerSession();
+  const initialCustomerDraft = customerSession
+    ? {
+        fullName: customerSession.account.fullName,
+        email: customerSession.account.email
+      }
+    : undefined;
+
   return (
     <html lang="pt-BR">
       <body className="bg-base text-white antialiased">
@@ -77,7 +86,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteLd) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(storePolicyLd) }} />
         <AnalyticsProvider />
-        <CartProvider>
+        <CartProvider initialCustomerDraft={initialCustomerDraft}>
           <SiteHeader />
           <main>{children}</main>
           <SiteFooter />

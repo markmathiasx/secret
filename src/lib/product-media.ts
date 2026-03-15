@@ -73,10 +73,10 @@ export function getProductPrimaryMedia(product: ProductMediaLike): ProductMediaA
     id: `${product.sku}-hero`,
     src,
     alt: product.imageAlt || `${product.name} - hero do produto`,
-    label: isPlaceholder ? "Preview editorial" : "Imagem principal",
+    label: isPlaceholder ? "Visual ambientado" : "Foto principal",
     caption: isPlaceholder
-      ? "Placeholder premium gerado para manter a vitrine pronta enquanto a foto final nao entra."
-      : product.merchandising || "Imagem principal do produto na vitrine da MDH 3D.",
+      ? "Visual ilustrativo criado para manter a experiencia da loja elegante mesmo antes da foto final."
+      : product.merchandising || "Foto principal da peca na colecao da MDH 3D.",
     kind: "hero",
     objectPosition: "center center",
     isPlaceholder
@@ -91,13 +91,13 @@ function getDetailCaption(product: ProductMediaLike) {
   ].filter(Boolean);
 
   return parts.length
-    ? `Leitura rapida de escala, producao e prazo: ${parts.join(" • ")}.`
-    : "Detalhe para leitura de escala, acabamento e perfil de compra.";
+    ? `Escala, producao e prazo em uma leitura rapida: ${parts.join(" • ")}.`
+    : "Detalhe pensado para mostrar escala, acabamento e presenca visual.";
 }
 
 function getLifestyleCaption(product: ProductMediaLike) {
   const parts = [product.collection || null, product.theme || null, product.category].filter(Boolean);
-  return `Ambientacao editorial para ${parts.join(" • ")} na vitrine da loja.`;
+  return `Ambientacao sugerida para ${parts.join(" • ")} dentro da loja.`;
 }
 
 export function getProductGallerySources(product: ProductMediaLike): ProductMediaAsset[] {

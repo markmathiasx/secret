@@ -16,6 +16,8 @@ export function CatalogCard({ product, onQuickView }: CatalogCardProps) {
   const { addItem, items } = useCart();
   const cartQuantity = items.find((entry) => entry.productId === product.id)?.quantity || 0;
   const pixSaving = Math.max(0, product.priceCard - product.pricePix);
+  const badge = typeof product.metadata.badge === "string" ? product.metadata.badge : product.featured ? "Escolha da loja" : product.collection;
+  const subtitle = typeof product.metadata.subtitle === "string" ? product.metadata.subtitle : product.merchandising;
 
   return (
     <article className="group overflow-hidden rounded-[32px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.07),rgba(255,255,255,0.025))] shadow-[0_24px_64px_rgba(2,8,23,0.28)] transition hover:-translate-y-1 hover:border-cyan-300/35">
@@ -37,11 +39,9 @@ export function CatalogCard({ product, onQuickView }: CatalogCardProps) {
           <span className="rounded-full border border-white/15 bg-black/35 px-3 py-1 text-[11px] uppercase tracking-[0.18em] text-white/75">
             {product.theme}
           </span>
-          {product.featured ? (
-            <span className="rounded-full border border-amber-300/25 bg-amber-300/12 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-amber-100">
-              Escolha premium
-            </span>
-          ) : null}
+          <span className="rounded-full border border-amber-300/25 bg-amber-300/12 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-amber-100">
+            {badge}
+          </span>
         </div>
         {cartQuantity ? (
           <div className="absolute bottom-4 left-4 rounded-full border border-emerald-400/20 bg-emerald-400/14 px-3 py-1 text-xs font-semibold text-emerald-100">
@@ -64,7 +64,7 @@ export function CatalogCard({ product, onQuickView }: CatalogCardProps) {
           </div>
         </div>
 
-        <p className="min-h-[72px] text-sm leading-6 text-white/62">{product.description}</p>
+        <p className="min-h-[72px] text-sm leading-6 text-white/62">{subtitle}</p>
 
         <div className="flex flex-wrap gap-2">
           {product.tags.slice(0, 2).map((tag) => (
@@ -76,7 +76,7 @@ export function CatalogCard({ product, onQuickView }: CatalogCardProps) {
             {product.materials[0]}
           </span>
           <span className="rounded-full border border-white/10 bg-black/20 px-2.5 py-1 text-[11px] text-white/55">
-            {product.imageStatus === "imported" ? "Imagem local" : "Preview premium"}
+            {product.imageStatus === "imported" ? "Foto da peca" : "Visual ilustrativo"}
           </span>
         </div>
 
@@ -93,7 +93,7 @@ export function CatalogCard({ product, onQuickView }: CatalogCardProps) {
         </div>
 
         <div className="rounded-[22px] border border-white/10 bg-black/20 px-4 py-3 text-xs text-white/58">
-          {pixSaving > 0 ? `No Pix você economiza ${formatCurrency(pixSaving)} neste item.` : "Preço pensado para compra rápida e boa percepção de valor."}
+          {pixSaving > 0 ? `No Pix voce economiza ${formatCurrency(pixSaving)} neste item.` : "Preco pensado para compra rapida e boa leitura de valor."}
         </div>
 
         <div className="grid grid-cols-[1fr_auto] gap-2">

@@ -3,7 +3,7 @@ export const brand = {
   legalName: "MarkDressaHeylel",
   city: "Rio de Janeiro",
   state: "RJ",
-  slogan: "Impressão 3D premium para decoração, utilidades, anime, geek e personalizados",
+  slogan: "Pecas 3D com personalidade para presentear, organizar e decorar",
   instagramHandle: process.env.NEXT_PUBLIC_BRAND_INSTAGRAM_HANDLE || "mdh_impressao3d"
 };
 
@@ -48,6 +48,13 @@ export const adminConfig = {
   sessionCookieName: "mdh_admin_session"
 };
 
+export const customerAuthConfig = {
+  loginPath: "/login",
+  registerPath: "/login?mode=register",
+  accountPath: "/conta",
+  sessionCookieName: "mdh_customer_session"
+};
+
 const num = (value: string | undefined, fallback: number) => {
   const parsed = Number(value);
   return Number.isFinite(parsed) ? parsed : fallback;
@@ -72,12 +79,12 @@ export const deliveryZones = [
 ] as const;
 
 export const homepageCollections = [
-  "For You",
-  "Tendência",
-  "Household",
-  "Toys & Games",
-  "Tools",
-  "Hobby & DIY",
-  "Miniatures",
-  "Props & Cosplays"
+  "Mais pedidos",
+  "Presentes criativos",
+  "Geek & Anime",
+  "Setup organizado",
+  "Casa com personalidade",
+  "Sob encomenda",
+  "Decor para setup",
+  "Pequenos luxos em 3D"
 ] as const;

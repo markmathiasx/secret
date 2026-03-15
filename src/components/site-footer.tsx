@@ -8,7 +8,7 @@ export function SiteFooter() {
         <div>
           <h3 className="text-lg font-semibold text-white">{brand.name}</h3>
           <p className="mt-2 text-sm text-white/65">{brand.slogan}</p>
-          <p className="mt-3 text-sm text-white/45">Entrega local no Rio de Janeiro - RJ</p>
+          <p className="mt-3 text-sm text-white/45">Producao local no Rio de Janeiro - RJ, com atendimento rapido e pecas sob encomenda.</p>
         </div>
         <div>
           <h4 className="text-sm font-semibold uppercase tracking-[0.18em] text-white/60">Institucional</h4>
@@ -22,16 +22,16 @@ export function SiteFooter() {
         <div>
           <h4 className="text-sm font-semibold uppercase tracking-[0.18em] text-white/60">Atendimento</h4>
           <div className="mt-3 flex flex-col gap-2 text-sm text-white/70">
-            <span>WhatsApp e humano sob demanda</span>
+            <span>WhatsApp com atendimento rapido</span>
             <span>E-mail: {supportEmail}</span>
-            <span>Instagram: @{brand.instagramHandle}</span>
+            <span>Instagram oficial: @{brand.instagramHandle}</span>
           </div>
         </div>
         <div>
           <h4 className="text-sm font-semibold uppercase tracking-[0.18em] text-white/60">Pagamento</h4>
           <div className="mt-3 flex flex-col gap-2 text-sm text-white/70">
-            <span>Pix, cartão e outros meios sob consulta</span>
-            <span>Canais externos como Shopee e Mercado Livre continuam atendidos em paralelo</span>
+            <span>Pix com melhor preco e cartao quando habilitado</span>
+            <span>Atendimento por WhatsApp para combinacoes, kits e pecas sob medida</span>
             <span className="text-white/55">Pix com QR Code e copia e cola no checkout</span>
             <span className="text-white/55">Recebedor confirmado no app: CPF final {pix.cpfSuffix}</span>
           </div>

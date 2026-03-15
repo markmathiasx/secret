@@ -40,9 +40,9 @@ export function PixPaymentCard({ title, amount }: { title: string; amount: numbe
     <div className="rounded-[30px] border border-emerald-400/20 bg-emerald-400/10 p-6">
       <div className="flex items-start justify-between gap-4">
         <div>
-          <p className="text-xs uppercase tracking-[0.2em] text-emerald-100/80">Pagamento instantâneo</p>
+          <p className="text-xs uppercase tracking-[0.2em] text-emerald-100/80">Pagamento instantaneo</p>
           <h3 className="mt-2 text-2xl font-black text-white">Pix com QR Code e copia e cola</h3>
-          <p className="mt-3 text-sm leading-7 text-emerald-50/75">Gere o pagamento somente quando for fechar o pedido. O app do cliente confirma o recebedor com CPF final 85.</p>
+          <p className="mt-3 text-sm leading-7 text-emerald-50/75">Ideal para quem quer fechar rapido: gere o QR Code ou o copia e cola e confirme o recebedor no app do banco.</p>
         </div>
         <span className="rounded-2xl border border-white/10 bg-black/20 p-3 text-emerald-50">
           <QrCode className="h-6 w-6" />
@@ -69,7 +69,7 @@ export function PixPaymentCard({ title, amount }: { title: string; amount: numbe
           </div>
           <div className="flex items-start gap-3 rounded-[24px] border border-white/10 bg-black/20 p-4 text-sm text-white/68">
             <ShieldCheck className="mt-0.5 h-5 w-5 text-emerald-200" />
-            <p>Para o cliente, mostre apenas o QR Code ou o copia e cola. Não é necessário expor a chave Pix na vitrine do site.</p>
+            <p>Use o QR Code ou o copia e cola para pagar com clareza, sem precisar sair da pagina ou pedir suporte para concluir.</p>
           </div>
         </div>
       </div>

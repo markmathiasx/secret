@@ -2,199 +2,295 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { ArrowRight, Mail, MessageSquareShare, Smartphone } from "lucide-react";
-import { supabaseBrowser } from "@/lib/supabase/browser";
+import { ArrowRight, LockKeyhole, Mail, MessageCircleMore, ShieldCheck, UserRound } from "lucide-react";
 import { supportEmail, whatsappMessage, whatsappNumber } from "@/lib/constants";
 
-export function PublicLoginPage() {
-  const [error, setError] = useState<string | null>(null);
-  const [info, setInfo] = useState<string | null>(null);
+type PublicLoginPageProps = {
+  initialMode?: "login" | "register";
+  redirectTo?: string;
+  loggedOut?: boolean;
+};
+
+type AuthMode = "login" | "register";
+
+export function PublicLoginPage({
+  initialMode = "login",
+  redirectTo = "/conta",
+  loggedOut = false
+}: PublicLoginPageProps) {
+  const [mode, setMode] = useState<AuthMode>(initialMode);
+  const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [status, setStatus] = useState<"idle" | "loading" | "error">("idle");
+  const [message, setMessage] = useState("");
 
-  const supabaseReady = Boolean(supabaseBrowser);
-  const whatsappHref = useMemo(() => `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`, []);
+  const whatsappHref = useMemo(
+    () => `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`,
+    []
+  );
 
-  async function oauth(provider: "google" | "apple") {
-    setError(null);
-    setInfo(null);
-    if (!supabaseBrowser) {
-      setError("Login social opcional: primeiro preencha NEXT_PUBLIC_SUPABASE_URL e NEXT_PUBLIC_SUPABASE_ANON_KEY no .env.local.");
+  async function onSubmit(event: React.FormEvent) {
+    event.preventDefault();
+    setStatus("loading");
+    setMessage("");
+
+    if (mode === "register" && password !== confirmPassword) {
+      setStatus("error");
+      setMessage("Confirme a mesma senha nos dois campos.");
       return;
     }
 
-    const origin = window.location.origin;
-    const { error } = await supabaseBrowser.auth.signInWithOAuth({
-      provider,
-      options: { redirectTo: `${origin}/auth/callback` }
-    });
-    if (error) setError(error.message);
-  }
+    try {
+      const response = await fetch(mode === "register" ? "/api/auth/register" : "/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fullName,
+          email,
+          password,
+          next: redirectTo
+        })
+      });
 
-  async function emailOtp() {
-    setError(null);
-    setInfo(null);
-    if (!supabaseBrowser) {
-      setError("Para link por e-mail, configure o Supabase no .env.local.");
-      return;
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        setStatus("error");
+        setMessage(data?.error || "Nao consegui concluir sua autenticacao agora.");
+        return;
+      }
+
+      window.location.href = data?.redirectTo || redirectTo;
+    } catch {
+      setStatus("error");
+      setMessage("Nao consegui falar com a API da conta agora. Tente novamente em instantes.");
     }
-    if (!email.trim()) {
-      setError("Digite seu e-mail.");
-      return;
-    }
-
-    const origin = window.location.origin;
-    const { error } = await supabaseBrowser.auth.signInWithOtp({
-      email: email.trim(),
-      options: { emailRedirectTo: `${origin}/auth/callback` }
-    });
-
-    if (error) {
-      setError(error.message);
-      return;
-    }
-
-    setInfo("Se o Supabase estiver configurado, enviamos um link de acesso para seu e-mail.");
-  }
-
-  async function phoneOtp() {
-    setError(null);
-    setInfo(null);
-    if (!supabaseBrowser) {
-      setError("Para login por telefone/SMS, configure o Supabase no .env.local e um provedor de SMS/WhatsApp no painel.");
-      return;
-    }
-    if (!phone.trim()) {
-      setError("Digite seu telefone com DDI. Ex.: +5521999999999");
-      return;
-    }
-
-    const { error } = await supabaseBrowser.auth.signInWithOtp({
-      phone: phone.trim()
-    });
-
-    if (error) {
-      setError(error.message);
-      return;
-    }
-
-    setInfo("Se o provedor de telefone estiver configurado, o código OTP foi disparado para esse número.");
   }
 
   return (
-    <section className="mx-auto max-w-5xl px-6 py-20">
+    <section className="mx-auto max-w-6xl px-6 py-20">
       <div className="max-w-2xl">
-        <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Conta opcional</p>
-        <h1 className="mt-3 text-4xl font-black text-white">Entrar</h1>
+        <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Conta MDH 3D</p>
+        <h1 className="mt-3 text-4xl font-black text-white">
+          Entre para repetir pedidos, salvar seus dados e acompanhar compras com mais rapidez.
+        </h1>
         <p className="mt-4 text-white/65">
-          A loja foi pensada para vender sem exigir conta do cliente. Google, Apple e OTP continuam disponíveis como camada opcional de conveniência quando o Supabase estiver configurado.
+          O fluxo principal da loja continua guest-first, mas a conta propria da plataforma agora usa email, senha e
+          sessao persistente para facilitar recompras e acompanhamento.
         </p>
       </div>
 
-      <div className="mt-10 grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
+      <div className="mt-10 grid gap-6 xl:grid-cols-[1.05fr_0.95fr]">
         <div className="rounded-[32px] border border-white/10 bg-white/5 p-6">
-          <div className="flex items-center justify-between gap-4">
+          <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
-              <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Cliente</p>
-              <h2 className="mt-2 text-2xl font-bold text-white">Login opcional</h2>
+              <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Acesso principal</p>
+              <h2 className="mt-2 text-2xl font-bold text-white">
+                {mode === "register" ? "Criar conta da plataforma" : "Entrar na sua conta"}
+              </h2>
             </div>
-            <span className={`rounded-full px-3 py-1 text-xs font-semibold ${supabaseReady ? "bg-emerald-400/15 text-emerald-100" : "bg-amber-400/15 text-amber-100"}`}>
-              {supabaseReady ? "Supabase detectado" : "Supabase ainda não configurado"}
-            </span>
+
+            <div className="inline-flex rounded-full border border-white/10 bg-black/20 p-1">
+              {([
+                { id: "login", label: "Entrar" },
+                { id: "register", label: "Cadastrar" }
+              ] as const).map((item) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => {
+                    setMode(item.id);
+                    setMessage("");
+                    setStatus("idle");
+                  }}
+                  className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
+                    mode === item.id
+                      ? "bg-cyan-400 text-slate-950"
+                      : "text-white/68 hover:text-white"
+                  }`}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
           </div>
 
-          <div className="mt-6 grid gap-3 sm:grid-cols-2">
-            <button onClick={() => oauth("google")} className="rounded-full bg-cyan-400 px-6 py-3 text-sm font-semibold text-slate-950">
-              Entrar com Google
-            </button>
-            <button onClick={() => oauth("apple")} className="rounded-full border border-white/10 bg-black/20 px-6 py-3 text-sm font-semibold text-white">
-              Entrar com Apple
-            </button>
-          </div>
+          {loggedOut ? (
+            <p className="mt-5 rounded-[22px] border border-emerald-300/20 bg-emerald-300/10 px-4 py-3 text-sm text-emerald-100/90">
+              Sessao encerrada com sucesso.
+            </p>
+          ) : null}
 
-          <div className="mt-6 grid gap-4 md:grid-cols-2">
-            <div className="rounded-[28px] border border-white/10 bg-black/20 p-5">
-              <div className="flex items-center gap-3 text-white">
-                <Mail className="h-5 w-5 text-cyan-200" />
-                <h3 className="font-semibold">Link por e-mail</h3>
-              </div>
-              <p className="mt-2 text-sm leading-6 text-white/60">Bom para recorrência futura, sem criar senha na unha.</p>
+          <form onSubmit={onSubmit} className="mt-6 space-y-4">
+            {mode === "register" ? (
+              <label className="block">
+                <span className="text-sm text-white/70">Nome completo</span>
+                <input
+                  value={fullName}
+                  onChange={(event) => setFullName(event.target.value)}
+                  type="text"
+                  required
+                  autoComplete="name"
+                  className="mt-2 w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none"
+                />
+              </label>
+            ) : null}
+
+            <label className="block">
+              <span className="text-sm text-white/70">E-mail</span>
               <input
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(event) => setEmail(event.target.value)}
                 type="email"
-                placeholder="cliente@email.com"
-                className="mt-4 w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none"
+                required
+                autoComplete="email"
+                className="mt-2 w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none"
               />
-              <button onClick={emailOtp} className="mt-4 inline-flex rounded-full border border-cyan-400/25 bg-cyan-400/10 px-4 py-2 text-sm font-semibold text-cyan-100">
-                Enviar link
-              </button>
-            </div>
+            </label>
 
-            <div className="rounded-[28px] border border-white/10 bg-black/20 p-5">
-              <div className="flex items-center gap-3 text-white">
-                <Smartphone className="h-5 w-5 text-cyan-200" />
-                <h3 className="font-semibold">Telefone / OTP</h3>
-              </div>
-              <p className="mt-2 text-sm leading-6 text-white/60">Formato recomendado: +5521999999999.</p>
+            <label className="block">
+              <span className="text-sm text-white/70">Senha</span>
               <input
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                type="tel"
-                placeholder="+5521999999999"
-                className="mt-4 w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                type="password"
+                required
+                minLength={8}
+                autoComplete={mode === "register" ? "new-password" : "current-password"}
+                className="mt-2 w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none"
               />
-              <button onClick={phoneOtp} className="mt-4 inline-flex rounded-full border border-cyan-400/25 bg-cyan-400/10 px-4 py-2 text-sm font-semibold text-cyan-100">
-                Enviar código
-              </button>
-            </div>
-          </div>
+            </label>
 
-          {error ? <p className="mt-5 text-sm text-rose-200">{error}</p> : null}
-          {info ? <p className="mt-5 text-sm text-emerald-200">{info}</p> : null}
+            {mode === "register" ? (
+              <label className="block">
+                <span className="text-sm text-white/70">Confirmar senha</span>
+                <input
+                  value={confirmPassword}
+                  onChange={(event) => setConfirmPassword(event.target.value)}
+                  type="password"
+                  required
+                  minLength={8}
+                  autoComplete="new-password"
+                  className="mt-2 w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none"
+                />
+              </label>
+            ) : null}
+
+            <div className="rounded-[24px] border border-white/10 bg-black/20 px-4 py-3 text-xs leading-6 text-white/48">
+              Sua sessao usa cookie seguro e HttpOnly, persiste por cerca de 30 dias e so sai quando voce clicar em
+              logout ou quando o prazo realmente expirar.
+            </div>
+
+            {status === "error" ? <p className="text-sm text-rose-200">{message}</p> : null}
+
+            <button
+              type="submit"
+              disabled={status === "loading"}
+              className="w-full rounded-full bg-cyan-400 px-6 py-3 text-sm font-semibold text-slate-950 transition hover:scale-[1.01] disabled:opacity-60"
+            >
+              {status === "loading"
+                ? mode === "register"
+                  ? "Criando conta..."
+                  : "Entrando..."
+                : mode === "register"
+                  ? "Criar conta"
+                  : "Entrar"}
+            </button>
+          </form>
+
+          <div className="mt-6 rounded-[28px] border border-white/10 bg-black/20 p-5">
+            <div className="flex items-center gap-3 text-white">
+              <LockKeyhole className="h-5 w-5 text-cyan-200" />
+              <h3 className="font-semibold">Google continua opcional</h3>
+            </div>
+            <p className="mt-2 text-sm leading-6 text-white/60">
+              O login principal agora e email + senha da propria plataforma. O social fica como camada secundaria e pode
+              ser ligado depois sem mexer no checkout, pedidos ou painel.
+            </p>
+            <button
+              type="button"
+              disabled
+              className="mt-4 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white/45"
+            >
+              Continuar com Google em breve
+            </button>
+          </div>
         </div>
 
         <div className="rounded-[32px] border border-white/10 bg-white/5 p-6">
-          <p className="text-xs uppercase tracking-[0.2em] text-violet-200">Guest-first</p>
-          <h2 className="mt-2 text-2xl font-bold text-white">A compra principal não depende disso</h2>
+          <p className="text-xs uppercase tracking-[0.2em] text-violet-200">Conta + compra</p>
+          <h2 className="mt-2 text-2xl font-bold text-white">A conta ajuda, mas nao trava a venda.</h2>
           <p className="mt-3 text-sm leading-7 text-white/60">
-            Se você quer vender amanhã, o fluxo oficial continua sendo catálogo, carrinho, checkout guest, pedido real e acompanhamento por número + e-mail ou WhatsApp.
+            Quem quiser compra sem cadastro obrigatorio. Quem criar conta ganha uma base mais pratica para recomprar,
+            revisar dados e acompanhar pedidos em um lugar unico.
           </p>
 
-          <div className="mt-6 space-y-4">
-            <a href={whatsappHref} className="flex items-center justify-between rounded-[24px] border border-emerald-400/20 bg-emerald-400/10 px-5 py-4 text-white">
-              <div>
-                <p className="text-sm font-semibold">Continuar pelo WhatsApp</p>
-                <p className="text-xs text-white/65">Atendimento direto com a loja</p>
+          <div className="mt-6 grid gap-3">
+            {[
+              {
+                icon: UserRound,
+                title: "Dados mais rapidos no checkout",
+                text: "Nome e e-mail ja entram preenchidos para reduzir atrito."
+              },
+              {
+                icon: Mail,
+                title: "Historico da conta",
+                text: "Os pedidos podem aparecer na conta quando estiverem ligados ao seu cliente."
+              },
+              {
+                icon: ShieldCheck,
+                title: "Sessao persistente",
+                text: "Refresh e reabertura do navegador nao derrubam a conta se a sessao ainda estiver valida."
+              }
+            ].map((item) => (
+              <div key={item.title} className="rounded-[24px] border border-white/10 bg-black/20 p-4">
+                <item.icon className="h-5 w-5 text-cyan-200" />
+                <p className="mt-3 text-sm font-semibold text-white">{item.title}</p>
+                <p className="mt-2 text-sm leading-6 text-white/58">{item.text}</p>
               </div>
-              <MessageSquareShare className="h-5 w-5" />
+            ))}
+          </div>
+
+          <div className="mt-6 space-y-4">
+            <a
+              href={whatsappHref}
+              className="flex items-center justify-between rounded-[24px] border border-emerald-400/20 bg-emerald-400/10 px-5 py-4 text-white"
+            >
+              <div>
+                <p className="text-sm font-semibold">Atendimento direto no WhatsApp</p>
+                <p className="text-xs text-white/65">Tire duvidas sem perder o contexto da loja</p>
+              </div>
+              <MessageCircleMore className="h-5 w-5" />
             </a>
 
-            <Link href="/catalogo" className="flex items-center justify-between rounded-[24px] border border-white/10 bg-black/20 px-5 py-4 text-white">
+            <Link
+              href="/catalogo"
+              className="flex items-center justify-between rounded-[24px] border border-white/10 bg-black/20 px-5 py-4 text-white"
+            >
               <div>
-                <p className="text-sm font-semibold">Comprar sem conta</p>
-                <p className="text-xs text-white/65">Navegue, adicione ao carrinho e finalize sem criar senha</p>
+                <p className="text-sm font-semibold">Continuar comprando sem conta</p>
+                <p className="text-xs text-white/65">O checkout guest continua como caminho principal da venda</p>
               </div>
               <ArrowRight className="h-5 w-5" />
             </Link>
 
-            <Link href="/acompanhar-pedido" className="flex items-center justify-between rounded-[24px] border border-white/10 bg-black/20 px-5 py-4 text-white">
+            <Link
+              href="/acompanhar-pedido"
+              className="flex items-center justify-between rounded-[24px] border border-white/10 bg-black/20 px-5 py-4 text-white"
+            >
               <div>
                 <p className="text-sm font-semibold">Acompanhar um pedido</p>
-                <p className="text-xs text-white/65">Use número do pedido + e-mail ou WhatsApp</p>
+                <p className="text-xs text-white/65">Use numero do pedido + e-mail ou WhatsApp</p>
               </div>
               <ArrowRight className="h-5 w-5" />
             </Link>
           </div>
 
           <div className="mt-6 rounded-[24px] border border-white/10 bg-black/20 p-5 text-sm leading-7 text-white/60">
-            <p className="font-semibold text-white">Campos do .env.local</p>
-            <p className="mt-2 font-mono text-xs text-cyan-100/90">NEXT_PUBLIC_SUPABASE_URL=...</p>
-            <p className="font-mono text-xs text-cyan-100/90">NEXT_PUBLIC_SUPABASE_ANON_KEY=...</p>
-            <p className="mt-3">
-              Para a conta pública opcional você só precisa das chaves públicas do Supabase. A service role continua restrita ao backend.
-            </p>
-            <p className="mt-3">Suporte atual da loja: {supportEmail}</p>
+            <p className="font-semibold text-white">Suporte da loja</p>
+            <p className="mt-2">Se algo travar no cadastro ou no login, escreva para {supportEmail} ou siga pelo WhatsApp.</p>
           </div>
         </div>
       </div>

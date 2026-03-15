@@ -186,7 +186,7 @@ export function CheckoutPage({ cardEnabled = false }: CheckoutPageProps) {
           <p className="text-xs uppercase tracking-[0.22em] text-cyan-200">Checkout</p>
           <h1 className="mt-4 text-4xl font-black text-white">Seu checkout está vazio</h1>
           <p className="mx-auto mt-4 max-w-xl text-sm leading-7 text-white/62">
-            Volte ao carrinho, escolha os produtos e retorne para criar o pedido real no banco.
+            Volte ao carrinho, escolha os produtos e retorne para confirmar sua compra com mais clareza.
           </p>
           <Link href="/carrinho" className="mt-8 inline-flex rounded-full border border-cyan-400/25 bg-cyan-400/12 px-6 py-3 text-sm font-semibold text-cyan-100">
             Ir para o carrinho
@@ -280,7 +280,7 @@ export function CheckoutPage({ cardEnabled = false }: CheckoutPageProps) {
           { icon: ShoppingStep, title: "1. Carrinho", text: "Itens e precos revisados" },
           { icon: MapPinHouse, title: "2. Cadastro", text: "Entrega e contato sem conta obrigatoria" },
           { icon: WalletCards, title: "3. Pagamento", text: "Pix forte agora; cartao so se gateway existir" },
-          { icon: ShieldCheck, title: "4. Pedido real", text: "Pedido salvo com numero, timeline e WhatsApp" }
+          { icon: ShieldCheck, title: "4. Pedido confirmado", text: "Numero, acompanhamento e WhatsApp prontos" }
         ].map((step) => (
           <div key={step.title} className="rounded-[24px] border border-white/10 bg-black/20 p-4">
             <step.icon className="h-5 w-5 text-cyan-200" />
@@ -314,7 +314,7 @@ export function CheckoutPage({ cardEnabled = false }: CheckoutPageProps) {
             <div className="mb-5 flex items-center justify-between gap-3">
               <div>
                 <p className="text-xs uppercase tracking-[0.18em] text-cyan-200/80">Contato</p>
-                <p className="mt-2 text-sm text-white/58">Esses dados entram no pedido real e ajudam no acompanhamento e no WhatsApp.</p>
+                <p className="mt-2 text-sm text-white/58">Esses dados entram no pedido e ajudam no acompanhamento e no WhatsApp.</p>
               </div>
               <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] uppercase tracking-[0.18em] text-white/55">
                 Guest checkout
@@ -567,7 +567,7 @@ export function CheckoutPage({ cardEnabled = false }: CheckoutPageProps) {
           ) : null}
 
           <button ref={submitButtonRef} type="submit" disabled={status === "loading"} className="mt-6 w-full rounded-full border border-cyan-400/25 bg-cyan-400/12 px-6 py-4 text-sm font-semibold text-cyan-100 disabled:opacity-60">
-            {status === "loading" ? "Criando pedido..." : "Criar pedido real"}
+            {status === "loading" ? "Criando pedido..." : "Confirmar pedido"}
           </button>
         </form>
 
@@ -644,7 +644,7 @@ export function CheckoutPage({ cardEnabled = false }: CheckoutPageProps) {
               <p className="text-xs uppercase tracking-[0.22em] text-emerald-100/80">Pedido criado</p>
               <h2 className="mt-3 text-3xl font-black text-white">{result.orderNumber}</h2>
               <p className="mt-3 text-sm leading-7 text-white/72">
-                Seu pedido ja esta salvo na loja, com timeline e resumo pronto para acompanhamento. Se quiser, continue o atendimento no WhatsApp com a mensagem estruturada.
+                Seu pedido ja esta salvo na loja, com andamento e resumo prontos para acompanhamento. Se quiser, continue o atendimento no WhatsApp com a mensagem estruturada.
               </p>
 
               <div className="mt-5 grid gap-3 sm:grid-cols-3">

@@ -59,6 +59,13 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
   if (!product) notFound();
 
   const related = await getRelatedProducts(product, 4);
+  const subtitle = typeof product.metadata.subtitle === "string" ? product.metadata.subtitle : product.merchandising;
+  const idealFor = typeof product.metadata.idealFor === "string" ? product.metadata.idealFor : "presentear, organizar ou decorar";
+  const whereToUse = typeof product.metadata.whereToUse === "string" ? product.metadata.whereToUse : "mesa, estante, quarto ou home office";
+  const customization = typeof product.metadata.customization === "string" ? product.metadata.customization : "personalizacao sob encomenda";
+  const finishHighlight = typeof product.metadata.finishHighlight === "string" ? product.metadata.finishHighlight : product.finishNotes;
+  const socialProof = typeof product.metadata.socialProof === "string" ? product.metadata.socialProof : product.merchandising;
+  const badge = typeof product.metadata.badge === "string" ? product.metadata.badge : product.collection;
   const productLd = getProductStructuredData(product);
   const breadcrumbLd = getBreadcrumbStructuredData([
     { name: "Inicio", item: getSiteUrl() },
@@ -94,9 +101,10 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
             <div className="mt-5 grid gap-6 xl:grid-cols-[1.08fr_0.92fr] xl:items-end">
               <div>
-                <p className="text-xs uppercase tracking-[0.22em] text-cyan-200/80">Hero do produto</p>
+                <p className="text-xs uppercase tracking-[0.22em] text-cyan-200/80">{badge}</p>
                 <h1 className="mt-3 text-4xl font-black text-white sm:text-5xl">{product.name}</h1>
                 <p className="mt-4 text-lg leading-8 text-white/72">{product.merchandising}</p>
+                <p className="mt-3 max-w-2xl text-sm leading-7 text-white/62">{subtitle}</p>
               </div>
 
               <div className="grid gap-3 sm:grid-cols-3 xl:grid-cols-1">
@@ -118,10 +126,10 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
             <div className="mt-5 flex flex-wrap gap-2">
               {[
-                "Pedido real com timeline",
+                badge,
                 "Pix com melhor valor",
-                "Checkout guest rapido",
-                product.imageStatus === "imported" ? "Imagem local pronta" : "Preview premium estavel"
+                "Personalizacao sob encomenda",
+                product.imageStatus === "imported" ? "Foto da peca" : "Visual ilustrativo"
               ].map((item) => (
                 <span key={item} className="rounded-full border border-white/10 bg-black/20 px-3 py-1.5 text-[11px] uppercase tracking-[0.18em] text-white/68">
                   {item}
@@ -134,15 +142,15 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
           <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
             <div className="rounded-[32px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.07),rgba(255,255,255,0.03))] p-6 shadow-[0_22px_64px_rgba(2,8,23,0.26)]">
-              <p className="text-xs uppercase tracking-[0.22em] text-cyan-200/80">Descricao e beneficios</p>
+              <p className="text-xs uppercase tracking-[0.22em] text-cyan-200/80">Por que essa peca chama atencao</p>
               <p className="mt-4 text-base leading-8 text-white/72">{product.description}</p>
 
               <div className="mt-6 grid gap-3 md:grid-cols-2">
                 {[
-                  "Acabamento pensado para presente, setup ou decoracao sem exigir briefing longo.",
-                  "Prazo e faixa de preco visiveis antes do checkout para reduzir atrito.",
-                  "Pode ser combinado com cores e detalhes sob orientacao pelo WhatsApp.",
-                  "Bom para compra impulsiva, kit tematico ou reposicao rapida de setup."
+                  `Ideal para ${idealFor}.`,
+                  `Fica especialmente bem em ${whereToUse}.`,
+                  `Acabamento: ${finishHighlight}.`,
+                  `Personalizacao: ${customization}.`
                 ].map((benefit) => (
                   <div key={benefit} className="rounded-[24px] border border-white/10 bg-black/20 p-4 text-sm leading-7 text-white/64">
                     {benefit}
@@ -160,17 +168,17 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             </div>
 
             <div className="rounded-[32px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.025))] p-6 shadow-[0_22px_64px_rgba(2,8,23,0.24)]">
-              <p className="text-xs uppercase tracking-[0.22em] text-cyan-200/80">Leitura operacional</p>
+              <p className="text-xs uppercase tracking-[0.22em] text-cyan-200/80">Detalhes que ajudam a decidir</p>
               <div className="mt-5 grid gap-3">
                 {[
-                  ["Tema", product.theme],
                   ["Colecao", product.collection],
                   ["Prazo", product.productionWindow],
                   ["Materiais", product.materials.join(", ")],
                   ["Cores", product.colors.join(", ")],
                   ["Peso", `${product.grams} g`],
-                  ["Impressao", `${product.hours} h`],
-                  ["Midia", product.imageStatus === "imported" ? "Imagem real local" : "Placeholder premium"]
+                  ["Producao", `${product.hours} h`],
+                  ["Acabamento", finishHighlight],
+                  ["Percepcao de valor", socialProof]
                 ].map(([label, value]) => (
                   <div key={label} className="flex items-start justify-between gap-4 rounded-[22px] border border-white/10 bg-black/20 px-4 py-3 text-sm text-white/65">
                     <span>{label}</span>
@@ -190,14 +198,15 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       </div>
 
       <div className="mt-12">
-        <h2 className="text-2xl font-bold text-white">Projetos parecidos</h2>
+        <h2 className="text-2xl font-bold text-white">Voce tambem pode gostar</h2>
         <div className="mt-6 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
           {related.map((item) => (
             <Link key={item.id} href={getProductUrl(item)} className="rounded-[28px] border border-white/10 bg-white/5 p-4 transition hover:border-cyan-300/30">
               <ProductMediaImage product={item} className="mb-4 aspect-square w-full rounded-[22px] object-cover" />
               <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">{item.category}</p>
               <h3 className="mt-2 text-lg font-semibold text-white">{item.name}</h3>
-              <p className="mt-2 text-sm text-white/60">{formatCurrency(item.pricePix)} no Pix</p>
+              <p className="mt-2 text-sm text-white/60">{typeof item.metadata.subtitle === "string" ? item.metadata.subtitle : item.merchandising}</p>
+              <p className="mt-3 text-sm font-semibold text-cyan-100">{formatCurrency(item.pricePix)} no Pix</p>
             </Link>
           ))}
         </div>

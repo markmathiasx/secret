@@ -23,8 +23,8 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
   const canonicalUrl = canonicalParams.toString() ? `${getSiteUrl()}/catalogo?${canonicalParams.toString()}` : `${getSiteUrl()}/catalogo`;
   const title = params.category ? `${params.category} em impressão 3D` : "Catálogo de impressões 3D";
   const description = params.category
-    ? `Explore a seleção da MDH 3D para ${params.category.toLowerCase()}, com Pix, prazos claros e pedido real pelo site.`
-    : "Explore o catálogo curado da MDH 3D com quick view, filtros, Pix, cartão quando disponível e pedido real.";
+    ? `Explore a selecao da MDH 3D para ${params.category.toLowerCase()}, com Pix, prazos claros e atendimento rapido.`
+    : "Explore a curadoria da MDH 3D com quick view, filtros, Pix e atendimento rapido para presentes, setup, decoracao e personalizados.";
   const catalogLd = getCatalogStructuredData({
     title,
     description,
@@ -46,12 +46,12 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
       <div className="overflow-hidden rounded-[40px] border border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(34,211,238,0.18),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(16,185,129,0.16),transparent_28%),linear-gradient(135deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02))] p-8 shadow-[0_24px_80px_rgba(2,8,23,0.32)]">
         <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
           <div className="max-w-3xl">
-            <p className="text-xs uppercase tracking-[0.22em] text-cyan-200">Storefront do catálogo</p>
+            <p className="text-xs uppercase tracking-[0.22em] text-cyan-200">Curadoria da loja</p>
             <h1 className="mt-3 text-4xl font-black leading-tight text-white sm:text-5xl">
-              Explore a loja MDH 3D como uma vitrine madura, com busca forte, filtros previsíveis e cards que já ajudam a decidir.
+              Menos volume, mais intencao de compra: uma selecao feita para parecer loja curada, nao dump de catalogo.
             </h1>
             <p className="mt-4 text-lg leading-8 text-white/68">
-              Aqui a navegação foi pensada para compra rápida: preços claros, quick view, sugestões de busca, ordenação útil e sinais visuais fortes para reduzir dúvida antes do carrinho.
+              Use a busca, refine por colecao ou categoria e compare rapidamente os itens com mais apelo para presente, setup, decoracao e sob encomenda.
             </p>
           </div>
 
@@ -104,8 +104,8 @@ export async function generateMetadata({ searchParams }: CatalogPageProps): Prom
   const siteUrl = getSiteUrl();
   const title = params.category ? `${params.category} em impressão 3D` : "Catálogo de impressões 3D";
   const description = params.category
-    ? `Explore a seleção da MDH 3D para ${params.category.toLowerCase()}, com Pix, prazos claros e pedido real pelo site.`
-    : "Explore o catálogo curado da MDH 3D com quick view, filtros, Pix, cartão quando disponível e pedido real.";
+    ? `Explore a selecao da MDH 3D para ${params.category.toLowerCase()}, com Pix, prazos claros e atendimento rapido.`
+    : "Explore a curadoria da MDH 3D com quick view, filtros, Pix e atendimento rapido para presentes, setup, decoracao e personalizados.";
   const canonicalParams = new URLSearchParams();
 
   if (params.q) canonicalParams.set("q", params.q);

@@ -1,13 +1,24 @@
 import QRCode from "qrcode";
 import { NextResponse } from "next/server";
 import { recordAnalyticsEvent } from "@/lib/analytics-server";
+import { customerAuthConfig, whatsappNumber } from "@/lib/constants";
+import { getCustomerSession } from "@/lib/customer-auth";
 import { createMercadoPagoPreference } from "@/lib/payments";
 import { makePixPayload } from "@/lib/pix";
 import { getClientIp, checkRateLimit } from "@/lib/security";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
-import { whatsappNumber } from "@/lib/constants";
 import { attachPaymentProviderData, buildOrderWhatsAppSummary, createOrder, createOrderSchema } from "@/lib/order-service";
 import { databaseUnavailableMessage, isDatabaseRuntimeError } from "@/lib/database-status";
+
+function readCookieValue(cookieHeader: string, name: string) {
+  return cookieHeader
+    .split(";")
+    .map((item) => item.trim())
+    .find((item) => item.startsWith(`${name}=`))
+    ?.split("=")
+    .slice(1)
+    .join("=");
+}
 
 export async function POST(request: Request) {
   const ip = getClientIp(request.headers);
@@ -21,7 +32,11 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
     const input = createOrderSchema.parse(body);
-    const created = await createOrder(input);
+    const sessionCookie = readCookieValue(request.headers.get("cookie") || "", customerAuthConfig.sessionCookieName);
+    const customerSession = await getCustomerSession(sessionCookie);
+    const created = await createOrder(input, {
+      customerAccountId: customerSession?.account.id || null
+    });
     const whatsappSummary = await buildOrderWhatsAppSummary(created.order.id);
     const whatsappUrl = buildWhatsAppLink(whatsappNumber, whatsappSummary?.message || `Pedido ${created.order.orderNumber}`);
 

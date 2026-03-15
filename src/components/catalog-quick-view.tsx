@@ -47,6 +47,9 @@ export function CatalogQuickView({ product, open, onClose }: CatalogQuickViewPro
   if (!open || !product) return null;
 
   const cartQuantity = items.find((entry) => entry.productId === product.id)?.quantity || 0;
+  const badge = typeof product.metadata.badge === "string" ? product.metadata.badge : product.collection;
+  const subtitle = typeof product.metadata.subtitle === "string" ? product.metadata.subtitle : product.merchandising;
+  const idealFor = typeof product.metadata.idealFor === "string" ? product.metadata.idealFor : "presente, setup ou decoracao";
   const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
     `${whatsappMessage}\n\nTenho interesse no item ${product.name} (${product.sku}).`
   )}`;
@@ -62,7 +65,7 @@ export function CatalogQuickView({ product, open, onClose }: CatalogQuickViewPro
       >
         <div className="flex items-center justify-between border-b border-white/10 px-5 py-5">
           <div>
-            <p className="text-xs uppercase tracking-[0.2em] text-cyan-200/80">Quick view</p>
+            <p className="text-xs uppercase tracking-[0.2em] text-cyan-200/80">Visao rapida</p>
             <h2 className="mt-2 text-2xl font-black text-white">{product.name}</h2>
           </div>
           <button
@@ -83,11 +86,9 @@ export function CatalogQuickView({ product, open, onClose }: CatalogQuickViewPro
 
           <div className="flex flex-col p-5">
             <div className="flex flex-wrap gap-2">
-              {product.featured ? (
-                <span className="rounded-full border border-amber-300/20 bg-amber-300/10 px-3 py-1 text-xs uppercase tracking-[0.18em] text-amber-100">
-                  Escolha premium
-                </span>
-              ) : null}
+              <span className="rounded-full border border-amber-300/20 bg-amber-300/10 px-3 py-1 text-xs uppercase tracking-[0.18em] text-amber-100">
+                {badge}
+              </span>
               <span className="rounded-full border border-cyan-400/20 bg-cyan-400/10 px-3 py-1 text-xs uppercase tracking-[0.18em] text-cyan-100">
                 {product.collection}
               </span>
@@ -98,12 +99,12 @@ export function CatalogQuickView({ product, open, onClose }: CatalogQuickViewPro
                 {product.productionWindow}
               </span>
               <span className="rounded-full border border-white/10 px-3 py-1 text-xs uppercase tracking-[0.18em] text-white/65">
-                {product.imageStatus === "imported" ? "Imagem local" : "Preview premium"}
+                {product.imageStatus === "imported" ? "Foto da peca" : "Visual ilustrativo"}
               </span>
             </div>
 
             <p className="mt-5 text-sm leading-7 text-white/68">{product.merchandising}</p>
-            <p className="mt-3 text-sm leading-7 text-white/58">{product.description}</p>
+            <p className="mt-3 text-sm leading-7 text-white/58">{subtitle}</p>
 
             <div className="mt-4 flex flex-wrap gap-2">
               <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] uppercase tracking-[0.18em] text-white/68">
@@ -142,9 +143,14 @@ export function CatalogQuickView({ product, open, onClose }: CatalogQuickViewPro
                 <p className="mt-2 font-semibold text-white">{product.grams} g</p>
               </div>
               <div className="rounded-[24px] border border-white/10 bg-black/20 p-4 text-sm text-white/65">
-                <p className="text-xs uppercase tracking-[0.18em] text-white/45">Impressão</p>
+                <p className="text-xs uppercase tracking-[0.18em] text-white/45">Producao</p>
                 <p className="mt-2 font-semibold text-white">{product.hours} h</p>
               </div>
+            </div>
+
+            <div className="mt-6 rounded-[24px] border border-white/10 bg-black/20 p-4 text-sm leading-7 text-white/64">
+              <p className="text-xs uppercase tracking-[0.18em] text-white/45">Ideal para</p>
+              <p className="mt-2">{idealFor}</p>
             </div>
 
             <div className="mt-6">
@@ -171,9 +177,9 @@ export function CatalogQuickView({ product, open, onClose }: CatalogQuickViewPro
 
             <div className="mt-6 grid gap-3 sm:grid-cols-3">
               {[
-                "Veja preco e prazo sem perder o scroll da vitrine.",
-                "Adicione ao carrinho com um toque e siga para checkout.",
-                "Se precisar confirmar detalhe, leve a conversa para o WhatsApp."
+                "Veja preco e prazo sem sair da colecao.",
+                "Adicione ao carrinho com um toque e siga para o checkout.",
+                "Se quiser validar cor ou detalhe, leve a conversa para o WhatsApp."
               ].map((item) => (
                 <div key={item} className="rounded-[24px] border border-white/10 bg-black/20 p-4 text-sm leading-7 text-white/62">
                   {item}

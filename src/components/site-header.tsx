@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Suspense } from "react";
 import { SiteHeaderClient } from "@/components/site-header-client";
+import { getCurrentCustomerSession } from "@/lib/customer-auth";
 
 function SiteHeaderFallback() {
   return (
@@ -9,7 +10,7 @@ function SiteHeaderFallback() {
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-2 text-[11px] uppercase tracking-[0.22em] text-white/70 sm:px-6">
           <span>Loja oficial MDH 3D</span>
           <span className="hidden md:inline">Pix com melhor preço</span>
-          <span className="hidden lg:inline">Entrega local no Rio + personalizado sob encomenda</span>
+          <span className="hidden lg:inline">Presentes, setup e personalizados com atendimento rapido</span>
           <span className="text-cyan-100">Carregando loja</span>
         </div>
       </div>
@@ -19,8 +20,8 @@ function SiteHeaderFallback() {
           <Link href="/" className="flex min-w-0 items-center gap-3">
             <div className="h-[50px] w-[50px] rounded-2xl border border-white/10 bg-white/10" />
             <div className="min-w-0">
-              <p className="truncate text-lg font-semibold tracking-[0.18em] text-white">MDH 3D STORE</p>
-              <p className="truncate text-xs text-white/55">utilidades, geek, anime, decoracao e impressos personalizados</p>
+              <p className="truncate text-lg font-semibold tracking-[0.18em] text-white">MDH 3D</p>
+              <p className="truncate text-xs text-white/55">presentes criativos, setup, decoracao e pecas sob encomenda</p>
             </div>
           </Link>
 
@@ -43,7 +44,7 @@ function SiteHeaderFallback() {
 
           <div className="hidden items-center gap-2 lg:flex">
             <span className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs uppercase tracking-[0.18em] text-white/50">
-              Catalogo vivo
+              Curadoria MDH 3D
             </span>
           </div>
         </div>
@@ -52,10 +53,21 @@ function SiteHeaderFallback() {
   );
 }
 
-export function SiteHeader() {
+export async function SiteHeader() {
+  const customerSession = await getCurrentCustomerSession();
+
   return (
     <Suspense fallback={<SiteHeaderFallback />}>
-      <SiteHeaderClient />
+      <SiteHeaderClient
+        customer={
+          customerSession
+            ? {
+                fullName: customerSession.account.fullName,
+                email: customerSession.account.email
+              }
+            : null
+        }
+      />
     </Suspense>
   );
 }

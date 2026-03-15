@@ -75,7 +75,7 @@ export function ProductImageGallery({ product, compact = false, overlayClassName
             </span>
             <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/35 px-3 py-1 text-[11px] uppercase tracking-[0.18em] text-white/78">
               {activeItem.isPlaceholder ? <Sparkles className="h-3.5 w-3.5 text-amber-200" /> : <ImageIcon className="h-3.5 w-3.5 text-cyan-200" />}
-              {activeItem.isPlaceholder ? "Fallback premium" : "Midia local"}
+              {activeItem.isPlaceholder ? "Visual ilustrativo" : "Foto da peca"}
             </span>
           </div>
           <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 bg-gradient-to-t from-black/80 via-black/35 to-transparent px-4 py-4">
@@ -132,7 +132,7 @@ export function ProductImageGallery({ product, compact = false, overlayClassName
               </div>
               <div className="flex items-center justify-between gap-3">
                 <span>Status da midia</span>
-                <strong className="text-white">{activeItem.isPlaceholder ? "Placeholder premium" : "Imagem local pronta"}</strong>
+                <strong className="text-white">{activeItem.isPlaceholder ? "Visual ilustrativo" : "Foto pronta"}</strong>
               </div>
             </div>
           </div>
@@ -153,7 +153,7 @@ export function ProductImageGallery({ product, compact = false, overlayClassName
           >
             <div className="flex items-center justify-between border-b border-white/10 px-5 py-5">
               <div>
-                <p className="text-xs uppercase tracking-[0.2em] text-cyan-200/80">Galeria premium</p>
+                <p className="text-xs uppercase tracking-[0.2em] text-cyan-200/80">Galeria da peca</p>
                 <h3 className="mt-2 text-2xl font-black text-white">{product.name}</h3>
               </div>
               <button
@@ -225,7 +225,7 @@ export function ProductImageGallery({ product, compact = false, overlayClassName
                 </div>
 
                 <div className="mt-auto rounded-[28px] border border-white/10 bg-black/20 p-4 text-sm text-white/64">
-                  A galeria continua estavel mesmo quando uma foto final ainda nao estiver pronta. O fallback premium protege a vitrine, o quick view e a PDP sem quebrar a experiencia de compra.
+                  A galeria continua bonita mesmo quando a foto final ainda nao entrou. O visual ilustrativo protege a experiencia da loja sem quebrar a compra.
                 </div>
               </div>
             </div>

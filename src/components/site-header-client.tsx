@@ -26,9 +26,9 @@ import { formatCurrency } from "@/lib/utils";
 const links = [
   { href: "/", label: "Início" },
   { href: "/catalogo", label: "Catálogo" },
-  { href: "/entregas", label: "Frete" },
-  { href: "/faq", label: "FAQ" },
-  { href: "/divulgacao", label: "Divulgação" }
+  { href: "/entregas", label: "Frete & prazo" },
+  { href: "/faq", label: "Duvidas" },
+  { href: "/divulgacao", label: "Parcerias" }
 ];
 
 function buildCatalogHref(query: string, category?: string) {
@@ -41,7 +41,14 @@ function buildCatalogHref(query: string, category?: string) {
   return queryString ? `/catalogo?${queryString}` : "/catalogo";
 }
 
-export function SiteHeaderClient() {
+type SiteHeaderClientProps = {
+  customer?: {
+    fullName: string;
+    email: string;
+  } | null;
+};
+
+export function SiteHeaderClient({ customer = null }: SiteHeaderClientProps) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const queryParam = searchParams.get("q") || "";
@@ -253,7 +260,7 @@ export function SiteHeaderClient() {
           <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-2 text-[11px] uppercase tracking-[0.22em] text-white/70 sm:px-6">
             <span>Loja oficial MDH 3D</span>
             <span className="hidden md:inline">Pix com melhor preço</span>
-            <span className="hidden lg:inline">Entrega local no Rio + compra assistida por WhatsApp</span>
+            <span className="hidden lg:inline">Presentes, setup e personalizados com atendimento rapido</span>
             <a href={socialLinks.instagram} target="_blank" rel="noreferrer" className="text-cyan-100 transition hover:text-white">
               @{brand.instagramHandle}
             </a>
@@ -265,8 +272,8 @@ export function SiteHeaderClient() {
             <Link href="/" className="flex min-w-0 items-center gap-3">
               <Image src="/logo-mdh.jpg" alt="Logo MDH 3D" width={50} height={50} className="rounded-2xl border border-white/10 object-cover" />
               <div className="min-w-0">
-                <p className="truncate text-lg font-semibold tracking-[0.18em] text-white">MDH 3D STORE</p>
-                <p className="truncate text-xs text-white/55">utilidades, geek, anime, decoração e impressos personalizados</p>
+                <p className="truncate text-lg font-semibold tracking-[0.18em] text-white">MDH 3D</p>
+                <p className="truncate text-xs text-white/55">presentes criativos, setup, decoracao e pecas sob encomenda</p>
               </div>
             </Link>
 
@@ -317,7 +324,7 @@ export function SiteHeaderClient() {
                   <div className="mb-3 flex items-center justify-between px-2">
                     <div>
                       <p className="text-xs uppercase tracking-[0.18em] text-white/45">Sugestões de busca</p>
-                      <p className="mt-1 text-xs text-white/40">Tente ir por tema, utilidade ou ocasião de compra.</p>
+                      <p className="mt-1 text-xs text-white/40">Tente por tema, tipo de presente, utilidade ou ambiente.</p>
                     </div>
                     <div className="flex flex-wrap gap-2">
                       {["anime", "geek", "presente", "decoração"].map((scope) => (
@@ -380,7 +387,7 @@ export function SiteHeaderClient() {
                     </div>
                   ) : (
                     <div className="rounded-[22px] border border-dashed border-white/10 bg-black/20 px-4 py-4 text-sm text-white/55">
-                      Nenhuma sugestão rápida para essa busca ainda. Pressione Buscar para abrir o catálogo completo e refinar pela vitrine.
+                      Ainda nao apareceu uma sugestao boa para esse termo. Abra o catalogo completo e refine pela selecao da loja.
                     </div>
                   )}
                 </div>
@@ -389,12 +396,22 @@ export function SiteHeaderClient() {
 
             <div className="flex items-center justify-end gap-2 sm:gap-3">
               <Link
-                href="/conta"
+                href={customer ? "/conta" : "/login"}
                 className="hidden items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-3 text-sm font-medium text-white/78 transition hover:border-white/20 hover:text-white lg:inline-flex"
               >
                 <UserRound className="h-4 w-4" />
-                <span>Conta</span>
+                <span>{customer ? "Conta" : "Entrar"}</span>
               </Link>
+
+              {!customer ? (
+                <Link
+                  href="/login?mode=register"
+                  className="hidden items-center gap-2 rounded-full border border-cyan-400/25 bg-cyan-400/12 px-3 py-3 text-sm font-medium text-cyan-100 transition hover:border-cyan-300/55 hover:bg-cyan-300/18 xl:inline-flex"
+                >
+                  <UserRound className="h-4 w-4" />
+                  <span>Cadastrar</span>
+                </Link>
+              ) : null}
 
               <Link
                 href="/acompanhar-pedido"
@@ -460,7 +477,7 @@ export function SiteHeaderClient() {
                         onClick={() => setCategoryMenuOpen(false)}
                         className="text-sm font-medium text-cyan-100 transition hover:text-white"
                       >
-                        Ver tudo
+                        Ver toda a colecao
                       </Link>
                     </div>
                     <div className="grid gap-2 sm:grid-cols-2">
@@ -510,10 +527,10 @@ export function SiteHeaderClient() {
 
             <div className="hidden items-center gap-2 lg:flex">
               <span className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs uppercase tracking-[0.18em] text-white/50">
-                Catálogo vivo
+                Curadoria MDH 3D
               </span>
               <span className="rounded-full border border-amber-300/20 bg-amber-300/10 px-3 py-2 text-xs uppercase tracking-[0.18em] text-amber-100">
-                Checkout pronto para vender
+                Pix com melhor valor
               </span>
             </div>
           </div>
@@ -532,7 +549,7 @@ export function SiteHeaderClient() {
             <div className="flex items-center justify-between border-b border-white/10 px-5 py-5">
               <div>
                 <p className="text-xs uppercase tracking-[0.2em] text-cyan-200/80">Carrinho da loja</p>
-                <h2 className="mt-2 text-2xl font-black text-white">{count} item(ns) separados</h2>
+                <h2 className="mt-2 text-2xl font-black text-white">{count} item(ns) escolhidos</h2>
               </div>
               <button
                 ref={cartCloseButtonRef}
@@ -628,7 +645,7 @@ export function SiteHeaderClient() {
                       <span>{formatCurrency(subtotalCard)}</span>
                     </div>
                     <p className="mt-4 text-sm leading-6 text-white/55">
-                      Você pode seguir para o checkout leve, registrar o pedido no banco e também acionar atendimento no WhatsApp com a mensagem estruturada.
+                      Feche pelo checkout ou leve essa selecao para o WhatsApp com a mensagem pronta, sem perder itens, valores e observacoes.
                     </p>
 
                     <div className="mt-5 grid gap-3">
@@ -670,7 +687,7 @@ export function SiteHeaderClient() {
                 </div>
                 <h2 className="mt-5 text-2xl font-black text-white">Carrinho vazio</h2>
                 <p className="mt-3 max-w-sm text-sm leading-7 text-white/60">
-                  Use o botão Espiar para abrir o quick view ou adicione itens direto pelos cards do catálogo.
+                  Explore o catalogo, abra o quick view e monte sua selecao com calma antes de fechar o pedido.
                 </p>
                 <Link
                   href="/catalogo"
@@ -725,12 +742,21 @@ export function SiteHeaderClient() {
 
             <div className="mt-6 grid gap-2">
               <Link
-                href="/conta"
+                href={customer ? "/conta" : "/login"}
                 onClick={() => setMobileNavOpen(false)}
                 className="rounded-[24px] border border-white/10 bg-black/20 px-4 py-3 text-sm text-white/78"
               >
-                Conta pública opcional
+                {customer ? "Minha conta" : "Entrar na conta"}
               </Link>
+              {!customer ? (
+                <Link
+                  href="/login?mode=register"
+                  onClick={() => setMobileNavOpen(false)}
+                  className="rounded-[24px] border border-cyan-400/25 bg-cyan-400/12 px-4 py-3 text-sm font-semibold text-cyan-100"
+                >
+                  Criar conta
+                </Link>
+              ) : null}
               <Link
                 href="/acompanhar-pedido"
                 onClick={() => setMobileNavOpen(false)}
@@ -760,7 +786,9 @@ export function SiteHeaderClient() {
             </div>
 
             <div className="mt-auto rounded-[28px] border border-white/10 bg-white/5 p-4 text-sm text-white/62">
-              Catálogo com quick view, carrinho persistente e checkout leve. A conta continua opcional e não compete com o funil principal.
+              {customer
+                ? `Sessao ativa para ${customer.fullName}. Sua conta ajuda a repetir pedidos e acompanhar compras sem perder o funil principal.`
+                : "Presentes, utilidades e decoracao com compra guiada. A conta propria da loja e opcional para comprar, mas agiliza recompras e acompanhamento."}
             </div>
           </aside>
         </div>

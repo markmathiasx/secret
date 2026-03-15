@@ -152,6 +152,46 @@ export const customers = pgTable(
   })
 );
 
+export const customerAccounts = pgTable(
+  "customer_accounts",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    customerId: uuid("customer_id").references(() => customers.id, { onDelete: "set null" }),
+    fullName: varchar("full_name", { length: 160 }).notNull(),
+    email: varchar("email", { length: 160 }).notNull(),
+    passwordHash: varchar("password_hash", { length: 255 }).notNull(),
+    googleSubject: varchar("google_subject", { length: 191 }),
+    emailVerifiedAt: timestamp("email_verified_at", { withTimezone: true }),
+    lastLoginAt: timestamp("last_login_at", { withTimezone: true }),
+    ...timestamps
+  },
+  (table) => ({
+    emailIdx: uniqueIndex("customer_accounts_email_idx").on(table.email),
+    customerIdx: uniqueIndex("customer_accounts_customer_idx").on(table.customerId),
+    googleIdx: uniqueIndex("customer_accounts_google_subject_idx").on(table.googleSubject)
+  })
+);
+
+export const customerSessions = pgTable(
+  "customer_sessions",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    accountId: uuid("account_id")
+      .references(() => customerAccounts.id, { onDelete: "cascade" })
+      .notNull(),
+    sessionTokenHash: varchar("session_token_hash", { length: 128 }).notNull(),
+    ipAddress: varchar("ip_address", { length: 80 }),
+    userAgent: text("user_agent"),
+    expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+    lastSeenAt: timestamp("last_seen_at", { withTimezone: true }).defaultNow().notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull()
+  },
+  (table) => ({
+    sessionHashIdx: uniqueIndex("customer_sessions_hash_idx").on(table.sessionTokenHash),
+    accountIdx: index("customer_sessions_account_idx").on(table.accountId)
+  })
+);
+
 export const addresses = pgTable(
   "addresses",
   {
@@ -355,7 +395,23 @@ export const catalogImageMappingRelations = relations(catalogImageMappings, ({ o
 
 export const customerRelations = relations(customers, ({ many }) => ({
   addresses: many(addresses),
-  orders: many(orders)
+  orders: many(orders),
+  accounts: many(customerAccounts)
+}));
+
+export const customerAccountRelations = relations(customerAccounts, ({ one, many }) => ({
+  customer: one(customers, {
+    fields: [customerAccounts.customerId],
+    references: [customers.id]
+  }),
+  sessions: many(customerSessions)
+}));
+
+export const customerSessionRelations = relations(customerSessions, ({ one }) => ({
+  account: one(customerAccounts, {
+    fields: [customerSessions.accountId],
+    references: [customerAccounts.id]
+  })
 }));
 
 export const addressRelations = relations(addresses, ({ one, many }) => ({
@@ -447,6 +503,8 @@ export const analyticsEventRelations = relations(analyticsEvents, ({ one }) => (
 
 export type ProductRow = typeof products.$inferSelect;
 export type CustomerRow = typeof customers.$inferSelect;
+export type CustomerAccountRow = typeof customerAccounts.$inferSelect;
+export type CustomerSessionRow = typeof customerSessions.$inferSelect;
 export type AddressRow = typeof addresses.$inferSelect;
 export type OrderRow = typeof orders.$inferSelect;
 export type OrderItemRow = typeof orderItems.$inferSelect;

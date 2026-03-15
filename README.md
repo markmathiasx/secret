@@ -19,7 +19,8 @@ Loja operacional da **MDH 3D** em **Next 15 + PostgreSQL/Supabase + Drizzle**, p
 - criação real de cliente, endereço, pedido, itens, pagamento e timeline
 - painel privado em `/admin`
 - consulta pública de pedido em `/acompanhar-pedido`
-- postura `guest-first`: conta pública é opcional e não faz parte do funil principal
+- postura `guest-first`: checkout continua sem conta obrigatoria
+- conta propria do cliente com email, senha e cookie `HttpOnly` persistente
 - seed de catálogo + canais de origem
 - importador automático de imagens com Openverse/Wikimedia + placeholder premium
 - healthcheck em `/api/health`
@@ -36,6 +37,7 @@ NEXT_PUBLIC_SITE_URL=
 ADMIN_EMAIL=
 ADMIN_PASSWORD_HASH=
 ADMIN_SESSION_SECRET=
+CUSTOMER_SESSION_SECRET=
 
 MERCADOPAGO_ACCESS_TOKEN=
 MERCADOPAGO_WEBHOOK_SECRET=
@@ -71,6 +73,14 @@ Se você já tem um `.env.local` antigo no projeto original, migre os nomes lega
 
 - `ADMIN_PASSWORD` -> gere `ADMIN_PASSWORD_HASH`
 - `ADMIN_SESSION_TOKEN` -> use como `ADMIN_SESSION_SECRET`
+
+Para conta do cliente, o padrão canônico agora é:
+
+- cadastro/login próprio com `email + senha`
+- sessão persistente em cookie `HttpOnly`
+- Google/social apenas como camada opcional futura
+
+Se `CUSTOMER_SESSION_SECRET` ainda não existir no ambiente local, o runtime consegue derivar um fallback a partir de `ADMIN_SESSION_SECRET` para não travar a rodada. Mesmo assim, em deploy o recomendado é configurar `CUSTOMER_SESSION_SECRET` explicitamente.
 
 O painel `/admin` depende de sessão persistida em banco. Se a `DATABASE_URL` estiver indisponível, o login admin falha de forma explícita em vez de aceitar cookie sem persistência.
 
@@ -115,8 +125,8 @@ O relatório final das imagens fica em `public/catalog-assets/catalog-image-repo
 - Acompanhar pedido: `http://localhost:3000/acompanhar-pedido`
 - Admin: `http://localhost:3000/admin/login`
 - Health: `http://localhost:3000/api/health`
-- Login público opcional: `http://localhost:3000/login`
-- Conta pública opcional: `http://localhost:3000/conta`
+- Login do cliente: `http://localhost:3000/login`
+- Conta do cliente: `http://localhost:3000/conta`
 
 ## Deploy recomendado
 
@@ -134,7 +144,7 @@ Passos:
 6. Se `MERCADOPAGO_ACCESS_TOKEN` não estiver configurado, a loja segue vendendo com Pix + WhatsApp e o cartão fica desabilitado no checkout.
 7. Rodar `npm run doctor` depois do deploy para confirmar env, imagens e conexão.
 8. Se quiser telemetria externa, preencher `NEXT_PUBLIC_GA_MEASUREMENT_ID`; sem isso, o tracking interno continua funcionando de forma silenciosa.
-9. Login/conta pública por Supabase continuam opcionais e fora do caminho principal de venda.
+9. Login social por Supabase pode continuar como camada opcional futura, mas o fluxo principal do cliente agora e email + senha da propria loja.
 10. Nenhuma rota crítica de amanhã depende de `localStorage`, mock em memória ou seed mutável para pedido, pagamento, sessão admin ou status.
 
 ## Checklist de operação

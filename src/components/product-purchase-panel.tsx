@@ -12,6 +12,8 @@ import { formatCurrency, formatInstallment } from "@/lib/utils";
 export function ProductPurchasePanel({ product }: { product: Product }) {
   const { addItem, items } = useCart();
   const inCart = items.find((item) => item.productId === product.id)?.quantity || 0;
+  const idealFor = typeof product.metadata.idealFor === "string" ? product.metadata.idealFor : "presentear, organizar ou decorar";
+  const customization = typeof product.metadata.customization === "string" ? product.metadata.customization : "personalizacao sob encomenda";
   const whatsappUrl = buildWhatsAppLink(
     whatsappNumber,
     `Oi! Quero atendimento sobre o item ${product.name} (${product.sku}) que vi no site da MDH 3D.`
@@ -21,10 +23,10 @@ export function ProductPurchasePanel({ product }: { product: Product }) {
     <>
       <div className="section-shell space-y-6 rounded-[32px] p-6">
         <div>
-          <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Compra rapida</p>
-          <h2 className="mt-3 text-2xl font-black text-white">Feche com clareza, prazo visivel e suporte humano se quiser validar antes</h2>
+          <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Compra com clareza</p>
+          <h2 className="mt-3 text-2xl font-black text-white">Leve a peça ideal com Pix em destaque, prazo visivel e ajuda humana quando fizer sentido</h2>
           <p className="mt-3 text-sm leading-7 text-white/66">
-            A vitrine mostra preco, parcelamento, prazo e envia voce para um pedido real com numero, timeline e CTA estruturado de WhatsApp.
+            Aqui voce compara preco, parcelamento e prazo sem atrito. Se quiser ajustar cor, tamanho ou acabamento, o WhatsApp entra no momento certo.
           </p>
         </div>
 
@@ -47,13 +49,14 @@ export function ProductPurchasePanel({ product }: { product: Product }) {
           <p className="mt-2">Prazo estimado: {product.productionWindow}</p>
           <p className="mt-2">Materiais: {product.materials.join(", ")}</p>
           <p className="mt-2">SKU: {product.sku}</p>
+          <p className="mt-2">Ideal para: {idealFor}</p>
         </div>
 
         <div className="grid gap-3 sm:grid-cols-3">
           {[
-            "Pedido real salvo no banco",
-            "Pix priorizado para vender rapido",
-            "WhatsApp simples para tirar duvidas"
+            "Pix com melhor valor para decidir mais rapido",
+            "Producao sob demanda com acabamento caprichado",
+            customization
           ].map((item) => (
             <div key={item} className="rounded-[22px] border border-white/10 bg-black/20 px-4 py-3 text-sm text-white/62">
               {item}
@@ -71,7 +74,7 @@ export function ProductPurchasePanel({ product }: { product: Product }) {
             Adicionar ao carrinho
           </button>
           <Link href="/carrinho" className="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm font-semibold text-white/80">
-            Abrir carrinho
+            Revisar carrinho
           </Link>
           <a
             href={whatsappUrl}
@@ -81,7 +84,7 @@ export function ProductPurchasePanel({ product }: { product: Product }) {
             className="inline-flex items-center justify-center gap-2 rounded-full border border-emerald-400/25 bg-emerald-400/12 px-5 py-3 text-sm font-semibold text-emerald-100"
           >
             <MessageCircleMore className="h-4 w-4" />
-            Falar no WhatsApp
+            Confirmar detalhes no WhatsApp
           </a>
         </div>
       </div>
@@ -96,7 +99,7 @@ export function ProductPurchasePanel({ product }: { product: Product }) {
             onClick={() => addItem(toCartProductSnapshot(product))}
             className="rounded-full border border-cyan-400/25 bg-cyan-400/12 px-4 py-2 text-sm font-semibold text-cyan-100"
           >
-            Comprar
+            Colocar no carrinho
           </button>
         </div>
       </div>

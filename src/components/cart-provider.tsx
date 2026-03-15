@@ -129,16 +129,43 @@ function parseCustomerDraft(raw: string | null): CartCustomerDraft {
   }
 }
 
-export function CartProvider({ children }: { children: ReactNode }) {
+function mergeCustomerDrafts(initialDraft?: Partial<CartCustomerDraft>, storedDraft?: Partial<CartCustomerDraft>) {
+  const next = {
+    ...emptyCustomerDraft,
+    ...(storedDraft || {})
+  };
+
+  if (initialDraft?.fullName?.trim()) {
+    next.fullName = initialDraft.fullName;
+  }
+
+  if (initialDraft?.email?.trim()) {
+    next.email = initialDraft.email;
+  }
+
+  return next;
+}
+
+export function CartProvider({
+  children,
+  initialCustomerDraft
+}: {
+  children: ReactNode;
+  initialCustomerDraft?: Partial<CartCustomerDraft>;
+}) {
   const [items, setItems] = useState<CartEntry[]>([]);
-  const [customerDraft, setCustomerDraftState] = useState<CartCustomerDraft>(emptyCustomerDraft);
+  const [customerDraft, setCustomerDraftState] = useState<CartCustomerDraft>(
+    mergeCustomerDrafts(initialCustomerDraft)
+  );
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
     setItems(parseStoredCart(window.localStorage.getItem(CART_STORAGE_KEY)));
-    setCustomerDraftState(parseCustomerDraft(window.localStorage.getItem(CUSTOMER_STORAGE_KEY)));
+    setCustomerDraftState(
+      mergeCustomerDrafts(initialCustomerDraft, parseCustomerDraft(window.localStorage.getItem(CUSTOMER_STORAGE_KEY)))
+    );
     setHydrated(true);
-  }, []);
+  }, [initialCustomerDraft]);
 
   useEffect(() => {
     if (!hydrated) return;

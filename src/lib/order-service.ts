@@ -6,6 +6,7 @@ import { getDb, isDatabaseConfigured } from "@/db/client";
 import {
   addresses,
   adminNotes,
+  customerAccounts,
   customers,
   orderEvents,
   orderItems,
@@ -120,6 +121,31 @@ function toDateSegment(date = new Date()) {
 function formatAddressSummary(address: OrderJoined["address"]) {
   if (!address) return "Retirada/combinar";
   return `${address.street}, ${address.number}${address.complement ? `, ${address.complement}` : ""} - ${address.neighborhood}, ${address.city}/${address.state}`;
+}
+
+async function syncCustomerAccount(tx: any, input: {
+  accountId: string;
+  customerId: string;
+  fullName: string;
+  email?: string | null;
+}) {
+  const [account] = await tx
+    .select()
+    .from(customerAccounts)
+    .where(eq(customerAccounts.id, input.accountId))
+    .limit(1);
+
+  if (!account) return;
+
+  await tx
+    .update(customerAccounts)
+    .set({
+      customerId: input.customerId,
+      fullName: input.fullName.trim() || account.fullName,
+      email: input.email?.trim() ? input.email.trim().toLowerCase() : account.email,
+      updatedAt: new Date()
+    })
+    .where(eq(customerAccounts.id, input.accountId));
 }
 
 function mapProductRow(row: ProductRow): Product {
@@ -240,7 +266,7 @@ export async function upsertCustomerProfile(input: z.infer<typeof customerSchema
   });
 }
 
-export async function createOrder(input: CreateOrderInput) {
+export async function createOrder(input: CreateOrderInput, options?: { customerAccountId?: string | null }) {
   assertDatabase();
   const parsed = createOrderSchema.parse(input);
   const db = getDb();
@@ -277,6 +303,16 @@ export async function createOrder(input: CreateOrderInput) {
     const operationalStatus: OperationalStatus = "waiting_payment";
     const paymentStatus: PaymentStatus = "pending";
     const { customerId, addressId } = await upsertCustomerAndAddress(tx, parsed.customer);
+
+    if (options?.customerAccountId) {
+      await syncCustomerAccount(tx, {
+        accountId: options.customerAccountId,
+        customerId,
+        fullName: parsed.customer.fullName,
+        email: parsed.customer.email || null
+      });
+    }
+
     const orderNumber = await nextOrderNumber(tx);
 
     const [order] = await tx
@@ -341,6 +377,35 @@ export async function createOrder(input: CreateOrderInput) {
       }))
     };
   });
+}
+
+export async function listOrdersForCustomerAccount(input: {
+  customerId?: string | null;
+  email?: string | null;
+  limit?: number;
+}) {
+  assertDatabase();
+  const db = getDb();
+  const limit = Math.max(1, Math.min(input.limit || 12, 24));
+  const normalizedEmail = input.email?.trim().toLowerCase() || null;
+
+  const baseQuery = db
+    .select({
+      order: orders,
+      customer: customers,
+      channel: sourceChannels
+    })
+    .from(orders)
+    .innerJoin(customers, eq(customers.id, orders.customerId))
+    .innerJoin(sourceChannels, eq(sourceChannels.id, orders.sourceChannelId));
+
+  const rows = input.customerId
+    ? await baseQuery.where(eq(orders.customerId, input.customerId)).orderBy(desc(orders.placedAt)).limit(limit)
+    : normalizedEmail
+      ? await baseQuery.where(eq(customers.email, normalizedEmail)).orderBy(desc(orders.placedAt)).limit(limit)
+      : [];
+
+  return rows;
 }
 
 export async function getOrderDetail(orderId: string) {

@@ -130,7 +130,21 @@ export async function getStorefrontProductById(id: string, options?: { fallbackT
 
 export async function getRelatedProducts(product: Product, limit = 4) {
   const products = await listStorefrontProducts();
-  return products.filter((item) => item.category === product.category && item.id !== product.id).slice(0, limit);
+  return products
+    .filter((item) => item.id !== product.id)
+    .sort((left, right) => {
+      const leftScore =
+        Number(left.collection === product.collection) * 4 +
+        Number(left.category === product.category) * 3 +
+        left.tags.filter((tag) => product.tags.includes(tag)).length;
+      const rightScore =
+        Number(right.collection === product.collection) * 4 +
+        Number(right.category === product.category) * 3 +
+        right.tags.filter((tag) => product.tags.includes(tag)).length;
+
+      return rightScore - leftScore || left.pricePix - right.pricePix;
+    })
+    .slice(0, limit);
 }
 
 export async function getCatalogStats() {

@@ -18,7 +18,7 @@ export function CartPage() {
           <p className="text-xs uppercase tracking-[0.22em] text-cyan-200">Carrinho</p>
           <h1 className="mt-4 text-4xl font-black text-white">Seu carrinho está vazio</h1>
           <p className="mx-auto mt-4 max-w-xl text-sm leading-7 text-white/62">
-            Explore o catálogo, use o quick view e adicione os produtos que você quer transformar em pedido real.
+            Explore o catalogo, use o quick view e adicione os produtos que voce quer levar para o checkout ou validar no WhatsApp.
           </p>
           <Link href="/catalogo" className="mt-8 inline-flex rounded-full border border-cyan-400/25 bg-cyan-400/12 px-6 py-3 text-sm font-semibold text-cyan-100">
             Ir para o catálogo
@@ -97,7 +97,7 @@ export function CartPage() {
           <p className="text-xs uppercase tracking-[0.22em] text-cyan-200">Resumo</p>
           <h2 className="mt-3 text-3xl font-black text-white">Fechar pedido</h2>
           <p className="mt-3 text-sm leading-7 text-white/62">
-            Revise quantidades, deixe observacoes importantes e siga para um checkout guest que cria pedido real no banco.
+            Revise quantidades, deixe observacoes importantes e siga para um checkout guest simples, claro e pronto para fechar sua compra.
           </p>
 
           <div className="mt-6 space-y-3 rounded-[28px] border border-white/10 bg-black/20 p-5">
@@ -127,9 +127,9 @@ export function CartPage() {
 
           <div className="mt-5 grid gap-3 rounded-[28px] border border-white/10 bg-black/20 p-5">
             {[
-              "Seu pedido sera registrado com numero, itens e timeline.",
-              "Pix segue como caminho principal para vender rapido.",
-              "Checkout guest evita atrito e leva ao WhatsApp se precisar."
+              "Pix segue como caminho principal para decidir mais rapido.",
+              "Checkout guest evita atrito e mantem o contexto da compra.",
+              "Se precisar validar cor, prazo ou detalhe, o WhatsApp entra no momento certo."
             ].map((item) => (
               <p key={item} className="text-sm leading-6 text-white/62">
                 {item}

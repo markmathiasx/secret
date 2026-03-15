@@ -21,7 +21,7 @@ const quickPrompts = [
   "quero anime",
   "quero geek",
   "quero presente",
-  "quero decoração",
+  "quero decoracao",
   "quero suporte",
   "quero personalizado",
   "quero entrega",
@@ -47,17 +47,17 @@ async function fetchSuggestedProducts(query: string) {
 
 function greetingFor(text: string) {
   const lower = normalize(text);
-  if (lower.includes("boa noite")) return "Boa noite. Fico à disposição para te ajudar com orçamento, frete e escolha do modelo.";
-  if (lower.includes("bom dia")) return "Bom dia. Posso te mostrar peças, preços e frete local no Rio.";
-  if (lower.includes("boa tarde")) return "Boa tarde. Me diga o que você quer imprimir e eu separo opções parecidas.";
-  if (lower in {"oi":1, "ola":1, "olá":1, "e ai":1, "eai":1}) return "Olá. Seja bem-vindo à MDH 3D. O que você quer imprimir hoje?";
+  if (lower.includes("boa noite")) return "Boa noite. Fico a disposicao para te ajudar com presente, frete e escolha da peça.";
+  if (lower.includes("bom dia")) return "Bom dia. Posso te mostrar peças, faixas de preco e entrega local no Rio.";
+  if (lower.includes("boa tarde")) return "Boa tarde. Me diga o que voce procura e eu separo opcoes parecidas.";
+  if (lower in {"oi":1, "ola":1, "olá":1, "e ai":1, "eai":1}) return "Ola. Seja bem-vindo a MDH 3D. O que voce quer encontrar hoje?";
   return null;
 }
 
 function thanksFor(text: string) {
   const lower = normalize(text);
   if (["obrigado", "obrigada", "valeu", "tmj"].some((term) => lower.includes(term))) {
-    return "Eu que agradeço. Se quiser, continuo com catálogo, frete ou encaminho você para atendimento humano.";
+    return "Eu que agradeco. Se quiser, continuo com catalogo, frete ou encaminho voce para atendimento humano.";
   }
   return null;
 }
@@ -69,7 +69,7 @@ async function botReply(input: string): Promise<Omit<ChatMessage, "id">> {
   if (!clean) {
     return {
       role: "bot",
-      text: "Me diga o que você quer imprimir. Ex.: hello kitty, vaso, suporte de controle, chaveiro ou organizador."
+      text: "Me diga o que voce procura. Ex.: hello kitty, vaso, suporte de controle, presente geek ou organizador."
     };
   }
 
@@ -90,35 +90,35 @@ async function botReply(input: string): Promise<Omit<ChatMessage, "id">> {
   if (lower.includes("instagram") || lower.includes("insta")) {
     return {
       role: "bot",
-      text: "O Instagram oficial da loja é @mdh_impressao3d. Se quiser, também posso te mostrar produtos aqui no site.",
+      text: "O Instagram oficial da loja e @mdh_impressao3d. Se quiser, tambem posso te mostrar produtos aqui no site.",
     };
   }
 
   if (lower.includes("frete") || lower.includes("cep") || lower.includes("entrega")) {
     return {
       role: "bot",
-      text: "A MDH 3D atende com entrega local no RJ e também organiza retirada/combinação. Você pode usar a página de Frete e depois fechar os detalhes no checkout ou no WhatsApp."
+      text: "A MDH 3D atende com entrega local no RJ e tambem organiza retirada ou combinacao. Voce pode usar a pagina de Frete e depois fechar os detalhes no checkout ou no WhatsApp."
     };
   }
 
   if (lower.includes("pix") || lower.includes("cartao") || lower.includes("cartão") || lower.includes("parcel")) {
     return {
       role: "bot",
-      text: "No site você pode gerar pedido real com Pix ou cartão. Pix costuma ter o melhor preço, e no cartão eu já mostro o parcelamento estimado."
+      text: "No site voce pode fechar com Pix ou cartao quando ele estiver habilitado. Pix costuma ter o melhor preco e no cartao eu ja mostro o parcelamento estimado."
     };
   }
 
   if (lower.includes("material") || lower.includes("acabamento") || lower.includes("cor") || lower.includes("personaliz")) {
     return {
       role: "bot",
-      text: "A MDH 3D trabalha principalmente com PLA premium, além de variações sob consulta. Posso te mostrar itens com foco em presente, setup, decoração ou personalizados."
+      text: "A MDH 3D trabalha principalmente com PLA premium, alem de variacoes sob consulta. Posso te mostrar itens com foco em presente, setup, decoracao ou personalizados."
     };
   }
 
   if (lower.includes("preco") || lower.includes("valor") || lower.includes("orcamento") || lower.includes("orçamento")) {
     return {
       role: "bot",
-      text: "Posso te mostrar opções parecidas com o que você quer e os preços base via Pix. Se a peça for personalizada, depois eu te direciono para um humano."
+      text: "Posso te mostrar opcoes parecidas com o que voce quer e os precos base via Pix. Se a peça for personalizada, depois eu te direciono para um humano."
     };
   }
 
@@ -127,7 +127,7 @@ async function botReply(input: string): Promise<Omit<ChatMessage, "id">> {
   if (!matches.length) {
     return {
       role: "bot",
-      text: "Ainda não achei um item muito próximo. Tente descrever com palavras como anime, hello kitty, suporte, vaso, chaveiro, organizador, oficina ou decoração. Se preferir, eu passo para atendimento humano.",
+      text: "Ainda nao achei um item muito proximo. Tente descrever com palavras como anime, hello kitty, suporte, vaso, presente ou decoracao. Se preferir, eu passo para atendimento humano.",
       human: true
     };
   }
@@ -135,7 +135,7 @@ async function botReply(input: string): Promise<Omit<ChatMessage, "id">> {
   const lead = matches[0];
   return {
     role: "bot",
-    text: `Encontrei ${matches.length} opção(ões) parecidas com "${clean}". A melhor correspondência agora é ${lead.name}, a partir de ${formatCurrency(lead.pricePix)} via Pix.`,
+    text: `Encontrei ${matches.length} opcao(oes) parecidas com "${clean}". A melhor correspondencia agora e ${lead.name}, a partir de ${formatCurrency(lead.pricePix)} via Pix.`,
     suggestions: matches
   };
 }
@@ -173,7 +173,7 @@ export function SiteAssistant() {
     {
       id: makeId(),
       role: "bot",
-      text: "Olá. Sou o assistente da MDH 3D. Posso te mostrar produtos parecidos, preços base, frete e também te direcionar para atendimento humano quando você quiser."
+      text: "Ola. Sou o assistente da MDH 3D. Posso te mostrar produtos parecidos, ideias de presente, faixas de preco, frete e tambem te direcionar para atendimento humano quando voce quiser."
     }
   ]);
 
@@ -200,7 +200,7 @@ export function SiteAssistant() {
         {
           id: makeId(),
           role: "bot",
-          text: "Tive uma falha rápida ao consultar a vitrine. Você pode tentar novamente ou falar comigo no WhatsApp.",
+          text: "Tive uma falha rapida ao consultar a loja. Voce pode tentar novamente ou falar comigo no WhatsApp.",
           human: true
         }
       ]);
@@ -225,7 +225,7 @@ export function SiteAssistant() {
               </span>
               <div>
                 <p className="text-sm font-semibold text-white">Assistente MDH 3D</p>
-                <p className="text-xs text-white/50">Catálogo + frete + humano sob demanda</p>
+                <p className="text-xs text-white/50">Descoberta de produtos + frete + atendimento rapido</p>
               </div>
             </div>
             <button onClick={() => setOpen(false)} className="rounded-full border border-white/10 p-2 text-white/70 hover:text-white">
@@ -239,7 +239,7 @@ export function SiteAssistant() {
                 <div className={`max-w-[92%] rounded-3xl px-4 py-3 ${message.role === "user" ? "bg-cyan-400 text-slate-950" : "border border-white/10 bg-white/5 text-white"}`}>
                   <div className="mb-2 flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] opacity-70">
                     {message.role === "user" ? <UserRound className="h-3.5 w-3.5" /> : <Sparkles className="h-3.5 w-3.5" />}
-                    <span>{message.role === "user" ? "Você" : "MDH"}</span>
+                    <span>{message.role === "user" ? "Voce" : "MDH"}</span>
                   </div>
                   <p className="text-sm leading-6">{message.text}</p>
 
@@ -275,7 +275,7 @@ export function SiteAssistant() {
                     <Sparkles className="h-3.5 w-3.5" />
                     <span>MDH</span>
                   </div>
-                  <p className="text-sm leading-6">Buscando opcoes parecidas na vitrine...</p>
+                  <p className="text-sm leading-6">Buscando opcoes parecidas na loja...</p>
                 </div>
               </div>
             ) : null}

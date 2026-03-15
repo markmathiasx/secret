@@ -85,7 +85,7 @@ export function OrderTrackingPage({ initialOrderNumber = "" }: OrderTrackingPage
         <div className="mt-6 grid gap-3 rounded-[28px] border border-white/10 bg-black/20 p-5 md:grid-cols-3">
           {[
             "Use o mesmo e-mail ou WhatsApp do checkout.",
-            "A consulta mostra status, itens e timeline sem expor dados sensiveis.",
+            "A consulta mostra status, itens e andamento sem expor dados sensiveis.",
             "Se nao localizar, o atendimento continua por WhatsApp."
           ].map((item) => (
             <p key={item} className="text-sm leading-6 text-white/62">
@@ -158,7 +158,7 @@ export function OrderTrackingPage({ initialOrderNumber = "" }: OrderTrackingPage
             </div>
 
             <div>
-              <h2 className="text-xl font-black text-white">Timeline</h2>
+              <h2 className="text-xl font-black text-white">Andamento do pedido</h2>
               <div className="mt-4 space-y-3">
                 {result.timeline.map((event) => (
                   <div key={`${event.eventType}-${event.createdAt}`} className="rounded-[24px] border border-white/10 bg-black/20 p-4">

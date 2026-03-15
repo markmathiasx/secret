@@ -192,10 +192,10 @@ export function CatalogExplorer({
       )
       .slice(0, 4);
   }, [products, query]);
-  const quickSearchScopes = ["anime", "geek", "presente", "decoração", "suporte", "personalizado"];
+  const quickSearchScopes = ["anime", "presente", "setup", "decoracao", "organizador", "personalizado"];
   const catalogHelpHref = buildWhatsAppLink(
     whatsappNumber,
-    `Oi! Vim pelo catálogo da MDH 3D e quero ajuda para encontrar ${deferredQuery.trim() || "um produto ideal"}.`
+    `Oi! Vim pelo catalogo da MDH 3D e quero ajuda para encontrar ${deferredQuery.trim() || "um produto ideal"}.`
   );
 
   function toggleInArray(value: string, currentValues: string[], setValues: (values: string[]) => void) {
@@ -250,7 +250,7 @@ export function CatalogExplorer({
       <div className="flex items-start justify-between gap-3">
         <div>
           <p className="text-xs uppercase tracking-[0.22em] text-cyan-200/80">Filtros</p>
-          <h2 className="mt-2 text-2xl font-black text-white">Refine a vitrine</h2>
+          <h2 className="mt-2 text-2xl font-black text-white">Refine sua selecao</h2>
         </div>
         <div className="flex items-center gap-2">
           <div className="rounded-full border border-white/10 bg-white/5 p-2 text-white/65">
@@ -269,13 +269,13 @@ export function CatalogExplorer({
       </div>
 
       <label className="mt-5 block text-sm text-white/68">
-        <span className="mb-2 block">Buscar dentro do catálogo</span>
+          <span className="mb-2 block">Buscar na colecao</span>
         <div className="flex items-center rounded-2xl border border-white/10 bg-black/20 px-4 py-3">
           <Search className="h-4 w-4 text-white/45" />
           <input
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="hello kitty, suporte, vaso..."
+            placeholder="hello kitty, suporte, presente, vaso..."
             className="ml-3 w-full bg-transparent text-white outline-none placeholder:text-white/35"
             aria-label="Buscar dentro do catálogo"
           />
@@ -299,7 +299,7 @@ export function CatalogExplorer({
 
       {query.trim().length >= 2 ? (
         <div className="mt-4">
-          <p className="text-[11px] uppercase tracking-[0.18em] text-white/45">Autocomplete da vitrine</p>
+          <p className="text-[11px] uppercase tracking-[0.18em] text-white/45">Sugestoes da colecao</p>
           <div className="mt-2 grid gap-2">
             {searchTypeahead.length ? (
               searchTypeahead.map((product) => (
@@ -317,7 +317,7 @@ export function CatalogExplorer({
               ))
             ) : (
               <div className="rounded-[20px] border border-dashed border-white/10 bg-black/20 px-3 py-3 text-sm text-white/55">
-                Nenhum autocomplete forte para esse termo ainda. Continue com a busca ou limpe o texto para explorar os atalhos.
+                Nenhuma sugestao boa apareceu para esse termo ainda. Continue buscando ou use os atalhos para explorar a colecao.
               </div>
             )}
           </div>
@@ -437,10 +437,10 @@ export function CatalogExplorer({
       </div>
 
       <label className="mt-5 flex items-center justify-between rounded-[24px] border border-white/10 bg-white/5 px-4 py-3 text-sm text-white/75">
-        <span className="inline-flex items-center gap-2">
-          <Sparkles className="h-4 w-4 text-cyan-200" />
-          Destaques da loja
-        </span>
+                <span className="inline-flex items-center gap-2">
+                  <Sparkles className="h-4 w-4 text-cyan-200" />
+                  Destaques da loja
+                </span>
         <input
           type="checkbox"
           checked={featuredOnly}
@@ -511,10 +511,10 @@ export function CatalogExplorer({
           <div className="section-shell rounded-[32px] p-5">
             <div className="flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
               <div>
-                <p className="text-xs uppercase tracking-[0.22em] text-cyan-200/80">Vitrine da loja</p>
-                <h2 className="mt-2 text-3xl font-black text-white">{filteredAndSorted.length} produtos filtrados</h2>
+                <p className="text-xs uppercase tracking-[0.22em] text-cyan-200/80">Selecao da loja</p>
+                <h2 className="mt-2 text-3xl font-black text-white">{filteredAndSorted.length} produtos na sua selecao</h2>
                 <p className="mt-2 text-sm leading-7 text-white/62">
-                  Cards mais densos, quick view, sinais visuais fortes e informações de preço já visíveis sem exigir clique desnecessário.
+                  Compare rapido por faixa de preco, prazo, categoria e colecao sem perder a leitura visual da loja.
                 </p>
               </div>
 
@@ -541,11 +541,11 @@ export function CatalogExplorer({
               <span className="h-1 w-1 rounded-full bg-white/30" />
               <span>{activeFiltersCount} filtro(s) ativo(s)</span>
               <span className="h-1 w-1 rounded-full bg-white/30" />
-              <span>autocomplete local + quick view + mídia estável</span>
+              <span>quick view, Pix em destaque e leitura mais comercial</span>
             </div>
 
             <div className="mt-4 flex flex-wrap gap-2">
-              {["Pix mais forte", "Quick view imediato", "Filtros previsíveis", "Checkout guest"].map((item) => (
+              {["Pix com melhor valor", "Quick view", "Filtros previsiveis", "Guest checkout"].map((item) => (
                 <span key={item} className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs uppercase tracking-[0.18em] text-white/60">
                   {item}
                 </span>
@@ -563,7 +563,7 @@ export function CatalogExplorer({
             <div className="section-shell rounded-[32px] px-6 py-12 text-center">
               <h3 className="text-2xl font-black text-white">Nenhum item combinou com essa busca</h3>
               <p className="mx-auto mt-3 max-w-2xl text-sm leading-7 text-white/60">
-                Ajuste busca, faixa de preço ou categorias. Se preferir, fale com a MDH 3D no WhatsApp e a gente te ajuda a chegar no produto certo com mais rapidez.
+                Ajuste busca, faixa de preco ou categoria. Se preferir, fale com a MDH 3D no WhatsApp e a gente te ajuda a chegar no item certo mais rapido.
               </p>
               <div className="mt-6 flex flex-wrap justify-center gap-3">
                 <button
@@ -571,16 +571,16 @@ export function CatalogExplorer({
                   onClick={clearFilters}
                   className="rounded-full border border-cyan-400/25 bg-cyan-400/12 px-5 py-3 text-sm font-semibold text-cyan-100 transition hover:border-cyan-300/55 hover:bg-cyan-300/18"
                 >
-                  Resetar vitrine
-                </button>
+                    Limpar selecao
+                  </button>
                 <a
                   href={catalogHelpHref}
                   target="_blank"
                   rel="noreferrer"
                   className="rounded-full border border-emerald-400/25 bg-emerald-400/14 px-5 py-3 text-sm font-semibold text-emerald-100 transition hover:border-emerald-300/55 hover:bg-emerald-300/18"
                 >
-                  Pedir ajuda no WhatsApp
-                </a>
+                    Pedir ajuda no WhatsApp
+                  </a>
               </div>
             </div>
           )}
