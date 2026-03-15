@@ -3,6 +3,7 @@ import { catalog, getProductUrl } from "@/lib/catalog";
 import { estimateDeliveryFeeKm } from "@/lib/delivery";
 import { formatCurrency } from "@/lib/utils";
 import { supportEmail, whatsappNumber } from "@/lib/constants";
+import { getSiteUrl } from "@/lib/env";
 
 type Session = { distanceKm?: number; lastProductId?: string; wantsHuman?: boolean };
 const sessions = new Map<string, Session>();
@@ -163,7 +164,7 @@ export async function POST(request: Request) {
         session.lastProductId = product.id;
         sessions.set(from, session);
 
-        const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+        const siteUrl = getSiteUrl();
         const link = `${siteUrl}${getProductUrl(product)}`;
         const deliveryFee = session.distanceKm ? estimateDeliveryFeeKm(session.distanceKm) : 0;
         const total = Number((product.pricePix + deliveryFee).toFixed(2));

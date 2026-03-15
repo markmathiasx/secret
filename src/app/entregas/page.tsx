@@ -1,6 +1,7 @@
 import { DeliveryCalculator } from "@/components/delivery-calculator";
 import { deliveryZones } from "@/lib/constants";
 import { formatCurrency } from "@/lib/utils";
+import { DeliveryMap } from "@/components/delivery-map";
 
 export default function Page() {
   return (
@@ -11,8 +12,9 @@ export default function Page() {
         Operação inicial local no Rio de Janeiro, com entrega própria por moto ou carro. Aqui o cliente calcula o frete estimado por CEP e recebe prazo normal de 1 a 3 dias úteis.
       </p>
 
-      <div className="mt-8">
+      <div className="mt-8 grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
         <DeliveryCalculator />
+        <DeliveryMap />
       </div>
 
       <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-5">

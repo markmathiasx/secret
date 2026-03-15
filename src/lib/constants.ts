@@ -71,12 +71,10 @@ export const deliveryZones = [
 ] as const;
 
 export const homepageCollections = [
-  "For You",
-  "Tendência",
-  "Household",
-  "Toys & Games",
-  "Tools",
-  "Hobby & DIY",
-  "Miniatures",
-  "Props & Cosplays"
+  "Anime",
+  "Geek",
+  "Utilidades",
+  "Casa",
+  "Escritorio",
+  "Personalizados"
 ] as const;

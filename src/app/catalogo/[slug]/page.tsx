@@ -4,6 +4,7 @@ import { ProductImageGallery } from "@/components/product-image-gallery";
 import { QuoteForm } from "@/components/quote-form";
 import { DeliveryCalculator } from "@/components/delivery-calculator";
 import { PixPaymentCard } from "@/components/pix-payment-card";
+import { SafeProductImage } from "@/components/safe-product-image";
 import { catalog, findProductBySlug, getProductUrl } from "@/lib/catalog";
 import { formatCurrency } from "@/lib/utils";
 
@@ -69,7 +70,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         <div className="mt-6 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
           {related.map((item) => (
             <Link key={item.id} href={getProductUrl(item)} className="rounded-[28px] border border-white/10 bg-white/5 p-4 transition hover:border-cyan-300/30">
-              <img src={`/catalog-assets/${item.id}.webp`} alt={item.name} className="mb-4 aspect-square w-full rounded-[22px] object-cover" />
+              <SafeProductImage product={item} alt={item.name} className="mb-4 aspect-square w-full rounded-[22px] object-cover" />
               <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">{item.category}</p>
               <h3 className="mt-2 text-lg font-semibold text-white">{item.name}</h3>
               <p className="mt-2 text-sm text-white/60">{formatCurrency(item.pricePix)} no Pix</p>

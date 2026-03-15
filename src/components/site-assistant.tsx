@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 import { Bot, MessageCircleMore, Send, UserRound, X, Sparkles } from "lucide-react";
 import { catalog, getProductUrl, type Product } from "@/lib/catalog";
 import { formatCurrency } from "@/lib/utils";
+import { SafeProductImage } from "@/components/safe-product-image";
 import { socialLinks, whatsappMessage, whatsappNumber } from "@/lib/constants";
 
 type ChatMessage = {
@@ -143,7 +144,7 @@ function ProductSuggestion({ product }: { product: Product }) {
   return (
     <div className="rounded-2xl border border-white/10 bg-black/25 p-3">
       <div className="flex gap-3">
-        <img src={`/catalog-assets/${product.id}.webp`} alt={product.name} className="h-16 w-16 rounded-2xl object-cover" />
+        <SafeProductImage product={product} alt={product.name} className="h-16 w-16 rounded-2xl object-cover" />
         <div className="min-w-0 flex-1">
           <p className="text-[11px] uppercase tracking-[0.18em] text-cyan-200/80">{product.category}</p>
           <p className="mt-1 text-sm font-semibold text-white">{product.name}</p>

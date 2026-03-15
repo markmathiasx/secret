@@ -80,7 +80,7 @@ export function QuoteForm({ initialProduct }: { initialProduct: Product }) {
       {deliveryFee > 0 ? (
         <p className="mt-4 text-sm text-cyan-200">Frete estimado por km: {formatCurrency(deliveryFee)} (extra)</p>
       ) : (
-        <p className="mt-4 text-xs text-white/45">Se quiser frete por km, coloque a distância do Google Maps. Se preferir, calcule por CEP na página de frete.</p>
+        <p className="mt-4 text-xs text-white/45">Se quiser frete por km, informe uma estimativa de distância. Se preferir, calcule por CEP na página de frete.</p>
       )}
 
       <button type="submit" className="mt-5 rounded-full bg-cyan-400 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:scale-[1.01] disabled:opacity-70">

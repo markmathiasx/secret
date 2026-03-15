@@ -24,6 +24,6 @@ npm install
 
 Write-Host ""
 Write-Host "Iniciando servidor local..." -ForegroundColor Cyan
-Write-Host "Loja: http://localhost:3000" -ForegroundColor Green
-Write-Host "Painel admin: http://localhost:3000/painel-mdh-85/login" -ForegroundColor Green
+Write-Host "Loja: https://example.com" -ForegroundColor Green
+Write-Host "Painel admin: https://example.com/painel-mdh-85/login" -ForegroundColor Green
 npm run dev

@@ -43,7 +43,7 @@ export function CatalogExplorer({ products }: { products: Product[] }) {
                 setQuery(e.target.value);
                 setVisible(PAGE_SIZE);
               }}
-              placeholder="Ex: hello kitty, suporte controle, vaso, organizador, chaveiro..."
+              placeholder="Buscar por tema, categoria, uso ou nome da peça"
               className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none"
             />
           </label>
@@ -86,11 +86,19 @@ export function CatalogExplorer({ products }: { products: Product[] }) {
         <div className="mt-4 flex flex-wrap items-center gap-3 text-sm text-white/60">
           <span>{filtered.length} resultados</span>
           <span className="h-1 w-1 rounded-full bg-white/30" />
-          <span>1000 produtos com imagem local incluída</span>
+          <span>Portfólio completo com mídia local e fallback premium</span>
           <span className="h-1 w-1 rounded-full bg-white/30" />
           <span>Abra o produto para ver preço, prazo e frete</span>
         </div>
       </div>
+
+
+      {filtered.length === 0 ? (
+        <div className="rounded-[28px] border border-white/10 bg-black/20 p-8 text-center">
+          <p className="text-sm text-white/70">Nenhum item encontrado com os filtros atuais.</p>
+          <p className="mt-2 text-xs text-white/50">Tente remover categoria/coleção ou use termos mais amplos.</p>
+        </div>
+      ) : null}
 
       <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
         {visibleItems.map((product) => (

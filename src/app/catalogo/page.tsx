@@ -6,9 +6,9 @@ export default function CatalogPage() {
     <section className="mx-auto max-w-7xl px-6 py-16">
       <div className="max-w-3xl">
         <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Catálogo base</p>
-        <h1 className="mt-3 text-4xl font-black text-white">1000 exemplos para você transformar em produtos reais</h1>
+        <h1 className="mt-3 text-4xl font-black text-white">Catálogo completo para operação comercial MDH 3D</h1>
         <p className="mt-4 text-lg leading-8 text-white/68">
-          Agora o catálogo ficou navegável de verdade: busca, filtros, coleção, cards melhores e páginas individuais por produto.
+          Navegue por categorias, filtros e páginas de produto com foco em conversão, prazo claro e personalização.
         </p>
       </div>
 

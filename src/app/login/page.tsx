@@ -19,7 +19,7 @@ export default function LoginPage() {
     setError(null);
     setInfo(null);
     if (!supabaseBrowser) {
-      setError("Login social opcional: primeiro preencha NEXT_PUBLIC_SUPABASE_URL e NEXT_PUBLIC_SUPABASE_ANON_KEY no .env.local.");
+      setError("Login social opcional: preencha NEXT_PUBLIC_SUPABASE_URL e NEXT_PUBLIC_SUPABASE_ANON_KEY (ou NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY) no .env.local.");
       return;
     }
 
@@ -183,8 +183,8 @@ export default function LoginPage() {
           <div className="mt-6 rounded-[24px] border border-white/10 bg-black/20 p-5 text-sm leading-7 text-white/60">
             <p className="font-semibold text-white">Campos do .env.local</p>
             <p className="mt-2 font-mono text-xs text-cyan-100/90">NEXT_PUBLIC_SUPABASE_URL=...</p>
-            <p className="font-mono text-xs text-cyan-100/90">NEXT_PUBLIC_SUPABASE_ANON_KEY=...</p>
-            <p className="font-mono text-xs text-cyan-100/90">SUPABASE_SERVICE_ROLE_KEY=...</p>
+            <p className="font-mono text-xs text-cyan-100/90">NEXT_PUBLIC_SUPABASE_ANON_KEY=... (ou NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY)</p>
+            <p className="font-mono text-xs text-cyan-100/90">SUPABASE_SERVICE_ROLE_KEY=... (ou SUPABASE_SECRET_KEY)</p>
             <p className="mt-3">Suporte atual da loja: {supportEmail}</p>
           </div>
         </div>

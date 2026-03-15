@@ -17,7 +17,7 @@ export default function AdminHome() {
         <h2 className="text-xl font-bold text-white">Checklist rápido</h2>
         <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-white/65">
           <li>Definir ADMIN_PASSWORD</li>
-          <li>Adicionar mídia real em public/media</li>
+          <li>Validar mídia institucional da vitrine</li>
           <li>Ativar login social (Supabase) quando quiser</li>
           <li>Revisar preços e zonas de entrega</li>
         </ul>

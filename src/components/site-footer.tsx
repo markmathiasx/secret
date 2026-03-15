@@ -3,8 +3,8 @@ import { brand, pix, socialLinks, supportEmail } from "@/lib/constants";
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-white/10 bg-black/20">
-      <div className="mx-auto grid max-w-7xl gap-8 px-6 py-10 md:grid-cols-4">
+    <footer className="mt-12 border-t border-white/10 bg-black/30 backdrop-blur">
+      <div className="mx-auto grid max-w-7xl gap-8 px-6 py-12 md:grid-cols-2 xl:grid-cols-4">
         <div>
           <h3 className="text-lg font-semibold text-white">{brand.name}</h3>
           <p className="mt-2 text-sm text-white/65">{brand.slogan}</p>

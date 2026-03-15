@@ -6,11 +6,15 @@ import { WhatsAppFloat } from "@/components/whatsapp-float";
 import { PwaRegister } from "@/components/pwa-register";
 import { SiteAssistant } from "@/components/site-assistant";
 import { brand, socialLinks, supportEmail, whatsappNumber } from "@/lib/constants";
+import { getSiteUrl } from "@/lib/env";
+
+const siteUrl = getSiteUrl();
 
 export const metadata: Metadata = {
   title: "MDH 3D | Loja de impressões 3D no Rio de Janeiro",
   description:
     "Loja de projetos impressos em 3D com foco em anime, gamer, decoração, utilidades, personalizados e entrega local no Rio de Janeiro.",
+  metadataBase: new URL(siteUrl),
   applicationName: "MDH 3D",
   appleWebApp: {
     capable: true,
@@ -24,9 +28,22 @@ export const metadata: Metadata = {
     ],
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }]
   },
+  alternates: {
+    canonical: "/"
+  },
   openGraph: {
     title: "MDH 3D",
     description: "Impressões 3D sob encomenda com site próprio, WhatsApp e pagamentos digitais.",
+    url: siteUrl,
+    siteName: "MDH 3D",
+    locale: "pt_BR",
+    type: "website",
+    images: ["/logo-mdh.jpg"]
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "MDH 3D",
+    description: "Impressões 3D sob encomenda com entrega local no Rio de Janeiro.",
     images: ["/logo-mdh.jpg"]
   }
 };
