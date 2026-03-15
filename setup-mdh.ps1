@@ -47,9 +47,9 @@ Write-Step '5) Instalando dependencias'
 npm install
 
 Write-Step '6) Como acessar'
-Write-Host 'Site publico:        http://localhost:3000' -ForegroundColor White
-Write-Host 'Painel admin oculto: http://localhost:3000/painel-mdh-85/login' -ForegroundColor White
-Write-Host 'Login cliente:       http://localhost:3000/login' -ForegroundColor White
+Write-Host 'Site publico:        https://example.com' -ForegroundColor White
+Write-Host 'Painel admin oculto: https://example.com/painel-mdh-85/login' -ForegroundColor White
+Write-Host 'Login cliente:       https://example.com/login' -ForegroundColor White
 
 Write-Step '7) Observacoes importantes'
 Write-Host 'Google/Apple/SMS so funcionam quando voce preencher o Supabase no .env.local e ativar os providers.' -ForegroundColor Yellow

@@ -90,3 +90,18 @@ code {
   border: 1px solid rgba(255,255,255,0.10);
   backdrop-filter: blur(18px);
 }
+
+.hero-video {
+  filter: blur(2px) saturate(1.06);
+  transform: scale(1.03);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-video {
+    display: none;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}

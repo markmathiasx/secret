@@ -13,12 +13,12 @@ export function middleware(request: NextRequest) {
 
   const cspRules = [
     "default-src 'self'",
-    "script-src 'self' 'unsafe-inline' https://sdk.mercadopago.com",
+    "script-src 'self' 'unsafe-inline' https://sdk.mercadopago.com https://maps.googleapis.com",
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data: https:",
     "media-src 'self' https:",
     "font-src 'self' data:",
-    "connect-src 'self' https://api.mercadopago.com https://graph.facebook.com https://viacep.com.br https://*.supabase.co wss://*.supabase.co https://*.supabase.in wss://*.supabase.in",
+    "connect-src 'self' https://api.mercadopago.com https://graph.facebook.com https://viacep.com.br https://maps.googleapis.com https://maps.gstatic.com https://*.supabase.co wss://*.supabase.co https://*.supabase.in wss://*.supabase.in",
     "frame-src https://www.mercadopago.com.br https://www.mercadopago.com",
     "object-src 'none'",
     "base-uri 'self'",

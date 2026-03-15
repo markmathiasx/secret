@@ -1,0 +1,11 @@
+<svg width="1920" height="1080" viewBox="0 0 1920 1080" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g opacity="0.35" stroke="white" stroke-width="2">
+    <path d="M180 860H1740" />
+    <path d="M320 760H1600" />
+    <path d="M420 340H1500" />
+    <path d="M620 340V760" />
+    <path d="M1300 340V760" />
+    <rect x="700" y="420" width="520" height="300" rx="20" />
+    <rect x="820" y="500" width="280" height="180" rx="12" />
+  </g>
+</svg>

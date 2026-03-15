@@ -42,13 +42,13 @@ npm run dev
 Site público:
 
 ```text
-http://localhost:3000
+https://example.com
 ```
 
 Painel admin:
 
 ```text
-http://localhost:3000/painel-mdh-85/login
+https://example.com/painel-mdh-85/login
 ```
 
 ## Antes de publicar
