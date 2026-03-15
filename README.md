@@ -1,145 +1,147 @@
-# MDH 3D Store Pro
+# MDH 3D Store
 
-Loja full-stack da **MDH 3D** para impressões 3D sob encomenda com:
+Loja operacional da **MDH 3D** em **Next 15 + PostgreSQL/Supabase + Drizzle**, preparada para catálogo curado, pedido real, painel privado e operação 24/7.
 
-- catálogo com **1000 exemplos**;
-- páginas individuais de produto;
-- frete por CEP para RJ;
-- bot no próprio site + WhatsApp com handoff para humano;
-- painel admin oculto em rota separada;
-- financeiro com gráfico e export CSV;
-- PWA instalável no iPhone/Android;
-- base pronta para Mercado Pago;
-- login social/OTP opcional via Supabase.
+## Stack
 
-## Dados já ajustados
+- `Next.js 15`
+- `PostgreSQL` via `DATABASE_URL`
+- `Drizzle ORM + drizzle-kit`
+- `Mercado Pago` para checkout de cartão por redirect
+- `Pix` com payload/QR local
+- sessão admin por cookie `HttpOnly` assinado
 
-- Instagram: **mdh___021**
-- E-mail atendimento: **mdhatendimento@gmail.com**
-- E-mail admin: **markmathias01@gmail.com**
-- Pix provider: **PicPay**
-- Exibição de confirmação: **CPF final 85**
-- Painel admin oculto: **/painel-mdh-85/login**
+## O que já existe
 
-## Rodar local no Windows com PowerShell 7
+- home de conversão premium
+- catálogo curado com 48 SKUs
+- quick view, carrinho persistente e checkout guest
+- criação real de cliente, endereço, pedido, itens, pagamento e timeline
+- painel privado em `/admin`
+- consulta pública de pedido em `/acompanhar-pedido`
+- postura `guest-first`: conta pública é opcional e não faz parte do funil principal
+- seed de catálogo + canais de origem
+- importador automático de imagens com Openverse/Wikimedia + placeholder premium
+- healthcheck em `/api/health`
+- instrumentação pronta para GA4 + analytics interno em banco
 
-Dentro da pasta `D:\mdh-3d-store`:
+## Variáveis de ambiente
 
-```powershell
-./setup-mdh.ps1
+Copie `.env.example` para `.env.local` e preencha:
+
+```env
+DATABASE_URL=
+NEXT_PUBLIC_SITE_URL=
+
+ADMIN_EMAIL=
+ADMIN_PASSWORD_HASH=
+ADMIN_SESSION_SECRET=
+
+MERCADOPAGO_ACCESS_TOKEN=
+MERCADOPAGO_WEBHOOK_SECRET=
+
+PIX_KEY=
+PIX_RECEIVER_NAME=
+PIX_RECEIVER_CITY=
+
+NEXT_PUBLIC_WHATSAPP_NUMBER=5521920137249
+NEXT_PUBLIC_INSTAGRAM_URL=https://www.instagram.com/mdh_impressao3d/
+NEXT_PUBLIC_GA_MEASUREMENT_ID=
+
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+
+# Opcional, fora da operação principal desta rodada:
+WHATSAPP_PHONE_NUMBER_ID=
+WHATSAPP_ACCESS_TOKEN=
+WHATSAPP_VERIFY_TOKEN=
+WHATSAPP_TEMPLATE_NAME=mdh_order_update
 ```
 
-## Passo manual resumido
+Se você estiver usando Supabase, pegue a connection string em `Connect > Session pooler` e prefira a variante IPv4. O host direto `db.<project-ref>.supabase.co:5432` pode falhar localmente em máquinas Windows sem rota IPv6.
+Em muitos projetos Supabase, o usuário da Session pooler segue o padrão `postgres.<project-ref>`.
+
+Para gerar o hash do admin:
 
 ```powershell
-Set-Location D:\mdh-3d-store
-Copy-Item .env.example .env.local -ErrorAction SilentlyContinue
-code .
+npm run admin:hash -- sua-senha-forte
+```
+
+Se você já tem um `.env.local` antigo no projeto original, migre os nomes legados:
+
+- `ADMIN_PASSWORD` -> gere `ADMIN_PASSWORD_HASH`
+- `ADMIN_SESSION_TOKEN` -> use como `ADMIN_SESSION_SECRET`
+
+O painel `/admin` depende de sessão persistida em banco. Se a `DATABASE_URL` estiver indisponível, o login admin falha de forma explícita em vez de aceitar cookie sem persistência.
+
+## Bootstrap local
+
+```powershell
 npm install
+npm run doctor
+npm run db:generate
+npm run db:migrate
+npm run db:seed
+npm run catalog:images
+npm run build
 npm run dev
 ```
 
-Site público:
+Se o `doctor` acusar `DATABASE_URL` com host direto do Supabase, troque a URL antes de rodar `db:migrate`.
 
-```text
-http://localhost:3000
-```
+## Imagens do catálogo
 
-Painel admin:
-
-```text
-http://localhost:3000/painel-mdh-85/login
-```
-
-## Antes de publicar
-
-Edite o `.env.local` e troque pelo menos:
-
-- `ADMIN_PASSWORD`
-- `ADMIN_SESSION_TOKEN`
-- `NEXT_PUBLIC_FACEBOOK_URL`
-- `PIX_KEY`, `PIX_RECEIVER_NAME` e `PIX_RECEIVER_CITY`
-- variáveis do WhatsApp Cloud API, se já for usar
-- variáveis do Mercado Pago, se já for usar
-
-## Supabase é opcional
-
-O site funciona **sem** Supabase.
-
-Você só precisa configurar estas chaves se quiser:
-
-- login com Google
-- login com Apple
-- link mágico por e-mail
-- OTP por telefone/SMS/WhatsApp
-- persistência real de pedidos/orçamentos no Supabase
-
-Campos do `.env.local`:
-
-```env
-NEXT_PUBLIC_SUPABASE_URL=
-NEXT_PUBLIC_SUPABASE_ANON_KEY=
-SUPABASE_SERVICE_ROLE_KEY=
-SUPABASE_ORDERS_TABLE=orders
-SUPABASE_QUOTES_TABLE=quotes
-```
-
-Campos do Pix privado no backend:
-
-```env
-PIX_KEY=21974137662
-PIX_RECEIVER_NAME=MARK MATHIAS DO SACRAMENTO VIDAL
-PIX_RECEIVER_CITY=RIO DE JANEIRO
-```
-
-## Mídia
-
-Coloque seus arquivos em:
-
-```text
-public/media
-```
-
-Formatos recomendados:
-
-- `.mp4`
-- `.webm`
-- `.mov`
-
-Sugestões de vídeo:
-
-- timelapse de impressão
-- close de acabamento
-- antes/depois de pintura
-- entrega no RJ
-- vídeos curtos para tráfego vindo de anúncio
-
-A home detecta até 6 arquivos automaticamente.
-
-## Publicar no GitHub
+Baixar imagens aproximadas e salvar localmente em `public/catalog-assets`:
 
 ```powershell
-./publish-mdh.ps1
+npm run catalog:images
 ```
 
-O script pede a URL do repositório e faz o push inicial.
+O script tenta `Openverse` e `Wikimedia`. Se não achar resultado bom, gera placeholder premium local.
+Para refazer toda a rodada e reavaliar placeholders:
 
-## Limite importante
+```powershell
+npm run catalog:images -- --refresh
+```
 
-Este projeto **não inclui cópia automática de imagens, vídeos ou modelos de terceiros** (MakerWorld, Amazon, Mercado Livre, Shopee, AliExpress, YouTube etc.). Para usar mídia real desses lugares, verifique licença, API oficial e permissão de uso. A base visual e comercial já está pronta para você substituir pelos seus próprios arquivos.
+O relatório final das imagens fica em `public/catalog-assets/catalog-image-report.json`.
 
+## Rotas principais
 
-## Novidade visual
+- Loja: `http://localhost:3000`
+- Catálogo: `http://localhost:3000/catalogo`
+- Carrinho: `http://localhost:3000/carrinho`
+- Checkout: `http://localhost:3000/checkout`
+- Acompanhar pedido: `http://localhost:3000/acompanhar-pedido`
+- Admin: `http://localhost:3000/admin/login`
+- Health: `http://localhost:3000/api/health`
+- Login público opcional: `http://localhost:3000/login`
+- Conta pública opcional: `http://localhost:3000/conta`
 
-- Todos os itens do catálogo agora têm previews locais gerados no próprio projeto.
-- Clique em qualquer produto para ampliar a galeria ilustrativa.
-- Quando quiser, troque as previews pelas suas fotos reais ou vídeos em `public/media`.
+## Deploy recomendado
 
+- frontend/app: `Vercel`
+- banco: `Supabase Postgres`
+- domínio: `Cloudflare` opcional para DNS e borda
 
-## Deixar online sem depender do PC
+Passos:
 
-1. Rode `./publish-mdh.ps1` para subir no GitHub.
-2. Importe o repositório na Vercel e copie as variáveis do `.env.local`.
-3. Faça o primeiro deploy e teste a URL da Vercel.
-4. Depois conecte seu domínio na Cloudflare e troque os nameservers no registrador.
-5. Mantenha Vercel + Cloudflare: assim o site continua online mesmo com seu PC desligado.
+1. Criar banco Supabase e copiar `DATABASE_URL`.
+2. Configurar variáveis de ambiente na Vercel.
+3. Rodar migrations, seed e importação de imagens no banco hospedado.
+4. Publicar.
+5. Testar checkout Pix, login admin e consulta de pedido.
+6. Se `MERCADOPAGO_ACCESS_TOKEN` não estiver configurado, a loja segue vendendo com Pix + WhatsApp e o cartão fica desabilitado no checkout.
+7. Rodar `npm run doctor` depois do deploy para confirmar env, imagens e conexão.
+8. Se quiser telemetria externa, preencher `NEXT_PUBLIC_GA_MEASUREMENT_ID`; sem isso, o tracking interno continua funcionando de forma silenciosa.
+9. Login/conta pública por Supabase continuam opcionais e fora do caminho principal de venda.
+10. Nenhuma rota crítica de amanhã depende de `localStorage`, mock em memória ou seed mutável para pedido, pagamento, sessão admin ou status.
+
+## Checklist de operação
+
+1. Entrar em `/admin/login`.
+2. Conferir dashboard e fila de pedidos.
+3. Testar um pedido Pix pelo `/checkout`.
+4. Confirmar atualização manual de pagamento/status no admin.
+5. Testar `/acompanhar-pedido` com número do pedido + e-mail/WhatsApp.
+6. Conferir `/api/health` e `public/catalog-assets/catalog-image-report.json`.

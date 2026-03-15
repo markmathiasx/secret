@@ -1,36 +1,133 @@
+import type { Metadata } from "next";
+import { AnalyticsPageEvent } from "@/components/analytics-page-event";
 import { CatalogExplorer } from "@/components/catalog-explorer";
-import { catalog, categories, collections } from "@/lib/catalog";
+import { categories, collections } from "@/lib/catalog";
+import { getCatalogStats, listStorefrontProducts } from "@/lib/catalog-server";
+import { getAbsoluteUrl, getCatalogStructuredData, getSiteUrl } from "@/lib/seo";
 
-export default function CatalogPage() {
+type CatalogPageProps = {
+  searchParams: Promise<{
+    q?: string;
+    category?: string;
+  }>;
+};
+
+export default async function CatalogPage({ searchParams }: CatalogPageProps) {
+  const params = await searchParams;
+  const [products, stats] = await Promise.all([listStorefrontProducts(), getCatalogStats()]);
+  const canonicalParams = new URLSearchParams();
+
+  if (params.q) canonicalParams.set("q", params.q);
+  if (params.category) canonicalParams.set("category", params.category);
+
+  const canonicalUrl = canonicalParams.toString() ? `${getSiteUrl()}/catalogo?${canonicalParams.toString()}` : `${getSiteUrl()}/catalogo`;
+  const title = params.category ? `${params.category} em impressão 3D` : "Catálogo de impressões 3D";
+  const description = params.category
+    ? `Explore a seleção da MDH 3D para ${params.category.toLowerCase()}, com Pix, prazos claros e pedido real pelo site.`
+    : "Explore o catálogo curado da MDH 3D com quick view, filtros, Pix, cartão quando disponível e pedido real.";
+  const catalogLd = getCatalogStructuredData({
+    title,
+    description,
+    canonicalUrl,
+    products
+  });
+
   return (
     <section className="mx-auto max-w-7xl px-6 py-16">
-      <div className="max-w-3xl">
-        <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Catálogo base</p>
-        <h1 className="mt-3 text-4xl font-black text-white">1000 exemplos para você transformar em produtos reais</h1>
-        <p className="mt-4 text-lg leading-8 text-white/68">
-          Agora o catálogo ficou navegável de verdade: busca, filtros, coleção, cards melhores e páginas individuais por produto.
-        </p>
+      <AnalyticsPageEvent
+        eventName="view_category"
+        payload={{
+          category: params.category || "all",
+          query: params.q || "",
+          totalProducts: products.length
+        }}
+      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(catalogLd) }} />
+      <div className="overflow-hidden rounded-[40px] border border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(34,211,238,0.18),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(16,185,129,0.16),transparent_28%),linear-gradient(135deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02))] p-8 shadow-[0_24px_80px_rgba(2,8,23,0.32)]">
+        <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
+          <div className="max-w-3xl">
+            <p className="text-xs uppercase tracking-[0.22em] text-cyan-200">Storefront do catálogo</p>
+            <h1 className="mt-3 text-4xl font-black leading-tight text-white sm:text-5xl">
+              Explore a loja MDH 3D como uma vitrine madura, com busca forte, filtros previsíveis e cards que já ajudam a decidir.
+            </h1>
+            <p className="mt-4 text-lg leading-8 text-white/68">
+              Aqui a navegação foi pensada para compra rápida: preços claros, quick view, sugestões de busca, ordenação útil e sinais visuais fortes para reduzir dúvida antes do carrinho.
+            </p>
+          </div>
+
+          <div className="grid gap-3 sm:grid-cols-3">
+            {[
+              { label: "Produtos ativos", value: String(stats.totalProducts).padStart(4, "0") },
+              { label: "Categorias", value: String(stats.totalCategories).padStart(2, "0") },
+              { label: "Coleções", value: String(stats.totalCollections).padStart(2, "0") }
+            ].map((item) => (
+              <div key={item.label} className="rounded-[28px] border border-white/10 bg-black/20 p-5">
+                <p className="text-xs uppercase tracking-[0.18em] text-white/45">{item.label}</p>
+                <p className="mt-3 text-3xl font-black text-white">{item.value}</p>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
 
-      <div className="mt-8 flex flex-wrap gap-2">
-        {categories.map((category) => (
-          <span key={category} className="rounded-full border border-white/10 px-3 py-1 text-sm text-white/60">
+      <div className="mt-6 flex flex-wrap gap-2">
+        {(params.q ? [`Busca: ${params.q}`] : []).map((item) => (
+          <span key={item} className="rounded-full border border-emerald-400/18 bg-emerald-400/10 px-3 py-1 text-sm text-emerald-100/80">
+            {item}
+          </span>
+        ))}
+        {categories.slice(0, 6).map((category) => (
+          <span key={category} className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-sm text-white/62">
             {category}
           </span>
         ))}
-      </div>
-
-      <div className="mt-4 flex flex-wrap gap-2">
-        {collections.map((collection) => (
-          <span key={collection} className="rounded-full border border-cyan-400/15 bg-cyan-400/5 px-3 py-1 text-sm text-cyan-100/80">
+        {collections.slice(0, 4).map((collection) => (
+          <span key={collection} className="rounded-full border border-cyan-400/18 bg-cyan-400/8 px-3 py-1 text-sm text-cyan-100/78">
             {collection}
           </span>
         ))}
       </div>
 
       <div className="mt-10">
-        <CatalogExplorer products={catalog} />
+        <CatalogExplorer
+          products={products}
+          initialQuery={params.q || ""}
+          initialCategory={params.category || ""}
+        />
       </div>
     </section>
   );
+}
+
+export async function generateMetadata({ searchParams }: CatalogPageProps): Promise<Metadata> {
+  const params = await searchParams;
+  const siteUrl = getSiteUrl();
+  const title = params.category ? `${params.category} em impressão 3D` : "Catálogo de impressões 3D";
+  const description = params.category
+    ? `Explore a seleção da MDH 3D para ${params.category.toLowerCase()}, com Pix, prazos claros e pedido real pelo site.`
+    : "Explore o catálogo curado da MDH 3D com quick view, filtros, Pix, cartão quando disponível e pedido real.";
+  const canonicalParams = new URLSearchParams();
+
+  if (params.q) canonicalParams.set("q", params.q);
+  if (params.category) canonicalParams.set("category", params.category);
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: canonicalParams.toString() ? `${siteUrl}/catalogo?${canonicalParams.toString()}` : `${siteUrl}/catalogo`
+    },
+    openGraph: {
+      title,
+      description,
+      url: canonicalParams.toString() ? `${siteUrl}/catalogo?${canonicalParams.toString()}` : `${siteUrl}/catalogo`,
+      images: [{ url: getAbsoluteUrl("/logo-mdh.jpg"), alt: "MDH 3D catálogo" }]
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [getAbsoluteUrl("/logo-mdh.jpg")]
+    }
+  };
 }

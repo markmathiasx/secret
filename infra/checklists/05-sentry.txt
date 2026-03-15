@@ -1,0 +1,4 @@
+SENTRY - PASSO A PASSO
+1. Criar projeto Next.js
+2. Copiar DSN
+3. Colocar SENTRY_DSN na Vercel

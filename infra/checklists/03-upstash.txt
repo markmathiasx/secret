@@ -1,0 +1,5 @@
+UPSTASH REDIS - PASSO A PASSO
+1. Criar database Redis
+2. Copiar UPSTASH_REDIS_REST_URL
+3. Copiar UPSTASH_REDIS_REST_TOKEN
+4. Colocar ambas as chaves na Vercel

@@ -1,0 +1,17 @@
+STORAGE - ESCOLHA UMA OPÇÃO
+
+OPÇÃO 1 - SUPABASE STORAGE
+1. Criar bucket
+2. Definir se será público ou privado
+3. Se privado, usar signed URLs
+4. Preencher SUPABASE_STORAGE_BUCKET
+
+OPÇÃO 2 - CLOUDFLARE R2
+1. Criar bucket R2
+2. Gerar token R2 API / Access Key
+3. Copiar:
+   - R2_BUCKET
+   - R2_ACCOUNT_ID
+   - R2_ACCESS_KEY_ID
+   - R2_SECRET_ACCESS_KEY
+   - R2_ENDPOINT

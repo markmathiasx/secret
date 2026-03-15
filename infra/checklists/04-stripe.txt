@@ -1,0 +1,7 @@
+STRIPE - PASSO A PASSO
+1. Criar conta Stripe
+2. Developers > API keys
+3. Copiar secret key e publishable key
+4. Developers > Webhooks
+5. Criar endpoint do webhook
+6. Copiar STRIPE_WEBHOOK_SECRET

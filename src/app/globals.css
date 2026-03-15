@@ -13,6 +13,8 @@
   --muted: rgba(248,250,252,0.68);
   --cyan: #67e8f9;
   --violet: #8b5cf6;
+  --emerald: #34d399;
+  --amber: #fbbf24;
 }
 
 html {
@@ -89,4 +91,88 @@ code {
   background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
   border: 1px solid rgba(255,255,255,0.10);
   backdrop-filter: blur(18px);
+}
+
+.glass-surface {
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03)),
+    rgba(5, 11, 24, 0.68);
+  border: 1px solid rgba(255,255,255,0.10);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.08),
+    0 20px 64px rgba(2, 8, 23, 0.34);
+  backdrop-filter: blur(20px);
+}
+
+.glass-surface-strong {
+  background:
+    radial-gradient(circle at top left, rgba(34,211,238,0.14), transparent 28%),
+    radial-gradient(circle at bottom right, rgba(139,92,246,0.14), transparent 26%),
+    linear-gradient(180deg, rgba(255,255,255,0.1), rgba(255,255,255,0.04)),
+    rgba(5, 11, 24, 0.82);
+  border: 1px solid rgba(255,255,255,0.12);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.10),
+    0 26px 80px rgba(2, 8, 23, 0.42);
+  backdrop-filter: blur(22px);
+}
+
+.section-shell {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.10);
+  background:
+    radial-gradient(circle at top left, rgba(34,211,238,0.12), transparent 24%),
+    radial-gradient(circle at bottom right, rgba(16,185,129,0.10), transparent 26%),
+    linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.08),
+    0 24px 80px rgba(2, 8, 23, 0.30);
+  backdrop-filter: blur(18px);
+}
+
+.section-shell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.05), transparent 28%),
+    radial-gradient(circle at 80% 20%, rgba(103,232,249,0.08), transparent 20%);
+}
+
+.text-brand-gradient {
+  background: linear-gradient(135deg, #f8fafc 0%, #d6f4ff 38%, #8be4ff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.premium-shadow {
+  box-shadow:
+    0 24px 80px rgba(2, 8, 23, 0.30),
+    0 1px 0 rgba(255,255,255,0.08) inset;
+}
+
+.ambient-orb {
+  animation: drift 14s ease-in-out infinite;
+}
+
+@keyframes drift {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(0, -12px, 0) scale(1.04);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .ambient-orb {
+    animation: none;
+  }
 }

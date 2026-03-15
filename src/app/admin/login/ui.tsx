@@ -3,6 +3,7 @@
 import { useState } from "react";
 
 export function AdminLoginForm() {
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "error">("idle");
   const [message, setMessage] = useState("");
@@ -11,24 +12,40 @@ export function AdminLoginForm() {
     e.preventDefault();
     setStatus("loading");
     setMessage("");
-    const res = await fetch("/api/admin/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ password })
-    });
+    try {
+      const res = await fetch("/api/admin/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password })
+      });
 
-    if (!res.ok) {
-      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setStatus("error");
+        setMessage(data?.error || "Falha no login");
+        return;
+      }
+
+      window.location.href = "/admin";
+    } catch {
       setStatus("error");
-      setMessage(data?.error || "Falha no login");
-      return;
+      setMessage("Nao consegui falar com a API do admin agora. Verifique o ambiente e tente novamente.");
     }
-
-    window.location.href = "/admin";
   }
 
   return (
     <form onSubmit={onSubmit} className="space-y-4">
+      <label className="block">
+        <span className="text-sm text-white/70">E-mail do admin</span>
+        <input
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          type="email"
+          required
+          className="mt-2 w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none"
+        />
+      </label>
+
       <label className="block">
         <span className="text-sm text-white/70">Senha do admin</span>
         <input
@@ -40,11 +57,10 @@ export function AdminLoginForm() {
         />
       </label>
 
-      {status === "error" ? (
-        <p className="text-sm text-rose-200">{message}</p>
-      ) : (
-        <p className="text-xs text-white/45">Dica: configure ADMIN_PASSWORD no .env.local</p>
-      )}
+      {status === "error" ? <p className="text-sm text-rose-200">{message}</p> : null}
+      <div className="rounded-[22px] border border-white/10 bg-black/20 px-4 py-3 text-xs leading-6 text-white/45">
+        O painel usa `ADMIN_EMAIL`, `ADMIN_PASSWORD_HASH` e `ADMIN_SESSION_SECRET`. A sessao admin tambem precisa do banco acessivel para persistir `admin_sessions`.
+      </div>
 
       <button
         type="submit"

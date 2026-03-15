@@ -45,3 +45,7 @@ export async function sendWhatsAppTemplate(input: {
 
   return { ok: true, data: await response.json() } as const;
 }
+
+export function buildWhatsAppLink(phone: string, message: string) {
+  return `https://wa.me/${phone.replace(/\D/g, "")}?text=${encodeURIComponent(message)}`;
+}
