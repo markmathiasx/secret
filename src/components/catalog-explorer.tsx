@@ -1,63 +1,59 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import Link from "next/link";
-import { categories, collections, getProductUrl, type Product } from "@/lib/catalog";
-import { formatCurrency } from "@/lib/utils";
-import { ProductImageGallery } from "@/components/product-image-gallery";
-import { FavoriteButton } from "@/components/favorite-button";
+import { categories, collections, type Product } from "@/lib/catalog";
+import { CatalogGrid } from "@/components/catalog-grid";
 
-const PAGE_SIZE = 60;
-const badges = ["Mais vendido", "Foto real", "Pronta entrega", "Sob encomenda", "Personalizável"];
+const PAGE_SIZE = 24;
+
+type SortMode = "destaque" | "preco" | "prazo";
 
 export function CatalogExplorer({ products }: { products: Product[] }) {
   const [query, setQuery] = useState("");
-  const [category, setCategory] = useState("Todos");
+  const [category, setCategory] = useState("Todas");
   const [collection, setCollection] = useState("Todas");
+  const [sortMode, setSortMode] = useState<SortMode>("destaque");
   const [visible, setVisible] = useState(PAGE_SIZE);
 
   const filtered = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    return products.filter((item) => {
-      const matchQuery = !q
+    const normalizedQuery = query.trim().toLowerCase();
+
+    const items = products.filter((item) => {
+      const matchQuery = !normalizedQuery
         ? true
-        : [item.name, item.category, item.theme, item.description, item.collection, ...item.tags]
+        : [item.name, item.category, item.theme, item.collection, item.description, ...item.tags]
             .join(" ")
             .toLowerCase()
-            .includes(q);
-      const matchCategory = category === "Todos" ? true : item.category === category;
+            .includes(normalizedQuery);
+
+      const matchCategory = category === "Todas" ? true : item.category === category;
       const matchCollection = collection === "Todas" ? true : item.collection === collection;
+
       return matchQuery && matchCategory && matchCollection;
     });
-  }, [products, query, category, collection]);
+
+    return items.sort((a, b) => {
+      if (sortMode === "preco") return a.pricePix - b.pricePix;
+      if (sortMode === "prazo") return a.productionWindow.localeCompare(b.productionWindow);
+      return Number(b.featured) - Number(a.featured) || Number(b.readyToShip) - Number(a.readyToShip);
+    });
+  }, [category, collection, products, query, sortMode]);
 
   const visibleItems = filtered.slice(0, visible);
 
   return (
     <div className="space-y-6">
       <div className="rounded-[32px] border border-white/10 bg-white/5 p-5">
-        <div className="grid gap-4 lg:grid-cols-[1.2fr_0.4fr_0.4fr]">
+        <div className="grid gap-4 xl:grid-cols-[1.2fr_0.4fr_0.4fr_0.4fr]">
           <label className="text-sm text-white/70">
-            <span className="mb-2 block">Buscar peça</span>
+            <span className="mb-2 block">Buscar no catalogo</span>
             <input
               value={query}
-              onChange={(e) => {
-                setQuery(e.target.value);
+              onChange={(event) => {
+                setQuery(event.target.value);
                 setVisible(PAGE_SIZE);
               }}
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-              placeholder="Busque por tema, categoria ou uso"
-=======
-              placeholder="Buscar por tema, categoria, uso ou nome da peça"
->>>>>>> theirs
-=======
-              placeholder="Buscar por tema, categoria, uso ou nome da peça"
->>>>>>> theirs
-=======
-              placeholder="Buscar por tema, categoria, uso ou nome da peça"
->>>>>>> theirs
+              placeholder="Buscar por tema, categoria, uso ou nome da peca"
               className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none"
             />
           </label>
@@ -66,119 +62,77 @@ export function CatalogExplorer({ products }: { products: Product[] }) {
             <span className="mb-2 block">Categoria</span>
             <select
               value={category}
-              onChange={(e) => {
-                setCategory(e.target.value);
+              onChange={(event) => {
+                setCategory(event.target.value);
                 setVisible(PAGE_SIZE);
               }}
               className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none"
             >
-              <option>Todos</option>
+              <option value="Todas">Todas</option>
               {categories.map((item) => (
-                <option key={item}>{item}</option>
+                <option key={item} value={item}>
+                  {item}
+                </option>
               ))}
             </select>
           </label>
 
           <label className="text-sm text-white/70">
-            <span className="mb-2 block">Coleção</span>
+            <span className="mb-2 block">Colecao</span>
             <select
               value={collection}
-              onChange={(e) => {
-                setCollection(e.target.value);
+              onChange={(event) => {
+                setCollection(event.target.value);
                 setVisible(PAGE_SIZE);
               }}
               className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none"
             >
-              <option>Todas</option>
+              <option value="Todas">Todas</option>
               {collections.map((item) => (
-                <option key={item}>{item}</option>
+                <option key={item} value={item}>
+                  {item}
+                </option>
               ))}
+            </select>
+          </label>
+
+          <label className="text-sm text-white/70">
+            <span className="mb-2 block">Ordenar</span>
+            <select
+              value={sortMode}
+              onChange={(event) => setSortMode(event.target.value as SortMode)}
+              className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none"
+            >
+              <option value="destaque">Mais relevantes</option>
+              <option value="preco">Menor preco</option>
+              <option value="prazo">Prazo mais rapido</option>
             </select>
           </label>
         </div>
 
-        <div className="mt-4 flex flex-wrap items-center gap-3 text-sm text-white/60">
-          <span>{filtered.length} resultados disponíveis</span>
-          <span className="h-1 w-1 rounded-full bg-white/30" />
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-          <span>Preço inicial, prazo e acabamento em todos os cards</span>
-=======
-=======
->>>>>>> theirs
-=======
->>>>>>> theirs
-          <span>Portfólio completo com mídia local e fallback premium</span>
-          <span className="h-1 w-1 rounded-full bg-white/30" />
-          <span>Abra o produto para ver preço, prazo e frete</span>
->>>>>>> theirs
+        <div className="mt-5 flex flex-wrap items-center justify-between gap-3 text-sm text-white/60">
+          <p>
+            {filtered.length} item(ns) encontrados. Exibindo {visibleItems.length}.
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {["Mais vendido", "Foto real", "Personalizavel", "Sob encomenda", "Pronta entrega"].map((item) => (
+              <span key={item} className="rounded-full border border-white/10 bg-black/20 px-3 py-1 text-xs text-white/75">
+                {item}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
 
-
-      {filtered.length === 0 ? (
-        <div className="rounded-[28px] border border-white/10 bg-black/20 p-8 text-center">
-          <p className="text-sm text-white/70">Nenhum item encontrado com os filtros atuais.</p>
-          <p className="mt-2 text-xs text-white/50">Tente remover categoria/coleção ou use termos mais amplos.</p>
-        </div>
-      ) : null}
-
-      <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
-        {visibleItems.map((product, index) => (
-          <article key={product.id} className="group rounded-[28px] border border-white/10 bg-card p-5 transition hover:-translate-y-1 hover:border-cyan-300/30">
-            <div className="relative">
-              <ProductImageGallery product={product} compact />
-              <div className="absolute right-3 top-3">
-                <FavoriteButton productId={product.id} />
-              </div>
-            </div>
-
-            <div className="mt-4 flex items-start justify-between gap-3">
-              <div>
-                <p className="text-xs uppercase tracking-[0.2em] text-cyan-200/80">{product.category}</p>
-                <h3 className="mt-2 text-lg font-semibold text-white">{product.name}</h3>
-              </div>
-              <span className="rounded-full border border-white/10 px-3 py-1 text-xs text-white/60">{product.productionWindow}</span>
-            </div>
-
-            <div className="mt-3 flex flex-wrap gap-2">
-              <span className="rounded-full border border-violet-300/25 bg-violet-400/10 px-2.5 py-1 text-[11px] text-violet-100">{badges[index % badges.length]}</span>
-              <span className="rounded-full border border-white/10 px-2.5 py-1 text-[11px] text-white/75">PLA premium</span>
-            </div>
-
-            <p className="mt-3 min-h-[72px] text-sm leading-6 text-white/62">{product.description}</p>
-
-            <div className="mt-5 flex items-end justify-between gap-3">
-              <div>
-                <p className="text-xs text-white/45">A partir de</p>
-                <p className="text-2xl font-bold text-white">{formatCurrency(product.pricePix)}</p>
-                <p className="text-xs text-white/45">Acabamento fosco ou acetinado</p>
-              </div>
-              <Link
-                href={getProductUrl(product)}
-                className="rounded-full border border-cyan-400/25 bg-cyan-400/10 px-4 py-2 text-sm font-semibold text-cyan-100 transition hover:border-cyan-300/50 hover:bg-cyan-300/15"
-              >
-                Ver produto
-              </Link>
-            </div>
-          </article>
-        ))}
-      </div>
+      <CatalogGrid products={visibleItems} />
 
       {visible < filtered.length ? (
-        <div className="flex flex-wrap justify-center gap-3">
+        <div className="flex justify-center">
           <button
-            onClick={() => setVisible((prev) => prev + PAGE_SIZE)}
-            className="rounded-full border border-white/10 bg-white/5 px-6 py-3 text-sm font-semibold text-white"
+            onClick={() => setVisible((current) => current + PAGE_SIZE)}
+            className="rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
           >
-            Carregar mais {Math.min(PAGE_SIZE, filtered.length - visible)} itens
-          </button>
-          <button
-            onClick={() => setVisible(filtered.length)}
-            className="rounded-full border border-cyan-400/25 bg-cyan-400/10 px-6 py-3 text-sm font-semibold text-cyan-100"
-          >
-            Mostrar todos
+            Carregar mais itens
           </button>
         </div>
       ) : null}

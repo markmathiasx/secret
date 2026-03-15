@@ -1,7 +1,6 @@
 import MercadoPagoConfig, { Preference } from "mercadopago";
 import { getSiteUrl } from "@/lib/env";
 import { formatCurrency } from "@/lib/utils";
-import { getSiteUrl } from "@/lib/env";
 
 export async function createMercadoPagoPreference(input: {
   title: string;

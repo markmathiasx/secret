@@ -22,29 +22,10 @@ export function resolveProductImage(product: Product) {
   return getProductImageCandidates(product)[0] || productPlaceholderSrc;
 }
 
-const supabaseAssetBase = process.env.NEXT_PUBLIC_SUPABASE_CATALOG_BUCKET_URL?.trim() || "";
-
-function getPrimaryAsset(product: Product) {
-  if (supabaseAssetBase) {
-    return `${supabaseAssetBase.replace(/\/+$/, "")}/${product.id}.webp`;
-  }
-
-  return `/catalog-assets/${product.id}.webp`;
-}
-
 export function getProductGallery(product: Product) {
-<<<<<<< ours
   return ([1, 2, 3] as const).map((shot) => ({
     id: `${product.id}-${shot}`,
     candidates: [...getProductShotCandidates(product, shot), `/catalog-assets/${product.id}.webp`, productPlaceholderSrc],
-    alt: `${product.name} - visão ${shot}`
-=======
-  const src = getPrimaryAsset(product);
-
-  return [0, 1, 2].map((variant) => ({
-    id: `${product.id}-${variant}`,
-    src,
-    alt: `${product.name} - visão ${variant + 1}`
->>>>>>> theirs
+    alt: `${product.name} - visual ${shot}`
   }));
 }

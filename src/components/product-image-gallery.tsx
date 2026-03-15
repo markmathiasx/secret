@@ -1,49 +1,65 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Expand, Image as ImageIcon, X } from "lucide-react";
+import { Expand, X } from "lucide-react";
 import type { Product } from "@/lib/catalog";
 import { getProductGallery } from "@/lib/product-images";
-<<<<<<< ours
 import { SafeProductImage } from "@/components/safe-product-image";
-=======
-import { ProductImage } from "@/components/product-image";
->>>>>>> theirs
 
 export function ProductImageGallery({ product, compact = false }: { product: Product; compact?: boolean }) {
   const gallery = useMemo(() => getProductGallery(product), [product]);
   const [active, setActive] = useState(0);
   const [expanded, setExpanded] = useState(false);
+  const [resolvedSrc, setResolvedSrc] = useState<string | null>(null);
 
+  const hasRealPhoto = Boolean(resolvedSrc?.includes("/products/"));
 
   if (compact) {
     return (
-      <div className="overflow-hidden rounded-[24px] border border-white/10 bg-white/5">
-        <SafeProductImage candidates={gallery[0].candidates} alt={gallery[0].alt} className="aspect-square w-full object-cover" />
+      <div className="relative overflow-hidden rounded-[24px] border border-white/10 bg-black/20">
+        <SafeProductImage
+          candidates={gallery[0].candidates}
+          alt={gallery[0].alt}
+          className="aspect-square w-full object-cover"
+          sizes="(max-width: 768px) 100vw, 50vw"
+          onResolved={setResolvedSrc}
+        />
       </div>
     );
   }
 
   return (
     <>
-      <div className="overflow-hidden rounded-[28px] border border-white/10 bg-white/5">
+      <div className="overflow-hidden rounded-[30px] border border-white/10 bg-white/5">
         <button
           type="button"
           onClick={() => setExpanded(true)}
           className="group relative block w-full overflow-hidden text-left"
-          aria-label={`Ampliar preview de ${product.name}`}
+          aria-label={`Ampliar galeria de ${product.name}`}
         >
-<<<<<<< ours
-          <SafeProductImage candidates={gallery[active].candidates} alt={gallery[active].alt} className={`h-full w-full object-cover ${compact ? "aspect-[1/1]" : "aspect-[1.15/1]"}`} />
-=======
-          <div className={`relative w-full ${compact ? "aspect-square" : "aspect-[1.15/1]"}`}>
-            <ProductImage src={gallery[active].src} alt={gallery[active].alt} label={`${product.name} • ${product.category}`} priority={!compact} />
-          </div>
->>>>>>> theirs
-          <div className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-3 bg-gradient-to-t from-black/75 via-black/35 to-transparent px-4 py-4">
+          <SafeProductImage
+            candidates={gallery[active].candidates}
+            alt={gallery[active].alt}
+            className="aspect-square w-full object-cover md:aspect-[1.08/1]"
+            sizes="(max-width: 1024px) 100vw, 55vw"
+            priority
+            onResolved={setResolvedSrc}
+          />
+
+          <span
+            className={`absolute left-4 top-4 rounded-full border px-3 py-1 text-[11px] font-semibold ${
+              hasRealPhoto
+                ? "border-emerald-300/30 bg-emerald-300/15 text-emerald-50"
+                : "border-white/15 bg-black/45 text-white/80"
+            }`}
+          >
+            {hasRealPhoto ? "Foto real" : "Preview conceitual"}
+          </span>
+
+          <div className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-4 bg-gradient-to-t from-black/75 via-black/25 to-transparent px-4 py-4">
             <div>
-              <p className="text-[11px] uppercase tracking-[0.22em] text-cyan-200/80">Galeria do produto</p>
-              <p className="mt-1 text-sm text-white/80">Fotos locais quando disponíveis, com fallback visual premium</p>
+              <p className="text-[11px] uppercase tracking-[0.22em] text-cyan-200/80">Galeria local</p>
+              <p className="mt-1 text-sm text-white/80">Visual do produto com fallback premium quando a foto real ainda nao existe.</p>
             </div>
             <span className="rounded-full border border-white/20 bg-black/30 p-2 text-white/90 transition group-hover:scale-105">
               <Expand className="h-4 w-4" />
@@ -57,48 +73,46 @@ export function ProductImageGallery({ product, compact = false }: { product: Pro
               key={image.id}
               type="button"
               onClick={() => setActive(index)}
-              className={`relative overflow-hidden rounded-2xl border ${active === index ? "border-cyan-300/70" : "border-white/10"}`}
+              className={`overflow-hidden rounded-2xl border ${
+                active === index ? "border-cyan-300/70" : "border-white/10"
+              }`}
             >
-<<<<<<< ours
-              <SafeProductImage candidates={image.candidates} alt={image.alt} className="aspect-square w-full object-cover" />
-=======
-              <div className="relative aspect-square w-full">
-                <ProductImage src={image.src} alt={image.alt} label={product.name} sizes="120px" />
-              </div>
->>>>>>> theirs
+              <SafeProductImage
+                candidates={image.candidates}
+                alt={image.alt}
+                className="aspect-square w-full object-cover"
+                sizes="120px"
+              />
             </button>
           ))}
         </div>
       </div>
 
       {expanded ? (
-        <div className="fixed inset-0 z-[70] flex items-center justify-center bg-slate-950/88 p-4 backdrop-blur-sm">
-          <div className="relative w-full max-w-5xl overflow-hidden rounded-[32px] border border-white/10 bg-slate-950 shadow-2xl">
-            <button
-              type="button"
-              onClick={() => setExpanded(false)}
-              className="absolute right-4 top-4 z-10 rounded-full border border-white/15 bg-black/35 p-2 text-white"
-              aria-label="Fechar preview"
-            >
-              <X className="h-5 w-5" />
-            </button>
-<<<<<<< ours
-            <SafeProductImage candidates={gallery[active].candidates} alt={gallery[active].alt} className="aspect-[1.15/1] w-full object-cover" />
-=======
-            <div className="relative aspect-[1.15/1] w-full">
-              <ProductImage src={gallery[active].src} alt={gallery[active].alt} label={`${product.name} • ${product.category}`} sizes="100vw" />
-            </div>
->>>>>>> theirs
-            <div className="grid gap-3 border-t border-white/10 bg-black/30 p-4 md:grid-cols-[1fr_auto] md:items-center">
+        <div className="fixed inset-0 z-[80] flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm">
+          <div className="w-full max-w-5xl overflow-hidden rounded-[32px] border border-white/10 bg-slate-950">
+            <div className="flex items-center justify-between border-b border-white/10 px-5 py-4">
               <div>
-                <p className="text-xs uppercase tracking-[0.22em] text-cyan-200">Galeria do produto</p>
-                <h3 className="mt-2 text-2xl font-black text-white">{product.name}</h3>
-                <p className="mt-2 text-sm leading-7 text-white/65">Fotos reais locais aparecem automaticamente quando você adiciona arquivos em /public/products/&lt;slug&gt;.</p>
+                <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Visual ampliado</p>
+                <h3 className="mt-1 text-lg font-semibold text-white">{product.name}</h3>
               </div>
-              <div className="flex items-center gap-2 md:justify-end">
-                <ImageIcon className="h-5 w-5 text-cyan-200" />
-                <span className="text-sm text-white/70">3 visões com fallback</span>
-              </div>
+              <button
+                type="button"
+                onClick={() => setExpanded(false)}
+                className="rounded-full border border-white/10 bg-white/5 p-2 text-white/70"
+                aria-label="Fechar galeria"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+
+            <div className="p-4">
+              <SafeProductImage
+                candidates={gallery[active].candidates}
+                alt={gallery[active].alt}
+                className="aspect-square w-full rounded-[24px] object-cover md:aspect-[1.6/1]"
+                sizes="100vw"
+              />
             </div>
           </div>
         </div>

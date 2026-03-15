@@ -1,13 +1,7 @@
 import { createClient } from "@supabase/supabase-js";
-<<<<<<< ours
 import { getSupabaseAnonKey, getSupabaseUrl } from "@/lib/env";
 
 const url = getSupabaseUrl();
-const key = getSupabaseAnonKey();
-=======
-import { getSupabaseEnv } from "@/lib/env";
+const anonKey = getSupabaseAnonKey();
 
-const { url, anon } = getSupabaseEnv();
->>>>>>> theirs
-
-export const supabaseBrowser = url && anon ? createClient(url, anon) : null;
+export const supabaseBrowser = url && anonKey ? createClient(url, anonKey) : null;

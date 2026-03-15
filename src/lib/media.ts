@@ -1,102 +1,51 @@
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-export type MediaItem = {
+import fs from "node:fs";
+import path from "node:path";
+
+type VideoSource = {
   src: string;
-  poster?: string;
-  title: string;
-  kind: "video" | "image";
+  type: string;
 };
 
-const homepageMedia: MediaItem[] = [
-  { src: "/media/hero-printer-loop.mp4", title: "Produção em andamento", kind: "video", poster: "/backgrounds/hero-printer-fallback.jpg" },
-  { src: "/media/finishing-closeup.mp4", title: "Detalhe de acabamento", kind: "video", poster: "/backgrounds/process-detail.jpg" },
-  { src: "/logo-mdh.jpg", title: "Portfólio MDH 3D", kind: "image" }
-];
-
-export function getHomepageMedia(): MediaItem[] {
-  return homepageMedia;
-=======
-import fs from "node:fs";
-import path from "node:path";
-
-const heroVideoCandidates = ["/media/hero-printer-loop.webm", "/media/hero-printer-loop.mp4"] as const;
-const productionVideoCandidates = ["/media/finishing-closeup.webm", "/media/finishing-closeup.mp4"] as const;
-const heroFallbackCandidates = [
-  "/backgrounds/hero-printer-fallback.jpg",
-  "/backgrounds/hero-printer-fallback.webp",
-  "/backgrounds/hero-printer-fallback.png",
-  "/placeholders/hero-bg.svg"
-] as const;
-
-function localAssetExists(publicPath: string) {
-  const absolute = path.join(process.cwd(), "public", publicPath.replace(/^\//, ""));
-  return fs.existsSync(absolute);
+function assetExists(publicPath: string) {
+  const absolutePath = path.join(process.cwd(), "public", publicPath.replace(/^\//, ""));
+  return fs.existsSync(absolutePath);
 }
 
-function existing(paths: readonly string[]) {
-  return paths.filter((item) => localAssetExists(item));
+function pickExisting(paths: readonly string[]) {
+  return paths.filter((item) => assetExists(item));
 }
 
-=======
-import fs from "node:fs";
-import path from "node:path";
-
-const heroVideoCandidates = ["/media/hero-printer-loop.webm", "/media/hero-printer-loop.mp4"] as const;
-const productionVideoCandidates = ["/media/finishing-closeup.webm", "/media/finishing-closeup.mp4"] as const;
-const heroFallbackCandidates = [
-  "/backgrounds/hero-printer-fallback.jpg",
-  "/backgrounds/hero-printer-fallback.webp",
-  "/backgrounds/hero-printer-fallback.png",
-  "/placeholders/hero-bg.svg"
-] as const;
-
-function localAssetExists(publicPath: string) {
-  const absolute = path.join(process.cwd(), "public", publicPath.replace(/^\//, ""));
-  return fs.existsSync(absolute);
+function firstExisting(paths: readonly string[]) {
+  return paths.find((item) => assetExists(item)) || null;
 }
 
-function existing(paths: readonly string[]) {
-  return paths.filter((item) => localAssetExists(item));
-}
-
->>>>>>> theirs
-=======
-import fs from "node:fs";
-import path from "node:path";
-
-const heroVideoCandidates = ["/media/hero-printer-loop.webm", "/media/hero-printer-loop.mp4"] as const;
-const productionVideoCandidates = ["/media/finishing-closeup.webm", "/media/finishing-closeup.mp4"] as const;
-const heroFallbackCandidates = [
-  "/backgrounds/hero-printer-fallback.jpg",
-  "/backgrounds/hero-printer-fallback.webp",
-  "/backgrounds/hero-printer-fallback.png",
-  "/placeholders/hero-bg.svg"
-] as const;
-
-function localAssetExists(publicPath: string) {
-  const absolute = path.join(process.cwd(), "public", publicPath.replace(/^\//, ""));
-  return fs.existsSync(absolute);
-}
-
-function existing(paths: readonly string[]) {
-  return paths.filter((item) => localAssetExists(item));
-}
-
->>>>>>> theirs
-function pickFirstExisting(paths: readonly string[]) {
-  return paths.find((item) => localAssetExists(item)) || null;
-}
-
-function getType(src: string) {
+function getVideoType(src: string) {
   if (src.endsWith(".webm")) return "video/webm";
-  if (src.endsWith(".mp4")) return "video/mp4";
   return "video/mp4";
 }
 
+const heroVideoCandidates = ["/media/hero-printer-loop.webm", "/media/hero-printer-loop.mp4"] as const;
+const productionVideoCandidates = ["/media/finishing-closeup.webm", "/media/finishing-closeup.mp4"] as const;
+const heroFallbackCandidates = [
+  "/backgrounds/hero-printer-fallback.jpg",
+  "/backgrounds/hero-printer-fallback.webp",
+  "/backgrounds/hero-printer-fallback.png",
+  "/placeholders/hero-bg.svg"
+] as const;
+const processFallbackCandidates = [
+  "/backgrounds/process-detail.jpg",
+  "/backgrounds/hero-printer-fallback.jpg",
+  "/placeholders/hero-bg.svg"
+] as const;
+
+function buildVideoSources(candidates: readonly string[]): VideoSource[] {
+  return pickExisting(candidates).map((src) => ({ src, type: getVideoType(src) }));
+}
+
 export function getHeroBackgroundMedia() {
-  const sources = existing(heroVideoCandidates).map((src) => ({ src, type: getType(src) }));
-  const fallbackImageSrc = pickFirstExisting(heroFallbackCandidates) || "/placeholders/hero-bg.svg";
+  const sources = buildVideoSources(heroVideoCandidates);
+  const fallbackImageSrc = firstExisting(heroFallbackCandidates) || "/placeholders/hero-bg.svg";
+
   return {
     sources,
     hasVideo: sources.length > 0,
@@ -106,19 +55,13 @@ export function getHeroBackgroundMedia() {
 }
 
 export function getProductionVideoMedia() {
-  const sources = existing(productionVideoCandidates).map((src) => ({ src, type: getType(src) }));
-  const fallbackImageSrc = pickFirstExisting(heroFallbackCandidates) || "/placeholders/hero-bg.svg";
+  const sources = buildVideoSources(productionVideoCandidates);
+  const fallbackImageSrc = firstExisting(processFallbackCandidates) || "/placeholders/hero-bg.svg";
+
   return {
     sources,
     hasVideo: sources.length > 0,
     posterSrc: fallbackImageSrc,
     fallbackImageSrc
   };
-<<<<<<< ours
-<<<<<<< ours
->>>>>>> theirs
-=======
->>>>>>> theirs
-=======
->>>>>>> theirs
 }
