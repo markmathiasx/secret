@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { Expand, Image as ImageIcon, X } from "lucide-react";
 import type { Product } from "@/lib/catalog";
 import { getProductGallery } from "@/lib/product-images";
+import { ProductImage } from "@/components/product-image";
 
 export function ProductImageGallery({ product, compact = false }: { product: Product; compact?: boolean }) {
   const gallery = useMemo(() => getProductGallery(product), [product]);
@@ -19,7 +20,9 @@ export function ProductImageGallery({ product, compact = false }: { product: Pro
           className="group relative block w-full overflow-hidden text-left"
           aria-label={`Ampliar preview de ${product.name}`}
         >
-          <img src={gallery[active].src} alt={gallery[active].alt} className={`h-full w-full object-cover ${compact ? "aspect-[1/1]" : "aspect-[1.15/1]"}`} />
+          <div className={`relative w-full ${compact ? "aspect-square" : "aspect-[1.15/1]"}`}>
+            <ProductImage src={gallery[active].src} alt={gallery[active].alt} label={`${product.name} • ${product.category}`} priority={!compact} />
+          </div>
           <div className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-3 bg-gradient-to-t from-black/75 via-black/35 to-transparent px-4 py-4">
             <div>
               <p className="text-[11px] uppercase tracking-[0.22em] text-cyan-200/80">Preview do catálogo</p>
@@ -37,9 +40,11 @@ export function ProductImageGallery({ product, compact = false }: { product: Pro
               key={image.id}
               type="button"
               onClick={() => setActive(index)}
-              className={`overflow-hidden rounded-2xl border ${active === index ? "border-cyan-300/70" : "border-white/10"}`}
+              className={`relative overflow-hidden rounded-2xl border ${active === index ? "border-cyan-300/70" : "border-white/10"}`}
             >
-              <img src={image.src} alt={image.alt} className="aspect-square w-full object-cover" />
+              <div className="relative aspect-square w-full">
+                <ProductImage src={image.src} alt={image.alt} label={product.name} sizes="120px" />
+              </div>
             </button>
           ))}
         </div>
@@ -56,7 +61,9 @@ export function ProductImageGallery({ product, compact = false }: { product: Pro
             >
               <X className="h-5 w-5" />
             </button>
-            <img src={gallery[active].src} alt={gallery[active].alt} className="aspect-[1.15/1] w-full object-cover" />
+            <div className="relative aspect-[1.15/1] w-full">
+              <ProductImage src={gallery[active].src} alt={gallery[active].alt} label={`${product.name} • ${product.category}`} sizes="100vw" />
+            </div>
             <div className="grid gap-3 border-t border-white/10 bg-black/30 p-4 md:grid-cols-[1fr_auto] md:items-center">
               <div>
                 <p className="text-xs uppercase tracking-[0.22em] text-cyan-200">Galeria do produto</p>

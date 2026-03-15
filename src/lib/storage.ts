@@ -1,11 +1,10 @@
 import { createClient } from "@supabase/supabase-js";
-
-const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+import { getSupabaseEnv } from "@/lib/env";
 
 function getSupabase() {
-  if (!url || !serviceKey) return null;
-  return createClient(url, serviceKey, { auth: { persistSession: false } });
+  const { url, serviceRole } = getSupabaseEnv();
+  if (!url || !serviceRole) return null;
+  return createClient(url, serviceRole, { auth: { persistSession: false } });
 }
 
 export async function storeRecord(kind: "quotes" | "orders", payload: Record<string, unknown>) {

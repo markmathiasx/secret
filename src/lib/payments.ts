@@ -1,4 +1,5 @@
 import MercadoPagoConfig, { Preference } from "mercadopago";
+import { getSiteUrl } from "@/lib/env";
 import { formatCurrency } from "@/lib/utils";
 
 export async function createMercadoPagoPreference(input: {
@@ -8,7 +9,7 @@ export async function createMercadoPagoPreference(input: {
   externalReference: string;
 }) {
   const accessToken = process.env.MERCADOPAGO_ACCESS_TOKEN;
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  const siteUrl = getSiteUrl();
 
   if (!accessToken) {
     return {

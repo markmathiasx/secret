@@ -1,0 +1,22 @@
+<svg width="1200" height="1200" viewBox="0 0 1200 1200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="1200" rx="56" fill="#081224"/>
+  <circle cx="920" cy="220" r="220" fill="url(#a)" fill-opacity="0.35"/>
+  <circle cx="230" cy="980" r="260" fill="url(#b)" fill-opacity="0.3"/>
+  <rect x="140" y="210" width="920" height="780" rx="44" fill="url(#c)" stroke="#A5F3FC" stroke-opacity="0.25"/>
+  <text x="50%" y="47%" text-anchor="middle" fill="#E2E8F0" font-family="Inter, Arial, sans-serif" font-size="52" font-weight="700">MDH 3D</text>
+  <text x="50%" y="54%" text-anchor="middle" fill="#93C5FD" font-family="Inter, Arial, sans-serif" font-size="34">Imagem do produto em atualização</text>
+  <defs>
+    <linearGradient id="a" x1="700" y1="0" x2="1140" y2="440" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#22D3EE"/>
+      <stop offset="1" stop-color="#8B5CF6" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="b" x1="0" y1="720" x2="450" y2="1200" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#8B5CF6"/>
+      <stop offset="1" stop-color="#22D3EE" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="c" x1="140" y1="210" x2="1060" y2="990" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0E1B32"/>
+      <stop offset="1" stop-color="#11223E"/>
+    </linearGradient>
+  </defs>
+</svg>
