@@ -8,7 +8,7 @@ export function SiteFooter() {
         <div>
           <h3 className="text-lg font-semibold text-white">{brand.name}</h3>
           <p className="mt-2 text-sm text-white/65">{brand.slogan}</p>
-          <p className="mt-3 text-sm text-white/45">Entrega local no Rio de Janeiro - RJ</p>
+          <p className="mt-3 text-sm text-white/45">Produção local e entrega no Rio de Janeiro - RJ</p>
         </div>
         <div>
           <h4 className="text-sm font-semibold uppercase tracking-[0.18em] text-white/60">Institucional</h4>
@@ -22,18 +22,17 @@ export function SiteFooter() {
         <div>
           <h4 className="text-sm font-semibold uppercase tracking-[0.18em] text-white/60">Atendimento</h4>
           <div className="mt-3 flex flex-col gap-2 text-sm text-white/70">
-            <span>WhatsApp e humano sob demanda</span>
+            <span>WhatsApp com atendimento humano</span>
             <span>E-mail: {supportEmail}</span>
             <span>Instagram: @{brand.instagramHandle}</span>
           </div>
         </div>
         <div>
-          <h4 className="text-sm font-semibold uppercase tracking-[0.18em] text-white/60">Pagamento</h4>
+          <h4 className="text-sm font-semibold uppercase tracking-[0.18em] text-white/60">Pagamento e segurança</h4>
           <div className="mt-3 flex flex-col gap-2 text-sm text-white/70">
             <span>Pix, cartão e boleto</span>
-            <span>Mercado Livre e Shopee em paralelo</span>
-            <span className="text-white/55">Pix com QR Code e copia e cola no checkout</span>
-            <span className="text-white/55">Recebedor confirmado no app: CPF final {pix.cpfSuffix}</span>
+            <span>Checkout com QR Code e código copia e cola</span>
+            <span className="text-white/55">Confirmação no app: CPF final {pix.cpfSuffix}</span>
           </div>
         </div>
       </div>
@@ -42,6 +41,7 @@ export function SiteFooter() {
           <span>© {new Date().getFullYear()} {brand.name}. Todos os direitos reservados.</span>
           <div className="flex gap-4">
             <a className="hover:text-white" href={socialLinks.instagram} target="_blank" rel="noreferrer">Instagram</a>
+            <a className="hover:text-white" href={socialLinks.tiktok} target="_blank" rel="noreferrer">TikTok</a>
             <a className="hover:text-white" href={socialLinks.facebook} target="_blank" rel="noreferrer">Facebook</a>
           </div>
         </div>

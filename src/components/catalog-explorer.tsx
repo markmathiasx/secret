@@ -5,8 +5,10 @@ import Link from "next/link";
 import { categories, collections, getProductUrl, type Product } from "@/lib/catalog";
 import { formatCurrency } from "@/lib/utils";
 import { ProductImageGallery } from "@/components/product-image-gallery";
+import { FavoriteButton } from "@/components/favorite-button";
 
 const PAGE_SIZE = 60;
+const badges = ["Mais vendido", "Foto real", "Pronta entrega", "Sob encomenda", "Personalizável"];
 
 export function CatalogExplorer({ products }: { products: Product[] }) {
   const [query, setQuery] = useState("");
@@ -36,14 +38,14 @@ export function CatalogExplorer({ products }: { products: Product[] }) {
       <div className="rounded-[32px] border border-white/10 bg-white/5 p-5">
         <div className="grid gap-4 lg:grid-cols-[1.2fr_0.4fr_0.4fr]">
           <label className="text-sm text-white/70">
-            <span className="mb-2 block">Buscar projeto</span>
+            <span className="mb-2 block">Buscar peça</span>
             <input
               value={query}
               onChange={(e) => {
                 setQuery(e.target.value);
                 setVisible(PAGE_SIZE);
               }}
-              placeholder="Ex: hello kitty, suporte controle, vaso, organizador, chaveiro..."
+              placeholder="Busque por tema, categoria ou uso"
               className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none"
             />
           </label>
@@ -84,40 +86,42 @@ export function CatalogExplorer({ products }: { products: Product[] }) {
         </div>
 
         <div className="mt-4 flex flex-wrap items-center gap-3 text-sm text-white/60">
-          <span>{filtered.length} resultados</span>
+          <span>{filtered.length} resultados disponíveis</span>
           <span className="h-1 w-1 rounded-full bg-white/30" />
-          <span>1000 produtos com imagem local incluída</span>
-          <span className="h-1 w-1 rounded-full bg-white/30" />
-          <span>Abra o produto para ver preço, prazo e frete</span>
+          <span>Preço inicial, prazo e acabamento em todos os cards</span>
         </div>
       </div>
 
       <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
-        {visibleItems.map((product) => (
+        {visibleItems.map((product, index) => (
           <article key={product.id} className="group rounded-[28px] border border-white/10 bg-card p-5 transition hover:-translate-y-1 hover:border-cyan-300/30">
-            <ProductImageGallery product={product} compact />
+            <div className="relative">
+              <ProductImageGallery product={product} compact />
+              <div className="absolute right-3 top-3">
+                <FavoriteButton productId={product.id} />
+              </div>
+            </div>
 
             <div className="mt-4 flex items-start justify-between gap-3">
               <div>
                 <p className="text-xs uppercase tracking-[0.2em] text-cyan-200/80">{product.category}</p>
                 <h3 className="mt-2 text-lg font-semibold text-white">{product.name}</h3>
-                <p className="mt-2 min-h-[72px] text-sm leading-6 text-white/62">{product.description}</p>
               </div>
               <span className="rounded-full border border-white/10 px-3 py-1 text-xs text-white/60">{product.productionWindow}</span>
             </div>
 
-            <div className="mt-4 flex flex-wrap gap-2">
-              {product.tags.slice(0, 3).map((tag) => (
-                <span key={tag} className="rounded-full border border-white/10 px-2.5 py-1 text-xs text-white/55">
-                  {tag}
-                </span>
-              ))}
+            <div className="mt-3 flex flex-wrap gap-2">
+              <span className="rounded-full border border-violet-300/25 bg-violet-400/10 px-2.5 py-1 text-[11px] text-violet-100">{badges[index % badges.length]}</span>
+              <span className="rounded-full border border-white/10 px-2.5 py-1 text-[11px] text-white/75">PLA premium</span>
             </div>
+
+            <p className="mt-3 min-h-[72px] text-sm leading-6 text-white/62">{product.description}</p>
 
             <div className="mt-5 flex items-end justify-between gap-3">
               <div>
-                <p className="text-xs text-white/45">Preço base via Pix</p>
+                <p className="text-xs text-white/45">A partir de</p>
                 <p className="text-2xl font-bold text-white">{formatCurrency(product.pricePix)}</p>
+                <p className="text-xs text-white/45">Acabamento fosco ou acetinado</p>
               </div>
               <Link
                 href={getProductUrl(product)}

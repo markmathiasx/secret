@@ -37,6 +37,7 @@ export const pix = {
 
 export const socialLinks = {
   instagram: process.env.NEXT_PUBLIC_INSTAGRAM_URL || `https://www.instagram.com/${brand.instagramHandle}`,
+  tiktok: process.env.NEXT_PUBLIC_TIKTOK_URL || "#",
   facebook: process.env.NEXT_PUBLIC_FACEBOOK_URL || "#"
 };
 
@@ -71,12 +72,10 @@ export const deliveryZones = [
 ] as const;
 
 export const homepageCollections = [
-  "For You",
-  "Tendência",
-  "Household",
-  "Toys & Games",
-  "Tools",
-  "Hobby & DIY",
-  "Miniatures",
-  "Props & Cosplays"
+  "Mais vendidos",
+  "Anime e Geek",
+  "Utilidades e Organização",
+  "Personalizados",
+  "Presentes e Decoração",
+  "Peças para setup e escritório"
 ] as const;

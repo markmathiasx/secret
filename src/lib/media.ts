@@ -1,32 +1,16 @@
-import fs from "node:fs";
-import path from "node:path";
-
 export type MediaItem = {
   src: string;
   poster?: string;
   title: string;
-  kind: "video" | "placeholder";
+  kind: "video" | "image";
 };
 
-const fallbackMedia: MediaItem[] = [
-  { src: "/logo-mdh.jpg", title: "Setup premium MDH 3D", kind: "placeholder" },
-  { src: "/logo-mdh.jpg", title: "Bambu Lab A1 Mini em operação", kind: "placeholder" },
-  { src: "/logo-mdh.jpg", title: "Peças utilitárias, geek e anime", kind: "placeholder" }
+const homepageMedia: MediaItem[] = [
+  { src: "/media/hero-printer-loop.mp4", title: "Produção em andamento", kind: "video", poster: "/backgrounds/hero-printer-fallback.jpg" },
+  { src: "/media/finishing-closeup.mp4", title: "Detalhe de acabamento", kind: "video", poster: "/backgrounds/process-detail.jpg" },
+  { src: "/logo-mdh.jpg", title: "Portfólio MDH 3D", kind: "image" }
 ];
 
 export function getHomepageMedia(): MediaItem[] {
-  const mediaDir = path.join(process.cwd(), "public", "media");
-  if (!fs.existsSync(mediaDir)) return fallbackMedia;
-
-  const files = fs
-    .readdirSync(mediaDir)
-    .filter((file) => /\.(mp4|webm|mov)$/i.test(file))
-    .slice(0, 6)
-    .map((file) => ({
-      src: `/media/${file}`,
-      title: file.replace(/[-_]/g, " ").replace(/\.[^.]+$/, ""),
-      kind: "video" as const
-    }));
-
-  return files.length ? files : fallbackMedia;
+  return homepageMedia;
 }

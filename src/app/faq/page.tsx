@@ -1,31 +1,36 @@
 const items = [
   {
-    q: "Como faço um pedido?",
-    a: "Escolha um item no catálogo, abra a página do produto e envie o orçamento. Se preferir, chame no WhatsApp e diga o nome do projeto."
+    q: "Como faço um pedido na MDH 3D?",
+    a: "Escolha a peça no catálogo, clique em pedir orçamento e envie seu briefing. Nossa equipe confirma acabamento, prazo e entrega antes da produção."
   },
   {
-    q: "Vocês entregam onde?",
-    a: "A operação inicial é local no Rio de Janeiro. O site calcula uma estimativa de frete por CEP e você confirma o prazo no fechamento."
+    q: "Vocês entregam em todo o Rio de Janeiro?",
+    a: "Atendemos o Rio de Janeiro com logística local e confirmação de prazo por região. Você pode simular o frete e ajustar no atendimento."
   },
   {
-    q: "Consigo falar com humano?",
-    a: "Sim. O bot filtra e organiza o pedido, mas o cliente pode pedir HUMANO no WhatsApp e a conversa segue para atendimento pessoal."
+    q: "Posso personalizar tamanho, cor e tema?",
+    a: "Sim. Trabalhamos com personalização sob encomenda para presentes, decoração, setup, organização e ações de marca."
   },
   {
-    q: "Quais pagamentos entram no site?",
-    a: "Pix, cartão e boleto via provedor. O projeto já fica preparado para Mercado Pago."
+    q: "Quais formas de pagamento estão disponíveis?",
+    a: "Pix, cartão e boleto. O pagamento é confirmado antes da produção ou conforme combinado no atendimento."
   },
   {
-    q: "As imagens do catálogo são definitivas?",
-    a: "O catálogo-base já traz cards visuais premium, mas a ideia é você substituir por fotos e vídeos reais das suas impressões conforme produzir."
+    q: "Como funciona garantia e pós-venda?",
+    a: "Se houver defeito de fabricação ou dano no transporte local, avaliamos rapidamente e seguimos com correção, retrabalho ou solução adequada."
+  },
+  {
+    q: "Consigo falar com atendimento humano?",
+    a: "Sim. O WhatsApp pode iniciar com fluxo rápido, mas você pode pedir atendimento humano a qualquer momento."
   }
 ];
 
 export default function Page() {
   return (
-    <section className="mx-auto max-w-5xl px-6 py-16">
+    <section className="mx-auto max-w-6xl px-6 py-16">
       <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">FAQ</p>
-      <h1 className="mt-3 text-4xl font-black text-white">Perguntas frequentes</h1>
+      <h1 className="mt-3 text-4xl font-black text-white">Perguntas frequentes sobre pedidos e produção</h1>
+      <p className="mt-4 max-w-3xl text-white/70">Respostas rápidas para ajudar na decisão de compra com mais segurança.</p>
       <div className="mt-8 grid gap-5 md:grid-cols-2">
         {items.map((item) => (
           <article key={item.q} className="rounded-[28px] border border-white/10 bg-white/5 p-6">

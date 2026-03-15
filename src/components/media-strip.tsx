@@ -10,7 +10,7 @@ export function MediaStrip() {
           <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Mídia da produção</p>
           <h2 className="mt-2 text-3xl font-black text-white">Vídeos curtos da impressora, acabamento e peças prontas</h2>
           <p className="mt-3 max-w-2xl text-sm leading-7 text-white/60">
-            Se você adicionar arquivos MP4 ou WEBM em <code className="rounded bg-white/10 px-2 py-1">public/media</code>, esta área troca os placeholders automaticamente.
+            Seleção de mídia com registros do processo de produção e acabamento das peças.
           </p>
         </div>
       </div>
@@ -24,9 +24,9 @@ export function MediaStrip() {
               ) : (
                 <div className="flex h-64 items-center justify-center bg-[radial-gradient(circle_at_top,rgba(42,212,255,0.2),transparent_35%),linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02))] px-6 text-center text-white/70">
                   <div>
-                    <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Placeholder premium</p>
+                    <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Destaque visual</p>
                     <p className="mt-3 text-lg font-semibold text-white">{item.title}</p>
-                    <p className="mt-2 text-sm text-white/55">Adicione seu timelapse real da Bambu Lab A1 Mini aqui.</p>
+                    <p className="mt-2 text-sm text-white/55">Imagem institucional da produção MDH 3D.</p>
                   </div>
                 </div>
               )}
