@@ -1,61 +1,54 @@
-import Image from "next/image";
 import Link from "next/link";
-import { brand } from "@/lib/constants";
+import { whatsappMessage, whatsappNumber } from "@/lib/constants";
+
+const trustSignals = [
+  "Entrega local no Rio de Janeiro",
+  "Produção própria",
+  "Acabamento premium",
+  "Pagamento facilitado",
+  "Atendimento rápido"
+];
 
 export function Hero() {
+  const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+
   return (
-    <section className="relative overflow-hidden">
-      <div className="absolute inset-0 bg-mesh" />
-      <div className="relative mx-auto grid max-w-7xl gap-10 px-6 py-16 md:grid-cols-[1.08fr_0.92fr] md:py-24">
-        <div>
-          <span className="inline-flex rounded-full border border-violet-400/30 bg-violet-400/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-violet-200">
-            PWA + catálogo com imagens locais + checkout Pix + atendimento híbrido
-          </span>
-          <h1 className="mt-6 max-w-3xl text-4xl font-black leading-tight text-white md:text-6xl">
-            {brand.name}: peças 3D com visual premium, frete local no RJ e atendimento rápido.
-          </h1>
-          <p className="mt-6 max-w-2xl text-lg leading-8 text-white/72">
-            Estrutura pensada para vender anime, geek, utilidades, decoração, oficina e personalizados, com identidade premium, catálogo com imagens locais e transição fluida para atendimento humano.
-          </p>
+    <section className="relative min-h-[88vh] overflow-hidden">
+      <video className="absolute inset-0 h-full w-full object-cover" autoPlay muted loop playsInline poster="/backgrounds/hero-printer-fallback.jpg">
+        <source src="/media/hero-printer-loop.mp4" type="video/mp4" />
+      </video>
+      <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/72 to-black/92" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_10%,rgba(0,255,220,0.22),transparent_35%)]" />
 
-          <div className="mt-8 flex flex-wrap gap-4">
-            <Link href="/catalogo" className="rounded-full bg-cyan-400 px-6 py-3 text-sm font-semibold text-slate-950 transition hover:scale-[1.02]">
-              Ver catálogo completo
-            </Link>
-            <Link href="/entregas" className="rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-semibold text-white transition hover:border-white/30 hover:bg-white/10">
-              Calcular frete por CEP
-            </Link>
-          </div>
+      <div className="relative mx-auto flex max-w-7xl flex-col justify-end px-6 pb-12 pt-24 md:min-h-[88vh] md:pb-16">
+        <span className="inline-flex w-fit rounded-full border border-cyan-300/30 bg-cyan-300/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-cyan-100">
+          Atelier MDH 3D • Rio de Janeiro
+        </span>
+        <h1 className="mt-6 max-w-4xl text-4xl font-black leading-tight text-white md:text-6xl">
+          Peças 3D sob medida com acabamento de marca, feitas para vender, presentear e surpreender.
+        </h1>
+        <p className="mt-5 max-w-2xl text-base leading-8 text-white/80 md:text-lg">
+          Produção local, personalização orientada por briefing e atendimento rápido para transformar ideia em peça pronta.
+        </p>
 
-          <div className="mt-10 grid gap-4 sm:grid-cols-3">
-            {[
-              ["1000", "exemplos navegáveis"],
-              ["RJ", "frete local com CEP"],
-              ["PWA", "instalável no celular"]
-            ].map(([value, label]) => (
-              <div key={label} className="rounded-2xl border border-white/10 bg-white/5 p-4 shadow-glow">
-                <p className="text-2xl font-bold text-white">{value}</p>
-                <p className="text-sm text-white/65">{label}</p>
-              </div>
-            ))}
-          </div>
+        <div className="mt-9 flex flex-wrap gap-3">
+          <Link href="/catalogo" className="rounded-full bg-cyan-400 px-6 py-3 text-sm font-semibold text-slate-950 transition hover:scale-[1.02]">
+            Ver catálogo
+          </Link>
+          <Link href="/#orcamento" className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-950 transition hover:scale-[1.02]">
+            Pedir orçamento
+          </Link>
+          <a href={whatsappHref} className="rounded-full border border-emerald-300/35 bg-emerald-400/20 px-6 py-3 text-sm font-semibold text-emerald-100">
+            Falar no WhatsApp
+          </a>
         </div>
 
-        <div className="relative">
-          <div className="absolute inset-0 rounded-[32px] bg-gradient-to-br from-cyan-400/20 via-transparent to-violet-400/25 blur-2xl" />
-          <div className="relative overflow-hidden rounded-[32px] border border-white/10 bg-white/5 p-4 shadow-violet">
-            <Image src="/logo-mdh.jpg" alt="Logo MDH" width={1200} height={900} className="h-auto w-full rounded-[24px] object-cover" priority />
-            <div className="mt-4 grid gap-3 sm:grid-cols-2">
-              <div className="rounded-2xl border border-white/10 bg-black/25 p-4">
-                <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Vitrine</p>
-                <p className="mt-2 text-sm text-white/75">Cards com visual mais futurista, imagens locais, coleções fortes e navegação mobile-first.</p>
-              </div>
-              <div className="rounded-2xl border border-white/10 bg-black/25 p-4">
-                <p className="text-xs uppercase tracking-[0.2em] text-violet-200">Atendimento</p>
-                <p className="mt-2 text-sm text-white/75">Bot educado atende, entende saudação, sugere peças e transfere para humano quando o cliente quiser.</p>
-              </div>
+        <div className="mt-8 grid gap-2 md:grid-cols-5">
+          {trustSignals.map((item) => (
+            <div key={item} className="rounded-2xl border border-white/10 bg-black/35 px-3 py-2 text-xs text-white/80">
+              {item}
             </div>
-          </div>
+          ))}
         </div>
       </div>
     </section>
