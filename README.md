@@ -133,6 +133,7 @@ O relatório final das imagens fica em `public/catalog-assets/catalog-image-repo
 - frontend/app: `Vercel`
 - banco: `Supabase Postgres`
 - domínio: `Cloudflare` opcional para DNS e borda
+- branch canônica de produção: `main`
 
 Passos:
 
@@ -146,6 +147,44 @@ Passos:
 8. Se quiser telemetria externa, preencher `NEXT_PUBLIC_GA_MEASUREMENT_ID`; sem isso, o tracking interno continua funcionando de forma silenciosa.
 9. Login social por Supabase pode continuar como camada opcional futura, mas o fluxo principal do cliente agora e email + senha da propria loja.
 10. Nenhuma rota crítica de amanhã depende de `localStorage`, mock em memória ou seed mutável para pedido, pagamento, sessão admin ou status.
+
+## Troubleshooting de deploy na Vercel
+
+Se o site publicado parecer antigo mesmo com o repositório atualizado:
+
+1. Confirme que o commit mais novo está em `origin/main`:
+
+```powershell
+git fetch origin
+git rev-parse origin/main
+git log --oneline --decorate -n 3 origin/main
+```
+
+2. No dashboard da Vercel, abra `Project Settings > Git` e confirme:
+   - `Connected Git Repository` aponta para este repositório
+   - `Production Branch` está em `main`
+   - não existe `Ignored Build Step` bloqueando deploys de produção
+3. No dashboard da Vercel, abra `Deployments` e compare o SHA do último deploy de produção com o SHA de `origin/main`.
+4. Se o último deploy falhou, abra os logs do build e redeploye após corrigir o erro.
+5. Se o projeto da Vercel estiver conectado a outra branch ou outro repositório, corrija isso antes de testar a URL pública.
+6. Garanta que `NEXT_PUBLIC_SITE_URL` em produção aponta para o domínio real publicado, não para `http://localhost:3000`.
+7. Depois de ajustar branch/env/logs, force um novo deploy a partir de `main`.
+
+Checklist rápido para produção:
+
+```powershell
+git status --short --branch
+git fetch origin
+git rev-parse HEAD
+git rev-parse origin/main
+npm run build
+```
+
+O ideal é:
+- `git status` limpo
+- `HEAD` igual a `origin/main`
+- `npm run build` verde
+- último deploy de produção apontando para o mesmo SHA
 
 ## Checklist de operação
 
