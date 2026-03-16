@@ -3,11 +3,11 @@ O número de série do volume é E0AF-ACC7
 D:.
 |   .env.example
 |   .env.local
+|   .eslintrc.json
 |   .gitignore
 |   achados_atuais.csv
 |   APOS-EXTRAIR.txt
 |   AUDITORIA.md
-|   catalogo.html
 |   catalogo_substituto_48_skus.csv
 |   configurar-mdh-env-completo.ps1
 |   CORRECAO-TYPECHECK-BUILD.txt
@@ -15,12 +15,9 @@ D:.
 |   env.example.preenchido
 |   env.local.preenchido
 |   estrutura.txt
-|   faq.html
 |   gitignore.preenchido
-|   imagem-para-impressao-3d.html
 |   importar-assets-locais-mdh.ps1
 |   importar-assets-markm-exatos.ps1
-|   index.html
 |   mdh-10of10-overhaul.ps1
 |   mdh-full-site-conversion.ps1
 |   mdh-growth-prepare.ps1
@@ -47,10 +44,17 @@ D:.
 |   
 +---.next
 |   |   app-build-manifest.json
+|   |   app-path-routes-manifest.json
 |   |   build-manifest.json
+|   |   BUILD_ID
+|   |   export-marker.json
+|   |   images-manifest.json
+|   |   next-minimal-server.js.nft.json
+|   |   next-server.js.nft.json
 |   |   package.json
 |   |   prerender-manifest.json
 |   |   react-loadable-manifest.json
+|   |   required-server-files.json
 |   |   routes-manifest.json
 |   |   trace
 |   |   
@@ -60,6 +64,9 @@ D:.
 |   |   |   .tsbuildinfo
 |   |   |   next-devtools-config.json
 |   |   |   
+|   |   +---eslint
+|   |   |       .cache_185hay2
+|   |   |       
 |   |   +---swc
 |   |   |   \---plugins
 |   |   |       \---windows_x86_64_18.0.0
@@ -125,8 +132,13 @@ D:.
 |   |               index.pack
 |   |               index.pack.old
 |   |               
+|   +---diagnostics
+|   |       build-diagnostics.json
+|   |       framework.json
+|   |       
 |   +---server
 |   |   |   app-paths-manifest.json
+|   |   |   functions-config-manifest.json
 |   |   |   interception-route-rewrite-manifest.js
 |   |   |   middleware-build-manifest.js
 |   |   |   middleware-manifest.json
@@ -139,47 +151,601 @@ D:.
 |   |   |   webpack-runtime.js
 |   |   |   
 |   |   +---app
-|   |   |       page.js
-|   |   |       page_client-reference-manifest.js
+|   |   |   |   admin.html
+|   |   |   |   admin.meta
+|   |   |   |   admin.rsc
+|   |   |   |   catalogo.html
+|   |   |   |   catalogo.meta
+|   |   |   |   catalogo.rsc
+|   |   |   |   checkout.html
+|   |   |   |   checkout.meta
+|   |   |   |   checkout.rsc
+|   |   |   |   conta.html
+|   |   |   |   conta.meta
+|   |   |   |   conta.rsc
+|   |   |   |   divulgacao.html
+|   |   |   |   divulgacao.meta
+|   |   |   |   divulgacao.rsc
+|   |   |   |   entregas.html
+|   |   |   |   entregas.meta
+|   |   |   |   entregas.rsc
+|   |   |   |   faq.html
+|   |   |   |   faq.meta
+|   |   |   |   faq.rsc
+|   |   |   |   imagem-para-impressao-3d.html
+|   |   |   |   imagem-para-impressao-3d.meta
+|   |   |   |   imagem-para-impressao-3d.rsc
+|   |   |   |   index.html
+|   |   |   |   index.meta
+|   |   |   |   index.rsc
+|   |   |   |   login.html
+|   |   |   |   login.meta
+|   |   |   |   login.rsc
+|   |   |   |   manifest.webmanifest.body
+|   |   |   |   manifest.webmanifest.meta
+|   |   |   |   page.js
+|   |   |   |   page.js.nft.json
+|   |   |   |   page_client-reference-manifest.js
+|   |   |   |   painel-mdh-85.html
+|   |   |   |   painel-mdh-85.meta
+|   |   |   |   painel-mdh-85.rsc
+|   |   |   |   politica-de-privacidade.html
+|   |   |   |   politica-de-privacidade.meta
+|   |   |   |   politica-de-privacidade.rsc
+|   |   |   |   robots.txt.body
+|   |   |   |   robots.txt.meta
+|   |   |   |   sitemap.xml.body
+|   |   |   |   sitemap.xml.meta
+|   |   |   |   termos.html
+|   |   |   |   termos.meta
+|   |   |   |   termos.rsc
+|   |   |   |   trocas-e-devolucoes.html
+|   |   |   |   trocas-e-devolucoes.meta
+|   |   |   |   trocas-e-devolucoes.rsc
+|   |   |   |   _not-found.html
+|   |   |   |   _not-found.meta
+|   |   |   |   _not-found.rsc
+|   |   |   |   
+|   |   |   +---admin
+|   |   |   |   |   finance.html
+|   |   |   |   |   finance.meta
+|   |   |   |   |   finance.rsc
+|   |   |   |   |   login.html
+|   |   |   |   |   login.meta
+|   |   |   |   |   login.rsc
+|   |   |   |   |   page.js
+|   |   |   |   |   page.js.nft.json
+|   |   |   |   |   page_client-reference-manifest.js
+|   |   |   |   |   
+|   |   |   |   +---finance
+|   |   |   |   |       page.js
+|   |   |   |   |       page.js.nft.json
+|   |   |   |   |       page_client-reference-manifest.js
+|   |   |   |   |       
+|   |   |   |   \---login
+|   |   |   |           page.js
+|   |   |   |           page.js.nft.json
+|   |   |   |           page_client-reference-manifest.js
+|   |   |   |           
+|   |   |   +---api
+|   |   |   |   +---admin
+|   |   |   |   |   +---login
+|   |   |   |   |   |       route.js
+|   |   |   |   |   |       route.js.nft.json
+|   |   |   |   |   |       route_client-reference-manifest.js
+|   |   |   |   |   |       
+|   |   |   |   |   \---logout
+|   |   |   |   |           route.js
+|   |   |   |   |           route.js.nft.json
+|   |   |   |   |           route_client-reference-manifest.js
+|   |   |   |   |           
+|   |   |   |   +---catalog
+|   |   |   |   |   |   route.js
+|   |   |   |   |   |   route.js.nft.json
+|   |   |   |   |   |   route_client-reference-manifest.js
+|   |   |   |   |   |   
+|   |   |   |   |   \---search
+|   |   |   |   |           route.js
+|   |   |   |   |           route.js.nft.json
+|   |   |   |   |           route_client-reference-manifest.js
+|   |   |   |   |           
+|   |   |   |   +---checkout
+|   |   |   |   |   \---mercadopago
+|   |   |   |   |           route.js
+|   |   |   |   |           route.js.nft.json
+|   |   |   |   |           route_client-reference-manifest.js
+|   |   |   |   |           
+|   |   |   |   +---orders
+|   |   |   |   |       route.js
+|   |   |   |   |       route.js.nft.json
+|   |   |   |   |       route_client-reference-manifest.js
+|   |   |   |   |       
+|   |   |   |   +---pix
+|   |   |   |   |       route.js
+|   |   |   |   |       route.js.nft.json
+|   |   |   |   |       route_client-reference-manifest.js
+|   |   |   |   |       
+|   |   |   |   +---quote
+|   |   |   |   |       route.js
+|   |   |   |   |       route.js.nft.json
+|   |   |   |   |       route_client-reference-manifest.js
+|   |   |   |   |       
+|   |   |   |   \---webhooks
+|   |   |   |       +---mercadopago
+|   |   |   |       |       route.js
+|   |   |   |       |       route.js.nft.json
+|   |   |   |       |       route_client-reference-manifest.js
+|   |   |   |       |       
+|   |   |   |       \---whatsapp
+|   |   |   |               route.js
+|   |   |   |               route.js.nft.json
+|   |   |   |               route_client-reference-manifest.js
+|   |   |   |               
+|   |   |   +---auth
+|   |   |   |   |   callback.html
+|   |   |   |   |   callback.meta
+|   |   |   |   |   callback.rsc
+|   |   |   |   |   
+|   |   |   |   \---callback
+|   |   |   |           page.js
+|   |   |   |           page.js.nft.json
+|   |   |   |           page_client-reference-manifest.js
+|   |   |   |           
+|   |   |   +---catalogo
+|   |   |   |   |   mdh-001-hello-kitty-chibi-premium.html
+|   |   |   |   |   mdh-001-hello-kitty-chibi-premium.meta
+|   |   |   |   |   mdh-001-hello-kitty-chibi-premium.rsc
+|   |   |   |   |   mdh-002-mascote-kawaii-desk-buddy.html
+|   |   |   |   |   mdh-002-mascote-kawaii-desk-buddy.meta
+|   |   |   |   |   mdh-002-mascote-kawaii-desk-buddy.rsc
+|   |   |   |   |   mdh-003-monstro-elétrico-pocket-mini.html
+|   |   |   |   |   mdh-003-monstro-elétrico-pocket-mini.meta
+|   |   |   |   |   mdh-003-monstro-elétrico-pocket-mini.rsc
+|   |   |   |   |   mdh-004-espiã-mirim-chibi.html
+|   |   |   |   |   mdh-004-espiã-mirim-chibi.meta
+|   |   |   |   |   mdh-004-espiã-mirim-chibi.rsc
+|   |   |   |   |   mdh-005-mascote-serra-articulado.html
+|   |   |   |   |   mdh-005-mascote-serra-articulado.meta
+|   |   |   |   |   mdh-005-mascote-serra-articulado.rsc
+|   |   |   |   |   mdh-006-tripulante-crewmate-neon.html
+|   |   |   |   |   mdh-006-tripulante-crewmate-neon.meta
+|   |   |   |   |   mdh-006-tripulante-crewmate-neon.rsc
+|   |   |   |   |   mdh-007-esfera-monstro-de-bolso.html
+|   |   |   |   |   mdh-007-esfera-monstro-de-bolso.meta
+|   |   |   |   |   mdh-007-esfera-monstro-de-bolso.rsc
+|   |   |   |   |   mdh-008-bloco-pixel-aventura.html
+|   |   |   |   |   mdh-008-bloco-pixel-aventura.meta
+|   |   |   |   |   mdh-008-bloco-pixel-aventura.rsc
+|   |   |   |   |   mdh-009-cubo-creeper-decor.html
+|   |   |   |   |   mdh-009-cubo-creeper-decor.meta
+|   |   |   |   |   mdh-009-cubo-creeper-decor.rsc
+|   |   |   |   |   mdh-010-dragão-articulado-galáxia.html
+|   |   |   |   |   mdh-010-dragão-articulado-galáxia.meta
+|   |   |   |   |   mdh-010-dragão-articulado-galáxia.rsc
+|   |   |   |   |   mdh-011-busto-hero-desk-edition.html
+|   |   |   |   |   mdh-011-busto-hero-desk-edition.meta
+|   |   |   |   |   mdh-011-busto-hero-desk-edition.rsc
+|   |   |   |   |   mdh-012-kaiju-mini-display.html
+|   |   |   |   |   mdh-012-kaiju-mini-display.meta
+|   |   |   |   |   mdh-012-kaiju-mini-display.rsc
+|   |   |   |   |   mdh-013-suporte-headphone-orbit.html
+|   |   |   |   |   mdh-013-suporte-headphone-orbit.meta
+|   |   |   |   |   mdh-013-suporte-headphone-orbit.rsc
+|   |   |   |   |   mdh-014-organizador-de-cabos-snap-6.html
+|   |   |   |   |   mdh-014-organizador-de-cabos-snap-6.meta
+|   |   |   |   |   mdh-014-organizador-de-cabos-snap-6.rsc
+|   |   |   |   |   mdh-015-dock-celular-vertical-flex.html
+|   |   |   |   |   mdh-015-dock-celular-vertical-flex.meta
+|   |   |   |   |   mdh-015-dock-celular-vertical-flex.rsc
+|   |   |   |   |   mdh-016-base-controle-dual-charge-stand.html
+|   |   |   |   |   mdh-016-base-controle-dual-charge-stand.meta
+|   |   |   |   |   mdh-016-base-controle-dual-charge-stand.rsc
+|   |   |   |   |   mdh-017-dock-notebook-airflow.html
+|   |   |   |   |   mdh-017-dock-notebook-airflow.meta
+|   |   |   |   |   mdh-017-dock-notebook-airflow.rsc
+|   |   |   |   |   mdh-018-suporte-webcam-horizon.html
+|   |   |   |   |   mdh-018-suporte-webcam-horizon.meta
+|   |   |   |   |   mdh-018-suporte-webcam-horizon.rsc
+|   |   |   |   |   mdh-019-passa-cabos-magnetic-desk.html
+|   |   |   |   |   mdh-019-passa-cabos-magnetic-desk.meta
+|   |   |   |   |   mdh-019-passa-cabos-magnetic-desk.rsc
+|   |   |   |   |   mdh-020-suporte-celular-carrossel.html
+|   |   |   |   |   mdh-020-suporte-celular-carrossel.meta
+|   |   |   |   |   mdh-020-suporte-celular-carrossel.rsc
+|   |   |   |   |   mdh-021-organizador-sd-&-cartões.html
+|   |   |   |   |   mdh-021-organizador-sd-&-cartões.meta
+|   |   |   |   |   mdh-021-organizador-sd-&-cartões.rsc
+|   |   |   |   |   mdh-022-suporte-headset-wall-hook.html
+|   |   |   |   |   mdh-022-suporte-headset-wall-hook.meta
+|   |   |   |   |   mdh-022-suporte-headset-wall-hook.rsc
+|   |   |   |   |   mdh-023-bandeja-desk-edc.html
+|   |   |   |   |   mdh-023-bandeja-desk-edc.meta
+|   |   |   |   |   mdh-023-bandeja-desk-edc.rsc
+|   |   |   |   |   mdh-024-stand-tablet-creator.html
+|   |   |   |   |   mdh-024-stand-tablet-creator.meta
+|   |   |   |   |   mdh-024-stand-tablet-creator.rsc
+|   |   |   |   |   mdh-025-vaso-geométrico-atlas.html
+|   |   |   |   |   mdh-025-vaso-geométrico-atlas.meta
+|   |   |   |   |   mdh-025-vaso-geométrico-atlas.rsc
+|   |   |   |   |   mdh-026-cachepot-linha-aurora.html
+|   |   |   |   |   mdh-026-cachepot-linha-aurora.meta
+|   |   |   |   |   mdh-026-cachepot-linha-aurora.rsc
+|   |   |   |   |   mdh-027-luminária-led-lua-minimal.html
+|   |   |   |   |   mdh-027-luminária-led-lua-minimal.meta
+|   |   |   |   |   mdh-027-luminária-led-lua-minimal.rsc
+|   |   |   |   |   mdh-028-porta-chaves-hexa-wall.html
+|   |   |   |   |   mdh-028-porta-chaves-hexa-wall.meta
+|   |   |   |   |   mdh-028-porta-chaves-hexa-wall.rsc
+|   |   |   |   |   mdh-029-porta-controle-remote-dock.html
+|   |   |   |   |   mdh-029-porta-controle-remote-dock.meta
+|   |   |   |   |   mdh-029-porta-controle-remote-dock.rsc
+|   |   |   |   |   mdh-030-porta-velas-spiral-glow.html
+|   |   |   |   |   mdh-030-porta-velas-spiral-glow.meta
+|   |   |   |   |   mdh-030-porta-velas-spiral-glow.rsc
+|   |   |   |   |   mdh-031-placa-pix-balcão-clean.html
+|   |   |   |   |   mdh-031-placa-pix-balcão-clean.meta
+|   |   |   |   |   mdh-031-placa-pix-balcão-clean.rsc
+|   |   |   |   |   mdh-032-gancho-multiuso-home-fix.html
+|   |   |   |   |   mdh-032-gancho-multiuso-home-fix.meta
+|   |   |   |   |   mdh-032-gancho-multiuso-home-fix.rsc
+|   |   |   |   |   mdh-033-porta-esponja-dry-sink.html
+|   |   |   |   |   mdh-033-porta-esponja-dry-sink.meta
+|   |   |   |   |   mdh-033-porta-esponja-dry-sink.rsc
+|   |   |   |   |   mdh-034-mandala-wall-decor-3d.html
+|   |   |   |   |   mdh-034-mandala-wall-decor-3d.meta
+|   |   |   |   |   mdh-034-mandala-wall-decor-3d.rsc
+|   |   |   |   |   mdh-035-suporte-escova-care.html
+|   |   |   |   |   mdh-035-suporte-escova-care.meta
+|   |   |   |   |   mdh-035-suporte-escova-care.rsc
+|   |   |   |   |   mdh-036-luminária-pixel-room-icon.html
+|   |   |   |   |   mdh-036-luminária-pixel-room-icon.meta
+|   |   |   |   |   mdh-036-luminária-pixel-room-icon.rsc
+|   |   |   |   |   mdh-037-chaveiro-nome-dupla-face.html
+|   |   |   |   |   mdh-037-chaveiro-nome-dupla-face.meta
+|   |   |   |   |   mdh-037-chaveiro-nome-dupla-face.rsc
+|   |   |   |   |   mdh-038-nome-3d-desk-decor.html
+|   |   |   |   |   mdh-038-nome-3d-desk-decor.meta
+|   |   |   |   |   mdh-038-nome-3d-desk-decor.rsc
+|   |   |   |   |   mdh-039-topo-de-bolo-personalizado.html
+|   |   |   |   |   mdh-039-topo-de-bolo-personalizado.meta
+|   |   |   |   |   mdh-039-topo-de-bolo-personalizado.rsc
+|   |   |   |   |   mdh-040-imã-frase-geek.html
+|   |   |   |   |   mdh-040-imã-frase-geek.meta
+|   |   |   |   |   mdh-040-imã-frase-geek.rsc
+|   |   |   |   |   mdh-041-porta-copos-pixel-kit.html
+|   |   |   |   |   mdh-041-porta-copos-pixel-kit.meta
+|   |   |   |   |   mdh-041-porta-copos-pixel-kit.rsc
+|   |   |   |   |   mdh-042-luminária-nome-led.html
+|   |   |   |   |   mdh-042-luminária-nome-led.meta
+|   |   |   |   |   mdh-042-luminária-nome-led.rsc
+|   |   |   |   |   mdh-043-foto-litofania-frame.html
+|   |   |   |   |   mdh-043-foto-litofania-frame.meta
+|   |   |   |   |   mdh-043-foto-litofania-frame.rsc
+|   |   |   |   |   mdh-044-mini-troféu-personalizado.html
+|   |   |   |   |   mdh-044-mini-troféu-personalizado.meta
+|   |   |   |   |   mdh-044-mini-troféu-personalizado.rsc
+|   |   |   |   |   mdh-045-tag-mochila-personal.html
+|   |   |   |   |   mdh-045-tag-mochila-personal.meta
+|   |   |   |   |   mdh-045-tag-mochila-personal.rsc
+|   |   |   |   |   mdh-046-kit-chaveiro-+-imã.html
+|   |   |   |   |   mdh-046-kit-chaveiro-+-imã.meta
+|   |   |   |   |   mdh-046-kit-chaveiro-+-imã.rsc
+|   |   |   |   |   mdh-047-marcador-de-página-3d.html
+|   |   |   |   |   mdh-047-marcador-de-página-3d.meta
+|   |   |   |   |   mdh-047-marcador-de-página-3d.rsc
+|   |   |   |   |   mdh-048-caixa-presente-modular.html
+|   |   |   |   |   mdh-048-caixa-presente-modular.meta
+|   |   |   |   |   mdh-048-caixa-presente-modular.rsc
+|   |   |   |   |   mdh-049-logo-de-empresa-desk-sign.html
+|   |   |   |   |   mdh-049-logo-de-empresa-desk-sign.meta
+|   |   |   |   |   mdh-049-logo-de-empresa-desk-sign.rsc
+|   |   |   |   |   mdh-050-placa-qr-code-de-mesa.html
+|   |   |   |   |   mdh-050-placa-qr-code-de-mesa.meta
+|   |   |   |   |   mdh-050-placa-qr-code-de-mesa.rsc
+|   |   |   |   |   mdh-051-display-para-produto-vitrine.html
+|   |   |   |   |   mdh-051-display-para-produto-vitrine.meta
+|   |   |   |   |   mdh-051-display-para-produto-vitrine.rsc
+|   |   |   |   |   mdh-052-organizador-ferramenta-maker.html
+|   |   |   |   |   mdh-052-organizador-ferramenta-maker.meta
+|   |   |   |   |   mdh-052-organizador-ferramenta-maker.rsc
+|   |   |   |   |   mdh-053-case-controle-sob-medida.html
+|   |   |   |   |   mdh-053-case-controle-sob-medida.meta
+|   |   |   |   |   mdh-053-case-controle-sob-medida.rsc
+|   |   |   |   |   mdh-054-placa-de-porta-personalizada.html
+|   |   |   |   |   mdh-054-placa-de-porta-personalizada.meta
+|   |   |   |   |   mdh-054-placa-de-porta-personalizada.rsc
+|   |   |   |   |   mdh-055-mini-maquete-conceitual.html
+|   |   |   |   |   mdh-055-mini-maquete-conceitual.meta
+|   |   |   |   |   mdh-055-mini-maquete-conceitual.rsc
+|   |   |   |   |   mdh-056-suporte-técnico-sob-medida.html
+|   |   |   |   |   mdh-056-suporte-técnico-sob-medida.meta
+|   |   |   |   |   mdh-056-suporte-técnico-sob-medida.rsc
+|   |   |   |   |   mdh-057-brinde-evento-em-lote.html
+|   |   |   |   |   mdh-057-brinde-evento-em-lote.meta
+|   |   |   |   |   mdh-057-brinde-evento-em-lote.rsc
+|   |   |   |   |   mdh-058-litofania-luminosa-premium.html
+|   |   |   |   |   mdh-058-litofania-luminosa-premium.meta
+|   |   |   |   |   mdh-058-litofania-luminosa-premium.rsc
+|   |   |   |   |   mdh-059-suporte-camera-custom.html
+|   |   |   |   |   mdh-059-suporte-camera-custom.meta
+|   |   |   |   |   mdh-059-suporte-camera-custom.rsc
+|   |   |   |   |   mdh-060-luminária-corporativa-led.html
+|   |   |   |   |   mdh-060-luminária-corporativa-led.meta
+|   |   |   |   |   mdh-060-luminária-corporativa-led.rsc
+|   |   |   |   |   page.js
+|   |   |   |   |   page.js.nft.json
+|   |   |   |   |   page_client-reference-manifest.js
+|   |   |   |   |   
+|   |   |   |   \---[slug]
+|   |   |   |           page.js
+|   |   |   |           page.js.nft.json
+|   |   |   |           page_client-reference-manifest.js
+|   |   |   |           
+|   |   |   +---checkout
+|   |   |   |       page.js
+|   |   |   |       page.js.nft.json
+|   |   |   |       page_client-reference-manifest.js
+|   |   |   |       
+|   |   |   +---conta
+|   |   |   |       page.js
+|   |   |   |       page.js.nft.json
+|   |   |   |       page_client-reference-manifest.js
+|   |   |   |       
+|   |   |   +---divulgacao
+|   |   |   |       page.js
+|   |   |   |       page.js.nft.json
+|   |   |   |       page_client-reference-manifest.js
+|   |   |   |       
+|   |   |   +---entregas
+|   |   |   |       page.js
+|   |   |   |       page.js.nft.json
+|   |   |   |       page_client-reference-manifest.js
+|   |   |   |       
+|   |   |   +---faq
+|   |   |   |       page.js
+|   |   |   |       page.js.nft.json
+|   |   |   |       page_client-reference-manifest.js
+|   |   |   |       
+|   |   |   +---imagem-para-impressao-3d
+|   |   |   |       page.js
+|   |   |   |       page.js.nft.json
+|   |   |   |       page_client-reference-manifest.js
+|   |   |   |       
+|   |   |   +---login
+|   |   |   |       page.js
+|   |   |   |       page.js.nft.json
+|   |   |   |       page_client-reference-manifest.js
+|   |   |   |       
+|   |   |   +---manifest.webmanifest
+|   |   |   |       route.js
+|   |   |   |       route.js.nft.json
+|   |   |   |       route_client-reference-manifest.js
+|   |   |   |       
+|   |   |   +---painel-mdh-85
+|   |   |   |   |   finance.html
+|   |   |   |   |   finance.meta
+|   |   |   |   |   finance.rsc
+|   |   |   |   |   login.html
+|   |   |   |   |   login.meta
+|   |   |   |   |   login.rsc
+|   |   |   |   |   logistica.html
+|   |   |   |   |   logistica.meta
+|   |   |   |   |   logistica.rsc
+|   |   |   |   |   page.js
+|   |   |   |   |   page.js.nft.json
+|   |   |   |   |   page_client-reference-manifest.js
+|   |   |   |   |   
+|   |   |   |   +---finance
+|   |   |   |   |       page.js
+|   |   |   |   |       page.js.nft.json
+|   |   |   |   |       page_client-reference-manifest.js
+|   |   |   |   |       
+|   |   |   |   +---login
+|   |   |   |   |       page.js
+|   |   |   |   |       page.js.nft.json
+|   |   |   |   |       page_client-reference-manifest.js
+|   |   |   |   |       
+|   |   |   |   \---logistica
+|   |   |   |           page.js
+|   |   |   |           page.js.nft.json
+|   |   |   |           page_client-reference-manifest.js
+|   |   |   |           
+|   |   |   +---politica-de-privacidade
+|   |   |   |       page.js
+|   |   |   |       page.js.nft.json
+|   |   |   |       page_client-reference-manifest.js
+|   |   |   |       
+|   |   |   +---robots.txt
+|   |   |   |       route.js
+|   |   |   |       route.js.nft.json
+|   |   |   |       route_client-reference-manifest.js
+|   |   |   |       
+|   |   |   +---sitemap.xml
+|   |   |   |       route.js
+|   |   |   |       route.js.nft.json
+|   |   |   |       route_client-reference-manifest.js
+|   |   |   |       
+|   |   |   +---termos
+|   |   |   |       page.js
+|   |   |   |       page.js.nft.json
+|   |   |   |       page_client-reference-manifest.js
+|   |   |   |       
+|   |   |   +---trocas-e-devolucoes
+|   |   |   |       page.js
+|   |   |   |       page.js.nft.json
+|   |   |   |       page_client-reference-manifest.js
+|   |   |   |       
+|   |   |   \---_not-found
+|   |   |           page.js
+|   |   |           page.js.nft.json
+|   |   |           page_client-reference-manifest.js
+|   |   |           
+|   |   +---chunks
+|   |   |       331.js
+|   |   |       611.js
+|   |   |       63.js
+|   |   |       635.js
+|   |   |       692.js
+|   |   |       711.js
+|   |   |       742.js
+|   |   |       82.js
+|   |   |       820.js
+|   |   |       861.js
+|   |   |       901.js
 |   |   |       
-|   |   \---vendor-chunks
-|   |           @swc.js
-|   |           clsx.js
-|   |           lucide-react.js
-|   |           next.js
-|   |           tailwind-merge.js
+|   |   \---pages
+|   |           404.html
+|   |           500.html
+|   |           _app.js
+|   |           _app.js.nft.json
+|   |           _document.js
+|   |           _document.js.nft.json
+|   |           _error.js
+|   |           _error.js.nft.json
 |   |           
 |   +---static
 |   |   +---chunks
-|   |   |   |   app-pages-internals.js
-|   |   |   |   main-app.js
-|   |   |   |   polyfills.js
-|   |   |   |   webpack.js
-|   |   |   |   _app-pages-browser_node_modules_next_dist_client_dev_noop-turbopack-hmr_js.js
+|   |   |   |   1255-a390e12b70b4a9fb.js
+|   |   |   |   1646.9123ee47220ed70b.js
+|   |   |   |   2373-b46fd30c0f7be53e.js
+|   |   |   |   2619-3c9e02e22d10480a.js
+|   |   |   |   4bd1b696-f785427dddbba9fb.js
+|   |   |   |   5139.c5e46d26064a85db.js
+|   |   |   |   6005-99ab896ea9a99433.js
+|   |   |   |   9159-8f5ce5ac2e4c284b.js
+|   |   |   |   framework-e60c938074ff7136.js
+|   |   |   |   main-58e5e682648f894c.js
+|   |   |   |   main-app-dfafe62d63b6a8b4.js
+|   |   |   |   polyfills-42372ed130431b0a.js
+|   |   |   |   webpack-f14badcf29a2e574.js
 |   |   |   |   
-|   |   |   \---app
-|   |   |           error.js
-|   |   |           layout.js
-|   |   |           loading.js
-|   |   |           not-found.js
-|   |   |           page.js
+|   |   |   +---app
+|   |   |   |   |   error-f047544686399c67.js
+|   |   |   |   |   layout-71b7e57a85546bf2.js
+|   |   |   |   |   loading-79956ba627f58ab9.js
+|   |   |   |   |   not-found-de0589b599fd14ee.js
+|   |   |   |   |   page-460bc2344c7e1e7d.js
+|   |   |   |   |   
+|   |   |   |   +---admin
+|   |   |   |   |   |   layout-de0589b599fd14ee.js
+|   |   |   |   |   |   page-79956ba627f58ab9.js
+|   |   |   |   |   |   
+|   |   |   |   |   +---finance
+|   |   |   |   |   |       page-243b5419e0d99ed8.js
+|   |   |   |   |   |       
+|   |   |   |   |   \---login
+|   |   |   |   |           page-854368cdbe04d533.js
+|   |   |   |   |           
+|   |   |   |   +---api
+|   |   |   |   |   +---admin
+|   |   |   |   |   |   +---login
+|   |   |   |   |   |   |       route-79956ba627f58ab9.js
+|   |   |   |   |   |   |       
+|   |   |   |   |   |   \---logout
+|   |   |   |   |   |           route-79956ba627f58ab9.js
+|   |   |   |   |   |           
+|   |   |   |   |   +---catalog
+|   |   |   |   |   |   |   route-79956ba627f58ab9.js
+|   |   |   |   |   |   |   
+|   |   |   |   |   |   \---search
+|   |   |   |   |   |           route-79956ba627f58ab9.js
+|   |   |   |   |   |           
+|   |   |   |   |   +---checkout
+|   |   |   |   |   |   \---mercadopago
+|   |   |   |   |   |           route-79956ba627f58ab9.js
+|   |   |   |   |   |           
+|   |   |   |   |   +---orders
+|   |   |   |   |   |       route-79956ba627f58ab9.js
+|   |   |   |   |   |       
+|   |   |   |   |   +---pix
+|   |   |   |   |   |       route-79956ba627f58ab9.js
+|   |   |   |   |   |       
+|   |   |   |   |   +---quote
+|   |   |   |   |   |       route-79956ba627f58ab9.js
+|   |   |   |   |   |       
+|   |   |   |   |   \---webhooks
+|   |   |   |   |       +---mercadopago
+|   |   |   |   |       |       route-79956ba627f58ab9.js
+|   |   |   |   |       |       
+|   |   |   |   |       \---whatsapp
+|   |   |   |   |               route-79956ba627f58ab9.js
+|   |   |   |   |               
+|   |   |   |   +---auth
+|   |   |   |   |   \---callback
+|   |   |   |   |           page-c6e9a31609fcf762.js
+|   |   |   |   |           
+|   |   |   |   +---catalogo
+|   |   |   |   |   |   page-5d25e3b29c6bdfcc.js
+|   |   |   |   |   |   
+|   |   |   |   |   \---[slug]
+|   |   |   |   |           page-360ff26764886455.js
+|   |   |   |   |           
+|   |   |   |   +---checkout
+|   |   |   |   |       page-618ae26e4e88ee13.js
+|   |   |   |   |       
+|   |   |   |   +---conta
+|   |   |   |   |       page-78990056e3df6dfb.js
+|   |   |   |   |       
+|   |   |   |   +---divulgacao
+|   |   |   |   |       page-79956ba627f58ab9.js
+|   |   |   |   |       
+|   |   |   |   +---entregas
+|   |   |   |   |       page-79956ba627f58ab9.js
+|   |   |   |   |       
+|   |   |   |   +---faq
+|   |   |   |   |       page-79956ba627f58ab9.js
+|   |   |   |   |       
+|   |   |   |   +---imagem-para-impressao-3d
+|   |   |   |   |       page-ed8fb2451fb48f2c.js
+|   |   |   |   |       
+|   |   |   |   +---login
+|   |   |   |   |       page-698abdf0a90c01bd.js
+|   |   |   |   |       
+|   |   |   |   +---manifest.webmanifest
+|   |   |   |   |       route-79956ba627f58ab9.js
+|   |   |   |   |       
+|   |   |   |   +---painel-mdh-85
+|   |   |   |   |   |   layout-de0589b599fd14ee.js
+|   |   |   |   |   |   page-79956ba627f58ab9.js
+|   |   |   |   |   |   
+|   |   |   |   |   +---finance
+|   |   |   |   |   |       page-fa16dac4a001dc7a.js
+|   |   |   |   |   |       
+|   |   |   |   |   +---login
+|   |   |   |   |   |       page-79956ba627f58ab9.js
+|   |   |   |   |   |       
+|   |   |   |   |   \---logistica
+|   |   |   |   |           page-ac54dcdce216273f.js
+|   |   |   |   |           
+|   |   |   |   +---politica-de-privacidade
+|   |   |   |   |       page-79956ba627f58ab9.js
+|   |   |   |   |       
+|   |   |   |   +---robots.txt
+|   |   |   |   |       route-79956ba627f58ab9.js
+|   |   |   |   |       
+|   |   |   |   +---sitemap.xml
+|   |   |   |   |       route-79956ba627f58ab9.js
+|   |   |   |   |       
+|   |   |   |   +---termos
+|   |   |   |   |       page-79956ba627f58ab9.js
+|   |   |   |   |       
+|   |   |   |   +---trocas-e-devolucoes
+|   |   |   |   |       page-79956ba627f58ab9.js
+|   |   |   |   |       
+|   |   |   |   \---_not-found
+|   |   |   |           page-79956ba627f58ab9.js
+|   |   |   |           
+|   |   |   \---pages
+|   |   |           _app-131c90850aef965b.js
+|   |   |           _error-e4ba546eb376bdf4.js
 |   |   |           
 |   |   +---css
-|   |   |   \---app
-|   |   |           layout.css
-|   |   |           
-|   |   +---development
-|   |   |       _buildManifest.js
-|   |   |       _ssgManifest.js
+|   |   |       1545c813a6529325.css
 |   |   |       
-|   |   \---webpack
-|   |       |   633457081244afec._.hot-update.json
-|   |       |   c185c86b996dcf67.webpack.hot-update.json
-|   |       |   webpack.c185c86b996dcf67.hot-update.js
-|   |       |   
-|   |       \---app
-|   |               layout.c185c86b996dcf67.hot-update.js
-|   |               
+|   |   \---SQtP30wuYuurFwF3p73tY
+|   |           _buildManifest.js
+|   |           _ssgManifest.js
+|   |           
 |   \---types
 |       |   cache-life.d.ts
 |       |   package.json
@@ -187,9 +753,105 @@ D:.
 |       |   validator.ts
 |       |   
 |       \---app
-|               layout.ts
-|               page.ts
-|               
+|           |   page.ts
+|           |   
+|           +---admin
+|           |   |   layout.ts
+|           |   |   page.ts
+|           |   |   
+|           |   +---finance
+|           |   |       page.ts
+|           |   |       
+|           |   \---login
+|           |           page.ts
+|           |           
+|           +---api
+|           |   +---admin
+|           |   |   +---login
+|           |   |   |       route.ts
+|           |   |   |       
+|           |   |   \---logout
+|           |   |           route.ts
+|           |   |           
+|           |   +---catalog
+|           |   |   |   route.ts
+|           |   |   |   
+|           |   |   \---search
+|           |   |           route.ts
+|           |   |           
+|           |   +---checkout
+|           |   |   \---mercadopago
+|           |   |           route.ts
+|           |   |           
+|           |   +---orders
+|           |   |       route.ts
+|           |   |       
+|           |   +---pix
+|           |   |       route.ts
+|           |   |       
+|           |   +---quote
+|           |   |       route.ts
+|           |   |       
+|           |   \---webhooks
+|           |       +---mercadopago
+|           |       |       route.ts
+|           |       |       
+|           |       \---whatsapp
+|           |               route.ts
+|           |               
+|           +---auth
+|           |   \---callback
+|           |           page.ts
+|           |           
+|           +---catalogo
+|           |   |   page.ts
+|           |   |   
+|           |   \---[slug]
+|           |           page.ts
+|           |           
+|           +---checkout
+|           |       page.ts
+|           |       
+|           +---conta
+|           |       page.ts
+|           |       
+|           +---divulgacao
+|           |       page.ts
+|           |       
+|           +---entregas
+|           |       page.ts
+|           |       
+|           +---faq
+|           |       page.ts
+|           |       
+|           +---imagem-para-impressao-3d
+|           |       page.ts
+|           |       
+|           +---login
+|           |       page.ts
+|           |       
+|           +---painel-mdh-85
+|           |   |   layout.ts
+|           |   |   page.ts
+|           |   |   
+|           |   +---finance
+|           |   |       page.ts
+|           |   |       
+|           |   +---login
+|           |   |       page.ts
+|           |   |       
+|           |   \---logistica
+|           |           page.ts
+|           |           
+|           +---politica-de-privacidade
+|           |       page.ts
+|           |       
+|           +---termos
+|           |       page.ts
+|           |       
+|           \---trocas-e-devolucoes
+|                   page.ts
+|                   
 +---assets
 |   +---css
 |   |       styles.css
@@ -349,10 +1011,6 @@ D:.
 |       
 +---docs
 |       mdh-product-mapping.json
-|       
-+---loja1
-|       .gitattributes
-|       README.md
 |       
 +---mdh-3d-store-css-temp
 +---node_modules
@@ -10956,6 +11614,13 @@ D:.
 |   |   +---esm
 |   |   |       index.js
 |   |   |       
+|   |   +---golang
+|   |   |   |   README.md
+|   |   |   |   
+|   |   |   \---pkg
+|   |   |       \---flatted
+|   |   |               flatted.go
+|   |   |               
 |   |   +---php
 |   |   |       flatted.php
 |   |   |       
@@ -31627,20 +32292,6 @@ D:.
 |   |   +---login
 |   |   |       page.tsx
 |   |   |       
-|   |   +---painel-mdh-85
-|   |   |   |   layout.tsx
-|   |   |   |   page.tsx
-|   |   |   |   
-|   |   |   +---finance
-|   |   |   |       page.tsx
-|   |   |   |       
-|   |   |   +---login
-|   |   |   |       page.tsx
-|   |   |   |       ui.tsx
-|   |   |   |       
-|   |   |   \---logistica
-|   |   |           page.tsx
-|   |   |           
 |   |   +---politica-de-privacidade
 |   |   |       page.tsx
 |   |   |       

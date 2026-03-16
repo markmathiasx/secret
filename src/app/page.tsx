@@ -1,211 +1,193 @@
-import Link from "next/link";
-import { Hero } from "@/components/hero";
+import { Hero } from "@/components/hero-professional";
+import { ProductTabs } from "@/components/product-tabs";
+import { STLUploader } from "@/components/stl-uploader";
 import { CatalogGrid } from "@/components/catalog-grid";
-import { MediaStrip } from "@/components/media-strip";
-import { QuoteForm } from "@/components/quote-form";
-import { DeliveryCalculator } from "@/components/delivery-calculator";
 import { featuredCatalog } from "@/lib/catalog";
-import { socialLinks, whatsappMessage, whatsappNumber } from "@/lib/constants";
-
-const homepageCategories = [
-  {
-    id: "anime-geek",
-    label: "Anime & Geek",
-    title: "Miniaturas, bustos e colecionáveis com mais saída",
-    description:
-      "Linha focada em presentes, coleções e peças com apelo geek, produzidas localmente com acabamento premium.",
-    href: "/catalogo?category=Anime%20%26%20Geek",
-    cta: "Ver linha geek",
-  },
-  {
-    id: "setup-organizacao",
-    label: "Setup & Organização",
-    title: "Suportes e utilidades para mesa, celular e headset",
-    description:
-      "Produtos práticos para setup, home office e organização com produção rápida e ótima margem de recompra.",
-    href: "/catalogo?category=Setup%20%26%20Organiza%C3%A7%C3%A3o",
-    cta: "Ver organização",
-  },
-  {
-    id: "casa-decoracao",
-    label: "Casa & Decoração",
-    title: "Vasos, placas e peças decorativas para ambiente",
-    description:
-      "Seleção pensada para decoração compacta, itens presenteáveis e peças que funcionam bem na A1 Mini.",
-    href: "/catalogo?category=Casa%20%26%20Decora%C3%A7%C3%A3o",
-    cta: "Ver decoração",
-  },
-];
-
-const trustHighlights = [
-  "Produção local no Rio de Janeiro",
-  "Atendimento humano via WhatsApp",
-  "Pix com preço mais agressivo",
-  "Personalização sob encomenda",
-];
-
-const materialsShowcase = [
-  "PLA Premium para peças decorativas e colecionáveis",
-  "PLA Silk para brilho visual em presentes e bustos",
-  "PETG para utilidades e peças de uso mais técnico",
-  "Acabamento revisado antes da entrega",
-];
+import Link from "next/link";
 
 const faqItems = [
   {
     question: "Vocês fazem peças sob encomenda?",
     answer:
-      "Sim. Você pode enviar referência, STL, imagem ou briefing no WhatsApp para receber orientação de viabilidade, material e prazo.",
+      "Sim! Você pode enviar referência, STL, imagem ou briefing para receber análise de viabilidade, material e prazo. Respondemos em até 2 horas.",
   },
   {
-    question: "Qual é o prazo médio?",
+    question: "Qual é o prazo médio? ",
     answer:
-      "Itens prontos costumam sair em 24 a 48 horas. Peças personalizadas ou com acabamento especial podem levar de 3 a 7 dias.",
+      "Itens prontos costumam sair em 24 a 48 horas. Peças personalizadas ou com acabamento especial podem levar de 3 a 7 dias dependendo da complexidade.",
   },
   {
     question: "Quais materiais vocês usam?",
     answer:
-      "Trabalhamos principalmente com PLA Premium, PLA Silk e PETG, escolhendo o melhor material conforme uso, estética e resistência.",
+      "Trabalhamos com PLA Premium, PLA Silk, PETG, Resina Fotopolímero, ABS e Nylon. Escolhemos o melhor material conforme uso, estética e resistência.",
   },
   {
     question: "Entregam no Rio de Janeiro?",
     answer:
-      "Sim. Temos operação local no RJ e também organizamos envio com confirmação de prazo e janela de produção.",
+      "Sim. Temos operação local no RJ e também organizamos envio para todo Brasil com confirmação de prazo e janela de produção.",
+  },
+  {
+    question: "Qual é a política de reembolso?",
+    answer:
+      "Garantia de qualidade em todas as peças. Se houver defeito de fabricação, refazemos sem custo adicional ou devolvemos o valor.",
+  },
+  {
+    question: "Como faço para pagar?",
+    answer:
+      "Aceitamos Pix (com desconto), cartão de crédito via Mercado Pago, boleto e orçamento personalizado via WhatsApp.",
   },
 ];
 
 export default function HomePage() {
-  const formProduct = featuredCatalog[0];
-  const bestSellers = featuredCatalog.slice(0, 8);
-  const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+  // Get first 8 featured products
+  const featuredProducts = featuredCatalog.slice(0, 8);
 
   return (
     <main>
+      {/* Hero Section */}
       <Hero />
 
-      <section className="mx-auto max-w-7xl px-6 py-10">
-        <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
-          <div className="rounded-[32px] border border-white/10 bg-white/5 p-6">
-            <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Curadoria MDH 3D</p>
-            <h2 className="mt-3 text-3xl font-black text-white sm:text-4xl">
-              Loja focada em peças vendáveis, presentes criativos e utilidades com giro real.
-            </h2>
-            <p className="mt-4 max-w-3xl text-base leading-8 text-white/70">
-              Seleção comercial para venda diária com foco em itens de alta procura, personalização
-              e recompra. O objetivo é transformar catálogo em conversão, não só em vitrine.
-            </p>
+      {/* Product Tabs Section */}
+      <section className="bg-gradient-to-b from-black via-slate-950/30 to-black py-4">
+        <ProductTabs />
+      </section>
 
-            <div className="mt-6 flex flex-wrap gap-3">
-              <Link href="/catalogo" className="btn-primary">
-                Ver catálogo
-              </Link>
-              <a href={whatsappHref} className="btn-secondary">
-                Pedir orçamento
-              </a>
+      {/* About / Trust Signals */}
+      <section className="mx-auto max-w-5xl px-6 py-16">
+        <div className="grid gap-8 lg:grid-cols-2">
+          {/* Left - Description */}
+          <div className="glass-panel p-8">
+            <span className="section-kicker">✓ Sobre MDH 3D</span>
+            <h2 className="section-title">
+              Impressão 3D Profissional com Qualidade e Agilidade
+            </h2>
+            <p className="section-copy mt-6">
+              Somos um estúdio especializado em impressão 3D localizado no Rio de Janeiro. Trabalhamos com as melhores impressoras FDM e resina para entregar peças com precisão, qualidade de acabamento e prazo garantido.
+            </p>
+            <div className="mt-6 space-y-3">
+              <div className="flex items-start gap-3">
+                <span className="text-cyan-glow text-xl">✓</span>
+                <div>
+                  <h4 className="font-bold text-white">Atendimento Direto</h4>
+                  <p className="text-sm text-white/60">
+                    Fale conosco no WhatsApp para orçamento e personalização
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <span className="text-cyan-glow text-xl">✓</span>
+                <div>
+                  <h4 className="font-bold text-white">Pix com Desconto</h4>
+                  <p className="text-sm text-white/60">
+                    Pagamento instantâneo com melhor preço
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <span className="text-cyan-glow text-xl">✓</span>
+                <div>
+                  <h4 className="font-bold text-white">Produção Local</h4>
+                  <p className="text-sm text-white/60">
+                    Impressoras de qualidade no Rio de Janeiro
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div className="rounded-[32px] border border-white/10 bg-white/5 p-6">
-            <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Sinais de confiança</p>
-            <div className="mt-4 grid gap-3">
-              {trustHighlights.map((item) => (
-                <div key={item} className="rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-sm text-white/80">
-                  {item}
+          {/* Right - Stats */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {[
+              { num: "500+", label: "Projetos Entregues" },
+              { num: "99%", label: "Satisfação Clientes" },
+              { num: "24h", label: "Resposta WhatsApp" },
+              { num: "7+", label: "Anos Experiência" },
+            ].map((stat, i) => (
+              <div
+                key={i}
+                className="glass-card p-6 flex flex-col items-center justify-center text-center"
+              >
+                <div className="text-3xl font-black text-cyan-glow mb-2">
+                  {stat.num}
                 </div>
-              ))}
-            </div>
+                <div className="text-sm text-white/70">{stat.label}</div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 py-8">
-        <div className="grid gap-4 md:grid-cols-3">
-          {homepageCategories.map((item) => (
-            <article key={item.id} className="rounded-[28px] border border-white/10 bg-white/5 p-5">
-              <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">{item.label}</p>
-              <h3 className="mt-3 text-xl font-bold text-white">{item.title}</h3>
-              <p className="mt-3 text-sm leading-7 text-white/65">{item.description}</p>
-              <Link href={item.href} className="mt-5 inline-flex text-sm font-semibold text-cyan-100 hover:text-white">
-                {item.cta}
-              </Link>
-            </article>
+      {/* STL Upload Section */}
+      <section className="bg-gradient-to-b from-black to-slate-950/20 py-4">
+        <STLUploader />
+      </section>
+
+      {/* Featured Products / Catalog */}
+      <section className="mx-auto max-w-7xl px-6 py-16">
+        <div className="mb-10">
+          <span className="section-kicker">⭐ Catálogo</span>
+          <h2 className="section-title">Produtos em Estoque</h2>
+          <p className="section-copy">
+            Confira nossa seleção de produtos prontos para entrega
+          </p>
+        </div>
+
+        <CatalogGrid products={featuredProducts} />
+
+        <div className="mt-8 text-center">
+          <Link href="/catalogo" className="btn-primary px-8 py-4">
+            Ver Catálogo Completo
+          </Link>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="mx-auto max-w-5xl px-6 py-16">
+        <div className="mb-10 text-center">
+          <span className="section-kicker">❓ Dúvidas</span>
+          <h2 className="section-title">Perguntas Frequentes</h2>
+        </div>
+
+        <div className="grid gap-6 md:grid-cols-2">
+          {faqItems.map((item, i) => (
+            <div key={i} className="glass-card p-6">
+              <h3 className="text-lg font-bold text-white mb-3">
+                {item.question}
+              </h3>
+              <p className="text-sm text-white/70 leading-relaxed">
+                {item.answer}
+              </p>
+            </div>
           ))}
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 py-8">
-        <div className="flex items-end justify-between gap-4">
-          <div>
-            <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Mais vendidos</p>
-            <h2 className="mt-3 text-3xl font-black text-white">Produtos campeões em orçamento e fechamento</h2>
-          </div>
-          <Link href="/catalogo" className="hidden text-sm font-semibold text-cyan-100 md:inline-flex">
-            Ver catálogo completo
-          </Link>
-        </div>
+      {/* CTA Section */}
+      <section className="mx-auto max-w-5xl px-6 py-16">
+        <div className="glass-panel p-8 md:p-12 text-center">
+          <h2 className="text-3xl font-black text-white mb-4">
+            Pronto para Começar?
+          </h2>
+          <p className="text-lg text-white/70 mb-8 max-w-2xl mx-auto">
+            Envie seu arquivo STL, describe seu projeto ou fale com nosso time no WhatsApp para um orçamento personalizado.
+          </p>
 
-        <div className="mt-6">
-          <CatalogGrid products={bestSellers} />
-        </div>
-      </section>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              href="/imagem-para-impressao-3d"
+              className="btn-primary px-8 py-4 font-bold uppercase tracking-wider"
+            >
+              📤 Enviar Arquivo
+            </Link>
 
-      <section className="mx-auto max-w-7xl px-6 py-8">
-        <div className="grid gap-6 lg:grid-cols-2">
-          <div className="rounded-[28px] border border-white/10 bg-white/5 p-6">
-            <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Materiais e acabamento</p>
-            <h2 className="mt-3 text-3xl font-black text-white">Linha pensada para vender bem e entregar com consistência</h2>
-            <div className="mt-5 grid gap-3">
-              {materialsShowcase.map((item) => (
-                <div key={item} className="rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-sm text-white/80">
-                  {item}
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="rounded-[28px] border border-white/10 bg-white/5 p-6">
-            <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Atendimento direto</p>
-            <h2 className="mt-3 text-3xl font-black text-white">Fale com a MDH 3D para fechar seu pedido</h2>
-            <p className="mt-4 text-sm leading-7 text-white/70">
-              Atendimento para orçamento, personalização, prazo e produção local. Você também pode acompanhar
-              novidades nas redes.
-            </p>
-            <div className="mt-6 flex flex-wrap gap-3">
-              <a href={whatsappHref} className="btn-primary">
-                Falar no WhatsApp
-              </a>
-              <a href={socialLinks.instagram} target="_blank" rel="noreferrer" className="btn-ghost">
-                Ver Instagram
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <MediaStrip />
-
-      {formProduct ? (
-        <section className="mx-auto max-w-7xl px-6 py-8">
-          <QuoteForm initialProduct={formProduct} />
-        </section>
-      ) : null}
-
-      <section className="mx-auto max-w-7xl px-6 py-8">
-        <DeliveryCalculator />
-      </section>
-
-      <section className="mx-auto max-w-7xl px-6 py-10">
-        <div className="rounded-[32px] border border-white/10 bg-white/5 p-6">
-          <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">FAQ rápido</p>
-          <h2 className="mt-3 text-3xl font-black text-white">Perguntas frequentes antes do pedido</h2>
-
-          <div className="mt-6 grid gap-4 md:grid-cols-2">
-            {faqItems.map((item) => (
-              <article key={item.question} className="rounded-[24px] border border-white/10 bg-black/20 p-5">
-                <h3 className="text-lg font-semibold text-white">{item.question}</h3>
-                <p className="mt-3 text-sm leading-7 text-white/65">{item.answer}</p>
-              </article>
-            ))}
+            <a
+              href="https://wa.me/5521920137249?text=Oi%20MDH%203D!%20Quero%20saber%20mais%20sobre%20seus%20serviços."
+              target="_blank"
+              rel="noreferrer"
+              className="btn-whatsapp px-8 py-4 font-bold uppercase tracking-wider"
+            >
+              💬 Falar no WhatsApp
+            </a>
           </div>
         </div>
       </section>
