@@ -40,3 +40,6 @@ docs/
 # Secret files
 .env.example
 secret/
+
+!package.json
+!package-lock.json

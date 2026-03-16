@@ -35,8 +35,7 @@
     "catalog:images": "node scripts/catalog-images.mjs",
     "analyze": "ANALYZE=true npm run build",
     "preview": "npm run build && npm run start",
-    "clean": "rm -rf .next out node_modules/.cache",
-    "postinstall": "npm run typecheck"
+    "clean": "rm -rf .next out node_modules/.cache"
   },
   "dependencies": {
     "@supabase/ssr": "^0.5.2",
