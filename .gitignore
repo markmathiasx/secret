@@ -16,3 +16,6 @@ coverage
 *.sqlite-journal
 tsconfig.tsbuildinfo
 *.log
+
+loja1/
+secret/
