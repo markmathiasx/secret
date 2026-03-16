@@ -1,13 +1,7 @@
-import { createClient } from "@supabase/supabase-js";
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-import { getSupabaseEnv } from "@/lib/env";
-<<<<<<< ours
-<<<<<<< ours
+import { createClient } from '@supabase/supabase-js';
+import { getSupabaseEnv } from '@/lib/env';
 
-type StorageKind = "quotes" | "orders";
+export type StorageKind = 'quotes' | 'orders';
 
 type MemoryStore = {
   quotes: Array<Record<string, unknown>>;
@@ -40,45 +34,9 @@ function getSupabaseAdmin() {
 }
 
 function getTableName(kind: StorageKind) {
-  return kind === "quotes"
-    ? process.env.SUPABASE_QUOTES_TABLE || "quotes"
-    : process.env.SUPABASE_ORDERS_TABLE || "orders";
-=======
-=======
->>>>>>> theirs
-=======
-import { getSupabaseServiceKey, getSupabaseUrl } from "@/lib/env";
-
-const url = getSupabaseUrl();
-const serviceKey = getSupabaseServiceKey();
->>>>>>> theirs
-=======
-import { getSupabaseServiceKey, getSupabaseUrl } from "@/lib/env";
-
-const url = getSupabaseUrl();
-const serviceKey = getSupabaseServiceKey();
->>>>>>> theirs
-=======
-import { getSupabaseServiceKey, getSupabaseUrl } from "@/lib/env";
-
-const url = getSupabaseUrl();
-const serviceKey = getSupabaseServiceKey();
->>>>>>> theirs
-=======
-import { getSupabaseServiceKey, getSupabaseUrl } from "@/lib/env";
-
-const url = getSupabaseUrl();
-const serviceKey = getSupabaseServiceKey();
->>>>>>> theirs
-
-function getSupabase() {
-  const { url, serviceRole } = getSupabaseEnv();
-  if (!url || !serviceRole) return null;
-  return createClient(url, serviceRole, { auth: { persistSession: false } });
-<<<<<<< ours
->>>>>>> theirs
-=======
->>>>>>> theirs
+  return kind === 'quotes'
+    ? process.env.SUPABASE_QUOTES_TABLE || 'quotes'
+    : process.env.SUPABASE_ORDERS_TABLE || 'orders';
 }
 
 export async function storeRecord(kind: StorageKind, payload: Record<string, unknown>) {
@@ -94,7 +52,7 @@ export async function storeRecord(kind: StorageKind, payload: Record<string, unk
 
     return {
       ok: true,
-      storage: "memory" as const,
+      storage: 'memory' as const,
       data
     };
   }
@@ -103,15 +61,15 @@ export async function storeRecord(kind: StorageKind, payload: Record<string, unk
     const { data, error } = await supabase.from(getTableName(kind)).insert(payload).select().single();
 
     if (error) {
-      return { ok: false, storage: "supabase" as const, error: error.message };
+      return { ok: false, storage: 'supabase' as const, error: error.message };
     }
 
-    return { ok: true, storage: "supabase" as const, data };
+    return { ok: true, storage: 'supabase' as const, data };
   } catch (error) {
     return {
       ok: false,
-      storage: "supabase" as const,
-      error: error instanceof Error ? error.message : "Falha inesperada ao salvar registro."
+      storage: 'supabase' as const,
+      error: error instanceof Error ? error.message : 'Falha inesperada ao salvar registro.'
     };
   }
 }

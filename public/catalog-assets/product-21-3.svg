@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" viewBox="0 0 1200 1200" role="img" aria-label="Organizador SD &amp; Cartões">
+  <defs>
+    <linearGradient id="g3" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0b1220"/>
+      <stop offset="60%" stop-color="#22d3ee" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#2563eb" stop-opacity="0.3"/>
+    </linearGradient>
+    <radialGradient id="orb3" cx="50%" cy="35%" r="55%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="1200" fill="url(#g3)"/>
+  <circle cx="710" cy="530" r="280" fill="url(#orb3)"/>
+  <rect x="118" y="118" width="964" height="964" rx="44" fill="none" stroke="rgba(255,255,255,0.14)"/>
+  <rect x="180" y="180" width="840" height="840" rx="36" fill="rgba(5,10,20,0.52)" stroke="rgba(255,255,255,0.08)"/>
+  <text x="220" y="270" fill="#ffffff" font-family="Inter,Segoe UI,Arial" font-size="30" letter-spacing="6" font-weight="700">SETUP &amp; ORGANIZAÇÃO</text>
+  <text x="220" y="360" fill="#ffffff" font-family="Inter,Segoe UI,Arial" font-size="72" font-weight="800">Organizador SD &amp;</text>
+  <text x="220" y="440" fill="#ffffff" font-family="Inter,Segoe UI,Arial" font-size="60" font-weight="700">Cartões</text>
+  <text x="220" y="540" fill="rgba(255,255,255,0.72)" font-family="Inter,Segoe UI,Arial" font-size="32">PLA Premium · Premium</text>
+  <text x="220" y="590" fill="rgba(255,255,255,0.72)" font-family="Inter,Segoe UI,Arial" font-size="32">24h a 48h · 9x4x2cm</text>
+  <text x="220" y="920" fill="rgba(255,255,255,0.62)" font-family="Inter,Segoe UI,Arial" font-size="28">SKU MDH-0021 · MDH 3D Store</text>
+  <text x="220" y="980" fill="#ffffff" font-family="Inter,Segoe UI,Arial" font-size="56" font-weight="800">R$ 17.90</text>
+  <g transform="translate(720,410)">
+    <rect x="0" y="0" width="180" height="180" rx="36" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.16)"/>
+    <path d="M46 130c28-64 114-64 142 0" fill="none" stroke="#ffffff" stroke-width="14" stroke-linecap="round"/>
+    <circle cx="90" cy="78" r="42" fill="none" stroke="#ffffff" stroke-width="14"/>
+    <circle cx="90" cy="78" r="12" fill="#ffffff"/>
+  </g>
+</svg>

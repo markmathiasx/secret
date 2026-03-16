@@ -1,52 +1,38 @@
-import { CatalogExplorer } from "@/components/catalog-explorer";
-import { catalog } from "@/lib/catalog";
+import { CatalogExplorer } from '@/components/catalog-explorer';
+import { catalog } from '@/lib/catalog';
+import { homepageCollections } from '@/lib/constants';
 
 export default function CatalogPage() {
   return (
-<<<<<<< ours
-    <section className="mx-auto max-w-7xl px-6 py-14">
-      <div className="mb-8 rounded-[36px] border border-white/10 bg-card p-7 md:p-9">
-        <p className="text-xs uppercase tracking-[0.22em] text-cyan-100/75">Catalogo</p>
-        <h1 className="mt-3 max-w-4xl text-4xl font-black text-white md:text-5xl">
-          Explore a loja completa com filtros claros, imagens estaveis e pagina de produto mais profissional.
-        </h1>
-        <p className="mt-4 max-w-3xl text-base leading-8 text-white/65">
-          Esta pagina foi ajustada para mobile, tablet e desktop com foco em descoberta rapida, leitura limpa e CTA consistente.
-=======
     <section className="mx-auto max-w-7xl px-6 py-16">
-      <div className="max-w-3xl">
-<<<<<<< ours
-<<<<<<< ours
-        <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Catálogo MDH 3D</p>
-        <h1 className="mt-3 text-4xl font-black text-white">Peças premium para setup, decoração e organização</h1>
-        <p className="mt-4 text-lg leading-8 text-white/68">
-          Explore coleções com produção local, personalização sob medida e entrega no Rio de Janeiro.
->>>>>>> theirs
-=======
-        <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Catálogo base</p>
-        <h1 className="mt-3 text-4xl font-black text-white">Catálogo completo para operação comercial MDH 3D</h1>
-        <p className="mt-4 text-lg leading-8 text-white/68">
-          Navegue por categorias, filtros e páginas de produto com foco em conversão, prazo claro e personalização.
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
->>>>>>> theirs
-=======
->>>>>>> theirs
-=======
->>>>>>> theirs
-=======
->>>>>>> theirs
-=======
-        <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Catálogo MDH 3D</p>
-        <h1 className="mt-3 text-4xl font-black text-white">Peças premium para setup, decoração e organização</h1>
-        <p className="mt-4 text-lg leading-8 text-white/68">
-          Explore coleções com produção local, personalização sob medida e entrega no Rio de Janeiro.
->>>>>>> theirs
-        </p>
+      <div className="overflow-hidden rounded-[40px] border border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(34,211,238,0.18),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(16,185,129,0.16),transparent_28%),linear-gradient(135deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02))] p-8 shadow-[0_24px_80px_rgba(2,8,23,0.32)]">
+        <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
+          <div className="max-w-3xl">
+            <p className="text-xs uppercase tracking-[0.22em] text-cyan-200">Storefront do catálogo</p>
+            <h1 className="mt-3 text-4xl font-black text-white sm:text-5xl">Explore a loja MDH 3D como vitrine real, não só como lista.</h1>
+            <p className="mt-4 text-lg leading-8 text-white/68">
+              Catálogo com busca, filtros, preço no Pix, parcelamento e páginas de produto mais completas para acelerar decisão de compra.
+            </p>
+          </div>
+
+          <div className="grid gap-3 sm:grid-cols-3">
+            {[
+              { label: 'Produtos ativos', value: String(catalog.length).padStart(4, '0') },
+              { label: 'Linhas', value: String(homepageCollections.length).padStart(2, '0') },
+              { label: 'Curadoria', value: 'RJ' }
+            ].map((item) => (
+              <div key={item.label} className="rounded-[28px] border border-white/10 bg-black/20 p-5">
+                <p className="text-xs uppercase tracking-[0.18em] text-white/45">{item.label}</p>
+                <p className="mt-3 text-3xl font-black text-white">{item.value}</p>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
 
-      <CatalogExplorer products={catalog} />
+      <div className="mt-10">
+        <CatalogExplorer products={catalog} />
+      </div>
     </section>
   );
 }

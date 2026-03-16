@@ -1,145 +1,58 @@
-# MDH 3D Store Pro
+# MDH 3D Store — site estático premium
 
-Loja full-stack da **MDH 3D** para impressões 3D sob encomenda com:
+Este pacote funciona abrindo `index.html` direto no navegador, sem servidor.
 
-- catálogo com **1000 exemplos**;
-- páginas individuais de produto;
-- frete por CEP para RJ;
-- bot no próprio site + WhatsApp com handoff para humano;
-- painel admin oculto em rota separada;
-- financeiro com gráfico e export CSV;
-- PWA instalável no iPhone/Android;
-- base pronta para Mercado Pago;
-- login social/OTP opcional via Supabase.
+## Estrutura
+- `index.html` — home premium com vídeo, tabs e destaques
+- `catalogo.html` — catálogo filtrável em JS puro
+- `imagem-para-impressao-3d.html` — upload local + WhatsApp/e-mail
+- `faq.html` — perguntas frequentes
+- `assets/images/` — imagens de produtos, impressoras, filamentos, peças e logo
+- `assets/videos/hero-bg.mp4` — vídeo de fundo do hero
+- `assets/js/config.js` — dados da empresa
+- `assets/js/products.js` — base de produtos + expansão demo para 600 itens
+- `data/products.json` — 60 produtos base para editar manualmente
 
-## Dados já ajustados
+## Como testar localmente
+1. Extraia o ZIP.
+2. Dê duplo clique em `index.html`.
+3. Navegue entre as páginas pelo menu.
 
-- Instagram: **mdh___021**
-- E-mail atendimento: **mdhatendimento@gmail.com**
-- E-mail admin: **markmathias01@gmail.com**
-- Pix provider: **PicPay**
-- Exibição de confirmação: **CPF final 85**
-- Painel admin oculto: **/painel-mdh-85/login**
+## Personalização rápida
+### WhatsApp, Instagram e e-mail
+Edite `assets/js/config.js`.
 
-## Rodar local no Windows com PowerShell 7
+### Vídeo de fundo
+Substitua `assets/videos/hero-bg.mp4` mantendo o mesmo nome.
 
-Dentro da pasta `D:\mdh-3d-store`:
+### Produtos
+- edite `data/products.json` para manter um catálogo base organizado;
+- depois replique as mudanças também em `assets/js/products.js`, na constante `window.MDH_PRODUCTS_BASE`.
 
-```powershell
-./setup-mdh.ps1
+### Troca de imagens
+- produtos: `assets/images/products/product-01.jpg` até `product-30.jpg`
+- impressoras: `assets/images/printers/`
+- filamentos: `assets/images/filaments/`
+- peças prontas: `assets/images/finished/`
+
+## Deploy na Vercel
+### Pelo painel
+1. Crie um novo projeto.
+2. Faça upload da pasta ou conecte a um repositório.
+3. Escolha **Other** como preset.
+4. Deixe o build command vazio.
+5. Publique.
+
+### Pela CLI
+```bash
+npm i -g vercel
+vercel
+vercel --prod
 ```
 
-## Passo manual resumido
-
-```powershell
-Set-Location D:\mdh-3d-store
-Copy-Item .env.example .env.local -ErrorAction SilentlyContinue
-code .
-npm install
-npm run dev
-```
-
-Site público:
-
-```text
-https://example.com
-```
-
-Painel admin:
-
-```text
-https://example.com/painel-mdh-85/login
-```
-
-## Antes de publicar
-
-Edite o `.env.local` e troque pelo menos:
-
-- `ADMIN_PASSWORD`
-- `ADMIN_SESSION_TOKEN`
-- `NEXT_PUBLIC_FACEBOOK_URL`
-- `PIX_KEY`, `PIX_RECEIVER_NAME` e `PIX_RECEIVER_CITY`
-- variáveis do WhatsApp Cloud API, se já for usar
-- variáveis do Mercado Pago, se já for usar
-
-## Supabase é opcional
-
-O site funciona **sem** Supabase.
-
-Você só precisa configurar estas chaves se quiser:
-
-- login com Google
-- login com Apple
-- link mágico por e-mail
-- OTP por telefone/SMS/WhatsApp
-- persistência real de pedidos/orçamentos no Supabase
-
-Campos do `.env.local`:
-
-```env
-NEXT_PUBLIC_SUPABASE_URL=
-NEXT_PUBLIC_SUPABASE_ANON_KEY=
-SUPABASE_SERVICE_ROLE_KEY=
-SUPABASE_ORDERS_TABLE=orders
-SUPABASE_QUOTES_TABLE=quotes
-```
-
-Campos do Pix privado no backend:
-
-```env
-PIX_KEY=21974137662
-PIX_RECEIVER_NAME=MARK MATHIAS DO SACRAMENTO VIDAL
-PIX_RECEIVER_CITY=RIO DE JANEIRO
-```
-
-## Mídia
-
-Coloque seus arquivos em:
-
-```text
-public/media
-```
-
-Formatos recomendados:
-
-- `.mp4`
-- `.webm`
-- `.mov`
-
-Sugestões de vídeo:
-
-- timelapse de impressão
-- close de acabamento
-- antes/depois de pintura
-- entrega no RJ
-- vídeos curtos para tráfego vindo de anúncio
-
-A home detecta até 6 arquivos automaticamente.
-
-## Publicar no GitHub
-
-```powershell
-./publish-mdh.ps1
-```
-
-O script pede a URL do repositório e faz o push inicial.
-
-## Limite importante
-
-Este projeto **não inclui cópia automática de imagens, vídeos ou modelos de terceiros** (MakerWorld, Amazon, Mercado Livre, Shopee, AliExpress, YouTube etc.). Para usar mídia real desses lugares, verifique licença, API oficial e permissão de uso. A base visual e comercial já está pronta para você substituir pelos seus próprios arquivos.
-
-
-## Novidade visual
-
-- Todos os itens do catálogo agora têm previews locais gerados no próprio projeto.
-- Clique em qualquer produto para ampliar a galeria ilustrativa.
-- Quando quiser, troque as previews pelas suas fotos reais ou vídeos em `public/media`.
-
-
-## Deixar online sem depender do PC
-
-1. Rode `./publish-mdh.ps1` para subir no GitHub.
-2. Importe o repositório na Vercel e copie as variáveis do `.env.local`.
-3. Faça o primeiro deploy e teste a URL da Vercel.
-4. Depois conecte seu domínio na Cloudflare e troque os nameservers no registrador.
-5. Mantenha Vercel + Cloudflare: assim o site continua online mesmo com seu PC desligado.
+## Observação importante sobre upload de arquivos
+Como o site é totalmente estático e roda até em `file://`, o navegador não consegue anexar automaticamente o arquivo local ao WhatsApp ou ao e-mail. O fluxo criado aqui:
+- valida tipo e tamanho do arquivo;
+- mostra nome/tamanho do arquivo;
+- monta a mensagem pronta;
+- você anexa o arquivo manualmente no WhatsApp ou no e-mail depois.

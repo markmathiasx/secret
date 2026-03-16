@@ -1,0 +1,9 @@
+tipo,detalhe
+live_home,"Hero, trust signals e rodapé estão melhores que antes"
+live_catalogo,Ainda mostra 1000 resultados sintéticos
+live_catalogo,Famílias repetitivas: Hello Kitty / Ninja / Mecha / Samurai com variações Mini/Compact/Desk/Padrão/Plus/Max/Wall/Pro/Premium/Collector
+repo_main,README ainda diz 1000 exemplos e painel oculto /painel-mdh-85/login
+repo_main,"package.json público não traz db:migrate, db:seed, catalog:images, doctor"
+repo_main,layout.tsx público tem duplicação de siteUrl e metadata colada
+repo_main,middleware público devolve 404 para /admin e protege só o painel oculto
+repo_main,.env.example público ainda usa ADMIN_PASSWORD e ADMIN_SESSION_TOKEN

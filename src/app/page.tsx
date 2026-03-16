@@ -1,756 +1,214 @@
-"use client";
-
 import Link from "next/link";
-<<<<<<< ours
-<<<<<<< ours
-=======
-=======
->>>>>>> theirs
-import { useEffect, useMemo, useState } from "react";
 import { Hero } from "@/components/hero";
->>>>>>> theirs
 import { CatalogGrid } from "@/components/catalog-grid";
-import { DeliveryCalculator } from "@/components/delivery-calculator";
-import { Hero } from "@/components/hero";
-import { HomeEntryGate } from "@/components/home-entry-gate";
-import { HomePersonalized } from "@/components/home-personalized";
 import { MediaStrip } from "@/components/media-strip";
 import { QuoteForm } from "@/components/quote-form";
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-import { featuredCatalog } from "@/lib/catalog";
-<<<<<<< ours
-import {
-  faqItems,
-  finishShowcase,
-  homepageCategories,
-  materialsShowcase,
-  socialLinks,
-  trustHighlights,
-  whatsappMessage,
-  whatsappNumber
-} from "@/lib/constants";
-
-const categoryDescriptions: Record<(typeof homepageCategories)[number], string> = {
-  Anime: "Colecionaveis, luminarias, bustos e pecas de fandom com foco em presente e decoracao.",
-  Geek: "Suportes, itens de setup, colecao e vitrines para publico gamer e cultura pop.",
-  Utilitarios: "Pecas para organizar, resolver rotinas e melhorar uso diario em casa ou no trabalho.",
-  Personalizados: "Nomes, logos, brindes, placas e pecas sob medida para pessoas e marcas.",
-  Decoracao: "Vasos, esculturas, centros de mesa e composicoes para ambientes com assinatura visual.",
-  Escritorio: "Docks, suportes, bandejas e organizacao premium para mesa, estacao de trabalho e setup."
-};
-
-const channels = ["Venda direta no site", "Atendimento pelo WhatsApp", "Mercado Livre", "Shopee"];
-=======
-=======
-import { featuredCatalog } from "@/lib/catalog";
->>>>>>> theirs
-import { homepageCollections, socialLinks, whatsappMessage, whatsappNumber } from "@/lib/constants";
-import { supabaseBrowser } from "@/lib/supabase/browser";
-
-const sectionCards = [
-  { title: "Sob encomenda", text: "Projetos com briefing completo de material, escala e acabamento para peças únicas." },
-  { title: "Personalizados", text: "Nomes, logos, brindes e itens especiais com foco em presente, setup e marca." },
-  { title: "Materiais e acabamentos", text: "PLA premium, controle de qualidade e revisão visual antes de liberar para entrega." },
-  { title: "Entrega local e prazos", text: "Operação no RJ com janela combinada e suporte direto no WhatsApp." }
-];
-
-const processSteps = [
-  { title: "1. Briefing e validação", text: "Você define referência, cor, uso e prazo. Nossa equipe confirma viabilidade e custo." },
-  { title: "2. Produção própria", text: "Impressão em equipamento calibrado, com monitoramento técnico e acabamento dedicado." },
-  { title: "3. Revisão e entrega", text: "Conferência final, embalagem segura e envio local com confirmação de recebimento." }
-];
-<<<<<<< ours
->>>>>>> theirs
-=======
-=======
->>>>>>> theirs
-=======
->>>>>>> theirs
-=======
->>>>>>> theirs
 import { DeliveryCalculator } from "@/components/delivery-calculator";
-import { catalog, featuredCatalog } from "@/lib/catalog";
-import { homepageCollections, whatsappMessage, whatsappNumber } from "@/lib/constants";
-import { HomeEntryGate } from "@/components/home-entry-gate";
-import { HomePersonalized } from "@/components/home-personalized";
+import { featuredCatalog } from "@/lib/catalog";
+import { socialLinks, whatsappMessage, whatsappNumber } from "@/lib/constants";
 
-const curatedCategories = ["Anime", "Geek", "Utilidades", "Personalizados", "Escritorio", "Casa"] as const;
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
->>>>>>> theirs
-=======
->>>>>>> theirs
-=======
->>>>>>> theirs
-=======
->>>>>>> theirs
-=======
->>>>>>> theirs
+const homepageCategories = [
+  {
+    id: "anime-geek",
+    label: "Anime & Geek",
+    title: "Miniaturas, bustos e colecionáveis com mais saída",
+    description:
+      "Linha focada em presentes, coleções e peças com apelo geek, produzidas localmente com acabamento premium.",
+    href: "/catalogo?category=Anime%20%26%20Geek",
+    cta: "Ver linha geek",
+  },
+  {
+    id: "setup-organizacao",
+    label: "Setup & Organização",
+    title: "Suportes e utilidades para mesa, celular e headset",
+    description:
+      "Produtos práticos para setup, home office e organização com produção rápida e ótima margem de recompra.",
+    href: "/catalogo?category=Setup%20%26%20Organiza%C3%A7%C3%A3o",
+    cta: "Ver organização",
+  },
+  {
+    id: "casa-decoracao",
+    label: "Casa & Decoração",
+    title: "Vasos, placas e peças decorativas para ambiente",
+    description:
+      "Seleção pensada para decoração compacta, itens presenteáveis e peças que funcionam bem na A1 Mini.",
+    href: "/catalogo?category=Casa%20%26%20Decora%C3%A7%C3%A3o",
+    cta: "Ver decoração",
+  },
+];
+
+const trustHighlights = [
+  "Produção local no Rio de Janeiro",
+  "Atendimento humano via WhatsApp",
+  "Pix com preço mais agressivo",
+  "Personalização sob encomenda",
+];
+
+const materialsShowcase = [
+  "PLA Premium para peças decorativas e colecionáveis",
+  "PLA Silk para brilho visual em presentes e bustos",
+  "PETG para utilidades e peças de uso mais técnico",
+  "Acabamento revisado antes da entrega",
+];
+
+const faqItems = [
+  {
+    question: "Vocês fazem peças sob encomenda?",
+    answer:
+      "Sim. Você pode enviar referência, STL, imagem ou briefing no WhatsApp para receber orientação de viabilidade, material e prazo.",
+  },
+  {
+    question: "Qual é o prazo médio?",
+    answer:
+      "Itens prontos costumam sair em 24 a 48 horas. Peças personalizadas ou com acabamento especial podem levar de 3 a 7 dias.",
+  },
+  {
+    question: "Quais materiais vocês usam?",
+    answer:
+      "Trabalhamos principalmente com PLA Premium, PLA Silk e PETG, escolhendo o melhor material conforme uso, estética e resistência.",
+  },
+  {
+    question: "Entregam no Rio de Janeiro?",
+    answer:
+      "Sim. Temos operação local no RJ e também organizamos envio com confirmação de prazo e janela de produção.",
+  },
+];
 
 export default function HomePage() {
-  const bestSellers = featuredCatalog.slice(0, 8);
   const formProduct = featuredCatalog[0];
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-  const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
-=======
-=======
->>>>>>> theirs
-  const [name, setName] = useState<string | null>(null);
-  const whatsappHref = useMemo(() => `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`, []);
-
-  useEffect(() => {
-    const client = supabaseBrowser;
-    if (!client) return;
-    client.auth.getUser().then(({ data }) => {
-      const label = data.user?.user_metadata?.full_name || data.user?.user_metadata?.name || data.user?.email?.split("@")[0] || null;
-      setName(label);
-
-      if (data.user?.id) {
-        client.from("profiles").upsert({ id: data.user.id, email: data.user.email, full_name: label }, { onConflict: "id" });
-      }
-    });
-  }, []);
-<<<<<<< ours
->>>>>>> theirs
-
-  return (
-    <div className="pb-20">
-<<<<<<< ours
-<<<<<<< ours
-      <HomeEntryGate />
-=======
->>>>>>> theirs
-=======
->>>>>>> theirs
-=======
-=======
->>>>>>> theirs
-=======
->>>>>>> theirs
-=======
->>>>>>> theirs
   const bestSellers = featuredCatalog.slice(0, 8);
   const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
-=======
->>>>>>> theirs
 
   return (
-    <div>
-      <HomeEntryGate />
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
->>>>>>> theirs
-=======
->>>>>>> theirs
-=======
->>>>>>> theirs
+    <main>
       <Hero />
-      <HomePersonalized />
 
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-      <section className="mx-auto max-w-7xl px-6 py-16 md:py-20">
-        <div className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-          <div>
-            <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Mais vendidos</p>
-            <h2 className="mt-2 text-3xl font-black text-white md:text-4xl">Selecao com maior saida para conversao rapida</h2>
-            <p className="mt-3 max-w-2xl text-sm leading-7 text-white/65 md:text-base">
-              Curadoria comercial para apresentar primeiro as pecas que ja performam bem em venda direta, social e marketplace.
-            </p>
-          </div>
-          <Link
-            href="/catalogo"
-            className="rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm font-semibold text-white transition hover:border-cyan-300/40 hover:bg-white/10"
-          >
-            Ver catalogo completo
-          </Link>
-        </div>
-        <CatalogGrid products={bestSellers} />
-      </section>
-=======
-      <Hero />
-      <HomePersonalized />
->>>>>>> theirs
-
-<<<<<<< ours
-      <section className="mx-auto max-w-7xl px-6 py-16">
-        <div className="mb-8">
-          <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Categorias</p>
-          <h2 className="mt-2 text-3xl font-black text-white md:text-4xl">Colecoes pensadas para vender com clareza</h2>
-        </div>
-
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-          {homepageCategories.map((item, index) => (
-            <article key={item} className="rounded-[28px] border border-white/10 bg-white/5 p-5">
-              <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">{String(index + 1).padStart(2, "0")}</p>
-              <h3 className="mt-3 text-2xl font-semibold text-white">{item}</h3>
-              <p className="mt-3 text-sm leading-7 text-white/65">{categoryDescriptions[item]}</p>
-            </article>
-=======
-=======
->>>>>>> theirs
-      {name ? (
-        <section className="mx-auto max-w-7xl px-6 py-10">
-          <div className="rounded-[30px] border border-cyan-300/25 bg-cyan-400/10 p-6">
-            <p className="text-sm text-cyan-100">Bem-vindo de volta, {name}. Seus favoritos e solicitações ficam salvos para acelerar o próximo pedido.</p>
-            <div className="mt-4 flex flex-wrap gap-3">
-              <Link href="/conta#favoritos" className="rounded-full border border-cyan-300/30 bg-black/30 px-4 py-2 text-sm text-white">Favoritos</Link>
-              <Link href="/conta" className="rounded-full border border-cyan-300/30 bg-black/30 px-4 py-2 text-sm text-white">Minha conta</Link>
-            </div>
-          </div>
-        </section>
-      ) : null}
-
-      <section className="mx-auto max-w-7xl px-6 py-14">
-        <div className="mb-8 flex items-end justify-between gap-4">
-<<<<<<< ours
-          <div>
-            <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Mais vendidos</p>
-            <h2 className="mt-2 text-3xl font-bold text-white">Seleção com maior saída para conversão imediata</h2>
-=======
-=======
->>>>>>> theirs
-      <section className="mx-auto max-w-7xl px-6 py-16 md:py-20">
-        <div className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-          <div>
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-            <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Coleções</p>
-            <h2 className="mt-2 text-3xl font-bold text-white md:text-4xl">Visual premium para uma loja de impressão 3D confiável</h2>
-            <p className="mt-3 max-w-2xl text-sm leading-7 text-white/60 md:text-base">
-              A homepage combina descoberta visual, blocos com hierarquia clara e cards consistentes para facilitar navegação, orçamento e fechamento.
-            </p>
-          </div>
-          <Link href="/catalogo" className="rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm font-semibold text-white transition hover:border-cyan-300/40 hover:bg-white/10">
-            Abrir os 1000 exemplos
-          </Link>
-=======
-          <div>
-            <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Mais vendidos</p>
-            <h2 className="mt-2 text-3xl font-bold text-white">Seleção com maior saída para conversão imediata</h2>
-          </div>
-          <Link href="/catalogo" className="rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm text-white">Ver catálogo</Link>
->>>>>>> theirs
-        </div>
-        <CatalogGrid products={featuredCatalog.slice(0, 8)} />
-      </section>
-
-<<<<<<< ours
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          {homepageCollections.map((item, index) => (
-            <div key={item} className="rounded-[28px] border border-white/10 bg-white/5 p-5">
-              <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">{String(index + 1).padStart(2, "0")}</p>
-              <h3 className="mt-3 text-xl font-semibold text-white">{item}</h3>
-              <p className="mt-2 text-sm leading-6 text-white/60">Curadoria visual pensada para facilitar descoberta, clique e pedido por WhatsApp.</p>
-=======
-            <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Curadoria MDH 3D</p>
-            <h2 className="mt-2 text-3xl font-bold text-white">Mais vendidos e coleções com maior conversão</h2>
-            <p className="mt-3 max-w-2xl text-sm leading-7 text-white/65">
-              Seleção comercial para venda diária com foco em itens de alta procura, personalização e recompra.
-            </p>
-          </div>
-          <Link href="/catalogo" className="rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm font-semibold text-white">
-            Ver catálogo
-          </Link>
-        </div>
-
-        <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-6">
-          {homepageCollections.map((item, index) => (
-            <div key={item} className="rounded-[22px] border border-white/10 bg-white/5 p-4">
-              <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">0{index + 1}</p>
-              <h3 className="mt-2 text-lg font-semibold text-white">{item}</h3>
->>>>>>> theirs
-=======
-            <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Curadoria MDH 3D</p>
-            <h2 className="mt-2 text-3xl font-bold text-white">Mais vendidos e coleções com maior conversão</h2>
-            <p className="mt-3 max-w-2xl text-sm leading-7 text-white/65">
-              Seleção comercial para venda diária com foco em itens de alta procura, personalização e recompra.
-            </p>
-          </div>
-          <Link href="/catalogo" className="rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm font-semibold text-white">
-            Ver catálogo
-          </Link>
-        </div>
-
-        <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-6">
-          {homepageCollections.map((item, index) => (
-            <div key={item} className="rounded-[22px] border border-white/10 bg-white/5 p-4">
-              <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">0{index + 1}</p>
-              <h3 className="mt-2 text-lg font-semibold text-white">{item}</h3>
->>>>>>> theirs
-=======
-            <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Curadoria MDH 3D</p>
-            <h2 className="mt-2 text-3xl font-bold text-white">Mais vendidos e coleções com maior conversão</h2>
-            <p className="mt-3 max-w-2xl text-sm leading-7 text-white/65">
-              Seleção comercial para venda diária com foco em itens de alta procura, personalização e recompra.
-            </p>
-          </div>
-          <Link href="/catalogo" className="rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm font-semibold text-white">
-            Ver catálogo
-          </Link>
-        </div>
-
-        <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-6">
-          {homepageCollections.map((item, index) => (
-            <div key={item} className="rounded-[22px] border border-white/10 bg-white/5 p-4">
-              <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">0{index + 1}</p>
-              <h3 className="mt-2 text-lg font-semibold text-white">{item}</h3>
->>>>>>> theirs
-=======
-            <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Curadoria MDH 3D</p>
-            <h2 className="mt-2 text-3xl font-bold text-white">Mais vendidos e coleções com maior conversão</h2>
-            <p className="mt-3 max-w-2xl text-sm leading-7 text-white/65">
-              Seleção comercial para venda diária com foco em itens de alta procura, personalização e recompra.
-            </p>
-          </div>
-          <Link href="/catalogo" className="rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm font-semibold text-white">
-            Ver catálogo
-          </Link>
-        </div>
-
-        <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-6">
-          {homepageCollections.map((item, index) => (
-            <div key={item} className="rounded-[22px] border border-white/10 bg-white/5 p-4">
-              <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">0{index + 1}</p>
-              <h3 className="mt-2 text-lg font-semibold text-white">{item}</h3>
->>>>>>> theirs
-            </div>
-=======
-      <section className="mx-auto max-w-7xl px-6 pb-14">
-        <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-6">
-          {homepageCollections.map((item) => (
-            <Link key={item} href="/catalogo" className="rounded-[22px] border border-white/10 bg-white/5 p-4 text-sm font-medium text-white/90 hover:border-cyan-300/30">
-              {item}
-            </Link>
->>>>>>> theirs
-          ))}
-        </div>
-      </section>
-
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-      <section className="mx-auto max-w-7xl px-6 py-16 md:py-20">
-        <div className="mb-8 flex items-end justify-between gap-4">
-          <div>
-            <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Catálogo destaque</p>
-            <h2 className="mt-2 text-3xl font-bold text-white md:text-4xl">Produtos campeões para começar vendendo</h2>
-<<<<<<< ours
->>>>>>> theirs
-=======
-      <section className="mx-auto max-w-7xl px-6 pb-14">
-        <div className="grid gap-6 lg:grid-cols-2">
-          <div className="rounded-[30px] border border-white/10 bg-white/5 p-6">
-            <h3 className="text-2xl font-bold text-white">Peças em alta</h3>
-            <p className="mt-3 text-sm leading-7 text-white/70">Modelos geek, itens para setup e personalizados seguem entre os mais compartilhados da semana.</p>
-            <div className="mt-5 flex gap-3">
-              <a href={socialLinks.instagram} target="_blank" rel="noreferrer" className="rounded-full border border-pink-300/30 bg-pink-400/10 px-4 py-2 text-xs font-semibold text-pink-100">Ver no Instagram</a>
-              <a href={socialLinks.tiktok} target="_blank" rel="noreferrer" className="rounded-full border border-violet-300/30 bg-violet-400/10 px-4 py-2 text-xs font-semibold text-violet-100">Ver no TikTok</a>
-            </div>
-          </div>
-          <div className="rounded-[30px] border border-white/10 bg-white/5 p-6">
-            <h3 className="text-2xl font-bold text-white">Conteúdo da semana</h3>
-            <p className="mt-3 text-sm leading-7 text-white/70">Bastidores da produção, acabamento e entrega para aumentar confiança de quem chega pelas redes.</p>
-            <a href={socialLinks.facebook} target="_blank" rel="noreferrer" className="mt-5 inline-flex rounded-full border border-blue-300/30 bg-blue-400/10 px-4 py-2 text-xs font-semibold text-blue-100">Acompanhar no Facebook</a>
->>>>>>> theirs
-          </div>
-          <Link href="/catalogo" className="rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm text-white">Ver catálogo</Link>
-        </div>
-        <CatalogGrid products={featuredCatalog.slice(0, 8)} />
-      </section>
-
-      <section className="mx-auto max-w-7xl px-6 pb-14">
-        <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-6">
-          {homepageCollections.map((item) => (
-            <Link key={item} href="/catalogo" className="rounded-[22px] border border-white/10 bg-white/5 p-4 text-sm font-medium text-white/90 hover:border-cyan-300/30">
-              {item}
-            </Link>
->>>>>>> theirs
-          ))}
-        </div>
-      </section>
-
-<<<<<<< ours
-<<<<<<< ours
-      <MediaStrip />
-
-<<<<<<< ours
-      <section className="mx-auto max-w-7xl px-6 py-16">
-        <div className="mb-8">
-          <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Materiais e acabamentos</p>
-          <h2 className="mt-2 text-3xl font-black text-white md:text-4xl">Escolha visual, resistencia e prazo sem adivinhacao</h2>
-        </div>
-
-        <div className="grid gap-5 lg:grid-cols-[1fr_0.92fr]">
-          <div className="grid gap-4">
-            {materialsShowcase.map((item) => (
-              <article key={item.title} className="rounded-[28px] border border-white/10 bg-white/5 p-5">
-                <h3 className="text-xl font-semibold text-white">{item.title}</h3>
-                <p className="mt-3 text-sm leading-7 text-white/65">{item.text}</p>
-              </article>
-            ))}
-          </div>
-
-          <div className="rounded-[30px] border border-white/10 bg-white/5 p-6">
-            <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Acabamentos em destaque</p>
-            <div className="mt-5 grid gap-3 sm:grid-cols-2">
-              {finishShowcase.map((finish) => (
-                <div key={finish} className="rounded-[22px] border border-white/10 bg-black/20 px-4 py-4 text-sm text-white/75">
-                  {finish}
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-6 rounded-[24px] border border-cyan-300/20 bg-cyan-400/10 p-5">
-              <p className="text-sm font-semibold text-white">Operacao multicanal</p>
-              <div className="mt-3 flex flex-wrap gap-2">
-                {channels.map((channel) => (
-                  <span key={channel} className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/75">
-                    {channel}
-                  </span>
-                ))}
-              </div>
-            </div>
-=======
-      <section className="mx-auto max-w-7xl px-6 pb-14">
-        <div className="grid gap-6 lg:grid-cols-2">
-          <div className="rounded-[30px] border border-white/10 bg-white/5 p-6">
-            <h3 className="text-2xl font-bold text-white">Peças em alta</h3>
-            <p className="mt-3 text-sm leading-7 text-white/70">Modelos geek, itens para setup e personalizados seguem entre os mais compartilhados da semana.</p>
-            <div className="mt-5 flex gap-3">
-              <a href={socialLinks.instagram} target="_blank" rel="noreferrer" className="rounded-full border border-pink-300/30 bg-pink-400/10 px-4 py-2 text-xs font-semibold text-pink-100">Ver no Instagram</a>
-              <a href={socialLinks.tiktok} target="_blank" rel="noreferrer" className="rounded-full border border-violet-300/30 bg-violet-400/10 px-4 py-2 text-xs font-semibold text-violet-100">Ver no TikTok</a>
-            </div>
-          </div>
-          <div className="rounded-[30px] border border-white/10 bg-white/5 p-6">
-            <h3 className="text-2xl font-bold text-white">Conteúdo da semana</h3>
-            <p className="mt-3 text-sm leading-7 text-white/70">Bastidores da produção, acabamento e entrega para aumentar confiança de quem chega pelas redes.</p>
-            <a href={socialLinks.facebook} target="_blank" rel="noreferrer" className="mt-5 inline-flex rounded-full border border-blue-300/30 bg-blue-400/10 px-4 py-2 text-xs font-semibold text-blue-100">Acompanhar no Facebook</a>
->>>>>>> theirs
-          </div>
-        </div>
-      </section>
-
-<<<<<<< ours
-      <section className="mx-auto max-w-7xl px-6 py-16">
-        <div className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
+      <section className="mx-auto max-w-7xl px-6 py-10">
+        <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
           <div className="rounded-[32px] border border-white/10 bg-white/5 p-6">
-            <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Entrega local e confianca</p>
-            <h2 className="mt-2 text-3xl font-black text-white">Rio de Janeiro com prazo claro e suporte humano</h2>
-            <p className="mt-4 text-sm leading-7 text-white/65">
-              A operacao local combina confirmacao de rota, pagamento pratico, WhatsApp ativo e acompanhamento comercial para reduzir atrito de compra.
+            <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Curadoria MDH 3D</p>
+            <h2 className="mt-3 text-3xl font-black text-white sm:text-4xl">
+              Loja focada em peças vendáveis, presentes criativos e utilidades com giro real.
+            </h2>
+            <p className="mt-4 max-w-3xl text-base leading-8 text-white/70">
+              Seleção comercial para venda diária com foco em itens de alta procura, personalização
+              e recompra. O objetivo é transformar catálogo em conversão, não só em vitrine.
             </p>
 
-            <div className="mt-6 grid gap-3">
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Link href="/catalogo" className="btn-primary">
+                Ver catálogo
+              </Link>
+              <a href={whatsappHref} className="btn-secondary">
+                Pedir orçamento
+              </a>
+            </div>
+          </div>
+
+          <div className="rounded-[32px] border border-white/10 bg-white/5 p-6">
+            <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Sinais de confiança</p>
+            <div className="mt-4 grid gap-3">
               {trustHighlights.map((item) => (
-                <div key={item} className="rounded-[22px] border border-white/10 bg-black/20 px-4 py-4 text-sm text-white/75">
+                <div key={item} className="rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-sm text-white/80">
                   {item}
                 </div>
               ))}
             </div>
-
-            <div className="mt-6 flex flex-wrap gap-3">
-              <a
-                href={whatsappHref}
-                className="rounded-full border border-emerald-300/30 bg-emerald-400/10 px-5 py-3 text-sm font-semibold text-emerald-100"
-              >
-                Pedir atendimento no WhatsApp
-              </a>
-              {socialLinks.instagram !== "#" ? (
-                <a
-                  href={socialLinks.instagram}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="rounded-full border border-white/15 bg-white/5 px-5 py-3 text-sm font-semibold text-white"
-                >
-                  Ver conteudo da producao
-                </a>
-              ) : null}
-            </div>
-          </div>
-
-          <DeliveryCalculator />
-        </div>
-      </section>
-
-      {formProduct ? (
-        <section id="orcamento" className="mx-auto max-w-7xl px-6 py-16">
-          <div className="grid gap-6 lg:grid-cols-[0.92fr_1.08fr]">
-            <div className="rounded-[32px] border border-white/10 bg-white/5 p-6">
-              <p className="text-xs uppercase tracking-[0.2em] text-violet-200">Pedir orcamento</p>
-              <h2 className="mt-2 text-3xl font-black text-white">Envie sua ideia e receba orientacao comercial</h2>
-              <p className="mt-4 text-sm leading-7 text-white/65">
-                Nosso fluxo de orcamento funciona tanto para quem ja escolheu um item do catalogo quanto para projetos especiais, brindes e personalizacoes.
-              </p>
-
-              <div className="mt-6 grid gap-3">
-                {[
-                  "Briefing por WhatsApp ou site",
-                  "Validacao de material e acabamento",
-                  "Prazo e entrega local confirmados antes da producao"
-                ].map((item) => (
-                  <div key={item} className="rounded-[22px] border border-white/10 bg-black/20 px-4 py-4 text-sm text-white/75">
-                    {item}
-                  </div>
-                ))}
-              </div>
-=======
-=======
->>>>>>> theirs
-      <section className="mx-auto max-w-7xl px-6 pb-14">
-        <div className="rounded-[30px] border border-white/10 bg-white/5 p-6">
-          <h3 className="text-2xl font-bold text-white">Como produzimos as peças</h3>
-          <p className="mt-2 text-sm text-white/70">Processo completo em três etapas para garantir padrão visual e confiança na entrega.</p>
-          <div className="mt-4 grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-            <div className="overflow-hidden rounded-2xl border border-white/10">
-              <video className="aspect-video w-full object-cover" src="/media/finishing-closeup.mp4" controls poster="/backgrounds/process-detail.jpg" />
-            </div>
-            <div className="space-y-3">
-              {processSteps.map((item) => (
-                <div key={item.title} className="rounded-2xl border border-white/10 bg-black/25 p-4">
-                  <p className="font-semibold text-white">{item.title}</p>
-                  <p className="mt-2 text-sm text-white/70">{item.text}</p>
-                </div>
-              ))}
-            </div>
-<<<<<<< ours
-=======
->>>>>>> theirs
-          </div>
-        </div>
-=======
-      <section className="mx-auto max-w-7xl px-6 py-16">
-        <div className="mb-8">
-          <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Mais vendidos</p>
-          <h2 className="mt-2 text-3xl font-bold text-white">Produtos campeões em orçamento e fechamento</h2>
-        </div>
-        <CatalogGrid products={bestSellers} />
->>>>>>> theirs
-=======
-      <section className="mx-auto max-w-7xl px-6 py-16">
-        <div className="mb-8">
-          <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Mais vendidos</p>
-          <h2 className="mt-2 text-3xl font-bold text-white">Produtos campeões em orçamento e fechamento</h2>
-        </div>
-        <CatalogGrid products={bestSellers} />
->>>>>>> theirs
-      </section>
-
-=======
-      <section className="mx-auto max-w-7xl px-6 py-16">
-        <div className="mb-8">
-          <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Mais vendidos</p>
-          <h2 className="mt-2 text-3xl font-bold text-white">Produtos campeões em orçamento e fechamento</h2>
-        </div>
-        <CatalogGrid products={bestSellers} />
-      </section>
-
->>>>>>> theirs
-=======
-      <section className="mx-auto max-w-7xl px-6 py-16">
-        <div className="mb-8">
-          <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Mais vendidos</p>
-          <h2 className="mt-2 text-3xl font-bold text-white">Produtos campeões em orçamento e fechamento</h2>
-        </div>
-        <CatalogGrid products={bestSellers} />
-      </section>
-
->>>>>>> theirs
-      {curatedCategories.map((category) => {
-        const items = catalog.filter((item) => item.category === category).slice(0, 4);
-        if (!items.length) return null;
-        return (
-          <section key={category} className="mx-auto max-w-7xl px-6 py-12">
-            <div className="mb-6 flex items-end justify-between gap-4">
-              <h3 className="text-2xl font-bold text-white">{category}</h3>
-              <Link href="/catalogo" className="text-sm font-semibold text-cyan-200 hover:text-cyan-100">Ver mais</Link>
-            </div>
-            <CatalogGrid products={items} />
-          </section>
-        );
-      })}
-
-      <MediaStrip />
-
-<<<<<<< ours
-      <section className="mx-auto max-w-7xl px-6 pb-14">
-        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-          {sectionCards.map((card) => (
-            <div key={card.title} className="rounded-[28px] border border-white/10 bg-white/5 p-6">
-              <h4 className="font-semibold text-white">{card.title}</h4>
-              <p className="mt-2 text-sm text-white/65">{card.text}</p>
->>>>>>> theirs
-=======
-=======
->>>>>>> theirs
-      <section className="mx-auto grid max-w-7xl gap-8 px-6 py-16 lg:grid-cols-[0.95fr_1.05fr] md:py-20">
-        <QuoteForm initialProduct={formProduct} />
-        <DeliveryCalculator />
-      </section>
-
-      <section className="mx-auto max-w-7xl px-6 py-16 md:py-20">
-        <div className="grid gap-5 lg:grid-cols-3">
-          {[
-            {
-              title: "Entrega local no Rio de Janeiro",
-              text: "Cobertura por região com prazo claro e suporte rápido para pedidos sob encomenda."
-            },
-            {
-              title: "Pagamento flexível",
-              text: "Pix, cartão e boleto com jornada simples para converter orçamento em pedido."
-            },
-            {
-              title: "Atendimento comercial",
-              text: "WhatsApp ativo para negociação, personalização e acompanhamento de produção."
-            }
-          ].map((card) => (
-            <div key={card.title} className="rounded-[32px] border border-white/10 bg-white/5 p-6">
-              <h3 className="text-xl font-bold text-white">{card.title}</h3>
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-              <p className="mt-3 text-sm leading-7 text-white/60">{card.text}</p>
->>>>>>> theirs
-=======
-              <p className="mt-3 text-sm leading-7 text-white/65">{card.text}</p>
->>>>>>> theirs
-=======
-              <p className="mt-3 text-sm leading-7 text-white/65">{card.text}</p>
->>>>>>> theirs
-=======
-              <p className="mt-3 text-sm leading-7 text-white/65">{card.text}</p>
->>>>>>> theirs
-=======
-              <p className="mt-3 text-sm leading-7 text-white/65">{card.text}</p>
->>>>>>> theirs
-=======
           </div>
         </div>
       </section>
 
-      <MediaStrip />
-
-      <section className="mx-auto max-w-7xl px-6 pb-14">
-        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-          {sectionCards.map((card) => (
-            <div key={card.title} className="rounded-[28px] border border-white/10 bg-white/5 p-6">
-              <h4 className="font-semibold text-white">{card.title}</h4>
-              <p className="mt-2 text-sm text-white/65">{card.text}</p>
->>>>>>> theirs
-            </div>
-
-            <QuoteForm initialProduct={formProduct} />
-          </div>
-        </section>
-      ) : null}
-
-      <section className="mx-auto max-w-7xl px-6 py-16">
-        <div className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-          <div>
-            <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">FAQ</p>
-            <h2 className="mt-2 text-3xl font-black text-white md:text-4xl">Respostas para decidir com mais seguranca</h2>
-          </div>
-          <Link
-            href="/faq"
-            className="rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm font-semibold text-white transition hover:border-cyan-300/40 hover:bg-white/10"
-          >
-            Abrir FAQ completo
-          </Link>
-        </div>
-
-        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-          {faqItems.map((item) => (
-            <article key={item.q} className="rounded-[28px] border border-white/10 bg-white/5 p-6">
-              <h3 className="text-lg font-semibold text-white">{item.q}</h3>
-              <p className="mt-3 text-sm leading-7 text-white/68">{item.a}</p>
+      <section className="mx-auto max-w-7xl px-6 py-8">
+        <div className="grid gap-4 md:grid-cols-3">
+          {homepageCategories.map((item) => (
+            <article key={item.id} className="rounded-[28px] border border-white/10 bg-white/5 p-5">
+              <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">{item.label}</p>
+              <h3 className="mt-3 text-xl font-bold text-white">{item.title}</h3>
+              <p className="mt-3 text-sm leading-7 text-white/65">{item.description}</p>
+              <Link href={item.href} className="mt-5 inline-flex text-sm font-semibold text-cyan-100 hover:text-white">
+                {item.cta}
+              </Link>
             </article>
           ))}
         </div>
+      </section>
 
-        <div className="mt-8 flex flex-wrap items-center justify-between gap-4 rounded-[28px] border border-emerald-300/25 bg-emerald-400/10 px-6 py-5">
+      <section className="mx-auto max-w-7xl px-6 py-8">
+        <div className="flex items-end justify-between gap-4">
           <div>
-            <p className="text-sm font-semibold text-emerald-100">Pronto para fechar seu pedido?</p>
-            <p className="text-xs text-emerald-100/80">Atendimento direto para orçamento, personalização e prazo.</p>
+            <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Mais vendidos</p>
+            <h2 className="mt-3 text-3xl font-black text-white">Produtos campeões em orçamento e fechamento</h2>
           </div>
-          <a href={whatsappHref} className="rounded-full border border-emerald-200/40 bg-emerald-300/25 px-5 py-2.5 text-sm font-semibold text-emerald-50">
-            Pedir orçamento no WhatsApp
-          </a>
-        </div>
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-      </section>
-
-<<<<<<< ours
-      <section className="mx-auto max-w-7xl px-6 py-16">
-        <div className="rounded-[36px] border border-cyan-300/20 bg-cyan-400/10 p-8 text-center shadow-glow md:p-10">
-          <p className="text-xs uppercase tracking-[0.2em] text-cyan-100">WhatsApp direto</p>
-          <h2 className="mt-3 text-3xl font-black text-white md:text-4xl">Fale com a MDH 3D e acelere seu pedido</h2>
-          <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-white/75 md:text-base">
-            Ideal para pecas personalizadas, duvidas sobre entrega no RJ, validacao de cor, ajuste de tamanho e fechamento rapido.
-          </p>
-          <div className="mt-6 flex flex-wrap justify-center gap-3">
-            <a
-              href={whatsappHref}
-              className="rounded-full bg-cyan-400 px-6 py-3 text-sm font-semibold text-slate-950 transition hover:scale-[1.01]"
-            >
-              Chamar no WhatsApp
-            </a>
-            <Link
-              href="/catalogo"
-              className="rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-semibold text-white"
-            >
-              Continuar no catalogo
-            </Link>
-          </div>
-=======
-      <section className="mx-auto max-w-7xl px-6 pb-14" id="orcamento">
-        <QuoteForm initialProduct={formProduct} />
-        <div className="mt-5 flex flex-wrap gap-3">
-          <a href={whatsappHref} className="inline-flex rounded-full border border-emerald-300/40 bg-emerald-400/10 px-6 py-3 text-sm font-semibold text-emerald-100">
-            Falar no WhatsApp
-          </a>
-          <Link href="/entregas" className="inline-flex rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-semibold text-white">
-            Ver entrega e prazos
-          </Link>
->>>>>>> theirs
-        </div>
-=======
->>>>>>> theirs
-=======
->>>>>>> theirs
-=======
->>>>>>> theirs
-      </section>
-
-      <section className="mx-auto max-w-7xl px-6 pb-14" id="orcamento">
-        <QuoteForm initialProduct={formProduct} />
-        <div className="mt-5 flex flex-wrap gap-3">
-          <a href={whatsappHref} className="inline-flex rounded-full border border-emerald-300/40 bg-emerald-400/10 px-6 py-3 text-sm font-semibold text-emerald-100">
-            Falar no WhatsApp
-          </a>
-          <Link href="/entregas" className="inline-flex rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-semibold text-white">
-            Ver entrega e prazos
+          <Link href="/catalogo" className="hidden text-sm font-semibold text-cyan-100 md:inline-flex">
+            Ver catálogo completo
           </Link>
         </div>
+
+        <div className="mt-6">
+          <CatalogGrid products={bestSellers} />
+        </div>
       </section>
-    </div>
+
+      <section className="mx-auto max-w-7xl px-6 py-8">
+        <div className="grid gap-6 lg:grid-cols-2">
+          <div className="rounded-[28px] border border-white/10 bg-white/5 p-6">
+            <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Materiais e acabamento</p>
+            <h2 className="mt-3 text-3xl font-black text-white">Linha pensada para vender bem e entregar com consistência</h2>
+            <div className="mt-5 grid gap-3">
+              {materialsShowcase.map((item) => (
+                <div key={item} className="rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-sm text-white/80">
+                  {item}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="rounded-[28px] border border-white/10 bg-white/5 p-6">
+            <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">Atendimento direto</p>
+            <h2 className="mt-3 text-3xl font-black text-white">Fale com a MDH 3D para fechar seu pedido</h2>
+            <p className="mt-4 text-sm leading-7 text-white/70">
+              Atendimento para orçamento, personalização, prazo e produção local. Você também pode acompanhar
+              novidades nas redes.
+            </p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <a href={whatsappHref} className="btn-primary">
+                Falar no WhatsApp
+              </a>
+              <a href={socialLinks.instagram} target="_blank" rel="noreferrer" className="btn-ghost">
+                Ver Instagram
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <MediaStrip />
+
+      {formProduct ? (
+        <section className="mx-auto max-w-7xl px-6 py-8">
+          <QuoteForm initialProduct={formProduct} />
+        </section>
+      ) : null}
+
+      <section className="mx-auto max-w-7xl px-6 py-8">
+        <DeliveryCalculator />
+      </section>
+
+      <section className="mx-auto max-w-7xl px-6 py-10">
+        <div className="rounded-[32px] border border-white/10 bg-white/5 p-6">
+          <p className="text-xs uppercase tracking-[0.24em] text-cyan-200">FAQ rápido</p>
+          <h2 className="mt-3 text-3xl font-black text-white">Perguntas frequentes antes do pedido</h2>
+
+          <div className="mt-6 grid gap-4 md:grid-cols-2">
+            {faqItems.map((item) => (
+              <article key={item.question} className="rounded-[24px] border border-white/10 bg-black/20 p-5">
+                <h3 className="text-lg font-semibold text-white">{item.question}</h3>
+                <p className="mt-3 text-sm leading-7 text-white/65">{item.answer}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+    </main>
   );
 }

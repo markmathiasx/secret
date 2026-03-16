@@ -1,0 +1,8 @@
+Extraia este ZIP na raiz de D:\mdh-3d-store e aceite sobrescrever.
+
+Depois rode:
+cd D:\mdh-3d-store
+npm run typecheck
+npm run build
+
+Este patch corrige o erro de prerender da home ("/") causado por renderização de objeto inteiro em vez de campos string.

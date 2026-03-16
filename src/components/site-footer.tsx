@@ -1,131 +1,51 @@
-import Link from "next/link";
-import { brand, pix, socialLinks, supportEmail, whatsappContacts } from "@/lib/constants";
-
-function isConfigured(url?: string) {
-  return Boolean(url && url.startsWith("http"));
-}
+import Link from 'next/link';
+import { brand, footerLinks, socialLinks, supportEmail, whatsappNumber } from '@/lib/constants';
 
 export function SiteFooter() {
   return (
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-    <footer className="mt-16 border-t border-white/10 bg-black/25 backdrop-blur">
-=======
-    <footer className="mt-12 border-t border-white/10 bg-black/30 backdrop-blur">
->>>>>>> theirs
-=======
-    <footer className="mt-12 border-t border-white/10 bg-black/30 backdrop-blur">
->>>>>>> theirs
-=======
-    <footer className="mt-12 border-t border-white/10 bg-black/30 backdrop-blur">
->>>>>>> theirs
-=======
-    <footer className="mt-12 border-t border-white/10 bg-black/30 backdrop-blur">
->>>>>>> theirs
-      <div className="mx-auto grid max-w-7xl gap-8 px-6 py-12 md:grid-cols-2 xl:grid-cols-4">
+    <footer className="footer-ambient border-t border-white/10 bg-slate-950/90">
+      <div className="relative mx-auto grid max-w-7xl gap-10 px-6 py-14 md:grid-cols-[1.1fr_0.9fr_0.9fr]">
         <div>
-          <h3 className="text-lg font-semibold text-white">{brand.name}</h3>
-<<<<<<< ours
-          <p className="mt-3 text-sm leading-7 text-white/65">{brand.slogan}</p>
-          <p className="mt-3 text-sm text-white/45">Operacao local no Rio de Janeiro com atendimento comercial direto.</p>
-=======
-          <p className="mt-2 text-sm text-white/65">{brand.slogan}</p>
-          <p className="mt-3 text-sm text-white/45">Produção local e entrega no Rio de Janeiro - RJ</p>
-<<<<<<< ours
->>>>>>> theirs
-=======
->>>>>>> theirs
-        </div>
-
-        <div>
-          <h4 className="text-sm font-semibold uppercase tracking-[0.18em] text-white/55">Institucional</h4>
-          <div className="mt-3 flex flex-col gap-2 text-sm text-white/72">
-            <Link href="/politica-de-privacidade">Politica de privacidade</Link>
-            <Link href="/termos">Termos de uso</Link>
-            <Link href="/trocas-e-devolucoes">Trocas e devolucoes</Link>
-            <Link href="/entregas">Frete e prazo</Link>
-            <Link href="/faq">Perguntas frequentes</Link>
+          <p className="section-kicker">{brand.name}</p>
+          <h2 className="mt-3 text-2xl font-bold text-white">Impressão 3D premium para presentes, decoração, utilidades e projetos sob encomenda.</h2>
+          <p className="mt-4 max-w-md text-sm leading-7 text-white/65">
+            Produção local no Rio de Janeiro com atendimento humano, WhatsApp direto e operação pensada para fechar pedidos com clareza.
+          </p>
+          <div className="mt-5 flex flex-wrap gap-3">
+            <a href={`https://wa.me/${whatsappNumber}`} className="btn-zap">
+              WhatsApp direto
+            </a>
+            <Link href="/catalogo" className="btn-glass">
+              Abrir catálogo
+            </Link>
           </div>
         </div>
 
         <div>
-<<<<<<< ours
-          <h4 className="text-sm font-semibold uppercase tracking-[0.18em] text-white/55">Atendimento</h4>
-          <div className="mt-3 flex flex-col gap-2 text-sm text-white/72">
-            {whatsappContacts.map((contact) => (
-              <span key={contact.id}>
-                {contact.label}: +{contact.number}
-              </span>
+          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-white/70">Institucional</p>
+          <div className="mt-4 grid gap-3 text-sm text-white/70">
+            {footerLinks.map((item) => (
+              <Link key={item.href} href={item.href} className="transition hover:text-white">
+                {item.label}
+              </Link>
             ))}
-=======
-          <h4 className="text-sm font-semibold uppercase tracking-[0.18em] text-white/60">Atendimento</h4>
-          <div className="mt-3 flex flex-col gap-2 text-sm text-white/70">
-            <span>WhatsApp com atendimento humano</span>
-<<<<<<< ours
->>>>>>> theirs
-=======
->>>>>>> theirs
-            <span>E-mail: {supportEmail}</span>
-            <span>Instagram: @{brand.instagramHandle}</span>
           </div>
         </div>
 
         <div>
-<<<<<<< ours
-<<<<<<< ours
-          <h4 className="text-sm font-semibold uppercase tracking-[0.18em] text-white/55">Comercio e seguranca</h4>
-          <div className="mt-3 flex flex-col gap-2 text-sm text-white/72">
-            <span>Pix, cartao e boleto</span>
-            <span>Fluxo pronto para vitrine propria e marketplaces</span>
-            <span>Confirmacao no app com CPF final {pix.cpfSuffix}</span>
-=======
-=======
->>>>>>> theirs
-          <h4 className="text-sm font-semibold uppercase tracking-[0.18em] text-white/60">Pagamento e segurança</h4>
-          <div className="mt-3 flex flex-col gap-2 text-sm text-white/70">
-            <span>Pix, cartão e boleto</span>
-            <span>Checkout com QR Code e código copia e cola</span>
-            <span className="text-white/55">Confirmação no app: CPF final {pix.cpfSuffix}</span>
-<<<<<<< ours
->>>>>>> theirs
-=======
->>>>>>> theirs
+          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-white/70">Atendimento</p>
+          <div className="mt-4 grid gap-3 text-sm text-white/70">
+            <a href={`https://wa.me/${whatsappNumber}`} className="transition hover:text-white">WhatsApp com atendimento humano</a>
+            <a href={`mailto:${supportEmail}`} className="transition hover:text-white">{supportEmail}</a>
+            <a href={socialLinks.instagram} target="_blank" rel="noreferrer" className="transition hover:text-white">
+              @{brand.instagramHandle}
+            </a>
+            <p>Produção local e entrega no Rio de Janeiro - RJ</p>
           </div>
         </div>
       </div>
-
-      <div className="border-t border-white/10">
-        <div className="mx-auto flex max-w-7xl flex-col gap-3 px-6 py-6 text-xs text-white/55 md:flex-row md:items-center md:justify-between">
-          <span>
-            © {new Date().getFullYear()} {brand.name}. Todos os direitos reservados.
-          </span>
-
-          <div className="flex gap-4">
-<<<<<<< ours
-            {isConfigured(socialLinks.instagram) ? (
-              <a className="hover:text-white" href={socialLinks.instagram} target="_blank" rel="noreferrer">
-                Instagram
-              </a>
-            ) : null}
-            {isConfigured(socialLinks.tiktok) ? (
-              <a className="hover:text-white" href={socialLinks.tiktok} target="_blank" rel="noreferrer">
-                TikTok
-              </a>
-            ) : null}
-            {isConfigured(socialLinks.facebook) ? (
-              <a className="hover:text-white" href={socialLinks.facebook} target="_blank" rel="noreferrer">
-                Facebook
-              </a>
-            ) : null}
-=======
-            <a className="hover:text-white" href={socialLinks.instagram} target="_blank" rel="noreferrer">Instagram</a>
-            <a className="hover:text-white" href={socialLinks.tiktok} target="_blank" rel="noreferrer">TikTok</a>
-            <a className="hover:text-white" href={socialLinks.facebook} target="_blank" rel="noreferrer">Facebook</a>
->>>>>>> theirs
-          </div>
-        </div>
+      <div className="relative border-t border-white/10 px-6 py-5 text-center text-sm text-white/45">
+        © 2026 {brand.name}. Todos os direitos reservados.
       </div>
     </footer>
   );

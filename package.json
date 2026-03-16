@@ -7,7 +7,13 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "doctor": "node scripts/doctor.mjs",
+    "admin:hash": "node scripts/admin-hash.mjs",
+    "db:generate": "node scripts/db-generate.mjs",
+    "db:migrate": "node scripts/db-migrate.mjs",
+    "db:seed": "node scripts/db-seed.mjs",
+    "catalog:images": "node scripts/catalog-images.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.50.2",

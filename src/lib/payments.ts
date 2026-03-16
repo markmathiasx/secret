@@ -1,7 +1,6 @@
-import MercadoPagoConfig, { Preference } from "mercadopago";
-import { getSiteUrl } from "@/lib/env";
-import { formatCurrency } from "@/lib/utils";
-import { getSiteUrl } from "@/lib/env";
+import MercadoPagoConfig, { Preference } from 'mercadopago';
+import { getSiteUrl } from '@/lib/env';
+import { formatCurrency } from '@/lib/utils';
 
 export async function createMercadoPagoPreference(input: {
   title: string;
@@ -9,32 +8,13 @@ export async function createMercadoPagoPreference(input: {
   quantity?: number;
   externalReference: string;
 }) {
-<<<<<<< ours
   const accessToken = process.env.MERCADOPAGO_ACCESS_TOKEN?.trim();
-=======
-  const accessToken = process.env.MERCADOPAGO_ACCESS_TOKEN;
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
->>>>>>> theirs
-=======
->>>>>>> theirs
-=======
->>>>>>> theirs
-=======
->>>>>>> theirs
-=======
->>>>>>> theirs
-=======
->>>>>>> theirs
   const siteUrl = getSiteUrl();
 
   if (!accessToken) {
     return {
       ok: false,
-      reason: "missing_access_token",
+      reason: 'missing_access_token',
       fallbackMessage: `Configure o MERCADOPAGO_ACCESS_TOKEN para gerar checkout real. Valor estimado: ${formatCurrency(input.unitPrice)}.`
     } as const;
   }
@@ -51,7 +31,7 @@ export async function createMercadoPagoPreference(input: {
             id: input.externalReference,
             title: input.title,
             quantity: input.quantity || 1,
-            currency_id: "BRL",
+            currency_id: 'BRL',
             unit_price: input.unitPrice
           }
         ],
@@ -60,7 +40,7 @@ export async function createMercadoPagoPreference(input: {
           pending: `${siteUrl}/checkout?status=pending`,
           failure: `${siteUrl}/checkout?status=failure`
         },
-        auto_return: "approved",
+        auto_return: 'approved',
         notification_url: `${siteUrl}/api/webhooks/mercadopago`
       }
     });
@@ -74,9 +54,9 @@ export async function createMercadoPagoPreference(input: {
   } catch (error) {
     return {
       ok: false,
-      reason: "mercadopago_error",
-      fallbackMessage: `Nao foi possivel abrir o checkout agora. Continue por Pix ou WhatsApp. Valor estimado: ${formatCurrency(input.unitPrice)}.`,
-      details: error instanceof Error ? error.message : "Falha desconhecida no Mercado Pago."
+      reason: 'mercadopago_error',
+      fallbackMessage: `Não foi possível abrir o checkout agora. Continue por Pix ou WhatsApp. Valor estimado: ${formatCurrency(input.unitPrice)}.`,
+      details: error instanceof Error ? error.message : 'Falha desconhecida no Mercado Pago.'
     } as const;
   }
 }

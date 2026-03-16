@@ -1,12 +1,10 @@
 export const brand = {
   name: "MDH 3D",
-  legalName: "MarkDressaHeylel",
+  legalName: "MDH 3D Store",
   city: "Rio de Janeiro",
   state: "RJ",
-  slogan: "Impressao 3D premium para anime, geek, decoracao, utilitarios e personalizados",
-  description:
-    "Impressao 3D premium no Rio de Janeiro com pecas para presentes, setup, decoracao, utilitarios e projetos personalizados.",
-  instagramHandle: process.env.NEXT_PUBLIC_BRAND_INSTAGRAM_HANDLE || "mdh___021"
+  slogan: "Impressão 3D premium para presentes criativos, setup, decoração e peças sob encomenda",
+  instagramHandle: process.env.NEXT_PUBLIC_BRAND_INSTAGRAM_HANDLE || "mdh_impressao3d",
 };
 
 function parseList(value?: string) {
@@ -18,36 +16,43 @@ function parseList(value?: string) {
 
 export const whatsappContacts = [
   process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "5521920137249",
-  ...parseList(process.env.NEXT_PUBLIC_EXTRA_WHATSAPP_NUMBERS)
+  ...parseList(process.env.NEXT_PUBLIC_EXTRA_WHATSAPP_NUMBERS),
 ].map((number, index) => ({
   id: `wa-${index + 1}`,
   label: index === 0 ? "Atendimento principal" : `Atendimento ${index + 1}`,
-  number
+  number,
 }));
 
 export const whatsappNumber = whatsappContacts[0]?.number || "5521920137249";
 export const whatsappMessage =
-  process.env.NEXT_PUBLIC_WHATSAPP_MESSAGE ||
-  "Oi! Vim pelo site da MDH 3D e quero pedir um orcamento.";
-
+  process.env.NEXT_PUBLIC_WHATSAPP_MESSAGE || "Oi! Vim pelo site da MDH 3D e quero um orçamento.";
 export const supportEmail = process.env.STAFF_NOTIFY_EMAIL || "mdhatendimento@gmail.com";
 
 export const pix = {
   provider: process.env.NEXT_PUBLIC_PIX_PROVIDER || "PicPay",
-  cpfSuffix: process.env.NEXT_PUBLIC_CPF_SUFFIX || "85"
+  cpfSuffix: process.env.NEXT_PUBLIC_CPF_SUFFIX || "85",
 };
 
 export const socialLinks = {
-  instagram: process.env.NEXT_PUBLIC_INSTAGRAM_URL || `https://www.instagram.com/${brand.instagramHandle}`,
+  instagram:
+    process.env.NEXT_PUBLIC_INSTAGRAM_URL || `https://www.instagram.com/${brand.instagramHandle}`,
   tiktok: process.env.NEXT_PUBLIC_TIKTOK_URL || "#",
-  facebook: process.env.NEXT_PUBLIC_FACEBOOK_URL || "#"
+  facebook: process.env.NEXT_PUBLIC_FACEBOOK_URL || "#",
 };
+
+const fallbackSessionToken =
+  process.env.ADMIN_SESSION_TOKEN ||
+  process.env.ADMIN_SESSION_SECRET ||
+  "mdh_troque_este_token_no_env";
 
 export const adminConfig = {
   email: process.env.ADMIN_EMAIL || "markmathias01@gmail.com",
-  hiddenPath: "/painel-mdh-85",
+  hiddenPath: process.env.ADMIN_HIDDEN_PATH || "/painel-mdh-85",
   sessionCookieName: "mdh_admin",
-  sessionToken: process.env.ADMIN_SESSION_TOKEN || "mdh_troque_este_token_no_env"
+  sessionSecret:
+    process.env.ADMIN_SESSION_SECRET || process.env.ADMIN_SESSION_TOKEN || "troque-o-session-secret",
+  sessionToken: fallbackSessionToken,
+  passwordHash: process.env.ADMIN_PASSWORD_HASH || "",
 };
 
 const num = (value: string | undefined, fallback: number) => {
@@ -56,163 +61,126 @@ const num = (value: string | undefined, fallback: number) => {
 };
 
 export const deliveryKm = {
-  originLabel: process.env.DELIVERY_ORIGIN_LABEL || "Condominio Meu Lar 2",
+  originLabel: process.env.DELIVERY_ORIGIN_LABEL || "Rio de Janeiro - RJ",
   gasPriceBrl: num(process.env.GAS_PRICE_BRL, 6),
   bikeKmPerLiter: num(process.env.BIKE_KM_PER_LITER, 35),
   baseFee: num(process.env.DELIVERY_BASE_FEE, 8),
   feePerKm: num(process.env.DELIVERY_FEE_PER_KM, 0.6),
   capFee: num(process.env.DELIVERY_FEE_CAP, 35),
-  expressMultiplier: num(process.env.DELIVERY_EXPRESS_MULTIPLIER, 2)
+  expressMultiplier: num(process.env.DELIVERY_EXPRESS_MULTIPLIER, 2),
 };
 
 export const deliveryZones = [
-  { region: "Centro e Zona Portuaria", fee: 12, eta: "1 dia util" },
-  { region: "Zona Norte", fee: 16, eta: "1 a 2 dias uteis" },
-  { region: "Zona Sul", fee: 18, eta: "1 a 2 dias uteis" },
-  { region: "Barra e Jacarepagua", fee: 22, eta: "1 a 3 dias uteis" },
-  { region: "Baixada, Niteroi e demais areas", fee: 28, eta: "2 a 3 dias uteis" }
+  { region: "Centro e Zona Portuária", fee: 12, eta: "1 dia útil" },
+  { region: "Zona Norte", fee: 16, eta: "1 a 2 dias úteis" },
+  { region: "Zona Sul", fee: 18, eta: "1 a 2 dias úteis" },
+  { region: "Barra / Jacarepaguá", fee: 22, eta: "1 a 3 dias úteis" },
+  { region: "Baixada / Niterói / demais áreas", fee: 28, eta: "2 a 3 dias úteis" },
 ] as const;
 
 export const homepageCollections = [
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-  "Anime",
-  "Geek",
-  "Utilitarios",
-  "Personalizados",
-  "Decoracao",
-  "Escritorio"
-=======
-=======
->>>>>>> theirs
   "Mais vendidos",
-  "Anime e Geek",
-  "Utilidades e Organização",
-  "Personalizados",
-  "Presentes e Decoração",
-  "Peças para setup e escritório"
-<<<<<<< ours
->>>>>>> theirs
-=======
-=======
->>>>>>> theirs
-=======
->>>>>>> theirs
-=======
->>>>>>> theirs
-  "Anime",
-  "Geek",
-  "Utilidades",
-  "Casa",
-  "Escritorio",
-  "Personalizados"
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
->>>>>>> theirs
-=======
->>>>>>> theirs
-=======
->>>>>>> theirs
-=======
->>>>>>> theirs
-=======
->>>>>>> theirs
+  "Anime & Geek",
+  "Setup & Organização",
+  "Casa & Decoração",
+  "Presentes Criativos",
+  "Sob Encomenda",
 ] as const;
 
-export const homepageCategories = homepageCollections;
+export const homepageCategories: any[] = [
+  {
+    id: "anime-geek",
+    label: "Anime & Geek",
+    title: "Colecionáveis com acabamento premium",
+    description: "Miniaturas, bustos, peças kawaii e itens de fandom com janela rápida de produção no RJ.",
+    href: "/catalogo?category=Anime%20%26%20Geek",
+    cta: "Explorar anime e geek",
+  },
+  {
+    id: "setup-organizacao",
+    label: "Setup & Organização",
+    title: "Suportes, docks e organizadores que resolvem o dia a dia",
+    description: "Soluções práticas para celular, fone, controle, cabos e estação de trabalho.",
+    href: "/catalogo?category=Setup%20%26%20Organiza%C3%A7%C3%A3o",
+    cta: "Ver setup e organização",
+  },
+  {
+    id: "casa-decoracao",
+    label: "Casa & Decoração",
+    title: "Peças leves para presentear e decorar",
+    description: "Vasos, luminárias, porta-copos e utilidades com cara de produto de loja séria.",
+    href: "/catalogo?category=Casa%20%26%20Decora%C3%A7%C3%A3o",
+    cta: "Conhecer decoração",
+  },
+];
 
-export const catalogCollections = [
-  "Mais vendidos",
-  "Pronta entrega",
-  "Sob encomenda",
-  "Presentes",
-  "Setup e escritorio",
-  "Decoracao premium"
-] as const;
+export const trustHighlights: any[] = [
+  {
+    title: "Produção local no Rio de Janeiro",
+    description: "Peças feitas sob controle direto da loja, sem depender de importação lenta.",
+    badge: "RJ",
+  },
+  {
+    title: "Pix com preço mais forte",
+    description: "A comunicação de valor no site já privilegia Pix para melhorar conversão.",
+    badge: "PIX",
+  },
+  {
+    title: "Atendimento humano no WhatsApp",
+    description: "Você fala com a MDH 3D para orçamento, personalização e acompanhamento.",
+    badge: "HUMANO",
+  },
+];
 
-export const materialHighlights = [
+export const materialsShowcase: any[] = [
   {
     title: "PLA Premium",
-    text: "Acabamento limpo, boa fidelidade visual e otimo custo para presentes, decoracao e linha geek."
+    description: "Ótimo para presentes, colecionáveis, setup e decoração interna.",
+    badge: "PLA",
   },
   {
     title: "PLA Silk",
-    text: "Brilho elegante para pecas de destaque, brindes especiais e composicoes mais cenograficas."
+    description: "Visual mais brilhante para peças com impacto visual e apelo de presente.",
+    badge: "SILK",
   },
   {
-    title: "Acabamento tecnico",
-    text: "Preparacao, remocao de suportes e revisao visual antes de liberar cada pedido para entrega."
-  }
-] as const;
-
-export const materialsShowcase = materialHighlights;
-
-export const finishShowcase = [
-  "Fosco premium",
-  "Textura tecnica",
-  "Silk acetinado",
-  "Camada fina para detalhe",
-  "Personalizacao de cor"
-] as const;
-
-export const trustHighlights = [
-  "Entrega local no Rio de Janeiro",
-  "Atendimento rapido por WhatsApp",
-  "Pagamento via Pix, cartao e boleto",
-  "Operacao pronta para site, Mercado Livre e Shopee"
-] as const;
-
-export const faqHighlights = [
-  {
-    question: "Vocês produzem pecas personalizadas?",
-    answer: "Sim. Trabalhamos com nomes, brindes, logos, itens geek e projetos sob medida com validacao de briefing."
+    title: "PETG",
+    description: "Mais robusto para utilidades e peças que pedem resistência maior.",
+    badge: "PETG",
   },
   {
-    question: "Atendem somente o Rio de Janeiro?",
-    answer: "A operacao principal e local no RJ. Isso melhora prazo, revisao final da peca e suporte durante a entrega."
+    title: "Resina",
+    description: "Detalhe fino para bustos, miniaturas e acabamentos mais refinados.",
+    badge: "RESINA",
+  },
+];
+
+export const faqItems: any[] = [
+  {
+    question: "Vocês fazem peças sob encomenda?",
+    answer: "Sim. Você pode pedir orçamento pelo WhatsApp ou pela página de imagem para impressão 3D.",
   },
   {
-    question: "Posso comprar sem criar conta?",
-    answer: "Sim. O site continua aberto para visitantes e voce pode pedir orcamento sem ficar preso ao login."
+    question: "Quais materiais vocês usam?",
+    answer: "A loja trabalha principalmente com PLA Premium, PLA Silk, PETG e resina, conforme o tipo de peça.",
   },
   {
-    question: "Onde acompanho meus pedidos?",
-    answer: "Clientes logados veem um painel pessoal com atalhos, historico e espaco para favoritos e pedidos."
-  }
-] as const;
+    question: "Qual o prazo médio?",
+    answer: "Pronta entrega costuma sair em 24h a 48h. Sob encomenda normalmente fica entre 3 e 7 dias.",
+  },
+  {
+    question: "Vocês entregam no Rio de Janeiro?",
+    answer: "Sim. A operação é baseada no Rio de Janeiro e também atende outras regiões conforme o frete.",
+  },
+  {
+    question: "Posso mandar imagem ou referência?",
+    answer: "Sim. A nova página de imagem para impressão 3D foi criada justamente para esse fluxo.",
+  },
+];
 
-export const faqItems = faqHighlights.map((item) => ({
-  q: item.question,
-  a: item.answer
-}));
-
-export const footerLinks = [
-  { href: "/catalogo", label: "Catalogo" },
-  { href: "/entregas", label: "Frete e prazo" },
-  { href: "/faq", label: "FAQ" },
-  { href: "/politica-de-privacidade", label: "Politica de privacidade" },
-  { href: "/termos", label: "Termos de uso" },
-  { href: "/trocas-e-devolucoes", label: "Trocas e devolucoes" }
-] as const;
-
-const commercialCategoryMap: Record<string, string> = {
-  Anime: "Anime",
-  Geek: "Geek",
-  Games: "Geek",
-  Utilitarios: "Utilitarios",
-  Casa: "Utilitarios",
-  Oficina: "Utilitarios",
-  Personalizados: "Personalizados",
-  Decoracao: "Decoracao",
-  Escritorio: "Escritorio",
-  Pets: "Personalizados"
-};
-
-export function getCommercialCategory(category: string) {
-  return commercialCategoryMap[category] || category;
-}
+export const footerLinks: any[] = [
+  { label: "Política de privacidade", href: "/politica-de-privacidade" },
+  { label: "Termos de uso", href: "/termos" },
+  { label: "Trocas e devoluções", href: "/trocas-e-devolucoes" },
+  { label: "Frete e prazo", href: "/entregas" },
+];
