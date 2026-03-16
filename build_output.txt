@@ -1,0 +1,87 @@
+
+> mdh-3d-store@0.1.0 build
+> next build
+
+   Ôû▓ Next.js 15.5.12
+   - Environments: .env.local
+
+   Creating an optimized production build ...
+ Ô£ô Compiled successfully in 3.2s
+   Linting and checking validity of types ...
+
+./src/app/checkout/page.tsx
+89:15  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./src/components/hero.tsx
+26:9  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./src/components/media-strip.tsx
+26:17  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./src/components/pix-payment-card.tsx
+54:17  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./src/components/safe-product-image.tsx
+26:5  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./src/components/site-header.tsx
+29:11  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/app/api-reference/config/eslint#disabling-rules
+   Collecting page data ...
+   Generating static pages (0/94) ...
+   Generating static pages (23/94) 
+   Generating static pages (46/94) 
+   Generating static pages (70/94) 
+ Ô£ô Generating static pages (94/94)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                              Size  First Load JS
+Ôöî Ôùï /                                                 5.13 kB         119 kB
+Ôö£ Ôùï /_not-found                                         195 B         102 kB
+Ôö£ Ôùï /admin                                              195 B         102 kB
+Ôö£ Ôùï /admin/finance                                     2.8 kB         105 kB
+Ôö£ Ôùï /admin/login                                      1.57 kB         104 kB
+Ôö£ ãÆ /api/admin/login                                    195 B         102 kB
+Ôö£ ãÆ /api/admin/logout                                   195 B         102 kB
+Ôö£ ãÆ /api/auth/login                                     195 B         102 kB
+Ôö£ ãÆ /api/auth/register                                  195 B         102 kB
+Ôö£ ãÆ /api/catalog                                        195 B         102 kB
+Ôö£ ãÆ /api/catalog/search                                 195 B         102 kB
+Ôö£ ãÆ /api/checkout/mercadopago                           195 B         102 kB
+Ôö£ ãÆ /api/orders                                         195 B         102 kB
+Ôö£ ãÆ /api/pix                                            195 B         102 kB
+Ôö£ ãÆ /api/quote                                          195 B         102 kB
+Ôö£ ãÆ /api/webhooks/mercadopago                           195 B         102 kB
+Ôö£ ãÆ /api/webhooks/whatsapp                              195 B         102 kB
+Ôö£ Ôùï /auth/callback                                      674 B         153 kB
+Ôö£ Ôùï /catalogo                                         3.52 kB         117 kB
+Ôö£ ÔùÅ /catalogo/[slug]                                  4.29 kB         118 kB
+Ôö£   Ôö£ /catalogo/mdh-001-hello-kitty-chibi-premium
+Ôö£   Ôö£ /catalogo/mdh-002-mascote-kawaii-desk-buddy
+Ôö£   Ôö£ /catalogo/mdh-003-monstro-el├®trico-pocket-mini
+Ôö£   Ôöö [+57 more paths]
+Ôö£ Ôùï /checkout                                         2.78 kB         113 kB
+Ôö£ Ôùï /conta                                            1.77 kB         166 kB
+Ôö£ Ôùï /divulgacao                                         195 B         102 kB
+Ôö£ Ôùï /entregas                                           195 B         102 kB
+Ôö£ Ôùï /faq                                                195 B         102 kB
+Ôö£ Ôùï /imagem-para-impressao-3d                         5.57 kB         111 kB
+Ôö£ Ôùï /login                                            3.51 kB         160 kB
+Ôö£ Ôùï /manifest.webmanifest                               195 B         102 kB
+Ôö£ Ôùï /politica-de-privacidade                            195 B         102 kB
+Ôö£ Ôùï /robots.txt                                         195 B         102 kB
+Ôö£ Ôùï /sitemap.xml                                        195 B         102 kB
+Ôö£ Ôùï /termos                                             195 B         102 kB
+Ôöö Ôùï /trocas-e-devolucoes                                195 B         102 kB
++ First Load JS shared by all                          102 kB
+  Ôö£ chunks/1255-a390e12b70b4a9fb.js                     46 kB
+  Ôö£ chunks/4bd1b696-f785427dddbba9fb.js               54.2 kB
+  Ôöö other shared chunks (total)                          2 kB
+
+
+Ôùï  (Static)   prerendered as static content
+ÔùÅ  (SSG)      prerendered as static HTML (uses generateStaticParams)
+ãÆ  (Dynamic)  server-rendered on demand
+
