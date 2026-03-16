@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { withBundleAnalyzer } from '@next/bundle-analyzer';
 
 function getHostname(value?: string) {
   if (!value) return null;
@@ -10,7 +11,13 @@ function getHostname(value?: string) {
   }
 }
 
-const imageHosts = new Set(["images.unsplash.com", "images.ctfassets.net", "jimhpbvmvhgkfrtprvfs.supabase.co"]);
+const imageHosts = new Set([
+  "images.unsplash.com",
+  "images.ctfassets.net",
+  "jimhpbvmvhgkfrtprvfs.supabase.co",
+  "mdh-3d-store.vercel.app",
+  "localhost"
+]);
 
 [process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.NEXT_PUBLIC_SUPABASE_CATALOG_BUCKET_URL]
   .map((value) => getHostname(value))
@@ -18,13 +25,157 @@ const imageHosts = new Set(["images.unsplash.com", "images.ctfassets.net", "jimh
   .forEach((host) => imageHosts.add(host));
 
 const nextConfig: NextConfig = {
+  // Performance & Optimization
+  poweredByHeader: false,
+  compress: true,
   reactStrictMode: true,
+  swcMinify: true,
+
+  // Images
   images: {
     remotePatterns: Array.from(imageHosts).map((hostname) => ({
       protocol: "https",
       hostname
-    }))
-  }
+    })),
+    formats: ['image/webp', 'image/avif'],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    minimumCacheTTL: 31536000,
+  },
+
+  // Experimental Features (2026)
+  experimental: {
+    optimizePackageImports: ['lucide-react', '@supabase/supabase-js'],
+    turbo: {
+      rules: {
+        '*.svg': {
+          loaders: ['@svgr/webpack'],
+          as: '*.js',
+        },
+      },
+    },
+  },
+
+  // Headers & Security
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'X-Frame-Options',
+            value: 'DENY'
+          },
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff'
+          },
+          {
+            key: 'Referrer-Policy',
+            value: 'strict-origin-when-cross-origin'
+          },
+          {
+            key: 'Permissions-Policy',
+            value: 'camera=(), microphone=(), geolocation=()'
+          },
+          {
+            key: 'X-DNS-Prefetch-Control',
+            value: 'on'
+          }
+        ]
+      },
+      {
+        source: '/api/(.*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'no-cache, no-store, must-revalidate'
+          }
+        ]
+      },
+      {
+        source: '/static/(.*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable'
+          }
+        ]
+      }
+    ];
+  },
+
+  // Redirects
+  async redirects() {
+    return [
+      {
+        source: '/home',
+        destination: '/',
+        permanent: true,
+      },
+      {
+        source: '/loja',
+        destination: '/catalogo',
+        permanent: true,
+      }
+    ];
+  },
+
+  // Rewrites
+  async rewrites() {
+    return [
+      {
+        source: '/sitemap.xml',
+        destination: '/api/sitemap',
+      }
+    ];
+  },
+
+  // Webpack Configuration
+  webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
+    // Add custom webpack optimizations
+    if (!dev && !isServer) {
+      config.optimization.splitChunks.cacheGroups = {
+        ...config.optimization.splitChunks.cacheGroups,
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all',
+          priority: 10,
+        },
+        supabase: {
+          test: /[\\/]node_modules[\\/]@supabase[\\/]/,
+          name: 'supabase',
+          chunks: 'all',
+          priority: 20,
+        },
+      };
+    }
+
+    // SVG Support
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: ['@svgr/webpack'],
+    });
+
+    return config;
+  },
+
+  // Build ID for cache busting
+  generateBuildId: async () => {
+    return 'build-' + Date.now();
+  },
+
+  // Output configuration
+  output: 'standalone',
+
+  // Environment variables
+  env: {
+    BUILD_TIME: new Date().toISOString(),
+    BUILD_ID: process.env.VERCEL_GIT_COMMIT_SHA || 'development',
+  },
 };
 
-export default nextConfig;
+export default process.env.ANALYZE === 'true'
+  ? withBundleAnalyzer(nextConfig)
+  : nextConfig;
