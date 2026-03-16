@@ -23,23 +23,24 @@ Loja full-stack da **MDH 3D** para impressões 3D sob encomenda com:
 
 ## Rodar local no Windows com PowerShell 7
 
-Dentro da pasta `D:\mdh-3d-store`:
+Dentro da pasta do projeto:
 
 ```powershell
+Set-Location C:\caminho\para\mdh-3d-store
 ./setup-mdh.ps1
 ```
 
 ## Passo manual resumido
 
 ```powershell
-Set-Location D:\mdh-3d-store
+Set-Location C:\caminho\para\mdh-3d-store
 Copy-Item .env.example .env.local -ErrorAction SilentlyContinue
 code .
 npm install
 npm run dev
 ```
 
-Site público:
+Site publico em desenvolvimento:
 
 ```text
 http://localhost:3000
@@ -55,6 +56,7 @@ http://localhost:3000/painel-mdh-85/login
 
 Edite o `.env.local` e troque pelo menos:
 
+- `NEXT_PUBLIC_SITE_URL`
 - `ADMIN_PASSWORD`
 - `ADMIN_SESSION_TOKEN`
 - `NEXT_PUBLIC_FACEBOOK_URL`
@@ -79,7 +81,10 @@ Campos do `.env.local`:
 ```env
 NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_ANON_KEY=
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
+NEXT_PUBLIC_SUPABASE_CATALOG_BUCKET_URL=
 SUPABASE_SERVICE_ROLE_KEY=
+SUPABASE_SECRET_KEY=
 SUPABASE_ORDERS_TABLE=orders
 SUPABASE_QUOTES_TABLE=quotes
 ```
@@ -87,8 +92,8 @@ SUPABASE_QUOTES_TABLE=quotes
 Campos do Pix privado no backend:
 
 ```env
-PIX_KEY=21974137662
-PIX_RECEIVER_NAME=MARK MATHIAS DO SACRAMENTO VIDAL
+PIX_KEY=sua-chave-pix-aqui
+PIX_RECEIVER_NAME=MDH 3D
 PIX_RECEIVER_CITY=RIO DE JANEIRO
 ```
 

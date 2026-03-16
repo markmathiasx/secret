@@ -1,23 +1,23 @@
 const items = [
   {
-    q: "Como faço um pedido?",
-    a: "Escolha um item no catálogo, abra a página do produto e envie o orçamento. Se preferir, chame no WhatsApp e diga o nome do projeto."
+    q: "Como faco um pedido?",
+    a: "Escolha um item no catalogo, abra a pagina do produto e envie o orcamento. Se preferir, chame no WhatsApp com o nome da peca e sua necessidade."
   },
   {
     q: "Vocês entregam onde?",
-    a: "A operação inicial é local no Rio de Janeiro. O site calcula uma estimativa de frete por CEP e você confirma o prazo no fechamento."
+    a: "A operacao principal e local no Rio de Janeiro. O site calcula uma estimativa inicial de frete por CEP e o prazo final e confirmado no fechamento."
   },
   {
     q: "Consigo falar com humano?",
-    a: "Sim. O bot filtra e organiza o pedido, mas o cliente pode pedir HUMANO no WhatsApp e a conversa segue para atendimento pessoal."
+    a: "Sim. O site e o assistente ajudam na triagem, mas o cliente pode pedir atendimento humano a qualquer momento."
   },
   {
     q: "Quais pagamentos entram no site?",
-    a: "Pix, cartão e boleto via provedor. O projeto já fica preparado para Mercado Pago."
+    a: "Pix, cartao e boleto. O caminho principal da venda continua sendo a propria loja, com atendimento direto e fechamento pelo WhatsApp quando necessario."
   },
   {
-    q: "As imagens do catálogo são definitivas?",
-    a: "O catálogo-base já traz cards visuais premium, mas a ideia é você substituir por fotos e vídeos reais das suas impressões conforme produzir."
+    q: "As imagens do catalogo sao definitivas?",
+    a: "Quando a peca ja tem ensaio proprio, a loja usa a foto real da pasta local do produto. Quando ainda nao tem, mostramos um preview conceitual premium para manter a vitrine coerente."
   }
 ];
 

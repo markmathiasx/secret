@@ -25,8 +25,10 @@ function crc16(payload: string) {
 }
 
 export function makePixPayload({ amount, description }: { amount: number; description: string }) {
-  const key = process.env.PIX_KEY || process.env.NEXT_PUBLIC_DEFAULT_PIX_KEY || "21974137662";
-  const receiverName = process.env.PIX_RECEIVER_NAME || "MARK MATHIAS DO SACRAMENTO";
+  const key = process.env.PIX_KEY?.trim();
+  if (!key) return null;
+
+  const receiverName = process.env.PIX_RECEIVER_NAME || "MDH 3D";
   const receiverCity = process.env.PIX_RECEIVER_CITY || "RIO DE JANEIRO";
   const merchantName = onlyAscii(receiverName).slice(0, 25) || "MDH 3D";
   const merchantCity = onlyAscii(receiverCity).slice(0, 15) || "RIO DE JANEIRO";

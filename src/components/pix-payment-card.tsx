@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import Image from "next/image";
+import { useEffect, useState } from "react";
 import QRCode from "qrcode";
 import { Copy, QrCode, ShieldCheck } from "lucide-react";
 import { formatCurrency } from "@/lib/utils";
@@ -9,6 +10,8 @@ export function PixPaymentCard({ title, amount }: { title: string; amount: numbe
   const [payload, setPayload] = useState("");
   const [qr, setQr] = useState("");
   const [copied, setCopied] = useState(false);
+  const [available, setAvailable] = useState(true);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     fetch("/api/pix", {
@@ -17,8 +20,16 @@ export function PixPaymentCard({ title, amount }: { title: string; amount: numbe
       body: JSON.stringify({ title, amount })
     })
       .then((res) => res.json())
-      .then((json) => setPayload(json?.payload || ""))
-      .catch(() => setPayload(""));
+      .then((json) => {
+        setAvailable(Boolean(json?.available ?? json?.payload));
+        setPayload(json?.payload || "");
+        setMessage(json?.message || "");
+      })
+      .catch(() => {
+        setAvailable(false);
+        setPayload("");
+        setMessage("Nao foi possivel gerar o Pix agora.");
+      });
   }, [amount, title]);
 
   useEffect(() => {
@@ -51,7 +62,25 @@ export function PixPaymentCard({ title, amount }: { title: string; amount: numbe
 
       <div className="mt-5 grid gap-5 lg:grid-cols-[0.95fr_1.05fr]">
         <div className="rounded-[24px] border border-white/10 bg-black/25 p-4">
-          {qr ? <img src={qr} alt={`QR Code Pix de ${title}`} className="mx-auto w-full max-w-[260px] rounded-[20px] bg-white p-3" /> : <div className="flex h-[260px] items-center justify-center rounded-[20px] border border-dashed border-white/15 text-sm text-white/60">Gerando QR Code…</div>}
+          {available ? (
+            qr ? (
+              <Image
+                src={qr}
+                alt={`QR Code Pix de ${title}`}
+                width={260}
+                height={260}
+                unoptimized
+                className="mx-auto h-auto w-full max-w-[260px] rounded-[20px] bg-white p-3"
+              />
+            ) : (
+              <div className="flex h-[260px] items-center justify-center rounded-[20px] border border-dashed border-white/15 text-sm text-white/60">Gerando QR Code...</div>
+            )
+          ) : (
+            <div className="flex h-[260px] flex-col items-center justify-center rounded-[20px] border border-dashed border-white/15 px-6 text-center text-sm text-white/60">
+              <p className="font-semibold text-white">Pix ainda nao configurado</p>
+              <p className="mt-3 leading-6">{message || "Adicione PIX_KEY no backend para liberar o QR Code real."}</p>
+            </div>
+          )}
         </div>
         <div className="space-y-4">
           <div className="rounded-[24px] border border-white/10 bg-black/25 p-4">
@@ -62,7 +91,11 @@ export function PixPaymentCard({ title, amount }: { title: string; amount: numbe
           <div className="rounded-[24px] border border-white/10 bg-black/25 p-4">
             <p className="text-sm text-white/55">Copia e cola Pix</p>
             <textarea readOnly value={payload} className="mt-2 h-28 w-full rounded-2xl border border-white/10 bg-black/35 p-3 text-xs text-white/80 outline-none" />
-            <button onClick={onCopy} className="mt-3 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white">
+            <button
+              onClick={onCopy}
+              disabled={!payload}
+              className="mt-3 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white disabled:opacity-50"
+            >
               <Copy className="h-4 w-4" />
               {copied ? "Copiado" : "Copiar código Pix"}
             </button>

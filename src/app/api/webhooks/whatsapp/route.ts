@@ -3,6 +3,7 @@ import { catalog, getProductUrl } from "@/lib/catalog";
 import { estimateDeliveryFeeKm } from "@/lib/delivery";
 import { formatCurrency } from "@/lib/utils";
 import { supportEmail, whatsappNumber } from "@/lib/constants";
+import { getSiteUrl } from "@/lib/site";
 
 type Session = { distanceKm?: number; lastProductId?: string; wantsHuman?: boolean };
 const sessions = new Map<string, Session>();
@@ -92,7 +93,7 @@ function wantsHuman(text: string) {
 function menuText() {
   return [
     "MDH 3D | Atendimento automático",
-    "Me envie o nome do item que você quer, por exemplo:",
+    "Me envie o nome do item que você quer. Alguns pedidos comuns:",
     "• dichavador hello kitty",
     "• suporte controle ps5",
     "• vaso geométrico",
@@ -163,8 +164,8 @@ export async function POST(request: Request) {
         session.lastProductId = product.id;
         sessions.set(from, session);
 
-        const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-        const link = `${siteUrl}${getProductUrl(product)}`;
+        const publicSiteUrl = getSiteUrl({ allowLocalhost: true, fallback: new URL(request.url).origin });
+        const link = `${publicSiteUrl}${getProductUrl(product)}`;
         const deliveryFee = session.distanceKm ? estimateDeliveryFeeKm(session.distanceKm) : 0;
         const total = Number((product.pricePix + deliveryFee).toFixed(2));
 

@@ -1,0 +1,40 @@
+<svg width="1200" height="1200" viewBox="0 0 1200 1200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="1200" rx="80" fill="#07101A"/>
+  <rect x="48" y="48" width="1104" height="1104" rx="54" fill="url(#bg)"/>
+  <circle cx="268" cy="252" r="180" fill="url(#glowA)" fill-opacity="0.68"/>
+  <circle cx="906" cy="238" r="150" fill="url(#glowB)" fill-opacity="0.32"/>
+  <circle cx="860" cy="896" r="240" fill="url(#glowC)" fill-opacity="0.22"/>
+  <rect x="168" y="178" width="864" height="612" rx="42" fill="#091520" stroke="#FFFFFF" stroke-opacity="0.12" stroke-width="2"/>
+  <path d="M358 640L520 430C546 395 600 394 626 428L784 636C813 674 786 730 736 730H406C357 730 329 674 358 640Z" fill="url(#photo)"/>
+  <circle cx="470" cy="356" r="58" fill="#B7ECFF" fill-opacity="0.8"/>
+  <rect x="248" y="860" width="704" height="44" rx="22" fill="#FFFFFF" fill-opacity="0.09"/>
+  <rect x="248" y="934" width="456" height="30" rx="15" fill="#FFFFFF" fill-opacity="0.07"/>
+  <text x="600" y="1022" text-anchor="middle" fill="#F2FCFF" font-size="46" font-family="Arial, Helvetica, sans-serif" font-weight="700">
+    Foto em producao
+  </text>
+  <text x="600" y="1080" text-anchor="middle" fill="#F2FCFF" fill-opacity="0.64" font-size="24" font-family="Arial, Helvetica, sans-serif">
+    A vitrine segue elegante enquanto a imagem final nao chega
+  </text>
+  <defs>
+    <linearGradient id="bg" x1="600" y1="48" x2="600" y2="1152" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0C1B2C"/>
+      <stop offset="1" stop-color="#08111A"/>
+    </linearGradient>
+    <radialGradient id="glowA" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(268 252) rotate(90) scale(180)">
+      <stop stop-color="#69E2F6"/>
+      <stop offset="1" stop-color="#69E2F6" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowB" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(906 238) rotate(90) scale(150)">
+      <stop stop-color="#79D8FF"/>
+      <stop offset="1" stop-color="#79D8FF" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowC" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(860 896) rotate(90) scale(240)">
+      <stop stop-color="#6E8DFF"/>
+      <stop offset="1" stop-color="#6E8DFF" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="photo" x1="571" y1="404" x2="571" y2="730" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#C3F0FF"/>
+      <stop offset="1" stop-color="#5EAECE"/>
+    </linearGradient>
+  </defs>
+</svg>

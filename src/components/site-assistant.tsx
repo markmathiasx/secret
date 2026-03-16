@@ -3,7 +3,9 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { Bot, MessageCircleMore, Send, UserRound, X, Sparkles } from "lucide-react";
+import { ProductImage } from "@/components/product-image";
 import { catalog, getProductUrl, type Product } from "@/lib/catalog";
+import { getPrimaryProductImage } from "@/lib/product-media";
 import { formatCurrency } from "@/lib/utils";
 import { socialLinks, whatsappMessage, whatsappNumber } from "@/lib/constants";
 
@@ -113,7 +115,7 @@ function botReply(input: string): Omit<ChatMessage, "id"> {
   if (lower.includes("preco") || lower.includes("valor") || lower.includes("orcamento") || lower.includes("orçamento")) {
     return {
       role: "bot",
-      text: "Posso te mostrar opções parecidas com o que você quer e os preços base via Pix. Se a peça for personalizada, depois eu te direciono para um humano."
+      text: "Posso te mostrar opções parecidas com o que você quer e os valores iniciais via Pix. Se a peça for personalizada, depois eu te direciono para um humano."
     };
   }
 
@@ -122,7 +124,7 @@ function botReply(input: string): Omit<ChatMessage, "id"> {
   if (!matches.length) {
     return {
       role: "bot",
-      text: "Ainda não achei um item muito próximo. Tente descrever com palavras como anime, hello kitty, suporte, vaso, chaveiro, organizador, oficina ou decoração. Se preferir, eu passo para atendimento humano.",
+      text: "Ainda não achei um item muito próximo. Tente descrever com palavras como anime, hello kitty, suporte, vaso, presente, organizador, escritório ou personalizados. Se preferir, eu passo para atendimento humano.",
       human: true
     };
   }
@@ -140,14 +142,22 @@ function makeId() {
 }
 
 function ProductSuggestion({ product }: { product: Product }) {
+  const image = getPrimaryProductImage(product);
+
   return (
     <div className="rounded-2xl border border-white/10 bg-black/25 p-3">
       <div className="flex gap-3">
-        <img src={`/catalog-assets/${product.id}.webp`} alt={product.name} className="h-16 w-16 rounded-2xl object-cover" />
+        <ProductImage
+          src={image.src}
+          fallbackSrcs={image.fallbackSrcs}
+          alt={image.alt}
+          sizes="64px"
+          containerClassName="h-16 w-16 rounded-2xl"
+        />
         <div className="min-w-0 flex-1">
           <p className="text-[11px] uppercase tracking-[0.18em] text-cyan-200/80">{product.category}</p>
           <p className="mt-1 text-sm font-semibold text-white">{product.name}</p>
-          <p className="mt-1 text-xs text-white/55">{product.productionWindow} • {product.grams} g</p>
+          <p className="mt-1 text-xs text-white/55">{product.productionWindow} • {product.material}</p>
         </div>
       </div>
       <div className="mt-3 flex items-center justify-between gap-3">
@@ -167,7 +177,7 @@ export function SiteAssistant() {
     {
       id: makeId(),
       role: "bot",
-      text: "Olá. Sou o assistente da MDH 3D. Posso te mostrar produtos parecidos, preços base, frete e também te direcionar para atendimento humano quando você quiser."
+      text: "Olá. Sou o assistente da MDH 3D. Posso te mostrar produtos parecidos, valores iniciais, frete e também te direcionar para atendimento humano quando você quiser."
     }
   ]);
 

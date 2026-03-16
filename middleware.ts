@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { adminConfig } from "@/lib/constants";
+import { adminConfig } from "@/lib/admin-config";
 
 export function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;

@@ -1,45 +1,83 @@
-import { getHomepageMedia } from "@/lib/media";
+import Link from "next/link";
+
+const processSteps = [
+  {
+    step: "01",
+    title: "Briefing e validação",
+    text: "Entendemos referência, uso da peça, cor, tamanho e urgência antes de colocar a máquina para rodar."
+  },
+  {
+    step: "02",
+    title: "Impressão e acabamento",
+    text: "Produzimos em PLA premium, cuidamos da limpeza da peça e ajustamos detalhes para chegar com leitura de produto final."
+  },
+  {
+    step: "03",
+    title: "Conferência e entrega",
+    text: "A peça passa por revisão final, registro para portfólio e segue com prazo combinado para retirada ou entrega local."
+  }
+];
 
 export function MediaStrip() {
-  const media = getHomepageMedia();
-
   return (
-    <section className="mx-auto max-w-7xl px-6 py-16">
-      <div className="mb-8 flex items-end justify-between gap-4">
-        <div>
-          <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Mídia da produção</p>
-          <h2 className="mt-2 text-3xl font-black text-white">Vídeos curtos da impressora, acabamento e peças prontas</h2>
-          <p className="mt-3 max-w-2xl text-sm leading-7 text-white/60">
-            Se você adicionar arquivos MP4 ou WEBM em <code className="rounded bg-white/10 px-2 py-1">public/media</code>, esta área troca os placeholders automaticamente.
-          </p>
+    <section id="como-produzimos" className="mx-auto max-w-7xl px-6 py-16">
+      <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr]">
+        <div className="relative overflow-hidden rounded-[34px] border border-white/10 bg-black/30">
+          <video
+            className="h-full min-h-[520px] w-full object-cover"
+            src="/media/finishing-closeup.mp4"
+            poster="/backgrounds/process-detail.jpg"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+          />
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,7,13,0.08),rgba(5,7,13,0.82))]" />
+          <div className="absolute inset-x-0 bottom-0 p-6">
+            <div className="premium-panel rounded-[28px] p-5">
+              <p className="text-xs uppercase tracking-[0.22em] text-amber-200">Como produzimos as peças</p>
+              <p className="mt-3 max-w-lg text-sm leading-7 text-white/72">
+                O vídeo de acabamento mostra o trecho mais sensível da jornada: é onde a peça deixa de parecer teste e começa a parecer produto pronto para vender.
+              </p>
+            </div>
+          </div>
         </div>
-      </div>
 
-      <div className="grid gap-5 lg:grid-cols-3">
-        {media.map((item, index) => (
-          <article key={`${item.src}-${index}`} className="overflow-hidden rounded-[30px] border border-white/10 bg-white/5 p-4">
-            <div className="overflow-hidden rounded-[24px] border border-white/10 bg-black/20">
-              {item.kind === "video" ? (
-                <video className="h-64 w-full object-cover" src={item.src} poster={item.poster} autoPlay muted loop playsInline preload="metadata" />
-              ) : (
-                <div className="flex h-64 items-center justify-center bg-[radial-gradient(circle_at_top,rgba(42,212,255,0.2),transparent_35%),linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02))] px-6 text-center text-white/70">
+        <div className="flex flex-col justify-center">
+          <div className="section-divider pt-6">
+            <p className="text-xs uppercase tracking-[0.22em] text-amber-200">Processo premium</p>
+            <h2 className="mt-4 text-3xl font-black text-white">Produção em 3 etapas para passar confiança antes mesmo do primeiro pedido.</h2>
+            <p className="mt-4 text-sm leading-7 text-white/65">
+              A jornada foi desenhada para reduzir dúvida, valorizar acabamento e transformar o orçamento em uma conversa comercial mais simples.
+            </p>
+          </div>
+
+          <div className="mt-8 space-y-4">
+            {processSteps.map((item) => (
+              <article key={item.step} className="premium-panel rounded-[28px] p-5">
+                <div className="flex items-start gap-4">
+                  <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-black/20 text-sm font-semibold text-amber-100">
+                    {item.step}
+                  </span>
                   <div>
-                    <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Placeholder premium</p>
-                    <p className="mt-3 text-lg font-semibold text-white">{item.title}</p>
-                    <p className="mt-2 text-sm text-white/55">Adicione seu timelapse real da Bambu Lab A1 Mini aqui.</p>
+                    <h3 className="text-xl font-bold text-white">{item.title}</h3>
+                    <p className="mt-2 text-sm leading-7 text-white/65">{item.text}</p>
                   </div>
                 </div>
-              )}
-            </div>
-            <div className="mt-4 flex items-start justify-between gap-4">
-              <div>
-                <p className="text-sm font-semibold text-white">{item.title}</p>
-                <p className="mt-1 text-xs text-white/50">Loop automático, mobile-friendly, pronto para Safari e Chrome.</p>
-              </div>
-              <span className="rounded-full border border-white/10 px-3 py-1 text-xs text-white/60">10s</span>
-            </div>
-          </article>
-        ))}
+              </article>
+            ))}
+          </div>
+
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Link href="/catalogo" className="rounded-full bg-white px-5 py-3 text-sm font-semibold text-slate-950">
+              Ver peças em produção
+            </Link>
+            <Link href="/entregas" className="rounded-full border border-white/10 bg-black/20 px-5 py-3 text-sm font-semibold text-white">
+              Conferir prazo e frete
+            </Link>
+          </div>
+        </div>
       </div>
     </section>
   );

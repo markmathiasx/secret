@@ -6,12 +6,20 @@ import { WhatsAppFloat } from "@/components/whatsapp-float";
 import { PwaRegister } from "@/components/pwa-register";
 import { SiteAssistant } from "@/components/site-assistant";
 import { brand, socialLinks, supportEmail, whatsappNumber } from "@/lib/constants";
+import { metadataBase, siteUrl } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "MDH 3D | Loja de impressões 3D no Rio de Janeiro",
+  metadataBase,
+  title: {
+    default: "MDH 3D | Impressão 3D premium no Rio de Janeiro",
+    template: "%s | MDH 3D"
+  },
   description:
-    "Loja de projetos impressos em 3D com foco em anime, gamer, decoração, utilidades, personalizados e entrega local no Rio de Janeiro.",
+    "Loja premium de impressão 3D com catálogo autoral, pronta entrega, sob encomenda e atendimento direto no Rio de Janeiro.",
   applicationName: "MDH 3D",
+  alternates: {
+    canonical: "/"
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
@@ -25,25 +33,43 @@ export const metadata: Metadata = {
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }]
   },
   openGraph: {
-    title: "MDH 3D",
-    description: "Impressões 3D sob encomenda com site próprio, WhatsApp e pagamentos digitais.",
-    images: ["/logo-mdh.jpg"]
+    title: "MDH 3D | Impressão 3D premium no Rio de Janeiro",
+    description: "Peças 3D sob medida com acabamento premium, atendimento rápido e entrega local no Rio de Janeiro.",
+    url: siteUrl,
+    siteName: "MDH 3D",
+    locale: "pt_BR",
+    type: "website",
+    images: [
+      {
+        url: "/backgrounds/hero-printer-fallback.jpg",
+        width: 1600,
+        height: 900,
+        alt: "Impressora 3D da MDH em ambiente premium"
+      }
+    ]
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "MDH 3D | Impressão 3D premium no Rio de Janeiro",
+    description: "Peças 3D sob encomenda, pronta entrega e atendimento comercial direto no WhatsApp.",
+    images: ["/backgrounds/hero-printer-fallback.jpg"]
   }
 };
 
 const organizationLd = {
-  '@context': 'https://schema.org',
-  '@type': 'Store',
+  "@context": "https://schema.org",
+  "@type": "Store",
   name: brand.name,
+  url: siteUrl,
   email: supportEmail,
   telephone: `+${whatsappNumber}`,
   address: {
-    '@type': 'PostalAddress',
+    "@type": "PostalAddress",
     addressLocality: brand.city,
     addressRegion: brand.state,
-    addressCountry: 'BR'
+    addressCountry: "BR"
   },
-  sameAs: [socialLinks.instagram, socialLinks.facebook].filter((item) => Boolean(item && item !== '#'))
+  sameAs: [socialLinks.instagram, socialLinks.facebook, socialLinks.tiktok].filter((item) => Boolean(item && item !== "#"))
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

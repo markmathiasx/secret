@@ -16,8 +16,17 @@ export async function POST(request: Request) {
   }
 
   const payload = makePixPayload({
-  description: parsed.data.title || "Pagamento MDH 3D",
-  amount: parsed.data.amount,
-});
-  return NextResponse.json({ ok: true, payload });
+    description: parsed.data.title || "Pagamento MDH 3D",
+    amount: parsed.data.amount
+  });
+
+  if (!payload) {
+    return NextResponse.json({
+      ok: true,
+      available: false,
+      message: "Configure PIX_KEY no servidor para liberar QR Code e copia e cola reais."
+    });
+  }
+
+  return NextResponse.json({ ok: true, available: true, payload });
 }

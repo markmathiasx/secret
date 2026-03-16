@@ -1,25 +1,27 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import Link from "next/link";
-import { categories, collections, getProductUrl, type Product } from "@/lib/catalog";
-import { formatCurrency } from "@/lib/utils";
-import { ProductImageGallery } from "@/components/product-image-gallery";
+import { categories, collections, type Product } from "@/lib/catalog";
+import { ProductCard } from "@/components/product-card";
 
-const PAGE_SIZE = 60;
+const PAGE_SIZE = 24;
+
+type SortMode = "featured" | "price-asc" | "price-desc" | "lead-time";
 
 export function CatalogExplorer({ products }: { products: Product[] }) {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("Todos");
   const [collection, setCollection] = useState("Todas");
+  const [sortMode, setSortMode] = useState<SortMode>("featured");
   const [visible, setVisible] = useState(PAGE_SIZE);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return products.filter((item) => {
+
+    const items = products.filter((item) => {
       const matchQuery = !q
         ? true
-        : [item.name, item.category, item.theme, item.description, item.collection, ...item.tags]
+        : [item.name, item.category, item.theme, item.description, item.collection, item.material, item.finish, ...item.tags]
             .join(" ")
             .toLowerCase()
             .includes(q);
@@ -27,23 +29,35 @@ export function CatalogExplorer({ products }: { products: Product[] }) {
       const matchCollection = collection === "Todas" ? true : item.collection === collection;
       return matchQuery && matchCategory && matchCollection;
     });
-  }, [products, query, category, collection]);
+
+    return items.sort((a, b) => {
+      if (sortMode === "price-asc") return a.pricePix - b.pricePix;
+      if (sortMode === "price-desc") return b.pricePix - a.pricePix;
+      if (sortMode === "lead-time") return a.hours - b.hours;
+      if (a.featured !== b.featured) return a.featured ? -1 : 1;
+      return a.pricePix - b.pricePix;
+    });
+  }, [category, collection, products, query, sortMode]);
 
   const visibleItems = filtered.slice(0, visible);
 
+  function resetVisible() {
+    setVisible(PAGE_SIZE);
+  }
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-7">
       <div className="rounded-[32px] border border-white/10 bg-white/5 p-5">
-        <div className="grid gap-4 lg:grid-cols-[1.2fr_0.4fr_0.4fr]">
+        <div className="grid gap-4 xl:grid-cols-[1.2fr_0.4fr_0.4fr_0.4fr]">
           <label className="text-sm text-white/70">
-            <span className="mb-2 block">Buscar projeto</span>
+            <span className="mb-2 block">Buscar peça, tema ou uso</span>
             <input
               value={query}
-              onChange={(e) => {
-                setQuery(e.target.value);
-                setVisible(PAGE_SIZE);
+              onChange={(event) => {
+                setQuery(event.target.value);
+                resetVisible();
               }}
-              placeholder="Ex: hello kitty, suporte controle, vaso, organizador, chaveiro..."
+              placeholder="Ex.: suporte de controle, hello kitty, vaso, organizador..."
               className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none"
             />
           </label>
@@ -52,9 +66,9 @@ export function CatalogExplorer({ products }: { products: Product[] }) {
             <span className="mb-2 block">Categoria</span>
             <select
               value={category}
-              onChange={(e) => {
-                setCategory(e.target.value);
-                setVisible(PAGE_SIZE);
+              onChange={(event) => {
+                setCategory(event.target.value);
+                resetVisible();
               }}
               className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none"
             >
@@ -69,9 +83,9 @@ export function CatalogExplorer({ products }: { products: Product[] }) {
             <span className="mb-2 block">Coleção</span>
             <select
               value={collection}
-              onChange={(e) => {
-                setCollection(e.target.value);
-                setVisible(PAGE_SIZE);
+              onChange={(event) => {
+                setCollection(event.target.value);
+                resetVisible();
               }}
               className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none"
             >
@@ -81,66 +95,58 @@ export function CatalogExplorer({ products }: { products: Product[] }) {
               ))}
             </select>
           </label>
+
+          <label className="text-sm text-white/70">
+            <span className="mb-2 block">Ordenar</span>
+            <select
+              value={sortMode}
+              onChange={(event) => {
+                setSortMode(event.target.value as SortMode);
+                resetVisible();
+              }}
+              className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none"
+            >
+              <option value="featured">Mais relevantes</option>
+              <option value="price-asc">Menor preço</option>
+              <option value="price-desc">Maior preço</option>
+              <option value="lead-time">Menor prazo</option>
+            </select>
+          </label>
         </div>
 
-        <div className="mt-4 flex flex-wrap items-center gap-3 text-sm text-white/60">
+        <div className="mt-5 flex flex-wrap items-center gap-3 text-sm text-white/60">
           <span>{filtered.length} resultados</span>
           <span className="h-1 w-1 rounded-full bg-white/30" />
-          <span>1000 produtos com imagem local incluída</span>
+          <span>Material, prazo e status exibidos no card</span>
           <span className="h-1 w-1 rounded-full bg-white/30" />
-          <span>Abra o produto para ver preço, prazo e frete</span>
+          <span>Prévia conceitual sinalizada com clareza</span>
         </div>
       </div>
 
-      <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
-        {visibleItems.map((product) => (
-          <article key={product.id} className="group rounded-[28px] border border-white/10 bg-card p-5 transition hover:-translate-y-1 hover:border-cyan-300/30">
-            <ProductImageGallery product={product} compact />
-
-            <div className="mt-4 flex items-start justify-between gap-3">
-              <div>
-                <p className="text-xs uppercase tracking-[0.2em] text-cyan-200/80">{product.category}</p>
-                <h3 className="mt-2 text-lg font-semibold text-white">{product.name}</h3>
-                <p className="mt-2 min-h-[72px] text-sm leading-6 text-white/62">{product.description}</p>
-              </div>
-              <span className="rounded-full border border-white/10 px-3 py-1 text-xs text-white/60">{product.productionWindow}</span>
-            </div>
-
-            <div className="mt-4 flex flex-wrap gap-2">
-              {product.tags.slice(0, 3).map((tag) => (
-                <span key={tag} className="rounded-full border border-white/10 px-2.5 py-1 text-xs text-white/55">
-                  {tag}
-                </span>
-              ))}
-            </div>
-
-            <div className="mt-5 flex items-end justify-between gap-3">
-              <div>
-                <p className="text-xs text-white/45">Preço base via Pix</p>
-                <p className="text-2xl font-bold text-white">{formatCurrency(product.pricePix)}</p>
-              </div>
-              <Link
-                href={getProductUrl(product)}
-                className="rounded-full border border-cyan-400/25 bg-cyan-400/10 px-4 py-2 text-sm font-semibold text-cyan-100 transition hover:border-cyan-300/50 hover:bg-cyan-300/15"
-              >
-                Ver produto
-              </Link>
-            </div>
-          </article>
-        ))}
-      </div>
+      {visibleItems.length ? (
+        <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+          {visibleItems.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
+      ) : (
+        <div className="rounded-[32px] border border-white/10 bg-white/5 p-10 text-center">
+          <p className="text-xl font-semibold text-white">Nenhuma peça encontrada com esse filtro.</p>
+          <p className="mt-3 text-sm text-white/60">Tente buscar por tema, categoria ou remova um dos filtros ativos.</p>
+        </div>
+      )}
 
       {visible < filtered.length ? (
         <div className="flex flex-wrap justify-center gap-3">
           <button
-            onClick={() => setVisible((prev) => prev + PAGE_SIZE)}
+            onClick={() => setVisible((previous) => previous + PAGE_SIZE)}
             className="rounded-full border border-white/10 bg-white/5 px-6 py-3 text-sm font-semibold text-white"
           >
             Carregar mais {Math.min(PAGE_SIZE, filtered.length - visible)} itens
           </button>
           <button
             onClick={() => setVisible(filtered.length)}
-            className="rounded-full border border-cyan-400/25 bg-cyan-400/10 px-6 py-3 text-sm font-semibold text-cyan-100"
+            className="rounded-full border border-cyan-300/30 bg-cyan-300/12 px-6 py-3 text-sm font-semibold text-cyan-50"
           >
             Mostrar todos
           </button>

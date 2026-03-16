@@ -3,6 +3,12 @@ import { slugify } from "@/lib/utils";
 
 export type PaymentMethod = "pix" | "cartao" | "boleto";
 export type SalesChannel = "site" | "mercadolivre" | "shopee" | "whatsapp";
+export type ProductBadge =
+  | "Mais vendido"
+  | "Foto real"
+  | "Personalizável"
+  | "Sob encomenda"
+  | "Pronta entrega";
 
 export type Product = {
   id: string;
@@ -11,6 +17,7 @@ export type Product = {
   category: string;
   theme: string;
   collection: string;
+  fulfillment: "Pronta entrega" | "Sob encomenda" | "Personalizável";
   colors: string[];
   grams: number;
   hours: number;
@@ -23,21 +30,135 @@ export type Product = {
   marketplaceSuggested: number;
   productionWindow: string;
   imageHint: string;
+  material: string;
+  finish: string;
+  badges: ProductBadge[];
+  visualLabel: string;
+  hasRealPhoto: boolean;
 };
 
 const filamentCostPerGram = 0.1;
 
 const categoryThemes: Record<string, string[]> = {
-  Anime: ["Hello Kitty", "Ninja", "Mecha", "Samurai", "Mascote", "Mini busto", "Chibi", "Placa de parede", "Katana display", "Base LED"],
-  Games: ["Suporte controle", "Headset stand", "Dock portátil", "Logo decor", "Card holder", "Case portátil", "Wall mount", "Mascote low poly", "Organizador setup", "Mini troféu"],
-  Casa: ["Vaso geométrico", "Porta-chave", "Organizador cozinha", "Gancho adesivo", "Suporte banheiro", "Porta-esponja", "Puxador custom", "Clips multiuso", "Porta-controle remoto", "Luminária shell"],
-  Oficina: ["Suporte furadeira", "Clip cabo", "Template de obra", "Marcador de furo", "Trava de gaveta", "Guia de corte", "Organizador parafuso", "Suporte broca", "Calço técnico", "Nivelador"],
-  Escritorio: ["Dock mesa", "Porta-canetas", "Suporte notebook", "Passa-cabos", "Calendário perpétuo", "Stand celular", "Porta-cartões", "Organizador de mesa", "Suporte webcam", "Mini bandeja"],
-  Decoracao: ["Estátua abstrata", "Lua decorativa", "Planeta low poly", "Luminária vazada", "Placa neon fake", "Cachepot texturizado", "Quadro modular", "Mandala", "Escultura espiral", "Porta-velas"],
-  Utilidades: ["Chaveiro", "Abridor", "Porta-copo", "Suporte celular", "Trava de porta", "Organizador mochila", "Presilha", "Case ferramentas", "Porta-escova", "Base multiuso"],
-  Geek: ["Dragão articulado", "Cobra articulada", "Mascote slime", "Robot dummy", "Suporte pokémon", "Porta livros", "Display colecionável", "Placa retrô", "Pote temático", "Luminária geek"],
-  Pets: ["Comedouro elevado", "Tag nome", "Porta-saquinho", "Suporte coleira", "Brinquedo puzzle", "Plaquinha pet", "Organizador ração", "Gancho guia", "Kit pet mesa", "Decor pet"],
-  Personalizados: ["Nome em 3D", "Topo de bolo", "Logo empresa", "Brinde evento", "QR decorativo", "Placa PIX", "Chaveiro marca", "Troféu personalizado", "Display produto", "Tag premium"]
+  Anime: [
+    "Hello Kitty studio",
+    "Mascote ninja",
+    "Mecha de mesa",
+    "Samurai display",
+    "Chibi coleção",
+    "Katana stand",
+    "Placa otaku",
+    "Mini busto hero",
+    "Base LED anime",
+    "Painel fandom",
+    "Totem de clã",
+    "Figura articulada"
+  ],
+  Geek: [
+    "Suporte de controle",
+    "Headset stand",
+    "Dock portátil",
+    "Logo gamer",
+    "Dice tower",
+    "Mascote low poly",
+    "Organizador setup",
+    "Mini troféu",
+    "Dragão articulado",
+    "Display colecionável",
+    "Placa retrô",
+    "Luminária geek"
+  ],
+  Utilitarios: [
+    "Suporte celular",
+    "Porta-cabos",
+    "Organizador de cozinha",
+    "Gancho multiuso",
+    "Porta-esponja",
+    "Trava de porta",
+    "Base multiuso",
+    "Porta-controle",
+    "Clip de mochila",
+    "Case de ferramentas",
+    "Suporte para tampa",
+    "Organizador de banheiro",
+    "Vaso geométrico",
+    "Porta-chaves",
+    "Gancho de parede",
+    "Clip de mochila",
+    "Base multiuso"
+  ],
+  Decoracao: [
+    "Cachepot texturizado",
+    "Luminária shell",
+    "Centro de mesa",
+    "Bandeja decorativa",
+    "Arco decorativo",
+    "Porta-velas",
+    "Totem de parede",
+    "Mandala premium",
+    "Escultura fluida",
+    "Suporte de cozinha",
+    "Placa afetiva",
+    "Enfeite de mesa",
+    "Porta-joias",
+    "Suporte para fotos"
+  ],
+  Escritorio: [
+    "Dock de mesa",
+    "Porta-canetas",
+    "Suporte notebook",
+    "Passa-cabos",
+    "Stand celular",
+    "Organizador A4",
+    "Porta-cartões",
+    "Suporte webcam",
+    "Mini bandeja",
+    "Calendário perpétuo",
+    "Base de teclado",
+    "Suporte tablet"
+  ],
+  Personalizados: [
+    "Nome em 3D",
+    "Topo de bolo",
+    "Logo de empresa",
+    "Brinde de evento",
+    "QR decorativo",
+    "Placa Pix",
+    "Chaveiro de marca",
+    "Troféu exclusivo",
+    "Display de produto",
+    "Tag premium",
+    "Letreiro de festa",
+    "Kit corporativo",
+    "Kit padrinhos",
+    "Caixa de lembrança",
+    "Lembrança de aniversário",
+    "Presente criativo",
+    "Kit festa",
+    "Pingente decor",
+    "Tag de presente",
+    "Logo corporativo",
+    "Expositor de balcão",
+    "Peça técnica",
+    "Brinde de campanha",
+    "Maquete visual",
+    "Troféu em série",
+    "Peça cenográfica",
+    "Suporte sob medida",
+    "Protótipo visual",
+    "Display para feira",
+    "Base para produto",
+    "Peça de reposição"
+  ]
+};
+
+const categoryFinishes: Record<string, string[]> = {
+  Anime: ["fosco premium", "detalhes finos", "acabamento limpo"],
+  Geek: ["fosco premium", "silk em cores especiais", "acabamento limpo"],
+  Utilitarios: ["textura funcional", "acabamento resistente", "estrutura reforçada"],
+  Decoracao: ["fosco premium", "textura orgânica", "visual decorativo"],
+  Escritorio: ["acabamento limpo", "visual minimalista", "uso diário"],
+  Personalizados: ["cor sob medida", "acabamento para presente", "identidade visual"]
 };
 
 function toPriceEnding(value: number) {
@@ -64,7 +185,7 @@ export function calculateSalePrice(
   channel: SalesChannel = "site"
 ) {
   const cost = calculateBaseCost(grams, hours, complexity);
-  let price = cost * 2;
+  let price = cost * 2.08;
 
   if (paymentMethod === "cartao") price *= 1.04;
   if (paymentMethod === "boleto") price += 3.49;
@@ -77,15 +198,57 @@ export function calculateSalePrice(
 }
 
 function buildColorPalette(index: number) {
-  const all = ["Preto", "Branco", "Azul", "Roxo", "Vermelho", "Verde", "Dourado", "Prata"];
-  if (index % 4 === 0) return ["Preto", "Branco"];
-  if (index % 4 === 1) return ["Preto", "Branco", "Azul"];
-  if (index % 4 === 2) return ["Preto", "Branco", "Roxo", "Azul"];
+  const all = ["Preto", "Branco", "Grafite", "Azul", "Vermelho", "Verde", "Dourado", "Prata"];
+  if (index % 5 === 0) return ["Preto", "Branco"];
+  if (index % 5 === 1) return ["Preto", "Branco", "Azul"];
+  if (index % 5 === 2) return ["Preto", "Branco", "Vermelho"];
+  if (index % 5 === 3) return ["Preto", "Grafite", "Verde"];
   return all;
 }
 
-function buildDescription(category: string, theme: string, grams: number, hours: number) {
-  return `${theme} da linha ${category}, produzido em PLA, ideal para venda sob encomenda com acabamento limpo e opção de personalização de cor. Peso médio de ${grams} g e janela de impressão de ${hours.toFixed(1)} h.`;
+function buildMaterial(category: string, grams: number, themeIndex: number) {
+  if (category === "Utilitarios" || category === "Escritorio") {
+    return grams > 180 || themeIndex % 3 === 0 ? "PETG reforçado" : "PLA premium";
+  }
+
+  if (category === "Personalizados") {
+    return themeIndex % 4 === 0 ? "PETG para marca" : "PLA premium";
+  }
+
+  return themeIndex % 5 === 0 ? "PLA silk" : "PLA premium";
+}
+
+function buildFinish(category: string, themeIndex: number) {
+  const finishes = categoryFinishes[category] || ["acabamento limpo"];
+  return finishes[themeIndex % finishes.length];
+}
+
+function buildFulfillment(themeIndex: number, sizeIndex: number): Product["fulfillment"] {
+  if (sizeIndex <= 1) return "Pronta entrega";
+  if ((themeIndex + sizeIndex) % 3 === 0) return "Personalizável";
+  return "Sob encomenda";
+}
+
+function buildDescription(category: string, theme: string, grams: number, hours: number, material: string, finish: string) {
+  return `${theme} da curadoria ${category}, produzida em ${material} com ${finish} e opção de ajuste de cor, escala ou base. Peso médio de ${grams} g e janela de produção de ${hours.toFixed(1)} h.`;
+}
+
+function buildProductionWindow(hours: number, fulfillment: Product["fulfillment"]) {
+  if (fulfillment === "Pronta entrega") return "Retirada em 24h";
+  if (hours <= 4.2) return "1 a 3 dias";
+  if (hours <= 7.5) return "3 a 5 dias";
+  return "5 a 7 dias";
+}
+
+function buildBadges(featured: boolean, fulfillment: Product["fulfillment"]): ProductBadge[] {
+  const badges: ProductBadge[] = [];
+
+  if (featured) badges.push("Mais vendido");
+  if (fulfillment === "Pronta entrega") badges.push("Pronta entrega");
+  if (fulfillment === "Sob encomenda") badges.push("Sob encomenda");
+  if (fulfillment === "Personalizável") badges.push("Personalizável");
+
+  return badges.slice(0, 3);
 }
 
 function createCatalog(): Product[] {
@@ -111,6 +274,10 @@ function createCatalog(): Product[] {
         const grams = size.grams + themeIndex * 4;
         const hours = Number((size.hours + themeIndex * 0.18).toFixed(1));
         const complexity = Number((size.complexity + (themeIndex % 3) * 0.03).toFixed(2));
+        const featured = sizeIndex === 3 || sizeIndex === 4 || (themeIndex % 5 === 0 && sizeIndex === 1);
+        const material = buildMaterial(category, grams, themeIndex);
+        const finish = buildFinish(category, themeIndex);
+        const fulfillment = buildFulfillment(themeIndex, sizeIndex);
         const pricePix = calculateSalePrice(grams, hours, complexity, "pix", "site");
         const priceCard = calculateSalePrice(grams, hours, complexity, "cartao", "site");
         const marketplaceSuggested = calculateSalePrice(grams, hours, complexity, "cartao", "mercadolivre");
@@ -121,19 +288,25 @@ function createCatalog(): Product[] {
           name: `${theme} ${size.label}`,
           category,
           theme,
-          collection: homepageCollections[id % homepageCollections.length],
+          collection: homepageCollections[(id - 1) % homepageCollections.length],
+          fulfillment,
           colors: buildColorPalette(id),
           grams,
           hours,
           complexity,
-          featured: sizeIndex === 3 || sizeIndex === 5,
-          description: buildDescription(category, theme, grams, hours),
-          tags: [category.toLowerCase(), theme.toLowerCase(), size.label.toLowerCase(), "pla", "rio de janeiro"],
+          featured,
+          description: buildDescription(category, theme, grams, hours, material, finish),
+          tags: [category.toLowerCase(), theme.toLowerCase(), material.toLowerCase(), finish.toLowerCase(), fulfillment.toLowerCase(), "rio de janeiro"],
           pricePix,
           priceCard,
           marketplaceSuggested,
-          productionWindow: hours <= 4 ? "24h" : hours <= 8 ? "1-2 dias" : "2-4 dias",
-          imageHint: `${category} ${theme}`
+          productionWindow: buildProductionWindow(hours, fulfillment),
+          imageHint: `${category} ${theme}`,
+          material,
+          finish,
+          badges: buildBadges(featured, fulfillment),
+          visualLabel: "Prévia conceitual",
+          hasRealPhoto: false
         });
         id += 1;
       });
@@ -144,7 +317,7 @@ function createCatalog(): Product[] {
 }
 
 export const catalog = createCatalog();
-export const featuredCatalog = catalog.filter((item) => item.featured).slice(0, 12);
+export const featuredCatalog = catalog.filter((item) => item.featured).slice(0, 8);
 export const categories = Object.keys(categoryThemes);
 export const collections = Array.from(new Set(catalog.map((item) => item.collection)));
 
@@ -173,10 +346,10 @@ export function searchCatalog(query: string) {
 }
 
 export const defaultPricingExamples = [
-  { title: "Boneco articulado pequeno", grams: 80, hours: 3, complexity: 1.05 },
-  { title: "Suporte de controle padrão", grams: 110, hours: 4.1, complexity: 1.08 },
+  { title: "Mascote geek de mesa", grams: 80, hours: 3, complexity: 1.05 },
+  { title: "Suporte de controle premium", grams: 110, hours: 4.1, complexity: 1.08 },
   { title: "Vaso decorativo médio", grams: 150, hours: 5.2, complexity: 1.12 },
-  { title: "Organizador geek grande", grams: 300, hours: 9.6, complexity: 1.28 }
+  { title: "Display sob medida", grams: 300, hours: 9.6, complexity: 1.28 }
 ].map((item) => ({
   ...item,
   pricePix: calculateSalePrice(item.grams, item.hours, item.complexity, "pix", "site"),

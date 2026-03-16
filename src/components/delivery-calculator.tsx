@@ -10,6 +10,7 @@ type CepResult = {
   localidade?: string;
   uf?: string;
   erro?: boolean;
+  fallbackOnly?: boolean;
 };
 
 function onlyDigits(value: string) {
@@ -61,10 +62,25 @@ export function DeliveryCalculator({ adminMode = false }: { adminMode?: boolean 
       }
       setData({ ...json, cep: formatCep(clean) });
       setStatus("done");
+      setMessage("");
     } catch (error) {
-      setStatus("error");
-      setData(null);
-      setMessage(error instanceof Error ? error.message : "Não foi possível calcular o frete.");
+      const details = error instanceof Error ? error.message : "Nao foi possivel consultar o CEP.";
+
+      if (details.includes("Rio de Janeiro (RJ)")) {
+        setStatus("error");
+        setData(null);
+        setMessage(details);
+        return;
+      }
+
+      setData({
+        cep: formatCep(clean),
+        localidade: "Rio de Janeiro",
+        uf: "RJ",
+        fallbackOnly: true
+      });
+      setStatus("done");
+      setMessage("Consulta externa indisponivel no momento. Exibindo uma estimativa por faixa de CEP.");
     }
   }
 
@@ -79,7 +95,7 @@ export function DeliveryCalculator({ adminMode = false }: { adminMode?: boolean 
       <div className="mt-5 flex flex-col gap-3 sm:flex-row">
         <input
           value={formatCep(cep)}
-          onChange={(e) => setCep(e.target.value)}
+          onChange={(e) => setCep(onlyDigits(e.target.value))}
           placeholder="Ex: 20081-250"
           className="flex-1 rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none"
         />
@@ -89,15 +105,19 @@ export function DeliveryCalculator({ adminMode = false }: { adminMode?: boolean 
       </div>
 
       {status === "error" ? <p className="mt-4 text-sm text-rose-200">{message}</p> : null}
+      {status === "done" && message ? <p className="mt-4 text-sm text-cyan-100">{message}</p> : null}
 
       {zone && data ? (
         <div className="mt-6 grid gap-4 lg:grid-cols-[1fr_0.9fr]">
           <div className="rounded-[24px] border border-white/10 bg-black/20 p-5">
             <p className="text-sm text-white/55">Destino</p>
-            <h3 className="mt-1 text-xl font-semibold text-white">{data.bairro || "Bairro não informado"}</h3>
+            <h3 className="mt-1 text-xl font-semibold text-white">{data.bairro || (data.fallbackOnly ? "Faixa estimada pelo CEP" : "Bairro nao informado")}</h3>
             <p className="mt-1 text-sm text-white/60">{data.localidade} - {data.uf} • CEP {data.cep}</p>
             <p className="mt-4 text-sm text-white/55">Faixa estimada</p>
             <p className="mt-1 text-2xl font-black text-cyan-100">{zone.region}</p>
+            {data.fallbackOnly ? (
+              <p className="mt-3 text-xs leading-6 text-white/50">Assim que a consulta de CEP estiver disponivel novamente, o bairro exato volta a aparecer automaticamente.</p>
+            ) : null}
           </div>
 
           <div className="rounded-[24px] border border-cyan-400/20 bg-cyan-400/10 p-5">

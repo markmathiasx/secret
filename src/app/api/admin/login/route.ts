@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { checkRateLimit, getClientIp } from "@/lib/security";
-import { adminConfig } from "@/lib/constants";
+import { adminConfig } from "@/lib/admin-config";
 
 export async function POST(request: Request) {
   const ip = getClientIp(request.headers);

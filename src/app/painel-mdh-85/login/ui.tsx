@@ -1,10 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { adminConfig } from "@/lib/constants";
 
 export function AdminLoginForm() {
-  const [email, setEmail] = useState(adminConfig.email);
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "error">("idle");
   const [message, setMessage] = useState("");

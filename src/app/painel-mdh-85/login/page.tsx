@@ -1,5 +1,5 @@
 import { AdminLoginForm } from "./ui";
-import { adminConfig } from "@/lib/constants";
+import { adminConfig } from "@/lib/admin-config";
 
 export default function AdminLoginPage() {
   return (

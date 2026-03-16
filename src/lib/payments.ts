@@ -1,5 +1,6 @@
 import MercadoPagoConfig, { Preference } from "mercadopago";
 import { formatCurrency } from "@/lib/utils";
+import { DEFAULT_PRODUCTION_SITE_URL, siteUrl } from "@/lib/site";
 
 export async function createMercadoPagoPreference(input: {
   title: string;
@@ -8,13 +9,20 @@ export async function createMercadoPagoPreference(input: {
   externalReference: string;
 }) {
   const accessToken = process.env.MERCADOPAGO_ACCESS_TOKEN;
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
   if (!accessToken) {
     return {
       ok: false,
       reason: "missing_access_token",
       fallbackMessage: `Configure o MERCADOPAGO_ACCESS_TOKEN para gerar checkout real. Valor estimado: ${formatCurrency(input.unitPrice)}.`
+    } as const;
+  }
+
+  if (siteUrl === DEFAULT_PRODUCTION_SITE_URL) {
+    return {
+      ok: false,
+      reason: "missing_site_url",
+      fallbackMessage: "Configure NEXT_PUBLIC_SITE_URL com o dominio publico da loja para ativar o checkout do Mercado Pago."
     } as const;
   }
 

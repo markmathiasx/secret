@@ -3,6 +3,7 @@ import { z } from "zod";
 export const quoteSchema = z.object({
   productId: z.string().min(1),
   customerName: z.string().min(2).max(80),
+  customerEmail: z.union([z.string().email(), z.literal("")]).optional().default(""),
   phone: z.string().min(10).max(20),
   cep: z.string().max(10).optional().default(""),
   neighborhood: z.string().min(2).max(80),

@@ -1,10 +1,11 @@
 import { PricingCalculator } from "@/components/pricing-calculator";
 import Link from "next/link";
-import { adminConfig, supportEmail } from "@/lib/constants";
+import { supportEmail } from "@/lib/constants";
+import { adminConfig } from "@/lib/admin-config";
 
 const checklist = [
   "Trocar ADMIN_PASSWORD e ADMIN_SESSION_TOKEN no .env.local antes de publicar.",
-  "Subir vídeos reais em public/media para a home.",
+  "Subir vídeos reais na biblioteca local de mídia da home.",
   "Cadastrar suas peças campeãs com fotos próprias.",
   "Conectar WhatsApp Cloud API e testar webhook.",
   "Ativar domínio próprio e SSL via Vercel + Cloudflare."

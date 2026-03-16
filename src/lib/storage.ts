@@ -1,7 +1,8 @@
 import { createClient } from "@supabase/supabase-js";
+import { getSupabaseServerKey, getSupabaseUrl } from "@/lib/env";
 
-const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+const url = getSupabaseUrl();
+const serviceKey = getSupabaseServerKey();
 
 function getSupabase() {
   if (!url || !serviceKey) return null;
