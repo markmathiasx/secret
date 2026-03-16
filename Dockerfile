@@ -7,8 +7,6 @@ RUN npm ci --prefer-offline --no-audit
 
 COPY . .
 
-# Generate Prisma Client explicitly
-RUN npx prisma generate
 
 ARG NEXT_PUBLIC_SUPABASE_URL=https://vpuynsrtytsveagsuebh.supabase.co
 ARG NEXT_PUBLIC_SUPABASE_ANON_KEY=sb_publishable_3KH0pYxfKxivugzDmKyjkw_Vyy1JUlQ
@@ -48,4 +46,5 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=40s --retries=3 \
 
 ENTRYPOINT ["dumb-init", "--"]
 CMD ["node", "server.js"]
+
 
