@@ -29,7 +29,6 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   compress: true,
   reactStrictMode: true,
-  swcMinify: true,
 
   // Images
   images: {
@@ -46,12 +45,14 @@ const nextConfig: NextConfig = {
   // Experimental Features (2026)
   experimental: {
     optimizePackageImports: ['lucide-react', '@supabase/supabase-js'],
-    turbo: {
-      rules: {
-        '*.svg': {
-          loaders: ['@svgr/webpack'],
-          as: '*.js',
-        },
+  },
+
+  // Turbopack
+  turbopack: {
+    rules: {
+      '*.svg': {
+        loaders: ['@svgr/webpack'],
+        as: '*.js',
       },
     },
   },

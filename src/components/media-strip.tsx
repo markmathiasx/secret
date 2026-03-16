@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { PlayCircle, Sparkles } from 'lucide-react';
 import { getProductionMedia } from '@/lib/media';
 
@@ -23,7 +24,7 @@ export function MediaStrip() {
                   <source src={item.src} type="video/mp4" />
                 </video>
               ) : (
-                <img src={item.src} alt={item.title} className="h-full w-full object-cover" />
+                <Image src={item.src} alt={item.title} fill className="object-cover" />
               )}
               <div className="absolute left-4 top-4 z-10 rounded-full border border-white/15 bg-black/30 px-3 py-1 text-[11px] uppercase tracking-[0.22em] text-white/75">
                 Cena {String(index + 1).padStart(2, '0')}

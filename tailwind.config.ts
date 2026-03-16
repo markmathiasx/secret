@@ -138,6 +138,14 @@ const config: Config = {
           "0%, 100%": { boxShadow: "0 0 20px rgba(3, 233, 244, 0.3)" },
           "50%": { boxShadow: "0 0 40px rgba(3, 233, 244, 0.6), 0 0 60px rgba(3, 233, 244, 0.4)" },
         },
+        scaleIn: {
+          "0%": { opacity: "0", transform: "scale(0.9)" },
+          "100%": { opacity: "1", transform: "scale(1)" },
+        },
+        fadeIn: {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
       },
 
       animation: {
@@ -152,6 +160,8 @@ const config: Config = {
         bounce: "bounce 1s ease-in-out infinite",
         shimmer: "shimmer 2s linear infinite",
         "cyber-pulse": "cyber-pulse 2s ease-in-out infinite",
+        scaleIn: "scaleIn 0.3s ease-out",
+        fadeIn: "fadeIn 0.3s ease-out",
       },
 
       backdropBlur: {

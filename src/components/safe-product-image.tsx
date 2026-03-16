@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
+import Image from 'next/image';
 import type { Product } from '@/lib/catalog';
 import { getProductImageCandidates, productPlaceholderSrc } from '@/lib/product-images';
 
@@ -23,9 +24,10 @@ export function SafeProductImage({ product, candidates, alt, className, onResolv
   const src = candidateList[index] || productPlaceholderSrc;
 
   return (
-    <img
+    <Image
       src={src}
       alt={alt}
+      fill
       className={className}
       loading="lazy"
       decoding="async"

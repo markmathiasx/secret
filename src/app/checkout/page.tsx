@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
+import Image from 'next/image';
 import { MessageCircleMore } from 'lucide-react';
 import { catalog, featuredCatalog } from '@/lib/catalog';
 import { formatCurrency } from '@/lib/utils';
@@ -86,7 +87,14 @@ export default function CheckoutPage() {
 
           {product ? (
             <div className="mt-6 rounded-[24px] border border-white/10 bg-black/20 p-5">
-              <img src={`/catalog-assets/${product.id}.webp`} alt={product.name} className="aspect-square w-full rounded-[20px] object-cover" />
+              <div className="relative aspect-square w-full">
+                <Image
+                  src={`/catalog-assets/${product.id}.webp`}
+                  alt={product.name}
+                  fill
+                  className="rounded-[20px] object-cover"
+                />
+              </div>
               <h2 className="mt-4 text-2xl font-bold text-white">{product.name}</h2>
               <p className="mt-2 text-sm text-white/65">{product.description}</p>
               <div className="mt-5 grid gap-3 sm:grid-cols-2">

@@ -5,6 +5,7 @@ import { SiteAssistant } from '@/components/site-assistant';
 import { SiteFooter } from '@/components/site-footer';
 import { SiteHeader } from '@/components/site-header';
 import { WhatsAppFloat } from '@/components/whatsapp-float';
+import { AuthProvider } from '@/components/auth-context';
 import { brand, socialLinks, supportEmail, whatsappNumber } from '@/lib/constants';
 import { getSiteUrl } from '@/lib/env';
 
@@ -70,14 +71,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="pt-BR">
       <body>
-        <div className="site-shell">
-          <SiteHeader />
-          <main>{children}</main>
-          <SiteFooter />
-          <WhatsAppFloat />
-          <SiteAssistant />
-          <PwaRegister />
-        </div>
+        <AuthProvider>
+          <div className="site-shell">
+            <SiteHeader />
+            <main>{children}</main>
+            <SiteFooter />
+            <WhatsAppFloat />
+            <SiteAssistant />
+            <PwaRegister />
+          </div>
+        </AuthProvider>
       </body>
     </html>
   );

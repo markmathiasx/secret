@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { ArrowRight, ShieldCheck, Sparkles, Truck, WandSparkles } from 'lucide-react';
 import { getHeroBackgroundMedia } from '@/lib/media';
 import { whatsappMessage, whatsappNumber } from '@/lib/constants';
@@ -23,10 +24,11 @@ export function Hero() {
   return (
     <section className="hero-noise relative isolate overflow-hidden rounded-[44px] border border-white/10 bg-slate-950">
       <div className="absolute inset-0">
-        <img
+        <Image
           src={heroMedia.fallbackImageSrc}
           alt="Impressora 3D em funcionamento"
-          className="h-full w-full object-cover opacity-45"
+          fill
+          className="object-cover opacity-45"
         />
         {heroMedia.hasVideo ? (
           <video

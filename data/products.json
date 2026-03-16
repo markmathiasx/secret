@@ -1,8 +1,8 @@
 [
   {
     "id": "mdh-001",
-    "nome": "Mini Kawaii Neon",
-    "categoria": "Anime",
+    "nome": "Mini Hello Kitty",
+    "categoria": "Disney",
     "colecao": "Pronta entrega",
     "descricao": "Mini Kawaii Neon da linha Anime, produzido em PLA Silk, com acabamento gloss e foco em presença visual, praticidade e impressão estável para produção local no Rio de Janeiro.",
     "peso": 43,
@@ -13,8 +13,9 @@
     "precoPix": 40.9,
     "precoParcelado": 47.85,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-03.jpg",
+    "imagem": "catalog-assets/mdh-1.webp",
     "tags": [
+      "Disney",
       "Anime",
       "PLA Silk",
       "Gloss",
@@ -24,8 +25,8 @@
   },
   {
     "id": "mdh-002",
-    "nome": "Mascote Pocket Sakura",
-    "categoria": "Anime",
+    "nome": "Mickey Mouse Figure",
+    "categoria": "Disney",
     "colecao": "Sob encomenda",
     "descricao": "Mascote Pocket Sakura da linha Anime, produzido em Resina UV, com acabamento detalhado e foco em presença visual, praticidade e impressão estável para produção local no Rio de Janeiro.",
     "peso": 56,
@@ -36,8 +37,9 @@
     "precoPix": 57.8,
     "precoParcelado": 67.63,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-05.jpg",
+    "imagem": "catalog-assets/mdh-2.webp",
     "tags": [
+      "Disney",
       "Anime",
       "Resina UV",
       "Detalhado",
@@ -47,8 +49,8 @@
   },
   {
     "id": "mdh-003",
-    "nome": "Figura Chibi Aurora",
-    "categoria": "Anime",
+    "nome": "Super Mario Figure",
+    "categoria": "Nintendo",
     "colecao": "Mais vendidos",
     "descricao": "Figura Chibi Aurora da linha Anime, produzido em PLA Premium, com acabamento premium e foco em presença visual, praticidade e impressão estável para produção local no Rio de Janeiro.",
     "peso": 69,
@@ -59,8 +61,9 @@
     "precoPix": 45.0,
     "precoParcelado": 52.65,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-06.jpg",
+    "imagem": "catalog-assets/mdh-3.webp",
     "tags": [
+      "Nintendo",
       "Anime",
       "PLA Premium",
       "Premium",
@@ -70,8 +73,8 @@
   },
   {
     "id": "mdh-004",
-    "nome": "Capsule Hero Lite",
-    "categoria": "Anime",
+    "nome": "Luigi Figure",
+    "categoria": "Nintendo",
     "colecao": "Pronta entrega",
     "descricao": "Capsule Hero Lite da linha Anime, produzido em PLA Silk, com acabamento gloss e foco em presença visual, praticidade e impressão estável para produção local no Rio de Janeiro.",
     "peso": 82,
@@ -82,8 +85,9 @@
     "precoPix": 61.9,
     "precoParcelado": 72.42,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-07.jpg",
+    "imagem": "catalog-assets/mdh-4.webp",
     "tags": [
+      "Nintendo",
       "Anime",
       "PLA Silk",
       "Gloss",
@@ -93,8 +97,8 @@
   },
   {
     "id": "mdh-005",
-    "nome": "Anime Stand Glow",
-    "categoria": "Anime",
+    "nome": "Pikachu Figure",
+    "categoria": "Nintendo",
     "colecao": "Sob encomenda",
     "descricao": "Anime Stand Glow da linha Anime, produzido em Resina UV, com acabamento detalhado e foco em presença visual, praticidade e impressão estável para produção local no Rio de Janeiro.",
     "peso": 95,
@@ -105,8 +109,9 @@
     "precoPix": 78.8,
     "precoParcelado": 92.2,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-01.jpg",
+    "imagem": "catalog-assets/mdh-5.webp",
     "tags": [
+      "Nintendo",
       "Anime",
       "Resina UV",
       "Detalhado",
@@ -116,8 +121,8 @@
   },
   {
     "id": "mdh-006",
-    "nome": "Colecionável Pixel Spark",
-    "categoria": "Anime",
+    "nome": "Ahri LoL Figure",
+    "categoria": "League of Legends",
     "colecao": "Mais vendidos",
     "descricao": "Colecionável Pixel Spark da linha Anime, produzido em PLA Premium, com acabamento premium e foco em presença visual, praticidade e impressão estável para produção local no Rio de Janeiro.",
     "peso": 108,
@@ -128,8 +133,9 @@
     "precoPix": 66.0,
     "precoParcelado": 77.22,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-03.jpg",
+    "imagem": "catalog-assets/mdh-6.webp",
     "tags": [
+      "League of Legends",
       "Anime",
       "PLA Premium",
       "Premium",
@@ -139,8 +145,8 @@
   },
   {
     "id": "mdh-007",
-    "nome": "Desk Buddy Luna",
-    "categoria": "Anime",
+    "nome": "Jinx LoL Figure",
+    "categoria": "League of Legends",
     "colecao": "Pronta entrega",
     "descricao": "Desk Buddy Luna da linha Anime, produzido em PLA Silk, com acabamento gloss e foco em presença visual, praticidade e impressão estável para produção local no Rio de Janeiro.",
     "peso": 121,
@@ -151,8 +157,9 @@
     "precoPix": 82.9,
     "precoParcelado": 96.99,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-05.jpg",
+    "imagem": "catalog-assets/mdh-7.webp",
     "tags": [
+      "League of Legends",
       "Anime",
       "PLA Silk",
       "Gloss",
@@ -162,8 +169,8 @@
   },
   {
     "id": "mdh-008",
-    "nome": "Mini Guardião Neko",
-    "categoria": "Anime",
+    "nome": "Jett Valorant Figure",
+    "categoria": "Valorant",
     "colecao": "Sob encomenda",
     "descricao": "Mini Guardião Neko da linha Anime, produzido em Resina UV, com acabamento detalhado e foco em presença visual, praticidade e impressão estável para produção local no Rio de Janeiro.",
     "peso": 134,
@@ -174,8 +181,9 @@
     "precoPix": 99.8,
     "precoParcelado": 116.77,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-06.jpg",
+    "imagem": "catalog-assets/mdh-8.webp",
     "tags": [
+      "Valorant",
       "Anime",
       "Resina UV",
       "Detalhado",
@@ -185,8 +193,8 @@
   },
   {
     "id": "mdh-009",
-    "nome": "Figure Pop Mimo",
-    "categoria": "Anime",
+    "nome": "Phoenix Valorant Figure",
+    "categoria": "Valorant",
     "colecao": "Mais vendidos",
     "descricao": "Figure Pop Mimo da linha Anime, produzido em PLA Premium, com acabamento premium e foco em presença visual, praticidade e impressão estável para produção local no Rio de Janeiro.",
     "peso": 147,
@@ -197,8 +205,9 @@
     "precoPix": 87.0,
     "precoParcelado": 101.79,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-07.jpg",
+    "imagem": "catalog-assets/mdh-9.webp",
     "tags": [
+      "Valorant",
       "Anime",
       "PLA Premium",
       "Premium",
@@ -208,7 +217,7 @@
   },
   {
     "id": "mdh-010",
-    "nome": "Icon Totem Color",
+    "nome": "Naruto Figure",
     "categoria": "Anime",
     "colecao": "Pronta entrega",
     "descricao": "Icon Totem Color da linha Anime, produzido em PLA Silk, com acabamento gloss e foco em presença visual, praticidade e impressão estável para produção local no Rio de Janeiro.",
@@ -220,7 +229,7 @@
     "precoPix": 103.9,
     "precoParcelado": 121.56,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-01.jpg",
+    "imagem": "catalog-assets/mdh-10.webp",
     "tags": [
       "Anime",
       "PLA Silk",
@@ -231,7 +240,7 @@
   },
   {
     "id": "mdh-011",
-    "nome": "Chibi Frame Duo",
+    "nome": "Sasuke Figure",
     "categoria": "Anime",
     "colecao": "Sob encomenda",
     "descricao": "Chibi Frame Duo da linha Anime, produzido em Resina UV, com acabamento detalhado e foco em presença visual, praticidade e impressão estável para produção local no Rio de Janeiro.",
@@ -243,7 +252,7 @@
     "precoPix": 120.8,
     "precoParcelado": 141.34,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-03.jpg",
+    "imagem": "catalog-assets/mdh-11.webp",
     "tags": [
       "Anime",
       "Resina UV",
@@ -254,7 +263,7 @@
   },
   {
     "id": "mdh-012",
-    "nome": "Hero Shelf Mini",
+    "nome": "Goku Figure",
     "categoria": "Anime",
     "colecao": "Mais vendidos",
     "descricao": "Hero Shelf Mini da linha Anime, produzido em PLA Premium, com acabamento premium e foco em presença visual, praticidade e impressão estável para produção local no Rio de Janeiro.",
@@ -266,7 +275,7 @@
     "precoPix": 108.0,
     "precoParcelado": 126.36,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-05.jpg",
+    "imagem": "catalog-assets/mdh-12.webp",
     "tags": [
       "Anime",
       "PLA Premium",
@@ -277,8 +286,8 @@
   },
   {
     "id": "mdh-013",
-    "nome": "Totem RPG Forge",
-    "categoria": "Geek",
+    "nome": "Vegeta Figure",
+    "categoria": "Anime",
     "colecao": "Pronta entrega",
     "descricao": "Totem RPG Forge da linha Geek, produzido em PLA Matte, com acabamento matte e foco em presença visual, praticidade e impressão estável para produção local no Rio de Janeiro.",
     "peso": 199,
@@ -289,8 +298,9 @@
     "precoPix": 124.9,
     "precoParcelado": 146.13,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-04.jpg",
+    "imagem": "catalog-assets/mdh-13.webp",
     "tags": [
+      "Anime",
       "Geek",
       "PLA Matte",
       "Matte",
@@ -300,7 +310,7 @@
   },
   {
     "id": "mdh-014",
-    "nome": "Robot Desk Icon",
+    "nome": "Totem RPG Forge",
     "categoria": "Geek",
     "colecao": "Sob encomenda",
     "descricao": "Robot Desk Icon da linha Geek, produzido em PETG, com acabamento texturizado e foco em presença visual, praticidade e impressão estável para produção local no Rio de Janeiro.",
@@ -312,7 +322,7 @@
     "precoPix": 141.8,
     "precoParcelado": 165.91,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-05.jpg",
+    "imagem": "catalog-assets/mdh-14.webp",
     "tags": [
       "Geek",
       "PETG",
@@ -335,7 +345,7 @@
     "precoPix": 129.0,
     "precoParcelado": 150.93,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-06.jpg",
+    "imagem": "catalog-assets/mdh-15.webp",
     "tags": [
       "Geek",
       "PLA Premium",
@@ -358,7 +368,7 @@
     "precoPix": 145.9,
     "precoParcelado": 170.7,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-07.jpg",
+    "imagem": "catalog-assets/mdh-16.webp",
     "tags": [
       "Geek",
       "PLA Matte",
@@ -381,7 +391,7 @@
     "precoPix": 162.8,
     "precoParcelado": 190.48,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-03.jpg",
+    "imagem": "catalog-assets/mdh-17.webp",
     "tags": [
       "Geek",
       "PETG",
@@ -393,7 +403,7 @@
   {
     "id": "mdh-018",
     "nome": "Action Stand Prism",
-    "categoria": "Geek",
+    "categoria": "Utilitários",
     "colecao": "Mais vendidos",
     "descricao": "Action Stand Prism da linha Geek, produzido em PLA Premium, com acabamento premium e foco em presença visual, praticidade e impressão estável para produção local no Rio de Janeiro.",
     "peso": 44,
@@ -404,8 +414,9 @@
     "precoPix": 150.0,
     "precoParcelado": 175.5,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-04.jpg",
+    "imagem": "catalog-assets/mdh-18.webp",
     "tags": [
+      "Utilitários",
       "Geek",
       "PLA Premium",
       "Premium",
@@ -427,7 +438,7 @@
     "precoPix": 166.9,
     "precoParcelado": 195.27,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-05.jpg",
+    "imagem": "catalog-assets/mdh-19.webp",
     "tags": [
       "Geek",
       "PLA Matte",
@@ -450,7 +461,7 @@
     "precoPix": 43.8,
     "precoParcelado": 51.25,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-06.jpg",
+    "imagem": "catalog-assets/mdh-20.webp",
     "tags": [
       "Geek",
       "PETG",
@@ -473,7 +484,7 @@
     "precoPix": 31.0,
     "precoParcelado": 36.27,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-07.jpg",
+    "imagem": "catalog-assets/mdh-21.webp",
     "tags": [
       "Geek",
       "PLA Premium",
@@ -496,7 +507,7 @@
     "precoPix": 47.9,
     "precoParcelado": 56.04,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-03.jpg",
+    "imagem": "catalog-assets/mdh-22.webp",
     "tags": [
       "Geek",
       "PLA Matte",
@@ -519,7 +530,7 @@
     "precoPix": 64.8,
     "precoParcelado": 75.82,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-04.jpg",
+    "imagem": "catalog-assets/mdh-23.webp",
     "tags": [
       "Geek",
       "PETG",
@@ -542,7 +553,7 @@
     "precoPix": 52.0,
     "precoParcelado": 60.84,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-05.jpg",
+    "imagem": "catalog-assets/mdh-24.webp",
     "tags": [
       "Geek",
       "PLA Premium",
@@ -565,7 +576,7 @@
     "precoPix": 68.9,
     "precoParcelado": 80.61,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-14.jpg",
+    "imagem": "catalog-assets/mdh-25.webp",
     "tags": [
       "Utilitários",
       "PLA Matte",
@@ -588,7 +599,7 @@
     "precoPix": 85.8,
     "precoParcelado": 100.39,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-15.jpg",
+    "imagem": "catalog-assets/mdh-26.webp",
     "tags": [
       "Utilitários",
       "TPU",
@@ -611,7 +622,7 @@
     "precoPix": 73.0,
     "precoParcelado": 85.41,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-16.jpg",
+    "imagem": "catalog-assets/mdh-27.webp",
     "tags": [
       "Utilitários",
       "PETG",
@@ -634,7 +645,7 @@
     "precoPix": 89.9,
     "precoParcelado": 105.18,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-02.jpg",
+    "imagem": "catalog-assets/mdh-28.webp",
     "tags": [
       "Utilitários",
       "PLA Matte",
@@ -657,7 +668,7 @@
     "precoPix": 106.8,
     "precoParcelado": 124.96,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-12.jpg",
+    "imagem": "catalog-assets/mdh-29.webp",
     "tags": [
       "Utilitários",
       "TPU",
@@ -680,7 +691,7 @@
     "precoPix": 94.0,
     "precoParcelado": 109.98,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-14.jpg",
+    "imagem": "catalog-assets/mdh-30.webp",
     "tags": [
       "Utilitários",
       "PETG",
@@ -703,7 +714,7 @@
     "precoPix": 110.9,
     "precoParcelado": 129.75,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-15.jpg",
+    "imagem": "catalog-assets/mdh-31.webp",
     "tags": [
       "Utilitários",
       "PLA Matte",
@@ -726,7 +737,7 @@
     "precoPix": 127.8,
     "precoParcelado": 149.53,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-16.jpg",
+    "imagem": "catalog-assets/mdh-32.webp",
     "tags": [
       "Utilitários",
       "TPU",
@@ -749,7 +760,7 @@
     "precoPix": 115.0,
     "precoParcelado": 134.55,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-02.jpg",
+    "imagem": "catalog-assets/mdh-33.webp",
     "tags": [
       "Utilitários",
       "PETG",
@@ -772,7 +783,7 @@
     "precoPix": 131.9,
     "precoParcelado": 154.32,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-12.jpg",
+    "imagem": "catalog-assets/mdh-34.webp",
     "tags": [
       "Utilitários",
       "PLA Matte",
@@ -795,7 +806,7 @@
     "precoPix": 148.8,
     "precoParcelado": 174.1,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-14.jpg",
+    "imagem": "catalog-assets/mdh-35.webp",
     "tags": [
       "Utilitários",
       "TPU",
@@ -818,7 +829,7 @@
     "precoPix": 136.0,
     "precoParcelado": 159.12,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-15.jpg",
+    "imagem": "catalog-assets/mdh-36.webp",
     "tags": [
       "Utilitários",
       "PETG",
@@ -841,7 +852,7 @@
     "precoPix": 152.9,
     "precoParcelado": 178.89,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-09.jpg",
+    "imagem": "catalog-assets/mdh-37.webp",
     "tags": [
       "Decoração",
       "PETG",
@@ -864,7 +875,7 @@
     "precoPix": 169.8,
     "precoParcelado": 198.67,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-10.jpg",
+    "imagem": "catalog-assets/mdh-38.webp",
     "tags": [
       "Decoração",
       "PLA Premium",
@@ -887,7 +898,7 @@
     "precoPix": 157.0,
     "precoParcelado": 183.69,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-11.jpg",
+    "imagem": "catalog-assets/mdh-39.webp",
     "tags": [
       "Decoração",
       "PLA Silk",
@@ -910,7 +921,7 @@
     "precoPix": 33.9,
     "precoParcelado": 39.66,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-13.jpg",
+    "imagem": "catalog-assets/mdh-40.webp",
     "tags": [
       "Decoração",
       "PETG",
@@ -933,7 +944,7 @@
     "precoPix": 50.8,
     "precoParcelado": 59.44,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-08.jpg",
+    "imagem": "catalog-assets/mdh-41.webp",
     "tags": [
       "Decoração",
       "PLA Premium",
@@ -956,7 +967,7 @@
     "precoPix": 38.0,
     "precoParcelado": 44.46,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-09.jpg",
+    "imagem": "catalog-assets/mdh-42.webp",
     "tags": [
       "Decoração",
       "PLA Silk",
@@ -979,7 +990,7 @@
     "precoPix": 54.9,
     "precoParcelado": 64.23,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-10.jpg",
+    "imagem": "catalog-assets/mdh-43.webp",
     "tags": [
       "Decoração",
       "PETG",
@@ -1002,7 +1013,7 @@
     "precoPix": 71.8,
     "precoParcelado": 84.01,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-11.jpg",
+    "imagem": "catalog-assets/mdh-44.webp",
     "tags": [
       "Decoração",
       "PLA Premium",
@@ -1025,7 +1036,7 @@
     "precoPix": 59.0,
     "precoParcelado": 69.03,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-13.jpg",
+    "imagem": "catalog-assets/mdh-45.webp",
     "tags": [
       "Decoração",
       "PLA Silk",
@@ -1048,7 +1059,7 @@
     "precoPix": 75.9,
     "precoParcelado": 88.8,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-08.jpg",
+    "imagem": "catalog-assets/mdh-46.webp",
     "tags": [
       "Decoração",
       "PETG",
@@ -1071,7 +1082,7 @@
     "precoPix": 92.8,
     "precoParcelado": 108.58,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-09.jpg",
+    "imagem": "catalog-assets/mdh-47.webp",
     "tags": [
       "Decoração",
       "PLA Premium",
@@ -1083,7 +1094,7 @@
   {
     "id": "mdh-048",
     "nome": "Vaso Pixel Bloom",
-    "categoria": "Decoração",
+    "categoria": "Geek",
     "colecao": "Mais vendidos",
     "descricao": "Vaso Pixel Bloom da linha Decoração, produzido em PLA Silk, com acabamento silk e foco em presença visual, praticidade e impressão estável para produção local no Rio de Janeiro.",
     "peso": 214,
@@ -1094,8 +1105,9 @@
     "precoPix": 80.0,
     "precoParcelado": 93.6,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-10.jpg",
+    "imagem": "catalog-assets/mdh-48.webp",
     "tags": [
+      "Geek",
       "Decoração",
       "PLA Silk",
       "Silk",
@@ -1117,7 +1129,7 @@
     "precoPix": 96.9,
     "precoParcelado": 113.37,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-13.jpg",
+    "imagem": "catalog-assets/mdh-49.webp",
     "tags": [
       "Personalizados",
       "PETG",
@@ -1140,7 +1152,7 @@
     "precoPix": 113.8,
     "precoParcelado": 133.15,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-14.jpg",
+    "imagem": "catalog-assets/mdh-50.webp",
     "tags": [
       "Personalizados",
       "TPU",
@@ -1163,7 +1175,7 @@
     "precoPix": 101.0,
     "precoParcelado": 118.17,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-08.jpg",
+    "imagem": "catalog-assets/mdh-51.webp",
     "tags": [
       "Personalizados",
       "PLA Premium",
@@ -1186,7 +1198,7 @@
     "precoPix": 117.9,
     "precoParcelado": 137.94,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-02.jpg",
+    "imagem": "catalog-assets/mdh-52.webp",
     "tags": [
       "Personalizados",
       "PETG",
@@ -1209,7 +1221,7 @@
     "precoPix": 134.8,
     "precoParcelado": 157.72,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-12.jpg",
+    "imagem": "catalog-assets/mdh-53.webp",
     "tags": [
       "Personalizados",
       "TPU",
@@ -1221,7 +1233,7 @@
   {
     "id": "mdh-054",
     "nome": "Suporte Logo Desk",
-    "categoria": "Personalizados",
+    "categoria": "Utilitários",
     "colecao": "Mais vendidos",
     "descricao": "Suporte Logo Desk da linha Personalizados, produzido em PLA Premium, com acabamento premium e foco em presença visual, praticidade e impressão estável para produção local no Rio de Janeiro.",
     "peso": 72,
@@ -1232,8 +1244,9 @@
     "precoPix": 122.0,
     "precoParcelado": 142.74,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-13.jpg",
+    "imagem": "catalog-assets/mdh-54.webp",
     "tags": [
+      "Utilitários",
       "Personalizados",
       "PLA Premium",
       "Premium",
@@ -1255,7 +1268,7 @@
     "precoPix": 138.9,
     "precoParcelado": 162.51,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-14.jpg",
+    "imagem": "catalog-assets/mdh-55.webp",
     "tags": [
       "Personalizados",
       "PETG",
@@ -1278,7 +1291,7 @@
     "precoPix": 155.8,
     "precoParcelado": 182.29,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-08.jpg",
+    "imagem": "catalog-assets/mdh-56.webp",
     "tags": [
       "Personalizados",
       "TPU",
@@ -1301,7 +1314,7 @@
     "precoPix": 143.0,
     "precoParcelado": 167.31,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-02.jpg",
+    "imagem": "catalog-assets/mdh-57.webp",
     "tags": [
       "Personalizados",
       "PLA Premium",
@@ -1324,7 +1337,7 @@
     "precoPix": 159.9,
     "precoParcelado": 187.08,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-12.jpg",
+    "imagem": "catalog-assets/mdh-58.webp",
     "tags": [
       "Personalizados",
       "PETG",
@@ -1347,7 +1360,7 @@
     "precoPix": 176.8,
     "precoParcelado": 206.86,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-13.jpg",
+    "imagem": "catalog-assets/mdh-59.webp",
     "tags": [
       "Personalizados",
       "TPU",
@@ -1370,7 +1383,7 @@
     "precoPix": 24.0,
     "precoParcelado": 28.08,
     "parcelas": 12,
-    "imagem": "assets/images/products/product-14.jpg",
+    "imagem": "catalog-assets/mdh-60.webp",
     "tags": [
       "Personalizados",
       "PLA Premium",

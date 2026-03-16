@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Image from "next/image";
 import QRCode from "qrcode";
 import { Copy, QrCode, ShieldCheck } from "lucide-react";
 import { formatCurrency } from "@/lib/utils";
@@ -51,7 +52,7 @@ export function PixPaymentCard({ title, amount }: { title: string; amount: numbe
 
       <div className="mt-5 grid gap-5 lg:grid-cols-[0.95fr_1.05fr]">
         <div className="rounded-[24px] border border-white/10 bg-black/25 p-4">
-          {qr ? <img src={qr} alt={`QR Code Pix de ${title}`} className="mx-auto w-full max-w-[260px] rounded-[20px] bg-white p-3" /> : <div className="flex h-[260px] items-center justify-center rounded-[20px] border border-dashed border-white/15 text-sm text-white/60">Gerando QR Code…</div>}
+          {qr ? <Image src={qr} alt={`QR Code Pix de ${title}`} width={260} height={260} className="mx-auto w-full max-w-[260px] rounded-[20px] bg-white p-3" /> : <div className="flex h-[260px] items-center justify-center rounded-[20px] border border-dashed border-white/15 text-sm text-white/60">Gerando QR Code…</div>}
         </div>
         <div className="space-y-4">
           <div className="rounded-[24px] border border-white/10 bg-black/25 p-4">

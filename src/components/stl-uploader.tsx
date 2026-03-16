@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useMemo } from 'react';
 import { Upload, File, X, CheckCircle, AlertCircle, Zap, Send } from 'lucide-react';
 
 interface FormData {
@@ -29,7 +29,7 @@ export function STLUploader() {
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const acceptedTypes = ['.stl', '.obj', '.3mf', '.step', '.iges'];
+  const acceptedTypes = useMemo(() => ['.stl', '.obj', '.3mf', '.step', '.iges'], []);
   const maxFileSize = 50 * 1024 * 1024; // 50MB
 
   const handleDragOver = useCallback((e: React.DragEvent) => {
@@ -42,7 +42,7 @@ export function STLUploader() {
     setIsDragOver(false);
   }, []);
 
-  const validateFile = (file: File): string | null => {
+  const validateFile = useCallback((file: File): string | null => {
     const extension = '.' + file.name.split('.').pop()?.toLowerCase();
     if (!acceptedTypes.includes(extension)) {
       return `Tipo de arquivo não suportado. Use: ${acceptedTypes.join(', ')}`;
@@ -51,7 +51,7 @@ export function STLUploader() {
       return `Arquivo muito grande. Máximo: ${maxFileSize / (1024 * 1024)}MB`;
     }
     return null;
-  };
+  }, [acceptedTypes, maxFileSize]);
 
   const handleDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -67,7 +67,7 @@ export function STLUploader() {
       setFile(droppedFile);
       setShowForm(true);
     }
-  }, []);
+  }, [validateFile]);
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
