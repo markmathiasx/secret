@@ -16,10 +16,9 @@ coverage
 *.sqlite-journal
 tsconfig.tsbuildinfo
 *.log
-
-loja1/
-secret/
-
 loja1/
 secret/
 .env*.local
+*.vsix
+build_output.txt
+CORRECAO-TYPECHECK-BUILD.txt
