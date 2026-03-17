@@ -6,9 +6,51 @@ import { ProductImageGallery } from '@/components/product-image-gallery';
 import { QuoteForm } from '@/components/quote-form';
 import { formatCurrency } from '@/lib/utils';
 import { whatsappMessage, whatsappNumber } from '@/lib/constants';
+import { Metadata } from 'next';
+import { getSiteUrl } from '@/lib/env';
 
 export function generateStaticParams() {
   return catalog.map((product) => ({ slug: `${product.id}-${product.name.toLowerCase().replace(/\s+/g, '-')}` }));
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const product = findProductBySlug(slug);
+
+  if (!product) {
+    return {
+      title: 'Produto não encontrado | MDH 3D Store',
+    };
+  }
+
+  const siteUrl = getSiteUrl();
+  const productUrl = `${siteUrl}/catalogo/${slug}`;
+  const imageUrl = product.images?.[0] || `${siteUrl}/catalog-assets/product-placeholder.jpg`;
+
+  return {
+    title: `${product.name} | MDH 3D Store`,
+    description: product.description,
+    keywords: [...product.tags, 'impressão 3D', 'PLA', 'Bambu Lab', 'personalizado'].join(', '),
+    openGraph: {
+      title: `${product.name} - Impressão 3D`,
+      description: product.description,
+      url: productUrl,
+      images: [
+        {
+          url: imageUrl,
+          width: 800,
+          height: 600,
+          alt: product.name,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${product.name} | MDH 3D Store`,
+      description: product.description,
+      images: [imageUrl],
+    },
+  };
 }
 
 export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -19,10 +61,46 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
     notFound();
   }
 
+  const siteUrl = getSiteUrl();
+  const productUrl = `${siteUrl}/catalogo/${slug}`;
+  const imageUrl = product.images?.[0] || `${siteUrl}/catalog-assets/product-placeholder.jpg`;
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: product.name,
+    description: product.description,
+    image: product.images || [imageUrl],
+    sku: product.sku,
+    brand: {
+      '@type': 'Brand',
+      name: 'MDH 3D Store',
+    },
+    offers: {
+      '@type': 'Offer',
+      price: product.price,
+      priceCurrency: 'BRL',
+      availability: product.stock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+      seller: {
+        '@type': 'Organization',
+        name: 'MDH 3D Store',
+      },
+    },
+    category: product.category,
+    material: product.material,
+  };
+
   const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`${whatsappMessage}\n\nTenho interesse em ${product.name} (${product.sku}).`)}`;
 
   return (
-    <section className="mx-auto max-w-7xl px-6 py-16">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd),
+        }}
+      />
+      <section className="mx-auto max-w-7xl px-6 py-16">
       <Link href="/catalogo" className="btn-ghost-sm mb-6 inline-flex">
         <ArrowLeft className="h-4 w-4" /> Voltar ao catálogo
       </Link>
@@ -42,7 +120,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           <div className="mt-6 grid gap-4 sm:grid-cols-3">
             <div className="rounded-[24px] border border-emerald-400/20 bg-emerald-400/10 p-4">
               <p className="text-sm text-emerald-100/70">Pix</p>
-              <p className="mt-2 text-2xl font-black text-white">{formatCurrency(product.pricePix)}</p>
+              <p className="mt-2 text-2xl font-black text-white">{formatCurrency(product.price ?? product.pricePix)}</p>
             </div>
             <div className="rounded-[24px] border border-white/10 bg-white/5 p-4">
               <p className="text-sm text-white/55">Cartão</p>
@@ -50,16 +128,44 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             </div>
             <div className="rounded-[24px] border border-white/10 bg-white/5 p-4">
               <p className="text-sm text-white/55">Prazo</p>
-              <p className="mt-2 text-lg font-bold text-white">{product.productionWindow}</p>
+              <p className="mt-2 text-lg font-bold text-white">{product.printTime ?? product.productionWindow}</p>
             </div>
+          </div>
+
+          {product.variants && product.variants.length > 0 && (
+            <div className="mt-6">
+              <p className="text-sm text-white/70 mb-3">Cores disponíveis</p>
+              <div className="flex flex-wrap gap-2">
+                {product.variants.map((variant) => (
+                  <button
+                    key={variant.color}
+                    className={`px-4 py-2 rounded-full border text-sm font-medium transition ${
+                      variant.available
+                        ? 'border-cyan-300/30 bg-cyan-400/10 text-cyan-100 hover:border-cyan-300/50'
+                        : 'border-white/10 bg-white/5 text-white/45 cursor-not-allowed'
+                    }`}
+                    disabled={!variant.available}
+                  >
+                    {variant.color}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <div className="mt-6 p-4 rounded-[24px] border border-amber-400/20 bg-amber-400/10">
+            <p className="text-sm text-amber-100">
+              <strong>Aviso:</strong> Confirme a licença comercial antes de revender.
+              Este produto é para uso {product.licenseType === 'personal' ? 'pessoal' : 'comercial'}.
+            </p>
           </div>
 
           <div className="mt-6 grid gap-3 sm:grid-cols-2">
             {[
               ['Material', product.material],
               ['Acabamento', product.finish],
-              ['Peso', `${product.grams} g`],
-              ['Tempo de impressão', `${product.hours} h`]
+              ['Peso PLA', product.plaWeight ?? `${product.grams} g`],
+              ['Dimensões', product.dimensions]
             ].map(([label, value]) => (
               <div key={label} className="rounded-[24px] border border-white/10 bg-black/20 p-4 text-sm text-white/68">
                 <p className="text-xs uppercase tracking-[0.18em] text-white/45">{label}</p>
@@ -70,6 +176,9 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
           <div className="mt-8 flex flex-wrap gap-3">
             <Link href="/checkout" className="btn-primary">Ir para checkout</Link>
+            {product.customizable && (
+              <button className="btn-secondary">Personalizar (Escala, Cor)</button>
+            )}
             <a href={whatsappHref} target="_blank" rel="noreferrer" className="btn-secondary inline-flex items-center gap-2">
               <MessageCircleMore className="h-4 w-4" /> Falar no WhatsApp
             </a>
@@ -81,5 +190,6 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         <QuoteForm product={product} />
       </div>
     </section>
+    </>
   );
 }

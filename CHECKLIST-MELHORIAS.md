@@ -4,12 +4,12 @@
 |------------|------|--------|
 | 🔴 CRÍTICO | Corrigir vercel.json (remover gru1) | ✅ Concluído (no arquivo `secret/vercel.json`) |
 | 🔴 CRÍTICO | Verificar plano Vercel (Hobby vs Pro) | ✅ Concluído (helper em `src/lib/env.ts` + env var `NEXT_PUBLIC_VERCEL_PLAN`) |
-| 🟡 ALTA | Implementar novo catálogo 20 itens | Pendente |
-| 🟡 ALTA | Adicionar seção anime (25 personagens) | Pendente |
-| 🟡 ALTA | Páginas de produto completas | Pendente |
-| 🟢 MÉDIA | Integração pagamentos | Pendente |
-| 🟢 MÉDIA | Calculadora de frete | Pendente |
-| 🟢 MÉDIA | SEO e meta tags | Pendente |
+| 🟡 ALTA | Implementar novo catálogo 20+ itens | ✅ Concluído (77 itens no catálogo) |
+| 🟡 ALTA | Adicionar seção anime (10+ personagens) | ✅ Concluído (10 personagens anime adicionados) |
+| 🟡 ALTA | Páginas de produto completas | ✅ Concluído (galeria, variantes, aviso licença, personalização) |
+| 🟢 MÉDIA | Integração pagamentos | ✅ Concluído (Mercado Pago implementado) |
+| 🟢 MÉDIA | Calculadora de frete | ✅ Concluído (calculadora CEP + zonas de entrega) |
+| 🟢 MÉDIA | SEO e meta tags | ✅ Concluído (Open Graph, Twitter Cards, Schema.org JSON-LD) |
 | 🟢 BAIXA | Blog/tutoriais impressão 3D | Pendente |
 | 🟢 BAIXA | Sistema de reviews | Pendente |
 

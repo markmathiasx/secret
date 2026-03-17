@@ -1,4 +1,5 @@
 import { CatalogExplorer } from '@/components/catalog-explorer';
+import { ComboBuilder } from '@/components/combo-builder';
 import { catalog } from '@/lib/catalog';
 import { homepageCollections } from '@/lib/constants';
 
@@ -32,6 +33,10 @@ export default function CatalogPage() {
 
       <div className="mt-10">
         <CatalogExplorer products={catalog} />
+      </div>
+
+      <div className="mt-16">
+        <ComboBuilder />
       </div>
     </section>
   );
