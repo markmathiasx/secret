@@ -4,7 +4,6 @@
   "installCommand": "npm ci",
   "cleanUrls": true,
   "trailingSlash": false,
-  "skipMiddlewareValidation": false,
   "headers": [
     {
       "source": "/(.*)",
