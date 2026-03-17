@@ -2,7 +2,6 @@
   "buildCommand": "npm run build",
   "outputDirectory": ".next/standalone",
   "installCommand": "npm install",
-  "nodeVersion": "24.x",
   "cleanUrls": true,
   "trailingSlash": false,
   "headers": [
