@@ -1,21 +1,6 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
-  "framework": "nextjs",
-  "buildCommand": "npm run build",
-  "installCommand": "npm install",
-  "outputDirectory": ".next",
-  "functions": {
-    "src/app/api/**/*.ts": {
-      "runtime": "@vercel/node"
-    }
-  },
-  "rewrites": [
-    {
-      "source": "/api/(.*)",
-      "destination": "/api/$1"
-    }
-  ],
   "headers": [
     {
       "source": "/(.*)",
@@ -37,10 +22,6 @@
     "domains": ["localhost", "mdh-3d-store.vercel.app"],
     "formats": ["image/webp", "image/avif"],
     "sizes": [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
-    "remotePatterns": [],
     "minimumCacheTTL": 31536000
-  },
-  "env": {
-    "NODE_ENV": "production"
   }
 }
