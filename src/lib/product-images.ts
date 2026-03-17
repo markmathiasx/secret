@@ -37,7 +37,15 @@ export function getProductImageCandidates(product: Product) {
   if (explicit?.length) {
     return explicit[0]?.candidates || [productPlaceholderSrc];
   }
-  return [...getProductShotCandidates(product, 1), `/catalog-assets/${product.id}.webp`, `/catalog-assets/${product.id}.jpg`, productPlaceholderSrc];
+
+  // Priorizar catalog-assets WebP (mais otimizado)
+  const catalogWebp = `/catalog-assets/${product.id}.webp`;
+  const catalogJpg = `/catalog-assets/${product.id}.jpg`;
+
+  // Fallback para assets/images/products (legado)
+  const legacyJpg = `/assets/images/products/product-${product.id.split('-')[1]}.jpg`;
+
+  return [catalogWebp, catalogJpg, legacyJpg, productPlaceholderSrc];
 }
 
 export function resolveProductImage(product: Product) {
@@ -47,9 +55,15 @@ export function resolveProductImage(product: Product) {
 export function getProductGallery(product: Product) {
   const explicit = explicitGallery(product);
   if (explicit?.length) return explicit;
+
+  // Usar apenas catalog-assets para galeria (WebP otimizado)
   return ([1, 2, 3] as const).map((shot) => ({
     id: `${product.id}-${shot}`,
-    candidates: [...getProductShotCandidates(product, shot), `/catalog-assets/${product.id}.webp`, `/catalog-assets/${product.id}.jpg`, productPlaceholderSrc],
+    candidates: [
+      `/catalog-assets/${product.id}.webp`,
+      `/catalog-assets/${product.id}.jpg`,
+      productPlaceholderSrc
+    ],
     alt: `${product.name} - visão ${shot}`,
   }));
 }

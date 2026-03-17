@@ -18,11 +18,15 @@ export function ProductImageGallery({ product, compact = false }: { product: Pro
 
   if (compact) {
     return (
-      <div className="relative overflow-hidden rounded-[28px] border border-white/10 bg-white/5 group hover:border-cyan-300/30 transition-all duration-300">
-        <SafeProductImage candidates={current.candidates} alt={current.alt} className="aspect-square w-full object-cover group-hover:scale-105 transition-transform duration-500" />
-        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950/80 to-transparent px-4 py-3 text-xs uppercase tracking-[0.16em] text-white/70 group-hover:text-white/90 transition-colors duration-300">
-          {product.material} • {product.finish}
+      <div className="relative overflow-hidden rounded-[20px] border border-white/10 bg-white/5 group transition-all duration-300 hover:border-cyan-300/30 hover:shadow-lg hover:shadow-cyan-400/10">
+        <SafeProductImage candidates={current.candidates} alt={current.alt} className="aspect-square w-full object-cover transition-transform duration-300" />
+        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950/90 via-slate-950/50 to-transparent px-4 py-3">
+          <div className="flex items-center justify-between text-xs">
+            <span className="uppercase tracking-[0.16em] text-white/80 font-medium">{product.material}</span>
+            <span className="text-cyan-200 font-semibold">{product.finish}</span>
+          </div>
         </div>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
       </div>
     );
   }
@@ -30,25 +34,23 @@ export function ProductImageGallery({ product, compact = false }: { product: Pro
   return (
     <>
       <div className="space-y-4">
-        <button
-          type="button"
-          onClick={() => setExpanded(true)}
-          className="group relative block w-full overflow-hidden rounded-[32px] border border-white/10 bg-white/5 text-left hover:border-cyan-300/30 transition-all duration-300"
-          aria-label={`Ampliar preview de ${product.name}`}
-        >
-          <SafeProductImage candidates={current.candidates} alt={current.alt} className="aspect-square w-full object-cover transition duration-500 group-hover:scale-[1.02]" />
-          <div className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-3 bg-gradient-to-t from-slate-950/80 to-transparent px-5 py-4 text-sm text-white/75 group-hover:text-white transition-colors duration-300">
-            <span className="inline-flex items-center gap-2"><ImageIcon className="h-4 w-4" /> Galeria do produto</span>
-            <span className="inline-flex items-center gap-2 text-cyan-100 group-hover:text-cyan-glow transition-colors duration-300"><Expand className="h-4 w-4" /> Ampliar</span>
+        <div className="group relative block w-full overflow-hidden rounded-[24px] border border-white/10 bg-white/5 text-left hover:border-cyan-300/30 transition-all duration-300 hover:shadow-xl hover:shadow-cyan-400/10">
+          <SafeProductImage candidates={current.candidates} alt={current.alt} className="aspect-square w-full object-cover transition duration-300" />
+          <div className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-3 bg-gradient-to-t from-slate-950/90 via-slate-950/60 to-transparent px-5 py-4">
+            <div className="flex flex-col">
+              <span className="text-sm text-white/90 font-medium">{product.name}</span>
+              <span className="text-xs text-cyan-200 uppercase tracking-wide">{product.material} • {product.finish}</span>
+            </div>
+            <div className="flex items-center gap-2 text-cyan-100 group-hover:text-cyan-glow transition-colors duration-300">
+              <ImageIcon className="h-4 w-4" />
+              <span className="text-sm font-medium">Galeria</span>
+              <Expand className="h-4 w-4" />
+            </div>
           </div>
-        </button>
+        </div>
         <div className="grid grid-cols-3 gap-3">
           {gallery.map((image, index) => (
-            <button
-              type="button"
-              key={image.id}
-              onClick={() => setActive(index)}
-              className={`overflow-hidden rounded-[20px] border transition-all duration-300 hover:scale-105 ${index === active ? "border-cyan-300/40 bg-cyan-400/10 shadow-cyan" : "border-white/10 bg-white/5 hover:border-white/20"}`}
+                      className={`overflow-hidden rounded-[20px] border transition-all duration-300 hover:scale-105 ${index === active ? "border-cyan-300/40 bg-cyan-400/10 shadow-cyan" : "border-white/10 bg-white/5 hover:border-white/20"}`}
             >
               <SafeProductImage candidates={image.candidates} alt={image.alt} className="aspect-square w-full object-cover" />
             </button>
@@ -79,11 +81,7 @@ export function ProductImageGallery({ product, compact = false }: { product: Pro
                       type="button"
                       key={image.id}
                       onClick={() => setActive(index)}
-                      className={`overflow-hidden rounded-[20px] border transition-all duration-300 hover:scale-105 ${index === active ? "border-cyan-300/40 bg-cyan-400/10 shadow-cyan" : "border-white/10 bg-white/5 hover:border-white/20"}`}
-                    >
-                      <SafeProductImage candidates={image.candidates} alt={image.alt} className="aspect-square w-full object-cover" />
-                    </button>
-                  ))}
+                    }
                 </div>
               </div>
             </div>

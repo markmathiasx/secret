@@ -21,18 +21,30 @@ export function SafeProductImage({ product, candidates, alt, className, onResolv
   }, [candidates, product]);
 
   const [index, setIndex] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
   const src = candidateList[index] || productPlaceholderSrc;
 
   return (
-    <Image
-      src={src}
-      alt={alt}
-      fill
-      className={className}
-      loading="lazy"
-      decoding="async"
-      onLoad={() => onResolved?.(src)}
-      onError={() => setIndex((prev) => (prev < candidateList.length - 1 ? prev + 1 : prev))}
-    />
+    <>
+      {isLoading && (
+        <div className={`${className} animate-pulse bg-white/5 flex items-center justify-center`}>
+          <div className="w-8 h-8 border-2 border-cyan-400/30 border-t-cyan-400 rounded-full animate-spin" />
+        </div>
+      )}
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        className={`${className} ${isLoading ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300`}
+        loading="lazy"
+        decoding="async"
+        quality={85}
+        onLoad={() => {
+          setIsLoading(false);
+          onResolved?.(src);
+        }}
+        onError={() => setIndex((prev) => (prev < candidateList.length - 1 ? prev + 1 : prev))}
+      />
+    </>
   );
 }
