@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+
+# Next.js
+.next/
+out/
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Build artifacts
+dist/
+build/
+
+# Database
+*.db
+*.sqlite
+
+# Scripts and docs (not needed in container)
+*.ps1
+*.md
+APOS-EXTRAIR.txt
+AUDITORIA.md
+CORRECAO-TYPECHECK-BUILD.txt
+scripts/
+docs/
+
+# Secret files
+.env.example
+secret/

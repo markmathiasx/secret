@@ -1,0 +1,38 @@
+# Build stage
+FROM node:20-alpine AS builder
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm ci --prefer-offline --no-audit
+
+COPY . .
+
+ENV NEXT_PUBLIC_SUPABASE_URL=https://vpuynsrtytsveagsuebh.supabase.co
+ENV NEXT_PUBLIC_SUPABASE_ANON_KEY=sb_publishable_3KH0pYxfKxivugzDmKyjkw_Vyy1JUlQ
+
+RUN npm run build
+
+# Development stage with hot reload
+FROM node:20-alpine
+
+WORKDIR /app
+
+RUN apk add --no-cache dumb-init
+
+COPY package*.json ./
+
+RUN npm ci --prefer-offline --no-audit
+
+COPY --from=builder /app/.next ./.next
+COPY . .
+
+EXPOSE 3000
+
+ENV PORT=3000
+ENV HOSTNAME="0.0.0.0"
+
+HEALTHCHECK --interval=30s --timeout=3s --start-period=60s --retries=3 \
+    CMD node -e "require('http').get('http://localhost:3000', (r) => {if (r.statusCode !== 200) throw new Error(r.statusCode)})"
+
+ENTRYPOINT ["dumb-init", "--"]
+CMD ["npm", "run", "dev"]

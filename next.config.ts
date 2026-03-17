@@ -16,7 +16,8 @@ const imageHosts = new Set([
   "images.ctfassets.net",
   "jimhpbvmvhgkfrtprvfs.supabase.co",
   "mdh-3d-store.vercel.app",
-  "localhost"
+  "localhost",
+  "127.0.0.1"
 ]);
 
 [process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.NEXT_PUBLIC_SUPABASE_CATALOG_BUCKET_URL]
@@ -32,10 +33,25 @@ const nextConfig: NextConfig = {
 
   // Images
   images: {
-    remotePatterns: Array.from(imageHosts).map((hostname) => ({
-      protocol: "https",
-      hostname
-    })),
+    remotePatterns: [
+      ...Array.from(imageHosts).map((hostname) => ({
+        protocol: "https",
+        hostname
+      })),
+      {
+        protocol: "http",
+        hostname: "localhost"
+      },
+      {
+        protocol: "http",
+        hostname: "127.0.0.1"
+      },
+      {
+        protocol: "http",
+        hostname: "*",
+        port: "*"
+      }
+    ],
     formats: ['image/webp', 'image/avif'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
@@ -82,6 +98,10 @@ const nextConfig: NextConfig = {
           {
             key: 'X-DNS-Prefetch-Control',
             value: 'on'
+          },
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=3600, s-maxage=86400'
           }
         ]
       },
@@ -96,6 +116,15 @@ const nextConfig: NextConfig = {
       },
       {
         source: '/static/(.*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable'
+          }
+        ]
+      },
+      {
+        source: '/catalog-assets/(.*)',
         headers: [
           {
             key: 'Cache-Control',

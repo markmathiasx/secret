@@ -50,3 +50,25 @@ export function getSupabaseEnv() {
     serviceRole: getSupabaseServiceKey()
   };
 }
+
+/**
+ * Vercel plan helpers.
+ *
+ * NOTE: Vercel does not expose plan info directly to deployments, so
+ * we rely on an explicit environment variable set in the project settings.
+ *
+ * Set `NEXT_PUBLIC_VERCEL_PLAN=hobby` or `NEXT_PUBLIC_VERCEL_PLAN=pro` (or similar)
+ * in Vercel to let the app know which plan is used.
+ */
+export function getVercelPlan(): string {
+  return (process.env.NEXT_PUBLIC_VERCEL_PLAN || process.env.VERCEL_PLAN || "hobby").toLowerCase();
+}
+
+export function isVercelHobbyPlan(): boolean {
+  return getVercelPlan() === "hobby";
+}
+
+export function isVercelProPlan(): boolean {
+  const plan = getVercelPlan();
+  return plan === "pro" || plan === "team" || plan === "enterprise";
+}
