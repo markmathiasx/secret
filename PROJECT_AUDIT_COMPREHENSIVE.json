@@ -1,0 +1,864 @@
+{
+  "timestamp": "2026-03-18T05:40:23.862Z",
+  "totalChecks": 126,
+  "passed": 126,
+  "failed": 0,
+  "warnings": 0,
+  "qualityScore": "100%",
+  "categories": {
+    "Structure": {
+      "pass": 14,
+      "fail": 0,
+      "warn": 0,
+      "percentage": 100
+    },
+    "Config": {
+      "pass": 8,
+      "fail": 0,
+      "warn": 0,
+      "percentage": 100
+    },
+    "Dependencies": {
+      "pass": 8,
+      "fail": 0,
+      "warn": 0,
+      "percentage": 100
+    },
+    "TypeScript": {
+      "pass": 5,
+      "fail": 0,
+      "warn": 0,
+      "percentage": 100
+    },
+    "Catalog": {
+      "pass": 9,
+      "fail": 0,
+      "warn": 0,
+      "percentage": 100
+    },
+    "Components": {
+      "pass": 20,
+      "fail": 0,
+      "warn": 0,
+      "percentage": 100
+    },
+    "Pages": {
+      "pass": 8,
+      "fail": 0,
+      "warn": 0,
+      "percentage": 100
+    },
+    "API": {
+      "pass": 4,
+      "fail": 0,
+      "warn": 0,
+      "percentage": 100
+    },
+    "Lib": {
+      "pass": 15,
+      "fail": 0,
+      "warn": 0,
+      "percentage": 100
+    },
+    "Scripts": {
+      "pass": 5,
+      "fail": 0,
+      "warn": 0,
+      "percentage": 100
+    },
+    "Docs": {
+      "pass": 4,
+      "fail": 0,
+      "warn": 0,
+      "percentage": 100
+    },
+    "Git": {
+      "pass": 5,
+      "fail": 0,
+      "warn": 0,
+      "percentage": 100
+    },
+    "Environment": {
+      "pass": 3,
+      "fail": 0,
+      "warn": 0,
+      "percentage": 100
+    },
+    "Assets": {
+      "pass": 10,
+      "fail": 0,
+      "warn": 0,
+      "percentage": 100
+    },
+    "Styling": {
+      "pass": 4,
+      "fail": 0,
+      "warn": 0,
+      "percentage": 100
+    },
+    "Security": {
+      "pass": 4,
+      "fail": 0,
+      "warn": 0,
+      "percentage": 100
+    }
+  },
+  "allChecks": [
+    {
+      "category": "Structure",
+      "name": "Directory: App Router",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Structure",
+      "name": "Directory: Components",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Structure",
+      "name": "Directory: Library",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Structure",
+      "name": "Directory: Scripts",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Structure",
+      "name": "Directory: Public Assets",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Structure",
+      "name": "Directory: Catalog Assets",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Structure",
+      "name": "Directory: Git Repository",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Structure",
+      "name": "app/api route",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Structure",
+      "name": "app/admin route",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Structure",
+      "name": "app/auth route",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Structure",
+      "name": "app/catalogo route",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Structure",
+      "name": "app/checkout route",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Structure",
+      "name": "app/conta route",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Structure",
+      "name": "app/faq route",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Config",
+      "name": "package.json",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Config",
+      "name": "tsconfig.json",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Config",
+      "name": "next.config.ts",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Config",
+      "name": "tailwind.config.ts",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Config",
+      "name": "postcss.config.mjs",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Config",
+      "name": "vercel.json",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Config",
+      "name": ".eslintrc.json",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Config",
+      "name": "middleware.ts",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Dependencies",
+      "name": "package.json valid JSON",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Dependencies",
+      "name": "Package: next",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Dependencies",
+      "name": "Package: react",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Dependencies",
+      "name": "Package: react-dom",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Dependencies",
+      "name": "DevDependency: typescript",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Dependencies",
+      "name": "DevDependency: tailwindcss",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Dependencies",
+      "name": "DevDependency: eslint",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Dependencies",
+      "name": "node_modules installed",
+      "status": "PASS",
+      "details": "545 packages"
+    },
+    {
+      "category": "TypeScript",
+      "name": "tsconfig.json valid",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "TypeScript",
+      "name": "Compiler options configured",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "TypeScript",
+      "name": "Path aliases configured",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "TypeScript",
+      "name": "Strict mode enabled",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "TypeScript",
+      "name": "JSX configured",
+      "status": "PASS",
+      "details": "JSX: preserve"
+    },
+    {
+      "category": "Catalog",
+      "name": "Products defined",
+      "status": "PASS",
+      "details": "77 unique products"
+    },
+    {
+      "category": "Catalog",
+      "name": "Product names",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Catalog",
+      "name": "Product prices",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Catalog",
+      "name": "Product categories",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Catalog",
+      "name": "Product images",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Catalog",
+      "name": "Product descriptions",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Catalog",
+      "name": "Image files present",
+      "status": "PASS",
+      "details": "64 images available"
+    },
+    {
+      "category": "Catalog",
+      "name": "Placeholder image exists",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Catalog",
+      "name": "MDH images",
+      "status": "PASS",
+      "details": "60 product images"
+    },
+    {
+      "category": "Components",
+      "name": "site-header.tsx",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Components",
+      "name": "site-header.tsx has export",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Components",
+      "name": "site-footer.tsx",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Components",
+      "name": "site-footer.tsx has export",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Components",
+      "name": "hero.tsx",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Components",
+      "name": "hero.tsx has export",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Components",
+      "name": "catalog-grid.tsx",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Components",
+      "name": "catalog-grid.tsx has export",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Components",
+      "name": "product-tabs.tsx",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Components",
+      "name": "product-tabs.tsx has export",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Components",
+      "name": "stl-uploader.tsx",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Components",
+      "name": "stl-uploader.tsx has export",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Components",
+      "name": "trust-signals.tsx",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Components",
+      "name": "trust-signals.tsx has export",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Components",
+      "name": "auth-modal.tsx",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Components",
+      "name": "auth-modal.tsx has export",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Components",
+      "name": "search.tsx",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Components",
+      "name": "search.tsx has export",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Components",
+      "name": "notifications.tsx",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Components",
+      "name": "notifications.tsx has export",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Pages",
+      "name": "Home (app/page.tsx)",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Pages",
+      "name": "Root Layout (app/layout.tsx)",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Pages",
+      "name": "Catalog (app/catalogo/page.tsx)",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Pages",
+      "name": "Product Detail (app/catalogo/[slug]/page.tsx)",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Pages",
+      "name": "Checkout (app/checkout/page.tsx)",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Pages",
+      "name": "FAQ (app/faq/page.tsx)",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Pages",
+      "name": "Privacy (app/politica-de-privacidade/page.tsx)",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Pages",
+      "name": "Terms (app/termos/page.tsx)",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "API",
+      "name": "api/catalog/route.ts",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "API",
+      "name": "api/checkout/mercadopago/route.ts",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "API",
+      "name": "api/pix/route.ts",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "API",
+      "name": "api/quote/route.ts",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Lib",
+      "name": "analytics.ts",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Lib",
+      "name": "catalog.ts",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Lib",
+      "name": "constants.ts",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Lib",
+      "name": "delivery.ts",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Lib",
+      "name": "env.ts",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Lib",
+      "name": "google-maps.ts",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Lib",
+      "name": "payments.ts",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Lib",
+      "name": "pix.ts",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Lib",
+      "name": "product-images.ts",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Lib",
+      "name": "schemas.ts",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Lib",
+      "name": "security.ts",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Lib",
+      "name": "seo.ts",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Lib",
+      "name": "storage.ts",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Lib",
+      "name": "supabase.ts",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Lib",
+      "name": "utils.ts",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Scripts",
+      "name": "validate-catalog-images.js",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Scripts",
+      "name": "pre-deploy-vercel-check.js",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Scripts",
+      "name": "regenerate_catalog_from_images.js",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Scripts",
+      "name": "db-migrate.mjs",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Scripts",
+      "name": "db-seed.mjs",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Docs",
+      "name": "README.md",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Docs",
+      "name": "PRODUCTION_DEPLOYMENT_COMPLETE.md",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Docs",
+      "name": "VERCEL_DEPLOY_CHECKLIST.md",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Docs",
+      "name": "DEPLOYMENT-SETUP.md",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Git",
+      "name": ".git directory exists",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Git",
+      "name": "node_modules ignored",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Git",
+      "name": ".env ignored",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Git",
+      "name": ".next ignored",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Git",
+      "name": ".vercel ignored",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Environment",
+      "name": ".env.example",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Environment",
+      "name": ".env.local",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Environment",
+      "name": "env.example.preenchido",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Assets",
+      "name": "public/ directory",
+      "status": "PASS",
+      "details": "14 items"
+    },
+    {
+      "category": "Assets",
+      "name": "icon-192.png",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Assets",
+      "name": "icon-512.png",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Assets",
+      "name": "apple-touch-icon.png",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Assets",
+      "name": "public/assets",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Assets",
+      "name": "public/backgrounds",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Assets",
+      "name": "public/media",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Assets",
+      "name": "public/placeholders",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Assets",
+      "name": "public/videos",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Assets",
+      "name": "public/catalog-assets",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Styling",
+      "name": "tailwind.config.ts",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Styling",
+      "name": "postcss.config.mjs",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Styling",
+      "name": "globals.css imported",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Styling",
+      "name": "Tailwind directives",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Security",
+      "name": "next.config.ts exists",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Security",
+      "name": "Compression enabled",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Security",
+      "name": "Image optimization",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "category": "Security",
+      "name": "middleware.ts",
+      "status": "PASS",
+      "details": ""
+    }
+  ]
+}
