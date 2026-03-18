@@ -49,7 +49,7 @@
     "framer-motion": "^11.15.0",
     "lucide-react": "^0.468.0",
     "mercadopago": "^2.6.0",
-    "next": "^15.0.0",
+    "next": "^15.5.13",
     "next-themes": "^0.4.4",
     "qrcode": "^1.5.4",
     "react": "^19.0.0",
@@ -60,7 +60,7 @@
     "zod": "^3.24.1"
   },
   "devDependencies": {
-    "@next/bundle-analyzer": "^15.0.0",
+    "@next/bundle-analyzer": "^15.5.13",
     "@prisma/client": "^7.5.0",
     "@snaplet/copycat": "^6.0.0",
     "@snaplet/seed": "^0.98.0",
@@ -70,7 +70,7 @@
     "@types/react-dom": "^19.0.0",
     "autoprefixer": "^10.4.20",
     "eslint": "^9.17.0",
-    "eslint-config-next": "^15.0.0",
+    "eslint-config-next": "^15.5.13",
     "postcss": "^8.4.49",
     "supabase": "^2.79.0",
     "tailwindcss": "^3.4.17",
