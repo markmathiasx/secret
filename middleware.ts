@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { adminConfig } from "@/lib/constants";
+import { verifySignedSessionToken } from "@/lib/session-token";
 
 function isProtectedAdminPath(path: string) {
   return (
@@ -11,7 +12,7 @@ function isProtectedAdminPath(path: string) {
   );
 }
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
   const response = NextResponse.next();
 
@@ -44,8 +45,13 @@ export function middleware(request: NextRequest) {
   }
 
   if (isProtectedAdminPath(path) && !path.endsWith('/login')) {
-    const adminCookie = request.cookies.get(adminConfig.sessionCookieName)?.value;
-    if (!adminCookie || adminCookie !== adminConfig.sessionSecret) {
+    const adminCookie = request.cookies.get(adminConfig.sessionCookieName)?.value || "";
+    const legacySessionActive = Boolean(adminConfig.legacySessionToken && adminCookie === adminConfig.legacySessionToken);
+    const adminSession = legacySessionActive
+      ? { role: "admin" as const }
+      : await verifySignedSessionToken(adminCookie, adminConfig.sessionSecret);
+
+    if (!adminSession || adminSession.role !== "admin") {
       const loginUrl = new URL(`${adminConfig.hiddenPath}/login`, request.url);
       return NextResponse.redirect(loginUrl);
     }

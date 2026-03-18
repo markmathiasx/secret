@@ -1,15 +1,10 @@
 import { NextResponse } from 'next/server';
-import { scryptSync, timingSafeEqual } from 'node:crypto';
 import { checkRateLimit, getClientIp } from '@/lib/security';
 import { adminConfig } from '@/lib/constants';
+import { authenticateUser } from '@/lib/auth-store';
+import { createSignedSessionToken } from '@/lib/session-token';
 
-function verifyPassword(password: string, storedHash: string) {
-  if (!storedHash.startsWith('s2:')) return false;
-  const [, salt, digest] = storedHash.split(':');
-  if (!salt || !digest) return false;
-  const computed = scryptSync(password, salt, 64).toString('hex');
-  return timingSafeEqual(Buffer.from(computed, 'hex'), Buffer.from(digest, 'hex'));
-}
+export const runtime = 'nodejs';
 
 export async function POST(request: Request) {
   const ip = getClientIp(request.headers);
@@ -19,26 +14,37 @@ export async function POST(request: Request) {
   }
 
   const body = await request.json().catch(() => ({}));
-  const email = String((body as any)?.email || adminConfig.email).trim().toLowerCase();
+  const email = String((body as any)?.email || '').trim().toLowerCase();
   const password = String((body as any)?.password || '');
-  const adminEmail = adminConfig.email.toLowerCase();
-  const adminPassword = process.env.ADMIN_PASSWORD || '';
-  const adminPasswordHash = process.env.ADMIN_PASSWORD_HASH || '';
 
-  if (!adminConfig.sessionToken || adminConfig.sessionToken === 'mdh_troque_este_token_no_env') {
-    return NextResponse.json({ ok: false, error: 'Configure ADMIN_SESSION_TOKEN no .env.local' }, { status: 500 });
+  if (!email || !password) {
+    return NextResponse.json({ ok: false, error: 'Informe e-mail e senha válidos.' }, { status: 400 });
   }
 
-  const passwordOk = adminPasswordHash ? verifyPassword(password, adminPasswordHash) : adminPassword ? password === adminPassword : false;
+  if (!adminConfig.sessionSecret || adminConfig.sessionSecret === 'troque-o-session-secret') {
+    return NextResponse.json({ ok: false, error: 'Configure ADMIN_SESSION_SECRET no .env.local' }, { status: 500 });
+  }
 
-  if (email !== adminEmail || !passwordOk) {
+  const user = await authenticateUser({ email, password, role: 'admin' });
+  if (!user) {
     return NextResponse.json({ ok: false, error: 'Credenciais incorretas' }, { status: 401 });
   }
+
+  const sessionToken = await createSignedSessionToken(
+    {
+      sub: user.id,
+      email: user.email,
+      displayName: user.displayName,
+      role: 'admin',
+      expiresInSeconds: 60 * 60 * 8
+    },
+    adminConfig.sessionSecret
+  );
 
   const response = NextResponse.json({ ok: true, redirectTo: '/admin' });
   response.cookies.set({
     name: adminConfig.sessionCookieName,
-    value: adminConfig.sessionToken,
+    value: sessionToken,
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'strict',

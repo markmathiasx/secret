@@ -1,42 +1,69 @@
-# MDH – Image pack + mapping
+# MDH 3D Store
 
-Este pacote contém:
+Loja Next.js da MDH 3D com:
 
-## 1) Imagens
-- `public/products/` – imagens em `.webp`
-  - **3 fotos reais** já encaixadas em IDs do catálogo (anime-001, anime-014, util-007)
-  - **11 fotos reais** (prefixo `foto-xxx-...`) normalizadas (1200×800)
-  - **placeholders** gerados automaticamente para completar o pack (mantém o nome final do ficheiro para você substituir depois por fotos reais)
+- catálogo e páginas individuais de produto;
+- orçamento rápido e fluxo para imagem/modelo 3D;
+- área do cliente com login local por e-mail e senha;
+- painel administrativo em `/admin`;
+- integrações opcionais com Supabase, Mercado Pago e WhatsApp Cloud API.
 
-## 2) Mapeamentos
-- `planned-product-image-map.json`
-  - Mapa `{ productId: "/products/<productId>-<nome>.webp" }`
-  - Foi gerado a partir da tabela de nomes de ficheiros do seu anexo (Qwen Chat).
-- `product-image-map.json`
-  - Mapa gerado a partir dos produtos detectados no trecho do `catalog.ts` que aparece no anexo (útil se o seu código atual ainda tiver menos itens).
-- `real-images-manifest.json`
-  - Lista das 11 fotos reais incluídas (nomes + etiqueta).
+## Rodar local
 
-## 3) Script de patch
-- `scripts/apply-image-map.mjs`
-  - Atualiza `image:` ou o 1º item de `images: [...]` com base num JSON de mapeamento.
+```powershell
+Set-Location D:\mdh-3d-store
+Copy-Item .env.example .env.local -ErrorAction SilentlyContinue
+npm install
+npm run dev
+```
 
----
+## Variáveis mínimas
 
-## Como usar no projeto (Next.js/Vercel)
+Configure no `.env.local`:
 
-1) Copie a pasta `public/products/` para dentro do seu projeto:
-   - `./public/products/*`
+```env
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+ADMIN_EMAIL=seu-email@dominio.com
+ADMIN_PASSWORD_HASH=
+ADMIN_SESSION_SECRET=seu-segredo-longo
+AUTH_CUSTOMER_SESSION_SECRET=seu-segredo-longo
+AUTH_MAX_CUSTOMERS=100
+AUTH_MAX_ADMINS=5
+```
 
-2) Copie um dos mapas para o seu projeto (sugestão: `./scripts/`):
-   - `planned-product-image-map.json` **(recomendado para completar o pack)**
-   - ou `product-image-map.json` (se quiser apenas os produtos que já estão no `catalog.ts` atual)
+Se quiser bootstrap inicial do admin por senha em texto puro, use `ADMIN_PASSWORD` apenas no primeiro acesso e remova depois.
 
-3) Rode o patch (Node 18+):
-   ```bash
-   node ./scripts/apply-image-map.mjs ./src/catalog.ts ./scripts/planned-product-image-map.json
-   ```
+## Login e segurança
 
-4) Faça commit e deploy.
+- Contas de clientes são guardadas no cofre local `secret/auth-users.json`.
+- Senhas ficam em hash `scrypt` no servidor.
+- Sessões de cliente e admin usam cookies `HttpOnly` assinados.
+- O painel administrativo usa `/admin/login`.
 
-> Para ficar “10/10”: substitua cada placeholder por fotografia real do produto e **mantenha exatamente o mesmo nome do arquivo**.
+## Checks
+
+```powershell
+npm run typecheck
+npm run lint:check
+npm run build
+```
+
+## Deploy
+
+GitHub:
+
+```powershell
+git add .
+git commit -m "feat: secure local auth and admin hardening"
+git push origin main
+```
+
+Vercel:
+
+```powershell
+vercel env add AUTH_CUSTOMER_SESSION_SECRET production
+vercel env add AUTH_CUSTOMER_SESSION_SECRET preview
+vercel --prod
+```
+
+Use `vercel env pull` para sincronizar o ambiente local com o projeto da Vercel.

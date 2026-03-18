@@ -1,82 +1,86 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { createUser } from '@/lib/user-database';
+import { NextResponse } from "next/server";
+import { createUser } from "@/lib/auth-store";
+import { checkRateLimit, getClientIp } from "@/lib/security";
+import { createSignedSessionToken, customerSessionCookieName, getCustomerSessionSecret } from "@/lib/session-token";
 
-export async function POST(req: NextRequest) {
+export const runtime = "nodejs";
+
+export async function POST(req: Request) {
   try {
-    const { email, password, name, phone } = await req.json();
+    const ip = getClientIp(req.headers);
+    const rateLimit = checkRateLimit(`customer_register:${ip}`, 5, 60_000);
 
-    // Validation
-    if (!email || !password || !name || !phone) {
+    if (!rateLimit.ok) {
+      return NextResponse.json({ error: "Muitas tentativas. Aguarde um pouco antes de tentar de novo." }, { status: 429 });
+    }
+
+    const { email, password, name } = await req.json();
+
+    if (!email || !password || !name) {
+      return NextResponse.json({ error: "Nome, email e senha são obrigatórios" }, { status: 400 });
+    }
+
+    if (password.length < 8 || !/[A-Z]/.test(password) || !/[a-z]/.test(password) || !/\d/.test(password)) {
       return NextResponse.json(
-        { error: 'Todos os campos são obrigatórios' },
+        { error: "Use uma senha com pelo menos 8 caracteres, incluindo maiúscula, minúscula e número." },
         { status: 400 }
       );
     }
 
-    if (password.length < 6) {
-      return NextResponse.json(
-        { error: 'Senha deve ter no mínimo 6 caracteres' },
-        { status: 400 }
-      );
-    }
-
-    // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      return NextResponse.json(
-        { error: 'Email inválido' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Email inválido" }, { status: 400 });
     }
 
-    // Create user
-    const user = createUser({ email, password, name, phone });
-
-    if (!user) {
-      return NextResponse.json(
-        { error: 'Erro ao criar usuário' },
-        { status: 500 }
-      );
+    const secret = getCustomerSessionSecret();
+    if (!secret) {
+      return NextResponse.json({ error: "Configure AUTH_CUSTOMER_SESSION_SECRET no .env.local." }, { status: 500 });
     }
 
-    // Create response with cookie
+    const user = await createUser({ email, password, displayName: name, role: "customer" });
+
+    const sessionToken = await createSignedSessionToken(
+      {
+        sub: user.id,
+        email: user.email,
+        displayName: user.displayName,
+        role: "customer",
+        expiresInSeconds: 60 * 60 * 24 * 30
+      },
+      secret
+    );
+
     const response = NextResponse.json(
       {
         success: true,
-        message: 'Usuário criado com sucesso!',
+        message: "Conta criada com sucesso!",
         user: {
           id: user.id,
           email: user.email,
-          name: user.name,
-          phone: user.phone,
-        },
+          name: user.displayName
+        }
       },
       { status: 201 }
     );
 
-    // Set auth token in cookie
     response.cookies.set({
-      name: 'mdh_auth_token',
-      value: user.id,
+      name: customerSessionCookieName,
+      value: sessionToken,
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      maxAge: 7 * 24 * 60 * 60,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+      maxAge: 60 * 60 * 24 * 30
     });
 
     return response;
   } catch (error: any) {
-    console.error('Register error:', error);
+    console.error("Register error:", error);
 
-    if (error.message === 'User already exists') {
-      return NextResponse.json(
-        { error: 'Este email já está cadastrado' },
-        { status: 409 }
-      );
+    if (error?.message === "Já existe uma conta cadastrada com este e-mail.") {
+      return NextResponse.json({ error: "Este email já está cadastrado" }, { status: 409 });
     }
 
-    return NextResponse.json(
-      { error: error.message || 'Erro ao cadastrar' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: error.message || "Erro ao cadastrar" }, { status: 500 });
   }
 }

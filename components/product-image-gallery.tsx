@@ -14,24 +14,27 @@ export function ProductImageGallery({ product, compact = false }: { product: Pro
   }
   if (compact) {
     return (
-      <div className="relative overflow-hidden rounded-[20px] border border-white/10 bg-white/5 group transition-all duration-300 hover:border-cyan-300/30 hover:shadow-lg hover:shadow-cyan-400/10">
+      <div className="overflow-hidden rounded-[20px] border border-white/10 bg-white/5 transition-all duration-300 hover:border-cyan-300/30 hover:shadow-lg hover:shadow-cyan-400/10">
         <SafeProductImage candidates={current.candidates} alt={current.alt} className="aspect-square w-full object-cover transition-transform duration-300" />
-        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950/90 via-slate-950/50 to-transparent px-4 py-3">
+        <div className="border-t border-white/10 bg-slate-950/75 px-4 py-3">
           <div className="flex items-center justify-between text-xs">
             <span className="uppercase tracking-[0.16em] text-white/80 font-medium">{product.material}</span>
             <span className="text-cyan-200 font-semibold">{product.finish}</span>
           </div>
         </div>
-        <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
       </div>
     );
   }
   return (
     <>
       <div className="space-y-4">
-        <div className="group relative block w-full overflow-hidden rounded-[24px] border border-white/10 bg-white/5 text-left hover:border-cyan-300/30 transition-all duration-300 hover:shadow-xl hover:shadow-cyan-400/10">
+        <button
+          type="button"
+          onClick={() => setExpanded(true)}
+          className="group block w-full overflow-hidden rounded-[24px] border border-white/10 bg-white/5 text-left transition-all duration-300 hover:border-cyan-300/30 hover:shadow-xl hover:shadow-cyan-400/10"
+        >
           <SafeProductImage candidates={current.candidates} alt={current.alt} className="aspect-square w-full object-cover transition duration-300" />
-          <div className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-3 bg-gradient-to-t from-slate-950/90 via-slate-950/60 to-transparent px-5 py-4">
+          <div className="flex items-center justify-between gap-3 border-t border-white/10 bg-slate-950/78 px-5 py-4">
             <div className="flex flex-col">
               <span className="text-sm text-white/90 font-medium">{product.name}</span>
               <span className="text-xs text-cyan-200 uppercase tracking-wide">{product.material} • {product.finish}</span>
@@ -42,7 +45,7 @@ export function ProductImageGallery({ product, compact = false }: { product: Pro
               <Expand className="h-4 w-4" />
             </div>
           </div>
-        </div>
+        </button>
         <div className="grid grid-cols-3 gap-3">
           {gallery.map((image, index) => (
             <button

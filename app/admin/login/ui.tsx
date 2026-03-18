@@ -45,7 +45,7 @@ export function AdminLoginForm() {
       {status === 'error' ? (
         <p className="text-sm text-rose-200">{message}</p>
       ) : (
-        <p className="text-xs text-white/45">Suporta ADMIN_PASSWORD_HASH ou ADMIN_PASSWORD enquanto você consolida o ambiente.</p>
+        <p className="text-xs text-white/45">Senha validada no servidor e sessão do painel protegida por cookie assinado.</p>
       )}
 
       <button type="submit" disabled={status === 'loading'} className="btn-primary w-full justify-center disabled:opacity-60">

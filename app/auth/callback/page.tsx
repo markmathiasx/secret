@@ -1,22 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { supabaseBrowser } from "@/lib/supabase/browser";
 
 export default function AuthCallback() {
-  const [msg, setMsg] = useState("Finalizando login...");
+  const [msg, setMsg] = useState("Redirecionando para o novo login...");
 
   useEffect(() => {
     async function run() {
-      if (!supabaseBrowser) {
-        setMsg("Supabase não configurado.");
-        return;
-      }
-      // supabase-js completa a sessão ao voltar do OAuth
-      await supabaseBrowser.auth.getSession();
-      window.location.href = "/conta";
+      setMsg("O acesso agora é feito por e-mail e senha direto no site.");
+      window.location.href = "/login";
     }
-    run();
+
+    void run();
   }, []);
 
   return (

@@ -1,70 +1,66 @@
 'use client';
 
 import Link from 'next/link';
-import { useMemo, useState } from 'react';
-import { LockKeyhole, Mail, MessageCircleMore } from 'lucide-react';
-import { supabaseBrowser } from '@/lib/supabase/browser';
+import { useState } from 'react';
+import { LockKeyhole, Mail, MessageCircleMore, ShieldCheck, User } from 'lucide-react';
+import { emitCustomerAuthChange } from '@/lib/customer-session-client';
 import { whatsappMessage, whatsappNumber } from '@/lib/constants';
 
 const benefits = [
   'Salvar favoritos e coleções preferidas',
   'Voltar mais rápido para produtos vistos',
   'Organizar histórico e próximos pedidos',
-  'Usar Google como opção extra, sem depender dele'
+  'Ter login próprio sem depender de Google'
 ];
 
 export default function LoginPage() {
+  const [mode, setMode] = useState<'register' | 'login'>('register');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const whatsappHref = useMemo(() => `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`, []);
-
-  async function oauthGoogle() {
-    setMessage(null);
-    if (!supabaseBrowser) {
-      setMessage('Login social opcional: preencha NEXT_PUBLIC_SUPABASE_URL e NEXT_PUBLIC_SUPABASE_ANON_KEY no .env.local.');
-      return;
-    }
-
-    setLoading(true);
-    const origin = window.location.origin;
-    const { error } = await supabaseBrowser.auth.signInWithOAuth({
-      provider: 'google',
-      options: { redirectTo: `${origin}/auth/callback` }
-    });
-
-    if (error) {
-      setLoading(false);
-      setMessage('Não foi possível iniciar o login com Google.');
-    }
-  }
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
 
   async function handleEmailAuth(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setMessage(null);
+    setSuccess(null);
 
-    if (!supabaseBrowser) {
-      setMessage('Autenticação própria ainda depende do Supabase configurado nesta versão.');
+    if (mode === 'register' && password !== confirmPassword) {
+      setMessage('A confirmação da senha não confere.');
       return;
     }
 
     setLoading(true);
-    const signIn = await supabaseBrowser.auth.signInWithPassword({ email, password });
 
-    if (signIn.error) {
-      const signUp = await supabaseBrowser.auth.signUp({ email, password });
-      if (signUp.error) {
-        setMessage('Não foi possível entrar ou criar a conta agora. Revise email, senha e conexão com o banco.');
-        setLoading(false);
+    try {
+      const response = await fetch(mode === 'register' ? '/api/auth/register' : '/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(
+          mode === 'register'
+            ? { name, email, password }
+            : { email, password }
+        )
+      });
+
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        setMessage(data?.error || 'Não foi possível concluir o acesso.');
         return;
       }
-      setMessage('Conta criada. Se o provedor exigir confirmação, verifique seu email.');
-      setLoading(false);
-      return;
-    }
 
-    window.location.href = '/conta';
+      emitCustomerAuthChange();
+      setSuccess(mode === 'register' ? 'Conta criada com sucesso.' : 'Login concluído com sucesso.');
+      window.location.href = '/conta';
+    } catch {
+      setMessage('Erro de rede ao validar seu acesso.');
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -74,7 +70,7 @@ export default function LoginPage() {
           <p className="text-xs uppercase tracking-[0.22em] text-cyan-100/75">Conta MDH 3D</p>
           <h1 className="mt-3 text-4xl font-black text-white md:text-5xl">Entre para manter sua jornada organizada e voltar mais rápido ao que você já gostou.</h1>
           <p className="mt-4 max-w-3xl text-base leading-8 text-white/65">
-            O site continua aberto para visitante, mas a conta ajuda a salvar preferências, histórico e próximos pedidos.
+            O site continua aberto para visitante, mas a conta agora fica armazenada com segurança no servidor da loja e já nasce pronta para até 100 acessos iniciais.
           </p>
 
           <div className="mt-8 grid gap-4 md:grid-cols-2">
@@ -93,11 +89,46 @@ export default function LoginPage() {
             </span>
             <div>
               <p className="text-xs uppercase tracking-[0.18em] text-cyan-100/75">Acesso</p>
-              <h2 className="text-2xl font-black text-white">Conta própria + Google opcional</h2>
+              <h2 className="text-2xl font-black text-white">Conta própria com sessão segura</h2>
             </div>
           </div>
 
+          <div className="mt-6 flex rounded-full border border-white/10 bg-black/20 p-1">
+            <button
+              type="button"
+              onClick={() => {
+                setMode('register');
+                setMessage(null);
+                setSuccess(null);
+              }}
+              className={`flex-1 rounded-full px-4 py-2 text-sm font-semibold transition ${mode === 'register' ? 'bg-white text-slate-950' : 'text-white/70'}`}
+            >
+              Criar conta
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setMode('login');
+                setMessage(null);
+                setSuccess(null);
+              }}
+              className={`flex-1 rounded-full px-4 py-2 text-sm font-semibold transition ${mode === 'login' ? 'bg-white text-slate-950' : 'text-white/70'}`}
+            >
+              Entrar
+            </button>
+          </div>
+
           <form onSubmit={handleEmailAuth} className="mt-6 space-y-4">
+            {mode === 'register' ? (
+              <label className="block">
+                <span className="mb-2 block text-sm text-white/70">Nome</span>
+                <div className="field-base flex items-center gap-3">
+                  <User className="h-4 w-4 text-white/45" />
+                  <input value={name} onChange={(e) => setName(e.target.value)} type="text" className="w-full bg-transparent outline-none" required />
+                </div>
+              </label>
+            ) : null}
+
             <label className="block">
               <span className="mb-2 block text-sm text-white/70">Email</span>
               <div className="field-base flex items-center gap-3">
@@ -109,18 +140,38 @@ export default function LoginPage() {
               <span className="mb-2 block text-sm text-white/70">Senha</span>
               <div className="field-base flex items-center gap-3">
                 <LockKeyhole className="h-4 w-4 text-white/45" />
-                <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" className="w-full bg-transparent outline-none" required minLength={6} />
+                <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" className="w-full bg-transparent outline-none" required minLength={8} />
               </div>
             </label>
+
+            {mode === 'register' ? (
+              <label className="block">
+                <span className="mb-2 block text-sm text-white/70">Confirmar senha</span>
+                <div className="field-base flex items-center gap-3">
+                  <ShieldCheck className="h-4 w-4 text-white/45" />
+                  <input value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} type="password" className="w-full bg-transparent outline-none" required minLength={8} />
+                </div>
+              </label>
+            ) : null}
+
+            <div className="rounded-[24px] border border-cyan-300/20 bg-cyan-300/10 p-4">
+              <div className="flex items-start gap-3">
+                <ShieldCheck className="mt-0.5 h-5 w-5 text-cyan-100" />
+                <div>
+                  <p className="text-sm font-semibold text-cyan-50">Armazenamento seguro</p>
+                  <p className="mt-1 text-sm leading-6 text-cyan-100/78">
+                    A senha é transformada em hash no servidor e a sessão roda em cookie assinado, sem expor a credencial no navegador.
+                  </p>
+                </div>
+              </div>
+            </div>
+
             <button type="submit" disabled={loading} className="btn-primary w-full justify-center disabled:opacity-70">
-              {loading ? 'Processando...' : 'Entrar ou criar conta'}
+              {loading ? 'Processando...' : mode === 'register' ? 'Criar minha conta' : 'Entrar na minha conta'}
             </button>
           </form>
 
           <div className="mt-4 flex flex-wrap gap-3">
-            <button onClick={oauthGoogle} disabled={loading} className="btn-ghost-sm">
-              Entrar com Google
-            </button>
             <Link href="/catalogo" className="btn-ghost-sm">
               Continuar como visitante
             </Link>
@@ -131,6 +182,7 @@ export default function LoginPage() {
           </div>
 
           {message ? <p className="mt-4 text-sm text-amber-200">{message}</p> : null}
+          {success ? <p className="mt-4 text-sm text-emerald-200">{success}</p> : null}
         </div>
       </div>
     </section>

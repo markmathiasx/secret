@@ -1,9 +1,11 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { MessageCircleMore } from 'lucide-react';
 import type { Product } from '@/lib/catalog';
 import { catalog, featuredCatalog, findProduct } from '@/lib/catalog';
+import { useCustomerSession } from '@/lib/customer-session-client';
+import { getMemberKey, saveQuote } from '@/lib/member-store';
 import { formatCurrency } from '@/lib/utils';
 import { whatsappMessage, whatsappNumber } from '@/lib/constants';
 
@@ -28,6 +30,7 @@ export function QuoteForm({
   title = 'Solicite um orçamento com briefing claro',
   description = 'Receba retorno com validação de material, prazo, frete e acabamento sem bloquear a navegação pública.'
 }: Props) {
+  const session = useCustomerSession();
   const availableProducts = useMemo(() => {
     if (products?.length) return products;
     if (initialProduct) return [initialProduct];
@@ -39,6 +42,7 @@ export function QuoteForm({
     initialProduct?.id || product?.id || availableProducts[0]?.id || catalog[0]?.id || ''
   );
   const [customerName, setCustomerName] = useState('');
+  const [customerEmail, setCustomerEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [cep, setCep] = useState('');
   const [neighborhood, setNeighborhood] = useState('');
@@ -54,6 +58,12 @@ export function QuoteForm({
   );
 
   const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+
+  useEffect(() => {
+    if (!session.loggedIn) return;
+    setCustomerName(session.user?.displayName || '');
+    setCustomerEmail(session.user?.email || '');
+  }, [session.loggedIn, session.user?.displayName, session.user?.email]);
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -71,6 +81,7 @@ export function QuoteForm({
       body: JSON.stringify({
         productId: selectedProduct.id,
         customerName,
+        customerEmail,
         phone,
         cep,
         neighborhood,
@@ -96,8 +107,21 @@ export function QuoteForm({
         ? `Orçamento ${data.quoteId} registrado com sucesso.`
         : `Orçamento ${data.quoteId} recebido em modo vitrine. Continue o fechamento pelo WhatsApp.`;
 
+    const memberKey = getMemberKey({ id: session.user?.id, email: session.user?.email });
+    saveQuote(memberKey, {
+      quoteId: String(data.quoteId),
+      productId: selectedProduct.id,
+      productName: selectedProduct.name,
+      pricePix: selectedProduct.pricePix,
+      estimatedDeliveryFee: 0,
+      totalPix: selectedProduct.pricePix,
+      paymentMethod,
+      createdAt: new Date().toISOString()
+    });
+
     setSubmitState({ kind: 'success', message });
-    setCustomerName('');
+    setCustomerName(session.user?.displayName || '');
+    setCustomerEmail(session.user?.email || '');
     setPhone('');
     setCep('');
     setNeighborhood('');
@@ -159,16 +183,23 @@ export function QuoteForm({
             <input value={customerName} onChange={(e) => setCustomerName(e.target.value)} className="field-base" required />
           </label>
           <label>
-            <span className="mb-2 block text-sm text-white/70">WhatsApp</span>
-            <input value={phone} onChange={(e) => setPhone(e.target.value)} className="field-base" required />
+            <span className="mb-2 block text-sm text-white/70">Email</span>
+            <input value={customerEmail} onChange={(e) => setCustomerEmail(e.target.value)} type="email" className="field-base" />
           </label>
         </div>
 
-        <div className="grid gap-4 md:grid-cols-3">
+        <div className="grid gap-4 md:grid-cols-2">
+          <label>
+            <span className="mb-2 block text-sm text-white/70">WhatsApp</span>
+            <input value={phone} onChange={(e) => setPhone(e.target.value)} className="field-base" required />
+          </label>
           <label>
             <span className="mb-2 block text-sm text-white/70">CEP</span>
             <input value={cep} onChange={(e) => setCep(e.target.value)} className="field-base" />
           </label>
+        </div>
+
+        <div className="grid gap-4 md:grid-cols-2">
           <label>
             <span className="mb-2 block text-sm text-white/70">Bairro</span>
             <input value={neighborhood} onChange={(e) => setNeighborhood(e.target.value)} className="field-base" required />
