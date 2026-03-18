@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
   const siteUrl = getSiteUrl();
   const productUrl = `${siteUrl}/catalogo/${slug}`;
-  const imageUrl = product.images?.[0] || `${siteUrl}/catalog-assets/product-placeholder.webp`;
+  const imageUrl = product.images?.[0]?.startsWith("http") ? product.images[0] : `${siteUrl}${product.images?.[0] || "/catalog-assets/product-placeholder.webp"}`;
 
   return {
     title: `${product.name} | MDH 3D Store`,
@@ -63,14 +63,17 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
   const siteUrl = getSiteUrl();
   const productUrl = `${siteUrl}/catalogo/${slug}`;
-  const imageUrl = product.images?.[0] || `${siteUrl}/catalog-assets/product-placeholder.webp`;
+  const imageUrl = product.images?.[0]?.startsWith("http") ? product.images[0] : `${siteUrl}${product.images?.[0] || "/catalog-assets/product-placeholder.webp"}`;
+  const resolvedImages = product.images?.length
+    ? product.images.map((image) => (image.startsWith("http") ? image : `${siteUrl}${image}`))
+    : [imageUrl];
 
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: product.name,
     description: product.description,
-    image: product.images || [imageUrl],
+    image: resolvedImages,
     sku: product.sku,
     brand: {
       '@type': 'Brand',
@@ -78,8 +81,10 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
     },
     offers: {
       '@type': 'Offer',
-      price: product.price,
+      url: productUrl,
+      price: product.pricePix,
       priceCurrency: 'BRL',
+      itemCondition: 'https://schema.org/NewCondition',
       availability: product.stock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
       seller: {
         '@type': 'Organization',
@@ -175,7 +180,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           </div>
 
           <div className="mt-8 flex flex-wrap gap-3">
-            <Link href="/checkout" className="btn-primary">Ir para checkout</Link>
+            <Link href={`/checkout?product=${product.id}`} className="btn-primary">Ir para checkout</Link>
             {product.customizable && (
               <button className="btn-secondary">Personalizar (Escala, Cor)</button>
             )}

@@ -25,14 +25,18 @@ function crc16(payload: string) {
 }
 
 export function makePixPayload({ amount, description }: { amount: number; description: string }) {
-  const key = process.env.PIX_KEY || process.env.NEXT_PUBLIC_DEFAULT_PIX_KEY || "21974137662";
+  const key =
+    process.env.PIX_KEY ||
+    process.env.NEXT_PUBLIC_PIX_KEY ||
+    process.env.NEXT_PUBLIC_DEFAULT_PIX_KEY ||
+    "21974137662";
   const receiverName = process.env.PIX_RECEIVER_NAME || "MARK MATHIAS DO SACRAMENTO";
   const receiverCity = process.env.PIX_RECEIVER_CITY || "RIO DE JANEIRO";
   const merchantName = onlyAscii(receiverName).slice(0, 25) || "MDH 3D";
   const merchantCity = onlyAscii(receiverCity).slice(0, 15) || "RIO DE JANEIRO";
   const txid = "MDH3D";
   const gui = emv("00", "BR.GOV.BCB.PIX");
-  const pixKey = emv("01", key);
+  const pixKey = emv("01", key.trim());
   const desc = description ? emv("02", onlyAscii(description).slice(0, 72)) : "";
   const merchantAccount = emv("26", `${gui}${pixKey}${desc}`);
   const amountTag = Number.isFinite(amount) && amount > 0 ? emv("54", amount.toFixed(2)) : "";

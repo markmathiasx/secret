@@ -1,5 +1,5 @@
 import { CreditCard, MessageCircleMore, QrCode, Sparkles } from 'lucide-react';
-import { whatsappNumber } from '@/lib/constants';
+import { pix, whatsappNumber } from '@/lib/constants';
 
 const quickQuestions = [
   'Quero fechar no Pix agora',
@@ -8,7 +8,7 @@ const quickQuestions = [
   'Quero ajuda para escolher um presente'
 ];
 
-export function SiteAssistant() {
+export function SiteAssistant({ cardCheckoutReady }: { cardCheckoutReady: boolean }) {
   const href = `https://wa.me/${whatsappNumber}`;
 
   return (
@@ -26,11 +26,11 @@ export function SiteAssistant() {
         <div className="mt-4 grid gap-2 rounded-[22px] border border-white/10 bg-white/5 p-4 text-xs text-white/68">
           <div className="flex items-center gap-2">
             <QrCode className="h-4 w-4 text-emerald-200" />
-            <span>Pix direto na chave 21974137662</span>
+            <span>Pix direto na chave {pix.key}</span>
           </div>
           <div className="flex items-center gap-2">
             <CreditCard className="h-4 w-4 text-cyan-100" />
-            <span>Cartão com checkout seguro via Mercado Pago</span>
+            <span>{cardCheckoutReady ? 'Cartão com checkout seguro via Mercado Pago' : 'Cartão preparado, aguardando ativação final do provedor'}</span>
           </div>
           <div className="flex items-center gap-2">
             <Sparkles className="h-4 w-4 text-cyan-100" />

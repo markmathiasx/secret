@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight, CreditCard, MessageCircleMore, QrCode, ShieldCheck, Upload } from "lucide-react";
+import { pix } from "@/lib/constants";
 
 const highlights = [
   "Peças prontas, presentes criativos e produção sob encomenda",
@@ -11,7 +12,7 @@ const highlights = [
 ];
 
 const quickFacts = [
-  { label: "Pix direto", value: "21974137662" },
+  { label: "Pix direto", value: pix.key },
   { label: "Cartão", value: "Mercado Pago" },
   { label: "Login", value: "Conta segura" }
 ];
@@ -145,7 +146,7 @@ export function Hero() {
                 <QrCode className="h-5 w-5" />
                 <p className="text-sm font-semibold uppercase tracking-[0.18em]">Pix em destaque</p>
               </div>
-              <p className="mt-3 text-2xl font-black text-white">Chave 21974137662</p>
+              <p className="mt-3 text-2xl font-black text-white">Chave {pix.key}</p>
               <p className="mt-2 text-sm leading-7 text-white/68">O checkout exibe QR Code, copia e cola e a chave direta para acelerar o fechamento de pedidos simples.</p>
             </div>
 

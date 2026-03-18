@@ -40,6 +40,8 @@ Se quiser bootstrap inicial do admin por senha em texto puro, use `ADMIN_PASSWOR
 - Senhas ficam em hash `scrypt` no servidor.
 - Sessões de cliente e admin usam cookies `HttpOnly` assinados.
 - O painel administrativo usa `/admin/login`.
+- A chave Pix pública do front pode ser definida em `NEXT_PUBLIC_PIX_KEY`.
+- O webhook do Mercado Pago usa `external_reference` igual ao código do pedido para reconciliação.
 
 ## Produção recomendada
 
@@ -51,11 +53,15 @@ SUPABASE_ANON_KEY=
 SUPABASE_SERVICE_ROLE_KEY=
 NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_ANON_KEY=
+SUPABASE_QUOTE_REQUESTS_TABLE=quote_requests
+NEXT_PUBLIC_PIX_KEY=21974137662
 MERCADOPAGO_ACCESS_TOKEN=
+MERCADOPAGO_WEBHOOK_SECRET=
 ```
 
 Sem `SUPABASE_SERVICE_ROLE_KEY`, pedidos e orçamentos não gravam no banco.
 Sem `MERCADOPAGO_ACCESS_TOKEN`, o site mantém o fluxo do cartão preparado, mas devolve fallback orientando Pix ou WhatsApp.
+Sem `MERCADOPAGO_WEBHOOK_SECRET`, o site ainda recebe notificações, mas perde a validação criptográfica da assinatura do webhook.
 
 ## Checks
 

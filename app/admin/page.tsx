@@ -1,56 +1,102 @@
-import { Package, Wallet, Clock3, AlertCircle, Factory, CheckCircle2, Truck, Ban, NotebookTabs } from "lucide-react";
+import { Factory, FileText, MessageCircleMore, Package, Wallet } from "lucide-react";
+import { formatCurrency } from "@/lib/utils";
+import { getAdminDashboardSnapshot } from "@/lib/server-store";
 
-const cards = [
-  ["Total de pedidos", "Acompanhe o volume total", Package],
-  ["Total vendido", "Resumo financeiro do período", Wallet],
-  ["Pedidos do dia", "Operação ativa hoje", Clock3],
-  ["Pendentes", "Itens aguardando ação", AlertCircle],
-  ["Em produção", "Fila de fabricação", Factory],
-  ["Finalizados", "Pedidos prontos", CheckCircle2],
-  ["Entregues", "Operação concluída", Truck],
-  ["Cancelados", "Ocorrências encerradas", Ban],
+export const dynamic = "force-dynamic";
+
+const metricMeta = [
+  { key: "totalOrders", label: "Pedidos recentes", icon: Package },
+  { key: "totalQuotes", label: "Orcamentos recentes", icon: FileText },
+  { key: "openRequests", label: "Leads em aberto", icon: MessageCircleMore },
+  { key: "totalRevenuePix", label: "Receita Pix observada", icon: Wallet },
+  { key: "totalRevenueCard", label: "Receita cartao observada", icon: Factory }
 ] as const;
 
-const channels = ["WhatsApp", "Instagram", "Shopee", "Mercado Livre", "Amazon", "Americanas"];
+export default async function AdminHome() {
+  const snapshot = await getAdminDashboardSnapshot();
 
-export default function AdminHome() {
   return (
     <section className="mx-auto max-w-7xl px-6 py-14">
       <div className="rounded-[36px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.03))] p-8 shadow-[0_24px_80px_rgba(2,8,23,0.26)]">
         <p className="text-xs uppercase tracking-[0.2em] text-cyan-200/80">Painel operacional</p>
         <h1 className="mt-3 text-4xl font-black text-white">Admin MDH 3D</h1>
-        <p className="mt-4 max-w-3xl text-sm leading-7 text-white/65">Dashboard consolidado para acompanhar pedidos, pagamento, produção e canais externos. Use esta página como hub do vendedor até concluir a integração total com banco e sessões persistentes.</p>
-        <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          {cards.map(([title, subtitle, Icon]) => (
-            <article key={title} className="rounded-[24px] border border-white/10 bg-black/20 p-5">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-semibold text-white">{title}</p>
-                  <p className="mt-2 text-xs text-white/45">{subtitle}</p>
+        <p className="mt-4 max-w-3xl text-sm leading-7 text-white/65">
+          Visao central de pedidos, orcamentos e entradas do site. Os numeros abaixo leem os registros mais recentes gravados no Supabase.
+        </p>
+
+        <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-5">
+          {metricMeta.map((item) => {
+            const Icon = item.icon;
+            const rawValue = snapshot.metrics[item.key];
+            const value = item.key.startsWith("totalRevenue") ? formatCurrency(Number(rawValue)) : String(rawValue);
+
+            return (
+              <article key={item.key} className="rounded-[24px] border border-white/10 bg-black/20 p-5">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-xs uppercase tracking-[0.18em] text-white/45">{item.label}</p>
+                    <p className="mt-3 text-2xl font-black text-white">{value}</p>
+                  </div>
+                  <div className="rounded-full border border-white/10 bg-white/5 p-3 text-cyan-100">
+                    <Icon className="h-5 w-5" />
+                  </div>
                 </div>
-                <div className="rounded-full border border-white/10 bg-white/5 p-3 text-cyan-100"><Icon className="h-5 w-5" /></div>
-              </div>
-            </article>
-          ))}
+              </article>
+            );
+          })}
         </div>
-        <div className="mt-8 grid gap-5 lg:grid-cols-[1fr_0.9fr]">
-          <div className="rounded-[24px] border border-white/10 bg-black/20 p-6">
-            <div className="flex items-center gap-3 text-cyan-100"><NotebookTabs className="h-5 w-5" />Cadastro manual por canal</div>
-            <div className="mt-4 flex flex-wrap gap-2">
-              {channels.map((channel) => (
-                <span key={channel} className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-sm text-white/75">{channel}</span>
-              ))}
+
+        <div className="mt-8 grid gap-5 xl:grid-cols-3">
+          <div className="rounded-[24px] border border-white/10 bg-black/20 p-6 xl:col-span-2">
+            <p className="text-sm font-semibold text-white">Pedidos recentes</p>
+            <div className="mt-4 grid gap-3">
+              {snapshot.recentOrders.length ? snapshot.recentOrders.map((item) => (
+                <div key={item.id} className="rounded-[20px] border border-white/10 bg-white/5 p-4 text-sm text-white/76">
+                  <div className="flex flex-wrap items-center justify-between gap-3">
+                    <div>
+                      <p className="font-semibold text-white">{item.product_name}</p>
+                      <p className="mt-1 text-white/55">{item.customer_name} • {item.email}</p>
+                    </div>
+                    <span className="rounded-full border border-white/10 bg-black/20 px-3 py-1 text-[11px] uppercase tracking-[0.16em] text-white/55">{item.status}</span>
+                  </div>
+                  <div className="mt-3 flex flex-wrap gap-3 text-xs text-white/55">
+                    <span>{item.order_code}</span>
+                    <span>{item.payment_method}</span>
+                    <span>{item.payment_status || "sem status"}</span>
+                    <span>Qtd {item.quantity}</span>
+                    <span>{formatCurrency(Number(item.payment_method === "cartao" ? item.total_card || 0 : item.total_pix || 0))}</span>
+                  </div>
+                </div>
+              )) : <p className="text-sm text-white/60">Nenhum pedido recente encontrado.</p>}
             </div>
-            <p className="mt-4 text-sm leading-7 text-white/60">O próximo passo operacional é conectar este painel ao fluxo real de pedidos, timeline, notas internas e edição de status de pagamento.</p>
           </div>
-          <div className="rounded-[24px] border border-white/10 bg-black/20 p-6">
-            <p className="text-sm font-semibold text-white">Checklist rápido</p>
-            <ul className="mt-4 space-y-3 text-sm text-white/65">
-              <li>• Validar ADMIN_EMAIL, ADMIN_PASSWORD_HASH e ADMIN_SESSION_SECRET</li>
-              <li>• Conferir tabela quote_requests / quotes no Supabase</li>
-              <li>• Garantir que o login admin grave cookie seguro</li>
-              <li>• Revisar status operacional e origem dos pedidos</li>
-            </ul>
+
+          <div className="grid gap-5">
+            <div className="rounded-[24px] border border-white/10 bg-black/20 p-6">
+              <p className="text-sm font-semibold text-white">Orcamentos recentes</p>
+              <div className="mt-4 grid gap-3">
+                {snapshot.recentQuotes.length ? snapshot.recentQuotes.map((item) => (
+                  <div key={item.id} className="rounded-[18px] border border-white/10 bg-white/5 p-4 text-sm text-white/76">
+                    <p className="font-semibold text-white">{item.product_name}</p>
+                    <p className="mt-1 text-white/55">{item.customername}</p>
+                    <p className="mt-2 text-xs text-white/50">{item.quote_id} • {item.paymentmethod}</p>
+                  </div>
+                )) : <p className="text-sm text-white/60">Nenhum orcamento recente encontrado.</p>}
+              </div>
+            </div>
+
+            <div className="rounded-[24px] border border-white/10 bg-black/20 p-6">
+              <p className="text-sm font-semibold text-white">Leads de imagem para 3D</p>
+              <div className="mt-4 grid gap-3">
+                {snapshot.recentQuoteRequests.length ? snapshot.recentQuoteRequests.map((item) => (
+                  <div key={item.id} className="rounded-[18px] border border-white/10 bg-white/5 p-4 text-sm text-white/76">
+                    <p className="font-semibold text-white">{item.customer_name || "Lead sem nome"}</p>
+                    <p className="mt-1 text-white/55">{item.request_type || "image-to-3d"} • {item.source || "site"}</p>
+                    <p className="mt-2 text-xs text-white/50">{item.quote_id || "sem codigo"} • {item.email || item.phone || "sem contato"}</p>
+                  </div>
+                )) : <p className="text-sm text-white/60">Nenhum lead recente encontrado.</p>}
+              </div>
+            </div>
           </div>
         </div>
       </div>

@@ -4,9 +4,8 @@ import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import QRCode from "qrcode";
 import { Copy, QrCode, ShieldCheck } from "lucide-react";
+import { pix } from "@/lib/constants";
 import { formatCurrency } from "@/lib/utils";
-
-const PIX_KEY = "21974137662";
 
 export function PixPaymentCard({ title, amount }: { title: string; amount: number }) {
   const [payload, setPayload] = useState("");
@@ -45,7 +44,7 @@ export function PixPaymentCard({ title, amount }: { title: string; amount: numbe
         <div>
           <p className="text-xs uppercase tracking-[0.2em] text-emerald-100/80">Pagamento instantâneo</p>
           <h3 className="mt-2 text-2xl font-black text-white">Pix com QR Code e copia e cola</h3>
-          <p className="mt-3 text-sm leading-7 text-emerald-50/75">Gere o pagamento somente quando for fechar o pedido. O app do cliente confirma o recebedor com CPF final 85.</p>
+          <p className="mt-3 text-sm leading-7 text-emerald-50/75">Gere o pagamento somente quando for fechar o pedido e confirme o nome do recebedor no app do banco antes de concluir.</p>
         </div>
         <span className="rounded-2xl border border-white/10 bg-black/20 p-3 text-emerald-50">
           <QrCode className="h-6 w-6" />
@@ -72,7 +71,7 @@ export function PixPaymentCard({ title, amount }: { title: string; amount: numbe
           </div>
           <div className="rounded-[24px] border border-emerald-400/20 bg-emerald-400/10 p-4">
             <p className="text-sm text-white/55">Chave Pix direta</p>
-            <p className="mt-2 text-lg font-black tracking-[0.14em] text-white">{PIX_KEY}</p>
+            <p className="mt-2 text-lg font-black tracking-[0.14em] text-white">{pix.key}</p>
             <p className="mt-2 text-sm text-white/60">O cliente pode pagar pelo QR Code, pelo código copia e cola ou informando essa chave no app do banco.</p>
           </div>
           <div className="flex items-start gap-3 rounded-[24px] border border-white/10 bg-black/20 p-4 text-sm text-white/68">

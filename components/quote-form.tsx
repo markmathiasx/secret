@@ -180,29 +180,29 @@ export function QuoteForm({
         <div className="grid gap-4 md:grid-cols-2">
           <label>
             <span className="mb-2 block text-sm text-white/70">Seu nome</span>
-            <input value={customerName} onChange={(e) => setCustomerName(e.target.value)} className="field-base" required />
+            <input value={customerName} onChange={(e) => setCustomerName(e.target.value)} className="field-base" autoComplete="name" required />
           </label>
           <label>
             <span className="mb-2 block text-sm text-white/70">Email</span>
-            <input value={customerEmail} onChange={(e) => setCustomerEmail(e.target.value)} type="email" className="field-base" />
+            <input value={customerEmail} onChange={(e) => setCustomerEmail(e.target.value)} type="email" className="field-base" autoComplete="email" inputMode="email" />
           </label>
         </div>
 
         <div className="grid gap-4 md:grid-cols-2">
           <label>
             <span className="mb-2 block text-sm text-white/70">WhatsApp</span>
-            <input value={phone} onChange={(e) => setPhone(e.target.value)} className="field-base" required />
+            <input value={phone} onChange={(e) => setPhone(e.target.value)} className="field-base" autoComplete="tel" inputMode="tel" required />
           </label>
           <label>
             <span className="mb-2 block text-sm text-white/70">CEP</span>
-            <input value={cep} onChange={(e) => setCep(e.target.value)} className="field-base" />
+            <input value={cep} onChange={(e) => setCep(e.target.value)} className="field-base" autoComplete="postal-code" inputMode="numeric" />
           </label>
         </div>
 
         <div className="grid gap-4 md:grid-cols-2">
           <label>
             <span className="mb-2 block text-sm text-white/70">Bairro</span>
-            <input value={neighborhood} onChange={(e) => setNeighborhood(e.target.value)} className="field-base" required />
+            <input value={neighborhood} onChange={(e) => setNeighborhood(e.target.value)} className="field-base" autoComplete="address-level3" required />
           </label>
           <label>
             <span className="mb-2 block text-sm text-white/70">Distância em km</span>

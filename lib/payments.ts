@@ -1,6 +1,16 @@
-import MercadoPagoConfig, { Preference } from 'mercadopago';
+import MercadoPagoConfig, { Payment, Preference } from 'mercadopago';
 import { getSiteUrl } from '@/lib/env';
 import { formatCurrency } from '@/lib/utils';
+
+function getMercadoPagoConfig() {
+  const accessToken = process.env.MERCADOPAGO_ACCESS_TOKEN?.trim();
+
+  if (!accessToken) {
+    return null;
+  }
+
+  return new MercadoPagoConfig({ accessToken });
+}
 
 export async function createMercadoPagoPreference(input: {
   title: string;
@@ -9,12 +19,12 @@ export async function createMercadoPagoPreference(input: {
   externalReference: string;
   payerEmail?: string;
 }) {
-  const accessToken = process.env.MERCADOPAGO_ACCESS_TOKEN?.trim();
   const siteUrl = getSiteUrl();
   const quantity = input.quantity || 1;
   const total = input.unitPrice * quantity;
+  const client = getMercadoPagoConfig();
 
-  if (!accessToken) {
+  if (!client) {
     return {
       ok: false,
       reason: 'missing_access_token',
@@ -23,7 +33,6 @@ export async function createMercadoPagoPreference(input: {
   }
 
   try {
-    const client = new MercadoPagoConfig({ accessToken });
     const preference = new Preference(client);
 
     const response = await preference.create({
@@ -61,6 +70,33 @@ export async function createMercadoPagoPreference(input: {
       reason: 'mercadopago_error',
       fallbackMessage: `Não foi possível abrir o checkout agora. Continue por Pix ou WhatsApp. Valor estimado: ${formatCurrency(total)}.`,
       details: error instanceof Error ? error.message : 'Falha desconhecida no Mercado Pago.'
+    } as const;
+  }
+}
+
+export async function getMercadoPagoPayment(paymentId: string | number) {
+  const client = getMercadoPagoConfig();
+
+  if (!client) {
+    return {
+      ok: false,
+      reason: 'missing_access_token'
+    } as const;
+  }
+
+  try {
+    const payment = new Payment(client);
+    const response = await payment.get({ id: paymentId });
+
+    return {
+      ok: true,
+      payment: response
+    } as const;
+  } catch (error) {
+    return {
+      ok: false,
+      reason: 'mercadopago_error',
+      details: error instanceof Error ? error.message : 'Falha desconhecida ao consultar pagamento.'
     } as const;
   }
 }

@@ -52,9 +52,14 @@ export async function POST(request: Request) {
       created_at: new Date().toISOString(),
       source: 'site',
       storage_mode: 'metadata-only',
+      details: {
+        has_reference_image: image instanceof File,
+        has_model_file: model instanceof File
+      },
+      status: 'recebido'
     };
 
-    const stored = await storeRecord('quotes', payload as Record<string, unknown>);
+    const stored = await storeRecord('quoteRequests', payload as Record<string, unknown>);
     if (!stored.ok) {
       return NextResponse.json({ message: 'Falha ao registrar solicitação.' }, { status: 500 });
     }
@@ -86,7 +91,14 @@ export async function POST(request: Request) {
     quote_id: quoteId,
     product_id: product.id,
     product_name: product.name,
-    ...parsed.data,
+    customername: parsed.data.customerName,
+    phone: parsed.data.phone,
+    cep: parsed.data.cep,
+    neighborhood: parsed.data.neighborhood,
+    distancekm: parsed.data.distanceKm,
+    colorpreference: parsed.data.colorPreference,
+    paymentmethod: parsed.data.paymentMethod,
+    notes: parsed.data.notes,
     estimated_price_pix: product.pricePix,
     estimated_price_card: product.priceCard,
     estimated_delivery_fee: deliveryFee,

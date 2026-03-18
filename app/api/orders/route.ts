@@ -38,6 +38,17 @@ export async function POST(request: Request) {
   const orderCode = `MDH-${new Date().toISOString().slice(0, 10).replace(/-/g, '')}-${Math.floor(1000 + Math.random() * 9000)}`;
   const totalPix = Number((product.pricePix * parsed.data.quantity).toFixed(2));
   const totalCard = Number((product.priceCard * parsed.data.quantity).toFixed(2));
+  const createdAt = new Date().toISOString();
+  const isCardCheckout = parsed.data.paymentMethod === 'cartao';
+  const isPixCheckout = parsed.data.paymentMethod === 'pix';
+  const status = isCardCheckout
+    ? 'aguardando pagamento no cartao'
+    : isPixCheckout
+      ? 'aguardando pix'
+      : 'aguardando pagamento';
+  const paymentProvider = isCardCheckout ? 'mercado-pago' : isPixCheckout ? 'pix-manual' : 'manual';
+  const paymentStatus = isCardCheckout ? 'checkout_pending' : isPixCheckout ? 'awaiting_payment' : 'pending_manual_confirmation';
+  const paymentStatusDetail = isCardCheckout ? 'preference_pending' : isPixCheckout ? 'pix_visible' : 'manual_payment_selected';
 
   const result = await storeRecord('orders', {
     order_code: orderCode,
@@ -53,8 +64,14 @@ export async function POST(request: Request) {
     notes: parsed.data.notes,
     total_pix: totalPix,
     total_card: totalCard,
-    created_at: new Date().toISOString(),
-    status: 'novo pedido'
+    payment_provider: paymentProvider,
+    payment_reference: null,
+    payment_status: paymentStatus,
+    payment_status_detail: paymentStatusDetail,
+    payment_approved_at: null,
+    created_at: createdAt,
+    updated_at: createdAt,
+    status
   });
 
   if (!result.ok) {

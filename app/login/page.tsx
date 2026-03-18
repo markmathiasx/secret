@@ -124,7 +124,7 @@ export default function LoginPage() {
                 <span className="mb-2 block text-sm text-white/70">Nome</span>
                 <div className="field-base flex items-center gap-3">
                   <User className="h-4 w-4 text-white/45" />
-                  <input value={name} onChange={(e) => setName(e.target.value)} type="text" className="w-full bg-transparent outline-none" required />
+                  <input value={name} onChange={(e) => setName(e.target.value)} type="text" autoComplete="name" className="w-full bg-transparent outline-none" required />
                 </div>
               </label>
             ) : null}
@@ -133,14 +133,14 @@ export default function LoginPage() {
               <span className="mb-2 block text-sm text-white/70">Email</span>
               <div className="field-base flex items-center gap-3">
                 <Mail className="h-4 w-4 text-white/45" />
-                <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" className="w-full bg-transparent outline-none" required />
+                <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" autoComplete="email" inputMode="email" className="w-full bg-transparent outline-none" required />
               </div>
             </label>
             <label className="block">
               <span className="mb-2 block text-sm text-white/70">Senha</span>
               <div className="field-base flex items-center gap-3">
                 <LockKeyhole className="h-4 w-4 text-white/45" />
-                <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" className="w-full bg-transparent outline-none" required minLength={8} />
+                <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" autoComplete={mode === 'register' ? 'new-password' : 'current-password'} className="w-full bg-transparent outline-none" required minLength={8} />
               </div>
             </label>
 

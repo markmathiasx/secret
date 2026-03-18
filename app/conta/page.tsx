@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { featuredCatalog, findProduct, getProductUrl } from '@/lib/catalog';
 import { emitCustomerAuthChange, useCustomerSession } from '@/lib/customer-session-client';
 import { getDisplayName, getMemberKey, listFavorites, listSavedQuotes, type SavedQuote } from '@/lib/member-store';
+import { formatCurrency } from '@/lib/utils';
 
 type AccountState = {
   ready: boolean;
@@ -13,6 +14,19 @@ type AccountState = {
   email: string | null;
   favorites: string[];
   quotes: SavedQuote[];
+  orders: Array<{
+    id: string;
+    order_code: string;
+    product_name: string;
+    payment_method: string;
+    payment_status: string | null;
+    payment_reference: string | null;
+    quantity: number;
+    total_pix: number | null;
+    total_card: number | null;
+    status: string;
+    created_at: string;
+  }>;
 };
 
 export default function AccountPage() {
@@ -23,14 +37,23 @@ export default function AccountPage() {
     name: 'cliente',
     email: null,
     favorites: [],
-    quotes: []
+    quotes: [],
+    orders: []
   });
 
   useEffect(() => {
     if (!session.ready) return;
 
-    function load() {
+    async function load() {
       const key = getMemberKey({ id: session.user?.id, email: session.user?.email });
+      let orders: AccountState['orders'] = [];
+
+      if (session.loggedIn) {
+        const response = await fetch('/api/account/orders', { cache: 'no-store' });
+        const data = await response.json().catch(() => ({}));
+        orders = response.ok && Array.isArray(data?.orders) ? data.orders : [];
+      }
+
       setAccount({
         ready: true,
         loggedIn: session.loggedIn,
@@ -40,14 +63,15 @@ export default function AccountPage() {
         }),
         email: session.user?.email || null,
         favorites: listFavorites(key),
-        quotes: listSavedQuotes(key)
+        quotes: listSavedQuotes(key),
+        orders
       });
     }
 
-    load();
+    void load();
 
     function onStoreChange() {
-      load();
+      void load();
     }
 
     window.addEventListener('mdh:member-store', onStoreChange);
@@ -101,18 +125,38 @@ export default function AccountPage() {
         </div>
 
         <div className="glass-panel p-6">
-          <h2 className="text-2xl font-bold text-white">Orçamentos e pedidos</h2>
-          <p className="mt-1 text-sm text-white/60">{account.quotes.length} solicitação(ões) recente(s)</p>
+          <h2 className="text-2xl font-bold text-white">Pedidos recentes</h2>
+          <p className="mt-1 text-sm text-white/60">{account.orders.length} pedido(s) encontrado(s)</p>
           <div className="mt-4 grid gap-3">
-            {account.quotes.length ? account.quotes.slice(0, 8).map((item) => (
-              <div key={item.quoteId} className="rounded-2xl border border-white/10 bg-black/20 p-4 text-sm text-white/80">
-                <p className="font-semibold text-white">{item.productName}</p>
-                <p className="mt-1 text-white/60">Código {item.quoteId}</p>
+            {account.orders.length ? account.orders.slice(0, 8).map((item) => (
+              <div key={item.id} className="rounded-2xl border border-white/10 bg-black/20 p-4 text-sm text-white/80">
+                <div className="flex items-center justify-between gap-3">
+                  <p className="font-semibold text-white">{item.product_name}</p>
+                  <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] uppercase tracking-[0.16em] text-white/55">{item.status}</span>
+                </div>
+                <p className="mt-1 text-white/60">Código {item.order_code}</p>
+                <p className="mt-1 text-white/60">Pagamento {item.payment_method} • {item.payment_status || "sem atualização"} • Quantidade {item.quantity}</p>
+                <p className="mt-2 text-cyan-100">
+                  {item.payment_method === 'cartao' ? formatCurrency(Number(item.total_card || 0)) : formatCurrency(Number(item.total_pix || 0))}
+                </p>
               </div>
-            )) : <p className="text-sm text-white/70">Você ainda não enviou orçamento. Clique em “Pedir orçamento” em qualquer produto.</p>}
+            )) : <p className="text-sm text-white/70">Você ainda não tem pedido com este email. Quando comprar pelo checkout, o histórico aparece aqui.</p>}
           </div>
         </div>
       </div>
+
+      <div className="mt-6 glass-panel p-6">
+        <h3 className="text-xl font-semibold text-white">Orçamentos salvos no navegador</h3>
+        <p className="mt-1 text-sm text-white/60">{account.quotes.length} solicitação(ões) recente(s)</p>
+        <div className="mt-4 grid gap-3 md:grid-cols-2">
+          {account.quotes.length ? account.quotes.slice(0, 8).map((item) => (
+            <div key={item.quoteId} className="rounded-2xl border border-white/10 bg-black/20 p-4 text-sm text-white/80">
+              <p className="font-semibold text-white">{item.productName}</p>
+              <p className="mt-1 text-white/60">Código {item.quoteId}</p>
+            </div>
+          )) : <p className="text-sm text-white/70">Você ainda não enviou orçamento. Clique em “Pedir orçamento” em qualquer produto.</p>}
+          </div>
+        </div>
 
       <div className="mt-6 glass-panel p-6">
         <h3 className="text-xl font-semibold text-white">Recomendações para você</h3>

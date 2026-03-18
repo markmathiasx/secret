@@ -7,9 +7,8 @@ import { CreditCard, MessageCircleMore, QrCode, ShieldCheck } from 'lucide-react
 import { PixPaymentCard } from '@/components/pix-payment-card';
 import { catalog, featuredCatalog } from '@/lib/catalog';
 import { useCustomerSession } from '@/lib/customer-session-client';
+import { pix } from '@/lib/constants';
 import { formatCurrency } from '@/lib/utils';
-
-const PIX_KEY = '21974137662';
 const PAYMENT_STATUS: Record<string, string> = {
   success: 'Pagamento aprovado. Assim que a confirmação chegar, o pedido entra na fila de produção.',
   pending: 'Pagamento pendente. Se estiver no cartão, o provedor ainda está processando a autorização.',
@@ -20,6 +19,7 @@ export default function CheckoutPage() {
   const searchParams = useSearchParams();
   const session = useCustomerSession();
   const initial = featuredCatalog[0] || catalog[0];
+  const queryProductId = searchParams.get('product');
 
   const [productId, setProductId] = useState(initial?.id || '');
   const [quantity, setQuantity] = useState(1);
@@ -51,6 +51,14 @@ export default function CheckoutPage() {
     if (!checkoutStatus) return;
     setStatus(PAYMENT_STATUS[checkoutStatus] || null);
   }, [searchParams]);
+
+  useEffect(() => {
+    if (!queryProductId) return;
+    const exists = catalog.some((item) => item.id === queryProductId);
+    if (exists) {
+      setProductId(queryProductId);
+    }
+  }, [queryProductId]);
 
   const whatsappHref = useMemo(() => {
     if (!product) return 'https://wa.me/5521920137249';
@@ -115,7 +123,8 @@ export default function CheckoutPage() {
           body: JSON.stringify({
             productId,
             quantity,
-            email
+            email,
+            orderCode: orderData.orderCode || undefined
           })
         });
 
@@ -141,7 +150,7 @@ export default function CheckoutPage() {
         setPixPayload(pixData.payload || null);
       }
 
-      setStatus(`Pedido ${orderData.orderCode} criado. Pague no Pix pela chave ${PIX_KEY} ou pelo QR Code abaixo e depois confirme no WhatsApp.`);
+      setStatus(`Pedido ${orderData.orderCode} criado. Pague no Pix pela chave ${pix.key} ou pelo QR Code abaixo e depois confirme no WhatsApp.`);
     } catch {
       setStatus('Falha de rede ao criar o pedido. Tente novamente em instantes.');
     } finally {
@@ -183,7 +192,7 @@ export default function CheckoutPage() {
                   <div className="rounded-2xl border border-emerald-400/20 bg-emerald-400/10 p-4">
                     <p className="text-xs uppercase tracking-[0.18em] text-emerald-100/70">Total no Pix</p>
                     <p className="mt-2 text-2xl font-black text-white">{formatCurrency(totalPix)}</p>
-                    <p className="mt-2 text-xs text-white/55">Chave Pix direta: {PIX_KEY}</p>
+                    <p className="mt-2 text-xs text-white/55">Chave Pix direta: {pix.key}</p>
                   </div>
                   <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
                     <p className="text-xs uppercase tracking-[0.18em] text-white/50">Total no cartão</p>
@@ -200,7 +209,7 @@ export default function CheckoutPage() {
                   <QrCode className="h-4 w-4" />
                   <span className="text-xs uppercase tracking-[0.18em]">Pix</span>
                 </div>
-                <p className="mt-3 text-sm leading-6 text-white/68">Pagamento instantâneo na chave 21974137662 com visualização do QR Code no próprio checkout.</p>
+                <p className="mt-3 text-sm leading-6 text-white/68">Pagamento instantâneo na chave {pix.key} com visualização do QR Code no próprio checkout.</p>
               </div>
               <div className="rounded-[22px] border border-white/10 bg-white/5 p-4">
                 <div className="flex items-center gap-2 text-cyan-100">
@@ -265,26 +274,26 @@ export default function CheckoutPage() {
           <div className="grid gap-4 md:grid-cols-2">
             <label>
               <span className="mb-2 block text-sm text-white/70">Nome completo</span>
-              <input value={customerName} onChange={(event) => setCustomerName(event.target.value)} className="field-base" required />
+              <input value={customerName} onChange={(event) => setCustomerName(event.target.value)} className="field-base" autoComplete="name" required />
             </label>
             <label>
               <span className="mb-2 block text-sm text-white/70">Email</span>
-              <input type="email" value={email} onChange={(event) => setEmail(event.target.value)} className="field-base" required />
+              <input type="email" value={email} onChange={(event) => setEmail(event.target.value)} className="field-base" autoComplete="email" inputMode="email" required />
             </label>
           </div>
 
           <div className="grid gap-4 md:grid-cols-3">
             <label>
               <span className="mb-2 block text-sm text-white/70">WhatsApp</span>
-              <input value={phone} onChange={(event) => setPhone(event.target.value)} className="field-base" required />
+              <input value={phone} onChange={(event) => setPhone(event.target.value)} className="field-base" autoComplete="tel" inputMode="tel" required />
             </label>
             <label>
               <span className="mb-2 block text-sm text-white/70">CEP</span>
-              <input value={cep} onChange={(event) => setCep(event.target.value)} className="field-base" />
+              <input value={cep} onChange={(event) => setCep(event.target.value)} className="field-base" autoComplete="postal-code" inputMode="numeric" />
             </label>
             <label>
               <span className="mb-2 block text-sm text-white/70">Bairro</span>
-              <input value={neighborhood} onChange={(event) => setNeighborhood(event.target.value)} className="field-base" required />
+              <input value={neighborhood} onChange={(event) => setNeighborhood(event.target.value)} className="field-base" autoComplete="address-level3" required />
             </label>
           </div>
 
@@ -298,7 +307,7 @@ export default function CheckoutPage() {
                 <QrCode className="h-4 w-4" />
                 <span className="text-sm font-semibold">Pix direto</span>
               </div>
-              <p className="mt-3 text-sm leading-6 text-white/68">Mostra QR Code, copia e cola e a chave 21974137662 já no checkout.</p>
+              <p className="mt-3 text-sm leading-6 text-white/68">Mostra QR Code, copia e cola e a chave {pix.key} já no checkout.</p>
             </button>
             <button
               type="button"
@@ -323,7 +332,7 @@ export default function CheckoutPage() {
             <p className="mt-2 leading-6">
               1. O pedido recebe um código.
               <br />
-              2. Se for Pix, você já pode pagar com a chave {PIX_KEY}.
+              2. Se for Pix, você já pode pagar com a chave {pix.key}.
               <br />
               3. Se for cartão, o site abre o checkout do Mercado Pago.
             </p>

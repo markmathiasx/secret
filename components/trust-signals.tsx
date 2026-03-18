@@ -1,12 +1,13 @@
 'use client';
 
 import { BadgeCheck, CreditCard, MessageCircleMore, PackageCheck, QrCode, ShieldCheck, Truck } from 'lucide-react';
+import { pix } from '@/lib/constants';
 
 const pillars = [
   {
     icon: QrCode,
     title: 'Pix direto e visível',
-    description: 'A chave 21974137662 aparece no checkout com QR Code e copia e cola para reduzir atrito na decisão de compra.'
+    description: `A chave ${pix.key} aparece no checkout com QR Code e copia e cola para reduzir atrito na decisão de compra.`
   },
   {
     icon: CreditCard,

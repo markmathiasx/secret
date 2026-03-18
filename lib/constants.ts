@@ -29,6 +29,12 @@ export const whatsappMessage =
 export const supportEmail = process.env.STAFF_NOTIFY_EMAIL || "mdhatendimento@gmail.com";
 
 export const pix = {
+  key: (
+    process.env.NEXT_PUBLIC_PIX_KEY ||
+    process.env.PIX_KEY ||
+    process.env.NEXT_PUBLIC_DEFAULT_PIX_KEY ||
+    "21974137662"
+  ).trim(),
   provider: process.env.NEXT_PUBLIC_PIX_PROVIDER || "PicPay",
   cpfSuffix: process.env.NEXT_PUBLIC_CPF_SUFFIX || "85",
 };

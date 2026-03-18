@@ -1,18 +1,72 @@
 import type { Metadata } from 'next';
 import { Manrope, Space_Grotesk } from 'next/font/google';
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import './globals.css';
 import { PwaRegister } from '@/components/pwa-register';
 import { SiteAssistant } from '@/components/site-assistant';
 import { SiteFooter } from '@/components/site-footer';
 import { SiteHeader } from '@/components/site-header';
 import { WhatsAppFloat } from '@/components/whatsapp-float';
-import { AuthProvider } from '@/components/auth-context';
 import { brand, socialLinks, supportEmail, whatsappNumber } from '@/lib/constants';
 import { getSiteUrl } from '@/lib/env';
 
 const siteUrl = getSiteUrl();
 const sans = Manrope({ subsets: ['latin'], variable: '--font-sans', display: 'swap' });
 const display = Space_Grotesk({ subsets: ['latin'], variable: '--font-display', display: 'swap' });
+const cardCheckoutReady = Boolean(process.env.MERCADOPAGO_ACCESS_TOKEN?.trim());
+const normalizedPhone = `+${whatsappNumber.replace(/\D/g, '')}`;
+const socialProfiles = [socialLinks.instagram].filter((item) => Boolean(item) && item !== '#');
+const organizationJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  '@id': `${siteUrl}#organization`,
+  name: brand.legalName,
+  alternateName: brand.name,
+  description: brand.slogan,
+  url: siteUrl,
+  logo: `${siteUrl}/logo-mdh.jpg`,
+  image: `${siteUrl}/backgrounds/hero-printer-fallback.jpg`,
+  email: supportEmail,
+  telephone: normalizedPhone,
+  sameAs: socialProfiles,
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: brand.city,
+    addressRegion: brand.state,
+    addressCountry: 'BR'
+  },
+  contactPoint: [
+    {
+      '@type': 'ContactPoint',
+      contactType: 'customer service',
+      telephone: normalizedPhone,
+      email: supportEmail,
+      areaServed: 'BR',
+      availableLanguage: ['pt-BR']
+    }
+  ],
+  hasMerchantReturnPolicy: {
+    '@type': 'MerchantReturnPolicy',
+    applicableCountry: 'BR',
+    returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
+    merchantReturnDays: 7,
+    merchantReturnLink: `${siteUrl}/trocas-e-devolucoes`
+  }
+};
+const websiteJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': `${siteUrl}#website`,
+  url: siteUrl,
+  name: brand.name,
+  description: brand.slogan,
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: `${siteUrl}/catalogo?q={search_term_string}`,
+    'query-input': 'required name=search_term_string'
+  }
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -74,16 +128,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="pt-BR" className={`${sans.variable} ${display.variable}`}>
       <body>
-        <AuthProvider>
-          <div className="site-shell">
-            <SiteHeader />
-            <main>{children}</main>
-            <SiteFooter />
-            <WhatsAppFloat />
-            <SiteAssistant />
-            <PwaRegister />
-          </div>
-        </AuthProvider>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }} />
+        <div className="site-shell">
+          <SiteHeader cardCheckoutReady={cardCheckoutReady} />
+          <main>{children}</main>
+          <SiteFooter />
+          <WhatsAppFloat />
+          <SiteAssistant cardCheckoutReady={cardCheckoutReady} />
+          <PwaRegister />
+          <Analytics />
+          <SpeedInsights />
+        </div>
       </body>
     </html>
   );
