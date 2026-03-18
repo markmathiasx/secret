@@ -35,10 +35,27 @@ Se quiser bootstrap inicial do admin por senha em texto puro, use `ADMIN_PASSWOR
 
 ## Login e segurança
 
-- Contas de clientes são guardadas no cofre local `secret/auth-users.json`.
+- Em produção, contas de clientes e registros de pedido usam Supabase.
+- O cofre local `secret/auth-users.json` fica apenas como fallback de desenvolvimento.
 - Senhas ficam em hash `scrypt` no servidor.
 - Sessões de cliente e admin usam cookies `HttpOnly` assinados.
 - O painel administrativo usa `/admin/login`.
+
+## Produção recomendada
+
+Configure estas variáveis no projeto da Vercel:
+
+```env
+SUPABASE_URL=
+SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+MERCADOPAGO_ACCESS_TOKEN=
+```
+
+Sem `SUPABASE_SERVICE_ROLE_KEY`, pedidos e orçamentos não gravam no banco.
+Sem `MERCADOPAGO_ACCESS_TOKEN`, o site mantém o fluxo do cartão preparado, mas devolve fallback orientando Pix ou WhatsApp.
 
 ## Checks
 
@@ -63,6 +80,8 @@ Vercel:
 ```powershell
 vercel env add AUTH_CUSTOMER_SESSION_SECRET production
 vercel env add AUTH_CUSTOMER_SESSION_SECRET preview
+vercel env add SUPABASE_SERVICE_ROLE_KEY production
+vercel env add MERCADOPAGO_ACCESS_TOKEN production
 vercel --prod
 ```
 

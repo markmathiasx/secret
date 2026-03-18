@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { authenticateUser } from "@/lib/auth-store";
+import { authenticateCustomerUser } from "@/lib/auth-store";
 import { checkRateLimit, getClientIp } from "@/lib/security";
 import { createSignedSessionToken, customerSessionCookieName, getCustomerSessionSecret } from "@/lib/session-token";
 
@@ -22,10 +22,10 @@ export async function POST(req: Request) {
 
     const secret = getCustomerSessionSecret();
     if (!secret) {
-      return NextResponse.json({ error: "Configure AUTH_CUSTOMER_SESSION_SECRET no .env.local." }, { status: 500 });
+      return NextResponse.json({ error: "Configure AUTH_CUSTOMER_SESSION_SECRET nas variáveis do projeto." }, { status: 500 });
     }
 
-    const user = await authenticateUser({ email, password, role: "customer" });
+    const user = await authenticateCustomerUser({ email, password });
 
     if (!user) {
       return NextResponse.json({ error: "Email ou senha incorretos" }, { status: 401 });

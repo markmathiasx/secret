@@ -10,7 +10,7 @@ const faqItems = [
   {
     question: "Vocês fazem peças sob encomenda?",
     answer:
-      "Sim! Você pode enviar referência, STL, imagem ou briefing para receber análise de viabilidade, material e prazo. Respondemos em até 2 horas.",
+      "Sim. Você pode enviar referência, STL, imagem ou briefing para receber análise de viabilidade, material e prazo. O retorno acontece o mais rápido possível em horário comercial.",
   },
   {
     question: "Qual é o prazo médio? ",
@@ -99,10 +99,10 @@ export default function HomePage() {
           {/* Right - Stats */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {[
-              { num: "500+", label: "Projetos Entregues" },
-              { num: "99%", label: "Satisfação Clientes" },
-              { num: "24h", label: "Resposta WhatsApp" },
-              { num: "7+", label: "Anos Experiência" },
+              { num: "RJ", label: "Produção Local" },
+              { num: "PIX", label: "Fechamento Rápido" },
+              { num: "CARD", label: "Checkout Seguro" },
+              { num: "HUMANO", label: "Atendimento Direto" },
             ].map((stat, i) => (
               <div
                 key={i}
@@ -127,29 +127,29 @@ export default function HomePage() {
       <section className="mx-auto max-w-5xl px-6 py-16">
         <div className="text-center">
           <span className="section-kicker">✅ Confiança</span>
-          <h2 className="section-title">Compra segura com nota fiscal</h2>
+          <h2 className="section-title">Compra segura com processo transparente</h2>
           <p className="section-copy">
-            Todo pedido confirmado recebe Nota Fiscal Eletrônica (NF-e) e rastreio de entrega. Produzimos localmente no Rio de Janeiro com padrão profissional e controle de qualidade.
+            O checkout agora registra o pedido antes do pagamento, exibe Pix direto com QR Code e envia o cartão para o ambiente seguro do Mercado Pago. Produzimos localmente no Rio com comunicação direta sobre prazo e material.
           </p>
         </div>
 
         <div className="mt-12 grid gap-6 md:grid-cols-3">
           <div className="glass-panel p-8">
-            <h3 className="text-xl font-bold text-white">Nota fiscal garantida</h3>
+            <h3 className="text-xl font-bold text-white">Pedido registrado</h3>
             <p className="mt-3 text-sm text-white/70">
-              Emitimos NF-e para pessoas físicas (CPF) e jurídicas (CNPJ) assim que o pedido é confirmado.
+              Cada compra nasce com código próprio antes do pagamento para facilitar confirmação, suporte e acompanhamento interno.
             </p>
           </div>
           <div className="glass-panel p-8">
-            <h3 className="text-xl font-bold text-white">Rastreio e entrega</h3>
+            <h3 className="text-xl font-bold text-white">Pagamento confiável</h3>
             <p className="mt-3 text-sm text-white/70">
-              Enviamos código de rastreio para acompanhar o transporte. Nós usamos Correios e transportadoras parceiras.
+              Pix com chave direta e cartão com checkout hospedado reduzem atrito e evitam exposição de dados sensíveis no site.
             </p>
           </div>
           <div className="glass-panel p-8">
-            <h3 className="text-xl font-bold text-white">Suporte dedicado</h3>
+            <h3 className="text-xl font-bold text-white">Suporte comercial</h3>
             <p className="mt-3 text-sm text-white/70">
-              Atendimento humano via WhatsApp, com resposta em até 24h, para esclarecer detalhes de impressão, acabamento e prazo.
+              Atendimento humano via WhatsApp para esclarecer detalhes de impressão, acabamento, prazo, personalização e pós-venda.
             </p>
           </div>
         </div>
@@ -192,7 +192,7 @@ export default function HomePage() {
             Pronto para Começar?
           </h2>
           <p className="text-lg text-white/70 mb-8 max-w-2xl mx-auto">
-            Envie seu arquivo STL, describe seu projeto ou fale com nosso time no WhatsApp para um orçamento personalizado.
+            Envie seu arquivo STL, descreva seu projeto ou fale com o time no WhatsApp para orçamento, personalização e fechamento do pedido.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">

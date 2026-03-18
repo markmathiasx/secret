@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { createUser } from "@/lib/auth-store";
+import { createCustomerAccount } from "@/lib/auth-store";
 import { checkRateLimit, getClientIp } from "@/lib/security";
 import { createSignedSessionToken, customerSessionCookieName, getCustomerSessionSecret } from "@/lib/session-token";
 
@@ -34,10 +34,10 @@ export async function POST(req: Request) {
 
     const secret = getCustomerSessionSecret();
     if (!secret) {
-      return NextResponse.json({ error: "Configure AUTH_CUSTOMER_SESSION_SECRET no .env.local." }, { status: 500 });
+      return NextResponse.json({ error: "Configure AUTH_CUSTOMER_SESSION_SECRET nas variáveis do projeto." }, { status: 500 });
     }
 
-    const user = await createUser({ email, password, displayName: name, role: "customer" });
+    const user = await createCustomerAccount({ email, password, displayName: name });
 
     const sessionToken = await createSignedSessionToken(
       {
@@ -77,8 +77,14 @@ export async function POST(req: Request) {
   } catch (error: any) {
     console.error("Register error:", error);
 
-    if (error?.message === "Já existe uma conta cadastrada com este e-mail.") {
+    const message = String(error?.message || "").toLowerCase();
+
+    if (message.includes("already") || message.includes("registered") || message.includes("exists")) {
       return NextResponse.json({ error: "Este email já está cadastrado" }, { status: 409 });
+    }
+
+    if (message.includes("limite")) {
+      return NextResponse.json({ error: error.message }, { status: 400 });
     }
 
     return NextResponse.json({ error: error.message || "Erro ao cadastrar" }, { status: 500 });

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { Manrope, Space_Grotesk } from 'next/font/google';
 import './globals.css';
 import { PwaRegister } from '@/components/pwa-register';
 import { SiteAssistant } from '@/components/site-assistant';
@@ -10,6 +11,8 @@ import { brand, socialLinks, supportEmail, whatsappNumber } from '@/lib/constant
 import { getSiteUrl } from '@/lib/env';
 
 const siteUrl = getSiteUrl();
+const sans = Manrope({ subsets: ['latin'], variable: '--font-sans', display: 'swap' });
+const display = Space_Grotesk({ subsets: ['latin'], variable: '--font-display', display: 'swap' });
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -69,7 +72,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pt-BR">
+    <html lang="pt-BR" className={`${sans.variable} ${display.variable}`}>
       <body>
         <AuthProvider>
           <div className="site-shell">

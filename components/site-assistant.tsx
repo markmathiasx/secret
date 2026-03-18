@@ -1,11 +1,11 @@
-import { MessageCircleMore } from 'lucide-react';
-import { whatsappMessage, whatsappNumber } from '@/lib/constants';
+import { CreditCard, MessageCircleMore, QrCode, Sparkles } from 'lucide-react';
+import { whatsappNumber } from '@/lib/constants';
 
 const quickQuestions = [
-  'Quero algo geek para presente',
-  'Quero um suporte para setup',
-  'Quero um nome 3D personalizado',
-  'Quero calcular entrega no RJ'
+  'Quero fechar no Pix agora',
+  'Quero pagar no cartão de crédito',
+  'Quero enviar referência para impressão 3D',
+  'Quero ajuda para escolher um presente'
 ];
 
 export function SiteAssistant() {
@@ -19,13 +19,27 @@ export function SiteAssistant() {
             <MessageCircleMore className="h-4 w-4" />
           </span>
           <div>
-            <p className="text-sm font-semibold text-white">Assistente MDH</p>
-            <p className="text-xs text-white/50">Atalhos rápidos para fechar melhor</p>
+            <p className="text-sm font-semibold text-white">Consultor MDH</p>
+            <p className="text-xs text-white/50">Venda rápida, checkout claro e atendimento humano</p>
+          </div>
+        </div>
+        <div className="mt-4 grid gap-2 rounded-[22px] border border-white/10 bg-white/5 p-4 text-xs text-white/68">
+          <div className="flex items-center gap-2">
+            <QrCode className="h-4 w-4 text-emerald-200" />
+            <span>Pix direto na chave 21974137662</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <CreditCard className="h-4 w-4 text-cyan-100" />
+            <span>Cartão com checkout seguro via Mercado Pago</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Sparkles className="h-4 w-4 text-cyan-100" />
+            <span>Produção local no RJ para presentes, setup e sob encomenda</span>
           </div>
         </div>
         <div className="mt-4 grid gap-2">
           {quickQuestions.map((item) => (
-            <a key={item} href={`${href}?text=${encodeURIComponent(`Oi! ${item}`)}`} className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white/75 transition hover:border-white/20 hover:text-white">
+            <a key={item} href={`${href}?text=${encodeURIComponent(`Oi! ${item}`)}`} className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white/75 transition hover:border-cyan-300/25 hover:text-white">
               {item}
             </a>
           ))}

@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { findUserById } from "@/lib/auth-store";
 import { customerSessionCookieName, getCustomerSessionSecret, verifySignedSessionToken } from "@/lib/session-token";
 
 export const runtime = "nodejs";
@@ -18,17 +17,12 @@ export async function GET() {
     return NextResponse.json({ ok: true, user: null });
   }
 
-  const user = await findUserById(session.sub, "customer");
-  if (!user) {
-    return NextResponse.json({ ok: true, user: null });
-  }
-
   return NextResponse.json({
     ok: true,
     user: {
-      id: user.id,
-      email: user.email,
-      displayName: user.displayName,
+      id: session.sub,
+      email: session.email,
+      displayName: session.displayName,
       role: "customer"
     }
   });

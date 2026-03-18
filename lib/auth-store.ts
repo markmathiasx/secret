@@ -1,6 +1,8 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { randomBytes, scryptSync, timingSafeEqual } from "node:crypto";
+import { createClient } from "@supabase/supabase-js";
+import { getSupabaseEnv } from "@/lib/env";
 
 export type AuthRole = "customer" | "admin";
 
@@ -29,6 +31,28 @@ const STORE_FILE = path.join(STORE_DIR, "auth-users.json");
 const DEFAULT_STORE: UserStore = { version: 1, users: [] };
 
 let writeQueue = Promise.resolve();
+
+function getSupabaseAdmin() {
+  const { url, serviceRole } = getSupabaseEnv();
+  if (!url || !serviceRole) return null;
+  return createClient(url, serviceRole, {
+    auth: {
+      autoRefreshToken: false,
+      persistSession: false
+    }
+  });
+}
+
+function getSupabasePublic() {
+  const { url, anon } = getSupabaseEnv();
+  if (!url || !anon) return null;
+  return createClient(url, anon, {
+    auth: {
+      autoRefreshToken: false,
+      persistSession: false
+    }
+  });
+}
 
 function getPositiveNumber(value: string | undefined, fallback: number) {
   const parsed = Number(value);
@@ -114,10 +138,50 @@ function toAuthUser(user: StoredUser): AuthUser {
   };
 }
 
+function toRemoteAuthUser(user: { id: string; email?: string | null; user_metadata?: Record<string, unknown>; created_at?: string | null }): AuthUser {
+  const displayName =
+    typeof user.user_metadata?.display_name === "string"
+      ? user.user_metadata.display_name
+      : typeof user.user_metadata?.full_name === "string"
+        ? user.user_metadata.full_name
+        : (user.email || "cliente").split("@")[0];
+
+  return {
+    id: user.id,
+    email: user.email || "",
+    displayName,
+    role: "customer",
+    createdAt: user.created_at || new Date().toISOString(),
+    lastLoginAt: new Date().toISOString()
+  };
+}
+
+async function listRemoteUsers() {
+  const supabaseAdmin = getSupabaseAdmin();
+  if (!supabaseAdmin) return [];
+
+  const limit = Math.max(getRoleLimit("customer") + getRoleLimit("admin") + 20, 200);
+  const { data, error } = await supabaseAdmin.auth.admin.listUsers({ page: 1, perPage: limit });
+
+  if (error) {
+    throw new Error(error.message || "Não foi possível consultar os usuários.");
+  }
+
+  return data.users || [];
+}
+
 export async function getAuthOverview() {
-  const store = await readStore();
-  const activeCustomers = store.users.filter((user) => user.role === "customer" && !user.disabled).length;
-  const activeAdmins = store.users.filter((user) => user.role === "admin" && !user.disabled).length;
+  let activeCustomers = 0;
+  let activeAdmins = 0;
+
+  try {
+    const store = await readStore();
+    activeCustomers = store.users.filter((user) => user.role === "customer" && !user.disabled).length;
+    activeAdmins = store.users.filter((user) => user.role === "admin" && !user.disabled).length;
+  } catch {
+    activeCustomers = 0;
+    activeAdmins = 0;
+  }
 
   return {
     activeCustomers,
@@ -125,7 +189,7 @@ export async function getAuthOverview() {
     customerLimit: getRoleLimit("customer"),
     adminLimit: getRoleLimit("admin"),
     bootstrapEmail: normalizeEmail(process.env.ADMIN_EMAIL || "") || null,
-    canBootstrapAdmin: Boolean((process.env.ADMIN_EMAIL || "").trim() && (process.env.ADMIN_PASSWORD || "").trim())
+    canBootstrapAdmin: Boolean((process.env.ADMIN_EMAIL || "").trim() && ((process.env.ADMIN_PASSWORD || "").trim() || (process.env.ADMIN_PASSWORD_HASH || "").trim()))
   };
 }
 
@@ -162,6 +226,64 @@ export async function ensureLegacyAdminUser() {
     await writeStore(store);
     return adminUser;
   });
+}
+
+export async function createCustomerAccount(input: {
+  email: string;
+  displayName: string;
+  password: string;
+}) {
+  const supabaseAdmin = getSupabaseAdmin();
+
+  if (supabaseAdmin) {
+    const remoteUsers = await listRemoteUsers();
+    const remoteCustomers = remoteUsers.filter((user) => {
+      const providers = Array.isArray(user.app_metadata?.providers) ? user.app_metadata.providers : [];
+      const source = typeof user.user_metadata?.source === "string" ? user.user_metadata.source : "";
+      return source === "local-site" || providers.includes("email");
+    });
+
+    if (remoteCustomers.length >= getRoleLimit("customer")) {
+      throw new Error("O limite inicial de 100 contas foi atingido.");
+    }
+
+    const { data, error } = await supabaseAdmin.auth.admin.createUser({
+      email: normalizeEmail(input.email),
+      password: input.password,
+      email_confirm: true,
+      user_metadata: {
+        display_name: normalizeDisplayName(input.displayName),
+        source: "local-site"
+      }
+    });
+
+    if (error || !data.user) {
+      throw new Error(error?.message || "Não foi possível criar a conta.");
+    }
+
+    return toRemoteAuthUser(data.user);
+  }
+
+  return createUser({ ...input, role: "customer" });
+}
+
+export async function authenticateCustomerUser(input: {
+  email: string;
+  password: string;
+}) {
+  const supabasePublic = getSupabasePublic();
+
+  if (supabasePublic) {
+    const { data, error } = await supabasePublic.auth.signInWithPassword({
+      email: normalizeEmail(input.email),
+      password: input.password
+    });
+
+    if (error || !data.user) return null;
+    return toRemoteAuthUser(data.user);
+  }
+
+  return authenticateUser({ ...input, role: "customer" });
 }
 
 export async function createUser(input: {
@@ -214,9 +336,13 @@ export async function createUser(input: {
 }
 
 export async function findUserById(id: string, role?: AuthRole) {
-  const store = await readStore();
-  const user = store.users.find((entry) => entry.id === id && !entry.disabled && (!role || entry.role === role));
-  return user ? toAuthUser(user) : null;
+  try {
+    const store = await readStore();
+    const user = store.users.find((entry) => entry.id === id && !entry.disabled && (!role || entry.role === role));
+    return user ? toAuthUser(user) : null;
+  } catch {
+    return null;
+  }
 }
 
 export async function authenticateUser(input: {
@@ -224,27 +350,31 @@ export async function authenticateUser(input: {
   password: string;
   role: AuthRole;
 }) {
-  if (input.role === "admin") {
-    await ensureLegacyAdminUser();
+  try {
+    if (input.role === "admin") {
+      await ensureLegacyAdminUser();
+    }
+
+    const email = normalizeEmail(input.email);
+    const store = await readStore();
+    const user = store.users.find((entry) => entry.email === email && entry.role === input.role && !entry.disabled);
+
+    if (!user) return null;
+    if (!verifyPassword(input.password, user.passwordHash)) return null;
+
+    const lastLoginAt = new Date().toISOString();
+
+    await withStoreLock(async () => {
+      const nextStore = await readStore();
+      const nextUser = nextStore.users.find((entry) => entry.id === user.id);
+      if (!nextUser) return;
+      nextUser.lastLoginAt = lastLoginAt;
+      nextUser.updatedAt = lastLoginAt;
+      await writeStore(nextStore);
+    });
+
+    return toAuthUser({ ...user, lastLoginAt });
+  } catch {
+    return null;
   }
-
-  const email = normalizeEmail(input.email);
-  const store = await readStore();
-  const user = store.users.find((entry) => entry.email === email && entry.role === input.role && !entry.disabled);
-
-  if (!user) return null;
-  if (!verifyPassword(input.password, user.passwordHash)) return null;
-
-  const lastLoginAt = new Date().toISOString();
-
-  await withStoreLock(async () => {
-    const nextStore = await readStore();
-    const nextUser = nextStore.users.find((entry) => entry.id === user.id);
-    if (!nextUser) return;
-    nextUser.lastLoginAt = lastLoginAt;
-    nextUser.updatedAt = lastLoginAt;
-    await writeStore(nextStore);
-  });
-
-  return toAuthUser({ ...user, lastLoginAt });
 }

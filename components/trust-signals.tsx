@@ -1,179 +1,103 @@
 'use client';
 
-import { ShieldCheck, Award, Users, Zap, Truck, Lock } from 'lucide-react';
+import { BadgeCheck, CreditCard, MessageCircleMore, PackageCheck, QrCode, ShieldCheck, Truck } from 'lucide-react';
+
+const pillars = [
+  {
+    icon: QrCode,
+    title: 'Pix direto e visível',
+    description: 'A chave 21974137662 aparece no checkout com QR Code e copia e cola para reduzir atrito na decisão de compra.'
+  },
+  {
+    icon: CreditCard,
+    title: 'Cartão com provedor externo',
+    description: 'Quando o cliente escolhe cartão, o pagamento segue para o checkout hospedado do Mercado Pago.'
+  },
+  {
+    icon: PackageCheck,
+    title: 'Pedido com código antes do pagamento',
+    description: 'Cada compra é registrada antes da cobrança para facilitar suporte, confirmação e rastreio interno.'
+  },
+  {
+    icon: MessageCircleMore,
+    title: 'Atendimento humano no WhatsApp',
+    description: 'O canal comercial continua ativo para personalização, orçamento, aprovação e pós-venda.'
+  }
+];
+
+const commitments = [
+  'Produção local no Rio de Janeiro com comunicação direta sobre material, prazo e acabamento.',
+  'Fluxo de pagamento claro: Pix para fechamento rápido e cartão para parcelamento em ambiente seguro.',
+  'Cadastro de cliente com senha protegida por hash e sessão assinada em vez de login exposto no navegador.',
+  'Checkout orientado para conversão, com menos etapas e menos promessas frágeis.'
+];
 
 export function TrustSignals() {
   return (
     <>
-      {/* Premium Trust Banner */}
-      <section className="bg-gradient-to-r from-emerald-900/20 via-teal-900/20 to-cyan-900/20 border-y border-emerald-700/30 py-8">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="grid md:grid-cols-3 gap-8 items-center">
-            {/* Left: Main Message */}
-            <div className="md:col-span-2">
-              <div className="flex items-start gap-4">
-                <ShieldCheck className="w-12 h-12 text-emerald-400 flex-shrink-0 mt-1" />
-                <div>
-                  <h3 className="text-xl md:text-2xl font-bold text-white mb-2">
-                    ✅ Empresa Regularizada e Confiável
-                  </h3>
-                  <p className="text-sm md:text-base text-white/80">
-                    Operamos legalmente com CNPJ, emitimos Nota Fiscal Eletrônica (NF-e) para todas as compras e garantimos qualidade em cada peça entregue.
-                  </p>
-                </div>
-              </div>
-            </div>
+      <section className="border-y border-emerald-500/15 bg-gradient-to-r from-emerald-950/30 via-slate-950 to-cyan-950/30 py-10">
+        <div className="mx-auto grid max-w-7xl gap-8 px-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+          <div>
+            <p className="text-xs uppercase tracking-[0.22em] text-emerald-100/75">Confiança operacional</p>
+            <h3 className="mt-3 text-3xl font-black text-white">Processo comercial mais forte, sem improviso no pagamento.</h3>
+            <p className="mt-4 max-w-2xl text-sm leading-7 text-white/70">
+              A vitrine agora comunica melhor o que realmente existe: produção local, atendimento humano, pedido registrado e checkout com Pix ou cartão sem exposição desnecessária de dados.
+            </p>
+          </div>
 
-            {/* Right: Badges */}
-            <div className="grid grid-cols-3 gap-3">
-              <div className="text-center">
-                <div className="inline-flex items-center justify-center w-12 h-12 rounded-lg bg-emerald-500/20 border border-emerald-500/50 mb-2">
-                  <Lock className="w-6 h-6 text-emerald-400" />
+          <div className="grid gap-4 md:grid-cols-2">
+            {pillars.map((item) => {
+              const Icon = item.icon;
+              return (
+                <div key={item.title} className="rounded-[28px] border border-white/10 bg-white/5 p-5">
+                  <div className="flex items-center gap-3">
+                    <span className="rounded-2xl border border-white/10 bg-white/5 p-3 text-cyan-100">
+                      <Icon className="h-5 w-5" />
+                    </span>
+                    <p className="text-base font-bold text-white">{item.title}</p>
+                  </div>
+                  <p className="mt-4 text-sm leading-7 text-white/68">{item.description}</p>
                 </div>
-                <p className="text-xs text-white/70 font-medium">Pagamento<br/>Seguro</p>
-              </div>
-              <div className="text-center">
-                <div className="inline-flex items-center justify-center w-12 h-12 rounded-lg bg-blue-500/20 border border-blue-500/50 mb-2">
-                  <Award className="w-6 h-6 text-blue-400" />
-                </div>
-                <p className="text-xs text-white/70 font-medium">Qualidade<br/>Garantida</p>
-              </div>
-              <div className="text-center">
-                <div className="inline-flex items-center justify-center w-12 h-12 rounded-lg bg-teal-500/20 border border-teal-500/50 mb-2">
-                  <Truck className="w-6 h-6 text-teal-400" />
-                </div>
-                <p className="text-xs text-white/70 font-medium">Rastreio<br/>Rastreável</p>
-              </div>
-            </div>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* Legal & Fiscal Information */}
-      <section className="mx-auto max-w-7xl px-6 py-12">
-        <h3 className="text-center text-lg font-bold text-white mb-8">
-          📋 Informações Legais e Fiscais
-        </h3>
-
-        <div className="grid md:grid-cols-2 gap-6">
-          {/* Fiscal Data */}
-          <div className="glass-card p-8 border border-white/10">
-            <h4 className="font-bold text-white mb-4 flex items-center gap-2">
-              <span className="text-emerald-400">🏢</span> Dados da Empresa
-            </h4>
-            <div className="space-y-3 text-sm">
-              <div className="flex justify-between">
-                <span className="text-white/60">CNPJ:</span>
-                <span className="font-mono text-white/90 font-bold">00.000.000/0000-00</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-white/60">Razão Social:</span>
-                <span className="text-white/90">MDH Serviços 3D LTDA</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-white/60">Localização:</span>
-                <span className="text-white/90">Rio de Janeiro, RJ</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-white/60">Operação Desde:</span>
-                <span className="text-white/90">2018</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-white/60">Inscrição Estadual:</span>
-                <span className="font-mono text-white/90">Solicitado à Receita</span>
-              </div>
+      <section className="mx-auto max-w-7xl px-6 py-14">
+        <div className="grid gap-6 lg:grid-cols-[0.92fr_1.08fr]">
+          <div className="glass-panel p-8">
+            <p className="text-xs uppercase tracking-[0.22em] text-cyan-100/75">Padrão de operação</p>
+            <h3 className="mt-3 text-3xl font-black text-white">Menos fricção para comprar e menos risco para a marca.</h3>
+            <div className="mt-6 grid gap-4">
+              {commitments.map((item) => (
+                <div key={item} className="flex items-start gap-3 rounded-[22px] border border-white/10 bg-black/20 p-4 text-sm leading-7 text-white/70">
+                  <BadgeCheck className="mt-1 h-5 w-5 flex-shrink-0 text-emerald-200" />
+                  <span>{item}</span>
+                </div>
+              ))}
             </div>
           </div>
 
-          {/* Guarantees */}
-          <div className="glass-card p-8 border border-white/10">
-            <h4 className="font-bold text-white mb-4 flex items-center gap-2">
-              <span className="text-cyan-400">✓</span> Garantias e Compromissos
-            </h4>
-            <ul className="space-y-3 text-sm">
-              <li className="flex items-start gap-3">
-                <span className="text-emerald-400 font-bold">✓</span>
-                <span className="text-white/80"><strong>NF-e em todas compras</strong> - Nota Fiscal Eletrônica emitida automaticamente</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-emerald-400 font-bold">✓</span>
-                <span className="text-white/80"><strong>Defeito = Refação Free</strong> - Garantia de trabalho durante 30 dias</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-emerald-400 font-bold">✓</span>
-                <span className="text-white/80"><strong>Rastreio completo</strong> - Código de rastreio dos Correios/transportadora</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-emerald-400 font-bold">✓</span>
-                <span className="text-white/80"><strong>Atendimento 2h</strong> - Resposta no WhatsApp em até 2 horas úteis</span>
-              </li>
-            </ul>
+          <div className="grid gap-4 md:grid-cols-2">
+            <div className="glass-panel p-6">
+              <ShieldCheck className="h-6 w-6 text-emerald-200" />
+              <h4 className="mt-4 text-xl font-bold text-white">Conta do cliente protegida</h4>
+              <p className="mt-3 text-sm leading-7 text-white/68">O acesso passou a usar hash de senha no servidor e sessão assinada, sem o modelo inseguro que existia antes.</p>
+            </div>
+            <div className="glass-panel p-6">
+              <Truck className="h-6 w-6 text-cyan-100" />
+              <h4 className="mt-4 text-xl font-bold text-white">Pedido pronto para suporte</h4>
+              <p className="mt-3 text-sm leading-7 text-white/68">O código do pedido nasce no checkout e pode ser usado no WhatsApp para acelerar confirmação, entrega e atendimento.</p>
+            </div>
+            <div className="glass-panel p-6 md:col-span-2">
+              <p className="text-xs uppercase tracking-[0.18em] text-cyan-100/75">Pagamento</p>
+              <h4 className="mt-3 text-2xl font-black text-white">Pix para velocidade. Cartão para conveniência.</h4>
+              <p className="mt-4 text-sm leading-7 text-white/68">
+                Essa combinação é a melhor relação entre conversão e segurança para a fase atual do projeto: Pix direto para custo baixo e cartão de crédito terceirizado para não assumir carga de PCI no próprio site.
+              </p>
+            </div>
           </div>
-        </div>
-      </section>
-
-      {/* Social Proof - Reviews */}
-      <section className="mx-auto max-w-7xl px-6 py-12">
-        <h3 className="text-center text-lg font-bold text-white mb-8">
-          ⭐ Clientes Satisfeitos
-        </h3>
-
-        <div className="grid md:grid-cols-3 gap-6">
-          {[
-            {
-              name: "Rafael Gomes",
-              role: "Engenheiro",
-              review: "Qualidade excepcional em peças com tolerância apertada. Recomendo muito!",
-              rating: 5
-            },
-            {
-              name: "Camila Silva",
-              role: "Designer de Produtos",
-              review: "Prazo rápido e antimento impecável. Voltamos a trabalhar com eles sempre.",
-              rating: 5
-            },
-            {
-              name: "Marcus Costa",
-              role: "Empreendedor",
-              review: "Nota fiscal correta, atendimento simpático e logística organizada. Top!",
-              rating: 5
-            }
-          ].map((review, i) => (
-            <div key={i} className="glass-card p-6 border border-white/10">
-              <div className="flex items-center gap-1 mb-3">
-                {Array.from({ length: review.rating }).map((_, j) => (
-                  <span key={j} className="text-yellow-400">⭐</span>
-                ))}
-              </div>
-              <p className="text-white/80 italic mb-4 text-sm">&quot;{review.review}&quot;</p>
-              <div className="pt-4 border-t border-white/10">
-                <p className="font-bold text-white text-sm">{review.name}</p>
-                <p className="text-white/60 text-xs">{review.role}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Security & Compliance Badges */}
-      <section className="mx-auto max-w-7xl px-6 py-12">
-        <h3 className="text-center text-lg font-bold text-white mb-8">
-          🔒 Segurança e Conformidade
-        </h3>
-
-        <div className="grid md:grid-cols-4 gap-4">
-          {[
-            { icon: "🔐", title: "SSL/HTTPS", desc: "Conexão encriptada" },
-            { icon: "💳", title: "PCI DSS", desc: "Pagamento seguro" },
-            { icon: "📋", title: "LGPD", desc: "Dados protegidos" },
-            { icon: "✅", title: "Verificado", desc: "Empresa Regularizada" }
-          ].map((badge, i) => (
-            <div key={i} className="glass-card p-6 text-center border border-white/10">
-              <div className="text-3xl mb-2">{badge.icon}</div>
-              <p className="font-bold text-white text-sm mb-1">{badge.title}</p>
-              <p className="text-white/60 text-xs">{badge.desc}</p>
-            </div>
-          ))}
         </div>
       </section>
     </>

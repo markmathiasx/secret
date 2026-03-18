@@ -109,7 +109,7 @@ export function STLUploader() {
     }, 200);
 
     // Prepare WhatsApp message
-    const message = `🚀 *ORÇAMENTO MDH 3D*\n\n📁 *Arquivo:* ${file.name}\n📏 *Tamanho:* ${(file.size / (1024 * 1024)).toFixed(2)} MB\n\n📋 *Detalhes do Projeto:*\n🏷️ *Nome:* ${formData.projectName}\n🔢 *Quantidade:* ${formData.quantity}\n🎯 *Qualidade:* ${formData.quality}\n🧱 *Material:* ${formData.material}\n🎨 *Cor:* ${formData.color}\n${formData.notes ? `📝 *Observações:* ${formData.notes}\n` : ''}\n💰 *Solicito análise de viabilidade e orçamento personalizado.*\n\n⚡ *Resposta em até 2 horas!*`;
+    const message = `🚀 *ORÇAMENTO MDH 3D*\n\n📁 *Arquivo:* ${file.name}\n📏 *Tamanho:* ${(file.size / (1024 * 1024)).toFixed(2)} MB\n\n📋 *Detalhes do Projeto:*\n🏷️ *Nome:* ${formData.projectName}\n🔢 *Quantidade:* ${formData.quantity}\n🎯 *Qualidade:* ${formData.quality}\n🧱 *Material:* ${formData.material}\n🎨 *Cor:* ${formData.color}\n${formData.notes ? `📝 *Observações:* ${formData.notes}\n` : ''}\n💰 *Solicito análise de viabilidade e orçamento personalizado.*\n\n⚡ *Peço retorno assim que possível em horário comercial.*`;
 
     // Complete upload
     setTimeout(() => {
@@ -141,7 +141,7 @@ export function STLUploader() {
             </span>
           </h2>
           <p className="section-copy max-w-2xl mx-auto">
-            Faça upload do seu arquivo STL, OBJ ou 3MF e receba análise técnica gratuita + orçamento personalizado em até 2 horas.
+            Faça upload do seu arquivo STL, OBJ ou 3MF e envie o briefing técnico do projeto para orçamento personalizado.
           </p>
         </div>
 
@@ -379,7 +379,7 @@ export function STLUploader() {
             <div className="flex flex-col items-center">
               <AlertCircle className="w-8 h-8 text-cyan-glow mb-2" />
               <h4 className="font-semibold text-white mb-1">Resposta Rápida</h4>
-              <p className="text-sm text-white/60">Orçamento em até 2 horas</p>
+              <p className="text-sm text-white/60">Retorno em horário comercial</p>
             </div>
             <div className="flex flex-col items-center">
               <Zap className="w-8 h-8 text-yellow-400 mb-2" />

@@ -2,6 +2,10 @@ import type { Config } from "tailwindcss";
 
 const config: Config = {
   content: [
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./hooks/**/*.{js,ts,jsx,tsx,mdx}",
+    "./lib/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
@@ -46,9 +50,9 @@ const config: Config = {
       },
 
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
         mono: ['JetBrains Mono', 'monospace'],
-        display: ['Cal Sans', 'Inter', 'system-ui'],
+        display: ['var(--font-display)', 'system-ui', 'sans-serif'],
       },
 
       fontSize: {
@@ -76,6 +80,7 @@ const config: Config = {
 
       boxShadow: {
         glow: "0 0 40px rgba(3, 233, 244, 0.3)",
+        cyan: "0 0 24px rgba(3, 233, 244, 0.18), 0 0 48px rgba(3, 233, 244, 0.1)",
         "glow-cyan": "0 0 40px rgba(3, 233, 244, 0.25), 0 0 20px rgba(3, 233, 244, 0.15)",
         "glow-green": "0 0 40px rgba(37, 211, 102, 0.25), 0 0 20px rgba(37, 211, 102, 0.15)",
         "glow-violet": "0 0 35px rgba(168, 85, 247, 0.16), 0 0 15px rgba(168, 85, 247, 0.1)",

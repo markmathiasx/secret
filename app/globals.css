@@ -5,16 +5,16 @@
 /* ===== CSS CUSTOM PROPERTIES ===== */
 :root {
   /* Base Colors */
-  --bg: #050914;
-  --surface: rgba(255, 255, 255, 0.06);
-  --surface-2: rgba(255, 255, 255, 0.03);
-  --border: rgba(255, 255, 255, 0.1);
+  --bg: #06111a;
+  --surface: rgba(255, 255, 255, 0.07);
+  --surface-2: rgba(255, 255, 255, 0.04);
+  --border: rgba(255, 255, 255, 0.11);
   --text: #f8fbff;
-  --muted: rgba(248, 251, 255, 0.68);
+  --muted: rgba(238, 246, 252, 0.72);
 
   /* Brand Colors */
-  --brand: #03e9f4;
-  --brand-2: #a855f7;
+  --brand: #5ce1e6;
+  --brand-2: #2dc67c;
   --success: #25d366;
   --whatsapp: #25d366;
 
@@ -66,12 +66,12 @@ body {
   margin: 0;
   min-height: 100vh;
   background:
-    radial-gradient(circle at 15% 15%, rgba(3, 233, 244, 0.08), transparent 25%),
-    radial-gradient(circle at 85% 10%, rgba(168, 85, 247, 0.06), transparent 22%),
-    radial-gradient(circle at 50% 85%, rgba(37, 211, 102, 0.04), transparent 28%),
-    linear-gradient(180deg, #000000 0%, #050914 55%, #020608 100%);
+    radial-gradient(circle at 18% 12%, rgba(92, 225, 230, 0.1), transparent 24%),
+    radial-gradient(circle at 82% 8%, rgba(45, 198, 124, 0.08), transparent 20%),
+    radial-gradient(circle at 50% 88%, rgba(88, 166, 255, 0.06), transparent 28%),
+    linear-gradient(180deg, #02070b 0%, #06111a 52%, #02070b 100%);
   color: var(--text);
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -85,14 +85,31 @@ body::before {
   inset: 0;
   pointer-events: none;
   background:
-    radial-gradient(circle at 15% 15%, rgba(3, 233, 244, 0.06), transparent 22%),
-    radial-gradient(circle at 85% 10%, rgba(168, 85, 247, 0.06), transparent 20%),
-    radial-gradient(circle at 50% 85%, rgba(37, 211, 102, 0.04), transparent 25%);
+    linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 26%),
+    radial-gradient(circle at 12% 20%, rgba(92, 225, 230, 0.08), transparent 20%),
+    radial-gradient(circle at 84% 12%, rgba(45, 198, 124, 0.06), transparent 18%);
+  z-index: -1;
+}
+
+.site-shell {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+}
+
+.site-shell::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image: linear-gradient(to bottom, transparent 0%, rgba(92, 225, 230, 0.025) 50%, transparent 100%);
+  mix-blend-mode: screen;
   z-index: -1;
 }
 
 /* ===== TYPOGRAPHY ===== */
 h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display), var(--font-sans), sans-serif;
   font-weight: 700;
   line-height: 1.2;
   letter-spacing: -0.025em;
@@ -223,6 +240,28 @@ p {
 
 .btn-secondary {
   @apply inline-flex items-center justify-center px-6 py-3 bg-white/10 backdrop-blur-sm border border-white/20 text-white font-semibold rounded-xl hover:bg-white/20 transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-base;
+}
+
+.button-primary {
+  @apply inline-flex items-center justify-center bg-gradient-to-r from-cyan-glow to-cyan-glow/80 text-black font-bold rounded-xl shadow-cyan;
+}
+
+.button-secondary {
+  @apply inline-flex items-center justify-center border border-white/20 bg-white/10 text-white font-semibold rounded-xl;
+}
+
+.btn-zap {
+  @apply inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-whatsapp-green to-green-500 px-5 py-3 text-sm font-bold text-white shadow-glow-green;
+}
+
+.btn-glass {
+  @apply inline-flex items-center justify-center rounded-xl border border-white/15 bg-white/10 px-5 py-3 text-sm font-semibold text-white backdrop-blur-sm;
+}
+
+.footer-ambient {
+  background:
+    linear-gradient(180deg, rgba(2, 7, 11, 0.9), rgba(2, 7, 11, 0.98)),
+    radial-gradient(circle at top center, rgba(92, 225, 230, 0.06), transparent 28%);
 }
 
 .btn-ghost-sm {

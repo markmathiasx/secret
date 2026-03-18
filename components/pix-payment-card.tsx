@@ -6,6 +6,8 @@ import QRCode from "qrcode";
 import { Copy, QrCode, ShieldCheck } from "lucide-react";
 import { formatCurrency } from "@/lib/utils";
 
+const PIX_KEY = "21974137662";
+
 export function PixPaymentCard({ title, amount }: { title: string; amount: number }) {
   const [payload, setPayload] = useState("");
   const [qr, setQr] = useState("");
@@ -68,9 +70,14 @@ export function PixPaymentCard({ title, amount }: { title: string; amount: numbe
               {copied ? "Copiado" : "Copiar código Pix"}
             </button>
           </div>
+          <div className="rounded-[24px] border border-emerald-400/20 bg-emerald-400/10 p-4">
+            <p className="text-sm text-white/55">Chave Pix direta</p>
+            <p className="mt-2 text-lg font-black tracking-[0.14em] text-white">{PIX_KEY}</p>
+            <p className="mt-2 text-sm text-white/60">O cliente pode pagar pelo QR Code, pelo código copia e cola ou informando essa chave no app do banco.</p>
+          </div>
           <div className="flex items-start gap-3 rounded-[24px] border border-white/10 bg-black/20 p-4 text-sm text-white/68">
             <ShieldCheck className="mt-0.5 h-5 w-5 text-emerald-200" />
-            <p>Para o cliente, mostre apenas o QR Code ou o copia e cola. Não é necessário expor a chave Pix na vitrine do site.</p>
+            <p>Mostre a chave, o QR Code e o copia e cola no checkout. Isso reduz atrito, melhora confiança e acelera a aprovação do pagamento.</p>
           </div>
         </div>
       </div>

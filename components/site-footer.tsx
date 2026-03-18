@@ -51,10 +51,10 @@ export function SiteFooter() {
         <div className="animate-fadeInUp" style={{ animationDelay: '0.3s' }}>
           <p className="text-sm font-semibold uppercase tracking-[0.18em] text-white/70">Atalhos WhatsApp</p>
           <div className="mt-4 grid gap-3 text-sm text-white/70">
-            <a href="https://wa.me/5521920137249?text=Quero%20algo%20geek%20para%20presente" className="button-primary rounded-full px-4 py-2 font-bold shadow-cyan hover:scale-105 transition-all duration-300 animate-bounce" target="_blank" rel="noopener noreferrer">Quero algo geek para presente</a>
-            <a href="https://wa.me/5521920137249?text=Quero%20um%20suporte%20para%20setup" className="button-primary rounded-full px-4 py-2 font-bold shadow-cyan hover:scale-105 transition-all duration-300 animate-bounce" target="_blank" rel="noopener noreferrer">Quero um suporte para setup</a>
-            <a href="https://wa.me/5521920137249?text=Quero%20um%20nome%203D%20personalizado" className="button-primary rounded-full px-4 py-2 font-bold shadow-cyan hover:scale-105 transition-all duration-300 animate-bounce" target="_blank" rel="noopener noreferrer">Quero um nome 3D personalizado</a>
-            <a href="https://wa.me/5521920137249?text=Quero%20calcular%20entrega%20no%20RJ" className="button-primary rounded-full px-4 py-2 font-bold shadow-cyan hover:scale-105 transition-all duration-300 animate-bounce" target="_blank" rel="noopener noreferrer">Quero calcular entrega no RJ</a>
+            <a href="https://wa.me/5521920137249?text=Quero%20fechar%20no%20Pix%20agora" className="button-primary rounded-full px-4 py-2 font-bold shadow-cyan hover:scale-105 transition-all duration-300" target="_blank" rel="noopener noreferrer">Quero fechar no Pix agora</a>
+            <a href="https://wa.me/5521920137249?text=Quero%20pagar%20no%20cart%C3%A3o%20de%20cr%C3%A9dito" className="button-primary rounded-full px-4 py-2 font-bold shadow-cyan hover:scale-105 transition-all duration-300" target="_blank" rel="noopener noreferrer">Quero pagar no cartão</a>
+            <a href="https://wa.me/5521920137249?text=Quero%20enviar%20refer%C3%AAncia%20para%20impress%C3%A3o%203D" className="button-primary rounded-full px-4 py-2 font-bold shadow-cyan hover:scale-105 transition-all duration-300" target="_blank" rel="noopener noreferrer">Quero enviar referência</a>
+            <a href="https://wa.me/5521920137249?text=Quero%20ajuda%20para%20escolher%20um%20presente" className="button-primary rounded-full px-4 py-2 font-bold shadow-cyan hover:scale-105 transition-all duration-300" target="_blank" rel="noopener noreferrer">Quero ajuda para presente</a>
           </div>
         </div>
       </div>
@@ -63,7 +63,7 @@ export function SiteFooter() {
           <span className="hover:text-white transition-colors duration-300">© 2026 {brand.name}. Todos os direitos reservados.</span>
           <span className="flex items-center gap-2">
             <span className="rounded-full border border-cyan-400/30 bg-cyan-400/14 px-3 py-1 text-xs text-cyan-100 hover:bg-cyan-400/20 transition-colors duration-300">Produção Local</span>
-            <span className="rounded-full border border-green-400/30 bg-green-400/14 px-3 py-1 text-xs text-green-100 hover:bg-green-400/20 transition-colors duration-300">Pix com Desconto</span>
+            <span className="rounded-full border border-green-400/30 bg-green-400/14 px-3 py-1 text-xs text-green-100 hover:bg-green-400/20 transition-colors duration-300">Pix Direto</span>
             <span className="rounded-full border border-violet-400/30 bg-violet-400/14 px-3 py-1 text-xs text-violet-100 hover:bg-violet-400/20 transition-colors duration-300">Entrega RJ</span>
           </span>
           <button onClick={() => window.scrollTo({top:0,behavior:'smooth'})} className="button-secondary rounded-full px-4 py-2 text-xs font-bold hover:scale-105 transition-transform duration-300">Back to top</button>
