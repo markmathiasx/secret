@@ -109,3 +109,67 @@ export function getOpenAiAssistantModel() {
 export function isOpenAiConfigured() {
   return Boolean(getOpenAiApiKey());
 }
+
+export function getGroqApiKey() {
+  return (process.env.GROQ_API_KEY || "").trim();
+}
+
+export function getGroqAssistantModel() {
+  return (process.env.GROQ_MODEL || "llama-3.1-8b-instant").trim();
+}
+
+export function isGroqConfigured() {
+  return Boolean(getGroqApiKey());
+}
+
+export function getOllamaBaseUrl() {
+  return (process.env.OLLAMA_BASE_URL || "http://127.0.0.1:11434").trim().replace(/\/$/, "");
+}
+
+export function getOllamaAssistantModel() {
+  return (process.env.OLLAMA_MODEL || "qwen3:4b-q4_K_M").trim();
+}
+
+export type AiAssistantProvider = "openai" | "groq" | "ollama" | "fallback";
+
+export function getAiAssistantProvider() {
+  const forced = (process.env.AI_PROVIDER || "").trim().toLowerCase();
+
+  if (forced === "openai") return isOpenAiConfigured() ? "openai" : "fallback";
+  if (forced === "groq") return isGroqConfigured() ? "groq" : "fallback";
+  if (forced === "ollama") return "ollama";
+
+  if (isGroqConfigured()) return "groq";
+  if (isOpenAiConfigured()) return "openai";
+  return "fallback";
+}
+
+export function getAiAssistantProviderLabel(provider: AiAssistantProvider = getAiAssistantProvider()) {
+  switch (provider) {
+    case "groq":
+      return "Groq";
+    case "ollama":
+      return "Ollama local";
+    case "openai":
+      return "OpenAI";
+    default:
+      return "Modo guiado";
+  }
+}
+
+export function getAiAssistantModel() {
+  switch (getAiAssistantProvider()) {
+    case "groq":
+      return getGroqAssistantModel();
+    case "ollama":
+      return getOllamaAssistantModel();
+    case "openai":
+      return getOpenAiAssistantModel();
+    default:
+      return getGroqAssistantModel();
+  }
+}
+
+export function isAiAssistantConfigured() {
+  return getAiAssistantProvider() !== "fallback";
+}

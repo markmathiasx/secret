@@ -7,14 +7,33 @@ import {
   executeCommerceTool,
   type AssistantChatMessage,
 } from "@/lib/commerce-assistant";
-import { getOpenAiApiKey, getOpenAiAssistantModel, isOpenAiConfigured } from "@/lib/env";
+import { whatsappNumber } from "@/lib/constants";
+import {
+  getAiAssistantModel,
+  getAiAssistantProvider,
+  getGroqApiKey,
+  getOllamaBaseUrl,
+  getOpenAiApiKey,
+  isAiAssistantConfigured,
+} from "@/lib/env";
 import { applyNoStoreHeaders } from "@/lib/http-cache";
+import { checkRateLimit, getClientIp } from "@/lib/security";
 
 export const runtime = "nodejs";
 
 type AssistantChatPayload = {
   messages?: AssistantChatMessage[];
   previousResponseId?: string | null;
+};
+
+type ProviderConfig = {
+  provider: "openai" | "groq" | "ollama";
+  model: string;
+  apiKey: string;
+  baseURL?: string;
+  supportsStatefulResponses: boolean;
+  supportsStore: boolean;
+  supportsReasoningField: boolean;
 };
 
 function sanitizeMessages(messages: AssistantChatPayload["messages"]) {
@@ -56,7 +75,78 @@ function getToolCalls(response: any) {
   return (response?.output || []).filter((item: any) => item?.type === "function_call");
 }
 
+function getProviderConfig(): ProviderConfig | null {
+  const provider = getAiAssistantProvider();
+  const model = getAiAssistantModel();
+
+  switch (provider) {
+    case "openai":
+      return {
+        provider,
+        model,
+        apiKey: getOpenAiApiKey(),
+        supportsStatefulResponses: true,
+        supportsStore: true,
+        supportsReasoningField: true,
+      };
+    case "groq":
+      return {
+        provider,
+        model,
+        apiKey: getGroqApiKey(),
+        baseURL: "https://api.groq.com/openai/v1",
+        supportsStatefulResponses: false,
+        supportsStore: false,
+        supportsReasoningField: false,
+      };
+    case "ollama":
+      return {
+        provider,
+        model,
+        apiKey: "ollama",
+        baseURL: `${getOllamaBaseUrl()}/v1`,
+        supportsStatefulResponses: false,
+        supportsStore: false,
+        supportsReasoningField: false,
+      };
+    default:
+      return null;
+  }
+}
+
+function buildResponseRequest(config: ProviderConfig, input: any, previousResponseId?: string | null) {
+  return {
+    model: config.model,
+    instructions: createCommerceAssistantInstructions("site"),
+    input,
+    tools: [...commerceAssistantTools],
+    parallel_tool_calls: true,
+    max_output_tokens: 700,
+    ...(config.supportsStatefulResponses && previousResponseId ? { previous_response_id: previousResponseId } : {}),
+    ...(config.supportsStore ? { store: false } : {}),
+    ...(config.supportsReasoningField ? { reasoning: { effort: "low" as const } } : {}),
+  };
+}
+
 export async function POST(request: Request) {
+  const ip = getClientIp(request.headers);
+  const rateLimit = checkRateLimit(`assistant_chat:${ip}`, 14, 60_000);
+
+  if (!rateLimit.ok) {
+    const response = applyNoStoreHeaders(
+      NextResponse.json(
+        {
+          ok: false,
+          error: "Muitas mensagens em sequência. Aguarde um pouco antes de continuar.",
+          retryAfter: rateLimit.retryAfter,
+        },
+        { status: 429 }
+      )
+    );
+    response.headers.set("Retry-After", String(rateLimit.retryAfter));
+    return response;
+  }
+
   const payload = ((await request.json().catch(() => ({}))) || {}) as AssistantChatPayload;
   const messages = sanitizeMessages(payload.messages);
   const previousResponseId = payload.previousResponseId?.trim() || null;
@@ -68,13 +158,15 @@ export async function POST(request: Request) {
     );
   }
 
-  if (!isOpenAiConfigured()) {
+  const providerConfig = getProviderConfig();
+  if (!providerConfig || !isAiAssistantConfigured()) {
     return applyNoStoreHeaders(
       NextResponse.json({
         ok: true,
         aiReady: false,
         source: "fallback",
-        model: getOpenAiAssistantModel(),
+        provider: "fallback",
+        model: getAiAssistantModel(),
         responseId: null,
         message: buildCommerceFallbackReply(latestUserMessage.content),
       })
@@ -82,21 +174,19 @@ export async function POST(request: Request) {
   }
 
   try {
-    const client = new OpenAI({ apiKey: getOpenAiApiKey() });
-    const model = getOpenAiAssistantModel();
-    const initialInput = previousResponseId ? toResponseInput([latestUserMessage]) : toResponseInput(messages);
-
-    let response = await client.responses.create({
-      model,
-      instructions: createCommerceAssistantInstructions("site"),
-      input: initialInput,
-      previous_response_id: previousResponseId || undefined,
-      tools: [...commerceAssistantTools],
-      parallel_tool_calls: true,
-      reasoning: { effort: "low" },
-      max_output_tokens: 700,
-      store: false,
+    const client = new OpenAI({
+      apiKey: providerConfig.apiKey,
+      baseURL: providerConfig.baseURL,
     });
+
+    const initialInput =
+      providerConfig.supportsStatefulResponses && previousResponseId
+        ? toResponseInput([latestUserMessage])
+        : toResponseInput(messages);
+
+    let response = await client.responses.create(
+      buildResponseRequest(providerConfig, initialInput, previousResponseId)
+    );
 
     for (let safety = 0; safety < 4; safety += 1) {
       const toolCalls = getToolCalls(response);
@@ -114,17 +204,13 @@ export async function POST(request: Request) {
         })
       );
 
-      response = await client.responses.create({
-        model,
-        instructions: createCommerceAssistantInstructions("site"),
-        previous_response_id: response.id,
-        input: outputs,
-        tools: [...commerceAssistantTools],
-        parallel_tool_calls: true,
-        reasoning: { effort: "low" },
-        max_output_tokens: 700,
-        store: false,
-      });
+      response = await client.responses.create(
+        buildResponseRequest(
+          providerConfig,
+          outputs,
+          providerConfig.supportsStatefulResponses ? response.id : null
+        )
+      );
     }
 
     const message = getAssistantText(response) || buildCommerceFallbackReply(latestUserMessage.content);
@@ -133,21 +219,28 @@ export async function POST(request: Request) {
       NextResponse.json({
         ok: true,
         aiReady: true,
-        source: "openai",
-        model,
-        responseId: response.id || null,
+        source: "ai",
+        provider: providerConfig.provider,
+        model: providerConfig.model,
+        responseId: providerConfig.supportsStatefulResponses ? response.id || null : null,
         message,
       })
     );
-  } catch {
+  } catch (error: any) {
+    const status = Number(error?.status || error?.cause?.status || 0);
+    const rateLimited = status === 429;
+
     return applyNoStoreHeaders(
       NextResponse.json({
         ok: true,
         aiReady: false,
         source: "fallback",
-        model: getOpenAiAssistantModel(),
+        provider: providerConfig.provider,
+        model: providerConfig.model,
         responseId: null,
-        message: buildCommerceFallbackReply(latestUserMessage.content),
+        message: rateLimited
+          ? `O consultor automático atingiu o limite atual do provedor. Posso continuar em modo guiado ou você pode fechar pelo WhatsApp: https://wa.me/${whatsappNumber}`
+          : buildCommerceFallbackReply(latestUserMessage.content),
       })
     );
   }

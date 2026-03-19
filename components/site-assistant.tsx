@@ -11,11 +11,23 @@ const quickQuestions = [
 export function SiteAssistant({
   cardCheckoutReady,
   aiAssistantReady,
+  aiAssistantModel,
+  aiAssistantProvider,
 }: {
   cardCheckoutReady: boolean;
   aiAssistantReady: boolean;
+  aiAssistantModel: string;
+  aiAssistantProvider: "openai" | "groq" | "ollama" | "fallback";
 }) {
   const href = `https://wa.me/${whatsappNumber}`;
+  const providerLabel =
+    aiAssistantProvider === 'ollama'
+      ? `IA local via ${aiAssistantModel}`
+      : aiAssistantProvider === 'groq'
+        ? `IA online via Groq (${aiAssistantModel})`
+        : aiAssistantProvider === 'openai'
+          ? `IA online via OpenAI (${aiAssistantModel})`
+          : 'Consultor guiado com apoio humano';
 
   return (
     <aside className="pointer-events-none fixed bottom-24 right-4 z-40 hidden w-80 rounded-[28px] border border-white/10 bg-slate-950/88 p-5 shadow-2xl backdrop-blur-xl lg:block">
@@ -27,14 +39,14 @@ export function SiteAssistant({
           <div>
             <p className="text-sm font-semibold text-white">Atendimento MDH 3D</p>
             <p className="text-xs text-white/50">
-              {aiAssistantReady ? 'Consultor IA no site e equipe humana no WhatsApp' : 'Consultor guiado no site e equipe humana no WhatsApp'}
+              {aiAssistantReady ? `${providerLabel} no site e equipe humana no WhatsApp` : 'Consultor guiado no site e equipe humana no WhatsApp'}
             </p>
           </div>
         </div>
         <div className="mt-4 grid gap-2 rounded-[22px] border border-white/10 bg-white/5 p-4 text-xs text-white/68">
           <div className="flex items-center gap-2">
             <Bot className="h-4 w-4 text-cyan-100" />
-            <span>{aiAssistantReady ? 'Consultor IA ativo para catálogo, pagamentos e personalização' : 'Consultor guiado ativo para orientar catálogo, pagamentos e personalização'}</span>
+            <span>{aiAssistantReady ? `${providerLabel} para catálogo, pagamentos e personalização` : 'Consultor guiado ativo para orientar catálogo, pagamentos e personalização'}</span>
           </div>
           <div className="flex items-center gap-2">
             <QrCode className="h-4 w-4 text-emerald-200" />

@@ -21,10 +21,12 @@ export function SiteHeader({
   cardCheckoutReady,
   aiAssistantReady,
   aiAssistantModel,
+  aiAssistantProvider,
 }: {
   cardCheckoutReady: boolean;
   aiAssistantReady: boolean;
   aiAssistantModel: string;
+  aiAssistantProvider: "openai" | "groq" | "ollama" | "fallback";
 }) {
   const session = useCustomerSession();
   const [assistantOpen, setAssistantOpen] = useState(false);
@@ -79,7 +81,7 @@ export function SiteHeader({
           <div className="flex items-center gap-2">
             <button type="button" onClick={() => setAssistantOpen(true)} className="btn-glass">
               <Bot className="mr-2 h-4 w-4" />
-              {aiAssistantReady ? "Consultor IA" : "Consultor"}
+              {aiAssistantReady ? (aiAssistantProvider === "ollama" ? "IA local" : "Consultor IA") : "Consultor"}
             </button>
 
             {session.loggedIn ? (
@@ -129,6 +131,7 @@ export function SiteHeader({
         cardCheckoutReady={cardCheckoutReady}
         aiAssistantReady={aiAssistantReady}
         aiAssistantModel={aiAssistantModel}
+        aiAssistantProvider={aiAssistantProvider}
       />
     </>
   );

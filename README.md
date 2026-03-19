@@ -4,7 +4,7 @@ Loja Next.js da MDH 3D com:
 
 - catálogo e páginas individuais de produto;
 - orçamento rápido e fluxo para imagem/modelo 3D;
-- consultor comercial com IA via OpenAI Responses API e fallback guiado;
+- consultor comercial com IA via Responses API compatível com OpenAI, Groq e Ollama, além de fallback guiado;
 - área do cliente com login local por e-mail e senha;
 - painel administrativo em `/admin`;
 - integrações opcionais com Supabase, Mercado Pago e WhatsApp Cloud API.
@@ -32,6 +32,9 @@ AUTH_MAX_CUSTOMERS=100
 AUTH_MAX_ADMINS=5
 OPENAI_API_KEY=
 OPENAI_MODEL=gpt-5.1
+AI_PROVIDER=groq
+GROQ_API_KEY=
+GROQ_MODEL=llama-3.1-8b-instant
 ```
 
 Se quiser bootstrap inicial do admin por senha em texto puro, use `ADMIN_PASSWORD` apenas no primeiro acesso e remova depois.
@@ -62,19 +65,30 @@ MERCADOPAGO_ACCESS_TOKEN=
 MERCADOPAGO_WEBHOOK_SECRET=
 OPENAI_API_KEY=
 OPENAI_MODEL=gpt-5.1
+AI_PROVIDER=groq
+GROQ_API_KEY=
+GROQ_MODEL=llama-3.1-8b-instant
 ```
 
 Sem `SUPABASE_SERVICE_ROLE_KEY`, pedidos e orçamentos não gravam no banco.
 Sem `MERCADOPAGO_ACCESS_TOKEN`, o site mantém o fluxo do cartão preparado, mas devolve fallback orientando Pix ou WhatsApp.
 Sem `MERCADOPAGO_WEBHOOK_SECRET`, o site ainda recebe notificações, mas perde a validação criptográfica da assinatura do webhook.
-Sem `OPENAI_API_KEY`, o consultor do site continua funcionando em modo guiado, sem geração dinâmica via IA.
+Sem um provedor de IA configurado (`GROQ_API_KEY`, `OPENAI_API_KEY` ou modo local via Ollama), o consultor do site continua funcionando em modo guiado.
 
 ## Consultor IA
 
-- O site usa a `Responses API` da OpenAI no backend para responder com base no catálogo e nas regras comerciais reais da loja.
-- O modelo padrão recomendado para atendimento com boa relação entre qualidade e latência é `gpt-5.1`.
+- O backend do site usa um cliente compatível com `Responses API`, permitindo operar com OpenAI, Groq e Ollama sem trocar o fluxo do produto.
+- Para produção com custo zero inicial, a recomendação prática é `AI_PROVIDER=groq` com `GROQ_MODEL=llama-3.1-8b-instant`.
+- Para operação local/offline no próprio PC, a recomendação é `AI_PROVIDER=ollama` com `OLLAMA_MODEL=qwen3:4b-q4_K_M`.
+- `Ollama` roda na sua máquina; isso serve para ambiente local ou servidor próprio, não para a Vercel pública sem um host acessível externamente.
+- O caminho OpenAI continua suportado com `OPENAI_MODEL=gpt-5.1` por padrão e possibilidade de troca para `gpt-5.4-pro`.
 - O fluxo usa ferramentas locais para consultar catálogo, autenticação visual do item, pagamento, entrega e personalização.
-- Se a chave da OpenAI não estiver configurada, o modal do consultor entra automaticamente em fallback guiado, sem quebrar a experiência.
+- Se o provedor não estiver configurado ou atingir limite, o modal do consultor entra automaticamente em fallback guiado, sem quebrar a experiência.
+
+## Saúde do projeto
+
+- `npm run doctor` verifica ambiente, provider de IA e conflitos de merge em `app`, `components`, `lib` e `scripts`.
+- `GET /api/health` devolve um resumo operacional seguro com status da IA, pagamentos, catálogo e integração com Supabase.
 
 ## Checks
 
@@ -82,6 +96,8 @@ Sem `OPENAI_API_KEY`, o consultor do site continua funcionando em modo guiado, s
 npm run typecheck
 npm run lint:check
 npm run build
+npm run doctor
+npm run validate
 ```
 
 ## Deploy

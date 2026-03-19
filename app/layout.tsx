@@ -9,14 +9,15 @@ import { SiteFooter } from '@/components/site-footer';
 import { SiteHeader } from '@/components/site-header';
 import { WhatsAppFloat } from '@/components/whatsapp-float';
 import { brand, socialLinks, supportEmail, whatsappNumber } from '@/lib/constants';
-import { getOpenAiAssistantModel, getSiteUrl, isCardCheckoutConfigured, isOpenAiConfigured } from '@/lib/env';
+import { getAiAssistantModel, getAiAssistantProvider, getSiteUrl, isAiAssistantConfigured, isCardCheckoutConfigured } from '@/lib/env';
 
 const siteUrl = getSiteUrl();
 const sans = Manrope({ subsets: ['latin'], variable: '--font-sans', display: 'swap' });
 const display = Space_Grotesk({ subsets: ['latin'], variable: '--font-display', display: 'swap' });
 const cardCheckoutReady = isCardCheckoutConfigured();
-const aiAssistantReady = isOpenAiConfigured();
-const aiAssistantModel = getOpenAiAssistantModel();
+const aiAssistantReady = isAiAssistantConfigured();
+const aiAssistantModel = getAiAssistantModel();
+const aiAssistantProvider = getAiAssistantProvider();
 const normalizedPhone = `+${whatsappNumber.replace(/\D/g, '')}`;
 const socialProfiles = [socialLinks.instagram].filter((item) => Boolean(item) && item !== '#');
 const googleVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION?.trim();
@@ -158,11 +159,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }} />
         <div className="site-shell">
-          <SiteHeader cardCheckoutReady={cardCheckoutReady} aiAssistantReady={aiAssistantReady} aiAssistantModel={aiAssistantModel} />
+          <SiteHeader
+            cardCheckoutReady={cardCheckoutReady}
+            aiAssistantReady={aiAssistantReady}
+            aiAssistantModel={aiAssistantModel}
+            aiAssistantProvider={aiAssistantProvider}
+          />
           <main>{children}</main>
           <SiteFooter />
           <WhatsAppFloat />
-          <SiteAssistant cardCheckoutReady={cardCheckoutReady} aiAssistantReady={aiAssistantReady} />
+          <SiteAssistant
+            cardCheckoutReady={cardCheckoutReady}
+            aiAssistantReady={aiAssistantReady}
+            aiAssistantModel={aiAssistantModel}
+            aiAssistantProvider={aiAssistantProvider}
+          />
           <PwaRegister />
           <Analytics />
           <SpeedInsights />

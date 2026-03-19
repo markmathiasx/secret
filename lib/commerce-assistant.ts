@@ -2,8 +2,8 @@ import type { Product } from "@/lib/catalog";
 import { catalog, getProductUrl } from "@/lib/catalog";
 import { buildProductSearchText, normalizeProductCategory } from "@/lib/catalog-content";
 import { brand, deliveryZones, pix, supportEmail, whatsappNumber } from "@/lib/constants";
-import { getOpenAiAssistantModel, getSiteUrl, isCardCheckoutConfigured } from "@/lib/env";
-import { getProductVisual, isProductVisualVerified } from "@/lib/product-visuals";
+import { getAiAssistantModel, getAiAssistantProviderLabel, getSiteUrl, isCardCheckoutConfigured } from "@/lib/env";
+import { getProductVisual, isProductVisualVerified, type ProductVisualKind } from "@/lib/product-visuals";
 import { formatCurrency } from "@/lib/utils";
 
 export type AssistantChannel = "site" | "whatsapp";
@@ -14,6 +14,7 @@ export type AssistantChatMessage = {
 };
 
 type StoreTopic = "general" | "payment" | "delivery" | "customization" | "authenticity" | "contact";
+type AssistantVisualIntent = ProductVisualKind | "verified" | null;
 
 const siteUrl = getSiteUrl();
 const checkoutUrl = `${siteUrl}/checkout`;
@@ -51,9 +52,39 @@ function tokenize(value: string) {
     .filter(Boolean);
 }
 
-function scoreProduct(product: Product, normalizedQuery: string, tokens: string[]) {
+function detectVisualIntent(query: string): AssistantVisualIntent {
+  const normalized = normalizeText(query);
+
+  if (/(foto real|imagem real|peca real|produto real)/.test(normalized)) {
+    return "foto-real";
+  }
+
+  if (/(render fiel|render real|arquivo real|modelo real)/.test(normalized)) {
+    return "render-fiel";
+  }
+
+  if (/(autentic|autentica|autentico|verificad)/.test(normalized)) {
+    return "verified";
+  }
+
+  return null;
+}
+
+function matchesVisualIntent(product: Product, visualIntent: AssistantVisualIntent) {
+  if (!visualIntent) return true;
+  const visual = getProductVisual(product);
+
+  if (visualIntent === "verified") {
+    return visual.kind !== "imagem-conceitual";
+  }
+
+  return visual.kind === visualIntent;
+}
+
+function scoreProduct(product: Product, normalizedQuery: string, tokens: string[], visualIntent: AssistantVisualIntent) {
   const blob = buildProductSearchText(product);
   const normalizedName = normalizeText(product.name);
+  const visual = getProductVisual(product);
   let score = 0;
 
   if (normalizedName.includes(normalizedQuery)) score += 40;
@@ -69,6 +100,9 @@ function scoreProduct(product: Product, normalizedQuery: string, tokens: string[
   if (product.featured) score += 3;
   if (isProductVisualVerified(product)) score += 5;
   if (product.readyToShip) score += 2;
+  if (visualIntent === "verified" && visual.kind !== "imagem-conceitual") score += 40;
+  if (visualIntent && visual.kind === visualIntent) score += 56;
+  if (visualIntent && !matchesVisualIntent(product, visualIntent)) score -= 32;
 
   return score;
 }
@@ -107,32 +141,41 @@ export function searchCatalogForAssistant(query: string, options: { category?: s
   const tokens = tokenize(query);
   const normalizedCategory = options.category ? normalizeText(options.category) : "";
   const limit = Math.min(Math.max(options.limit || 4, 1), 6);
+  const visualIntent = detectVisualIntent(query);
+  const filteredCatalog = catalog.filter((product) => {
+    if (!normalizedCategory) return true;
+    const productCategory = normalizeText(normalizeProductCategory(product));
+    return productCategory.includes(normalizedCategory);
+  });
 
   if (!normalizedQuery) {
-    return catalog
-      .filter((product) => {
-        if (!normalizedCategory) return true;
-        const productCategory = normalizeText(normalizeProductCategory(product));
-        return productCategory.includes(normalizedCategory);
-      })
+    const preferred = visualIntent
+      ? filteredCatalog.filter((product) => matchesVisualIntent(product, visualIntent))
+      : filteredCatalog;
+
+    return preferred
       .sort((left, right) => Number(Boolean(right.featured)) - Number(Boolean(left.featured)))
       .slice(0, limit);
   }
 
-  return catalog
-    .filter((product) => {
-      if (!normalizedCategory) return true;
-      const productCategory = normalizeText(normalizeProductCategory(product));
-      return productCategory.includes(normalizedCategory);
-    })
+  const ranked = filteredCatalog
     .map((product) => ({
       product,
-      score: scoreProduct(product, normalizedQuery, tokens),
+      score: scoreProduct(product, normalizedQuery, tokens, visualIntent),
     }))
     .filter((entry) => entry.score > 0)
-    .sort((left, right) => right.score - left.score)
-    .slice(0, limit)
-    .map((entry) => entry.product);
+    .sort((left, right) => right.score - left.score);
+
+  if (visualIntent) {
+    const visualMatches = ranked.filter((entry) => matchesVisualIntent(entry.product, visualIntent));
+    if (visualMatches.length) {
+      return visualMatches.slice(0, limit).map((entry) => entry.product);
+    }
+
+    return [];
+  }
+
+  return ranked.slice(0, limit).map((entry) => entry.product);
 }
 
 function getProductById(productId: string) {
@@ -203,7 +246,8 @@ function getStoreContext(topic: StoreTopic) {
 
 export function createCommerceAssistantInstructions(channel: AssistantChannel) {
   const cardCheckoutReady = isCardCheckoutConfigured();
-  const model = getOpenAiAssistantModel();
+  const provider = getAiAssistantProviderLabel();
+  const model = getAiAssistantModel();
 
   return [
     `Você é o consultor comercial oficial da ${brand.name}.`,
@@ -221,7 +265,7 @@ export function createCommerceAssistantInstructions(channel: AssistantChannel) {
       : "Quando perguntarem sobre cartão, explique que a equipe confirma a melhor opção de parcelamento no atendimento humano.",
     `Links úteis: catálogo ${catalogUrl}, checkout ${checkoutUrl}, personalizados ${customOrderUrl}, WhatsApp ${whatsappUrl}.`,
     `Canal atual: ${channel}.`,
-    `Modelo operacional configurado: ${model}.`,
+    `Stack operacional atual: ${provider} com modelo ${model}. Use isso apenas para guiar latência e estilo interno, sem expor detalhes técnicos ao cliente.`,
   ].join(" ");
 }
 
@@ -293,6 +337,7 @@ export const commerceAssistantTools = [
 export async function executeCommerceTool(name: string, args: Record<string, unknown>) {
   switch (name) {
     case "search_catalog": {
+      const query = String(args.query || "");
       const results = searchCatalogForAssistant(String(args.query || ""), {
         category: typeof args.category === "string" ? args.category : undefined,
         limit: typeof args.limit === "number" ? args.limit : undefined,
@@ -300,6 +345,7 @@ export async function executeCommerceTool(name: string, args: Record<string, unk
 
       return {
         total: results.length,
+        visualIntentApplied: detectVisualIntent(query),
         items: results.map(formatProductSummary),
       };
     }
