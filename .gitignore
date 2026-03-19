@@ -23,3 +23,5 @@ secret/
 *.vsix
 build_output.txt
 CORRECAO-TYPECHECK-BUILD.txt
+output/
+*.tsbuildinfo

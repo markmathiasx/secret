@@ -108,25 +108,25 @@ function getVisualDefaults(kind: ProductVisualKind) {
         label: "Foto real",
         badgeClassName: "border-emerald-300/25 bg-emerald-300/10 text-emerald-100",
         panelClassName: "border-emerald-400/20 bg-emerald-400/10 text-emerald-50",
-        description: "Imagem capturada de uma peça física já produzida pela MDH 3D.",
+        description: "A imagem mostra uma peça já produzida pela MDH 3D, usada como referência direta de acabamento, escala e presença real.",
         recommendedNextStep: "Continuar capturando mais ângulos e variações de cor do mesmo item para escalar o catálogo.",
         merchantReady: true,
       };
     case "render-fiel":
       return {
-        label: "Render fiel",
+        label: "Render do produto",
         badgeClassName: "border-cyan-300/25 bg-cyan-300/10 text-cyan-100",
         panelClassName: "border-cyan-400/20 bg-cyan-400/10 text-cyan-50",
-        description: "Imagem derivada do arquivo real da peça, preservando a geometria do modelo 3D.",
+        description: "A imagem foi gerada a partir do modelo 3D real da peça, preservando a geometria do produto antes da produção.",
         recommendedNextStep: "Anexar STL, OBJ ou 3MF correspondente para manter a trilha técnica auditável.",
         merchantReady: true,
       };
     default:
       return {
-        label: "Imagem conceitual",
+        label: "Prévia do modelo",
         badgeClassName: "border-amber-300/25 bg-amber-300/10 text-amber-100",
         panelClassName: "border-amber-400/20 bg-amber-400/10 text-amber-50",
-        description: "Imagem de referência visual usada para apresentar estilo, tema e proposta do item.",
+        description: "A imagem funciona como direção visual do projeto. Antes da produção, cor, escala e acabamento são confirmados com você.",
         recommendedNextStep: "Substituir por foto real da peça pronta ou render gerado a partir do arquivo STL/OBJ/3MF.",
         merchantReady: false,
       };

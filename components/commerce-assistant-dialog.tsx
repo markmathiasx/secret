@@ -35,9 +35,8 @@ type AssistantApiResponse = {
 };
 
 function getAssistantStackLabel(provider: "openai" | "groq" | "ollama" | "fallback", model: string) {
-  if (provider === "ollama") return `IA local via Ollama (${model})`;
-  if (provider === "groq") return `IA online via Groq (${model})`;
-  if (provider === "openai") return `IA online via OpenAI (${model})`;
+  if (provider === "ollama") return "consultor automático local";
+  if (provider === "groq" || provider === "openai") return "consultor automático online";
   return "consultor guiado";
 }
 
@@ -55,8 +54,8 @@ function createWelcomeMessage(
     source: aiAssistantReady ? "ai" : "fallback",
     content: aiAssistantReady
       ? [
-          `Sou o consultor IA da MDH 3D, operando em ${stackLabel}.`,
-          "Posso te indicar produtos do catálogo, explicar Foto real vs. imagem conceitual, orientar personalização e te conduzir para Pix ou cartão.",
+          "Sou o consultor digital da MDH 3D.",
+          "Posso te indicar produtos do catálogo, explicar foto real, render do produto e prévia do modelo, orientar personalização e te conduzir para Pix ou cartão.",
           cardCheckoutReady
             ? "Se quiser, já posso começar por produto, presente, setup ou pagamento."
             : "Se quiser, já posso começar por produto, presente, setup, Pix ou parcelamento com a equipe.",
@@ -135,7 +134,7 @@ export function CommerceAssistantDialog({
 
   const statusLabel = useMemo(() => {
     if (aiAssistantReady) {
-      return aiAssistantProvider === "ollama" ? "IA local ativa" : "IA online ativa";
+      return aiAssistantProvider === "ollama" ? "Atendimento automático ativo" : "Atendimento automático ativo";
     }
     return "Consultor guiado";
   }, [aiAssistantProvider, aiAssistantReady]);
@@ -225,11 +224,6 @@ export function CommerceAssistantDialog({
               <span className="rounded-full border border-cyan-300/20 bg-cyan-300/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-cyan-100">
                 {statusLabel}
               </span>
-              {aiAssistantReady ? (
-                <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/72">
-                  {stackLabel}
-                </span>
-              ) : null}
             </div>
             <h2 className="mt-2 text-3xl font-black text-white">Tire dúvidas, descubra produtos e avance para a compra.</h2>
             <p className="mt-3 max-w-3xl text-sm leading-7 text-white/68">
@@ -303,7 +297,7 @@ export function CommerceAssistantDialog({
                 <div>
                   <p className="text-sm font-semibold text-white">Conversa de compra</p>
                   <p className="text-xs text-white/50">
-                    Pergunte por item, faixa de preço, tipo de imagem, pagamento, frete ou personalização.
+                    Pergunte por item, faixa de preço, foto real, pagamento, frete ou personalização.
                   </p>
                 </div>
               </div>

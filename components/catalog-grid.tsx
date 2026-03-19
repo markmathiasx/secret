@@ -9,6 +9,7 @@ import { getProductUrl } from "@/lib/catalog";
 import { FavoriteButton } from "@/components/favorite-button";
 import { getProductImageCandidates } from "@/lib/product-images";
 import { ProductVisualBadge } from "@/components/product-visual-authenticity";
+import { isProductVisualVerified } from "@/lib/product-visuals";
 
 function ProductCardImage({ product }: { product: Product }) {
   const candidates = useMemo(() => getProductImageCandidates(product), [product]);
@@ -24,7 +25,14 @@ export function CatalogGrid({ products }: { products: Product[] }) {
   return (
     <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
       {products.map((product) => (
-        <article key={product.id} className="group rounded-[28px] border border-white/10 bg-card p-5 transition hover:-translate-y-1 hover:border-cyan-300/30">
+        <article
+          key={product.id}
+          className={`group rounded-[28px] border p-5 transition hover:-translate-y-1 ${
+            isProductVisualVerified(product)
+              ? "border-white/10 bg-card hover:border-cyan-300/30"
+              : "border-amber-300/15 bg-[linear-gradient(180deg,rgba(245,158,11,0.08),rgba(255,255,255,0.02))] hover:border-amber-300/30"
+          }`}
+        >
           <ProductCardImage product={product} />
           <div className="mt-4 flex items-start justify-between gap-3">
             <div>
@@ -37,6 +45,10 @@ export function CatalogGrid({ products }: { products: Product[] }) {
           <div className="mt-3">
             <ProductVisualBadge product={product} />
           </div>
+          <div className="mt-3 rounded-[20px] border border-white/10 bg-black/20 p-3 text-xs leading-6 text-white/62">
+            <p className="font-semibold text-white/82">{product.pricingMode === "faixa-auditada" ? "Compra direta" : "Projeto sob medida"}</p>
+            <p className="mt-1">{product.pricingNarrative}</p>
+          </div>
           <div className="mt-4 flex flex-wrap gap-2">
             <span className="rounded-full border border-white/10 px-2.5 py-1 text-xs text-white/55">{product.material}</span>
             <span className="rounded-full border border-white/10 px-2.5 py-1 text-xs text-white/55">{product.finish}</span>
@@ -44,11 +56,13 @@ export function CatalogGrid({ products }: { products: Product[] }) {
           </div>
           <div className="mt-5 flex items-end justify-between gap-3">
             <div>
-              <p className="text-xs text-white/45">Preço Pix</p>
+              <p className="text-xs text-white/45">{product.pricingMode === "faixa-auditada" ? "Preço no Pix" : "Base inicial no Pix"}</p>
               <p className="text-2xl font-bold text-white">{formatCurrency(product.pricePix)}</p>
               <p className="text-xs text-white/55">12x de {formatCurrency(product.priceCard / 12)} no cartão</p>
             </div>
-            <Link href={getProductUrl(product)} className="rounded-full border border-cyan-400/25 bg-cyan-400/10 px-4 py-2 text-sm font-semibold text-cyan-100 transition hover:border-cyan-300/50 hover:bg-cyan-300/15">Ver produto</Link>
+            <Link href={getProductUrl(product)} className="rounded-full border border-cyan-400/25 bg-cyan-400/10 px-4 py-2 text-sm font-semibold text-cyan-100 transition hover:border-cyan-300/50 hover:bg-cyan-300/15">
+              {product.pricingMode === "faixa-auditada" ? "Comprar agora" : "Pedir orçamento"}
+            </Link>
           </div>
         </article>
       ))}

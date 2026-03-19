@@ -25,9 +25,9 @@ export function PricingCalculator() {
     <section className="rounded-[32px] border border-white/10 bg-white/5 p-6 shadow-glow">
       <div className="mb-6">
         <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Calculadora MDH</p>
-        <h2 className="mt-2 text-2xl font-bold text-white">Preço justo com margem de erro e lucro alvo</h2>
+        <h2 className="mt-2 text-2xl font-bold text-white">Preço com piso de lucro e leitura de mercado</h2>
         <p className="mt-2 text-sm leading-6 text-white/65">
-          Fórmula pensada para PLA a R$ 100/kg, desperdício, embalagem, energia, manutenção e 20% de reserva de falha.
+          A base atual usa custo ajustado da peça e aplica o alvo comercial adotado pela loja: custo x3 no Pix antes de taxas de cartão e marketplaces.
         </p>
       </div>
 
@@ -73,7 +73,7 @@ export function PricingCalculator() {
           <p className="mt-2 text-3xl font-bold text-cyan-100">{formatCurrency(result.price)}</p>
         </div>
         <div className="rounded-[24px] border border-violet-400/15 bg-violet-400/10 p-5">
-          <p className="text-sm text-violet-100/70">Margem nominal</p>
+          <p className="text-sm text-violet-100/70">Lucro nominal</p>
           <p className="mt-2 text-3xl font-bold text-violet-100">{formatCurrency(result.profit)}</p>
         </div>
       </div>

@@ -12,12 +12,18 @@ import { isProductVisualVerified } from '@/lib/product-visuals';
 const PAGE_SIZE = 25;
 
 export function CatalogExplorer({ products, initialQuery = '' }: { products: Product[]; initialQuery?: string }) {
+  const priceLimits = useMemo(() => {
+    const values = products.map((item) => item.pricePix);
+    const min = Math.max(10, Math.floor(Math.min(...values) / 10) * 10);
+    const max = Math.max(120, Math.ceil(Math.max(...values) / 10) * 10);
+    return { min, max };
+  }, [products]);
   const [query, setQuery] = useState(initialQuery);
   const [category, setCategory] = useState('Todas');
   const [collection, setCollection] = useState('Todas');
   const [page, setPage] = useState(1);
   const [order, setOrder] = useState('Mais Recentes');
-  const [priceRange, setPriceRange] = useState([20, 500]);
+  const [priceRange, setPriceRange] = useState<[number, number]>([priceLimits.min, priceLimits.max]);
   const [verifiedOnly, setVerifiedOnly] = useState(true);
 
   useEffect(() => {
@@ -56,7 +62,7 @@ export function CatalogExplorer({ products, initialQuery = '' }: { products: Pro
     setCategory('Todas');
     setCollection('Todas');
     setOrder('Mais Recentes');
-    setPriceRange([20, 500]);
+    setPriceRange([priceLimits.min, priceLimits.max]);
     setVerifiedOnly(true);
     setPage(1);
   }
@@ -129,8 +135,9 @@ export function CatalogExplorer({ products, initialQuery = '' }: { products: Pro
             <span className="mb-2 block">Preço</span>
             <input
               type="range"
-              min={20}
-              max={500}
+              min={priceLimits.min}
+              max={priceLimits.max}
+              step={5}
               value={priceRange[0]}
               onChange={e => setPriceRange([Number(e.target.value), priceRange[1]])}
               className="w-full accent-cyan-400"
@@ -138,8 +145,9 @@ export function CatalogExplorer({ products, initialQuery = '' }: { products: Pro
             />
             <input
               type="range"
-              min={20}
-              max={500}
+              min={priceLimits.min}
+              max={priceLimits.max}
+              step={5}
               value={priceRange[1]}
               onChange={e => setPriceRange([priceRange[0], Number(e.target.value)])}
               className="w-full accent-cyan-400"
@@ -164,7 +172,7 @@ export function CatalogExplorer({ products, initialQuery = '' }: { products: Pro
                 : 'border-white/10 bg-white/5 text-white/75 hover:border-white/20 hover:text-white'
             }`}
           >
-            Priorizar imagens validadas
+            Peças com foto real
           </button>
           <button
             type="button"
@@ -178,7 +186,7 @@ export function CatalogExplorer({ products, initialQuery = '' }: { products: Pro
                 : 'border-white/10 bg-white/5 text-white/75 hover:border-white/20 hover:text-white'
             }`}
           >
-            Mostrar catálogo completo
+            Todo o catálogo
           </button>
           <button
             type="button"
@@ -188,17 +196,25 @@ export function CatalogExplorer({ products, initialQuery = '' }: { products: Pro
             Limpar filtros
           </button>
         </div>
-        <div className="mt-4 flex flex-wrap items-center gap-3 text-sm text-white/60">
+      <div className="mt-4 flex flex-wrap items-center gap-3 text-sm text-white/60">
           <span>{filtered.length} produtos encontrados</span>
           <span className="h-1 w-1 rounded-full bg-white/30" />
-          <span>{verifiedOnly ? 'Abertura com foco em produtos com imagem validada' : 'Visualizando também referências conceituais'}</span>
+          <span>{verifiedOnly ? 'Exibindo primeiro peças com foto real ou render do produto' : 'Exibindo também projetos sob medida com prévia visual e estimativa inicial'}</span>
           <span className="h-1 w-1 rounded-full bg-white/30" />
           <span>Página {currentPage} de {totalPages}</span>
         </div>
       </div>
       <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
         {visibleItems.map((product) => (
-          <article key={product.id} className="group rounded-[28px] border border-white/10 bg-card p-5 transition hover:-translate-y-1 hover:border-cyan-300/30" aria-label={product.name}>
+          <article
+            key={product.id}
+            className={`group rounded-[28px] border p-5 transition hover:-translate-y-1 ${
+              isProductVisualVerified(product)
+                ? 'border-white/10 bg-card hover:border-cyan-300/30'
+                : 'border-amber-300/15 bg-[linear-gradient(180deg,rgba(245,158,11,0.08),rgba(255,255,255,0.02))] hover:border-amber-300/30'
+            }`}
+            aria-label={product.name}
+          >
             <ProductImageGallery product={product} compact />
             <div className="mt-2 flex flex-wrap gap-2">
               {product.featured && <span className="rounded-full border border-amber-300/25 bg-amber-300/10 px-3 py-1 text-[11px] font-semibold text-amber-100">Mais Vendido</span>}
@@ -206,6 +222,15 @@ export function CatalogExplorer({ products, initialQuery = '' }: { products: Pro
               {product.collection === 'Novidade' && (
                 <span className="rounded-full border border-purple-400/30 bg-purple-400/14 px-3 py-1 text-[11px] font-semibold text-purple-100">Novidade</span>
               )}
+              <span
+                className={`rounded-full border px-3 py-1 text-[11px] font-semibold ${
+                  product.pricingMode === 'faixa-auditada'
+                    ? 'border-cyan-300/25 bg-cyan-300/10 text-cyan-100'
+                    : 'border-amber-300/25 bg-amber-300/10 text-amber-100'
+                }`}
+              >
+                {product.pricingMode === 'faixa-auditada' ? 'Preço confirmado' : 'Estimativa inicial'}
+              </span>
               <ProductVisualBadge product={product} />
             </div>
             <div className="mt-4 flex items-start justify-between gap-3">
@@ -224,13 +249,19 @@ export function CatalogExplorer({ products, initialQuery = '' }: { products: Pro
               <span className="rounded-full border border-white/10 px-2.5 py-1 text-xs text-white/55">{product.finish}</span>
               <span className="rounded-full border border-white/10 px-2.5 py-1 text-xs text-white/55">{product.readyToShip ? 'Pronta entrega' : 'Sob encomenda'}</span>
             </div>
+            <div className="mt-4 rounded-[20px] border border-white/10 bg-black/20 p-3 text-xs leading-6 text-white/62">
+              <p className="font-semibold text-white/82">{product.pricingMode === 'faixa-auditada' ? 'Compra direta' : 'Projeto sob medida'}</p>
+              <p className="mt-1">{product.pricingNarrative}</p>
+            </div>
             <div className="mt-5 flex items-end justify-between gap-4">
               <div>
-                <p className="text-xs text-white/45">Preço Pix</p>
+                <p className="text-xs text-white/45">{product.pricingMode === 'faixa-auditada' ? 'Preço no Pix' : 'Base inicial no Pix'}</p>
                 <p className="text-2xl font-bold text-white">{formatCurrency(product.pricePix)}</p>
                 <p className="text-xs text-white/55">12x de {formatCurrency(product.priceCard / 12)} no cartão</p>
               </div>
-              <Link href={getProductUrl(product)} className="rounded-full border border-cyan-400/25 bg-cyan-400/10 px-4 py-2 text-sm font-semibold text-cyan-100 transition hover:border-cyan-300/50 hover:bg-cyan-300/15">Ver produto</Link>
+              <Link href={getProductUrl(product)} className="rounded-full border border-cyan-400/25 bg-cyan-400/10 px-4 py-2 text-sm font-semibold text-cyan-100 transition hover:border-cyan-300/50 hover:bg-cyan-300/15">
+                {product.pricingMode === 'faixa-auditada' ? 'Comprar agora' : 'Pedir orçamento'}
+              </Link>
             </div>
           </article>
         ))}

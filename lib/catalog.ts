@@ -1,6 +1,8 @@
 import { deliveryZones } from "@/lib/constants";
 import { slugify } from "@/lib/utils";
 import { buildProductSearchText, getProductCardDescription, normalizeProductCategory } from "@/lib/catalog-content";
+import { suggestPixPrice, TARGET_PRICE_MULTIPLE_ON_COST, type MarketBenchmark } from "@/lib/market-pricing";
+import { getProductVisual } from "@/lib/product-visuals";
 import { verifiedCatalog } from "@/lib/verified-catalog";
 
 export type PaymentMethod = "pix" | "cartao" | "boleto";
@@ -39,13 +41,35 @@ export type Product = {
   stock: number;
   customizable: boolean;
   readyToShip?: boolean;
+  estimatedUnitCost?: number;
+  estimatedUnitProfit?: number;
+  pricingMode?: "faixa-auditada" | "referencia-de-encomenda";
+  pricingNarrative?: string;
+  marketBenchmark?: MarketBenchmark;
 };
 
 function enrichProduct(product: Product): Product {
-  return {
+  const normalized = {
     ...product,
     category: normalizeProductCategory(product),
     description: getProductCardDescription(product),
+  };
+
+  const baseCost = calculateBaseCost(normalized.grams, normalized.hours, normalized.complexity);
+  const visual = getProductVisual(normalized);
+  const pricing = suggestPixPrice(normalized, baseCost, visual.kind);
+
+  return {
+    ...normalized,
+    price: pricing.pricePix,
+    pricePix: pricing.pricePix,
+    priceCard: pricing.priceCard,
+    marketplaceSuggested: pricing.marketplaceSuggested,
+    estimatedUnitCost: baseCost,
+    estimatedUnitProfit: pricing.estimatedProfit,
+    pricingMode: pricing.pricingMode,
+    pricingNarrative: pricing.narrative,
+    marketBenchmark: pricing.benchmark,
   };
 }
 
@@ -70,7 +94,7 @@ export function calculateSalePrice(
   paymentMethod: PaymentMethod = "pix",
   channel: SalesChannel = "site"
 ) {
-  let price = calculateBaseCost(grams, hours, complexity) * 1.95;
+  let price = calculateBaseCost(grams, hours, complexity) * TARGET_PRICE_MULTIPLE_ON_COST;
   if (paymentMethod === "cartao") price *= 1.12;
   if (paymentMethod === "boleto") price *= 1.08;
   if (channel === "mercadolivre") price *= 1.15;
@@ -2563,7 +2587,7 @@ const curatedCatalog: Product[] = [
   },
 ];
 
-export const catalog = [...verifiedCatalog, ...curatedCatalog.map(enrichProduct)];
+export const catalog = [...verifiedCatalog.map(enrichProduct), ...curatedCatalog.map(enrichProduct)];
 export const featuredCatalog = catalog.filter((item) => item.featured).slice(0, 12);
 export const categories = Array.from(new Set(catalog.map((item) => item.category)));
 export const collections = Array.from(new Set(catalog.map((item) => item.collection)));

@@ -5,8 +5,10 @@ import type { Product } from "@/lib/catalog";
 import { getProductGallery } from "@/lib/product-images";
 import { SafeProductImage } from "@/components/safe-product-image";
 import { ProductVisualBadge } from "@/components/product-visual-authenticity";
+import { getProductVisual } from "@/lib/product-visuals";
 export function ProductImageGallery({ product, compact = false }: { product: Product; compact?: boolean }) {
   const gallery = useMemo(() => getProductGallery(product), [product]);
+  const visual = useMemo(() => getProductVisual(product), [product]);
   const [active, setActive] = useState(0);
   const [expanded, setExpanded] = useState(false);
   const current = gallery[active] || gallery[0];
@@ -16,12 +18,30 @@ export function ProductImageGallery({ product, compact = false }: { product: Pro
   if (compact) {
     return (
       <div className="overflow-hidden rounded-[20px] border border-white/10 bg-white/5 transition-all duration-300 hover:border-cyan-300/30 hover:shadow-lg hover:shadow-cyan-400/10">
-        <SafeProductImage candidates={current.candidates} alt={current.alt} className="aspect-square w-full object-cover transition-transform duration-300" />
+        <div className="relative">
+          <SafeProductImage candidates={current.candidates} alt={current.alt} className="aspect-square w-full object-cover transition-transform duration-300" />
+          <div className="pointer-events-none absolute inset-x-0 top-0 flex items-start justify-between gap-2 p-3">
+            <span
+              className={`rounded-full border px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] backdrop-blur-sm ${
+                visual.kind === "imagem-conceitual"
+                  ? "border-amber-300/25 bg-amber-300/12 text-amber-50"
+                  : "border-emerald-300/25 bg-emerald-300/12 text-emerald-50"
+              }`}
+            >
+              {visual.label}
+            </span>
+            <span className="rounded-full border border-black/20 bg-black/45 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/85">
+              {product.readyToShip ? "Pronta entrega" : "Sob encomenda"}
+            </span>
+          </div>
+        </div>
         <div className="border-t border-white/10 bg-slate-950/75 px-4 py-3">
           <div className="flex items-center justify-between gap-3 text-xs">
-            <div className="flex items-center gap-2">
-              <span className="uppercase tracking-[0.16em] text-white/80 font-medium">{product.material}</span>
-              <span className="text-cyan-200 font-semibold">{product.finish}</span>
+            <div className="min-w-0">
+              <p className="truncate uppercase tracking-[0.16em] text-white/80 font-medium">{product.material} • {product.finish}</p>
+              <p className="mt-1 line-clamp-1 text-[11px] text-white/55">
+                {visual.kind === "imagem-conceitual" ? "Projeto sob medida com prévia visual para aprovação." : "Peça já produzida ou visual fiel do produto final."}
+              </p>
             </div>
             <ProductVisualBadge product={product} />
           </div>
@@ -37,7 +57,7 @@ export function ProductImageGallery({ product, compact = false }: { product: Pro
           onClick={() => setExpanded(true)}
           className="group block w-full overflow-hidden rounded-[24px] border border-white/10 bg-white/5 text-left transition-all duration-300 hover:border-cyan-300/30 hover:shadow-xl hover:shadow-cyan-400/10"
         >
-          <SafeProductImage candidates={current.candidates} alt={current.alt} className="aspect-square w-full object-cover transition duration-300" />
+          <SafeProductImage candidates={current.candidates} alt={current.alt} className="aspect-square w-full object-cover transition duration-300" priority />
           <div className="flex items-center justify-between gap-3 border-t border-white/10 bg-slate-950/78 px-5 py-4">
             <div className="flex flex-col">
               <span className="text-sm text-white/90 font-medium">{product.name}</span>
@@ -80,7 +100,7 @@ export function ProductImageGallery({ product, compact = false }: { product: Pro
             </div>
             <div className="grid flex-1 gap-0 lg:grid-cols-[1fr_280px]">
               <div className="flex items-center justify-center p-5">
-                <SafeProductImage candidates={current.candidates} alt={current.alt} className="max-h-[78vh] w-auto rounded-[24px] object-contain animate-fadeInUp" />
+                <SafeProductImage candidates={current.candidates} alt={current.alt} className="max-h-[78vh] w-auto rounded-[24px] object-contain animate-fadeInUp" priority />
               </div>
               <div className="border-l border-white/10 p-5">
                 <div className="grid gap-3">

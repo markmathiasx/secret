@@ -5,13 +5,13 @@ import { realCaseStudies } from "@/lib/product-visuals";
 
 export function CatalogRealCases() {
   return (
-    <section className="mt-10 rounded-[32px] border border-white/10 bg-black/20 p-6">
+    <section id="catalogo-real" className="mt-10 rounded-[32px] border border-white/10 bg-black/20 p-6">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div className="max-w-2xl">
           <p className="text-xs uppercase tracking-[0.2em] text-emerald-200">Fotos reais do ateliê</p>
-          <h2 className="mt-3 text-2xl font-black text-white sm:text-3xl">Referências reais para subir a confiança sem misturar mockup com peça pronta.</h2>
+          <h2 className="mt-3 text-2xl font-black text-white sm:text-3xl">Peças já produzidas para você sentir o nível real de acabamento da MDH 3D.</h2>
           <p className="mt-3 text-sm leading-7 text-white/68">
-            Esses exemplos mostram produção real já registrada pela MDH 3D. Eles não substituem o catálogo SKU a SKU, mas provam acabamento, material e resultado final.
+            Essas fotos mostram trabalhos já entregues ou produzidos no ateliê. Elas ajudam a comparar material, acabamento, escala e presença visual antes do seu pedido.
           </p>
         </div>
         <a
@@ -20,7 +20,7 @@ export function CatalogRealCases() {
           rel="noreferrer"
           className="rounded-full border border-emerald-300/25 bg-emerald-300/10 px-5 py-3 text-sm font-semibold text-emerald-100 transition hover:border-emerald-300/40 hover:bg-emerald-300/15"
         >
-          Pedir validação visual
+          Verificar peça parecida
         </a>
       </div>
 
@@ -37,7 +37,7 @@ export function CatalogRealCases() {
                 href={item.href}
                 className="inline-flex rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white/80 transition hover:border-white/20 hover:text-white"
               >
-                Solicitar algo parecido
+                Pedir algo parecido
               </Link>
             </div>
           </article>

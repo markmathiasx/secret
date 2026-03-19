@@ -11,9 +11,10 @@ type Props = {
   alt: string;
   className?: string;
   onResolved?: (src: string) => void;
+  priority?: boolean;
 };
 
-export function SafeProductImage({ product, candidates, alt, className, onResolved }: Props) {
+export function SafeProductImage({ product, candidates, alt, className, onResolved, priority = false }: Props) {
   const candidateList = useMemo(() => {
     if (candidates?.length) return candidates;
     if (product) return getProductImageCandidates(product);
@@ -21,12 +22,12 @@ export function SafeProductImage({ product, candidates, alt, className, onResolv
   }, [candidates, product]);
 
   const [index, setIndex] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(!priority);
   const src = candidateList[index] || productPlaceholderSrc;
 
   return (
     <>
-      {isLoading && (
+      {!priority && isLoading && (
         <div className={`${className} animate-pulse bg-white/5 flex items-center justify-center`}>
           <div className="w-8 h-8 border-2 border-cyan-400/30 border-t-cyan-400 rounded-full animate-spin" />
         </div>
@@ -36,8 +37,9 @@ export function SafeProductImage({ product, candidates, alt, className, onResolv
         alt={alt}
         width={1200}
         height={1200}
-        className={`${className} ${isLoading ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300`}
-        loading="lazy"
+        className={`${className} ${priority ? 'opacity-100' : isLoading ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300`}
+        priority={priority}
+        loading={priority ? "eager" : "lazy"}
         decoding="async"
         quality={85}
         onLoad={() => {

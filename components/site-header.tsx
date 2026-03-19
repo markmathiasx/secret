@@ -81,7 +81,7 @@ export function SiteHeader({
           <div className="flex items-center gap-2">
             <button type="button" onClick={() => setAssistantOpen(true)} className="btn-glass">
               <Bot className="mr-2 h-4 w-4" />
-              {aiAssistantReady ? (aiAssistantProvider === "ollama" ? "IA local" : "Consultor IA") : "Consultor"}
+              Consultor MDH
             </button>
 
             {session.loggedIn ? (

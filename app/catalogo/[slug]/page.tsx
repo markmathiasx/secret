@@ -108,6 +108,8 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
   const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`${whatsappMessage}\n\nTenho interesse em ${product.name} (${product.sku}).`)}`;
   const customizationHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`${whatsappMessage}\n\nQuero personalizar ${product.name} (${product.sku}).`)}`;
+  const primaryActionLabel = product.pricingMode === 'faixa-auditada' ? 'Comprar agora' : 'Pedir orçamento';
+  const priceLabel = product.pricingMode === 'faixa-auditada' ? 'Preço no Pix' : 'Estimativa inicial no Pix';
 
   return (
     <>
@@ -146,8 +148,8 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
           <div className="mt-6 grid gap-4 sm:grid-cols-3">
             <div className="rounded-[24px] border border-emerald-400/20 bg-emerald-400/10 p-4">
-              <p className="text-sm text-emerald-100/70">Pix</p>
-              <p className="mt-2 text-2xl font-black text-white">{formatCurrency(product.price ?? product.pricePix)}</p>
+              <p className="text-sm text-emerald-100/70">{priceLabel}</p>
+              <p className="mt-2 text-2xl font-black text-white">{formatCurrency(product.pricePix)}</p>
             </div>
             <div className="rounded-[24px] border border-white/10 bg-white/5 p-4">
               <p className="text-sm text-white/55">Cartão</p>
@@ -201,6 +203,19 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             </p>
           </div>
 
+          <div className="mt-6 rounded-[24px] border border-white/10 bg-black/20 p-4 text-sm leading-7 text-white/70">
+            <p className="text-xs uppercase tracking-[0.18em] text-white/45">Faixa comercial</p>
+            <p className="mt-2 font-semibold text-white">
+              {product.pricingMode === 'faixa-auditada' ? 'Preço confirmado para compra direta' : 'Estimativa inicial para produção sob medida'}
+            </p>
+            <p className="mt-2">{product.pricingNarrative}</p>
+            {product.marketBenchmark ? (
+              <p className="mt-2 text-white/60">
+                Faixa observada no mercado para {product.marketBenchmark.label.toLowerCase()}: de {formatCurrency(product.marketBenchmark.min)} até cerca de {formatCurrency(product.marketBenchmark.premium)}.
+              </p>
+            ) : null}
+          </div>
+
           <div className="mt-6">
             <ProductVisualNotice product={product} />
           </div>
@@ -220,7 +235,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           </div>
 
           <div className="mt-8 flex flex-wrap gap-3">
-            <Link href={`/checkout?product=${product.id}`} className="btn-primary">Ir para checkout</Link>
+            <Link href={`/checkout?product=${product.id}`} className="btn-primary">{primaryActionLabel}</Link>
             {product.customizable && (
               <a href={customizationHref} target="_blank" rel="noreferrer" className="btn-secondary">
                 Solicitar personalização
