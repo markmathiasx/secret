@@ -4,6 +4,7 @@ Loja Next.js da MDH 3D com:
 
 - catálogo e páginas individuais de produto;
 - orçamento rápido e fluxo para imagem/modelo 3D;
+- consultor comercial com IA via OpenAI Responses API e fallback guiado;
 - área do cliente com login local por e-mail e senha;
 - painel administrativo em `/admin`;
 - integrações opcionais com Supabase, Mercado Pago e WhatsApp Cloud API.
@@ -29,6 +30,8 @@ ADMIN_SESSION_SECRET=seu-segredo-longo
 AUTH_CUSTOMER_SESSION_SECRET=seu-segredo-longo
 AUTH_MAX_CUSTOMERS=100
 AUTH_MAX_ADMINS=5
+OPENAI_API_KEY=
+OPENAI_MODEL=gpt-5.1
 ```
 
 Se quiser bootstrap inicial do admin por senha em texto puro, use `ADMIN_PASSWORD` apenas no primeiro acesso e remova depois.
@@ -57,11 +60,21 @@ SUPABASE_QUOTE_REQUESTS_TABLE=quote_requests
 NEXT_PUBLIC_PIX_KEY=21974137662
 MERCADOPAGO_ACCESS_TOKEN=
 MERCADOPAGO_WEBHOOK_SECRET=
+OPENAI_API_KEY=
+OPENAI_MODEL=gpt-5.1
 ```
 
 Sem `SUPABASE_SERVICE_ROLE_KEY`, pedidos e orçamentos não gravam no banco.
 Sem `MERCADOPAGO_ACCESS_TOKEN`, o site mantém o fluxo do cartão preparado, mas devolve fallback orientando Pix ou WhatsApp.
 Sem `MERCADOPAGO_WEBHOOK_SECRET`, o site ainda recebe notificações, mas perde a validação criptográfica da assinatura do webhook.
+Sem `OPENAI_API_KEY`, o consultor do site continua funcionando em modo guiado, sem geração dinâmica via IA.
+
+## Consultor IA
+
+- O site usa a `Responses API` da OpenAI no backend para responder com base no catálogo e nas regras comerciais reais da loja.
+- O modelo padrão recomendado para atendimento com boa relação entre qualidade e latência é `gpt-5.1`.
+- O fluxo usa ferramentas locais para consultar catálogo, autenticação visual do item, pagamento, entrega e personalização.
+- Se a chave da OpenAI não estiver configurada, o modal do consultor entra automaticamente em fallback guiado, sem quebrar a experiência.
 
 ## Checks
 

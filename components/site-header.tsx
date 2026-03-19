@@ -17,7 +17,15 @@ const navLinks = [
   { href: "/divulgacao", label: "Conteúdo" }
 ];
 
-export function SiteHeader({ cardCheckoutReady }: { cardCheckoutReady: boolean }) {
+export function SiteHeader({
+  cardCheckoutReady,
+  aiAssistantReady,
+  aiAssistantModel,
+}: {
+  cardCheckoutReady: boolean;
+  aiAssistantReady: boolean;
+  aiAssistantModel: string;
+}) {
   const session = useCustomerSession();
   const [assistantOpen, setAssistantOpen] = useState(false);
 
@@ -71,7 +79,7 @@ export function SiteHeader({ cardCheckoutReady }: { cardCheckoutReady: boolean }
           <div className="flex items-center gap-2">
             <button type="button" onClick={() => setAssistantOpen(true)} className="btn-glass">
               <Bot className="mr-2 h-4 w-4" />
-              Consultor
+              {aiAssistantReady ? "Consultor IA" : "Consultor"}
             </button>
 
             {session.loggedIn ? (
@@ -115,7 +123,13 @@ export function SiteHeader({ cardCheckoutReady }: { cardCheckoutReady: boolean }
         </nav>
       </header>
 
-      <CommerceAssistantDialog open={assistantOpen} onClose={() => setAssistantOpen(false)} cardCheckoutReady={cardCheckoutReady} />
+      <CommerceAssistantDialog
+        open={assistantOpen}
+        onClose={() => setAssistantOpen(false)}
+        cardCheckoutReady={cardCheckoutReady}
+        aiAssistantReady={aiAssistantReady}
+        aiAssistantModel={aiAssistantModel}
+      />
     </>
   );
 }

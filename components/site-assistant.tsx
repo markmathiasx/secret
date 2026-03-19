@@ -1,14 +1,20 @@
-import { CreditCard, MessageCircleMore, QrCode, Sparkles } from 'lucide-react';
+import { Bot, CreditCard, MessageCircleMore, QrCode, Sparkles } from 'lucide-react';
 import { pix, whatsappNumber } from '@/lib/constants';
 
 const quickQuestions = [
   'Quero um presente personalizado',
-  'Preciso de uma peça funcional para casa ou setup',
+  'Preciso de uma peça funcional para setup',
   'Quero enviar referência para orçamento',
   'Quero fechar meu pedido no Pix'
 ];
 
-export function SiteAssistant({ cardCheckoutReady }: { cardCheckoutReady: boolean }) {
+export function SiteAssistant({
+  cardCheckoutReady,
+  aiAssistantReady,
+}: {
+  cardCheckoutReady: boolean;
+  aiAssistantReady: boolean;
+}) {
   const href = `https://wa.me/${whatsappNumber}`;
 
   return (
@@ -20,10 +26,16 @@ export function SiteAssistant({ cardCheckoutReady }: { cardCheckoutReady: boolea
           </span>
           <div>
             <p className="text-sm font-semibold text-white">Atendimento MDH 3D</p>
-            <p className="text-xs text-white/50">Ajuda rápida para comprar, personalizar e fechar pedido</p>
+            <p className="text-xs text-white/50">
+              {aiAssistantReady ? 'Consultor IA no site e equipe humana no WhatsApp' : 'Consultor guiado no site e equipe humana no WhatsApp'}
+            </p>
           </div>
         </div>
         <div className="mt-4 grid gap-2 rounded-[22px] border border-white/10 bg-white/5 p-4 text-xs text-white/68">
+          <div className="flex items-center gap-2">
+            <Bot className="h-4 w-4 text-cyan-100" />
+            <span>{aiAssistantReady ? 'Consultor IA ativo para catálogo, pagamentos e personalização' : 'Consultor guiado ativo para orientar catálogo, pagamentos e personalização'}</span>
+          </div>
           <div className="flex items-center gap-2">
             <QrCode className="h-4 w-4 text-emerald-200" />
             <span>Pix direto na chave {pix.key}</span>

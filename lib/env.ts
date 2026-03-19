@@ -97,3 +97,15 @@ export function isVercelProPlan(): boolean {
 export function isCardCheckoutConfigured() {
   return Boolean(process.env.MERCADOPAGO_ACCESS_TOKEN?.trim());
 }
+
+export function getOpenAiApiKey() {
+  return (process.env.OPENAI_API_KEY || "").trim();
+}
+
+export function getOpenAiAssistantModel() {
+  return (process.env.OPENAI_MODEL || "gpt-5.1").trim();
+}
+
+export function isOpenAiConfigured() {
+  return Boolean(getOpenAiApiKey());
+}
