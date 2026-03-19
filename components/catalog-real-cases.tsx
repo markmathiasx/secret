@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { SafeProductImage } from "@/components/safe-product-image";
+import { whatsappNumber } from "@/lib/constants";
 import { realCaseStudies } from "@/lib/product-visuals";
 
 export function CatalogRealCases() {
@@ -14,7 +15,7 @@ export function CatalogRealCases() {
           </p>
         </div>
         <a
-          href="https://wa.me/5521974137662?text=Quero%20validar%20foto%20real%20de%20um%20item%20do%20cat%C3%A1logo."
+          href={`https://wa.me/${whatsappNumber}?text=Quero%20validar%20foto%20real%20de%20um%20item%20do%20cat%C3%A1logo.`}
           target="_blank"
           rel="noreferrer"
           className="rounded-full border border-emerald-300/25 bg-emerald-300/10 px-5 py-3 text-sm font-semibold text-emerald-100 transition hover:border-emerald-300/40 hover:bg-emerald-300/15"

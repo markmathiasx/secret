@@ -141,7 +141,7 @@ export default function ImageTo3DPage() {
           <div>
             <span className="inline-flex rounded-full border border-cyan-300/25 bg-cyan-400/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-cyan-100">📍 Produção Local no RJ</span>
             <h1 className="mt-5 text-4xl font-black tracking-tight text-white sm:text-5xl">Envie sua imagem e transformamos em projeto 3D</h1>
-            <p className="mt-4 max-w-2xl text-lg leading-8 text-white/70">Orçamento rápido em até 24h com fluxo premium, validação de arquivos e handoff direto para o WhatsApp da MDH 3D.</p>
+            <p className="mt-4 max-w-2xl text-lg leading-8 text-white/70">Orçamento com análise humana, validação de arquivo e encaminhamento direto para o WhatsApp da MDH 3D.</p>
             <div className="mt-8 flex flex-wrap gap-3">
               {Object.entries(serviceContent).map(([key, value]) => {
                 const active = tab === key;

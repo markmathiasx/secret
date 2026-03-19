@@ -30,9 +30,9 @@ export default function FaqPage() {
       <section className="mx-auto max-w-6xl px-6 py-16">
         <div className="glass-panel p-8">
           <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">FAQ</p>
-          <h1 className="mt-3 text-4xl font-black text-white">Perguntas frequentes para tirar dúvida rápido e vender melhor</h1>
+          <h1 className="mt-3 text-4xl font-black text-white">Perguntas frequentes para decidir com segurança</h1>
           <p className="mt-4 max-w-3xl text-base leading-8 text-white/65">
-            Respostas diretas sobre pedido, pagamento, produção, entrega e personalização para evitar atrito antes da compra.
+            Respostas diretas sobre pedido, pagamento, produção, entrega e personalização para evitar dúvida antes da compra.
           </p>
         </div>
         <div className="mt-8 grid gap-4 md:grid-cols-2">

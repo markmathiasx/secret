@@ -15,10 +15,10 @@ export default async function CatalogPage({ searchParams }: { searchParams?: Pro
       <div className="overflow-hidden rounded-[40px] border border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(34,211,238,0.18),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(16,185,129,0.16),transparent_28%),linear-gradient(135deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02))] p-8 shadow-[0_24px_80px_rgba(2,8,23,0.32)]">
         <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
           <div className="max-w-3xl">
-            <p className="text-xs uppercase tracking-[0.22em] text-cyan-200">Storefront do catálogo</p>
-            <h1 className="mt-3 text-4xl font-black text-white sm:text-5xl">Explore a loja MDH 3D como vitrine real, não só como lista.</h1>
+            <p className="text-xs uppercase tracking-[0.22em] text-cyan-200">Catálogo MDH 3D</p>
+            <h1 className="mt-3 text-4xl font-black text-white sm:text-5xl">Escolha por tipo de peça, preço e nível de prova visual.</h1>
             <p className="mt-4 text-lg leading-8 text-white/68">
-              Catalogo com busca, filtros, preco no Pix, parcelamento, transparencia sobre a origem das imagens e abertura priorizando apenas itens com visual validado.
+              Busque por categoria, coleção, tema e faixa de preço. A vitrine abre priorizando produtos com imagem validada para reduzir dúvida e melhorar a confiança na compra.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <Link
@@ -52,9 +52,9 @@ export default async function CatalogPage({ searchParams }: { searchParams?: Pro
       </div>
 
       <div className="mt-8 rounded-[28px] border border-amber-300/15 bg-amber-300/8 p-5 text-sm leading-7 text-amber-50/90">
-        <p className="text-xs uppercase tracking-[0.18em] text-amber-100/80">Curadoria comercial</p>
+        <p className="text-xs uppercase tracking-[0.18em] text-amber-100/80">Curadoria visual</p>
         <p className="mt-2">
-          A pesquisa e a curadoria seguiram boas práticas do Google para catálogo: títulos e descrições mais específicos, transparência sobre a origem da imagem e distinção entre peça real e referência visual.
+          Cada produto informa a origem da imagem exibida. Quando a peça já tem foto real, isso aparece de forma clara. Quando ainda é referência visual, o catálogo também deixa isso explícito.
         </p>
       </div>
 

@@ -7,30 +7,30 @@ const pillars = [
   {
     icon: QrCode,
     title: 'Pix direto e visível',
-    description: `A chave ${pix.key} aparece no checkout com QR Code e copia e cola para reduzir atrito na decisão de compra.`
+    description: `A chave ${pix.key} aparece no checkout com QR Code e código copia e cola para facilitar o pagamento.`
   },
   {
     icon: CreditCard,
-    title: 'Cartão com provedor externo',
-    description: 'Quando o cliente escolhe cartão, o pagamento segue para o checkout hospedado do Mercado Pago.'
+    title: 'Cartão com parceiro seguro',
+    description: 'Quando o cartão está disponível online, o pagamento segue para o ambiente seguro do parceiro de cobrança.'
   },
   {
     icon: PackageCheck,
-    title: 'Pedido com código antes do pagamento',
-    description: 'Cada compra é registrada antes da cobrança para facilitar suporte, confirmação e rastreio interno.'
+    title: 'Pedido com código de acompanhamento',
+    description: 'Cada compra recebe um código para facilitar confirmação, suporte e andamento da produção.'
   },
   {
     icon: MessageCircleMore,
     title: 'Atendimento humano no WhatsApp',
-    description: 'O canal comercial continua ativo para personalização, orçamento, aprovação e pós-venda.'
+    description: 'Você fala com a equipe para orçamento, personalização, aprovação e pós-venda sem conversa genérica.'
   }
 ];
 
 const commitments = [
   'Produção local no Rio de Janeiro com comunicação direta sobre material, prazo e acabamento.',
-  'Fluxo de pagamento claro: Pix para fechamento rápido e cartão para parcelamento em ambiente seguro.',
-  'Cadastro de cliente com senha protegida por hash e sessão assinada em vez de login exposto no navegador.',
-  'Checkout orientado para conversão, com menos etapas e menos promessas frágeis.'
+  'Portfólio com separação clara entre foto real, render fiel e imagem conceitual.',
+  'Fluxo de pagamento simples: Pix para rapidez e cartão via parceiro seguro quando disponível.',
+  'Conta do cliente protegida para voltar ao site, acompanhar pedidos e organizar favoritos.'
 ];
 
 export function TrustSignals() {
@@ -40,9 +40,9 @@ export function TrustSignals() {
         <div className="mx-auto grid max-w-7xl gap-8 px-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
           <div>
             <p className="text-xs uppercase tracking-[0.22em] text-emerald-100/75">Confiança operacional</p>
-            <h3 className="mt-3 text-3xl font-black text-white">Processo comercial mais forte, sem improviso no pagamento.</h3>
+            <h3 className="mt-3 text-3xl font-black text-white">Compra com clareza do primeiro clique ao pós-venda.</h3>
             <p className="mt-4 max-w-2xl text-sm leading-7 text-white/70">
-              A vitrine agora comunica melhor o que realmente existe: produção local, atendimento humano, pedido registrado e checkout com Pix ou cartão sem exposição desnecessária de dados.
+              A MDH 3D foi organizada para transmitir o que realmente importa para quem compra: prova visual confiável, pedido claro, atendimento direto e pagamento sem ruído.
             </p>
           </div>
 
@@ -69,7 +69,7 @@ export function TrustSignals() {
         <div className="grid gap-6 lg:grid-cols-[0.92fr_1.08fr]">
           <div className="glass-panel p-8">
             <p className="text-xs uppercase tracking-[0.22em] text-cyan-100/75">Padrão de operação</p>
-            <h3 className="mt-3 text-3xl font-black text-white">Menos fricção para comprar e menos risco para a marca.</h3>
+            <h3 className="mt-3 text-3xl font-black text-white">Menos atrito para comprar, mais segurança para confiar.</h3>
             <div className="mt-6 grid gap-4">
               {commitments.map((item) => (
                 <div key={item} className="flex items-start gap-3 rounded-[22px] border border-white/10 bg-black/20 p-4 text-sm leading-7 text-white/70">
@@ -84,7 +84,7 @@ export function TrustSignals() {
             <div className="glass-panel p-6">
               <ShieldCheck className="h-6 w-6 text-emerald-200" />
               <h4 className="mt-4 text-xl font-bold text-white">Conta do cliente protegida</h4>
-              <p className="mt-3 text-sm leading-7 text-white/68">O acesso passou a usar hash de senha no servidor e sessão assinada, sem o modelo inseguro que existia antes.</p>
+              <p className="mt-3 text-sm leading-7 text-white/68">A conta serve para voltar ao site, rever produtos, acompanhar pedidos e manter a jornada mais organizada.</p>
             </div>
             <div className="glass-panel p-6">
               <Truck className="h-6 w-6 text-cyan-100" />
@@ -93,9 +93,9 @@ export function TrustSignals() {
             </div>
             <div className="glass-panel p-6 md:col-span-2">
               <p className="text-xs uppercase tracking-[0.18em] text-cyan-100/75">Pagamento</p>
-              <h4 className="mt-3 text-2xl font-black text-white">Pix para velocidade. Cartão para conveniência.</h4>
+              <h4 className="mt-3 text-2xl font-black text-white">Pix para rapidez. Cartão para conveniência.</h4>
               <p className="mt-4 text-sm leading-7 text-white/68">
-                Essa combinação é a melhor relação entre conversão e segurança para a fase atual do projeto: Pix direto para custo baixo e cartão de crédito terceirizado para não assumir carga de PCI no próprio site.
+                A operação foi desenhada para facilitar o fechamento do pedido com clareza: Pix para aprovação rápida e cartão em ambiente seguro quando o checkout online estiver disponível.
               </p>
             </div>
           </div>

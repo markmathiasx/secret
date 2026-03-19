@@ -98,8 +98,8 @@ export function Hero() {
         <div className="grid gap-4 md:justify-self-end">
           <div className="promo-banner p-6">
             <div className="relative z-10">
-              <p className="text-xs uppercase tracking-[0.24em] text-cyan-100/80">Vitrine pronta para vender</p>
-              <h2 className="mt-3 text-3xl font-black text-white">Layout mais forte, mais confiança e mais conversão.</h2>
+              <p className="text-xs uppercase tracking-[0.24em] text-cyan-100/80">Vitrine premium</p>
+              <h2 className="mt-3 text-3xl font-black text-white">Layout forte, mais confiança e mais conversão.</h2>
               <p className="mt-3 text-sm leading-7 text-white/78">
                 Aplicando linguagem visual mais próxima de uma loja séria: contraste melhor, botões com hierarquia forte, prova de produção e discurso comercial mais claro.
               </p>

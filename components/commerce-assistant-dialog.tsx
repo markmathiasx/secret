@@ -1,47 +1,47 @@
 "use client";
 
 import { CreditCard, ExternalLink, MessageCircleMore, PackageCheck, QrCode, ShieldCheck, X } from "lucide-react";
-import { pix } from "@/lib/constants";
+import { pix, whatsappNumber } from "@/lib/constants";
 
 const topics = [
   {
     id: "pix",
     title: "Fechar no Pix",
     icon: QrCode,
-    summary: "Pagamento instantaneo com chave direta, QR Code e copia e cola no checkout.",
+    summary: "Pagamento imediato com chave direta, QR Code e código copia e cola no checkout.",
     points: [
-      `A chave ativa e ${pix.key}.`,
-      "O cliente pode pagar direto no app do banco ou usar o QR Code gerado pelo site.",
-      "Depois do pagamento, o pedido segue com codigo para confirmacao no WhatsApp."
+      `A chave ativa é ${pix.key}.`,
+      "O cliente pode pagar pelo app do banco, pelo QR Code ou usando o código copia e cola.",
+      "Depois do pagamento, basta enviar o comprovante e o código do pedido para a equipe."
     ],
     ctaLabel: "Quero pagar no Pix",
-    ctaHref: "https://wa.me/5521920137249?text=Quero%20fechar%20meu%20pedido%20no%20Pix"
+    ctaHref: `https://wa.me/${whatsappNumber}?text=Quero%20fechar%20meu%20pedido%20no%20Pix`
   },
   {
     id: "card",
     title: "Cartao de credito",
     icon: CreditCard,
-    summary: "Checkout terceirizado para nao expor dados sensiveis dentro do site.",
+    summary: "Parcelamento com orientação clara e, quando ativo, checkout em ambiente seguro.",
     points: [
-      "O fluxo abre o checkout hospedado do Mercado Pago.",
-      "O cliente paga no ambiente seguro do provedor e retorna ao site com o status.",
-      "Quando a credencial de producao estiver ativa, o processo fica totalmente online."
+      "Quando o checkout online está ativo, o site abre o ambiente seguro do parceiro de cobrança.",
+      "Se o cliente preferir, a equipe também orienta parcelamento e fechamento pelo atendimento.",
+      "O valor, o prazo e o formato de entrega são confirmados antes da cobrança."
     ],
-    ctaLabel: "Falar sobre cartao",
-    ctaHref: "https://wa.me/5521920137249?text=Quero%20pagar%20no%20cartao%20de%20credito"
+    ctaLabel: "Falar sobre cartão",
+    ctaHref: `https://wa.me/${whatsappNumber}?text=Quero%20pagar%20no%20cartao%20de%20credito`
   },
   {
     id: "custom",
     title: "Projeto personalizado",
     icon: PackageCheck,
-    summary: "Referencia, imagem, STL ou briefing para impressao 3D sob encomenda.",
+    summary: "Referência, imagem, STL ou briefing para transformar sua ideia em peça impressa.",
     points: [
-      "Voce pode mandar referencia pelo site ou pelo WhatsApp.",
+      "Você pode mandar referência pelo site ou pelo WhatsApp.",
       "A equipe confirma material, prazo, acabamento e caminho de pagamento.",
-      "Esse fluxo serve para presente, setup, decoracao e pecas tecnicas."
+      "Esse fluxo atende presentes, decoração, setup, brindes e peças funcionais."
     ],
-    ctaLabel: "Enviar referencia",
-    ctaHref: "https://wa.me/5521920137249?text=Quero%20enviar%20uma%20referencia%20para%20impressao%203D"
+    ctaLabel: "Enviar referência",
+    ctaHref: `https://wa.me/${whatsappNumber}?text=Quero%20enviar%20uma%20referencia%20para%20impressao%203D`
   }
 ];
 
@@ -65,9 +65,9 @@ export function CommerceAssistantDialog({
         <div className="flex items-start justify-between gap-4 border-b border-white/10 px-6 py-5">
           <div>
             <p className="text-xs uppercase tracking-[0.22em] text-cyan-100/75">Consultor comercial</p>
-            <h2 className="mt-2 text-3xl font-black text-white">Atendimento orientado para fechar o pedido.</h2>
+            <h2 className="mt-2 text-3xl font-black text-white">Escolha o caminho mais rápido para concluir sua compra.</h2>
             <p className="mt-3 max-w-2xl text-sm leading-7 text-white/68">
-              Use este painel para conduzir o cliente para Pix, cartao ou encomenda personalizada sem deixar a conversa vaga.
+              Este painel resume pagamento, personalização e próximos passos para o cliente comprar com clareza.
             </p>
           </div>
           <button type="button" onClick={onClose} className="rounded-full border border-white/10 bg-white/5 p-3 text-white/70 transition hover:bg-white/10">
@@ -83,7 +83,7 @@ export function CommerceAssistantDialog({
                 <p className="text-sm font-semibold uppercase tracking-[0.18em]">Pix ativo</p>
               </div>
               <p className="mt-3 text-2xl font-black text-white">{pix.key}</p>
-              <p className="mt-2 text-sm leading-7 text-white/68">Sempre oriente o cliente a confirmar o pedido com o codigo gerado no checkout e depois pagar nesta chave.</p>
+              <p className="mt-2 text-sm leading-7 text-white/68">Finalize o pedido no checkout, copie o código Pix ou o QR Code e confirme o comprovante com a equipe.</p>
             </div>
 
             <div className="rounded-[28px] border border-white/10 bg-white/5 p-5">
@@ -92,17 +92,17 @@ export function CommerceAssistantDialog({
                 <p className="text-sm font-semibold uppercase tracking-[0.18em]">Cartao</p>
               </div>
               <p className="mt-3 text-lg font-bold text-white">
-                {cardCheckoutReady ? "Checkout de cartao pronto para uso." : "Checkout de cartao preparado, aguardando token de producao."}
+                {cardCheckoutReady ? "Checkout online disponível." : "Parcelamento confirmado no atendimento."}
               </p>
               <p className="mt-2 text-sm leading-7 text-white/68">
                 {cardCheckoutReady
-                  ? "O site ja pode redirecionar o cliente para o Mercado Pago."
-                  : "Falta apenas a credencial real do Mercado Pago para ativar o pagamento online de ponta a ponta."}
+                  ? "O site já pode redirecionar o cliente para o ambiente seguro do parceiro de cobrança."
+                  : "Se o cliente precisar parcelar, a equipe apresenta a melhor alternativa disponível durante o atendimento."}
               </p>
             </div>
 
             <a
-              href="https://wa.me/5521920137249?text=Quero%20atendimento%20humano%20para%20fechar%20meu%20pedido"
+              href={`https://wa.me/${whatsappNumber}?text=Quero%20atendimento%20humano%20para%20fechar%20meu%20pedido`}
               target="_blank"
               rel="noreferrer"
               className="btn-whatsapp w-full gap-2"

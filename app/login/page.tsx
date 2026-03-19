@@ -8,10 +8,10 @@ import { emitCustomerAuthChange, fetchCustomerSession } from '@/lib/customer-ses
 import { whatsappMessage, whatsappNumber } from '@/lib/constants';
 
 const benefits = [
-  'Salvar favoritos e coleções preferidas',
-  'Voltar mais rápido para produtos vistos',
-  'Organizar histórico e próximos pedidos',
-  'Ter login próprio sem depender de Google'
+  'Salvar favoritos e voltar mais rápido aos produtos vistos',
+  'Acompanhar pedidos e próximos orçamentos em um só lugar',
+  'Organizar sua jornada de compra sem depender de login social',
+  'Comprar novamente com mais agilidade'
 ];
 
 export default function LoginPage() {
@@ -79,9 +79,9 @@ export default function LoginPage() {
       <div className="grid gap-8 xl:grid-cols-[minmax(0,1.05fr)_minmax(360px,0.95fr)]">
         <div className="glass-panel p-8 md:p-10">
           <p className="text-xs uppercase tracking-[0.22em] text-cyan-100/75">Conta MDH 3D</p>
-          <h1 className="mt-3 text-4xl font-black text-white md:text-5xl">Entre para manter sua jornada organizada e voltar mais rápido ao que você já gostou.</h1>
+          <h1 className="mt-3 text-4xl font-black text-white md:text-5xl">Crie sua conta para comprar com mais rapidez e acompanhar sua jornada.</h1>
           <p className="mt-4 max-w-3xl text-base leading-8 text-white/65">
-            O site continua aberto para visitante, mas a conta agora fica armazenada com segurança no servidor da loja e já nasce pronta para até 100 acessos iniciais.
+            Você pode navegar como visitante, mas a conta ajuda a reunir favoritos, pedidos e próximos contatos com a MDH 3D em um ambiente mais organizado.
           </p>
 
           <div className="mt-8 grid gap-4 md:grid-cols-2">

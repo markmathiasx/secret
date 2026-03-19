@@ -107,6 +107,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
   };
 
   const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`${whatsappMessage}\n\nTenho interesse em ${product.name} (${product.sku}).`)}`;
+  const customizationHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`${whatsappMessage}\n\nQuero personalizar ${product.name} (${product.sku}).`)}`;
 
   return (
     <>
@@ -158,6 +159,21 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             </div>
           </div>
 
+          <div className="mt-6 grid gap-3 sm:grid-cols-3">
+            <div className="rounded-[24px] border border-white/10 bg-black/20 p-4 text-sm text-white/68">
+              <p className="text-xs uppercase tracking-[0.18em] text-white/45">Produção</p>
+              <p className="mt-2 font-semibold text-white">{product.readyToShip ? 'Pronta para produção rápida' : 'Feita sob encomenda'}</p>
+            </div>
+            <div className="rounded-[24px] border border-white/10 bg-black/20 p-4 text-sm text-white/68">
+              <p className="text-xs uppercase tracking-[0.18em] text-white/45">Personalização</p>
+              <p className="mt-2 font-semibold text-white">{product.customizable ? 'Aceita ajustes de cor, escala ou briefing' : 'Modelo fechado com acabamento padronizado'}</p>
+            </div>
+            <div className="rounded-[24px] border border-white/10 bg-black/20 p-4 text-sm text-white/68">
+              <p className="text-xs uppercase tracking-[0.18em] text-white/45">Atendimento</p>
+              <p className="mt-2 font-semibold text-white">Suporte direto no WhatsApp com código do pedido</p>
+            </div>
+          </div>
+
           {product.variants && product.variants.length > 0 && (
             <div className="mt-6">
               <p className="text-sm text-white/70 mb-3">Cores disponíveis</p>
@@ -179,10 +195,9 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             </div>
           )}
 
-          <div className="mt-6 p-4 rounded-[24px] border border-amber-400/20 bg-amber-400/10">
-            <p className="text-sm text-amber-100">
-              <strong>Aviso:</strong> Confirme a licença comercial antes de revender.
-              Este produto é para uso {product.licenseType === 'personal' ? 'pessoal' : 'comercial'}.
+          <div className="mt-6 rounded-[24px] border border-cyan-300/20 bg-cyan-300/10 p-4">
+            <p className="text-sm text-cyan-50">
+              <strong>Compra com clareza:</strong> se você quiser validar cor, escala, prazo ou acabamento antes de pagar, a equipe confirma tudo pelo WhatsApp.
             </p>
           </div>
 
@@ -207,7 +222,9 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           <div className="mt-8 flex flex-wrap gap-3">
             <Link href={`/checkout?product=${product.id}`} className="btn-primary">Ir para checkout</Link>
             {product.customizable && (
-              <button className="btn-secondary">Personalizar (Escala, Cor)</button>
+              <a href={customizationHref} target="_blank" rel="noreferrer" className="btn-secondary">
+                Solicitar personalização
+              </a>
             )}
             <a href={whatsappHref} target="_blank" rel="noreferrer" className="btn-secondary inline-flex items-center gap-2">
               <MessageCircleMore className="h-4 w-4" /> Falar no WhatsApp

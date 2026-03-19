@@ -1,26 +1,45 @@
-const PROD = process.env.NODE_ENV === 'production';
+const PROD = process.env.NODE_ENV === 'production' || process.env.VERCEL_ENV === 'production';
 const DEFAULT_PROD_URL = 'https://mdh-3d-store.vercel.app';
 const DEFAULT_DEV_URL = 'http://localhost:3000';
 
-function normalizeUrl(value?: string | null) {
+function isLocalAddress(hostname: string) {
+  const normalized = hostname.trim().toLowerCase();
+  return normalized === "localhost" || normalized === "127.0.0.1" || normalized === "0.0.0.0";
+}
+
+function normalizeUrl(value?: string | null, options?: { allowLocal?: boolean }) {
   const raw = (value || '').trim();
-  if (!raw) return PROD ? DEFAULT_PROD_URL : DEFAULT_DEV_URL;
+  if (!raw) return null;
 
   const withProtocol = /^https?:\/\//i.test(raw) ? raw : `https://${raw}`;
 
   try {
-    return new URL(withProtocol).toString().replace(/\/$/, '');
+    const parsed = new URL(withProtocol);
+    if (!options?.allowLocal && isLocalAddress(parsed.hostname)) {
+      return null;
+    }
+    return parsed.toString().replace(/\/$/, '');
   } catch {
-    return PROD ? DEFAULT_PROD_URL : DEFAULT_DEV_URL;
+    return null;
   }
 }
 
 export function getSiteUrl() {
-  return normalizeUrl(
-    process.env.NEXT_PUBLIC_SITE_URL ||
-      process.env.VERCEL_PROJECT_PRODUCTION_URL ||
-      process.env.VERCEL_URL
-  );
+  const candidates = PROD
+    ? [
+        process.env.VERCEL_PROJECT_PRODUCTION_URL,
+        process.env.NEXT_PUBLIC_SITE_URL,
+        process.env.VERCEL_URL,
+        DEFAULT_PROD_URL,
+      ]
+    : [process.env.NEXT_PUBLIC_SITE_URL, process.env.VERCEL_URL, DEFAULT_DEV_URL];
+
+  for (const candidate of candidates) {
+    const normalized = normalizeUrl(candidate, { allowLocal: !PROD });
+    if (normalized) return normalized;
+  }
+
+  return PROD ? DEFAULT_PROD_URL : DEFAULT_DEV_URL;
 }
 
 export function getSupabaseUrl() {
@@ -73,4 +92,8 @@ export function isVercelHobbyPlan(): boolean {
 export function isVercelProPlan(): boolean {
   const plan = getVercelPlan();
   return plan === "pro" || plan === "team" || plan === "enterprise";
+}
+
+export function isCardCheckoutConfigured() {
+  return Boolean(process.env.MERCADOPAGO_ACCESS_TOKEN?.trim());
 }

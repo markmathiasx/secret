@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { getSiteUrl } from '@/lib/env';
 
 interface SEOProps {
   title?: string;
@@ -16,11 +17,11 @@ interface SEOProps {
 
 export function generateSEO(props: SEOProps = {}): Metadata {
   const {
-    title = 'MDH 3D | Storefront premium de impressão 3D',
-    description = 'Loja premium de impressão 3D no Rio de Janeiro com peças geek, presentes criativos, setup, utilidades e projetos sob encomenda.',
+    title = 'MDH 3D | Impressão 3D profissional no Rio de Janeiro',
+    description = 'Impressão 3D profissional no Rio de Janeiro com peças geek, presentes criativos, setup, utilidades e projetos sob encomenda.',
     keywords = ['impressão 3d', 'rio de janeiro', 'presentes personalizados', 'peças geek', 'setup', 'catalogo 3d'],
     image = '/backgrounds/hero-printer-fallback.jpg',
-    url = 'https://mdh-3d-store.vercel.app',
+    url = getSiteUrl(),
     type = 'website',
     publishedTime,
     modifiedTime,
@@ -85,10 +86,6 @@ export function generateSEO(props: SEOProps = {}): Metadata {
         'max-image-preview': 'large',
         'max-snippet': -1,
       },
-    },
-    verification: {
-      google: 'your-google-verification-code',
-      yandex: 'your-yandex-verification-code',
     },
     category: 'ecommerce',
   };

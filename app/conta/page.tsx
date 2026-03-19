@@ -30,6 +30,16 @@ type AccountState = {
   }>;
 };
 
+function formatOrderStatus(status: string | null | undefined) {
+  const normalized = (status || '').toLowerCase();
+  if (normalized.includes('pix')) return 'Aguardando Pix';
+  if (normalized.includes('cartao')) return 'Aguardando cartão';
+  if (normalized.includes('checkout')) return 'Checkout iniciado';
+  if (normalized.includes('produc')) return 'Em produção';
+  if (normalized.includes('entreg')) return 'Em entrega';
+  return status || 'Em análise';
+}
+
 export default function AccountPage() {
   const router = useRouter();
   const session = useCustomerSession();
@@ -98,9 +108,9 @@ export default function AccountPage() {
     return (
       <section className="mx-auto max-w-4xl px-6 py-20">
         <h1 className="text-4xl font-black text-white">Minha conta</h1>
-        <p className="mt-4 text-white/70">Faça login para salvar favoritos, acompanhar orçamentos e acessar o histórico da sua jornada.</p>
+        <p className="mt-4 text-white/70">Faça login para salvar favoritos, acompanhar pedidos e manter seu histórico com a MDH 3D organizado.</p>
         <Link href="/login" className="btn-primary mt-6 inline-flex">
-          Entrar agora
+          Entrar na minha conta
         </Link>
       </section>
     );
@@ -112,6 +122,10 @@ export default function AccountPage() {
         <p className="text-xs uppercase tracking-[0.2em] text-cyan-100">Área do cliente</p>
         <h1 className="mt-3 text-4xl font-black text-white">Olá, {account.name}</h1>
         <p className="mt-2 text-white/65">{account.email}</p>
+        <div className="mt-6 flex flex-wrap gap-3">
+          <Link href="/catalogo" className="btn-secondary">Voltar ao catálogo</Link>
+          <Link href="/imagem-para-impressao-3d" className="btn-secondary">Enviar referência</Link>
+        </div>
       </div>
 
       <div className="mt-8 grid gap-6 md:grid-cols-2">
@@ -136,7 +150,7 @@ export default function AccountPage() {
               <div key={item.id} className="rounded-2xl border border-white/10 bg-black/20 p-4 text-sm text-white/80">
                 <div className="flex items-center justify-between gap-3">
                   <p className="font-semibold text-white">{item.product_name}</p>
-                  <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] uppercase tracking-[0.16em] text-white/55">{item.status}</span>
+                  <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] uppercase tracking-[0.16em] text-white/55">{formatOrderStatus(item.status)}</span>
                 </div>
                 <p className="mt-1 text-white/60">Código {item.order_code}</p>
                 <p className="mt-1 text-white/60">Pagamento {item.payment_method} • {item.payment_status || "sem atualização"} • Quantidade {item.quantity}</p>

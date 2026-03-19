@@ -1,216 +1,181 @@
+import Link from "next/link";
 import { Hero } from "@/components/hero-professional";
 import { ProductTabs } from "@/components/product-tabs";
 import { STLUploader } from "@/components/stl-uploader";
 import { CatalogGrid } from "@/components/catalog-grid";
 import { TrustSignals } from "@/components/trust-signals";
-import { featuredCatalog } from "@/lib/catalog";
-import Link from "next/link";
+import { homepageCategories, materialsShowcase } from "@/lib/constants";
+import { verifiedCatalog } from "@/lib/verified-catalog";
+import { summarizeProductVisuals } from "@/lib/product-visuals";
 
 const faqItems = [
   {
     question: "Vocês fazem peças sob encomenda?",
     answer:
-      "Sim. Você pode enviar referência, STL, imagem ou briefing para receber análise de viabilidade, material e prazo. O retorno acontece o mais rápido possível em horário comercial.",
+      "Sim. Você pode enviar referência, STL, imagem ou briefing para receber análise de viabilidade, material e prazo em atendimento humano.",
   },
   {
-    question: "Qual é o prazo médio? ",
+    question: "Qual é o prazo médio?",
     answer:
-      "Itens prontos costumam sair em 24 a 48 horas. Peças personalizadas ou com acabamento especial podem levar de 3 a 7 dias dependendo da complexidade.",
+      "Itens mais simples costumam sair em 24 a 48 horas. Peças personalizadas, grandes ou pintadas podem levar de 3 a 10 dias úteis, conforme complexidade.",
   },
   {
     question: "Quais materiais vocês usam?",
     answer:
-      "Trabalhamos com PLA Premium, PLA Silk, PETG, Resina Fotopolímero, ABS e Nylon. Escolhemos o melhor material conforme uso, estética e resistência.",
+      "Trabalhamos principalmente com PLA Premium, PLA Silk, PETG e resina, escolhendo o material conforme acabamento, resistência e tipo de uso.",
   },
   {
-    question: "Entregam no Rio de Janeiro?",
+    question: "Como funciona o pagamento?",
     answer:
-      "Sim. Temos operação local no RJ e também organizamos envio para todo Brasil com confirmação de prazo e janela de produção.",
+      "O site destaca Pix com chave, QR Code e copia e cola. Quando o cartão está disponível online, o pagamento segue para um ambiente seguro do parceiro de cobrança.",
+  },
+];
+
+const homeSteps = [
+  {
+    title: "Escolha um item ou envie uma referência",
+    description: "Você pode comprar algo do catálogo ou mandar uma ideia, imagem ou STL para orçamento.",
   },
   {
-    question: "Qual é a política de reembolso?",
-    answer:
-      "Garantia de qualidade em todas as peças. Se houver defeito de fabricação, refazemos sem custo adicional ou devolvemos o valor.",
+    title: "Receba confirmação de valor, prazo e material",
+    description: "A equipe valida acabamento, produção e melhor formato de pagamento antes de avançar.",
   },
   {
-    question: "Como faço para pagar?",
-    answer:
-      "Aceitamos Pix (com desconto), cartão de crédito via Mercado Pago, boleto e orçamento personalizado via WhatsApp.",
+    title: "Feche no Pix ou siga para o parceiro de pagamento",
+    description: "O checkout mostra Pix de forma clara e organiza o pedido com código para facilitar o suporte.",
   },
 ];
 
 export default function HomePage() {
-  // Get first 8 featured products
-  const featuredProducts = featuredCatalog.slice(0, 8);
+  const realShowcase = verifiedCatalog.slice(0, 4);
+  const visualSummary = summarizeProductVisuals(verifiedCatalog);
 
   return (
     <main>
-      {/* Hero Section */}
       <Hero />
 
-      {/* Product Tabs Section */}
+      <section className="mx-auto max-w-7xl px-6 py-16">
+        <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+          <div className="max-w-3xl">
+            <p className="section-kicker">Portfólio validado</p>
+            <h2 className="section-title">Projetos com foto real para vender com mais confiança.</h2>
+            <p className="section-copy mt-4">
+              A abertura da loja prioriza peças com imagem validada para reduzir ruído entre expectativa e entrega. Isso fortalece a decisão de compra e dá mais segurança ao cliente.
+            </p>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-3">
+            {[
+              { label: "Fotos reais", value: String(visualSummary.fotoReal).padStart(2, "0") },
+              { label: "Projetos sob medida", value: "RJ" },
+              { label: "Pagamento", value: "PIX" },
+            ].map((item) => (
+              <div key={item.label} className="glass-card min-w-[150px] p-5 text-center">
+                <p className="text-xs uppercase tracking-[0.18em] text-white/45">{item.label}</p>
+                <p className="mt-3 text-3xl font-black text-white">{item.value}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <CatalogGrid products={realShowcase} />
+
+        <div className="mt-8 text-center">
+          <Link href="/catalogo" className="btn-primary px-8 py-4">
+            Ver catálogo completo
+          </Link>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-6 py-8">
+        <div className="grid gap-5 lg:grid-cols-3">
+          {homepageCategories.map((item) => (
+            <article key={item.id} className="glass-panel p-8">
+              <p className="text-xs uppercase tracking-[0.2em] text-cyan-100/75">{item.label}</p>
+              <h2 className="mt-3 text-2xl font-black text-white">{item.title}</h2>
+              <p className="mt-4 text-sm leading-7 text-white/68">{item.description}</p>
+              <Link href={item.href} className="btn-secondary mt-6">
+                {item.cta}
+              </Link>
+            </article>
+          ))}
+        </div>
+      </section>
+
       <section className="bg-gradient-to-b from-black via-slate-950/30 to-black py-4">
         <ProductTabs />
       </section>
 
-      {/* About / Trust Signals */}
-      <section className="mx-auto max-w-5xl px-6 py-16">
-        <div className="grid gap-8 lg:grid-cols-2">
-          {/* Left - Description */}
+      <section className="mx-auto max-w-7xl px-6 py-16">
+        <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr]">
           <div className="glass-panel p-8">
-            <span className="section-kicker">✓ Sobre MDH 3D</span>
-            <h2 className="section-title">
-              Impressão 3D Profissional com Qualidade e Agilidade
-            </h2>
-            <p className="section-copy mt-6">
-              Somos um estúdio especializado em impressão 3D localizado no Rio de Janeiro. Trabalhamos com as melhores impressoras FDM e resina para entregar peças com precisão, qualidade de acabamento e prazo garantido.
-            </p>
-            <div className="mt-6 space-y-3">
-              <div className="flex items-start gap-3">
-                <span className="text-cyan-glow text-xl">✓</span>
-                <div>
-                  <h4 className="font-bold text-white">Atendimento Direto</h4>
-                  <p className="text-sm text-white/60">
-                    Fale conosco no WhatsApp para orçamento e personalização
-                  </p>
+            <p className="section-kicker">Como comprar</p>
+            <h2 className="section-title">Jornada de compra clara, mesmo para pedidos personalizados.</h2>
+            <div className="mt-8 grid gap-4">
+              {homeSteps.map((step, index) => (
+                <div key={step.title} className="rounded-[24px] border border-white/10 bg-black/20 p-5">
+                  <p className="text-xs uppercase tracking-[0.18em] text-cyan-100/70">Passo {index + 1}</p>
+                  <h3 className="mt-2 text-xl font-bold text-white">{step.title}</h3>
+                  <p className="mt-3 text-sm leading-7 text-white/68">{step.description}</p>
                 </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <span className="text-cyan-glow text-xl">✓</span>
-                <div>
-                  <h4 className="font-bold text-white">Pix com Desconto</h4>
-                  <p className="text-sm text-white/60">
-                    Pagamento instantâneo com melhor preço
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <span className="text-cyan-glow text-xl">✓</span>
-                <div>
-                  <h4 className="font-bold text-white">Produção Local</h4>
-                  <p className="text-sm text-white/60">
-                    Impressoras de qualidade no Rio de Janeiro
-                  </p>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
 
-          {/* Right - Stats */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {[
-              { num: "RJ", label: "Produção Local" },
-              { num: "PIX", label: "Fechamento Rápido" },
-              { num: "CARD", label: "Checkout Seguro" },
-              { num: "HUMANO", label: "Atendimento Direto" },
-            ].map((stat, i) => (
-              <div
-                key={i}
-                className="glass-card p-6 flex flex-col items-center justify-center text-center"
-              >
-                <div className="text-3xl font-black text-cyan-glow mb-2">
-                  {stat.num}
-                </div>
-                <div className="text-sm text-white/70">{stat.label}</div>
+          <div className="grid gap-4 md:grid-cols-2">
+            {materialsShowcase.map((item) => (
+              <div key={item.badge} className="glass-card p-6">
+                <span className="inline-flex rounded-full border border-cyan-300/25 bg-cyan-300/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-cyan-100">
+                  {item.badge}
+                </span>
+                <h3 className="mt-4 text-xl font-bold text-white">{item.title}</h3>
+                <p className="mt-3 text-sm leading-7 text-white/68">{item.description}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* STL Upload Section */}
       <section className="bg-gradient-to-b from-black to-slate-950/20 py-4">
         <STLUploader />
       </section>
 
-      {/* Trust & Transparency Section */}
-      <section className="mx-auto max-w-5xl px-6 py-16">
-        <div className="text-center">
-          <span className="section-kicker">✅ Confiança</span>
-          <h2 className="section-title">Compra segura com processo transparente</h2>
-          <p className="section-copy">
-            O checkout agora registra o pedido antes do pagamento, exibe Pix direto com QR Code e envia o cartão para o ambiente seguro do Mercado Pago. Produzimos localmente no Rio com comunicação direta sobre prazo e material.
-          </p>
-        </div>
-
-        <div className="mt-12 grid gap-6 md:grid-cols-3">
-          <div className="glass-panel p-8">
-            <h3 className="text-xl font-bold text-white">Pedido registrado</h3>
-            <p className="mt-3 text-sm text-white/70">
-              Cada compra nasce com código próprio antes do pagamento para facilitar confirmação, suporte e acompanhamento interno.
-            </p>
-          </div>
-          <div className="glass-panel p-8">
-            <h3 className="text-xl font-bold text-white">Pagamento confiável</h3>
-            <p className="mt-3 text-sm text-white/70">
-              Pix com chave direta e cartão com checkout hospedado reduzem atrito e evitam exposição de dados sensíveis no site.
-            </p>
-          </div>
-          <div className="glass-panel p-8">
-            <h3 className="text-xl font-bold text-white">Suporte comercial</h3>
-            <p className="mt-3 text-sm text-white/70">
-              Atendimento humano via WhatsApp para esclarecer detalhes de impressão, acabamento, prazo, personalização e pós-venda.
-            </p>
-          </div>
-        </div>
-
-        <div className="mt-10 text-center">
-          <Link href="/catalogo" className="btn-primary px-8 py-4">
-            Acessar Catálogo Completo
-          </Link>
-        </div>
-      </section>
-
-      {/* Trust Signals - Provas Sociais + Selos de Segurança */}
       <TrustSignals />
 
-      {/* FAQ Section */}
-      <section className="mx-auto max-w-5xl px-6 py-16">
-        <div className="mb-10 text-center">
-          <span className="section-kicker">❓ Dúvidas</span>
-          <h2 className="section-title">Perguntas Frequentes</h2>
-        </div>
-
-        <div className="grid gap-6 md:grid-cols-2">
-          {faqItems.map((item, i) => (
-            <div key={i} className="glass-card p-6">
-              <h3 className="text-lg font-bold text-white mb-3">
-                {item.question}
-              </h3>
-              <p className="text-sm text-white/70 leading-relaxed">
-                {item.answer}
+      <section className="mx-auto max-w-6xl px-6 py-16">
+        <div className="glass-panel p-8 md:p-10">
+          <div className="grid gap-8 lg:grid-cols-[0.92fr_1.08fr]">
+            <div>
+              <p className="section-kicker">Perguntas frequentes</p>
+              <h2 className="section-title">Respostas rápidas para o cliente avançar sem travar.</h2>
+              <p className="section-copy mt-4">
+                Materiais, prazo, pagamento e personalização aparecem de forma direta para reduzir dúvida antes da compra.
               </p>
             </div>
-          ))}
+            <div className="grid gap-4">
+              {faqItems.map((item) => (
+                <article key={item.question} className="rounded-[24px] border border-white/10 bg-black/20 p-5">
+                  <h3 className="text-lg font-bold text-white">{item.question}</h3>
+                  <p className="mt-3 text-sm leading-7 text-white/68">{item.answer}</p>
+                </article>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* CTA Section */}
       <section className="mx-auto max-w-5xl px-6 py-16">
-        <div className="glass-panel p-8 md:p-12 text-center">
-          <h2 className="text-3xl font-black text-white mb-4">
-            Pronto para Começar?
-          </h2>
-          <p className="text-lg text-white/70 mb-8 max-w-2xl mx-auto">
-            Envie seu arquivo STL, descreva seu projeto ou fale com o time no WhatsApp para orçamento, personalização e fechamento do pedido.
+        <div className="glass-panel p-8 text-center md:p-12">
+          <h2 className="text-3xl font-black text-white md:text-4xl">Pronto para fechar seu pedido?</h2>
+          <p className="mx-auto mt-4 max-w-2xl text-base leading-8 text-white/70">
+            Escolha um item do catálogo, envie seu arquivo STL ou fale com a equipe para transformar uma referência em peça impressa com acabamento profissional.
           </p>
-
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/imagem-para-impressao-3d"
-              className="btn-primary px-8 py-4 font-bold uppercase tracking-wider"
-            >
-              📤 Enviar Arquivo
+          <div className="mt-8 flex flex-col justify-center gap-4 sm:flex-row">
+            <Link href="/checkout" className="btn-primary px-8 py-4">
+              Ir para o checkout
             </Link>
-
-            <a
-              href="https://wa.me/5521920137249?text=Oi%20MDH%203D!%20Quero%20saber%20mais%20sobre%20seus%20serviços."
-              target="_blank"
-              rel="noreferrer"
-              className="btn-whatsapp px-8 py-4 font-bold uppercase tracking-wider"
-            >
-              💬 Falar no WhatsApp
-            </a>
+            <Link href="/imagem-para-impressao-3d" className="btn-secondary px-8 py-4">
+              Enviar referência
+            </Link>
           </div>
         </div>
       </section>

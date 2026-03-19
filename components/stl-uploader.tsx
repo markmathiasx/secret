@@ -2,6 +2,7 @@
 
 import { useState, useRef, useCallback, useMemo } from 'react';
 import { Upload, File, X, CheckCircle, AlertCircle, Zap, Send } from 'lucide-react';
+import { whatsappNumber } from '@/lib/constants';
 
 interface FormData {
   projectName: string;
@@ -116,7 +117,7 @@ export function STLUploader() {
       setUploadProgress(100);
       setTimeout(() => {
         window.open(
-          `https://wa.me/5521920137249?text=${encodeURIComponent(message)}`,
+          `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`,
           '_blank'
         );
         setIsUploading(false);

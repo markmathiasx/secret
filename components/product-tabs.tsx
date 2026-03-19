@@ -1,7 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { Zap, Gem, Cog, CheckCircle, ArrowRight } from 'lucide-react';
+import { useState } from 'react';
+import { Zap, Gem, Cog, ArrowRight } from 'lucide-react';
+import { whatsappNumber } from '@/lib/constants';
 
 interface Tab {
   id: string;
@@ -39,7 +40,7 @@ const tabs: Tab[] = [
     icon: <Gem className="w-6 h-6" />,
     title: 'ALTA RESOLUÇÃO',
     description:
-      'Perfeito para miniaturas, joias e peças que exigem detalhes microscópicos sem as linhas de camada visíveis. Qualidade 4K e 8K.',
+      'Perfeito para miniaturas, bustos e peças que exigem acabamento mais fino, com foco em detalhe visual e apresentação.',
     color: 'text-violet-400',
     bgColor: 'from-violet-500/10 to-violet-500/5',
     features: [
@@ -48,7 +49,7 @@ const tabs: Tab[] = [
       'Resolução: 4K e 8K',
       'Precisão: 0.03mm a 0.05mm',
       'Acabamento: Ultra liso',
-      'Aplicações: Miniaturas, Joias, Dental',
+      'Aplicações: Miniaturas, bustos e peças detalhadas',
     ],
   },
   {
@@ -57,7 +58,7 @@ const tabs: Tab[] = [
     icon: <Cog className="w-6 h-6" />,
     title: 'PEÇAS FUNCIONAIS',
     description:
-      'Impressões que aguentam calor, impacto e uso contínuo. Ideal para suportes automotivos, peças de reposição e aplicações industriais.',
+      'Impressões pensadas para uso funcional, suporte de bancada, organização e peças técnicas sob consulta.',
     color: 'text-green-400',
     bgColor: 'from-green-500/10 to-green-500/5',
     features: [
@@ -65,19 +66,14 @@ const tabs: Tab[] = [
       'Entrega: 5 a 7 dias',
       'Resistência: Alta durabilidade',
       'Temperatura: Até 100°C',
-      'Aplicações: Industriais, Automotivas',
-      'Certificação: Qualidade industrial',
+      'Aplicações: Suportes, organização e peças técnicas',
+      'Acabamento: Sob medida para uso funcional',
     ],
   },
 ];
 
 export function ProductTabs() {
   const [activeTab, setActiveTab] = useState(0);
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    setIsVisible(true);
-  }, []);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>, idx: number) => {
     if (e.key === 'ArrowRight') {
@@ -89,9 +85,7 @@ export function ProductTabs() {
 
   return (
     <section
-      className={`transition-all duration-1000 animate-fadeInUp ${
-        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-      }`}
+      className="animate-fadeInUp transition-all duration-1000"
       aria-label="Serviços MDH 3D"
     >
       <nav className="tabs flex flex-wrap justify-center gap-3 mb-8" role="tablist">
@@ -148,7 +142,7 @@ export function ProductTabs() {
                 ))}
               </ul>
               <a
-                href="https://wa.me/5521920137249?text=Oi%20MDH%203D!%20Quero%20solicitar%20um%20orçamento%20para%20meu%20projeto."
+                href={`https://wa.me/${whatsappNumber}?text=Oi%20MDH%203D!%20Quero%20solicitar%20um%20or%C3%A7amento%20para%20meu%20projeto.`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-primary group mt-8 inline-flex items-center justify-center gap-2 animate-fadeInUp"

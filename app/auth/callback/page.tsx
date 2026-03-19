@@ -3,11 +3,11 @@
 import { useEffect, useState } from "react";
 
 export default function AuthCallback() {
-  const [msg, setMsg] = useState("Redirecionando para o novo login...");
+  const [msg, setMsg] = useState("Redirecionando para sua área de acesso...");
 
   useEffect(() => {
     async function run() {
-      setMsg("O acesso agora é feito por e-mail e senha direto no site.");
+      setMsg("O acesso é feito por e-mail e senha direto no site.");
       window.location.href = "/login";
     }
 

@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Manrope, Space_Grotesk } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
@@ -9,14 +9,15 @@ import { SiteFooter } from '@/components/site-footer';
 import { SiteHeader } from '@/components/site-header';
 import { WhatsAppFloat } from '@/components/whatsapp-float';
 import { brand, socialLinks, supportEmail, whatsappNumber } from '@/lib/constants';
-import { getSiteUrl } from '@/lib/env';
+import { getSiteUrl, isCardCheckoutConfigured } from '@/lib/env';
 
 const siteUrl = getSiteUrl();
 const sans = Manrope({ subsets: ['latin'], variable: '--font-sans', display: 'swap' });
 const display = Space_Grotesk({ subsets: ['latin'], variable: '--font-display', display: 'swap' });
-const cardCheckoutReady = Boolean(process.env.MERCADOPAGO_ACCESS_TOKEN?.trim());
+const cardCheckoutReady = isCardCheckoutConfigured();
 const normalizedPhone = `+${whatsappNumber.replace(/\D/g, '')}`;
 const socialProfiles = [socialLinks.instagram].filter((item) => Boolean(item) && item !== '#');
+const googleVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION?.trim();
 const organizationJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
@@ -71,17 +72,29 @@ const websiteJsonLd = {
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: 'MDH 3D | Storefront premium de impressão 3D',
+    default: 'MDH 3D | Impressão 3D profissional no Rio de Janeiro',
     template: '%s | MDH 3D'
   },
   description:
-    'Loja premium de impressão 3D no Rio de Janeiro com peças geek, presentes criativos, setup, utilidades e projetos sob encomenda.',
+    'Impressão 3D profissional no Rio de Janeiro com presentes personalizados, peças geek, utilidades, setup e projetos sob encomenda.',
   applicationName: 'MDH 3D',
   alternates: { canonical: '/' },
+  referrer: 'origin-when-cross-origin',
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1
+    }
+  },
   openGraph: {
-    title: 'MDH 3D | Storefront premium de impressão 3D',
+    title: 'MDH 3D | Impressão 3D profissional no Rio de Janeiro',
     description:
-      'Produção local no Rio de Janeiro com peças 3D para presentes, setup, cultura geek e personalizados sob encomenda.',
+      'Produção local no Rio de Janeiro com peças 3D para presentes, setup, cultura geek, utilidades e encomendas personalizadas.',
     url: siteUrl,
     siteName: 'MDH 3D',
     locale: 'pt_BR',
@@ -97,8 +110,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'MDH 3D | Impressão 3D premium',
-    description: 'Peças 3D sob medida com produção local e atendimento humano no Rio de Janeiro.',
+    title: 'MDH 3D | Impressão 3D profissional',
+    description: 'Peças 3D sob medida com produção local, atendimento humano e checkout claro no Rio de Janeiro.',
     images: ['/backgrounds/hero-printer-fallback.jpg']
   },
   category: 'ecommerce',
@@ -108,7 +121,10 @@ export const metadata: Metadata = {
     'presentes personalizados',
     'peças geek',
     'setup',
-    'catálogo 3d'
+    'catálogo 3d',
+    'miniaturas personalizadas',
+    'utilidades em impressão 3d',
+    'decoração geek'
   ],
   authors: [{ name: brand.legalName }],
   creator: brand.name,
@@ -117,11 +133,20 @@ export const metadata: Metadata = {
     icon: [{ url: '/icon-192.png', sizes: '192x192', type: 'image/png' }],
     apple: [{ url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }]
   },
+  verification: googleVerification ? { google: googleVerification } : undefined,
   other: {
     'contact:email': supportEmail,
     'contact:phone_number': whatsappNumber,
-    'social:instagram': socialLinks.instagram || ''
+    'social:instagram': socialLinks.instagram || '',
+    'business:contact_data:locality': brand.city,
+    'business:contact_data:region': brand.state,
+    'business:contact_data:country_name': 'Brasil'
   }
+};
+
+export const viewport: Viewport = {
+  themeColor: '#06111a',
+  colorScheme: 'dark',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

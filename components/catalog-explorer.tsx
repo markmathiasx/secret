@@ -51,6 +51,16 @@ export function CatalogExplorer({ products, initialQuery = '' }: { products: Pro
   const currentPage = Math.min(page, totalPages);
   const visibleItems = filtered.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
 
+  function resetFilters() {
+    setQuery('');
+    setCategory('Todas');
+    setCollection('Todas');
+    setOrder('Mais Recentes');
+    setPriceRange([20, 500]);
+    setVerifiedOnly(true);
+    setPage(1);
+  }
+
   return (
     <div className="space-y-6">
       <div className="glass-panel p-5">
@@ -154,7 +164,7 @@ export function CatalogExplorer({ products, initialQuery = '' }: { products: Pro
                 : 'border-white/10 bg-white/5 text-white/75 hover:border-white/20 hover:text-white'
             }`}
           >
-            Somente imagens validadas
+            Priorizar imagens validadas
           </button>
           <button
             type="button"
@@ -168,13 +178,20 @@ export function CatalogExplorer({ products, initialQuery = '' }: { products: Pro
                 : 'border-white/10 bg-white/5 text-white/75 hover:border-white/20 hover:text-white'
             }`}
           >
-            Ver catálogo completo
+            Mostrar catálogo completo
+          </button>
+          <button
+            type="button"
+            onClick={resetFilters}
+            className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white/75 transition hover:border-white/20 hover:text-white"
+          >
+            Limpar filtros
           </button>
         </div>
         <div className="mt-4 flex flex-wrap items-center gap-3 text-sm text-white/60">
-          <span>{filtered.length} resultados</span>
+          <span>{filtered.length} produtos encontrados</span>
           <span className="h-1 w-1 rounded-full bg-white/30" />
-          <span>{verifiedOnly ? 'Somente produtos com imagem validada' : 'Catálogo completo com curadoria visual'}</span>
+          <span>{verifiedOnly ? 'Abertura com foco em produtos com imagem validada' : 'Visualizando também referências conceituais'}</span>
           <span className="h-1 w-1 rounded-full bg-white/30" />
           <span>Página {currentPage} de {totalPages}</span>
         </div>
@@ -223,8 +240,16 @@ export function CatalogExplorer({ products, initialQuery = '' }: { products: Pro
           <p className="text-sm uppercase tracking-[0.18em] text-cyan-200/80">Sem resultado</p>
           <h3 className="mt-3 text-2xl font-bold text-white">Nenhum item bateu com esse filtro.</h3>
           <p className="mt-3 text-sm leading-7 text-white/65">
-            Tente buscar por material, tema, coleção, personagem ou tipo de uso. A busca agora considera também descrição curada, acabamento e material.
+            Tente buscar por material, tema, coleção, personagem ou tipo de uso. A busca considera descrição, acabamento, categoria e contexto de uso.
           </p>
+          <div className="mt-6 flex flex-wrap justify-center gap-3">
+            <button type="button" onClick={resetFilters} className="btn-secondary">
+              Limpar filtros
+            </button>
+            <Link href="/imagem-para-impressao-3d" className="btn-primary">
+              Pedir algo sob medida
+            </Link>
+          </div>
         </div>
       ) : null}
       {totalPages > 1 ? (
