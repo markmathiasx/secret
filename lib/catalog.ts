@@ -1,5 +1,6 @@
 import { deliveryZones } from "@/lib/constants";
 import { slugify } from "@/lib/utils";
+import { buildProductSearchText, getProductCardDescription, normalizeProductCategory } from "@/lib/catalog-content";
 
 export type PaymentMethod = "pix" | "cartao" | "boleto";
 export type SalesChannel = "site" | "mercadolivre" | "shopee" | "whatsapp";
@@ -38,6 +39,14 @@ export type Product = {
   customizable: boolean;
   readyToShip?: boolean;
 };
+
+function enrichProduct(product: Product): Product {
+  return {
+    ...product,
+    category: normalizeProductCategory(product),
+    description: getProductCardDescription(product),
+  };
+}
 
 const filamentCostPerGram = 0.11;
 
@@ -2553,32 +2562,27 @@ const curatedCatalog: Product[] = [
   },
 ];
 
-export const catalog = curatedCatalog;
-export const featuredCatalog = curatedCatalog.filter((item) => item.featured).slice(0, 12);
-export const categories = Array.from(new Set(curatedCatalog.map((item) => item.category)));
-export const collections = Array.from(new Set(curatedCatalog.map((item) => item.collection)));
+export const catalog = curatedCatalog.map(enrichProduct);
+export const featuredCatalog = catalog.filter((item) => item.featured).slice(0, 12);
+export const categories = Array.from(new Set(catalog.map((item) => item.category)));
+export const collections = Array.from(new Set(catalog.map((item) => item.collection)));
 
 export function getProductUrl(product: Product) {
   return `/catalogo/${product.id}-${slugify(product.name)}`;
 }
 
 export function findProduct(id: string) {
-  return curatedCatalog.find((item) => item.id === id);
+  return catalog.find((item) => item.id === id);
 }
 
 export function findProductBySlug(slug: string) {
-  return curatedCatalog.find((item) => getProductUrl(item).endsWith(slug));
+  return catalog.find((item) => getProductUrl(item).endsWith(slug));
 }
 
 export function searchCatalog(query: string) {
   const normalized = query.trim().toLowerCase();
-  if (!normalized) return curatedCatalog;
-  return curatedCatalog.filter((item) =>
-    [item.name, item.category, item.subcategory, item.theme, item.description, item.collection, item.material, item.finish, ...item.tags]
-      .join(" ")
-      .toLowerCase()
-      .includes(normalized)
-  );
+  if (!normalized) return catalog;
+  return catalog.filter((item) => buildProductSearchText(item).includes(normalized));
 }
 
 export const defaultPricingExamples = [

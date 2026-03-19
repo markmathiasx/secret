@@ -1,5 +1,6 @@
 import type { Product } from "@/lib/catalog";
 import { slugify } from "@/lib/utils";
+import { getProductVisualImageCandidates } from "@/lib/product-visuals";
 
 export const productPlaceholderSrc = "/catalog-assets/product-placeholder.webp";
 const productExts = ["jpg", "webp", "png", "svg"] as const;
@@ -40,8 +41,9 @@ function normalizeProductId(id: string) {
 
 export function getProductImageCandidates(product: Product) {
   const explicit = explicitGallery(product);
+  const visualCandidates = getProductVisualImageCandidates(product);
   if (explicit?.length) {
-    return explicit[0]?.candidates || [productPlaceholderSrc];
+    return [...visualCandidates, ...(explicit[0]?.candidates || []), productPlaceholderSrc];
   }
 
   const normalizedId = normalizeProductId(product.id);
@@ -56,6 +58,7 @@ export function getProductImageCandidates(product: Product) {
   const legacyJpg = `/assets/images/products/product-${product.id.split('-')[1]}.jpg`;
 
   return [
+    ...visualCandidates,
     catalogWebp,
     catalogWebpNormalized,
     catalogJpg,
@@ -71,7 +74,13 @@ export function resolveProductImage(product: Product) {
 
 export function getProductGallery(product: Product) {
   const explicit = explicitGallery(product);
-  if (explicit?.length) return explicit;
+  const visualCandidates = getProductVisualImageCandidates(product);
+  if (explicit?.length) {
+    return explicit.map((item) => ({
+      ...item,
+      candidates: [...visualCandidates, ...item.candidates, productPlaceholderSrc],
+    }));
+  }
 
   // Usar apenas catalog-assets para galeria (WebP otimizado)
   const normalizedId = normalizeProductId(product.id);
@@ -79,6 +88,7 @@ export function getProductGallery(product: Product) {
   return ([1, 2, 3] as const).map((shot) => ({
     id: `${product.id}-${shot}`,
     candidates: [
+      ...visualCandidates,
       `/catalog-assets/${product.id}.webp`,
       `/catalog-assets/${normalizedId}.webp`,
       `/catalog-assets/${product.id}.jpg`,

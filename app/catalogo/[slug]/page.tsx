@@ -3,11 +3,14 @@ import { notFound } from 'next/navigation';
 import { ArrowLeft, MessageCircleMore } from 'lucide-react';
 import { catalog, findProductBySlug } from '@/lib/catalog';
 import { ProductImageGallery } from '@/components/product-image-gallery';
+import { ProductVisualBadge, ProductVisualNotice } from '@/components/product-visual-authenticity';
 import { QuoteForm } from '@/components/quote-form';
 import { formatCurrency } from '@/lib/utils';
 import { whatsappMessage, whatsappNumber } from '@/lib/constants';
 import { Metadata } from 'next';
 import { getSiteUrl } from '@/lib/env';
+import { getProductHighlights, getProductLongDescription } from '@/lib/catalog-content';
+import { resolveProductImage } from '@/lib/product-images';
 
 export function generateStaticParams() {
   return catalog.map((product) => ({ slug: `${product.id}-${product.name.toLowerCase().replace(/\s+/g, '-')}` }));
@@ -25,15 +28,17 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
   const siteUrl = getSiteUrl();
   const productUrl = `${siteUrl}/catalogo/${slug}`;
-  const imageUrl = product.images?.[0]?.startsWith("http") ? product.images[0] : `${siteUrl}${product.images?.[0] || "/catalog-assets/product-placeholder.webp"}`;
+  const resolvedImage = resolveProductImage(product);
+  const imageUrl = resolvedImage.startsWith("http") ? resolvedImage : `${siteUrl}${resolvedImage}`;
+  const longDescription = getProductLongDescription(product);
 
   return {
     title: `${product.name} | MDH 3D Store`,
-    description: product.description,
+    description: longDescription,
     keywords: [...product.tags, 'impressão 3D', 'PLA', 'Bambu Lab', 'personalizado'].join(', '),
     openGraph: {
       title: `${product.name} - Impressão 3D`,
-      description: product.description,
+      description: longDescription,
       url: productUrl,
       images: [
         {
@@ -47,7 +52,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     twitter: {
       card: 'summary_large_image',
       title: `${product.name} | MDH 3D Store`,
-      description: product.description,
+      description: longDescription,
       images: [imageUrl],
     },
   };
@@ -63,16 +68,22 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
   const siteUrl = getSiteUrl();
   const productUrl = `${siteUrl}/catalogo/${slug}`;
-  const imageUrl = product.images?.[0]?.startsWith("http") ? product.images[0] : `${siteUrl}${product.images?.[0] || "/catalog-assets/product-placeholder.webp"}`;
-  const resolvedImages = product.images?.length
-    ? product.images.map((image) => (image.startsWith("http") ? image : `${siteUrl}${image}`))
-    : [imageUrl];
+  const resolvedImage = resolveProductImage(product);
+  const imageUrl = resolvedImage.startsWith("http") ? resolvedImage : `${siteUrl}${resolvedImage}`;
+  const resolvedImages = Array.from(
+    new Set([
+      imageUrl,
+      ...(product.images?.map((image) => (image.startsWith("http") ? image : `${siteUrl}${image}`)) || []),
+    ])
+  );
+  const highlights = getProductHighlights(product);
+  const longDescription = getProductLongDescription(product);
 
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: product.name,
-    description: product.description,
+    description: longDescription,
     image: resolvedImages,
     sku: product.sku,
     brand: {
@@ -116,11 +127,21 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         <div className="glass-panel p-6 md:p-7">
           <div className="flex flex-wrap gap-2">
             <span className="glass-chip">{product.category}</span>
+            <span className="chip-nav">{product.subcategory}</span>
             <span className="chip-nav">{product.collection}</span>
             <span className="chip-nav">{product.readyToShip ? 'Pronta entrega' : 'Sob encomenda'}</span>
+            <ProductVisualBadge product={product} />
           </div>
           <h1 className="mt-5 text-4xl font-black text-white md:text-5xl">{product.name}</h1>
-          <p className="mt-4 text-base leading-8 text-white/70">{product.description}</p>
+          <p className="mt-4 text-base leading-8 text-white/70">{longDescription}</p>
+
+          <div className="mt-6 grid gap-3 sm:grid-cols-3">
+            {highlights.map((highlight) => (
+              <div key={highlight} className="rounded-[24px] border border-white/10 bg-black/20 p-4 text-sm text-white/72">
+                {highlight}
+              </div>
+            ))}
+          </div>
 
           <div className="mt-6 grid gap-4 sm:grid-cols-3">
             <div className="rounded-[24px] border border-emerald-400/20 bg-emerald-400/10 p-4">
@@ -163,6 +184,10 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
               <strong>Aviso:</strong> Confirme a licença comercial antes de revender.
               Este produto é para uso {product.licenseType === 'personal' ? 'pessoal' : 'comercial'}.
             </p>
+          </div>
+
+          <div className="mt-6">
+            <ProductVisualNotice product={product} />
           </div>
 
           <div className="mt-6 grid gap-3 sm:grid-cols-2">

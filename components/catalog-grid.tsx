@@ -8,6 +8,7 @@ import { SafeProductImage } from "@/components/safe-product-image";
 import { getProductUrl } from "@/lib/catalog";
 import { FavoriteButton } from "@/components/favorite-button";
 import { getProductImageCandidates } from "@/lib/product-images";
+import { ProductVisualBadge } from "@/components/product-visual-authenticity";
 
 function ProductCardImage({ product }: { product: Product }) {
   const candidates = useMemo(() => getProductImageCandidates(product), [product]);
@@ -29,9 +30,12 @@ export function CatalogGrid({ products }: { products: Product[] }) {
             <div>
               <p className="text-xs uppercase tracking-[0.2em] text-cyan-200/80">{product.category}</p>
               <h3 className="mt-2 text-lg font-semibold text-white">{product.name}</h3>
-              <p className="mt-2 min-h-[72px] text-sm leading-6 text-white/62">{product.description}</p>
+              <p className="mt-2 min-h-[72px] line-clamp-3 text-sm leading-6 text-white/62">{product.description}</p>
             </div>
             <FavoriteButton productId={product.id} className="shrink-0" />
+          </div>
+          <div className="mt-3">
+            <ProductVisualBadge product={product} />
           </div>
           <div className="mt-4 flex flex-wrap gap-2">
             <span className="rounded-full border border-white/10 px-2.5 py-1 text-xs text-white/55">{product.material}</span>

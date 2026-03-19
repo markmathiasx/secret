@@ -1,0 +1,47 @@
+import Link from "next/link";
+import { SafeProductImage } from "@/components/safe-product-image";
+import { realCaseStudies } from "@/lib/product-visuals";
+
+export function CatalogRealCases() {
+  return (
+    <section className="mt-10 rounded-[32px] border border-white/10 bg-black/20 p-6">
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <div className="max-w-2xl">
+          <p className="text-xs uppercase tracking-[0.2em] text-emerald-200">Fotos reais do ateliê</p>
+          <h2 className="mt-3 text-2xl font-black text-white sm:text-3xl">Referências reais para subir a confiança sem misturar mockup com peça pronta.</h2>
+          <p className="mt-3 text-sm leading-7 text-white/68">
+            Esses exemplos mostram produção real já registrada pela MDH 3D. Eles não substituem o catálogo SKU a SKU, mas provam acabamento, material e resultado final.
+          </p>
+        </div>
+        <a
+          href="https://wa.me/5521974137662?text=Quero%20validar%20foto%20real%20de%20um%20item%20do%20cat%C3%A1logo."
+          target="_blank"
+          rel="noreferrer"
+          className="rounded-full border border-emerald-300/25 bg-emerald-300/10 px-5 py-3 text-sm font-semibold text-emerald-100 transition hover:border-emerald-300/40 hover:bg-emerald-300/15"
+        >
+          Pedir validação visual
+        </a>
+      </div>
+
+      <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        {realCaseStudies.slice(0, 6).map((item) => (
+          <article key={item.id} className="overflow-hidden rounded-[24px] border border-white/10 bg-slate-950/55">
+            <SafeProductImage candidates={[item.image]} alt={item.title} className="aspect-[4/3] w-full object-cover" />
+            <div className="space-y-3 p-4">
+              <span className="inline-flex rounded-full border border-emerald-300/25 bg-emerald-300/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-emerald-100">
+                Foto real
+              </span>
+              <h3 className="text-lg font-semibold text-white">{item.title}</h3>
+              <Link
+                href={item.href}
+                className="inline-flex rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white/80 transition hover:border-white/20 hover:text-white"
+              >
+                Solicitar algo parecido
+              </Link>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}

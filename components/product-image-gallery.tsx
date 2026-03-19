@@ -4,6 +4,7 @@ import { Expand, Image as ImageIcon, X } from "lucide-react";
 import type { Product } from "@/lib/catalog";
 import { getProductGallery } from "@/lib/product-images";
 import { SafeProductImage } from "@/components/safe-product-image";
+import { ProductVisualBadge } from "@/components/product-visual-authenticity";
 export function ProductImageGallery({ product, compact = false }: { product: Product; compact?: boolean }) {
   const gallery = useMemo(() => getProductGallery(product), [product]);
   const [active, setActive] = useState(0);
@@ -17,9 +18,12 @@ export function ProductImageGallery({ product, compact = false }: { product: Pro
       <div className="overflow-hidden rounded-[20px] border border-white/10 bg-white/5 transition-all duration-300 hover:border-cyan-300/30 hover:shadow-lg hover:shadow-cyan-400/10">
         <SafeProductImage candidates={current.candidates} alt={current.alt} className="aspect-square w-full object-cover transition-transform duration-300" />
         <div className="border-t border-white/10 bg-slate-950/75 px-4 py-3">
-          <div className="flex items-center justify-between text-xs">
-            <span className="uppercase tracking-[0.16em] text-white/80 font-medium">{product.material}</span>
-            <span className="text-cyan-200 font-semibold">{product.finish}</span>
+          <div className="flex items-center justify-between gap-3 text-xs">
+            <div className="flex items-center gap-2">
+              <span className="uppercase tracking-[0.16em] text-white/80 font-medium">{product.material}</span>
+              <span className="text-cyan-200 font-semibold">{product.finish}</span>
+            </div>
+            <ProductVisualBadge product={product} />
           </div>
         </div>
       </div>
@@ -40,6 +44,7 @@ export function ProductImageGallery({ product, compact = false }: { product: Pro
               <span className="text-xs text-cyan-200 uppercase tracking-wide">{product.material} • {product.finish}</span>
             </div>
             <div className="flex items-center gap-2 text-cyan-100 group-hover:text-cyan-glow transition-colors duration-300">
+              <ProductVisualBadge product={product} />
               <ImageIcon className="h-4 w-4" />
               <span className="text-sm font-medium">Galeria</span>
               <Expand className="h-4 w-4" />
