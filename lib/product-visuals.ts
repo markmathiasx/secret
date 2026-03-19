@@ -162,6 +162,10 @@ export function getProductVisualImageCandidates(product: Product) {
   return getProductVisual(product).imageCandidates;
 }
 
+export function isProductVisualVerified(product: Product) {
+  return getProductVisual(product).kind !== "imagem-conceitual";
+}
+
 export function summarizeProductVisuals(products: Product[]) {
   const summary = {
     total: products.length,

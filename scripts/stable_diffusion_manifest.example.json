@@ -1,0 +1,26 @@
+[
+  {
+    "reference": "public/products/foto-003-porta-creme-dental.webp",
+    "prompt": "professional ecommerce product photo of a 3D printed toothpaste holder on a clean bathroom counter, centered composition, realistic PLA texture, soft studio lighting, premium retail look",
+    "negative_prompt": "blurry, warped geometry, text overlay, watermark, duplicate object, extra parts, extra hands",
+    "output": "public/generated-catalog/porta-creme-dental-refined.webp",
+    "width": 768,
+    "height": 1024,
+    "seed": 41,
+    "steps": 4,
+    "guidance": 0.0,
+    "strength": 0.5
+  },
+  {
+    "reference": "public/products/foto-011-chaveiro-maconaria.webp",
+    "prompt": "premium close-up ecommerce photo of a 3D printed institutional keychain medallion with metallic ring, warm leather backdrop, sharp logo edges, realistic print texture, commercial product photography",
+    "negative_prompt": "blurry, unreadable text, duplicate keychain, watermark, logo distortion, broken ring",
+    "output": "public/generated-catalog/medalha-maconica-refined.webp",
+    "width": 768,
+    "height": 1024,
+    "seed": 42,
+    "steps": 4,
+    "guidance": 0.0,
+    "strength": 0.45
+  }
+]

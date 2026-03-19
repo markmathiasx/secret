@@ -18,7 +18,7 @@ export default async function CatalogPage({ searchParams }: { searchParams?: Pro
             <p className="text-xs uppercase tracking-[0.22em] text-cyan-200">Storefront do catálogo</p>
             <h1 className="mt-3 text-4xl font-black text-white sm:text-5xl">Explore a loja MDH 3D como vitrine real, não só como lista.</h1>
             <p className="mt-4 text-lg leading-8 text-white/68">
-              Catálogo com busca, filtros, preço no Pix, parcelamento, transparência sobre a origem das imagens e um manifesto de curadoria pronto para operação comercial.
+              Catalogo com busca, filtros, preco no Pix, parcelamento, transparencia sobre a origem das imagens e abertura priorizando apenas itens com visual validado.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <Link
@@ -39,7 +39,7 @@ export default async function CatalogPage({ searchParams }: { searchParams?: Pro
           <div className="grid gap-3 sm:grid-cols-3">
             {[
               { label: 'Produtos ativos', value: String(catalog.length).padStart(4, '0') },
-              { label: 'Fotos reais', value: String(visualSummary.realCaseStudies).padStart(2, '0') },
+              { label: 'Fotos reais', value: String(visualSummary.fotoReal).padStart(2, '0') },
               { label: 'Feed pronto', value: String(visualSummary.merchantReady).padStart(2, '0') }
             ].map((item) => (
               <div key={item.label} className="rounded-[28px] border border-white/10 bg-black/20 p-5">

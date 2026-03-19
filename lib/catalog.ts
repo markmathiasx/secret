@@ -1,6 +1,7 @@
 import { deliveryZones } from "@/lib/constants";
 import { slugify } from "@/lib/utils";
 import { buildProductSearchText, getProductCardDescription, normalizeProductCategory } from "@/lib/catalog-content";
+import { verifiedCatalog } from "@/lib/verified-catalog";
 
 export type PaymentMethod = "pix" | "cartao" | "boleto";
 export type SalesChannel = "site" | "mercadolivre" | "shopee" | "whatsapp";
@@ -2562,7 +2563,7 @@ const curatedCatalog: Product[] = [
   },
 ];
 
-export const catalog = curatedCatalog.map(enrichProduct);
+export const catalog = [...verifiedCatalog, ...curatedCatalog.map(enrichProduct)];
 export const featuredCatalog = catalog.filter((item) => item.featured).slice(0, 12);
 export const categories = Array.from(new Set(catalog.map((item) => item.category)));
 export const collections = Array.from(new Set(catalog.map((item) => item.collection)));

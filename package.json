@@ -33,6 +33,7 @@
     "db:migrate": "node scripts/db-migrate.mjs",
     "db:seed": "node scripts/db-seed.mjs",
     "catalog:images": "node scripts/catalog-images.mjs",
+    "sd:reference": "python scripts/generate_product_reference_sd.py",
     "analyze": "ANALYZE=true npm run build",
     "preview": "npm run build && npm run start",
     "clean": "rm -rf .next out node_modules/.cache"

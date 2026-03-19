@@ -7,6 +7,7 @@ import { buildProductSearchText } from '@/lib/catalog-content';
 import { formatCurrency } from '@/lib/utils';
 import { ProductImageGallery } from '@/components/product-image-gallery';
 import { ProductVisualBadge } from '@/components/product-visual-authenticity';
+import { isProductVisualVerified } from '@/lib/product-visuals';
 
 const PAGE_SIZE = 25;
 
@@ -17,6 +18,7 @@ export function CatalogExplorer({ products, initialQuery = '' }: { products: Pro
   const [page, setPage] = useState(1);
   const [order, setOrder] = useState('Mais Recentes');
   const [priceRange, setPriceRange] = useState([20, 500]);
+  const [verifiedOnly, setVerifiedOnly] = useState(true);
 
   useEffect(() => {
     setQuery(initialQuery);
@@ -32,7 +34,8 @@ export function CatalogExplorer({ products, initialQuery = '' }: { products: Pro
       const matchCategory = category === 'Todas' ? true : item.category === category;
       const matchCollection = collection === 'Todas' ? true : item.collection === collection;
       const matchPrice = item.pricePix >= priceRange[0] && item.pricePix <= priceRange[1];
-      return matchQuery && matchCategory && matchCollection && matchPrice;
+      const matchVerified = verifiedOnly ? isProductVisualVerified(item) : true;
+      return matchQuery && matchCategory && matchCollection && matchPrice && matchVerified;
     });
     if (order === 'Preço') {
       items = items.sort((a, b) => a.pricePix - b.pricePix);
@@ -42,7 +45,7 @@ export function CatalogExplorer({ products, initialQuery = '' }: { products: Pro
       items = items.sort((a, b) => b.id.localeCompare(a.id));
     }
     return items;
-  }, [products, query, category, collection, order, priceRange]);
+  }, [products, query, category, collection, order, priceRange, verifiedOnly]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
   const currentPage = Math.min(page, totalPages);
@@ -138,10 +141,40 @@ export function CatalogExplorer({ products, initialQuery = '' }: { products: Pro
             </div>
           </label>
         </div>
+        <div className="mt-4 flex flex-wrap items-center gap-3">
+          <button
+            type="button"
+            onClick={() => {
+              setVerifiedOnly(true);
+              setPage(1);
+            }}
+            className={`rounded-full border px-4 py-2 text-sm font-semibold transition ${
+              verifiedOnly
+                ? 'border-emerald-300/35 bg-emerald-300/12 text-emerald-50'
+                : 'border-white/10 bg-white/5 text-white/75 hover:border-white/20 hover:text-white'
+            }`}
+          >
+            Somente imagens validadas
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setVerifiedOnly(false);
+              setPage(1);
+            }}
+            className={`rounded-full border px-4 py-2 text-sm font-semibold transition ${
+              !verifiedOnly
+                ? 'border-cyan-300/35 bg-cyan-300/12 text-cyan-50'
+                : 'border-white/10 bg-white/5 text-white/75 hover:border-white/20 hover:text-white'
+            }`}
+          >
+            Ver catálogo completo
+          </button>
+        </div>
         <div className="mt-4 flex flex-wrap items-center gap-3 text-sm text-white/60">
           <span>{filtered.length} resultados</span>
           <span className="h-1 w-1 rounded-full bg-white/30" />
-          <span>Curadoria com manifesto visual e busca enriquecida</span>
+          <span>{verifiedOnly ? 'Somente produtos com imagem validada' : 'Catálogo completo com curadoria visual'}</span>
           <span className="h-1 w-1 rounded-full bg-white/30" />
           <span>Página {currentPage} de {totalPages}</span>
         </div>

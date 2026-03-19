@@ -1,13 +1,16 @@
 import { NextResponse } from "next/server";
 import { catalog } from "@/lib/catalog";
+import { buildProductSearchText } from "@/lib/catalog-content";
+import { isProductVisualVerified } from "@/lib/product-visuals";
 
 function score(item: any, q: string) {
-  const blob = [item.name, item.category, item.theme, item.description, ...(item.tags || [])].join(" ").toLowerCase();
+  const blob = buildProductSearchText(item);
   let s = 0;
   for (const token of q.split(/\s+/).filter(Boolean)) {
     if (blob.includes(token)) s += 1;
     if (item.name.toLowerCase().includes(token)) s += 2;
   }
+  if (isProductVisualVerified(item)) s += 3;
   return s;
 }
 

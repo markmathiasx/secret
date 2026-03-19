@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
 import { catalog } from "@/lib/catalog";
+import { isProductVisualVerified } from "@/lib/product-visuals";
 
-export async function GET() {
-  return NextResponse.json({ total: catalog.length, items: catalog });
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const scope = searchParams.get("scope") || "verified";
+  const items = scope === "all" ? catalog : catalog.filter(isProductVisualVerified);
+  return NextResponse.json({ total: items.length, scope, items });
 }
