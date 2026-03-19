@@ -27,7 +27,8 @@ export function ProductImage({
       <Image
         src={failed ? '/placeholders/product-card.svg' : src}
         alt={alt}
-        fill
+        width={1200}
+        height={1200}
         sizes={sizes}
         priority={priority}
         className={`object-cover ${className}`}

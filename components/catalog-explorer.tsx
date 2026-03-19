@@ -142,16 +142,15 @@ export function CatalogExplorer({ products }: { products: Product[] }) {
           <span>Página {currentPage} de {totalPages}</span>
         </div>
       </div>
-      <div className="catalog-grid">
+      <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
         {visibleItems.map((product) => (
-          <article key={product.id} className="product-card group rounded-[28px] border border-white/10 bg-card p-5 transition hover:-translate-y-1 hover:border-cyan-300/30" aria-label={product.name}>
+          <article key={product.id} className="group rounded-[28px] border border-white/10 bg-card p-5 transition hover:-translate-y-1 hover:border-cyan-300/30" aria-label={product.name}>
             <ProductImageGallery product={product} compact />
-            {/* Badges */}
-            <div className="flex gap-2 mt-2">
-              {product.featured && <span className="card-badge">Mais Vendido</span>}
-              {product.status === 'Pronta entrega' && <span className="card-available">Pronta Entrega</span>}
+            <div className="mt-2 flex flex-wrap gap-2">
+              {product.featured && <span className="rounded-full border border-amber-300/25 bg-amber-300/10 px-3 py-1 text-[11px] font-semibold text-amber-100">Mais Vendido</span>}
+              {product.status === 'Pronta entrega' && <span className="rounded-full border border-emerald-300/25 bg-emerald-300/10 px-3 py-1 text-[11px] font-semibold text-emerald-100">Pronta Entrega</span>}
               {product.collection === 'Novidade' && (
-                <span className="card-badge bg-purple-400/14 border-purple-400/30 text-purple-100">Novidade</span>
+                <span className="rounded-full border border-purple-400/30 bg-purple-400/14 px-3 py-1 text-[11px] font-semibold text-purple-100">Novidade</span>
               )}
             </div>
             <div className="mt-4 flex items-start justify-between gap-3">
@@ -162,41 +161,55 @@ export function CatalogExplorer({ products }: { products: Product[] }) {
               </div>
               <span className="rounded-full border border-white/10 px-3 py-1 text-xs text-white/60">{product.productionWindow}</span>
             </div>
-            <div className="mt-4 tag-row">
+            <div className="mt-4 flex flex-wrap gap-2">
               {product.tags.map((tag, i) => (
-                <span key={i} className="tag">{tag}</span>
+                <span key={i} className="rounded-full border border-white/10 px-2.5 py-1 text-xs text-white/55">{tag}</span>
               ))}
-              <span className="tag">{product.material}</span>
-              <span className="tag">{product.finish}</span>
-              <span className="tag">{product.readyToShip ? 'Pronta entrega' : 'Sob encomenda'}</span>
+              <span className="rounded-full border border-white/10 px-2.5 py-1 text-xs text-white/55">{product.material}</span>
+              <span className="rounded-full border border-white/10 px-2.5 py-1 text-xs text-white/55">{product.finish}</span>
+              <span className="rounded-full border border-white/10 px-2.5 py-1 text-xs text-white/55">{product.readyToShip ? 'Pronta entrega' : 'Sob encomenda'}</span>
             </div>
-            <div className="mt-5 price-box">
+            <div className="mt-5 flex items-end justify-between gap-4">
               <div>
                 <p className="text-xs text-white/45">Preço Pix</p>
-                <p className="price-main">{formatCurrency(product.pricePix)}</p>
-                <p className="price-sub">12x de {formatCurrency(product.priceCard / 12)} no cartão</p>
+                <p className="text-2xl font-bold text-white">{formatCurrency(product.pricePix)}</p>
+                <p className="text-xs text-white/55">12x de {formatCurrency(product.priceCard / 12)} no cartão</p>
               </div>
-              <Link href={getProductUrl(product)} className="button-secondary">Ver produto</Link>
+              <Link href={getProductUrl(product)} className="rounded-full border border-cyan-400/25 bg-cyan-400/10 px-4 py-2 text-sm font-semibold text-cyan-100 transition hover:border-cyan-300/50 hover:bg-cyan-300/15">Ver produto</Link>
             </div>
           </article>
         ))}
       </div>
       {totalPages > 1 ? (
-        <div className="pagination">
-          <button onClick={() => setPage((prev) => Math.max(1, prev - 1))} className="button-ghost" disabled={currentPage === 1} aria-label="Página anterior">
+        <div className="flex flex-wrap items-center justify-center gap-2">
+          <button
+            onClick={() => setPage((prev) => Math.max(1, prev - 1))}
+            className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white/75 transition hover:border-white/20 hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
+            disabled={currentPage === 1}
+            aria-label="Página anterior"
+          >
             Anterior
           </button>
           {[...Array(totalPages)].map((_, idx) => (
             <button
               key={idx}
               onClick={() => setPage(idx + 1)}
-              className={`button-ghost ${currentPage === idx + 1 ? 'active' : ''}`}
+              className={`rounded-full border px-4 py-2 text-sm font-semibold transition ${
+                currentPage === idx + 1
+                  ? 'border-cyan-300/35 bg-cyan-300/12 text-cyan-50'
+                  : 'border-white/10 bg-white/5 text-white/75 hover:border-white/20 hover:text-white'
+              }`}
               aria-label={`Página ${idx + 1}`}
             >
               {idx + 1}
             </button>
           ))}
-          <button onClick={() => setPage((prev) => Math.min(totalPages, prev + 1))} className="button-ghost" disabled={currentPage === totalPages} aria-label="Próxima página">
+          <button
+            onClick={() => setPage((prev) => Math.min(totalPages, prev + 1))}
+            className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white/75 transition hover:border-white/20 hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
+            disabled={currentPage === totalPages}
+            aria-label="Próxima página"
+          >
             Próxima
           </button>
         </div>

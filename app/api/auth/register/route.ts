@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createCustomerAccount } from "@/lib/auth-store";
+import { applyNoStoreHeaders } from "@/lib/http-cache";
 import { checkRateLimit, getClientIp } from "@/lib/security";
 import { createSignedSessionToken, customerSessionCookieName, getCustomerSessionSecret } from "@/lib/session-token";
 
@@ -11,30 +12,30 @@ export async function POST(req: Request) {
     const rateLimit = checkRateLimit(`customer_register:${ip}`, 5, 60_000);
 
     if (!rateLimit.ok) {
-      return NextResponse.json({ error: "Muitas tentativas. Aguarde um pouco antes de tentar de novo." }, { status: 429 });
+      return applyNoStoreHeaders(NextResponse.json({ error: "Muitas tentativas. Aguarde um pouco antes de tentar de novo." }, { status: 429 }));
     }
 
     const { email, password, name } = await req.json();
 
     if (!email || !password || !name) {
-      return NextResponse.json({ error: "Nome, email e senha são obrigatórios" }, { status: 400 });
+      return applyNoStoreHeaders(NextResponse.json({ error: "Nome, email e senha são obrigatórios" }, { status: 400 }));
     }
 
     if (password.length < 8 || !/[A-Z]/.test(password) || !/[a-z]/.test(password) || !/\d/.test(password)) {
-      return NextResponse.json(
+      return applyNoStoreHeaders(NextResponse.json(
         { error: "Use uma senha com pelo menos 8 caracteres, incluindo maiúscula, minúscula e número." },
         { status: 400 }
-      );
+      ));
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      return NextResponse.json({ error: "Email inválido" }, { status: 400 });
+      return applyNoStoreHeaders(NextResponse.json({ error: "Email inválido" }, { status: 400 }));
     }
 
     const secret = getCustomerSessionSecret();
     if (!secret) {
-      return NextResponse.json({ error: "Configure AUTH_CUSTOMER_SESSION_SECRET nas variáveis do projeto." }, { status: 500 });
+      return applyNoStoreHeaders(NextResponse.json({ error: "Configure AUTH_CUSTOMER_SESSION_SECRET nas variáveis do projeto." }, { status: 500 }));
     }
 
     const user = await createCustomerAccount({ email, password, displayName: name });
@@ -73,20 +74,20 @@ export async function POST(req: Request) {
       maxAge: 60 * 60 * 24 * 30
     });
 
-    return response;
+    return applyNoStoreHeaders(response);
   } catch (error: any) {
     console.error("Register error:", error);
 
     const message = String(error?.message || "").toLowerCase();
 
     if (message.includes("already") || message.includes("registered") || message.includes("exists")) {
-      return NextResponse.json({ error: "Este email já está cadastrado" }, { status: 409 });
+      return applyNoStoreHeaders(NextResponse.json({ error: "Este email já está cadastrado" }, { status: 409 }));
     }
 
     if (message.includes("limite")) {
-      return NextResponse.json({ error: error.message }, { status: 400 });
+      return applyNoStoreHeaders(NextResponse.json({ error: error.message }, { status: 400 }));
     }
 
-    return NextResponse.json({ error: error.message || "Erro ao cadastrar" }, { status: 500 });
+    return applyNoStoreHeaders(NextResponse.json({ error: error.message || "Erro ao cadastrar" }, { status: 500 }));
   }
 }

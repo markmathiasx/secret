@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { applyNoStoreHeaders } from "@/lib/http-cache";
 import { customerSessionCookieName } from "@/lib/session-token";
 
 export const runtime = "nodejs";
@@ -14,5 +15,5 @@ export async function POST() {
     path: "/",
     maxAge: 0
   });
-  return response;
+  return applyNoStoreHeaders(response);
 }

@@ -1,9 +1,10 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { LockKeyhole, Mail, MessageCircleMore, ShieldCheck, User } from 'lucide-react';
-import { emitCustomerAuthChange } from '@/lib/customer-session-client';
+import { emitCustomerAuthChange, fetchCustomerSession } from '@/lib/customer-session-client';
 import { whatsappMessage, whatsappNumber } from '@/lib/constants';
 
 const benefits = [
@@ -14,6 +15,7 @@ const benefits = [
 ];
 
 export default function LoginPage() {
+  const router = useRouter();
   const [mode, setMode] = useState<'register' | 'login'>('register');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
@@ -39,6 +41,8 @@ export default function LoginPage() {
     try {
       const response = await fetch(mode === 'register' ? '/api/auth/register' : '/api/auth/login', {
         method: 'POST',
+        credentials: 'same-origin',
+        cache: 'no-store',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(
           mode === 'register'
@@ -53,9 +57,16 @@ export default function LoginPage() {
         return;
       }
 
+      const session = await fetchCustomerSession();
+      if (!session.user) {
+        setMessage('A conta foi validada, mas a sessão ainda não foi confirmada pelo navegador. Atualize a página ou tente entrar novamente.');
+        return;
+      }
+
       emitCustomerAuthChange();
       setSuccess(mode === 'register' ? 'Conta criada com sucesso.' : 'Login concluído com sucesso.');
-      window.location.href = '/conta';
+      router.replace('/conta');
+      router.refresh();
     } catch {
       setMessage('Erro de rede ao validar seu acesso.');
     } finally {

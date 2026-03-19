@@ -1,9 +1,10 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import { featuredCatalog, findProduct, getProductUrl } from '@/lib/catalog';
-import { emitCustomerAuthChange, useCustomerSession } from '@/lib/customer-session-client';
+import { emitCustomerAuthChange, fetchCustomerSession, useCustomerSession } from '@/lib/customer-session-client';
 import { getDisplayName, getMemberKey, listFavorites, listSavedQuotes, type SavedQuote } from '@/lib/member-store';
 import { formatCurrency } from '@/lib/utils';
 
@@ -30,6 +31,7 @@ type AccountState = {
 };
 
 export default function AccountPage() {
+  const router = useRouter();
   const session = useCustomerSession();
   const [account, setAccount] = useState<AccountState>({
     ready: false,
@@ -83,9 +85,11 @@ export default function AccountPage() {
   const favoriteProducts = useMemo(() => account.favorites.map((item) => findProduct(item)).filter(Boolean), [account.favorites]);
 
   async function signOut() {
-    await fetch('/api/auth/logout', { method: 'POST' });
+    await fetch('/api/auth/logout', { method: 'POST', credentials: 'same-origin', cache: 'no-store' });
+    await fetchCustomerSession();
     emitCustomerAuthChange();
-    window.location.href = '/';
+    router.replace('/');
+    router.refresh();
   }
 
   if (!account.ready) return <section className="mx-auto max-w-5xl px-6 py-20 text-white/70">Carregando sua conta...</section>;

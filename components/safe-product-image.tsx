@@ -34,7 +34,8 @@ export function SafeProductImage({ product, candidates, alt, className, onResolv
       <Image
         src={src}
         alt={alt}
-        fill
+        width={1200}
+        height={1200}
         className={`${className} ${isLoading ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300`}
         loading="lazy"
         decoding="async"

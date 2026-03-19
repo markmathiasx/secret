@@ -1,48 +1,83 @@
-/* MDH 3D - simple offline cache */
-const CACHE = "mdh3d-v1";
-const CORE = ["/", "/catalogo", "/logo-mdh.jpg", "/icon-192.png", "/icon-512.png"];
+const CACHE = "mdh-static-v2";
+const LEGACY_PREFIXES = ["mdh3d-", "mdh-static-", "mdh-3d-"];
+const CORE = ["/logo-mdh.jpg", "/icon-192.png", "/icon-512.png", "/apple-touch-icon.png"];
+const STATIC_ASSET_PATTERN = /\.(?:png|jpe?g|webp|avif|gif|svg|ico|woff2?|ttf|otf)$/i;
+const SAFE_DESTINATIONS = new Set(["image", "font"]);
+
+function shouldHandle(request) {
+  if (request.method !== "GET") return false;
+  if (request.mode === "navigate" || request.destination === "document") return false;
+  if (request.headers.get("authorization")) return false;
+
+  const url = new URL(request.url);
+
+  if (url.origin !== self.location.origin) return false;
+  if (url.pathname.startsWith("/api/")) return false;
+  if (url.pathname.startsWith("/_next/")) return false;
+
+  return SAFE_DESTINATIONS.has(request.destination) || STATIC_ASSET_PATTERN.test(url.pathname);
+}
+
+async function warmCoreAssets() {
+  const cache = await caches.open(CACHE);
+
+  await Promise.allSettled(
+    CORE.map(async (path) => {
+      const response = await fetch(path, { cache: "reload" });
+      if (response.ok) {
+        await cache.put(path, response);
+      }
+    })
+  );
+}
+
+async function updateCache(request, cache) {
+  const response = await fetch(request);
+
+  if (response.ok) {
+    await cache.put(request, response.clone());
+  }
+
+  return response;
+}
 
 self.addEventListener("install", (event) => {
   self.skipWaiting();
-  event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(CORE)));
+  event.waitUntil(warmCoreAssets());
 });
 
 self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches.keys().then((keys) => Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k))))
+    (async () => {
+      const keys = await caches.keys();
+      await Promise.all(
+        keys
+          .filter((key) => key !== CACHE && LEGACY_PREFIXES.some((prefix) => key.startsWith(prefix)))
+          .map((key) => caches.delete(key))
+      );
+      await self.clients.claim();
+    })()
   );
-  self.clients.claim();
 });
 
 self.addEventListener("fetch", (event) => {
-  const req = event.request;
-  if (req.method !== "GET") return;
+  const request = event.request;
 
-  // Network-first for navigations
-  if (req.mode === "navigate") {
-    event.respondWith(
-      fetch(req)
-        .then((res) => {
-          const copy = res.clone();
-          caches.open(CACHE).then((cache) => cache.put(req, copy));
-          return res;
-        })
-        .catch(() => caches.match(req).then((cached) => cached || caches.match("/")))
-    );
+  if (!shouldHandle(request)) {
     return;
   }
 
-  // Cache-first for other requests
   event.respondWith(
-    caches.match(req).then((cached) =>
-      cached ||
-      fetch(req)
-        .then((res) => {
-          const copy = res.clone();
-          caches.open(CACHE).then((cache) => cache.put(req, copy));
-          return res;
-        })
-        .catch(() => cached)
-    )
+    (async () => {
+      const cache = await caches.open(CACHE);
+      const cached = await cache.match(request);
+
+      if (cached) {
+        event.waitUntil(updateCache(request, cache).catch(() => undefined));
+        return cached;
+      }
+
+      return updateCache(request, cache);
+    })()
   );
 });

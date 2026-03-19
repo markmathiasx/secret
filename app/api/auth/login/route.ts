@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { authenticateCustomerUser } from "@/lib/auth-store";
+import { applyNoStoreHeaders } from "@/lib/http-cache";
 import { checkRateLimit, getClientIp } from "@/lib/security";
 import { createSignedSessionToken, customerSessionCookieName, getCustomerSessionSecret } from "@/lib/session-token";
 
@@ -11,24 +12,24 @@ export async function POST(req: Request) {
     const rateLimit = checkRateLimit(`customer_login:${ip}`, 6, 60_000);
 
     if (!rateLimit.ok) {
-      return NextResponse.json({ error: "Muitas tentativas. Aguarde um pouco antes de tentar de novo." }, { status: 429 });
+      return applyNoStoreHeaders(NextResponse.json({ error: "Muitas tentativas. Aguarde um pouco antes de tentar de novo." }, { status: 429 }));
     }
 
     const { email, password } = await req.json();
 
     if (!email || !password) {
-      return NextResponse.json({ error: "Email e senha são obrigatórios" }, { status: 400 });
+      return applyNoStoreHeaders(NextResponse.json({ error: "Email e senha são obrigatórios" }, { status: 400 }));
     }
 
     const secret = getCustomerSessionSecret();
     if (!secret) {
-      return NextResponse.json({ error: "Configure AUTH_CUSTOMER_SESSION_SECRET nas variáveis do projeto." }, { status: 500 });
+      return applyNoStoreHeaders(NextResponse.json({ error: "Configure AUTH_CUSTOMER_SESSION_SECRET nas variáveis do projeto." }, { status: 500 }));
     }
 
     const user = await authenticateCustomerUser({ email, password });
 
     if (!user) {
-      return NextResponse.json({ error: "Email ou senha incorretos" }, { status: 401 });
+      return applyNoStoreHeaders(NextResponse.json({ error: "Email ou senha incorretos" }, { status: 401 }));
     }
 
     const sessionToken = await createSignedSessionToken(
@@ -64,9 +65,9 @@ export async function POST(req: Request) {
       maxAge: 60 * 60 * 24 * 30
     });
 
-    return response;
+    return applyNoStoreHeaders(response);
   } catch (error) {
     console.error("Login error:", error);
-    return NextResponse.json({ error: "Erro ao fazer login" }, { status: 500 });
+    return applyNoStoreHeaders(NextResponse.json({ error: "Erro ao fazer login" }, { status: 500 }));
   }
 }

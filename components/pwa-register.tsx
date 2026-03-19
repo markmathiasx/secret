@@ -8,6 +8,26 @@ type BeforeInstallPromptEvent = Event & {
   userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
 };
 
+const CANONICAL_ORIGIN = "https://mdh-3d-store.vercel.app";
+const RECOVERY_VERSION = "2026-03-18-cache-recovery-v1";
+const RECOVERY_KEY = "mdh-sw-recovery-version";
+const CACHE_PREFIXES = ["mdh3d-", "mdh-static-", "mdh-3d-"];
+
+async function clearMdhCaches() {
+  if (typeof window === "undefined" || !("caches" in window)) return;
+
+  const keys = await caches.keys();
+  await Promise.all(keys.filter((key) => CACHE_PREFIXES.some((prefix) => key.startsWith(prefix))).map((key) => caches.delete(key)));
+}
+
+async function unregisterServiceWorkers() {
+  if (typeof window === "undefined" || !("serviceWorker" in navigator)) return false;
+
+  const registrations = await navigator.serviceWorker.getRegistrations();
+  await Promise.all(registrations.map((registration) => registration.unregister()));
+  return registrations.length > 0;
+}
+
 export function PwaRegister() {
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [showHint, setShowHint] = useState(false);
@@ -23,14 +43,46 @@ export function PwaRegister() {
       return;
     }
 
-    // Service worker registration
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("/sw.js").then((registration) => {
-        console.log('SW registered:', registration);
-      }).catch((error) => {
-        console.log('SW registration failed:', error);
+    const currentOrigin = window.location.origin;
+    const onCanonicalOrigin = currentOrigin === CANONICAL_ORIGIN;
+
+    async function bootServiceWorker() {
+      if (!("serviceWorker" in navigator)) return;
+
+      const needsRecovery = window.localStorage.getItem(RECOVERY_KEY) !== RECOVERY_VERSION;
+      const hadController = Boolean(navigator.serviceWorker.controller);
+
+      if (!onCanonicalOrigin) {
+        if (needsRecovery) {
+          await unregisterServiceWorkers();
+          await clearMdhCaches();
+          window.localStorage.setItem(RECOVERY_KEY, RECOVERY_VERSION);
+          if (hadController) {
+            window.location.reload();
+          }
+        }
+        return;
+      }
+
+      if (needsRecovery) {
+        await unregisterServiceWorkers();
+        await clearMdhCaches();
+        window.localStorage.setItem(RECOVERY_KEY, RECOVERY_VERSION);
+      }
+
+      const registration = await navigator.serviceWorker.register(`/sw.js?v=${RECOVERY_VERSION}`);
+      await registration.update().catch(() => {
+        // ignore
       });
+
+      if (needsRecovery && hadController) {
+        window.location.reload();
+      }
     }
+
+    void bootServiceWorker().catch(() => {
+      // ignore
+    });
 
     // Online/offline detection
     const handleOnline = () => setIsOnline(true);
@@ -76,7 +128,6 @@ export function PwaRegister() {
     await deferredPrompt.prompt();
     try {
       const choice = await deferredPrompt.userChoice;
-      console.log('User choice:', choice.outcome);
     } finally {
       setDeferredPrompt(null);
       setShowHint(false);
