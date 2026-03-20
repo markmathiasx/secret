@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-03-20T04:43:28.286Z",
-  "source": "D:\\mdh-3d-store\\catalog-local-snapshot.json",
-  "total": 77,
-  "valid": 77,
+  "timestamp": "2026-03-20T04:47:12.375Z",
+  "source": "https://mdh-3d-store.vercel.app/api/catalog?scope=all",
+  "total": 87,
+  "valid": 87,
   "missing": 0,
   "placeholderRisk": 0,
   "visualKinds": {
-    "foto-real": 0,
+    "foto-real": 10,
     "render-fiel": 0,
     "imagem-conceitual": 77
   },
@@ -14,6 +14,76 @@
   "placeholderRiskIds": [],
   "passRate": "100%",
   "validItems": [
+    {
+      "id": "real-001",
+      "name": "Grinder 3 Partes Premium",
+      "imagePath": "/products/foto-001-grinder-01.webp",
+      "visualKind": "foto-real",
+      "placeholderDistance": 170.93
+    },
+    {
+      "id": "real-002",
+      "name": "Porta Creme Dental de Bancada",
+      "imagePath": "/products/foto-003-porta-creme-dental.webp",
+      "visualKind": "foto-real",
+      "placeholderDistance": 67.86
+    },
+    {
+      "id": "real-003",
+      "name": "Demogorgon Decorativo Premium",
+      "imagePath": "/products/foto-004-demogorgon.webp",
+      "visualKind": "foto-real",
+      "placeholderDistance": 177.88
+    },
+    {
+      "id": "real-004",
+      "name": "Hello Kitty Jedi Colecionável",
+      "imagePath": "/products/foto-005-hello-kitty-jedi.webp",
+      "visualKind": "foto-real",
+      "placeholderDistance": 99.25
+    },
+    {
+      "id": "real-005",
+      "name": "Stencil Rick and Morty Decorativo",
+      "imagePath": "/products/foto-006-stencil-rick-morty.webp",
+      "visualKind": "foto-real",
+      "placeholderDistance": 130.18
+    },
+    {
+      "id": "real-006",
+      "name": "Família Customizada em Miniatura",
+      "imagePath": "/products/foto-007-familia-custom.webp",
+      "visualKind": "foto-real",
+      "placeholderDistance": 114.13
+    },
+    {
+      "id": "real-007",
+      "name": "Boneca Infantil Personalizada",
+      "imagePath": "/products/foto-008-boneca-crianca.webp",
+      "visualKind": "foto-real",
+      "placeholderDistance": 112.18
+    },
+    {
+      "id": "real-008",
+      "name": "Case de Isqueiro Caveira",
+      "imagePath": "/products/foto-009-case-isqueiro-caveira.webp",
+      "visualKind": "foto-real",
+      "placeholderDistance": 178.06
+    },
+    {
+      "id": "real-009",
+      "name": "Homer Pikachu Mashup Colecionável",
+      "imagePath": "/products/foto-010-homer-pikachu.webp",
+      "visualKind": "foto-real",
+      "placeholderDistance": 115.54
+    },
+    {
+      "id": "real-010",
+      "name": "Medalha Maçônica Personalizada",
+      "imagePath": "/products/foto-011-chaveiro-maconaria.webp",
+      "visualKind": "foto-real",
+      "placeholderDistance": 154.06
+    },
     {
       "id": "mdh-001",
       "name": "Hello Kitty Chibi Premium",
