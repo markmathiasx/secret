@@ -270,7 +270,15 @@ export function CatalogExplorer({
           const total = subtotal * (1 - bundleDiscount);
           const savings = subtotal - total;
           return (
-            <article key={product.id} className={`group rounded-[28px] border p-5 transition hover:-translate-y-1 ${isProductVisualVerified(product) ? 'border-white/10 bg-card hover:border-cyan-300/30' : 'border-amber-300/15 bg-[linear-gradient(180deg,rgba(245,158,11,0.08),rgba(255,255,255,0.02))] hover:border-amber-300/30'}`}>
+            <article
+              key={product.id}
+              className={`group relative rounded-[28px] border p-5 transition-all duration-500 hover:-translate-y-2 hover:scale-[1.018] ${
+                isProductVisualVerified(product)
+                  ? 'border-white/10 bg-card hover:border-cyan-200/45 hover:shadow-[0_24px_70px_rgba(34,211,238,0.24)]'
+                  : 'border-amber-300/20 bg-[linear-gradient(180deg,rgba(245,158,11,0.10),rgba(255,255,255,0.03))] hover:border-amber-300/40 hover:shadow-[0_24px_70px_rgba(245,158,11,0.24)]'
+              }`}
+            >
+              <div className="pointer-events-none absolute inset-0 rounded-[28px] border border-cyan-200/0 transition-colors duration-500 group-hover:border-cyan-200/25" />
               <ProductImageGallery product={product} compact />
               <div className="mt-2 flex flex-wrap gap-2">
                 {product.featured ? <span className="rounded-full border border-amber-300/25 bg-amber-300/10 px-3 py-1 text-[11px] font-semibold text-amber-100">Mais vendido</span> : null}
@@ -279,7 +287,7 @@ export function CatalogExplorer({
               </div>
               <div className="mt-4 flex items-start justify-between gap-3"><div><p className="text-xs uppercase tracking-[0.2em] text-cyan-200/80">{product.category}</p><h3 className="mt-2 line-clamp-2 text-lg font-semibold text-white">{product.name}</h3><p className="mt-2 min-h-[72px] line-clamp-3 text-sm leading-6 text-white/62">{product.description}</p></div><span className="rounded-full border border-white/10 px-3 py-1 text-xs text-white/60">{product.productionWindow}</span></div>
               <div className="mt-4 rounded-[18px] border border-white/10 bg-black/20 p-3 text-xs text-white/65"><p className="font-semibold text-white/85">{product.pricingMode === 'faixa-auditada' ? 'Compra direta' : 'Projeto sob medida'}</p><p className="mt-1">{product.pricingNarrative}</p><p className="mt-2 text-emerald-200">{quantity}x: {formatCurrency(total)}{bundleDiscount > 0 ? ` | Economia ${formatCurrency(savings)}` : ''}</p></div>
-              <div className="mt-5 flex items-end justify-between gap-3"><div><p className="text-xs text-white/45">Preço Pix</p><p className="text-2xl font-bold text-white">{formatCurrency(product.pricePix)}</p><p className="text-xs text-white/55">12x de {formatCurrency(product.priceCard / 12)}</p></div><div className="flex flex-col gap-2"><Link href={getProductUrl(product)} onClick={() => addRecent(product.id)} className="rounded-full border border-cyan-400/25 bg-cyan-400/10 px-4 py-2 text-center text-sm font-semibold text-cyan-100">{product.pricingMode === 'faixa-auditada' ? 'Comprar' : 'Orçar'}</Link><a href={buildWhatsAppQuote(product, quantity)} target="_blank" rel="noreferrer" className="rounded-full border border-emerald-300/25 bg-emerald-300/10 px-4 py-2 text-center text-xs font-semibold text-emerald-100">WhatsApp</a></div></div>
+              <div className="mt-5 flex items-end justify-between gap-3"><div><p className="text-xs text-white/45">Preço Pix</p><p className="text-2xl font-bold text-white">{formatCurrency(product.pricePix)}</p><p className="text-xs text-white/55">12x de {formatCurrency(product.priceCard / 12)}</p></div><div className="flex flex-col gap-2"><Link href={getProductUrl(product)} onClick={() => addRecent(product.id)} className="rounded-full border border-cyan-400/25 bg-cyan-400/10 px-4 py-2 text-center text-sm font-semibold text-cyan-100 transition-all duration-300 hover:scale-[1.04] hover:border-cyan-300/60 hover:bg-cyan-300/18">{product.pricingMode === 'faixa-auditada' ? 'Comprar' : 'Orçar'}</Link><a href={buildWhatsAppQuote(product, quantity)} target="_blank" rel="noreferrer" className="rounded-full border border-emerald-300/25 bg-emerald-300/10 px-4 py-2 text-center text-xs font-semibold text-emerald-100 transition-all duration-300 hover:scale-[1.04] hover:border-emerald-300/60 hover:bg-emerald-300/18">WhatsApp</a></div></div>
               <div className="mt-4 flex flex-wrap gap-2"><button type="button" onClick={() => toggleFavorite(product.id)} className={`rounded-full border px-3 py-1 text-xs font-semibold ${isFavorite ? 'border-amber-300/30 bg-amber-300/12 text-amber-100' : 'border-white/10 bg-white/5 text-white/70'}`}>{isFavorite ? 'Favoritado' : 'Favoritar'}</button><button type="button" onClick={() => toggleCompare(product.id)} className={`rounded-full border px-3 py-1 text-xs font-semibold ${isCompared ? 'border-cyan-300/30 bg-cyan-300/12 text-cyan-100' : 'border-white/10 bg-white/5 text-white/70'}`}>{isCompared ? 'No comparador' : 'Comparar'}</button></div>
             </article>
           );

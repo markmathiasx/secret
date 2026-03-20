@@ -88,9 +88,9 @@ export default async function CatalogPage({ searchParams }: { searchParams?: Pro
 
       <CatalogRealCases />
 
-      <div className="relative isolate mt-10 overflow-hidden rounded-[36px] border border-cyan-200/20 shadow-[0_30px_90px_rgba(2,8,23,0.38)]">
+      <div className="relative isolate mt-10 overflow-hidden rounded-[36px] border border-cyan-200/35 shadow-[0_30px_90px_rgba(2,8,23,0.22)]">
         <video
-          className="absolute inset-0 h-full w-full object-cover opacity-28"
+          className="absolute inset-0 h-full w-full object-cover opacity-95"
           src="/assets/videos/hero-bg.mp4"
           poster="/assets/images/placeholders/hero-fallback.jpg"
           autoPlay
@@ -100,11 +100,11 @@ export default async function CatalogPage({ searchParams }: { searchParams?: Pro
           preload="metadata"
           aria-hidden
         />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_16%_18%,rgba(34,211,238,0.22),transparent_32%),radial-gradient(circle_at_84%_14%,rgba(16,185,129,0.18),transparent_30%),linear-gradient(180deg,rgba(2,6,23,0.64),rgba(2,6,23,0.78)_40%,rgba(2,6,23,0.9)_100%)]" />
-        <div className="pointer-events-none absolute inset-0 rounded-[36px] ring-1 ring-inset ring-white/26" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_14%_20%,rgba(34,211,238,0.12),transparent_34%),radial-gradient(circle_at_86%_16%,rgba(16,185,129,0.10),transparent_34%),linear-gradient(180deg,rgba(2,6,23,0.16),rgba(2,6,23,0.28)_42%,rgba(2,6,23,0.4)_100%)]" />
+        <div className="pointer-events-none absolute inset-0 rounded-[36px] ring-1 ring-inset ring-white/35" />
 
         <div className="relative p-3 md:p-4 lg:p-5">
-          <div className="rounded-[30px] border border-white/14 bg-white/[0.05] p-2 backdrop-blur-sm md:p-3">
+          <div className="rounded-[30px] border border-white/20 bg-white/[0.02] p-2 backdrop-blur-[3px] md:p-3">
             <CatalogExplorer
               products={catalog}
               initialQuery={initialQuery}
