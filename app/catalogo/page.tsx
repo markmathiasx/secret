@@ -19,7 +19,7 @@ export default async function CatalogPage({ searchParams }: { searchParams?: Pro
   const initialQuery = params?.q?.trim() || '';
   const initialCategory = params?.category && categories.includes(params.category) ? params.category : 'Todas';
   const initialCollection = params?.collection && collections.includes(params.collection) ? params.collection : 'Todas';
-  const initialVerifiedOnly = params?.mode === 'all' ? false : true;
+  const initialVerifiedOnly = params?.mode === 'verified';
   const initialAvailability = params?.status === 'Pronta entrega' || params?.status === 'Sob encomenda' ? params.status : 'Todos';
   const visualSummary = summarizeProductVisuals(catalog);
   const auditedPricingCount = catalog.filter((product) => product.pricingMode === 'faixa-auditada').length;

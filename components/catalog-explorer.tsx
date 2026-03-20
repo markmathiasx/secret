@@ -70,7 +70,7 @@ export function CatalogExplorer({
   initialQuery = '',
   initialCategory = 'Todas',
   initialCollection = 'Todas',
-  initialVerifiedOnly = true,
+  initialVerifiedOnly = false,
   initialAvailability = 'Todos',
 }: {
   products: Product[];
