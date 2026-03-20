@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { ArrowLeft, MessageCircleMore } from 'lucide-react';
 import { catalog, findProductBySlug } from '@/lib/catalog';
 import { ProductImageGallery } from '@/components/product-image-gallery';
+import { ProductRelatedShelf } from '@/components/product-related-shelf';
 import { ProductVisualBadge, ProductVisualNotice } from '@/components/product-visual-authenticity';
 import { QuoteForm } from '@/components/quote-form';
 import { formatCurrency } from '@/lib/utils';
@@ -251,6 +252,8 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       <div className="mt-12">
         <QuoteForm product={product} />
       </div>
+
+      <ProductRelatedShelf product={product} />
     </section>
     </>
   );

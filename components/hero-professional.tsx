@@ -16,7 +16,7 @@ const highlights = [
 
 const quickFacts = [
   { label: "Prova visual", value: "Fotos reais" },
-  { label: "Pagamento", value: "Pix e cartão" },
+  { label: "Pagamento", value: "Pix imediato" },
   { label: "Atendimento", value: "Humano" },
 ];
 

@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { CatalogExplorer } from '@/components/catalog-explorer';
+import { CatalogBuyingIntents } from '@/components/catalog-buying-intents';
 import { CatalogRealCases } from '@/components/catalog-real-cases';
 import { ComboBuilder } from '@/components/combo-builder';
 import { catalog } from '@/lib/catalog';
@@ -58,6 +59,8 @@ export default async function CatalogPage({ searchParams }: { searchParams?: Pro
           Foto real indica peça já produzida. Render do produto mostra a geometria real do modelo. Prévia do modelo aponta a direção visual da encomenda e é acompanhada de estimativa inicial para tamanho, acabamento e personalização.
         </p>
       </div>
+
+      <CatalogBuyingIntents products={catalog} />
 
       <CatalogRealCases />
 

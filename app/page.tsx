@@ -3,6 +3,7 @@ import { Hero } from "@/components/hero-professional";
 import { ProductTabs } from "@/components/product-tabs";
 import { STLUploader } from "@/components/stl-uploader";
 import { CatalogGrid } from "@/components/catalog-grid";
+import { HomeConversionLanes } from "@/components/home-conversion-lanes";
 import { TrustSignals } from "@/components/trust-signals";
 import { homepageCategories, materialsShowcase } from "@/lib/constants";
 import { verifiedCatalog } from "@/lib/verified-catalog";
@@ -58,9 +59,9 @@ export default function HomePage() {
         <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
           <div className="max-w-3xl">
             <p className="section-kicker">Portfólio validado</p>
-            <h2 className="section-title">Projetos com foto real para vender com mais confiança.</h2>
+            <h2 className="section-title">Peças já produzidas para o cliente comprar com mais segurança.</h2>
             <p className="section-copy mt-4">
-              A abertura da loja prioriza peças com imagem validada para reduzir ruído entre expectativa e entrega. Isso fortalece a decisão de compra e dá mais segurança ao cliente.
+              A entrada da loja prioriza peças com foto real para ajudar o cliente a decidir mais rápido, comparar acabamento e confiar no resultado final antes de pagar.
             </p>
           </div>
           <div className="grid gap-3 sm:grid-cols-3">
@@ -85,6 +86,8 @@ export default function HomePage() {
           </Link>
         </div>
       </section>
+
+      <HomeConversionLanes />
 
       <section className="mx-auto max-w-7xl px-6 py-8">
         <div className="grid gap-5 lg:grid-cols-3">
