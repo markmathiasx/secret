@@ -88,15 +88,33 @@ export default async function CatalogPage({ searchParams }: { searchParams?: Pro
 
       <CatalogRealCases />
 
-      <div className="mt-10">
-        <CatalogExplorer
-          products={catalog}
-          initialQuery={initialQuery}
-          initialCategory={initialCategory}
-          initialCollection={initialCollection}
-          initialVerifiedOnly={initialVerifiedOnly}
-          initialAvailability={initialAvailability}
+      <div className="relative isolate mt-10 overflow-hidden rounded-[36px] border border-cyan-200/20 shadow-[0_30px_90px_rgba(2,8,23,0.38)]">
+        <video
+          className="absolute inset-0 h-full w-full object-cover opacity-28"
+          src="/assets/videos/hero-bg.mp4"
+          poster="/assets/images/placeholders/hero-fallback.jpg"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          aria-hidden
         />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_16%_18%,rgba(34,211,238,0.22),transparent_32%),radial-gradient(circle_at_84%_14%,rgba(16,185,129,0.18),transparent_30%),linear-gradient(180deg,rgba(2,6,23,0.64),rgba(2,6,23,0.78)_40%,rgba(2,6,23,0.9)_100%)]" />
+        <div className="pointer-events-none absolute inset-0 rounded-[36px] ring-1 ring-inset ring-white/26" />
+
+        <div className="relative p-3 md:p-4 lg:p-5">
+          <div className="rounded-[30px] border border-white/14 bg-white/[0.05] p-2 backdrop-blur-sm md:p-3">
+            <CatalogExplorer
+              products={catalog}
+              initialQuery={initialQuery}
+              initialCategory={initialCategory}
+              initialCollection={initialCollection}
+              initialVerifiedOnly={initialVerifiedOnly}
+              initialAvailability={initialAvailability}
+            />
+          </div>
+        </div>
       </div>
 
       <div className="mt-16">
