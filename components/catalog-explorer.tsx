@@ -219,9 +219,9 @@ export function CatalogExplorer({
   }
 
   return (
-    <div className="space-y-6">
-      <div className="glass-panel p-3 sm:p-4 md:p-5">
-        <div className="grid gap-3 md:gap-4 xl:grid-cols-3 2xl:grid-cols-[1.1fr_0.42fr_0.42fr_0.42fr_0.42fr_0.42fr_0.42fr]">
+    <div className="catalog-explorer-root space-y-6">
+      <div className="catalog-filter-shell glass-panel p-3 sm:p-4 md:p-5">
+        <div className="catalog-filter-grid grid gap-3 md:gap-4 xl:grid-cols-3 2xl:grid-cols-[1.1fr_0.42fr_0.42fr_0.42fr_0.42fr_0.42fr_0.42fr]">
           <label className="text-sm text-white/70"><span className="mb-2 block">Buscar</span><input value={query} onChange={(event) => { setQuery(event.target.value); safeSetPage(1); }} placeholder="Ex: vaso, suporte, anime..." className="field-base" /></label>
           <label className="text-sm text-white/70"><span className="mb-2 block">Categoria</span><select value={category} onChange={(event) => { setCategory(event.target.value); safeSetPage(1); }} className="field-base"><option>Todas</option>{categories.map((item) => <option key={item}>{item}</option>)}</select></label>
           <label className="text-sm text-white/70"><span className="mb-2 block">Coleção</span><select value={collection} onChange={(event) => { setCollection(event.target.value); safeSetPage(1); }} className="field-base"><option>Todas</option>{collections.map((item) => <option key={item}>{item}</option>)}</select></label>
@@ -261,7 +261,7 @@ export function CatalogExplorer({
         </div>
       ) : null}
 
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+      <div className="catalog-products-grid grid gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
         {visibleItems.map((product) => {
           const isFavorite = favoriteIds.includes(product.id);
           const isCompared = compareIds.includes(product.id);
@@ -272,7 +272,7 @@ export function CatalogExplorer({
           return (
             <article
               key={product.id}
-              className={`group relative overflow-hidden rounded-[28px] border p-5 transition-all duration-500 hover:-translate-y-2 hover:scale-[1.018] ${
+              className={`catalog-product-card group relative overflow-hidden rounded-[28px] border p-5 transition-all duration-500 hover:-translate-y-2 hover:scale-[1.018] ${
                 isProductVisualVerified(product)
                   ? 'border-white/10 bg-card hover:border-cyan-200/45 hover:shadow-[0_24px_70px_rgba(34,211,238,0.24)]'
                   : 'border-amber-300/20 bg-[linear-gradient(180deg,rgba(245,158,11,0.10),rgba(255,255,255,0.03))] hover:border-amber-300/40 hover:shadow-[0_24px_70px_rgba(245,158,11,0.24)]'

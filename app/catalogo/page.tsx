@@ -34,15 +34,15 @@ export default async function CatalogPage({ searchParams }: { searchParams?: Pro
     : 'A vitrine abre destacando peças com foto real e visuais já validados. Quando um item ainda está em fase de projeto, o catálogo assume isso com transparência e mostra uma estimativa inicial para encomenda.';
 
   return (
-    <section className="mx-auto w-full max-w-7xl px-3 pb-14 pt-24 sm:px-4 md:px-6 md:py-16">
-      <div className="overflow-hidden rounded-[28px] border border-white/12 bg-[radial-gradient(circle_at_top_left,rgba(34,211,238,0.18),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(16,185,129,0.16),transparent_28%),linear-gradient(135deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02))] p-4 shadow-[0_24px_80px_rgba(2,8,23,0.32)] sm:p-6 md:rounded-[40px] md:p-8">
+    <section className="catalog-page-shell mx-auto w-full max-w-7xl px-3 pb-14 pt-24 sm:px-4 md:px-6 md:py-16">
+      <div className="catalog-hero-shell overflow-hidden rounded-[28px] border border-white/12 bg-[radial-gradient(circle_at_top_left,rgba(34,211,238,0.18),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(16,185,129,0.16),transparent_28%),linear-gradient(135deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02))] p-4 shadow-[0_24px_80px_rgba(2,8,23,0.32)] sm:p-6 md:rounded-[40px] md:p-8">
         <div className="grid gap-6 md:gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
           <div className="max-w-3xl">
             <p className="text-xs uppercase tracking-[0.22em] text-cyan-200">Catálogo MDH 3D</p>
-            <h1 className="mt-3 break-words text-3xl font-black leading-[1.06] text-white sm:text-4xl md:text-5xl">{heroTitle}</h1>
+            <h1 className="catalog-hero-title mt-3 break-words text-3xl font-black leading-[1.06] text-white sm:text-4xl md:text-5xl">{heroTitle}</h1>
             <p className="mt-4 text-base leading-7 text-white/72 md:text-lg md:leading-8">{heroDescription}</p>
             {activeLens ? (
-              <div className="mt-5 inline-flex max-w-full rounded-full border border-cyan-300/25 bg-cyan-300/10 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-cyan-100 md:text-xs md:tracking-[0.18em]">
+              <div className="catalog-active-lens mt-5 inline-flex max-w-full rounded-full border border-cyan-300/25 bg-cyan-300/10 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-cyan-100 md:text-xs md:tracking-[0.18em]">
                 {activeLens}
               </div>
             ) : null}
@@ -88,7 +88,7 @@ export default async function CatalogPage({ searchParams }: { searchParams?: Pro
 
       <CatalogRealCases />
 
-      <div className="relative isolate mt-8 overflow-hidden rounded-[28px] border border-cyan-200/45 shadow-[0_28px_84px_rgba(2,8,23,0.18)] md:mt-10 md:rounded-[36px]">
+      <div className="catalog-video-shell relative isolate mt-8 overflow-hidden rounded-[28px] border border-cyan-200/45 shadow-[0_28px_84px_rgba(2,8,23,0.18)] md:mt-10 md:rounded-[36px]">
         <video
           className="absolute inset-0 h-full w-full object-cover opacity-[0.98]"
           src="/assets/videos/hero-bg.mp4"
@@ -103,8 +103,8 @@ export default async function CatalogPage({ searchParams }: { searchParams?: Pro
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_14%_20%,rgba(34,211,238,0.10),transparent_36%),radial-gradient(circle_at_86%_16%,rgba(16,185,129,0.08),transparent_36%),linear-gradient(180deg,rgba(2,6,23,0.06),rgba(2,6,23,0.12)_45%,rgba(2,6,23,0.18)_100%)]" />
         <div className="pointer-events-none absolute inset-0 rounded-[28px] ring-1 ring-inset ring-white/40 md:rounded-[36px]" />
 
-        <div className="relative p-2.5 md:p-4 lg:p-5">
-          <div className="rounded-[24px] border border-white/20 bg-white/[0.02] p-1.5 backdrop-blur-[2px] md:rounded-[30px] md:p-3">
+        <div className="catalog-video-content relative p-2.5 md:p-4 lg:p-5">
+          <div className="catalog-video-inner rounded-[24px] border border-white/20 bg-white/[0.02] p-1.5 backdrop-blur-[2px] md:rounded-[30px] md:p-3">
             <CatalogExplorer
               products={catalog}
               initialQuery={initialQuery}
