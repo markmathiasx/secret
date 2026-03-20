@@ -80,9 +80,12 @@ export default function HomePage() {
 
         <CatalogGrid products={realShowcase} />
 
-        <div className="mt-8 text-center">
-          <Link href="/catalogo" className="btn-primary px-8 py-4">
-            Ver catálogo completo
+        <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
+          <Link href="/catalogo?mode=verified" className="btn-primary px-8 py-4">
+            Ver peças com visual validado
+          </Link>
+          <Link href="/presentes-3d" className="btn-secondary px-8 py-4">
+            Entrar por presentes
           </Link>
         </div>
       </section>
@@ -175,6 +178,9 @@ export default function HomePage() {
           <div className="mt-8 flex flex-col justify-center gap-4 sm:flex-row">
             <Link href="/checkout" className="btn-primary px-8 py-4">
               Ir para o checkout
+            </Link>
+            <Link href="/brindes-personalizados-3d" className="btn-secondary px-8 py-4">
+              Ver brindes e lotes
             </Link>
             <Link href="/imagem-para-impressao-3d" className="btn-secondary px-8 py-4">
               Enviar referência

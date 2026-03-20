@@ -70,6 +70,15 @@ export function SiteFooter() {
             <Link href="/catalogo" className="transition hover:text-cyan-glow">
               Escolher um produto
             </Link>
+            <Link href="/presentes-3d" className="transition hover:text-cyan-glow">
+              Presentes 3D
+            </Link>
+            <Link href="/setup-e-organizacao-3d" className="transition hover:text-cyan-glow">
+              Setup e organização
+            </Link>
+            <Link href="/brindes-personalizados-3d" className="transition hover:text-cyan-glow">
+              Brindes e lotes
+            </Link>
             <Link href="/checkout" className="transition hover:text-cyan-glow">
               Fechar pedido
             </Link>

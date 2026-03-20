@@ -8,8 +8,8 @@ const lanes = [
     title: "Comprar algo pronto para pedir",
     description: "Comece pelas peças com foto real, preço confirmado e caminho direto para checkout.",
     proof: "Foto real • preço claro • Pix em destaque",
-    href: "/catalogo",
-    cta: "Ver catálogo",
+    href: "/catalogo?mode=verified",
+    cta: "Ver peças validadas",
     icon: Gift,
   },
   {

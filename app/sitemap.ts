@@ -8,6 +8,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages = [
     "",
     "/catalogo",
+    "/presentes-3d",
+    "/brindes-personalizados-3d",
+    "/setup-e-organizacao-3d",
+    "/colecionaveis-geek-3d",
+    "/decoracao-3d-para-casa",
     "/divulgacao",
     "/login",
     "/politica-de-privacidade",

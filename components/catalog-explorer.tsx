@@ -11,7 +11,31 @@ import { isProductVisualVerified } from '@/lib/product-visuals';
 
 const PAGE_SIZE = 25;
 
-export function CatalogExplorer({ products, initialQuery = '' }: { products: Product[]; initialQuery?: string }) {
+type CatalogAvailability = 'Todos' | Product['status'];
+
+function sanitizeOption(value: string | undefined, options: string[]) {
+  return value && options.includes(value) ? value : 'Todas';
+}
+
+function sanitizeAvailability(value: CatalogAvailability | undefined): CatalogAvailability {
+  return value === 'Pronta entrega' || value === 'Sob encomenda' ? value : 'Todos';
+}
+
+export function CatalogExplorer({
+  products,
+  initialQuery = '',
+  initialCategory = 'Todas',
+  initialCollection = 'Todas',
+  initialVerifiedOnly = true,
+  initialAvailability = 'Todos',
+}: {
+  products: Product[];
+  initialQuery?: string;
+  initialCategory?: string;
+  initialCollection?: string;
+  initialVerifiedOnly?: boolean;
+  initialAvailability?: CatalogAvailability;
+}) {
   const priceLimits = useMemo(() => {
     const values = products.map((item) => item.pricePix);
     const min = Math.max(10, Math.floor(Math.min(...values) / 10) * 10);
@@ -19,17 +43,23 @@ export function CatalogExplorer({ products, initialQuery = '' }: { products: Pro
     return { min, max };
   }, [products]);
   const [query, setQuery] = useState(initialQuery);
-  const [category, setCategory] = useState('Todas');
-  const [collection, setCollection] = useState('Todas');
+  const [category, setCategory] = useState(sanitizeOption(initialCategory, categories));
+  const [collection, setCollection] = useState(sanitizeOption(initialCollection, collections));
   const [page, setPage] = useState(1);
   const [order, setOrder] = useState('Mais Recentes');
   const [priceRange, setPriceRange] = useState<[number, number]>([priceLimits.min, priceLimits.max]);
-  const [verifiedOnly, setVerifiedOnly] = useState(true);
+  const [verifiedOnly, setVerifiedOnly] = useState(initialVerifiedOnly);
+  const [availability, setAvailability] = useState<CatalogAvailability>(sanitizeAvailability(initialAvailability));
 
   useEffect(() => {
     setQuery(initialQuery);
+    setCategory(sanitizeOption(initialCategory, categories));
+    setCollection(sanitizeOption(initialCollection, collections));
+    setVerifiedOnly(initialVerifiedOnly);
+    setAvailability(sanitizeAvailability(initialAvailability));
+    setPriceRange([priceLimits.min, priceLimits.max]);
     setPage(1);
-  }, [initialQuery]);
+  }, [initialAvailability, initialCategory, initialCollection, initialQuery, initialVerifiedOnly, priceLimits.max, priceLimits.min]);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -39,9 +69,10 @@ export function CatalogExplorer({ products, initialQuery = '' }: { products: Pro
         : buildProductSearchText(item).includes(q);
       const matchCategory = category === 'Todas' ? true : item.category === category;
       const matchCollection = collection === 'Todas' ? true : item.collection === collection;
+      const matchAvailability = availability === 'Todos' ? true : item.status === availability;
       const matchPrice = item.pricePix >= priceRange[0] && item.pricePix <= priceRange[1];
       const matchVerified = verifiedOnly ? isProductVisualVerified(item) : true;
-      return matchQuery && matchCategory && matchCollection && matchPrice && matchVerified;
+      return matchQuery && matchCategory && matchCollection && matchAvailability && matchPrice && matchVerified;
     });
     if (order === 'Preço') {
       items = items.sort((a, b) => a.pricePix - b.pricePix);
@@ -51,26 +82,64 @@ export function CatalogExplorer({ products, initialQuery = '' }: { products: Pro
       items = items.sort((a, b) => b.id.localeCompare(a.id));
     }
     return items;
-  }, [products, query, category, collection, order, priceRange, verifiedOnly]);
+  }, [products, query, category, collection, availability, order, priceRange, verifiedOnly]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
   const currentPage = Math.min(page, totalPages);
   const visibleItems = filtered.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
+  const readyCount = filtered.filter((item) => item.status === 'Pronta entrega').length;
 
   function resetFilters() {
-    setQuery('');
-    setCategory('Todas');
-    setCollection('Todas');
+    setQuery(initialQuery);
+    setCategory(sanitizeOption(initialCategory, categories));
+    setCollection(sanitizeOption(initialCollection, collections));
     setOrder('Mais Recentes');
     setPriceRange([priceLimits.min, priceLimits.max]);
-    setVerifiedOnly(true);
+    setVerifiedOnly(initialVerifiedOnly);
+    setAvailability(sanitizeAvailability(initialAvailability));
+    setPage(1);
+  }
+
+  function applyPreset(preset: 'verified' | 'utilidades' | 'setup' | 'presentes' | 'premium') {
+    setQuery('');
+    setCollection('Todas');
+    setAvailability('Todos');
+    setOrder('Mais Recentes');
+    setPriceRange([priceLimits.min, priceLimits.max]);
+
+    if (preset === 'verified') {
+      setCategory('Todas');
+      setVerifiedOnly(true);
+    }
+
+    if (preset === 'utilidades') {
+      setCategory('Utilidades Reais');
+      setVerifiedOnly(false);
+    }
+
+    if (preset === 'setup') {
+      setCategory('Setup & Organização');
+      setVerifiedOnly(false);
+    }
+
+    if (preset === 'presentes') {
+      setCategory('Presentes Criativos');
+      setVerifiedOnly(false);
+    }
+
+    if (preset === 'premium') {
+      setCategory('Presentes Criativos');
+      setQuery('personalizado');
+      setVerifiedOnly(false);
+    }
+
     setPage(1);
   }
 
   return (
     <div className="space-y-6">
       <div className="glass-panel p-5">
-        <div className="grid gap-4 lg:grid-cols-[1.2fr_0.4fr_0.4fr_0.4fr_0.4fr]">
+        <div className="grid gap-4 xl:grid-cols-[1.15fr_0.42fr_0.42fr_0.42fr_0.42fr_0.42fr]">
           <label className="text-sm text-white/70">
             <span className="mb-2 block">Buscar projeto</span>
             <input
@@ -119,6 +188,22 @@ export function CatalogExplorer({ products, initialQuery = '' }: { products: Pro
             </select>
           </label>
           <label className="text-sm text-white/70">
+            <span className="mb-2 block">Disponibilidade</span>
+            <select
+              value={availability}
+              onChange={(e) => {
+                setAvailability(e.target.value as CatalogAvailability);
+                setPage(1);
+              }}
+              className="field-base"
+              aria-label="Filtrar por disponibilidade"
+            >
+              <option>Todos</option>
+              <option>Pronta entrega</option>
+              <option>Sob encomenda</option>
+            </select>
+          </label>
+          <label className="text-sm text-white/70">
             <span className="mb-2 block">Ordenar</span>
             <select
               value={order}
@@ -159,6 +244,44 @@ export function CatalogExplorer({ products, initialQuery = '' }: { products: Pro
             </div>
           </label>
         </div>
+        <div className="mt-4 flex flex-wrap items-center gap-2">
+          <span className="text-xs uppercase tracking-[0.18em] text-white/45">Atalhos</span>
+          <button
+            type="button"
+            onClick={() => applyPreset('verified')}
+            className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs font-semibold text-white/75 transition hover:border-white/20 hover:text-white"
+          >
+            Só com visual validado
+          </button>
+          <button
+            type="button"
+            onClick={() => applyPreset('utilidades')}
+            className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs font-semibold text-white/75 transition hover:border-white/20 hover:text-white"
+          >
+            Utilidades reais
+          </button>
+          <button
+            type="button"
+            onClick={() => applyPreset('setup')}
+            className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs font-semibold text-white/75 transition hover:border-white/20 hover:text-white"
+          >
+            Setup e organização
+          </button>
+          <button
+            type="button"
+            onClick={() => applyPreset('presentes')}
+            className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs font-semibold text-white/75 transition hover:border-white/20 hover:text-white"
+          >
+            Presentes criativos
+          </button>
+          <button
+            type="button"
+            onClick={() => applyPreset('premium')}
+            className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs font-semibold text-white/75 transition hover:border-white/20 hover:text-white"
+          >
+            Personalizados premium
+          </button>
+        </div>
         <div className="mt-4 flex flex-wrap items-center gap-3">
           <button
             type="button"
@@ -196,10 +319,12 @@ export function CatalogExplorer({ products, initialQuery = '' }: { products: Pro
             Limpar filtros
           </button>
         </div>
-      <div className="mt-4 flex flex-wrap items-center gap-3 text-sm text-white/60">
+        <div className="mt-4 flex flex-wrap items-center gap-3 text-sm text-white/60">
           <span>{filtered.length} produtos encontrados</span>
           <span className="h-1 w-1 rounded-full bg-white/30" />
           <span>{verifiedOnly ? 'Exibindo primeiro peças com foto real ou render do produto' : 'Exibindo também projetos sob medida com prévia visual e estimativa inicial'}</span>
+          <span className="h-1 w-1 rounded-full bg-white/30" />
+          <span>{readyCount} com pronta entrega</span>
           <span className="h-1 w-1 rounded-full bg-white/30" />
           <span>Página {currentPage} de {totalPages}</span>
         </div>

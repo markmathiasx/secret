@@ -3,14 +3,35 @@ import { CatalogExplorer } from '@/components/catalog-explorer';
 import { CatalogBuyingIntents } from '@/components/catalog-buying-intents';
 import { CatalogRealCases } from '@/components/catalog-real-cases';
 import { ComboBuilder } from '@/components/combo-builder';
-import { catalog } from '@/lib/catalog';
+import { catalog, categories, collections } from '@/lib/catalog';
 import { summarizeProductVisuals } from '@/lib/product-visuals';
 
-export default async function CatalogPage({ searchParams }: { searchParams?: Promise<{ q?: string }> }) {
+type CatalogPageSearchParams = {
+  q?: string;
+  category?: string;
+  collection?: string;
+  mode?: string;
+  status?: string;
+};
+
+export default async function CatalogPage({ searchParams }: { searchParams?: Promise<CatalogPageSearchParams> }) {
   const params = searchParams ? await searchParams : undefined;
   const initialQuery = params?.q?.trim() || '';
+  const initialCategory = params?.category && categories.includes(params.category) ? params.category : 'Todas';
+  const initialCollection = params?.collection && collections.includes(params.collection) ? params.collection : 'Todas';
+  const initialVerifiedOnly = params?.mode === 'all' ? false : true;
+  const initialAvailability = params?.status === 'Pronta entrega' || params?.status === 'Sob encomenda' ? params.status : 'Todos';
   const visualSummary = summarizeProductVisuals(catalog);
   const auditedPricingCount = catalog.filter((product) => product.pricingMode === 'faixa-auditada').length;
+  const activeLens = [initialCategory !== 'Todas' ? initialCategory : null, initialCollection !== 'Todas' ? initialCollection : null, initialQuery ? `Busca: ${initialQuery}` : null, initialAvailability !== 'Todos' ? initialAvailability : null]
+    .filter(Boolean)
+    .join(' • ');
+  const heroTitle = activeLens
+    ? 'Catálogo filtrado para chegar mais rápido no tipo de peça certa.'
+    : 'Peças reais, projetos sob medida e preços claros para comprar com segurança.';
+  const heroDescription = activeLens
+    ? 'Os filtros da URL agora entram ativos na vitrine para você compartilhar uma seleção pronta de presentes, utilidades, colecionáveis ou peças sob medida.'
+    : 'A vitrine abre destacando peças com foto real e visuais já validados. Quando um item ainda está em fase de projeto, o catálogo assume isso com transparência e mostra uma estimativa inicial para encomenda.';
 
   return (
     <section className="mx-auto max-w-7xl px-6 py-16">
@@ -18,10 +39,13 @@ export default async function CatalogPage({ searchParams }: { searchParams?: Pro
         <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
           <div className="max-w-3xl">
             <p className="text-xs uppercase tracking-[0.22em] text-cyan-200">Catálogo MDH 3D</p>
-            <h1 className="mt-3 text-4xl font-black text-white sm:text-5xl">Peças reais, projetos sob medida e preços claros para comprar com segurança.</h1>
-            <p className="mt-4 text-lg leading-8 text-white/68">
-              A vitrine abre destacando peças com foto real e visuais já validados. Quando um item ainda está em fase de projeto, o catálogo assume isso com transparência e mostra uma estimativa inicial para encomenda.
-            </p>
+            <h1 className="mt-3 text-4xl font-black text-white sm:text-5xl">{heroTitle}</h1>
+            <p className="mt-4 text-lg leading-8 text-white/68">{heroDescription}</p>
+            {activeLens ? (
+              <div className="mt-5 inline-flex rounded-full border border-cyan-300/25 bg-cyan-300/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-cyan-100">
+                {activeLens}
+              </div>
+            ) : null}
             <div className="mt-6 flex flex-wrap gap-3">
               <Link
                 href="#catalogo-real"
@@ -65,7 +89,14 @@ export default async function CatalogPage({ searchParams }: { searchParams?: Pro
       <CatalogRealCases />
 
       <div className="mt-10">
-        <CatalogExplorer products={catalog} initialQuery={initialQuery} />
+        <CatalogExplorer
+          products={catalog}
+          initialQuery={initialQuery}
+          initialCategory={initialCategory}
+          initialCollection={initialCollection}
+          initialVerifiedOnly={initialVerifiedOnly}
+          initialAvailability={initialAvailability}
+        />
       </div>
 
       <div className="mt-16">

@@ -19,7 +19,7 @@ const intents: BuyingIntent[] = [
     id: "presentes",
     title: "Presentes até R$ 80",
     description: "Itens com boa percepção de presente, entrada mais rápida e valor mais leve para fechar no mesmo dia.",
-    href: "/catalogo?q=presente",
+    href: "/presentes-3d",
     cta: "Ver presentes",
     match: (product) =>
       product.pricePix <= 80 &&
@@ -29,7 +29,7 @@ const intents: BuyingIntent[] = [
     id: "setup",
     title: "Setup e utilidades",
     description: "Peças funcionais para mesa, bancada, banheiro, controle, headphone e uso diário.",
-    href: "/catalogo?q=suporte",
+    href: "/setup-e-organizacao-3d",
     cta: "Ver utilidades",
     match: (product) =>
       /(utilidade|setup|suporte|organizador|bancada|controle|headphone|fone|banheiro)/i.test(
@@ -40,7 +40,7 @@ const intents: BuyingIntent[] = [
     id: "foto-real",
     title: "Geek com foto real",
     description: "Peças já fotografadas no ateliê para reduzir dúvida visual e ajudar a vender pelo impacto da peça pronta.",
-    href: "#catalogo-real",
+    href: "/colecionaveis-geek-3d",
     cta: "Ver peças reais",
     match: (product) => isProductVisualVerified(product) && /(geek|colecion|anime|miniatura|chibi)/i.test([product.category, product.subcategory, product.theme, product.name].join(" ")),
   },
@@ -48,7 +48,7 @@ const intents: BuyingIntent[] = [
     id: "premium",
     title: "Personalizados premium",
     description: "Miniaturas afetivas, peças pintadas e projetos sob medida com ticket mais alto e maior valor percebido.",
-    href: "/catalogo?q=personalizado",
+    href: "/brindes-personalizados-3d",
     cta: "Ver premium",
     match: (product) => product.customizable && product.pricePix >= 150,
   },

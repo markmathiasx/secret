@@ -100,7 +100,7 @@ export const homepageCategories: any[] = [
     label: "Anime & Geek",
     title: "Colecionáveis com acabamento premium",
     description: "Miniaturas, bustos, peças kawaii e itens de fandom com janela rápida de produção no RJ.",
-    href: "/catalogo?category=Anime%20%26%20Geek",
+    href: "/colecionaveis-geek-3d",
     cta: "Explorar anime e geek",
   },
   {
@@ -108,7 +108,7 @@ export const homepageCategories: any[] = [
     label: "Setup & Organização",
     title: "Suportes, docks e organizadores que resolvem o dia a dia",
     description: "Soluções práticas para celular, fone, controle, cabos e estação de trabalho.",
-    href: "/catalogo?category=Setup%20%26%20Organiza%C3%A7%C3%A3o",
+    href: "/setup-e-organizacao-3d",
     cta: "Ver setup e organização",
   },
   {
@@ -116,7 +116,7 @@ export const homepageCategories: any[] = [
     label: "Casa & Decoração",
     title: "Peças leves para presentear e decorar",
     description: "Vasos, luminárias, porta-copos e utilidades com cara de produto de loja séria.",
-    href: "/catalogo?category=Casa%20%26%20Decora%C3%A7%C3%A3o",
+    href: "/decoracao-3d-para-casa",
     cta: "Conhecer decoração",
   },
 ];
