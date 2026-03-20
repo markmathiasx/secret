@@ -9,6 +9,9 @@ export type SalesLandingConfig = {
   kicker: string;
   title: string;
   description: string;
+  heroImage?: string;
+  heroImageAlt?: string;
+  heroImageLabel?: string;
   proofPoints: string[];
   primaryCta: {
     label: string;
@@ -48,6 +51,9 @@ export const salesLandings = {
     title: "Presentes com visual forte, faixa de entrada clara e peças que já ajudam a fechar hoje.",
     description:
       "Essa página foi organizada para quem quer presentear sem perder tempo. Primeiro entram peças com melhor percepção de valor, depois a seleção completa de presentes, lembranças e personalizados.",
+    heroImage: "/landing-assets/presentes-hero-v2.webp",
+    heroImageAlt: "Hero comercial de presentes 3D com miniatura de família personalizada",
+    heroImageLabel: "Hero IA com referência real",
     proofPoints: ["Faixa de entrada enxuta", "Peças com foto real no topo", "Atendimento humano para personalizar"],
     primaryCta: {
       label: "Ver peças para presente",
@@ -78,6 +84,9 @@ export const salesLandings = {
     title: "Brindes personalizados com produção local, leitura rápida de lote e peças que funcionam bem em evento, marca e lembrança.",
     description:
       "A seleção abaixo foi montada para quem precisa vender ou encomendar em quantidade. Entram primeiro formatos simples de replicar, com boa margem visual e caminho direto para atendimento comercial.",
+    heroImage: "/products/foto-011-chaveiro-maconaria.webp",
+    heroImageAlt: "Foto real de medalha e chaveiro personalizado em mesa de apresentação",
+    heroImageLabel: "Foto real do ateliê",
     proofPoints: ["Chaveiros, medalhas e nomes 3D", "Fluxo claro para lote", "WhatsApp comercial direto"],
     primaryCta: {
       label: "Abrir seleção de brindes",
@@ -109,6 +118,9 @@ export const salesLandings = {
     title: "Utilidades que resolvem uso real de mesa, bancada, banheiro e estação de trabalho sem cara de peça improvisada.",
     description:
       "Essa linha concentra peças com apelo funcional. Primeiro entram utilidades com melhor leitura de uso; depois você pode navegar suportes, organizadores e bases para setup completo.",
+    heroImage: "/landing-assets/setup-hero-v2.webp",
+    heroImageAlt: "Hero comercial de utilidade 3D em bancada limpa com acabamento funcional",
+    heroImageLabel: "Hero IA com referência real",
     proofPoints: ["Suportes e organizadores", "Faixas de preço para compra rápida", "Boa seleção para rotina e presente útil"],
     primaryCta: {
       label: "Ver setup e utilidades",
@@ -140,6 +152,9 @@ export const salesLandings = {
     title: "Colecionáveis com apelo visual mais forte, melhor leitura de acabamento e peças que funcionam bem para fandom, setup e presente.",
     description:
       "A ideia aqui é reduzir a sensação de catálogo genérico. Entram primeiro as peças com visual validado e depois a seleção mais ampla de colecionáveis, chibis e miniaturas do acervo.",
+    heroImage: "/landing-assets/geek-hero.webp",
+    heroImageAlt: "Hero comercial de colecionável geek 3D em fundo escuro com clima premium",
+    heroImageLabel: "Hero IA com referência real",
     proofPoints: ["Peças reais no topo", "Foco em fandom e presente geek", "Separação clara entre visual validado e sob encomenda"],
     primaryCta: {
       label: "Ver geek com visual validado",
@@ -170,6 +185,9 @@ export const salesLandings = {
     title: "Peças de decoração com cara de produto de loja séria, boas para nicho, aparador, setup e presente de casa nova.",
     description:
       "Essa seleção prioriza objetos que deixam o ambiente mais interessante sem parecer catálogo improvisado. Vasos, luminárias, porta-copos e peças de composição entram com foco em apresentação.",
+    heroImage: "/landing-assets/decoracao-hero-v2.webp",
+    heroImageAlt: "Hero comercial de decoração 3D com peça decorativa em cenário controlado",
+    heroImageLabel: "Hero IA com referência real",
     proofPoints: ["Vasos, luminárias e porta-copos", "Boa entrada para presente leve", "Mistura de decor e utilidade"],
     primaryCta: {
       label: "Ver decoração 3D",

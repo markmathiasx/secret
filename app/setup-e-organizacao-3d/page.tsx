@@ -10,6 +10,17 @@ export const metadata: Metadata = {
   alternates: {
     canonical: config.slug,
   },
+  openGraph: {
+    title: config.seoTitle,
+    description: config.seoDescription,
+    images: config.heroImage ? [config.heroImage] : [],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: config.seoTitle,
+    description: config.seoDescription,
+    images: config.heroImage ? [config.heroImage] : [],
+  },
 };
 
 export default function SetupEOrganizacao3DPage() {

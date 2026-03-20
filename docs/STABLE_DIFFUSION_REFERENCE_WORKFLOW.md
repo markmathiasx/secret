@@ -19,6 +19,21 @@ This workflow exists to improve catalog visuals without inventing fake products 
 pip install diffusers transformers accelerate safetensors pillow
 ```
 
+## MDH local path policy
+
+For this machine, the Stable Diffusion runtime and caches should stay on `D:`:
+
+- extra site-packages: `D:\ai-runtime\sd-site-packages`
+- Hugging Face cache: `D:\ai-cache\huggingface`
+- Torch cache: `D:\ai-cache\torch`
+- pip cache: `D:\ai-cache\pip`
+
+The helper runner below already applies this layout:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts/run_sd_reference.ps1 --manifest tmp\imagegen\your-manifest.json
+```
+
 ## Single image generation
 
 ```powershell

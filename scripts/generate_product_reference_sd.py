@@ -19,6 +19,8 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
+import sys
 from pathlib import Path
 from typing import Any
 
@@ -31,6 +33,9 @@ def fail(message: str) -> None:
 
 def load_runtime():
     try:
+        extra_site_packages = os.environ.get("MDH_SD_SITE_PACKAGES", "").strip()
+        if extra_site_packages and extra_site_packages not in sys.path:
+            sys.path.append(extra_site_packages)
         import torch  # type: ignore
         from diffusers import AutoPipelineForImage2Image  # type: ignore
     except Exception as exc:  # pragma: no cover

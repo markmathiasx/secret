@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { CatalogExplorer } from "@/components/catalog-explorer";
 import { CatalogGrid } from "@/components/catalog-grid";
+import { SafeProductImage } from "@/components/safe-product-image";
 import { catalog } from "@/lib/catalog";
 import { type SalesLandingConfig, getLandingHighlights, getLandingProducts, salesLandings } from "@/lib/sales-landings";
 import { isProductVisualVerified } from "@/lib/product-visuals";
@@ -15,6 +16,8 @@ export function SalesLandingPage({ config }: { config: SalesLandingConfig }) {
   const readyCount = matchingProducts.filter((product) => product.status === "Pronta entrega").length;
   const minPrice = matchingProducts.length ? Math.min(...matchingProducts.map((product) => product.pricePix)) : null;
   const relatedLandings = allLandingConfigs.filter((item) => item.slug !== config.slug).slice(0, 4);
+  const leadVisual = highlights[0] ?? matchingProducts[0];
+  const heroCandidates = [config.heroImage, leadVisual?.image, leadVisual?.images?.[0]].filter(Boolean) as string[];
 
   return (
     <section className="mx-auto max-w-7xl px-6 py-16">
@@ -47,17 +50,42 @@ export function SalesLandingPage({ config }: { config: SalesLandingConfig }) {
             </div>
           </div>
 
-          <div className="grid gap-3 sm:grid-cols-3">
-            {[
-              { label: "Itens na seleção", value: String(matchingProducts.length).padStart(2, "0") },
-              { label: "Visual validado", value: String(verifiedCount).padStart(2, "0") },
-              { label: "Faixa de entrada", value: minPrice ? formatCurrency(minPrice) : "Sob consulta" },
-            ].map((item) => (
-              <div key={item.label} className="rounded-[28px] border border-white/10 bg-black/20 p-5">
-                <p className="text-xs uppercase tracking-[0.18em] text-white/45">{item.label}</p>
-                <p className="mt-3 text-3xl font-black text-white">{item.value}</p>
+          <div className="space-y-3">
+            {heroCandidates.length ? (
+              <div className="relative overflow-hidden rounded-[32px] border border-white/10 bg-black/25">
+                <SafeProductImage
+                  candidates={heroCandidates}
+                  alt={config.heroImageAlt || leadVisual?.name || config.title}
+                  className="aspect-[4/5] w-full object-cover"
+                  priority
+                />
+                <div className="absolute inset-x-0 top-0 p-4">
+                  <span className="inline-flex rounded-full border border-white/15 bg-black/40 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-white">
+                    {config.heroImageLabel || "Visual da linha"}
+                  </span>
+                </div>
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950 via-slate-950/70 to-transparent p-5">
+                  <p className="text-xs uppercase tracking-[0.18em] text-cyan-100/75">{leadVisual?.category || config.kicker}</p>
+                  <h2 className="mt-2 text-2xl font-black text-white">{leadVisual?.name || config.kicker}</h2>
+                  <p className="mt-2 max-w-md text-sm leading-6 text-white/72">
+                    {leadVisual?.description || "Linha visual pensada para abrir a navegação com mais confiança e mais apelo comercial."}
+                  </p>
+                </div>
               </div>
-            ))}
+            ) : null}
+
+            <div className="grid gap-3 sm:grid-cols-3">
+              {[
+                { label: "Itens na seleção", value: String(matchingProducts.length).padStart(2, "0") },
+                { label: "Visual validado", value: String(verifiedCount).padStart(2, "0") },
+                { label: "Faixa de entrada", value: minPrice ? formatCurrency(minPrice) : "Sob consulta" },
+              ].map((item) => (
+                <div key={item.label} className="rounded-[28px] border border-white/10 bg-black/20 p-5">
+                  <p className="text-xs uppercase tracking-[0.18em] text-white/45">{item.label}</p>
+                  <p className="mt-3 text-3xl font-black text-white">{item.value}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
