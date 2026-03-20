@@ -89,7 +89,7 @@ export default function CheckoutPage() {
             <div className="mt-6 rounded-[24px] border border-white/10 bg-black/20 p-5">
               <div className="relative aspect-square w-full">
                 <Image
-                  src={`/catalog-assets/${product.id}.webp`}
+                  src={product.images?.[0] || product.image || '/catalog-assets/product-placeholder.webp'}
                   alt={product.name}
                   fill
                   className="rounded-[20px] object-cover"

@@ -23,6 +23,7 @@ export function SafeProductImage({ product, candidates, alt, className, onResolv
   const [index, setIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const src = candidateList[index] || productPlaceholderSrc;
+  const isGif = /\.gif($|\?)/i.test(src);
 
   return (
     <>
@@ -35,6 +36,7 @@ export function SafeProductImage({ product, candidates, alt, className, onResolv
         src={src}
         alt={alt}
         fill
+        unoptimized={isGif}
         className={`${className} ${isLoading ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300`}
         loading="lazy"
         decoding="async"

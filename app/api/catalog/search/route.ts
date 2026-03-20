@@ -1,12 +1,32 @@
 import { NextResponse } from "next/server";
 import { catalog } from "@/lib/catalog";
 
-function score(item: any, q: string) {
-  const blob = [item.name, item.category, item.theme, item.description, ...(item.tags || [])].join(" ").toLowerCase();
+type SearchableProduct = (typeof catalog)[number];
+
+function score(item: SearchableProduct, q: string) {
+  const blob = [
+    item.name,
+    item.category,
+    item.subcategory,
+    item.theme,
+    item.description,
+    item.sku,
+    item.technical?.partNumber || "",
+    item.technical?.typeProduct || "",
+    item.technical?.componentScope || "",
+    ...(item.tags || []),
+    ...(item.technical?.symptomTags || []),
+  ]
+    .join(" ")
+    .toLowerCase();
+
   let s = 0;
   for (const token of q.split(/\s+/).filter(Boolean)) {
     if (blob.includes(token)) s += 1;
     if (item.name.toLowerCase().includes(token)) s += 2;
+    if (item.sku.toLowerCase().includes(token)) s += 4;
+    if ((item.technical?.partNumber || "").toLowerCase().includes(token)) s += 4;
+    if ((item.technical?.symptomTags || []).some((symptom) => symptom.toLowerCase().includes(token))) s += 2;
   }
   return s;
 }

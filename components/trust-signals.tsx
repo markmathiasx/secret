@@ -145,7 +145,7 @@ export function TrustSignals() {
                   <span key={j} className="text-yellow-400">⭐</span>
                 ))}
               </div>
-              <p className="text-white/80 italic mb-4 text-sm">"{review.review}"</p>
+              <p className="text-white/80 italic mb-4 text-sm">&ldquo;{review.review}&rdquo;</p>
               <div className="pt-4 border-t border-white/10">
                 <p className="font-bold text-white text-sm">{review.name}</p>
                 <p className="text-white/60 text-xs">{review.role}</p>

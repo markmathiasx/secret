@@ -4,6 +4,7 @@ import { PwaRegister } from '@/components/pwa-register';
 import { SiteAssistant } from '@/components/site-assistant';
 import { SiteFooter } from '@/components/site-footer';
 import { SiteHeader } from '@/components/site-header';
+import { StorefrontProviders } from '@/components/storefront-providers';
 import { WhatsAppFloat } from '@/components/whatsapp-float';
 import { AuthProvider } from '@/components/auth-context';
 import { brand, socialLinks, supportEmail, whatsappNumber } from '@/lib/constants';
@@ -14,17 +15,17 @@ const siteUrl = getSiteUrl();
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: 'MDH 3D | Storefront premium de impressão 3D',
+    default: 'MDH 3D | Marketplace de pecas, upgrades e kits para A1 Mini',
     template: '%s | MDH 3D'
   },
   description:
-    'Loja premium de impressão 3D no Rio de Janeiro com peças geek, presentes criativos, setup, utilidades e projetos sob encomenda.',
+    'Marketplace de pecas, upgrades, consumiveis e kits com fotos reais, dados tecnicos e compatibilidade verificada para Bambu Lab A1 Mini.',
   applicationName: 'MDH 3D',
   alternates: { canonical: '/' },
   openGraph: {
-    title: 'MDH 3D | Storefront premium de impressão 3D',
+    title: 'MDH 3D | Marketplace tecnico para A1 Mini',
     description:
-      'Produção local no Rio de Janeiro com peças 3D para presentes, setup, cultura geek e personalizados sob encomenda.',
+      'Compre com filtro por compatibilidade, comparador tecnico e checkout com Pix, cartao e boleto.',
     url: siteUrl,
     siteName: 'MDH 3D',
     locale: 'pt_BR',
@@ -40,18 +41,18 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'MDH 3D | Impressão 3D premium',
-    description: 'Peças 3D sob medida com produção local e atendimento humano no Rio de Janeiro.',
+    title: 'MDH 3D | Pecas e upgrades para A1 Mini',
+    description: 'Catalogo com fotos reais, curadoria de marketplace e ficha tecnica completa.',
     images: ['/backgrounds/hero-printer-fallback.jpg']
   },
   category: 'ecommerce',
   keywords: [
-    'impressão 3d',
-    'rio de janeiro',
-    'presentes personalizados',
-    'peças geek',
-    'setup',
-    'catálogo 3d'
+    'pecas bambu lab a1 mini',
+    'upgrade a1 mini',
+    'hotend a1 mini',
+    'bico nozzle a1 mini',
+    'filtro compatibilidade a1 mini',
+    'marketplace 3d brasil'
   ],
   authors: [{ name: brand.legalName }],
   creator: brand.name,
@@ -72,14 +73,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="pt-BR">
       <body>
         <AuthProvider>
-          <div className="site-shell">
-            <SiteHeader />
-            <main>{children}</main>
-            <SiteFooter />
-            <WhatsAppFloat />
-            <SiteAssistant />
-            <PwaRegister />
-          </div>
+          <StorefrontProviders>
+            <div className="site-shell">
+              <SiteHeader />
+              <main>{children}</main>
+              <SiteFooter />
+              <WhatsAppFloat />
+              <SiteAssistant />
+              <PwaRegister />
+            </div>
+          </StorefrontProviders>
         </AuthProvider>
       </body>
     </html>
