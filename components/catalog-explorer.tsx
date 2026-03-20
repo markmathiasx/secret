@@ -220,8 +220,8 @@ export function CatalogExplorer({
 
   return (
     <div className="space-y-6">
-      <div className="glass-panel p-5">
-        <div className="grid gap-4 xl:grid-cols-[1.1fr_0.42fr_0.42fr_0.42fr_0.42fr_0.42fr_0.42fr]">
+      <div className="glass-panel p-3 sm:p-4 md:p-5">
+        <div className="grid gap-3 md:gap-4 xl:grid-cols-3 2xl:grid-cols-[1.1fr_0.42fr_0.42fr_0.42fr_0.42fr_0.42fr_0.42fr]">
           <label className="text-sm text-white/70"><span className="mb-2 block">Buscar</span><input value={query} onChange={(event) => { setQuery(event.target.value); safeSetPage(1); }} placeholder="Ex: vaso, suporte, anime..." className="field-base" /></label>
           <label className="text-sm text-white/70"><span className="mb-2 block">Categoria</span><select value={category} onChange={(event) => { setCategory(event.target.value); safeSetPage(1); }} className="field-base"><option>Todas</option>{categories.map((item) => <option key={item}>{item}</option>)}</select></label>
           <label className="text-sm text-white/70"><span className="mb-2 block">Coleção</span><select value={collection} onChange={(event) => { setCollection(event.target.value); safeSetPage(1); }} className="field-base"><option>Todas</option>{collections.map((item) => <option key={item}>{item}</option>)}</select></label>
@@ -261,7 +261,7 @@ export function CatalogExplorer({
         </div>
       ) : null}
 
-      <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
         {visibleItems.map((product) => {
           const isFavorite = favoriteIds.includes(product.id);
           const isCompared = compareIds.includes(product.id);
@@ -272,7 +272,7 @@ export function CatalogExplorer({
           return (
             <article
               key={product.id}
-              className={`group relative rounded-[28px] border p-5 transition-all duration-500 hover:-translate-y-2 hover:scale-[1.018] ${
+              className={`group relative overflow-hidden rounded-[28px] border p-5 transition-all duration-500 hover:-translate-y-2 hover:scale-[1.018] ${
                 isProductVisualVerified(product)
                   ? 'border-white/10 bg-card hover:border-cyan-200/45 hover:shadow-[0_24px_70px_rgba(34,211,238,0.24)]'
                   : 'border-amber-300/20 bg-[linear-gradient(180deg,rgba(245,158,11,0.10),rgba(255,255,255,0.03))] hover:border-amber-300/40 hover:shadow-[0_24px_70px_rgba(245,158,11,0.24)]'
@@ -285,9 +285,9 @@ export function CatalogExplorer({
                 {urgency ? <span className="rounded-full border border-rose-300/25 bg-rose-300/10 px-3 py-1 text-[11px] font-semibold text-rose-100">{urgency}</span> : null}
                 <ProductVisualBadge product={product} />
               </div>
-              <div className="mt-4 flex items-start justify-between gap-3"><div><p className="text-xs uppercase tracking-[0.2em] text-cyan-200/80">{product.category}</p><h3 className="mt-2 line-clamp-2 text-lg font-semibold text-white">{product.name}</h3><p className="mt-2 min-h-[72px] line-clamp-3 text-sm leading-6 text-white/62">{product.description}</p></div><span className="rounded-full border border-white/10 px-3 py-1 text-xs text-white/60">{product.productionWindow}</span></div>
+              <div className="mt-4 flex items-start justify-between gap-3"><div className="min-w-0"><p className="text-xs uppercase tracking-[0.18em] text-cyan-200/80">{product.category}</p><h3 className="mt-2 line-clamp-2 break-words text-base font-semibold text-white sm:text-lg">{product.name}</h3><p className="mt-2 min-h-0 line-clamp-4 text-sm leading-6 text-white/62 sm:min-h-[72px] md:line-clamp-3">{product.description}</p></div><span className="rounded-full border border-white/10 px-3 py-1 text-xs text-white/60">{product.productionWindow}</span></div>
               <div className="mt-4 rounded-[18px] border border-white/10 bg-black/20 p-3 text-xs text-white/65"><p className="font-semibold text-white/85">{product.pricingMode === 'faixa-auditada' ? 'Compra direta' : 'Projeto sob medida'}</p><p className="mt-1">{product.pricingNarrative}</p><p className="mt-2 text-emerald-200">{quantity}x: {formatCurrency(total)}{bundleDiscount > 0 ? ` | Economia ${formatCurrency(savings)}` : ''}</p></div>
-              <div className="mt-5 flex items-end justify-between gap-3"><div><p className="text-xs text-white/45">Preço Pix</p><p className="text-2xl font-bold text-white">{formatCurrency(product.pricePix)}</p><p className="text-xs text-white/55">12x de {formatCurrency(product.priceCard / 12)}</p></div><div className="flex flex-col gap-2"><Link href={getProductUrl(product)} onClick={() => addRecent(product.id)} className="rounded-full border border-cyan-400/25 bg-cyan-400/10 px-4 py-2 text-center text-sm font-semibold text-cyan-100 transition-all duration-300 hover:scale-[1.04] hover:border-cyan-300/60 hover:bg-cyan-300/18">{product.pricingMode === 'faixa-auditada' ? 'Comprar' : 'Orçar'}</Link><a href={buildWhatsAppQuote(product, quantity)} target="_blank" rel="noreferrer" className="rounded-full border border-emerald-300/25 bg-emerald-300/10 px-4 py-2 text-center text-xs font-semibold text-emerald-100 transition-all duration-300 hover:scale-[1.04] hover:border-emerald-300/60 hover:bg-emerald-300/18">WhatsApp</a></div></div>
+              <div className="mt-5 flex flex-wrap items-end justify-between gap-3"><div><p className="text-xs text-white/45">Preço Pix</p><p className="text-2xl font-bold text-white">{formatCurrency(product.pricePix)}</p><p className="text-xs text-white/55">12x de {formatCurrency(product.priceCard / 12)}</p></div><div className="flex flex-col gap-2"><Link href={getProductUrl(product)} onClick={() => addRecent(product.id)} className="rounded-full border border-cyan-400/25 bg-cyan-400/10 px-4 py-2 text-center text-sm font-semibold text-cyan-100 transition-all duration-300 hover:scale-[1.04] hover:border-cyan-300/60 hover:bg-cyan-300/18">{product.pricingMode === 'faixa-auditada' ? 'Comprar' : 'Orçar'}</Link><a href={buildWhatsAppQuote(product, quantity)} target="_blank" rel="noreferrer" className="rounded-full border border-emerald-300/25 bg-emerald-300/10 px-4 py-2 text-center text-xs font-semibold text-emerald-100 transition-all duration-300 hover:scale-[1.04] hover:border-emerald-300/60 hover:bg-emerald-300/18">WhatsApp</a></div></div>
               <div className="mt-4 flex flex-wrap gap-2"><button type="button" onClick={() => toggleFavorite(product.id)} className={`rounded-full border px-3 py-1 text-xs font-semibold ${isFavorite ? 'border-amber-300/30 bg-amber-300/12 text-amber-100' : 'border-white/10 bg-white/5 text-white/70'}`}>{isFavorite ? 'Favoritado' : 'Favoritar'}</button><button type="button" onClick={() => toggleCompare(product.id)} className={`rounded-full border px-3 py-1 text-xs font-semibold ${isCompared ? 'border-cyan-300/30 bg-cyan-300/12 text-cyan-100' : 'border-white/10 bg-white/5 text-white/70'}`}>{isCompared ? 'No comparador' : 'Comparar'}</button></div>
             </article>
           );

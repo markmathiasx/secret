@@ -34,28 +34,28 @@ export default async function CatalogPage({ searchParams }: { searchParams?: Pro
     : 'A vitrine abre destacando peças com foto real e visuais já validados. Quando um item ainda está em fase de projeto, o catálogo assume isso com transparência e mostra uma estimativa inicial para encomenda.';
 
   return (
-    <section className="mx-auto max-w-7xl px-6 py-16">
-      <div className="overflow-hidden rounded-[40px] border border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(34,211,238,0.18),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(16,185,129,0.16),transparent_28%),linear-gradient(135deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02))] p-8 shadow-[0_24px_80px_rgba(2,8,23,0.32)]">
-        <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
+    <section className="mx-auto w-full max-w-7xl px-3 pb-14 pt-24 sm:px-4 md:px-6 md:py-16">
+      <div className="overflow-hidden rounded-[28px] border border-white/12 bg-[radial-gradient(circle_at_top_left,rgba(34,211,238,0.18),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(16,185,129,0.16),transparent_28%),linear-gradient(135deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02))] p-4 shadow-[0_24px_80px_rgba(2,8,23,0.32)] sm:p-6 md:rounded-[40px] md:p-8">
+        <div className="grid gap-6 md:gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
           <div className="max-w-3xl">
             <p className="text-xs uppercase tracking-[0.22em] text-cyan-200">Catálogo MDH 3D</p>
-            <h1 className="mt-3 text-4xl font-black text-white sm:text-5xl">{heroTitle}</h1>
-            <p className="mt-4 text-lg leading-8 text-white/68">{heroDescription}</p>
+            <h1 className="mt-3 break-words text-3xl font-black leading-[1.06] text-white sm:text-4xl md:text-5xl">{heroTitle}</h1>
+            <p className="mt-4 text-base leading-7 text-white/72 md:text-lg md:leading-8">{heroDescription}</p>
             {activeLens ? (
-              <div className="mt-5 inline-flex rounded-full border border-cyan-300/25 bg-cyan-300/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-cyan-100">
+              <div className="mt-5 inline-flex max-w-full rounded-full border border-cyan-300/25 bg-cyan-300/10 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-cyan-100 md:text-xs md:tracking-[0.18em]">
                 {activeLens}
               </div>
             ) : null}
-            <div className="mt-6 flex flex-wrap gap-3">
+            <div className="mt-6 flex flex-wrap gap-2.5 md:gap-3">
               <Link
                 href="#catalogo-real"
-                className="rounded-full border border-cyan-300/25 bg-cyan-300/10 px-5 py-3 text-sm font-semibold text-cyan-100 transition hover:border-cyan-300/40 hover:bg-cyan-300/15"
+                className="rounded-full border border-cyan-300/25 bg-cyan-300/10 px-4 py-2.5 text-xs font-semibold text-cyan-100 transition hover:border-cyan-300/40 hover:bg-cyan-300/15 md:px-5 md:py-3 md:text-sm"
               >
                 Ver peças com foto real
               </Link>
               <Link
                 href="/imagem-para-impressao-3d"
-                className="rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm font-semibold text-white/80 transition hover:border-white/20 hover:text-white"
+                className="rounded-full border border-white/10 bg-white/5 px-4 py-2.5 text-xs font-semibold text-white/80 transition hover:border-white/20 hover:text-white md:px-5 md:py-3 md:text-sm"
               >
                 Pedir projeto personalizado
               </Link>
@@ -68,9 +68,9 @@ export default async function CatalogPage({ searchParams }: { searchParams?: Pro
               { label: 'Fotos reais', value: String(visualSummary.fotoReal).padStart(2, '0') },
               { label: 'Preços confirmados', value: String(auditedPricingCount).padStart(2, '0') }
             ].map((item) => (
-              <div key={item.label} className="rounded-[28px] border border-white/10 bg-black/20 p-5">
-                <p className="text-xs uppercase tracking-[0.18em] text-white/45">{item.label}</p>
-                <p className="mt-3 text-3xl font-black text-white">{item.value}</p>
+              <div key={item.label} className="min-w-0 rounded-[22px] border border-white/12 bg-black/20 p-4 md:rounded-[28px] md:p-5">
+                <p className="text-[10px] uppercase tracking-[0.14em] text-white/55 md:text-xs md:tracking-[0.18em]">{item.label}</p>
+                <p className="mt-2 break-words text-2xl font-black text-white md:mt-3 md:text-3xl">{item.value}</p>
               </div>
             ))}
           </div>
@@ -88,9 +88,9 @@ export default async function CatalogPage({ searchParams }: { searchParams?: Pro
 
       <CatalogRealCases />
 
-      <div className="relative isolate mt-10 overflow-hidden rounded-[36px] border border-cyan-200/35 shadow-[0_30px_90px_rgba(2,8,23,0.22)]">
+      <div className="relative isolate mt-8 overflow-hidden rounded-[28px] border border-cyan-200/45 shadow-[0_28px_84px_rgba(2,8,23,0.18)] md:mt-10 md:rounded-[36px]">
         <video
-          className="absolute inset-0 h-full w-full object-cover opacity-95"
+          className="absolute inset-0 h-full w-full object-cover opacity-[0.98]"
           src="/assets/videos/hero-bg.mp4"
           poster="/assets/images/placeholders/hero-fallback.jpg"
           autoPlay
@@ -100,11 +100,11 @@ export default async function CatalogPage({ searchParams }: { searchParams?: Pro
           preload="metadata"
           aria-hidden
         />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_14%_20%,rgba(34,211,238,0.12),transparent_34%),radial-gradient(circle_at_86%_16%,rgba(16,185,129,0.10),transparent_34%),linear-gradient(180deg,rgba(2,6,23,0.16),rgba(2,6,23,0.28)_42%,rgba(2,6,23,0.4)_100%)]" />
-        <div className="pointer-events-none absolute inset-0 rounded-[36px] ring-1 ring-inset ring-white/35" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_14%_20%,rgba(34,211,238,0.10),transparent_36%),radial-gradient(circle_at_86%_16%,rgba(16,185,129,0.08),transparent_36%),linear-gradient(180deg,rgba(2,6,23,0.06),rgba(2,6,23,0.12)_45%,rgba(2,6,23,0.18)_100%)]" />
+        <div className="pointer-events-none absolute inset-0 rounded-[28px] ring-1 ring-inset ring-white/40 md:rounded-[36px]" />
 
-        <div className="relative p-3 md:p-4 lg:p-5">
-          <div className="rounded-[30px] border border-white/20 bg-white/[0.02] p-2 backdrop-blur-[3px] md:p-3">
+        <div className="relative p-2.5 md:p-4 lg:p-5">
+          <div className="rounded-[24px] border border-white/20 bg-white/[0.02] p-1.5 backdrop-blur-[2px] md:rounded-[30px] md:p-3">
             <CatalogExplorer
               products={catalog}
               initialQuery={initialQuery}
