@@ -1,0 +1,65 @@
+{
+  "generatedAt": "2026-03-20",
+  "pipeline": "scripts/run_sd_reference.ps1 -> scripts/generate_product_reference_sd.py",
+  "model": "stabilityai/sd-turbo",
+  "mode": "img2img-reference-first",
+  "safety": {
+    "geometryPreservation": true,
+    "strength": 0.28,
+    "guidance": 0.0,
+    "steps": 4
+  },
+  "items": [
+    {
+      "id": "real-001",
+      "reference": "/products/foto-001-grinder-01.webp",
+      "generated": "/products/render-real-001-grinder.webp"
+    },
+    {
+      "id": "real-002",
+      "reference": "/products/foto-003-porta-creme-dental.webp",
+      "generated": "/products/render-real-002-porta-creme.webp"
+    },
+    {
+      "id": "real-003",
+      "reference": "/products/foto-004-demogorgon.webp",
+      "generated": "/products/render-real-003-demogorgon.webp"
+    },
+    {
+      "id": "real-004",
+      "reference": "/products/foto-005-hello-kitty-jedi.webp",
+      "generated": "/products/render-real-004-hello-kitty-jedi.webp"
+    },
+    {
+      "id": "real-005",
+      "reference": "/products/foto-006-stencil-rick-morty.webp",
+      "generated": "/products/render-real-005-stencil.webp"
+    },
+    {
+      "id": "real-006",
+      "reference": "/products/foto-007-familia-custom.webp",
+      "generated": "/products/render-real-006-familia-custom.webp"
+    },
+    {
+      "id": "real-007",
+      "reference": "/products/foto-008-boneca-crianca.webp",
+      "generated": "/products/render-real-007-boneca-crianca.webp"
+    },
+    {
+      "id": "real-008",
+      "reference": "/products/foto-009-case-isqueiro-caveira.webp",
+      "generated": "/products/render-real-008-case-isqueiro.webp"
+    },
+    {
+      "id": "real-009",
+      "reference": "/products/foto-010-homer-pikachu.webp",
+      "generated": "/products/render-real-009-homer-pikachu.webp"
+    },
+    {
+      "id": "real-010",
+      "reference": "/products/foto-011-chaveiro-maconaria.webp",
+      "generated": "/products/render-real-010-chaveiro-maconaria.webp"
+    }
+  ],
+  "note": "Sem arquivo STL/OBJ/3MF não existe autenticidade geométrica de 100% para novos itens. Este lote preserva fidelidade visual apenas dos itens com foto real de referência."
+}

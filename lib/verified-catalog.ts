@@ -20,7 +20,11 @@ export const verifiedCatalog: Product[] = [
     printTime: "3.8h",
     plaWeight: "92g",
     dimensions: "7x7x4cm",
-    images: ["/products/foto-001-grinder-01.webp", "/products/foto-002-grinder-02.webp"],
+    images: [
+      "/products/foto-001-grinder-01.webp",
+      "/products/foto-002-grinder-02.webp",
+      "/products/render-real-001-grinder.webp"
+    ],
     licenseType: "personal",
     variants: [{ color: "Preto", available: true }],
     pricePix: 54.9,
@@ -55,7 +59,10 @@ export const verifiedCatalog: Product[] = [
     printTime: "2.7h",
     plaWeight: "58g",
     dimensions: "8x6x7cm",
-    images: ["/products/foto-003-porta-creme-dental.webp"],
+    images: [
+      "/products/foto-003-porta-creme-dental.webp",
+      "/products/render-real-002-porta-creme.webp"
+    ],
     licenseType: "personal",
     variants: [{ color: "Preto", available: true }],
     pricePix: 39.9,
@@ -90,7 +97,10 @@ export const verifiedCatalog: Product[] = [
     printTime: "7.4h",
     plaWeight: "148g",
     dimensions: "16x10x23cm",
-    images: ["/products/foto-004-demogorgon.webp"],
+    images: [
+      "/products/foto-004-demogorgon.webp",
+      "/products/render-real-003-demogorgon.webp"
+    ],
     licenseType: "personal",
     variants: [{ color: "Pintura temática", available: true }],
     pricePix: 129.9,
@@ -125,7 +135,10 @@ export const verifiedCatalog: Product[] = [
     printTime: "4.2h",
     plaWeight: "76g",
     dimensions: "10x8x15cm",
-    images: ["/products/foto-005-hello-kitty-jedi.webp"],
+    images: [
+      "/products/foto-005-hello-kitty-jedi.webp",
+      "/products/render-real-004-hello-kitty-jedi.webp"
+    ],
     licenseType: "personal",
     variants: [{ color: "Temática", available: true }],
     pricePix: 89.9,
@@ -160,7 +173,10 @@ export const verifiedCatalog: Product[] = [
     printTime: "2.2h",
     plaWeight: "44g",
     dimensions: "18x18x1cm",
-    images: ["/products/foto-006-stencil-rick-morty.webp"],
+    images: [
+      "/products/foto-006-stencil-rick-morty.webp",
+      "/products/render-real-005-stencil.webp"
+    ],
     licenseType: "personal",
     variants: [{ color: "Preto", available: true }],
     pricePix: 42.9,
@@ -195,7 +211,10 @@ export const verifiedCatalog: Product[] = [
     printTime: "9.5h",
     plaWeight: "168g",
     dimensions: "14x10x19cm",
-    images: ["/products/foto-007-familia-custom.webp"],
+    images: [
+      "/products/foto-007-familia-custom.webp",
+      "/products/render-real-006-familia-custom.webp"
+    ],
     licenseType: "personal",
     variants: [{ color: "Colorido", available: true }],
     pricePix: 189.9,
@@ -230,7 +249,10 @@ export const verifiedCatalog: Product[] = [
     printTime: "5.4h",
     plaWeight: "94g",
     dimensions: "10x8x16cm",
-    images: ["/products/foto-008-boneca-crianca.webp"],
+    images: [
+      "/products/foto-008-boneca-crianca.webp",
+      "/products/render-real-007-boneca-crianca.webp"
+    ],
     licenseType: "personal",
     variants: [{ color: "Colorido", available: true }],
     pricePix: 96.9,
@@ -265,7 +287,10 @@ export const verifiedCatalog: Product[] = [
     printTime: "1.9h",
     plaWeight: "36g",
     dimensions: "3x3x8cm",
-    images: ["/products/foto-009-case-isqueiro-caveira.webp"],
+    images: [
+      "/products/foto-009-case-isqueiro-caveira.webp",
+      "/products/render-real-008-case-isqueiro.webp"
+    ],
     licenseType: "personal",
     variants: [{ color: "Preto", available: true }],
     pricePix: 34.9,
@@ -300,7 +325,10 @@ export const verifiedCatalog: Product[] = [
     printTime: "4.8h",
     plaWeight: "88g",
     dimensions: "9x8x16cm",
-    images: ["/products/foto-010-homer-pikachu.webp"],
+    images: [
+      "/products/foto-010-homer-pikachu.webp",
+      "/products/render-real-009-homer-pikachu.webp"
+    ],
     licenseType: "personal",
     variants: [{ color: "Colorido", available: true }],
     pricePix: 82.9,
@@ -335,7 +363,10 @@ export const verifiedCatalog: Product[] = [
     printTime: "2.4h",
     plaWeight: "42g",
     dimensions: "6x6x0.8cm",
-    images: ["/products/foto-011-chaveiro-maconaria.webp"],
+    images: [
+      "/products/foto-011-chaveiro-maconaria.webp",
+      "/products/render-real-010-chaveiro-maconaria.webp"
+    ],
     licenseType: "personal",
     variants: [{ color: "Colorido", available: true }],
     pricePix: 37.9,
