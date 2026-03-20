@@ -10,14 +10,14 @@ export function ProductImageGallery({ product }: { product: Product }) {
 
   return (
     <div className="overflow-hidden rounded-[32px] border border-white/10 bg-white/5 p-4">
-      <div className="grid gap-3 lg:grid-cols-[0.9fr_1.1fr]">
+      <div className="grid gap-3">
         <div className="overflow-hidden rounded-[28px] border border-white/10 bg-black/20">
           <ProductImage
             src={image.src}
             fallbackSrcs={image.fallbackSrcs}
             alt={image.alt}
             priority
-            sizes="(max-width: 1024px) 100vw, 55vw"
+            sizes="(max-width: 1280px) 100vw, 72vw"
             containerClassName="aspect-square"
           />
         </div>
@@ -26,7 +26,7 @@ export function ProductImageGallery({ product }: { product: Product }) {
           <p className="text-xs uppercase tracking-[0.22em] text-cyan-200">{product.visualLabel}</p>
           <h3 className="mt-2 text-2xl font-black text-white">{product.name}</h3>
           <p className="mt-3 text-sm leading-7 text-white/68">
-            A galeria apresenta a direção visual da peça com clareza comercial, deixando evidente quando o item ainda está em prévia conceitual antes da foto final de produção.
+            A galeria mantém consistencia comercial: foto real quando disponivel e render fiel quando a peca ainda nao teve ensaio fotografico final.
           </p>
 
           <div className="mt-5 grid gap-3 sm:grid-cols-3">
@@ -44,9 +44,9 @@ export function ProductImageGallery({ product }: { product: Product }) {
           </div>
 
           <div className="mt-5 rounded-[22px] border border-cyan-300/20 bg-cyan-300/10 p-4">
-            <p className="text-sm font-semibold text-cyan-50">Quando a peça ganhar ensaio final</p>
+            <p className="text-sm font-semibold text-cyan-50">Atualizacao de vitrine sem retrabalho</p>
             <p className="mt-2 text-sm leading-6 text-cyan-100/78">
-              A vitrine troca a imagem automaticamente sem exigir retrabalho de layout, mantendo a página pronta para venda do começo ao fim.
+              Quando houver foto real aprovada, o card e a pagina do produto ja estao preparados para atualizar sem quebrar layout.
             </p>
           </div>
         </div>

@@ -17,7 +17,7 @@ const items = [
   },
   {
     q: "As imagens do catalogo sao definitivas?",
-    a: "Quando a peca ja tem ensaio proprio, a loja usa a foto real da pasta local do produto. Quando ainda nao tem, mostramos um preview conceitual premium para manter a vitrine coerente."
+    a: "Quando a peca ja tem ensaio proprio, a loja usa foto real. Quando ainda nao tem, mostramos render fiel do item para manter a vitrine consistente."
   }
 ];
 

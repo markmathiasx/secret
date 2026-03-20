@@ -1,18 +1,24 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useCustomerSession } from "@/lib/customer-session-client";
 import { socialLinks, whatsappMessage, whatsappNumber } from "@/lib/constants";
 
-const links = [
-  { href: "/catalogo", label: "Catalogo" },
-  { href: "/#categorias", label: "Categorias" },
-  { href: "/#como-produzimos", label: "Producao" },
-  { href: "/entregas", label: "Entregas" },
-  { href: "/faq", label: "FAQ" },
-  { href: "/conta", label: "Conta" }
-];
-
 export function SiteHeader() {
+  const session = useCustomerSession();
   const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+  const accountHref = session.loggedIn ? "/conta" : "/login";
+  const firstName = session.user?.displayName?.split(" ")[0];
+  const accountLabel = session.ready ? (session.loggedIn ? `Ola, ${firstName || "cliente"}` : "Entrar") : "Conta";
+  const links = [
+    { href: "/catalogo", label: "Catalogo" },
+    { href: "/#categorias", label: "Categorias" },
+    { href: "/#como-produzimos", label: "Producao" },
+    { href: "/entregas", label: "Entregas" },
+    { href: "/faq", label: "FAQ" },
+    { href: "/conta", label: session.loggedIn ? "Minha conta" : "Conta" }
+  ];
 
   return (
     <header className="sticky top-0 z-50 border-b border-white/10 bg-[rgba(3,7,18,0.72)] backdrop-blur-xl">
@@ -30,8 +36,8 @@ export function SiteHeader() {
             <a href={socialLinks.instagram} target="_blank" rel="noreferrer" className="text-sm font-semibold text-white/70 transition hover:text-white">
               Instagram
             </a>
-            <Link href="/login" className="text-sm font-semibold text-white/70 transition hover:text-white">
-              Entrar
+            <Link href={accountHref} className="text-sm font-semibold text-white/70 transition hover:text-white">
+              {accountLabel}
             </Link>
             <a
               href={whatsappHref}

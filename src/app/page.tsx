@@ -60,7 +60,7 @@ const trustPillars = [
   },
   {
     title: "Compra com confianca",
-    text: "O cliente entende material, prazo, prévia conceitual e canal de contato sem sentir que está navegando num demo.",
+    text: "O cliente entende material, prazo, tipo de imagem (foto real ou render fiel) e canal de contato sem friccao.",
     icon: ShieldCheck
   }
 ];
@@ -76,7 +76,7 @@ const faqItems = [
   },
   {
     q: "A foto do produto e definitiva?",
-    a: "Quando a peca ainda nao tem ensaio proprio, a vitrine usa preview conceitual premium. Assim que a foto real existir, ela entra automaticamente."
+    a: "Quando a peca ainda nao tem ensaio proprio, a vitrine usa render fiel. Quando houver foto real aprovada, ela substitui automaticamente."
   },
   {
     q: "Entrar na conta e obrigatorio?",

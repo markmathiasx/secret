@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
-import { Bot, MessageCircleMore, Send, UserRound, X, Sparkles } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { Bot, MessageCircleMore, Minimize2, Send, UserRound, X, Sparkles } from "lucide-react";
 import { ProductImage } from "@/components/product-image";
 import { catalog, getProductUrl, type Product } from "@/lib/catalog";
 import { getPrimaryProductImage } from "@/lib/product-media";
@@ -21,6 +22,8 @@ const quickPrompts = [
   "boa noite",
   "quero um hello kitty",
   "quero suporte de controle",
+  "quero pagar no pix",
+  "quero pagar no cartao",
   "calcular frete",
   "falar com humano"
 ];
@@ -119,6 +122,21 @@ function botReply(input: string): Omit<ChatMessage, "id"> {
     };
   }
 
+  if (lower.includes("pix")) {
+    return {
+      role: "bot",
+      text: "Perfeito. No produto voce encontra Pix com QR Code e copia e cola para fechar rapido. Se preferir, eu te passo para um humano validar agora."
+    };
+  }
+
+  if (lower.includes("cartao") || lower.includes("credito") || lower.includes("crédito")) {
+    return {
+      role: "bot",
+      text: "Voce pode tentar cartao no checkout do produto. Se o provedor estiver indisponivel, o atendimento humano fecha sem perder seu pedido.",
+      human: true
+    };
+  }
+
   const matches = pickProducts(lower);
 
   if (!matches.length) {
@@ -171,7 +189,9 @@ function ProductSuggestion({ product }: { product: Product }) {
 }
 
 export function SiteAssistant() {
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
   const [value, setValue] = useState("");
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
@@ -180,27 +200,90 @@ export function SiteAssistant() {
       text: "Olá. Sou o assistente da MDH 3D. Posso te mostrar produtos parecidos, valores iniciais, frete e também te direcionar para atendimento humano quando você quiser."
     }
   ]);
+  const lastInteractionRef = useRef(Date.now());
+  const lastScrollYRef = useRef(0);
+  const compactRoute = pathname ? ["/checkout", "/login", "/conta", "/painel-mdh-85"].some((route) => pathname.startsWith(route)) : false;
+  const unreadCount = Math.max(messages.length - 1, 0);
 
   const waHref = useMemo(() => {
     return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+  }, []);
+
+  function markInteraction(expand = true) {
+    lastInteractionRef.current = Date.now();
+    if (expand) {
+      setCollapsed(false);
+    }
+  }
+
+  useEffect(() => {
+    if (!open) return;
+    if (compactRoute) {
+      setCollapsed(true);
+    }
+  }, [compactRoute, open]);
+
+  useEffect(() => {
+    if (!open) return;
+
+    const idleTimer = window.setInterval(() => {
+      if (Date.now() - lastInteractionRef.current > 16_000) {
+        setCollapsed(true);
+      }
+    }, 2_000);
+
+    return () => {
+      window.clearInterval(idleTimer);
+    };
+  }, [open]);
+
+  useEffect(() => {
+    const onScroll = () => {
+      const currentY = window.scrollY;
+      const delta = currentY - lastScrollYRef.current;
+
+      if (currentY > 220 && delta > 20) {
+        setCollapsed(true);
+      }
+
+      if (delta < -28) {
+        setCollapsed(false);
+      }
+
+      lastScrollYRef.current = currentY;
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const onBlur = () => setCollapsed(true);
+    window.addEventListener("blur", onBlur);
+    return () => window.removeEventListener("blur", onBlur);
   }, []);
 
   function sendMessage(prefill?: string) {
     const raw = (prefill ?? value).trim();
     if (!raw) return;
 
+    markInteraction();
     const userMessage: ChatMessage = { id: makeId(), role: "user", text: raw };
     const reply: ChatMessage = { id: makeId(), ...botReply(raw) };
 
     setMessages((current) => [...current, userMessage, reply]);
     setValue("");
     setOpen(true);
+    setCollapsed(false);
   }
 
   return (
     <>
-      {open ? (
-        <div className="fixed bottom-24 left-4 z-50 w-[380px] max-w-[calc(100vw-2rem)] overflow-hidden rounded-[28px] border border-white/10 bg-slate-950/94 shadow-2xl backdrop-blur-xl">
+      {open && !collapsed ? (
+        <div
+          className="fixed bottom-24 left-4 z-50 w-[380px] max-w-[calc(100vw-2rem)] overflow-hidden rounded-[28px] border border-white/10 bg-slate-950/94 shadow-2xl backdrop-blur-xl"
+          onMouseMove={() => markInteraction(false)}
+        >
           <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
             <div className="flex items-center gap-3">
               <span className="rounded-2xl border border-cyan-400/20 bg-cyan-400/10 p-2 text-cyan-100">
@@ -211,9 +294,14 @@ export function SiteAssistant() {
                 <p className="text-xs text-white/50">Catálogo + frete + humano sob demanda</p>
               </div>
             </div>
-            <button onClick={() => setOpen(false)} className="rounded-full border border-white/10 p-2 text-white/70 hover:text-white">
-              <X className="h-4 w-4" />
-            </button>
+            <div className="flex items-center gap-2">
+              <button onClick={() => setCollapsed(true)} className="rounded-full border border-white/10 p-2 text-white/70 hover:text-white" aria-label="Recolher assistente">
+                <Minimize2 className="h-4 w-4" />
+              </button>
+              <button onClick={() => setOpen(false)} className="rounded-full border border-white/10 p-2 text-white/70 hover:text-white" aria-label="Fechar assistente">
+                <X className="h-4 w-4" />
+              </button>
+            </div>
           </div>
 
           <div className="max-h-[60vh] space-y-4 overflow-y-auto px-4 py-4">
@@ -266,6 +354,7 @@ export function SiteAssistant() {
               <input
                 value={value}
                 onChange={(e) => setValue(e.target.value)}
+                onFocus={() => markInteraction(false)}
                 onKeyDown={(e) => {
                   if (e.key === "Enter") sendMessage();
                 }}
@@ -280,12 +369,36 @@ export function SiteAssistant() {
         </div>
       ) : null}
 
+      {open && collapsed ? (
+        <button
+          onClick={() => {
+            setCollapsed(false);
+            markInteraction(false);
+          }}
+          className="fixed bottom-24 left-4 z-50 inline-flex items-center gap-2 rounded-full border border-cyan-400/30 bg-cyan-400/15 px-4 py-3 text-sm font-semibold text-cyan-100 shadow-glow backdrop-blur hover:bg-cyan-400/20"
+        >
+          <MessageCircleMore className="h-4 w-4" />
+          Reabrir assistente
+          {unreadCount ? <span className="rounded-full bg-cyan-300 px-2 py-0.5 text-[11px] font-bold text-slate-950">{unreadCount}</span> : null}
+        </button>
+      ) : null}
+
       <button
-        onClick={() => setOpen((current) => !current)}
+        onClick={() => {
+          setOpen((current) => {
+            const next = !current;
+            if (next) {
+              setCollapsed(compactRoute);
+              markInteraction(false);
+            }
+            return next;
+          });
+        }}
         className="fixed bottom-24 left-4 z-50 inline-flex items-center gap-2 rounded-full border border-cyan-400/30 bg-cyan-400/15 px-5 py-3 text-sm font-semibold text-cyan-100 shadow-glow backdrop-blur hover:bg-cyan-400/20"
+        style={{ display: open ? "none" : undefined }}
       >
         <MessageCircleMore className="h-5 w-5" />
-        Assistente MDH
+        {compactRoute ? "Assistente" : "Assistente MDH"}
       </button>
     </>
   );

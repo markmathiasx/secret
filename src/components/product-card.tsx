@@ -3,6 +3,7 @@ import type { Product, ProductBadge } from "@/lib/catalog";
 import { getProductUrl } from "@/lib/catalog";
 import { FavoriteToggle } from "@/components/favorite-toggle";
 import { ProductImage } from "@/components/product-image";
+import { whatsappMessage, whatsappNumber } from "@/lib/constants";
 import { formatCurrency } from "@/lib/utils";
 import { getPrimaryProductImage } from "@/lib/product-media";
 
@@ -14,8 +15,29 @@ const badgeStyles: Record<ProductBadge, string> = {
   "Pronta entrega": "border-rose-300/25 bg-rose-300/10 text-rose-100"
 };
 
+const visualTypeTone: Record<Product["visualType"], { label: string; chip: string; text: string }> = {
+  "foto-real": {
+    label: "Foto real",
+    chip: "border-emerald-300/35 bg-emerald-300/14 text-emerald-100",
+    text: "Imagem capturada da peca finalizada"
+  },
+  "render-fiel": {
+    label: "Render fiel",
+    chip: "border-cyan-300/35 bg-cyan-300/14 text-cyan-100",
+    text: "Render baseado no item catalogado"
+  },
+  conceitual: {
+    label: "Conceitual",
+    chip: "border-amber-300/35 bg-amber-300/14 text-amber-100",
+    text: "Direcao visual do modelo"
+  }
+};
+
 export function ProductCard({ product }: { product: Product }) {
   const image = getPrimaryProductImage(product);
+  const visualTone = visualTypeTone[product.visualType];
+  const pixSavings = Math.max(0, product.priceCard - product.pricePix);
+  const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`${whatsappMessage} Quero fechar ${product.name}.`)}`;
 
   return (
     <article className="group rounded-[30px] border border-white/10 bg-card p-5 transition duration-300 hover:-translate-y-1 hover:border-cyan-300/30">
@@ -31,7 +53,7 @@ export function ProductCard({ product }: { product: Product }) {
       </div>
 
       <Link href={getProductUrl(product)} className="block">
-        <div className="overflow-hidden rounded-[24px] border border-white/10 bg-black/20">
+        <div className="relative overflow-hidden rounded-[24px] border border-white/10 bg-black/20">
           <ProductImage
             src={image.src}
             fallbackSrcs={image.fallbackSrcs}
@@ -39,6 +61,9 @@ export function ProductCard({ product }: { product: Product }) {
             containerClassName="aspect-[1.02/1]"
             imageClassName="transition duration-500 group-hover:scale-[1.03]"
           />
+          <span className={`absolute left-3 top-3 rounded-full border px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] ${visualTone.chip}`}>
+            {visualTone.label}
+          </span>
         </div>
       </Link>
 
@@ -47,6 +72,7 @@ export function ProductCard({ product }: { product: Product }) {
           <p className="text-[11px] uppercase tracking-[0.22em] text-cyan-200/80">{product.category}</p>
           <h3 className="mt-2 text-xl font-bold text-white">{product.name}</h3>
           <p className="mt-2 text-sm leading-6 text-white/62">{product.description}</p>
+          <p className="mt-2 text-xs text-white/50">{visualTone.text}</p>
         </div>
         <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] text-white/65">{product.productionWindow}</span>
       </div>
@@ -61,13 +87,19 @@ export function ProductCard({ product }: { product: Product }) {
         <div>
           <p className="text-xs text-white/45">A partir de</p>
           <p className="text-2xl font-black text-white">{formatCurrency(product.pricePix)}</p>
+          {pixSavings > 0 ? <p className="text-xs text-emerald-200/85">Pix economiza {formatCurrency(pixSavings)}</p> : null}
         </div>
-        <Link
-          href={getProductUrl(product)}
-          className="rounded-full border border-cyan-300/30 bg-cyan-300/12 px-4 py-2 text-sm font-semibold text-cyan-50 transition hover:border-cyan-200/50 hover:bg-cyan-300/18"
-        >
-          Ver produto
-        </Link>
+        <div className="flex flex-wrap justify-end gap-2">
+          <Link
+            href={getProductUrl(product)}
+            className="rounded-full border border-cyan-300/30 bg-cyan-300/12 px-4 py-2 text-sm font-semibold text-cyan-50 transition hover:border-cyan-200/50 hover:bg-cyan-300/18"
+          >
+            Ver produto
+          </Link>
+          <a href={whatsappHref} className="rounded-full border border-emerald-300/30 bg-emerald-300/12 px-4 py-2 text-sm font-semibold text-emerald-100">
+            WhatsApp
+          </a>
+        </div>
       </div>
     </article>
   );

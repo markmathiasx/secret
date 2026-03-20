@@ -3,6 +3,7 @@ import { slugify } from "@/lib/utils";
 
 export type PaymentMethod = "pix" | "cartao" | "boleto";
 export type SalesChannel = "site" | "mercadolivre" | "shopee" | "whatsapp";
+export type VisualType = "foto-real" | "render-fiel" | "conceitual";
 export type ProductBadge =
   | "Mais vendido"
   | "Foto real"
@@ -33,6 +34,7 @@ export type Product = {
   material: string;
   finish: string;
   badges: ProductBadge[];
+  visualType: VisualType;
   visualLabel: string;
   hasRealPhoto: boolean;
 };
@@ -161,6 +163,13 @@ const categoryFinishes: Record<string, string[]> = {
   Personalizados: ["cor sob medida", "acabamento para presente", "identidade visual"]
 };
 
+const realPhotoProductIds = new Set(
+  (process.env.NEXT_PUBLIC_REAL_PHOTO_PRODUCT_IDS || "")
+    .split(",")
+    .map((item) => item.trim())
+    .filter(Boolean)
+);
+
 function toPriceEnding(value: number) {
   const ceil = Math.ceil(value);
   return Number((ceil - 0.1).toFixed(2));
@@ -240,9 +249,10 @@ function buildProductionWindow(hours: number, fulfillment: Product["fulfillment"
   return "5 a 7 dias";
 }
 
-function buildBadges(featured: boolean, fulfillment: Product["fulfillment"]): ProductBadge[] {
+function buildBadges(featured: boolean, fulfillment: Product["fulfillment"], hasRealPhoto: boolean): ProductBadge[] {
   const badges: ProductBadge[] = [];
 
+  if (hasRealPhoto) badges.push("Foto real");
   if (featured) badges.push("Mais vendido");
   if (fulfillment === "Pronta entrega") badges.push("Pronta entrega");
   if (fulfillment === "Sob encomenda") badges.push("Sob encomenda");
@@ -278,12 +288,16 @@ function createCatalog(): Product[] {
         const material = buildMaterial(category, grams, themeIndex);
         const finish = buildFinish(category, themeIndex);
         const fulfillment = buildFulfillment(themeIndex, sizeIndex);
+        const productId = `mdh-${id}`;
+        const hasRealPhoto = realPhotoProductIds.has(productId);
+        const visualType: VisualType = hasRealPhoto ? "foto-real" : "render-fiel";
+        const visualLabel = hasRealPhoto ? "Foto real da peca" : "Render fiel da peca";
         const pricePix = calculateSalePrice(grams, hours, complexity, "pix", "site");
         const priceCard = calculateSalePrice(grams, hours, complexity, "cartao", "site");
         const marketplaceSuggested = calculateSalePrice(grams, hours, complexity, "cartao", "mercadolivre");
 
         products.push({
-          id: `mdh-${id}`,
+          id: productId,
           sku: `MDH-${String(id).padStart(4, "0")}`,
           name: `${theme} ${size.label}`,
           category,
@@ -304,9 +318,10 @@ function createCatalog(): Product[] {
           imageHint: `${category} ${theme}`,
           material,
           finish,
-          badges: buildBadges(featured, fulfillment),
-          visualLabel: "Prévia conceitual",
-          hasRealPhoto: false
+          badges: buildBadges(featured, fulfillment, hasRealPhoto),
+          visualType,
+          visualLabel,
+          hasRealPhoto
         });
         id += 1;
       });
