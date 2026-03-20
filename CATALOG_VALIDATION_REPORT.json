@@ -1,10 +1,559 @@
 {
-  "timestamp": "2026-03-18T05:32:39.497Z",
-  "total": 57,
-  "valid": 57,
+  "timestamp": "2026-03-20T04:43:28.286Z",
+  "source": "D:\\mdh-3d-store\\catalog-local-snapshot.json",
+  "total": 77,
+  "valid": 77,
   "missing": 0,
-  "invalid": 0,
-  "passRate": "100%",
+  "placeholderRisk": 0,
+  "visualKinds": {
+    "foto-real": 0,
+    "render-fiel": 0,
+    "imagem-conceitual": 77
+  },
   "missingIds": [],
-  "invalidIds": []
+  "placeholderRiskIds": [],
+  "passRate": "100%",
+  "validItems": [
+    {
+      "id": "mdh-001",
+      "name": "Hello Kitty Chibi Premium",
+      "imagePath": "/catalog-assets/mdh-1.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 10.27
+    },
+    {
+      "id": "mdh-002",
+      "name": "Mascote Kawaii Desk Buddy",
+      "imagePath": "/catalog-assets/mdh-2.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 20.86
+    },
+    {
+      "id": "mdh-003",
+      "name": "Monstro Elétrico Pocket Mini",
+      "imagePath": "/catalog-assets/mdh-3.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 18.76
+    },
+    {
+      "id": "mdh-004",
+      "name": "Espiã Mirim Chibi",
+      "imagePath": "/catalog-assets/mdh-4.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 14.63
+    },
+    {
+      "id": "mdh-005",
+      "name": "Mascote Serra Articulado",
+      "imagePath": "/catalog-assets/mdh-5.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 20.6
+    },
+    {
+      "id": "mdh-006",
+      "name": "Tripulante Crewmate Neon",
+      "imagePath": "/catalog-assets/mdh-6.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 18.18
+    },
+    {
+      "id": "mdh-007",
+      "name": "Esfera Monstro de Bolso",
+      "imagePath": "/catalog-assets/mdh-7.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 14.31
+    },
+    {
+      "id": "mdh-008",
+      "name": "Pokémon Pikachu Mini",
+      "imagePath": "/catalog-assets/mdh-8.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 20.35
+    },
+    {
+      "id": "mdh-009",
+      "name": "Spy x Family Anya Chibi",
+      "imagePath": "/catalog-assets/mdh-9.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 19.01
+    },
+    {
+      "id": "mdh-010",
+      "name": "Chainsaw Man Pochita",
+      "imagePath": "/catalog-assets/mdh-10.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 14.03
+    },
+    {
+      "id": "mdh-011",
+      "name": "Minecraft Steve Figurine",
+      "imagePath": "/catalog-assets/mdh-11.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 21.23
+    },
+    {
+      "id": "mdh-012",
+      "name": "Creeper Minecraft",
+      "imagePath": "/catalog-assets/mdh-12.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 18.26
+    },
+    {
+      "id": "mdh-013",
+      "name": "Suporte para Fone Headphone",
+      "imagePath": "/catalog-assets/mdh-13.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 12.92
+    },
+    {
+      "id": "mdh-014",
+      "name": "Organizador de Cabos",
+      "imagePath": "/catalog-assets/mdh-14.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 20.46
+    },
+    {
+      "id": "mdh-015",
+      "name": "Suporte para Celular",
+      "imagePath": "/catalog-assets/mdh-15.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 19.65
+    },
+    {
+      "id": "mdh-016",
+      "name": "Chaveiro Personalizado",
+      "imagePath": "/catalog-assets/mdh-16.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 15.14
+    },
+    {
+      "id": "mdh-017",
+      "name": "Suporte para Controle PS5",
+      "imagePath": "/catalog-assets/mdh-17.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 20.52
+    },
+    {
+      "id": "mdh-018",
+      "name": "Suporte para Controle Xbox",
+      "imagePath": "/catalog-assets/mdh-18.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 18.88
+    },
+    {
+      "id": "mdh-019",
+      "name": "Porta-Copos Geek",
+      "imagePath": "/catalog-assets/mdh-19.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 14.98
+    },
+    {
+      "id": "mdh-020",
+      "name": "Imã de Geladeira",
+      "imagePath": "/catalog-assets/mdh-20.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 20.76
+    },
+    {
+      "id": "mdh-021",
+      "name": "Suporte para Mouse",
+      "imagePath": "/catalog-assets/mdh-21.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 18.72
+    },
+    {
+      "id": "mdh-022",
+      "name": "Organizador de Canetas",
+      "imagePath": "/catalog-assets/mdh-22.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 13.96
+    },
+    {
+      "id": "mdh-023",
+      "name": "Suporte para Teclado",
+      "imagePath": "/catalog-assets/mdh-23.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 20.53
+    },
+    {
+      "id": "mdh-024",
+      "name": "Gancho para Parede",
+      "imagePath": "/catalog-assets/mdh-24.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 18.4
+    },
+    {
+      "id": "mdh-025",
+      "name": "Vaso Geométrico",
+      "imagePath": "/catalog-assets/mdh-25.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 13.88
+    },
+    {
+      "id": "mdh-026",
+      "name": "Pokébola",
+      "imagePath": "/catalog-assets/mdh-26.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 20.19
+    },
+    {
+      "id": "mdh-027",
+      "name": "Busto Colecionável Anime",
+      "imagePath": "/catalog-assets/mdh-27.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 18.53
+    },
+    {
+      "id": "mdh-028",
+      "name": "Luminária LED Personalizada",
+      "imagePath": "/catalog-assets/mdh-28.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 14.48
+    },
+    {
+      "id": "mdh-029",
+      "name": "Foto Litofania",
+      "imagePath": "/catalog-assets/mdh-29.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 20.68
+    },
+    {
+      "id": "mdh-030",
+      "name": "Quadro Decorativo",
+      "imagePath": "/catalog-assets/mdh-30.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 19.3
+    },
+    {
+      "id": "mdh-031",
+      "name": "Escultura Abstrata",
+      "imagePath": "/catalog-assets/mdh-31.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 14.58
+    },
+    {
+      "id": "mdh-032",
+      "name": "Porta-Velhas",
+      "imagePath": "/catalog-assets/mdh-32.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 20.2
+    },
+    {
+      "id": "mdh-033",
+      "name": "Relógio de Parede",
+      "imagePath": "/catalog-assets/mdh-33.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 18.54
+    },
+    {
+      "id": "mdh-034",
+      "name": "Jarro Decorativo",
+      "imagePath": "/catalog-assets/mdh-34.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 14.42
+    },
+    {
+      "id": "mdh-035",
+      "name": "Prateleira Suspensa",
+      "imagePath": "/catalog-assets/mdh-35.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 21.02
+    },
+    {
+      "id": "mdh-036",
+      "name": "Espelho Decorativo",
+      "imagePath": "/catalog-assets/mdh-36.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 18.85
+    },
+    {
+      "id": "mdh-037",
+      "name": "Chaveiro Nome Dupla Face",
+      "imagePath": "/catalog-assets/mdh-37.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 13.78
+    },
+    {
+      "id": "mdh-038",
+      "name": "Nome 3D Personalizado",
+      "imagePath": "/catalog-assets/mdh-38.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 20.69
+    },
+    {
+      "id": "mdh-039",
+      "name": "Caixa de Música",
+      "imagePath": "/catalog-assets/mdh-39.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 18.77
+    },
+    {
+      "id": "mdh-040",
+      "name": "Porta-Retrato Personalizado",
+      "imagePath": "/catalog-assets/mdh-40.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 14.37
+    },
+    {
+      "id": "mdh-041",
+      "name": "Aniversário 3D",
+      "imagePath": "/catalog-assets/mdh-41.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 20.55
+    },
+    {
+      "id": "mdh-042",
+      "name": "Mensagem em 3D",
+      "imagePath": "/catalog-assets/mdh-42.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 18.26
+    },
+    {
+      "id": "mdh-043",
+      "name": "Mini Troféu Personalizado",
+      "imagePath": "/catalog-assets/mdh-43.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 14.71
+    },
+    {
+      "id": "mdh-044",
+      "name": "Marcador de Página 3D",
+      "imagePath": "/catalog-assets/mdh-44.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 21.09
+    },
+    {
+      "id": "mdh-045",
+      "name": "Abraçadeira Personalizada",
+      "imagePath": "/catalog-assets/mdh-45.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 18.37
+    },
+    {
+      "id": "mdh-046",
+      "name": "Pingente Personalizado",
+      "imagePath": "/catalog-assets/mdh-46.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 14.08
+    },
+    {
+      "id": "mdh-047",
+      "name": "Calendário 3D",
+      "imagePath": "/catalog-assets/mdh-47.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 21.24
+    },
+    {
+      "id": "mdh-048",
+      "name": "Copo Personalizado",
+      "imagePath": "/catalog-assets/mdh-48.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 18.36
+    },
+    {
+      "id": "mdh-049",
+      "name": "Suporte para Monitor",
+      "imagePath": "/catalog-assets/mdh-49.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 14.31
+    },
+    {
+      "id": "mdh-050",
+      "name": "Organizador de Cabo USB",
+      "imagePath": "/catalog-assets/mdh-50.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 20.82
+    },
+    {
+      "id": "mdh-051",
+      "name": "Gancho para Chaves",
+      "imagePath": "/catalog-assets/mdh-51.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 19.12
+    },
+    {
+      "id": "mdh-052",
+      "name": "Suporte para Livros",
+      "imagePath": "/catalog-assets/mdh-52.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 15.67
+    },
+    {
+      "id": "mdh-053",
+      "name": "Caixa Organizadora",
+      "imagePath": "/catalog-assets/mdh-53.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 20.26
+    },
+    {
+      "id": "mdh-054",
+      "name": "Suporte para Plantas",
+      "imagePath": "/catalog-assets/mdh-54.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 19.38
+    },
+    {
+      "id": "mdh-055",
+      "name": "Prateleira Flutuante",
+      "imagePath": "/catalog-assets/mdh-55.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 14.09
+    },
+    {
+      "id": "mdh-056",
+      "name": "Suporte para Bicicleta",
+      "imagePath": "/catalog-assets/mdh-56.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 21.01
+    },
+    {
+      "id": "mdh-057",
+      "name": "Organizador de Maquiagem",
+      "imagePath": "/catalog-assets/mdh-57.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 18.83
+    },
+    {
+      "id": "mdh-058",
+      "name": "Suporte para Tablet",
+      "imagePath": "/catalog-assets/mdh-58.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 15.3
+    },
+    {
+      "id": "mdh-059",
+      "name": "Caixa para Joias",
+      "imagePath": "/catalog-assets/mdh-59.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 20.17
+    },
+    {
+      "id": "mdh-060",
+      "name": "Suporte para Garrafa",
+      "imagePath": "/catalog-assets/mdh-60.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 18.7
+    },
+    {
+      "id": "mdh-061",
+      "name": "Naruto Uzumaki Chibi",
+      "imagePath": "/catalog-assets/mdh-61.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 67.87
+    },
+    {
+      "id": "mdh-062",
+      "name": "Sasuke Uchiha Chibi",
+      "imagePath": "/catalog-assets/mdh-62.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 66.41
+    },
+    {
+      "id": "mdh-063",
+      "name": "Goku Dragon Ball Chibi",
+      "imagePath": "/catalog-assets/mdh-63.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 66.74
+    },
+    {
+      "id": "mdh-064",
+      "name": "Luffy One Piece Chibi",
+      "imagePath": "/catalog-assets/mdh-64.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 65.85
+    },
+    {
+      "id": "mdh-065",
+      "name": "Elsa Frozen Chibi",
+      "imagePath": "/catalog-assets/mdh-65.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 66.39
+    },
+    {
+      "id": "mdh-066",
+      "name": "Totoro My Neighbor Chibi",
+      "imagePath": "/catalog-assets/mdh-66.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 65.68
+    },
+    {
+      "id": "mdh-067",
+      "name": "Pikachu Pokémon Chibi",
+      "imagePath": "/catalog-assets/mdh-67.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 65.95
+    },
+    {
+      "id": "mdh-068",
+      "name": "Kirby Nintendo Chibi",
+      "imagePath": "/catalog-assets/mdh-68.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 65.92
+    },
+    {
+      "id": "mdh-069",
+      "name": "Mario Nintendo Chibi",
+      "imagePath": "/catalog-assets/mdh-69.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 66.21
+    },
+    {
+      "id": "mdh-070",
+      "name": "Sonic Hedgehog Chibi",
+      "imagePath": "/catalog-assets/mdh-70.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 66.61
+    },
+    {
+      "id": "mdh-071",
+      "name": "Polvo Oceano Articulado",
+      "imagePath": "/catalog-assets/mdh-71.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 66.54
+    },
+    {
+      "id": "mdh-072",
+      "name": "Tubarão Oceano Mini",
+      "imagePath": "/catalog-assets/mdh-72.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 67.24
+    },
+    {
+      "id": "mdh-073",
+      "name": "Dragão Oriental Articulado",
+      "imagePath": "/catalog-assets/mdh-73.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 66.3
+    },
+    {
+      "id": "mdh-074",
+      "name": "Dragão Europeu Mini",
+      "imagePath": "/catalog-assets/mdh-74.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 67.1
+    },
+    {
+      "id": "mdh-075",
+      "name": "Coruja Floresta Articulada",
+      "imagePath": "/catalog-assets/mdh-75.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 66.1
+    },
+    {
+      "id": "mdh-076",
+      "name": "Foguete Espacial Mini",
+      "imagePath": "/catalog-assets/mdh-76.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 66.94
+    },
+    {
+      "id": "mdh-077",
+      "name": "Cavaleiro Medieval Mini",
+      "imagePath": "/catalog-assets/mdh-77.webp",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 65.89
+    }
+  ],
+  "missingItems": [],
+  "placeholderRiskItems": []
 }

@@ -42,7 +42,7 @@ let changed = 0;
 for (const [id, imgPath] of Object.entries(map)) {
   // atualiza `image: '...'` perto do id
   const imageRe = new RegExp(
-    String.raw`(id\s*:\s*['"]${id}['"][\s\S]{0,800}?image\s*:\s*)['"][^'"]*['"]`,
+    String.raw`(id\s*:\s*['"]${id}['"][\s\S]{0,2400}?image\s*:\s*)['"][^'"]*['"]`,
     "g"
   );
   src = src.replace(imageRe, (m, p1) => {
@@ -52,7 +52,7 @@ for (const [id, imgPath] of Object.entries(map)) {
 
   // atualiza primeiro item de `images: [...]` perto do id
   const imagesRe = new RegExp(
-    String.raw`(id\s*:\s*['"]${id}['"][\s\S]{0,1200}?images\s*:\s*\[\s*)(['"][^'"]*['"])([\s\S]*?\])`,
+    String.raw`(id\s*:\s*['"]${id}['"][\s\S]{0,3000}?images\s*:\s*\[\s*)(['"][^'"]*['"])([\s\S]*?\])`,
     "g"
   );
   src = src.replace(imagesRe, (m, p1, first, rest) => {

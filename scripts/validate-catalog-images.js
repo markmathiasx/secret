@@ -1,119 +1,203 @@
 #!/usr/bin/env node
 
-const fs = require('fs');
-const path = require('path');
+const fs = require("node:fs");
+const path = require("node:path");
+const sharp = require("sharp");
 
-const catalogPath = path.resolve(__dirname, '../lib/catalog.ts');
-const catalogAssetsPath = path.resolve(__dirname, '../catalog-assets');
+const root = path.resolve(__dirname, "..");
+const reportPath = path.resolve(root, "CATALOG_VALIDATION_REPORT.json");
+const sourceUrl = process.env.CATALOG_SOURCE_URL || "https://mdh-3d-store.vercel.app/api/catalog?scope=all";
+const sourceFile = process.env.CATALOG_SOURCE_FILE || "";
+const placeholderCandidates = [
+  path.resolve(root, "public", "catalog-assets", "product-placeholder.webp"),
+  path.resolve(root, "public", "catalog-assets", "product-placeholder.jpg"),
+  path.resolve(root, "catalog-assets", "product-placeholder.webp"),
+];
+const placeholderThreshold = 8;
 
-console.log('\n📋 VALIDAÇÃO DE CATÁLOGO + IMAGENS\n');
-console.log('='.repeat(60));
-
-// 1. Parse catalog.ts to extract all products
-const catalogContent = fs.readFileSync(catalogPath, 'utf8');
-
-// Extract all product IDs and image paths using regex
-const productRegex = /id:\s*["']([^"']+)["'][^}]*?image:\s*["']([^"']+)["']/gs;
-const products = [];
-let match;
-
-while ((match = productRegex.exec(catalogContent)) !== null) {
-  products.push({
-    id: match[1],
-    imagePath: match[2]
-  });
+function resolveLocalPath(imagePath) {
+  return path.resolve(root, "public", imagePath.replace(/^\//, ""));
 }
 
-console.log(`\n✅ Total de produtos no catálogo: ${products.length}`);
+function getPrimaryImage(item) {
+  return item.image || (Array.isArray(item.images) ? item.images[0] : "") || "";
+}
 
-// 2. Get all image files in catalog-assets
-const imageFiles = fs.readdirSync(catalogAssetsPath)
-  .filter(f => /\.(webp|jpg|jpeg|png)$/i.test(f))
-  .map(f => f.toLowerCase());
+function getVisualKind(imagePath) {
+  if (imagePath.startsWith("/products/foto-")) return "foto-real";
+  if (imagePath.startsWith("/products/render-")) return "render-fiel";
+  return "imagem-conceitual";
+}
 
-console.log(`✅ Total de imagens em catalog-assets: ${imageFiles.length}`);
+async function getRaw32(filePath) {
+  return sharp(filePath)
+    .resize(32, 32, { fit: "cover" })
+    .removeAlpha()
+    .raw()
+    .toBuffer();
+}
 
-// 3. Validate each product
-const missing = [];
-const invalid = [];
-const valid = [];
-
-products.forEach((product, idx) => {
-  const imageName = product.imagePath.split('/').pop().toLowerCase();
-  
-  // Try exact match and normalized match (without leading zeros)
-  const exact = imageFiles.includes(imageName);
-  const normalized = imageFiles.includes(imageName.replace(/mdh-0+(\d+)/, 'mdh-$1'));
-  
-  if (exact || normalized) {
-    valid.push({ ...product, found: imageName });
-  } else if (!product.imagePath || product.imagePath === '' || product.imagePath === 'undefined') {
-    missing.push({ ...product, reason: 'Nenhuma imagem definida' });
-  } else {
-    invalid.push({ ...product, attempted: imageName });
+function meanAbsoluteDifference(bufferA, bufferB) {
+  let total = 0;
+  for (let index = 0; index < bufferA.length; index += 1) {
+    total += Math.abs(bufferA[index] - bufferB[index]);
   }
+  return total / bufferA.length;
+}
+
+async function fetchCatalog() {
+  if (sourceFile) {
+    const filePath = path.resolve(root, sourceFile);
+    const raw = JSON.parse(fs.readFileSync(filePath, "utf8"));
+    if (Array.isArray(raw)) {
+      return { items: raw, sourceLabel: filePath };
+    }
+    if (Array.isArray(raw?.items)) {
+      return { items: raw.items, sourceLabel: filePath };
+    }
+    throw new Error(`Arquivo de catálogo inválido: ${filePath}`);
+  }
+
+  const response = await fetch(sourceUrl, { headers: { Accept: "application/json" } });
+  if (!response.ok) {
+    throw new Error(`Falha ao carregar catálogo em ${sourceUrl}: ${response.status}`);
+  }
+  const data = await response.json();
+  if (!Array.isArray(data?.items)) {
+    throw new Error(`Resposta inesperada do catálogo em ${sourceUrl}`);
+  }
+  return { items: data.items, sourceLabel: sourceUrl };
+}
+
+async function main() {
+  console.log("\n📋 VALIDAÇÃO DE CATÁLOGO + IMAGENS PUBLICADAS\n");
+  console.log("=".repeat(72));
+  console.log(`Fonte do catálogo: ${sourceFile ? path.resolve(root, sourceFile) : sourceUrl}`);
+
+  const placeholderPath = placeholderCandidates.find((candidate) => fs.existsSync(candidate));
+  if (!placeholderPath) {
+    throw new Error("Nenhum arquivo product-placeholder foi encontrado em public/catalog-assets ou catalog-assets.");
+  }
+
+  const placeholderRaw = await getRaw32(placeholderPath);
+  const { items, sourceLabel } = await fetchCatalog();
+
+  const missing = [];
+  const placeholderRisk = [];
+  const valid = [];
+
+  const summary = {
+    timestamp: new Date().toISOString(),
+    source: sourceLabel,
+    total: items.length,
+    valid: 0,
+    missing: 0,
+    placeholderRisk: 0,
+    visualKinds: {
+      "foto-real": 0,
+      "render-fiel": 0,
+      "imagem-conceitual": 0,
+    },
+    missingIds: [],
+    placeholderRiskIds: [],
+  };
+
+  for (const item of items) {
+    const imagePath = getPrimaryImage(item);
+    const visualKind = getVisualKind(imagePath);
+    summary.visualKinds[visualKind] += 1;
+
+    if (!imagePath) {
+      missing.push({ id: item.id, name: item.name, imagePath, reason: "Sem imagem primária" });
+      continue;
+    }
+
+    const localPath = resolveLocalPath(imagePath);
+    if (!fs.existsSync(localPath)) {
+      missing.push({ id: item.id, name: item.name, imagePath, reason: "Arquivo não encontrado em public/" });
+      continue;
+    }
+
+    const imageRaw = await getRaw32(localPath);
+    const distance = meanAbsoluteDifference(placeholderRaw, imageRaw);
+
+    if (imagePath === "/catalog-assets/product-placeholder.webp" || distance <= placeholderThreshold) {
+      placeholderRisk.push({
+        id: item.id,
+        name: item.name,
+        imagePath,
+        placeholderDistance: Number(distance.toFixed(2)),
+      });
+      continue;
+    }
+
+    valid.push({
+      id: item.id,
+      name: item.name,
+      imagePath,
+      visualKind,
+      placeholderDistance: Number(distance.toFixed(2)),
+    });
+  }
+
+  summary.valid = valid.length;
+  summary.missing = missing.length;
+  summary.placeholderRisk = placeholderRisk.length;
+  summary.missingIds = missing.map((item) => item.id);
+  summary.placeholderRiskIds = placeholderRisk.map((item) => item.id);
+
+  const passRate = Math.round((valid.length / items.length) * 100);
+
+  console.log(`\n✅ Produtos auditados: ${items.length}`);
+  console.log(`✅ Visuais publicados e aceitos: ${valid.length}`);
+  console.log(`⚠️  Imagens ausentes: ${missing.length}`);
+  console.log(`⚠️  Placeholder ou risco visual: ${placeholderRisk.length}`);
+  console.log(`📊 Taxa de sucesso real: ${passRate}%`);
+  console.log(`📷 Foto real: ${summary.visualKinds["foto-real"]}`);
+  console.log(`🧊 Render fiel: ${summary.visualKinds["render-fiel"]}`);
+  console.log(`🎯 Imagem conceitual: ${summary.visualKinds["imagem-conceitual"]}`);
+
+  if (missing.length > 0) {
+    console.log("\nARQUIVOS AUSENTES");
+    console.log("-".repeat(72));
+    missing.slice(0, 20).forEach((item, index) => {
+      console.log(`${index + 1}. ${item.id} | ${item.name}`);
+      console.log(`   ${item.reason}: ${item.imagePath || "(vazio)"}`);
+    });
+  }
+
+  if (placeholderRisk.length > 0) {
+    console.log("\nPLACEHOLDER OU RISCO VISUAL");
+    console.log("-".repeat(72));
+    placeholderRisk.slice(0, 20).forEach((item, index) => {
+      console.log(`${index + 1}. ${item.id} | ${item.name}`);
+      console.log(`   ${item.imagePath} | distância ${item.placeholderDistance}`);
+    });
+  }
+
+  fs.writeFileSync(
+    reportPath,
+    JSON.stringify(
+      {
+        ...summary,
+        passRate: `${passRate}%`,
+        validItems: valid,
+        missingItems: missing,
+        placeholderRiskItems: placeholderRisk,
+      },
+      null,
+      2,
+    ),
+    "utf8",
+  );
+
+  console.log(`\n✅ Relatório salvo em: ${reportPath}`);
+  console.log("=".repeat(72) + "\n");
+
+  process.exit(missing.length === 0 && placeholderRisk.length === 0 ? 0 : 1);
+}
+
+main().catch((error) => {
+  console.error(error instanceof Error ? error.message : error);
+  process.exit(1);
 });
-
-console.log('\n' + '='.repeat(60));
-console.log(`\n✅ PRODUTOS COM IMAGEM VÁLIDA: ${valid.length}`);
-console.log(`⚠️  PRODUTOS SEM IMAGEM: ${missing.length}`);
-console.log(`❌ PRODUTOS COM IMAGEM INVÁLIDA/NÃO ENCONTRADA: ${invalid.length}`);
-
-if (missing.length > 0) {
-  console.log('\n⚠️  PRODUTOS SEM IMAGEM DEFINIDA:');
-  console.log('-'.repeat(60));
-  missing.forEach((p, i) => {
-    console.log(`${i + 1}. ID: ${p.id} | Nome: ${p.id}`);
-  });
-}
-
-if (invalid.length > 0) {
-  console.log('\n❌ PRODUTOS COM IMAGEM NÃO ENCONTRADA:');
-  console.log('-'.repeat(60));
-  invalid.slice(0, 20).forEach((p, i) => {
-    console.log(`${i + 1}. ID: ${p.id}`);
-    console.log(`   🔍 Procurando: ${p.attempted}`);
-    console.log(`   ❌ Não encontrado em catalog-assets/\n`);
-  });
-  if (invalid.length > 20) {
-    console.log(`   ... e mais ${invalid.length - 20} produtos\n`);
-  }
-}
-
-console.log('='.repeat(60));
-
-// 4. Summary
-const passRate = Math.round((valid.length / products.length) * 100);
-console.log(`\n📊 TAXA DE SUCESSO: ${passRate}% (${valid.length}/${products.length})`);
-
-if (passRate === 100) {
-  console.log('✅ PERFEITO! Todos os produtos têm imagens válidas.');
-} else if (passRate >= 90) {
-  console.log('⚠️  BOM! Quase tudo pronto, mas há alguns produtos a revisar.');
-} else {
-  console.log('❌ CRÍTICO! Muitos produtos ainda não têm imagens válidas.');
-}
-
-console.log('\n' + '='.repeat(60) + '\n');
-
-// 5. Generate report file
-const report = {
-  timestamp: new Date().toISOString(),
-  total: products.length,
-  valid: valid.length,
-  missing: missing.length,
-  invalid: invalid.length,
-  passRate: `${passRate}%`,
-  missingIds: missing.map(p => p.id),
-  invalidIds: invalid.map(p => p.id),
-};
-
-fs.writeFileSync(
-  path.resolve(__dirname, '../CATALOG_VALIDATION_REPORT.json'),
-  JSON.stringify(report, null, 2),
-  'utf8'
-);
-
-console.log('✅ Relatório salvo em: CATALOG_VALIDATION_REPORT.json\n');
-
-process.exit(passRate === 100 ? 0 : 1);
