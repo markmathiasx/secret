@@ -26,11 +26,46 @@ type UserStore = {
 
 export type AuthUser = Pick<StoredUser, "id" | "email" | "displayName" | "role" | "createdAt" | "lastLoginAt">;
 
-const STORE_DIR = path.join(process.cwd(), "secret");
+type AuthStoreRuntime = typeof globalThis & {
+  __mdhAuthStoreFsUnavailable?: boolean;
+  __mdhAuthStoreMemory?: UserStore;
+};
+
+const STORE_DIR =
+  (process.env.AUTH_STORE_DIR || "").trim() ||
+  (process.env.VERCEL ? path.join("/tmp", "mdh-auth-store") : path.join(process.cwd(), "secret"));
 const STORE_FILE = path.join(STORE_DIR, "auth-users.json");
 const DEFAULT_STORE: UserStore = { version: 1, users: [] };
 
 let writeQueue = Promise.resolve();
+
+function getRuntimeScope() {
+  return globalThis as AuthStoreRuntime;
+}
+
+function cloneStore(store: UserStore): UserStore {
+  return {
+    version: 1,
+    users: store.users.map((user) => ({ ...user }))
+  };
+}
+
+function getMemoryStore() {
+  const scope = getRuntimeScope();
+  if (!scope.__mdhAuthStoreMemory) {
+    scope.__mdhAuthStoreMemory = cloneStore(DEFAULT_STORE);
+  }
+  return scope.__mdhAuthStoreMemory;
+}
+
+function markFsUnavailable() {
+  const scope = getRuntimeScope();
+  scope.__mdhAuthStoreFsUnavailable = true;
+}
+
+function isFsUnavailable() {
+  return Boolean(getRuntimeScope().__mdhAuthStoreFsUnavailable);
+}
 
 function getSupabaseAdmin() {
   const { url, serviceRole } = getSupabaseEnv();
@@ -80,24 +115,52 @@ function sanitizeStore(raw: unknown): UserStore {
 }
 
 async function ensureStoreFile() {
-  await fs.mkdir(STORE_DIR, { recursive: true });
+  if (isFsUnavailable()) return;
 
   try {
-    await fs.access(STORE_FILE);
+    await fs.mkdir(STORE_DIR, { recursive: true });
+
+    try {
+      await fs.access(STORE_FILE);
+    } catch {
+      await fs.writeFile(STORE_FILE, JSON.stringify(DEFAULT_STORE, null, 2), "utf8");
+    }
   } catch {
-    await fs.writeFile(STORE_FILE, JSON.stringify(DEFAULT_STORE, null, 2), "utf8");
+    markFsUnavailable();
+    getMemoryStore();
   }
 }
 
 async function readStore() {
   await ensureStoreFile();
-  const raw = await fs.readFile(STORE_FILE, "utf8");
-  return sanitizeStore(JSON.parse(raw));
+  if (isFsUnavailable()) {
+    return cloneStore(getMemoryStore());
+  }
+
+  try {
+    const raw = await fs.readFile(STORE_FILE, "utf8");
+    return sanitizeStore(JSON.parse(raw));
+  } catch {
+    markFsUnavailable();
+    return cloneStore(getMemoryStore());
+  }
 }
 
 async function writeStore(store: UserStore) {
   await ensureStoreFile();
-  await fs.writeFile(STORE_FILE, JSON.stringify(store, null, 2), "utf8");
+  if (isFsUnavailable()) {
+    const scope = getRuntimeScope();
+    scope.__mdhAuthStoreMemory = cloneStore(store);
+    return;
+  }
+
+  try {
+    await fs.writeFile(STORE_FILE, JSON.stringify(store, null, 2), "utf8");
+  } catch {
+    markFsUnavailable();
+    const scope = getRuntimeScope();
+    scope.__mdhAuthStoreMemory = cloneStore(store);
+  }
 }
 
 async function withStoreLock<T>(task: () => Promise<T>) {
