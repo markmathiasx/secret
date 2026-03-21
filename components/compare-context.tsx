@@ -1,11 +1,13 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 
 type CompareContextValue = {
   compareIds: string[];
+  compareCount: number;
   isInCompare: (id: string) => boolean;
   toggleCompare: (id: string) => void;
+  replaceCompare: (ids: string[]) => void;
   clearCompare: () => void;
 };
 
@@ -29,35 +31,64 @@ export function CompareProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
-  const persist = (ids: string[]) => {
+  useEffect(() => {
+    const onStorage = (event: StorageEvent) => {
+      if (event.key !== STORAGE_KEY) return;
+      try {
+        const parsed = event.newValue ? JSON.parse(event.newValue) : [];
+        setCompareIds(Array.isArray(parsed) ? parsed.filter((item): item is string => typeof item === "string").slice(0, MAX_COMPARE) : []);
+      } catch {
+        setCompareIds([]);
+      }
+    };
+
+    window.addEventListener("storage", onStorage);
+    return () => window.removeEventListener("storage", onStorage);
+  }, []);
+
+  const persist = useCallback((ids: string[]) => {
     setCompareIds(ids);
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(ids));
-  };
+  }, []);
 
-  const toggleCompare = (id: string) => {
-    if (compareIds.includes(id)) {
-      persist(compareIds.filter((item) => item !== id));
-      return;
-    }
-    if (compareIds.length >= MAX_COMPARE) return;
-    persist([...compareIds, id]);
-  };
+  const toggleCompare = useCallback(
+    (id: string) => {
+      setCompareIds((current) => {
+        let next = current;
+        if (current.includes(id)) {
+          next = current.filter((item) => item !== id);
+        } else if (current.length < MAX_COMPARE) {
+          next = [...current, id];
+        }
 
-  const clearCompare = () => persist([]);
-  const isInCompare = (id: string) => compareIds.includes(id);
-
-  return (
-    <CompareContext.Provider
-      value={{
-        compareIds,
-        isInCompare,
-        toggleCompare,
-        clearCompare,
-      }}
-    >
-      {children}
-    </CompareContext.Provider>
+        window.localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+        return next;
+      });
+    },
+    []
   );
+
+  const replaceCompare = useCallback((ids: string[]) => {
+    const next = ids.filter((item, index, source) => typeof item === "string" && source.indexOf(item) === index).slice(0, MAX_COMPARE);
+    persist(next);
+  }, [persist]);
+
+  const clearCompare = useCallback(() => persist([]), [persist]);
+  const isInCompare = useCallback((id: string) => compareIds.includes(id), [compareIds]);
+
+  const value = useMemo(
+    () => ({
+      compareIds,
+      compareCount: compareIds.length,
+      isInCompare,
+      toggleCompare,
+      replaceCompare,
+      clearCompare,
+    }),
+    [clearCompare, compareIds, isInCompare, replaceCompare, toggleCompare]
+  );
+
+  return <CompareContext.Provider value={value}>{children}</CompareContext.Provider>;
 }
 
 export function useCompare() {

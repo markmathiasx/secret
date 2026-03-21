@@ -20,6 +20,7 @@
     "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
+    "start:3011": "next start --port 3011",
     "lint": "next lint --fix",
     "lint:check": "next lint",
     "typecheck": "tsc --noEmit",
@@ -35,6 +36,7 @@
     "catalog:images": "node scripts/catalog-images.mjs",
     "analyze": "ANALYZE=true npm run build",
     "preview": "npm run build && npm run start",
+    "health": "powershell -Command \"Invoke-WebRequest http://127.0.0.1:3011/api/health -UseBasicParsing | Select-Object -ExpandProperty Content\"",
     "clean": "rm -rf .next out node_modules/.cache"
   },
   "dependencies": {

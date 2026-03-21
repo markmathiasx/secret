@@ -191,13 +191,9 @@ const nextConfig: NextConfig = {
     return config;
   },
 
-  // Build ID for cache busting
-  generateBuildId: async () => {
-    return 'build-' + Date.now();
-  },
-
   // Output configuration
   output: 'standalone',
+  outputFileTracingRoot: process.cwd(),
 
   // Environment variables
   env: {

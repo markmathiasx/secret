@@ -3,6 +3,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+CHECKPOINT_NAME = "juggernautXL_ragnarokBy.safetensors"
+
 
 def main() -> None:
     root = Path(__file__).resolve().parent
@@ -43,6 +45,7 @@ def main() -> None:
             "Negative prompt:\n"
             f"{negative_prompt}\n\n"
             "Parametros recomendados:\n"
+            f"- Checkpoint: {CHECKPOINT_NAME}\n"
             f"- Width: {width}\n"
             f"- Height: {height}\n"
             f"- Sampler: {sampler}\n"
@@ -60,4 +63,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

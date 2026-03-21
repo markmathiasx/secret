@@ -11,9 +11,10 @@ type Props = {
   alt: string;
   className?: string;
   onResolved?: (src: string) => void;
+  priority?: boolean;
 };
 
-export function SafeProductImage({ product, candidates, alt, className, onResolved }: Props) {
+export function SafeProductImage({ product, candidates, alt, className, onResolved, priority = false }: Props) {
   const candidateList = useMemo(() => {
     if (candidates?.length) return candidates;
     if (product) return getProductImageCandidates(product);
@@ -36,9 +37,10 @@ export function SafeProductImage({ product, candidates, alt, className, onResolv
         src={src}
         alt={alt}
         fill
+        priority={priority}
         unoptimized={isGif}
         className={`${className} ${isLoading ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300`}
-        loading="lazy"
+        loading={priority ? "eager" : "lazy"}
         decoding="async"
         quality={85}
         onLoad={() => {

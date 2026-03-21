@@ -4,6 +4,7 @@ from __future__ import annotations
 import base64
 import io
 import json
+import os
 import re
 import unicodedata
 from dataclasses import dataclass
@@ -17,9 +18,15 @@ from PIL import Image, ImageEnhance, ImageOps
 DEFAULT_PROMPTS_PATH = Path("prompts_batch.json")
 DEFAULT_GEEK_SOURCE_DIR = Path(r"C:\Users\markm\Downloads\geek")
 DEFAULT_OUTPUT_ROOT = Path("public/products")
+DEFAULT_EXISTING_GEEK_ROOT = Path("public/products/geek")
 DEFAULT_MANIFEST_OUT = Path("public/products/geek/geek_image_manifest.json")
-SD_API_URL = "http://127.0.0.1:7860/sdapi/v1/txt2img"
-SD_OPTIONS_URL = "http://127.0.0.1:7860/sdapi/v1/options"
+DEFAULT_CHECKPOINT = "juggernautXL_ragnarokBy.safetensors"
+
+SD_BASE_URL = os.environ.get("SD_WEBUI_BASE_URL", "http://127.0.0.1:7860").rstrip("/")
+SD_TXT2IMG_URL = f"{SD_BASE_URL}/sdapi/v1/txt2img"
+SD_IMG2IMG_URL = f"{SD_BASE_URL}/sdapi/v1/img2img"
+SD_OPTIONS_URL = f"{SD_BASE_URL}/sdapi/v1/options"
+SD_MODELS_URL = f"{SD_BASE_URL}/sdapi/v1/sd-models"
 
 
 @dataclass
@@ -60,6 +67,33 @@ def group_sources(geek_dir: Path) -> dict[str, SourcePair]:
     return {k: SourcePair(main=v["main"], original=v["original"]) for k, v in grouped.items()}
 
 
+def resolve_source_pair(
+    item: dict[str, Any],
+    grouped_sources: dict[str, SourcePair],
+    existing_geek_root: Path,
+) -> SourcePair:
+    source_key = normalize_text(item["name"])
+    pair = grouped_sources.get(source_key, SourcePair(main=None, original=None))
+
+    existing_dir = existing_geek_root / item["slug"]
+    existing_main = existing_dir / f"{item['slug']}.png"
+    existing_original = existing_dir / f"{item['slug']}-original.png"
+
+    main = pair.main
+    original = pair.original
+
+    if main is None:
+        if existing_original.exists():
+            main = existing_original
+        elif existing_main.exists():
+            main = existing_main
+
+    if original is None and existing_original.exists():
+        original = existing_original
+
+    return SourcePair(main=main, original=original)
+
+
 def sd_api_available() -> bool:
     try:
         response = requests.get(SD_OPTIONS_URL, timeout=3)
@@ -68,8 +102,49 @@ def sd_api_available() -> bool:
         return False
 
 
-def generate_via_sd(item: dict[str, Any]) -> Image.Image:
-    payload = {
+def resolve_checkpoint_title(checkpoint_name: str) -> str:
+    try:
+        response = requests.get(SD_MODELS_URL, timeout=10)
+        response.raise_for_status()
+        models = response.json()
+    except Exception:
+        return checkpoint_name
+
+    checkpoint_stem = Path(checkpoint_name).stem.lower()
+    for model in models:
+        title = str(model.get("title") or "")
+        filename = str(model.get("filename") or "")
+        model_name = str(model.get("model_name") or "")
+        haystack = " ".join([title.lower(), filename.lower(), model_name.lower()])
+        if checkpoint_name.lower() in haystack or checkpoint_stem in haystack:
+            return title or checkpoint_name
+
+    return checkpoint_name
+
+
+def build_from_source(source_file: Path, width: int, height: int) -> Image.Image:
+    with Image.open(source_file) as img:
+        rgb = img.convert("RGB")
+        fitted = ImageOps.fit(rgb, (width, height), method=Image.Resampling.LANCZOS, centering=(0.5, 0.5))
+        fitted = ImageEnhance.Sharpness(fitted).enhance(1.06)
+        fitted = ImageEnhance.Contrast(fitted).enhance(1.03)
+        fitted = ImageEnhance.Color(fitted).enhance(1.02)
+        return fitted
+
+
+def image_to_base64(image: Image.Image) -> str:
+    buffer = io.BytesIO()
+    image.save(buffer, format="PNG")
+    return base64.b64encode(buffer.getvalue()).decode("utf-8")
+
+
+def decode_base64_image(payload: str) -> Image.Image:
+    image_bytes = base64.b64decode(payload)
+    return Image.open(io.BytesIO(image_bytes)).convert("RGB")
+
+
+def build_sd_common_payload(item: dict[str, Any], checkpoint_title: str) -> dict[str, Any]:
+    return {
         "prompt": item["prompt"],
         "negative_prompt": item["negative_prompt"],
         "seed": int(item["seed"]),
@@ -82,26 +157,57 @@ def generate_via_sd(item: dict[str, Any]) -> Image.Image:
         "n_iter": 1,
         "restore_faces": False,
         "tiling": False,
+        "do_not_save_samples": True,
+        "do_not_save_grid": True,
+        "override_settings": {
+            "sd_model_checkpoint": checkpoint_title,
+        },
+        "override_settings_restore_afterwards": True,
     }
-    response = requests.post(SD_API_URL, json=payload, timeout=300)
+
+
+def generate_txt2img(item: dict[str, Any], checkpoint_title: str) -> Image.Image:
+    payload = build_sd_common_payload(item, checkpoint_title)
+    response = requests.post(SD_TXT2IMG_URL, json=payload, timeout=300)
     response.raise_for_status()
     body = response.json()
     images = body.get("images") or []
     if not images:
-        raise RuntimeError("API do SD nao retornou imagens.")
-
-    image_bytes = base64.b64decode(images[0])
-    return Image.open(io.BytesIO(image_bytes)).convert("RGB")
+        raise RuntimeError("API txt2img do SD nao retornou imagens.")
+    return decode_base64_image(images[0])
 
 
-def build_from_source(source_file: Path, width: int, height: int) -> Image.Image:
-    with Image.open(source_file) as img:
-        rgb = img.convert("RGB")
-        fitted = ImageOps.fit(rgb, (width, height), method=Image.Resampling.LANCZOS, centering=(0.5, 0.5))
-        fitted = ImageEnhance.Sharpness(fitted).enhance(1.08)
-        fitted = ImageEnhance.Contrast(fitted).enhance(1.04)
-        fitted = ImageEnhance.Color(fitted).enhance(1.03)
-        return fitted
+def generate_img2img(item: dict[str, Any], source_main: Path, checkpoint_title: str) -> Image.Image:
+    width = int(item["width"])
+    height = int(item["height"])
+    init_image = build_from_source(source_main, width, height)
+    payload = build_sd_common_payload(item, checkpoint_title)
+    payload.update(
+        {
+            "init_images": [image_to_base64(init_image)],
+            "resize_mode": 0,
+            "denoising_strength": 0.3,
+            "include_init_images": False,
+            "image_cfg_scale": 1.5,
+        }
+    )
+    response = requests.post(SD_IMG2IMG_URL, json=payload, timeout=300)
+    response.raise_for_status()
+    body = response.json()
+    images = body.get("images") or []
+    if not images:
+        raise RuntimeError("API img2img do SD nao retornou imagens.")
+    return decode_base64_image(images[0])
+
+
+def generate_via_sd(item: dict[str, Any], source_pair: SourcePair, checkpoint_title: str) -> tuple[Image.Image, str]:
+    if source_pair.main is not None:
+        try:
+            return generate_img2img(item, source_pair.main, checkpoint_title), "sd_img2img"
+        except Exception as exc:
+            print(f"[WARN] img2img falhou para {item['name']}: {exc}. Recuando para txt2img.")
+
+    return generate_txt2img(item, checkpoint_title), "sd_txt2img"
 
 
 def write_image(image: Image.Image, target_file: Path) -> None:
@@ -113,11 +219,13 @@ def main() -> None:
     prompts_path = DEFAULT_PROMPTS_PATH
     geek_source_dir = DEFAULT_GEEK_SOURCE_DIR
     output_root = DEFAULT_OUTPUT_ROOT
+    existing_geek_root = DEFAULT_EXISTING_GEEK_ROOT
     manifest_out = DEFAULT_MANIFEST_OUT
 
     prompts = load_prompts(prompts_path)
     sources = group_sources(geek_source_dir)
     use_sd_api = sd_api_available()
+    checkpoint_title = resolve_checkpoint_title(DEFAULT_CHECKPOINT) if use_sd_api else DEFAULT_CHECKPOINT
 
     report: list[dict[str, Any]] = []
     generated = 0
@@ -125,8 +233,7 @@ def main() -> None:
     for item in prompts:
         name = item["name"]
         slug = item["slug"]
-        source_key = normalize_text(name)
-        source_pair = sources.get(source_key, SourcePair(main=None, original=None))
+        source_pair = resolve_source_pair(item, sources, existing_geek_root)
 
         width = int(item["width"])
         height = int(item["height"])
@@ -135,12 +242,12 @@ def main() -> None:
         main_target = output_root / relative_output
         original_target = main_target.with_name(f"{slug}-original.png")
 
-        method = "sd_api"
+        method = "sd_txt2img"
         fallback_reason = ""
 
         try:
             if use_sd_api:
-                main_image = generate_via_sd(item)
+                main_image, method = generate_via_sd(item, source_pair, checkpoint_title)
             else:
                 if source_pair.main is None:
                     raise FileNotFoundError(f"Sem foto principal para '{name}' em {geek_source_dir}")
@@ -163,6 +270,7 @@ def main() -> None:
                     "slug": slug,
                     "method": method,
                     "fallback_reason": fallback_reason,
+                    "checkpoint": checkpoint_title,
                     "source_main": str(source_pair.main) if source_pair.main else None,
                     "source_original": str(source_pair.original) if source_pair.original else None,
                     "output_main": str(main_target),
@@ -178,6 +286,7 @@ def main() -> None:
                     "name": name,
                     "slug": slug,
                     "method": "error",
+                    "checkpoint": checkpoint_title,
                     "error": str(exc),
                     "source_main": str(source_pair.main) if source_pair.main else None,
                     "source_original": str(source_pair.original) if source_pair.original else None,
@@ -192,6 +301,8 @@ def main() -> None:
         "items_total": len(prompts),
         "items_generated": generated,
         "sd_api_enabled": use_sd_api,
+        "checkpoint_requested": DEFAULT_CHECKPOINT,
+        "checkpoint_resolved": checkpoint_title,
         "output_root": str(output_root),
         "source_dir": str(geek_source_dir),
         "items": report,
@@ -203,4 +314,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

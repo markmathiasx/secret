@@ -2,11 +2,14 @@
 
 Este pacote foi gerado a partir da validação do catálogo (`CATALOG_VALIDATION_REPORT.json`) e da curadoria de itens geek em `C:\Users\markm\Downloads\geek`, priorizando personagens, chibi e miniaturas colecionáveis.
 
+Como o `CATALOG_VALIDATION_REPORT.json` desta árvore traz apenas um resumo de validação e não a lista completa dos personagens, a seleção elegível foi consolidada a partir dos nomes reais dos arquivos da pasta `Downloads\geek` e do catálogo publicado.
+
 ## Arquivos gerados
 
 - `prompts_batch.json`
 - `prompts_batch.csv`
 - `export_txt_prompts.py`
+- `README_SD_LOCAL.md`
 
 ## 1) Como usar `prompts_batch.json`
 
@@ -58,7 +61,8 @@ Fluxo manual recomendado:
    - configure `DPM++ 2M Karras`.
    - configure `steps=32`.
    - configure `cfg_scale=6.5`.
-4. Gere e salve no nome/caminho de `output_filename`.
+4. Se existir foto-base real do item, prefira `img2img` em vez de `txt2img`.
+5. Gere e salve no nome/caminho de `output_filename`.
 
 ## 4) Parâmetros recomendados
 
@@ -69,8 +73,9 @@ Padrão aplicado para consistência:
 - Sampler: `DPM++ 2M Karras`
 - Steps: `32`
 - CFG Scale: `6.5`
+- Checkpoint recomendado: `juggernautXL_ragnarokBy.safetensors`
 - Negative prompt base:
-  - `text, logo, watermark, packaging, multiple characters, hands, person, cluttered background, low quality, low detail, blurry, cropped, duplicate, extra limbs, deformed, unrealistic face, toy box, dramatic scene`
+  - `text, logo, watermark, packaging, multiple characters, hands, person, cluttered background, low quality, low detail, blurry, cropped, duplicate, extra limbs, deformed, unrealistic face, toy box, dramatic scene, plaque, nameplate, sign, badge, medallion, medal, flat icon, flat art, 2d illustration, poster, drawing, painting, stencil, blueprint, box art, card art, text plate`
 
 ## 5) Como manter consistência visual
 
@@ -80,6 +85,7 @@ Para preservar visual de catálogo entre todos os personagens:
 - mantenha o mesmo sampler, dimensões e negative prompt;
 - não mude iluminação/câmera entre itens do mesmo batch;
 - preserve “single character centered” em todos os renders;
+- preserve “single object centered” para objetos não-humanos (foguete, polvo, tubarão, dragão);
 - gere variações por seed apenas quando necessário.
 
 ## 6) Recomendação de consistência global (obrigatória)
@@ -95,11 +101,16 @@ Isso reduz drift visual entre cards do catálogo.
 
 ## 7) Recomendação opcional (img2img / ControlNet)
 
-Quando quiser aproximar enquadramento das fotos reais:
+Quando quiser aproximar enquadramento e forma do objeto real:
 
-- use img2img com força baixa/moderada (ex.: 0.25–0.45);
+- use img2img com força baixa/moderada (ex.: `0.20–0.35`);
 - use ControlNet (lineart/softedge/depth) com referência da foto real;
 - preserve o prompt base para não perder o padrão de catálogo.
+
+Para este lote, a recomendação principal é:
+
+- `img2img` quando existir foto-base em `C:\Users\markm\Downloads\geek`;
+- `txt2img` apenas quando não existir referência real do item.
 
 ## Regra de seed determinística
 
@@ -138,12 +149,13 @@ Foi adicionado o script:
 Ele executa o lote inteiro assim:
 
 1. Lê `prompts_batch.json`.
-2. Tenta gerar por AUTOMATIC1111 (`http://127.0.0.1:7860/sdapi/v1/txt2img`).
-3. Se a API local não estiver ativa, usa fallback com as fotos reais de `C:\Users\markm\Downloads\geek`, padronizando para `832x1024`.
-4. Salva em:
+2. Tenta gerar por AUTOMATIC1111 via `img2img` quando existe foto-base do item.
+3. Usa `txt2img` quando nao existe foto-base real.
+4. Se a API local não estiver ativa, usa fallback com as fotos reais de `C:\Users\markm\Downloads\geek`, padronizando para `832x1024`.
+5. Salva em:
    - `public/products/geek/<slug>/<slug>.png`
    - `public/products/geek/<slug>/<slug>-original.png` (quando existir `original`).
-5. Gera manifesto de associação:
+6. Gera manifesto de associação:
    - `public/products/geek/geek_image_manifest.json`
 
 Comando:

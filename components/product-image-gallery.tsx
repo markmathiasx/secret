@@ -1,16 +1,46 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Expand, Image as ImageIcon, X } from "lucide-react";
 import type { Product } from "@/lib/catalog";
 import { getProductGallery } from "@/lib/product-images";
 import { SafeProductImage } from "@/components/safe-product-image";
+
+function getVisualChip(product: Product) {
+  if (product.realPhoto) {
+    return {
+      compact: "Foto real",
+      full: "Foto real da peça",
+      className: "bg-white/95 text-slate-800",
+    };
+  }
+
+  return {
+    compact: "Imagem conceitual",
+    full: "Imagem conceitual da peça",
+    className: "bg-violet-100/95 text-violet-900",
+  };
+}
 
 export function ProductImageGallery({ product, compact = false }: { product: Product; compact?: boolean }) {
   const gallery = useMemo(() => getProductGallery(product), [product]);
   const [active, setActive] = useState(0);
   const [expanded, setExpanded] = useState(false);
   const current = gallery[active] || gallery[0];
+  const visualChip = getVisualChip(product);
+
+  useEffect(() => {
+    if (!expanded) return;
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setExpanded(false);
+      }
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [expanded]);
 
   if (!current) {
     return <div className="aspect-[4/5] w-full rounded-[28px] border border-[#eadcc8] bg-white/70 animate-pulse" />;
@@ -22,11 +52,9 @@ export function ProductImageGallery({ product, compact = false }: { product: Pro
         <div className="relative aspect-[4/5] overflow-hidden rounded-[22px] bg-[radial-gradient(circle_at_top,#fffdf9_0%,#f7ebdc_55%,#f2e3d1_100%)]">
           <SafeProductImage candidates={current.candidates} alt={current.alt} className="w-full object-contain p-3 md:p-4" />
           <div className="absolute left-3 top-3 flex flex-wrap gap-2">
-            {product.realPhoto ? (
-              <span className="rounded-full bg-white/95 px-3 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-slate-800 shadow-sm">
-                Foto real
-              </span>
-            ) : null}
+            <span className={`rounded-full px-3 py-1 text-[10px] font-black uppercase tracking-[0.18em] shadow-sm ${visualChip.className}`}>
+              {visualChip.compact}
+            </span>
             <span className="rounded-full bg-slate-900/80 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-white">
               {product.status}
             </span>
@@ -49,15 +77,13 @@ export function ProductImageGallery({ product, compact = false }: { product: Pro
           className="group relative block w-full overflow-hidden rounded-[32px] border border-[#eadcc8] bg-[linear-gradient(180deg,#fffdf9_0%,#fff3e2_100%)] p-4 text-left shadow-[0_26px_64px_rgba(15,23,42,0.10)] transition-transform duration-300 hover:-translate-y-1"
         >
           <div className="relative aspect-[4/5] overflow-hidden rounded-[28px] bg-[radial-gradient(circle_at_top,#ffffff_0%,#f7ebdc_55%,#f0dfcb_100%)]">
-            <SafeProductImage candidates={current.candidates} alt={current.alt} className="w-full object-contain p-4 md:p-6" />
+            <SafeProductImage candidates={current.candidates} alt={current.alt} className="w-full object-contain p-4 md:p-6" priority />
           </div>
 
           <div className="absolute left-7 top-7 flex flex-wrap gap-2">
-            {product.realPhoto ? (
-              <span className="rounded-full bg-white/95 px-3 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-slate-800 shadow-sm">
-                Foto real da bancada
-              </span>
-            ) : null}
+            <span className={`rounded-full px-3 py-1 text-[10px] font-black uppercase tracking-[0.18em] shadow-sm ${visualChip.className}`}>
+              {visualChip.full}
+            </span>
             <span className="rounded-full bg-slate-900/80 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-white">
               {product.status}
             </span>
@@ -99,7 +125,13 @@ export function ProductImageGallery({ product, compact = false }: { product: Pro
       </div>
 
       {expanded ? (
-        <div className="fixed inset-0 z-[90] bg-slate-950/72 p-4 backdrop-blur-sm animate-fadeIn" onClick={() => setExpanded(false)}>
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label={`Galeria ampliada de ${product.name}`}
+          className="fixed inset-0 z-[90] bg-slate-950/72 p-4 backdrop-blur-sm animate-fadeIn"
+          onClick={() => setExpanded(false)}
+        >
           <div
             className="mx-auto flex h-full max-w-6xl flex-col overflow-hidden rounded-[36px] border border-[#eadcc8] bg-[#fff8ef] animate-scaleIn"
             onClick={(event) => event.stopPropagation()}
@@ -112,6 +144,7 @@ export function ProductImageGallery({ product, compact = false }: { product: Pro
               <button
                 type="button"
                 onClick={() => setExpanded(false)}
+                aria-label="Fechar galeria"
                 className="rounded-full border border-[#eadcc8] bg-white p-2 text-slate-700 transition-colors duration-300 hover:bg-slate-100"
               >
                 <X className="h-5 w-5" />
@@ -121,7 +154,7 @@ export function ProductImageGallery({ product, compact = false }: { product: Pro
             <div className="grid flex-1 gap-0 lg:grid-cols-[1fr_300px]">
               <div className="flex items-center justify-center p-5">
                 <div className="relative h-full w-full overflow-hidden rounded-[28px] bg-[radial-gradient(circle_at_top,#fffdf9_0%,#f1e1cd_100%)]">
-                  <SafeProductImage candidates={current.candidates} alt={current.alt} className="h-full w-full object-contain p-5 md:p-8" />
+                  <SafeProductImage candidates={current.candidates} alt={current.alt} className="h-full w-full object-contain p-5 md:p-8" priority />
                 </div>
               </div>
 

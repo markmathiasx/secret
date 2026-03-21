@@ -1,0 +1,19 @@
+Nome: Coruja Floresta Articulada
+ID: 2
+Slug: coruja-floresta-articulada
+Seed: 226512915
+
+Prompt:
+realistic product photo of a 3D printed articulated forest owl mini collectible, cute owl with round eyes, beige and brown body, segmented articulated form, premium PLA, visible layer lines, professionally printed on a Bambu Lab A1 Mini, single object centered, standing on a wooden surface, blurred 3D printer workshop background, blurred Bambu Lab A1 Mini 3D printer in the background, soft studio lighting, shallow depth of field, premium collectible finish, realistic professional catalog photo, vertical composition, ultra realistic, no text, no packaging, no hands, no extra characters, no complex scene, no unnecessary extra elements
+
+Negative prompt:
+text, logo, watermark, packaging, multiple characters, hands, person, cluttered background, low quality, low detail, blurry, cropped, duplicate, extra limbs, deformed, unrealistic face, toy box, dramatic scene, plaque, nameplate, sign, badge, medallion, medal, flat icon, flat art, 2d illustration, poster, drawing, painting, stencil, blueprint, box art, card art, text plate
+
+Parametros recomendados:
+- Checkpoint: juggernautXL_ragnarokBy.safetensors
+- Width: 832
+- Height: 1024
+- Sampler: DPM++ 2M Karras
+- Steps: 32
+- CFG Scale: 6.5
+- Output filename sugerido: geek/coruja-floresta-articulada/coruja-floresta-articulada.png
