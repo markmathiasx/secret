@@ -1,7 +1,5 @@
 import type { Metadata, Viewport } from 'next';
 import { Manrope, Space_Grotesk } from 'next/font/google';
-import { Analytics } from '@vercel/analytics/react';
-import { SpeedInsights } from '@vercel/speed-insights/next';
 import './globals.css';
 import { PwaRegister } from '@/components/pwa-register';
 import { SiteAssistant } from '@/components/site-assistant';
@@ -148,7 +146,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#06111a',
+  themeColor: '#0d1824',
   colorScheme: 'dark',
 };
 
@@ -175,8 +173,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             aiAssistantProvider={aiAssistantProvider}
           />
           <PwaRegister />
-          <Analytics />
-          <SpeedInsights />
         </div>
       </body>
     </html>

@@ -1,4 +1,5 @@
 import type { Product } from "@/lib/catalog";
+import { getCatalogPhotoCandidates, getCatalogPhotoEntry } from "@/lib/catalog-photo-manifest";
 
 export type ProductVisualKind = "foto-real" | "render-fiel" | "imagem-conceitual";
 
@@ -142,8 +143,14 @@ function inferKindFromImages(product: Product): ProductVisualKind {
 
 export function getProductVisual(product: Product): ProductVisualSummary {
   const override = PRODUCT_VISUAL_OVERRIDES[product.id];
-  const kind = override?.kind || inferKindFromImages(product);
+  const catalogPhoto = getCatalogPhotoEntry(product.id);
+  const kind = override?.kind || catalogPhoto?.kind || inferKindFromImages(product);
   const defaults = getVisualDefaults(kind);
+  const catalogPhotoCandidates = getCatalogPhotoCandidates(product.id);
+  const realPhotoNote =
+    kind === "foto-real" && catalogPhoto
+      ? "A vitrine usa uma foto do objeto físico já impresso, preservando aparência real de escala, material e acabamento."
+      : undefined;
 
   return {
     kind,
@@ -151,10 +158,10 @@ export function getProductVisual(product: Product): ProductVisualSummary {
     badgeClassName: defaults.badgeClassName,
     panelClassName: defaults.panelClassName,
     description: defaults.description,
-    note: override?.note,
+    note: override?.note || realPhotoNote,
     recommendedNextStep: override?.recommendedNextStep || defaults.recommendedNextStep,
     merchantReady: override?.merchantReady ?? defaults.merchantReady,
-    imageCandidates: override?.imageCandidates || [],
+    imageCandidates: override?.imageCandidates || catalogPhotoCandidates,
   };
 }
 

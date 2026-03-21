@@ -12,6 +12,12 @@ type CatalogPageSearchParams = {
   collection?: string;
   mode?: string;
   status?: string;
+  material?: string;
+  intent?: string;
+  sort?: string;
+  custom?: string;
+  min?: string;
+  max?: string;
 };
 
 export default async function CatalogPage({ searchParams }: { searchParams?: Promise<CatalogPageSearchParams> }) {
@@ -21,9 +27,23 @@ export default async function CatalogPage({ searchParams }: { searchParams?: Pro
   const initialCollection = params?.collection && collections.includes(params.collection) ? params.collection : 'Todas';
   const initialVerifiedOnly = params?.mode === 'verified';
   const initialAvailability = params?.status === 'Pronta entrega' || params?.status === 'Sob encomenda' ? params.status : 'Todos';
+  const initialMaterial = params?.material?.trim() || 'Todos';
+  const initialIntent = params?.intent?.trim() || 'Geral';
+  const initialOrder = params?.sort?.trim() || 'Mais Recentes';
+  const initialCustomizableOnly = params?.custom === '1';
+  const initialMin = params?.min ? Number(params.min) : undefined;
+  const initialMax = params?.max ? Number(params.max) : undefined;
   const visualSummary = summarizeProductVisuals(catalog);
   const auditedPricingCount = catalog.filter((product) => product.pricingMode === 'faixa-auditada').length;
-  const activeLens = [initialCategory !== 'Todas' ? initialCategory : null, initialCollection !== 'Todas' ? initialCollection : null, initialQuery ? `Busca: ${initialQuery}` : null, initialAvailability !== 'Todos' ? initialAvailability : null]
+  const activeLens = [
+    initialCategory !== 'Todas' ? initialCategory : null,
+    initialCollection !== 'Todas' ? initialCollection : null,
+    initialQuery ? `Busca: ${initialQuery}` : null,
+    initialAvailability !== 'Todos' ? initialAvailability : null,
+    initialMaterial !== 'Todos' ? initialMaterial : null,
+    initialIntent !== 'Geral' ? initialIntent : null,
+    initialCustomizableOnly ? 'Personalizáveis' : null,
+  ]
     .filter(Boolean)
     .join(' • ');
   const heroTitle = activeLens
@@ -54,6 +74,18 @@ export default async function CatalogPage({ searchParams }: { searchParams?: Pro
                 Ver peças com foto real
               </Link>
               <Link
+                href="#catalogo-vitrine"
+                className="rounded-full border border-violet-300/20 bg-violet-300/10 px-4 py-2.5 text-xs font-semibold text-violet-100 transition hover:border-violet-300/40 hover:bg-violet-300/15 md:px-5 md:py-3 md:text-sm"
+              >
+                Ir para vitrine
+              </Link>
+              <Link
+                href="#combo-builder"
+                className="rounded-full border border-emerald-300/20 bg-emerald-300/10 px-4 py-2.5 text-xs font-semibold text-emerald-100 transition hover:border-emerald-300/40 hover:bg-emerald-300/15 md:px-5 md:py-3 md:text-sm"
+              >
+                Montar combo
+              </Link>
+              <Link
                 href="/imagem-para-impressao-3d"
                 className="rounded-full border border-white/10 bg-white/5 px-4 py-2.5 text-xs font-semibold text-white/80 transition hover:border-white/20 hover:text-white md:px-5 md:py-3 md:text-sm"
               >
@@ -77,7 +109,20 @@ export default async function CatalogPage({ searchParams }: { searchParams?: Pro
         </div>
       </div>
 
-      <div className="mt-8 rounded-[28px] border border-amber-300/15 bg-amber-300/8 p-5 text-sm leading-7 text-amber-50/90">
+      <div className="mt-5 grid gap-3 md:grid-cols-3">
+        {[
+          { label: 'Autenticidade', value: 'Foto real, render fiel e prévia separados com clareza' },
+          { label: 'Compartilhamento', value: 'Filtros podem virar uma vitrine pronta para enviar ao cliente' },
+          { label: 'Fechamento', value: 'Catálogo, WhatsApp e checkout conectados na mesma jornada' }
+        ].map((item) => (
+          <div key={item.label} className="surface-stat rounded-[24px] px-4 py-4">
+            <p className="text-[11px] uppercase tracking-[0.18em] text-white/50">{item.label}</p>
+            <p className="mt-3 text-sm leading-6 text-white/80">{item.value}</p>
+          </div>
+        ))}
+      </div>
+
+      <div className="glass-panel mt-8 rounded-[28px] border border-amber-300/15 bg-amber-300/8 p-5 text-sm leading-7 text-amber-50/90">
         <p className="text-xs uppercase tracking-[0.18em] text-amber-100/80">Como ler a vitrine</p>
         <p className="mt-2">
           Foto real indica peça já produzida. Render do produto mostra a geometria real do modelo. Prévia do modelo aponta a direção visual da encomenda e é acompanhada de estimativa inicial para tamanho, acabamento e personalização.
@@ -88,11 +133,11 @@ export default async function CatalogPage({ searchParams }: { searchParams?: Pro
 
       <CatalogRealCases />
 
-      <div className="catalog-video-shell relative isolate mt-8 overflow-hidden rounded-[28px] border border-cyan-200/45 shadow-[0_28px_84px_rgba(2,8,23,0.18)] md:mt-10 md:rounded-[36px]">
+      <div id="catalogo-vitrine" className="catalog-video-shell relative isolate mt-8 overflow-hidden rounded-[28px] border border-cyan-200/45 shadow-[0_28px_84px_rgba(2,8,23,0.18)] md:mt-10 md:rounded-[36px]">
         <video
           className="absolute inset-0 h-full w-full object-cover opacity-[0.98]"
           src="/assets/videos/hero-bg.mp4"
-          poster="/assets/images/placeholders/hero-fallback.jpg"
+          poster="/assets/videos/hero-poster.jpg"
           autoPlay
           muted
           loop
@@ -112,12 +157,18 @@ export default async function CatalogPage({ searchParams }: { searchParams?: Pro
               initialCollection={initialCollection}
               initialVerifiedOnly={initialVerifiedOnly}
               initialAvailability={initialAvailability}
+              initialMaterial={initialMaterial}
+              initialIntent={initialIntent}
+              initialOrder={initialOrder}
+              initialCustomizableOnly={initialCustomizableOnly}
+              initialPriceMin={initialMin}
+              initialPriceMax={initialMax}
             />
           </div>
         </div>
       </div>
 
-      <div className="mt-16">
+      <div id="combo-builder" className="mt-16">
         <ComboBuilder />
       </div>
     </section>

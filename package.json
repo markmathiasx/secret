@@ -19,7 +19,7 @@
   "scripts": {
     "dev": "next dev --turbo",
     "build": "next build",
-    "start": "next start",
+    "start": "node scripts/start-standalone.mjs",
     "lint": "next lint --fix",
     "lint:check": "next lint",
     "typecheck": "node scripts/typecheck.mjs",
@@ -34,6 +34,7 @@
     "db:migrate": "node scripts/db-migrate.mjs",
     "db:seed": "node scripts/db-seed.mjs",
     "catalog:images": "node scripts/catalog-images.mjs",
+    "catalog:portfolio": "node scripts/import-catalog-photos.mjs",
     "sd:reference": "python scripts/generate_product_reference_sd.py",
     "analyze": "ANALYZE=true npm run build",
     "preview": "npm run build && npm run start",

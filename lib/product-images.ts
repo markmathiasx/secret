@@ -1,5 +1,6 @@
 import type { Product } from "@/lib/catalog";
 import { slugify } from "@/lib/utils";
+import { getCatalogPhotoCandidates } from "@/lib/catalog-photo-manifest";
 import { getProductVisualImageCandidates } from "@/lib/product-visuals";
 
 export const productPlaceholderSrc = "/catalog-assets/product-placeholder.webp";
@@ -42,8 +43,9 @@ function normalizeProductId(id: string) {
 export function getProductImageCandidates(product: Product) {
   const explicit = explicitGallery(product);
   const visualCandidates = getProductVisualImageCandidates(product);
+  const catalogPhotoCandidates = getCatalogPhotoCandidates(product.id);
   if (explicit?.length) {
-    return [...visualCandidates, ...(explicit[0]?.candidates || []), productPlaceholderSrc];
+    return Array.from(new Set([...catalogPhotoCandidates, ...visualCandidates, ...(explicit[0]?.candidates || []), productPlaceholderSrc]));
   }
 
   const normalizedId = normalizeProductId(product.id);
@@ -58,6 +60,7 @@ export function getProductImageCandidates(product: Product) {
   const legacyJpg = `/assets/images/products/product-${product.id.split('-')[1]}.jpg`;
 
   return [
+    ...catalogPhotoCandidates,
     ...visualCandidates,
     catalogWebp,
     catalogWebpNormalized,
@@ -75,6 +78,14 @@ export function resolveProductImage(product: Product) {
 export function getProductGallery(product: Product) {
   const explicit = explicitGallery(product);
   const visualCandidates = getProductVisualImageCandidates(product);
+  const catalogPhotoCandidates = getCatalogPhotoCandidates(product.id);
+  if (catalogPhotoCandidates.length) {
+    return catalogPhotoCandidates.map((src, index) => ({
+      id: `${product.id}-catalog-${index + 1}`,
+      candidates: [src, productPlaceholderSrc],
+      alt: `${product.name} - catálogo ${index + 1}`,
+    }));
+  }
   if (explicit?.length) {
     return explicit.map((item) => ({
       ...item,

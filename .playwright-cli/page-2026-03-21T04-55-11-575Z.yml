@@ -1,0 +1,1473 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e5]:
+        - generic [ref=e6]: MDH 3D • Produção local no Rio
+        - generic [ref=e7]: Pix imediato • orçamento claro • atendimento humano
+        - link "@mdh_impressao3d" [ref=e8] [cursor=pointer]:
+          - /url: https://www.instagram.com/mdh_impressao3d/
+      - generic [ref=e9]:
+        - link "Logo MDH 3D MDH 3D Presentes, utilidades, decoração e projetos sob medida em impressão 3D" [ref=e10] [cursor=pointer]:
+          - /url: /
+          - img "Logo MDH 3D" [ref=e11]
+          - generic [ref=e12]:
+            - paragraph [ref=e13]: MDH 3D
+            - paragraph [ref=e14]: Presentes, utilidades, decoração e projetos sob medida em impressão 3D
+        - generic [ref=e15]:
+          - img [ref=e16]
+          - searchbox "Busque por presente, miniatura, suporte, chaveiro, decoração..." [ref=e19]
+          - button "Buscar" [ref=e20] [cursor=pointer]
+        - generic [ref=e21]:
+          - button "Consultor MDH" [ref=e22] [cursor=pointer]:
+            - img [ref=e23]
+            - text: Consultor MDH
+          - link "Minha conta" [ref=e26] [cursor=pointer]:
+            - /url: /login
+            - img [ref=e27]
+            - text: Minha conta
+          - link "WhatsApp" [ref=e30] [cursor=pointer]:
+            - /url: https://wa.me/5521920137249
+          - link "Fechar pedido" [ref=e31] [cursor=pointer]:
+            - /url: /checkout
+            - img [ref=e32]
+            - text: Fechar pedido
+      - navigation [ref=e35]:
+        - link "Início" [ref=e36] [cursor=pointer]:
+          - /url: /
+        - link "Catálogo" [ref=e37] [cursor=pointer]:
+          - /url: /catalogo
+        - link "Personalizados" [ref=e38] [cursor=pointer]:
+          - /url: /imagem-para-impressao-3d
+        - link "Entregas" [ref=e39] [cursor=pointer]:
+          - /url: /entregas
+        - link "FAQ" [ref=e40] [cursor=pointer]:
+          - /url: /faq
+        - link "Conteúdo" [ref=e41] [cursor=pointer]:
+          - /url: /divulgacao
+        - link "Instagram" [ref=e42] [cursor=pointer]:
+          - /url: https://www.instagram.com/mdh_impressao3d/
+          - img [ref=e43]
+          - text: Instagram
+    - main [ref=e46]:
+      - generic [ref=e47]:
+        - generic [ref=e49]:
+          - generic [ref=e50]:
+            - paragraph [ref=e51]: Catálogo MDH 3D
+            - heading "Peças reais, projetos sob medida e preços claros para comprar com segurança." [level=1] [ref=e52]
+            - paragraph [ref=e53]: A vitrine abre destacando peças com foto real e visuais já validados. Quando um item ainda está em fase de projeto, o catálogo assume isso com transparência e mostra uma estimativa inicial para encomenda.
+            - generic [ref=e54]:
+              - link "Ver peças com foto real" [ref=e55] [cursor=pointer]:
+                - /url: "#catalogo-real"
+              - link "Ir para vitrine" [ref=e56] [cursor=pointer]:
+                - /url: "#catalogo-vitrine"
+              - link "Montar combo" [ref=e57] [cursor=pointer]:
+                - /url: "#combo-builder"
+              - link "Pedir projeto personalizado" [ref=e58] [cursor=pointer]:
+                - /url: /imagem-para-impressao-3d
+          - generic [ref=e59]:
+            - generic [ref=e60]:
+              - paragraph [ref=e61]: Produtos ativos
+              - paragraph [ref=e62]: "0247"
+            - generic [ref=e63]:
+              - paragraph [ref=e64]: Fotos reais
+              - paragraph [ref=e65]: "26"
+            - generic [ref=e66]:
+              - paragraph [ref=e67]: Preços confirmados
+              - paragraph [ref=e68]: "26"
+        - generic [ref=e69]:
+          - generic [ref=e70]:
+            - paragraph [ref=e71]: Autenticidade
+            - paragraph [ref=e72]: Foto real, render fiel e prévia separados com clareza
+          - generic [ref=e73]:
+            - paragraph [ref=e74]: Compartilhamento
+            - paragraph [ref=e75]: Filtros podem virar uma vitrine pronta para enviar ao cliente
+          - generic [ref=e76]:
+            - paragraph [ref=e77]: Fechamento
+            - paragraph [ref=e78]: Catálogo, WhatsApp e checkout conectados na mesma jornada
+        - generic [ref=e79]:
+          - paragraph [ref=e80]: Como ler a vitrine
+          - paragraph [ref=e81]: Foto real indica peça já produzida. Render do produto mostra a geometria real do modelo. Prévia do modelo aponta a direção visual da encomenda e é acompanhada de estimativa inicial para tamanho, acabamento e personalização.
+        - generic [ref=e82]:
+          - generic [ref=e83]:
+            - paragraph [ref=e84]: Comprar por objetivo
+            - heading "Entradas rápidas para quem quer decidir mais rápido." [level=2] [ref=e85]
+            - paragraph [ref=e86]: "Em vez de navegar tudo, o cliente pode começar pelo tipo de compra que mais converte: presente, utilidade, peça real ou projeto premium."
+          - generic [ref=e87]:
+            - article [ref=e88]:
+              - link "Medalha Maçônica Personalizada" [ref=e89] [cursor=pointer]:
+                - /url: /catalogo/real-010-medalha-maconica-personalizada
+                - img "Medalha Maçônica Personalizada" [ref=e90]
+              - generic [ref=e91]:
+                - paragraph [ref=e92]: 90 itens relacionados
+                - heading "Presentes até R$ 80" [level=3] [ref=e93]
+                - paragraph [ref=e94]: Itens com boa percepção de presente, entrada mais rápida e valor mais leve para fechar no mesmo dia.
+                - generic [ref=e95]:
+                  - paragraph [ref=e96]: Faixa de entrada
+                  - paragraph [ref=e97]: R$ 28,90
+                  - paragraph [ref=e98]: Medalha Maçônica Personalizada
+                - link "Ver presentes" [ref=e99] [cursor=pointer]:
+                  - /url: /presentes-3d
+            - article [ref=e100]:
+              - link "Chaveiro Personalizado" [ref=e101] [cursor=pointer]:
+                - /url: /catalogo/mdh-016-chaveiro-personalizado
+                - img "Chaveiro Personalizado" [ref=e102]
+              - generic [ref=e103]:
+                - paragraph [ref=e104]: 127 itens relacionados
+                - heading "Setup e utilidades" [level=3] [ref=e105]
+                - paragraph [ref=e106]: Peças funcionais para mesa, bancada, banheiro, controle, headphone e uso diário.
+                - generic [ref=e107]:
+                  - paragraph [ref=e108]: Faixa de entrada
+                  - paragraph [ref=e109]: R$ 24,90
+                  - paragraph [ref=e110]: Chaveiro Personalizado
+                - link "Ver utilidades" [ref=e111] [cursor=pointer]:
+                  - /url: /setup-e-organizacao-3d
+            - article [ref=e112]:
+              - link "Tubarão Oceano Mini" [ref=e113] [cursor=pointer]:
+                - /url: /catalogo/mdh-072-tubarao-oceano-mini
+                - img "Tubarão Oceano Mini" [ref=e116]
+              - generic [ref=e117]:
+                - paragraph [ref=e118]: 19 itens relacionados
+                - heading "Geek com foto real" [level=3] [ref=e119]
+                - paragraph [ref=e120]: Peças já fotografadas no ateliê para reduzir dúvida visual e ajudar a vender pelo impacto da peça pronta.
+                - generic [ref=e121]:
+                  - paragraph [ref=e122]: Faixa de entrada
+                  - paragraph [ref=e123]: R$ 52,90
+                  - paragraph [ref=e124]: Tubarão Oceano Mini
+                - link "Ver peças reais" [ref=e125] [cursor=pointer]:
+                  - /url: /colecionaveis-geek-3d
+            - article [ref=e126]:
+              - link "Hello Kitty Jedi Colecionável" [ref=e127] [cursor=pointer]:
+                - /url: /catalogo/real-004-hello-kitty-jedi-colecionavel
+                - img "Hello Kitty Jedi Colecionável" [ref=e130]
+              - generic [ref=e131]:
+                - paragraph [ref=e132]: 6 itens relacionados
+                - heading "Personalizados premium" [level=3] [ref=e133]
+                - paragraph [ref=e134]: Miniaturas afetivas, peças pintadas e projetos sob medida com ticket mais alto e maior valor percebido.
+                - generic [ref=e135]:
+                  - paragraph [ref=e136]: Faixa de entrada
+                  - paragraph [ref=e137]: R$ 151,90
+                  - paragraph [ref=e138]: Hello Kitty Jedi Colecionável
+                - link "Ver premium" [ref=e139] [cursor=pointer]:
+                  - /url: /brindes-personalizados-3d
+        - generic [ref=e140]:
+          - generic [ref=e141]:
+            - generic [ref=e142]:
+              - paragraph [ref=e143]: Fotos reais do ateliê
+              - heading "Peças já produzidas para você sentir o nível real de acabamento da MDH 3D." [level=2] [ref=e144]
+              - paragraph [ref=e145]: Essas fotos mostram trabalhos já entregues ou produzidos no ateliê. Elas ajudam a comparar material, acabamento, escala e presença visual antes do seu pedido.
+            - link "Verificar peça parecida" [ref=e146] [cursor=pointer]:
+              - /url: https://wa.me/5521920137249?text=Quero%20validar%20foto%20real%20de%20um%20item%20do%20cat%C3%A1logo.
+          - generic [ref=e147]:
+            - article [ref=e148]:
+              - img "Grinder 3 Partes Premium" [ref=e151]
+              - generic [ref=e152]:
+                - generic [ref=e153]: Foto real
+                - heading "Grinder 3 Partes Premium" [level=3] [ref=e154]
+                - link "Pedir algo parecido" [ref=e155] [cursor=pointer]:
+                  - /url: /catalogo/real-001-grinder-3-partes-premium
+            - article [ref=e156]:
+              - img "Porta Creme Dental de Bancada" [ref=e159]
+              - generic [ref=e160]:
+                - generic [ref=e161]: Foto real
+                - heading "Porta Creme Dental de Bancada" [level=3] [ref=e162]
+                - link "Pedir algo parecido" [ref=e163] [cursor=pointer]:
+                  - /url: /catalogo/real-002-porta-creme-dental-de-bancada
+            - article [ref=e164]:
+              - img "Demogorgon Decorativo Premium" [ref=e167]
+              - generic [ref=e168]:
+                - generic [ref=e169]: Foto real
+                - heading "Demogorgon Decorativo Premium" [level=3] [ref=e170]
+                - link "Pedir algo parecido" [ref=e171] [cursor=pointer]:
+                  - /url: /catalogo/real-003-demogorgon-decorativo-premium
+            - article [ref=e172]:
+              - img "Hello Kitty Jedi Colecionável" [ref=e175]
+              - generic [ref=e176]:
+                - generic [ref=e177]: Foto real
+                - heading "Hello Kitty Jedi Colecionável" [level=3] [ref=e178]
+                - link "Pedir algo parecido" [ref=e179] [cursor=pointer]:
+                  - /url: /catalogo/real-004-hello-kitty-jedi-colecionavel
+            - article [ref=e180]:
+              - img "Stencil Rick and Morty Decorativo" [ref=e183]
+              - generic [ref=e184]:
+                - generic [ref=e185]: Foto real
+                - heading "Stencil Rick and Morty Decorativo" [level=3] [ref=e186]
+                - link "Pedir algo parecido" [ref=e187] [cursor=pointer]:
+                  - /url: /catalogo/real-005-stencil-rick-and-morty-decorativo
+            - article [ref=e188]:
+              - img "Família Customizada em Miniatura" [ref=e191]
+              - generic [ref=e192]:
+                - generic [ref=e193]: Foto real
+                - heading "Família Customizada em Miniatura" [level=3] [ref=e194]
+                - link "Pedir algo parecido" [ref=e195] [cursor=pointer]:
+                  - /url: /catalogo/real-006-familia-customizada-em-miniatura
+        - generic [ref=e201]:
+          - generic [ref=e202]:
+            - generic [ref=e203]:
+              - generic [ref=e204]:
+                - paragraph [ref=e205]: Explorador comercial
+                - heading "Monte uma vitrine pronta para comprar, compartilhar ou mandar no WhatsApp." [level=2] [ref=e206]
+                - paragraph [ref=e207]: Os filtros refinam a seleção em tempo real e a URL acompanha a curadoria para você salvar ou enviar uma seleção já pronta.
+              - generic [ref=e208]:
+                - button "Copiar vitrine" [ref=e209] [cursor=pointer]:
+                  - img [ref=e210]
+                  - text: Copiar vitrine
+                - button "Limpar filtros" [ref=e213] [cursor=pointer]:
+                  - img [ref=e214]
+                  - text: Limpar filtros
+            - generic [ref=e216]:
+              - generic [ref=e217]:
+                - paragraph [ref=e218]: Resultados atuais
+                - paragraph [ref=e219]: "247"
+                - paragraph [ref=e220]: com 0 filtros ativos
+              - generic [ref=e221]:
+                - paragraph [ref=e222]: Autenticidade
+                - paragraph [ref=e223]: "26"
+                - paragraph [ref=e224]: com visual validado
+              - generic [ref=e225]:
+                - paragraph [ref=e226]: Velocidade
+                - paragraph [ref=e227]: 2d
+                - paragraph [ref=e228]: menor prazo base encontrado
+              - generic [ref=e229]:
+                - paragraph [ref=e230]: Ticket médio
+                - paragraph [ref=e231]: R$ 85,00
+                - paragraph [ref=e232]: 210 personalizáveis
+            - generic [ref=e233]:
+              - button "Só validados" [ref=e234] [cursor=pointer]
+              - button "Pronta entrega" [ref=e235] [cursor=pointer]
+              - button "Presentes" [ref=e236] [cursor=pointer]
+              - button "Compra rápida" [ref=e237] [cursor=pointer]
+              - button "Personalizáveis" [ref=e238] [cursor=pointer]
+            - generic [ref=e239]:
+              - generic [ref=e240]:
+                - generic [ref=e241]: Buscar
+                - textbox "Buscar" [ref=e242]:
+                  - /placeholder: "Ex: vaso, suporte, anime..."
+              - generic [ref=e243]:
+                - generic [ref=e244]: Categoria
+                - combobox "Categoria" [ref=e245]:
+                  - option "Todas" [selected]
+                  - option "Utilidades Reais"
+                  - option "Geek & Colecionáveis"
+                  - option "Casa & Decoração"
+                  - option "Presentes Criativos"
+                  - option "Setup & Organização"
+              - generic [ref=e246]:
+                - generic [ref=e247]: Coleção
+                - combobox "Coleção" [ref=e248]:
+                  - option "Todas" [selected]
+                  - option "Projetos reais"
+                  - option "Mais vendidos"
+                  - option "Pronta entrega"
+                  - option "Sob encomenda"
+                  - option "Anime"
+                  - option "Ocean Theme"
+                  - option "Dragon Theme"
+                  - option "Forest Theme"
+                  - option "Space Theme"
+                  - option "Medieval Theme"
+                  - option "Curadoria CSV 160 • Chaveiros"
+                  - option "Curadoria CSV 160 • Decoração"
+                  - option "Curadoria CSV 160 • Utilitários/Ferramentas"
+                  - option "Curadoria CSV 160 • Colecionáveis/Merch"
+              - generic [ref=e249]:
+                - generic [ref=e250]: Disponibilidade
+                - combobox "Disponibilidade" [ref=e251]:
+                  - option "Todos" [selected]
+                  - option "Pronta entrega"
+                  - option "Sob encomenda"
+              - generic [ref=e252]:
+                - generic [ref=e253]: Material
+                - combobox "Material" [ref=e254]:
+                  - option "Todos" [selected]
+                  - option "PLA Premium"
+                  - option "PLA Silk"
+                  - option "PLA+ Reforçado"
+              - generic [ref=e255]:
+                - generic [ref=e256]: Intenção
+                - combobox "Intenção" [ref=e257]:
+                  - option "Geral" [selected]
+                  - option "Compra rápida"
+                  - option "Economia"
+                  - option "Presente"
+                  - option "Atacado"
+              - generic [ref=e258]:
+                - generic [ref=e259]: Ordenar
+                - combobox "Ordenar" [ref=e260]:
+                  - option "Mais Recentes" [selected]
+                  - option "Preço"
+                  - option "Nome"
+                  - option "Maior lucro"
+                  - option "Menor prazo"
+            - generic [ref=e261]:
+              - generic [ref=e262]:
+                - generic [ref=e263]: Preço
+                - slider "Preço 610 R$ 20 R$ 610" [ref=e264]: "20"
+                - slider [ref=e265]: "610"
+                - generic [ref=e266]:
+                  - generic [ref=e267]: R$ 20
+                  - generic [ref=e268]: R$ 610
+              - generic [ref=e269]:
+                - generic [ref=e270]: Quantidade
+                - slider "Quantidade 1 un. 0% off" [ref=e271]: "1"
+                - generic [ref=e272]:
+                  - generic [ref=e273]: 1 un.
+                  - generic [ref=e274]: 0% off
+              - generic [ref=e275]:
+                - generic [ref=e276]:
+                  - img [ref=e277]
+                  - generic [ref=e279]: Simulador ativo
+                - paragraph [ref=e280]: A quantidade já recalcula economia estimada e ajuda a separar compra unitária, presente, revenda ou lote.
+            - generic [ref=e281]:
+              - generic [ref=e282]: 247 produtos
+              - generic [ref=e284]: 22 pronta entrega
+              - generic [ref=e286]: 26 validados
+              - generic [ref=e288]: Página 1 de 11
+              - generic [ref=e290]: "Busca ativa: tudo"
+          - generic [ref=e291]:
+            - article [ref=e292]:
+              - generic [ref=e293]:
+                - generic [ref=e294]:
+                  - img "Medalha Maçônica Personalizada - visão 1" [ref=e297]
+                  - generic:
+                    - generic: Foto real
+                    - generic: Sob encomenda
+                - generic [ref=e299]:
+                  - generic [ref=e300]:
+                    - paragraph [ref=e301]: PLA Premium • Colorido
+                    - paragraph [ref=e302]: Peça já produzida ou visual fiel do produto final.
+                  - generic [ref=e303]: Foto real
+              - generic [ref=e304]:
+                - generic [ref=e305]: Mais vendido
+                - generic [ref=e306]: Produção rápida
+                - generic [ref=e307]: Foto real
+              - generic [ref=e308]:
+                - generic [ref=e309]:
+                  - paragraph [ref=e310]: Presentes Criativos
+                  - heading "Medalha Maçônica Personalizada" [level=3] [ref=e311]
+                  - paragraph [ref=e312]: Medalha ou chaveiro institucional com texto, símbolo e argola metálica, ideal para presentes, eventos ou encomendas por lote.
+                - generic [ref=e313]: 2 a 5 dias
+              - generic [ref=e314]:
+                - paragraph [ref=e315]: Compra direta
+                - paragraph [ref=e316]: Preço confirmado para compra direta, considerando porte da peça, acabamento e faixa atual de chaveiro ou lembrança personalizada.
+                - generic [ref=e318]: "1x: R$ 42,90"
+              - generic [ref=e319]:
+                - generic [ref=e320]:
+                  - paragraph [ref=e321]: Preço Pix
+                  - paragraph [ref=e322]: R$ 42,90
+                  - paragraph [ref=e323]: 12x de R$ 4,08
+                  - generic [ref=e324]:
+                    - img [ref=e325]
+                    - text: 2 a 5 dias
+                - generic [ref=e328]:
+                  - link "Comprar" [ref=e329] [cursor=pointer]:
+                    - /url: /catalogo/real-010-medalha-maconica-personalizada
+                  - link "WhatsApp" [ref=e330] [cursor=pointer]:
+                    - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20fechar%201x%20Medalha%20Ma%C3%A7%C3%B4nica%20Personalizada%20(REAL-0010).
+              - generic [ref=e331]:
+                - button "Favoritar" [ref=e332] [cursor=pointer]
+                - button "Comparar" [ref=e333] [cursor=pointer]
+            - article [ref=e334]:
+              - generic [ref=e335]:
+                - generic [ref=e336]:
+                  - img "Homer Pikachu Mashup Colecionável - visão 1" [ref=e339]
+                  - generic:
+                    - generic: Foto real
+                    - generic: Sob encomenda
+                - generic [ref=e341]:
+                  - generic [ref=e342]:
+                    - paragraph [ref=e343]: PLA Premium • Pintado à mão
+                    - paragraph [ref=e344]: Peça já produzida ou visual fiel do produto final.
+                  - generic [ref=e345]: Foto real
+              - generic [ref=e347]: Foto real
+              - generic [ref=e348]:
+                - generic [ref=e349]:
+                  - paragraph [ref=e350]: Geek & Colecionáveis
+                  - heading "Homer Pikachu Mashup Colecionável" [level=3] [ref=e351]
+                  - paragraph [ref=e352]: Miniatura mashup com humor visual e cenário de bancada, criada para fãs de cultura pop, coleção de nicho e presentes divertidos.
+                - generic [ref=e353]: 4 a 7 dias
+              - generic [ref=e354]:
+                - paragraph [ref=e355]: Compra direta
+                - paragraph [ref=e356]: Preço confirmado para compra direta, considerando porte da peça, acabamento e faixa atual de colecionável premium pintado à mão.
+                - generic [ref=e358]: "1x: R$ 206,90"
+              - generic [ref=e359]:
+                - generic [ref=e360]:
+                  - paragraph [ref=e361]: Preço Pix
+                  - paragraph [ref=e362]: R$ 206,90
+                  - paragraph [ref=e363]: 12x de R$ 19,33
+                  - generic [ref=e364]:
+                    - img [ref=e365]
+                    - text: 4 a 7 dias
+                - generic [ref=e368]:
+                  - link "Comprar" [ref=e369] [cursor=pointer]:
+                    - /url: /catalogo/real-009-homer-pikachu-mashup-colecionavel
+                  - link "WhatsApp" [ref=e370] [cursor=pointer]:
+                    - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20fechar%201x%20Homer%20Pikachu%20Mashup%20Colecion%C3%A1vel%20(REAL-0009).
+              - generic [ref=e371]:
+                - button "Favoritar" [ref=e372] [cursor=pointer]
+                - button "Comparar" [ref=e373] [cursor=pointer]
+            - article [ref=e374]:
+              - generic [ref=e375]:
+                - generic [ref=e376]:
+                  - img "Case de Isqueiro Caveira - visão 1" [ref=e379]
+                  - generic:
+                    - generic: Foto real
+                    - generic: Sob encomenda
+                - generic [ref=e381]:
+                  - generic [ref=e382]:
+                    - paragraph [ref=e383]: PLA Premium • Fosco
+                    - paragraph [ref=e384]: Peça já produzida ou visual fiel do produto final.
+                  - generic [ref=e385]: Foto real
+              - generic [ref=e386]:
+                - generic [ref=e387]: Produção rápida
+                - generic [ref=e388]: Foto real
+              - generic [ref=e389]:
+                - generic [ref=e390]:
+                  - paragraph [ref=e391]: Utilidades Reais
+                  - heading "Case de Isqueiro Caveira" [level=3] [ref=e392]
+                  - paragraph [ref=e393]: Case para isqueiro com textura cilíndrica e relevo de caveira, pensado como acessório de bolso com personalidade visual.
+                - generic [ref=e394]: 2 a 4 dias
+              - generic [ref=e395]:
+                - paragraph [ref=e396]: Compra direta
+                - paragraph [ref=e397]: Preço confirmado para compra direta, considerando porte da peça, acabamento e faixa atual de acessório de bolso ou utilidade pessoal.
+                - generic [ref=e399]: "1x: R$ 43,90"
+              - generic [ref=e400]:
+                - generic [ref=e401]:
+                  - paragraph [ref=e402]: Preço Pix
+                  - paragraph [ref=e403]: R$ 43,90
+                  - paragraph [ref=e404]: 12x de R$ 4,16
+                  - generic [ref=e405]:
+                    - img [ref=e406]
+                    - text: 2 a 4 dias
+                - generic [ref=e409]:
+                  - link "Comprar" [ref=e410] [cursor=pointer]:
+                    - /url: /catalogo/real-008-case-de-isqueiro-caveira
+                  - link "WhatsApp" [ref=e411] [cursor=pointer]:
+                    - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20fechar%201x%20Case%20de%20Isqueiro%20Caveira%20(REAL-0008).
+              - generic [ref=e412]:
+                - button "Favoritar" [ref=e413] [cursor=pointer]
+                - button "Comparar" [ref=e414] [cursor=pointer]
+            - article [ref=e415]:
+              - generic [ref=e416]:
+                - generic [ref=e417]:
+                  - img "Boneca Infantil Personalizada - visão 1" [ref=e420]
+                  - generic:
+                    - generic: Foto real
+                    - generic: Sob encomenda
+                - generic [ref=e422]:
+                  - generic [ref=e423]:
+                    - paragraph [ref=e424]: PLA Premium • Pintado à mão
+                    - paragraph [ref=e425]: Peça já produzida ou visual fiel do produto final.
+                  - generic [ref=e426]: Foto real
+              - generic [ref=e428]: Foto real
+              - generic [ref=e429]:
+                - generic [ref=e430]:
+                  - paragraph [ref=e431]: Presentes Criativos
+                  - heading "Boneca Infantil Personalizada" [level=3] [ref=e432]
+                  - paragraph [ref=e433]: Boneca infantil em estilo chibi com base decorada e visual afetivo, ideal para lembrança, decoração ou presente personalizado.
+                - generic [ref=e434]: 4 a 7 dias
+              - generic [ref=e435]:
+                - paragraph [ref=e436]: Compra direta
+                - paragraph [ref=e437]: Preço confirmado para compra direta, considerando porte da peça, acabamento e faixa atual de miniatura ou escultura personalizada.
+                - generic [ref=e439]: "1x: R$ 460,90"
+              - generic [ref=e440]:
+                - generic [ref=e441]:
+                  - paragraph [ref=e442]: Preço Pix
+                  - paragraph [ref=e443]: R$ 460,90
+                  - paragraph [ref=e444]: 12x de R$ 43,07
+                  - generic [ref=e445]:
+                    - img [ref=e446]
+                    - text: 4 a 7 dias
+                - generic [ref=e449]:
+                  - link "Comprar" [ref=e450] [cursor=pointer]:
+                    - /url: /catalogo/real-007-boneca-infantil-personalizada
+                  - link "WhatsApp" [ref=e451] [cursor=pointer]:
+                    - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20fechar%201x%20Boneca%20Infantil%20Personalizada%20(REAL-0007).
+              - generic [ref=e452]:
+                - button "Favoritar" [ref=e453] [cursor=pointer]
+                - button "Comparar" [ref=e454] [cursor=pointer]
+            - article [ref=e455]:
+              - generic [ref=e456]:
+                - generic [ref=e457]:
+                  - img "Família Customizada em Miniatura - visão 1" [ref=e460]
+                  - generic:
+                    - generic: Foto real
+                    - generic: Sob encomenda
+                - generic [ref=e462]:
+                  - generic [ref=e463]:
+                    - paragraph [ref=e464]: PLA Premium • Pintado à mão
+                    - paragraph [ref=e465]: Peça já produzida ou visual fiel do produto final.
+                  - generic [ref=e466]: Foto real
+              - generic [ref=e467]:
+                - generic [ref=e468]: Mais vendido
+                - generic [ref=e469]: Foto real
+              - generic [ref=e470]:
+                - generic [ref=e471]:
+                  - paragraph [ref=e472]: Presentes Criativos
+                  - heading "Família Customizada em Miniatura" [level=3] [ref=e473]
+                  - paragraph [ref=e474]: Miniatura personalizada de família com base expositora, feita sob briefing, fotos e preferências do cliente para presente afetivo.
+                - generic [ref=e475]: 5 a 10 dias
+              - generic [ref=e476]:
+                - paragraph [ref=e477]: Compra direta
+                - paragraph [ref=e478]: Preço confirmado para compra direta, considerando porte da peça, acabamento e faixa atual de miniatura ou escultura personalizada.
+                - generic [ref=e480]: "1x: R$ 603,90"
+              - generic [ref=e481]:
+                - generic [ref=e482]:
+                  - paragraph [ref=e483]: Preço Pix
+                  - paragraph [ref=e484]: R$ 603,90
+                  - paragraph [ref=e485]: 12x de R$ 56,41
+                  - generic [ref=e486]:
+                    - img [ref=e487]
+                    - text: 5 a 10 dias
+                - generic [ref=e490]:
+                  - link "Comprar" [ref=e491] [cursor=pointer]:
+                    - /url: /catalogo/real-006-familia-customizada-em-miniatura
+                  - link "WhatsApp" [ref=e492] [cursor=pointer]:
+                    - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20fechar%201x%20Fam%C3%ADlia%20Customizada%20em%20Miniatura%20(REAL-0006).
+              - generic [ref=e493]:
+                - button "Favoritar" [ref=e494] [cursor=pointer]
+                - button "Comparar" [ref=e495] [cursor=pointer]
+            - article [ref=e496]:
+              - generic [ref=e497]:
+                - generic [ref=e498]:
+                  - img "Stencil Rick and Morty Decorativo - visão 1" [ref=e501]
+                  - generic:
+                    - generic: Foto real
+                    - generic: Sob encomenda
+                - generic [ref=e503]:
+                  - generic [ref=e504]:
+                    - paragraph [ref=e505]: PLA Premium • Fosco
+                    - paragraph [ref=e506]: Peça já produzida ou visual fiel do produto final.
+                  - generic [ref=e507]: Foto real
+              - generic [ref=e508]:
+                - generic [ref=e509]: Produção rápida
+                - generic [ref=e510]: Foto real
+              - generic [ref=e511]:
+                - generic [ref=e512]:
+                  - paragraph [ref=e513]: Casa & Decoração
+                  - heading "Stencil Rick and Morty Decorativo" [level=3] [ref=e514]
+                  - paragraph [ref=e515]: Stencil decorativo para parede, luminária ou moldura, com recorte inspirado em cartoon sci-fi e composição forte para setup geek.
+                - generic [ref=e516]: 2 a 4 dias
+              - generic [ref=e517]:
+                - paragraph [ref=e518]: Compra direta
+                - paragraph [ref=e519]: Preço confirmado para compra direta, considerando porte da peça, acabamento e faixa atual de decoração de parede, stencil ou painel.
+                - generic [ref=e521]: "1x: R$ 60,90"
+              - generic [ref=e522]:
+                - generic [ref=e523]:
+                  - paragraph [ref=e524]: Preço Pix
+                  - paragraph [ref=e525]: R$ 60,90
+                  - paragraph [ref=e526]: 12x de R$ 5,74
+                  - generic [ref=e527]:
+                    - img [ref=e528]
+                    - text: 2 a 4 dias
+                - generic [ref=e531]:
+                  - link "Comprar" [ref=e532] [cursor=pointer]:
+                    - /url: /catalogo/real-005-stencil-rick-and-morty-decorativo
+                  - link "WhatsApp" [ref=e533] [cursor=pointer]:
+                    - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20fechar%201x%20Stencil%20Rick%20and%20Morty%20Decorativo%20(REAL-0005).
+              - generic [ref=e534]:
+                - button "Favoritar" [ref=e535] [cursor=pointer]
+                - button "Comparar" [ref=e536] [cursor=pointer]
+            - article [ref=e537]:
+              - generic [ref=e538]:
+                - generic [ref=e539]:
+                  - img "Hello Kitty Jedi Colecionável - visão 1" [ref=e542]
+                  - generic:
+                    - generic: Foto real
+                    - generic: Sob encomenda
+                - generic [ref=e544]:
+                  - generic [ref=e545]:
+                    - paragraph [ref=e546]: PLA Premium • Pintado à mão
+                    - paragraph [ref=e547]: Peça já produzida ou visual fiel do produto final.
+                  - generic [ref=e548]: Foto real
+              - generic [ref=e549]:
+                - generic [ref=e550]: Mais vendido
+                - generic [ref=e551]: Foto real
+              - generic [ref=e552]:
+                - generic [ref=e553]:
+                  - paragraph [ref=e554]: Geek & Colecionáveis
+                  - heading "Hello Kitty Jedi Colecionável" [level=3] [ref=e555]
+                  - paragraph [ref=e556]: Peça de coleção com mistura kawaii e sci-fi, base cenográfica e acabamento pensado para presente geek de alto impacto visual.
+                - generic [ref=e557]: 3 a 6 dias
+              - generic [ref=e558]:
+                - paragraph [ref=e559]: Compra direta
+                - paragraph [ref=e560]: Preço confirmado para compra direta, considerando porte da peça, acabamento e faixa atual de colecionável premium pintado à mão.
+                - generic [ref=e562]: "1x: R$ 206,90"
+              - generic [ref=e563]:
+                - generic [ref=e564]:
+                  - paragraph [ref=e565]: Preço Pix
+                  - paragraph [ref=e566]: R$ 206,90
+                  - paragraph [ref=e567]: 12x de R$ 19,33
+                  - generic [ref=e568]:
+                    - img [ref=e569]
+                    - text: 3 a 6 dias
+                - generic [ref=e572]:
+                  - link "Comprar" [ref=e573] [cursor=pointer]:
+                    - /url: /catalogo/real-004-hello-kitty-jedi-colecionavel
+                  - link "WhatsApp" [ref=e574] [cursor=pointer]:
+                    - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20fechar%201x%20Hello%20Kitty%20Jedi%20Colecion%C3%A1vel%20(REAL-0004).
+              - generic [ref=e575]:
+                - button "Favoritar" [ref=e576] [cursor=pointer]
+                - button "Comparar" [ref=e577] [cursor=pointer]
+            - article [ref=e578]:
+              - generic [ref=e579]:
+                - generic [ref=e580]:
+                  - img "Demogorgon Decorativo Premium - visão 1" [ref=e583]
+                  - generic:
+                    - generic: Foto real
+                    - generic: Sob encomenda
+                - generic [ref=e585]:
+                  - generic [ref=e586]:
+                    - paragraph [ref=e587]: PLA Premium • Pintado à mão
+                    - paragraph [ref=e588]: Peça já produzida ou visual fiel do produto final.
+                  - generic [ref=e589]: Foto real
+              - generic [ref=e590]:
+                - generic [ref=e591]: Mais vendido
+                - generic [ref=e592]: Foto real
+              - generic [ref=e593]:
+                - generic [ref=e594]:
+                  - paragraph [ref=e595]: Geek & Colecionáveis
+                  - heading "Demogorgon Decorativo Premium" [level=3] [ref=e596]
+                  - paragraph [ref=e597]: Miniatura inspirada em criatura sci-fi com pose de destaque, pintura temática e apelo forte para decoração geek e coleção.
+                - generic [ref=e598]: 4 a 7 dias
+              - generic [ref=e599]:
+                - paragraph [ref=e600]: Compra direta
+                - paragraph [ref=e601]: Preço confirmado para compra direta, considerando porte da peça, acabamento e faixa atual de colecionável premium pintado à mão.
+                - generic [ref=e603]: "1x: R$ 233,90"
+              - generic [ref=e604]:
+                - generic [ref=e605]:
+                  - paragraph [ref=e606]: Preço Pix
+                  - paragraph [ref=e607]: R$ 233,90
+                  - paragraph [ref=e608]: 12x de R$ 21,83
+                  - generic [ref=e609]:
+                    - img [ref=e610]
+                    - text: 4 a 7 dias
+                - generic [ref=e613]:
+                  - link "Comprar" [ref=e614] [cursor=pointer]:
+                    - /url: /catalogo/real-003-demogorgon-decorativo-premium
+                  - link "WhatsApp" [ref=e615] [cursor=pointer]:
+                    - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20fechar%201x%20Demogorgon%20Decorativo%20Premium%20(REAL-0003).
+              - generic [ref=e616]:
+                - button "Favoritar" [ref=e617] [cursor=pointer]
+                - button "Comparar" [ref=e618] [cursor=pointer]
+            - article [ref=e619]:
+              - generic [ref=e620]:
+                - generic [ref=e621]:
+                  - img "Porta Creme Dental de Bancada - visão 1" [ref=e624]
+                  - generic:
+                    - generic: Foto real
+                    - generic: Sob encomenda
+                - generic [ref=e626]:
+                  - generic [ref=e627]:
+                    - paragraph [ref=e628]: PLA Premium • Fosco
+                    - paragraph [ref=e629]: Peça já produzida ou visual fiel do produto final.
+                  - generic [ref=e630]: Foto real
+              - generic [ref=e631]:
+                - generic [ref=e632]: Mais vendido
+                - generic [ref=e633]: Produção rápida
+                - generic [ref=e634]: Foto real
+              - generic [ref=e635]:
+                - generic [ref=e636]:
+                  - paragraph [ref=e637]: Utilidades Reais
+                  - heading "Porta Creme Dental de Bancada" [level=3] [ref=e638]
+                  - paragraph [ref=e639]: Suporte compacto para tubo de creme dental com base estável, pensado para banheiro, bancada ou kit de higiene personalizado.
+                - generic [ref=e640]: 2 a 4 dias
+              - generic [ref=e641]:
+                - paragraph [ref=e642]: Compra direta
+                - paragraph [ref=e643]: Preço confirmado para compra direta, considerando porte da peça, acabamento e faixa atual de utilidade compacta de setup ou bancada.
+                - generic [ref=e645]: "1x: R$ 50,90"
+              - generic [ref=e646]:
+                - generic [ref=e647]:
+                  - paragraph [ref=e648]: Preço Pix
+                  - paragraph [ref=e649]: R$ 50,90
+                  - paragraph [ref=e650]: 12x de R$ 4,83
+                  - generic [ref=e651]:
+                    - img [ref=e652]
+                    - text: 2 a 4 dias
+                - generic [ref=e655]:
+                  - link "Comprar" [ref=e656] [cursor=pointer]:
+                    - /url: /catalogo/real-002-porta-creme-dental-de-bancada
+                  - link "WhatsApp" [ref=e657] [cursor=pointer]:
+                    - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20fechar%201x%20Porta%20Creme%20Dental%20de%20Bancada%20(REAL-0002).
+              - generic [ref=e658]:
+                - button "Favoritar" [ref=e659] [cursor=pointer]
+                - button "Comparar" [ref=e660] [cursor=pointer]
+            - article [ref=e661]:
+              - generic [ref=e662]:
+                - generic [ref=e663]:
+                  - img "Grinder 3 Partes Premium - visão 1" [ref=e666]
+                  - generic:
+                    - generic: Foto real
+                    - generic: Sob encomenda
+                - generic [ref=e668]:
+                  - generic [ref=e669]:
+                    - paragraph [ref=e670]: PLA Premium • Fosco
+                    - paragraph [ref=e671]: Peça já produzida ou visual fiel do produto final.
+                  - generic [ref=e672]: Foto real
+              - generic [ref=e673]:
+                - generic [ref=e674]: Mais vendido
+                - generic [ref=e675]: Produção rápida
+                - generic [ref=e676]: Foto real
+              - generic [ref=e677]:
+                - generic [ref=e678]:
+                  - paragraph [ref=e679]: Utilidades Reais
+                  - heading "Grinder 3 Partes Premium" [level=3] [ref=e680]
+                  - paragraph [ref=e681]: Grinder impresso em 3D com duas metades de encaixe, dentes internos e proposta funcional para uso pessoal ou presente criativo.
+                - generic [ref=e682]: 2 a 4 dias
+              - generic [ref=e683]:
+                - paragraph [ref=e684]: Compra direta
+                - paragraph [ref=e685]: Preço confirmado para compra direta, considerando porte da peça, acabamento e faixa atual de acessório de bolso ou utilidade pessoal.
+                - generic [ref=e687]: "1x: R$ 71,90"
+              - generic [ref=e688]:
+                - generic [ref=e689]:
+                  - paragraph [ref=e690]: Preço Pix
+                  - paragraph [ref=e691]: R$ 71,90
+                  - paragraph [ref=e692]: 12x de R$ 6,74
+                  - generic [ref=e693]:
+                    - img [ref=e694]
+                    - text: 2 a 4 dias
+                - generic [ref=e697]:
+                  - link "Comprar" [ref=e698] [cursor=pointer]:
+                    - /url: /catalogo/real-001-grinder-3-partes-premium
+                  - link "WhatsApp" [ref=e699] [cursor=pointer]:
+                    - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20fechar%201x%20Grinder%203%20Partes%20Premium%20(REAL-0001).
+              - generic [ref=e700]:
+                - button "Favoritar" [ref=e701] [cursor=pointer]
+                - button "Comparar" [ref=e702] [cursor=pointer]
+            - article [ref=e703]:
+              - generic [ref=e704]:
+                - generic [ref=e705]:
+                  - img "Cavaleiro Medieval Mini - catálogo 1" [ref=e708]
+                  - generic:
+                    - generic: Foto real
+                    - generic: Sob encomenda
+                - generic [ref=e710]:
+                  - generic [ref=e711]:
+                    - paragraph [ref=e712]: PLA Premium • Premium
+                    - paragraph [ref=e713]: Peça já produzida ou visual fiel do produto final.
+                  - generic [ref=e714]: Foto real
+              - generic [ref=e716]: Foto real
+              - generic [ref=e717]:
+                - generic [ref=e718]:
+                  - paragraph [ref=e719]: Geek & Colecionáveis
+                  - heading "Cavaleiro Medieval Mini" [level=3] [ref=e720]
+                  - paragraph [ref=e721]: Cavaleiro Medieval Mini em PLA Premium com acabamento premium para colecionar, decorar setup ou presentear fãs de medieval.
+                - generic [ref=e722]: 3 a 5 dias
+              - generic [ref=e723]:
+                - paragraph [ref=e724]: Compra direta
+                - paragraph [ref=e725]: Preço confirmado para compra direta, considerando porte da peça, acabamento e faixa atual de produto impresso em 3d de varejo.
+                - generic [ref=e727]: "1x: R$ 56,90"
+              - generic [ref=e728]:
+                - generic [ref=e729]:
+                  - paragraph [ref=e730]: Preço Pix
+                  - paragraph [ref=e731]: R$ 56,90
+                  - paragraph [ref=e732]: 12x de R$ 5,33
+                  - generic [ref=e733]:
+                    - img [ref=e734]
+                    - text: 3 a 5 dias
+                - generic [ref=e737]:
+                  - link "Comprar" [ref=e738] [cursor=pointer]:
+                    - /url: /catalogo/mdh-077-cavaleiro-medieval-mini
+                  - link "WhatsApp" [ref=e739] [cursor=pointer]:
+                    - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20fechar%201x%20Cavaleiro%20Medieval%20Mini%20(MDH-0077).
+              - generic [ref=e740]:
+                - button "Favoritar" [ref=e741] [cursor=pointer]
+                - button "Comparar" [ref=e742] [cursor=pointer]
+            - article [ref=e743]:
+              - generic [ref=e744]:
+                - generic [ref=e745]:
+                  - img "Foguete Espacial Mini - catálogo 1" [ref=e748]
+                  - generic:
+                    - generic: Foto real
+                    - generic: Sob encomenda
+                - generic [ref=e750]:
+                  - generic [ref=e751]:
+                    - paragraph [ref=e752]: PLA Premium • Premium
+                    - paragraph [ref=e753]: Peça já produzida ou visual fiel do produto final.
+                  - generic [ref=e754]: Foto real
+              - generic [ref=e756]: Foto real
+              - generic [ref=e757]:
+                - generic [ref=e758]:
+                  - paragraph [ref=e759]: Geek & Colecionáveis
+                  - heading "Foguete Espacial Mini" [level=3] [ref=e760]
+                  - paragraph [ref=e761]: Foguete Espacial Mini em PLA Premium com acabamento premium para colecionar, decorar setup ou presentear fãs de espacial.
+                - generic [ref=e762]: 24h a 48h
+              - generic [ref=e763]:
+                - paragraph [ref=e764]: Compra direta
+                - paragraph [ref=e765]: Preço confirmado para compra direta, considerando porte da peça, acabamento e faixa atual de produto impresso em 3d de varejo.
+                - generic [ref=e767]: "1x: R$ 52,90"
+              - generic [ref=e768]:
+                - generic [ref=e769]:
+                  - paragraph [ref=e770]: Preço Pix
+                  - paragraph [ref=e771]: R$ 52,90
+                  - paragraph [ref=e772]: 12x de R$ 4,99
+                  - generic [ref=e773]:
+                    - img [ref=e774]
+                    - text: 24h a 48h
+                - generic [ref=e777]:
+                  - link "Comprar" [ref=e778] [cursor=pointer]:
+                    - /url: /catalogo/mdh-076-foguete-espacial-mini
+                  - link "WhatsApp" [ref=e779] [cursor=pointer]:
+                    - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20fechar%201x%20Foguete%20Espacial%20Mini%20(MDH-0076).
+              - generic [ref=e780]:
+                - button "Favoritar" [ref=e781] [cursor=pointer]
+                - button "Comparar" [ref=e782] [cursor=pointer]
+            - article [ref=e783]:
+              - generic [ref=e784]:
+                - generic [ref=e785]:
+                  - img "Coruja Floresta Articulada - catálogo 1" [ref=e788]
+                  - generic:
+                    - generic: Foto real
+                    - generic: Sob encomenda
+                - generic [ref=e790]:
+                  - generic [ref=e791]:
+                    - paragraph [ref=e792]: PLA Premium • Premium
+                    - paragraph [ref=e793]: Peça já produzida ou visual fiel do produto final.
+                  - generic [ref=e794]: Foto real
+              - generic [ref=e796]: Foto real
+              - generic [ref=e797]:
+                - generic [ref=e798]:
+                  - paragraph [ref=e799]: Geek & Colecionáveis
+                  - heading "Coruja Floresta Articulada" [level=3] [ref=e800]
+                  - paragraph [ref=e801]: Coruja Floresta Articulada em PLA Premium com acabamento premium para colecionar, decorar setup ou presentear fãs de floresta.
+                - generic [ref=e802]: 24h a 48h
+              - generic [ref=e803]:
+                - paragraph [ref=e804]: Compra direta
+                - paragraph [ref=e805]: Preço confirmado para compra direta, considerando porte da peça, acabamento e faixa atual de articulado ou desk toy colecionável.
+                - generic [ref=e807]: "1x: R$ 83,90"
+              - generic [ref=e808]:
+                - generic [ref=e809]:
+                  - paragraph [ref=e810]: Preço Pix
+                  - paragraph [ref=e811]: R$ 83,90
+                  - paragraph [ref=e812]: 12x de R$ 7,83
+                  - generic [ref=e813]:
+                    - img [ref=e814]
+                    - text: 24h a 48h
+                - generic [ref=e817]:
+                  - link "Comprar" [ref=e818] [cursor=pointer]:
+                    - /url: /catalogo/mdh-075-coruja-floresta-articulada
+                  - link "WhatsApp" [ref=e819] [cursor=pointer]:
+                    - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20fechar%201x%20Coruja%20Floresta%20Articulada%20(MDH-0075).
+              - generic [ref=e820]:
+                - button "Favoritar" [ref=e821] [cursor=pointer]
+                - button "Comparar" [ref=e822] [cursor=pointer]
+            - article [ref=e823]:
+              - generic [ref=e824]:
+                - generic [ref=e825]:
+                  - img "Dragão Europeu Mini - catálogo 1" [ref=e828]
+                  - generic:
+                    - generic: Foto real
+                    - generic: Sob encomenda
+                - generic [ref=e830]:
+                  - generic [ref=e831]:
+                    - paragraph [ref=e832]: PLA Premium • Premium
+                    - paragraph [ref=e833]: Peça já produzida ou visual fiel do produto final.
+                  - generic [ref=e834]: Foto real
+              - generic [ref=e836]: Foto real
+              - generic [ref=e837]:
+                - generic [ref=e838]:
+                  - paragraph [ref=e839]: Geek & Colecionáveis
+                  - heading "Dragão Europeu Mini" [level=3] [ref=e840]
+                  - paragraph [ref=e841]: Dragão Europeu Mini em PLA Premium com acabamento premium para colecionar, decorar setup ou presentear fãs de dragões.
+                - generic [ref=e842]: 3 a 5 dias
+              - generic [ref=e843]:
+                - paragraph [ref=e844]: Compra direta
+                - paragraph [ref=e845]: Preço confirmado para compra direta, considerando porte da peça, acabamento e faixa atual de articulado ou desk toy colecionável.
+                - generic [ref=e847]: "1x: R$ 83,90"
+              - generic [ref=e848]:
+                - generic [ref=e849]:
+                  - paragraph [ref=e850]: Preço Pix
+                  - paragraph [ref=e851]: R$ 83,90
+                  - paragraph [ref=e852]: 12x de R$ 7,83
+                  - generic [ref=e853]:
+                    - img [ref=e854]
+                    - text: 3 a 5 dias
+                - generic [ref=e857]:
+                  - link "Comprar" [ref=e858] [cursor=pointer]:
+                    - /url: /catalogo/mdh-074-dragao-europeu-mini
+                  - link "WhatsApp" [ref=e859] [cursor=pointer]:
+                    - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20fechar%201x%20Drag%C3%A3o%20Europeu%20Mini%20(MDH-0074).
+              - generic [ref=e860]:
+                - button "Favoritar" [ref=e861] [cursor=pointer]
+                - button "Comparar" [ref=e862] [cursor=pointer]
+            - article [ref=e863]:
+              - generic [ref=e864]:
+                - generic [ref=e865]:
+                  - img "Dragão Oriental Articulado - catálogo 1" [ref=e868]
+                  - generic:
+                    - generic: Foto real
+                    - generic: Sob encomenda
+                - generic [ref=e870]:
+                  - generic [ref=e871]:
+                    - paragraph [ref=e872]: PLA Premium • Premium
+                    - paragraph [ref=e873]: Peça já produzida ou visual fiel do produto final.
+                  - generic [ref=e874]: Foto real
+              - generic [ref=e876]: Foto real
+              - generic [ref=e877]:
+                - generic [ref=e878]:
+                  - paragraph [ref=e879]: Geek & Colecionáveis
+                  - heading "Dragão Oriental Articulado" [level=3] [ref=e880]
+                  - paragraph [ref=e881]: Dragão Oriental Articulado em PLA Premium com acabamento premium para colecionar, decorar setup ou presentear fãs de dragões.
+                - generic [ref=e882]: 3 a 5 dias
+              - generic [ref=e883]:
+                - paragraph [ref=e884]: Compra direta
+                - paragraph [ref=e885]: Preço confirmado para compra direta, considerando porte da peça, acabamento e faixa atual de articulado ou desk toy colecionável.
+                - generic [ref=e887]: "1x: R$ 90,90"
+              - generic [ref=e888]:
+                - generic [ref=e889]:
+                  - paragraph [ref=e890]: Preço Pix
+                  - paragraph [ref=e891]: R$ 90,90
+                  - paragraph [ref=e892]: 12x de R$ 8,49
+                  - generic [ref=e893]:
+                    - img [ref=e894]
+                    - text: 3 a 5 dias
+                - generic [ref=e897]:
+                  - link "Comprar" [ref=e898] [cursor=pointer]:
+                    - /url: /catalogo/mdh-073-dragao-oriental-articulado
+                  - link "WhatsApp" [ref=e899] [cursor=pointer]:
+                    - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20fechar%201x%20Drag%C3%A3o%20Oriental%20Articulado%20(MDH-0073).
+              - generic [ref=e900]:
+                - button "Favoritar" [ref=e901] [cursor=pointer]
+                - button "Comparar" [ref=e902] [cursor=pointer]
+            - article [ref=e903]:
+              - generic [ref=e904]:
+                - generic [ref=e905]:
+                  - img "Tubarão Oceano Mini - catálogo 1" [ref=e908]
+                  - generic:
+                    - generic: Foto real
+                    - generic: Sob encomenda
+                - generic [ref=e910]:
+                  - generic [ref=e911]:
+                    - paragraph [ref=e912]: PLA Premium • Premium
+                    - paragraph [ref=e913]: Peça já produzida ou visual fiel do produto final.
+                  - generic [ref=e914]: Foto real
+              - generic [ref=e916]: Foto real
+              - generic [ref=e917]:
+                - generic [ref=e918]:
+                  - paragraph [ref=e919]: Geek & Colecionáveis
+                  - heading "Tubarão Oceano Mini" [level=3] [ref=e920]
+                  - paragraph [ref=e921]: Tubarão Oceano Mini em PLA Premium com acabamento premium para colecionar, decorar setup ou presentear fãs de oceano.
+                - generic [ref=e922]: 24h a 48h
+              - generic [ref=e923]:
+                - paragraph [ref=e924]: Compra direta
+                - paragraph [ref=e925]: Preço confirmado para compra direta, considerando porte da peça, acabamento e faixa atual de produto impresso em 3d de varejo.
+                - generic [ref=e927]: "1x: R$ 52,90"
+              - generic [ref=e928]:
+                - generic [ref=e929]:
+                  - paragraph [ref=e930]: Preço Pix
+                  - paragraph [ref=e931]: R$ 52,90
+                  - paragraph [ref=e932]: 12x de R$ 4,99
+                  - generic [ref=e933]:
+                    - img [ref=e934]
+                    - text: 24h a 48h
+                - generic [ref=e937]:
+                  - link "Comprar" [ref=e938] [cursor=pointer]:
+                    - /url: /catalogo/mdh-072-tubarao-oceano-mini
+                  - link "WhatsApp" [ref=e939] [cursor=pointer]:
+                    - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20fechar%201x%20Tubar%C3%A3o%20Oceano%20Mini%20(MDH-0072).
+              - generic [ref=e940]:
+                - button "Favoritar" [ref=e941] [cursor=pointer]
+                - button "Comparar" [ref=e942] [cursor=pointer]
+            - article [ref=e943]:
+              - generic [ref=e944]:
+                - generic [ref=e945]:
+                  - img "Polvo Oceano Articulado - catálogo 1" [ref=e948]
+                  - generic:
+                    - generic: Foto real
+                    - generic: Sob encomenda
+                - generic [ref=e950]:
+                  - generic [ref=e951]:
+                    - paragraph [ref=e952]: PLA Premium • Premium
+                    - paragraph [ref=e953]: Peça já produzida ou visual fiel do produto final.
+                  - generic [ref=e954]: Foto real
+              - generic [ref=e956]: Foto real
+              - generic [ref=e957]:
+                - generic [ref=e958]:
+                  - paragraph [ref=e959]: Geek & Colecionáveis
+                  - heading "Polvo Oceano Articulado" [level=3] [ref=e960]
+                  - paragraph [ref=e961]: Polvo articulado com design oceânico, perfeito para coleção.
+                - generic [ref=e962]: 3 a 5 dias
+              - generic [ref=e963]:
+                - paragraph [ref=e964]: Compra direta
+                - paragraph [ref=e965]: Preço confirmado para compra direta, considerando porte da peça, acabamento e faixa atual de articulado ou desk toy colecionável.
+                - generic [ref=e967]: "1x: R$ 90,90"
+              - generic [ref=e968]:
+                - generic [ref=e969]:
+                  - paragraph [ref=e970]: Preço Pix
+                  - paragraph [ref=e971]: R$ 90,90
+                  - paragraph [ref=e972]: 12x de R$ 8,49
+                  - generic [ref=e973]:
+                    - img [ref=e974]
+                    - text: 3 a 5 dias
+                - generic [ref=e977]:
+                  - link "Comprar" [ref=e978] [cursor=pointer]:
+                    - /url: /catalogo/mdh-071-polvo-oceano-articulado
+                  - link "WhatsApp" [ref=e979] [cursor=pointer]:
+                    - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20fechar%201x%20Polvo%20Oceano%20Articulado%20(MDH-0071).
+              - generic [ref=e980]:
+                - button "Favoritar" [ref=e981] [cursor=pointer]
+                - button "Comparar" [ref=e982] [cursor=pointer]
+            - article [ref=e983]:
+              - generic [ref=e984]:
+                - generic [ref=e985]:
+                  - img "Sonic Hedgehog Chibi - catálogo 1" [ref=e988]
+                  - generic:
+                    - generic: Foto real
+                    - generic: Sob encomenda
+                - generic [ref=e990]:
+                  - generic [ref=e991]:
+                    - paragraph [ref=e992]: PLA Premium • Premium
+                    - paragraph [ref=e993]: Peça já produzida ou visual fiel do produto final.
+                  - generic [ref=e994]: Foto real
+              - generic [ref=e995]:
+                - generic [ref=e996]: Mais vendido
+                - generic [ref=e997]: Foto real
+              - generic [ref=e998]:
+                - generic [ref=e999]:
+                  - paragraph [ref=e1000]: Geek & Colecionáveis
+                  - heading "Sonic Hedgehog Chibi" [level=3] [ref=e1001]
+                  - paragraph [ref=e1002]: Sonic Hedgehog Chibi em PLA Premium com acabamento premium para colecionar, decorar setup ou presentear fãs de Anime.
+                - generic [ref=e1003]: 24h a 48h
+              - generic [ref=e1004]:
+                - paragraph [ref=e1005]: Compra direta
+                - paragraph [ref=e1006]: Preço confirmado para compra direta, considerando porte da peça, acabamento e faixa atual de colecionável chibi ou miniatura geek.
+                - generic [ref=e1008]: "1x: R$ 78,90"
+              - generic [ref=e1009]:
+                - generic [ref=e1010]:
+                  - paragraph [ref=e1011]: Preço Pix
+                  - paragraph [ref=e1012]: R$ 78,90
+                  - paragraph [ref=e1013]: 12x de R$ 7,41
+                  - generic [ref=e1014]:
+                    - img [ref=e1015]
+                    - text: 24h a 48h
+                - generic [ref=e1018]:
+                  - link "Comprar" [ref=e1019] [cursor=pointer]:
+                    - /url: /catalogo/mdh-070-sonic-hedgehog-chibi
+                  - link "WhatsApp" [ref=e1020] [cursor=pointer]:
+                    - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20fechar%201x%20Sonic%20Hedgehog%20Chibi%20(MDH-0070).
+              - generic [ref=e1021]:
+                - button "Favoritar" [ref=e1022] [cursor=pointer]
+                - button "Comparar" [ref=e1023] [cursor=pointer]
+            - article [ref=e1024]:
+              - generic [ref=e1025]:
+                - generic [ref=e1026]:
+                  - img "Mario Nintendo Chibi - catálogo 1" [ref=e1029]
+                  - generic:
+                    - generic: Foto real
+                    - generic: Sob encomenda
+                - generic [ref=e1031]:
+                  - generic [ref=e1032]:
+                    - paragraph [ref=e1033]: PLA Premium • Premium
+                    - paragraph [ref=e1034]: Peça já produzida ou visual fiel do produto final.
+                  - generic [ref=e1035]: Foto real
+              - generic [ref=e1036]:
+                - generic [ref=e1037]: Mais vendido
+                - generic [ref=e1038]: Foto real
+              - generic [ref=e1039]:
+                - generic [ref=e1040]:
+                  - paragraph [ref=e1041]: Geek & Colecionáveis
+                  - heading "Mario Nintendo Chibi" [level=3] [ref=e1042]
+                  - paragraph [ref=e1043]: Mario Nintendo Chibi em PLA Premium com acabamento premium para colecionar, decorar setup ou presentear fãs de Anime.
+                - generic [ref=e1044]: 24h a 48h
+              - generic [ref=e1045]:
+                - paragraph [ref=e1046]: Compra direta
+                - paragraph [ref=e1047]: Preço confirmado para compra direta, considerando porte da peça, acabamento e faixa atual de colecionável chibi ou miniatura geek.
+                - generic [ref=e1049]: "1x: R$ 78,90"
+              - generic [ref=e1050]:
+                - generic [ref=e1051]:
+                  - paragraph [ref=e1052]: Preço Pix
+                  - paragraph [ref=e1053]: R$ 78,90
+                  - paragraph [ref=e1054]: 12x de R$ 7,41
+                  - generic [ref=e1055]:
+                    - img [ref=e1056]
+                    - text: 24h a 48h
+                - generic [ref=e1059]:
+                  - link "Comprar" [ref=e1060] [cursor=pointer]:
+                    - /url: /catalogo/mdh-069-mario-nintendo-chibi
+                  - link "WhatsApp" [ref=e1061] [cursor=pointer]:
+                    - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20fechar%201x%20Mario%20Nintendo%20Chibi%20(MDH-0069).
+              - generic [ref=e1062]:
+                - button "Favoritar" [ref=e1063] [cursor=pointer]
+                - button "Comparar" [ref=e1064] [cursor=pointer]
+            - article [ref=e1065]:
+              - generic [ref=e1066]:
+                - generic [ref=e1067]:
+                  - img "Kirby Nintendo Chibi - catálogo 1" [ref=e1070]
+                  - generic:
+                    - generic: Foto real
+                    - generic: Sob encomenda
+                - generic [ref=e1072]:
+                  - generic [ref=e1073]:
+                    - paragraph [ref=e1074]: PLA Premium • Premium
+                    - paragraph [ref=e1075]: Peça já produzida ou visual fiel do produto final.
+                  - generic [ref=e1076]: Foto real
+              - generic [ref=e1077]:
+                - generic [ref=e1078]: Mais vendido
+                - generic [ref=e1079]: Foto real
+              - generic [ref=e1080]:
+                - generic [ref=e1081]:
+                  - paragraph [ref=e1082]: Geek & Colecionáveis
+                  - heading "Kirby Nintendo Chibi" [level=3] [ref=e1083]
+                  - paragraph [ref=e1084]: Kirby Nintendo Chibi em PLA Premium com acabamento premium para colecionar, decorar setup ou presentear fãs de Anime.
+                - generic [ref=e1085]: 24h a 48h
+              - generic [ref=e1086]:
+                - paragraph [ref=e1087]: Compra direta
+                - paragraph [ref=e1088]: Preço confirmado para compra direta, considerando porte da peça, acabamento e faixa atual de colecionável chibi ou miniatura geek.
+                - generic [ref=e1090]: "1x: R$ 78,90"
+              - generic [ref=e1091]:
+                - generic [ref=e1092]:
+                  - paragraph [ref=e1093]: Preço Pix
+                  - paragraph [ref=e1094]: R$ 78,90
+                  - paragraph [ref=e1095]: 12x de R$ 7,41
+                  - generic [ref=e1096]:
+                    - img [ref=e1097]
+                    - text: 24h a 48h
+                - generic [ref=e1100]:
+                  - link "Comprar" [ref=e1101] [cursor=pointer]:
+                    - /url: /catalogo/mdh-068-kirby-nintendo-chibi
+                  - link "WhatsApp" [ref=e1102] [cursor=pointer]:
+                    - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20fechar%201x%20Kirby%20Nintendo%20Chibi%20(MDH-0068).
+              - generic [ref=e1103]:
+                - button "Favoritar" [ref=e1104] [cursor=pointer]
+                - button "Comparar" [ref=e1105] [cursor=pointer]
+            - article [ref=e1106]:
+              - generic [ref=e1107]:
+                - generic [ref=e1108]:
+                  - img "Pikachu Pokémon Chibi - catálogo 1" [ref=e1111]
+                  - generic:
+                    - generic: Foto real
+                    - generic: Sob encomenda
+                - generic [ref=e1113]:
+                  - generic [ref=e1114]:
+                    - paragraph [ref=e1115]: PLA Premium • Premium
+                    - paragraph [ref=e1116]: Peça já produzida ou visual fiel do produto final.
+                  - generic [ref=e1117]: Foto real
+              - generic [ref=e1118]:
+                - generic [ref=e1119]: Mais vendido
+                - generic [ref=e1120]: Foto real
+              - generic [ref=e1121]:
+                - generic [ref=e1122]:
+                  - paragraph [ref=e1123]: Geek & Colecionáveis
+                  - heading "Pikachu Pokémon Chibi" [level=3] [ref=e1124]
+                  - paragraph [ref=e1125]: Pikachu Pokémon Chibi em PLA Premium com acabamento premium para colecionar, decorar setup ou presentear fãs de Anime.
+                - generic [ref=e1126]: 24h a 48h
+              - generic [ref=e1127]:
+                - paragraph [ref=e1128]: Compra direta
+                - paragraph [ref=e1129]: Preço confirmado para compra direta, considerando porte da peça, acabamento e faixa atual de colecionável chibi ou miniatura geek.
+                - generic [ref=e1131]: "1x: R$ 78,90"
+              - generic [ref=e1132]:
+                - generic [ref=e1133]:
+                  - paragraph [ref=e1134]: Preço Pix
+                  - paragraph [ref=e1135]: R$ 78,90
+                  - paragraph [ref=e1136]: 12x de R$ 7,41
+                  - generic [ref=e1137]:
+                    - img [ref=e1138]
+                    - text: 24h a 48h
+                - generic [ref=e1141]:
+                  - link "Comprar" [ref=e1142] [cursor=pointer]:
+                    - /url: /catalogo/mdh-067-pikachu-pokemon-chibi
+                  - link "WhatsApp" [ref=e1143] [cursor=pointer]:
+                    - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20fechar%201x%20Pikachu%20Pok%C3%A9mon%20Chibi%20(MDH-0067).
+              - generic [ref=e1144]:
+                - button "Favoritar" [ref=e1145] [cursor=pointer]
+                - button "Comparar" [ref=e1146] [cursor=pointer]
+            - article [ref=e1147]:
+              - generic [ref=e1148]:
+                - generic [ref=e1149]:
+                  - img "Totoro My Neighbor Chibi - catálogo 1" [ref=e1152]
+                  - generic:
+                    - generic: Foto real
+                    - generic: Sob encomenda
+                - generic [ref=e1154]:
+                  - generic [ref=e1155]:
+                    - paragraph [ref=e1156]: PLA Premium • Premium
+                    - paragraph [ref=e1157]: Peça já produzida ou visual fiel do produto final.
+                  - generic [ref=e1158]: Foto real
+              - generic [ref=e1159]:
+                - generic [ref=e1160]: Mais vendido
+                - generic [ref=e1161]: Foto real
+              - generic [ref=e1162]:
+                - generic [ref=e1163]:
+                  - paragraph [ref=e1164]: Geek & Colecionáveis
+                  - heading "Totoro My Neighbor Chibi" [level=3] [ref=e1165]
+                  - paragraph [ref=e1166]: Totoro My Neighbor Chibi em PLA Premium com acabamento premium para colecionar, decorar setup ou presentear fãs de Anime.
+                - generic [ref=e1167]: 24h a 48h
+              - generic [ref=e1168]:
+                - paragraph [ref=e1169]: Compra direta
+                - paragraph [ref=e1170]: Preço confirmado para compra direta, considerando porte da peça, acabamento e faixa atual de colecionável chibi ou miniatura geek.
+                - generic [ref=e1172]: "1x: R$ 78,90"
+              - generic [ref=e1173]:
+                - generic [ref=e1174]:
+                  - paragraph [ref=e1175]: Preço Pix
+                  - paragraph [ref=e1176]: R$ 78,90
+                  - paragraph [ref=e1177]: 12x de R$ 7,41
+                  - generic [ref=e1178]:
+                    - img [ref=e1179]
+                    - text: 24h a 48h
+                - generic [ref=e1182]:
+                  - link "Comprar" [ref=e1183] [cursor=pointer]:
+                    - /url: /catalogo/mdh-066-totoro-my-neighbor-chibi
+                  - link "WhatsApp" [ref=e1184] [cursor=pointer]:
+                    - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20fechar%201x%20Totoro%20My%20Neighbor%20Chibi%20(MDH-0066).
+              - generic [ref=e1185]:
+                - button "Favoritar" [ref=e1186] [cursor=pointer]
+                - button "Comparar" [ref=e1187] [cursor=pointer]
+            - article [ref=e1188]:
+              - generic [ref=e1189]:
+                - generic [ref=e1190]:
+                  - img "Elsa Frozen Chibi - catálogo 1" [ref=e1193]
+                  - generic:
+                    - generic: Foto real
+                    - generic: Sob encomenda
+                - generic [ref=e1195]:
+                  - generic [ref=e1196]:
+                    - paragraph [ref=e1197]: PLA Premium • Premium
+                    - paragraph [ref=e1198]: Peça já produzida ou visual fiel do produto final.
+                  - generic [ref=e1199]: Foto real
+              - generic [ref=e1200]:
+                - generic [ref=e1201]: Mais vendido
+                - generic [ref=e1202]: Foto real
+              - generic [ref=e1203]:
+                - generic [ref=e1204]:
+                  - paragraph [ref=e1205]: Geek & Colecionáveis
+                  - heading "Elsa Frozen Chibi" [level=3] [ref=e1206]
+                  - paragraph [ref=e1207]: Elsa Frozen Chibi em PLA Premium com acabamento premium para colecionar, decorar setup ou presentear fãs de Anime.
+                - generic [ref=e1208]: 24h a 48h
+              - generic [ref=e1209]:
+                - paragraph [ref=e1210]: Compra direta
+                - paragraph [ref=e1211]: Preço confirmado para compra direta, considerando porte da peça, acabamento e faixa atual de colecionável chibi ou miniatura geek.
+                - generic [ref=e1213]: "1x: R$ 78,90"
+              - generic [ref=e1214]:
+                - generic [ref=e1215]:
+                  - paragraph [ref=e1216]: Preço Pix
+                  - paragraph [ref=e1217]: R$ 78,90
+                  - paragraph [ref=e1218]: 12x de R$ 7,41
+                  - generic [ref=e1219]:
+                    - img [ref=e1220]
+                    - text: 24h a 48h
+                - generic [ref=e1223]:
+                  - link "Comprar" [ref=e1224] [cursor=pointer]:
+                    - /url: /catalogo/mdh-065-elsa-frozen-chibi
+                  - link "WhatsApp" [ref=e1225] [cursor=pointer]:
+                    - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20fechar%201x%20Elsa%20Frozen%20Chibi%20(MDH-0065).
+              - generic [ref=e1226]:
+                - button "Favoritar" [ref=e1227] [cursor=pointer]
+                - button "Comparar" [ref=e1228] [cursor=pointer]
+            - article [ref=e1229]:
+              - generic [ref=e1230]:
+                - generic [ref=e1231]:
+                  - img "Luffy One Piece Chibi - catálogo 1" [ref=e1234]
+                  - generic:
+                    - generic: Foto real
+                    - generic: Sob encomenda
+                - generic [ref=e1236]:
+                  - generic [ref=e1237]:
+                    - paragraph [ref=e1238]: PLA Premium • Premium
+                    - paragraph [ref=e1239]: Peça já produzida ou visual fiel do produto final.
+                  - generic [ref=e1240]: Foto real
+              - generic [ref=e1241]:
+                - generic [ref=e1242]: Mais vendido
+                - generic [ref=e1243]: Foto real
+              - generic [ref=e1244]:
+                - generic [ref=e1245]:
+                  - paragraph [ref=e1246]: Geek & Colecionáveis
+                  - heading "Luffy One Piece Chibi" [level=3] [ref=e1247]
+                  - paragraph [ref=e1248]: Luffy One Piece Chibi em PLA Premium com acabamento premium para colecionar, decorar setup ou presentear fãs de Anime.
+                - generic [ref=e1249]: 24h a 48h
+              - generic [ref=e1250]:
+                - paragraph [ref=e1251]: Compra direta
+                - paragraph [ref=e1252]: Preço confirmado para compra direta, considerando porte da peça, acabamento e faixa atual de colecionável chibi ou miniatura geek.
+                - generic [ref=e1254]: "1x: R$ 78,90"
+              - generic [ref=e1255]:
+                - generic [ref=e1256]:
+                  - paragraph [ref=e1257]: Preço Pix
+                  - paragraph [ref=e1258]: R$ 78,90
+                  - paragraph [ref=e1259]: 12x de R$ 7,41
+                  - generic [ref=e1260]:
+                    - img [ref=e1261]
+                    - text: 24h a 48h
+                - generic [ref=e1264]:
+                  - link "Comprar" [ref=e1265] [cursor=pointer]:
+                    - /url: /catalogo/mdh-064-luffy-one-piece-chibi
+                  - link "WhatsApp" [ref=e1266] [cursor=pointer]:
+                    - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20fechar%201x%20Luffy%20One%20Piece%20Chibi%20(MDH-0064).
+              - generic [ref=e1267]:
+                - button "Favoritar" [ref=e1268] [cursor=pointer]
+                - button "Comparar" [ref=e1269] [cursor=pointer]
+          - generic [ref=e1270]:
+            - button "Anterior" [disabled] [ref=e1271]
+            - button "1" [ref=e1272] [cursor=pointer]
+            - button "2" [ref=e1273] [cursor=pointer]
+            - button "3" [ref=e1274] [cursor=pointer]
+            - button "4" [ref=e1275] [cursor=pointer]
+            - button "5" [ref=e1276] [cursor=pointer]
+            - button "6" [ref=e1277] [cursor=pointer]
+            - button "7" [ref=e1278] [cursor=pointer]
+            - button "8" [ref=e1279] [cursor=pointer]
+            - button "9" [ref=e1280] [cursor=pointer]
+            - button "10" [ref=e1281] [cursor=pointer]
+            - button "11" [ref=e1282] [cursor=pointer]
+            - button "Próxima" [ref=e1283] [cursor=pointer]
+        - generic [ref=e1286]:
+          - heading "Monte um pedido com mais ticket e menos atrito." [level=2] [ref=e1287]
+          - paragraph [ref=e1288]: Em vez de navegar item por item, o cliente pode agrupar peças por intenção de compra. Dois itens já abrem conversa de desconto e três ou mais ajudam a fechar com mais valor.
+          - generic [ref=e1289]:
+            - generic [ref=e1290]: Tipo de pedido
+            - combobox [ref=e1291]:
+              - option "Presentes criativos" [selected]
+              - option "Setup e utilidades"
+              - option "Coleção geek"
+              - option "Brindes e lembranças"
+            - paragraph [ref=e1292]: Miniaturas, lembranças e itens com bom apelo para presente e datas especiais.
+          - generic [ref=e1293]:
+            - heading "Seleção sugerida" [level=3] [ref=e1294]
+            - generic [ref=e1295]:
+              - generic [ref=e1296] [cursor=pointer]:
+                - img "Medalha Maçônica Personalizada" [ref=e1299]
+                - generic [ref=e1301]: Foto real
+                - heading "Medalha Maçônica Personalizada" [level=4] [ref=e1302]
+                - paragraph [ref=e1303]: R$ 42,90
+              - generic [ref=e1304] [cursor=pointer]:
+                - img "Goku Dragon Ball Chibi" [ref=e1307]
+                - generic [ref=e1309]: Foto real
+                - heading "Goku Dragon Ball Chibi" [level=4] [ref=e1310]
+                - paragraph [ref=e1311]: R$ 78,90
+              - generic [ref=e1312] [cursor=pointer]:
+                - img "Luffy One Piece Chibi" [ref=e1315]
+                - generic [ref=e1317]: Foto real
+                - heading "Luffy One Piece Chibi" [level=4] [ref=e1318]
+                - paragraph [ref=e1319]: R$ 78,90
+              - generic [ref=e1320] [cursor=pointer]:
+                - img "Elsa Frozen Chibi" [ref=e1323]
+                - generic [ref=e1325]: Foto real
+                - heading "Elsa Frozen Chibi" [level=4] [ref=e1326]
+                - paragraph [ref=e1327]: R$ 78,90
+              - generic [ref=e1328] [cursor=pointer]:
+                - img "Totoro My Neighbor Chibi" [ref=e1331]
+                - generic [ref=e1333]: Foto real
+                - heading "Totoro My Neighbor Chibi" [level=4] [ref=e1334]
+                - paragraph [ref=e1335]: R$ 78,90
+              - generic [ref=e1336] [cursor=pointer]:
+                - img "Pikachu Pokémon Chibi" [ref=e1339]
+                - generic [ref=e1341]: Foto real
+                - heading "Pikachu Pokémon Chibi" [level=4] [ref=e1342]
+                - paragraph [ref=e1343]: R$ 78,90
+              - generic [ref=e1344] [cursor=pointer]:
+                - img "Kirby Nintendo Chibi" [ref=e1347]
+                - generic [ref=e1349]: Foto real
+                - heading "Kirby Nintendo Chibi" [level=4] [ref=e1350]
+                - paragraph [ref=e1351]: R$ 78,90
+              - generic [ref=e1352] [cursor=pointer]:
+                - img "Mario Nintendo Chibi" [ref=e1355]
+                - generic [ref=e1357]: Foto real
+                - heading "Mario Nintendo Chibi" [level=4] [ref=e1358]
+                - paragraph [ref=e1359]: R$ 78,90
+              - generic [ref=e1360] [cursor=pointer]:
+                - img "Sonic Hedgehog Chibi" [ref=e1363]
+                - generic [ref=e1365]: Foto real
+                - heading "Sonic Hedgehog Chibi" [level=4] [ref=e1366]
+                - paragraph [ref=e1367]: R$ 78,90
+              - generic [ref=e1368] [cursor=pointer]:
+                - img "Hello Kitty Jedi Colecionável" [ref=e1371]
+                - generic [ref=e1373]: Foto real
+                - heading "Hello Kitty Jedi Colecionável" [level=4] [ref=e1374]
+                - paragraph [ref=e1375]: R$ 206,90
+              - generic [ref=e1376] [cursor=pointer]:
+                - img "Demogorgon Decorativo Premium" [ref=e1379]
+                - generic [ref=e1381]: Foto real
+                - heading "Demogorgon Decorativo Premium" [level=4] [ref=e1382]
+                - paragraph [ref=e1383]: R$ 233,90
+              - generic [ref=e1384] [cursor=pointer]:
+                - img "Família Customizada em Miniatura" [ref=e1387]
+                - generic [ref=e1389]: Foto real
+                - heading "Família Customizada em Miniatura" [level=4] [ref=e1390]
+                - paragraph [ref=e1391]: R$ 603,90
+    - contentinfo [ref=e1392]:
+      - generic [ref=e1393]:
+        - generic [ref=e1394]:
+          - img "Logo MDH 3D" [ref=e1395]
+          - paragraph [ref=e1396]: MDH 3D
+          - heading "Impressão 3D com apresentação profissional, produção local e atendimento direto." [level=2] [ref=e1397]
+          - paragraph [ref=e1398]: Trabalhamos com presentes personalizados, miniaturas, utilidades e projetos sob medida para clientes do Rio de Janeiro e de outras regiões do Brasil.
+          - generic [ref=e1399]:
+            - link "Atendimento no WhatsApp" [ref=e1400] [cursor=pointer]:
+              - /url: https://wa.me/5521920137249
+              - img [ref=e1401]
+              - text: Atendimento no WhatsApp
+            - link "Ver catálogo" [ref=e1403] [cursor=pointer]:
+              - /url: /catalogo
+              - text: Ver catálogo
+              - img [ref=e1404]
+          - generic [ref=e1407]:
+            - generic [ref=e1408]: Portfólio com fotos reais
+            - generic [ref=e1409]: Pix visível no checkout
+            - generic [ref=e1410]: Produção local no RJ
+        - generic [ref=e1411]:
+          - paragraph [ref=e1412]: Institucional
+          - generic [ref=e1413]:
+            - link "Política de privacidade" [ref=e1414] [cursor=pointer]:
+              - /url: /politica-de-privacidade
+            - link "Termos de uso" [ref=e1415] [cursor=pointer]:
+              - /url: /termos
+            - link "Trocas e devoluções" [ref=e1416] [cursor=pointer]:
+              - /url: /trocas-e-devolucoes
+            - link "Frete e prazo" [ref=e1417] [cursor=pointer]:
+              - /url: /entregas
+            - link "Perguntas frequentes" [ref=e1418] [cursor=pointer]:
+              - /url: /faq
+            - link "Portfólio e conteúdo" [ref=e1419] [cursor=pointer]:
+              - /url: /divulgacao
+        - generic [ref=e1420]:
+          - paragraph [ref=e1421]: Jornada de compra
+          - generic [ref=e1422]:
+            - link "Escolher um produto" [ref=e1423] [cursor=pointer]:
+              - /url: /catalogo
+            - link "Presentes 3D" [ref=e1424] [cursor=pointer]:
+              - /url: /presentes-3d
+            - link "Setup e organização" [ref=e1425] [cursor=pointer]:
+              - /url: /setup-e-organizacao-3d
+            - link "Brindes e lotes" [ref=e1426] [cursor=pointer]:
+              - /url: /brindes-personalizados-3d
+            - link "Fechar pedido" [ref=e1427] [cursor=pointer]:
+              - /url: /checkout
+            - link "Enviar referência ou STL" [ref=e1428] [cursor=pointer]:
+              - /url: /imagem-para-impressao-3d
+            - link "Acompanhar conta e pedidos" [ref=e1429] [cursor=pointer]:
+              - /url: /conta
+        - generic [ref=e1430]:
+          - paragraph [ref=e1431]: Contato
+          - generic [ref=e1432]:
+            - link "Comprar catálogo" [ref=e1433] [cursor=pointer]:
+              - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20fechar%20um%20item%20do%20cat%C3%A1logo%20da%20MDH%203D.
+            - link "Peça personalizada" [ref=e1434] [cursor=pointer]:
+              - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20pedir%20uma%20pe%C3%A7a%20personalizada%20na%20MDH%203D.
+            - link "Brindes e lotes" [ref=e1435] [cursor=pointer]:
+              - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20or%C3%A7amento%20para%20brindes%20ou%20lote%20personalizado.
+            - link "Tirar dúvidas" [ref=e1436] [cursor=pointer]:
+              - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20tirar%20d%C3%BAvidas%20sobre%20material%2C%20prazo%20e%20acabamento.
+          - generic [ref=e1437]:
+            - link "Atendimento humano para orçamento, personalização e pós-venda." [ref=e1438] [cursor=pointer]:
+              - /url: https://wa.me/5521920137249
+              - img [ref=e1439]
+              - generic [ref=e1441]: Atendimento humano para orçamento, personalização e pós-venda.
+            - link "mdhatendimento@gmail.com" [ref=e1442] [cursor=pointer]:
+              - /url: mailto:mdhatendimento@gmail.com
+              - img [ref=e1443]
+              - generic [ref=e1446]: mdhatendimento@gmail.com
+            - link "@mdh_impressao3d" [ref=e1447] [cursor=pointer]:
+              - /url: https://www.instagram.com/mdh_impressao3d/
+              - img [ref=e1448]
+              - generic [ref=e1451]: "@mdh_impressao3d"
+            - generic [ref=e1452]:
+              - img [ref=e1453]
+              - generic [ref=e1456]: Produção local no Rio de Janeiro com resposta em horário comercial.
+      - generic [ref=e1458]:
+        - generic [ref=e1459]: © 2026 MDH 3D. Todos os direitos reservados.
+        - generic [ref=e1460]:
+          - generic [ref=e1461]: Produção local
+          - generic [ref=e1462]: Pix visível
+          - generic [ref=e1463]: Catálogo curado
+        - button "Voltar ao topo" [ref=e1464] [cursor=pointer]
+    - link "Fale conosco no WhatsApp" [ref=e1465] [cursor=pointer]:
+      - /url: https://wa.me/5521920137249?text=Oi!%20Vim%20pelo%20site%20da%20MDH%203D%20e%20quero%20um%20or%C3%A7amento.
+      - img [ref=e1467]
+  - alert [ref=e1469]

@@ -1,0 +1,162 @@
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e5]:
+      - text: MDH 3D • Produção local no RioPix imediato • orçamento claro • atendimento humano
+      - link "@mdh_impressao3d" [ref=e6] [cursor=pointer]:
+        - /url: https://www.instagram.com/mdh_impressao3d/
+    - generic [ref=e7]:
+      - link "Logo MDH 3D MDH 3D Presentes, utilidades, decoração e projetos sob medida em impressão 3D" [ref=e8] [cursor=pointer]:
+        - /url: /
+        - img "Logo MDH 3D" [ref=e9]
+        - generic [ref=e10]:
+          - paragraph [ref=e11]: MDH 3D
+          - paragraph [ref=e12]: Presentes, utilidades, decoração e projetos sob medida em impressão 3D
+      - generic [ref=e13]:
+        - img [ref=e14]
+        - searchbox "Busque por presente, miniatura, suporte, chaveiro, decoração..." [ref=e17]
+        - button "Buscar" [ref=e18]
+      - generic [ref=e19]:
+        - button "Consultor MDH" [ref=e20]:
+          - img [ref=e21]
+          - text: Consultor MDH
+        - link "Minha conta" [ref=e24] [cursor=pointer]:
+          - /url: /login
+          - img [ref=e25]
+          - text: Minha conta
+        - link "WhatsApp" [ref=e28] [cursor=pointer]:
+          - /url: https://wa.me/5521920137249
+        - link "Fechar pedido" [ref=e29] [cursor=pointer]:
+          - /url: /checkout
+          - img [ref=e30]
+          - text: Fechar pedido
+      - generic [ref=e33]:
+        - link "Buscar no catálogo" [ref=e34] [cursor=pointer]:
+          - /url: /catalogo
+          - img [ref=e35]
+        - button "Abrir menu" [ref=e38]:
+          - img [ref=e39]
+    - navigation [ref=e40]:
+      - link "Início" [ref=e41] [cursor=pointer]:
+        - /url: /
+      - link "Catálogo" [ref=e42] [cursor=pointer]:
+        - /url: /catalogo
+      - link "Personalizados" [ref=e43] [cursor=pointer]:
+        - /url: /imagem-para-impressao-3d
+      - link "Entregas" [ref=e44] [cursor=pointer]:
+        - /url: /entregas
+      - link "FAQ" [ref=e45] [cursor=pointer]:
+        - /url: /faq
+      - link "Conteúdo" [ref=e46] [cursor=pointer]:
+        - /url: /divulgacao
+      - link "Instagram" [ref=e47] [cursor=pointer]:
+        - /url: https://www.instagram.com/mdh_impressao3d/
+        - img [ref=e48]
+        - text: Instagram
+  - main
+  - contentinfo [ref=e51]:
+    - generic [ref=e52]:
+      - generic [ref=e53]:
+        - img "Logo MDH 3D" [ref=e54]
+        - paragraph [ref=e55]: MDH 3D
+        - heading "Impressão 3D com apresentação profissional, produção local e atendimento direto." [level=2] [ref=e56]
+        - paragraph [ref=e57]: Trabalhamos com presentes personalizados, miniaturas, utilidades e projetos sob medida para clientes do Rio de Janeiro e de outras regiões do Brasil.
+        - generic [ref=e58]:
+          - link "Atendimento no WhatsApp" [ref=e59] [cursor=pointer]:
+            - /url: https://wa.me/5521920137249
+            - img [ref=e60]
+            - text: Atendimento no WhatsApp
+          - link "Ver catálogo" [ref=e62] [cursor=pointer]:
+            - /url: /catalogo
+            - text: Ver catálogo
+            - img [ref=e63]
+        - generic [ref=e66]: Portfólio com fotos reaisPix visível no checkoutProdução local no RJ
+      - generic [ref=e67]:
+        - paragraph [ref=e68]: Institucional
+        - generic [ref=e69]:
+          - link "Política de privacidade" [ref=e70] [cursor=pointer]:
+            - /url: /politica-de-privacidade
+          - link "Termos de uso" [ref=e71] [cursor=pointer]:
+            - /url: /termos
+          - link "Trocas e devoluções" [ref=e72] [cursor=pointer]:
+            - /url: /trocas-e-devolucoes
+          - link "Frete e prazo" [ref=e73] [cursor=pointer]:
+            - /url: /entregas
+          - link "Perguntas frequentes" [ref=e74] [cursor=pointer]:
+            - /url: /faq
+          - link "Portfólio e conteúdo" [ref=e75] [cursor=pointer]:
+            - /url: /divulgacao
+      - generic [ref=e76]:
+        - paragraph [ref=e77]: Jornada de compra
+        - generic [ref=e78]:
+          - link "Escolher um produto" [ref=e79] [cursor=pointer]:
+            - /url: /catalogo
+          - link "Presentes 3D" [ref=e80] [cursor=pointer]:
+            - /url: /presentes-3d
+          - link "Setup e organização" [ref=e81] [cursor=pointer]:
+            - /url: /setup-e-organizacao-3d
+          - link "Brindes e lotes" [ref=e82] [cursor=pointer]:
+            - /url: /brindes-personalizados-3d
+          - link "Fechar pedido" [ref=e83] [cursor=pointer]:
+            - /url: /checkout
+          - link "Enviar referência ou STL" [ref=e84] [cursor=pointer]:
+            - /url: /imagem-para-impressao-3d
+          - link "Acompanhar conta e pedidos" [ref=e85] [cursor=pointer]:
+            - /url: /conta
+      - generic [ref=e86]:
+        - paragraph [ref=e87]: Contato
+        - generic [ref=e88]:
+          - link "Comprar catálogo" [ref=e89] [cursor=pointer]:
+            - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20fechar%20um%20item%20do%20cat%C3%A1logo%20da%20MDH%203D.
+          - link "Peça personalizada" [ref=e90] [cursor=pointer]:
+            - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20pedir%20uma%20pe%C3%A7a%20personalizada%20na%20MDH%203D.
+          - link "Brindes e lotes" [ref=e91] [cursor=pointer]:
+            - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20or%C3%A7amento%20para%20brindes%20ou%20lote%20personalizado.
+          - link "Tirar dúvidas" [ref=e92] [cursor=pointer]:
+            - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20tirar%20d%C3%BAvidas%20sobre%20material%2C%20prazo%20e%20acabamento.
+        - generic [ref=e93]:
+          - link "Atendimento humano para orçamento, personalização e pós-venda." [ref=e94] [cursor=pointer]:
+            - /url: https://wa.me/5521920137249
+            - img [ref=e95]
+            - text: Atendimento humano para orçamento, personalização e pós-venda.
+          - link "mdhatendimento@gmail.com" [ref=e97] [cursor=pointer]:
+            - /url: mailto:mdhatendimento@gmail.com
+            - img [ref=e98]
+            - text: mdhatendimento@gmail.com
+          - link "@mdh_impressao3d" [ref=e101] [cursor=pointer]:
+            - /url: https://www.instagram.com/mdh_impressao3d/
+            - img [ref=e102]
+            - generic [ref=e105]: "@mdh_impressao3d"
+          - generic [ref=e106]:
+            - img [ref=e107]
+            - text: Produção local no Rio de Janeiro com resposta em horário comercial.
+    - generic [ref=e111]:
+      - generic [ref=e112]: © 2026 MDH 3D. Todos os direitos reservados.
+      - generic [ref=e113]: Produção localPix visívelCatálogo curado
+      - button "Voltar ao topo" [ref=e114]
+  - link "Fale conosco no WhatsApp" [ref=e115] [cursor=pointer]:
+    - /url: https://wa.me/5521920137249?text=Oi!%20Vim%20pelo%20site%20da%20MDH%203D%20e%20quero%20um%20or%C3%A7amento.
+    - img [ref=e116]
+  - complementary [ref=e118]:
+    - generic [ref=e119]:
+      - generic [ref=e120]:
+        - img [ref=e122]
+        - generic [ref=e124]:
+          - paragraph [ref=e125]: Atendimento rápido
+          - paragraph [ref=e126]: Respostas no site e fechamento com equipe humana no WhatsApp
+      - generic [ref=e127]:
+        - generic [ref=e128]:
+          - img [ref=e129]
+          - text: Consultor automático ativo para catálogo, orçamento e personalização
+        - generic [ref=e131]:
+          - img [ref=e132]
+          - generic [ref=e138]: Pix direto na chave 21974137662
+        - generic [ref=e139]:
+          - img [ref=e140]
+          - text: Cartão com orientação da equipe durante o atendimento
+      - generic [ref=e142]:
+        - link "Quero um presente personalizado" [ref=e143] [cursor=pointer]:
+          - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20um%20presente%20personalizado
+        - link "Preciso de uma peça funcional para setup" [ref=e144] [cursor=pointer]:
+          - /url: https://wa.me/5521920137249?text=Oi!%20Preciso%20de%20uma%20pe%C3%A7a%20funcional%20para%20setup
+        - link "Quero fechar meu pedido no Pix" [ref=e145] [cursor=pointer]:
+          - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20fechar%20meu%20pedido%20no%20Pix

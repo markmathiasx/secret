@@ -6,8 +6,8 @@ import { CatalogGrid } from "@/components/catalog-grid";
 import { HomeConversionLanes } from "@/components/home-conversion-lanes";
 import { TrustSignals } from "@/components/trust-signals";
 import { homepageCategories, materialsShowcase } from "@/lib/constants";
-import { verifiedCatalog } from "@/lib/verified-catalog";
-import { summarizeProductVisuals } from "@/lib/product-visuals";
+import { catalog } from "@/lib/catalog";
+import { isProductVisualVerified, summarizeProductVisuals } from "@/lib/product-visuals";
 
 const faqItems = [
   {
@@ -48,14 +48,24 @@ const homeSteps = [
 ];
 
 export default function HomePage() {
-  const realShowcase = verifiedCatalog.slice(0, 4);
-  const visualSummary = summarizeProductVisuals(verifiedCatalog);
+  const realShowcase = catalog.filter((product) => isProductVisualVerified(product)).slice(0, 4);
+  const visualSummary = summarizeProductVisuals(catalog);
 
   return (
     <main>
       <Hero />
 
-      <section className="mx-auto max-w-7xl px-6 py-16">
+      <section className="mx-auto max-w-7xl px-6 pb-4">
+        <div className="glass-panel flex flex-wrap items-center justify-center gap-3 px-4 py-4">
+          <Link href="#home-portfolio" className="chip-nav">Portfólio real</Link>
+          <Link href="#home-paths" className="chip-nav">Entradas rápidas</Link>
+          <Link href="#home-services" className="chip-nav">Serviços</Link>
+          <Link href="#home-upload" className="chip-nav">Enviar STL</Link>
+          <Link href="#home-faq" className="chip-nav">FAQ</Link>
+        </div>
+      </section>
+
+      <section id="home-portfolio" className="mx-auto max-w-7xl px-6 py-16">
         <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
           <div className="max-w-3xl">
             <p className="section-kicker">Portfólio validado</p>
@@ -90,7 +100,9 @@ export default function HomePage() {
         </div>
       </section>
 
-      <HomeConversionLanes />
+      <div id="home-paths">
+        <HomeConversionLanes />
+      </div>
 
       <section className="mx-auto max-w-7xl px-6 py-8">
         <div className="grid gap-5 lg:grid-cols-3">
@@ -107,7 +119,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="bg-gradient-to-b from-black via-slate-950/30 to-black py-4">
+      <section id="home-services" className="bg-gradient-to-b from-black via-slate-950/30 to-black py-4">
         <ProductTabs />
       </section>
 
@@ -141,13 +153,13 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="bg-gradient-to-b from-black to-slate-950/20 py-4">
+      <section id="home-upload" className="bg-gradient-to-b from-black to-slate-950/20 py-4">
         <STLUploader />
       </section>
 
       <TrustSignals />
 
-      <section className="mx-auto max-w-6xl px-6 py-16">
+      <section id="home-faq" className="mx-auto max-w-6xl px-6 py-16">
         <div className="glass-panel p-8 md:p-10">
           <div className="grid gap-8 lg:grid-cols-[0.92fr_1.08fr]">
             <div>

@@ -1,0 +1,16 @@
+Nome: Minecraft Steve Figurine
+Seed: 761377460
+
+Prompt:
+realistic product photo of a 3D printed Minecraft Steve figurine, blue shirt, blue pants, pixel-inspired proportions, blocky geometry faithful to Minecraft style, single character centered, printed on a Bambu Lab A1 Mini, premium PLA, visible layer lines, placed on a wooden surface, blurred workshop setup background, blurred Bambu Lab A1 Mini 3D printer in the background, shallow depth of field, soft studio lighting, premium collectible finish, professional catalog photography, vertical composition, highly detailed, no text, no packaging, no hands, no extra characters
+
+Negative Prompt:
+text, logo, watermark, packaging, multiple characters, hands, person, cluttered background, low quality, low detail, blurry, cropped, duplicate, extra limbs, deformed, unrealistic face, toy box, dramatic scene
+
+Parametros recomendados:
+- Width: 832
+- Height: 1024
+- Sampler: DPM++ 2M Karras
+- Steps: 32
+- CFG Scale: 6.5
+- Output Filename: Minecraft Steve Figurine.png

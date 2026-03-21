@@ -72,7 +72,7 @@ export function CatalogBuyingIntents({ products }: { products: Product[] }) {
           const fromPrice = matches.length ? Math.min(...matches.map((item) => item.pricePix)) : null;
 
           return (
-            <article key={intent.id} className="overflow-hidden rounded-[28px] border border-white/10 bg-black/20">
+            <article key={intent.id} className="catalog-real-card overflow-hidden rounded-[28px] border border-white/10 bg-black/20 transition-all duration-300 hover:-translate-y-1">
               {lead ? (
                 <Link href={getProductUrl(lead)} className="block">
                   <SafeProductImage

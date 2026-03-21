@@ -54,7 +54,7 @@ const tabs: Tab[] = [
   },
   {
     id: 'engenharia',
-    label: <Cog className="w-6 h-6" />,
+    label: 'Engenharia',
     icon: <Cog className="w-6 h-6" />,
     title: 'PEÇAS FUNCIONAIS',
     description:

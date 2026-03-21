@@ -39,7 +39,7 @@ export function HomeConversionLanes() {
       <div className="grid gap-5 lg:grid-cols-3">
         {lanes.map((lane) => {
           const Icon = lane.icon;
-          const className = "glass-panel p-8";
+          const className = "glass-panel p-8 transition-all duration-300 hover:-translate-y-1";
 
           if (lane.external) {
             return (

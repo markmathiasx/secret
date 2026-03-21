@@ -50,7 +50,7 @@ export function TrustSignals() {
             {pillars.map((item) => {
               const Icon = item.icon;
               return (
-                <div key={item.title} className="rounded-[28px] border border-white/10 bg-white/5 p-5">
+                <div key={item.title} className="surface-stat rounded-[28px] p-5">
                   <div className="flex items-center gap-3">
                     <span className="rounded-2xl border border-white/10 bg-white/5 p-3 text-cyan-100">
                       <Icon className="h-5 w-5" />
@@ -72,7 +72,7 @@ export function TrustSignals() {
             <h3 className="mt-3 text-3xl font-black text-white">Menos atrito para comprar, mais segurança para confiar.</h3>
             <div className="mt-6 grid gap-4">
               {commitments.map((item) => (
-                <div key={item} className="flex items-start gap-3 rounded-[22px] border border-white/10 bg-black/20 p-4 text-sm leading-7 text-white/70">
+                <div key={item} className="surface-stat flex items-start gap-3 rounded-[22px] p-4 text-sm leading-7 text-white/70">
                   <BadgeCheck className="mt-1 h-5 w-5 flex-shrink-0 text-emerald-200" />
                   <span>{item}</span>
                 </div>

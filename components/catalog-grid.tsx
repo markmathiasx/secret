@@ -27,7 +27,7 @@ export function CatalogGrid({ products }: { products: Product[] }) {
       {products.map((product) => (
         <article
           key={product.id}
-          className={`group rounded-[28px] border p-5 transition hover:-translate-y-1 ${
+          className={`catalog-product-card group rounded-[28px] border p-5 transition hover:-translate-y-1 ${
             isProductVisualVerified(product)
               ? "border-white/10 bg-card hover:border-cyan-300/30"
               : "border-amber-300/15 bg-[linear-gradient(180deg,rgba(245,158,11,0.08),rgba(255,255,255,0.02))] hover:border-amber-300/30"
@@ -60,7 +60,7 @@ export function CatalogGrid({ products }: { products: Product[] }) {
               <p className="text-2xl font-bold text-white">{formatCurrency(product.pricePix)}</p>
               <p className="text-xs text-white/55">12x de {formatCurrency(product.priceCard / 12)} no cartão</p>
             </div>
-            <Link href={getProductUrl(product)} className="rounded-full border border-cyan-400/25 bg-cyan-400/10 px-4 py-2 text-sm font-semibold text-cyan-100 transition hover:border-cyan-300/50 hover:bg-cyan-300/15">
+            <Link href={getProductUrl(product)} className="btn-secondary rounded-full px-4 py-2 text-sm font-semibold text-cyan-100">
               {product.pricingMode === "faixa-auditada" ? "Comprar agora" : "Pedir orçamento"}
             </Link>
           </div>

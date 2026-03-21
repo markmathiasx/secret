@@ -5,6 +5,13 @@ import Image from "next/image";
 import { ArrowUpRight, Instagram, Mail, MapPin, MessageCircleMore } from "lucide-react";
 import { brand, footerLinks, socialLinks, supportEmail, whatsappNumber } from "@/lib/constants";
 
+const quickWhatsAppLinks = [
+  { label: "Comprar catálogo", text: "Oi! Quero fechar um item do catálogo da MDH 3D." },
+  { label: "Peça personalizada", text: "Oi! Quero pedir uma peça personalizada na MDH 3D." },
+  { label: "Brindes e lotes", text: "Oi! Quero orçamento para brindes ou lote personalizado." },
+  { label: "Tirar dúvidas", text: "Oi! Quero tirar dúvidas sobre material, prazo e acabamento." },
+];
+
 export function SiteFooter() {
   return (
     <footer className="footer-ambient border-t border-white/10 bg-slate-950/90">
@@ -93,6 +100,17 @@ export function SiteFooter() {
 
         <div>
           <p className="text-sm font-semibold uppercase tracking-[0.18em] text-white/70">Contato</p>
+          <div className="mt-4 grid gap-2 sm:grid-cols-2">
+            {quickWhatsAppLinks.map((item) => (
+              <a
+                key={item.label}
+                href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(item.text)}`}
+                className="btn-glass justify-center px-4 py-3 text-center text-xs"
+              >
+                {item.label}
+              </a>
+            ))}
+          </div>
           <div className="mt-4 grid gap-4 text-sm text-white/70">
             <a
               href={`https://wa.me/${whatsappNumber}`}
