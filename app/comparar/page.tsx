@@ -208,9 +208,11 @@ export default function ComparePage() {
             <table className="min-w-[980px] w-full border-collapse">
               <thead>
                 <tr className="bg-[#fff8ef] text-left text-xs uppercase tracking-[0.16em] text-slate-500">
-                  <th className="border-b border-[#eadcc8] p-4">Campo</th>
+                  <th className="sticky left-0 top-0 z-30 border-b border-[#eadcc8] bg-[#fff8ef] p-4 shadow-[6px_0_18px_rgba(15,23,42,0.05)]">
+                    Campo
+                  </th>
                   {items.map((item) => (
-                    <th key={item.id} className="border-b border-[#eadcc8] p-4">
+                    <th key={item.id} className="sticky top-0 z-20 border-b border-[#eadcc8] bg-[#fff8ef] p-4">
                       <div className="flex items-start justify-between gap-3">
                         <div>
                           <p className="text-sm font-bold normal-case tracking-normal text-slate-900">{item.name}</p>
@@ -229,7 +231,9 @@ export default function ComparePage() {
               </thead>
               <tbody className="text-sm">
                 <tr className="border-b border-[#f0e5d6] bg-[#fffdf9]">
-                  <td className="p-4 font-semibold text-slate-700">Preview</td>
+                  <td className="sticky left-0 z-10 bg-[#fffdf9] p-4 font-semibold text-slate-700 shadow-[6px_0_18px_rgba(15,23,42,0.05)]">
+                    Preview
+                  </td>
                   {items.map((item) => (
                     <td key={`${item.id}-preview`} className="p-4">
                       <Link href={getProductUrl(item)} className="block rounded-[22px] border border-[#eadcc8] bg-[#fff8ef] p-3">
@@ -242,7 +246,9 @@ export default function ComparePage() {
                 </tr>
                 {rows.map((row) => (
                   <tr key={row.label} className="border-b border-[#f0e5d6]">
-                    <td className="p-4 font-semibold text-slate-700">{row.label}</td>
+                    <td className="sticky left-0 z-10 bg-white p-4 font-semibold text-slate-700 shadow-[6px_0_18px_rgba(15,23,42,0.05)]">
+                      {row.label}
+                    </td>
                     {items.map((item) => (
                       <td
                         key={`${item.id}-${row.label}`}
@@ -256,7 +262,9 @@ export default function ComparePage() {
                   </tr>
                 ))}
                 <tr>
-                  <td className="p-4 font-semibold text-slate-700">Ações</td>
+                  <td className="sticky left-0 z-10 bg-white p-4 font-semibold text-slate-700 shadow-[6px_0_18px_rgba(15,23,42,0.05)]">
+                    Ações
+                  </td>
                   {items.map((item) => (
                     <td key={`${item.id}-actions`} className="p-4">
                       <Link href={getProductUrl(item)} className="rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold uppercase tracking-[0.1em] text-white">

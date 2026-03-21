@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { type ReactNode } from "react";
+import { type ReactNode, useMemo, useState } from "react";
 import { Heart, MessageCircleMore, Scale, Sparkles, Star, Truck, Wallet } from "lucide-react";
 import { catalog } from "@/lib/catalog";
 import { useFavorites } from "@/components/favorites-context";
@@ -13,7 +13,15 @@ import { whatsappMessage, whatsappNumber } from "@/lib/constants";
 
 export default function FavoritesPage() {
   const { favoriteIds, clearFavorites } = useFavorites();
-  const items = catalog.filter((product) => favoriteIds.includes(product.id));
+  const [sortMode, setSortMode] = useState<"saved" | "price" | "rating" | "lead">("saved");
+  const items = useMemo(() => {
+    const base = catalog.filter((product) => favoriteIds.includes(product.id));
+    if (sortMode === "price") return [...base].sort((a, b) => a.pricePix - b.pricePix);
+    if (sortMode === "rating") return [...base].sort((a, b) => b.rating - a.rating || b.reviewCount - a.reviewCount);
+    if (sortMode === "lead") return [...base].sort((a, b) => a.leadTimeDays - b.leadTimeDays || a.pricePix - b.pricePix);
+
+    return favoriteIds.map((id) => base.find((product) => product.id === id)).filter(Boolean) as typeof base;
+  }, [favoriteIds, sortMode]);
   const averagePrice = items.length ? items.reduce((total, item) => total + item.pricePix, 0) / items.length : 0;
   const totalPix = items.reduce((total, item) => total + item.pricePix, 0);
   const realPhotos = items.filter((item) => item.realPhoto).length;
@@ -73,6 +81,28 @@ export default function FavoritesPage() {
             </button>
           ) : null}
         </div>
+        {items.length ? (
+          <div className="mt-5 flex flex-wrap items-center gap-2">
+            <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Ordenar favoritos por</span>
+            {[
+              { value: "saved", label: "ordem salva" },
+              { value: "price", label: "menor Pix" },
+              { value: "rating", label: "melhor avaliação" },
+              { value: "lead", label: "menor prazo" },
+            ].map((option) => (
+              <button
+                key={option.value}
+                type="button"
+                onClick={() => setSortMode(option.value as typeof sortMode)}
+                className={`rounded-full border px-4 py-2 text-xs font-semibold uppercase tracking-[0.12em] ${
+                  sortMode === option.value ? "border-orange-300 bg-orange-100 text-orange-800" : "border-[#e5d4be] bg-white text-slate-700"
+                }`}
+              >
+                {option.label}
+              </button>
+            ))}
+          </div>
+        ) : null}
       </div>
 
       <div className="mt-6">

@@ -7,6 +7,22 @@ export default function NotFound() {
         <p className="text-xs uppercase tracking-[0.2em] text-slate-500">404</p>
         <h1 className="mt-3 text-4xl font-black text-slate-900">Página não encontrada</h1>
         <p className="mt-4 text-slate-600">Esse link pode ter sido movido, expirado ou não existe mais na vitrine atual.</p>
+        <form action="/catalogo" className="mx-auto mt-8 max-w-xl">
+          <label className="block text-left text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+            Buscar direto no catálogo
+            <div className="mt-3 flex flex-col gap-3 sm:flex-row">
+              <input
+                type="search"
+                name="q"
+                placeholder="Ex.: pikachu, articulado, organizador, chaveiro..."
+                className="h-12 flex-1 rounded-2xl border border-[#ead8c1] bg-[#fff8ef] px-4 text-sm text-slate-900 outline-none transition focus:border-orange-400 focus:ring-2 focus:ring-orange-200"
+              />
+              <button type="submit" className="inline-flex h-12 items-center justify-center rounded-2xl bg-slate-900 px-6 text-sm font-semibold text-white">
+                Buscar
+              </button>
+            </div>
+          </label>
+        </form>
         <div className="mt-8 flex flex-wrap justify-center gap-3">
           <Link href="/" className="inline-flex rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold text-white">
             Voltar para a loja

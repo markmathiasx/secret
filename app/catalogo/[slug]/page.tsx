@@ -160,6 +160,28 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       helper: "Bom para entender rapidamente em que família do catálogo este item se encaixa.",
     },
   ];
+  const technicalSummary = [
+    `Produto: ${product.name}`,
+    `SKU: ${product.sku}`,
+    product.technical.partNumber ? `PN: ${product.technical.partNumber}` : null,
+    `Categoria: ${product.category}`,
+    `Tipo técnico: ${product.technical.typeProduct}`,
+    `Material: ${product.material}`,
+    `Acabamento: ${product.finish}`,
+    `Compatibilidade: ${product.technical.compatibilityModels.join(" / ")}`,
+    `Preço Pix: ${formatCurrency(product.pricePix)}`,
+    `Prazo: ${product.productionWindow}`,
+    `Status: ${product.status}`,
+  ]
+    .filter(Boolean)
+    .join("\n");
+  const sectionAnchors = [
+    { href: "#galeria", label: "Galeria" },
+    { href: "#preco", label: "Preço" },
+    { href: "#tecnica", label: "Técnica" },
+    { href: "#faq", label: "FAQ" },
+    { href: "#orcamento", label: "Orçamento" },
+  ];
 
   return (
     <>
@@ -188,8 +210,22 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           Voltar ao catalogo
         </Link>
 
+        <div className="mt-4 flex flex-wrap gap-2">
+          {sectionAnchors.map((item) => (
+            <a
+              key={item.href}
+              href={item.href}
+              className="rounded-full border border-[#e5d4be] bg-[#fff8ef] px-4 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-slate-700"
+            >
+              {item.label}
+            </a>
+          ))}
+        </div>
+
         <div className="mt-6 grid gap-8 lg:grid-cols-[1fr_0.95fr]">
-          <ProductImageGallery product={product} />
+          <div id="galeria" className="scroll-mt-28">
+            <ProductImageGallery product={product} />
+          </div>
 
           <div className="rounded-[36px] border border-[#ead8c1] bg-[#fff8ef] p-6 text-slate-900 shadow-[0_26px_70px_rgba(15,23,42,0.10)] md:p-7">
             <div className="flex flex-wrap gap-2">
@@ -213,6 +249,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
               <ShareButton url={productUrl} title={product.name} text={`Olha esse produto da MDH 3D: ${product.name}`} />
               <CopyButton value={product.sku} label="Copiar SKU" />
               {product.technical.partNumber ? <CopyButton value={product.technical.partNumber} label="Copiar PN" /> : null}
+              <CopyButton value={technicalSummary} label="Copiar resumo técnico" />
             </div>
 
             <div className="mt-5 rounded-[24px] border border-[#ead8c1] bg-white p-4">
@@ -243,7 +280,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
               <p className="mt-1 text-sm text-slate-600">{product.technical.compatibilityModels.join(" / ")} (verificado)</p>
             </div>
 
-            <div className="mt-6 grid gap-4 sm:grid-cols-4">
+            <div id="preco" className="mt-6 grid scroll-mt-28 gap-4 sm:grid-cols-4">
               <div className="rounded-[24px] border border-emerald-200 bg-emerald-50 p-4">
                 <p className="text-sm text-emerald-700/75">Pix</p>
                 <p className="mt-2 text-2xl font-black text-slate-900">{formatCurrency(product.pricePix)}</p>
@@ -279,7 +316,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
               </div>
             ) : null}
 
-            <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            <div id="tecnica" className="mt-6 grid scroll-mt-28 gap-3 sm:grid-cols-2 lg:grid-cols-3">
               <InfoCard label="Material" value={product.material} />
               <InfoCard label="Acabamento" value={product.finish} />
               <InfoCard label="Peso" value={product.plaWeight ?? `${product.grams} g`} />
@@ -463,7 +500,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           ))}
         </section>
 
-        <section className="mt-8 rounded-[32px] border border-[#e8dac7] bg-white p-6">
+        <section id="faq" className="mt-8 scroll-mt-28 rounded-[32px] border border-[#e8dac7] bg-white p-6">
           <p className="text-xs uppercase tracking-[0.18em] text-slate-500">Perguntas frequentes</p>
           <h2 className="mt-2 text-2xl font-black text-slate-900">O que normalmente perguntam antes de comprar</h2>
           <div className="mt-5 grid gap-3 md:grid-cols-2">
@@ -514,7 +551,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           </div>
         ) : null}
 
-        <div className="mt-12 rounded-[36px] border border-[#e8dac7] bg-slate-950 p-4 shadow-[0_26px_70px_rgba(2,8,23,0.28)] md:p-6">
+        <div id="orcamento" className="mt-12 scroll-mt-28 rounded-[36px] border border-[#e8dac7] bg-slate-950 p-4 shadow-[0_26px_70px_rgba(2,8,23,0.28)] md:p-6">
           <QuoteForm product={product} />
         </div>
       </section>

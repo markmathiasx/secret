@@ -46,6 +46,7 @@ const SEARCH_HISTORY_KEY = "mdh.catalog.search.history";
 const SAVED_PRESET_KEY = "mdh.catalog.saved.preset";
 const controlClassName =
   "h-11 w-full rounded-2xl border border-[#e7d8c3] bg-white px-4 text-sm text-slate-900 outline-none transition focus:border-orange-400 focus:ring-2 focus:ring-orange-200";
+const QUICK_SEARCHES = ["chibi", "decoracao", "organizador", "articulado", "sob encomenda", "pronta entrega", "foto real", "presente"];
 
 const typeLabels: Record<ProductType, string> = {
   spare_part: "Spare parts",
@@ -74,6 +75,27 @@ type SavedPreset = {
   finishFilter: string;
   favoritesOnly: boolean;
 };
+
+function escapeRegExp(value: string) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function highlightText(text: string, query: string) {
+  const normalized = query.trim();
+  if (normalized.length < 2) return text;
+
+  const matcher = new RegExp(`(${escapeRegExp(normalized)})`, "ig");
+  const parts = text.split(matcher);
+  return parts.map((part, index) =>
+    part.toLowerCase() === normalized.toLowerCase() ? (
+      <mark key={`${part}-${index}`} className="rounded bg-amber-100 px-1 text-slate-900">
+        {part}
+      </mark>
+    ) : (
+      <span key={`${part}-${index}`}>{part}</span>
+    )
+  );
+}
 
 function getVisualBadge(product: Product) {
   if (product.realPhoto) {
@@ -108,7 +130,7 @@ export function CatalogExplorer({ products }: { products: Product[] }) {
   const resultsRef = useRef<HTMLDivElement | null>(null);
   const searchInputRef = useRef<HTMLInputElement | null>(null);
   const { selectedModel, setSelectedModel } = useCompatibility();
-  const { compareIds, clearCompare, isInCompare, toggleCompare } = useCompare();
+  const { compareIds, clearCompare, isInCompare, toggleCompare, replaceCompare } = useCompare();
   const { favoriteIds } = useFavorites();
   const { recentIds } = useRecentlyViewed();
   const { savedSearches, saveSearch } = useSavedSearches();
@@ -433,7 +455,6 @@ export function CatalogExplorer({ products }: { products: Product[] }) {
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
   const currentPage = Math.min(page, totalPages);
   const visibleItems = filtered.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
-  const quickSearches = ["chibi", "decoracao", "organizador", "articulado", "sob encomenda", "pronta entrega", "foto real", "presente"];
   const topPick = filtered[0];
   const resultNarrative = filtered.length
     ? `${filtered.length} itens encontrados • ${stats.real} com foto real • média ${formatCurrency(stats.avgPix || 0)} no Pix`
@@ -543,6 +564,22 @@ export function CatalogExplorer({ products }: { products: Product[] }) {
     .join(" • ") || `Recorte ${selectedModel}`;
 
   const noResultsHref = buildWhatsAppHref(`Preciso de ajuda para encontrar um item no catálogo da ${selectedModel}.`);
+  const compareCandidateIds = filtered.slice(0, 4).map((item) => item.id);
+  const recoverySuggestions = useMemo(() => {
+    const normalized = query.trim().toLowerCase();
+    const base = Array.from(
+      new Set([
+        ...QUICK_SEARCHES,
+        ...products.flatMap((item) => [item.theme, item.collection, item.category, ...item.tags.slice(0, 3)]),
+      ])
+    ).filter(Boolean);
+
+    if (!normalized) return base.slice(0, 6);
+
+    return base
+      .filter((item) => item.toLowerCase().includes(normalized) || normalized.includes(item.toLowerCase()))
+      .slice(0, 6);
+  }, [products, query]);
 
   return (
     <div className="grid gap-6 xl:grid-cols-[340px_minmax(0,1fr)]">
@@ -607,7 +644,7 @@ export function CatalogExplorer({ products }: { products: Product[] }) {
             <div>
               <p className="text-sm text-slate-700">Atalhos rápidos</p>
               <div className="mt-2 flex flex-wrap gap-2">
-                {quickSearches.map((term) => (
+                {QUICK_SEARCHES.map((term) => (
                   <button
                     key={term}
                     type="button"
@@ -976,6 +1013,16 @@ export function CatalogExplorer({ products }: { products: Product[] }) {
                 <Scale className="h-4 w-4" />
                 Comparador ({compareIds.length}/4)
               </Link>
+              {compareCandidateIds.length ? (
+                <button
+                  type="button"
+                  onClick={() => replaceCompare(compareCandidateIds)}
+                  className="inline-flex items-center gap-2 rounded-full border border-[#e5d4be] bg-[#fff8ef] px-4 py-2 text-sm font-semibold text-slate-700"
+                >
+                  <Scale className="h-4 w-4" />
+                  Comparar top 4 do recorte
+                </button>
+              ) : null}
               <Link href="/compatibilidade" className="inline-flex items-center gap-2 rounded-full border border-[#e5d4be] bg-[#fff8ef] px-4 py-2 text-sm font-semibold text-slate-700">
                 <Filter className="h-4 w-4" />
                 Matriz técnica
@@ -1049,6 +1096,37 @@ export function CatalogExplorer({ products }: { products: Product[] }) {
               </div>
             </div>
           ) : null}
+
+          <div className="sticky top-3 z-20 mt-5 xl:hidden">
+            <div className="flex items-center justify-between gap-3 rounded-[22px] border border-[#e5d4be] bg-[rgba(255,248,239,0.94)] px-4 py-3 shadow-[0_10px_30px_rgba(15,23,42,0.12)] backdrop-blur">
+              <div className="min-w-0">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">Resumo mobile</p>
+                <p className="truncate text-sm font-semibold text-slate-900">
+                  {filtered.length} item(ns) • {compareIds.length}/4 no comparador
+                </p>
+              </div>
+              <div className="flex shrink-0 items-center gap-2">
+                {activeFilters.length ? (
+                  <button
+                    type="button"
+                    onClick={clearFilters}
+                    className="rounded-full border border-[#eadcc8] bg-white px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-700"
+                  >
+                    Limpar
+                  </button>
+                ) : null}
+                {compareCandidateIds.length ? (
+                  <button
+                    type="button"
+                    onClick={() => replaceCompare(compareCandidateIds)}
+                    className="rounded-full bg-slate-900 px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-white"
+                  >
+                    Top 4
+                  </button>
+                ) : null}
+              </div>
+            </div>
+          </div>
         </section>
 
         <div className={gridClass} aria-live="polite">
@@ -1095,8 +1173,12 @@ export function CatalogExplorer({ products }: { products: Product[] }) {
                     </div>
                   </div>
 
-                  <h3 className={`mt-2 font-black text-slate-900 ${density === "compact" ? "text-lg" : "text-xl"}`}>{product.name}</h3>
-                  <p className={`mt-2 text-sm leading-6 text-slate-600 ${density === "compact" ? "line-clamp-2" : "line-clamp-3"}`}>{product.description}</p>
+                  <h3 className={`mt-2 font-black text-slate-900 ${density === "compact" ? "text-lg" : "text-xl"}`}>
+                    {highlightText(product.name, query)}
+                  </h3>
+                  <p className={`mt-2 text-sm leading-6 text-slate-600 ${density === "compact" ? "line-clamp-2" : "line-clamp-3"}`}>
+                    {highlightText(product.description, query)}
+                  </p>
 
                   <div className="mt-4 grid gap-3 sm:grid-cols-2">
                     <InfoPill icon={<Tag className="h-3.5 w-3.5" />} label="SKU" value={product.sku} />
@@ -1161,6 +1243,12 @@ export function CatalogExplorer({ products }: { products: Product[] }) {
                       </a>
                       <ShareButton url={productUrl} title={product.name} text={`Olha esse item: ${product.name}`} className="justify-center text-xs uppercase tracking-[0.12em]" />
                     </div>
+                    {query.trim().length >= 2 ? (
+                      <p className="text-xs text-slate-500">
+                        Leitura rápida: este card foi destacado porque conversa com a busca atual por{" "}
+                        <span className="font-semibold text-slate-700">{query.trim()}</span>.
+                      </p>
+                    ) : null}
                   </div>
                 </div>
               </article>
@@ -1186,6 +1274,23 @@ export function CatalogExplorer({ products }: { products: Product[] }) {
           <div className="rounded-2xl border border-[#e8dac7] bg-white p-8 text-center">
             <p className="text-lg font-semibold text-slate-900">Nenhum item encontrado para o filtro atual.</p>
             <p className="mt-2 text-sm text-slate-600">Ajuste compatibilidade, prova visual, categoria ou termo técnico da busca.</p>
+            {recoverySuggestions.length ? (
+              <div className="mt-4">
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Talvez você quis dizer</p>
+                <div className="mt-3 flex flex-wrap justify-center gap-2">
+                  {recoverySuggestions.map((item) => (
+                    <button
+                      key={item}
+                      type="button"
+                      onClick={() => setQuery(item)}
+                      className="rounded-full border border-[#eadcc8] bg-[#fff8ef] px-3 py-2 text-xs font-semibold text-slate-700"
+                    >
+                      {item}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ) : null}
             <div className="mt-4 flex flex-wrap justify-center gap-3">
               <button onClick={clearFilters} className="rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white">
                 Resetar filtros

@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { type ReactNode } from "react";
-import { ArrowRight, Clock3, History, MessageCircleMore, Scale, Sparkles, Truck } from "lucide-react";
+import { type ReactNode, useMemo, useState } from "react";
+import { Clock3, History, MessageCircleMore, Scale, Sparkles, Truck } from "lucide-react";
 import { catalog, type Product } from "@/lib/catalog";
 import { useRecentlyViewed } from "@/components/recently-viewed-context";
 import { ProductShelf } from "@/components/product-shelf";
@@ -13,9 +13,17 @@ import { whatsappMessage, whatsappNumber } from "@/lib/constants";
 
 export default function RecentPage() {
   const { recentIds, clearRecent } = useRecentlyViewed();
-  const items = recentIds
-    .map((id) => catalog.find((product) => product.id === id))
-    .filter((item): item is Product => Boolean(item));
+  const [sortMode, setSortMode] = useState<"recent" | "price" | "rating" | "lead">("recent");
+  const items = useMemo(() => {
+    const base = recentIds
+      .map((id) => catalog.find((product) => product.id === id))
+      .filter((item): item is Product => Boolean(item));
+
+    if (sortMode === "price") return [...base].sort((a, b) => a.pricePix - b.pricePix);
+    if (sortMode === "rating") return [...base].sort((a, b) => b.rating - a.rating || b.reviewCount - a.reviewCount);
+    if (sortMode === "lead") return [...base].sort((a, b) => a.leadTimeDays - b.leadTimeDays || a.pricePix - b.pricePix);
+    return base;
+  }, [recentIds, sortMode]);
   const avgPrice = items.length ? items.reduce((total, item) => total + item.pricePix, 0) / items.length : 0;
   const latestItem = items[0];
   const realCount = items.filter((item) => item.realPhoto).length;
@@ -71,6 +79,28 @@ export default function RecentPage() {
             </button>
           ) : null}
         </div>
+        {items.length ? (
+          <div className="mt-5 flex flex-wrap items-center gap-2">
+            <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Ordenar recentes por</span>
+            {[
+              { value: "recent", label: "mais recentes" },
+              { value: "price", label: "menor Pix" },
+              { value: "rating", label: "melhor avaliação" },
+              { value: "lead", label: "menor prazo" },
+            ].map((option) => (
+              <button
+                key={option.value}
+                type="button"
+                onClick={() => setSortMode(option.value as typeof sortMode)}
+                className={`rounded-full border px-4 py-2 text-xs font-semibold uppercase tracking-[0.12em] ${
+                  sortMode === option.value ? "border-orange-300 bg-orange-100 text-orange-800" : "border-[#e5d4be] bg-white text-slate-700"
+                }`}
+              >
+                {option.label}
+              </button>
+            ))}
+          </div>
+        ) : null}
       </div>
 
       <div className="mt-6">
