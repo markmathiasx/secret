@@ -24,7 +24,8 @@ TXT2IMG_URL = f"{BASE_URL}/sdapi/v1/txt2img"
 NEGATIVE_PROMPT = (
     "text, logo, watermark, packaging, hands, person, cluttered background, "
     "low quality, low detail, blurry, cropped, duplicate, deformed, poster, drawing, painting, "
-    "blueprint, label, plaque, sign, badge, medallion, flat icon, flat art, toy box, dramatic scene"
+    "blueprint, label, plaque, sign, badge, medallion, flat icon, flat art, toy box, dramatic scene, "
+    "nameplate, wall art, printed poster, text plate, medal, keychain badge"
 )
 
 
@@ -40,25 +41,25 @@ ITEMS = [
     ConceptItem(
         name="Organizador de mesa 3 gavetas print-in-place",
         output=Path("public/products/bambu-018-organizador-de-mesa-3-gavetas.webp"),
-        prompt="realistic catalog product photo of a 3D printed desk organizer with three integrated drawers, print-in-place design, premium matte PLA, visible layer lines, professionally printed on a Bambu Lab A1 Mini, single object centered on a wooden workbench, blurred 3D printer workshop background, blurred Bambu Lab A1 Mini in the background, soft studio lighting, shallow depth of field, vertical composition, realistic object photo, no text, no packaging, no hands",
+        prompt="realistic catalog product photo of a 3D printed desk organizer with three integrated drawers, print-in-place design, drawers slightly open, premium matte PLA, visible layer lines, professionally printed on a Bambu Lab A1 Mini, single object centered on a wooden workbench, blurred 3D printer workshop background, blurred Bambu Lab A1 Mini in the background, soft studio lighting, shallow depth of field, vertical composition, realistic object photo, no text, no packaging, no hands",
         seed=180018,
     ),
     ConceptItem(
         name="Kit passa-fios de mesa modular",
         output=Path("public/products/util-011-organizador-fios.webp"),
-        prompt="realistic catalog product photo of a 3D printed modular desk cable organizer kit, interlocking cable pass-through pieces assembled as one product, premium matte PLA, visible layer lines, professionally printed on a Bambu Lab A1 Mini, single product set centered on a wooden workbench, blurred 3D printer workshop background, blurred Bambu Lab A1 Mini in the background, soft studio lighting, shallow depth of field, vertical composition, realistic object photo, no text, no packaging, no hands",
+        prompt="realistic catalog product photo of a 3D printed modular desk cable organizer kit, interlocking cable pass-through pieces assembled as one product, holding three desk cables in use, premium matte PLA, visible layer lines, professionally printed on a Bambu Lab A1 Mini, single product set centered on a wooden workbench, blurred 3D printer workshop background, blurred Bambu Lab A1 Mini in the background, soft studio lighting, shallow depth of field, vertical composition, realistic object photo, no text, no packaging, no hands",
         seed=180011,
     ),
     ConceptItem(
         name="Suporte para oculos dobravel",
         output=Path("public/products/util-015-suporte-oculos.webp"),
-        prompt="realistic catalog product photo of a 3D printed foldable eyeglasses stand, compact display support for glasses, premium matte PLA, visible layer lines, professionally printed on a Bambu Lab A1 Mini, single object centered on a wooden workbench, blurred 3D printer workshop background, blurred Bambu Lab A1 Mini in the background, soft studio lighting, shallow depth of field, vertical composition, realistic object photo, no text, no packaging, no hands",
+        prompt="realistic catalog product photo of a 3D printed foldable eyeglasses stand, eyeglasses resting on the stand, compact desktop support, premium matte PLA, visible layer lines, professionally printed on a Bambu Lab A1 Mini, single object centered on a wooden workbench, blurred 3D printer workshop background, blurred Bambu Lab A1 Mini in the background, soft studio lighting, shallow depth of field, vertical composition, realistic object photo, no text, no packaging, no hands",
         seed=180015,
     ),
     ConceptItem(
         name="Suporte para controle gamer",
         output=Path("public/products/util-009-suporte-controle.webp"),
-        prompt="realistic catalog product photo of a 3D printed game controller stand, premium matte PLA, visible layer lines, professionally printed on a Bambu Lab A1 Mini, single object centered on a wooden workbench, blurred 3D printer workshop background, blurred Bambu Lab A1 Mini in the background, soft studio lighting, shallow depth of field, vertical composition, realistic object photo, no text, no packaging, no hands",
+        prompt="realistic catalog product photo of a 3D printed desk stand holding an Xbox style game controller, curved cradle support for a controller on the desk, premium matte PLA, visible layer lines, professionally printed on a Bambu Lab A1 Mini, single product centered on a wooden workbench, blurred 3D printer workshop background, blurred Bambu Lab A1 Mini in the background, soft studio lighting, shallow depth of field, vertical composition, realistic object photo, no text, no packaging, no hands",
         seed=180009,
     ),
     ConceptItem(
@@ -70,43 +71,43 @@ ITEMS = [
     ConceptItem(
         name="Porta-canetas robo multiuso",
         output=Path("public/products/util-003-porta-canetas-robo.webp"),
-        prompt="realistic catalog product photo of a 3D printed robot pen holder desk organizer, premium matte PLA, visible layer lines, professionally printed on a Bambu Lab A1 Mini, single object centered on a wooden workbench, blurred 3D printer workshop background, blurred Bambu Lab A1 Mini in the background, soft studio lighting, shallow depth of field, vertical composition, realistic object photo, no text, no packaging, no hands",
+        prompt="realistic catalog product photo of a 3D printed robot pen holder desk organizer, a few pens inside the holder, premium matte PLA, visible layer lines, professionally printed on a Bambu Lab A1 Mini, single object centered on a wooden workbench, blurred 3D printer workshop background, blurred Bambu Lab A1 Mini in the background, soft studio lighting, shallow depth of field, vertical composition, realistic object photo, no text, no packaging, no hands",
         seed=183003,
     ),
     ConceptItem(
         name="Organizador de cabos com trilho",
         output=Path("public/products/util-006-organizador-cabos.webp"),
-        prompt="realistic catalog product photo of a 3D printed cable organizer rail for desk setup, premium matte PLA, visible layer lines, professionally printed on a Bambu Lab A1 Mini, single object centered on a wooden workbench, blurred 3D printer workshop background, blurred Bambu Lab A1 Mini in the background, soft studio lighting, shallow depth of field, vertical composition, realistic object photo, no text, no packaging, no hands",
+        prompt="realistic catalog product photo of a 3D printed cable organizer rail for desk setup, desk cables routed through the rail clips, premium matte PLA, visible layer lines, professionally printed on a Bambu Lab A1 Mini, single object centered on a wooden workbench, blurred 3D printer workshop background, blurred Bambu Lab A1 Mini in the background, soft studio lighting, shallow depth of field, vertical composition, realistic object photo, no text, no packaging, no hands",
         seed=180006,
     ),
     ConceptItem(
         name="Suporte de celular exoskeleton",
         output=Path("public/products/bambu-016-suporte-de-celular-exoskeleton.webp"),
-        prompt="realistic catalog product photo of a 3D printed exoskeleton phone stand, premium matte PLA, visible layer lines, professionally printed on a Bambu Lab A1 Mini, single object centered on a wooden workbench, blurred 3D printer workshop background, blurred Bambu Lab A1 Mini in the background, soft studio lighting, shallow depth of field, vertical composition, realistic object photo, no text, no packaging, no hands",
+        prompt="realistic catalog product photo of a 3D printed exoskeleton phone stand holding a smartphone, premium matte PLA, visible layer lines, professionally printed on a Bambu Lab A1 Mini, single object centered on a wooden workbench, blurred 3D printer workshop background, blurred Bambu Lab A1 Mini in the background, soft studio lighting, shallow depth of field, vertical composition, realistic object photo, no text, no packaging, no hands",
         seed=180016,
     ),
     ConceptItem(
         name="Suporte para relogio e smartwatch",
         output=Path("public/products/util-013-suporte-relogio.webp"),
-        prompt="realistic catalog product photo of a 3D printed stand for wristwatch and smartwatch, premium matte PLA, visible layer lines, professionally printed on a Bambu Lab A1 Mini, single object centered on a wooden workbench, blurred 3D printer workshop background, blurred Bambu Lab A1 Mini in the background, soft studio lighting, shallow depth of field, vertical composition, realistic object photo, no text, no packaging, no hands",
+        prompt="realistic catalog product photo of a 3D printed stand for wristwatch and smartwatch, watch and smartwatch resting on the stand, premium matte PLA, visible layer lines, professionally printed on a Bambu Lab A1 Mini, single object centered on a wooden workbench, blurred 3D printer workshop background, blurred Bambu Lab A1 Mini in the background, soft studio lighting, shallow depth of field, vertical composition, realistic object photo, no text, no packaging, no hands",
         seed=180013,
     ),
     ConceptItem(
         name="Organizador compacto 2 gavetas",
         output=Path("public/products/util-002-organizador-2gavetas.webp"),
-        prompt="realistic catalog product photo of a 3D printed compact organizer with two drawers, premium matte PLA, visible layer lines, professionally printed on a Bambu Lab A1 Mini, single object centered on a wooden workbench, blurred 3D printer workshop background, blurred Bambu Lab A1 Mini in the background, soft studio lighting, shallow depth of field, vertical composition, realistic object photo, no text, no packaging, no hands",
+        prompt="realistic catalog product photo of a 3D printed compact organizer with two drawers, drawers slightly open to show the structure, premium matte PLA, visible layer lines, professionally printed on a Bambu Lab A1 Mini, single object centered on a wooden workbench, blurred 3D printer workshop background, blurred Bambu Lab A1 Mini in the background, soft studio lighting, shallow depth of field, vertical composition, realistic object photo, no text, no packaging, no hands",
         seed=180002,
     ),
     ConceptItem(
         name="Organizador modular de maquiagem e utilitarios",
         output=Path("public/products/util-014-organizador-maquiagem.webp"),
-        prompt="realistic catalog product photo of a 3D printed modular makeup and utilities organizer, multiple built-in compartments as one product, premium matte PLA, visible layer lines, professionally printed on a Bambu Lab A1 Mini, single object centered on a wooden workbench, blurred 3D printer workshop background, blurred Bambu Lab A1 Mini in the background, soft studio lighting, shallow depth of field, vertical composition, realistic object photo, no text, no packaging, no hands",
+        prompt="realistic catalog product photo of a 3D printed modular makeup and utilities organizer, multiple built-in compartments with a few brushes and accessories organized, premium matte PLA, visible layer lines, professionally printed on a Bambu Lab A1 Mini, single object centered on a wooden workbench, blurred 3D printer workshop background, blurred Bambu Lab A1 Mini in the background, soft studio lighting, shallow depth of field, vertical composition, realistic object photo, no text, no packaging, no hands",
         seed=180014,
     ),
     ConceptItem(
         name="Suporte Dragon multiuso",
         output=Path("public/products/util-001-suporte-dragon.webp"),
-        prompt="realistic catalog product photo of a 3D printed dragon themed stand for phone or tablet, premium matte PLA, visible layer lines, professionally printed on a Bambu Lab A1 Mini, single object centered on a wooden workbench, blurred 3D printer workshop background, blurred Bambu Lab A1 Mini in the background, soft studio lighting, shallow depth of field, vertical composition, realistic object photo, no text, no packaging, no hands",
+        prompt="realistic catalog product photo of a 3D printed dragon themed stand supporting a smartphone, premium matte PLA, visible layer lines, professionally printed on a Bambu Lab A1 Mini, single object centered on a wooden workbench, blurred 3D printer workshop background, blurred Bambu Lab A1 Mini in the background, soft studio lighting, shallow depth of field, vertical composition, realistic object photo, no text, no packaging, no hands",
         seed=180001,
     ),
 ]
@@ -195,27 +196,26 @@ def main() -> None:
     report: list[dict[str, str]] = []
     external_api = api_available()
     checkpoint_title = ""
+    spawned_process: subprocess.Popen | None = None
 
-    if external_api:
-        checkpoint_title = resolve_checkpoint_title()
-        print(f"[INFO] Usando API existente em {BASE_URL}")
-        for item in ITEMS:
-            print(f"[START] {item.name}")
-            generate_item(item, checkpoint_title)
-            report.append({"name": item.name, "output": str(item.output), "status": "ok"})
-            print(f"[OK] {item.output}")
-    else:
-        for item in ITEMS:
-            print(f"[START] {item.name}")
-            process = start_webui()
-            try:
-                wait_for_api()
-                checkpoint_title = resolve_checkpoint_title()
+    try:
+        if not external_api:
+            print("[INFO] API do SD indisponivel. Tentando subir o AUTOMATIC1111 uma vez para processar o lote.")
+            spawned_process = start_webui()
+            wait_for_api()
+            external_api = True
+
+        if external_api:
+            checkpoint_title = resolve_checkpoint_title()
+            print(f"[INFO] Usando API em {BASE_URL}")
+            for item in ITEMS:
+                print(f"[START] {item.name}")
                 generate_item(item, checkpoint_title)
                 report.append({"name": item.name, "output": str(item.output), "status": "ok"})
                 print(f"[OK] {item.output}")
-            finally:
-                stop_webui(process)
+    finally:
+        if spawned_process is not None:
+            stop_webui(spawned_process)
 
     report_path = Path("public/products/catalog_concept_generation_report.json")
     report_path.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")

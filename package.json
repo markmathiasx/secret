@@ -34,6 +34,7 @@
     "db:migrate": "node scripts/db-migrate.mjs",
     "db:seed": "node scripts/db-seed.mjs",
     "catalog:images": "node scripts/catalog-images.mjs",
+    "catalog:audit:visual": "node scripts/catalog-visual-audit.mjs",
     "analyze": "ANALYZE=true npm run build",
     "preview": "npm run build && npm run start",
     "health": "powershell -Command \"Invoke-WebRequest http://127.0.0.1:3011/api/health -UseBasicParsing | Select-Object -ExpandProperty Content\"",

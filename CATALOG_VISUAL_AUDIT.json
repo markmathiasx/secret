@@ -1,0 +1,1068 @@
+{
+  "generatedAt": "2026-03-21T12:55:59.988Z",
+  "summary": {
+    "total": 42,
+    "realPhoto": 25,
+    "concept": 17,
+    "missingFiles": 0
+  },
+  "entries": [
+    {
+      "id": "real-001",
+      "sku": "A1M-CONS-GRINDER-HEX-BLK-R1",
+      "name": "Moedor Hex Black para limpeza de residuos (A1 Mini)",
+      "category": "Consumables",
+      "imageHint": "",
+      "visualKind": "real_photo",
+      "status": "ok_real_photo",
+      "recommendation": "Manter como ativo.",
+      "imageFiles": [
+        {
+          "publicPath": "/products/foto-001-grinder-01.webp",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\foto-001-grinder-01.webp",
+          "exists": true
+        },
+        {
+          "publicPath": "/products/foto-extra-real-001-01.jpg",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\foto-extra-real-001-01.jpg",
+          "exists": true
+        }
+      ],
+      "missingCount": 0,
+      "referenceQuery": "",
+      "expectedShape": "",
+      "referenceUrls": []
+    },
+    {
+      "id": "real-002",
+      "sku": "A1M-UPG-GRINDER-TURBINE-BLK-R1",
+      "name": "Moedor Turbine Pro de dupla tampa (A1 Mini)",
+      "category": "Upgrades",
+      "imageHint": "",
+      "visualKind": "real_photo",
+      "status": "ok_real_photo",
+      "recommendation": "Manter como ativo.",
+      "imageFiles": [
+        {
+          "publicPath": "/products/foto-002-grinder-02.webp",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\foto-002-grinder-02.webp",
+          "exists": true
+        },
+        {
+          "publicPath": "/products/foto-extra-real-003-02.jpg",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\foto-extra-real-003-02.jpg",
+          "exists": true
+        }
+      ],
+      "missingCount": 0,
+      "referenceQuery": "",
+      "expectedShape": "",
+      "referenceUrls": []
+    },
+    {
+      "id": "real-003",
+      "sku": "A1M-ACC-PASTA-HOLDER-R1",
+      "name": "Suporte compacto para tubo de pasta ou cola",
+      "category": "Accessories",
+      "imageHint": "",
+      "visualKind": "real_photo",
+      "status": "ok_real_photo",
+      "recommendation": "Manter como ativo.",
+      "imageFiles": [
+        {
+          "publicPath": "/products/foto-003-porta-creme-dental.webp",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\foto-003-porta-creme-dental.webp",
+          "exists": true
+        },
+        {
+          "publicPath": "/products/foto-extra-real-003-01.jpg",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\foto-extra-real-003-01.jpg",
+          "exists": true
+        }
+      ],
+      "missingCount": 0,
+      "referenceQuery": "",
+      "expectedShape": "",
+      "referenceUrls": []
+    },
+    {
+      "id": "real-004",
+      "sku": "A1M-ACC-DEMOGORGON-DISPLAY-R1",
+      "name": "Display Demogorgon 3D para setup de oficina",
+      "category": "Accessories",
+      "imageHint": "",
+      "visualKind": "real_photo",
+      "status": "ok_real_photo",
+      "recommendation": "Manter como ativo.",
+      "imageFiles": [
+        {
+          "publicPath": "/products/foto-004-demogorgon.webp",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\foto-004-demogorgon.webp",
+          "exists": true
+        },
+        {
+          "publicPath": "/products/foto-extra-real-004-01.jpg",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\foto-extra-real-004-01.jpg",
+          "exists": true
+        }
+      ],
+      "missingCount": 0,
+      "referenceQuery": "",
+      "expectedShape": "",
+      "referenceUrls": []
+    },
+    {
+      "id": "real-005",
+      "sku": "A1M-ACC-KITTY-JEDI-R1",
+      "name": "Hello Kitty Jedi Edition para mesa de impressao",
+      "category": "Accessories",
+      "imageHint": "",
+      "visualKind": "real_photo",
+      "status": "ok_real_photo",
+      "recommendation": "Manter como ativo.",
+      "imageFiles": [
+        {
+          "publicPath": "/products/foto-005-hello-kitty-jedi.webp",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\foto-005-hello-kitty-jedi.webp",
+          "exists": true
+        },
+        {
+          "publicPath": "/products/foto-extra-real-005-01.jpg",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\foto-extra-real-005-01.jpg",
+          "exists": true
+        }
+      ],
+      "missingCount": 0,
+      "referenceQuery": "",
+      "expectedShape": "",
+      "referenceUrls": []
+    },
+    {
+      "id": "real-006",
+      "sku": "A1M-SPARE-PLACA-PORTAL-R1",
+      "name": "Placa decorativa Portal para setup A1 Mini",
+      "category": "Spare parts",
+      "imageHint": "",
+      "visualKind": "real_photo",
+      "status": "ok_real_photo",
+      "recommendation": "Manter como ativo.",
+      "imageFiles": [
+        {
+          "publicPath": "/products/foto-006-stencil-rick-morty.webp",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\foto-006-stencil-rick-morty.webp",
+          "exists": true
+        },
+        {
+          "publicPath": "/products/foto-extra-real-004-02.jpg",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\foto-extra-real-004-02.jpg",
+          "exists": true
+        }
+      ],
+      "missingCount": 0,
+      "referenceQuery": "",
+      "expectedShape": "",
+      "referenceUrls": []
+    },
+    {
+      "id": "real-007",
+      "sku": "A1M-KIT-FAMILIA-CUSTOM-R1",
+      "name": "Kit estatueta familia personalizada",
+      "category": "Kits",
+      "imageHint": "",
+      "visualKind": "real_photo",
+      "status": "ok_real_photo",
+      "recommendation": "Manter como ativo.",
+      "imageFiles": [
+        {
+          "publicPath": "/products/foto-007-familia-custom.webp",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\foto-007-familia-custom.webp",
+          "exists": true
+        },
+        {
+          "publicPath": "/products/foto-extra-real-006-01.jpg",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\foto-extra-real-006-01.jpg",
+          "exists": true
+        }
+      ],
+      "missingCount": 0,
+      "referenceQuery": "",
+      "expectedShape": "",
+      "referenceUrls": []
+    },
+    {
+      "id": "real-008",
+      "sku": "A1M-ACC-BONECA-RAINBOW-R1",
+      "name": "Boneca Arco-Iris para vitrine infantil",
+      "category": "Accessories",
+      "imageHint": "",
+      "visualKind": "real_photo",
+      "status": "ok_real_photo",
+      "recommendation": "Manter como ativo.",
+      "imageFiles": [
+        {
+          "publicPath": "/products/foto-008-boneca-crianca.webp",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\foto-008-boneca-crianca.webp",
+          "exists": true
+        },
+        {
+          "publicPath": "/products/foto-extra-real-003-03.jpg",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\foto-extra-real-003-03.jpg",
+          "exists": true
+        }
+      ],
+      "missingCount": 0,
+      "referenceQuery": "",
+      "expectedShape": "",
+      "referenceUrls": []
+    },
+    {
+      "id": "real-009",
+      "sku": "A1M-SPARE-CASE-LIGHTER-SKULL-R1",
+      "name": "Case Skull para isqueiro - reposicao premium",
+      "category": "Spare parts",
+      "imageHint": "",
+      "visualKind": "real_photo",
+      "status": "ok_real_photo",
+      "recommendation": "Manter como ativo.",
+      "imageFiles": [
+        {
+          "publicPath": "/products/foto-009-case-isqueiro-caveira.webp",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\foto-009-case-isqueiro-caveira.webp",
+          "exists": true
+        },
+        {
+          "publicPath": "/products/foto-extra-real-005-02.jpg",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\foto-extra-real-005-02.jpg",
+          "exists": true
+        }
+      ],
+      "missingCount": 0,
+      "referenceQuery": "",
+      "expectedShape": "",
+      "referenceUrls": []
+    },
+    {
+      "id": "real-010",
+      "sku": "A1M-ACC-HOMER-PIKA-R1",
+      "name": "Homer Pikachu Mashup para colecao geek",
+      "category": "Accessories",
+      "imageHint": "",
+      "visualKind": "real_photo",
+      "status": "ok_real_photo",
+      "recommendation": "Manter como ativo.",
+      "imageFiles": [
+        {
+          "publicPath": "/products/foto-010-homer-pikachu.webp",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\foto-010-homer-pikachu.webp",
+          "exists": true
+        },
+        {
+          "publicPath": "/products/foto-extra-real-010-01.jpg",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\foto-extra-real-010-01.jpg",
+          "exists": true
+        }
+      ],
+      "missingCount": 0,
+      "referenceQuery": "",
+      "expectedShape": "",
+      "referenceUrls": []
+    },
+    {
+      "id": "real-011",
+      "sku": "A1M-ACC-KEYTAG-MASON-R1",
+      "name": "Chaveiro medalha personalizado premium",
+      "category": "Accessories",
+      "imageHint": "",
+      "visualKind": "real_photo",
+      "status": "ok_real_photo",
+      "recommendation": "Manter como ativo.",
+      "imageFiles": [
+        {
+          "publicPath": "/products/foto-011-chaveiro-maconaria.webp",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\foto-011-chaveiro-maconaria.webp",
+          "exists": true
+        },
+        {
+          "publicPath": "/products/foto-extra-real-004-03.jpg",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\foto-extra-real-004-03.jpg",
+          "exists": true
+        }
+      ],
+      "missingCount": 0,
+      "referenceQuery": "",
+      "expectedShape": "",
+      "referenceUrls": []
+    },
+    {
+      "id": "real-012",
+      "sku": "A1M-ACC-KEYCHAIN-BRASIL-R1",
+      "name": "Chaveiro Brasil multicor em camadas",
+      "category": "Accessories",
+      "imageHint": "",
+      "visualKind": "real_photo",
+      "status": "ok_real_photo",
+      "recommendation": "Manter como ativo.",
+      "imageFiles": [
+        {
+          "publicPath": "/products/foto-012-chaveiro-brasil.webp",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\foto-012-chaveiro-brasil.webp",
+          "exists": true
+        }
+      ],
+      "missingCount": 0,
+      "referenceQuery": "",
+      "expectedShape": "",
+      "referenceUrls": []
+    },
+    {
+      "id": "real-013",
+      "sku": "A1M-ACC-KEYCHAIN-YOSHI-R1",
+      "name": "Chaveiro Yoshi verde para colecao gamer",
+      "category": "Accessories",
+      "imageHint": "",
+      "visualKind": "real_photo",
+      "status": "ok_real_photo",
+      "recommendation": "Manter como ativo.",
+      "imageFiles": [
+        {
+          "publicPath": "/products/foto-013-chaveiro-yoshi.webp",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\foto-013-chaveiro-yoshi.webp",
+          "exists": true
+        }
+      ],
+      "missingCount": 0,
+      "referenceQuery": "",
+      "expectedShape": "",
+      "referenceUrls": []
+    },
+    {
+      "id": "real-014",
+      "sku": "A1M-KIT-MASCOTE-GAMER-CAT-R1",
+      "name": "Kit mascote gata gamer personalizada",
+      "category": "Kits",
+      "imageHint": "",
+      "visualKind": "real_photo",
+      "status": "ok_real_photo",
+      "recommendation": "Manter como ativo.",
+      "imageFiles": [
+        {
+          "publicPath": "/products/foto-014-gatinha-headset.webp",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\foto-014-gatinha-headset.webp",
+          "exists": true
+        },
+        {
+          "publicPath": "/products/foto-014-gatinha-headset.gif",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\foto-014-gatinha-headset.gif",
+          "exists": true
+        }
+      ],
+      "missingCount": 0,
+      "referenceQuery": "",
+      "expectedShape": "",
+      "referenceUrls": []
+    },
+    {
+      "id": "proj-101",
+      "sku": "A1M-ACC-ORG-3DRAWER-R1",
+      "name": "Organizador de mesa 3 gavetas print-in-place",
+      "category": "Accessories",
+      "imageHint": "",
+      "visualKind": "concept_image",
+      "status": "concept_needs_review",
+      "recommendation": "Revisar o ativo e substituir por foto real propria ou render fiel ancorado em referencia tecnica.",
+      "imageFiles": [
+        {
+          "publicPath": "/products/bambu-018-organizador-de-mesa-3-gavetas.webp",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\bambu-018-organizador-de-mesa-3-gavetas.webp",
+          "exists": true
+        },
+        {
+          "publicPath": "/products/bambu-018-organizador-3gavetas.webp",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\bambu-018-organizador-3gavetas.webp",
+          "exists": true
+        }
+      ],
+      "missingCount": 0,
+      "referenceQuery": "",
+      "expectedShape": "",
+      "referenceUrls": []
+    },
+    {
+      "id": "proj-102",
+      "sku": "A1M-ACC-DESK-CABLE-KIT-R1",
+      "name": "Kit passa-fios de mesa modular",
+      "category": "Accessories",
+      "imageHint": "",
+      "visualKind": "concept_image",
+      "status": "concept_needs_review",
+      "recommendation": "Revisar o ativo e substituir por foto real propria ou render fiel ancorado em referencia tecnica.",
+      "imageFiles": [
+        {
+          "publicPath": "/products/util-011-organizador-fios.webp",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\util-011-organizador-fios.webp",
+          "exists": true
+        },
+        {
+          "publicPath": "/products/util-006-organizador-cabos.webp",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\util-006-organizador-cabos.webp",
+          "exists": true
+        }
+      ],
+      "missingCount": 0,
+      "referenceQuery": "",
+      "expectedShape": "",
+      "referenceUrls": []
+    },
+    {
+      "id": "proj-103",
+      "sku": "A1M-ACC-GLASSES-STAND-R1",
+      "name": "Suporte para oculos dobravel",
+      "category": "Accessories",
+      "imageHint": "3d printed foldable eyeglasses stand",
+      "visualKind": "concept_image",
+      "status": "concept_needs_real_curation",
+      "recommendation": "Validar forma do objeto com as referencias e substituir por foto real propria quando disponivel.",
+      "imageFiles": [
+        {
+          "publicPath": "/products/util-015-suporte-oculos.webp",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\util-015-suporte-oculos.webp",
+          "exists": true
+        }
+      ],
+      "missingCount": 0,
+      "referenceQuery": "3d printed foldable eyeglasses stand",
+      "expectedShape": "Suporte de mesa dobravel com base compacta e berco ou apoio inclinado para apoiar uma armacao de oculos sem tombar.",
+      "referenceUrls": [
+        "https://makerworld.com/en/search/models?keyword=eyeglasses%20stand",
+        "https://www.printables.com/search/models?q=eyeglasses%20stand"
+      ]
+    },
+    {
+      "id": "proj-104",
+      "sku": "A1M-ACC-GAMEPAD-STAND-R1",
+      "name": "Suporte para controle gamer",
+      "category": "Accessories",
+      "imageHint": "3d printed xbox controller desk stand",
+      "visualKind": "concept_image",
+      "status": "concept_needs_real_curation",
+      "recommendation": "Validar forma do objeto com as referencias e substituir por foto real propria quando disponivel.",
+      "imageFiles": [
+        {
+          "publicPath": "/products/util-009-suporte-controle.webp",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\util-009-suporte-controle.webp",
+          "exists": true
+        }
+      ],
+      "missingCount": 0,
+      "referenceQuery": "3d printed xbox controller desk stand",
+      "expectedShape": "Suporte de mesa com berco curvo ou encaixe central para apoiar controle Xbox ou gamepad de formato similar em posicao estavel.",
+      "referenceUrls": [
+        "https://makerworld.com/en/search/models?keyword=xbox%20controller%20stand",
+        "https://www.printables.com/search/models?q=xbox%20controller%20stand"
+      ]
+    },
+    {
+      "id": "proj-105",
+      "sku": "A1M-ACC-SPINNER-TRI-R1",
+      "name": "Spinner triangular antiestresse",
+      "category": "Accessories",
+      "imageHint": "",
+      "visualKind": "concept_image",
+      "status": "concept_needs_review",
+      "recommendation": "Revisar o ativo e substituir por foto real propria ou render fiel ancorado em referencia tecnica.",
+      "imageFiles": [
+        {
+          "publicPath": "/products/fidget-003-spinner-triangular.webp",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\fidget-003-spinner-triangular.webp",
+          "exists": true
+        }
+      ],
+      "missingCount": 0,
+      "referenceQuery": "",
+      "expectedShape": "",
+      "referenceUrls": []
+    },
+    {
+      "id": "proj-106",
+      "sku": "A1M-ACC-ROBO-PENHOLDER-R1",
+      "name": "Porta-canetas robo multiuso",
+      "category": "Accessories",
+      "imageHint": "",
+      "visualKind": "concept_image",
+      "status": "concept_needs_review",
+      "recommendation": "Revisar o ativo e substituir por foto real propria ou render fiel ancorado em referencia tecnica.",
+      "imageFiles": [
+        {
+          "publicPath": "/products/util-003-porta-canetas-robo.webp",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\util-003-porta-canetas-robo.webp",
+          "exists": true
+        }
+      ],
+      "missingCount": 0,
+      "referenceQuery": "",
+      "expectedShape": "",
+      "referenceUrls": []
+    },
+    {
+      "id": "proj-107",
+      "sku": "A1M-ACC-CABLE-RAIL-R1",
+      "name": "Organizador de cabos com trilho",
+      "category": "Accessories",
+      "imageHint": "3d printed cable organizer rail",
+      "visualKind": "concept_image",
+      "status": "concept_needs_real_curation",
+      "recommendation": "Validar forma do objeto com as referencias e substituir por foto real propria quando disponivel.",
+      "imageFiles": [
+        {
+          "publicPath": "/products/util-006-organizador-cabos.webp",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\util-006-organizador-cabos.webp",
+          "exists": true
+        },
+        {
+          "publicPath": "/products/util-011-organizador-fios.webp",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\util-011-organizador-fios.webp",
+          "exists": true
+        }
+      ],
+      "missingCount": 0,
+      "referenceQuery": "3d printed desk cable organizer rail",
+      "expectedShape": "Trilho ou conjunto de clips impressos em 3D para guiar cabos na mesa, geralmente com canaletas ou encaixes repetidos.",
+      "referenceUrls": [
+        "https://makerworld.com/en/search/models?keyword=cable%20organizer",
+        "https://www.printables.com/search/models?q=desk%20cable%20organizer"
+      ]
+    },
+    {
+      "id": "proj-108",
+      "sku": "A1M-ACC-PHONE-EXO-R1",
+      "name": "Suporte de celular exoskeleton",
+      "category": "Accessories",
+      "imageHint": "3d printed exoskeleton phone stand",
+      "visualKind": "concept_image",
+      "status": "concept_needs_real_curation",
+      "recommendation": "Validar forma do objeto com as referencias e substituir por foto real propria quando disponivel.",
+      "imageFiles": [
+        {
+          "publicPath": "/products/bambu-016-suporte-de-celular-exoskeleton.webp",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\bambu-016-suporte-de-celular-exoskeleton.webp",
+          "exists": true
+        },
+        {
+          "publicPath": "/products/bambu-016-suporte-exoskeleton.webp",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\bambu-016-suporte-exoskeleton.webp",
+          "exists": true
+        }
+      ],
+      "missingCount": 0,
+      "referenceQuery": "3d printed exoskeleton phone stand",
+      "expectedShape": "Suporte de celular com laterais estruturais em formato de exoesqueleto, apoiando um smartphone em angulo de mesa.",
+      "referenceUrls": [
+        "https://makerworld.com/en/search/models?keyword=phone%20stand",
+        "https://www.printables.com/search/models?q=exoskeleton%20phone%20stand"
+      ]
+    },
+    {
+      "id": "proj-109",
+      "sku": "A1M-ACC-WATCH-STAND-R1",
+      "name": "Suporte para relogio e smartwatch",
+      "category": "Accessories",
+      "imageHint": "3d printed watch and smartwatch stand",
+      "visualKind": "concept_image",
+      "status": "concept_needs_real_curation",
+      "recommendation": "Validar forma do objeto com as referencias e substituir por foto real propria quando disponivel.",
+      "imageFiles": [
+        {
+          "publicPath": "/products/util-013-suporte-relogio.webp",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\util-013-suporte-relogio.webp",
+          "exists": true
+        }
+      ],
+      "missingCount": 0,
+      "referenceQuery": "3d printed watch and smartwatch stand",
+      "expectedShape": "Suporte vertical ou em arco para relogio e smartwatch, com area de apoio para pulseira e base limpa de mesa.",
+      "referenceUrls": [
+        "https://makerworld.com/en/search/models?keyword=watch%20stand",
+        "https://www.printables.com/search/models?q=smartwatch%20stand"
+      ]
+    },
+    {
+      "id": "proj-110",
+      "sku": "A1M-ACC-ORG-2DRAWER-R1",
+      "name": "Organizador compacto 2 gavetas",
+      "category": "Accessories",
+      "imageHint": "",
+      "visualKind": "concept_image",
+      "status": "concept_needs_review",
+      "recommendation": "Revisar o ativo e substituir por foto real propria ou render fiel ancorado em referencia tecnica.",
+      "imageFiles": [
+        {
+          "publicPath": "/products/util-002-organizador-2gavetas.webp",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\util-002-organizador-2gavetas.webp",
+          "exists": true
+        },
+        {
+          "publicPath": "/products/bambu-018-organizador-3gavetas.webp",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\bambu-018-organizador-3gavetas.webp",
+          "exists": true
+        }
+      ],
+      "missingCount": 0,
+      "referenceQuery": "",
+      "expectedShape": "",
+      "referenceUrls": []
+    },
+    {
+      "id": "proj-111",
+      "sku": "A1M-ACC-MAKEUP-ORGANIZER-R1",
+      "name": "Organizador modular de maquiagem e utilitarios",
+      "category": "Accessories",
+      "imageHint": "",
+      "visualKind": "concept_image",
+      "status": "concept_needs_review",
+      "recommendation": "Revisar o ativo e substituir por foto real propria ou render fiel ancorado em referencia tecnica.",
+      "imageFiles": [
+        {
+          "publicPath": "/products/util-014-organizador-maquiagem.webp",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\util-014-organizador-maquiagem.webp",
+          "exists": true
+        }
+      ],
+      "missingCount": 0,
+      "referenceQuery": "",
+      "expectedShape": "",
+      "referenceUrls": []
+    },
+    {
+      "id": "proj-112",
+      "sku": "A1M-ACC-DRAGON-STAND-R1",
+      "name": "Suporte Dragon multiuso",
+      "category": "Accessories",
+      "imageHint": "",
+      "visualKind": "concept_image",
+      "status": "concept_needs_review",
+      "recommendation": "Revisar o ativo e substituir por foto real propria ou render fiel ancorado em referencia tecnica.",
+      "imageFiles": [
+        {
+          "publicPath": "/products/util-001-suporte-dragon.webp",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\util-001-suporte-dragon.webp",
+          "exists": true
+        },
+        {
+          "publicPath": "/products/util-012-suporte-tablet.webp",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\util-012-suporte-tablet.webp",
+          "exists": true
+        }
+      ],
+      "missingCount": 0,
+      "referenceQuery": "",
+      "expectedShape": "",
+      "referenceUrls": []
+    },
+    {
+      "id": "geek-001",
+      "sku": "A1M-ACC-KNIGHT-MEDIEVAL-R1",
+      "name": "Cavaleiro Medieval Mini",
+      "category": "Accessories",
+      "imageHint": "",
+      "visualKind": "real_photo",
+      "status": "ok_real_photo",
+      "recommendation": "Manter como ativo.",
+      "imageFiles": [
+        {
+          "publicPath": "/products/geek/cavaleiro-medieval-mini/cavaleiro-medieval-mini-original.png",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\geek\\cavaleiro-medieval-mini\\cavaleiro-medieval-mini-original.png",
+          "exists": true
+        },
+        {
+          "publicPath": "/products/geek/cavaleiro-medieval-mini/cavaleiro-medieval-mini.png",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\geek\\cavaleiro-medieval-mini\\cavaleiro-medieval-mini.png",
+          "exists": true
+        }
+      ],
+      "missingCount": 0,
+      "referenceQuery": "",
+      "expectedShape": "",
+      "referenceUrls": []
+    },
+    {
+      "id": "geek-002",
+      "sku": "A1M-ACC-OWL-FOREST-R1",
+      "name": "Coruja Floresta Articulada",
+      "category": "Accessories",
+      "imageHint": "3d printed articulated owl collectible figurine",
+      "visualKind": "concept_image",
+      "status": "concept_needs_real_curation",
+      "recommendation": "Validar forma do objeto com as referencias e substituir por foto real propria quando disponivel.",
+      "imageFiles": [
+        {
+          "publicPath": "/products/geek/coruja-floresta-articulada/coruja-floresta-articulada.png",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\geek\\coruja-floresta-articulada\\coruja-floresta-articulada.png",
+          "exists": true
+        }
+      ],
+      "missingCount": 0,
+      "referenceQuery": "3d printed articulated owl figurine",
+      "expectedShape": "Coruja pequena com olhos grandes e corpo segmentado ou articulado, com leitura clara de miniatura impressa em 3D.",
+      "referenceUrls": [
+        "https://makerworld.com/en/search/models?keyword=owl%20articulated",
+        "https://www.printables.com/search/models?q=articulated%20owl"
+      ]
+    },
+    {
+      "id": "geek-003",
+      "sku": "A1M-ACC-DRAGON-EUROPE-R1",
+      "name": "Dragao Europeu Mini",
+      "category": "Accessories",
+      "imageHint": "3d printed european dragon mini figurine with open wings",
+      "visualKind": "concept_image",
+      "status": "concept_needs_real_curation",
+      "recommendation": "Validar forma do objeto com as referencias e substituir por foto real propria quando disponivel.",
+      "imageFiles": [
+        {
+          "publicPath": "/products/geek/dragao-europeu-mini/dragao-europeu-mini.png",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\geek\\dragao-europeu-mini\\dragao-europeu-mini.png",
+          "exists": true
+        }
+      ],
+      "missingCount": 0,
+      "referenceQuery": "3d printed european dragon mini figurine",
+      "expectedShape": "Dragao europeu compacto com asas abertas, corpo musculoso e leitura de miniatura fantasy.",
+      "referenceUrls": [
+        "https://makerworld.com/en/search/models?keyword=european%20dragon",
+        "https://www.printables.com/search/models?q=european%20dragon%20miniature"
+      ]
+    },
+    {
+      "id": "geek-004",
+      "sku": "A1M-ACC-DRAGON-ORIENTAL-R1",
+      "name": "Dragao Oriental Articulado",
+      "category": "Accessories",
+      "imageHint": "3d printed articulated oriental dragon collectible",
+      "visualKind": "concept_image",
+      "status": "concept_needs_real_curation",
+      "recommendation": "Validar forma do objeto com as referencias e substituir por foto real propria quando disponivel.",
+      "imageFiles": [
+        {
+          "publicPath": "/products/geek/dragao-oriental-articulado/dragao-oriental-articulado.png",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\geek\\dragao-oriental-articulado\\dragao-oriental-articulado.png",
+          "exists": true
+        }
+      ],
+      "missingCount": 0,
+      "referenceQuery": "3d printed articulated oriental dragon collectible",
+      "expectedShape": "Dragao oriental comprido com corpo segmentado e leitura serpentina, semelhante a dragao asiatico articulado.",
+      "referenceUrls": [
+        "https://makerworld.com/en/search/models?keyword=articulated%20dragon",
+        "https://www.printables.com/search/models?q=articulated%20oriental%20dragon"
+      ]
+    },
+    {
+      "id": "geek-005",
+      "sku": "A1M-ACC-ELSA-CHIBI-R1",
+      "name": "Elsa Frozen Chibi",
+      "category": "Accessories",
+      "imageHint": "",
+      "visualKind": "real_photo",
+      "status": "ok_real_photo",
+      "recommendation": "Manter como ativo.",
+      "imageFiles": [
+        {
+          "publicPath": "/products/geek/elsa-frozen-chibi/elsa-frozen-chibi-original.png",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\geek\\elsa-frozen-chibi\\elsa-frozen-chibi-original.png",
+          "exists": true
+        },
+        {
+          "publicPath": "/products/geek/elsa-frozen-chibi/elsa-frozen-chibi.png",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\geek\\elsa-frozen-chibi\\elsa-frozen-chibi.png",
+          "exists": true
+        }
+      ],
+      "missingCount": 0,
+      "referenceQuery": "",
+      "expectedShape": "",
+      "referenceUrls": []
+    },
+    {
+      "id": "geek-006",
+      "sku": "A1M-ACC-ROCKET-MINI-R1",
+      "name": "Foguete Espacial Mini",
+      "category": "Accessories",
+      "imageHint": "",
+      "visualKind": "real_photo",
+      "status": "ok_real_photo",
+      "recommendation": "Manter como ativo.",
+      "imageFiles": [
+        {
+          "publicPath": "/products/geek/foguete-espacial-mini/foguete-espacial-mini-original.png",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\geek\\foguete-espacial-mini\\foguete-espacial-mini-original.png",
+          "exists": true
+        },
+        {
+          "publicPath": "/products/geek/foguete-espacial-mini/foguete-espacial-mini.png",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\geek\\foguete-espacial-mini\\foguete-espacial-mini.png",
+          "exists": true
+        }
+      ],
+      "missingCount": 0,
+      "referenceQuery": "",
+      "expectedShape": "",
+      "referenceUrls": []
+    },
+    {
+      "id": "geek-007",
+      "sku": "A1M-ACC-GOKU-CHIBI-R1",
+      "name": "Goku Dragon Ball Chibi",
+      "category": "Accessories",
+      "imageHint": "",
+      "visualKind": "real_photo",
+      "status": "ok_real_photo",
+      "recommendation": "Manter como ativo.",
+      "imageFiles": [
+        {
+          "publicPath": "/products/geek/goku-dragon-ball-chibi/goku-dragon-ball-chibi-original.png",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\geek\\goku-dragon-ball-chibi\\goku-dragon-ball-chibi-original.png",
+          "exists": true
+        },
+        {
+          "publicPath": "/products/geek/goku-dragon-ball-chibi/goku-dragon-ball-chibi.png",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\geek\\goku-dragon-ball-chibi\\goku-dragon-ball-chibi.png",
+          "exists": true
+        }
+      ],
+      "missingCount": 0,
+      "referenceQuery": "",
+      "expectedShape": "",
+      "referenceUrls": []
+    },
+    {
+      "id": "geek-008",
+      "sku": "A1M-ACC-KIRBY-CHIBI-R1",
+      "name": "Kirby Nintendo Chibi",
+      "category": "Accessories",
+      "imageHint": "",
+      "visualKind": "real_photo",
+      "status": "ok_real_photo",
+      "recommendation": "Manter como ativo.",
+      "imageFiles": [
+        {
+          "publicPath": "/products/geek/kirby-nintendo-chibi/kirby-nintendo-chibi-original.png",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\geek\\kirby-nintendo-chibi\\kirby-nintendo-chibi-original.png",
+          "exists": true
+        },
+        {
+          "publicPath": "/products/geek/kirby-nintendo-chibi/kirby-nintendo-chibi.png",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\geek\\kirby-nintendo-chibi\\kirby-nintendo-chibi.png",
+          "exists": true
+        }
+      ],
+      "missingCount": 0,
+      "referenceQuery": "",
+      "expectedShape": "",
+      "referenceUrls": []
+    },
+    {
+      "id": "geek-009",
+      "sku": "A1M-ACC-LUFFY-CHIBI-R1",
+      "name": "Luffy One Piece Chibi",
+      "category": "Accessories",
+      "imageHint": "",
+      "visualKind": "real_photo",
+      "status": "ok_real_photo",
+      "recommendation": "Manter como ativo.",
+      "imageFiles": [
+        {
+          "publicPath": "/products/geek/luffy-one-piece-chibi/luffy-one-piece-chibi-original.png",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\geek\\luffy-one-piece-chibi\\luffy-one-piece-chibi-original.png",
+          "exists": true
+        },
+        {
+          "publicPath": "/products/geek/luffy-one-piece-chibi/luffy-one-piece-chibi.png",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\geek\\luffy-one-piece-chibi\\luffy-one-piece-chibi.png",
+          "exists": true
+        }
+      ],
+      "missingCount": 0,
+      "referenceQuery": "",
+      "expectedShape": "",
+      "referenceUrls": []
+    },
+    {
+      "id": "geek-010",
+      "sku": "A1M-ACC-MARIO-CHIBI-R1",
+      "name": "Mario Nintendo Chibi",
+      "category": "Accessories",
+      "imageHint": "",
+      "visualKind": "real_photo",
+      "status": "ok_real_photo",
+      "recommendation": "Manter como ativo.",
+      "imageFiles": [
+        {
+          "publicPath": "/products/geek/mario-nintendo-chibi/mario-nintendo-chibi-original.png",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\geek\\mario-nintendo-chibi\\mario-nintendo-chibi-original.png",
+          "exists": true
+        },
+        {
+          "publicPath": "/products/geek/mario-nintendo-chibi/mario-nintendo-chibi.png",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\geek\\mario-nintendo-chibi\\mario-nintendo-chibi.png",
+          "exists": true
+        }
+      ],
+      "missingCount": 0,
+      "referenceQuery": "",
+      "expectedShape": "",
+      "referenceUrls": []
+    },
+    {
+      "id": "geek-011",
+      "sku": "A1M-ACC-PIKACHU-CHIBI-R1",
+      "name": "Pikachu Pokemon Chibi",
+      "category": "Accessories",
+      "imageHint": "",
+      "visualKind": "real_photo",
+      "status": "ok_real_photo",
+      "recommendation": "Manter como ativo.",
+      "imageFiles": [
+        {
+          "publicPath": "/products/geek/pikachu-pokemon-chibi/pikachu-pokemon-chibi-original.png",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\geek\\pikachu-pokemon-chibi\\pikachu-pokemon-chibi-original.png",
+          "exists": true
+        },
+        {
+          "publicPath": "/products/geek/pikachu-pokemon-chibi/pikachu-pokemon-chibi.png",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\geek\\pikachu-pokemon-chibi\\pikachu-pokemon-chibi.png",
+          "exists": true
+        }
+      ],
+      "missingCount": 0,
+      "referenceQuery": "",
+      "expectedShape": "",
+      "referenceUrls": []
+    },
+    {
+      "id": "geek-012",
+      "sku": "A1M-ACC-OCTOPUS-ART-R1",
+      "name": "Polvo Oceano Articulado",
+      "category": "Accessories",
+      "imageHint": "",
+      "visualKind": "real_photo",
+      "status": "ok_real_photo",
+      "recommendation": "Manter como ativo.",
+      "imageFiles": [
+        {
+          "publicPath": "/products/geek/polvo-oceano-articulado/polvo-oceano-articulado-original.png",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\geek\\polvo-oceano-articulado\\polvo-oceano-articulado-original.png",
+          "exists": true
+        },
+        {
+          "publicPath": "/products/geek/polvo-oceano-articulado/polvo-oceano-articulado.png",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\geek\\polvo-oceano-articulado\\polvo-oceano-articulado.png",
+          "exists": true
+        }
+      ],
+      "missingCount": 0,
+      "referenceQuery": "",
+      "expectedShape": "",
+      "referenceUrls": []
+    },
+    {
+      "id": "geek-013",
+      "sku": "A1M-ACC-SASUKE-CHIBI-R1",
+      "name": "Sasuke Uchiha Chibi",
+      "category": "Accessories",
+      "imageHint": "3d printed sasuke chibi figurine with ninja headband and sword",
+      "visualKind": "concept_image",
+      "status": "concept_needs_real_curation",
+      "recommendation": "Validar forma do objeto com as referencias e substituir por foto real propria quando disponivel.",
+      "imageFiles": [
+        {
+          "publicPath": "/products/geek/sasuke-uchiha-chibi/sasuke-uchiha-chibi.png",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\geek\\sasuke-uchiha-chibi\\sasuke-uchiha-chibi.png",
+          "exists": true
+        }
+      ],
+      "missingCount": 0,
+      "referenceQuery": "3d printed sasuke chibi figurine",
+      "expectedShape": "Miniatura chibi de ninja anime com cabelo preto espetado, faixa na testa e espada nas costas.",
+      "referenceUrls": [
+        "https://makerworld.com/en/search/models?keyword=sasuke",
+        "https://www.printables.com/search/models?q=sasuke%20chibi"
+      ]
+    },
+    {
+      "id": "geek-014",
+      "sku": "A1M-ACC-SONIC-CHIBI-R1",
+      "name": "Sonic Hedgehog Chibi",
+      "category": "Accessories",
+      "imageHint": "",
+      "visualKind": "real_photo",
+      "status": "ok_real_photo",
+      "recommendation": "Manter como ativo.",
+      "imageFiles": [
+        {
+          "publicPath": "/products/geek/sonic-hedgehog-chibi/sonic-hedgehog-chibi-original.png",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\geek\\sonic-hedgehog-chibi\\sonic-hedgehog-chibi-original.png",
+          "exists": true
+        },
+        {
+          "publicPath": "/products/geek/sonic-hedgehog-chibi/sonic-hedgehog-chibi.png",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\geek\\sonic-hedgehog-chibi\\sonic-hedgehog-chibi.png",
+          "exists": true
+        }
+      ],
+      "missingCount": 0,
+      "referenceQuery": "",
+      "expectedShape": "",
+      "referenceUrls": []
+    },
+    {
+      "id": "geek-015",
+      "sku": "A1M-ACC-TOTORO-CHIBI-R1",
+      "name": "Totoro My Neighbor Chibi",
+      "category": "Accessories",
+      "imageHint": "",
+      "visualKind": "real_photo",
+      "status": "ok_real_photo",
+      "recommendation": "Manter como ativo.",
+      "imageFiles": [
+        {
+          "publicPath": "/products/geek/totoro-my-neighbor-chibi/totoro-my-neighbor-chibi-original.png",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\geek\\totoro-my-neighbor-chibi\\totoro-my-neighbor-chibi-original.png",
+          "exists": true
+        },
+        {
+          "publicPath": "/products/geek/totoro-my-neighbor-chibi/totoro-my-neighbor-chibi.png",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\geek\\totoro-my-neighbor-chibi\\totoro-my-neighbor-chibi.png",
+          "exists": true
+        }
+      ],
+      "missingCount": 0,
+      "referenceQuery": "",
+      "expectedShape": "",
+      "referenceUrls": []
+    },
+    {
+      "id": "geek-016",
+      "sku": "A1M-ACC-SHARK-MINI-R1",
+      "name": "Tubarao Oceano Mini",
+      "category": "Accessories",
+      "imageHint": "3d printed shark mini mascot figurine",
+      "visualKind": "concept_image",
+      "status": "concept_needs_real_curation",
+      "recommendation": "Validar forma do objeto com as referencias e substituir por foto real propria quando disponivel.",
+      "imageFiles": [
+        {
+          "publicPath": "/products/geek/tubarao-oceano-mini/tubarao-oceano-mini.png",
+          "fsPath": "C:\\Users\\markm\\.codex\\worktrees\\6b01\\mdh-3d-store\\public\\products\\geek\\tubarao-oceano-mini\\tubarao-oceano-mini.png",
+          "exists": true
+        }
+      ],
+      "missingCount": 0,
+      "referenceQuery": "3d printed shark mini figurine",
+      "expectedShape": "Mini tubarao simpatico, compacto, com corpo suave e leitura clara de mascote marinho impresso em 3D.",
+      "referenceUrls": [
+        "https://makerworld.com/en/search/models?keyword=articulated%20shark",
+        "https://www.printables.com/search/models?q=mini%20shark%203d%20print"
+      ]
+    }
+  ]
+}
