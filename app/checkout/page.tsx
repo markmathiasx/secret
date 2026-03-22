@@ -259,7 +259,7 @@ export default function CheckoutPage() {
       return 'Seu cenário pede validação comercial. Vale gerar o pedido e seguir no WhatsApp para revisar condição, repetição e prazo.';
     }
     if (purchasePurpose === 'Presente') {
-      return 'Pix costuma ser a rota mais direta quando o foco é garantir prazo e confirmar acabamento sem travar na etapa de pagamento.';
+      return 'Pix costuma ser a rota mais direta quando o foco é garantir prazo e confirmar acabamento com menos atrito na etapa de pagamento.';
     }
     if (cardCheckoutReady && paymentMethod === 'cartao') {
       return 'O cartão está pronto para seguir no parceiro seguro. Essa rota faz sentido se você quer parcelar e manter o fechamento online.';
@@ -732,7 +732,7 @@ export default function CheckoutPage() {
           <div className="rounded-[24px] border border-cyan-300/20 bg-cyan-300/10 p-4 text-sm leading-7 text-cyan-50">
             <p className="font-semibold">Atalho útil:</p>
             <p className="mt-1">
-              Se você travar em qualquer etapa, o WhatsApp já recebe produto, quantidade, bairro e método de pagamento para continuar sem perder o contexto.
+              Se você preferir concluir com apoio humano, o WhatsApp já recebe produto, quantidade, bairro e método de pagamento para continuar sem perder o contexto.
             </p>
           </div>
 

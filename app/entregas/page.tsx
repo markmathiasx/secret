@@ -86,7 +86,7 @@ export default function EntregasPage() {
       <div className="mt-8 grid gap-6 xl:grid-cols-[1.02fr_0.98fr]">
         <div className="glass-panel p-6">
           <p className="text-xs uppercase tracking-[0.18em] text-cyan-100/75">Caminhos por cenário</p>
-          <h2 className="mt-3 text-3xl font-black text-white">Escolha a rota certa antes de travar no frete.</h2>
+          <h2 className="mt-3 text-3xl font-black text-white">Escolha a rota certa antes de fechar o frete.</h2>
           <div className="mt-5 grid gap-3">
             {buyingScenarios.map((item) =>
               item.external ? (

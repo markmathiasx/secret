@@ -22,9 +22,9 @@ type FormState = {
 const serviceContent: Record<ServiceTab, { label: string; title: string; items: string[]; blurb: string }> = {
   prototipagem: {
     label: "🔹 Prototipagem",
-    title: "PLA com janela rápida para validação visual",
-    blurb: "Ideal para mockups, estudos formais e peças de apresentação com acabamento limpo e custo mais leve.",
-    items: ["PLA Premium", "24-48h", "Peças leves", "Setup e mockups", "Correção rápida", "Acabamento clean"],
+    title: "PLA com janela rápida para apresentação e peça piloto",
+    blurb: "Ideal para aprovação visual, amostras de produto e peças de apresentação com acabamento limpo e custo mais leve.",
+    items: ["PLA Premium", "24-48h", "Peças leves", "Apresentação de produto", "Ajuste rápido", "Acabamento clean"],
   },
   resina: {
     label: "💎 Resina",
@@ -64,9 +64,9 @@ const briefTemplates = [
   },
   {
     label: "Protótipo rápido",
-    description: "Preciso validar forma, escala e leitura visual antes de partir para uma versão final.",
+    description: "Preciso aprovar forma, escala e leitura visual antes de partir para a versão final.",
     material: "PLA",
-    deadline: "Tenho urgência para validar",
+    deadline: "Tenho urgência para aprovar",
   },
 ];
 
@@ -106,7 +106,7 @@ export default function ImageTo3DPage() {
     if (tab === "engenharia") {
       return "Boa rota para encaixe, suporte e uso funcional. Se tiver medida, foto da peça real e contexto de uso ajudam bastante.";
     }
-    return "Boa rota para validação visual, mockup e peças de apresentação. Se houver urgência, isso costuma simplificar a produção.";
+    return "Boa rota para aprovação visual, peça piloto e apresentação de produto. Se houver urgência, isso costuma simplificar a produção.";
   }, [tab]);
 
   function update<K extends keyof FormState>(key: K, value: FormState[K]) {

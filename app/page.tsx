@@ -62,6 +62,8 @@ const homeSteps = [
 export default function HomePage() {
   const realShowcase = catalog.filter((product) => isProductVisualVerified(product)).slice(0, 4);
   const visualSummary = summarizeProductVisuals(catalog);
+  const readyToShipCount = catalog.filter((product) => product.readyToShip).length;
+  const customizableCount = catalog.filter((product) => product.customizable).length;
   const usedProductIds = new Set<string>();
   const selectProduct = (predicate: (product: Product) => boolean) => {
     const item = catalog.find((product) => !usedProductIds.has(product.id) && predicate(product));
@@ -103,35 +105,20 @@ export default function HomePage() {
     <main>
       <Hero />
 
-      <section className="mx-auto max-w-7xl px-6 pb-4">
-        <div className="glass-panel flex flex-wrap items-center justify-center gap-3 px-4 py-4">
-          <Link href="#home-portfolio" className="chip-nav">Portfólio real</Link>
-          <Link href="#home-paths" className="chip-nav">Entradas rápidas</Link>
-          <Link href="#home-resume" className="chip-nav">Retomar</Link>
-          <Link href="#home-advisor" className="chip-nav">Guia</Link>
-          <Link href="#home-objectives" className="chip-nav">Objetivos</Link>
-          <Link href="#home-smart-picks" className="chip-nav">Picks guiados</Link>
-          <Link href="#home-services" className="chip-nav">Serviços</Link>
-          <Link href="#home-upload" className="chip-nav">Enviar STL</Link>
-          <Link href="#home-operation" className="chip-nav">Operação</Link>
-          <Link href="#home-faq" className="chip-nav">FAQ</Link>
-        </div>
-      </section>
-
       <section id="home-portfolio" className="mx-auto max-w-7xl px-6 py-16">
         <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
           <div className="max-w-3xl">
             <p className="section-kicker">Portfólio validado</p>
             <h2 className="section-title">Peças já produzidas para o cliente comprar com mais segurança.</h2>
             <p className="section-copy mt-4">
-              A entrada da loja prioriza peças com foto real para ajudar o cliente a decidir mais rápido, comparar acabamento e confiar no resultado final antes de pagar.
+              A entrada da loja prioriza peças com prova visual clara para o cliente comparar acabamento, entender o produto e decidir com mais confiança antes do pagamento.
             </p>
           </div>
           <div className="grid gap-3 sm:grid-cols-3">
             {[
-              { label: "Fotos reais", value: String(visualSummary.fotoReal).padStart(2, "0") },
-              { label: "Projetos sob medida", value: "RJ" },
-              { label: "Pagamento", value: "PIX" },
+              { label: "Itens com foto real", value: String(visualSummary.fotoReal).padStart(2, "0") },
+              { label: "Pronta entrega", value: String(readyToShipCount).padStart(2, "0") },
+              { label: "Personalizáveis", value: String(customizableCount).padStart(2, "0") },
             ].map((item) => (
               <div key={item.label} className="glass-card min-w-[150px] p-5 text-center">
                 <p className="text-xs uppercase tracking-[0.18em] text-white/45">{item.label}</p>
@@ -369,7 +356,7 @@ export default function HomePage() {
           <div className="grid gap-8 lg:grid-cols-[0.92fr_1.08fr]">
             <div>
               <p className="section-kicker">Perguntas frequentes</p>
-              <h2 className="section-title">Respostas rápidas para o cliente avançar sem travar.</h2>
+              <h2 className="section-title">Respostas rápidas para o cliente avançar com confiança.</h2>
               <p className="section-copy mt-4">
                 Materiais, prazo, pagamento e personalização aparecem de forma direta para reduzir dúvida antes da compra.
               </p>

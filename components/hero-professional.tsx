@@ -134,15 +134,6 @@ export function Hero() {
               Arquivo pronto para orçamento: {selectedFile}
             </div>
           ) : null}
-
-          <div className="mt-8 grid gap-3 sm:grid-cols-3">
-            {quickFacts.map((item) => (
-              <div key={item.label} className="surface-stat rounded-[24px] px-4 py-4">
-                <p className="text-[11px] uppercase tracking-[0.18em] text-white/52">{item.label}</p>
-                <p className="mt-3 text-base font-black text-white">{item.value}</p>
-              </div>
-            ))}
-          </div>
         </div>
 
         <div className="glass-panel relative overflow-hidden border-white/12 p-6 md:p-7">

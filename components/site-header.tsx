@@ -13,7 +13,6 @@ import {
   LogOut,
   Menu,
   PackageCheck,
-  QrCode,
   Search,
   ShoppingBag,
   User,
@@ -72,18 +71,6 @@ export function SiteHeader({
       })),
     [pathname]
   );
-  const routeHint = useMemo(() => {
-    if (pathname.startsWith("/catalogo")) {
-      return "Use os atalhos abaixo para entrar em foto real, pronta entrega, presente ou personalização sem recomeçar a busca.";
-    }
-    if (pathname.startsWith("/checkout")) {
-      return "Pix, atendimento humano e catálogo continuam acessíveis para fechar o pedido com menos atrito.";
-    }
-    if (pathname.startsWith("/imagem-para-impressao-3d")) {
-      return "Se você já tiver uma referência pronta, pode combinar material, prazo e acabamento com a equipe no mesmo fluxo.";
-    }
-    return "A navegação foi organizada para levar o cliente rápido do interesse até o fechamento do pedido.";
-  }, [pathname]);
 
   useEffect(() => {
     setMobileOpen(false);
@@ -134,6 +121,7 @@ export function SiteHeader({
           <form
             action="/catalogo"
             className="hidden min-w-[320px] flex-1 items-center rounded-full border border-white/10 bg-white/5 px-4 py-3 shadow-[0_12px_28px_rgba(2,8,23,0.14)] lg:flex lg:max-w-xl"
+            autoComplete="off"
           >
             <Search className="h-4 w-4 text-white/45" />
             <input
@@ -148,17 +136,6 @@ export function SiteHeader({
           </form>
 
           <div className="hidden items-center gap-2 lg:flex">
-            <div className="mr-2 hidden items-center gap-2 xl:flex">
-              <span className="rounded-full border border-cyan-300/25 bg-cyan-300/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-cyan-100">
-                Autenticidade clara
-              </span>
-              <span className="rounded-full border border-emerald-300/25 bg-emerald-300/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-emerald-100">
-                Pix ativo
-              </span>
-              <span className="rounded-full border border-white/12 bg-white/5 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-white/70">
-                Rio de Janeiro
-              </span>
-            </div>
             <HeaderCommandPalette />
             <button type="button" onClick={() => setAssistantOpen(true)} className="btn-glass">
               <Bot className="mr-2 h-4 w-4" />
@@ -222,12 +199,7 @@ export function SiteHeader({
         </nav>
 
         <div className="border-t border-white/10">
-          <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-3 sm:px-6 lg:flex-row lg:items-center lg:justify-between">
-            <div className="flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-white/60">
-              <QrCode className="h-3.5 w-3.5 text-emerald-200" />
-              <span className="max-w-3xl text-left leading-5">{routeHint}</span>
-            </div>
-            <div className="flex gap-2 overflow-x-auto pb-1 lg:justify-end">
+          <div className="mx-auto flex max-w-7xl gap-2 overflow-x-auto px-4 py-3 pb-4 sm:px-6 lg:justify-end">
               {commerceShortcuts.map((shortcut) => {
                 const Icon = shortcut.icon;
                 return (
@@ -241,14 +213,13 @@ export function SiteHeader({
                   </Link>
                 );
               })}
-            </div>
           </div>
         </div>
 
         {mobileOpen ? (
           <div id="mdh-mobile-menu" className="border-t border-white/10 px-4 pb-4 sm:px-6 md:hidden">
             <div className="mobile-drawer-shell mt-3 rounded-[28px] p-4">
-              <form action="/catalogo" className="flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-3">
+              <form action="/catalogo" className="flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-3" autoComplete="off">
                 <Search className="h-4 w-4 text-white/45" />
                 <input
                   type="search"

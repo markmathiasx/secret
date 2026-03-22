@@ -1,9 +1,8 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
 import { deliveryZones } from "@/lib/constants";
 import { formatCurrency } from "@/lib/utils";
-import { loadGoogleMapsPlaces } from "@/lib/google-maps";
 
 type CepResult = {
   cep: string;
@@ -38,35 +37,8 @@ export function DeliveryCalculator({ adminMode = false }: { adminMode?: boolean 
   const [status, setStatus] = useState<"idle" | "loading" | "done" | "error">("idle");
   const [message, setMessage] = useState("");
   const [data, setData] = useState<CepResult | null>(null);
-  const [googleReady, setGoogleReady] = useState(false);
-  const [googleAttempted, setGoogleAttempted] = useState(false);
-  const autocompleteRef = useRef<HTMLInputElement | null>(null);
 
   const zone = useMemo(() => (data?.cep ? inferZone(data.cep) : null), [data]);
-
-  useEffect(() => {
-    const hasKey = Boolean(process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY);
-    if (!hasKey || !autocompleteRef.current) return;
-
-    loadGoogleMapsPlaces().then((ok) => {
-      setGoogleAttempted(true);
-      setGoogleReady(ok);
-      if (!ok || !autocompleteRef.current || !window.google?.maps?.places) return;
-
-      const autocomplete = new window.google.maps.places.Autocomplete(autocompleteRef.current, {
-        componentRestrictions: { country: "br" },
-        fields: ["address_components"],
-        types: ["address"]
-      });
-
-      autocomplete.addListener("place_changed", () => {
-        const place = autocomplete.getPlace();
-        const components = (place.address_components || []) as Array<{ long_name: string; types: string[] }>;
-        const code = components.find((item) => item.types.includes("postal_code"))?.long_name || "";
-        if (code) setCep(formatCep(code));
-      });
-    });
-  }, []);
 
   async function onSearch() {
     const clean = onlyDigits(cep);
@@ -117,17 +89,9 @@ export function DeliveryCalculator({ adminMode = false }: { adminMode?: boolean 
       </div>
 
       <div className="mt-3 rounded-2xl border border-white/10 bg-black/20 p-3 text-xs text-white/65">
-        <input
-          ref={autocompleteRef}
-          placeholder="Opcional: buscar endereço com Google Maps"
-          className="w-full rounded-xl border border-white/10 bg-black/25 px-3 py-2 text-sm text-white outline-none"
-        />
+        <p className="font-semibold text-white/78">Dica rápida</p>
         <p className="mt-2">
-          {googleReady
-            ? "Google Places ativo: ao selecionar endereço, o CEP é preenchido automaticamente."
-            : googleAttempted
-              ? "Google indisponível agora. Continue com CEP manual (fallback ativo)."
-              : "Autocomplete Google é opcional e só ativa quando NEXT_PUBLIC_GOOGLE_MAPS_API_KEY estiver configurada."}
+          Use o CEP do destino para receber a faixa inicial de frete mais estável. Depois, no fechamento, a equipe confirma o valor final conforme volume, bairro e janela de entrega.
         </p>
       </div>
 

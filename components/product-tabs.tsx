@@ -22,7 +22,7 @@ const tabs: Tab[] = [
     icon: <Zap className="w-6 h-6" />,
     title: 'PROTOTIPAGEM RÁPIDA',
     description:
-      'Validação rápida de conceitos e designs. Ideal para maquetes, testes de encaixe e protótipos visuais com custo-benefício imbatível.',
+      'Peças piloto, apresentação de produto e aprovação visual com produção ágil. Ideal para ganhar velocidade sem abrir mão de leitura limpa e acabamento profissional.',
     color: 'text-cyan-glow',
     bgColor: 'from-cyan-glow/10 to-cyan-glow/5',
     features: [
@@ -58,7 +58,7 @@ const tabs: Tab[] = [
     icon: <Cog className="w-6 h-6" />,
     title: 'PEÇAS FUNCIONAIS',
     description:
-      'Impressões pensadas para uso funcional, suporte de bancada, organização e peças técnicas sob consulta.',
+      'Impressões voltadas para uso funcional, organização, suporte de bancada e peças técnicas produzidas conforme aplicação e necessidade real.',
     color: 'text-green-400',
     bgColor: 'from-green-500/10 to-green-500/5',
     features: [
