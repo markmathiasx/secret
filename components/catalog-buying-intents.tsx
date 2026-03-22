@@ -2,8 +2,9 @@ import Link from "next/link";
 import type { Product } from "@/lib/catalog";
 import { getProductUrl } from "@/lib/catalog";
 import { SafeProductImage } from "@/components/safe-product-image";
+import { resolveProductImage } from "@/lib/product-images";
 import { formatCurrency } from "@/lib/utils";
-import { isProductVisualVerified } from "@/lib/product-visuals";
+import { isProductRealPhoto, isProductVisualVerified } from "@/lib/product-visuals";
 
 type BuyingIntent = {
   id: string;
@@ -42,7 +43,7 @@ const intents: BuyingIntent[] = [
     description: "Peças já fotografadas no ateliê para reduzir dúvida visual e ajudar a vender pelo impacto da peça pronta.",
     href: "/colecionaveis-geek-3d",
     cta: "Ver peças reais",
-    match: (product) => isProductVisualVerified(product) && /(geek|colecion|anime|miniatura|chibi)/i.test([product.category, product.subcategory, product.theme, product.name].join(" ")),
+    match: (product) => isProductRealPhoto(product) && /(geek|colecion|anime|miniatura|chibi)/i.test([product.category, product.subcategory, product.theme, product.name].join(" ")),
   },
   {
     id: "premium",
@@ -76,10 +77,9 @@ export function CatalogBuyingIntents({ products }: { products: Product[] }) {
               {lead ? (
                 <Link href={getProductUrl(lead)} className="block">
                   <SafeProductImage
-                    candidates={[lead.image || lead.images[0]]}
+                    candidates={[resolveProductImage(lead)]}
                     alt={lead.name}
                     className="aspect-[4/3] w-full object-cover"
-                    priority={index < 2}
                   />
                 </Link>
               ) : (

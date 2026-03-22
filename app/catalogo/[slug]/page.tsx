@@ -1,10 +1,11 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { ArrowLeft, MessageCircleMore } from 'lucide-react';
+import { ArrowLeft, CopyPlus, MessageCircleMore, Share2 } from 'lucide-react';
 import { catalog, findProductBySlug } from '@/lib/catalog';
 import { ProductImageGallery } from '@/components/product-image-gallery';
 import { ProductRelatedShelf } from '@/components/product-related-shelf';
 import { ProductVisualBadge, ProductVisualNotice } from '@/components/product-visual-authenticity';
+import { ProductPurchaseTools } from '@/components/product-purchase-tools';
 import { QuoteForm } from '@/components/quote-form';
 import { formatCurrency } from '@/lib/utils';
 import { whatsappMessage, whatsappNumber } from '@/lib/constants';
@@ -111,6 +112,31 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
   const customizationHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`${whatsappMessage}\n\nQuero personalizar ${product.name} (${product.sku}).`)}`;
   const primaryActionLabel = product.pricingMode === 'faixa-auditada' ? 'Comprar agora' : 'Pedir orçamento';
   const priceLabel = product.pricingMode === 'faixa-auditada' ? 'Preço no Pix' : 'Estimativa inicial no Pix';
+  const idealFor = Array.from(
+    new Set(
+      [
+        product.featured ? 'boa peça âncora para começar a compra' : null,
+        product.readyToShip ? 'funciona bem quando o cliente quer mais rapidez' : null,
+        product.customizable ? 'aceita ajustes de cor, escala ou briefing' : null,
+        product.category.includes('Geek') || product.theme.toLowerCase().includes('anime')
+          ? 'combina com presente, coleção e decoração de setup'
+          : null,
+        product.category.includes('Setup') || product.category.includes('Utilidade')
+          ? 'ajuda mais quem está comprando por função e praticidade'
+          : null,
+      ].filter(Boolean)
+    )
+  ) as string[];
+  const decisionRoutes = [
+    { label: `Ver mais em ${product.category}`, href: `/catalogo?category=${encodeURIComponent(product.category)}&mode=all` },
+    { label: `Explorar coleção ${product.collection}`, href: `/catalogo?collection=${encodeURIComponent(product.collection)}&mode=all` },
+    product.readyToShip
+      ? { label: 'Abrir pronta entrega', href: '/catalogo?status=Pronta%20entrega&mode=all' }
+      : { label: 'Buscar opções mais rápidas', href: '/catalogo?intent=Compra%20r%C3%A1pida&mode=all' },
+    product.customizable
+      ? { label: 'Ver personalizáveis', href: '/catalogo?custom=1&mode=all' }
+      : { label: 'Pedir algo sob medida', href: '/imagem-para-impressao-3d' },
+  ];
 
   return (
     <>
@@ -121,9 +147,23 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         }}
       />
       <section className="mx-auto max-w-7xl px-6 py-16">
-      <Link href="/catalogo" className="btn-ghost-sm mb-6 inline-flex">
-        <ArrowLeft className="h-4 w-4" /> Voltar ao catálogo
-      </Link>
+      <div className="mb-6 flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.18em] text-white/50">
+        <Link href="/" className="transition hover:text-cyan-100">Início</Link>
+        <span>/</span>
+        <Link href="/catalogo" className="transition hover:text-cyan-100">Catálogo</Link>
+        <span>/</span>
+        <span className="text-white/78">{product.name}</span>
+      </div>
+
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+        <Link href="/catalogo" className="btn-ghost-sm inline-flex">
+          <ArrowLeft className="h-4 w-4" /> Voltar ao catálogo
+        </Link>
+        <div className="flex flex-wrap gap-2">
+          <span className="chip-nav"><CopyPlus className="h-4 w-4" /> SKU {product.sku}</span>
+          <span className="chip-nav"><Share2 className="h-4 w-4" /> página individual</span>
+        </div>
+      </div>
 
       <div className="grid gap-8 lg:grid-cols-[1fr_0.95fr]">
         <ProductImageGallery product={product} />
@@ -204,6 +244,19 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             </p>
           </div>
 
+          {idealFor.length > 0 ? (
+            <div className="mt-6 rounded-[24px] border border-white/10 bg-black/20 p-4 text-sm leading-7 text-white/70">
+              <p className="text-xs uppercase tracking-[0.18em] text-white/45">Este item funciona bem quando</p>
+              <div className="mt-3 grid gap-3">
+                {idealFor.map((item) => (
+                  <div key={item} className="rounded-[18px] border border-white/10 bg-white/5 px-4 py-3">
+                    {item}
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : null}
+
           <div className="mt-6 rounded-[24px] border border-white/10 bg-black/20 p-4 text-sm leading-7 text-white/70">
             <p className="text-xs uppercase tracking-[0.18em] text-white/45">Faixa comercial</p>
             <p className="mt-2 font-semibold text-white">
@@ -233,6 +286,30 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                 <p className="mt-2 font-semibold text-white">{value}</p>
               </div>
             ))}
+          </div>
+
+          <div className="mt-6">
+            <ProductPurchaseTools
+              productId={product.id}
+              productName={product.name}
+              sku={product.sku}
+              pricePix={product.pricePix}
+              priceCard={product.priceCard}
+              customizable={product.customizable}
+              whatsappHref={whatsappHref}
+              customizationHref={customizationHref}
+            />
+          </div>
+
+          <div className="mt-6 rounded-[24px] border border-white/10 bg-black/20 p-4">
+            <p className="text-xs uppercase tracking-[0.18em] text-white/45">Se este item não for o encaixe ideal</p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {decisionRoutes.map((item) => (
+                <Link key={item.label} href={item.href} className="chip-nav">
+                  {item.label}
+                </Link>
+              ))}
+            </div>
           </div>
 
           <div className="mt-8 flex flex-wrap gap-3">

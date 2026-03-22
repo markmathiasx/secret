@@ -1,3 +1,5 @@
+import Link from 'next/link';
+import { FaqWorkbench } from '@/components/faq-workbench';
 import { faqItems } from '@/lib/constants';
 import { getSiteUrl } from '@/lib/env';
 
@@ -35,23 +37,22 @@ export default function FaqPage() {
             Respostas diretas sobre pedido, pagamento, produção, entrega e personalização para evitar dúvida antes da compra.
           </p>
         </div>
-        <div className="mt-8 grid gap-4 md:grid-cols-2">
-          {faqItems.map((item) => (
-            <article key={item.question} className="glass-panel p-6">
-              <h2 className="text-xl font-semibold text-white">{item.question}</h2>
-              <p className="mt-3 text-sm leading-7 text-white/65">{item.answer}</p>
-            </article>
-          ))}
+        <div className="mt-8">
+          <FaqWorkbench items={faqItems} />
         </div>
-        <div className="mt-8 glass-panel p-6 text-sm leading-7 text-white/68">
-          <p className="font-semibold text-white">Ainda precisa de ajuda?</p>
-          <p className="mt-2">
-            Se a dúvida for específica do seu projeto, pedido ou acabamento, fale pelo WhatsApp ou avance para o checkout em{' '}
-            <a href={`${siteUrl}/checkout`} className="text-cyan-100 underline underline-offset-4">
-              {siteUrl}/checkout
-            </a>
-            .
-          </p>
+        <div className="mt-8 grid gap-4 md:grid-cols-3">
+          <Link href="/entregas" className="glass-panel p-6 text-sm leading-7 text-white/68 transition hover:border-cyan-300/25">
+            <p className="font-semibold text-white">Frete e prazo no RJ</p>
+            <p className="mt-2">Abra a página de entregas para confirmar faixa local, prazo base e cálculo inicial.</p>
+          </Link>
+          <Link href="/imagem-para-impressao-3d" className="glass-panel p-6 text-sm leading-7 text-white/68 transition hover:border-cyan-300/25">
+            <p className="font-semibold text-white">Enviar referência</p>
+            <p className="mt-2">Se a dúvida já virou projeto, o melhor caminho é mandar imagem, STL ou briefing.</p>
+          </Link>
+          <a href={`${siteUrl}/checkout`} className="glass-panel p-6 text-sm leading-7 text-white/68 transition hover:border-cyan-300/25">
+            <p className="font-semibold text-white">Seguir para checkout</p>
+            <p className="mt-2">Quando a resposta já foi suficiente, vale ir direto para produto, quantidade e pagamento.</p>
+          </a>
         </div>
       </section>
     </>

@@ -1,0 +1,8 @@
+ O volume na unidade D ‚ jogos etc
+ O N£mero de S‚rie do Volume ‚ E0AF-ACC7
+
+ Pasta de D:\sd-webui-venv\Scripts
+
+20/03/2026  21:17           268.568 python.exe
+               1 arquivo(s)        268.568 bytes
+               0 pasta(s)   140.766.543.872 bytes dispon¡veis

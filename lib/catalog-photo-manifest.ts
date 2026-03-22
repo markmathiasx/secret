@@ -7,6 +7,7 @@ export type CatalogPhotoEntry = {
   name: string;
   sourceFilename: string;
   kind: CatalogPhotoKind;
+  gallery?: string[];
 };
 
 const catalogPhotoEntries = manifest as CatalogPhotoEntry[];
@@ -17,10 +18,19 @@ export function getCatalogPhotoEntry(id: string) {
 }
 
 export function getCatalogPhotoCandidates(id: string) {
-  if (!catalogPhotoEntryMap.has(id)) return [];
+  const entry = catalogPhotoEntryMap.get(id);
+  if (!entry) return [];
+  if (Array.isArray(entry.gallery) && entry.gallery.length) {
+    return entry.gallery;
+  }
 
   const base = `/products/catalog/${id}`;
   return [`${base}.webp`, `${base}.png`, `${base}.jpg`, `${base}.jpeg`];
+}
+
+export function hasExplicitCatalogGallery(id: string) {
+  const entry = catalogPhotoEntryMap.get(id);
+  return Boolean(entry?.gallery?.length);
 }
 
 export function listCatalogPhotoEntries() {

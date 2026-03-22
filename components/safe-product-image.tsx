@@ -12,9 +12,20 @@ type Props = {
   className?: string;
   onResolved?: (src: string) => void;
   priority?: boolean;
+  sizes?: string;
+  fetchPriority?: "high" | "low" | "auto";
 };
 
-export function SafeProductImage({ product, candidates, alt, className, onResolved, priority = false }: Props) {
+export function SafeProductImage({
+  product,
+  candidates,
+  alt,
+  className,
+  onResolved,
+  priority = false,
+  sizes,
+  fetchPriority,
+}: Props) {
   const candidateList = useMemo(() => {
     if (candidates?.length) return candidates;
     if (product) return getProductImageCandidates(product);
@@ -42,6 +53,8 @@ export function SafeProductImage({ product, candidates, alt, className, onResolv
         loading={priority ? "eager" : "lazy"}
         decoding="async"
         quality={85}
+        sizes={sizes}
+        fetchPriority={fetchPriority}
         onLoad={() => {
           setIsLoading(false);
           onResolved?.(src);

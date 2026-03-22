@@ -1,9 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import { LockKeyhole, Mail, MessageCircleMore, ShieldCheck, User } from 'lucide-react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useMemo, useState } from 'react';
+import { ArrowRight, LockKeyhole, Mail, MessageCircleMore, ShieldCheck, User } from 'lucide-react';
 import { emitCustomerAuthChange, fetchCustomerSession } from '@/lib/customer-session-client';
 import { whatsappMessage, whatsappNumber } from '@/lib/constants';
 
@@ -13,9 +13,23 @@ const benefits = [
   'Organizar sua jornada de compra sem depender de login social',
   'Comprar novamente com mais agilidade'
 ];
+const LOGIN_REDIRECT_KEY = 'mdh_login_redirect';
+
+function getPasswordStrength(password: string) {
+  let score = 0;
+  if (password.length >= 8) score += 1;
+  if (/[A-Z]/.test(password)) score += 1;
+  if (/[0-9]/.test(password)) score += 1;
+  if (/[^A-Za-z0-9]/.test(password)) score += 1;
+  if (score <= 1) return { label: 'Baixa', width: '25%' };
+  if (score === 2) return { label: 'Media', width: '50%' };
+  if (score === 3) return { label: 'Boa', width: '75%' };
+  return { label: 'Forte', width: '100%' };
+}
 
 export default function LoginPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [mode, setMode] = useState<'register' | 'login'>('register');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
@@ -25,6 +39,21 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+  const redirectTo = searchParams.get('redirect') || '';
+  const passwordStrength = useMemo(() => getPasswordStrength(password), [password]);
+  const loginContext = useMemo(() => {
+    if (redirectTo.includes('/checkout')) return 'Entre para continuar o checkout com seus dados e pedidos salvos.';
+    if (redirectTo.includes('/conta')) return 'Entre para abrir sua area do cliente com favoritos, historico e orcamentos.';
+    if (redirectTo.includes('/catalogo')) return 'Entre para salvar itens e voltar depois sem perder sua curadoria.';
+    return 'Entre para acelerar sua jornada de compra e manter tudo organizado.';
+  }, [redirectTo]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    if (redirectTo) {
+      window.sessionStorage.setItem(LOGIN_REDIRECT_KEY, redirectTo);
+    }
+  }, [redirectTo]);
 
   async function handleEmailAuth(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -65,7 +94,11 @@ export default function LoginPage() {
 
       emitCustomerAuthChange();
       setSuccess(mode === 'register' ? 'Conta criada com sucesso.' : 'Login concluído com sucesso.');
-      router.replace('/conta');
+      const storedRedirect = typeof window !== 'undefined' ? window.sessionStorage.getItem(LOGIN_REDIRECT_KEY) : null;
+      if (typeof window !== 'undefined') {
+        window.sessionStorage.removeItem(LOGIN_REDIRECT_KEY);
+      }
+      router.replace(storedRedirect || redirectTo || '/conta');
       router.refresh();
     } catch {
       setMessage('Erro de rede ao validar seu acesso.');
@@ -84,12 +117,27 @@ export default function LoginPage() {
             Você pode navegar como visitante, mas a conta ajuda a reunir favoritos, pedidos e próximos contatos com a MDH 3D em um ambiente mais organizado.
           </p>
 
+          <div className="mt-6 rounded-[24px] border border-cyan-300/20 bg-cyan-300/10 p-4 text-sm leading-7 text-cyan-50">
+            {loginContext}
+          </div>
+
           <div className="mt-8 grid gap-4 md:grid-cols-2">
             {benefits.map((benefit) => (
               <div key={benefit} className="rounded-[24px] border border-white/10 bg-black/20 px-4 py-4 text-sm text-white/75">
                 {benefit}
               </div>
             ))}
+          </div>
+
+          <div className="mt-6 grid gap-3 md:grid-cols-2">
+            <Link href="/catalogo" className="rounded-[22px] border border-white/10 bg-white/5 px-4 py-4 text-sm text-white/75 transition hover:border-cyan-300/25 hover:text-cyan-100">
+              <p className="font-semibold text-white">Continuar vendo o catálogo</p>
+              <p className="mt-1 text-white/55">Boa rota se você quer salvar favoritos antes de sair.</p>
+            </Link>
+            <Link href="/checkout" className="rounded-[22px] border border-white/10 bg-white/5 px-4 py-4 text-sm text-white/75 transition hover:border-cyan-300/25 hover:text-cyan-100">
+              <p className="font-semibold text-white">Abrir checkout</p>
+              <p className="mt-1 text-white/55">Útil para quem já está decidindo pagamento e entrega.</p>
+            </Link>
           </div>
         </div>
 
@@ -156,6 +204,18 @@ export default function LoginPage() {
             </label>
 
             {mode === 'register' ? (
+              <div className="rounded-[20px] border border-white/10 bg-black/20 p-4">
+                <div className="flex items-center justify-between gap-3 text-xs uppercase tracking-[0.16em] text-white/50">
+                  <span>Forca da senha</span>
+                  <span className="text-cyan-100">{passwordStrength.label}</span>
+                </div>
+                <div className="mt-3 h-2 overflow-hidden rounded-full bg-white/10">
+                  <div className="h-full rounded-full bg-gradient-to-r from-cyan-300 to-emerald-300" style={{ width: passwordStrength.width }} />
+                </div>
+              </div>
+            ) : null}
+
+            {mode === 'register' ? (
               <label className="block">
                 <span className="mb-2 block text-sm text-white/70">Confirmar senha</span>
                 <div className="field-base flex items-center gap-3">
@@ -186,11 +246,24 @@ export default function LoginPage() {
             <Link href="/catalogo" className="btn-ghost-sm">
               Continuar como visitante
             </Link>
+            <Link href={redirectTo || '/conta'} className="btn-ghost-sm">
+              {redirectTo ? 'Voltar para a etapa anterior' : 'Ir para minha conta'}
+            </Link>
             <a href={whatsappHref} className="btn-secondary inline-flex items-center gap-2">
               <MessageCircleMore className="h-4 w-4" />
               WhatsApp
             </a>
           </div>
+
+          {redirectTo ? (
+            <div className="mt-4 rounded-[20px] border border-white/10 bg-white/5 p-4 text-sm text-white/68">
+              <div className="flex items-center gap-2 text-cyan-100">
+                <ArrowRight className="h-4 w-4" />
+                <span className="font-semibold">Depois do login</span>
+              </div>
+              <p className="mt-2">Você será redirecionado automaticamente para <span className="text-white">{redirectTo}</span>.</p>
+            </div>
+          ) : null}
 
           {message ? <p className="mt-4 text-sm text-amber-200">{message}</p> : null}
           {success ? <p className="mt-4 text-sm text-emerald-200">{success}</p> : null}

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { CatalogExplorer } from "@/components/catalog-explorer";
 import { CatalogGrid } from "@/components/catalog-grid";
 import { SafeProductImage } from "@/components/safe-product-image";
-import { catalog } from "@/lib/catalog";
+import { catalog, getProductUrl } from "@/lib/catalog";
 import { type SalesLandingConfig, getLandingHighlights, getLandingProducts, salesLandings } from "@/lib/sales-landings";
 import { isProductVisualVerified } from "@/lib/product-visuals";
 import { formatCurrency } from "@/lib/utils";
@@ -18,6 +18,46 @@ export function SalesLandingPage({ config }: { config: SalesLandingConfig }) {
   const relatedLandings = allLandingConfigs.filter((item) => item.slug !== config.slug).slice(0, 4);
   const leadVisual = highlights[0] ?? matchingProducts[0];
   const heroCandidates = [config.heroImage, leadVisual?.image, leadVisual?.images?.[0]].filter(Boolean) as string[];
+  const fastest = [...matchingProducts].sort((a, b) => Number(b.readyToShip) - Number(a.readyToShip) || a.pricePix - b.pricePix)[0];
+  const cheapest = [...matchingProducts].sort((a, b) => a.pricePix - b.pricePix)[0];
+  const customizable = matchingProducts.find((product) => product.customizable);
+  const guidedPicks = [
+    fastest ? { label: "Saída mais rápida", note: "boa porta de entrada para quem quer decidir logo", product: fastest } : null,
+    cheapest ? { label: "Menor ticket", note: "ajuda a reduzir barreira inicial de compra", product: cheapest } : null,
+    customizable ? { label: "Mais flexível", note: "abre espaço para personalização e briefing", product: customizable } : null,
+  ].filter(Boolean) as { label: string; note: string; product: typeof matchingProducts[number] }[];
+  const useCases = [
+    `Abrir conversa com ${config.kicker.toLowerCase()} sem jogar o cliente direto numa lista genérica.`,
+    `Priorizar ${verifiedCount} itens com visual validado para aumentar confiança antes do pagamento.`,
+    `Aproveitar ${readyCount} opções de pronta entrega quando a jornada pedir mais rapidez.`,
+  ];
+  const quickLinks: Array<{ label: string; href: string; external?: boolean }> = [
+    config.primaryCta,
+    config.secondaryCta,
+    { label: "Só pronta entrega", href: `/catalogo?status=Pronta%20entrega&mode=all` },
+  ];
+  const buyerProfiles = [
+    {
+      title: "Quero decidir rápido",
+      description: "Comece pelos destaques e depois abra pronta entrega para reduzir explicação, prazo e atrito.",
+      href: "/catalogo?intent=Compra%20r%C3%A1pida&mode=all",
+    },
+    {
+      title: "Quero algo mais autoral",
+      description: "Se esta linha estiver perto do que você imaginou, vale avançar para personalização com referência visual.",
+      href: "/imagem-para-impressao-3d",
+    },
+    {
+      title: "Quero comparar ticket",
+      description: "Abra o catálogo com ordenação por preço para mapear entrada, meio e premium sem perder a curadoria.",
+      href: "/catalogo?sort=Pre%C3%A7o&mode=all",
+    },
+  ];
+  const objections = [
+    "Se você ainda não sabe o material ideal, use esta página para fechar estilo e proposta antes de entrar no técnico.",
+    "Quando a dúvida for prazo, a rota mais segura é abrir pronta entrega ou seguir para itens com prova visual validada.",
+    "Se a ideia estiver próxima, mas não igual, vale pedir sob medida em vez de abandonar a navegação e recomeçar tudo.",
+  ];
 
   return (
     <section className="mx-auto max-w-7xl px-6 py-16">
@@ -109,6 +149,56 @@ export function SalesLandingPage({ config }: { config: SalesLandingConfig }) {
         </div>
       </div>
 
+      <section className="mt-10 grid gap-6 xl:grid-cols-[0.86fr_1.14fr]">
+        <div className="glass-panel p-6">
+          <p className="text-xs uppercase tracking-[0.18em] text-cyan-100/75">Como usar esta página</p>
+          <h2 className="mt-3 text-3xl font-black text-white">Uma entrada mais guiada para vender melhor este recorte.</h2>
+          <div className="mt-5 grid gap-3">
+            {useCases.map((item) => (
+              <div key={item} className="rounded-[20px] border border-white/10 bg-black/20 p-4 text-sm leading-7 text-white/68">
+                {item}
+              </div>
+            ))}
+          </div>
+          <div className="mt-5 flex flex-wrap gap-2">
+            {quickLinks.map((item) =>
+              item.external ? (
+                <a key={item.label} href={item.href} target="_blank" rel="noreferrer" className="chip-nav">
+                  {item.label}
+                </a>
+              ) : (
+                <Link key={item.label} href={item.href} className="chip-nav">
+                  {item.label}
+                </Link>
+              )
+            )}
+          </div>
+        </div>
+
+        <div className="grid gap-4 md:grid-cols-3">
+          {guidedPicks.map((item) => (
+            <article key={item.label} className="catalog-product-card rounded-[24px] border border-white/10 bg-card p-4">
+              <div className="overflow-hidden rounded-[18px] border border-white/10 bg-white/5">
+                <SafeProductImage
+                  candidates={[item.product.image || item.product.images?.[0]].filter(Boolean) as string[]}
+                  alt={item.product.name}
+                  className="aspect-square w-full object-cover"
+                />
+              </div>
+              <p className="mt-3 text-xs uppercase tracking-[0.16em] text-cyan-100/80">{item.label}</p>
+              <h3 className="mt-2 text-lg font-bold text-white">{item.product.name}</h3>
+              <p className="mt-2 text-sm leading-6 text-white/66">{item.note}</p>
+              <div className="mt-4 flex items-end justify-between gap-3">
+                <p className="text-xl font-black text-white">{formatCurrency(item.product.pricePix)}</p>
+                <Link href={getProductUrl(item.product)} className="btn-secondary px-4 py-2 text-sm">
+                  Ver item
+                </Link>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
       {highlights.length ? (
         <section className="mt-12">
           <div className="mb-6 max-w-3xl">
@@ -121,6 +211,33 @@ export function SalesLandingPage({ config }: { config: SalesLandingConfig }) {
           <CatalogGrid products={highlights} />
         </section>
       ) : null}
+
+      <section className="mt-12 grid gap-6 xl:grid-cols-[0.94fr_1.06fr]">
+        <div className="glass-panel p-6">
+          <p className="text-xs uppercase tracking-[0.18em] text-cyan-100/75">Perfis de compra</p>
+          <h2 className="mt-3 text-3xl font-black text-white">Escolha um caminho mais próximo do seu jeito de comprar.</h2>
+          <div className="mt-5 grid gap-3">
+            {buyerProfiles.map((item) => (
+              <Link key={item.title} href={item.href} className="rounded-[20px] border border-white/10 bg-black/20 p-4 text-sm leading-7 text-white/70 transition hover:border-cyan-300/25 hover:text-white">
+                <p className="font-semibold text-white">{item.title}</p>
+                <p className="mt-2">{item.description}</p>
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        <div className="glass-panel p-6">
+          <p className="text-xs uppercase tracking-[0.18em] text-cyan-100/75">Quebra de objeção</p>
+          <h2 className="mt-3 text-3xl font-black text-white">Dúvidas comuns antes do próximo clique.</h2>
+          <div className="mt-5 grid gap-3">
+            {objections.map((item) => (
+              <div key={item} className="rounded-[20px] border border-white/10 bg-black/20 p-4 text-sm leading-7 text-white/70">
+                {item}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       <section className="mt-14">
         <div className="mb-6 max-w-3xl">
@@ -136,7 +253,7 @@ export function SalesLandingPage({ config }: { config: SalesLandingConfig }) {
           initialQuery={config.initialQuery}
           initialCategory={config.initialCategory}
           initialCollection={config.initialCollection}
-          initialVerifiedOnly={config.initialVerifiedOnly}
+          initialVisualMode={config.initialVisualMode}
           initialAvailability={config.initialAvailability}
         />
       </section>

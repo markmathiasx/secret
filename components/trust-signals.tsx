@@ -33,6 +33,13 @@ const commitments = [
   'Conta do cliente protegida para voltar ao site, acompanhar pedidos e organizar favoritos.'
 ];
 
+const confirmations = [
+  { label: 'Confirmação de prazo', detail: 'A equipe sinaliza janela base antes de produzir.' },
+  { label: 'Confirmação de material', detail: 'PLA, PETG, Silk ou resina entram conforme uso e acabamento.' },
+  { label: 'Confirmação de referência', detail: 'STL, imagem ou briefing viram um pedido mais organizado.' },
+  { label: 'Confirmação de fechamento', detail: 'Pix, suporte e código do pedido ficam claros na jornada.' },
+];
+
 export function TrustSignals() {
   return (
     <>
@@ -99,6 +106,15 @@ export function TrustSignals() {
               </p>
             </div>
           </div>
+        </div>
+
+        <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          {confirmations.map((item) => (
+            <div key={item.label} className="surface-stat rounded-[24px] px-5 py-5">
+              <p className="text-[11px] uppercase tracking-[0.18em] text-cyan-100/80">{item.label}</p>
+              <p className="mt-3 text-sm leading-7 text-white/72">{item.detail}</p>
+            </div>
+          ))}
         </div>
       </section>
     </>

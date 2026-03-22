@@ -1,6 +1,6 @@
 import { deliveryZones } from "@/lib/constants";
 import { slugify } from "@/lib/utils";
-import { buildProductSearchText, getProductCardDescription, normalizeProductCategory } from "@/lib/catalog-content";
+import { buildProductSearchText, getProductCardDescription, getProductSearchScore, normalizeProductCategory } from "@/lib/catalog-content";
 import { suggestPixPrice, TARGET_PRICE_MULTIPLE_ON_COST, type MarketBenchmark } from "@/lib/market-pricing";
 import { getProductVisual } from "@/lib/product-visuals";
 import { verifiedCatalog } from "@/lib/verified-catalog";
@@ -2628,7 +2628,11 @@ export function findProductBySlug(slug: string) {
 export function searchCatalog(query: string) {
   const normalized = query.trim().toLowerCase();
   if (!normalized) return catalog;
-  return catalog.filter((item) => buildProductSearchText(item).includes(normalized));
+  return catalog
+    .map((item) => ({ item, score: getProductSearchScore(item, normalized) }))
+    .filter(({ score }) => score > 0)
+    .sort((a, b) => b.score - a.score || b.item.id.localeCompare(a.item.id))
+    .map(({ item }) => item);
 }
 
 export const defaultPricingExamples = [

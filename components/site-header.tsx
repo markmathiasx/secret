@@ -6,10 +6,14 @@ import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import {
   ArrowRight,
+  BadgeCheck,
   Bot,
+  Boxes,
   Instagram,
   LogOut,
   Menu,
+  PackageCheck,
+  QrCode,
   Search,
   ShoppingBag,
   User,
@@ -18,6 +22,7 @@ import {
 import { brand, socialLinks, whatsappNumber } from "@/lib/constants";
 import { emitCustomerAuthChange, useCustomerSession } from "@/lib/customer-session-client";
 import { CommerceAssistantDialog } from "@/components/commerce-assistant-dialog";
+import { HeaderCommandPalette } from "@/components/header-command-palette";
 
 const navLinks = [
   { href: "/", label: "Início" },
@@ -27,6 +32,13 @@ const navLinks = [
   { href: "/faq", label: "FAQ" },
   { href: "/divulgacao", label: "Conteúdo" },
 ];
+
+const commerceShortcuts = [
+  { href: "/catalogo?mode=real", label: "Só foto real", icon: BadgeCheck },
+  { href: "/catalogo?status=Pronta%20entrega", label: "Pronta entrega", icon: PackageCheck },
+  { href: "/catalogo?intent=Presente", label: "Ideias de presente", icon: ShoppingBag },
+  { href: "/imagem-para-impressao-3d", label: "Enviar STL", icon: Boxes },
+] as const;
 
 function isLinkActive(pathname: string, href: string) {
   if (href === "/") {
@@ -60,6 +72,18 @@ export function SiteHeader({
       })),
     [pathname]
   );
+  const routeHint = useMemo(() => {
+    if (pathname.startsWith("/catalogo")) {
+      return "Use os atalhos abaixo para entrar em foto real, pronta entrega, presente ou personalização sem recomeçar a busca.";
+    }
+    if (pathname.startsWith("/checkout")) {
+      return "Pix, atendimento humano e catálogo continuam acessíveis para fechar o pedido com menos atrito.";
+    }
+    if (pathname.startsWith("/imagem-para-impressao-3d")) {
+      return "Se você já tiver uma referência pronta, pode combinar material, prazo e acabamento com a equipe no mesmo fluxo.";
+    }
+    return "A navegação foi organizada para levar o cliente rápido do interesse até o fechamento do pedido.";
+  }, [pathname]);
 
   useEffect(() => {
     setMobileOpen(false);
@@ -124,6 +148,18 @@ export function SiteHeader({
           </form>
 
           <div className="hidden items-center gap-2 lg:flex">
+            <div className="mr-2 hidden items-center gap-2 xl:flex">
+              <span className="rounded-full border border-cyan-300/25 bg-cyan-300/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-cyan-100">
+                Autenticidade clara
+              </span>
+              <span className="rounded-full border border-emerald-300/25 bg-emerald-300/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-emerald-100">
+                Pix ativo
+              </span>
+              <span className="rounded-full border border-white/12 bg-white/5 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-white/70">
+                Rio de Janeiro
+              </span>
+            </div>
+            <HeaderCommandPalette />
             <button type="button" onClick={() => setAssistantOpen(true)} className="btn-glass">
               <Bot className="mr-2 h-4 w-4" />
               Consultor MDH
@@ -185,6 +221,30 @@ export function SiteHeader({
           </a>
         </nav>
 
+        <div className="border-t border-white/10">
+          <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-3 sm:px-6 lg:flex-row lg:items-center lg:justify-between">
+            <div className="flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-white/60">
+              <QrCode className="h-3.5 w-3.5 text-emerald-200" />
+              <span className="max-w-3xl text-left leading-5">{routeHint}</span>
+            </div>
+            <div className="flex gap-2 overflow-x-auto pb-1 lg:justify-end">
+              {commerceShortcuts.map((shortcut) => {
+                const Icon = shortcut.icon;
+                return (
+                  <Link
+                    key={shortcut.href}
+                    href={shortcut.href}
+                    className="chip-nav whitespace-nowrap text-[12px]"
+                  >
+                    <Icon className="h-4 w-4" />
+                    {shortcut.label}
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
         {mobileOpen ? (
           <div id="mdh-mobile-menu" className="border-t border-white/10 px-4 pb-4 sm:px-6 md:hidden">
             <div className="mobile-drawer-shell mt-3 rounded-[28px] p-4">
@@ -215,6 +275,22 @@ export function SiteHeader({
               </div>
 
               <div className="mt-4 grid gap-2 sm:grid-cols-2">
+                {commerceShortcuts.map((shortcut) => {
+                  const Icon = shortcut.icon;
+                  return (
+                    <Link key={shortcut.href} href={shortcut.href} className="chip-nav justify-between">
+                      <span className="flex items-center gap-2">
+                        <Icon className="h-4 w-4" />
+                        {shortcut.label}
+                      </span>
+                      <ArrowRight className="h-4 w-4" />
+                    </Link>
+                  );
+                })}
+              </div>
+
+              <div className="mt-4 grid gap-2 sm:grid-cols-2">
+                <HeaderCommandPalette />
                 <button type="button" onClick={() => setAssistantOpen(true)} className="btn-glass justify-center">
                   <Bot className="mr-2 h-4 w-4" />
                   Consultor MDH

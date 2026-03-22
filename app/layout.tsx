@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { Manrope, Space_Grotesk } from 'next/font/google';
 import './globals.css';
 import { PwaRegister } from '@/components/pwa-register';
+import { RouteActionDock } from '@/components/route-action-dock';
 import { SiteAssistant } from '@/components/site-assistant';
 import { SiteFooter } from '@/components/site-footer';
 import { SiteHeader } from '@/components/site-header';
@@ -10,8 +11,8 @@ import { brand, socialLinks, supportEmail, whatsappNumber } from '@/lib/constant
 import { getAiAssistantModel, getAiAssistantProvider, getSiteUrl, isAiAssistantConfigured, isCardCheckoutConfigured } from '@/lib/env';
 
 const siteUrl = getSiteUrl();
-const sans = Manrope({ subsets: ['latin'], variable: '--font-sans', display: 'swap' });
-const display = Space_Grotesk({ subsets: ['latin'], variable: '--font-display', display: 'swap' });
+const sans = Manrope({ subsets: ['latin'], variable: '--font-sans', display: 'swap', preload: false });
+const display = Space_Grotesk({ subsets: ['latin'], variable: '--font-display', display: 'swap', preload: false });
 const cardCheckoutReady = isCardCheckoutConfigured();
 const aiAssistantReady = isAiAssistantConfigured();
 const aiAssistantModel = getAiAssistantModel();
@@ -165,6 +166,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           />
           <main>{children}</main>
           <SiteFooter />
+          <RouteActionDock />
           <WhatsAppFloat />
           <SiteAssistant
             cardCheckoutReady={cardCheckoutReady}

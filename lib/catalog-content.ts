@@ -49,6 +49,14 @@ function normalizeKey(value: string) {
   return value.trim().toLowerCase();
 }
 
+function normalizeSearchValue(value: string) {
+  return value
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim();
+}
+
 function toSentenceList(values: string[]) {
   if (values.length <= 1) return values[0] || "";
   if (values.length === 2) return `${values[0]} e ${values[1]}`;
@@ -63,6 +71,87 @@ function dedupe(values: string[]) {
     seen.add(key);
     return true;
   });
+}
+
+const SEARCH_SYNONYMS = new Map<string, string[]>([
+  ["geek & colecionáveis", ["geek", "colecionavel", "colecionaveis", "miniatura", "personagem", "fandom"]],
+  ["setup & organização", ["setup", "organizacao", "organizador", "suporte", "mesa", "bancada", "home office"]],
+  ["casa & decoração", ["casa", "decoracao", "decor", "estante", "nicho", "ambiente"]],
+  ["presentes criativos", ["presente", "lembranca", "lembrancinha", "personalizado", "criativo", "brinde"]],
+  ["utilidades reais", ["utilidade", "funcional", "uso diario", "pratico", "rotina"]],
+  ["anime", ["anime", "otaku", "manga", "personagem"]],
+  ["game", ["game", "gamer", "videogame", "jogo"]],
+  ["gaming", ["gaming", "gamer", "setup gamer", "console"]],
+  ["chibi", ["chibi", "cabecudo", "fofo", "colecionavel"]],
+  ["miniatura", ["mini", "miniatura", "figure", "figurine"]],
+  ["mascote", ["mascote", "buddy", "desk toy", "toy"]],
+  ["articulado", ["articulado", "flexivel", "movel"]],
+  ["suporte", ["suporte", "base", "holder"]],
+  ["organizador", ["organizador", "organizacao", "arrumacao"]],
+  ["personalizado", ["personalizado", "sob medida", "customizado", "customizavel"]],
+  ["pla premium", ["pla premium", "impressao 3d", "bambulab", "produto 3d"]],
+  ["pla silk", ["pla silk", "silk", "acetinado", "premium"]],
+  ["premium", ["premium", "acabamento premium", "catalogo"]],
+  ["texturizado", ["texturizado", "textura", "fosco"]],
+  ["pronta entrega", ["pronta entrega", "envio rapido", "estoque", "entrega rapida"]],
+  ["sob encomenda", ["sob encomenda", "produzido sob pedido", "feito por encomenda"]],
+  ["pokemon", ["pokemon", "pikachu", "monstro de bolso"]],
+  ["minecraft", ["minecraft", "blocky", "cubico"]],
+  ["one piece", ["one piece", "pirata", "anime"]],
+  ["frozen", ["frozen", "disney", "princesa"]],
+  ["nintendo", ["nintendo", "game", "console"]],
+  ["dragões", ["dragao", "dragoes", "dragon", "fantasia"]],
+  ["oceano", ["oceano", "marinho", "mar", "aquatico"]],
+  ["espacial", ["espacial", "espaco", "space", "foguete"]],
+  ["medieval", ["medieval", "cavaleiro", "castelo", "fantasia"]],
+]);
+
+function collectSearchAliases(product: Product) {
+  const normalizedCategory = normalizeProductCategory(product);
+  const rawTerms = dedupe([
+    normalizedCategory,
+    product.category,
+    product.subcategory,
+    product.theme,
+    product.collection,
+    product.material,
+    product.finish,
+    product.readyToShip ? "Pronta entrega" : "Sob encomenda",
+    product.customizable ? "Personalizado" : "",
+    ...product.tags,
+  ]).filter(Boolean);
+
+  const aliasSet = new Set<string>();
+
+  rawTerms.forEach((term) => {
+    const normalized = normalizeSearchValue(term);
+    const options = SEARCH_SYNONYMS.get(normalized) || [];
+    options.forEach((option) => aliasSet.add(option));
+    aliasSet.add(term);
+    aliasSet.add(normalized);
+  });
+
+  if (normalizedCategory === "Geek & Colecionáveis") {
+    aliasSet.add("presente geek");
+    aliasSet.add("mini colecionavel");
+  }
+
+  if (normalizedCategory === "Setup & Organização") {
+    aliasSet.add("organizacao de mesa");
+    aliasSet.add("utilidade para setup");
+  }
+
+  if (product.customizable) {
+    aliasSet.add("com nome");
+    aliasSet.add("ajuste de cor");
+  }
+
+  if (product.readyToShip) {
+    aliasSet.add("envio imediato");
+    aliasSet.add("saida rapida");
+  }
+
+  return [...aliasSet];
 }
 
 function getAvailabilityCopy(product: Product) {
@@ -156,9 +245,62 @@ export function buildProductSearchText(product: Product) {
     getProductLongDescription(product),
     product.material,
     product.finish,
+    product.sku,
     ...product.colors,
     ...product.tags,
+    ...collectSearchAliases(product),
   ]
     .join(" ")
-    .toLowerCase();
+    .split(/\s+/)
+    .map((token) => normalizeSearchValue(token))
+    .filter(Boolean)
+    .join(" ");
+}
+
+export function getProductSearchScore(product: Product, query: string) {
+  const normalizedQuery = normalizeSearchValue(query);
+  if (!normalizedQuery) return 1;
+
+  const normalizedName = normalizeSearchValue(product.name);
+  const normalizedSku = normalizeSearchValue(product.sku);
+  const normalizedCategory = normalizeSearchValue(normalizeProductCategory(product));
+  const searchText = buildProductSearchText(product);
+  const tokens = dedupe(normalizedQuery.split(/\s+/).filter((token) => token.length >= 2));
+
+  let score = 0;
+
+  if (normalizedSku === normalizedQuery) score += 220;
+  else if (normalizedSku.startsWith(normalizedQuery)) score += 150;
+
+  if (normalizedName === normalizedQuery) score += 180;
+  else if (normalizedName.startsWith(normalizedQuery)) score += 130;
+  else if (normalizedName.includes(normalizedQuery)) score += 95;
+
+  if (normalizedCategory === normalizedQuery) score += 80;
+  else if (normalizedCategory.includes(normalizedQuery)) score += 50;
+
+  if (searchText.includes(normalizedQuery)) score += 35;
+
+  let matchedTokens = 0;
+  tokens.forEach((token) => {
+    if (normalizedName.includes(token)) {
+      score += 24;
+      matchedTokens += 1;
+      return;
+    }
+    if (normalizedSku.includes(token)) {
+      score += 20;
+      matchedTokens += 1;
+      return;
+    }
+    if (searchText.includes(token)) {
+      score += 10;
+      matchedTokens += 1;
+    }
+  });
+
+  if (tokens.length && matchedTokens === tokens.length) score += 36;
+  if (tokens.length > 1 && matchedTokens >= Math.ceil(tokens.length / 2)) score += 14;
+
+  return matchedTokens === 0 && !searchText.includes(normalizedQuery) ? 0 : score;
 }

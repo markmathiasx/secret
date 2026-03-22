@@ -1,0 +1,532 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e5]:
+        - generic [ref=e6]: MDH 3D • Produção local no Rio
+        - generic [ref=e7]: Pix imediato • orçamento claro • atendimento humano
+        - link "@mdh_impressao3d" [ref=e8] [cursor=pointer]:
+          - /url: https://www.instagram.com/mdh_impressao3d/
+      - generic [ref=e9]:
+        - link "Logo MDH 3D MDH 3D Presentes, utilidades, decoração e projetos sob medida em impressão 3D":
+          - /url: /
+          - img "Logo MDH 3D" [ref=e10] [cursor=pointer]
+          - generic:
+            - paragraph: MDH 3D
+            - paragraph: Presentes, utilidades, decoração e projetos sob medida em impressão 3D
+        - generic [ref=e11]:
+          - img [ref=e12]
+          - searchbox "Busque por presente, miniatura, suporte, chaveiro, decoração..." [ref=e15]
+          - button "Buscar" [ref=e16] [cursor=pointer]
+        - generic [ref=e17]:
+          - button "Busca rápida Ctrl K" [ref=e18] [cursor=pointer]:
+            - img [ref=e19]
+            - text: Busca rápida
+            - generic [ref=e22]: Ctrl K
+          - button "Consultor MDH" [ref=e23] [cursor=pointer]:
+            - img [ref=e24]
+            - text: Consultor MDH
+          - link "Minha conta" [ref=e27] [cursor=pointer]:
+            - /url: /login
+            - img [ref=e28]
+            - text: Minha conta
+          - link "WhatsApp" [ref=e31] [cursor=pointer]:
+            - /url: https://wa.me/5521920137249
+          - link "Fechar pedido" [ref=e32] [cursor=pointer]:
+            - /url: /checkout
+            - img [ref=e33]
+            - text: Fechar pedido
+      - navigation [ref=e36]:
+        - link "Início" [ref=e37] [cursor=pointer]:
+          - /url: /
+        - link "Catálogo" [ref=e38] [cursor=pointer]:
+          - /url: /catalogo
+        - link "Personalizados" [ref=e39] [cursor=pointer]:
+          - /url: /imagem-para-impressao-3d
+        - link "Entregas" [ref=e40] [cursor=pointer]:
+          - /url: /entregas
+        - link "FAQ" [ref=e41] [cursor=pointer]:
+          - /url: /faq
+        - link "Conteúdo" [ref=e42] [cursor=pointer]:
+          - /url: /divulgacao
+        - link "Instagram" [ref=e43] [cursor=pointer]:
+          - /url: https://www.instagram.com/mdh_impressao3d/
+          - img [ref=e44]
+          - text: Instagram
+      - generic [ref=e48]:
+        - generic [ref=e49]:
+          - img [ref=e50]
+          - generic [ref=e56]: Use os atalhos abaixo para entrar em foto real, pronta entrega, presente ou personalização sem recomeçar a busca.
+        - generic [ref=e57]:
+          - link "Só foto real" [ref=e58] [cursor=pointer]:
+            - /url: /catalogo?mode=real
+            - img
+            - text: Só foto real
+          - link "Pronta entrega" [ref=e61] [cursor=pointer]:
+            - /url: /catalogo?status=Pronta%20entrega
+            - img
+            - text: Pronta entrega
+          - link "Ideias de presente" [ref=e66] [cursor=pointer]:
+            - /url: /catalogo?intent=Presente
+            - img
+            - text: Ideias de presente
+          - link "Enviar STL" [ref=e69] [cursor=pointer]:
+            - /url: /imagem-para-impressao-3d
+            - img
+            - text: Enviar STL
+    - main [ref=e79]:
+      - generic [ref=e80]:
+        - generic [ref=e81]:
+          - link "Início" [ref=e82] [cursor=pointer]:
+            - /url: /
+          - generic [ref=e83]: /
+          - link "Catálogo" [ref=e84] [cursor=pointer]:
+            - /url: /catalogo
+          - generic [ref=e85]: /
+          - generic [ref=e86]: Pikachu Pokémon Chibi
+        - generic [ref=e87]:
+          - link "Voltar ao catálogo" [ref=e88] [cursor=pointer]:
+            - /url: /catalogo
+            - img [ref=e89]
+            - text: Voltar ao catálogo
+          - generic [ref=e91]:
+            - generic [ref=e92]:
+              - img [ref=e93]
+              - text: SKU MDH-0067
+            - generic [ref=e96]:
+              - img [ref=e97]
+              - text: página individual
+        - generic [ref=e103]:
+          - generic [ref=e104]:
+            - button "Pikachu Pokémon Chibi - catálogo 1 Pikachu Pokémon Chibi PLA Premium • Premium Foto real Galeria" [ref=e105] [cursor=pointer]:
+              - img "Pikachu Pokémon Chibi - catálogo 1" [ref=e106]
+              - generic [ref=e107]:
+                - generic [ref=e108]:
+                  - generic [ref=e109]: Pikachu Pokémon Chibi
+                  - generic [ref=e110]: PLA Premium • Premium
+                - generic [ref=e111]:
+                  - generic [ref=e112]: Foto real
+                  - img [ref=e113]
+                  - generic [ref=e117]: Galeria
+                  - img [ref=e118]
+            - generic [ref=e123]:
+              - button "Pikachu Pokémon Chibi - catálogo 1" [ref=e124] [cursor=pointer]:
+                - img "Pikachu Pokémon Chibi - catálogo 1" [ref=e127]
+              - button "Pikachu Pokémon Chibi - catálogo 2" [ref=e128] [cursor=pointer]:
+                - img "Pikachu Pokémon Chibi - catálogo 2" [ref=e131]
+              - button "Pikachu Pokémon Chibi - catálogo 3" [ref=e132] [cursor=pointer]:
+                - img "Pikachu Pokémon Chibi - catálogo 3" [ref=e135]
+          - generic [ref=e136]:
+            - generic [ref=e137]:
+              - generic [ref=e138]: Geek & Colecionáveis
+              - generic [ref=e139]: Chibi
+              - generic [ref=e140]: Anime
+              - generic [ref=e141]: Sob encomenda
+              - generic [ref=e142]: Foto real
+            - heading "Pikachu Pokémon Chibi" [level=1] [ref=e143]
+            - paragraph [ref=e144]: Pikachu Pokémon Chibi em PLA Premium com acabamento premium para colecionar, decorar setup ou presentear fãs de Anime. Pikachu Pokémon Chibi faz parte da linha geek & colecionáveis da MDH 3D, com dimensões de 7x6x9cm, consumo estimado de 32g e tempo médio de 1.8h por unidade. é produzido sob encomenda com janela de 24h a 48h e utiliza PLA Premium com acabamento premium, pensado para colecionar, decorar setup ou presentear fãs de Anime. As cores mais recorrentes nessa linha são amarelo e preto. Segue o padrão visual apresentado no catálogo, respeitando disponibilidade de material e cor.
+            - generic [ref=e145]:
+              - generic [ref=e146]: PLA Premium com acabamento premium
+              - generic [ref=e147]: Produção em 24h a 48h
+              - generic [ref=e148]: Modelo padronizado com acabamento consistente
+            - generic [ref=e149]:
+              - generic [ref=e150]:
+                - paragraph [ref=e151]: Preço no Pix
+                - paragraph [ref=e152]: R$ 78,90
+              - generic [ref=e153]:
+                - paragraph [ref=e154]: Cartão
+                - paragraph [ref=e155]: R$ 88,90
+              - generic [ref=e156]:
+                - paragraph [ref=e157]: Prazo
+                - paragraph [ref=e158]: 1.8h
+            - generic [ref=e159]:
+              - generic [ref=e160]:
+                - paragraph [ref=e161]: Produção
+                - paragraph [ref=e162]: Feita sob encomenda
+              - generic [ref=e163]:
+                - paragraph [ref=e164]: Personalização
+                - paragraph [ref=e165]: Modelo fechado com acabamento padronizado
+              - generic [ref=e166]:
+                - paragraph [ref=e167]: Atendimento
+                - paragraph [ref=e168]: Suporte direto no WhatsApp com código do pedido
+            - generic [ref=e169]:
+              - paragraph [ref=e170]: Cores disponíveis
+              - generic [ref=e171]:
+                - button "Amarelo" [ref=e172] [cursor=pointer]
+                - button "Preto" [ref=e173] [cursor=pointer]
+            - paragraph [ref=e175]:
+              - strong [ref=e176]: "Compra com clareza:"
+              - text: se você quiser validar cor, escala, prazo ou acabamento antes de pagar, a equipe confirma tudo pelo WhatsApp.
+            - generic [ref=e177]:
+              - paragraph [ref=e178]: Este item funciona bem quando
+              - generic [ref=e179]:
+                - generic [ref=e180]: boa peça âncora para começar a compra
+                - generic [ref=e181]: combina com presente, coleção e decoração de setup
+            - generic [ref=e182]:
+              - paragraph [ref=e183]: Faixa comercial
+              - paragraph [ref=e184]: Preço confirmado para compra direta
+              - paragraph [ref=e185]: Preço confirmado para compra direta, considerando porte da peça, acabamento e faixa atual de colecionável chibi ou miniatura geek.
+              - paragraph [ref=e186]: "Faixa observada no mercado para colecionável chibi ou miniatura geek: de R$ 49,90 até cerca de R$ 99,90."
+            - generic [ref=e188]:
+              - paragraph [ref=e189]: Como ler esta imagem
+              - paragraph [ref=e190]: Foto real
+              - paragraph [ref=e191]: A imagem mostra uma peça já produzida pela MDH 3D, usada como referência direta de acabamento, escala e presença real.
+              - paragraph [ref=e192]: A vitrine usa uma foto do objeto físico já impresso, preservando aparência real de escala, material e acabamento.
+            - generic [ref=e193]:
+              - generic [ref=e194]:
+                - paragraph [ref=e195]: Material
+                - paragraph [ref=e196]: PLA Premium
+              - generic [ref=e197]:
+                - paragraph [ref=e198]: Acabamento
+                - paragraph [ref=e199]: Premium
+              - generic [ref=e200]:
+                - paragraph [ref=e201]: Peso PLA
+                - paragraph [ref=e202]: 32g
+              - generic [ref=e203]:
+                - paragraph [ref=e204]: Dimensões
+                - paragraph [ref=e205]: 7x6x9cm
+            - generic [ref=e207]:
+              - generic [ref=e208]:
+                - generic [ref=e209]:
+                  - paragraph [ref=e210]: Ferramenta de compra
+                  - heading "Simule a quantidade antes de fechar." [level=3] [ref=e211]
+                - generic [ref=e212]: SKU MDH-0067
+              - generic [ref=e213]:
+                - button "1 un." [ref=e214] [cursor=pointer]
+                - button "2 un." [ref=e215] [cursor=pointer]
+                - button "5 un." [ref=e216] [cursor=pointer]
+                - button "10 un." [ref=e217] [cursor=pointer]
+              - generic [ref=e218]:
+                - paragraph [ref=e219]: Objetivo desta compra
+                - generic [ref=e220]:
+                  - button "Uso próprio" [ref=e221] [cursor=pointer]
+                  - button "Presente" [ref=e222] [cursor=pointer]
+                  - button "Lote" [ref=e223] [cursor=pointer]
+                  - button "Revenda" [ref=e224] [cursor=pointer]
+              - generic [ref=e225]:
+                - button "Diminuir quantidade" [ref=e226] [cursor=pointer]:
+                  - img [ref=e227]
+                - generic [ref=e228]:
+                  - paragraph [ref=e229]: Quantidade
+                  - paragraph [ref=e230]: "1"
+                - button "Aumentar quantidade" [ref=e231] [cursor=pointer]:
+                  - img [ref=e232]
+              - generic [ref=e233]:
+                - generic [ref=e234]:
+                  - paragraph [ref=e235]: Total no Pix
+                  - paragraph [ref=e236]: R$ 78,90
+                - generic [ref=e237]:
+                  - paragraph [ref=e238]: Total no cartão
+                  - paragraph [ref=e239]: R$ 88,90
+              - generic [ref=e240]:
+                - generic [ref=e241]:
+                  - img [ref=e242]
+                  - generic [ref=e244]: Rota sugerida
+                - paragraph [ref=e245]: Fluxo enxuto para quem já quer sair do produto direto para o checkout.
+              - generic [ref=e246]:
+                - link "Comprar 1 un." [ref=e247] [cursor=pointer]:
+                  - /url: /checkout?product=mdh-067&qty=1&purpose=Uso%20pr%C3%B3prio
+                - link "Tirar dúvida antes de pagar" [ref=e248] [cursor=pointer]:
+                  - /url: https://wa.me/5521920137249?text=Oi%21+Vim+pelo+site+da+MDH+3D+e+quero+um+or%C3%A7amento.%0A%0ATenho+interesse+em+Pikachu+Pok%C3%A9mon+Chibi+%28MDH-0067%29.%0AQuantidade+desejada%3A+1%0AObjetivo%3A+Uso+pr%C3%B3prio.
+                - button "Copiar SKU" [ref=e249] [cursor=pointer]:
+                  - img [ref=e250]
+                  - text: Copiar SKU
+                - button "Compartilhar item" [ref=e253] [cursor=pointer]:
+                  - img [ref=e254]
+                  - text: Compartilhar item
+            - generic [ref=e260]:
+              - paragraph [ref=e261]: Se este item não for o encaixe ideal
+              - generic [ref=e262]:
+                - link "Ver mais em Geek & Colecionáveis" [ref=e263] [cursor=pointer]:
+                  - /url: /catalogo?category=Geek%20%26%20Colecion%C3%A1veis&mode=all
+                - link "Explorar coleção Anime" [ref=e264] [cursor=pointer]:
+                  - /url: /catalogo?collection=Anime&mode=all
+                - link "Buscar opções mais rápidas" [ref=e265] [cursor=pointer]:
+                  - /url: /catalogo?intent=Compra%20r%C3%A1pida&mode=all
+                - link "Pedir algo sob medida" [ref=e266] [cursor=pointer]:
+                  - /url: /imagem-para-impressao-3d
+            - generic [ref=e267]:
+              - link "Comprar agora" [ref=e268] [cursor=pointer]:
+                - /url: /checkout?product=mdh-067
+              - link "Falar no WhatsApp" [ref=e269] [cursor=pointer]:
+                - /url: https://wa.me/5521920137249?text=Oi!%20Vim%20pelo%20site%20da%20MDH%203D%20e%20quero%20um%20or%C3%A7amento.%0A%0ATenho%20interesse%20em%20Pikachu%20Pok%C3%A9mon%20Chibi%20(MDH-0067).
+                - img [ref=e270]
+                - text: Falar no WhatsApp
+        - generic [ref=e273]:
+          - generic [ref=e274]:
+            - generic [ref=e275]:
+              - paragraph [ref=e276]: Orçamento
+              - heading "Solicite um orçamento com briefing claro" [level=2] [ref=e277]
+              - paragraph [ref=e278]: Receba retorno com validação de material, prazo, frete e acabamento sem bloquear a navegação pública.
+            - link "Falar no WhatsApp" [ref=e279] [cursor=pointer]:
+              - /url: https://wa.me/5521920137249?text=Oi!%20Vim%20pelo%20site%20da%20MDH%203D%20e%20quero%20um%20or%C3%A7amento.
+              - img [ref=e280]
+              - text: Falar no WhatsApp
+          - generic [ref=e282]:
+            - paragraph [ref=e283]: Produto em destaque
+            - generic [ref=e284]:
+              - generic [ref=e285]:
+                - heading "Pikachu Pokémon Chibi" [level=3] [ref=e286]
+                - paragraph [ref=e287]: Geek & Colecionáveis • Anime
+              - generic [ref=e288]:
+                - paragraph [ref=e289]: Preço base no Pix
+                - paragraph [ref=e290]: R$ 78,90
+          - generic [ref=e291]:
+            - generic [ref=e292]:
+              - generic [ref=e293]:
+                - generic [ref=e294]: Seu nome
+                - textbox "Seu nome" [ref=e295]
+              - generic [ref=e296]:
+                - generic [ref=e297]: Email
+                - textbox "Email" [ref=e298]
+            - generic [ref=e299]:
+              - generic [ref=e300]:
+                - generic [ref=e301]: WhatsApp
+                - textbox "WhatsApp" [ref=e302]
+              - generic [ref=e303]:
+                - generic [ref=e304]: CEP
+                - textbox "CEP" [ref=e305]
+            - generic [ref=e306]:
+              - generic [ref=e307]:
+                - generic [ref=e308]: Bairro
+                - textbox "Bairro" [ref=e309]
+              - generic [ref=e310]:
+                - generic [ref=e311]: Distância em km
+                - textbox "Distância em km" [ref=e312]
+            - generic [ref=e313]:
+              - generic [ref=e314]:
+                - generic [ref=e315]: Cor desejada
+                - textbox "Cor desejada" [ref=e316]
+              - generic [ref=e317]:
+                - generic [ref=e318]: Pagamento
+                - combobox "Pagamento" [ref=e319]:
+                  - option "Pix" [selected]
+                  - option "Cartão"
+                  - option "Boleto"
+            - generic [ref=e320]:
+              - generic [ref=e321]: Observações
+              - textbox "Observações" [ref=e322]
+            - button "Enviar orçamento" [ref=e324] [cursor=pointer]
+        - generic [ref=e325]:
+          - generic [ref=e326]:
+            - generic [ref=e327]:
+              - paragraph [ref=e328]: Venda complementar
+              - heading "Quem olha este item costuma comparar com estas opções." [level=2] [ref=e329]
+              - paragraph [ref=e330]: Use essa prateleira para aumentar ticket, sugerir uma peça parecida ou oferecer uma alternativa mais visual, mais funcional ou mais presenteável.
+            - 'link "Você está vendo: Pikachu Pokémon Chibi" [ref=e331] [cursor=pointer]':
+              - /url: /catalogo/mdh-067-pikachu-pokemon-chibi
+          - generic [ref=e332]:
+            - article [ref=e333]:
+              - generic [ref=e334]:
+                - img "Luffy One Piece Chibi" [ref=e337]
+                - generic [ref=e338]: Sob encomenda
+              - generic [ref=e339]:
+                - generic [ref=e340]:
+                  - paragraph [ref=e341]: Geek & Colecionáveis
+                  - heading "Luffy One Piece Chibi" [level=3] [ref=e342]
+                  - paragraph [ref=e343]: Luffy One Piece Chibi em PLA Premium com acabamento premium para colecionar, decorar setup ou presentear fãs de Anime.
+                - button "Favoritar mdh-064" [disabled] [ref=e344]:
+                  - img [ref=e345]
+              - generic [ref=e347]: Foto real
+              - generic [ref=e348]:
+                - paragraph [ref=e349]: Compra direta
+                - paragraph [ref=e350]: Preço confirmado para compra direta, considerando porte da peça, acabamento e faixa atual de colecionável chibi ou miniatura geek.
+              - generic [ref=e351]:
+                - generic [ref=e352]: PLA Premium
+                - generic [ref=e353]: Premium
+                - generic [ref=e354]: 24h a 48h
+              - generic [ref=e355]:
+                - generic [ref=e356]:
+                  - paragraph [ref=e357]: Preço no Pix
+                  - paragraph [ref=e358]: R$ 78,90
+                  - paragraph [ref=e359]: 12x de R$ 7,41 no cartão
+                - link "Comprar agora" [ref=e360] [cursor=pointer]:
+                  - /url: /catalogo/mdh-064-luffy-one-piece-chibi
+            - article [ref=e361]:
+              - generic [ref=e362]:
+                - img "Elsa Frozen Chibi" [ref=e365]
+                - generic [ref=e366]: Sob encomenda
+              - generic [ref=e367]:
+                - generic [ref=e368]:
+                  - paragraph [ref=e369]: Geek & Colecionáveis
+                  - heading "Elsa Frozen Chibi" [level=3] [ref=e370]
+                  - paragraph [ref=e371]: Elsa Frozen Chibi em PLA Premium com acabamento premium para colecionar, decorar setup ou presentear fãs de Anime.
+                - button "Favoritar mdh-065" [disabled] [ref=e372]:
+                  - img [ref=e373]
+              - generic [ref=e375]: Foto real
+              - generic [ref=e376]:
+                - paragraph [ref=e377]: Compra direta
+                - paragraph [ref=e378]: Preço confirmado para compra direta, considerando porte da peça, acabamento e faixa atual de colecionável chibi ou miniatura geek.
+              - generic [ref=e379]:
+                - generic [ref=e380]: PLA Premium
+                - generic [ref=e381]: Premium
+                - generic [ref=e382]: 24h a 48h
+              - generic [ref=e383]:
+                - generic [ref=e384]:
+                  - paragraph [ref=e385]: Preço no Pix
+                  - paragraph [ref=e386]: R$ 78,90
+                  - paragraph [ref=e387]: 12x de R$ 7,41 no cartão
+                - link "Comprar agora" [ref=e388] [cursor=pointer]:
+                  - /url: /catalogo/mdh-065-elsa-frozen-chibi
+            - article [ref=e389]:
+              - generic [ref=e390]:
+                - img "Totoro My Neighbor Chibi" [ref=e393]
+                - generic [ref=e394]: Sob encomenda
+              - generic [ref=e395]:
+                - generic [ref=e396]:
+                  - paragraph [ref=e397]: Geek & Colecionáveis
+                  - heading "Totoro My Neighbor Chibi" [level=3] [ref=e398]
+                  - paragraph [ref=e399]: Totoro My Neighbor Chibi em PLA Premium com acabamento premium para colecionar, decorar setup ou presentear fãs de Anime.
+                - button "Favoritar mdh-066" [disabled] [ref=e400]:
+                  - img [ref=e401]
+              - generic [ref=e403]: Foto real
+              - generic [ref=e404]:
+                - paragraph [ref=e405]: Compra direta
+                - paragraph [ref=e406]: Preço confirmado para compra direta, considerando porte da peça, acabamento e faixa atual de colecionável chibi ou miniatura geek.
+              - generic [ref=e407]:
+                - generic [ref=e408]: PLA Premium
+                - generic [ref=e409]: Premium
+                - generic [ref=e410]: 24h a 48h
+              - generic [ref=e411]:
+                - generic [ref=e412]:
+                  - paragraph [ref=e413]: Preço no Pix
+                  - paragraph [ref=e414]: R$ 78,90
+                  - paragraph [ref=e415]: 12x de R$ 7,41 no cartão
+                - link "Comprar agora" [ref=e416] [cursor=pointer]:
+                  - /url: /catalogo/mdh-066-totoro-my-neighbor-chibi
+            - article [ref=e417]:
+              - generic [ref=e418]:
+                - img "Kirby Nintendo Chibi" [ref=e421]
+                - generic [ref=e422]: Sob encomenda
+              - generic [ref=e423]:
+                - generic [ref=e424]:
+                  - paragraph [ref=e425]: Geek & Colecionáveis
+                  - heading "Kirby Nintendo Chibi" [level=3] [ref=e426]
+                  - paragraph [ref=e427]: Kirby Nintendo Chibi em PLA Premium com acabamento premium para colecionar, decorar setup ou presentear fãs de Anime.
+                - button "Favoritar mdh-068" [disabled] [ref=e428]:
+                  - img [ref=e429]
+              - generic [ref=e431]: Foto real
+              - generic [ref=e432]:
+                - paragraph [ref=e433]: Compra direta
+                - paragraph [ref=e434]: Preço confirmado para compra direta, considerando porte da peça, acabamento e faixa atual de colecionável chibi ou miniatura geek.
+              - generic [ref=e435]:
+                - generic [ref=e436]: PLA Premium
+                - generic [ref=e437]: Premium
+                - generic [ref=e438]: 24h a 48h
+              - generic [ref=e439]:
+                - generic [ref=e440]:
+                  - paragraph [ref=e441]: Preço no Pix
+                  - paragraph [ref=e442]: R$ 78,90
+                  - paragraph [ref=e443]: 12x de R$ 7,41 no cartão
+                - link "Comprar agora" [ref=e444] [cursor=pointer]:
+                  - /url: /catalogo/mdh-068-kirby-nintendo-chibi
+    - contentinfo [ref=e445]:
+      - generic [ref=e446]:
+        - generic [ref=e447]:
+          - img "Logo MDH 3D" [ref=e448]
+          - paragraph [ref=e449]: MDH 3D
+          - heading "Impressão 3D com apresentação profissional, produção local e atendimento direto." [level=2] [ref=e450]
+          - paragraph [ref=e451]: Trabalhamos com presentes personalizados, miniaturas, utilidades e projetos sob medida para clientes do Rio de Janeiro e de outras regiões do Brasil.
+          - generic [ref=e452]:
+            - link "Atendimento no WhatsApp" [ref=e453] [cursor=pointer]:
+              - /url: https://wa.me/5521920137249
+              - img [ref=e454]
+              - text: Atendimento no WhatsApp
+            - link "Ver catálogo" [ref=e456] [cursor=pointer]:
+              - /url: /catalogo
+              - text: Ver catálogo
+              - img [ref=e457]
+          - generic [ref=e460]:
+            - generic [ref=e461]: Portfólio com fotos reais
+            - generic [ref=e462]: Pix visível no checkout
+            - generic [ref=e463]: Produção local no RJ
+        - generic [ref=e464]:
+          - paragraph [ref=e465]: Institucional
+          - generic [ref=e466]:
+            - link "Política de privacidade" [ref=e467] [cursor=pointer]:
+              - /url: /politica-de-privacidade
+            - link "Termos de uso" [ref=e468] [cursor=pointer]:
+              - /url: /termos
+            - link "Trocas e devoluções" [ref=e469] [cursor=pointer]:
+              - /url: /trocas-e-devolucoes
+            - link "Frete e prazo" [ref=e470] [cursor=pointer]:
+              - /url: /entregas
+            - link "Perguntas frequentes" [ref=e471] [cursor=pointer]:
+              - /url: /faq
+            - link "Portfólio e conteúdo" [ref=e472] [cursor=pointer]:
+              - /url: /divulgacao
+          - generic [ref=e473]:
+            - paragraph [ref=e474]: Atalhos de compra
+            - generic [ref=e475]:
+              - link "Só foto real" [ref=e476] [cursor=pointer]:
+                - /url: /catalogo?mode=real
+              - link "Pronta entrega" [ref=e477] [cursor=pointer]:
+                - /url: /catalogo?status=Pronta%20entrega
+              - link "Presentes criativos" [ref=e478] [cursor=pointer]:
+                - /url: /catalogo?intent=Presente
+        - generic [ref=e479]:
+          - paragraph [ref=e480]: Jornada de compra
+          - generic [ref=e481]:
+            - link "Escolher um produto" [ref=e482] [cursor=pointer]:
+              - /url: /catalogo
+            - link "Presentes 3D" [ref=e483] [cursor=pointer]:
+              - /url: /presentes-3d
+            - link "Setup e organização" [ref=e484] [cursor=pointer]:
+              - /url: /setup-e-organizacao-3d
+            - link "Brindes e lotes" [ref=e485] [cursor=pointer]:
+              - /url: /brindes-personalizados-3d
+            - link "Fechar pedido" [ref=e486] [cursor=pointer]:
+              - /url: /checkout
+            - link "Enviar referência ou STL" [ref=e487] [cursor=pointer]:
+              - /url: /imagem-para-impressao-3d
+            - link "Acompanhar conta e pedidos" [ref=e488] [cursor=pointer]:
+              - /url: /conta
+          - generic [ref=e489]:
+            - paragraph [ref=e490]: Antes de pedir
+            - generic [ref=e491]:
+              - generic [ref=e492]:
+                - paragraph [ref=e493]: Envie tamanho ou uso esperado
+                - paragraph [ref=e494]: Isso ajuda a indicar material, resistência e escala certa antes de produzir.
+              - generic [ref=e495]:
+                - paragraph [ref=e496]: Defina se é presente, coleção ou utilidade
+                - paragraph [ref=e497]: A intenção muda acabamento, embalagem, urgência e sugestão de peça.
+              - generic [ref=e498]:
+                - paragraph [ref=e499]: Escolha se quer rapidez ou acabamento mais refinado
+                - paragraph [ref=e500]: A loja consegue orientar o melhor equilíbrio entre prazo, custo e visual.
+        - generic [ref=e501]:
+          - paragraph [ref=e502]: Contato
+          - generic [ref=e503]:
+            - link "Comprar catálogo" [ref=e504] [cursor=pointer]:
+              - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20fechar%20um%20item%20do%20cat%C3%A1logo%20da%20MDH%203D.
+            - link "Peça personalizada" [ref=e505] [cursor=pointer]:
+              - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20pedir%20uma%20pe%C3%A7a%20personalizada%20na%20MDH%203D.
+            - link "Brindes e lotes" [ref=e506] [cursor=pointer]:
+              - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20or%C3%A7amento%20para%20brindes%20ou%20lote%20personalizado.
+            - link "Tirar dúvidas" [ref=e507] [cursor=pointer]:
+              - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20tirar%20d%C3%BAvidas%20sobre%20material%2C%20prazo%20e%20acabamento.
+          - generic [ref=e508]:
+            - link "Atendimento humano para orçamento, personalização e pós-venda." [ref=e509] [cursor=pointer]:
+              - /url: https://wa.me/5521920137249
+              - img [ref=e510]
+              - generic [ref=e512]: Atendimento humano para orçamento, personalização e pós-venda.
+            - link "mdhatendimento@gmail.com" [ref=e513] [cursor=pointer]:
+              - /url: mailto:mdhatendimento@gmail.com
+              - img [ref=e514]
+              - generic [ref=e517]: mdhatendimento@gmail.com
+            - link "@mdh_impressao3d" [ref=e518] [cursor=pointer]:
+              - /url: https://www.instagram.com/mdh_impressao3d/
+              - img [ref=e519]
+              - generic [ref=e522]: "@mdh_impressao3d"
+            - generic [ref=e523]:
+              - img [ref=e524]
+              - generic [ref=e527]: Produção local no Rio de Janeiro com resposta em horário comercial.
+      - generic [ref=e529]:
+        - generic [ref=e530]: © 2026 MDH 3D. Todos os direitos reservados.
+        - generic [ref=e531]:
+          - generic [ref=e532]: Produção local
+          - generic [ref=e533]: Pix visível
+          - generic [ref=e534]: Catálogo curado
+        - button "Voltar ao topo" [ref=e535] [cursor=pointer]
+    - link "Fale conosco no WhatsApp" [ref=e537] [cursor=pointer]:
+      - /url: https://wa.me/5521920137249?text=Oi!%20Vim%20pelo%20site%20da%20MDH%203D%20e%20quero%20um%20or%C3%A7amento.
+      - img [ref=e539]
+  - alert [ref=e541]

@@ -5,6 +5,7 @@ import { catalog, type Product } from '@/lib/catalog';
 import { formatCurrency } from '@/lib/utils';
 import { SafeProductImage } from '@/components/safe-product-image';
 import { getProductImageCandidates } from '@/lib/product-images';
+import { ProductVisualBadge } from '@/components/product-visual-authenticity';
 import { whatsappNumber } from '@/lib/constants';
 import { isProductVisualVerified } from '@/lib/product-visuals';
 
@@ -140,12 +141,10 @@ export function ComboBuilder() {
                 />
                 <div className="mb-2 flex flex-wrap gap-2">
                   {isProductVisualVerified(product) ? (
-                    <span className="rounded-full border border-emerald-300/25 bg-emerald-300/10 px-2.5 py-1 text-[11px] font-semibold text-emerald-100">
-                      Foto real
-                    </span>
+                    <ProductVisualBadge product={product} />
                   ) : (
                     <span className="rounded-full border border-amber-300/25 bg-amber-300/10 px-2.5 py-1 text-[11px] font-semibold text-amber-100">
-                      Prévia do modelo
+                      Referência visual
                     </span>
                   )}
                 </div>

@@ -124,11 +124,13 @@ function getVisualDefaults(kind: ProductVisualKind) {
       };
     default:
       return {
-        label: "Prévia do modelo",
+        label: "Referência visual",
         badgeClassName: "border-amber-300/25 bg-amber-300/10 text-amber-100",
         panelClassName: "border-amber-400/20 bg-amber-400/10 text-amber-50",
-        description: "A imagem funciona como direção visual do projeto. Antes da produção, cor, escala e acabamento são confirmados com você.",
-        recommendedNextStep: "Substituir por foto real da peça pronta ou render gerado a partir do arquivo STL/OBJ/3MF.",
+        description:
+          "A imagem funciona como referência visual do produto anunciado. Ela ajuda a entender forma, proposta e estilo, mas não substitui foto real da peça pronta.",
+        recommendedNextStep:
+          "Substituir por foto real da peça pronta ou por render fiel derivado do arquivo STL/OBJ/3MF correspondente.",
         merchantReady: false,
       };
   }
@@ -167,6 +169,14 @@ export function getProductVisual(product: Product): ProductVisualSummary {
 
 export function getProductVisualImageCandidates(product: Product) {
   return getProductVisual(product).imageCandidates;
+}
+
+export function isProductRealPhoto(product: Product) {
+  return getProductVisual(product).kind === "foto-real";
+}
+
+export function isProductRenderFiel(product: Product) {
+  return getProductVisual(product).kind === "render-fiel";
 }
 
 export function isProductVisualVerified(product: Product) {

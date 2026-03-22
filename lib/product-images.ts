@@ -1,6 +1,6 @@
 import type { Product } from "@/lib/catalog";
 import { slugify } from "@/lib/utils";
-import { getCatalogPhotoCandidates } from "@/lib/catalog-photo-manifest";
+import { getCatalogPhotoCandidates, hasExplicitCatalogGallery } from "@/lib/catalog-photo-manifest";
 import { getProductVisualImageCandidates } from "@/lib/product-visuals";
 
 export const productPlaceholderSrc = "/catalog-assets/product-placeholder.webp";
@@ -80,11 +80,20 @@ export function getProductGallery(product: Product) {
   const visualCandidates = getProductVisualImageCandidates(product);
   const catalogPhotoCandidates = getCatalogPhotoCandidates(product.id);
   if (catalogPhotoCandidates.length) {
-    return catalogPhotoCandidates.map((src, index) => ({
-      id: `${product.id}-catalog-${index + 1}`,
-      candidates: [src, productPlaceholderSrc],
-      alt: `${product.name} - catálogo ${index + 1}`,
-    }));
+    if (hasExplicitCatalogGallery(product.id)) {
+      return catalogPhotoCandidates.map((src, index) => ({
+        id: `${product.id}-catalog-${index + 1}`,
+        candidates: [src, productPlaceholderSrc],
+        alt: `${product.name} - catálogo ${index + 1}`,
+      }));
+    }
+    return [
+      {
+        id: `${product.id}-catalog-1`,
+        candidates: Array.from(new Set([...catalogPhotoCandidates, ...visualCandidates, productPlaceholderSrc])),
+        alt: `${product.name} - catálogo principal`,
+      },
+    ];
   }
   if (explicit?.length) {
     return explicit.map((item) => ({

@@ -162,6 +162,101 @@ export const materialsShowcase: any[] = [
   },
 ];
 
+export const customerSegments = [
+  {
+    id: "presente-rapido",
+    label: "Presente rápido",
+    title: "Quero algo bonito, pronto para impressionar e fácil de fechar.",
+    description:
+      "Peças com leitura simples, bom impacto visual e caminho curto entre descoberta, aprovação e pagamento.",
+    href: "/catalogo?intent=Presente&mode=verified",
+    cta: "Ver ideias para presente",
+    proof: "mídia validada • fit para presente • curadoria rápida",
+  },
+  {
+    id: "setup-util",
+    label: "Setup útil",
+    title: "Quero resolver organização, suporte ou praticidade no dia a dia.",
+    description:
+      "A entrada já filtra suportes, docks, organizadores e utilidades que costumam converter bem sem depender de briefing longo.",
+    href: "/catalogo?category=Setup%20%26%20Organiza%C3%A7%C3%A3o&status=Pronta%20entrega",
+    cta: "Ir para setup e organização",
+    proof: "utilidade real • pronta entrega • uso recorrente",
+  },
+  {
+    id: "colecionavel",
+    label: "Geek & fandom",
+    title: "Quero uma peça de coleção, desk toy ou item com apelo de fandom.",
+    description:
+      "A vitrine separa colecionáveis, bustos, mascotes e miniaturas com acabamento visual mais forte para compra por desejo.",
+    href: "/catalogo?collection=Anime%20%26%20Geek",
+    cta: "Explorar geek",
+    proof: "colecionáveis • desk decor • fandom",
+  },
+  {
+    id: "sob-medida",
+    label: "Projeto sob medida",
+    title: "Tenho uma ideia, STL ou referência e quero transformar em peça real.",
+    description:
+      "O fluxo de personalização organiza referência, material, prazo e acabamento para acelerar orçamento e aprovação.",
+    href: "/imagem-para-impressao-3d",
+    cta: "Enviar referência",
+    proof: "análise humana • material indicado • produção local",
+  },
+] as const;
+
+export const orderPrepChecklist = [
+  {
+    title: "Envie tamanho ou uso esperado",
+    description: "Isso ajuda a indicar material, resistência e escala certa antes de produzir.",
+  },
+  {
+    title: "Defina se é presente, coleção ou utilidade",
+    description: "A intenção muda acabamento, embalagem, urgência e sugestão de peça.",
+  },
+  {
+    title: "Escolha se quer rapidez ou acabamento mais refinado",
+    description: "A loja consegue orientar o melhor equilíbrio entre prazo, custo e visual.",
+  },
+  {
+    title: "Leve o SKU para o WhatsApp quando quiser fechar rápido",
+    description: "Isso reduz ruído no atendimento e acelera confirmação de valor e prazo.",
+  },
+] as const;
+
+export const catalogShortcutLinks = [
+  {
+    label: "Só foto real",
+    href: "/catalogo?mode=real",
+    note: "peças com objeto físico fotografado",
+  },
+  {
+    label: "Pronta entrega",
+    href: "/catalogo?status=Pronta%20entrega",
+    note: "itens com saída mais rápida",
+  },
+  {
+    label: "Presentes criativos",
+    href: "/catalogo?intent=Presente",
+    note: "vitrine pronta para presentear",
+  },
+  {
+    label: "Personalizáveis",
+    href: "/catalogo?custom=1",
+    note: "itens e projetos com ajuste",
+  },
+  {
+    label: "Compra econômica",
+    href: "/catalogo?intent=Economia",
+    note: "seleção para ticket mais enxuto",
+  },
+  {
+    label: "Lotes e brindes",
+    href: "/catalogo?intent=Atacado",
+    note: "curadoria para evento e marca",
+  },
+] as const;
+
 export const faqItems: any[] = [
   {
     question: "Vocês fazem peças sob encomenda?",

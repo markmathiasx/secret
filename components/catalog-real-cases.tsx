@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { SafeProductImage } from "@/components/safe-product-image";
+import { ProductVisualBadge } from "@/components/product-visual-authenticity";
 import { whatsappNumber } from "@/lib/constants";
 import { catalog, getProductUrl } from "@/lib/catalog";
-import { isProductVisualVerified } from "@/lib/product-visuals";
+import { isProductRealPhoto } from "@/lib/product-visuals";
 import { resolveProductImage } from "@/lib/product-images";
 
 export function CatalogRealCases() {
-  const realCaseStudies = catalog.filter((product) => isProductVisualVerified(product)).slice(0, 6);
+  const realCaseStudies = catalog.filter((product) => isProductRealPhoto(product)).slice(0, 6);
 
   return (
     <section id="catalogo-real" className="glass-panel mt-10 rounded-[32px] border border-white/10 bg-black/20 p-6">
@@ -33,9 +34,7 @@ export function CatalogRealCases() {
           <article key={item.id} className="catalog-real-card overflow-hidden rounded-[24px] border border-white/10 bg-slate-950/55 transition-all duration-300 hover:-translate-y-1">
             <SafeProductImage candidates={[resolveProductImage(item)]} alt={item.name} className="aspect-[4/3] w-full object-cover" />
             <div className="space-y-3 p-4">
-              <span className="inline-flex rounded-full border border-emerald-300/25 bg-emerald-300/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-emerald-100">
-                Foto real
-              </span>
+              <ProductVisualBadge product={item} />
               <h3 className="text-lg font-semibold text-white">{item.name}</h3>
               <Link
                 href={getProductUrl(item)}

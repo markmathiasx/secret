@@ -25,7 +25,7 @@ export type SalesLandingConfig = {
   initialQuery?: string;
   initialCategory?: string;
   initialCollection?: string;
-  initialVerifiedOnly?: boolean;
+  initialVisualMode?: "all" | "verified" | "real";
   initialAvailability?: "Todos" | Product["status"];
   match: (product: Product) => boolean;
   highlightMatch?: (product: Product) => boolean;
@@ -64,7 +64,7 @@ export const salesLandings = {
       href: "/imagem-para-impressao-3d",
     },
     initialCategory: "Presentes Criativos",
-    initialVerifiedOnly: false,
+    initialVisualMode: "all",
     match: (product) =>
       product.category === "Presentes Criativos" ||
       /(presente|lembran|personaliz|fam[ií]lia|boneca|chaveiro|nome 3d|trof[eé]u)/i.test(
@@ -99,7 +99,7 @@ export const salesLandings = {
     },
     initialCategory: "Presentes Criativos",
     initialQuery: "chaveiro",
-    initialVerifiedOnly: false,
+    initialVisualMode: "all",
     match: (product) =>
       /(chaveiro|medalha|nome 3d|trof[eé]u|porta-retrato|pingente|calend[aá]rio|lote|institucional|lembran)/i.test(
         [product.name, product.subcategory, product.theme, ...product.tags].join(" ")
@@ -131,7 +131,7 @@ export const salesLandings = {
       href: "/imagem-para-impressao-3d",
     },
     initialCategory: "Setup & Organização",
-    initialVerifiedOnly: false,
+    initialVisualMode: "all",
     match: (product) =>
       product.category === "Setup & Organização" ||
       product.category === "Utilidades Reais" ||
@@ -165,7 +165,7 @@ export const salesLandings = {
       href: "/imagem-para-impressao-3d",
     },
     initialCategory: "Geek & Colecionáveis",
-    initialVerifiedOnly: true,
+    initialVisualMode: "verified",
     match: (product) =>
       product.category === "Geek & Colecionáveis" ||
       /(anime|geek|colecion|miniatura|chibi|fandom|cartoon|game)/i.test(
@@ -198,7 +198,7 @@ export const salesLandings = {
       href: "/imagem-para-impressao-3d",
     },
     initialCategory: "Casa & Decoração",
-    initialVerifiedOnly: false,
+    initialVisualMode: "all",
     match: (product) =>
       product.category === "Casa & Decoração" ||
       /(vaso|lumin[aá]ria|porta-copo|decora[cç][aã]o|escultura|parede|nicho|casa)/i.test(

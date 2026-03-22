@@ -1,8 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { AlertCircle, CheckCircle2, FileUp, ImageUp, MessageCircleMore, ShieldCheck, UploadCloud } from "lucide-react";
+import { AlertCircle, CheckCircle2, FileUp, ImageUp, MessageCircleMore, ShieldCheck, Sparkles, UploadCloud } from "lucide-react";
 import { whatsappMessage, whatsappNumber } from "@/lib/constants";
 
 type ServiceTab = "prototipagem" | "resina" | "engenharia";
@@ -42,6 +42,33 @@ const serviceContent: Record<ServiceTab, { label: string; title: string; items: 
 
 const acceptedImage = ["image/jpeg", "image/png", "image/webp"];
 const acceptedModel = ["model/stl", "application/sla", "application/octet-stream", "model/obj", "model/gltf-binary", "application/vnd.ms-pki.stl"];
+const IMAGE_TO_3D_DRAFT_KEY = "mdh:image-to-3d-draft";
+const briefTemplates = [
+  {
+    label: "Miniatura geek",
+    description: "Quero transformar uma referência em miniatura colecionável com foco em acabamento visual.",
+    material: "PLA",
+    deadline: "Sem pressa, priorizo acabamento",
+  },
+  {
+    label: "Peça funcional",
+    description: "Preciso de uma peça utilitária com encaixe, resistência e revisão dimensional.",
+    material: "PETG",
+    deadline: "Quero validar prazo e medidas",
+  },
+  {
+    label: "Presente personalizado",
+    description: "Quero uma peça para presente com boa apresentação e possibilidade de ajuste visual.",
+    material: "PLA",
+    deadline: "Tenho uma data específica para receber",
+  },
+  {
+    label: "Protótipo rápido",
+    description: "Preciso validar forma, escala e leitura visual antes de partir para uma versão final.",
+    material: "PLA",
+    deadline: "Tenho urgência para validar",
+  },
+];
 
 export default function ImageTo3DPage() {
   const [tab, setTab] = useState<ServiceTab>("prototipagem");
@@ -61,11 +88,77 @@ export default function ImageTo3DPage() {
   const [error, setError] = useState<string>("");
   const [sending, setSending] = useState(false);
   const [successId, setSuccessId] = useState<string>("");
+  const [draftLoaded, setDraftLoaded] = useState(false);
 
   const whatsappHref = useMemo(() => `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`, []);
+  const readiness = [
+    Boolean(state.name.trim()),
+    Boolean(state.whatsapp.trim()),
+    Boolean(state.email.trim()),
+    Boolean(state.description.trim()),
+    Boolean(referenceImage),
+  ].filter(Boolean).length;
+  const readinessPercent = Math.round((readiness / 5) * 100);
+  const recommendation = useMemo(() => {
+    if (tab === "resina") {
+      return "Boa rota para bustos, miniaturas e peças de detalhe fino. Vale mandar a melhor referência frontal possível.";
+    }
+    if (tab === "engenharia") {
+      return "Boa rota para encaixe, suporte e uso funcional. Se tiver medida, foto da peça real e contexto de uso ajudam bastante.";
+    }
+    return "Boa rota para validação visual, mockup e peças de apresentação. Se houver urgência, isso costuma simplificar a produção.";
+  }, [tab]);
 
   function update<K extends keyof FormState>(key: K, value: FormState[K]) {
     setState((current) => ({ ...current, [key]: value }));
+  }
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      const raw = window.localStorage.getItem(IMAGE_TO_3D_DRAFT_KEY);
+      if (!raw) {
+        setDraftLoaded(true);
+        return;
+      }
+      const parsed = JSON.parse(raw) as { tab?: ServiceTab; state?: Partial<FormState> };
+      if (parsed.tab && parsed.tab in serviceContent) {
+        setTab(parsed.tab);
+      }
+      if (parsed.state && typeof parsed.state === "object") {
+        const draftState = parsed.state;
+        setState((current) => ({
+          ...current,
+          ...Object.fromEntries(
+            Object.entries(draftState).filter(([, value]) => typeof value === "string")
+          ),
+        }));
+      }
+    } catch {
+      // ignore malformed local draft
+    } finally {
+      setDraftLoaded(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined" || !draftLoaded) return;
+    window.localStorage.setItem(
+      IMAGE_TO_3D_DRAFT_KEY,
+      JSON.stringify({
+        tab,
+        state,
+      })
+    );
+  }, [draftLoaded, state, tab]);
+
+  function applyTemplate(template: (typeof briefTemplates)[number]) {
+    setState((current) => ({
+      ...current,
+      description: template.description,
+      material: template.material,
+      deadline: template.deadline,
+    }));
   }
 
   function validateFile(file: File, kind: "image" | "model") {
@@ -167,6 +260,28 @@ export default function ImageTo3DPage() {
                 ))}
               </div>
             </div>
+            <div className="mt-6 rounded-[28px] border border-emerald-300/20 bg-emerald-400/10 p-6">
+              <div className="flex items-center gap-2 text-emerald-100">
+                <Sparkles className="h-4 w-4" />
+                <p className="text-xs uppercase tracking-[0.18em]">Rota sugerida</p>
+              </div>
+              <p className="mt-3 text-sm leading-7 text-emerald-50">{recommendation}</p>
+            </div>
+            <div className="mt-6">
+              <p className="text-xs uppercase tracking-[0.18em] text-white/45">Modelos rápidos de briefing</p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {briefTemplates.map((template) => (
+                  <button
+                    key={template.label}
+                    type="button"
+                    onClick={() => applyTemplate(template)}
+                    className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white/75 transition hover:border-cyan-300/25 hover:text-cyan-100"
+                  >
+                    {template.label}
+                  </button>
+                ))}
+              </div>
+            </div>
             <div className="mt-6 flex flex-wrap gap-3 text-sm">
               <Link href="/catalogo" className="rounded-full border border-white/10 bg-white/5 px-5 py-3 font-semibold text-white/80 transition hover:text-white">Voltar para o catálogo</Link>
               <a href={whatsappHref} className="rounded-full border border-emerald-300/30 bg-emerald-400/15 px-5 py-3 font-semibold text-emerald-100 transition hover:bg-emerald-400/20">Falar com atendimento</a>
@@ -174,6 +289,22 @@ export default function ImageTo3DPage() {
           </div>
 
           <form onSubmit={handleSubmit} className="rounded-[32px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.03))] p-6 shadow-[0_18px_48px_rgba(2,8,23,0.28)]">
+            <div className="rounded-[24px] border border-white/10 bg-black/20 p-4">
+              <div className="flex items-center justify-between gap-3">
+                <p className="text-xs uppercase tracking-[0.18em] text-white/50">Prontidão da solicitação</p>
+                <span className="text-sm font-semibold text-cyan-100">{readinessPercent}%</span>
+              </div>
+              <div className="mt-3 h-2 overflow-hidden rounded-full bg-white/10">
+                <div className="h-full rounded-full bg-gradient-to-r from-cyan-300 to-emerald-300" style={{ width: `${readinessPercent}%` }} />
+              </div>
+              <div className="mt-3 grid gap-2 text-xs text-white/58 sm:grid-cols-2">
+                <span>{state.description.trim() ? "Descricao pronta" : "Falta explicar o projeto"}</span>
+                <span>{referenceImage ? "Imagem anexada" : "Falta imagem de referencia"}</span>
+                <span>{modelFile ? "Arquivo 3D anexado" : "Arquivo 3D opcional ausente"}</span>
+                <span>{state.deadline.trim() ? "Prazo informado" : "Prazo ainda aberto"}</span>
+              </div>
+            </div>
+
             <div className="grid gap-4 md:grid-cols-2">
               <label className="text-sm text-white/70">Nome completo<input value={state.name} onChange={(e) => update('name', e.target.value)} className="mt-2 w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none" required /></label>
               <label className="text-sm text-white/70">WhatsApp<input value={state.whatsapp} onChange={(e) => update('whatsapp', e.target.value)} className="mt-2 w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none" placeholder="5521..." required /></label>

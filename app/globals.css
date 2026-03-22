@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ===== MDH VISUAL CONTRACT =====
+   Tema base fixo da storefront:
+   - hero e vitrines com video no fundo
+   - linguagem neon/cyber em ciano + violeta
+   - hover com glow RGB perceptivel
+   - clique com resposta forte de profundidade/press
+   - superficies glass dark, nunca migrar para tema claro/bege como base visual
+   Qualquer evolucao futura deve preservar essa assinatura.
+*/
+
 /* ===== CSS CUSTOM PROPERTIES ===== */
 :root {
   /* Base Colors */

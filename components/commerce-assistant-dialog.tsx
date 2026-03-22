@@ -55,7 +55,7 @@ function createWelcomeMessage(
     content: aiAssistantReady
       ? [
           "Sou o consultor digital da MDH 3D.",
-          "Posso te indicar produtos do catálogo, explicar foto real, render do produto e prévia do modelo, orientar personalização e te conduzir para Pix ou cartão.",
+          "Posso te indicar produtos do catálogo, explicar foto real, render do produto e referência visual, orientar personalização e te conduzir para Pix ou cartão.",
           cardCheckoutReady
             ? "Se quiser, já posso começar por produto, presente, setup ou pagamento."
             : "Se quiser, já posso começar por produto, presente, setup, Pix ou parcelamento com a equipe.",

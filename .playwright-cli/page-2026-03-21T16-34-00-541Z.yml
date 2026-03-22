@@ -1,0 +1,774 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e5]:
+        - generic [ref=e6]: Curadoria real MDH 3D
+        - generic [ref=e7]:
+          - generic [ref=e8]:
+            - text: Modelo
+            - combobox "Selecionar modelo de compatibilidade" [ref=e9]:
+              - option "A1 Mini" [selected]
+              - option "A1"
+          - generic [ref=e10]: Pix com desconto e parcelamento no checkout
+          - link "@mdh_impressao3d" [ref=e11] [cursor=pointer]:
+            - /url: https://www.instagram.com/mdh_impressao3d/
+      - generic [ref=e12]:
+        - link "Logo MDH 3D MDH 3D Marketplace de pecas e kits para A1 Mini" [ref=e13] [cursor=pointer]:
+          - /url: /
+          - img "Logo MDH 3D" [ref=e14]
+          - generic [ref=e15]:
+            - paragraph [ref=e16]: MDH 3D
+            - paragraph [ref=e17]: Marketplace de pecas e kits para A1 Mini
+        - generic [ref=e18]:
+          - img [ref=e19]
+          - searchbox "Busque por SKU, PN, termo tecnico ou sintoma..." [ref=e22]
+          - button "Buscar" [ref=e23] [cursor=pointer]
+        - generic [ref=e24]:
+          - button "Assistente" [ref=e25] [cursor=pointer]:
+            - img [ref=e26]
+            - text: Assistente
+          - link "Comparar" [ref=e29] [cursor=pointer]:
+            - /url: /comparar
+            - img [ref=e30]
+            - text: Comparar
+          - button "Entrar" [ref=e34] [cursor=pointer]:
+            - img [ref=e35]
+            - text: Entrar
+          - link "WhatsApp" [ref=e38] [cursor=pointer]:
+            - /url: https://wa.me/5521920137249
+          - link "Checkout" [ref=e39] [cursor=pointer]:
+            - /url: /checkout
+            - img [ref=e40]
+            - text: Checkout
+      - navigation [ref=e43]:
+        - generic [ref=e44]:
+          - link "Inicio" [ref=e45] [cursor=pointer]:
+            - /url: /
+          - link "Catalogo" [ref=e46] [cursor=pointer]:
+            - /url: /catalogo
+          - link "Compatibilidade" [ref=e47] [cursor=pointer]:
+            - /url: /compatibilidade
+          - link "Configurador" [ref=e48] [cursor=pointer]:
+            - /url: /configurador/nozzle-hotend
+          - link "Kits" [ref=e49] [cursor=pointer]:
+            - /url: /kits
+          - link "Guias" [ref=e50] [cursor=pointer]:
+            - /url: /guias
+          - link "B2B" [ref=e51] [cursor=pointer]:
+            - /url: /b2b
+          - link "Suporte" [ref=e52] [cursor=pointer]:
+            - /url: /suporte
+    - main [ref=e53]:
+      - generic [ref=e54]:
+        - generic [ref=e55]:
+          - paragraph [ref=e56]: Catalogo tecnico marketplace
+          - heading "Fotos reais + compatibilidade A1 Mini + filtros tecnicos para compra sem erro." [level=1] [ref=e57]
+          - paragraph [ref=e58]: "Este catalogo foi refeito para funcionar como marketplace: cards com prova visual, preco Pix em destaque, comparador e curadoria por tipo de produto."
+          - generic [ref=e59]:
+            - generic [ref=e60]:
+              - paragraph [ref=e61]: Spare parts
+              - paragraph [ref=e62]: "02"
+            - generic [ref=e63]:
+              - paragraph [ref=e64]: Upgrades
+              - paragraph [ref=e65]: "01"
+            - generic [ref=e66]:
+              - paragraph [ref=e67]: Consumables
+              - paragraph [ref=e68]: "01"
+            - generic [ref=e69]:
+              - paragraph [ref=e70]: Kits
+              - paragraph [ref=e71]: "02"
+            - generic [ref=e72]:
+              - paragraph [ref=e73]: Accessories
+              - paragraph [ref=e74]: "36"
+          - generic [ref=e75]:
+            - link "Abrir matriz de compatibilidade" [ref=e76] [cursor=pointer]:
+              - /url: /compatibilidade
+              - img [ref=e77]
+              - text: Abrir matriz de compatibilidade
+            - link "Comparar produtos" [ref=e79] [cursor=pointer]:
+              - /url: /comparar
+              - img [ref=e80]
+              - text: Comparar produtos
+            - link "Assistente de escolha" [ref=e84] [cursor=pointer]:
+              - /url: /configurador/nozzle-hotend
+              - img [ref=e85]
+              - text: Assistente de escolha
+              - img [ref=e95]
+        - generic [ref=e98]:
+          - complementary [ref=e99]:
+            - generic [ref=e100]:
+              - generic [ref=e101]:
+                - heading "Compatibilidade ativa" [level=2] [ref=e102]
+                - img [ref=e103]
+              - paragraph [ref=e106]: Filtro persistente em todo o site para evitar compra errada.
+              - combobox "Modelo de compatibilidade" [ref=e107]:
+                - option "A1 Mini" [selected]
+                - option "A1"
+            - generic [ref=e108]:
+              - generic [ref=e109]:
+                - heading "Filtros tecnicos" [level=3] [ref=e110]
+                - img [ref=e111]
+              - generic [ref=e112]:
+                - generic [ref=e113]:
+                  - text: Busca por SKU, PN, termo ou sintoma
+                  - generic [ref=e114]:
+                    - img
+                    - textbox "Busca por SKU, PN, termo ou sintoma" [ref=e115]:
+                      - /placeholder: "Ex.: A1M, FAH019, entupimento..."
+                - generic [ref=e116]:
+                  - text: Tipo de produto
+                  - combobox "Tipo de produto" [ref=e117]:
+                    - option "Todos" [selected]
+                    - option "Spare parts"
+                    - option "Upgrades"
+                    - option "Consumables"
+                    - option "Kits"
+                    - option "Accessories"
+                - generic [ref=e118]:
+                  - text: Escopo tecnico
+                  - combobox "Escopo tecnico" [ref=e119]:
+                    - option "Todos" [selected]
+                    - option "acessorios"
+                - generic [ref=e120]:
+                  - text: Disponibilidade
+                  - combobox "Disponibilidade" [ref=e121]:
+                    - option "Todos" [selected]
+                    - option "Pronta entrega"
+                - generic [ref=e122]:
+                  - text: Ordenacao
+                  - combobox "Ordenacao" [ref=e123]:
+                    - option "Curadoria marketplace" [selected]
+                    - option "Menor preco"
+                    - option "Maior preco"
+                    - option "Melhor avaliacao"
+                - generic [ref=e124]:
+                  - paragraph [ref=e125]: Faixa de preco
+                  - paragraph [ref=e126]: R$ 15,00 - R$ 170,00
+                  - generic [ref=e127]:
+                    - slider [ref=e128]: "15"
+                    - slider [ref=e129]: "170"
+                - button "Limpar filtros" [ref=e130] [cursor=pointer]
+          - generic [ref=e131]:
+            - generic [ref=e133]:
+              - generic [ref=e134]:
+                - paragraph [ref=e135]: Resultado filtrado
+                - heading "42 itens compatveis com A1 Mini" [level=2] [ref=e136]
+                - paragraph [ref=e137]: Busca tecnica por SKU/PN/sintoma com fotos reais e ficha de compatibilidade.
+              - link "Comparador (0/4)" [ref=e138] [cursor=pointer]:
+                - /url: /comparar
+                - img [ref=e139]
+                - text: Comparador (0/4)
+            - generic [ref=e143]:
+              - article [ref=e144]:
+                - generic [ref=e145]:
+                  - generic [ref=e146]:
+                    - img "Moedor Hex Black para limpeza de residuos (A1 Mini) - visão 1" [ref=e149]
+                    - generic [ref=e150]:
+                      - generic [ref=e151]: Foto real
+                      - generic [ref=e152]: Pronta entrega
+                  - generic [ref=e153]:
+                    - generic [ref=e154]: PLA Premium
+                    - generic [ref=e155]: Fosco
+                - generic [ref=e156]:
+                  - generic [ref=e157]: Foto real
+                  - generic [ref=e158]: Pronta entrega
+                  - generic [ref=e159]: Consumables
+                - paragraph [ref=e160]: Consumables
+                - heading "Moedor Hex Black para limpeza de residuos (A1 Mini)" [level=3] [ref=e161]
+                - paragraph [ref=e162]: Foto real do moedor preto com textura lateral e tampa rosqueada para rotina de bancada.
+                - generic [ref=e163]:
+                  - paragraph [ref=e164]: "SKU: A1M-CONS-GRINDER-HEX-BLK-R1"
+                  - paragraph [ref=e165]: "Compatibilidade: A1 Mini / A1"
+                - generic [ref=e166]:
+                  - generic [ref=e167]:
+                    - paragraph [ref=e168]: Preco no Pix
+                    - paragraph [ref=e169]: R$ 49,90
+                    - paragraph [ref=e170]: 12x de R$ 4,66
+                  - generic [ref=e171]:
+                    - button "Comparar" [ref=e172] [cursor=pointer]
+                    - link "Ver produto" [ref=e173] [cursor=pointer]:
+                      - /url: /catalogo/real-001-moedor-hex-black-para-limpeza-de-residuos-a1-mini
+              - article [ref=e174]:
+                - generic [ref=e175]:
+                  - generic [ref=e176]:
+                    - img "Moedor Turbine Pro de dupla tampa (A1 Mini) - visão 1" [ref=e179]
+                    - generic [ref=e180]:
+                      - generic [ref=e181]: Foto real
+                      - generic [ref=e182]: Pronta entrega
+                  - generic [ref=e183]:
+                    - generic [ref=e184]: PLA Premium
+                    - generic [ref=e185]: Fosco
+                - generic [ref=e186]:
+                  - generic [ref=e187]: Foto real
+                  - generic [ref=e188]: Pronta entrega
+                  - generic [ref=e189]: Upgrades
+                - paragraph [ref=e190]: Upgrades
+                - heading "Moedor Turbine Pro de dupla tampa (A1 Mini)" [level=3] [ref=e191]
+                - paragraph [ref=e192]: Moedor de dupla tampa com dentes altos para trituracao eficiente e limpeza rapida da bancada.
+                - generic [ref=e193]:
+                  - paragraph [ref=e194]: "SKU: A1M-UPG-GRINDER-TURBINE-BLK-R1"
+                  - paragraph [ref=e195]: "Compatibilidade: A1 Mini / A1"
+                - generic [ref=e196]:
+                  - generic [ref=e197]:
+                    - paragraph [ref=e198]: Preco no Pix
+                    - paragraph [ref=e199]: R$ 57,90
+                    - paragraph [ref=e200]: 12x de R$ 5,40
+                  - generic [ref=e201]:
+                    - button "Comparar" [ref=e202] [cursor=pointer]
+                    - link "Ver produto" [ref=e203] [cursor=pointer]:
+                      - /url: /catalogo/real-002-moedor-turbine-pro-de-dupla-tampa-a1-mini
+              - article [ref=e204]:
+                - generic [ref=e205]:
+                  - generic [ref=e206]:
+                    - img "Suporte compacto para tubo de pasta ou cola - visão 1" [ref=e209]
+                    - generic [ref=e210]:
+                      - generic [ref=e211]: Foto real
+                      - generic [ref=e212]: Pronta entrega
+                  - generic [ref=e213]:
+                    - generic [ref=e214]: PLA Premium
+                    - generic [ref=e215]: Fosco
+                - generic [ref=e216]:
+                  - generic [ref=e217]: Foto real
+                  - generic [ref=e218]: Pronta entrega
+                  - generic [ref=e219]: Accessories
+                - paragraph [ref=e220]: Accessories
+                - heading "Suporte compacto para tubo de pasta ou cola" [level=3] [ref=e221]
+                - paragraph [ref=e222]: Suporte compacto para cola e pasta de bancada, com pegada firme e acesso rapido durante montagem.
+                - generic [ref=e223]:
+                  - paragraph [ref=e224]: "SKU: A1M-ACC-PASTA-HOLDER-R1"
+                  - paragraph [ref=e225]: "Compatibilidade: A1 Mini / A1"
+                - generic [ref=e226]:
+                  - generic [ref=e227]:
+                    - paragraph [ref=e228]: Preco no Pix
+                    - paragraph [ref=e229]: R$ 27,90
+                    - paragraph [ref=e230]: 12x de R$ 2,60
+                  - generic [ref=e231]:
+                    - button "Comparar" [ref=e232] [cursor=pointer]
+                    - link "Ver produto" [ref=e233] [cursor=pointer]:
+                      - /url: /catalogo/real-003-suporte-compacto-para-tubo-de-pasta-ou-cola
+              - article [ref=e234]:
+                - generic [ref=e235]:
+                  - generic [ref=e236]:
+                    - img "Placa decorativa Portal para setup A1 Mini - visão 1" [ref=e239]
+                    - generic [ref=e240]:
+                      - generic [ref=e241]: Foto real
+                      - generic [ref=e242]: Pronta entrega
+                  - generic [ref=e243]:
+                    - generic [ref=e244]: PLA Premium
+                    - generic [ref=e245]: Fosco
+                - generic [ref=e246]:
+                  - generic [ref=e247]: Foto real
+                  - generic [ref=e248]: Pronta entrega
+                  - generic [ref=e249]: Spare parts
+                - paragraph [ref=e250]: Spare parts
+                - heading "Placa decorativa Portal para setup A1 Mini" [level=3] [ref=e251]
+                - paragraph [ref=e252]: Placa vazada estilo sci-fi para parede, setup gamer e estacao de impressao com visual neon.
+                - generic [ref=e253]:
+                  - paragraph [ref=e254]: "SKU: A1M-SPARE-PLACA-PORTAL-R1"
+                  - paragraph [ref=e255]: "Compatibilidade: A1 Mini / A1"
+                - generic [ref=e256]:
+                  - generic [ref=e257]:
+                    - paragraph [ref=e258]: Preco no Pix
+                    - paragraph [ref=e259]: R$ 42,90
+                    - paragraph [ref=e260]: 12x de R$ 4,00
+                  - generic [ref=e261]:
+                    - button "Comparar" [ref=e262] [cursor=pointer]
+                    - link "Ver produto" [ref=e263] [cursor=pointer]:
+                      - /url: /catalogo/real-006-placa-decorativa-portal-para-setup-a1-mini
+              - article [ref=e264]:
+                - generic [ref=e265]:
+                  - generic [ref=e266]:
+                    - img "Case Skull para isqueiro - reposicao premium - visão 1" [ref=e269]
+                    - generic [ref=e270]:
+                      - generic [ref=e271]: Foto real
+                      - generic [ref=e272]: Pronta entrega
+                  - generic [ref=e273]:
+                    - generic [ref=e274]: PLA Premium
+                    - generic [ref=e275]: Fosco
+                - generic [ref=e276]:
+                  - generic [ref=e277]: Foto real
+                  - generic [ref=e278]: Pronta entrega
+                  - generic [ref=e279]: Spare parts
+                - paragraph [ref=e280]: Spare parts
+                - heading "Case Skull para isqueiro - reposicao premium" [level=3] [ref=e281]
+                - paragraph [ref=e282]: Case premium com relevo de caveira, acabamento fosco e encaixe firme para uso diario.
+                - generic [ref=e283]:
+                  - paragraph [ref=e284]: "SKU: A1M-SPARE-CASE-LIGHTER-SKULL-R1"
+                  - paragraph [ref=e285]: "Compatibilidade: A1 Mini"
+                - generic [ref=e286]:
+                  - generic [ref=e287]:
+                    - paragraph [ref=e288]: Preco no Pix
+                    - paragraph [ref=e289]: R$ 34,90
+                    - paragraph [ref=e290]: 12x de R$ 3,26
+                  - generic [ref=e291]:
+                    - button "Comparar" [ref=e292] [cursor=pointer]
+                    - link "Ver produto" [ref=e293] [cursor=pointer]:
+                      - /url: /catalogo/real-009-case-skull-para-isqueiro---reposicao-premium
+              - article [ref=e294]:
+                - generic [ref=e295]:
+                  - generic [ref=e296]:
+                    - img "Chaveiro medalha personalizado premium - visão 1" [ref=e299]
+                    - generic [ref=e300]:
+                      - generic [ref=e301]: Foto real
+                      - generic [ref=e302]: Pronta entrega
+                  - generic [ref=e303]:
+                    - generic [ref=e304]: PLA Premium
+                    - generic [ref=e305]: Fosco
+                - generic [ref=e306]:
+                  - generic [ref=e307]: Foto real
+                  - generic [ref=e308]: Pronta entrega
+                  - generic [ref=e309]: Accessories
+                - paragraph [ref=e310]: Accessories
+                - heading "Chaveiro medalha personalizado premium" [level=3] [ref=e311]
+                - paragraph [ref=e312]: Medalha personalizada com corrente metalica para brindes de evento, loja e encomenda em lote.
+                - generic [ref=e313]:
+                  - paragraph [ref=e314]: "SKU: A1M-ACC-KEYTAG-MASON-R1"
+                  - paragraph [ref=e315]: "Compatibilidade: A1 Mini / A1"
+                - generic [ref=e316]:
+                  - generic [ref=e317]:
+                    - paragraph [ref=e318]: Preco no Pix
+                    - paragraph [ref=e319]: R$ 22,90
+                    - paragraph [ref=e320]: 12x de R$ 2,14
+                  - generic [ref=e321]:
+                    - button "Comparar" [ref=e322] [cursor=pointer]
+                    - link "Ver produto" [ref=e323] [cursor=pointer]:
+                      - /url: /catalogo/real-011-chaveiro-medalha-personalizado-premium
+              - article [ref=e324]:
+                - generic [ref=e325]:
+                  - generic [ref=e326]:
+                    - img "Chaveiro Brasil multicor em camadas - visão 1" [ref=e329]
+                    - generic [ref=e330]:
+                      - generic [ref=e331]: Foto real
+                      - generic [ref=e332]: Pronta entrega
+                  - generic [ref=e333]:
+                    - generic [ref=e334]: PLA Premium
+                    - generic [ref=e335]: Fosco
+                - generic [ref=e336]:
+                  - generic [ref=e337]: Foto real
+                  - generic [ref=e338]: Pronta entrega
+                  - generic [ref=e339]: Accessories
+                - paragraph [ref=e340]: Accessories
+                - heading "Chaveiro Brasil multicor em camadas" [level=3] [ref=e341]
+                - paragraph [ref=e342]: Foto real na mao mostrando bandeira e escudo em camadas para lembrancas e presentes.
+                - generic [ref=e343]:
+                  - paragraph [ref=e344]: "SKU: A1M-ACC-KEYCHAIN-BRASIL-R1"
+                  - paragraph [ref=e345]: "Compatibilidade: A1 Mini / A1"
+                - generic [ref=e346]:
+                  - generic [ref=e347]:
+                    - paragraph [ref=e348]: Preco no Pix
+                    - paragraph [ref=e349]: R$ 18,90
+                    - paragraph [ref=e350]: 12x de R$ 1,76
+                  - generic [ref=e351]:
+                    - button "Comparar" [ref=e352] [cursor=pointer]
+                    - link "Ver produto" [ref=e353] [cursor=pointer]:
+                      - /url: /catalogo/real-012-chaveiro-brasil-multicor-em-camadas
+              - article [ref=e354]:
+                - generic [ref=e355]:
+                  - generic [ref=e356]:
+                    - img "Chaveiro Yoshi verde para colecao gamer - visão 1" [ref=e359]
+                    - generic [ref=e360]:
+                      - generic [ref=e361]: Foto real
+                      - generic [ref=e362]: Pronta entrega
+                  - generic [ref=e363]:
+                    - generic [ref=e364]: PLA Premium
+                    - generic [ref=e365]: Fosco
+                - generic [ref=e366]:
+                  - generic [ref=e367]: Foto real
+                  - generic [ref=e368]: Pronta entrega
+                  - generic [ref=e369]: Accessories
+                - paragraph [ref=e370]: Accessories
+                - heading "Chaveiro Yoshi verde para colecao gamer" [level=3] [ref=e371]
+                - paragraph [ref=e372]: Foto real do lote de chaveiros verdes em mesa de impressora para giro rapido.
+                - generic [ref=e373]:
+                  - paragraph [ref=e374]: "SKU: A1M-ACC-KEYCHAIN-YOSHI-R1"
+                  - paragraph [ref=e375]: "Compatibilidade: A1 Mini / A1"
+                - generic [ref=e376]:
+                  - generic [ref=e377]:
+                    - paragraph [ref=e378]: Preco no Pix
+                    - paragraph [ref=e379]: R$ 19,90
+                    - paragraph [ref=e380]: 12x de R$ 1,86
+                  - generic [ref=e381]:
+                    - button "Comparar" [ref=e382] [cursor=pointer]
+                    - link "Ver produto" [ref=e383] [cursor=pointer]:
+                      - /url: /catalogo/real-013-chaveiro-yoshi-verde-para-colecao-gamer
+              - article [ref=e384]:
+                - generic [ref=e385]:
+                  - generic [ref=e386]:
+                    - img "Organizador de mesa 3 gavetas print-in-place - visão 1" [ref=e389]
+                    - generic [ref=e390]:
+                      - generic [ref=e391]: Foto real
+                      - generic [ref=e392]: Pronta entrega
+                  - generic [ref=e393]:
+                    - generic [ref=e394]: PLA Premium
+                    - generic [ref=e395]: Fosco
+                - generic [ref=e396]:
+                  - generic [ref=e397]: Foto real
+                  - generic [ref=e398]: Pronta entrega
+                  - generic [ref=e399]: Accessories
+                - paragraph [ref=e400]: Accessories
+                - heading "Organizador de mesa 3 gavetas print-in-place" [level=3] [ref=e401]
+                - paragraph [ref=e402]: Organizador robusto com tres gavetas para ferramentas, bicos e pecas pequenas da bancada de impressao.
+                - generic [ref=e403]:
+                  - paragraph [ref=e404]: "SKU: A1M-ACC-ORG-3DRAWER-R1"
+                  - paragraph [ref=e405]: "Compatibilidade: A1 Mini / A1"
+                - generic [ref=e406]:
+                  - generic [ref=e407]:
+                    - paragraph [ref=e408]: Preco no Pix
+                    - paragraph [ref=e409]: R$ 64,90
+                    - paragraph [ref=e410]: 12x de R$ 6,06
+                  - generic [ref=e411]:
+                    - button "Comparar" [ref=e412] [cursor=pointer]
+                    - link "Ver produto" [ref=e413] [cursor=pointer]:
+                      - /url: /catalogo/proj-101-organizador-de-mesa-3-gavetas-print-in-place
+              - article [ref=e414]:
+                - generic [ref=e415]:
+                  - generic [ref=e416]:
+                    - img "Kit passa-fios de mesa modular - visão 1" [ref=e419]
+                    - generic [ref=e420]:
+                      - generic [ref=e421]: Foto real
+                      - generic [ref=e422]: Pronta entrega
+                  - generic [ref=e423]:
+                    - generic [ref=e424]: PLA Premium
+                    - generic [ref=e425]: Fosco
+                - generic [ref=e426]:
+                  - generic [ref=e427]: Foto real
+                  - generic [ref=e428]: Pronta entrega
+                  - generic [ref=e429]: Accessories
+                - paragraph [ref=e430]: Accessories
+                - heading "Kit passa-fios de mesa modular" [level=3] [ref=e431]
+                - paragraph [ref=e432]: Kit modular para organizar cabos e fios na mesa, reduzindo bagunca visual e enroscos no uso diario.
+                - generic [ref=e433]:
+                  - paragraph [ref=e434]: "SKU: A1M-ACC-DESK-CABLE-KIT-R1"
+                  - paragraph [ref=e435]: "Compatibilidade: A1 Mini / A1"
+                - generic [ref=e436]:
+                  - generic [ref=e437]:
+                    - paragraph [ref=e438]: Preco no Pix
+                    - paragraph [ref=e439]: R$ 29,90
+                    - paragraph [ref=e440]: 12x de R$ 2,79
+                  - generic [ref=e441]:
+                    - button "Comparar" [ref=e442] [cursor=pointer]
+                    - link "Ver produto" [ref=e443] [cursor=pointer]:
+                      - /url: /catalogo/proj-102-kit-passa-fios-de-mesa-modular
+              - article [ref=e444]:
+                - generic [ref=e445]:
+                  - generic [ref=e446]:
+                    - img "Suporte para oculos dobravel - visão 1" [ref=e449]
+                    - generic [ref=e450]:
+                      - generic [ref=e451]: Foto real
+                      - generic [ref=e452]: Pronta entrega
+                  - generic [ref=e453]:
+                    - generic [ref=e454]: PLA Premium
+                    - generic [ref=e455]: Fosco
+                - generic [ref=e456]:
+                  - generic [ref=e457]: Foto real
+                  - generic [ref=e458]: Pronta entrega
+                  - generic [ref=e459]: Accessories
+                - paragraph [ref=e460]: Accessories
+                - heading "Suporte para oculos dobravel" [level=3] [ref=e461]
+                - paragraph [ref=e462]: Suporte compacto para oculos com abertura rapida, ideal para mesa de trabalho e home office.
+                - generic [ref=e463]:
+                  - paragraph [ref=e464]: "SKU: A1M-ACC-GLASSES-STAND-R1"
+                  - paragraph [ref=e465]: "Compatibilidade: A1 Mini / A1"
+                - generic [ref=e466]:
+                  - generic [ref=e467]:
+                    - paragraph [ref=e468]: Preco no Pix
+                    - paragraph [ref=e469]: R$ 32,90
+                    - paragraph [ref=e470]: 12x de R$ 3,07
+                  - generic [ref=e471]:
+                    - button "Comparar" [ref=e472] [cursor=pointer]
+                    - link "Ver produto" [ref=e473] [cursor=pointer]:
+                      - /url: /catalogo/proj-103-suporte-para-oculos-dobravel
+              - article [ref=e474]:
+                - generic [ref=e475]:
+                  - generic [ref=e476]:
+                    - img "Suporte para controle gamer - visão 1" [ref=e479]
+                    - generic [ref=e480]:
+                      - generic [ref=e481]: Foto real
+                      - generic [ref=e482]: Pronta entrega
+                  - generic [ref=e483]:
+                    - generic [ref=e484]: PLA Premium
+                    - generic [ref=e485]: Fosco
+                - generic [ref=e486]:
+                  - generic [ref=e487]: Foto real
+                  - generic [ref=e488]: Pronta entrega
+                  - generic [ref=e489]: Accessories
+                - paragraph [ref=e490]: Accessories
+                - heading "Suporte para controle gamer" [level=3] [ref=e491]
+                - paragraph [ref=e492]: Base de apoio para controle com encaixe firme e visual clean para setup gamer e bancada.
+                - generic [ref=e493]:
+                  - paragraph [ref=e494]: "SKU: A1M-ACC-GAMEPAD-STAND-R1"
+                  - paragraph [ref=e495]: "Compatibilidade: A1 Mini / A1"
+                - generic [ref=e496]:
+                  - generic [ref=e497]:
+                    - paragraph [ref=e498]: Preco no Pix
+                    - paragraph [ref=e499]: R$ 39,90
+                    - paragraph [ref=e500]: 12x de R$ 3,72
+                  - generic [ref=e501]:
+                    - button "Comparar" [ref=e502] [cursor=pointer]
+                    - link "Ver produto" [ref=e503] [cursor=pointer]:
+                      - /url: /catalogo/proj-104-suporte-para-controle-gamer
+              - article [ref=e504]:
+                - generic [ref=e505]:
+                  - generic [ref=e506]:
+                    - img "Spinner triangular antiestresse - visão 1" [ref=e509]
+                    - generic [ref=e510]:
+                      - generic [ref=e511]: Foto real
+                      - generic [ref=e512]: Pronta entrega
+                  - generic [ref=e513]:
+                    - generic [ref=e514]: PLA Premium
+                    - generic [ref=e515]: Fosco
+                - generic [ref=e516]:
+                  - generic [ref=e517]: Foto real
+                  - generic [ref=e518]: Pronta entrega
+                  - generic [ref=e519]: Accessories
+                - paragraph [ref=e520]: Accessories
+                - heading "Spinner triangular antiestresse" [level=3] [ref=e521]
+                - paragraph [ref=e522]: Fidget compacto de giro suave para aliviar stress durante estudo, trabalho ou atendimento.
+                - generic [ref=e523]:
+                  - paragraph [ref=e524]: "SKU: A1M-ACC-SPINNER-TRI-R1"
+                  - paragraph [ref=e525]: "Compatibilidade: A1 Mini / A1"
+                - generic [ref=e526]:
+                  - generic [ref=e527]:
+                    - paragraph [ref=e528]: Preco no Pix
+                    - paragraph [ref=e529]: R$ 17,90
+                    - paragraph [ref=e530]: 12x de R$ 1,67
+                  - generic [ref=e531]:
+                    - button "Comparar" [ref=e532] [cursor=pointer]
+                    - link "Ver produto" [ref=e533] [cursor=pointer]:
+                      - /url: /catalogo/proj-105-spinner-triangular-antiestresse
+              - article [ref=e534]:
+                - generic [ref=e535]:
+                  - generic [ref=e536]:
+                    - img "Porta-canetas robo multiuso - visão 1" [ref=e539]
+                    - generic [ref=e540]:
+                      - generic [ref=e541]: Foto real
+                      - generic [ref=e542]: Pronta entrega
+                  - generic [ref=e543]:
+                    - generic [ref=e544]: PLA Premium
+                    - generic [ref=e545]: Fosco
+                - generic [ref=e546]:
+                  - generic [ref=e547]: Foto real
+                  - generic [ref=e548]: Pronta entrega
+                  - generic [ref=e549]: Accessories
+                - paragraph [ref=e550]: Accessories
+                - heading "Porta-canetas robo multiuso" [level=3] [ref=e551]
+                - paragraph [ref=e552]: Organizador em formato robo para canetas e ferramentas leves, com apelo visual para escritorio.
+                - generic [ref=e553]:
+                  - paragraph [ref=e554]: "SKU: A1M-ACC-ROBO-PENHOLDER-R1"
+                  - paragraph [ref=e555]: "Compatibilidade: A1 Mini / A1"
+                - generic [ref=e556]:
+                  - generic [ref=e557]:
+                    - paragraph [ref=e558]: Preco no Pix
+                    - paragraph [ref=e559]: R$ 34,90
+                    - paragraph [ref=e560]: 12x de R$ 3,26
+                  - generic [ref=e561]:
+                    - button "Comparar" [ref=e562] [cursor=pointer]
+                    - link "Ver produto" [ref=e563] [cursor=pointer]:
+                      - /url: /catalogo/proj-106-porta-canetas-robo-multiuso
+              - article [ref=e564]:
+                - generic [ref=e565]:
+                  - generic [ref=e566]:
+                    - img "Organizador de cabos com trilho - visão 1" [ref=e569]
+                    - generic [ref=e570]:
+                      - generic [ref=e571]: Foto real
+                      - generic [ref=e572]: Pronta entrega
+                  - generic [ref=e573]:
+                    - generic [ref=e574]: PLA Premium
+                    - generic [ref=e575]: Fosco
+                - generic [ref=e576]:
+                  - generic [ref=e577]: Foto real
+                  - generic [ref=e578]: Pronta entrega
+                  - generic [ref=e579]: Accessories
+                - paragraph [ref=e580]: Accessories
+                - heading "Organizador de cabos com trilho" [level=3] [ref=e581]
+                - paragraph [ref=e582]: Trilho para passagem de cabos com fixacao rapida, ideal para setup de impressora, notebook e monitor.
+                - generic [ref=e583]:
+                  - paragraph [ref=e584]: "SKU: A1M-ACC-CABLE-RAIL-R1"
+                  - paragraph [ref=e585]: "Compatibilidade: A1 Mini / A1"
+                - generic [ref=e586]:
+                  - generic [ref=e587]:
+                    - paragraph [ref=e588]: Preco no Pix
+                    - paragraph [ref=e589]: R$ 24,90
+                    - paragraph [ref=e590]: 12x de R$ 2,32
+                  - generic [ref=e591]:
+                    - button "Comparar" [ref=e592] [cursor=pointer]
+                    - link "Ver produto" [ref=e593] [cursor=pointer]:
+                      - /url: /catalogo/proj-107-organizador-de-cabos-com-trilho
+              - article [ref=e594]:
+                - generic [ref=e595]:
+                  - generic [ref=e596]:
+                    - img "Suporte de celular exoskeleton - visão 1" [ref=e599]
+                    - generic [ref=e600]:
+                      - generic [ref=e601]: Foto real
+                      - generic [ref=e602]: Pronta entrega
+                  - generic [ref=e603]:
+                    - generic [ref=e604]: PLA Premium
+                    - generic [ref=e605]: Fosco
+                - generic [ref=e606]:
+                  - generic [ref=e607]: Foto real
+                  - generic [ref=e608]: Pronta entrega
+                  - generic [ref=e609]: Accessories
+                - paragraph [ref=e610]: Accessories
+                - heading "Suporte de celular exoskeleton" [level=3] [ref=e611]
+                - paragraph [ref=e612]: Suporte com design exoskeleton para celular, excelente para lives, videochamadas e bancada tecnica.
+                - generic [ref=e613]:
+                  - paragraph [ref=e614]: "SKU: A1M-ACC-PHONE-EXO-R1"
+                  - paragraph [ref=e615]: "Compatibilidade: A1 Mini / A1"
+                - generic [ref=e616]:
+                  - generic [ref=e617]:
+                    - paragraph [ref=e618]: Preco no Pix
+                    - paragraph [ref=e619]: R$ 44,90
+                    - paragraph [ref=e620]: 12x de R$ 4,19
+                  - generic [ref=e621]:
+                    - button "Comparar" [ref=e622] [cursor=pointer]
+                    - link "Ver produto" [ref=e623] [cursor=pointer]:
+                      - /url: /catalogo/proj-108-suporte-de-celular-exoskeleton
+              - article [ref=e624]:
+                - generic [ref=e625]:
+                  - generic [ref=e626]:
+                    - img "Suporte para relogio e smartwatch - visão 1" [ref=e629]
+                    - generic [ref=e630]:
+                      - generic [ref=e631]: Foto real
+                      - generic [ref=e632]: Pronta entrega
+                  - generic [ref=e633]:
+                    - generic [ref=e634]: PLA Premium
+                    - generic [ref=e635]: Fosco
+                - generic [ref=e636]:
+                  - generic [ref=e637]: Foto real
+                  - generic [ref=e638]: Pronta entrega
+                  - generic [ref=e639]: Accessories
+                - paragraph [ref=e640]: Accessories
+                - heading "Suporte para relogio e smartwatch" [level=3] [ref=e641]
+                - paragraph [ref=e642]: Base elegante para relogio com encaixe seguro e visual premium para loja, quarto ou escritorio.
+                - generic [ref=e643]:
+                  - paragraph [ref=e644]: "SKU: A1M-ACC-WATCH-STAND-R1"
+                  - paragraph [ref=e645]: "Compatibilidade: A1 Mini / A1"
+                - generic [ref=e646]:
+                  - generic [ref=e647]:
+                    - paragraph [ref=e648]: Preco no Pix
+                    - paragraph [ref=e649]: R$ 28,90
+                    - paragraph [ref=e650]: 12x de R$ 2,70
+                  - generic [ref=e651]:
+                    - button "Comparar" [ref=e652] [cursor=pointer]
+                    - link "Ver produto" [ref=e653] [cursor=pointer]:
+                      - /url: /catalogo/proj-109-suporte-para-relogio-e-smartwatch
+              - article [ref=e654]:
+                - generic [ref=e655]:
+                  - generic [ref=e656]:
+                    - img "Organizador compacto 2 gavetas - visão 1" [ref=e659]
+                    - generic [ref=e660]:
+                      - generic [ref=e661]: Foto real
+                      - generic [ref=e662]: Pronta entrega
+                  - generic [ref=e663]:
+                    - generic [ref=e664]: PLA Premium
+                    - generic [ref=e665]: Fosco
+                - generic [ref=e666]:
+                  - generic [ref=e667]: Foto real
+                  - generic [ref=e668]: Pronta entrega
+                  - generic [ref=e669]: Accessories
+                - paragraph [ref=e670]: Accessories
+                - heading "Organizador compacto 2 gavetas" [level=3] [ref=e671]
+                - paragraph [ref=e672]: Organizador compacto com duas gavetas para parafusos, bits, conectores e pequenos componentes.
+                - generic [ref=e673]:
+                  - paragraph [ref=e674]: "SKU: A1M-ACC-ORG-2DRAWER-R1"
+                  - paragraph [ref=e675]: "Compatibilidade: A1 Mini / A1"
+                - generic [ref=e676]:
+                  - generic [ref=e677]:
+                    - paragraph [ref=e678]: Preco no Pix
+                    - paragraph [ref=e679]: R$ 49,90
+                    - paragraph [ref=e680]: 12x de R$ 4,66
+                  - generic [ref=e681]:
+                    - button "Comparar" [ref=e682] [cursor=pointer]
+                    - link "Ver produto" [ref=e683] [cursor=pointer]:
+                      - /url: /catalogo/proj-110-organizador-compacto-2-gavetas
+            - generic [ref=e684]:
+              - button "Anterior" [disabled] [ref=e685]
+              - generic [ref=e686]: Pagina 1 de 3
+              - button "Proxima" [ref=e687] [cursor=pointer]
+            - generic [ref=e688]:
+              - paragraph [ref=e689]:
+                - img [ref=e690]
+                - text: Aviso tecnico de seguranca
+              - paragraph [ref=e695]: Desligue e desconecte da tomada antes de qualquer manutencao. Nao toque no hotend sem resfriamento completo.
+    - contentinfo [ref=e696]:
+      - generic [ref=e698]:
+        - generic [ref=e699]:
+          - paragraph [ref=e700]: MDH 3D marketplace
+          - heading "Pecas, upgrades e kits com foto real e compatibilidade verificada." [level=2] [ref=e701]
+          - paragraph [ref=e702]: Operacao focada em A1 Mini com filtros tecnicos, comparador de itens e checkout nacional com Pix, cartao e boleto.
+          - generic [ref=e703]:
+            - link "WhatsApp" [ref=e704] [cursor=pointer]:
+              - /url: https://wa.me/5521920137249
+            - link "mdhatendimento@gmail.com" [ref=e705] [cursor=pointer]:
+              - /url: mailto:mdhatendimento@gmail.com
+        - generic [ref=e706]:
+          - paragraph [ref=e707]: Catalogo tecnico
+          - generic [ref=e708]:
+            - link "Catalogo completo" [ref=e709] [cursor=pointer]:
+              - /url: /catalogo
+            - link "Compatibilidade A1 Mini" [ref=e710] [cursor=pointer]:
+              - /url: /compatibilidade
+            - link "Configurador nozzle/hotend" [ref=e711] [cursor=pointer]:
+              - /url: /configurador/nozzle-hotend
+            - link "Comparar produtos" [ref=e712] [cursor=pointer]:
+              - /url: /comparar
+        - generic [ref=e713]:
+          - paragraph [ref=e714]: Conteudo e operacao
+          - generic [ref=e715]:
+            - link "Kits de manutencao" [ref=e716] [cursor=pointer]:
+              - /url: /kits
+            - link "Guias de instalacao" [ref=e717] [cursor=pointer]:
+              - /url: /guias
+            - link "Area B2B" [ref=e718] [cursor=pointer]:
+              - /url: /b2b
+            - link "Checkout" [ref=e719] [cursor=pointer]:
+              - /url: /checkout
+        - generic [ref=e720]:
+          - paragraph [ref=e721]: Suporte e compliance
+          - generic [ref=e722]:
+            - link "Central de suporte" [ref=e723] [cursor=pointer]:
+              - /url: /suporte
+            - link "Envio e frete" [ref=e724] [cursor=pointer]:
+              - /url: /suporte/envio
+            - link "Trocas e devolucoes" [ref=e725] [cursor=pointer]:
+              - /url: /suporte/trocas-devolucoes
+            - link "Garantia" [ref=e726] [cursor=pointer]:
+              - /url: /suporte/garantia
+            - link "Contato" [ref=e727] [cursor=pointer]:
+              - /url: /suporte/contato
+            - link "Privacidade (LGPD)" [ref=e728] [cursor=pointer]:
+              - /url: /politica-de-privacidade
+            - link "Termos de uso" [ref=e729] [cursor=pointer]:
+              - /url: /termos
+      - generic [ref=e731]:
+        - generic [ref=e732]: © 2026 MDH 3D. Todos os direitos reservados.
+        - generic [ref=e733]: Uso descritivo de marcas de terceiros apenas para compatibilidade. Nao afiliado oficialmente, salvo contrato expresso.
+    - link "Fale conosco no WhatsApp" [ref=e734] [cursor=pointer]:
+      - /url: https://wa.me/5521920137249?text=Oi!%20Vim%20pelo%20site%20da%20MDH%203D%20e%20quero%20um%20or%C3%A7amento.
+      - img [ref=e735]
+    - generic [ref=e737]:
+      - link "Quero algo geek para presente" [ref=e738] [cursor=pointer]:
+        - /url: https://wa.me/5521920137249?text=Quero%20algo%20geek%20para%20presente
+      - link "Quero um suporte para setup" [ref=e739] [cursor=pointer]:
+        - /url: https://wa.me/5521920137249?text=Quero%20um%20suporte%20para%20setup
+      - link "Quero um nome 3D personalizado" [ref=e740] [cursor=pointer]:
+        - /url: https://wa.me/5521920137249?text=Quero%20um%20nome%203D%20personalizado
+      - link "Quero calcular entrega no RJ" [ref=e741] [cursor=pointer]:
+        - /url: https://wa.me/5521920137249?text=Quero%20calcular%20entrega%20no%20RJ
+    - complementary:
+      - generic [ref=e742]:
+        - generic [ref=e743]:
+          - img [ref=e745]
+          - generic [ref=e747]:
+            - paragraph [ref=e748]: Assistente MDH
+            - paragraph [ref=e749]: Atalhos rápidos para fechar melhor
+        - generic [ref=e750]:
+          - link "Quero algo geek para presente" [ref=e751] [cursor=pointer]:
+            - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20algo%20geek%20para%20presente
+          - link "Quero um suporte para setup" [ref=e752] [cursor=pointer]:
+            - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20um%20suporte%20para%20setup
+          - link "Quero um nome 3D personalizado" [ref=e753] [cursor=pointer]:
+            - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20um%20nome%203D%20personalizado
+          - link "Quero calcular entrega no RJ" [ref=e754] [cursor=pointer]:
+            - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20calcular%20entrega%20no%20RJ
+  - alert [ref=e755]

@@ -4,6 +4,7 @@ import { CatalogBuyingIntents } from '@/components/catalog-buying-intents';
 import { CatalogRealCases } from '@/components/catalog-real-cases';
 import { ComboBuilder } from '@/components/combo-builder';
 import { catalog, categories, collections } from '@/lib/catalog';
+import { catalogShortcutLinks } from '@/lib/constants';
 import { summarizeProductVisuals } from '@/lib/product-visuals';
 
 type CatalogPageSearchParams = {
@@ -25,7 +26,7 @@ export default async function CatalogPage({ searchParams }: { searchParams?: Pro
   const initialQuery = params?.q?.trim() || '';
   const initialCategory = params?.category && categories.includes(params.category) ? params.category : 'Todas';
   const initialCollection = params?.collection && collections.includes(params.collection) ? params.collection : 'Todas';
-  const initialVerifiedOnly = params?.mode === 'verified';
+  const initialVisualMode = params?.mode === 'real' ? 'real' : params?.mode === 'verified' ? 'verified' : 'all';
   const initialAvailability = params?.status === 'Pronta entrega' || params?.status === 'Sob encomenda' ? params.status : 'Todos';
   const initialMaterial = params?.material?.trim() || 'Todos';
   const initialIntent = params?.intent?.trim() || 'Geral';
@@ -39,6 +40,7 @@ export default async function CatalogPage({ searchParams }: { searchParams?: Pro
     initialCategory !== 'Todas' ? initialCategory : null,
     initialCollection !== 'Todas' ? initialCollection : null,
     initialQuery ? `Busca: ${initialQuery}` : null,
+    initialVisualMode === 'real' ? 'Só foto real' : initialVisualMode === 'verified' ? 'Visual validado' : null,
     initialAvailability !== 'Todos' ? initialAvailability : null,
     initialMaterial !== 'Todos' ? initialMaterial : null,
     initialIntent !== 'Geral' ? initialIntent : null,
@@ -111,7 +113,7 @@ export default async function CatalogPage({ searchParams }: { searchParams?: Pro
 
       <div className="mt-5 grid gap-3 md:grid-cols-3">
         {[
-          { label: 'Autenticidade', value: 'Foto real, render fiel e prévia separados com clareza' },
+          { label: 'Autenticidade', value: 'Foto real, render fiel e referência visual separados com clareza' },
           { label: 'Compartilhamento', value: 'Filtros podem virar uma vitrine pronta para enviar ao cliente' },
           { label: 'Fechamento', value: 'Catálogo, WhatsApp e checkout conectados na mesma jornada' }
         ].map((item) => (
@@ -122,12 +124,24 @@ export default async function CatalogPage({ searchParams }: { searchParams?: Pro
         ))}
       </div>
 
-      <div className="glass-panel mt-8 rounded-[28px] border border-amber-300/15 bg-amber-300/8 p-5 text-sm leading-7 text-amber-50/90">
-        <p className="text-xs uppercase tracking-[0.18em] text-amber-100/80">Como ler a vitrine</p>
-        <p className="mt-2">
-          Foto real indica peça já produzida. Render do produto mostra a geometria real do modelo. Prévia do modelo aponta a direção visual da encomenda e é acompanhada de estimativa inicial para tamanho, acabamento e personalização.
-        </p>
+      <div className="mt-5 flex flex-wrap gap-2">
+        {catalogShortcutLinks.map((item) => (
+          <Link
+            key={item.href}
+            href={item.href}
+            className="rounded-full border border-white/12 bg-white/5 px-4 py-2 text-xs font-semibold text-white/78 transition hover:border-cyan-300/30 hover:bg-cyan-300/10 hover:text-cyan-100"
+          >
+            {item.label}
+          </Link>
+        ))}
       </div>
+
+        <div className="glass-panel mt-8 rounded-[28px] border border-amber-300/15 bg-amber-300/8 p-5 text-sm leading-7 text-amber-50/90">
+          <p className="text-xs uppercase tracking-[0.18em] text-amber-100/80">Como ler a vitrine</p>
+          <p className="mt-2">
+          Foto real indica peça já produzida. Render do produto mostra a geometria real do modelo. Referência visual ajuda a entender o objeto anunciado quando ainda não há foto real, mantendo a compra mais clara sem vender a imagem como prova de peça pronta.
+          </p>
+        </div>
 
       <CatalogBuyingIntents products={catalog} />
 
@@ -155,7 +169,7 @@ export default async function CatalogPage({ searchParams }: { searchParams?: Pro
               initialQuery={initialQuery}
               initialCategory={initialCategory}
               initialCollection={initialCollection}
-              initialVerifiedOnly={initialVerifiedOnly}
+              initialVisualMode={initialVisualMode}
               initialAvailability={initialAvailability}
               initialMaterial={initialMaterial}
               initialIntent={initialIntent}

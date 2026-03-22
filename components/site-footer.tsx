@@ -3,7 +3,15 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowUpRight, Instagram, Mail, MapPin, MessageCircleMore } from "lucide-react";
-import { brand, footerLinks, socialLinks, supportEmail, whatsappNumber } from "@/lib/constants";
+import {
+  brand,
+  catalogShortcutLinks,
+  footerLinks,
+  orderPrepChecklist,
+  socialLinks,
+  supportEmail,
+  whatsappNumber,
+} from "@/lib/constants";
 
 const quickWhatsAppLinks = [
   { label: "Comprar catálogo", text: "Oi! Quero fechar um item do catálogo da MDH 3D." },
@@ -69,6 +77,16 @@ export function SiteFooter() {
               Portfólio e conteúdo
             </Link>
           </div>
+          <div className="mt-6 rounded-[22px] border border-white/10 bg-white/5 p-4">
+            <p className="text-[11px] uppercase tracking-[0.18em] text-cyan-100/80">Atalhos de compra</p>
+            <div className="mt-3 grid gap-2">
+              {catalogShortcutLinks.slice(0, 3).map((item) => (
+                <Link key={item.href} href={item.href} className="rounded-full border border-white/10 bg-black/20 px-3 py-2 text-xs text-white/75 transition hover:border-cyan-300/30 hover:text-cyan-100">
+                  {item.label}
+                </Link>
+              ))}
+            </div>
+          </div>
         </div>
 
         <div>
@@ -95,6 +113,17 @@ export function SiteFooter() {
             <Link href="/conta" className="transition hover:text-cyan-glow">
               Acompanhar conta e pedidos
             </Link>
+          </div>
+          <div className="mt-6 rounded-[22px] border border-white/10 bg-white/5 p-4">
+            <p className="text-[11px] uppercase tracking-[0.18em] text-emerald-100/80">Antes de pedir</p>
+            <div className="mt-3 grid gap-3 text-xs text-white/68">
+              {orderPrepChecklist.slice(0, 3).map((item) => (
+                <div key={item.title} className="rounded-[16px] border border-white/10 bg-black/20 p-3">
+                  <p className="font-semibold text-white/85">{item.title}</p>
+                  <p className="mt-1 leading-6">{item.description}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
