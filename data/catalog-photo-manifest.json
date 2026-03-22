@@ -1,33 +1,486 @@
 [
-  { "id": "mdh-001", "name": "Hello Kitty Chibi Premium", "sourceFilename": "Hello Kitty Chibi Premium.png", "kind": "imagem-conceitual" },
-  { "id": "mdh-002", "name": "Mascote Kawaii Desk Buddy", "sourceFilename": "Mascote Kawaii Desk Buddy.png", "kind": "imagem-conceitual" },
-  { "id": "mdh-003", "name": "Monstro Elétrico Pocket Mini", "sourceFilename": "Monstro Elétrico Pocket Mini.png", "kind": "imagem-conceitual" },
-  { "id": "mdh-004", "name": "Espiã Mirim Chibi", "sourceFilename": "Espiã Mirim Chibi.png", "kind": "imagem-conceitual" },
-  { "id": "mdh-005", "name": "Mascote Serra Articulado", "sourceFilename": "Mascote Serra Articulado.png", "kind": "imagem-conceitual" },
-  { "id": "mdh-006", "name": "Tripulante Crewmate Neon", "sourceFilename": "Tripulante Crewmate Neon.png", "kind": "imagem-conceitual" },
-  { "id": "mdh-007", "name": "Esfera Monstro de Bolso", "sourceFilename": "Esfera Monstro de Bolso.png", "kind": "imagem-conceitual" },
-  { "id": "mdh-008", "name": "Pokémon Pikachu Mini", "sourceFilename": "Pokémon Pikachu Mini.png", "kind": "imagem-conceitual" },
-  { "id": "mdh-009", "name": "Spy x Family Anya Chibi", "sourceFilename": "Spy x Family Anya Chibi.png", "kind": "imagem-conceitual" },
-  { "id": "mdh-010", "name": "Chainsaw Man Pochita", "sourceFilename": "Chainsaw Man Pochita.png", "kind": "imagem-conceitual" },
-  { "id": "mdh-011", "name": "Minecraft Steve Figurine", "sourceFilename": "Minecraft Steve Figurine.png", "kind": "imagem-conceitual" },
-  { "id": "mdh-012", "name": "Creeper Minecraft", "sourceFilename": "Creeper Minecraft.png", "kind": "imagem-conceitual" },
-  { "id": "mdh-026", "name": "Pokébola", "sourceFilename": "Pokébola.png", "kind": "imagem-conceitual" },
-  { "id": "mdh-027", "name": "Busto Colecionável Anime", "sourceFilename": "Busto Colecionável Anime.png", "kind": "imagem-conceitual" },
-  { "id": "mdh-061", "name": "Naruto Uzumaki Chibi", "sourceFilename": "Naruto Uzumaki Chibi.png", "kind": "imagem-conceitual" },
-  { "id": "mdh-062", "name": "Sasuke Uchiha Chibi", "sourceFilename": "Sasuke Uchiha Chibi.png", "kind": "imagem-conceitual", "gallery": ["/products/catalog/mdh-062.webp", "/products/gallery/mdh-062/2.webp", "/products/gallery/mdh-062/3.webp"] },
-  { "id": "mdh-063", "name": "Goku Dragon Ball Chibi", "sourceFilename": "Goku Dragon Ball Chibi.png", "kind": "imagem-conceitual", "gallery": ["/products/catalog/mdh-063.webp", "/products/gallery/mdh-063/2.webp", "/products/gallery/mdh-063/3.webp"] },
-  { "id": "mdh-064", "name": "Luffy One Piece Chibi", "sourceFilename": "Luffy One Piece Chibi.png", "kind": "foto-real", "gallery": ["/products/catalog/mdh-064.webp", "/products/gallery/mdh-064/2.webp", "/products/gallery/mdh-064/3.webp"] },
-  { "id": "mdh-065", "name": "Elsa Frozen Chibi", "sourceFilename": "Elsa Frozen Chibi.png", "kind": "foto-real", "gallery": ["/products/catalog/mdh-065.webp", "/products/gallery/mdh-065/2.webp", "/products/gallery/mdh-065/3.webp"] },
-  { "id": "mdh-066", "name": "Totoro My Neighbor Chibi", "sourceFilename": "Totoro My Neighbor Chibi.png", "kind": "foto-real", "gallery": ["/products/catalog/mdh-066.webp", "/products/gallery/mdh-066/2.webp", "/products/gallery/mdh-066/3.webp"] },
-  { "id": "mdh-067", "name": "Pikachu Pokémon Chibi", "sourceFilename": "Pikachu Pokémon Chibi.png", "kind": "foto-real", "gallery": ["/products/catalog/mdh-067.webp", "/products/gallery/mdh-067/2.webp", "/products/gallery/mdh-067/3.webp"] },
-  { "id": "mdh-068", "name": "Kirby Nintendo Chibi", "sourceFilename": "Kirby Nintendo Chibi.png", "kind": "foto-real", "gallery": ["/products/catalog/mdh-068.webp", "/products/gallery/mdh-068/2.webp", "/products/gallery/mdh-068/3.webp"] },
-  { "id": "mdh-069", "name": "Mario Nintendo Chibi", "sourceFilename": "Mario Nintendo Chibi.png", "kind": "foto-real", "gallery": ["/products/catalog/mdh-069.webp", "/products/gallery/mdh-069/2.webp", "/products/gallery/mdh-069/3.webp"] },
-  { "id": "mdh-070", "name": "Sonic Hedgehog Chibi", "sourceFilename": "Sonic Hedgehog Chibi.png", "kind": "foto-real", "gallery": ["/products/catalog/mdh-070.webp", "/products/gallery/mdh-070/2.webp", "/products/gallery/mdh-070/3.webp"] },
-  { "id": "mdh-071", "name": "Polvo Oceano Articulado", "sourceFilename": "Polvo Oceano Articulado.png", "kind": "foto-real" },
-  { "id": "mdh-072", "name": "Tubarão Oceano Mini", "sourceFilename": "Tubarão Oceano Mini.png", "kind": "foto-real" },
-  { "id": "mdh-073", "name": "Dragão Oriental Articulado", "sourceFilename": "Dragão Oriental Articulado.png", "kind": "foto-real" },
-  { "id": "mdh-074", "name": "Dragão Europeu Mini", "sourceFilename": "Dragão Europeu Mini.png", "kind": "foto-real" },
-  { "id": "mdh-075", "name": "Coruja Floresta Articulada", "sourceFilename": "Coruja Floresta Articulada.png", "kind": "foto-real" },
-  { "id": "mdh-076", "name": "Foguete Espacial Mini", "sourceFilename": "Foguete Espacial Mini.png", "kind": "imagem-conceitual" },
-  { "id": "mdh-077", "name": "Cavaleiro Medieval Mini", "sourceFilename": "Cavaleiro Medieval Mini.png", "kind": "foto-real" }
+  {
+    "id": "mdh-001",
+    "name": "Hello Kitty Chibi Premium",
+    "sourceFilename": "Hello Kitty Chibi Premium.png",
+    "kind": "imagem-conceitual"
+  },
+  {
+    "id": "mdh-002",
+    "name": "Mascote Kawaii Desk Buddy",
+    "sourceFilename": "Mascote Kawaii Desk Buddy.png",
+    "kind": "imagem-conceitual"
+  },
+  {
+    "id": "mdh-003",
+    "name": "Monstro Elétrico Pocket Mini",
+    "sourceFilename": "Monstro Elétrico Pocket Mini.png",
+    "kind": "imagem-conceitual"
+  },
+  {
+    "id": "mdh-004",
+    "name": "Espiã Mirim Chibi",
+    "sourceFilename": "Espiã Mirim Chibi.png",
+    "kind": "imagem-conceitual"
+  },
+  {
+    "id": "mdh-005",
+    "name": "Mascote Serra Articulado",
+    "sourceFilename": "Mascote Serra Articulado.png",
+    "kind": "imagem-conceitual"
+  },
+  {
+    "id": "mdh-006",
+    "name": "Tripulante Crewmate Neon",
+    "sourceFilename": "Tripulante Crewmate Neon.png",
+    "kind": "imagem-conceitual"
+  },
+  {
+    "id": "mdh-007",
+    "name": "Esfera Monstro de Bolso",
+    "sourceFilename": "Esfera Monstro de Bolso.png",
+    "kind": "imagem-conceitual"
+  },
+  {
+    "id": "mdh-008",
+    "name": "Pokémon Pikachu Mini",
+    "sourceFilename": "Pokémon Pikachu Mini.png",
+    "kind": "imagem-conceitual"
+  },
+  {
+    "id": "mdh-009",
+    "name": "Spy x Family Anya Chibi",
+    "sourceFilename": "Spy x Family Anya Chibi.png",
+    "kind": "imagem-conceitual"
+  },
+  {
+    "id": "mdh-010",
+    "name": "Chainsaw Man Pochita",
+    "sourceFilename": "Chainsaw Man Pochita.png",
+    "kind": "imagem-conceitual"
+  },
+  {
+    "id": "mdh-011",
+    "name": "Minecraft Steve Figurine",
+    "sourceFilename": "Minecraft Steve Figurine.png",
+    "kind": "imagem-conceitual"
+  },
+  {
+    "id": "mdh-012",
+    "name": "Creeper Minecraft",
+    "sourceFilename": "Creeper Minecraft.png",
+    "kind": "imagem-conceitual"
+  },
+  {
+    "id": "mdh-026",
+    "name": "Pokébola",
+    "sourceFilename": "Pokébola.png",
+    "kind": "imagem-conceitual"
+  },
+  {
+    "id": "mdh-027",
+    "name": "Busto Colecionável Anime",
+    "sourceFilename": "Busto Colecionável Anime.png",
+    "kind": "imagem-conceitual"
+  },
+  {
+    "id": "mdh-049",
+    "name": "Suporte para Monitor",
+    "sourceFilename": "Suporte para Monitor.3mf",
+    "kind": "render-fiel",
+    "model3mf": "/products/models/mdh-049.3mf",
+    "modelPreview": {
+      "source": "bambu-3mf",
+      "plateCount": 1,
+      "plates": [
+        {
+          "index": 1,
+          "preview": "/products/models/plates/mdh-049/plate-1.png",
+          "previewNoLight": "/products/models/plates/mdh-049/plate-no-light-1.png",
+          "top": "/products/models/plates/mdh-049/top-1.png",
+          "pick": "/products/models/plates/mdh-049/pick-1.png"
+        }
+      ]
+    }
+  },
+  {
+    "id": "mdh-050",
+    "name": "Organizador de Cabo USB",
+    "sourceFilename": "Organizador de Cabo USB.png",
+    "kind": "foto-real",
+    "gallery": [
+      "/products/catalog/mdh-050.webp",
+      "/products/gallery/mdh-050/2.webp"
+    ]
+  },
+  {
+    "id": "mdh-051",
+    "name": "Gancho para Chaves",
+    "sourceFilename": "Gancho para Chaves.jpeg",
+    "kind": "foto-real",
+    "gallery": [
+      "/products/catalog/mdh-051.webp",
+      "/products/gallery/mdh-051/2.webp"
+    ],
+    "model3mf": "/products/models/mdh-051.3mf",
+    "modelPreview": {
+      "source": "bambu-3mf",
+      "plateCount": 1,
+      "plates": [
+        {
+          "index": 1,
+          "preview": "/products/models/plates/mdh-051/plate-1.png",
+          "previewNoLight": "/products/models/plates/mdh-051/plate-no-light-1.png",
+          "top": "/products/models/plates/mdh-051/top-1.png",
+          "pick": "/products/models/plates/mdh-051/pick-1.png"
+        }
+      ]
+    }
+  },
+  {
+    "id": "mdh-052",
+    "name": "Suporte para Livros",
+    "sourceFilename": "Suporte para Livros.png",
+    "kind": "foto-real",
+    "gallery": [
+      "/products/catalog/mdh-052.webp",
+      "/products/gallery/mdh-052/2.webp"
+    ],
+    "model3mf": "/products/models/mdh-052.3mf",
+    "modelPreview": {
+      "source": "bambu-3mf",
+      "plateCount": 1,
+      "plates": [
+        {
+          "index": 1,
+          "preview": "/products/models/plates/mdh-052/plate-1.png",
+          "previewNoLight": "/products/models/plates/mdh-052/plate-no-light-1.png",
+          "top": "/products/models/plates/mdh-052/top-1.png",
+          "pick": "/products/models/plates/mdh-052/pick-1.png"
+        }
+      ]
+    }
+  },
+  {
+    "id": "mdh-053",
+    "name": "Caixa Organizadora",
+    "sourceFilename": "Caixa Organizadora.jpg",
+    "kind": "foto-real",
+    "gallery": [
+      "/products/catalog/mdh-053.webp",
+      "/products/gallery/mdh-053/2.webp"
+    ]
+  },
+  {
+    "id": "mdh-054",
+    "name": "Suporte para Plantas",
+    "sourceFilename": "Suporte para Plantas.jpg",
+    "kind": "foto-real",
+    "gallery": [
+      "/products/catalog/mdh-054.webp",
+      "/products/gallery/mdh-054/2.webp"
+    ],
+    "model3mf": "/products/models/mdh-054.3mf",
+    "modelPreview": {
+      "source": "bambu-3mf",
+      "plateCount": 4,
+      "plates": [
+        {
+          "index": 1,
+          "preview": "/products/models/plates/mdh-054/plate-1.png",
+          "previewNoLight": "/products/models/plates/mdh-054/plate-no-light-1.png",
+          "top": "/products/models/plates/mdh-054/top-1.png",
+          "pick": "/products/models/plates/mdh-054/pick-1.png"
+        },
+        {
+          "index": 2,
+          "preview": "/products/models/plates/mdh-054/plate-2.png",
+          "previewNoLight": "/products/models/plates/mdh-054/plate-no-light-2.png",
+          "top": "/products/models/plates/mdh-054/top-2.png",
+          "pick": "/products/models/plates/mdh-054/pick-2.png"
+        },
+        {
+          "index": 3,
+          "preview": "/products/models/plates/mdh-054/plate-3.png",
+          "previewNoLight": "/products/models/plates/mdh-054/plate-no-light-3.png",
+          "top": "/products/models/plates/mdh-054/top-3.png",
+          "pick": "/products/models/plates/mdh-054/pick-3.png"
+        },
+        {
+          "index": 4,
+          "preview": "/products/models/plates/mdh-054/plate-4.png",
+          "previewNoLight": "/products/models/plates/mdh-054/plate-no-light-4.png",
+          "top": "/products/models/plates/mdh-054/top-4.png",
+          "pick": "/products/models/plates/mdh-054/pick-4.png"
+        }
+      ]
+    }
+  },
+  {
+    "id": "mdh-055",
+    "name": "Prateleira Flutuante",
+    "sourceFilename": "Prateleira Flutuante.png",
+    "kind": "foto-real",
+    "gallery": [
+      "/products/catalog/mdh-055.webp",
+      "/products/gallery/mdh-055/2.webp"
+    ],
+    "model3mf": "/products/models/mdh-055.3mf",
+    "modelPreview": {
+      "source": "bambu-3mf",
+      "plateCount": 1,
+      "plates": [
+        {
+          "index": 1,
+          "preview": "/products/models/plates/mdh-055/plate-1.png",
+          "previewNoLight": "/products/models/plates/mdh-055/plate-no-light-1.png",
+          "top": "/products/models/plates/mdh-055/top-1.png",
+          "pick": "/products/models/plates/mdh-055/pick-1.png"
+        }
+      ]
+    }
+  },
+  {
+    "id": "mdh-056",
+    "name": "Suporte para Bicicleta",
+    "sourceFilename": "Suporte para Bicicleta.jpg",
+    "kind": "foto-real",
+    "gallery": [
+      "/products/catalog/mdh-056.webp",
+      "/products/gallery/mdh-056/2.webp"
+    ],
+    "model3mf": "/products/models/mdh-056.3mf",
+    "modelPreview": {
+      "source": "bambu-3mf",
+      "plateCount": 1,
+      "plates": [
+        {
+          "index": 1,
+          "preview": "/products/models/plates/mdh-056/plate-1.png",
+          "previewNoLight": "/products/models/plates/mdh-056/plate-no-light-1.png",
+          "top": "/products/models/plates/mdh-056/top-1.png",
+          "pick": "/products/models/plates/mdh-056/pick-1.png"
+        }
+      ]
+    }
+  },
+  {
+    "id": "mdh-058",
+    "name": "Suporte para Tablet",
+    "sourceFilename": "Suporte para Tablet.png",
+    "kind": "foto-real",
+    "gallery": [
+      "/products/catalog/mdh-058.webp",
+      "/products/gallery/mdh-058/2.webp"
+    ],
+    "model3mf": "/products/models/mdh-058.3mf",
+    "modelPreview": {
+      "source": "bambu-3mf",
+      "plateCount": 1,
+      "plates": [
+        {
+          "index": 1,
+          "preview": "/products/models/plates/mdh-058/plate-1.png",
+          "previewNoLight": "/products/models/plates/mdh-058/plate-no-light-1.png",
+          "top": "/products/models/plates/mdh-058/top-1.png",
+          "pick": "/products/models/plates/mdh-058/pick-1.png"
+        }
+      ]
+    }
+  },
+  {
+    "id": "mdh-059",
+    "name": "Caixa para Joias",
+    "sourceFilename": "porta joais.JPG",
+    "kind": "foto-real",
+    "model3mf": "/products/models/mdh-059.3mf",
+    "gallery": [
+      "/products/catalog/mdh-059.webp",
+      "/products/gallery/mdh-059/2.webp"
+    ],
+    "modelPreview": {
+      "source": "bambu-3mf",
+      "plateCount": 1,
+      "plates": [
+        {
+          "index": 1,
+          "preview": "/products/models/plates/mdh-059/plate-1.png",
+          "previewNoLight": "/products/models/plates/mdh-059/plate-no-light-1.png",
+          "top": "/products/models/plates/mdh-059/top-1.png",
+          "pick": "/products/models/plates/mdh-059/pick-1.png"
+        }
+      ]
+    }
+  },
+  {
+    "id": "mdh-061",
+    "name": "Naruto Uzumaki Chibi",
+    "sourceFilename": "Naruto Uzumaki Chibi.png",
+    "kind": "imagem-conceitual"
+  },
+  {
+    "id": "mdh-062",
+    "name": "Sasuke Uchiha Chibi",
+    "sourceFilename": "Sasuke Uchiha Chibi.png",
+    "kind": "imagem-conceitual",
+    "gallery": [
+      "/products/catalog/mdh-062.webp",
+      "/products/gallery/mdh-062/2.webp",
+      "/products/gallery/mdh-062/3.webp"
+    ]
+  },
+  {
+    "id": "mdh-063",
+    "name": "Goku Dragon Ball Chibi",
+    "sourceFilename": "Goku Dragon Ball Chibi.png",
+    "kind": "imagem-conceitual",
+    "gallery": [
+      "/products/catalog/mdh-063.webp",
+      "/products/gallery/mdh-063/2.webp",
+      "/products/gallery/mdh-063/3.webp"
+    ]
+  },
+  {
+    "id": "mdh-064",
+    "name": "Luffy One Piece Chibi",
+    "sourceFilename": "Luffy One Piece Chibi.png",
+    "kind": "foto-real",
+    "gallery": [
+      "/products/catalog/mdh-064.webp",
+      "/products/gallery/mdh-064/2.webp",
+      "/products/gallery/mdh-064/3.webp"
+    ]
+  },
+  {
+    "id": "mdh-065",
+    "name": "Elsa Frozen Chibi",
+    "sourceFilename": "Elsa Frozen Chibi.png",
+    "kind": "foto-real",
+    "gallery": [
+      "/products/catalog/mdh-065.webp",
+      "/products/gallery/mdh-065/2.webp",
+      "/products/gallery/mdh-065/3.webp"
+    ]
+  },
+  {
+    "id": "mdh-066",
+    "name": "Totoro My Neighbor Chibi",
+    "sourceFilename": "Totoro My Neighbor Chibi.png",
+    "kind": "foto-real",
+    "gallery": [
+      "/products/catalog/mdh-066.webp",
+      "/products/gallery/mdh-066/2.webp",
+      "/products/gallery/mdh-066/3.webp"
+    ]
+  },
+  {
+    "id": "mdh-067",
+    "name": "Pikachu Pokémon Chibi",
+    "sourceFilename": "Pikachu Pokémon Chibi.png",
+    "kind": "foto-real",
+    "gallery": [
+      "/products/catalog/mdh-067.webp",
+      "/products/gallery/mdh-067/2.webp",
+      "/products/gallery/mdh-067/3.webp"
+    ]
+  },
+  {
+    "id": "mdh-068",
+    "name": "Kirby Nintendo Chibi",
+    "sourceFilename": "Kirby Nintendo Chibi.png",
+    "kind": "foto-real",
+    "gallery": [
+      "/products/catalog/mdh-068.webp",
+      "/products/gallery/mdh-068/2.webp",
+      "/products/gallery/mdh-068/3.webp"
+    ]
+  },
+  {
+    "id": "mdh-069",
+    "name": "Mario Nintendo Chibi",
+    "sourceFilename": "Mario Nintendo Chibi.png",
+    "kind": "foto-real",
+    "gallery": [
+      "/products/catalog/mdh-069.webp",
+      "/products/gallery/mdh-069/2.webp",
+      "/products/gallery/mdh-069/3.webp"
+    ]
+  },
+  {
+    "id": "mdh-070",
+    "name": "Sonic Hedgehog Chibi",
+    "sourceFilename": "Sonic Hedgehog Chibi.png",
+    "kind": "foto-real",
+    "gallery": [
+      "/products/catalog/mdh-070.webp",
+      "/products/gallery/mdh-070/2.webp",
+      "/products/gallery/mdh-070/3.webp"
+    ]
+  },
+  {
+    "id": "mdh-071",
+    "name": "Polvo Oceano Articulado",
+    "sourceFilename": "Polvo Oceano Articulado.png",
+    "kind": "foto-real"
+  },
+  {
+    "id": "mdh-072",
+    "name": "Tubarão Oceano Mini",
+    "sourceFilename": "Tubarão Oceano Mini.png",
+    "kind": "foto-real"
+  },
+  {
+    "id": "mdh-073",
+    "name": "Dragão Oriental Articulado",
+    "sourceFilename": "Dragão Oriental Articulado.png",
+    "kind": "foto-real"
+  },
+  {
+    "id": "mdh-074",
+    "name": "Dragão Europeu Mini",
+    "sourceFilename": "Dragão Europeu Mini.png",
+    "kind": "foto-real"
+  },
+  {
+    "id": "mdh-075",
+    "name": "Coruja Floresta Articulada",
+    "sourceFilename": "Coruja Floresta Articulada.png",
+    "kind": "foto-real"
+  },
+  {
+    "id": "mdh-076",
+    "name": "Foguete Espacial Mini",
+    "sourceFilename": "Foguete Espacial Mini.png",
+    "kind": "imagem-conceitual"
+  },
+  {
+    "id": "mdh-077",
+    "name": "Cavaleiro Medieval Mini",
+    "sourceFilename": "Cavaleiro Medieval Mini.png",
+    "kind": "foto-real"
+  },
+  {
+    "id": "mdh-078",
+    "name": "Robô Transformador BOX",
+    "sourceFilename": "Robô Transformador BOX 2.jpeg",
+    "kind": "foto-real",
+    "gallery": [
+      "/products/catalog/mdh-078.webp",
+      "/products/gallery/mdh-078/2.webp"
+    ],
+    "model3mf": "/products/models/mdh-078.3mf",
+    "modelPreview": {
+      "source": "bambu-3mf",
+      "plateCount": 1,
+      "plates": [
+        {
+          "index": 1,
+          "preview": "/products/models/plates/mdh-078/plate-1.png",
+          "previewNoLight": "/products/models/plates/mdh-078/plate-no-light-1.png",
+          "top": "/products/models/plates/mdh-078/top-1.png",
+          "pick": "/products/models/plates/mdh-078/pick-1.png"
+        }
+      ]
+    }
+  }
 ]

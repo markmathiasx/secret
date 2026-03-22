@@ -1,5 +1,15 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import { ContentPlaybook } from "@/components/content-playbook";
+
+export const metadata: Metadata = {
+  title: "Portfólio e conteúdo",
+  description:
+    "Bastidores, ângulos de divulgação e repertório visual para mostrar peças reais, processo e diferenciais da MDH 3D.",
+  alternates: {
+    canonical: "/divulgacao",
+  },
+};
 
 export default function DivulgacaoPage() {
   const channelPlans = [

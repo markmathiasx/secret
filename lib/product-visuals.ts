@@ -149,6 +149,12 @@ export function getProductVisual(product: Product): ProductVisualSummary {
   const kind = override?.kind || catalogPhoto?.kind || inferKindFromImages(product);
   const defaults = getVisualDefaults(kind);
   const catalogPhotoCandidates = getCatalogPhotoCandidates(product.id);
+  const modelReadyNote =
+    catalogPhoto?.model3mf && kind !== "foto-real"
+      ? "Este item também tem arquivo 3MF anexado para inspecionar a geometria do projeto antes de produzir."
+      : catalogPhoto?.model3mf
+        ? "Além da foto principal, este item também tem arquivo 3MF anexado para consulta técnica."
+        : undefined;
   const realPhotoNote =
     kind === "foto-real" && catalogPhoto
       ? "A vitrine usa uma foto do objeto físico já impresso, preservando aparência real de escala, material e acabamento."
@@ -160,7 +166,7 @@ export function getProductVisual(product: Product): ProductVisualSummary {
     badgeClassName: defaults.badgeClassName,
     panelClassName: defaults.panelClassName,
     description: defaults.description,
-    note: override?.note || realPhotoNote,
+    note: override?.note || realPhotoNote || modelReadyNote,
     recommendedNextStep: override?.recommendedNextStep || defaults.recommendedNextStep,
     merchantReady: override?.merchantReady ?? defaults.merchantReady,
     imageCandidates: override?.imageCandidates || catalogPhotoCandidates,

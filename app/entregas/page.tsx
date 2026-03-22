@@ -1,6 +1,15 @@
 import Link from 'next/link';
+import type { Metadata } from 'next';
 import { DeliveryCalculator } from '@/components/delivery-calculator';
 import { deliveryZones, whatsappMessage, whatsappNumber } from '@/lib/constants';
+
+export const metadata: Metadata = {
+  title: 'Frete e prazo no Rio de Janeiro',
+  description: 'Faixas de entrega, prazo base e simulação inicial de frete da MDH 3D para o Rio de Janeiro e arredores.',
+  alternates: {
+    canonical: '/entregas',
+  },
+};
 
 export default function EntregasPage() {
   const cheapestZone = [...deliveryZones].sort((a, b) => a.fee - b.fee)[0];

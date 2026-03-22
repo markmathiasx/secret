@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import type { Metadata } from 'next';
 import { CatalogExplorer } from '@/components/catalog-explorer';
 import { CatalogBuyingIntents } from '@/components/catalog-buying-intents';
 import { CatalogRealCases } from '@/components/catalog-real-cases';
@@ -6,6 +7,15 @@ import { ComboBuilder } from '@/components/combo-builder';
 import { catalog, categories, collections } from '@/lib/catalog';
 import { catalogShortcutLinks } from '@/lib/constants';
 import { summarizeProductVisuals } from '@/lib/product-visuals';
+
+export const metadata: Metadata = {
+  title: 'Catálogo',
+  description:
+    'Catálogo MDH 3D com peças reais, itens sob encomenda, fotos reais, render fiel e curadoria por intenção de compra.',
+  alternates: {
+    canonical: '/catalogo',
+  },
+};
 
 type CatalogPageSearchParams = {
   q?: string;

@@ -4,7 +4,7 @@ import { faqItems } from '@/lib/constants';
 import { getSiteUrl } from '@/lib/env';
 
 export const metadata = {
-  title: 'FAQ | MDH 3D',
+  title: 'Perguntas frequentes',
   description: 'Perguntas frequentes sobre pagamento, materiais, prazos, entrega e personalização na MDH 3D.'
 };
 

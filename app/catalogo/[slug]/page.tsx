@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { ArrowLeft, CopyPlus, MessageCircleMore, Share2 } from 'lucide-react';
 import { catalog, findProductBySlug } from '@/lib/catalog';
 import { ProductImageGallery } from '@/components/product-image-gallery';
+import { ProductModelPanel } from '@/components/product-model-panel';
 import { ProductRelatedShelf } from '@/components/product-related-shelf';
 import { ProductVisualBadge, ProductVisualNotice } from '@/components/product-visual-authenticity';
 import { ProductPurchaseTools } from '@/components/product-purchase-tools';
@@ -24,7 +25,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
   if (!product) {
     return {
-      title: 'Produto não encontrado | MDH 3D Store',
+      title: 'Produto não encontrado',
     };
   }
 
@@ -35,7 +36,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const longDescription = getProductLongDescription(product);
 
   return {
-    title: `${product.name} | MDH 3D Store`,
+    title: product.name,
     description: longDescription,
     keywords: [...product.tags, 'impressão 3D', 'PLA', 'Bambu Lab', 'personalizado'].join(', '),
     openGraph: {
@@ -53,7 +54,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${product.name} | MDH 3D Store`,
+      title: `${product.name} | MDH 3D`,
       description: longDescription,
       images: [imageUrl],
     },
@@ -166,7 +167,10 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       </div>
 
       <div className="grid gap-8 lg:grid-cols-[1fr_0.95fr]">
-        <ProductImageGallery product={product} />
+        <div className="space-y-6">
+          <ProductImageGallery product={product} />
+          <ProductModelPanel product={product} />
+        </div>
 
         <div className="glass-panel p-6 md:p-7">
           <div className="flex flex-wrap gap-2">

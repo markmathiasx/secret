@@ -26,10 +26,10 @@ import { HeaderCommandPalette } from "@/components/header-command-palette";
 const navLinks = [
   { href: "/", label: "Início" },
   { href: "/catalogo", label: "Catálogo" },
+  { href: "/presentes-3d", label: "Presentes" },
   { href: "/imagem-para-impressao-3d", label: "Personalizados" },
   { href: "/entregas", label: "Entregas" },
   { href: "/faq", label: "FAQ" },
-  { href: "/divulgacao", label: "Conteúdo" },
 ];
 
 const commerceShortcuts = [

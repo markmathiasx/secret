@@ -45,7 +45,7 @@ function sortByCommercialPriority(a: Product, b: Product) {
 export const salesLandings = {
   presentes: {
     slug: "/presentes-3d",
-    seoTitle: "Presentes 3D personalizados no Rio de Janeiro | MDH 3D",
+    seoTitle: "Presentes 3D personalizados no Rio de Janeiro",
     seoDescription: "Presentes 3D com foto real, miniaturas afetivas, chaveiros, nomes e peças personalizadas para surpreender com acabamento profissional.",
     kicker: "Presentes 3D",
     title: "Presentes com visual forte, faixa de entrada clara e peças que já ajudam a fechar hoje.",
@@ -78,7 +78,7 @@ export const salesLandings = {
   },
   brindes: {
     slug: "/brindes-personalizados-3d",
-    seoTitle: "Brindes personalizados 3D e lotes | MDH 3D",
+    seoTitle: "Brindes personalizados 3D e lotes",
     seoDescription: "Brindes 3D, chaveiros, medalhas, nomes e peças em lote para eventos, marcas, lembranças e ações promocionais.",
     kicker: "Brindes e lotes",
     title: "Brindes personalizados com produção local, leitura rápida de lote e peças que funcionam bem em evento, marca e lembrança.",
@@ -112,7 +112,7 @@ export const salesLandings = {
   },
   setup: {
     slug: "/setup-e-organizacao-3d",
-    seoTitle: "Setup e organização 3D para mesa, bancada e home office | MDH 3D",
+    seoTitle: "Setup e organização 3D para mesa, bancada e home office",
     seoDescription: "Suportes, organizadores e utilidades 3D para setup, controle, headphone, celular, bancada e rotina prática.",
     kicker: "Setup e organização",
     title: "Utilidades que resolvem uso real de mesa, bancada, banheiro e estação de trabalho sem cara de peça improvisada.",
@@ -146,7 +146,7 @@ export const salesLandings = {
   },
   geek: {
     slug: "/colecionaveis-geek-3d",
-    seoTitle: "Colecionáveis geek 3D com foto real e peças premium | MDH 3D",
+    seoTitle: "Colecionáveis geek 3D com foto real e peças premium",
     seoDescription: "Colecionáveis geek 3D, miniaturas e peças inspiradas em cultura pop com curadoria visual, acabamento premium e produção local.",
     kicker: "Geek e colecionáveis",
     title: "Colecionáveis com apelo visual mais forte, melhor leitura de acabamento e peças que funcionam bem para fandom, setup e presente.",
@@ -179,7 +179,7 @@ export const salesLandings = {
   },
   decoracao: {
     slug: "/decoracao-3d-para-casa",
-    seoTitle: "Decoração 3D para casa, estante e presente | MDH 3D",
+    seoTitle: "Decoração 3D para casa, estante e presente",
     seoDescription: "Vasos, luminárias, porta-copos e peças de decoração 3D com linguagem mais limpa para casa, mesa e presente.",
     kicker: "Casa e decoração",
     title: "Peças de decoração com cara de produto de loja séria, boas para nicho, aparador, setup e presente de casa nova.",
