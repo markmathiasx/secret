@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Download, Layers3, Mouse, ScanSearch } from "lucide-react";
+import { Clock3, Download, Layers3, Mouse, ScanSearch, Weight, Waves } from "lucide-react";
 import type { CatalogModelPlateEntry, CatalogModelPreviewEntry } from "@/lib/catalog-photo-manifest";
 
 type Props = {
@@ -22,10 +22,56 @@ function getPlateViews(plate: CatalogModelPlateEntry | null) {
 
   return [
     { key: "preview" as const, label: "Bandeja" },
-    { key: "previewNoLight" as const, label: "Técnica" },
+    { key: "previewNoLight" as const, label: "Tecnica" },
     { key: "top" as const, label: "Topo" },
     { key: "pick" as const, label: "Pick" },
   ].filter((view) => Boolean(plate[view.key]));
+}
+
+function formatPrediction(seconds?: number) {
+  if (!Number.isFinite(seconds) || !seconds || seconds <= 0) return null;
+  const totalMinutes = Math.round(seconds / 60);
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+
+  if (hours <= 0) return `${minutes} min`;
+  if (minutes === 0) return `${hours}h`;
+  return `${hours}h ${minutes}min`;
+}
+
+function formatWeight(weightGrams?: number) {
+  if (!Number.isFinite(weightGrams) || !weightGrams || weightGrams <= 0) return null;
+  return `${weightGrams.toFixed(weightGrams >= 100 ? 0 : 1)} g`;
+}
+
+function formatFilamentMeters(filamentMeters?: number) {
+  if (!Number.isFinite(filamentMeters) || !filamentMeters || filamentMeters <= 0) return null;
+  return `${filamentMeters.toFixed(filamentMeters >= 10 ? 1 : 2)} m`;
+}
+
+function formatPrintableArea(preview?: CatalogModelPreviewEntry | null) {
+  if (!preview?.printableArea) return null;
+  const { width, depth, height } = preview.printableArea;
+  const base = `${Math.round(width)} x ${Math.round(depth)} mm`;
+  return height ? `${base} x ${Math.round(height)} mm` : base;
+}
+
+function MetricPill({
+  icon,
+  label,
+  value,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  value: string;
+}) {
+  return (
+    <span className="inline-flex items-center gap-2 rounded-full border border-cyan-300/20 bg-black/30 px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-cyan-50/90">
+      <span className="text-cyan-200">{icon}</span>
+      <span className="text-white/58">{label}</span>
+      <span className="text-white">{value}</span>
+    </span>
+  );
 }
 
 export function Product3MFViewer({ modelUrl, productName, preview }: Props) {
@@ -39,6 +85,10 @@ export function Product3MFViewer({ modelUrl, productName, preview }: Props) {
   const views = useMemo(() => getPlateViews(currentPlate), [currentPlate]);
   const currentView = views.find((view) => view.key === viewMode) || views[0] || null;
   const currentSrc = currentView && currentPlate ? currentPlate[currentView.key] : "";
+  const printableArea = formatPrintableArea(preview);
+  const currentPrediction = formatPrediction(currentPlate?.predictionSeconds);
+  const currentWeight = formatWeight(currentPlate?.weightGrams);
+  const currentFilament = formatFilamentMeters(currentPlate?.filamentMeters);
 
   useEffect(() => {
     if (!currentView) return;
@@ -112,12 +162,15 @@ export function Product3MFViewer({ modelUrl, productName, preview }: Props) {
           className="group relative overflow-hidden rounded-[28px] border border-cyan-300/22 bg-[linear-gradient(180deg,rgba(8,18,28,0.98),rgba(7,14,24,0.96))] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_28px_70px_rgba(2,8,23,0.34)]"
         >
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(3,233,244,0.14),transparent_44%),linear-gradient(180deg,transparent,rgba(123,44,191,0.08))]" />
-          <div className="relative flex items-center justify-between gap-3 px-1 pb-4">
+          <div className="relative flex flex-wrap items-center justify-between gap-3 px-1 pb-4">
             <div>
-              <p className="text-[11px] uppercase tracking-[0.18em] text-white/48">Visual de impressão</p>
+              <p className="text-[11px] uppercase tracking-[0.18em] text-white/48">Visual de impressao</p>
               <p data-3mf-active-plate-label className="mt-2 text-sm font-semibold text-white">
                 {plates.length ? `Bandeja ${activePlate + 1} de ${plates.length}` : "Preview do arquivo"}
               </p>
+              {currentPlate?.name ? (
+                <p className="mt-1 text-xs uppercase tracking-[0.14em] text-cyan-100/70">{currentPlate.name}</p>
+              ) : null}
             </div>
             {plates.length > 1 ? (
               <div className="rounded-full border border-white/10 bg-black/35 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/72">
@@ -140,32 +193,48 @@ export function Product3MFViewer({ modelUrl, productName, preview }: Props) {
               />
             ) : (
               <div className="relative z-[1] flex h-full items-center justify-center px-6 text-center text-sm leading-7 text-white/65">
-                Este arquivo 3MF foi anexado, mas ainda não trouxe a imagem de bandeja do fatiamento. O download continua disponível.
+                Este arquivo 3MF foi anexado, mas ainda nao trouxe a imagem de bandeja do fatiamento. O download continua disponivel.
               </div>
             )}
           </div>
 
-          <div className="relative mt-4 flex flex-wrap items-center justify-between gap-3">
-            <div className="flex flex-wrap gap-2">
-              {views.map((view) => (
-                <button
-                  key={view.key}
-                  type="button"
-                  onClick={() => setViewMode(view.key)}
-                  className={`rounded-full border px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.16em] transition-all duration-300 ${
-                    currentView?.key === view.key
-                      ? "border-cyan-300/45 bg-cyan-300/12 text-cyan-50 shadow-[0_0_28px_rgba(3,233,244,0.18)]"
-                      : "border-white/10 bg-white/5 text-white/72 hover:border-cyan-300/25 hover:text-cyan-50"
-                  }`}
-                >
-                  {view.label}
-                </button>
-              ))}
-            </div>
-            <div className="rounded-full border border-white/10 bg-black/35 px-4 py-2 text-[11px] uppercase tracking-[0.14em] text-white/62">
-              <ScanSearch className="mr-2 inline h-4 w-4 text-cyan-200" />
-              preview salvo no próprio 3MF
-            </div>
+          <div className="relative mt-4 flex flex-wrap gap-2">
+            {views.map((view) => (
+              <button
+                key={view.key}
+                type="button"
+                onClick={() => setViewMode(view.key)}
+                className={`rounded-full border px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.16em] transition-all duration-300 ${
+                  currentView?.key === view.key
+                    ? "border-cyan-300/45 bg-cyan-300/12 text-cyan-50 shadow-[0_0_28px_rgba(3,233,244,0.18)]"
+                    : "border-white/10 bg-white/5 text-white/72 hover:border-cyan-300/25 hover:text-cyan-50"
+                }`}
+              >
+                {view.label}
+              </button>
+            ))}
+          </div>
+
+          <div className="relative mt-4 flex flex-wrap gap-2">
+            <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/35 px-4 py-2 text-[11px] uppercase tracking-[0.14em] text-white/62">
+              <ScanSearch className="h-4 w-4 text-cyan-200" />
+              preview salvo no proprio 3MF
+            </span>
+            {preview?.printerModel ? (
+              <MetricPill icon={<Layers3 className="h-4 w-4" />} label="Printer" value={preview.printerModel} />
+            ) : null}
+            {printableArea ? (
+              <MetricPill icon={<Waves className="h-4 w-4" />} label="Area" value={printableArea} />
+            ) : null}
+            {currentPrediction ? (
+              <MetricPill icon={<Clock3 className="h-4 w-4" />} label="Tempo" value={currentPrediction} />
+            ) : null}
+            {currentWeight ? (
+              <MetricPill icon={<Weight className="h-4 w-4" />} label="Peso" value={currentWeight} />
+            ) : null}
+            {currentFilament ? (
+              <MetricPill icon={<Waves className="h-4 w-4" />} label="Filamento" value={currentFilament} />
+            ) : null}
           </div>
         </div>
 
@@ -173,7 +242,7 @@ export function Product3MFViewer({ modelUrl, productName, preview }: Props) {
           <div className="rounded-[24px] border border-white/10 bg-black/22 p-4 text-sm leading-7 text-white/68">
             <p className="text-xs uppercase tracking-[0.18em] text-cyan-100/75">Como funciona</p>
             <p className="mt-2">
-              O site está exibindo a bandeja real salva no arquivo da Bambu. Se o projeto tiver mais de uma placa, o
+              O site esta exibindo a bandeja real salva no arquivo da Bambu. Se o projeto tiver mais de uma placa, o
               scroll dentro do viewer desce ou sobe entre elas igual a uma pilha de tabuleiros.
             </p>
           </div>
@@ -182,6 +251,8 @@ export function Product3MFViewer({ modelUrl, productName, preview }: Props) {
             <div className="space-y-3">
               {plates.map((plate, index) => {
                 const thumbSrc = plate.previewNoLight || plate.preview || plate.top || plate.pick;
+                const thumbPrediction = formatPrediction(plate.predictionSeconds);
+                const thumbWeight = formatWeight(plate.weightGrams);
                 return (
                   <button
                     key={plate.index}
@@ -205,10 +276,26 @@ export function Product3MFViewer({ modelUrl, productName, preview }: Props) {
                       ) : null}
                     </div>
                     <div className="px-4 py-3">
-                      <p className="text-sm font-semibold text-white">Bandeja {plate.index}</p>
-                      <p className="mt-1 text-xs uppercase tracking-[0.16em] text-white/55">
-                        {plate.previewNoLight ? "visual técnico disponível" : "visual principal do slicer"}
+                      <p className="text-sm font-semibold text-white">
+                        {plate.name || `Bandeja ${plate.index}`}
                       </p>
+                      <p className="mt-1 text-xs uppercase tracking-[0.16em] text-white/55">
+                        {plate.previewNoLight ? "visual tecnico disponivel" : "visual principal do slicer"}
+                      </p>
+                      {thumbPrediction || thumbWeight ? (
+                        <div className="mt-3 flex flex-wrap gap-2">
+                          {thumbPrediction ? (
+                            <span className="rounded-full border border-white/10 bg-black/35 px-3 py-1 text-[10px] uppercase tracking-[0.16em] text-white/75">
+                              {thumbPrediction}
+                            </span>
+                          ) : null}
+                          {thumbWeight ? (
+                            <span className="rounded-full border border-white/10 bg-black/35 px-3 py-1 text-[10px] uppercase tracking-[0.16em] text-white/75">
+                              {thumbWeight}
+                            </span>
+                          ) : null}
+                        </div>
+                      ) : null}
                     </div>
                   </button>
                 );
@@ -216,7 +303,7 @@ export function Product3MFViewer({ modelUrl, productName, preview }: Props) {
             </div>
           ) : (
             <div className="rounded-[24px] border border-white/10 bg-black/22 p-4 text-sm leading-7 text-white/68">
-              Nenhuma bandeja de slicing foi encontrada dentro deste 3MF. O arquivo continua disponível para download.
+              Nenhuma bandeja de slicing foi encontrada dentro deste 3MF. O arquivo continua disponivel para download.
             </div>
           )}
         </div>

@@ -4,16 +4,29 @@ export type CatalogPhotoKind = "foto-real" | "render-fiel" | "imagem-conceitual"
 
 export type CatalogModelPlateEntry = {
   index: number;
+  name?: string;
   preview: string;
   previewNoLight?: string;
   top?: string;
   pick?: string;
+  predictionSeconds?: number;
+  weightGrams?: number;
+  filamentMeters?: number;
+  filamentType?: string;
+  filamentColor?: string;
 };
 
 export type CatalogModelPreviewEntry = {
   source: "bambu-3mf";
+  printerModel?: string;
+  printableArea?: {
+    width: number;
+    depth: number;
+    height?: number;
+  };
   plateCount: number;
   plates: CatalogModelPlateEntry[];
+  sceneUrl?: string;
 };
 
 export type CatalogPhotoEntry = {

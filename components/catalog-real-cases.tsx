@@ -31,19 +31,21 @@ export function CatalogRealCases() {
 
       <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
         {realCaseStudies.map((item) => (
-          <article key={item.id} className="catalog-real-card overflow-hidden rounded-[24px] border border-white/10 bg-slate-950/55 transition-all duration-300 hover:-translate-y-1">
+          <Link
+            key={item.id}
+            href={getProductUrl(item)}
+            className="catalog-real-card block cursor-pointer overflow-hidden rounded-[24px] border border-white/10 bg-slate-950/55 transition-all duration-300 hover:-translate-y-1"
+            aria-label={`Abrir ${item.name}`}
+          >
             <SafeProductImage candidates={[resolveProductImage(item)]} alt={item.name} className="aspect-[4/3] w-full object-cover" />
             <div className="space-y-3 p-4">
               <ProductVisualBadge product={item} />
               <h3 className="text-lg font-semibold text-white">{item.name}</h3>
-              <Link
-                href={getProductUrl(item)}
-                className="btn-secondary inline-flex rounded-full px-4 py-2 text-sm"
-              >
+              <span className="btn-secondary inline-flex rounded-full px-4 py-2 text-sm">
                 Pedir algo parecido
-              </Link>
+              </span>
             </div>
-          </article>
+          </Link>
         ))}
       </div>
     </section>

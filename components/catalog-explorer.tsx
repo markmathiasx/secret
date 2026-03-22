@@ -1232,7 +1232,7 @@ export function CatalogExplorer({
               }}
             >
               <div className="pointer-events-none absolute inset-0 rounded-[28px] border border-cyan-200/0 transition-colors duration-500 group-hover:border-cyan-200/25" />
-              <ProductImageGallery product={product} compact priority={index < 6} />
+              <ProductImageGallery product={product} compact priority={index < 2} />
 
               <div className="mt-2 flex flex-wrap gap-2">
                 {product.featured ? (
