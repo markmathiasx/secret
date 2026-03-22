@@ -24,5 +24,5 @@ export const metadata: Metadata = {
 };
 
 export default function ColecionaveisGeek3DPage() {
-  return <SalesLandingPage config={config} />;
+  return <SalesLandingPage landingKey="geek" />;
 }

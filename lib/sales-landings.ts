@@ -212,6 +212,8 @@ export const salesLandings = {
   },
 } satisfies Record<string, SalesLandingConfig>;
 
+export type SalesLandingKey = keyof typeof salesLandings;
+
 export function getLandingProducts(products: Product[], config: SalesLandingConfig) {
   return products.filter(config.match).sort(sortByCommercialPriority);
 }

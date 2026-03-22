@@ -1,12 +1,17 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { ArrowRight, SlidersHorizontal, Sparkles } from "lucide-react";
 import { SafeProductImage } from "@/components/safe-product-image";
 import { ProductVisualBadge } from "@/components/product-visual-authenticity";
 import { catalog, getProductUrl, type Product } from "@/lib/catalog";
 import { formatCurrency } from "@/lib/utils";
+
+function shouldIgnoreCardActivation(target: EventTarget | null) {
+  return target instanceof Element && Boolean(target.closest("a, button, input, select, textarea, [role='button'], [data-card-interactive='true']"));
+}
 
 type Goal = "presente" | "setup" | "geek" | "lote" | "sob-medida";
 type Speed = "rapido" | "equilibrado" | "sem-pressa";
@@ -106,6 +111,7 @@ function buildAdvisorHref(goal: Goal, speed: Speed, budget: Budget, needCustom: 
 }
 
 export function QuickMatchAdvisor() {
+  const router = useRouter();
   const [goal, setGoal] = useState<Goal>("presente");
   const [speed, setSpeed] = useState<Speed>("rapido");
   const [budget, setBudget] = useState<Budget>("ate-80");
@@ -122,6 +128,10 @@ export function QuickMatchAdvisor() {
       .sort((a, b) => b.score - a.score || a.product.pricePix - b.product.pricePix)
       .slice(0, 3);
   }, [budget, goal, needCustom, speed]);
+
+  function openProduct(product: Product) {
+    router.push(getProductUrl(product));
+  }
 
   return (
     <section className="mx-auto max-w-7xl px-6 py-8">
@@ -243,7 +253,24 @@ export function QuickMatchAdvisor() {
 
             <div className="grid gap-4 md:grid-cols-3">
               {recommendations.map(({ product, reason }) => (
-                <article key={product.id} className="catalog-product-card rounded-[24px] border border-white/10 bg-card p-4">
+                <article
+                  key={product.id}
+                  className="catalog-product-card cursor-pointer rounded-[24px] border border-white/10 bg-card p-4"
+                  role="link"
+                  tabIndex={0}
+                  aria-label={`Abrir ${product.name}`}
+                  onClick={(event) => {
+                    if (shouldIgnoreCardActivation(event.target)) return;
+                    openProduct(product);
+                  }}
+                  onKeyDown={(event) => {
+                    if (shouldIgnoreCardActivation(event.target)) return;
+                    if (event.key === "Enter" || event.key === " ") {
+                      event.preventDefault();
+                      openProduct(product);
+                    }
+                  }}
+                >
                   <div className="overflow-hidden rounded-[18px] border border-white/10 bg-white/5">
                     <SafeProductImage product={product} alt={product.name} className="aspect-square w-full object-cover" />
                   </div>

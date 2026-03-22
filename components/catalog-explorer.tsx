@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { startTransition, useDeferredValue, useEffect, useMemo, useState } from 'react';
 import {
   BadgeCheck,
@@ -116,6 +117,10 @@ function buildFavoritesWhatsApp(items: Product[]) {
   return `https://wa.me/5521920137249?text=${encodeURIComponent(message)}`;
 }
 
+function shouldIgnoreCardActivation(target: EventTarget | null) {
+  return target instanceof Element && Boolean(target.closest("a, button, input, select, textarea, [role='button'], [data-card-interactive='true']"));
+}
+
 function getVisiblePagination(currentPage: number, totalPages: number) {
   if (totalPages <= 7) {
     return Array.from({ length: totalPages }, (_, index) => index + 1);
@@ -205,6 +210,13 @@ export function CatalogExplorer({
   initialPriceMin?: number;
   initialPriceMax?: number;
 }) {
+  const router = useRouter();
+
+  function openProduct(product: Product) {
+    addRecent(product.id);
+    router.push(getProductUrl(product));
+  }
+
   function compareBySelectedOrder(a: Product, b: Product, selectedOrder: CatalogOrder) {
     if (selectedOrder === 'Preço') return a.pricePix - b.pricePix;
     if (selectedOrder === 'Nome') return a.name.localeCompare(b.name);
@@ -1197,13 +1209,27 @@ export function CatalogExplorer({
           return (
             <article
               key={product.id}
-              className={`catalog-product-card group relative overflow-hidden rounded-[28px] border p-5 transition-all duration-500 hover:-translate-y-2 hover:scale-[1.018] ${
+              className={`catalog-product-card group relative overflow-hidden rounded-[28px] border p-5 transition-all duration-500 ${
                 isProductRealPhoto(product)
                   ? 'border-emerald-300/18 bg-card hover:border-emerald-200/45'
                   : isProductVisualVerified(product)
                   ? 'border-white/10 bg-card hover:border-cyan-200/45'
                   : 'border-amber-300/20 bg-[linear-gradient(180deg,rgba(245,158,11,0.10),rgba(255,255,255,0.03))] hover:border-amber-300/40'
               }`}
+              role="link"
+              tabIndex={0}
+              aria-label={`Abrir ${product.name}`}
+              onClick={(event) => {
+                if (shouldIgnoreCardActivation(event.target)) return;
+                openProduct(product);
+              }}
+              onKeyDown={(event) => {
+                if (shouldIgnoreCardActivation(event.target)) return;
+                if (event.key === 'Enter' || event.key === ' ') {
+                  event.preventDefault();
+                  openProduct(product);
+                }
+              }}
             >
               <div className="pointer-events-none absolute inset-0 rounded-[28px] border border-cyan-200/0 transition-colors duration-500 group-hover:border-cyan-200/25" />
               <ProductImageGallery product={product} compact priority={index < 6} />

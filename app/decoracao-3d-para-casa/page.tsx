@@ -24,5 +24,5 @@ export const metadata: Metadata = {
 };
 
 export default function Decoracao3DParaCasaPage() {
-  return <SalesLandingPage config={config} />;
+  return <SalesLandingPage landingKey="decoracao" />;
 }

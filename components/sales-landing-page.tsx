@@ -1,15 +1,24 @@
+"use client";
+
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { CatalogExplorer } from "@/components/catalog-explorer";
 import { CatalogGrid } from "@/components/catalog-grid";
 import { SafeProductImage } from "@/components/safe-product-image";
 import { catalog, getProductUrl } from "@/lib/catalog";
-import { type SalesLandingConfig, getLandingHighlights, getLandingProducts, salesLandings } from "@/lib/sales-landings";
+import { type SalesLandingConfig, type SalesLandingKey, getLandingHighlights, getLandingProducts, salesLandings } from "@/lib/sales-landings";
 import { isProductVisualVerified } from "@/lib/product-visuals";
 import { formatCurrency } from "@/lib/utils";
 
+function shouldIgnoreCardActivation(target: EventTarget | null) {
+  return target instanceof Element && Boolean(target.closest("a, button, input, select, textarea, [role='button'], [data-card-interactive='true']"));
+}
+
 const allLandingConfigs = Object.values(salesLandings);
 
-export function SalesLandingPage({ config }: { config: SalesLandingConfig }) {
+export function SalesLandingPage({ landingKey }: { landingKey: SalesLandingKey }) {
+  const router = useRouter();
+  const config: SalesLandingConfig = salesLandings[landingKey];
   const matchingProducts = getLandingProducts(catalog, config);
   const highlights = getLandingHighlights(catalog, config);
   const verifiedCount = matchingProducts.filter((product) => isProductVisualVerified(product)).length;
@@ -58,6 +67,10 @@ export function SalesLandingPage({ config }: { config: SalesLandingConfig }) {
     "Quando a dúvida for prazo, a rota mais segura é abrir pronta entrega ou seguir para itens com prova visual validada.",
     "Se a ideia estiver próxima, mas não igual, vale pedir sob medida em vez de abandonar a navegação e recomeçar tudo.",
   ];
+
+  function openProduct(product: (typeof matchingProducts)[number]) {
+    router.push(getProductUrl(product));
+  }
 
   return (
     <section className="mx-auto max-w-7xl px-6 py-16">
@@ -177,7 +190,24 @@ export function SalesLandingPage({ config }: { config: SalesLandingConfig }) {
 
         <div className="grid gap-4 md:grid-cols-3">
           {guidedPicks.map((item) => (
-            <article key={item.label} className="catalog-product-card rounded-[24px] border border-white/10 bg-card p-4">
+            <article
+              key={item.label}
+              className="catalog-product-card cursor-pointer rounded-[24px] border border-white/10 bg-card p-4"
+              role="link"
+              tabIndex={0}
+              aria-label={`Abrir ${item.product.name}`}
+              onClick={(event) => {
+                if (shouldIgnoreCardActivation(event.target)) return;
+                openProduct(item.product);
+              }}
+              onKeyDown={(event) => {
+                if (shouldIgnoreCardActivation(event.target)) return;
+                if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault();
+                  openProduct(item.product);
+                }
+              }}
+            >
               <div className="overflow-hidden rounded-[18px] border border-white/10 bg-white/5">
                 <SafeProductImage
                   candidates={[item.product.image || item.product.images?.[0]].filter(Boolean) as string[]}

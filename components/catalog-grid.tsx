@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useMemo } from "react";
 import type { Product } from "@/lib/catalog";
 import { formatCurrency } from "@/lib/utils";
 import { SafeProductImage } from "@/components/safe-product-image";
@@ -10,6 +11,10 @@ import { FavoriteButton } from "@/components/favorite-button";
 import { getProductImageCandidates } from "@/lib/product-images";
 import { ProductVisualBadge } from "@/components/product-visual-authenticity";
 import { isProductVisualVerified } from "@/lib/product-visuals";
+
+function shouldIgnoreCardActivation(target: EventTarget | null) {
+  return target instanceof Element && Boolean(target.closest("a, button, input, select, textarea, [role='button'], [data-card-interactive='true']"));
+}
 
 function ProductCardImage({ product }: { product: Product }) {
   const candidates = useMemo(() => getProductImageCandidates(product), [product]);
@@ -22,16 +27,36 @@ function ProductCardImage({ product }: { product: Product }) {
 }
 
 export function CatalogGrid({ products }: { products: Product[] }) {
+  const router = useRouter();
+
+  function openProduct(product: Product) {
+    router.push(getProductUrl(product));
+  }
+
   return (
     <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
       {products.map((product) => (
         <article
           key={product.id}
-          className={`catalog-product-card group rounded-[28px] border p-5 transition hover:-translate-y-1 ${
+          className={`catalog-product-card group cursor-pointer rounded-[28px] border p-5 transition ${
             isProductVisualVerified(product)
               ? "border-white/10 bg-card hover:border-cyan-300/30"
               : "border-amber-300/15 bg-[linear-gradient(180deg,rgba(245,158,11,0.08),rgba(255,255,255,0.02))] hover:border-amber-300/30"
           }`}
+          role="link"
+          tabIndex={0}
+          aria-label={`Abrir ${product.name}`}
+          onClick={(event) => {
+            if (shouldIgnoreCardActivation(event.target)) return;
+            openProduct(product);
+          }}
+          onKeyDown={(event) => {
+            if (shouldIgnoreCardActivation(event.target)) return;
+            if (event.key === "Enter" || event.key === " ") {
+              event.preventDefault();
+              openProduct(product);
+            }
+          }}
         >
           <ProductCardImage product={product} />
           <div className="mt-4 flex items-start justify-between gap-3">
