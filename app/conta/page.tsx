@@ -24,6 +24,17 @@ type AccountState = {
   email: string | null;
   favorites: string[];
   quotes: SavedQuote[];
+  addresses: Array<{
+    id: string;
+    label: string;
+    recipientName: string;
+    zipCode: string;
+    line1: string;
+    neighborhood: string;
+    city: string;
+    state: string;
+    isDefaultShipping: boolean;
+  }>;
   orders: Array<{
     id: string;
     order_code: string;
@@ -77,6 +88,7 @@ export default function AccountPage() {
     email: null,
     favorites: [],
     quotes: [],
+    addresses: [],
     orders: []
   });
   const [recentIds, setRecentIds] = useState<string[]>([]);
@@ -87,11 +99,17 @@ export default function AccountPage() {
     async function load() {
       const key = getMemberKey({ id: session.user?.id, email: session.user?.email });
       let orders: AccountState['orders'] = [];
+      let addresses: AccountState['addresses'] = [];
 
       if (session.loggedIn) {
-        const response = await fetch('/api/account/orders', { cache: 'no-store' });
-        const data = await response.json().catch(() => ({}));
-        orders = response.ok && Array.isArray(data?.orders) ? data.orders : [];
+        const [ordersResponse, addressesResponse] = await Promise.all([
+          fetch('/api/account/orders', { cache: 'no-store' }),
+          fetch('/api/account/addresses', { cache: 'no-store' }),
+        ]);
+        const ordersData = await ordersResponse.json().catch(() => ({}));
+        const addressesData = await addressesResponse.json().catch(() => ({}));
+        orders = ordersResponse.ok && Array.isArray(ordersData?.orders) ? ordersData.orders : [];
+        addresses = addressesResponse.ok && Array.isArray(addressesData?.addresses) ? addressesData.addresses : [];
       }
 
       setAccount({
@@ -104,6 +122,7 @@ export default function AccountPage() {
         email: session.user?.email || null,
         favorites: listFavorites(key),
         quotes: listSavedQuotes(key),
+        addresses,
         orders
       });
       setRecentIds(readRecentIds());
@@ -300,6 +319,31 @@ export default function AccountPage() {
               </div>
             )) : <p className="text-sm text-white/70">Você ainda não tem pedido com este email. Quando comprar pelo checkout, o histórico aparece aqui.</p>}
           </div>
+        </div>
+      </div>
+
+      <div className="mt-6 glass-panel p-6">
+        <h3 className="text-xl font-semibold text-white">Endereços salvos</h3>
+        <p className="mt-1 text-sm text-white/60">{account.addresses.length} endereço(s) disponível(is)</p>
+        <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+          {account.addresses.length ? account.addresses.map((item) => (
+            <div key={item.id} className="rounded-2xl border border-white/10 bg-black/20 p-4 text-sm text-white/80">
+              <div className="flex items-center justify-between gap-3">
+                <p className="font-semibold text-white">{item.label}</p>
+                {item.isDefaultShipping ? (
+                  <span className="rounded-full border border-cyan-300/25 bg-cyan-300/10 px-3 py-1 text-[11px] uppercase tracking-[0.16em] text-cyan-100">
+                    Padrão
+                  </span>
+                ) : null}
+              </div>
+              <p className="mt-2 text-white/68">{item.recipientName}</p>
+              <p className="mt-1 text-white/60">{item.line1}</p>
+              <p className="mt-1 text-white/60">
+                {item.neighborhood} • {item.city} - {item.state}
+              </p>
+              <p className="mt-2 text-cyan-100">CEP {item.zipCode}</p>
+            </div>
+          )) : <p className="text-sm text-white/70">Seus endereços salvos no checkout aparecerão aqui para acelerar as próximas compras.</p>}
         </div>
       </div>
 
