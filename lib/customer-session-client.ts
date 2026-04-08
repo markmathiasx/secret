@@ -6,7 +6,8 @@ export type CustomerSessionUser = {
   id: string;
   email: string;
   displayName: string;
-  role: "customer";
+  role: "customer" | "seller" | "admin";
+  twoFactorEnabled?: boolean;
 };
 
 type SessionState = {

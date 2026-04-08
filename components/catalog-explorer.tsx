@@ -16,7 +16,7 @@ import {
   Sparkles,
   Target,
 } from 'lucide-react';
-import { categories, collections, getProductUrl, type Product } from '@/lib/catalog';
+import { getProductUrl, type Product } from '@/lib/catalog';
 import { getProductSearchScore } from '@/lib/catalog-content';
 import { ProductImageGallery } from '@/components/product-image-gallery';
 import { ProductVisualBadge } from '@/components/product-visual-authenticity';
@@ -231,6 +231,8 @@ export function CatalogExplorer({
     const max = Math.max(120, Math.ceil(Math.max(...values) / 10) * 10);
     return { min, max };
   }, [products]);
+  const categoryOptions = useMemo(() => ['Todas', ...new Set(products.map((item) => item.category))], [products]);
+  const collectionOptions = useMemo(() => ['Todas', ...new Set(products.map((item) => item.collection))], [products]);
 
   const economyThreshold = useMemo(() => {
     const sorted = [...products].sort((a, b) => a.pricePix - b.pricePix);
@@ -241,8 +243,8 @@ export function CatalogExplorer({
   const materialOptions = useMemo(() => ['Todos', ...new Set(products.map((item) => item.material))], [products]);
 
   const [query, setQuery] = useState(initialQuery);
-  const [category, setCategory] = useState(sanitizeOption(initialCategory, categories));
-  const [collection, setCollection] = useState(sanitizeOption(initialCollection, collections));
+  const [category, setCategory] = useState(sanitizeOption(initialCategory, categoryOptions));
+  const [collection, setCollection] = useState(sanitizeOption(initialCollection, collectionOptions));
   const [availability, setAvailability] = useState<CatalogAvailability>(sanitizeAvailability(initialAvailability));
   const [visualMode, setVisualMode] = useState<VisualMode>(sanitizeVisualMode(initialVisualMode));
   const [selectedMaterial, setSelectedMaterial] = useState('Todos');
@@ -288,8 +290,8 @@ export function CatalogExplorer({
     const maxValue = clampRangeValue(initialPriceMax, priceLimits.min, priceLimits.max) ?? priceLimits.max;
 
     setQuery(initialQuery);
-    setCategory(sanitizeOption(initialCategory, categories));
-    setCollection(sanitizeOption(initialCollection, collections));
+    setCategory(sanitizeOption(initialCategory, categoryOptions));
+    setCollection(sanitizeOption(initialCollection, collectionOptions));
     setVisualMode(sanitizeVisualMode(initialVisualMode));
     setAvailability(sanitizeAvailability(initialAvailability));
     setSelectedMaterial(sanitizeMaterial(initialMaterial, materialOptions));
@@ -310,6 +312,8 @@ export function CatalogExplorer({
     initialPriceMin,
     initialQuery,
     initialVisualMode,
+    categoryOptions,
+    collectionOptions,
     materialOptions,
     priceLimits.max,
     priceLimits.min,
@@ -611,8 +615,8 @@ export function CatalogExplorer({
 
   function resetFilters() {
     setQuery(initialQuery);
-    setCategory(sanitizeOption(initialCategory, categories));
-    setCollection(sanitizeOption(initialCollection, collections));
+    setCategory(sanitizeOption(initialCategory, categoryOptions));
+    setCollection(sanitizeOption(initialCollection, collectionOptions));
     setOrder(sanitizeOrder(initialOrder));
     setPriceRange([priceLimits.min, priceLimits.max]);
     setVisualMode(sanitizeVisualMode(initialVisualMode));
@@ -849,7 +853,7 @@ export function CatalogExplorer({
               className="field-base"
             >
               <option>Todas</option>
-              {categories.map((item) => (
+              {categoryOptions.slice(1).map((item) => (
                 <option key={item}>{item}</option>
               ))}
             </select>
@@ -866,7 +870,7 @@ export function CatalogExplorer({
               className="field-base"
             >
               <option>Todas</option>
-              {collections.map((item) => (
+              {collectionOptions.slice(1).map((item) => (
                 <option key={item}>{item}</option>
               ))}
             </select>

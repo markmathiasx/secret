@@ -1,3 +1,11 @@
-console.log('db:migrate executado.');
-console.log('Esta branch usa Supabase por tabelas diretas e não inclui um engine real de migrations.');
-console.log('Use o arquivo supabase/manual-schema.sql gerado por npm run db:generate para criar as tabelas no Supabase SQL Editor.');
+import { spawnSync } from "node:child_process";
+
+const migrationName = process.env.PRISMA_MIGRATION_NAME || "marketplace_sync";
+const args = ["prisma", "migrate", "dev", "--name", migrationName];
+
+const result = spawnSync("npx", args, {
+  stdio: "inherit",
+  shell: true,
+});
+
+process.exit(result.status ?? 1);

@@ -72,6 +72,59 @@ export function getSupabaseEnv() {
   };
 }
 
+export function getDatabaseUrl() {
+  return (process.env.DATABASE_URL || "").trim();
+}
+
+export function getDirectDatabaseUrl() {
+  return (process.env.DIRECT_URL || "").trim();
+}
+
+export function getRedisUrl() {
+  return (process.env.REDIS_URL || "redis://127.0.0.1:6379").trim();
+}
+
+export function getAuthSecret() {
+  return (
+    process.env.AUTH_SECRET?.trim() ||
+    process.env.NEXTAUTH_SECRET?.trim() ||
+    process.env.AUTH_CUSTOMER_SESSION_SECRET?.trim() ||
+    process.env.ADMIN_SESSION_SECRET?.trim() ||
+    ""
+  );
+}
+
+export function getAuthBaseUrl() {
+  return (
+    process.env.AUTH_URL?.trim() ||
+    process.env.NEXTAUTH_URL?.trim() ||
+    getSiteUrl()
+  );
+}
+
+export function getSmtpConfig() {
+  return {
+    host: (process.env.SMTP_HOST || process.env.MAILHOG_HOST || "127.0.0.1").trim(),
+    port: Number(process.env.SMTP_PORT || process.env.MAILHOG_SMTP_PORT || 1025),
+    secure: (process.env.SMTP_SECURE || "false").trim() === "true",
+    user: (process.env.SMTP_USER || "").trim(),
+    pass: (process.env.SMTP_PASS || "").trim(),
+    from: (process.env.EMAIL_FROM || "MDH 3D Store <no-reply@mdh3d.local>").trim(),
+  };
+}
+
+export function getUploadsDir() {
+  return (process.env.UPLOADS_DIR || "uploads").trim();
+}
+
+export function getProductUploadsDir() {
+  return (process.env.PRODUCT_MEDIA_DIR || `${getUploadsDir()}/products`).trim();
+}
+
+export function getModelUploadsDir() {
+  return (process.env.MODEL_UPLOADS_DIR || `${getUploadsDir()}/stl`).trim();
+}
+
 /**
  * Vercel plan helpers.
  *

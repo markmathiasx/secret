@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { signOut as authSignOut } from "next-auth/react";
 import { useEffect, useMemo, useState } from "react";
 import {
   ArrowRight,
@@ -77,9 +78,12 @@ export function SiteHeader({
   }, [pathname]);
 
   async function signOut() {
-    await fetch("/api/auth/logout", { method: "POST", credentials: "same-origin", cache: "no-store" });
+    await Promise.allSettled([
+      authSignOut({ redirect: false, callbackUrl: "/" }),
+      fetch("/api/auth/logout", { method: "POST", credentials: "same-origin", cache: "no-store" }),
+    ]);
     emitCustomerAuthChange();
-    window.location.href = "/";
+    window.location.assign("/");
   }
 
   return (

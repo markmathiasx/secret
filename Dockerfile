@@ -1,51 +1,53 @@
-# Build stage
-FROM node:20-alpine AS builder
+FROM node:24-bookworm-slim AS base
 WORKDIR /app
+ENV NEXT_TELEMETRY_DISABLED=1
 
+RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates openssl dumb-init && rm -rf /var/lib/apt/lists/*
+
+FROM base AS deps
 COPY package*.json ./
-RUN npm ci --prefer-offline --no-audit
+RUN npm ci --no-audit
 
+FROM deps AS builder
 COPY . .
-
-
-ARG NEXT_PUBLIC_SUPABASE_URL=https://vpuynsrtytsveagsuebh.supabase.co
-ARG NEXT_PUBLIC_SUPABASE_ANON_KEY=sb_publishable_3KH0pYxfKxivugzDmKyjkw_Vyy1JUlQ
-ENV NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL}
-ENV NEXT_PUBLIC_SUPABASE_ANON_KEY=${NEXT_PUBLIC_SUPABASE_ANON_KEY}
-
+RUN npx prisma generate
 RUN npm run build
 
-# Production stage
-FROM node:20-alpine
+FROM deps AS dev
+COPY . .
+RUN npx prisma generate
+EXPOSE 3000
+ENV PORT=3000
+ENV HOSTNAME=0.0.0.0
+ENTRYPOINT ["dumb-init", "--"]
+CMD ["npm", "run", "dev", "--", "--hostname", "0.0.0.0", "--port", "3000"]
+
+FROM base AS runner
 WORKDIR /app
 
-RUN apk add --no-cache dumb-init
-
 COPY package*.json ./
+RUN npm ci --omit=dev --no-audit
 
-RUN npm ci --prefer-offline --no-audit --omit=dev --ignore-scripts
-
-# Copy built application from builder
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/public ./public
+COPY --from=builder /app/prisma ./prisma
+COPY --from=builder /app/uploads ./uploads
 
-# Create non-root user
-RUN addgroup -g 1001 -S nodejs && adduser -S nextjs -u 1001
+RUN npx prisma generate
+
+RUN groupadd --system --gid 1001 nodejs && useradd --system --uid 1001 --gid 1001 nextjs
 RUN chown -R nextjs:nodejs /app
 
 USER nextjs
 
 EXPOSE 3000
-
+ENV NODE_ENV=production
 ENV PORT=3000
-ENV HOSTNAME="0.0.0.0"
+ENV HOSTNAME=0.0.0.0
 
-HEALTHCHECK --interval=30s --timeout=3s --start-period=40s --retries=3 \
-    CMD node -e "require('http').get('http://localhost:3000', (r) => {if (r.statusCode !== 200) throw new Error(r.statusCode)})"
+HEALTHCHECK --interval=30s --timeout=5s --start-period=45s --retries=5 \
+  CMD node -e "require('http').get('http://127.0.0.1:3000/api/health', (res) => { if (res.statusCode >= 400) process.exit(1); }).on('error', () => process.exit(1))"
 
 ENTRYPOINT ["dumb-init", "--"]
 CMD ["node", "server.js"]
-
-
-

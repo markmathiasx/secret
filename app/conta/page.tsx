@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { signOut as nextAuthSignOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import {
@@ -12,7 +13,7 @@ import {
   WalletCards,
 } from 'lucide-react';
 import { featuredCatalog, findProduct, getProductUrl } from '@/lib/catalog';
-import { emitCustomerAuthChange, fetchCustomerSession, useCustomerSession } from '@/lib/customer-session-client';
+import { emitCustomerAuthChange, useCustomerSession } from '@/lib/customer-session-client';
 import { getDisplayName, getMemberKey, listFavorites, listSavedQuotes, type SavedQuote } from '@/lib/member-store';
 import { formatCurrency } from '@/lib/utils';
 
@@ -145,8 +146,7 @@ export default function AccountPage() {
   }, [favoriteProducts, recentProducts]);
 
   async function signOut() {
-    await fetch('/api/auth/logout', { method: 'POST', credentials: 'same-origin', cache: 'no-store' });
-    await fetchCustomerSession();
+    await nextAuthSignOut({ redirect: false });
     emitCustomerAuthChange();
     router.replace('/');
     router.refresh();

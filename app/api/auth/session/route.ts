@@ -1,33 +1,23 @@
 import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
-import { applyNoStoreHeaders } from "@/lib/http-cache";
-import { customerSessionCookieName, getCustomerSessionSecret, verifySignedSessionToken } from "@/lib/session-token";
+import { auth } from "@/auth";
 
 export const runtime = "nodejs";
 
 export async function GET() {
-  const secret = getCustomerSessionSecret();
-  if (!secret) {
-    return applyNoStoreHeaders(NextResponse.json({ ok: true, user: null }), { varyCookie: true });
+  const session = await auth();
+
+  if (!session?.user?.email) {
+    return NextResponse.json({ ok: true, user: null });
   }
 
-  const token = (await cookies()).get(customerSessionCookieName)?.value || "";
-  const session = await verifySignedSessionToken(token, secret);
-
-  if (!session || session.role !== "customer") {
-    return applyNoStoreHeaders(NextResponse.json({ ok: true, user: null }), { varyCookie: true });
-  }
-
-  return applyNoStoreHeaders(
-    NextResponse.json({
-      ok: true,
-      user: {
-        id: session.sub,
-        email: session.email,
-        displayName: session.displayName,
-        role: "customer"
-      }
-    }),
-    { varyCookie: true }
-  );
+  return NextResponse.json({
+    ok: true,
+    user: {
+      id: session.user.id,
+      email: session.user.email,
+      displayName: session.user.name || session.user.email.split("@")[0],
+      role: session.user.role === "admin" ? "admin" : session.user.role === "seller" ? "seller" : "customer",
+      twoFactorEnabled: session.user.twoFactorEnabled || false,
+    },
+  });
 }

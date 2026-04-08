@@ -1,5 +1,6 @@
 'use client';
 
+import { signIn } from 'next-auth/react';
 import { useState } from 'react';
 import { adminConfig } from '@/lib/constants';
 
@@ -13,21 +14,22 @@ export function AdminLoginForm() {
     e.preventDefault();
     setStatus('loading');
     setMessage('');
-    const res = await fetch('/api/admin/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password })
+
+    const result = await signIn('credentials', {
+      email,
+      password,
+      role: 'admin',
+      redirect: false,
+      callbackUrl: '/admin'
     });
 
-    const data = await res.json().catch(() => ({}));
-
-    if (!res.ok) {
+    if (result?.error) {
       setStatus('error');
-      setMessage(data?.error || 'Falha no login');
+      setMessage('Falha no login. Verifique as credenciais do admin e o status da conta.');
       return;
     }
 
-    window.location.href = data?.redirectTo || '/admin';
+    window.location.href = result?.url || '/admin';
   }
 
   return (
@@ -45,7 +47,7 @@ export function AdminLoginForm() {
       {status === 'error' ? (
         <p className="text-sm text-rose-200">{message}</p>
       ) : (
-        <p className="text-xs text-white/45">Senha validada no servidor e sessão do painel protegida por cookie assinado.</p>
+        <p className="text-xs text-white/45">Senha validada pelo fluxo de credenciais do Auth.js com role admin.</p>
       )}
 
       <button type="submit" disabled={status === 'loading'} className="btn-primary w-full justify-center disabled:opacity-60">

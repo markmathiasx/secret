@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArrowLeft, CopyPlus, MessageCircleMore, Share2 } from 'lucide-react';
-import { catalog, findProductBySlug } from '@/lib/catalog';
+import { findCatalogProductBySlug, getCatalogStaticParams } from '@/lib/catalog-repository';
 import { ProductImageGallery } from '@/components/product-image-gallery';
 import { ProductModelPanel } from '@/components/product-model-panel';
 import { ProductRelatedShelf } from '@/components/product-related-shelf';
@@ -15,13 +15,13 @@ import { getSiteUrl } from '@/lib/env';
 import { getProductHighlights, getProductLongDescription } from '@/lib/catalog-content';
 import { resolveProductImage } from '@/lib/product-images';
 
-export function generateStaticParams() {
-  return catalog.map((product) => ({ slug: `${product.id}-${product.name.toLowerCase().replace(/\s+/g, '-')}` }));
+export async function generateStaticParams() {
+  return getCatalogStaticParams();
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const product = findProductBySlug(slug);
+  const product = await findCatalogProductBySlug(slug);
 
   if (!product) {
     return {
@@ -63,7 +63,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const product = findProductBySlug(slug);
+  const product = await findCatalogProductBySlug(slug);
 
   if (!product) {
     notFound();

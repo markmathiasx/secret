@@ -2,6 +2,7 @@ import { deliveryZones } from "@/lib/constants";
 import { slugify } from "@/lib/utils";
 import { buildProductSearchText, getProductCardDescription, getProductSearchScore, normalizeProductCategory } from "@/lib/catalog-content";
 import { suggestPixPrice, TARGET_PRICE_MULTIPLE_ON_COST, type MarketBenchmark } from "@/lib/market-pricing";
+import { applyCatalogMedia } from "@/lib/catalog-media";
 import { getProductVisual } from "@/lib/product-visuals";
 import { verifiedCatalog } from "@/lib/verified-catalog";
 import { csvCuratedCatalog } from "@/lib/catalog-csv-curated";
@@ -10,6 +11,7 @@ export type PaymentMethod = "pix" | "cartao" | "boleto";
 export type SalesChannel = "site" | "mercadolivre" | "shopee" | "whatsapp";
 export type Product = {
   id: string;
+  slug?: string;
   sku: string;
   name: string;
   category: string;
@@ -36,6 +38,7 @@ export type Product = {
   productionWindow: string;
   imageHint: string;
   image?: string;
+  imageAlt?: string;
   material: string;
   finish: string;
   status: "Pronta entrega" | "Sob encomenda";
@@ -2644,16 +2647,16 @@ const curatedCatalog: Product[] = [
 ];
 
 export const catalog = [
-  ...verifiedCatalog.map(enrichProduct),
-  ...curatedCatalog.map(enrichProduct),
-  ...csvCuratedCatalog,
+  ...verifiedCatalog.map((product) => applyCatalogMedia(enrichProduct(product), { preserveExisting: true })),
+  ...curatedCatalog.map((product) => applyCatalogMedia(enrichProduct(product), { preserveExisting: false })),
+  ...csvCuratedCatalog.map((product) => applyCatalogMedia(product, { preserveExisting: false })),
 ];
 export const featuredCatalog = catalog.filter((item) => item.featured).slice(0, 12);
 export const categories = Array.from(new Set(catalog.map((item) => item.category)));
 export const collections = Array.from(new Set(catalog.map((item) => item.collection)));
 
 export function getProductUrl(product: Product) {
-  return `/catalogo/${product.id}-${slugify(product.name)}`;
+  return `/catalogo/${product.id}-${product.slug || slugify(product.name)}`;
 }
 
 export function findProduct(id: string) {
@@ -2661,7 +2664,7 @@ export function findProduct(id: string) {
 }
 
 export function findProductBySlug(slug: string) {
-  return catalog.find((item) => getProductUrl(item).endsWith(slug));
+  return catalog.find((item) => slug === item.slug || getProductUrl(item).endsWith(slug));
 }
 
 export function searchCatalog(query: string) {

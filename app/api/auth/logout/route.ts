@@ -6,14 +6,29 @@ export const runtime = "nodejs";
 
 export async function POST() {
   const response = NextResponse.json({ ok: true });
-  response.cookies.set({
-    name: customerSessionCookieName,
-    value: "",
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    path: "/",
-    maxAge: 0
-  });
+  const cookieNames = [
+    customerSessionCookieName,
+    "authjs.session-token",
+    "__Secure-authjs.session-token",
+    "next-auth.session-token",
+    "__Secure-next-auth.session-token",
+    "authjs.csrf-token",
+    "next-auth.csrf-token",
+    "authjs.callback-url",
+    "next-auth.callback-url",
+  ];
+
+  for (const cookieName of cookieNames) {
+    response.cookies.set({
+      name: cookieName,
+      value: "",
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+      maxAge: 0,
+    });
+  }
+
   return applyNoStoreHeaders(response);
 }

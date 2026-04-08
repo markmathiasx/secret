@@ -1,4 +1,5 @@
 import type { Product } from "@/lib/catalog";
+import { buildProductImageAlt } from "@/lib/catalog-media";
 import { slugify } from "@/lib/utils";
 import { getCatalogPhotoCandidates, hasExplicitCatalogGallery } from "@/lib/catalog-photo-manifest";
 import { getProductVisualImageCandidates } from "@/lib/product-visuals";
@@ -18,12 +19,12 @@ function explicitGallery(product: Product) {
     return images.map((src, index) => ({
       id: `${product.id}-${index + 1}`,
       candidates: [src, productPlaceholderSrc],
-      alt: `${product.name} - visão ${index + 1}`,
+      alt: buildProductImageAlt(product.name, index + 1),
     }));
   }
   const single = (product as Product & { image?: string }).image;
   if (single) {
-    return [{ id: `${product.id}-1`, candidates: [single, productPlaceholderSrc], alt: `${product.name} - visão 1` }];
+    return [{ id: `${product.id}-1`, candidates: [single, productPlaceholderSrc], alt: buildProductImageAlt(product.name, 1) }];
   }
   return null;
 }
@@ -115,6 +116,6 @@ export function getProductGallery(product: Product) {
       `/catalog-assets/${normalizedId}.jpg`,
       productPlaceholderSrc,
     ],
-    alt: `${product.name} - visão ${shot}`,
+    alt: buildProductImageAlt(product.name, shot),
   }));
 }

@@ -1,10 +1,11 @@
 'use client';
 
 import Link from 'next/link';
+import { signIn } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
-import { ArrowRight, LockKeyhole, Mail, MessageCircleMore, ShieldCheck, User } from 'lucide-react';
-import { emitCustomerAuthChange, fetchCustomerSession } from '@/lib/customer-session-client';
+import { Apple, ArrowRight, LockKeyhole, Mail, MessageCircleMore, ShieldCheck, User } from 'lucide-react';
+import { emitCustomerAuthChange } from '@/lib/customer-session-client';
 import { whatsappMessage, whatsappNumber } from '@/lib/constants';
 
 const benefits = [
@@ -40,6 +41,9 @@ export default function LoginPage() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
   const redirectTo = searchParams.get('redirect') || '';
+  const verificationStatus = searchParams.get('verified') || '';
+  const hasGoogle = process.env.NEXT_PUBLIC_GOOGLE_AUTH_ENABLED === 'true';
+  const hasApple = process.env.NEXT_PUBLIC_APPLE_AUTH_ENABLED === 'true';
   const passwordStrength = useMemo(() => getPasswordStrength(password), [password]);
   const loginContext = useMemo(() => {
     if (redirectTo.includes('/checkout')) return 'Entre para continuar o checkout com seus dados e pedidos salvos.';
@@ -55,6 +59,18 @@ export default function LoginPage() {
     }
   }, [redirectTo]);
 
+  useEffect(() => {
+    if (verificationStatus === 'ok') {
+      setSuccess('E-mail confirmado com sucesso. Você já pode entrar na sua conta.');
+    }
+    if (verificationStatus === 'invalid') {
+      setMessage('O link de verificação expirou ou não é mais válido.');
+    }
+    if (verificationStatus === 'missing') {
+      setMessage('O link de verificação estava incompleto.');
+    }
+  }, [verificationStatus]);
+
   async function handleEmailAuth(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setMessage(null);
@@ -68,27 +84,36 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      const response = await fetch(mode === 'register' ? '/api/auth/register' : '/api/auth/login', {
-        method: 'POST',
-        credentials: 'same-origin',
-        cache: 'no-store',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(
-          mode === 'register'
-            ? { name, email, password }
-            : { email, password }
-        )
-      });
+      if (mode === 'register') {
+        const response = await fetch('/api/auth/register', {
+          method: 'POST',
+          cache: 'no-store',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, password }),
+        });
 
-      const data = await response.json().catch(() => ({}));
-      if (!response.ok) {
-        setMessage(data?.error || 'Não foi possível concluir o acesso.');
-        return;
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok) {
+          setMessage(data?.error || 'Não foi possível concluir o cadastro.');
+          return;
+        }
+
+        if (data?.needsVerification) {
+          setSuccess('Conta criada. Verifique seu e-mail para confirmar o acesso.');
+          return;
+        }
       }
 
-      const session = await fetchCustomerSession();
-      if (!session.user) {
-        setMessage('A conta foi validada, mas a sessão ainda não foi confirmada pelo navegador. Atualize a página ou tente entrar novamente.');
+      const result = await signIn('credentials', {
+        email,
+        password,
+        role: 'buyer',
+        redirect: false,
+        callbackUrl: redirectTo || '/conta',
+      });
+
+      if (result?.error) {
+        setMessage('Não foi possível validar seu acesso. Confira e-mail, senha e verificação de conta.');
         return;
       }
 
@@ -177,6 +202,30 @@ export default function LoginPage() {
             </button>
           </div>
 
+          {(hasGoogle || hasApple) ? (
+            <div className="mt-4 grid gap-3">
+              {hasGoogle ? (
+                <button
+                  type="button"
+                  onClick={() => void signIn('google', { callbackUrl: redirectTo || '/conta' })}
+                  className="btn-secondary w-full justify-center"
+                >
+                  Entrar com Google
+                </button>
+              ) : null}
+              {hasApple ? (
+                <button
+                  type="button"
+                  onClick={() => void signIn('apple', { callbackUrl: redirectTo || '/conta' })}
+                  className="btn-secondary w-full justify-center gap-2"
+                >
+                  <Apple className="h-4 w-4" />
+                  Entrar com Apple
+                </button>
+              ) : null}
+            </div>
+          ) : null}
+
           <form onSubmit={handleEmailAuth} className="mt-6 space-y-4">
             {mode === 'register' ? (
               <label className="block">
@@ -240,6 +289,9 @@ export default function LoginPage() {
             <button type="submit" disabled={loading} className="btn-primary w-full justify-center disabled:opacity-70">
               {loading ? 'Processando...' : mode === 'register' ? 'Criar minha conta' : 'Entrar na minha conta'}
             </button>
+            <Link href="/recuperar-senha" className="block text-center text-sm text-cyan-100 transition hover:text-cyan-50">
+              Esqueci minha senha
+            </Link>
           </form>
 
           <div className="mt-4 flex flex-wrap gap-3">

@@ -4,7 +4,7 @@ import { CatalogExplorer } from '@/components/catalog-explorer';
 import { CatalogBuyingIntents } from '@/components/catalog-buying-intents';
 import { CatalogRealCases } from '@/components/catalog-real-cases';
 import { ComboBuilder } from '@/components/combo-builder';
-import { catalog, categories, collections } from '@/lib/catalog';
+import { getCatalogCategories, getCatalogCollections, getCatalogSnapshot } from '@/lib/catalog-repository';
 import { catalogShortcutLinks } from '@/lib/constants';
 import { summarizeProductVisuals } from '@/lib/product-visuals';
 
@@ -32,6 +32,9 @@ type CatalogPageSearchParams = {
 };
 
 export default async function CatalogPage({ searchParams }: { searchParams?: Promise<CatalogPageSearchParams> }) {
+  const catalog = await getCatalogSnapshot();
+  const categories = await getCatalogCategories();
+  const collections = await getCatalogCollections();
   const params = searchParams ? await searchParams : undefined;
   const initialQuery = params?.q?.trim() || '';
   const initialCategory = params?.category && categories.includes(params.category) ? params.category : 'Todas';

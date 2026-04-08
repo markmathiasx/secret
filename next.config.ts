@@ -16,6 +16,7 @@ const imageHosts = new Set([
   "images.ctfassets.net",
   "jimhpbvmvhgkfrtprvfs.supabase.co",
   "mdh-3d-store.vercel.app",
+  "picsum.photos",
   "localhost",
   "127.0.0.1"
 ]);

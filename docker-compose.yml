@@ -1,45 +1,89 @@
 services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: mdh-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-mdh3d}
+      POSTGRES_USER: ${POSTGRES_USER:-mdh}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-mdh123}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-mdh} -d ${POSTGRES_DB:-mdh3d}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    container_name: mdh-redis
+    restart: unless-stopped
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  mailhog:
+    image: mailhog/mailhog:v1.0.1
+    container_name: mdh-mailhog
+    restart: unless-stopped
+    ports:
+      - "${MAILHOG_SMTP_PORT:-1025}:1025"
+      - "${MAILHOG_WEB_PORT:-8025}:8025"
+
   app:
-    image: mdh-3d-store:latest
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: mdh-3d-store
+      target: dev
+    container_name: mdh-app
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      mailhog:
+        condition: service_started
+    env_file:
+      - .env
+    environment:
+      NODE_ENV: development
+      PORT: 3000
+      HOSTNAME: 0.0.0.0
+      DATABASE_URL: postgresql://${POSTGRES_USER:-mdh}:${POSTGRES_PASSWORD:-mdh123}@postgres:5432/${POSTGRES_DB:-mdh3d}?schema=public
+      DIRECT_URL: postgresql://${POSTGRES_USER:-mdh}:${POSTGRES_PASSWORD:-mdh123}@postgres:5432/${POSTGRES_DB:-mdh3d}?schema=public
+      REDIS_URL: redis://redis:6379
+      SMTP_HOST: mailhog
+      SMTP_PORT: 1025
+      MAILHOG_HOST: mailhog
+      MAILHOG_SMTP_PORT: 1025
+      NEXT_PUBLIC_SITE_URL: http://localhost:3000
     ports:
       - "3000:3000"
-    expose:
-      - "3000"
-    env_file:
-      - .env.docker
-    environment:
-      - NODE_ENV=production
-      - PORT=3000
-      - HOSTNAME=0.0.0.0
-      - NEXT_PUBLIC_SUPABASE_URL=https://vpuynsrtytsveagsuebh.supabase.co
-      - NEXT_PUBLIC_SUPABASE_ANON_KEY=sb_publishable_3KH0pYxfKxivugzDmKyjkw_Vyy1JUlQ
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - product-media:/app/uploads/products
+      - model-media:/app/uploads/stl
     healthcheck:
-      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000', (r) => {if (r.statusCode !== 200) throw new Error(r.statusCode)})"]
-      interval: 30s
-      timeout: 3s
-      retries: 3
-      start_period: 40s
-    restart: unless-stopped
-    deploy:
-      resources:
-        limits:
-          cpus: '2'
-          memory: 1G
-        reservations:
-          cpus: '0.5'
-          memory: 512M
-    networks:
-      - mdh-network
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "3"
+      test: ["CMD", "node", "-e", "require('http').get('http://127.0.0.1:3000/api/health', (res) => { if (res.statusCode >= 400) process.exit(1); }).on('error', () => process.exit(1))"]
+      interval: 20s
+      timeout: 5s
+      retries: 10
+      start_period: 45s
 
-networks:
-  mdh-network:
-    driver: bridge
+volumes:
+  postgres-data:
+  redis-data:
+  product-media:
+  model-media:

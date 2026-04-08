@@ -24,4 +24,10 @@ secret/
 build_output.txt
 CORRECAO-TYPECHECK-BUILD.txt
 output/
+uploads/*
+!uploads/.gitkeep
+!uploads/products/
+!uploads/products/.gitkeep
+!uploads/stl/
+!uploads/stl/.gitkeep
 *.tsbuildinfo

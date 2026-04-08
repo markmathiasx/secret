@@ -30,6 +30,7 @@
     }
   },
   "include": [
+    "auth.ts",
     "app/**/*.ts",
     "app/**/*.tsx",
     "components/**/*.tsx",
@@ -37,6 +38,7 @@
     "lib/**/*.ts",
     "middleware.ts",
     "next-env.d.ts",
+    "prisma/**/*.ts",
     "types/**/*.ts",
     ".next/types/**/*.ts"
   ],
