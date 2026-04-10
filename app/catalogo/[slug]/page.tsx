@@ -4,6 +4,7 @@ import { ArrowLeft, CopyPlus, MessageCircleMore, Share2 } from 'lucide-react';
 import { findCatalogProductBySlug, getCatalogStaticParams } from '@/lib/catalog-repository';
 import { ProductImageGallery } from '@/components/product-image-gallery';
 import { ProductModelPanel } from '@/components/product-model-panel';
+import { ProductPriceStack } from '@/components/product-price-stack';
 import { ProductRelatedShelf } from '@/components/product-related-shelf';
 import { ProductVisualBadge, ProductVisualNotice } from '@/components/product-visual-authenticity';
 import { ProductPurchaseTools } from '@/components/product-purchase-tools';
@@ -111,7 +112,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
   const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`${whatsappMessage}\n\nTenho interesse em ${product.name} (${product.sku}).`)}`;
   const customizationHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`${whatsappMessage}\n\nQuero personalizar ${product.name} (${product.sku}).`)}`;
-  const primaryActionLabel = product.pricingMode === 'faixa-auditada' ? 'Comprar agora' : 'Pedir orçamento';
+  const primaryActionLabel = product.pricingMode === 'faixa-auditada' ? 'Comprar agora (Pix)' : 'Pedir orçamento';
   const priceLabel = product.pricingMode === 'faixa-auditada' ? 'Preço no Pix' : 'Estimativa inicial no Pix';
   const idealFor = Array.from(
     new Set(
@@ -191,14 +192,9 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             ))}
           </div>
 
-          <div className="mt-6 grid gap-4 sm:grid-cols-3">
+          <div className="mt-6 grid gap-4 sm:grid-cols-[1.45fr_0.8fr]">
             <div className="rounded-[24px] border border-emerald-400/20 bg-emerald-400/10 p-4">
-              <p className="text-sm text-emerald-100/70">{priceLabel}</p>
-              <p className="mt-2 text-2xl font-black text-white">{formatCurrency(product.pricePix)}</p>
-            </div>
-            <div className="rounded-[24px] border border-white/10 bg-white/5 p-4">
-              <p className="text-sm text-white/55">Cartão</p>
-              <p className="mt-2 text-2xl font-black text-white">{formatCurrency(product.priceCard)}</p>
+              <ProductPriceStack product={product} label={priceLabel} />
             </div>
             <div className="rounded-[24px] border border-white/10 bg-white/5 p-4">
               <p className="text-sm text-white/55">Prazo</p>
@@ -299,6 +295,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
               sku={product.sku}
               pricePix={product.pricePix}
               priceCard={product.priceCard}
+              productImage={product.images?.[0]}
               customizable={product.customizable}
               whatsappHref={whatsappHref}
               customizationHref={customizationHref}

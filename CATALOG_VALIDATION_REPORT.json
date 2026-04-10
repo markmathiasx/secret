@@ -1,14 +1,14 @@
 {
-  "timestamp": "2026-03-20T04:47:12.375Z",
-  "source": "https://mdh-3d-store.vercel.app/api/catalog?scope=all",
-  "total": 87,
-  "valid": 87,
+  "timestamp": "2026-04-10T17:06:55.756Z",
+  "source": "D:\\mdh-3d-store\\data\\local-catalog-image-snapshot.json",
+  "total": 248,
+  "valid": 248,
   "missing": 0,
   "placeholderRisk": 0,
   "visualKinds": {
-    "foto-real": 10,
-    "render-fiel": 0,
-    "imagem-conceitual": 77
+    "foto-real": 34,
+    "render-fiel": 1,
+    "imagem-conceitual": 213
   },
   "missingIds": [],
   "placeholderRiskIds": [],
@@ -17,611 +17,1738 @@
     {
       "id": "real-001",
       "name": "Grinder 3 Partes Premium",
-      "imagePath": "/products/foto-001-grinder-01.webp",
+      "imagePath": "/products/real-001-grinder-3-partes-premium/01-hero.jpg",
       "visualKind": "foto-real",
-      "placeholderDistance": 170.93
+      "placeholderDistance": 170.92
     },
     {
       "id": "real-002",
       "name": "Porta Creme Dental de Bancada",
-      "imagePath": "/products/foto-003-porta-creme-dental.webp",
+      "imagePath": "/products/real-002-porta-creme-dental-de-bancada/01-hero.jpg",
       "visualKind": "foto-real",
-      "placeholderDistance": 67.86
+      "placeholderDistance": 68.31
     },
     {
       "id": "real-003",
       "name": "Demogorgon Decorativo Premium",
-      "imagePath": "/products/foto-004-demogorgon.webp",
+      "imagePath": "/products/real-003-demogorgon-decorativo-premium/01-hero.jpg",
       "visualKind": "foto-real",
-      "placeholderDistance": 177.88
+      "placeholderDistance": 177.84
     },
     {
       "id": "real-004",
       "name": "Hello Kitty Jedi Colecionável",
-      "imagePath": "/products/foto-005-hello-kitty-jedi.webp",
+      "imagePath": "/products/real-004-hello-kitty-jedi-colecionavel/01-hero.jpg",
       "visualKind": "foto-real",
-      "placeholderDistance": 99.25
+      "placeholderDistance": 99.68
     },
     {
       "id": "real-005",
       "name": "Stencil Rick and Morty Decorativo",
-      "imagePath": "/products/foto-006-stencil-rick-morty.webp",
+      "imagePath": "/products/real-005-stencil-rick-and-morty-decorativo/01-hero.jpg",
       "visualKind": "foto-real",
-      "placeholderDistance": 130.18
+      "placeholderDistance": 130.6
     },
     {
       "id": "real-006",
       "name": "Família Customizada em Miniatura",
-      "imagePath": "/products/foto-007-familia-custom.webp",
+      "imagePath": "/products/real-006-familia-customizada-em-miniatura/01-hero.jpg",
       "visualKind": "foto-real",
-      "placeholderDistance": 114.13
+      "placeholderDistance": 114.21
     },
     {
       "id": "real-007",
       "name": "Boneca Infantil Personalizada",
-      "imagePath": "/products/foto-008-boneca-crianca.webp",
+      "imagePath": "/products/real-007-boneca-infantil-personalizada/01-hero.jpg",
       "visualKind": "foto-real",
-      "placeholderDistance": 112.18
+      "placeholderDistance": 112.53
     },
     {
       "id": "real-008",
       "name": "Case de Isqueiro Caveira",
-      "imagePath": "/products/foto-009-case-isqueiro-caveira.webp",
+      "imagePath": "/products/real-008-case-de-isqueiro-caveira/01-hero.jpg",
       "visualKind": "foto-real",
-      "placeholderDistance": 178.06
+      "placeholderDistance": 178.07
     },
     {
       "id": "real-009",
       "name": "Homer Pikachu Mashup Colecionável",
-      "imagePath": "/products/foto-010-homer-pikachu.webp",
+      "imagePath": "/products/real-009-homer-pikachu-mashup-colecionavel/01-hero.jpg",
       "visualKind": "foto-real",
-      "placeholderDistance": 115.54
+      "placeholderDistance": 115.84
     },
     {
       "id": "real-010",
       "name": "Medalha Maçônica Personalizada",
-      "imagePath": "/products/foto-011-chaveiro-maconaria.webp",
+      "imagePath": "/products/real-010-medalha-maconica-personalizada/01-hero.jpg",
       "visualKind": "foto-real",
-      "placeholderDistance": 154.06
+      "placeholderDistance": 153.88
     },
     {
       "id": "mdh-001",
       "name": "Hello Kitty Chibi Premium",
-      "imagePath": "/catalog-assets/mdh-1.webp",
+      "imagePath": "/products/mdh-001-hello-kitty-chibi-premium/01-hero.jpg",
       "visualKind": "imagem-conceitual",
-      "placeholderDistance": 10.27
+      "placeholderDistance": 26.6
     },
     {
       "id": "mdh-002",
       "name": "Mascote Kawaii Desk Buddy",
-      "imagePath": "/catalog-assets/mdh-2.webp",
+      "imagePath": "/products/mdh-002-mascote-kawaii-desk-buddy/01-hero.jpg",
       "visualKind": "imagem-conceitual",
-      "placeholderDistance": 20.86
+      "placeholderDistance": 24.06
     },
     {
       "id": "mdh-003",
       "name": "Monstro Elétrico Pocket Mini",
-      "imagePath": "/catalog-assets/mdh-3.webp",
+      "imagePath": "/products/mdh-003-monstro-eletrico-pocket-mini/01-hero.jpg",
       "visualKind": "imagem-conceitual",
-      "placeholderDistance": 18.76
+      "placeholderDistance": 32.27
     },
     {
       "id": "mdh-004",
       "name": "Espiã Mirim Chibi",
-      "imagePath": "/catalog-assets/mdh-4.webp",
+      "imagePath": "/products/mdh-004-espia-mirim-chibi/01-hero.jpg",
       "visualKind": "imagem-conceitual",
-      "placeholderDistance": 14.63
+      "placeholderDistance": 27.11
     },
     {
       "id": "mdh-005",
       "name": "Mascote Serra Articulado",
-      "imagePath": "/catalog-assets/mdh-5.webp",
+      "imagePath": "/products/mdh-005-mascote-serra-articulado/01-hero.jpg",
       "visualKind": "imagem-conceitual",
-      "placeholderDistance": 20.6
+      "placeholderDistance": 28.32
     },
     {
       "id": "mdh-006",
       "name": "Tripulante Crewmate Neon",
-      "imagePath": "/catalog-assets/mdh-6.webp",
+      "imagePath": "/products/mdh-006-tripulante-crewmate-neon/01-hero.jpg",
       "visualKind": "imagem-conceitual",
-      "placeholderDistance": 18.18
+      "placeholderDistance": 23.31
     },
     {
       "id": "mdh-007",
       "name": "Esfera Monstro de Bolso",
-      "imagePath": "/catalog-assets/mdh-7.webp",
+      "imagePath": "/products/mdh-007-esfera-monstro-de-bolso/01-hero.jpg",
       "visualKind": "imagem-conceitual",
-      "placeholderDistance": 14.31
+      "placeholderDistance": 29.88
     },
     {
       "id": "mdh-008",
       "name": "Pokémon Pikachu Mini",
-      "imagePath": "/catalog-assets/mdh-8.webp",
+      "imagePath": "/products/mdh-008-pokemon-pikachu-mini/01-hero.jpg",
       "visualKind": "imagem-conceitual",
-      "placeholderDistance": 20.35
+      "placeholderDistance": 25.13
     },
     {
       "id": "mdh-009",
       "name": "Spy x Family Anya Chibi",
-      "imagePath": "/catalog-assets/mdh-9.webp",
+      "imagePath": "/products/mdh-009-spy-x-family-anya-chibi/01-hero.jpg",
       "visualKind": "imagem-conceitual",
-      "placeholderDistance": 19.01
+      "placeholderDistance": 34.84
     },
     {
       "id": "mdh-010",
       "name": "Chainsaw Man Pochita",
-      "imagePath": "/catalog-assets/mdh-10.webp",
+      "imagePath": "/products/mdh-010-chainsaw-man-pochita/01-hero.jpg",
       "visualKind": "imagem-conceitual",
-      "placeholderDistance": 14.03
+      "placeholderDistance": 26.74
     },
     {
       "id": "mdh-011",
       "name": "Minecraft Steve Figurine",
-      "imagePath": "/catalog-assets/mdh-11.webp",
+      "imagePath": "/products/mdh-011-minecraft-steve-figurine/01-hero.jpg",
       "visualKind": "imagem-conceitual",
-      "placeholderDistance": 21.23
+      "placeholderDistance": 25.97
     },
     {
       "id": "mdh-012",
       "name": "Creeper Minecraft",
-      "imagePath": "/catalog-assets/mdh-12.webp",
+      "imagePath": "/products/mdh-012-creeper-minecraft/01-hero.jpg",
       "visualKind": "imagem-conceitual",
-      "placeholderDistance": 18.26
+      "placeholderDistance": 29.87
     },
     {
       "id": "mdh-013",
       "name": "Suporte para Fone Headphone",
-      "imagePath": "/catalog-assets/mdh-13.webp",
+      "imagePath": "/products/mdh-013-suporte-para-fone-headphone/01-hero.jpg",
       "visualKind": "imagem-conceitual",
-      "placeholderDistance": 12.92
+      "placeholderDistance": 30
     },
     {
       "id": "mdh-014",
       "name": "Organizador de Cabos",
-      "imagePath": "/catalog-assets/mdh-14.webp",
+      "imagePath": "/products/mdh-014-organizador-de-cabos/01-hero.jpg",
       "visualKind": "imagem-conceitual",
-      "placeholderDistance": 20.46
+      "placeholderDistance": 30.71
     },
     {
       "id": "mdh-015",
       "name": "Suporte para Celular",
-      "imagePath": "/catalog-assets/mdh-15.webp",
+      "imagePath": "/products/mdh-015-suporte-para-celular/01-hero.jpg",
       "visualKind": "imagem-conceitual",
-      "placeholderDistance": 19.65
+      "placeholderDistance": 23.72
     },
     {
       "id": "mdh-016",
       "name": "Chaveiro Personalizado",
-      "imagePath": "/catalog-assets/mdh-16.webp",
-      "visualKind": "imagem-conceitual",
-      "placeholderDistance": 15.14
+      "imagePath": "/products/mdh-016-chaveiro-personalizado/01-hero.jpg",
+      "visualKind": "foto-real",
+      "placeholderDistance": 29.09
     },
     {
       "id": "mdh-017",
       "name": "Suporte para Controle PS5",
-      "imagePath": "/catalog-assets/mdh-17.webp",
+      "imagePath": "/products/mdh-017-suporte-para-controle-ps5/01-hero.jpg",
       "visualKind": "imagem-conceitual",
-      "placeholderDistance": 20.52
+      "placeholderDistance": 28.04
     },
     {
       "id": "mdh-018",
       "name": "Suporte para Controle Xbox",
-      "imagePath": "/catalog-assets/mdh-18.webp",
+      "imagePath": "/products/mdh-018-suporte-para-controle-xbox/01-hero.jpg",
       "visualKind": "imagem-conceitual",
-      "placeholderDistance": 18.88
+      "placeholderDistance": 29.82
     },
     {
       "id": "mdh-019",
       "name": "Porta-Copos Geek",
-      "imagePath": "/catalog-assets/mdh-19.webp",
+      "imagePath": "/products/mdh-019-porta-copos-geek/01-hero.jpg",
       "visualKind": "imagem-conceitual",
-      "placeholderDistance": 14.98
+      "placeholderDistance": 31.21
     },
     {
       "id": "mdh-020",
       "name": "Imã de Geladeira",
-      "imagePath": "/catalog-assets/mdh-20.webp",
+      "imagePath": "/products/mdh-020-ima-de-geladeira/01-hero.jpg",
       "visualKind": "imagem-conceitual",
-      "placeholderDistance": 20.76
+      "placeholderDistance": 32.48
     },
     {
       "id": "mdh-021",
       "name": "Suporte para Mouse",
-      "imagePath": "/catalog-assets/mdh-21.webp",
+      "imagePath": "/products/mdh-021-suporte-para-mouse/01-hero.jpg",
       "visualKind": "imagem-conceitual",
-      "placeholderDistance": 18.72
+      "placeholderDistance": 32.83
     },
     {
       "id": "mdh-022",
       "name": "Organizador de Canetas",
-      "imagePath": "/catalog-assets/mdh-22.webp",
+      "imagePath": "/products/mdh-022-organizador-de-canetas/01-hero.jpg",
       "visualKind": "imagem-conceitual",
-      "placeholderDistance": 13.96
+      "placeholderDistance": 27.94
     },
     {
       "id": "mdh-023",
       "name": "Suporte para Teclado",
-      "imagePath": "/catalog-assets/mdh-23.webp",
+      "imagePath": "/products/mdh-023-suporte-para-teclado/01-hero.jpg",
       "visualKind": "imagem-conceitual",
-      "placeholderDistance": 20.53
+      "placeholderDistance": 29.92
     },
     {
       "id": "mdh-024",
       "name": "Gancho para Parede",
-      "imagePath": "/catalog-assets/mdh-24.webp",
+      "imagePath": "/products/mdh-024-gancho-para-parede/01-hero.jpg",
       "visualKind": "imagem-conceitual",
-      "placeholderDistance": 18.4
+      "placeholderDistance": 24.86
     },
     {
       "id": "mdh-025",
       "name": "Vaso Geométrico",
-      "imagePath": "/catalog-assets/mdh-25.webp",
+      "imagePath": "/products/mdh-025-vaso-geometrico/01-hero.jpg",
       "visualKind": "imagem-conceitual",
-      "placeholderDistance": 13.88
+      "placeholderDistance": 21.49
     },
     {
       "id": "mdh-026",
       "name": "Pokébola",
-      "imagePath": "/catalog-assets/mdh-26.webp",
+      "imagePath": "/products/mdh-026-pokebola/01-hero.jpg",
       "visualKind": "imagem-conceitual",
-      "placeholderDistance": 20.19
+      "placeholderDistance": 25.95
     },
     {
       "id": "mdh-027",
       "name": "Busto Colecionável Anime",
-      "imagePath": "/catalog-assets/mdh-27.webp",
+      "imagePath": "/products/mdh-027-busto-colecionavel-anime/01-hero.jpg",
       "visualKind": "imagem-conceitual",
-      "placeholderDistance": 18.53
+      "placeholderDistance": 29.88
     },
     {
       "id": "mdh-028",
       "name": "Luminária LED Personalizada",
-      "imagePath": "/catalog-assets/mdh-28.webp",
+      "imagePath": "/products/mdh-028-luminaria-led-personalizada/01-hero.jpg",
       "visualKind": "imagem-conceitual",
-      "placeholderDistance": 14.48
+      "placeholderDistance": 27.29
     },
     {
       "id": "mdh-029",
       "name": "Foto Litofania",
-      "imagePath": "/catalog-assets/mdh-29.webp",
+      "imagePath": "/products/mdh-029-foto-litofania/01-hero.jpg",
       "visualKind": "imagem-conceitual",
-      "placeholderDistance": 20.68
+      "placeholderDistance": 27.74
     },
     {
       "id": "mdh-030",
       "name": "Quadro Decorativo",
-      "imagePath": "/catalog-assets/mdh-30.webp",
+      "imagePath": "/products/mdh-030-quadro-decorativo/01-hero.jpg",
       "visualKind": "imagem-conceitual",
-      "placeholderDistance": 19.3
+      "placeholderDistance": 26.08
     },
     {
       "id": "mdh-031",
       "name": "Escultura Abstrata",
-      "imagePath": "/catalog-assets/mdh-31.webp",
+      "imagePath": "/products/mdh-031-escultura-abstrata/01-hero.jpg",
       "visualKind": "imagem-conceitual",
-      "placeholderDistance": 14.58
+      "placeholderDistance": 27.54
     },
     {
       "id": "mdh-032",
       "name": "Porta-Velhas",
-      "imagePath": "/catalog-assets/mdh-32.webp",
+      "imagePath": "/products/mdh-032-porta-velhas/01-hero.jpg",
       "visualKind": "imagem-conceitual",
-      "placeholderDistance": 20.2
+      "placeholderDistance": 39.96
     },
     {
       "id": "mdh-033",
       "name": "Relógio de Parede",
-      "imagePath": "/catalog-assets/mdh-33.webp",
+      "imagePath": "/products/mdh-033-relogio-de-parede/01-hero.jpg",
       "visualKind": "imagem-conceitual",
-      "placeholderDistance": 18.54
+      "placeholderDistance": 22.04
     },
     {
       "id": "mdh-034",
       "name": "Jarro Decorativo",
-      "imagePath": "/catalog-assets/mdh-34.webp",
+      "imagePath": "/products/mdh-034-jarro-decorativo/01-hero.jpg",
       "visualKind": "imagem-conceitual",
-      "placeholderDistance": 14.42
+      "placeholderDistance": 25.94
     },
     {
       "id": "mdh-035",
       "name": "Prateleira Suspensa",
-      "imagePath": "/catalog-assets/mdh-35.webp",
+      "imagePath": "/products/mdh-035-prateleira-suspensa/01-hero.jpg",
       "visualKind": "imagem-conceitual",
-      "placeholderDistance": 21.02
+      "placeholderDistance": 24.1
     },
     {
       "id": "mdh-036",
       "name": "Espelho Decorativo",
-      "imagePath": "/catalog-assets/mdh-36.webp",
+      "imagePath": "/products/mdh-036-espelho-decorativo/01-hero.jpg",
       "visualKind": "imagem-conceitual",
-      "placeholderDistance": 18.85
+      "placeholderDistance": 31.8
     },
     {
       "id": "mdh-037",
       "name": "Chaveiro Nome Dupla Face",
-      "imagePath": "/catalog-assets/mdh-37.webp",
+      "imagePath": "/products/mdh-037-chaveiro-nome-dupla-face/01-hero.jpg",
       "visualKind": "imagem-conceitual",
-      "placeholderDistance": 13.78
+      "placeholderDistance": 31.46
     },
     {
       "id": "mdh-038",
       "name": "Nome 3D Personalizado",
-      "imagePath": "/catalog-assets/mdh-38.webp",
+      "imagePath": "/products/mdh-038-nome-3d-personalizado/01-hero.jpg",
       "visualKind": "imagem-conceitual",
-      "placeholderDistance": 20.69
+      "placeholderDistance": 23.12
     },
     {
       "id": "mdh-039",
       "name": "Caixa de Música",
-      "imagePath": "/catalog-assets/mdh-39.webp",
+      "imagePath": "/products/mdh-039-caixa-de-musica/01-hero.jpg",
       "visualKind": "imagem-conceitual",
-      "placeholderDistance": 18.77
+      "placeholderDistance": 25.59
     },
     {
       "id": "mdh-040",
       "name": "Porta-Retrato Personalizado",
-      "imagePath": "/catalog-assets/mdh-40.webp",
+      "imagePath": "/products/mdh-040-porta-retrato-personalizado/01-hero.jpg",
       "visualKind": "imagem-conceitual",
-      "placeholderDistance": 14.37
+      "placeholderDistance": 31.65
     },
     {
       "id": "mdh-041",
       "name": "Aniversário 3D",
-      "imagePath": "/catalog-assets/mdh-41.webp",
+      "imagePath": "/products/mdh-041-aniversario-3d/01-hero.jpg",
       "visualKind": "imagem-conceitual",
-      "placeholderDistance": 20.55
+      "placeholderDistance": 29.34
     },
     {
       "id": "mdh-042",
       "name": "Mensagem em 3D",
-      "imagePath": "/catalog-assets/mdh-42.webp",
+      "imagePath": "/products/mdh-042-mensagem-em-3d/01-hero.jpg",
       "visualKind": "imagem-conceitual",
-      "placeholderDistance": 18.26
+      "placeholderDistance": 32.78
     },
     {
       "id": "mdh-043",
       "name": "Mini Troféu Personalizado",
-      "imagePath": "/catalog-assets/mdh-43.webp",
+      "imagePath": "/products/mdh-043-mini-trofeu-personalizado/01-hero.jpg",
       "visualKind": "imagem-conceitual",
-      "placeholderDistance": 14.71
+      "placeholderDistance": 24.83
     },
     {
       "id": "mdh-044",
       "name": "Marcador de Página 3D",
-      "imagePath": "/catalog-assets/mdh-44.webp",
+      "imagePath": "/products/mdh-044-marcador-de-pagina-3d/01-hero.jpg",
       "visualKind": "imagem-conceitual",
-      "placeholderDistance": 21.09
+      "placeholderDistance": 27.71
     },
     {
       "id": "mdh-045",
       "name": "Abraçadeira Personalizada",
-      "imagePath": "/catalog-assets/mdh-45.webp",
+      "imagePath": "/products/mdh-045-abracadeira-personalizada/01-hero.jpg",
       "visualKind": "imagem-conceitual",
-      "placeholderDistance": 18.37
+      "placeholderDistance": 24.04
     },
     {
       "id": "mdh-046",
       "name": "Pingente Personalizado",
-      "imagePath": "/catalog-assets/mdh-46.webp",
+      "imagePath": "/products/mdh-046-pingente-personalizado/01-hero.jpg",
       "visualKind": "imagem-conceitual",
-      "placeholderDistance": 14.08
+      "placeholderDistance": 27.71
     },
     {
       "id": "mdh-047",
       "name": "Calendário 3D",
-      "imagePath": "/catalog-assets/mdh-47.webp",
+      "imagePath": "/products/mdh-047-calendario-3d/01-hero.jpg",
       "visualKind": "imagem-conceitual",
-      "placeholderDistance": 21.24
+      "placeholderDistance": 27.04
     },
     {
       "id": "mdh-048",
       "name": "Copo Personalizado",
-      "imagePath": "/catalog-assets/mdh-48.webp",
+      "imagePath": "/products/mdh-048-copo-personalizado/01-hero.jpg",
       "visualKind": "imagem-conceitual",
-      "placeholderDistance": 18.36
+      "placeholderDistance": 26.45
     },
     {
       "id": "mdh-049",
       "name": "Suporte para Monitor",
       "imagePath": "/catalog-assets/mdh-49.webp",
-      "visualKind": "imagem-conceitual",
+      "visualKind": "render-fiel",
       "placeholderDistance": 14.31
     },
     {
       "id": "mdh-050",
       "name": "Organizador de Cabo USB",
-      "imagePath": "/catalog-assets/mdh-50.webp",
-      "visualKind": "imagem-conceitual",
-      "placeholderDistance": 20.82
+      "imagePath": "/products/mdh-050-organizador-de-cabo-usb/01-hero.jpg",
+      "visualKind": "foto-real",
+      "placeholderDistance": 33.9
     },
     {
       "id": "mdh-051",
       "name": "Gancho para Chaves",
-      "imagePath": "/catalog-assets/mdh-51.webp",
-      "visualKind": "imagem-conceitual",
-      "placeholderDistance": 19.12
+      "imagePath": "/products/mdh-051-gancho-para-chaves/01-hero.jpg",
+      "visualKind": "foto-real",
+      "placeholderDistance": 125.6
     },
     {
       "id": "mdh-052",
       "name": "Suporte para Livros",
-      "imagePath": "/catalog-assets/mdh-52.webp",
-      "visualKind": "imagem-conceitual",
-      "placeholderDistance": 15.67
+      "imagePath": "/products/mdh-052-suporte-para-livros/01-hero.jpg",
+      "visualKind": "foto-real",
+      "placeholderDistance": 62.25
     },
     {
       "id": "mdh-053",
       "name": "Caixa Organizadora",
-      "imagePath": "/catalog-assets/mdh-53.webp",
-      "visualKind": "imagem-conceitual",
-      "placeholderDistance": 20.26
+      "imagePath": "/products/mdh-053-caixa-organizadora/01-hero.jpg",
+      "visualKind": "foto-real",
+      "placeholderDistance": 66.09
     },
     {
       "id": "mdh-054",
       "name": "Suporte para Plantas",
-      "imagePath": "/catalog-assets/mdh-54.webp",
-      "visualKind": "imagem-conceitual",
-      "placeholderDistance": 19.38
+      "imagePath": "/products/mdh-054-suporte-para-plantas/01-hero.jpg",
+      "visualKind": "foto-real",
+      "placeholderDistance": 71.9
     },
     {
       "id": "mdh-055",
       "name": "Prateleira Flutuante",
-      "imagePath": "/catalog-assets/mdh-55.webp",
-      "visualKind": "imagem-conceitual",
-      "placeholderDistance": 14.09
+      "imagePath": "/products/mdh-055-prateleira-flutuante/01-hero.jpg",
+      "visualKind": "foto-real",
+      "placeholderDistance": 108
     },
     {
       "id": "mdh-056",
       "name": "Suporte para Bicicleta",
-      "imagePath": "/catalog-assets/mdh-56.webp",
-      "visualKind": "imagem-conceitual",
-      "placeholderDistance": 21.01
+      "imagePath": "/products/mdh-056-suporte-para-bicicleta/01-hero.jpg",
+      "visualKind": "foto-real",
+      "placeholderDistance": 104.05
     },
     {
       "id": "mdh-057",
       "name": "Organizador de Maquiagem",
-      "imagePath": "/catalog-assets/mdh-57.webp",
+      "imagePath": "/products/mdh-057-organizador-de-maquiagem/01-hero.jpg",
       "visualKind": "imagem-conceitual",
-      "placeholderDistance": 18.83
+      "placeholderDistance": 25.24
     },
     {
       "id": "mdh-058",
       "name": "Suporte para Tablet",
-      "imagePath": "/catalog-assets/mdh-58.webp",
-      "visualKind": "imagem-conceitual",
-      "placeholderDistance": 15.3
+      "imagePath": "/products/mdh-058-suporte-para-tablet/01-hero.jpg",
+      "visualKind": "foto-real",
+      "placeholderDistance": 82.69
     },
     {
       "id": "mdh-059",
       "name": "Caixa para Joias",
-      "imagePath": "/catalog-assets/mdh-59.webp",
-      "visualKind": "imagem-conceitual",
-      "placeholderDistance": 20.17
+      "imagePath": "/products/mdh-059-caixa-para-joias/01-hero.jpg",
+      "visualKind": "foto-real",
+      "placeholderDistance": 92.09
     },
     {
       "id": "mdh-060",
       "name": "Suporte para Garrafa",
-      "imagePath": "/catalog-assets/mdh-60.webp",
+      "imagePath": "/products/mdh-060-suporte-para-garrafa/01-hero.jpg",
       "visualKind": "imagem-conceitual",
-      "placeholderDistance": 18.7
+      "placeholderDistance": 31.03
     },
     {
       "id": "mdh-061",
       "name": "Naruto Uzumaki Chibi",
-      "imagePath": "/catalog-assets/mdh-61.webp",
+      "imagePath": "/products/mdh-061-naruto-uzumaki-chibi/01-hero.jpg",
       "visualKind": "imagem-conceitual",
-      "placeholderDistance": 67.87
+      "placeholderDistance": 33.99
     },
     {
       "id": "mdh-062",
       "name": "Sasuke Uchiha Chibi",
-      "imagePath": "/catalog-assets/mdh-62.webp",
+      "imagePath": "/products/catalog/mdh-062.webp",
       "visualKind": "imagem-conceitual",
-      "placeholderDistance": 66.41
+      "placeholderDistance": 148.02
     },
     {
       "id": "mdh-063",
       "name": "Goku Dragon Ball Chibi",
-      "imagePath": "/catalog-assets/mdh-63.webp",
+      "imagePath": "/products/catalog/mdh-063.webp",
       "visualKind": "imagem-conceitual",
-      "placeholderDistance": 66.74
+      "placeholderDistance": 104.76
     },
     {
       "id": "mdh-064",
       "name": "Luffy One Piece Chibi",
-      "imagePath": "/catalog-assets/mdh-64.webp",
-      "visualKind": "imagem-conceitual",
-      "placeholderDistance": 65.85
+      "imagePath": "/products/mdh-064-luffy-one-piece-chibi/01-hero.jpg",
+      "visualKind": "foto-real",
+      "placeholderDistance": 122.89
     },
     {
       "id": "mdh-065",
       "name": "Elsa Frozen Chibi",
-      "imagePath": "/catalog-assets/mdh-65.webp",
-      "visualKind": "imagem-conceitual",
-      "placeholderDistance": 66.39
+      "imagePath": "/products/mdh-065-elsa-frozen-chibi/01-hero.jpg",
+      "visualKind": "foto-real",
+      "placeholderDistance": 52.24
     },
     {
       "id": "mdh-066",
       "name": "Totoro My Neighbor Chibi",
-      "imagePath": "/catalog-assets/mdh-66.webp",
-      "visualKind": "imagem-conceitual",
-      "placeholderDistance": 65.68
+      "imagePath": "/products/mdh-066-totoro-my-neighbor-chibi/01-hero.jpg",
+      "visualKind": "foto-real",
+      "placeholderDistance": 109.33
     },
     {
       "id": "mdh-067",
       "name": "Pikachu Pokémon Chibi",
-      "imagePath": "/catalog-assets/mdh-67.webp",
-      "visualKind": "imagem-conceitual",
-      "placeholderDistance": 65.95
+      "imagePath": "/products/mdh-067-pikachu-pokemon-chibi/01-hero.jpg",
+      "visualKind": "foto-real",
+      "placeholderDistance": 112.5
     },
     {
       "id": "mdh-068",
       "name": "Kirby Nintendo Chibi",
-      "imagePath": "/catalog-assets/mdh-68.webp",
-      "visualKind": "imagem-conceitual",
-      "placeholderDistance": 65.92
+      "imagePath": "/products/mdh-068-kirby-nintendo-chibi/01-hero.jpg",
+      "visualKind": "foto-real",
+      "placeholderDistance": 111.09
     },
     {
       "id": "mdh-069",
       "name": "Mario Nintendo Chibi",
-      "imagePath": "/catalog-assets/mdh-69.webp",
-      "visualKind": "imagem-conceitual",
-      "placeholderDistance": 66.21
+      "imagePath": "/products/mdh-069-mario-nintendo-chibi/01-hero.jpg",
+      "visualKind": "foto-real",
+      "placeholderDistance": 123.41
     },
     {
       "id": "mdh-070",
       "name": "Sonic Hedgehog Chibi",
-      "imagePath": "/catalog-assets/mdh-70.webp",
-      "visualKind": "imagem-conceitual",
-      "placeholderDistance": 66.61
+      "imagePath": "/products/mdh-070-sonic-hedgehog-chibi/01-hero.jpg",
+      "visualKind": "foto-real",
+      "placeholderDistance": 108.48
     },
     {
       "id": "mdh-071",
       "name": "Polvo Oceano Articulado",
-      "imagePath": "/catalog-assets/mdh-71.webp",
-      "visualKind": "imagem-conceitual",
-      "placeholderDistance": 66.54
+      "imagePath": "/products/mdh-071-polvo-oceano-articulado/01-hero.jpg",
+      "visualKind": "foto-real",
+      "placeholderDistance": 113.96
     },
     {
       "id": "mdh-072",
       "name": "Tubarão Oceano Mini",
-      "imagePath": "/catalog-assets/mdh-72.webp",
-      "visualKind": "imagem-conceitual",
-      "placeholderDistance": 67.24
+      "imagePath": "/products/mdh-072-tubarao-oceano-mini/01-hero.jpg",
+      "visualKind": "foto-real",
+      "placeholderDistance": 103.56
     },
     {
       "id": "mdh-073",
       "name": "Dragão Oriental Articulado",
-      "imagePath": "/catalog-assets/mdh-73.webp",
-      "visualKind": "imagem-conceitual",
-      "placeholderDistance": 66.3
+      "imagePath": "/products/mdh-073-dragao-oriental-articulado/01-hero.jpg",
+      "visualKind": "foto-real",
+      "placeholderDistance": 38.29
     },
     {
       "id": "mdh-074",
       "name": "Dragão Europeu Mini",
-      "imagePath": "/catalog-assets/mdh-74.webp",
-      "visualKind": "imagem-conceitual",
-      "placeholderDistance": 67.1
+      "imagePath": "/products/mdh-074-dragao-europeu-mini/01-hero.jpg",
+      "visualKind": "foto-real",
+      "placeholderDistance": 104.05
     },
     {
       "id": "mdh-075",
       "name": "Coruja Floresta Articulada",
-      "imagePath": "/catalog-assets/mdh-75.webp",
-      "visualKind": "imagem-conceitual",
-      "placeholderDistance": 66.1
+      "imagePath": "/products/mdh-075-coruja-floresta-articulada/01-hero.jpg",
+      "visualKind": "foto-real",
+      "placeholderDistance": 86.19
     },
     {
       "id": "mdh-076",
       "name": "Foguete Espacial Mini",
-      "imagePath": "/catalog-assets/mdh-76.webp",
+      "imagePath": "/products/mdh-076-foguete-espacial-mini/01-hero.jpg",
       "visualKind": "imagem-conceitual",
-      "placeholderDistance": 66.94
+      "placeholderDistance": 27.33
     },
     {
       "id": "mdh-077",
       "name": "Cavaleiro Medieval Mini",
-      "imagePath": "/catalog-assets/mdh-77.webp",
+      "imagePath": "/products/mdh-077-cavaleiro-medieval-mini/01-hero.jpg",
+      "visualKind": "foto-real",
+      "placeholderDistance": 73.55
+    },
+    {
+      "id": "mdh-078",
+      "name": "Robô Transformador BOX",
+      "imagePath": "/products/mdh-078-robo-transformador-box/01-hero.jpg",
+      "visualKind": "foto-real",
+      "placeholderDistance": 104.03
+    },
+    {
+      "id": "csv-cha-001",
+      "name": "Chaveiro Acrílico Premium Jett Valorant Dupla Face para Mochila, Chaves e Setup Gamer",
+      "imagePath": "/products/csv-cha-001-chaveiro-acrilico-premium-jett-valorant-dupla-face-para-mochila-chaves-e-setup-gamer/01-hero.jpg",
       "visualKind": "imagem-conceitual",
-      "placeholderDistance": 65.89
+      "placeholderDistance": 27.93
+    },
+    {
+      "id": "csv-cha-002",
+      "name": "Chaveiro Emborrachado Reyna Valorant Estilo Gamer Resistente para Chaves e Mochila",
+      "imagePath": "/products/csv-cha-002-chaveiro-emborrachado-reyna-valorant-estilo-gamer-resistente-para-chaves-e-mochila/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 23.05
+    },
+    {
+      "id": "csv-cha-003",
+      "name": "Chaveiro Metalizado Sage Valorant Edição Nerd para Coleção e Presente Criativo",
+      "imagePath": "/products/csv-cha-003-chaveiro-metalizado-sage-valorant-edicao-nerd-para-colecao-e-presente-criativo/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 29.84
+    },
+    {
+      "id": "csv-cha-004",
+      "name": "Chaveiro 3D Omen Valorant Mini Pingente Decorativo para Mochila e Setup",
+      "imagePath": "/products/csv-cha-004-chaveiro-3d-omen-valorant-mini-pingente-decorativo-para-mochila-e-setup/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 25.87
+    },
+    {
+      "id": "csv-cha-005",
+      "name": "Chaveiro Acrílico Premium Ahri League of Legends Dupla Face para Mochila, Chaves e Setup Gamer",
+      "imagePath": "/products/csv-cha-005-chaveiro-acrilico-premium-ahri-league-of-legends-dupla-face-para-mochila-chaves-e-setup-gamer/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 24.43
+    },
+    {
+      "id": "csv-cha-006",
+      "name": "Chaveiro Emborrachado Yasuo League of Legends Estilo Gamer Resistente para Chaves e Mochila",
+      "imagePath": "/products/csv-cha-006-chaveiro-emborrachado-yasuo-league-of-legends-estilo-gamer-resistente-para-chaves-e-mochila/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 36.05
+    },
+    {
+      "id": "csv-cha-007",
+      "name": "Chaveiro Metalizado Jinx League of Legends Edição Nerd para Coleção e Presente Criativo",
+      "imagePath": "/products/csv-cha-007-chaveiro-metalizado-jinx-league-of-legends-edicao-nerd-para-colecao-e-presente-criativo/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 24.09
+    },
+    {
+      "id": "csv-cha-008",
+      "name": "Chaveiro 3D Lux League of Legends Mini Pingente Decorativo para Mochila e Setup",
+      "imagePath": "/products/csv-cha-008-chaveiro-3d-lux-league-of-legends-mini-pingente-decorativo-para-mochila-e-setup/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 28
+    },
+    {
+      "id": "csv-cha-009",
+      "name": "Chaveiro Acrílico Premium Ghost Call of Duty Dupla Face para Mochila, Chaves e Setup Gamer",
+      "imagePath": "/products/csv-cha-009-chaveiro-acrilico-premium-ghost-call-of-duty-dupla-face-para-mochila-chaves-e-setup-gamer/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 30.19
+    },
+    {
+      "id": "csv-cha-010",
+      "name": "Chaveiro Emborrachado Soap Call of Duty Estilo Gamer Resistente para Chaves e Mochila",
+      "imagePath": "/products/csv-cha-010-chaveiro-emborrachado-soap-call-of-duty-estilo-gamer-resistente-para-chaves-e-mochila/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 32.23
+    },
+    {
+      "id": "csv-cha-011",
+      "name": "Chaveiro Metalizado Task Force Call of Duty Edição Nerd para Coleção e Presente Criativo",
+      "imagePath": "/products/csv-cha-011-chaveiro-metalizado-task-force-call-of-duty-edicao-nerd-para-colecao-e-presente-criativo/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 26.23
+    },
+    {
+      "id": "csv-cha-012",
+      "name": "Chaveiro 3D Warzone Call of Duty Mini Pingente Decorativo para Mochila e Setup",
+      "imagePath": "/products/csv-cha-012-chaveiro-3d-warzone-call-of-duty-mini-pingente-decorativo-para-mochila-e-setup/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 31.65
+    },
+    {
+      "id": "csv-cha-013",
+      "name": "Chaveiro Acrílico Premium Creeper Minecraft Dupla Face para Mochila, Chaves e Setup Gamer",
+      "imagePath": "/products/csv-cha-013-chaveiro-acrilico-premium-creeper-minecraft-dupla-face-para-mochila-chaves-e-setup-gamer/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 23.04
+    },
+    {
+      "id": "csv-cha-014",
+      "name": "Chaveiro Emborrachado Steve Minecraft Estilo Gamer Resistente para Chaves e Mochila",
+      "imagePath": "/products/csv-cha-014-chaveiro-emborrachado-steve-minecraft-estilo-gamer-resistente-para-chaves-e-mochila/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 34.76
+    },
+    {
+      "id": "csv-cha-015",
+      "name": "Chaveiro Metalizado Alex Minecraft Edição Nerd para Coleção e Presente Criativo",
+      "imagePath": "/products/csv-cha-015-chaveiro-metalizado-alex-minecraft-edicao-nerd-para-colecao-e-presente-criativo/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 29.05
+    },
+    {
+      "id": "csv-cha-016",
+      "name": "Chaveiro 3D Enderman Minecraft Mini Pingente Decorativo para Mochila e Setup",
+      "imagePath": "/products/csv-cha-016-chaveiro-3d-enderman-minecraft-mini-pingente-decorativo-para-mochila-e-setup/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 28.88
+    },
+    {
+      "id": "csv-cha-017",
+      "name": "Chaveiro Acrílico Premium Lhama Fortnite Dupla Face para Mochila, Chaves e Setup Gamer",
+      "imagePath": "/products/csv-cha-017-chaveiro-acrilico-premium-lhama-fortnite-dupla-face-para-mochila-chaves-e-setup-gamer/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 30.84
+    },
+    {
+      "id": "csv-cha-018",
+      "name": "Chaveiro Emborrachado Battle Royale Fortnite Estilo Gamer Resistente para Chaves e Mochila",
+      "imagePath": "/products/csv-cha-018-chaveiro-emborrachado-battle-royale-fortnite-estilo-gamer-resistente-para-chaves-e-mochila/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 28.69
+    },
+    {
+      "id": "csv-cha-019",
+      "name": "Chaveiro Metalizado Victory Crown Fortnite Edição Nerd para Coleção e Presente Criativo",
+      "imagePath": "/products/csv-cha-019-chaveiro-metalizado-victory-crown-fortnite-edicao-nerd-para-colecao-e-presente-criativo/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 28.49
+    },
+    {
+      "id": "csv-cha-020",
+      "name": "Chaveiro 3D Peely Fortnite Mini Pingente Decorativo para Mochila e Setup",
+      "imagePath": "/products/csv-cha-020-chaveiro-3d-peely-fortnite-mini-pingente-decorativo-para-mochila-e-setup/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 24.63
+    },
+    {
+      "id": "csv-cha-021",
+      "name": "Chaveiro Acrílico Premium AWP CS2 Dupla Face para Mochila, Chaves e Setup Gamer",
+      "imagePath": "/products/csv-cha-021-chaveiro-acrilico-premium-awp-cs2-dupla-face-para-mochila-chaves-e-setup-gamer/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 25.67
+    },
+    {
+      "id": "csv-cha-022",
+      "name": "Chaveiro Emborrachado AK-47 CS2 Estilo Gamer Resistente para Chaves e Mochila",
+      "imagePath": "/products/csv-cha-022-chaveiro-emborrachado-ak-47-cs2-estilo-gamer-resistente-para-chaves-e-mochila/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 32.52
+    },
+    {
+      "id": "csv-cha-023",
+      "name": "Chaveiro Metalizado Knife CS2 Edição Nerd para Coleção e Presente Criativo",
+      "imagePath": "/products/csv-cha-023-chaveiro-metalizado-knife-cs2-edicao-nerd-para-colecao-e-presente-criativo/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 24.36
+    },
+    {
+      "id": "csv-cha-024",
+      "name": "Chaveiro 3D Defuse CS2 Mini Pingente Decorativo para Mochila e Setup",
+      "imagePath": "/products/csv-cha-024-chaveiro-3d-defuse-cs2-mini-pingente-decorativo-para-mochila-e-setup/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 26.25
+    },
+    {
+      "id": "csv-cha-025",
+      "name": "Chaveiro Acrílico Premium Los Santos GTA V Dupla Face para Mochila, Chaves e Setup Gamer",
+      "imagePath": "/products/csv-cha-025-chaveiro-acrilico-premium-los-santos-gta-v-dupla-face-para-mochila-chaves-e-setup-gamer/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 25.43
+    },
+    {
+      "id": "csv-cha-026",
+      "name": "Chaveiro Emborrachado Franklin GTA V Estilo Gamer Resistente para Chaves e Mochila",
+      "imagePath": "/products/csv-cha-026-chaveiro-emborrachado-franklin-gta-v-estilo-gamer-resistente-para-chaves-e-mochila/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 33.07
+    },
+    {
+      "id": "csv-cha-027",
+      "name": "Chaveiro Metalizado Trevor GTA V Edição Nerd para Coleção e Presente Criativo",
+      "imagePath": "/products/csv-cha-027-chaveiro-metalizado-trevor-gta-v-edicao-nerd-para-colecao-e-presente-criativo/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 30.23
+    },
+    {
+      "id": "csv-cha-028",
+      "name": "Chaveiro 3D Michael GTA V Mini Pingente Decorativo para Mochila e Setup",
+      "imagePath": "/products/csv-cha-028-chaveiro-3d-michael-gta-v-mini-pingente-decorativo-para-mochila-e-setup/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 29.69
+    },
+    {
+      "id": "csv-cha-029",
+      "name": "Chaveiro Acrílico Premium Spider-Man Marvel Dupla Face para Mochila, Chaves e Setup Gamer",
+      "imagePath": "/products/csv-cha-029-chaveiro-acrilico-premium-spider-man-marvel-dupla-face-para-mochila-chaves-e-setup-gamer/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 27.46
+    },
+    {
+      "id": "csv-cha-030",
+      "name": "Chaveiro Emborrachado Iron Man Marvel Estilo Gamer Resistente para Chaves e Mochila",
+      "imagePath": "/products/csv-cha-030-chaveiro-emborrachado-iron-man-marvel-estilo-gamer-resistente-para-chaves-e-mochila/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 33.39
+    },
+    {
+      "id": "csv-cha-031",
+      "name": "Chaveiro Metalizado Deadpool Marvel Edição Nerd para Coleção e Presente Criativo",
+      "imagePath": "/products/csv-cha-031-chaveiro-metalizado-deadpool-marvel-edicao-nerd-para-colecao-e-presente-criativo/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 28.9
+    },
+    {
+      "id": "csv-cha-032",
+      "name": "Chaveiro 3D Groot Marvel Mini Pingente Decorativo para Mochila e Setup",
+      "imagePath": "/products/csv-cha-032-chaveiro-3d-groot-marvel-mini-pingente-decorativo-para-mochila-e-setup/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 27
+    },
+    {
+      "id": "csv-cha-033",
+      "name": "Chaveiro Acrílico Premium Darth Vader Star Wars Dupla Face para Mochila, Chaves e Setup Gamer",
+      "imagePath": "/products/csv-cha-033-chaveiro-acrilico-premium-darth-vader-star-wars-dupla-face-para-mochila-chaves-e-setup-gamer/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 34.82
+    },
+    {
+      "id": "csv-cha-034",
+      "name": "Chaveiro Emborrachado Stormtrooper Star Wars Estilo Gamer Resistente para Chaves e Mochila",
+      "imagePath": "/products/csv-cha-034-chaveiro-emborrachado-stormtrooper-star-wars-estilo-gamer-resistente-para-chaves-e-mochila/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 27.81
+    },
+    {
+      "id": "csv-cha-035",
+      "name": "Chaveiro Metalizado Mandalorian Star Wars Edição Nerd para Coleção e Presente Criativo",
+      "imagePath": "/products/csv-cha-035-chaveiro-metalizado-mandalorian-star-wars-edicao-nerd-para-colecao-e-presente-criativo/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 31.77
+    },
+    {
+      "id": "csv-cha-036",
+      "name": "Chaveiro 3D Grogu Star Wars Mini Pingente Decorativo para Mochila e Setup",
+      "imagePath": "/products/csv-cha-036-chaveiro-3d-grogu-star-wars-mini-pingente-decorativo-para-mochila-e-setup/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 23.93
+    },
+    {
+      "id": "csv-cha-037",
+      "name": "Chaveiro Acrílico Premium Pikachu Pokémon Dupla Face para Mochila, Chaves e Setup Gamer",
+      "imagePath": "/products/csv-cha-037-chaveiro-acrilico-premium-pikachu-pokemon-dupla-face-para-mochila-chaves-e-setup-gamer/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 23.49
+    },
+    {
+      "id": "csv-cha-038",
+      "name": "Chaveiro Emborrachado Charmander Pokémon Estilo Gamer Resistente para Chaves e Mochila",
+      "imagePath": "/products/csv-cha-038-chaveiro-emborrachado-charmander-pokemon-estilo-gamer-resistente-para-chaves-e-mochila/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 31.44
+    },
+    {
+      "id": "csv-cha-039",
+      "name": "Chaveiro Metalizado Gengar Pokémon Edição Nerd para Coleção e Presente Criativo",
+      "imagePath": "/products/csv-cha-039-chaveiro-metalizado-gengar-pokemon-edicao-nerd-para-colecao-e-presente-criativo/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 28.65
+    },
+    {
+      "id": "csv-cha-040",
+      "name": "Chaveiro 3D Eevee Pokémon Mini Pingente Decorativo para Mochila e Setup",
+      "imagePath": "/products/csv-cha-040-chaveiro-3d-eevee-pokemon-mini-pingente-decorativo-para-mochila-e-setup/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 23.27
+    },
+    {
+      "id": "csv-dec-001",
+      "name": "Luminária Decorativa Jett Valorant LED para Quarto Gamer, Mesa e Setup Nerd",
+      "imagePath": "/products/csv-dec-001-luminaria-decorativa-jett-valorant-led-para-quarto-gamer-mesa-e-setup-nerd/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 24.9
+    },
+    {
+      "id": "csv-dec-002",
+      "name": "Quadro Decorativo Reyna Valorant Premium para Parede de Quarto Gamer e Home Office",
+      "imagePath": "/products/csv-dec-002-quadro-decorativo-reyna-valorant-premium-para-parede-de-quarto-gamer-e-home-office/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 26.96
+    },
+    {
+      "id": "csv-dec-003",
+      "name": "Almofada Decorativa Sage Valorant para Sofá, Cama e Espaço Geek",
+      "imagePath": "/products/csv-dec-003-almofada-decorativa-sage-valorant-para-sofa-cama-e-espaco-geek/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 27.08
+    },
+    {
+      "id": "csv-dec-004",
+      "name": "Placa Decorativa Omen Valorant Estilo Geek para Porta, Parede e Setup",
+      "imagePath": "/products/csv-dec-004-placa-decorativa-omen-valorant-estilo-geek-para-porta-parede-e-setup/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 27.07
+    },
+    {
+      "id": "csv-dec-005",
+      "name": "Luminária Decorativa Ahri League of Legends LED para Quarto Gamer, Mesa e Setup Nerd",
+      "imagePath": "/products/csv-dec-005-luminaria-decorativa-ahri-league-of-legends-led-para-quarto-gamer-mesa-e-setup-nerd/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 31.35
+    },
+    {
+      "id": "csv-dec-006",
+      "name": "Quadro Decorativo Yasuo League of Legends Premium para Parede de Quarto Gamer e Home Office",
+      "imagePath": "/products/csv-dec-006-quadro-decorativo-yasuo-league-of-legends-premium-para-parede-de-quarto-gamer-e-home-office/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 23.82
+    },
+    {
+      "id": "csv-dec-007",
+      "name": "Almofada Decorativa Jinx League of Legends para Sofá, Cama e Espaço Geek",
+      "imagePath": "/products/csv-dec-007-almofada-decorativa-jinx-league-of-legends-para-sofa-cama-e-espaco-geek/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 31.82
+    },
+    {
+      "id": "csv-dec-008",
+      "name": "Placa Decorativa Lux League of Legends Estilo Geek para Porta, Parede e Setup",
+      "imagePath": "/products/csv-dec-008-placa-decorativa-lux-league-of-legends-estilo-geek-para-porta-parede-e-setup/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 26.66
+    },
+    {
+      "id": "csv-dec-009",
+      "name": "Luminária Decorativa Ghost Call of Duty LED para Quarto Gamer, Mesa e Setup Nerd",
+      "imagePath": "/products/csv-dec-009-luminaria-decorativa-ghost-call-of-duty-led-para-quarto-gamer-mesa-e-setup-nerd/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 25.79
+    },
+    {
+      "id": "csv-dec-010",
+      "name": "Quadro Decorativo Soap Call of Duty Premium para Parede de Quarto Gamer e Home Office",
+      "imagePath": "/products/csv-dec-010-quadro-decorativo-soap-call-of-duty-premium-para-parede-de-quarto-gamer-e-home-office/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 26.15
+    },
+    {
+      "id": "csv-dec-011",
+      "name": "Almofada Decorativa Task Force Call of Duty para Sofá, Cama e Espaço Geek",
+      "imagePath": "/products/csv-dec-011-almofada-decorativa-task-force-call-of-duty-para-sofa-cama-e-espaco-geek/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 24.05
+    },
+    {
+      "id": "csv-dec-012",
+      "name": "Placa Decorativa Warzone Call of Duty Estilo Geek para Porta, Parede e Setup",
+      "imagePath": "/products/csv-dec-012-placa-decorativa-warzone-call-of-duty-estilo-geek-para-porta-parede-e-setup/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 29.51
+    },
+    {
+      "id": "csv-dec-013",
+      "name": "Luminária Decorativa Creeper Minecraft LED para Quarto Gamer, Mesa e Setup Nerd",
+      "imagePath": "/products/csv-dec-013-luminaria-decorativa-creeper-minecraft-led-para-quarto-gamer-mesa-e-setup-nerd/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 31.81
+    },
+    {
+      "id": "csv-dec-014",
+      "name": "Quadro Decorativo Steve Minecraft Premium para Parede de Quarto Gamer e Home Office",
+      "imagePath": "/products/csv-dec-014-quadro-decorativo-steve-minecraft-premium-para-parede-de-quarto-gamer-e-home-office/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 33.04
+    },
+    {
+      "id": "csv-dec-015",
+      "name": "Almofada Decorativa Alex Minecraft para Sofá, Cama e Espaço Geek",
+      "imagePath": "/products/csv-dec-015-almofada-decorativa-alex-minecraft-para-sofa-cama-e-espaco-geek/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 26.05
+    },
+    {
+      "id": "csv-dec-016",
+      "name": "Placa Decorativa Enderman Minecraft Estilo Geek para Porta, Parede e Setup",
+      "imagePath": "/products/csv-dec-016-placa-decorativa-enderman-minecraft-estilo-geek-para-porta-parede-e-setup/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 23.88
+    },
+    {
+      "id": "csv-dec-017",
+      "name": "Luminária Decorativa Lhama Fortnite LED para Quarto Gamer, Mesa e Setup Nerd",
+      "imagePath": "/products/csv-dec-017-luminaria-decorativa-lhama-fortnite-led-para-quarto-gamer-mesa-e-setup-nerd/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 27.77
+    },
+    {
+      "id": "csv-dec-018",
+      "name": "Quadro Decorativo Battle Royale Fortnite Premium para Parede de Quarto Gamer e Home Office",
+      "imagePath": "/products/csv-dec-018-quadro-decorativo-battle-royale-fortnite-premium-para-parede-de-quarto-gamer-e-home-office/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 36.48
+    },
+    {
+      "id": "csv-dec-019",
+      "name": "Almofada Decorativa Victory Crown Fortnite para Sofá, Cama e Espaço Geek",
+      "imagePath": "/products/csv-dec-019-almofada-decorativa-victory-crown-fortnite-para-sofa-cama-e-espaco-geek/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 28.32
+    },
+    {
+      "id": "csv-dec-020",
+      "name": "Placa Decorativa Peely Fortnite Estilo Geek para Porta, Parede e Setup",
+      "imagePath": "/products/csv-dec-020-placa-decorativa-peely-fortnite-estilo-geek-para-porta-parede-e-setup/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 27.31
+    },
+    {
+      "id": "csv-dec-021",
+      "name": "Luminária Decorativa AWP CS2 LED para Quarto Gamer, Mesa e Setup Nerd",
+      "imagePath": "/products/csv-dec-021-luminaria-decorativa-awp-cs2-led-para-quarto-gamer-mesa-e-setup-nerd/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 29.71
+    },
+    {
+      "id": "csv-dec-022",
+      "name": "Quadro Decorativo AK-47 CS2 Premium para Parede de Quarto Gamer e Home Office",
+      "imagePath": "/products/csv-dec-022-quadro-decorativo-ak-47-cs2-premium-para-parede-de-quarto-gamer-e-home-office/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 26.7
+    },
+    {
+      "id": "csv-dec-023",
+      "name": "Almofada Decorativa Knife CS2 para Sofá, Cama e Espaço Geek",
+      "imagePath": "/products/csv-dec-023-almofada-decorativa-knife-cs2-para-sofa-cama-e-espaco-geek/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 26.1
+    },
+    {
+      "id": "csv-dec-024",
+      "name": "Placa Decorativa Defuse CS2 Estilo Geek para Porta, Parede e Setup",
+      "imagePath": "/products/csv-dec-024-placa-decorativa-defuse-cs2-estilo-geek-para-porta-parede-e-setup/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 24.44
+    },
+    {
+      "id": "csv-dec-025",
+      "name": "Luminária Decorativa Los Santos GTA V LED para Quarto Gamer, Mesa e Setup Nerd",
+      "imagePath": "/products/csv-dec-025-luminaria-decorativa-los-santos-gta-v-led-para-quarto-gamer-mesa-e-setup-nerd/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 29.49
+    },
+    {
+      "id": "csv-dec-026",
+      "name": "Quadro Decorativo Franklin GTA V Premium para Parede de Quarto Gamer e Home Office",
+      "imagePath": "/products/csv-dec-026-quadro-decorativo-franklin-gta-v-premium-para-parede-de-quarto-gamer-e-home-office/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 27.5
+    },
+    {
+      "id": "csv-dec-027",
+      "name": "Almofada Decorativa Trevor GTA V para Sofá, Cama e Espaço Geek",
+      "imagePath": "/products/csv-dec-027-almofada-decorativa-trevor-gta-v-para-sofa-cama-e-espaco-geek/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 27.52
+    },
+    {
+      "id": "csv-dec-028",
+      "name": "Placa Decorativa Michael GTA V Estilo Geek para Porta, Parede e Setup",
+      "imagePath": "/products/csv-dec-028-placa-decorativa-michael-gta-v-estilo-geek-para-porta-parede-e-setup/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 25.88
+    },
+    {
+      "id": "csv-dec-029",
+      "name": "Luminária Decorativa Spider-Man Marvel LED para Quarto Gamer, Mesa e Setup Nerd",
+      "imagePath": "/products/csv-dec-029-luminaria-decorativa-spider-man-marvel-led-para-quarto-gamer-mesa-e-setup-nerd/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 26.3
+    },
+    {
+      "id": "csv-dec-030",
+      "name": "Quadro Decorativo Iron Man Marvel Premium para Parede de Quarto Gamer e Home Office",
+      "imagePath": "/products/csv-dec-030-quadro-decorativo-iron-man-marvel-premium-para-parede-de-quarto-gamer-e-home-office/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 23.49
+    },
+    {
+      "id": "csv-dec-031",
+      "name": "Almofada Decorativa Deadpool Marvel para Sofá, Cama e Espaço Geek",
+      "imagePath": "/products/csv-dec-031-almofada-decorativa-deadpool-marvel-para-sofa-cama-e-espaco-geek/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 30.45
+    },
+    {
+      "id": "csv-dec-032",
+      "name": "Placa Decorativa Groot Marvel Estilo Geek para Porta, Parede e Setup",
+      "imagePath": "/products/csv-dec-032-placa-decorativa-groot-marvel-estilo-geek-para-porta-parede-e-setup/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 31.26
+    },
+    {
+      "id": "csv-dec-033",
+      "name": "Luminária Decorativa Darth Vader Star Wars LED para Quarto Gamer, Mesa e Setup Nerd",
+      "imagePath": "/products/csv-dec-033-luminaria-decorativa-darth-vader-star-wars-led-para-quarto-gamer-mesa-e-setup-nerd/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 27.14
+    },
+    {
+      "id": "csv-dec-034",
+      "name": "Quadro Decorativo Stormtrooper Star Wars Premium para Parede de Quarto Gamer e Home Office",
+      "imagePath": "/products/csv-dec-034-quadro-decorativo-stormtrooper-star-wars-premium-para-parede-de-quarto-gamer-e-home-office/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 24.84
+    },
+    {
+      "id": "csv-dec-035",
+      "name": "Almofada Decorativa Mandalorian Star Wars para Sofá, Cama e Espaço Geek",
+      "imagePath": "/products/csv-dec-035-almofada-decorativa-mandalorian-star-wars-para-sofa-cama-e-espaco-geek/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 33.26
+    },
+    {
+      "id": "csv-dec-036",
+      "name": "Placa Decorativa Grogu Star Wars Estilo Geek para Porta, Parede e Setup",
+      "imagePath": "/products/csv-dec-036-placa-decorativa-grogu-star-wars-estilo-geek-para-porta-parede-e-setup/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 33.33
+    },
+    {
+      "id": "csv-dec-037",
+      "name": "Luminária Decorativa Pikachu Pokémon LED para Quarto Gamer, Mesa e Setup Nerd",
+      "imagePath": "/products/csv-dec-037-luminaria-decorativa-pikachu-pokemon-led-para-quarto-gamer-mesa-e-setup-nerd/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 22.2
+    },
+    {
+      "id": "csv-dec-038",
+      "name": "Quadro Decorativo Charmander Pokémon Premium para Parede de Quarto Gamer e Home Office",
+      "imagePath": "/products/csv-dec-038-quadro-decorativo-charmander-pokemon-premium-para-parede-de-quarto-gamer-e-home-office/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 36.49
+    },
+    {
+      "id": "csv-dec-039",
+      "name": "Almofada Decorativa Gengar Pokémon para Sofá, Cama e Espaço Geek",
+      "imagePath": "/products/csv-dec-039-almofada-decorativa-gengar-pokemon-para-sofa-cama-e-espaco-geek/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 23.32
+    },
+    {
+      "id": "csv-dec-040",
+      "name": "Placa Decorativa Eevee Pokémon Estilo Geek para Porta, Parede e Setup",
+      "imagePath": "/products/csv-dec-040-placa-decorativa-eevee-pokemon-estilo-geek-para-porta-parede-e-setup/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 26.92
+    },
+    {
+      "id": "csv-uti-001",
+      "name": "Kit Ferramenta Gamer Jett Valorant Organizador Utilitário para Mesa, Cabos e Setup",
+      "imagePath": "/products/csv-uti-001-kit-ferramenta-gamer-jett-valorant-organizador-utilitario-para-mesa-cabos-e-setup/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 29.18
+    },
+    {
+      "id": "csv-uti-002",
+      "name": "Porta Ferramentas Reyna Valorant para Mesa Gamer, Oficina Criativa e Home Office",
+      "imagePath": "/products/csv-uti-002-porta-ferramentas-reyna-valorant-para-mesa-gamer-oficina-criativa-e-home-office/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 31.74
+    },
+    {
+      "id": "csv-uti-003",
+      "name": "Suporte Multiuso Sage Valorant para Headset, Controle, Cabos e Acessórios",
+      "imagePath": "/products/csv-uti-003-suporte-multiuso-sage-valorant-para-headset-controle-cabos-e-acessorios/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 36.73
+    },
+    {
+      "id": "csv-uti-004",
+      "name": "Organizador Modular Omen Valorant para Ferramentas Leves, Peças e Acessórios Nerd",
+      "imagePath": "/products/csv-uti-004-organizador-modular-omen-valorant-para-ferramentas-leves-pecas-e-acessorios-nerd/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 29.69
+    },
+    {
+      "id": "csv-uti-005",
+      "name": "Kit Ferramenta Gamer Ahri League of Legends Organizador Utilitário para Mesa, Cabos e Setup",
+      "imagePath": "/products/csv-uti-005-kit-ferramenta-gamer-ahri-league-of-legends-organizador-utilitario-para-mesa-cabos-e-setup/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 38.03
+    },
+    {
+      "id": "csv-uti-006",
+      "name": "Porta Ferramentas Yasuo League of Legends para Mesa Gamer, Oficina Criativa e Home Office",
+      "imagePath": "/products/csv-uti-006-porta-ferramentas-yasuo-league-of-legends-para-mesa-gamer-oficina-criativa-e-home-office/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 28.12
+    },
+    {
+      "id": "csv-uti-007",
+      "name": "Suporte Multiuso Jinx League of Legends para Headset, Controle, Cabos e Acessórios",
+      "imagePath": "/products/csv-uti-007-suporte-multiuso-jinx-league-of-legends-para-headset-controle-cabos-e-acessorios/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 26.34
+    },
+    {
+      "id": "csv-uti-008",
+      "name": "Organizador Modular Lux League of Legends para Ferramentas Leves, Peças e Acessórios Nerd",
+      "imagePath": "/products/csv-uti-008-organizador-modular-lux-league-of-legends-para-ferramentas-leves-pecas-e-acessorios-nerd/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 28.5
+    },
+    {
+      "id": "csv-uti-009",
+      "name": "Kit Ferramenta Gamer Ghost Call of Duty Organizador Utilitário para Mesa, Cabos e Setup",
+      "imagePath": "/products/csv-uti-009-kit-ferramenta-gamer-ghost-call-of-duty-organizador-utilitario-para-mesa-cabos-e-setup/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 30.5
+    },
+    {
+      "id": "csv-uti-010",
+      "name": "Porta Ferramentas Soap Call of Duty para Mesa Gamer, Oficina Criativa e Home Office",
+      "imagePath": "/products/csv-uti-010-porta-ferramentas-soap-call-of-duty-para-mesa-gamer-oficina-criativa-e-home-office/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 28.73
+    },
+    {
+      "id": "csv-uti-011",
+      "name": "Suporte Multiuso Task Force Call of Duty para Headset, Controle, Cabos e Acessórios",
+      "imagePath": "/products/csv-uti-011-suporte-multiuso-task-force-call-of-duty-para-headset-controle-cabos-e-acessorios/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 28.41
+    },
+    {
+      "id": "csv-uti-012",
+      "name": "Organizador Modular Warzone Call of Duty para Ferramentas Leves, Peças e Acessórios Nerd",
+      "imagePath": "/products/csv-uti-012-organizador-modular-warzone-call-of-duty-para-ferramentas-leves-pecas-e-acessorios-nerd/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 31.63
+    },
+    {
+      "id": "csv-uti-013",
+      "name": "Kit Ferramenta Gamer Creeper Minecraft Organizador Utilitário para Mesa, Cabos e Setup",
+      "imagePath": "/products/csv-uti-013-kit-ferramenta-gamer-creeper-minecraft-organizador-utilitario-para-mesa-cabos-e-setup/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 21.85
+    },
+    {
+      "id": "csv-uti-014",
+      "name": "Porta Ferramentas Steve Minecraft para Mesa Gamer, Oficina Criativa e Home Office",
+      "imagePath": "/products/csv-uti-014-porta-ferramentas-steve-minecraft-para-mesa-gamer-oficina-criativa-e-home-office/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 25.47
+    },
+    {
+      "id": "csv-uti-015",
+      "name": "Suporte Multiuso Alex Minecraft para Headset, Controle, Cabos e Acessórios",
+      "imagePath": "/products/csv-uti-015-suporte-multiuso-alex-minecraft-para-headset-controle-cabos-e-acessorios/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 27.13
+    },
+    {
+      "id": "csv-uti-016",
+      "name": "Organizador Modular Enderman Minecraft para Ferramentas Leves, Peças e Acessórios Nerd",
+      "imagePath": "/products/csv-uti-016-organizador-modular-enderman-minecraft-para-ferramentas-leves-pecas-e-acessorios-nerd/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 31.78
+    },
+    {
+      "id": "csv-uti-017",
+      "name": "Kit Ferramenta Gamer Lhama Fortnite Organizador Utilitário para Mesa, Cabos e Setup",
+      "imagePath": "/products/csv-uti-017-kit-ferramenta-gamer-lhama-fortnite-organizador-utilitario-para-mesa-cabos-e-setup/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 37.31
+    },
+    {
+      "id": "csv-uti-018",
+      "name": "Porta Ferramentas Battle Royale Fortnite para Mesa Gamer, Oficina Criativa e Home Office",
+      "imagePath": "/products/csv-uti-018-porta-ferramentas-battle-royale-fortnite-para-mesa-gamer-oficina-criativa-e-home-office/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 30.14
+    },
+    {
+      "id": "csv-uti-019",
+      "name": "Suporte Multiuso Victory Crown Fortnite para Headset, Controle, Cabos e Acessórios",
+      "imagePath": "/products/csv-uti-019-suporte-multiuso-victory-crown-fortnite-para-headset-controle-cabos-e-acessorios/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 33.85
+    },
+    {
+      "id": "csv-uti-020",
+      "name": "Organizador Modular Peely Fortnite para Ferramentas Leves, Peças e Acessórios Nerd",
+      "imagePath": "/products/csv-uti-020-organizador-modular-peely-fortnite-para-ferramentas-leves-pecas-e-acessorios-nerd/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 29.07
+    },
+    {
+      "id": "csv-uti-021",
+      "name": "Kit Ferramenta Gamer AWP CS2 Organizador Utilitário para Mesa, Cabos e Setup",
+      "imagePath": "/products/csv-uti-021-kit-ferramenta-gamer-awp-cs2-organizador-utilitario-para-mesa-cabos-e-setup/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 30.92
+    },
+    {
+      "id": "csv-uti-022",
+      "name": "Porta Ferramentas AK-47 CS2 para Mesa Gamer, Oficina Criativa e Home Office",
+      "imagePath": "/products/csv-uti-022-porta-ferramentas-ak-47-cs2-para-mesa-gamer-oficina-criativa-e-home-office/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 25.67
+    },
+    {
+      "id": "csv-uti-023",
+      "name": "Suporte Multiuso Knife CS2 para Headset, Controle, Cabos e Acessórios",
+      "imagePath": "/products/csv-uti-023-suporte-multiuso-knife-cs2-para-headset-controle-cabos-e-acessorios/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 27.63
+    },
+    {
+      "id": "csv-uti-024",
+      "name": "Organizador Modular Defuse CS2 para Ferramentas Leves, Peças e Acessórios Nerd",
+      "imagePath": "/products/csv-uti-024-organizador-modular-defuse-cs2-para-ferramentas-leves-pecas-e-acessorios-nerd/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 29.2
+    },
+    {
+      "id": "csv-uti-025",
+      "name": "Kit Ferramenta Gamer Los Santos GTA V Organizador Utilitário para Mesa, Cabos e Setup",
+      "imagePath": "/products/csv-uti-025-kit-ferramenta-gamer-los-santos-gta-v-organizador-utilitario-para-mesa-cabos-e-setup/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 33.74
+    },
+    {
+      "id": "csv-uti-026",
+      "name": "Porta Ferramentas Franklin GTA V para Mesa Gamer, Oficina Criativa e Home Office",
+      "imagePath": "/products/csv-uti-026-porta-ferramentas-franklin-gta-v-para-mesa-gamer-oficina-criativa-e-home-office/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 26.88
+    },
+    {
+      "id": "csv-uti-027",
+      "name": "Suporte Multiuso Trevor GTA V para Headset, Controle, Cabos e Acessórios",
+      "imagePath": "/products/csv-uti-027-suporte-multiuso-trevor-gta-v-para-headset-controle-cabos-e-acessorios/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 31.89
+    },
+    {
+      "id": "csv-uti-028",
+      "name": "Organizador Modular Michael GTA V para Ferramentas Leves, Peças e Acessórios Nerd",
+      "imagePath": "/products/csv-uti-028-organizador-modular-michael-gta-v-para-ferramentas-leves-pecas-e-acessorios-nerd/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 31.79
+    },
+    {
+      "id": "csv-uti-029",
+      "name": "Kit Ferramenta Gamer Spider-Man Marvel Organizador Utilitário para Mesa, Cabos e Setup",
+      "imagePath": "/products/csv-uti-029-kit-ferramenta-gamer-spider-man-marvel-organizador-utilitario-para-mesa-cabos-e-setup/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 31.72
+    },
+    {
+      "id": "csv-uti-030",
+      "name": "Porta Ferramentas Iron Man Marvel para Mesa Gamer, Oficina Criativa e Home Office",
+      "imagePath": "/products/csv-uti-030-porta-ferramentas-iron-man-marvel-para-mesa-gamer-oficina-criativa-e-home-office/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 33.42
+    },
+    {
+      "id": "csv-uti-031",
+      "name": "Suporte Multiuso Deadpool Marvel para Headset, Controle, Cabos e Acessórios",
+      "imagePath": "/products/csv-uti-031-suporte-multiuso-deadpool-marvel-para-headset-controle-cabos-e-acessorios/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 27.29
+    },
+    {
+      "id": "csv-uti-032",
+      "name": "Organizador Modular Groot Marvel para Ferramentas Leves, Peças e Acessórios Nerd",
+      "imagePath": "/products/csv-uti-032-organizador-modular-groot-marvel-para-ferramentas-leves-pecas-e-acessorios-nerd/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 25.9
+    },
+    {
+      "id": "csv-uti-033",
+      "name": "Kit Ferramenta Gamer Darth Vader Star Wars Organizador Utilitário para Mesa, Cabos e Setup",
+      "imagePath": "/products/csv-uti-033-kit-ferramenta-gamer-darth-vader-star-wars-organizador-utilitario-para-mesa-cabos-e-setup/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 35.93
+    },
+    {
+      "id": "csv-uti-034",
+      "name": "Porta Ferramentas Stormtrooper Star Wars para Mesa Gamer, Oficina Criativa e Home Office",
+      "imagePath": "/products/csv-uti-034-porta-ferramentas-stormtrooper-star-wars-para-mesa-gamer-oficina-criativa-e-home-office/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 30.95
+    },
+    {
+      "id": "csv-uti-035",
+      "name": "Suporte Multiuso Mandalorian Star Wars para Headset, Controle, Cabos e Acessórios",
+      "imagePath": "/products/csv-uti-035-suporte-multiuso-mandalorian-star-wars-para-headset-controle-cabos-e-acessorios/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 33.61
+    },
+    {
+      "id": "csv-uti-036",
+      "name": "Organizador Modular Grogu Star Wars para Ferramentas Leves, Peças e Acessórios Nerd",
+      "imagePath": "/products/csv-uti-036-organizador-modular-grogu-star-wars-para-ferramentas-leves-pecas-e-acessorios-nerd/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 32.63
+    },
+    {
+      "id": "csv-uti-037",
+      "name": "Kit Ferramenta Gamer Pikachu Pokémon Organizador Utilitário para Mesa, Cabos e Setup",
+      "imagePath": "/products/csv-uti-037-kit-ferramenta-gamer-pikachu-pokemon-organizador-utilitario-para-mesa-cabos-e-setup/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 31.57
+    },
+    {
+      "id": "csv-uti-038",
+      "name": "Porta Ferramentas Charmander Pokémon para Mesa Gamer, Oficina Criativa e Home Office",
+      "imagePath": "/products/csv-uti-038-porta-ferramentas-charmander-pokemon-para-mesa-gamer-oficina-criativa-e-home-office/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 29.95
+    },
+    {
+      "id": "csv-uti-039",
+      "name": "Suporte Multiuso Gengar Pokémon para Headset, Controle, Cabos e Acessórios",
+      "imagePath": "/products/csv-uti-039-suporte-multiuso-gengar-pokemon-para-headset-controle-cabos-e-acessorios/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 25.4
+    },
+    {
+      "id": "csv-uti-040",
+      "name": "Organizador Modular Eevee Pokémon para Ferramentas Leves, Peças e Acessórios Nerd",
+      "imagePath": "/products/csv-uti-040-organizador-modular-eevee-pokemon-para-ferramentas-leves-pecas-e-acessorios-nerd/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 26.28
+    },
+    {
+      "id": "csv-col-001",
+      "name": "Mini Estátua Colecionável Jett Valorant Edição Decor para Estante, Mesa e Setup",
+      "imagePath": "/products/csv-col-001-mini-estatua-colecionavel-jett-valorant-edicao-decor-para-estante-mesa-e-setup/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 27.88
+    },
+    {
+      "id": "csv-col-002",
+      "name": "Caneca Colecionável Reyna Valorant Nerd Premium para Café, Desk e Presente",
+      "imagePath": "/products/csv-col-002-caneca-colecionavel-reyna-valorant-nerd-premium-para-cafe-desk-e-presente/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 26.6
+    },
+    {
+      "id": "csv-col-003",
+      "name": "Mousepad Colecionável Sage Valorant Desk Mat Gamer para Setup Profissional",
+      "imagePath": "/products/csv-col-003-mousepad-colecionavel-sage-valorant-desk-mat-gamer-para-setup-profissional/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 24.89
+    },
+    {
+      "id": "csv-col-004",
+      "name": "Poster Premium Omen Valorant Colecionável para Parede, Estúdio e Espaço Geek",
+      "imagePath": "/products/csv-col-004-poster-premium-omen-valorant-colecionavel-para-parede-estudio-e-espaco-geek/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 32.29
+    },
+    {
+      "id": "csv-col-005",
+      "name": "Mini Estátua Colecionável Ahri League of Legends Edição Decor para Estante, Mesa e Setup",
+      "imagePath": "/products/csv-col-005-mini-estatua-colecionavel-ahri-league-of-legends-edicao-decor-para-estante-mesa-e-setup/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 28.8
+    },
+    {
+      "id": "csv-col-006",
+      "name": "Caneca Colecionável Yasuo League of Legends Nerd Premium para Café, Desk e Presente",
+      "imagePath": "/products/csv-col-006-caneca-colecionavel-yasuo-league-of-legends-nerd-premium-para-cafe-desk-e-presente/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 26.43
+    },
+    {
+      "id": "csv-col-007",
+      "name": "Mousepad Colecionável Jinx League of Legends Desk Mat Gamer para Setup Profissional",
+      "imagePath": "/products/csv-col-007-mousepad-colecionavel-jinx-league-of-legends-desk-mat-gamer-para-setup-profissional/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 32.7
+    },
+    {
+      "id": "csv-col-008",
+      "name": "Poster Premium Lux League of Legends Colecionável para Parede, Estúdio e Espaço Geek",
+      "imagePath": "/products/csv-col-008-poster-premium-lux-league-of-legends-colecionavel-para-parede-estudio-e-espaco-geek/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 27.59
+    },
+    {
+      "id": "csv-col-009",
+      "name": "Mini Estátua Colecionável Ghost Call of Duty Edição Decor para Estante, Mesa e Setup",
+      "imagePath": "/products/csv-col-009-mini-estatua-colecionavel-ghost-call-of-duty-edicao-decor-para-estante-mesa-e-setup/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 23.5
+    },
+    {
+      "id": "csv-col-010",
+      "name": "Caneca Colecionável Soap Call of Duty Nerd Premium para Café, Desk e Presente",
+      "imagePath": "/products/csv-col-010-caneca-colecionavel-soap-call-of-duty-nerd-premium-para-cafe-desk-e-presente/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 32.23
+    },
+    {
+      "id": "csv-col-011",
+      "name": "Mousepad Colecionável Task Force Call of Duty Desk Mat Gamer para Setup Profissional",
+      "imagePath": "/products/csv-col-011-mousepad-colecionavel-task-force-call-of-duty-desk-mat-gamer-para-setup-profissional/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 29.81
+    },
+    {
+      "id": "csv-col-012",
+      "name": "Poster Premium Warzone Call of Duty Colecionável para Parede, Estúdio e Espaço Geek",
+      "imagePath": "/products/csv-col-012-poster-premium-warzone-call-of-duty-colecionavel-para-parede-estudio-e-espaco-geek/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 23.21
+    },
+    {
+      "id": "csv-col-013",
+      "name": "Mini Estátua Colecionável Creeper Minecraft Edição Decor para Estante, Mesa e Setup",
+      "imagePath": "/products/csv-col-013-mini-estatua-colecionavel-creeper-minecraft-edicao-decor-para-estante-mesa-e-setup/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 30
+    },
+    {
+      "id": "csv-col-014",
+      "name": "Caneca Colecionável Steve Minecraft Nerd Premium para Café, Desk e Presente",
+      "imagePath": "/products/csv-col-014-caneca-colecionavel-steve-minecraft-nerd-premium-para-cafe-desk-e-presente/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 26.02
+    },
+    {
+      "id": "csv-col-015",
+      "name": "Mousepad Colecionável Alex Minecraft Desk Mat Gamer para Setup Profissional",
+      "imagePath": "/products/csv-col-015-mousepad-colecionavel-alex-minecraft-desk-mat-gamer-para-setup-profissional/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 29.52
+    },
+    {
+      "id": "csv-col-016",
+      "name": "Poster Premium Enderman Minecraft Colecionável para Parede, Estúdio e Espaço Geek",
+      "imagePath": "/products/csv-col-016-poster-premium-enderman-minecraft-colecionavel-para-parede-estudio-e-espaco-geek/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 25.88
+    },
+    {
+      "id": "csv-col-017",
+      "name": "Mini Estátua Colecionável Lhama Fortnite Edição Decor para Estante, Mesa e Setup",
+      "imagePath": "/products/csv-col-017-mini-estatua-colecionavel-lhama-fortnite-edicao-decor-para-estante-mesa-e-setup/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 36.9
+    },
+    {
+      "id": "csv-col-018",
+      "name": "Caneca Colecionável Battle Royale Fortnite Nerd Premium para Café, Desk e Presente",
+      "imagePath": "/products/csv-col-018-caneca-colecionavel-battle-royale-fortnite-nerd-premium-para-cafe-desk-e-presente/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 24.21
+    },
+    {
+      "id": "csv-col-019",
+      "name": "Mousepad Colecionável Victory Crown Fortnite Desk Mat Gamer para Setup Profissional",
+      "imagePath": "/products/csv-col-019-mousepad-colecionavel-victory-crown-fortnite-desk-mat-gamer-para-setup-profissional/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 23.44
+    },
+    {
+      "id": "csv-col-020",
+      "name": "Poster Premium Peely Fortnite Colecionável para Parede, Estúdio e Espaço Geek",
+      "imagePath": "/products/csv-col-020-poster-premium-peely-fortnite-colecionavel-para-parede-estudio-e-espaco-geek/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 29.82
+    },
+    {
+      "id": "csv-col-021",
+      "name": "Mini Estátua Colecionável AWP CS2 Edição Decor para Estante, Mesa e Setup",
+      "imagePath": "/products/csv-col-021-mini-estatua-colecionavel-awp-cs2-edicao-decor-para-estante-mesa-e-setup/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 28.36
+    },
+    {
+      "id": "csv-col-022",
+      "name": "Caneca Colecionável AK-47 CS2 Nerd Premium para Café, Desk e Presente",
+      "imagePath": "/products/csv-col-022-caneca-colecionavel-ak-47-cs2-nerd-premium-para-cafe-desk-e-presente/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 26.36
+    },
+    {
+      "id": "csv-col-023",
+      "name": "Mousepad Colecionável Knife CS2 Desk Mat Gamer para Setup Profissional",
+      "imagePath": "/products/csv-col-023-mousepad-colecionavel-knife-cs2-desk-mat-gamer-para-setup-profissional/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 30.8
+    },
+    {
+      "id": "csv-col-024",
+      "name": "Poster Premium Defuse CS2 Colecionável para Parede, Estúdio e Espaço Geek",
+      "imagePath": "/products/csv-col-024-poster-premium-defuse-cs2-colecionavel-para-parede-estudio-e-espaco-geek/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 22.06
+    },
+    {
+      "id": "csv-col-025",
+      "name": "Mini Estátua Colecionável Los Santos GTA V Edição Decor para Estante, Mesa e Setup",
+      "imagePath": "/products/csv-col-025-mini-estatua-colecionavel-los-santos-gta-v-edicao-decor-para-estante-mesa-e-setup/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 24.57
+    },
+    {
+      "id": "csv-col-026",
+      "name": "Caneca Colecionável Franklin GTA V Nerd Premium para Café, Desk e Presente",
+      "imagePath": "/products/csv-col-026-caneca-colecionavel-franklin-gta-v-nerd-premium-para-cafe-desk-e-presente/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 22.47
+    },
+    {
+      "id": "csv-col-027",
+      "name": "Mousepad Colecionável Trevor GTA V Desk Mat Gamer para Setup Profissional",
+      "imagePath": "/products/csv-col-027-mousepad-colecionavel-trevor-gta-v-desk-mat-gamer-para-setup-profissional/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 33.56
+    },
+    {
+      "id": "csv-col-028",
+      "name": "Poster Premium Michael GTA V Colecionável para Parede, Estúdio e Espaço Geek",
+      "imagePath": "/products/csv-col-028-poster-premium-michael-gta-v-colecionavel-para-parede-estudio-e-espaco-geek/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 25.75
+    },
+    {
+      "id": "csv-col-029",
+      "name": "Mini Estátua Colecionável Spider-Man Marvel Edição Decor para Estante, Mesa e Setup",
+      "imagePath": "/products/csv-col-029-mini-estatua-colecionavel-spider-man-marvel-edicao-decor-para-estante-mesa-e-setup/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 27.61
+    },
+    {
+      "id": "csv-col-030",
+      "name": "Caneca Colecionável Iron Man Marvel Nerd Premium para Café, Desk e Presente",
+      "imagePath": "/products/csv-col-030-caneca-colecionavel-iron-man-marvel-nerd-premium-para-cafe-desk-e-presente/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 30.66
+    },
+    {
+      "id": "csv-col-031",
+      "name": "Mousepad Colecionável Deadpool Marvel Desk Mat Gamer para Setup Profissional",
+      "imagePath": "/products/csv-col-031-mousepad-colecionavel-deadpool-marvel-desk-mat-gamer-para-setup-profissional/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 30.84
+    },
+    {
+      "id": "csv-col-032",
+      "name": "Poster Premium Groot Marvel Colecionável para Parede, Estúdio e Espaço Geek",
+      "imagePath": "/products/csv-col-032-poster-premium-groot-marvel-colecionavel-para-parede-estudio-e-espaco-geek/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 25.21
+    },
+    {
+      "id": "csv-col-033",
+      "name": "Mini Estátua Colecionável Darth Vader Star Wars Edição Decor para Estante, Mesa e Setup",
+      "imagePath": "/products/csv-col-033-mini-estatua-colecionavel-darth-vader-star-wars-edicao-decor-para-estante-mesa-e-setup/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 25.4
+    },
+    {
+      "id": "csv-col-034",
+      "name": "Caneca Colecionável Stormtrooper Star Wars Nerd Premium para Café, Desk e Presente",
+      "imagePath": "/products/csv-col-034-caneca-colecionavel-stormtrooper-star-wars-nerd-premium-para-cafe-desk-e-presente/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 32.35
+    },
+    {
+      "id": "csv-col-035",
+      "name": "Mousepad Colecionável Mandalorian Star Wars Desk Mat Gamer para Setup Profissional",
+      "imagePath": "/products/csv-col-035-mousepad-colecionavel-mandalorian-star-wars-desk-mat-gamer-para-setup-profissional/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 32.08
+    },
+    {
+      "id": "csv-col-036",
+      "name": "Poster Premium Grogu Star Wars Colecionável para Parede, Estúdio e Espaço Geek",
+      "imagePath": "/products/csv-col-036-poster-premium-grogu-star-wars-colecionavel-para-parede-estudio-e-espaco-geek/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 26.58
+    },
+    {
+      "id": "csv-col-037",
+      "name": "Mini Estátua Colecionável Pikachu Pokémon Edição Decor para Estante, Mesa e Setup",
+      "imagePath": "/products/csv-col-037-mini-estatua-colecionavel-pikachu-pokemon-edicao-decor-para-estante-mesa-e-setup/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 28.15
+    },
+    {
+      "id": "csv-col-038",
+      "name": "Caneca Colecionável Charmander Pokémon Nerd Premium para Café, Desk e Presente",
+      "imagePath": "/products/csv-col-038-caneca-colecionavel-charmander-pokemon-nerd-premium-para-cafe-desk-e-presente/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 25.04
+    },
+    {
+      "id": "csv-col-039",
+      "name": "Mousepad Colecionável Gengar Pokémon Desk Mat Gamer para Setup Profissional",
+      "imagePath": "/products/csv-col-039-mousepad-colecionavel-gengar-pokemon-desk-mat-gamer-para-setup-profissional/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 32.91
+    },
+    {
+      "id": "csv-col-040",
+      "name": "Poster Premium Eevee Pokémon Colecionável para Parede, Estúdio e Espaço Geek",
+      "imagePath": "/products/csv-col-040-poster-premium-eevee-pokemon-colecionavel-para-parede-estudio-e-espaco-geek/01-hero.jpg",
+      "visualKind": "imagem-conceitual",
+      "placeholderDistance": 31.71
     }
   ],
   "missingItems": [],

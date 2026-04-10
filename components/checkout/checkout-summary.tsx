@@ -2,6 +2,7 @@
 
 import { CheckCircle2 } from "lucide-react";
 import { PixPaymentCard } from "@/components/pix-payment-card";
+import { ProductPriceStack } from "@/components/product-price-stack";
 import { ProductVisualBadge } from "@/components/product-visual-authenticity";
 import { SafeProductImage } from "@/components/safe-product-image";
 import type { Product } from "@/lib/catalog";
@@ -101,6 +102,9 @@ export function CheckoutSummary({
                 </div>
                 <h2 className="text-2xl font-bold text-white">{product.name}</h2>
                 <p className="mt-2 text-sm leading-7 text-white/65">{product.description}</p>
+                <div className="mt-4 max-w-sm">
+                  <ProductPriceStack product={product as Product} compact />
+                </div>
               </div>
               <div className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs uppercase tracking-[0.18em] text-white/65">
                 Quantidade {quantity}

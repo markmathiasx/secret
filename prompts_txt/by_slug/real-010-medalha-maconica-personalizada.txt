@@ -1,0 +1,15 @@
+Produto: Medalha Maçônica Personalizada
+ID: real-010
+Slug: real-010-medalha-maconica-personalizada
+
+[hero]
+professional product photography, studio lighting, white background, highly detailed, 8k, real 3D print texture, foto realista de produto, sem aparência de IA óbvia, sem render 3D, sem texto, sem embalagem, sem marca d'água, hero shot centralizado do item "Medalha Maçônica Personalizada", medalha ou chaveiro circular com símbolo central em destaque e argola metálica, impresso em PLA Premium, acabamento colorido, cores fiéis: Preto, Azul e Dourado, dimensões proporcionais e realistas (6x6x0.8cm), fundo branco puro #FFFFFF, iluminação suave de estúdio estilo Apple, sombras macias, reflexos controlados, foco extremamente nítido, mostrar claramente que é uma impressão 3D premium com textura fina e camadas sutis apenas de perto, status comercial sob encomenda
+
+[closeup]
+professional product photography, studio lighting, white background, highly detailed, 8k, real 3D print texture, foto realista de produto, sem aparência de IA óbvia, sem render 3D, sem texto, sem embalagem, sem marca d'água, macro close-up do item "Medalha Maçônica Personalizada", foco em o relevo do símbolo, as bordas e a precisão das letras ou elementos centrais, impresso em PLA Premium, acabamento colorido, cores fiéis: Preto, Azul e Dourado, fundo light gray studio #F8F8F8, lente macro, profundidade de campo profissional, nitidez alta, microtextura de impressão 3D visível e elegante, foto de catálogo premium, aparência física real, sem defeitos exagerados
+
+[in_use]
+professional product photography, highly detailed, 8k, real 3D print texture, foto lifestyle realista de produto, luz suave natural combinada com iluminação de apoio de estúdio, mostrar "Medalha Maçônica Personalizada" em uso ou em contexto real, na mão ou preso a um chaveiro premium sobre uma mesa clara, com foco total no produto, medalha ou chaveiro circular com símbolo central em destaque e argola metálica, impresso em PLA Premium, acabamento colorido, cores fiéis: Preto, Azul e Dourado, o produto deve ser o protagonista do enquadramento, com ambiente realista e discretamente desfocado, camadas sutis da impressão 3D ainda visíveis, porém acabamento premium e convincente, sem aparência de CGI, sem texto, sem marca d'água
+
+[packshot]
+professional product photography, studio lighting, white background, highly detailed, 8k, real 3D print texture, foto realista de produto, sem aparência de IA óbvia, sem render 3D, sem texto, sem embalagem, sem marca d'água, packshot de estúdio do item "Medalha Maçônica Personalizada", mostrar duas a quatro peças lado a lado mostrando as variações de cor Preto, Azul e Dourado, impresso em PLA Premium, acabamento colorido, cores fiéis: Preto, Azul e Dourado, superfície branca ou cinza-claro de estúdio, composição limpa, iluminação uniforme, sombra macia sob as peças, e-commerce premium, múltiplos ângulos coerentes com o produto real, textura fina da impressão 3D visível, aparência física de peça pronta para venda

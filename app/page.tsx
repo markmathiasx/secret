@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Hero } from "@/components/hero-professional";
 import { ProductTabs } from "@/components/product-tabs";
+import { ProductPriceStack } from "@/components/product-price-stack";
 import { STLUploader } from "@/components/stl-uploader";
 import { CatalogGrid } from "@/components/catalog-grid";
 import { HomeConversionLanes } from "@/components/home-conversion-lanes";
@@ -19,7 +20,6 @@ import {
 } from "@/lib/constants";
 import { catalog, getProductUrl, type Product } from "@/lib/catalog";
 import { isProductVisualVerified, summarizeProductVisuals } from "@/lib/product-visuals";
-import { formatCurrency } from "@/lib/utils";
 
 const faqItems = [
   {
@@ -224,9 +224,8 @@ export default function HomePage() {
                   <span className="rounded-full border border-white/10 px-3 py-1 text-xs text-white/60">{item.product.productionWindow}</span>
                 </div>
                 <div className="mt-5 flex items-end justify-between gap-3">
-                  <div>
-                    <p className="text-xs text-white/45">Preço Pix</p>
-                    <p className="text-2xl font-black text-white">{formatCurrency(item.product.pricePix)}</p>
+                  <div className="min-w-[220px]">
+                    <ProductPriceStack product={item.product} compact />
                   </div>
                   <div className="flex flex-col gap-2">
                     <Link href={getProductUrl(item.product)} className="btn-secondary px-4 py-2 text-sm">

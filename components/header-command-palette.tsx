@@ -15,6 +15,8 @@ import { catalog, featuredCatalog, getProductUrl } from "@/lib/catalog";
 import { catalogShortcutLinks, customerSegments } from "@/lib/constants";
 import { useCustomerSession } from "@/lib/customer-session-client";
 import { getMemberKey, listFavorites } from "@/lib/member-store";
+import { isProductVisualVerified } from "@/lib/product-visuals";
+import { formatCurrency } from "@/lib/utils";
 
 type PaletteEntry = {
   id: string;
@@ -152,7 +154,7 @@ export function HeaderCommandPalette() {
       id: `product-${product.id}`,
       label: product.name,
       href: getProductUrl(product),
-      note: `${product.category} • ${product.productionWindow}`,
+      note: `${product.category} • ${formatCurrency(product.pricePix)} • ${product.productionWindow} • ${isProductVisualVerified(product) ? "visual validado" : "referência visual"}`,
       group: "Produtos em destaque",
       icon: "product" as const,
     }));

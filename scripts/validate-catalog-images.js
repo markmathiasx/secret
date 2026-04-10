@@ -23,7 +23,10 @@ function getPrimaryImage(item) {
   return item.image || (Array.isArray(item.images) ? item.images[0] : "") || "";
 }
 
-function getVisualKind(imagePath) {
+function getVisualKind(imagePath, declaredVisualKind) {
+  if (declaredVisualKind === "foto-real" || declaredVisualKind === "render-fiel" || declaredVisualKind === "imagem-conceitual") {
+    return declaredVisualKind;
+  }
   if (imagePath.startsWith("/products/foto-")) return "foto-real";
   if (imagePath.startsWith("/products/render-")) return "render-fiel";
   return "imagem-conceitual";
@@ -104,7 +107,7 @@ async function main() {
 
   for (const item of items) {
     const imagePath = getPrimaryImage(item);
-    const visualKind = getVisualKind(imagePath);
+    const visualKind = getVisualKind(imagePath, item.visualKind);
     summary.visualKinds[visualKind] += 1;
 
     if (!imagePath) {

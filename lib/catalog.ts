@@ -1,11 +1,21 @@
 import { deliveryZones } from "@/lib/constants";
 import { slugify } from "@/lib/utils";
 import { buildProductSearchText, getProductCardDescription, getProductSearchScore, normalizeProductCategory } from "@/lib/catalog-content";
-import { suggestPixPrice, TARGET_PRICE_MULTIPLE_ON_COST, type MarketBenchmark } from "@/lib/market-pricing";
+import { suggestPixPrice, type MarketBenchmark } from "@/lib/market-pricing";
 import { applyCatalogMedia } from "@/lib/catalog-media";
 import { getProductVisual } from "@/lib/product-visuals";
 import { verifiedCatalog } from "@/lib/verified-catalog";
 import { csvCuratedCatalog } from "@/lib/catalog-csv-curated";
+import adminProductOverridesJson from "@/data/admin-product-overrides.json";
+import type { AdminProductOverride, ProductionStage } from "@/types/admin-catalog";
+import {
+  buildFixedMarginNarrative,
+  calculateBaseCost as calculateBaseCostFromEngine,
+  calculateFinalPrice,
+  calculateSalePrice as calculateSalePriceFromEngine,
+  FIXED_MARGIN_BADGE_LABEL,
+  LOCAL_PRODUCTION_BADGE_LABEL,
+} from "@/lib/pricing-engine";
 
 export type PaymentMethod = "pix" | "cartao" | "boleto";
 export type SalesChannel = "site" | "mercadolivre" | "shopee" | "whatsapp";
@@ -45,6 +55,8 @@ export type Product = {
   stock: number;
   customizable: boolean;
   readyToShip?: boolean;
+  productionStage?: ProductionStage;
+  baseCost?: number;
   estimatedUnitCost?: number;
   estimatedUnitProfit?: number;
   pricingMode?: "faixa-auditada" | "referencia-de-encomenda";
@@ -68,43 +80,71 @@ export type Product = {
   };
 };
 
-function enrichProduct(product: Product): Product {
-  const normalized = {
+const adminProductOverrides = adminProductOverridesJson as Record<string, AdminProductOverride>;
+
+function applyAdminOverride(product: Product): Product {
+  const override = adminProductOverrides[product.id];
+  if (!override) return product;
+
+  const derivedBaseCost =
+    typeof override.costBase === "number"
+      ? override.costBase
+      : typeof override.pricePix === "number"
+        ? Number((override.pricePix * 0.6).toFixed(2))
+        : product.baseCost;
+  const nextStatus = override.status ?? product.status;
+
+  return {
     ...product,
-    category: normalizeProductCategory(product),
-    description: getProductCardDescription(product),
+    name: override.title ?? product.name,
+    description: override.description ?? product.description,
+    category: override.category ?? product.category,
+    collection: override.collection ?? product.collection,
+    material: override.material ?? product.material,
+    finish: override.finish ?? product.finish,
+    status: nextStatus,
+    stock: typeof override.stock === "number" ? override.stock : product.stock,
+    readyToShip: override.readyToShip ?? (nextStatus === "Pronta entrega"),
+    customizable: override.customizable ?? product.customizable,
+    featured: override.featured ?? product.featured,
+    baseCost: derivedBaseCost,
+    productionStage: override.productionStage ?? product.productionStage,
+  };
+}
+
+function enrichProduct(product: Product): Product {
+  const overridden = applyAdminOverride(product);
+  const normalized = {
+    ...overridden,
+    category: normalizeProductCategory(overridden),
+    description: getProductCardDescription(overridden),
   };
 
-  const baseCost = calculateBaseCost(normalized.grams, normalized.hours, normalized.complexity);
   const visual = getProductVisual(normalized);
-  const pricing = suggestPixPrice(normalized, baseCost, visual.kind);
+  const marketPricing = suggestPixPrice(
+    normalized,
+    calculateBaseCostFromEngine(normalized.grams, normalized.hours, normalized.complexity),
+    visual.kind
+  );
+  const pricing = calculateFinalPrice({
+    ...normalized,
+    baseCost: normalized.baseCost,
+    estimatedUnitCost: normalized.estimatedUnitCost,
+  });
 
   return {
     ...normalized,
     price: pricing.pricePix,
+    baseCost: pricing.costBase,
     pricePix: pricing.pricePix,
     priceCard: pricing.priceCard,
-    marketplaceSuggested: pricing.marketplaceSuggested,
-    estimatedUnitCost: baseCost,
-    estimatedUnitProfit: pricing.estimatedProfit,
-    pricingMode: pricing.pricingMode,
-    pricingNarrative: pricing.narrative,
-    marketBenchmark: pricing.benchmark,
+    marketplaceSuggested: pricing.referencePrice,
+    estimatedUnitCost: pricing.costBase,
+    estimatedUnitProfit: pricing.profitAmount,
+    pricingMode: "faixa-auditada",
+    pricingNarrative: `${buildFixedMarginNarrative(pricing.costBase, pricing.pricePix)} ${FIXED_MARGIN_BADGE_LABEL} • ${LOCAL_PRODUCTION_BADGE_LABEL}.`,
+    marketBenchmark: marketPricing.benchmark,
   };
-}
-
-const filamentCostPerGram = 0.11;
-
-function toPriceEnding(value: number) {
-  const base = Math.max(9, Math.ceil(value));
-  return Number((base - 0.1).toFixed(2));
-}
-
-export function calculateBaseCost(grams: number, hours: number, complexity = 1) {
-  const material = grams * filamentCostPerGram;
-  const machine = Math.max(2, hours * 2.75);
-  const acabamento = Math.max(1.5, complexity * 2.2);
-  return Number((material + machine + acabamento).toFixed(2));
 }
 
 export function calculateSalePrice(
@@ -114,13 +154,10 @@ export function calculateSalePrice(
   paymentMethod: PaymentMethod = "pix",
   channel: SalesChannel = "site"
 ) {
-  let price = calculateBaseCost(grams, hours, complexity) * TARGET_PRICE_MULTIPLE_ON_COST;
-  if (paymentMethod === "cartao") price *= 1.12;
-  if (paymentMethod === "boleto") price *= 1.08;
-  if (channel === "mercadolivre") price *= 1.15;
-  if (channel === "shopee") price *= 1.12;
-  return toPriceEnding(price);
+  return calculateSalePriceFromEngine(grams, hours, complexity, paymentMethod, channel);
 }
+
+export const calculateBaseCost = calculateBaseCostFromEngine;
 
 const curatedCatalog: Product[] = [
   // Geek & Colecionáveis Autorais (12 produtos)
@@ -2649,7 +2686,7 @@ const curatedCatalog: Product[] = [
 export const catalog = [
   ...verifiedCatalog.map((product) => applyCatalogMedia(enrichProduct(product), { preserveExisting: true })),
   ...curatedCatalog.map((product) => applyCatalogMedia(enrichProduct(product), { preserveExisting: false })),
-  ...csvCuratedCatalog.map((product) => applyCatalogMedia(product, { preserveExisting: false })),
+  ...csvCuratedCatalog.map((product) => applyCatalogMedia(enrichProduct(product), { preserveExisting: false })),
 ];
 export const featuredCatalog = catalog.filter((item) => item.featured).slice(0, 12);
 export const categories = Array.from(new Set(catalog.map((item) => item.category)));

@@ -16,11 +16,13 @@ import {
   PackageCheck,
   Search,
   ShoppingBag,
+  ShoppingCart,
   User,
   X,
 } from "lucide-react";
 import { brand, socialLinks, whatsappNumber } from "@/lib/constants";
 import { emitCustomerAuthChange, useCustomerSession } from "@/lib/customer-session-client";
+import { cartChangeEvent, getLocalCartCount } from "@/lib/cart-store";
 import { CommerceAssistantDialog } from "@/components/commerce-assistant-dialog";
 import { HeaderCommandPalette } from "@/components/header-command-palette";
 
@@ -62,6 +64,7 @@ export function SiteHeader({
   const session = useCustomerSession();
   const [assistantOpen, setAssistantOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [cartCount, setCartCount] = useState(0);
 
   const userLabel = session.user?.displayName || session.user?.email?.split("@")[0] || "Minha conta";
   const nav = useMemo(
@@ -76,6 +79,21 @@ export function SiteHeader({
   useEffect(() => {
     setMobileOpen(false);
   }, [pathname]);
+
+  useEffect(() => {
+    function refreshCartCount() {
+      setCartCount(getLocalCartCount());
+    }
+
+    refreshCartCount();
+    window.addEventListener(cartChangeEvent, refreshCartCount);
+    window.addEventListener("storage", refreshCartCount);
+
+    return () => {
+      window.removeEventListener(cartChangeEvent, refreshCartCount);
+      window.removeEventListener("storage", refreshCartCount);
+    };
+  }, []);
 
   async function signOut() {
     await Promise.allSettled([
@@ -171,6 +189,13 @@ export function SiteHeader({
             <Link href="/checkout" className="btn-primary gap-2 px-5 py-3">
               <ShoppingBag className="h-4 w-4" />
               Fechar pedido
+            </Link>
+            <Link href="/checkout" className="btn-glass gap-2 px-4 py-3">
+              <ShoppingCart className="h-4 w-4" />
+              Carrinho
+              <span className="rounded-full border border-white/10 bg-black/25 px-2 py-0.5 text-[11px] text-white/80">
+                {cartCount}
+              </span>
             </Link>
           </div>
 
@@ -276,6 +301,10 @@ export function SiteHeader({
                 <Link href="/checkout" className="btn-primary justify-center">
                   <ShoppingBag className="mr-2 h-4 w-4" />
                   Fechar pedido
+                </Link>
+                <Link href="/checkout" className="btn-glass justify-center">
+                  <ShoppingCart className="mr-2 h-4 w-4" />
+                  Carrinho ({cartCount})
                 </Link>
                 {session.loggedIn ? (
                   <button type="button" onClick={signOut} className="btn-glass justify-center">

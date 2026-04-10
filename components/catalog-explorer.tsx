@@ -19,6 +19,7 @@ import {
 import { getProductUrl, type Product } from '@/lib/catalog';
 import { getProductSearchScore } from '@/lib/catalog-content';
 import { ProductImageGallery } from '@/components/product-image-gallery';
+import { ProductPriceStack } from '@/components/product-price-stack';
 import { ProductVisualBadge } from '@/components/product-visual-authenticity';
 import { isProductRealPhoto, isProductVisualVerified } from '@/lib/product-visuals';
 import { formatCurrency } from '@/lib/utils';
@@ -1279,10 +1280,8 @@ export function CatalogExplorer({
               </div>
 
               <div className="mt-5 flex flex-wrap items-end justify-between gap-3">
-                <div>
-                  <p className="text-xs text-white/45">Preço Pix</p>
-                  <p className="text-2xl font-bold text-white">{formatCurrency(product.pricePix)}</p>
-                  <p className="text-xs text-white/55">12x de {formatCurrency(product.priceCard / 12)}</p>
+                <div className="min-w-[220px]">
+                  <ProductPriceStack product={product} compact />
                   <div className="mt-2 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.16em] text-white/48">
                     <Clock3 className="h-3.5 w-3.5" />
                     {product.productionWindow}

@@ -1,0 +1,15 @@
+Produto: Suporte para Mouse
+ID: mdh-021
+Slug: mdh-021-suporte-para-mouse
+
+[hero]
+professional product photography, studio lighting, white background, highly detailed, 8k, real 3D print texture, foto realista de produto, sem aparência de IA óbvia, sem render 3D, sem texto, sem embalagem, sem marca d'água, hero shot centralizado do item "Suporte para Mouse", Suporte ergonômico para mouse de computador., impresso em PLA Premium, acabamento premium, cores fiéis: Preto e Branco, dimensões proporcionais e realistas (10x8x3cm), fundo branco puro #FFFFFF, iluminação suave de estúdio estilo Apple, sombras macias, reflexos controlados, foco extremamente nítido, mostrar claramente que é uma impressão 3D premium com textura fina e camadas sutis apenas de perto, status comercial pronta entrega
+
+[closeup]
+professional product photography, studio lighting, white background, highly detailed, 8k, real 3D print texture, foto realista de produto, sem aparência de IA óbvia, sem render 3D, sem texto, sem embalagem, sem marca d'água, macro close-up do item "Suporte para Mouse", foco em os cantos, encaixes, bordas funcionais e a consistência do acabamento da impressão, impresso em PLA Premium, acabamento premium, cores fiéis: Preto e Branco, fundo light gray studio #F8F8F8, lente macro, profundidade de campo profissional, nitidez alta, microtextura de impressão 3D visível e elegante, foto de catálogo premium, aparência física real, sem defeitos exagerados
+
+[in_use]
+professional product photography, highly detailed, 8k, real 3D print texture, foto lifestyle realista de produto, luz suave natural combinada com iluminação de apoio de estúdio, mostrar "Suporte para Mouse" em uso ou em contexto real, sobre uma mesa clean de home office, com poucos elementos desfocados ao redor, Suporte ergonômico para mouse de computador., impresso em PLA Premium, acabamento premium, cores fiéis: Preto e Branco, o produto deve ser o protagonista do enquadramento, com ambiente realista e discretamente desfocado, camadas sutis da impressão 3D ainda visíveis, porém acabamento premium e convincente, sem aparência de CGI, sem texto, sem marca d'água
+
+[packshot]
+professional product photography, studio lighting, white background, highly detailed, 8k, real 3D print texture, foto realista de produto, sem aparência de IA óbvia, sem render 3D, sem texto, sem embalagem, sem marca d'água, packshot de estúdio do item "Suporte para Mouse", mostrar duas a quatro peças lado a lado mostrando as variações de cor Preto e Branco, impresso em PLA Premium, acabamento premium, cores fiéis: Preto e Branco, superfície branca ou cinza-claro de estúdio, composição limpa, iluminação uniforme, sombra macia sob as peças, e-commerce premium, múltiplos ângulos coerentes com o produto real, textura fina da impressão 3D visível, aparência física de peça pronta para venda

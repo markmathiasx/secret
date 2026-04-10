@@ -2,7 +2,9 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { Check, Copy, Minus, Plus, Share2, Sparkles } from "lucide-react";
+import { Check, Copy, Minus, Plus, Share2, ShoppingCart, Sparkles, Wallet } from "lucide-react";
+import { useCustomerSession } from "@/lib/customer-session-client";
+import { addLocalCartItem } from "@/lib/cart-store";
 import { formatCurrency } from "@/lib/utils";
 
 const PURCHASE_MEMORY_PREFIX = "mdh:product-config:";
@@ -15,6 +17,7 @@ export function ProductPurchaseTools({
   sku,
   pricePix,
   priceCard,
+  productImage,
   customizable,
   whatsappHref,
   customizationHref,
@@ -24,6 +27,7 @@ export function ProductPurchaseTools({
   sku: string;
   pricePix: number;
   priceCard: number;
+  productImage?: string;
   customizable: boolean;
   whatsappHref: string;
   customizationHref: string;
@@ -31,7 +35,9 @@ export function ProductPurchaseTools({
   const [quantity, setQuantity] = useState(1);
   const [goal, setGoal] = useState<PurchaseGoal>("Uso próprio");
   const [copied, setCopied] = useState<"idle" | "sku" | "link">("idle");
+  const [cartMessage, setCartMessage] = useState("");
   const [memoryReady, setMemoryReady] = useState(false);
+  const session = useCustomerSession();
   const totalPix = useMemo(() => pricePix * quantity, [pricePix, quantity]);
   const totalCard = useMemo(() => priceCard * quantity, [priceCard, quantity]);
   const quickQuantities = [1, 2, 5, 10];
@@ -104,6 +110,37 @@ export function ProductPurchaseTools({
       window.setTimeout(() => setCopied("idle"), 1800);
     } catch {
       setCopied("idle");
+    }
+  }
+
+  async function addToCart(redirectToCheckout = false) {
+    addLocalCartItem({
+      productId,
+      quantity,
+      title: productName,
+      pricePix,
+      priceCard,
+      image: productImage,
+    });
+
+    if (session.loggedIn) {
+      await fetch("/api/cart", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          productId,
+          quantity,
+        }),
+      }).catch(() => null);
+    }
+
+    setCartMessage(`${quantity} unidade(s) adicionadas ao carrinho.`);
+    window.setTimeout(() => setCartMessage(""), 2000);
+
+    if (redirectToCheckout) {
+      window.location.href = checkoutHref;
     }
   }
 
@@ -198,10 +235,21 @@ export function ProductPurchaseTools({
         <p className="mt-2">{goalNote}</p>
       </div>
 
+      {cartMessage ? (
+        <div className="mt-4 rounded-[18px] border border-emerald-300/20 bg-emerald-300/10 px-4 py-3 text-sm text-emerald-50">
+          {cartMessage}
+        </div>
+      ) : null}
+
       <div className="mt-5 grid gap-3 sm:grid-cols-2">
-        <Link href={checkoutHref} className="btn-primary justify-center">
-          Comprar {quantity} un.
-        </Link>
+        <button type="button" onClick={() => void addToCart(true)} className="btn-primary justify-center gap-2">
+          <Wallet className="h-4 w-4" />
+          Comprar agora (Pix)
+        </button>
+        <button type="button" onClick={() => void addToCart(false)} className="btn-secondary justify-center gap-2">
+          <ShoppingCart className="h-4 w-4" />
+          Adicionar ao carrinho
+        </button>
         <a href={contextualWhatsappHref} target="_blank" rel="noreferrer" className="btn-whatsapp justify-center">
           Tirar dúvida antes de pagar
         </a>
@@ -219,6 +267,9 @@ export function ProductPurchaseTools({
           {copied === "link" ? <Check className="h-4 w-4" /> : <Share2 className="h-4 w-4" />}
           {copied === "link" ? "Link copiado" : "Compartilhar item"}
         </button>
+        <Link href={checkoutHref} className="btn-glass justify-center">
+          Revisar no checkout
+        </Link>
       </div>
     </div>
   );

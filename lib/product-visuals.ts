@@ -1,5 +1,7 @@
 import type { Product } from "@/lib/catalog";
 import { getCatalogPhotoCandidates, getCatalogPhotoEntry } from "@/lib/catalog-photo-manifest";
+import realImageStatusJson from "@/data/real-image-status.json";
+import type { RealImageStatusRecord } from "@/types/admin-catalog";
 
 export type ProductVisualKind = "foto-real" | "render-fiel" | "imagem-conceitual";
 
@@ -102,6 +104,8 @@ const PRODUCT_VISUAL_OVERRIDES: Record<string, ProductVisualOverride> = {
   },
 };
 
+const realImageStatusMap = realImageStatusJson as Record<string, RealImageStatusRecord>;
+
 function getVisualDefaults(kind: ProductVisualKind) {
   switch (kind) {
     case "foto-real":
@@ -137,6 +141,7 @@ function getVisualDefaults(kind: ProductVisualKind) {
 }
 
 function inferKindFromImages(product: Product): ProductVisualKind {
+  if (realImageStatusMap[product.id]?.status === "real") return "foto-real";
   const sources = [...(product.images || []), product.image || ""].join(" ").toLowerCase();
   if (sources.includes("/products/foto-")) return "foto-real";
   if (sources.includes("/products/render-")) return "render-fiel";
@@ -146,7 +151,8 @@ function inferKindFromImages(product: Product): ProductVisualKind {
 export function getProductVisual(product: Product): ProductVisualSummary {
   const override = PRODUCT_VISUAL_OVERRIDES[product.id];
   const catalogPhoto = getCatalogPhotoEntry(product.id);
-  const kind = override?.kind || catalogPhoto?.kind || inferKindFromImages(product);
+  const realImageStatus = realImageStatusMap[product.id];
+  const kind = override?.kind || (realImageStatus?.status === "real" ? "foto-real" : undefined) || catalogPhoto?.kind || inferKindFromImages(product);
   const defaults = getVisualDefaults(kind);
   const catalogPhotoCandidates = getCatalogPhotoCandidates(product.id);
   const modelReadyNote =
@@ -156,8 +162,8 @@ export function getProductVisual(product: Product): ProductVisualSummary {
         ? "Além da foto principal, este item também tem arquivo 3MF anexado para consulta técnica."
         : undefined;
   const realPhotoNote =
-    kind === "foto-real" && catalogPhoto
-      ? "A vitrine usa uma foto do objeto físico já impresso, preservando aparência real de escala, material e acabamento."
+    kind === "foto-real" && (catalogPhoto || realImageStatus)
+      ? realImageStatus?.notes || "A vitrine usa foto do objeto físico já impresso, preservando aparência real de escala, material e acabamento."
       : undefined;
 
   return {
@@ -169,7 +175,7 @@ export function getProductVisual(product: Product): ProductVisualSummary {
     note: override?.note || realPhotoNote || modelReadyNote,
     recommendedNextStep: override?.recommendedNextStep || defaults.recommendedNextStep,
     merchantReady: override?.merchantReady ?? defaults.merchantReady,
-    imageCandidates: override?.imageCandidates || catalogPhotoCandidates,
+    imageCandidates: override?.imageCandidates || realImageStatus?.gallery || catalogPhotoCandidates,
   };
 }
 

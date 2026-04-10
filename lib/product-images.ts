@@ -46,7 +46,7 @@ export function getProductImageCandidates(product: Product) {
   const visualCandidates = getProductVisualImageCandidates(product);
   const catalogPhotoCandidates = getCatalogPhotoCandidates(product.id);
   if (explicit?.length) {
-    return Array.from(new Set([...catalogPhotoCandidates, ...visualCandidates, ...(explicit[0]?.candidates || []), productPlaceholderSrc]));
+    return Array.from(new Set([...(explicit[0]?.candidates || []), ...visualCandidates, ...catalogPhotoCandidates, productPlaceholderSrc]));
   }
 
   const normalizedId = normalizeProductId(product.id);
@@ -80,6 +80,12 @@ export function getProductGallery(product: Product) {
   const explicit = explicitGallery(product);
   const visualCandidates = getProductVisualImageCandidates(product);
   const catalogPhotoCandidates = getCatalogPhotoCandidates(product.id);
+  if (explicit?.length) {
+    return explicit.map((item) => ({
+      ...item,
+      candidates: [...item.candidates, ...visualCandidates, ...catalogPhotoCandidates, productPlaceholderSrc],
+    }));
+  }
   if (catalogPhotoCandidates.length) {
     if (hasExplicitCatalogGallery(product.id)) {
       return catalogPhotoCandidates.map((src, index) => ({
@@ -95,12 +101,6 @@ export function getProductGallery(product: Product) {
         alt: `${product.name} - catálogo principal`,
       },
     ];
-  }
-  if (explicit?.length) {
-    return explicit.map((item) => ({
-      ...item,
-      candidates: [...visualCandidates, ...item.candidates, productPlaceholderSrc],
-    }));
   }
 
   // Usar apenas catalog-assets para galeria (WebP otimizado)
