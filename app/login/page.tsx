@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import { ArrowRight, LockKeyhole, Mail, MessageCircleMore, ShieldCheck, User } from 'lucide-react';
 import { emitCustomerAuthChange } from '@/lib/customer-session-client';
@@ -28,7 +28,6 @@ function getPasswordStrength(password: string) {
 }
 
 export default function LoginPage() {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const [mode, setMode] = useState<'register' | 'login'>('register');
   const [loading, setLoading] = useState(false);
@@ -119,9 +118,8 @@ export default function LoginPage() {
       const storedRedirect = typeof window !== 'undefined' ? window.sessionStorage.getItem(LOGIN_REDIRECT_KEY) : null;
       if (typeof window !== 'undefined') {
         window.sessionStorage.removeItem(LOGIN_REDIRECT_KEY);
+        window.location.assign(storedRedirect || redirectTo || '/conta');
       }
-      router.replace(storedRedirect || redirectTo || '/conta');
-      router.refresh();
     } catch {
       setMessage('Erro de rede ao validar seu acesso.');
     } finally {
