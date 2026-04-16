@@ -6,6 +6,7 @@ import { applyCatalogMedia } from "@/lib/catalog-media";
 import { getProductVisual } from "@/lib/product-visuals";
 import { verifiedCatalog } from "@/lib/verified-catalog";
 import { csvCuratedCatalog } from "@/lib/catalog-csv-curated";
+import { a1MiniExpansionCatalog } from "@/lib/a1-mini-expansion-catalog";
 import { getSafePublicCatalog } from "@/lib/csv-curated-media";
 import { applyA1MiniProfile } from "@/lib/a1-mini-catalog";
 import adminProductOverridesJson from "@/data/admin-product-overrides.json";
@@ -79,6 +80,20 @@ export type Product = {
     shippingWidthCm?: number;
     shippingHeightCm?: number;
     mediaVerified?: boolean;
+  };
+  estimatedGrams?: number;
+  filamentCostBrl?: number;
+  minimumSalePriceBrl?: number;
+  finalPriceBrl?: number;
+  makerWorldMeta?: {
+    niche: string;
+    nicheKey: string;
+    sourceTitle: string;
+    sourceProductLink: string;
+    sourceImageUrl: string;
+    commercialLicensePriority: string;
+    pricingPreset: string;
+    longDescription: string;
   };
 };
 
@@ -2689,6 +2704,12 @@ const fullCatalog = [
   ...verifiedCatalog.map((product) => applyCatalogMedia(enrichProduct(product), { preserveExisting: true })),
   ...curatedCatalog.map((product) => applyCatalogMedia(enrichProduct(product), { preserveExisting: false })),
   ...csvCuratedCatalog.map((product) =>
+    applyCatalogMedia(enrichProduct(product), {
+      preserveExisting: true,
+      preferExistingImages: true,
+    })
+  ),
+  ...a1MiniExpansionCatalog.map((product) =>
     applyCatalogMedia(enrichProduct(product), {
       preserveExisting: true,
       preferExistingImages: true,
