@@ -41,6 +41,18 @@ export function writeLocalCart(items: LocalCartItem[]) {
   emitCartChange();
 }
 
+export function replaceLocalCart(items: LocalCartItem[]) {
+  writeLocalCart(
+    items
+      .filter((item) => item.productId && Number.isFinite(item.quantity) && item.quantity > 0)
+      .map((item) => ({
+        ...item,
+        quantity: Math.min(20, Math.max(1, Math.trunc(item.quantity))),
+        updatedAt: item.updatedAt || new Date().toISOString(),
+      }))
+  );
+}
+
 export function addLocalCartItem(item: Omit<LocalCartItem, "updatedAt">) {
   const current = readLocalCart();
   const existing = current.find((entry) => entry.productId === item.productId);
@@ -64,6 +76,24 @@ export function addLocalCartItem(item: Omit<LocalCartItem, "updatedAt">) {
   return nextItem;
 }
 
+export function removeLocalCartItem(productId: string) {
+  const current = readLocalCart();
+  const next = current.filter((item) => item.productId !== productId);
+  writeLocalCart(next);
+}
+
+export function clearLocalCart() {
+  writeLocalCart([]);
+}
+
 export function getLocalCartCount() {
   return readLocalCart().reduce((sum, item) => sum + item.quantity, 0);
+}
+
+export function serializeLocalCart(items: LocalCartItem[]) {
+  return items
+    .slice()
+    .sort((left, right) => left.productId.localeCompare(right.productId))
+    .map((item) => `${item.productId}:${item.quantity}`)
+    .join("|");
 }

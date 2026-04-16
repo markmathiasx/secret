@@ -7,12 +7,42 @@ import { Copy, QrCode, ShieldCheck } from "lucide-react";
 import { pix } from "@/lib/constants";
 import { formatCurrency } from "@/lib/utils";
 
-export function PixPaymentCard({ title, amount }: { title: string; amount: number }) {
-  const [payload, setPayload] = useState("");
-  const [qr, setQr] = useState("");
+export function PixPaymentCard({
+  title,
+  amount,
+  payload: initialPayload,
+  qrCodeBase64,
+  expiresAt,
+  providerLabel,
+}: {
+  title: string;
+  amount: number;
+  payload?: string | null;
+  qrCodeBase64?: string | null;
+  expiresAt?: string | null;
+  providerLabel?: string | null;
+}) {
+  const [payload, setPayload] = useState(initialPayload || "");
+  const [qr, setQr] = useState(qrCodeBase64 || "");
   const [copied, setCopied] = useState(false);
+  const expirationLabel = useMemo(() => {
+    if (!expiresAt) return null;
+    const date = new Date(expiresAt);
+    if (Number.isNaN(date.getTime())) return null;
+    return new Intl.DateTimeFormat("pt-BR", {
+      day: "2-digit",
+      month: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+    }).format(date);
+  }, [expiresAt]);
 
   useEffect(() => {
+    if (initialPayload) {
+      setPayload(initialPayload);
+      return;
+    }
+
     fetch("/api/pix", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -21,12 +51,18 @@ export function PixPaymentCard({ title, amount }: { title: string; amount: numbe
       .then((res) => res.json())
       .then((json) => setPayload(json?.payload || ""))
       .catch(() => setPayload(""));
-  }, [amount, title]);
+  }, [amount, initialPayload, title]);
 
   useEffect(() => {
-    if (!payload) return;
+    if (qrCodeBase64) {
+      setQr(qrCodeBase64);
+    }
+  }, [qrCodeBase64]);
+
+  useEffect(() => {
+    if (!payload || qrCodeBase64) return;
     QRCode.toDataURL(payload, { width: 320, margin: 1 }).then(setQr).catch(() => setQr(""));
-  }, [payload]);
+  }, [payload, qrCodeBase64]);
 
   async function onCopy() {
     try {
@@ -60,6 +96,8 @@ export function PixPaymentCard({ title, amount }: { title: string; amount: numbe
             <p className="text-sm text-white/55">Valor sugerido para este item</p>
             <p className="mt-1 text-3xl font-black text-white">{formatCurrency(amount)}</p>
             <p className="mt-2 text-sm text-white/60">Descrição do Pix: {title}</p>
+            {providerLabel ? <p className="mt-2 text-sm text-cyan-100">Gateway: {providerLabel}</p> : null}
+            {expirationLabel ? <p className="mt-2 text-sm text-white/60">Expira em: {expirationLabel}</p> : null}
           </div>
           <div className="rounded-[24px] border border-white/10 bg-black/25 p-4">
             <p className="text-sm text-white/55">Copia e cola Pix</p>

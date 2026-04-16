@@ -1,0 +1,654 @@
+{
+  "processedAt": "2026-04-16T01:44:21.890Z",
+  "onlyPending": true,
+  "maxItems": 160,
+  "changed": [],
+  "skipped": [
+    {
+      "sku": "CHA-001",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "CHA-002",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "CHA-003",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "CHA-004",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "CHA-005",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "CHA-006",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "CHA-007",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "CHA-008",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "CHA-009",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "CHA-010",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "CHA-011",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "CHA-012",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "CHA-013",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "CHA-014",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "CHA-015",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "CHA-016",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "CHA-017",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "CHA-018",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "CHA-019",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "CHA-020",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "CHA-021",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "CHA-022",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "CHA-023",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "CHA-024",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "CHA-025",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "CHA-026",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "CHA-027",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "CHA-028",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "CHA-029",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "CHA-030",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "CHA-031",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "CHA-032",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "CHA-033",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "CHA-034",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "CHA-035",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "CHA-036",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "CHA-037",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "CHA-038",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "CHA-039",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "CHA-040",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "DEC-001",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "DEC-002",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "DEC-003",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "DEC-004",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "DEC-005",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "DEC-006",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "DEC-007",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "DEC-008",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "DEC-009",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "DEC-010",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "DEC-011",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "DEC-012",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "DEC-013",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "DEC-014",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "DEC-015",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "DEC-016",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "DEC-017",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "DEC-018",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "DEC-019",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "DEC-020",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "DEC-021",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "DEC-022",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "DEC-023",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "DEC-024",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "DEC-025",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "DEC-026",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "DEC-027",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "DEC-028",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "DEC-029",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "DEC-030",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "DEC-031",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "DEC-032",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "DEC-033",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "DEC-034",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "DEC-035",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "DEC-036",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "DEC-037",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "DEC-038",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "DEC-039",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "DEC-040",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "UTI-001",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "UTI-003",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "UTI-004",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "UTI-005",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "UTI-006",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "UTI-007",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "UTI-008",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "UTI-009",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "UTI-010",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "UTI-011",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "UTI-012",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "UTI-013",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "UTI-014",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "UTI-015",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "UTI-016",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "UTI-017",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "UTI-018",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "UTI-019",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "UTI-021",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "UTI-022",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "UTI-023",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "UTI-024",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "UTI-025",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "UTI-026",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "UTI-027",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "UTI-028",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "UTI-029",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "UTI-030",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "UTI-031",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "UTI-032",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "UTI-033",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "UTI-034",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "UTI-035",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "UTI-036",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "UTI-037",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "UTI-038",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "UTI-039",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "UTI-040",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "COL-001",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "COL-002",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "COL-003",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "COL-004",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "COL-005",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "COL-006",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "COL-007",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "COL-008",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "COL-009",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "COL-010",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "COL-011",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "COL-012",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "COL-013",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "COL-014",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "COL-015",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "COL-016",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "COL-017",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "COL-018",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "COL-019",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "COL-020",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "COL-021",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "COL-022",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "COL-023",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "COL-024",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "COL-025",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "COL-026",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "COL-027",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "COL-028",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "COL-029",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "COL-030",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "COL-031",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "COL-032",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "COL-033",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "COL-034",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "COL-035",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "COL-036",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "COL-037",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "COL-038",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "COL-039",
+      "reason": "já possui mídia local"
+    },
+    {
+      "sku": "COL-040",
+      "reason": "já possui mídia local"
+    }
+  ],
+  "failed": [
+    {
+      "sku": "UTI-002",
+      "title_pt": "Porta Ferramentas Reyna Valorant para Mesa Gamer, Oficina Criativa e Home Office",
+      "query": "Porta Ferramentas Reyna Valorant para Mesa Gamer, Oficina Criativa e Home Office Mercado Livre / Shopee / Amazon Utilitários/Ferramentas Produto de apelo nerd/gamer para venda online; revisar licenciamento e arte final antes de publicar. product",
+      "error": "nenhuma imagem utilizável"
+    },
+    {
+      "sku": "UTI-020",
+      "title_pt": "Organizador Modular Peely Fortnite para Ferramentas Leves, Peças e Acessórios Nerd",
+      "query": "Organizador Modular Peely Fortnite para Ferramentas Leves, Peças e Acessórios Nerd Mercado Livre / Shopee / Amazon Utilitários/Ferramentas Produto de apelo nerd/gamer para venda online; revisar licenciamento e arte final antes de publicar. product",
+      "error": "Download HTTP 403"
+    }
+  ]
+}

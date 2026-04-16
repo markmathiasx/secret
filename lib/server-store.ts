@@ -40,6 +40,19 @@ type QuoteRequestRow = {
   created_at: string;
 };
 
+type FinanceOrderRow = {
+  id: string;
+  order_code: string;
+  customer_name: string;
+  payment_method: string;
+  payment_status: string | null;
+  order_status: string;
+  total: number;
+  estimated_cost: number;
+  estimated_profit: number;
+  created_at: string;
+};
+
 function getSupabaseAdmin() {
   const { url, serviceRole } = getSupabaseEnv();
   if (!url || !serviceRole) return null;
@@ -215,6 +228,131 @@ export async function getAdminDashboardSnapshot() {
     recentOrders,
     recentQuotes,
     recentQuoteRequests,
+  };
+}
+
+function isApprovedOrder(input: { orderStatus: string; paymentStatus: string | null }) {
+  const orderStatus = input.orderStatus.toLowerCase();
+  const paymentStatus = (input.paymentStatus || "").toLowerCase();
+  return (
+    paymentStatus === "paid" ||
+    ["paid", "printing", "ready_to_ship", "shipped", "delivered"].includes(orderStatus)
+  );
+}
+
+function isPendingOrder(input: { orderStatus: string; paymentStatus: string | null }) {
+  const orderStatus = input.orderStatus.toLowerCase();
+  const paymentStatus = (input.paymentStatus || "").toLowerCase();
+  return !isApprovedOrder(input) && !["canceled", "refunded"].includes(orderStatus) && !["failed", "canceled", "refunded"].includes(paymentStatus);
+}
+
+async function getPrismaAdminFinanceSnapshot() {
+  const orders = await prisma.order.findMany({
+    include: {
+      items: {
+        include: {
+          product: true,
+        },
+      },
+      payments: {
+        take: 1,
+        orderBy: {
+          createdAt: "desc",
+        },
+      },
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+    take: 40,
+  });
+
+  const recentOrders: FinanceOrderRow[] = orders.map((order) => {
+    const payment = order.payments[0];
+    const estimatedCost = order.items.reduce((sum, item) => {
+      const productCost = item.product?.estimatedUnitCost ? Number(item.product.estimatedUnitCost) : Number(item.unitPrice) * 0.6;
+      return sum + productCost * item.quantity;
+    }, 0);
+    const total = Number(order.grandTotal);
+
+    return {
+      id: order.id,
+      order_code: order.orderNumber,
+      customer_name: order.customerName || "Cliente não identificado",
+      payment_method: order.paymentMethod.toLowerCase(),
+      payment_status: payment?.status.toLowerCase() || null,
+      order_status: order.status.toLowerCase(),
+      total,
+      estimated_cost: Number(estimatedCost.toFixed(2)),
+      estimated_profit: Number((total - estimatedCost).toFixed(2)),
+      created_at: order.createdAt.toISOString(),
+    };
+  });
+
+  const approvedOrders = recentOrders.filter((order) => isApprovedOrder({ orderStatus: order.order_status, paymentStatus: order.payment_status }));
+  const pendingOrders = recentOrders.filter((order) => isPendingOrder({ orderStatus: order.order_status, paymentStatus: order.payment_status }));
+  const approvedRevenue = approvedOrders.reduce((sum, order) => sum + order.total, 0);
+  const pendingRevenue = pendingOrders.reduce((sum, order) => sum + order.total, 0);
+  const estimatedProfit = approvedOrders.reduce((sum, order) => sum + order.estimated_profit, 0);
+  const pixRevenue = approvedOrders.filter((order) => order.payment_method === "pix").reduce((sum, order) => sum + order.total, 0);
+  const cardRevenue = approvedOrders.filter((order) => order.payment_method === "card").reduce((sum, order) => sum + order.total, 0);
+
+  return {
+    metrics: {
+      approvedRevenue,
+      pendingRevenue,
+      averageTicket: approvedOrders.length ? approvedRevenue / approvedOrders.length : 0,
+      estimatedProfit,
+      pixRevenue,
+      cardRevenue,
+      paidOrders: approvedOrders.length,
+      pendingOrders: pendingOrders.length,
+    },
+    recentOrders,
+  };
+}
+
+export async function getAdminFinanceSnapshot() {
+  if (await canConnectToDatabase()) {
+    return getPrismaAdminFinanceSnapshot();
+  }
+
+  const snapshot = await getAdminDashboardSnapshot();
+  const recentOrders: FinanceOrderRow[] = snapshot.recentOrders.map((order) => {
+    const total = Number(order.payment_method === "card" ? order.total_card || order.total_pix || 0 : order.total_pix || order.total_card || 0);
+    const estimatedCost = Number((total * 0.6).toFixed(2));
+    return {
+      id: order.id,
+      order_code: order.order_code,
+      customer_name: order.customer_name || "Cliente não identificado",
+      payment_method: order.payment_method,
+      payment_status: order.payment_status,
+      order_status: order.status,
+      total,
+      estimated_cost: estimatedCost,
+      estimated_profit: Number((total - estimatedCost).toFixed(2)),
+      created_at: order.created_at,
+    };
+  });
+
+  const approvedOrders = recentOrders.filter((order) => isApprovedOrder({ orderStatus: order.order_status, paymentStatus: order.payment_status }));
+  const pendingOrders = recentOrders.filter((order) => isPendingOrder({ orderStatus: order.order_status, paymentStatus: order.payment_status }));
+  const approvedRevenue = approvedOrders.reduce((sum, order) => sum + order.total, 0);
+  const pendingRevenue = pendingOrders.reduce((sum, order) => sum + order.total, 0);
+  const estimatedProfit = approvedOrders.reduce((sum, order) => sum + order.estimated_profit, 0);
+
+  return {
+    metrics: {
+      approvedRevenue,
+      pendingRevenue,
+      averageTicket: approvedOrders.length ? approvedRevenue / approvedOrders.length : 0,
+      estimatedProfit,
+      pixRevenue: approvedOrders.filter((order) => order.payment_method === "pix").reduce((sum, order) => sum + order.total, 0),
+      cardRevenue: approvedOrders.filter((order) => order.payment_method === "card").reduce((sum, order) => sum + order.total, 0),
+      paidOrders: approvedOrders.length,
+      pendingOrders: pendingOrders.length,
+    },
+    recentOrders,
   };
 }
 

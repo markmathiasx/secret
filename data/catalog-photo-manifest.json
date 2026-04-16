@@ -14,74 +14,110 @@
   {
     "id": "mdh-003",
     "name": "Monstro Elétrico Pocket Mini",
-    "sourceFilename": "Monstro Elétrico Pocket Mini.png",
-    "kind": "imagem-conceitual"
+    "sourceFilename": "mdh-003.webp",
+    "kind": "imagem-conceitual",
+    "gallery": [
+      "/products/catalog/mdh-003.webp"
+    ]
   },
   {
     "id": "mdh-004",
     "name": "Espiã Mirim Chibi",
-    "sourceFilename": "Espiã Mirim Chibi.png",
-    "kind": "imagem-conceitual"
+    "sourceFilename": "mdh-004.webp",
+    "kind": "imagem-conceitual",
+    "gallery": [
+      "/products/catalog/mdh-004.webp"
+    ]
   },
   {
     "id": "mdh-005",
     "name": "Mascote Serra Articulado",
-    "sourceFilename": "Mascote Serra Articulado.png",
-    "kind": "imagem-conceitual"
+    "sourceFilename": "mdh-005.webp",
+    "kind": "imagem-conceitual",
+    "gallery": [
+      "/products/catalog/mdh-005.webp"
+    ]
   },
   {
     "id": "mdh-006",
     "name": "Tripulante Crewmate Neon",
-    "sourceFilename": "Tripulante Crewmate Neon.png",
-    "kind": "imagem-conceitual"
+    "sourceFilename": "mdh-006.webp",
+    "kind": "imagem-conceitual",
+    "gallery": [
+      "/products/catalog/mdh-006.webp"
+    ]
   },
   {
     "id": "mdh-007",
     "name": "Esfera Monstro de Bolso",
-    "sourceFilename": "Esfera Monstro de Bolso.png",
-    "kind": "imagem-conceitual"
+    "sourceFilename": "mdh-007.webp",
+    "kind": "imagem-conceitual",
+    "gallery": [
+      "/products/catalog/mdh-007.webp"
+    ]
   },
   {
     "id": "mdh-008",
     "name": "Pokémon Pikachu Mini",
-    "sourceFilename": "Pokémon Pikachu Mini.png",
-    "kind": "imagem-conceitual"
+    "sourceFilename": "mdh-008.webp",
+    "kind": "imagem-conceitual",
+    "gallery": [
+      "/products/catalog/mdh-008.webp"
+    ]
   },
   {
     "id": "mdh-009",
     "name": "Spy x Family Anya Chibi",
-    "sourceFilename": "Spy x Family Anya Chibi.png",
-    "kind": "imagem-conceitual"
+    "sourceFilename": "mdh-009.webp",
+    "kind": "imagem-conceitual",
+    "gallery": [
+      "/products/catalog/mdh-009.webp"
+    ]
   },
   {
     "id": "mdh-010",
     "name": "Chainsaw Man Pochita",
-    "sourceFilename": "Chainsaw Man Pochita.png",
-    "kind": "imagem-conceitual"
+    "sourceFilename": "mdh-010.webp",
+    "kind": "imagem-conceitual",
+    "gallery": [
+      "/products/catalog/mdh-010.webp"
+    ]
   },
   {
     "id": "mdh-011",
     "name": "Minecraft Steve Figurine",
-    "sourceFilename": "Minecraft Steve Figurine.png",
-    "kind": "imagem-conceitual"
+    "sourceFilename": "mdh-011.webp",
+    "kind": "imagem-conceitual",
+    "gallery": [
+      "/products/catalog/mdh-011.webp"
+    ]
   },
   {
     "id": "mdh-012",
     "name": "Creeper Minecraft",
-    "sourceFilename": "Creeper Minecraft.png",
-    "kind": "imagem-conceitual"
+    "sourceFilename": "mdh-012.webp",
+    "kind": "imagem-conceitual",
+    "gallery": [
+      "/products/catalog/mdh-012.webp"
+    ]
   },
   {
     "id": "mdh-026",
     "name": "Pokébola",
-    "sourceFilename": "Pokébola.png",
-    "kind": "imagem-conceitual"
+    "sourceFilename": "mdh-026.webp",
+    "kind": "imagem-conceitual",
+    "gallery": [
+      "/products/catalog/mdh-026.webp"
+    ]
   },
   {
     "id": "mdh-027",
     "name": "Busto Colecionável Anime",
-    "sourceFilename": "Busto Colecionável Anime.png",
-    "kind": "imagem-conceitual"
+    "sourceFilename": "mdh-027.webp",
+    "kind": "imagem-conceitual",
+    "gallery": [
+      "/products/catalog/mdh-027.webp"
+    ]
   },
   {
     "id": "mdh-049",
@@ -315,29 +351,28 @@
   {
     "id": "mdh-061",
     "name": "Naruto Uzumaki Chibi",
-    "sourceFilename": "Naruto Uzumaki Chibi.png",
-    "kind": "imagem-conceitual"
+    "sourceFilename": "mdh-061.webp",
+    "kind": "imagem-conceitual",
+    "gallery": [
+      "/products/catalog/mdh-061.webp"
+    ]
   },
   {
     "id": "mdh-062",
     "name": "Sasuke Uchiha Chibi",
-    "sourceFilename": "Sasuke Uchiha Chibi.png",
+    "sourceFilename": "mdh-062.webp",
     "kind": "imagem-conceitual",
     "gallery": [
-      "/products/catalog/mdh-062.webp",
-      "/products/gallery/mdh-062/2.webp",
-      "/products/gallery/mdh-062/3.webp"
+      "/products/catalog/mdh-062.webp"
     ]
   },
   {
     "id": "mdh-063",
     "name": "Goku Dragon Ball Chibi",
-    "sourceFilename": "Goku Dragon Ball Chibi.png",
+    "sourceFilename": "mdh-063.webp",
     "kind": "imagem-conceitual",
     "gallery": [
-      "/products/catalog/mdh-063.webp",
-      "/products/gallery/mdh-063/2.webp",
-      "/products/gallery/mdh-063/3.webp"
+      "/products/catalog/mdh-063.webp"
     ]
   },
   {
@@ -450,8 +485,11 @@
   {
     "id": "mdh-076",
     "name": "Foguete Espacial Mini",
-    "sourceFilename": "Foguete Espacial Mini.png",
-    "kind": "imagem-conceitual"
+    "sourceFilename": "mdh-076.webp",
+    "kind": "imagem-conceitual",
+    "gallery": [
+      "/products/catalog/mdh-076.webp"
+    ]
   },
   {
     "id": "mdh-077",

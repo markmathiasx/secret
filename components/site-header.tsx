@@ -22,7 +22,7 @@ import {
 } from "lucide-react";
 import { brand, socialLinks, whatsappNumber } from "@/lib/constants";
 import { emitCustomerAuthChange, useCustomerSession } from "@/lib/customer-session-client";
-import { cartChangeEvent, getLocalCartCount } from "@/lib/cart-store";
+import { cartChangeEvent, getLocalCartCount, readLocalCart } from "@/lib/cart-store";
 import { CommerceAssistantDialog } from "@/components/commerce-assistant-dialog";
 import { HeaderCommandPalette } from "@/components/header-command-palette";
 
@@ -65,6 +65,7 @@ export function SiteHeader({
   const [assistantOpen, setAssistantOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [cartCount, setCartCount] = useState(0);
+  const [cartHref, setCartHref] = useState("/checkout");
 
   const userLabel = session.user?.displayName || session.user?.email?.split("@")[0] || "Minha conta";
   const nav = useMemo(
@@ -82,7 +83,13 @@ export function SiteHeader({
 
   useEffect(() => {
     function refreshCartCount() {
+      const items = readLocalCart();
       setCartCount(getLocalCartCount());
+      if (items[0]) {
+        setCartHref(`/checkout?product=${encodeURIComponent(items[0].productId)}&qty=${items[0].quantity}`);
+        return;
+      }
+      setCartHref("/checkout");
     }
 
     refreshCartCount();
@@ -114,6 +121,9 @@ export function SiteHeader({
               {cardCheckoutReady
                 ? "Pix imediato • cartão online • atendimento humano"
                 : "Pix imediato • orçamento claro • atendimento humano"}
+            </span>
+            <span className="rounded-full border border-emerald-300/25 bg-emerald-300/10 px-3 py-1 text-[10px] font-semibold text-emerald-100">
+              40% lucro garantido
             </span>
             <a href={socialLinks.instagram} target="_blank" rel="noreferrer" className="text-cyan-100 transition hover:text-cyan-glow">
               @{brand.instagramHandle}
@@ -186,11 +196,11 @@ export function SiteHeader({
               WhatsApp
             </a>
 
-            <Link href="/checkout" className="btn-primary gap-2 px-5 py-3">
+            <Link href={cartHref} className="btn-primary gap-2 px-5 py-3">
               <ShoppingBag className="h-4 w-4" />
               Fechar pedido
             </Link>
-            <Link href="/checkout" className="btn-glass gap-2 px-4 py-3">
+            <Link href={cartHref} className="btn-glass gap-2 px-4 py-3">
               <ShoppingCart className="h-4 w-4" />
               Carrinho
               <span className="rounded-full border border-white/10 bg-black/25 px-2 py-0.5 text-[11px] text-white/80">
@@ -298,11 +308,11 @@ export function SiteHeader({
                 <a href={`https://wa.me/${whatsappNumber}`} className="btn-zap justify-center">
                   WhatsApp
                 </a>
-                <Link href="/checkout" className="btn-primary justify-center">
+                <Link href={cartHref} className="btn-primary justify-center">
                   <ShoppingBag className="mr-2 h-4 w-4" />
                   Fechar pedido
                 </Link>
-                <Link href="/checkout" className="btn-glass justify-center">
+                <Link href={cartHref} className="btn-glass justify-center">
                   <ShoppingCart className="mr-2 h-4 w-4" />
                   Carrinho ({cartCount})
                 </Link>

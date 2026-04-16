@@ -1,0 +1,40 @@
+PACOTE GERAL: BAIXAR FOTOS + PUSH
+
+O que ele faz:
+1. instala dependências que hoje estão faltando para o storefront subir
+2. roda `prisma generate`
+3. baixa imagens pendentes do bloco CSV para:
+   public/products/csv-curated/<sku-normalizado>/cover.webp
+4. aplica a curadoria segura, se o patch estiver no projeto
+5. mostra status git
+6. separa o push em um segundo comando
+
+Arquivos:
+- BOOTSTRAP-STOREFRONT.ps1
+- RODAR-BAIXAR-TUDO.ps1
+- FAZER-COMMIT-E-PUSH.ps1
+- scripts/fill-csv-curated-images-serpapi.mjs
+
+Pré-requisito:
+- .env.local precisa ter SERPAPI_KEY=...
+
+Uso:
+1. extraia por cima do projeto
+2. rode:
+   powershell -ExecutionPolicy Bypass -File .\RODAR-BAIXAR-TUDO.ps1
+3. revise reports/fill-csv-curated-images-report.json
+4. se estiver ok, rode:
+   powershell -ExecutionPolicy Bypass -File .\FAZER-COMMIT-E-PUSH.ps1
+
+Variáveis opcionais:
+- CSV_MAX_ITEMS=160
+- CSV_ONLY_PENDING=1
+- CSV_SKIP_EXISTING=1
+
+Exemplo no PowerShell:
+$env:CSV_MAX_ITEMS="160"
+powershell -ExecutionPolicy Bypass -File .\RODAR-BAIXAR-TUDO.ps1
+
+Importante:
+- isso automatiza o download; não prova curadoria humana item por item
+- se a SerpAPI não achar imagem boa para algum SKU, ele registra em report como failed

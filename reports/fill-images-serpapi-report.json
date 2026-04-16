@@ -1,0 +1,225 @@
+{
+  "processedAt": "2026-04-16T00:48:53.329Z",
+  "mode": "conceptual-only",
+  "maxItems": 500,
+  "changed": [
+    {
+      "id": "mdh-003",
+      "query": "Monstro Elétrico Pocket Mini mdh-003 3d print product figure",
+      "imageUrl": "https://images.cults3d.com/qvUMEdU-Y_xbrEM-yNp4KLfhm1k=/516x516/filters:no_upscale()/https://fbi.cults3d.com/uploaders/41535836/illustration-file/72ceb0e3-0e12-4745-921f-c6c5ad6bfa94/Frankenstein-Figure-3D-Printable-STL-FBX-OBJ-GLB-1.jpg",
+      "source": "Cults 3D",
+      "output": "/products/catalog/mdh-003.webp"
+    },
+    {
+      "id": "mdh-004",
+      "query": "Espiã Mirim Chibi mdh-004 3d print product figure",
+      "imageUrl": "https://images.cults3d.com/faavUfo-oNSoa7wUBB2p-cSdmw8=/516x516/filters:no_upscale()/https://fbi.cults3d.com/uploaders/26168141/illustration-file/156f9cc6-079c-4806-b8a6-879c4fff7eff/Anya.png",
+      "source": "Cults 3D",
+      "output": "/products/catalog/mdh-004.webp"
+    },
+    {
+      "id": "mdh-005",
+      "query": "Mascote Serra Articulado mdh-005 3d print product figure",
+      "imageUrl": "https://images.cults3d.com/L_htUmI2PCQMEyG50VlHXzHegSU=/516x516/filters:no_upscale()/https://fbi.cults3d.com/uploaders/21538901/illustration-file/e958d668-b204-4ddb-a760-c90b5351b4ed/1.png",
+      "source": "Cults 3D",
+      "output": "/products/catalog/mdh-005.webp"
+    },
+    {
+      "id": "mdh-006",
+      "query": "Tripulante Crewmate Neon mdh-006 3d print product figure",
+      "imageUrl": "https://www.laserforgeminiatures.com/cdn/shop/files/Neon-Underground-Codeblade-Crew-Neurocraft-98222319.png",
+      "source": "Laserforge Miniatures · Em estoque",
+      "output": "/products/catalog/mdh-006.webp"
+    },
+    {
+      "id": "mdh-007",
+      "query": "Esfera Monstro de Bolso mdh-007 3d print product figure",
+      "imageUrl": "https://fbi.cults3d.com/uploaders/42852599/illustration-file/aae1a559-bc77-42b4-aefd-7696d2fa00b3/bandicam-2025-08-07-12-45-56-047.jpg",
+      "source": "Cults 3D",
+      "output": "/products/catalog/mdh-007.webp"
+    },
+    {
+      "id": "mdh-008",
+      "query": "Pokémon Pikachu Mini mdh-008 3d print product figure",
+      "imageUrl": "http://thinkcutie.com/cdn/shop/files/F727B285-A23F-4787-86C1-278C46DDA84A.jpg?v=1734926584",
+      "source": "Thinkcutie.com",
+      "output": "/products/catalog/mdh-008.webp"
+    },
+    {
+      "id": "mdh-009",
+      "query": "Spy x Family Anya Chibi mdh-009 3d print product figure",
+      "imageUrl": "https://fbi.cults3d.com/uploaders/41138270/illustration-file/861e6d0b-24cf-40cc-84ba-96f03f0b2fb8/Anya.png",
+      "source": "Cults 3D",
+      "output": "/products/catalog/mdh-009.webp"
+    },
+    {
+      "id": "mdh-010",
+      "query": "Chainsaw Man Pochita mdh-010 3d print product figure",
+      "imageUrl": "https://dl2.myminifactory.com/object-assets/634bbc37a2857/images/720X720-005.jpg",
+      "source": "MyMiniFactory",
+      "output": "/products/catalog/mdh-010.webp"
+    },
+    {
+      "id": "mdh-012",
+      "query": "Creeper Minecraft mdh-012 3d print product figure",
+      "imageUrl": "https://sethers.com/cdn/shop/files/creeper-mini-figure-minecraft-movie-3d-printing-model-files-1158579922.png?v=1745436580",
+      "source": "SETHERS",
+      "output": "/products/catalog/mdh-012.webp"
+    },
+    {
+      "id": "mdh-026",
+      "query": "Pokébola mdh-026 3d print product figure",
+      "imageUrl": "https://makerworld.bblmw.com/makerworld/model/US79187fd175f4f1/design/2025-02-28_bcf1f7b5150108.jpeg?x-oss-process=image/resize,w_1000/format,webp",
+      "source": "MakerWorld",
+      "output": "/products/catalog/mdh-026.webp"
+    },
+    {
+      "id": "mdh-027",
+      "query": "Busto Colecionável Anime mdh-027 3d print product figure",
+      "imageUrl": "https://fbi.cults3d.com/uploaders/43589558/illustration-file/049fee94-27ed-417b-a954-ba325f1bc1b1/AnimeGirl3.jpg",
+      "source": "Cults 3D",
+      "output": "/products/catalog/mdh-027.webp"
+    },
+    {
+      "id": "mdh-061",
+      "query": "Naruto Uzumaki Chibi mdh-061 3d print product figure",
+      "imageUrl": "https://fbi.cults3d.com/uploaders/26168141/illustration-file/07c12d72-0306-4131-a815-9df97cee3664/naruto.png",
+      "source": "Cults 3D",
+      "output": "/products/catalog/mdh-061.webp"
+    },
+    {
+      "id": "mdh-062",
+      "query": "Sasuke Uchiha Chibi mdh-062 3d print product figure",
+      "imageUrl": "https://fbi.cults3d.com/uploaders/40342033/illustration-file/d1d28ff0-3479-435c-9fa9-33b7fe5b8e68/sasuke.png",
+      "source": "Cults 3D",
+      "output": "/products/catalog/mdh-062.webp"
+    },
+    {
+      "id": "mdh-063",
+      "query": "Goku Dragon Ball Chibi mdh-063 3d print product figure",
+      "imageUrl": "https://fbi.cults3d.com/uploaders/18744143/illustration-file/090e5925-9eb4-411f-9819-0cfcb3096a72/goku5.png",
+      "source": "Cults 3D",
+      "output": "/products/catalog/mdh-063.webp"
+    },
+    {
+      "id": "mdh-076",
+      "query": "Foguete Espacial Mini mdh-076 3d print product figure",
+      "imageUrl": "https://down-br.img.susercontent.com/file/br-11134207-7r98o-mc30rg8bo79h7a",
+      "source": "Shopee · Em estoque",
+      "output": "/products/catalog/mdh-076.webp"
+    }
+  ],
+  "skipped": [
+    {
+      "id": "mdh-001",
+      "reason": "fora do filtro"
+    },
+    {
+      "id": "mdh-002",
+      "reason": "fora do filtro"
+    },
+    {
+      "id": "mdh-049",
+      "reason": "fora do filtro"
+    },
+    {
+      "id": "mdh-050",
+      "reason": "fora do filtro"
+    },
+    {
+      "id": "mdh-051",
+      "reason": "fora do filtro"
+    },
+    {
+      "id": "mdh-052",
+      "reason": "fora do filtro"
+    },
+    {
+      "id": "mdh-053",
+      "reason": "fora do filtro"
+    },
+    {
+      "id": "mdh-054",
+      "reason": "fora do filtro"
+    },
+    {
+      "id": "mdh-055",
+      "reason": "fora do filtro"
+    },
+    {
+      "id": "mdh-056",
+      "reason": "fora do filtro"
+    },
+    {
+      "id": "mdh-058",
+      "reason": "fora do filtro"
+    },
+    {
+      "id": "mdh-059",
+      "reason": "fora do filtro"
+    },
+    {
+      "id": "mdh-064",
+      "reason": "fora do filtro"
+    },
+    {
+      "id": "mdh-065",
+      "reason": "fora do filtro"
+    },
+    {
+      "id": "mdh-066",
+      "reason": "fora do filtro"
+    },
+    {
+      "id": "mdh-067",
+      "reason": "fora do filtro"
+    },
+    {
+      "id": "mdh-068",
+      "reason": "fora do filtro"
+    },
+    {
+      "id": "mdh-069",
+      "reason": "fora do filtro"
+    },
+    {
+      "id": "mdh-070",
+      "reason": "fora do filtro"
+    },
+    {
+      "id": "mdh-071",
+      "reason": "fora do filtro"
+    },
+    {
+      "id": "mdh-072",
+      "reason": "fora do filtro"
+    },
+    {
+      "id": "mdh-073",
+      "reason": "fora do filtro"
+    },
+    {
+      "id": "mdh-074",
+      "reason": "fora do filtro"
+    },
+    {
+      "id": "mdh-075",
+      "reason": "fora do filtro"
+    },
+    {
+      "id": "mdh-077",
+      "reason": "fora do filtro"
+    },
+    {
+      "id": "mdh-078",
+      "reason": "fora do filtro"
+    }
+  ],
+  "failed": [
+    {
+      "id": "mdh-011",
+      "query": "Minecraft Steve Figurine mdh-011 3d print product figure",
+      "error": "nenhuma imagem utilizável"
+    }
+  ]
+}

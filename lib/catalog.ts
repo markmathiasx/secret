@@ -6,6 +6,7 @@ import { applyCatalogMedia } from "@/lib/catalog-media";
 import { getProductVisual } from "@/lib/product-visuals";
 import { verifiedCatalog } from "@/lib/verified-catalog";
 import { csvCuratedCatalog } from "@/lib/catalog-csv-curated";
+import { getSafePublicCatalog } from "@/lib/csv-curated-media";
 import adminProductOverridesJson from "@/data/admin-product-overrides.json";
 import type { AdminProductOverride, ProductionStage } from "@/types/admin-catalog";
 import {
@@ -2683,11 +2684,12 @@ const curatedCatalog: Product[] = [
   },
 ];
 
-export const catalog = [
+const fullCatalog = [
   ...verifiedCatalog.map((product) => applyCatalogMedia(enrichProduct(product), { preserveExisting: true })),
   ...curatedCatalog.map((product) => applyCatalogMedia(enrichProduct(product), { preserveExisting: false })),
   ...csvCuratedCatalog.map((product) => applyCatalogMedia(enrichProduct(product), { preserveExisting: false })),
 ];
+export const catalog = getSafePublicCatalog(fullCatalog);
 export const featuredCatalog = catalog.filter((item) => item.featured).slice(0, 12);
 export const categories = Array.from(new Set(catalog.map((item) => item.category)));
 export const collections = Array.from(new Set(catalog.map((item) => item.collection)));

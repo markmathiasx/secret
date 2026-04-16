@@ -1,5 +1,6 @@
 import type { Product } from "@/lib/catalog";
 import curatedCsvRows from "@/data/catalogo_curado_160_itens_ptbr.json";
+import { getCsvCuratedLocalImages, hasCsvCuratedLocalMedia } from "@/lib/csv-curated-media";
 
 type CsvRow = {
   sku: string;
@@ -83,12 +84,9 @@ function parseTags(tags: string) {
 }
 
 function toImageList(row: CsvRow) {
-  const candidates = [row.photo_url_1, row.photo_url_2, row.photo_url_3, row.thumbnail_url]
-    .map((value) => value.trim())
-    .filter((value) => /^https?:\/\//i.test(value) && !/não verificado/i.test(value));
-
-  if (!candidates.length) return [PLACEHOLDER_IMAGE];
-  return candidates;
+  const localImages = getCsvCuratedLocalImages(row.sku.trim());
+  if (localImages.length) return localImages;
+  return [PLACEHOLDER_IMAGE];
 }
 
 function makeIdFromSku(sku: string) {
@@ -111,7 +109,8 @@ function buildCsvProduct(row: CsvRow, featured: boolean): Product {
   const priceMedian = toNumber(row.price_median_brl, Math.max(24.9, priceLow));
   const priceHigh = toNumber(row.price_high_brl, Number((priceMedian * 1.2).toFixed(2)));
   const hours = estimateHoursFromWeight(weightG);
-  const unverifiedMedia = hasUnverifiedMedia(row);
+  const pendingLocalMedia = !hasCsvCuratedLocalMedia(row.sku.trim());
+  const unverifiedMedia = pendingLocalMedia || hasUnverifiedMedia(row);
 
   return {
     id: makeIdFromSku(row.sku),
@@ -134,6 +133,7 @@ function buildCsvProduct(row: CsvRow, featured: boolean): Product {
       "deep-research-report",
       "csv-curado-160",
       ...(unverifiedMedia ? ["midia-nao-verificada"] : []),
+      ...(pendingLocalMedia ? ["midia-pendente-curadoria"] : []),
     ],
     price: priceMedian,
     printTime: `${hours}h`,

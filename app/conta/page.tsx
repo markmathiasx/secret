@@ -12,6 +12,7 @@ import {
   Sparkles,
   WalletCards,
 } from 'lucide-react';
+import { TwoFactorPanel } from '@/components/account/two-factor-panel';
 import { featuredCatalog, findProduct, getProductUrl } from '@/lib/catalog';
 import { emitCustomerAuthChange, useCustomerSession } from '@/lib/customer-session-client';
 import { getDisplayName, getMemberKey, listFavorites, listSavedQuotes, type SavedQuote } from '@/lib/member-store';
@@ -320,6 +321,10 @@ export default function AccountPage() {
             )) : <p className="text-sm text-white/70">Você ainda não tem pedido com este email. Quando comprar pelo checkout, o histórico aparece aqui.</p>}
           </div>
         </div>
+      </div>
+
+      <div className="mt-6">
+        <TwoFactorPanel />
       </div>
 
       <div className="mt-6 glass-panel p-6">

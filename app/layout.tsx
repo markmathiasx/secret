@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Manrope, Space_Grotesk } from 'next/font/google';
 import './globals.css';
+import { CartSessionBridge } from '@/components/cart-session-bridge';
 import { PwaRegister } from '@/components/pwa-register';
 import { RouteActionDock } from '@/components/route-action-dock';
 import { SiteAssistant } from '@/components/site-assistant';
@@ -158,6 +159,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }} />
         <div className="site-shell">
+          <CartSessionBridge />
           <SiteHeader
             cardCheckoutReady={cardCheckoutReady}
             aiAssistantReady={aiAssistantReady}

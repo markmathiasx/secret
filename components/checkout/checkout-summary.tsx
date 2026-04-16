@@ -30,6 +30,7 @@ export function CheckoutSummary({
   suggestedRoute,
   paymentMethod,
   paymentTitle,
+  pixPayment,
   orderChecklist,
   draftRestored,
 }: {
@@ -55,6 +56,12 @@ export function CheckoutSummary({
   suggestedRoute: string;
   paymentMethod: "pix" | "cartao" | "boleto";
   paymentTitle: string;
+  pixPayment?: {
+    payload?: string | null;
+    qrCodeBase64?: string | null;
+    expiresAt?: string | null;
+    provider?: string | null;
+  } | null;
   orderChecklist: ChecklistItem[];
   draftRestored: boolean;
 }) {
@@ -161,7 +168,14 @@ export function CheckoutSummary({
       </div>
 
       {paymentMethod === "pix" && product ? (
-        <PixPaymentCard title={paymentTitle} amount={totalPix} />
+        <PixPaymentCard
+          title={paymentTitle}
+          amount={totalPix}
+          payload={pixPayment?.payload}
+          qrCodeBase64={pixPayment?.qrCodeBase64}
+          expiresAt={pixPayment?.expiresAt}
+          providerLabel={pixPayment?.provider}
+        />
       ) : (
         <div className="glass-panel p-6 md:p-7">
           <p className="text-xs uppercase tracking-[0.2em] text-cyan-100/75">Pagamento</p>

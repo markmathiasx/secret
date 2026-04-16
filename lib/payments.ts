@@ -34,6 +34,7 @@ export async function createMercadoPagoPreference(input: {
 
   try {
     const preference = new Preference(client);
+    const backQuery = `order=${encodeURIComponent(input.externalReference)}`;
 
     const response = await preference.create({
       body: {
@@ -49,9 +50,9 @@ export async function createMercadoPagoPreference(input: {
         ],
         payer: input.payerEmail ? { email: input.payerEmail } : undefined,
         back_urls: {
-          success: `${siteUrl}/checkout?status=success`,
-          pending: `${siteUrl}/checkout?status=pending`,
-          failure: `${siteUrl}/checkout?status=failure`
+          success: `${siteUrl}/checkout?status=success&${backQuery}`,
+          pending: `${siteUrl}/checkout?status=pending&${backQuery}`,
+          failure: `${siteUrl}/checkout?status=failure&${backQuery}`
         },
         auto_return: 'approved',
         notification_url: `${siteUrl}/api/webhooks/mercadopago`
@@ -70,6 +71,73 @@ export async function createMercadoPagoPreference(input: {
       reason: 'mercadopago_error',
       fallbackMessage: `Não foi possível abrir o checkout agora. Continue por Pix ou WhatsApp. Valor estimado: ${formatCurrency(total)}.`,
       details: error instanceof Error ? error.message : 'Falha desconhecida no Mercado Pago.'
+    } as const;
+  }
+}
+
+export async function createMercadoPagoPixPayment(input: {
+  title: string;
+  amount: number;
+  externalReference: string;
+  payerEmail?: string | null;
+  customerName?: string | null;
+}) {
+  const siteUrl = getSiteUrl();
+  const client = getMercadoPagoConfig();
+
+  if (!client) {
+    return {
+      ok: false,
+      reason: "missing_access_token",
+      fallbackMessage: `Configure o MERCADOPAGO_ACCESS_TOKEN para gerar Pix dinâmico. Valor estimado: ${formatCurrency(input.amount)}.`,
+    } as const;
+  }
+
+  const expirationMinutes = Number(process.env.MERCADOPAGO_PIX_EXPIRES_MINUTES || 60);
+  const expiresAt = new Date(Date.now() + Math.max(15, expirationMinutes) * 60_000).toISOString();
+  const [firstName, ...restName] = (input.customerName || "").trim().split(/\s+/).filter(Boolean);
+  const lastName = restName.join(" ") || undefined;
+
+  try {
+    const payment = new Payment(client);
+    const response = await payment.create({
+      body: {
+        transaction_amount: Number(input.amount.toFixed(2)),
+        description: input.title,
+        external_reference: input.externalReference,
+        payment_method_id: "pix",
+        notification_url: `${siteUrl}/api/webhooks/mercadopago`,
+        date_of_expiration: expiresAt,
+        payer: {
+          email: input.payerEmail || process.env.MERCADOPAGO_FALLBACK_EMAIL || "checkout@mdh3d.com.br",
+          first_name: firstName || undefined,
+          last_name: lastName,
+        },
+        metadata: {
+          channel: "mdh-3d-store",
+          orderCode: input.externalReference,
+          paymentKind: "pix",
+        },
+      },
+    });
+
+    return {
+      ok: true,
+      paymentId: response.id ? String(response.id) : null,
+      payload: response.point_of_interaction?.transaction_data?.qr_code || null,
+      qrCodeBase64: response.point_of_interaction?.transaction_data?.qr_code_base64 || null,
+      ticketUrl: response.point_of_interaction?.transaction_data?.ticket_url || null,
+      status: response.status || "pending",
+      statusDetail: response.status_detail || null,
+      expiresAt: response.date_of_expiration || expiresAt,
+      response,
+    } as const;
+  } catch (error) {
+    return {
+      ok: false,
+      reason: "mercadopago_error",
+      fallbackMessage: `Não foi possível abrir o Pix dinâmico agora. Continue com o Pix manual temporário. Valor estimado: ${formatCurrency(input.amount)}.`,
+      details: error instanceof Error ? error.message : "Falha desconhecida ao criar o Pix dinâmico.",
     } as const;
   }
 }

@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { signIn } from 'next-auth/react';
+import { getProviders, signIn } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import { Apple, ArrowRight, LockKeyhole, Mail, MessageCircleMore, ShieldCheck, User } from 'lucide-react';
@@ -39,11 +39,14 @@ export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [loginRole, setLoginRole] = useState<'buyer' | 'seller' | 'admin'>('buyer');
+  const [twoFactorCode, setTwoFactorCode] = useState('');
+  const [providers, setProviders] = useState<Record<string, { id: string; name: string }>>({});
   const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
   const redirectTo = searchParams.get('redirect') || '';
   const verificationStatus = searchParams.get('verified') || '';
-  const hasGoogle = process.env.NEXT_PUBLIC_GOOGLE_AUTH_ENABLED === 'true';
-  const hasApple = process.env.NEXT_PUBLIC_APPLE_AUTH_ENABLED === 'true';
+  const hasGoogle = Boolean(providers.google);
+  const hasApple = Boolean(providers.apple);
   const passwordStrength = useMemo(() => getPasswordStrength(password), [password]);
   const loginContext = useMemo(() => {
     if (redirectTo.includes('/checkout')) return 'Entre para continuar o checkout com seus dados e pedidos salvos.';
@@ -70,6 +73,29 @@ export default function LoginPage() {
       setMessage('O link de verificação estava incompleto.');
     }
   }, [verificationStatus]);
+
+  useEffect(() => {
+    let active = true;
+
+    getProviders()
+      .then((availableProviders) => {
+        if (!active || !availableProviders) return;
+
+        const normalized = Object.values(availableProviders).reduce<Record<string, { id: string; name: string }>>((acc, provider) => {
+          acc[provider.id] = { id: provider.id, name: provider.name };
+          return acc;
+        }, {});
+
+        setProviders(normalized);
+      })
+      .catch(() => {
+        if (active) setProviders({});
+      });
+
+    return () => {
+      active = false;
+    };
+  }, []);
 
   async function handleEmailAuth(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -107,13 +133,18 @@ export default function LoginPage() {
       const result = await signIn('credentials', {
         email,
         password,
-        role: 'buyer',
+        role: mode === 'register' ? 'buyer' : loginRole,
+        twoFactorCode: mode === 'login' ? twoFactorCode.trim() || undefined : undefined,
         redirect: false,
         callbackUrl: redirectTo || '/conta',
       });
 
       if (result?.error) {
-        setMessage('Não foi possível validar seu acesso. Confira e-mail, senha e verificação de conta.');
+        setMessage(
+          mode === 'login'
+            ? 'Não foi possível validar seu acesso. Confira e-mail, senha, perfil selecionado e o código 2FA se sua conta já usa autenticação em duas etapas.'
+            : 'Não foi possível validar seu acesso. Confira os dados enviados.'
+        );
         return;
       }
 
@@ -182,6 +213,8 @@ export default function LoginPage() {
               type="button"
               onClick={() => {
                 setMode('register');
+                setLoginRole('buyer');
+                setTwoFactorCode('');
                 setMessage(null);
                 setSuccess(null);
               }}
@@ -274,13 +307,57 @@ export default function LoginPage() {
               </label>
             ) : null}
 
+            {mode === 'login' ? (
+              <>
+                <div className="rounded-[20px] border border-white/10 bg-black/20 p-4">
+                  <p className="text-xs uppercase tracking-[0.16em] text-white/45">Perfil de acesso</p>
+                  <div className="mt-3 grid gap-2 sm:grid-cols-3">
+                    {[
+                      { value: 'buyer', label: 'Comprador' },
+                      { value: 'seller', label: 'Vendedor' },
+                      { value: 'admin', label: 'Admin' },
+                    ].map((item) => (
+                      <button
+                        key={item.value}
+                        type="button"
+                        onClick={() => setLoginRole(item.value as typeof loginRole)}
+                        className={`rounded-full border px-4 py-2 text-sm font-semibold transition ${
+                          loginRole === item.value
+                            ? 'border-cyan-300/35 bg-cyan-300/12 text-cyan-50'
+                            : 'border-white/10 bg-white/5 text-white/70'
+                        }`}
+                      >
+                        {item.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <label className="block">
+                  <span className="mb-2 block text-sm text-white/70">Código 2FA ou backup code</span>
+                  <div className="field-base flex items-center gap-3">
+                    <ShieldCheck className="h-4 w-4 text-white/45" />
+                    <input
+                      value={twoFactorCode}
+                      onChange={(e) => setTwoFactorCode(e.target.value)}
+                      type="text"
+                      inputMode="numeric"
+                      autoComplete="one-time-code"
+                      className="w-full bg-transparent outline-none"
+                      placeholder="Preencha se sua conta usa 2FA"
+                    />
+                  </div>
+                </label>
+              </>
+            ) : null}
+
             <div className="rounded-[24px] border border-cyan-300/20 bg-cyan-300/10 p-4">
               <div className="flex items-start gap-3">
                 <ShieldCheck className="mt-0.5 h-5 w-5 text-cyan-100" />
                 <div>
                   <p className="text-sm font-semibold text-cyan-50">Armazenamento seguro</p>
                   <p className="mt-1 text-sm leading-6 text-cyan-100/78">
-                    A senha é transformada em hash no servidor e a sessão roda em cookie assinado, sem expor a credencial no navegador.
+                    A senha é transformada em hash no servidor, a sessão roda em cookie assinado e você pode ativar 2FA opcional por app autenticador.
                   </p>
                 </div>
               </div>

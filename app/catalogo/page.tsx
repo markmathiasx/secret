@@ -1,19 +1,16 @@
-import Link from 'next/link';
-import type { Metadata } from 'next';
-import { CatalogExplorer } from '@/components/catalog-explorer';
-import { CatalogBuyingIntents } from '@/components/catalog-buying-intents';
-import { CatalogRealCases } from '@/components/catalog-real-cases';
-import { ComboBuilder } from '@/components/combo-builder';
-import { getCatalogCategories, getCatalogCollections, getCatalogSnapshot } from '@/lib/catalog-repository';
-import { catalogShortcutLinks } from '@/lib/constants';
-import { summarizeProductVisuals } from '@/lib/product-visuals';
+import Link from "next/link";
+import type { Metadata } from "next";
+import { CatalogExplorer } from "@/components/catalog-explorer";
+import { CatalogRealCases } from "@/components/catalog-real-cases";
+import { catalog, categories, collections } from "@/lib/catalog";
+import { summarizeProductVisuals } from "@/lib/product-visuals";
 
 export const metadata: Metadata = {
-  title: 'Catálogo',
+  title: "Catálogo",
   description:
-    'Catálogo MDH 3D com peças reais, itens sob encomenda, fotos reais, render fiel e curadoria por intenção de compra.',
+    "Catálogo MDH 3D com foco inicial em foto real para reduzir ruído visual e aumentar confiança comercial.",
   alternates: {
-    canonical: '/catalogo',
+    canonical: "/catalogo",
   },
 };
 
@@ -31,42 +28,44 @@ type CatalogPageSearchParams = {
   max?: string;
 };
 
-export default async function CatalogPage({ searchParams }: { searchParams?: Promise<CatalogPageSearchParams> }) {
-  const catalog = await getCatalogSnapshot();
-  const categories = await getCatalogCategories();
-  const collections = await getCatalogCollections();
+export default async function CatalogPage({
+  searchParams,
+}: {
+  searchParams?: Promise<CatalogPageSearchParams>;
+}) {
   const params = searchParams ? await searchParams : undefined;
-  const initialQuery = params?.q?.trim() || '';
-  const initialCategory = params?.category && categories.includes(params.category) ? params.category : 'Todas';
-  const initialCollection = params?.collection && collections.includes(params.collection) ? params.collection : 'Todas';
-  const initialVisualMode = params?.mode === 'real' ? 'real' : params?.mode === 'verified' ? 'verified' : 'all';
-  const initialAvailability = params?.status === 'Pronta entrega' || params?.status === 'Sob encomenda' ? params.status : 'Todos';
-  const initialMaterial = params?.material?.trim() || 'Todos';
-  const initialIntent = params?.intent?.trim() || 'Geral';
-  const initialOrder = params?.sort?.trim() || 'Mais Recentes';
-  const initialCustomizableOnly = params?.custom === '1';
+  const initialQuery = params?.q?.trim() || "";
+  const initialCategory = params?.category && categories.includes(params.category) ? params.category : "Todas";
+  const initialCollection =
+    params?.collection && collections.includes(params.collection) ? params.collection : "Todas";
+  const initialVisualMode =
+    params?.mode === "verified" ? "verified" : params?.mode === "all" ? "all" : "real";
+  const initialAvailability =
+    params?.status === "Pronta entrega" || params?.status === "Sob encomenda" ? params.status : "Todos";
+  const initialMaterial = params?.material?.trim() || "Todos";
+  const initialIntent = params?.intent?.trim() || "Geral";
+  const initialOrder = params?.sort?.trim() || "Mais Recentes";
+  const initialCustomizableOnly = params?.custom === "1";
   const initialMin = params?.min ? Number(params.min) : undefined;
   const initialMax = params?.max ? Number(params.max) : undefined;
+
   const visualSummary = summarizeProductVisuals(catalog);
-  const auditedPricingCount = catalog.filter((product) => product.pricingMode === 'faixa-auditada').length;
   const activeLens = [
-    initialCategory !== 'Todas' ? initialCategory : null,
-    initialCollection !== 'Todas' ? initialCollection : null,
+    initialCategory !== "Todas" ? initialCategory : null,
+    initialCollection !== "Todas" ? initialCollection : null,
     initialQuery ? `Busca: ${initialQuery}` : null,
-    initialVisualMode === 'real' ? 'Só foto real' : initialVisualMode === 'verified' ? 'Visual validado' : null,
-    initialAvailability !== 'Todos' ? initialAvailability : null,
-    initialMaterial !== 'Todos' ? initialMaterial : null,
-    initialIntent !== 'Geral' ? initialIntent : null,
-    initialCustomizableOnly ? 'Personalizáveis' : null,
+    initialVisualMode === "real"
+      ? "Só foto real"
+      : initialVisualMode === "verified"
+      ? "Foto real + render fiel"
+      : "Todos os visuais",
+    initialAvailability !== "Todos" ? initialAvailability : null,
+    initialMaterial !== "Todos" ? initialMaterial : null,
+    initialIntent !== "Geral" ? initialIntent : null,
+    initialCustomizableOnly ? "Personalizáveis" : null,
   ]
     .filter(Boolean)
-    .join(' • ');
-  const heroTitle = activeLens
-    ? 'Catálogo filtrado para chegar mais rápido no tipo de peça certa.'
-    : 'Peças reais, projetos sob medida e preços claros para comprar com segurança.';
-  const heroDescription = activeLens
-    ? 'Os filtros da URL agora entram ativos na vitrine para você compartilhar uma seleção pronta de presentes, utilidades, colecionáveis ou peças sob medida.'
-    : 'A vitrine abre destacando peças com foto real e visuais já validados. Quando um item ainda está em fase de projeto, o catálogo assume isso com transparência e mostra uma estimativa inicial para encomenda.';
+    .join(" • ");
 
   return (
     <section className="catalog-page-shell mx-auto w-full max-w-7xl px-3 pb-14 pt-24 sm:px-4 md:px-6 md:py-16">
@@ -74,49 +73,50 @@ export default async function CatalogPage({ searchParams }: { searchParams?: Pro
         <div className="grid gap-6 md:gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
           <div className="max-w-3xl">
             <p className="text-xs uppercase tracking-[0.22em] text-cyan-200">Catálogo MDH 3D</p>
-            <h1 className="catalog-hero-title mt-3 break-words text-3xl font-black leading-[1.06] text-white sm:text-4xl md:text-5xl">{heroTitle}</h1>
-            <p className="mt-4 text-base leading-7 text-white/72 md:text-lg md:leading-8">{heroDescription}</p>
-            {activeLens ? (
-              <div className="catalog-active-lens mt-5 inline-flex max-w-full rounded-full border border-cyan-300/25 bg-cyan-300/10 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-cyan-100 md:text-xs md:tracking-[0.18em]">
-                {activeLens}
-              </div>
-            ) : null}
+            <h1 className="catalog-hero-title mt-3 break-words text-3xl font-black leading-[1.06] text-white sm:text-4xl md:text-5xl">
+              A vitrine abre em modo foto real por padrão.
+            </h1>
+            <p className="mt-4 text-base leading-7 text-white/72 md:text-lg md:leading-8">
+              A prioridade agora é vender com confiança visual. Itens com render fiel ou referência visual continuam
+              acessíveis, mas a primeira leitura do catálogo passa a destacar só o que já tem foto do objeto físico.
+            </p>
+
+            <div className="catalog-active-lens mt-5 inline-flex max-w-full rounded-full border border-cyan-300/25 bg-cyan-300/10 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-cyan-100 md:text-xs md:tracking-[0.18em]">
+              {activeLens}
+            </div>
+
             <div className="mt-6 flex flex-wrap gap-2.5 md:gap-3">
               <Link
-                href="#catalogo-real"
+                href="/catalogo?mode=real"
                 className="rounded-full border border-cyan-300/25 bg-cyan-300/10 px-4 py-2.5 text-xs font-semibold text-cyan-100 transition hover:border-cyan-300/40 hover:bg-cyan-300/15 md:px-5 md:py-3 md:text-sm"
               >
-                Ver peças com foto real
+                Só foto real
               </Link>
               <Link
-                href="#catalogo-vitrine"
+                href="/catalogo?mode=verified"
                 className="rounded-full border border-violet-300/20 bg-violet-300/10 px-4 py-2.5 text-xs font-semibold text-violet-100 transition hover:border-violet-300/40 hover:bg-violet-300/15 md:px-5 md:py-3 md:text-sm"
               >
-                Ir para vitrine
+                Foto real + render fiel
               </Link>
               <Link
-                href="#combo-builder"
-                className="rounded-full border border-emerald-300/20 bg-emerald-300/10 px-4 py-2.5 text-xs font-semibold text-emerald-100 transition hover:border-emerald-300/40 hover:bg-emerald-300/15 md:px-5 md:py-3 md:text-sm"
-              >
-                Montar combo
-              </Link>
-              <Link
-                href="/imagem-para-impressao-3d"
+                href="/catalogo?mode=all"
                 className="rounded-full border border-white/10 bg-white/5 px-4 py-2.5 text-xs font-semibold text-white/80 transition hover:border-white/20 hover:text-white md:px-5 md:py-3 md:text-sm"
               >
-                Pedir projeto personalizado
+                Ver tudo
               </Link>
             </div>
           </div>
 
           <div className="grid gap-3 sm:grid-cols-3">
             {[
-              { label: 'Produtos ativos', value: String(catalog.length).padStart(4, '0') },
-              { label: 'Fotos reais', value: String(visualSummary.fotoReal).padStart(2, '0') },
-              { label: 'Preços confirmados', value: String(auditedPricingCount).padStart(2, '0') }
+              { label: "Produtos ativos", value: String(catalog.length).padStart(4, "0") },
+              { label: "Fotos reais", value: String(visualSummary.fotoReal).padStart(2, "0") },
+              { label: "Visuais conceituais", value: String(visualSummary.imagemConceitual).padStart(2, "0") },
             ].map((item) => (
               <div key={item.label} className="min-w-0 rounded-[22px] border border-white/12 bg-black/20 p-4 md:rounded-[28px] md:p-5">
-                <p className="text-[10px] uppercase tracking-[0.14em] text-white/55 md:text-xs md:tracking-[0.18em]">{item.label}</p>
+                <p className="text-[10px] uppercase tracking-[0.14em] text-white/55 md:text-xs md:tracking-[0.18em]">
+                  {item.label}
+                </p>
                 <p className="mt-2 break-words text-2xl font-black text-white md:mt-3 md:text-3xl">{item.value}</p>
               </div>
             ))}
@@ -124,41 +124,17 @@ export default async function CatalogPage({ searchParams }: { searchParams?: Pro
         </div>
       </div>
 
-      <div className="mt-5 grid gap-3 md:grid-cols-3">
-        {[
-          { label: 'Autenticidade', value: 'Foto real, render fiel e referência visual separados com clareza' },
-          { label: 'Compartilhamento', value: 'Filtros podem virar uma vitrine pronta para enviar ao cliente' },
-          { label: 'Fechamento', value: 'Catálogo, WhatsApp e checkout conectados na mesma jornada' }
-        ].map((item) => (
-          <div key={item.label} className="surface-stat rounded-[24px] px-4 py-4">
-            <p className="text-[11px] uppercase tracking-[0.18em] text-white/50">{item.label}</p>
-            <p className="mt-3 text-sm leading-6 text-white/80">{item.value}</p>
-          </div>
-        ))}
+      <div className="glass-panel mt-8 rounded-[28px] border border-emerald-300/15 bg-emerald-300/8 p-5 text-sm leading-7 text-emerald-50/90">
+        <p className="text-xs uppercase tracking-[0.18em] text-emerald-100/80">Leitura comercial</p>
+        <p className="mt-2">
+          Para divulgação e tráfego pago, a primeira camada do catálogo passa a abrir em <strong>só foto real</strong>.
+          Isso reduz a chance de o cliente entrar e achar que o produto ainda está em conceito.
+        </p>
       </div>
 
-      <div className="mt-5 flex flex-wrap gap-2">
-        {catalogShortcutLinks.map((item) => (
-          <Link
-            key={item.href}
-            href={item.href}
-            className="rounded-full border border-white/12 bg-white/5 px-4 py-2 text-xs font-semibold text-white/78 transition hover:border-cyan-300/30 hover:bg-cyan-300/10 hover:text-cyan-100"
-          >
-            {item.label}
-          </Link>
-        ))}
+      <div id="catalogo-real" className="mt-12">
+        <CatalogRealCases />
       </div>
-
-        <div className="glass-panel mt-8 rounded-[28px] border border-amber-300/15 bg-amber-300/8 p-5 text-sm leading-7 text-amber-50/90">
-          <p className="text-xs uppercase tracking-[0.18em] text-amber-100/80">Como ler a vitrine</p>
-          <p className="mt-2">
-          Foto real indica peça já produzida. Render do produto mostra a geometria real do modelo. Referência visual ajuda a entender o objeto anunciado quando ainda não há foto real, mantendo a compra mais clara sem vender a imagem como prova de peça pronta.
-          </p>
-        </div>
-
-      <CatalogBuyingIntents products={catalog} />
-
-      <CatalogRealCases />
 
       <div id="catalogo-vitrine" className="catalog-video-shell relative isolate mt-8 overflow-hidden rounded-[28px] border border-cyan-200/45 shadow-[0_28px_84px_rgba(2,8,23,0.18)] md:mt-10 md:rounded-[36px]">
         <video
@@ -193,10 +169,6 @@ export default async function CatalogPage({ searchParams }: { searchParams?: Pro
             />
           </div>
         </div>
-      </div>
-
-      <div id="combo-builder" className="mt-16">
-        <ComboBuilder />
       </div>
     </section>
   );

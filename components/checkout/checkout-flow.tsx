@@ -61,6 +61,12 @@ export function CheckoutFlow() {
   const [loading, setLoading] = useState(false);
   const [orderCode, setOrderCode] = useState<string | null>(null);
   const [pixPayload, setPixPayload] = useState<string | null>(null);
+  const [pixPayment, setPixPayment] = useState<{
+    payload?: string | null;
+    qrCodeBase64?: string | null;
+    expiresAt?: string | null;
+    provider?: string | null;
+  } | null>(null);
   const [draftHydrated, setDraftHydrated] = useState(false);
   const [draftRestored, setDraftRestored] = useState(false);
 
@@ -151,8 +157,14 @@ export function CheckoutFlow() {
 
   useEffect(() => {
     const checkoutStatus = searchParams.get("status");
+    const checkoutOrder = searchParams.get("order");
     if (!checkoutStatus) return;
     setStatus(PAYMENT_STATUS[checkoutStatus] || null);
+    if (checkoutOrder) {
+      setOrderCode(checkoutOrder);
+      setPaymentMethod("cartao");
+      setCurrentStep(3);
+    }
   }, [searchParams]);
 
   useEffect(() => {
@@ -295,6 +307,7 @@ export function CheckoutFlow() {
     setPaymentMethod("pix");
     setOrderCode(null);
     setPixPayload(null);
+    setPixPayment(null);
     setStatus(null);
     setDraftRestored(false);
   }
@@ -344,6 +357,7 @@ export function CheckoutFlow() {
     setLoading(true);
     setStatus(null);
     setPixPayload(null);
+    setPixPayment(null);
     setOrderCode(null);
 
     try {
@@ -386,6 +400,7 @@ export function CheckoutFlow() {
             quantity,
             email,
             orderCode: orderData.orderCode || undefined,
+            amount: totalCard,
           }),
         });
         const cardData = await cardResponse.json().catch(() => ({}));
@@ -401,11 +416,29 @@ export function CheckoutFlow() {
         const pixResponse = await fetch("/api/pix", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ title: `${product.name} • ${orderData.orderCode}`, amount: totalPix }),
+          body: JSON.stringify({
+            title: `${product.name} • ${orderData.orderCode}`,
+            amount: totalPix,
+            orderCode: orderData.orderCode || undefined,
+            email,
+            customerName,
+          }),
         });
         const pixData = await pixResponse.json().catch(() => ({}));
-        if (pixResponse.ok) setPixPayload(pixData.payload || null);
-        setStatus(`Pedido ${orderData.orderCode} criado. Pague no Pix pela chave ${pix.key} ou pelo QR Code abaixo e depois confirme no WhatsApp.`);
+        if (pixResponse.ok) {
+          setPixPayload(pixData.payload || null);
+          setPixPayment({
+            payload: pixData.payload || null,
+            qrCodeBase64: pixData.qrCodeBase64 || null,
+            expiresAt: pixData.expiresAt || null,
+            provider: pixData.provider === "mercado-pago" ? "Mercado Pago" : "Pix manual",
+          });
+        }
+        setStatus(
+          pixData.provider === "mercado-pago"
+            ? `Pedido ${orderData.orderCode} criado. O QR dinâmico do Mercado Pago já está pronto abaixo para pagamento imediato.`
+            : `Pedido ${orderData.orderCode} criado. O Pix fallback está pronto abaixo. Se preferir, você também pode pagar pela chave ${pix.key}.`
+        );
         return;
       }
 
@@ -467,6 +500,7 @@ export function CheckoutFlow() {
           suggestedRoute={suggestedRoute}
           paymentMethod={paymentMethod}
           paymentTitle={paymentTitle}
+          pixPayment={pixPayment}
           orderChecklist={orderChecklist}
           draftRestored={draftRestored}
         />
