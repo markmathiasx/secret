@@ -1,0 +1,49 @@
+PROCESSO COMPLETO: PRISMA + LOGIN + BUILD + PUSH
+
+POR QUE ISSO EXISTE
+- seu auth usa PrismaAdapter e o código importa PrismaClient em runtime
+- sua branch passou a usar Prisma 7, mas o schema atual ainda usa datasource com url/directUrl
+- isso quebra o prisma generate com erro P1012
+- a correção mais segura e rápida é voltar para Prisma 6 no estado atual do projeto
+
+O QUE ESTE PACOTE FAZ
+1. ajusta package.json para Prisma 6.16.3
+2. mantém @prisma/client em dependencies (runtime)
+3. mantém prisma CLI em devDependencies
+4. instala dependências, roda prisma generate e build
+5. abre as rotas principais para validação manual
+6. deixa um script de commit/push já corrigido
+
+COMO RODAR
+1. extraia este ZIP por cima da raiz do projeto
+2. no PowerShell:
+   powershell -ExecutionPolicy Bypass -File .\FIXAR-PRISMA-LOGIN-BUILD.ps1
+3. depois:
+   powershell -ExecutionPolicy Bypass -File .\ABRIR-E-VALIDAR-ROTAS.ps1
+4. se estiver ok:
+   powershell -ExecutionPolicy Bypass -File .\SUBIR-ALTERACOES.ps1
+
+VALIDAÇÃO MANUAL
+- /catalogo abre sem erro 500
+- /login abre e renderiza formulário
+- /conta abre como visitante ou usuário logado
+- /checkout abre
+- se houver DATABASE_URL real e dados no banco:
+  - testar cadastro
+  - testar login
+  - testar reset de senha
+  - testar 2FA
+  - testar pedidos/endereços na conta
+
+VARIÁVEIS IMPORTANTES
+- DATABASE_URL
+- DIRECT_URL
+- AUTH_SECRET ou NEXTAUTH_SECRET
+- AUTH_URL ou NEXTAUTH_URL
+- SMTP_HOST / SMTP_PORT / SMTP_USER / SMTP_PASS / EMAIL_FROM
+- GOOGLE_CLIENT_ID / GOOGLE_CLIENT_SECRET (opcional)
+- APPLE_ID / APPLE_SECRET (opcional)
+
+OBSERVAÇÃO
+- isto corrige o bloqueio técnico do Prisma 7
+- não cria banco, não popula usuário, não configura SMTP sozinho
