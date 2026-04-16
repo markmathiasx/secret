@@ -108,6 +108,36 @@ async function readJsonBlob(pathname: string) {
   return JSON.parse(text) as BlobStoreRecord;
 }
 
+export async function writeSecureBlobJson(pathname: string, data: unknown) {
+  return put(pathname, JSON.stringify(data), {
+    access: "private",
+    token: requireOrderBlobToken(),
+    addRandomSuffix: false,
+    allowOverwrite: true,
+    contentType: "application/json",
+    cacheControlMaxAge: 60,
+  });
+}
+
+export async function readSecureBlobJson<T>(pathname: string) {
+  const result = await get(pathname, {
+    access: "private",
+    token: requireOrderBlobToken(),
+    useCache: false,
+  });
+
+  if (!result || result.statusCode !== 200 || !result.stream) {
+    return null;
+  }
+
+  const text = await new Response(result.stream).text();
+  if (!text.trim()) {
+    return null;
+  }
+
+  return JSON.parse(text) as T;
+}
+
 async function listJsonBlobs(prefix: string, limit: number) {
   const blobs = [];
   let cursor: string | undefined;

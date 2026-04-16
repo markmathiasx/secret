@@ -2,6 +2,7 @@ import { promises as fs } from "node:fs";
 import path from "node:path";
 import { randomBytes, scryptSync, timingSafeEqual } from "node:crypto";
 import { createClient } from "@supabase/supabase-js";
+import { isOrderBlobConfigured, readSecureBlobJson, writeSecureBlobJson } from "@/lib/blob-store";
 import { getSupabaseEnv } from "@/lib/env";
 
 export type AuthRole = "customer" | "admin";
@@ -35,6 +36,7 @@ const STORE_DIR =
   (process.env.AUTH_STORE_DIR || "").trim() ||
   (process.env.VERCEL ? path.join("/tmp", "mdh-auth-store") : path.join(process.cwd(), "secret"));
 const STORE_FILE = path.join(STORE_DIR, "auth-users.json");
+const STORE_BLOB_PATH = "auth/auth-users.json";
 const DEFAULT_STORE: UserStore = { version: 1, users: [] };
 
 let writeQueue = Promise.resolve();
@@ -115,6 +117,7 @@ function sanitizeStore(raw: unknown): UserStore {
 }
 
 async function ensureStoreFile() {
+  if (isOrderBlobConfigured()) return;
   if (isFsUnavailable()) return;
 
   try {
@@ -132,6 +135,14 @@ async function ensureStoreFile() {
 }
 
 async function readStore() {
+  if (isOrderBlobConfigured()) {
+    try {
+      return sanitizeStore((await readSecureBlobJson<UserStore>(STORE_BLOB_PATH)) || DEFAULT_STORE);
+    } catch {
+      return cloneStore(getMemoryStore());
+    }
+  }
+
   await ensureStoreFile();
   if (isFsUnavailable()) {
     return cloneStore(getMemoryStore());
@@ -147,6 +158,17 @@ async function readStore() {
 }
 
 async function writeStore(store: UserStore) {
+  if (isOrderBlobConfigured()) {
+    try {
+      await writeSecureBlobJson(STORE_BLOB_PATH, store);
+      return;
+    } catch {
+      const scope = getRuntimeScope();
+      scope.__mdhAuthStoreMemory = cloneStore(store);
+      return;
+    }
+  }
+
   await ensureStoreFile();
   if (isFsUnavailable()) {
     const scope = getRuntimeScope();
