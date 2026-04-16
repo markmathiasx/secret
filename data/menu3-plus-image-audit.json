@@ -1,0 +1,1554 @@
+{
+  "generatedAt": "2026-04-16T09:10:57.440Z",
+  "scope": "Menu 3 em diante do catalogo CSV consolidado: UTI-001..UTI-040 e COL-001..COL-040",
+  "totalSlugs": 80,
+  "wrongBefore": 80,
+  "corrected": 80,
+  "validPrimaryImagesAfter": 80,
+  "duplicateImagesAfter": [],
+  "slugs": [
+    "kit-ferramenta-gamer-jett-valorant-organizador-utilitario-para-mesa-cabos-e-setup",
+    "porta-ferramentas-reyna-valorant-para-mesa-gamer-oficina-criativa-e-home-office",
+    "suporte-multiuso-sage-valorant-para-headset-controle-cabos-e-acessorios",
+    "organizador-modular-omen-valorant-para-ferramentas-leves-pecas-e-acessorios-nerd",
+    "kit-ferramenta-gamer-ahri-league-of-legends-organizador-utilitario-para-mesa-cabos-e-setup",
+    "porta-ferramentas-yasuo-league-of-legends-para-mesa-gamer-oficina-criativa-e-home-office",
+    "suporte-multiuso-jinx-league-of-legends-para-headset-controle-cabos-e-acessorios",
+    "organizador-modular-lux-league-of-legends-para-ferramentas-leves-pecas-e-acessorios-nerd",
+    "kit-ferramenta-gamer-ghost-call-of-duty-organizador-utilitario-para-mesa-cabos-e-setup",
+    "porta-ferramentas-soap-call-of-duty-para-mesa-gamer-oficina-criativa-e-home-office",
+    "suporte-multiuso-task-force-call-of-duty-para-headset-controle-cabos-e-acessorios",
+    "organizador-modular-warzone-call-of-duty-para-ferramentas-leves-pecas-e-acessorios-nerd",
+    "kit-ferramenta-gamer-creeper-minecraft-organizador-utilitario-para-mesa-cabos-e-setup",
+    "porta-ferramentas-steve-minecraft-para-mesa-gamer-oficina-criativa-e-home-office",
+    "suporte-multiuso-alex-minecraft-para-headset-controle-cabos-e-acessorios",
+    "organizador-modular-enderman-minecraft-para-ferramentas-leves-pecas-e-acessorios-nerd",
+    "kit-ferramenta-gamer-lhama-fortnite-organizador-utilitario-para-mesa-cabos-e-setup",
+    "porta-ferramentas-battle-royale-fortnite-para-mesa-gamer-oficina-criativa-e-home-office",
+    "suporte-multiuso-victory-crown-fortnite-para-headset-controle-cabos-e-acessorios",
+    "organizador-modular-peely-fortnite-para-ferramentas-leves-pecas-e-acessorios-nerd",
+    "kit-ferramenta-gamer-awp-cs2-organizador-utilitario-para-mesa-cabos-e-setup",
+    "porta-ferramentas-ak-47-cs2-para-mesa-gamer-oficina-criativa-e-home-office",
+    "suporte-multiuso-knife-cs2-para-headset-controle-cabos-e-acessorios",
+    "organizador-modular-defuse-cs2-para-ferramentas-leves-pecas-e-acessorios-nerd",
+    "kit-ferramenta-gamer-los-santos-gta-v-organizador-utilitario-para-mesa-cabos-e-setup",
+    "porta-ferramentas-franklin-gta-v-para-mesa-gamer-oficina-criativa-e-home-office",
+    "suporte-multiuso-trevor-gta-v-para-headset-controle-cabos-e-acessorios",
+    "organizador-modular-michael-gta-v-para-ferramentas-leves-pecas-e-acessorios-nerd",
+    "kit-ferramenta-gamer-spider-man-marvel-organizador-utilitario-para-mesa-cabos-e-setup",
+    "porta-ferramentas-iron-man-marvel-para-mesa-gamer-oficina-criativa-e-home-office",
+    "suporte-multiuso-deadpool-marvel-para-headset-controle-cabos-e-acessorios",
+    "organizador-modular-groot-marvel-para-ferramentas-leves-pecas-e-acessorios-nerd",
+    "kit-ferramenta-gamer-darth-vader-star-wars-organizador-utilitario-para-mesa-cabos-e-setup",
+    "porta-ferramentas-stormtrooper-star-wars-para-mesa-gamer-oficina-criativa-e-home-office",
+    "suporte-multiuso-mandalorian-star-wars-para-headset-controle-cabos-e-acessorios",
+    "organizador-modular-grogu-star-wars-para-ferramentas-leves-pecas-e-acessorios-nerd",
+    "kit-ferramenta-gamer-pikachu-pokemon-organizador-utilitario-para-mesa-cabos-e-setup",
+    "porta-ferramentas-charmander-pokemon-para-mesa-gamer-oficina-criativa-e-home-office",
+    "suporte-multiuso-gengar-pokemon-para-headset-controle-cabos-e-acessorios",
+    "organizador-modular-eevee-pokemon-para-ferramentas-leves-pecas-e-acessorios-nerd",
+    "mini-estatua-colecionavel-jett-valorant-edicao-decor-para-estante-mesa-e-setup",
+    "caneca-colecionavel-reyna-valorant-nerd-premium-para-cafe-desk-e-presente",
+    "mousepad-colecionavel-sage-valorant-desk-mat-gamer-para-setup-profissional",
+    "poster-premium-omen-valorant-colecionavel-para-parede-estudio-e-espaco-geek",
+    "mini-estatua-colecionavel-ahri-league-of-legends-edicao-decor-para-estante-mesa-e-setup",
+    "caneca-colecionavel-yasuo-league-of-legends-nerd-premium-para-cafe-desk-e-presente",
+    "mousepad-colecionavel-jinx-league-of-legends-desk-mat-gamer-para-setup-profissional",
+    "poster-premium-lux-league-of-legends-colecionavel-para-parede-estudio-e-espaco-geek",
+    "mini-estatua-colecionavel-ghost-call-of-duty-edicao-decor-para-estante-mesa-e-setup",
+    "caneca-colecionavel-soap-call-of-duty-nerd-premium-para-cafe-desk-e-presente",
+    "mousepad-colecionavel-task-force-call-of-duty-desk-mat-gamer-para-setup-profissional",
+    "poster-premium-warzone-call-of-duty-colecionavel-para-parede-estudio-e-espaco-geek",
+    "mini-estatua-colecionavel-creeper-minecraft-edicao-decor-para-estante-mesa-e-setup",
+    "caneca-colecionavel-steve-minecraft-nerd-premium-para-cafe-desk-e-presente",
+    "mousepad-colecionavel-alex-minecraft-desk-mat-gamer-para-setup-profissional",
+    "poster-premium-enderman-minecraft-colecionavel-para-parede-estudio-e-espaco-geek",
+    "mini-estatua-colecionavel-lhama-fortnite-edicao-decor-para-estante-mesa-e-setup",
+    "caneca-colecionavel-battle-royale-fortnite-nerd-premium-para-cafe-desk-e-presente",
+    "mousepad-colecionavel-victory-crown-fortnite-desk-mat-gamer-para-setup-profissional",
+    "poster-premium-peely-fortnite-colecionavel-para-parede-estudio-e-espaco-geek",
+    "mini-estatua-colecionavel-awp-cs2-edicao-decor-para-estante-mesa-e-setup",
+    "caneca-colecionavel-ak-47-cs2-nerd-premium-para-cafe-desk-e-presente",
+    "mousepad-colecionavel-knife-cs2-desk-mat-gamer-para-setup-profissional",
+    "poster-premium-defuse-cs2-colecionavel-para-parede-estudio-e-espaco-geek",
+    "mini-estatua-colecionavel-los-santos-gta-v-edicao-decor-para-estante-mesa-e-setup",
+    "caneca-colecionavel-franklin-gta-v-nerd-premium-para-cafe-desk-e-presente",
+    "mousepad-colecionavel-trevor-gta-v-desk-mat-gamer-para-setup-profissional",
+    "poster-premium-michael-gta-v-colecionavel-para-parede-estudio-e-espaco-geek",
+    "mini-estatua-colecionavel-spider-man-marvel-edicao-decor-para-estante-mesa-e-setup",
+    "caneca-colecionavel-iron-man-marvel-nerd-premium-para-cafe-desk-e-presente",
+    "mousepad-colecionavel-deadpool-marvel-desk-mat-gamer-para-setup-profissional",
+    "poster-premium-groot-marvel-colecionavel-para-parede-estudio-e-espaco-geek",
+    "mini-estatua-colecionavel-darth-vader-star-wars-edicao-decor-para-estante-mesa-e-setup",
+    "caneca-colecionavel-stormtrooper-star-wars-nerd-premium-para-cafe-desk-e-presente",
+    "mousepad-colecionavel-mandalorian-star-wars-desk-mat-gamer-para-setup-profissional",
+    "poster-premium-grogu-star-wars-colecionavel-para-parede-estudio-e-espaco-geek",
+    "mini-estatua-colecionavel-pikachu-pokemon-edicao-decor-para-estante-mesa-e-setup",
+    "caneca-colecionavel-charmander-pokemon-nerd-premium-para-cafe-desk-e-presente",
+    "mousepad-colecionavel-gengar-pokemon-desk-mat-gamer-para-setup-profissional",
+    "poster-premium-eevee-pokemon-colecionavel-para-parede-estudio-e-espaco-geek"
+  ],
+  "items": [
+    {
+      "index": 81,
+      "sku": "UTI-001",
+      "id": "csv-uti-001",
+      "slug": "kit-ferramenta-gamer-jett-valorant-organizador-utilitario-para-mesa-cabos-e-setup",
+      "title": "Kit Ferramenta Gamer Jett Valorant Organizador Utilitário para Mesa, Cabos e Setup",
+      "category": "Utilitários/Ferramentas",
+      "image": "/products/csv-curated/uti-001/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "3abcd3ed70f3ee1d",
+      "afterSha": "e3e52eec6cbda624",
+      "afterSize": 23938
+    },
+    {
+      "index": 82,
+      "sku": "UTI-002",
+      "id": "csv-uti-002",
+      "slug": "porta-ferramentas-reyna-valorant-para-mesa-gamer-oficina-criativa-e-home-office",
+      "title": "Porta Ferramentas Reyna Valorant para Mesa Gamer, Oficina Criativa e Home Office",
+      "category": "Utilitários/Ferramentas",
+      "image": "/products/csv-curated/uti-002/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "908c7b2da3a605dc",
+      "afterSha": "cb88d64f5a63ef57",
+      "afterSize": 26412
+    },
+    {
+      "index": 83,
+      "sku": "UTI-003",
+      "id": "csv-uti-003",
+      "slug": "suporte-multiuso-sage-valorant-para-headset-controle-cabos-e-acessorios",
+      "title": "Suporte Multiuso Sage Valorant para Headset, Controle, Cabos e Acessórios",
+      "category": "Utilitários/Ferramentas",
+      "image": "/products/csv-curated/uti-003/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel",
+        "arquivo_pequeno_baixa_confianca"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "e73da92900a428b1",
+      "afterSha": "1a0ee9778655edc0",
+      "afterSize": 27216
+    },
+    {
+      "index": 84,
+      "sku": "UTI-004",
+      "id": "csv-uti-004",
+      "slug": "organizador-modular-omen-valorant-para-ferramentas-leves-pecas-e-acessorios-nerd",
+      "title": "Organizador Modular Omen Valorant para Ferramentas Leves, Peças e Acessórios Nerd",
+      "category": "Utilitários/Ferramentas",
+      "image": "/products/csv-curated/uti-004/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "80d0884603297dd2",
+      "afterSha": "c2f15420d3e3efac",
+      "afterSize": 25322
+    },
+    {
+      "index": 85,
+      "sku": "UTI-005",
+      "id": "csv-uti-005",
+      "slug": "kit-ferramenta-gamer-ahri-league-of-legends-organizador-utilitario-para-mesa-cabos-e-setup",
+      "title": "Kit Ferramenta Gamer Ahri League of Legends Organizador Utilitário para Mesa, Cabos e Setup",
+      "category": "Utilitários/Ferramentas",
+      "image": "/products/csv-curated/uti-005/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "b4027a6e4ecc2e38",
+      "afterSha": "200a31446474483d",
+      "afterSize": 24318
+    },
+    {
+      "index": 86,
+      "sku": "UTI-006",
+      "id": "csv-uti-006",
+      "slug": "porta-ferramentas-yasuo-league-of-legends-para-mesa-gamer-oficina-criativa-e-home-office",
+      "title": "Porta Ferramentas Yasuo League of Legends para Mesa Gamer, Oficina Criativa e Home Office",
+      "category": "Utilitários/Ferramentas",
+      "image": "/products/csv-curated/uti-006/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "89aca4e772adb427",
+      "afterSha": "a3cd481377304f77",
+      "afterSize": 27248
+    },
+    {
+      "index": 87,
+      "sku": "UTI-007",
+      "id": "csv-uti-007",
+      "slug": "suporte-multiuso-jinx-league-of-legends-para-headset-controle-cabos-e-acessorios",
+      "title": "Suporte Multiuso Jinx League of Legends para Headset, Controle, Cabos e Acessórios",
+      "category": "Utilitários/Ferramentas",
+      "image": "/products/csv-curated/uti-007/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "20a025d19e90be3b",
+      "afterSha": "b666d42860fdcbe8",
+      "afterSize": 28104
+    },
+    {
+      "index": 88,
+      "sku": "UTI-008",
+      "id": "csv-uti-008",
+      "slug": "organizador-modular-lux-league-of-legends-para-ferramentas-leves-pecas-e-acessorios-nerd",
+      "title": "Organizador Modular Lux League of Legends para Ferramentas Leves, Peças e Acessórios Nerd",
+      "category": "Utilitários/Ferramentas",
+      "image": "/products/csv-curated/uti-008/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "6a2365e3f1cc56fa",
+      "afterSha": "9dd39374625eaa04",
+      "afterSize": 26120
+    },
+    {
+      "index": 89,
+      "sku": "UTI-009",
+      "id": "csv-uti-009",
+      "slug": "kit-ferramenta-gamer-ghost-call-of-duty-organizador-utilitario-para-mesa-cabos-e-setup",
+      "title": "Kit Ferramenta Gamer Ghost Call of Duty Organizador Utilitário para Mesa, Cabos e Setup",
+      "category": "Utilitários/Ferramentas",
+      "image": "/products/csv-curated/uti-009/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "ab94c6f194c82031",
+      "afterSha": "4f5ae52d2c228952",
+      "afterSize": 22896
+    },
+    {
+      "index": 90,
+      "sku": "UTI-010",
+      "id": "csv-uti-010",
+      "slug": "porta-ferramentas-soap-call-of-duty-para-mesa-gamer-oficina-criativa-e-home-office",
+      "title": "Porta Ferramentas Soap Call of Duty para Mesa Gamer, Oficina Criativa e Home Office",
+      "category": "Utilitários/Ferramentas",
+      "image": "/products/csv-curated/uti-010/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "af6b8786cd0e72ef",
+      "afterSha": "12dc9944d0643925",
+      "afterSize": 24120
+    },
+    {
+      "index": 91,
+      "sku": "UTI-011",
+      "id": "csv-uti-011",
+      "slug": "suporte-multiuso-task-force-call-of-duty-para-headset-controle-cabos-e-acessorios",
+      "title": "Suporte Multiuso Task Force Call of Duty para Headset, Controle, Cabos e Acessórios",
+      "category": "Utilitários/Ferramentas",
+      "image": "/products/csv-curated/uti-011/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "e6c12bcc5bf68a22",
+      "afterSha": "4ffe5cfbd9e4df3f",
+      "afterSize": 24936
+    },
+    {
+      "index": 92,
+      "sku": "UTI-012",
+      "id": "csv-uti-012",
+      "slug": "organizador-modular-warzone-call-of-duty-para-ferramentas-leves-pecas-e-acessorios-nerd",
+      "title": "Organizador Modular Warzone Call of Duty para Ferramentas Leves, Peças e Acessórios Nerd",
+      "category": "Utilitários/Ferramentas",
+      "image": "/products/csv-curated/uti-012/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "274dca7c414d4181",
+      "afterSha": "9a6942a4ca4ad4f7",
+      "afterSize": 23954
+    },
+    {
+      "index": 93,
+      "sku": "UTI-013",
+      "id": "csv-uti-013",
+      "slug": "kit-ferramenta-gamer-creeper-minecraft-organizador-utilitario-para-mesa-cabos-e-setup",
+      "title": "Kit Ferramenta Gamer Creeper Minecraft Organizador Utilitário para Mesa, Cabos e Setup",
+      "category": "Utilitários/Ferramentas",
+      "image": "/products/csv-curated/uti-013/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel",
+        "arquivo_pequeno_baixa_confianca"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "edc99fd763b50aa9",
+      "afterSha": "41925e1275d91df8",
+      "afterSize": 24684
+    },
+    {
+      "index": 94,
+      "sku": "UTI-014",
+      "id": "csv-uti-014",
+      "slug": "porta-ferramentas-steve-minecraft-para-mesa-gamer-oficina-criativa-e-home-office",
+      "title": "Porta Ferramentas Steve Minecraft para Mesa Gamer, Oficina Criativa e Home Office",
+      "category": "Utilitários/Ferramentas",
+      "image": "/products/csv-curated/uti-014/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel",
+        "arquivo_pequeno_baixa_confianca"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "be2e5fa2670743ab",
+      "afterSha": "dc7154170a8b8a8f",
+      "afterSize": 26042
+    },
+    {
+      "index": 95,
+      "sku": "UTI-015",
+      "id": "csv-uti-015",
+      "slug": "suporte-multiuso-alex-minecraft-para-headset-controle-cabos-e-acessorios",
+      "title": "Suporte Multiuso Alex Minecraft para Headset, Controle, Cabos e Acessórios",
+      "category": "Utilitários/Ferramentas",
+      "image": "/products/csv-curated/uti-015/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "f4128acb9fb0601a",
+      "afterSha": "cb22916c76af6bdb",
+      "afterSize": 26978
+    },
+    {
+      "index": 96,
+      "sku": "UTI-016",
+      "id": "csv-uti-016",
+      "slug": "organizador-modular-enderman-minecraft-para-ferramentas-leves-pecas-e-acessorios-nerd",
+      "title": "Organizador Modular Enderman Minecraft para Ferramentas Leves, Peças e Acessórios Nerd",
+      "category": "Utilitários/Ferramentas",
+      "image": "/products/csv-curated/uti-016/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "1401af19ed0abe98",
+      "afterSha": "af6208f4d93d71e0",
+      "afterSize": 26104
+    },
+    {
+      "index": 97,
+      "sku": "UTI-017",
+      "id": "csv-uti-017",
+      "slug": "kit-ferramenta-gamer-lhama-fortnite-organizador-utilitario-para-mesa-cabos-e-setup",
+      "title": "Kit Ferramenta Gamer Lhama Fortnite Organizador Utilitário para Mesa, Cabos e Setup",
+      "category": "Utilitários/Ferramentas",
+      "image": "/products/csv-curated/uti-017/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel",
+        "imagem_repetida_com_UTI-022_UTI-025_UTI-029"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "41d9942a576ed2bf",
+      "afterSha": "79e8ae7b657a1978",
+      "afterSize": 23722
+    },
+    {
+      "index": 98,
+      "sku": "UTI-018",
+      "id": "csv-uti-018",
+      "slug": "porta-ferramentas-battle-royale-fortnite-para-mesa-gamer-oficina-criativa-e-home-office",
+      "title": "Porta Ferramentas Battle Royale Fortnite para Mesa Gamer, Oficina Criativa e Home Office",
+      "category": "Utilitários/Ferramentas",
+      "image": "/products/csv-curated/uti-018/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "3d94a42853b8813f",
+      "afterSha": "be52dd13fbfb41e9",
+      "afterSize": 26596
+    },
+    {
+      "index": 99,
+      "sku": "UTI-019",
+      "id": "csv-uti-019",
+      "slug": "suporte-multiuso-victory-crown-fortnite-para-headset-controle-cabos-e-acessorios",
+      "title": "Suporte Multiuso Victory Crown Fortnite para Headset, Controle, Cabos e Acessórios",
+      "category": "Utilitários/Ferramentas",
+      "image": "/products/csv-curated/uti-019/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "84d9ae4c1aae59cf",
+      "afterSha": "70d562aa5d1f6b74",
+      "afterSize": 27274
+    },
+    {
+      "index": 100,
+      "sku": "UTI-020",
+      "id": "csv-uti-020",
+      "slug": "organizador-modular-peely-fortnite-para-ferramentas-leves-pecas-e-acessorios-nerd",
+      "title": "Organizador Modular Peely Fortnite para Ferramentas Leves, Peças e Acessórios Nerd",
+      "category": "Utilitários/Ferramentas",
+      "image": "/products/csv-curated/uti-020/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "67ce7a530cdaabdd",
+      "afterSha": "b4774d18f69db2e8",
+      "afterSize": 24750
+    },
+    {
+      "index": 101,
+      "sku": "UTI-021",
+      "id": "csv-uti-021",
+      "slug": "kit-ferramenta-gamer-awp-cs2-organizador-utilitario-para-mesa-cabos-e-setup",
+      "title": "Kit Ferramenta Gamer AWP CS2 Organizador Utilitário para Mesa, Cabos e Setup",
+      "category": "Utilitários/Ferramentas",
+      "image": "/products/csv-curated/uti-021/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "68ba69dab601512f",
+      "afterSha": "ef98278bde0d812f",
+      "afterSize": 22662
+    },
+    {
+      "index": 102,
+      "sku": "UTI-022",
+      "id": "csv-uti-022",
+      "slug": "porta-ferramentas-ak-47-cs2-para-mesa-gamer-oficina-criativa-e-home-office",
+      "title": "Porta Ferramentas AK-47 CS2 para Mesa Gamer, Oficina Criativa e Home Office",
+      "category": "Utilitários/Ferramentas",
+      "image": "/products/csv-curated/uti-022/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel",
+        "imagem_repetida_com_UTI-017_UTI-025_UTI-029"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "41d9942a576ed2bf",
+      "afterSha": "0d0a279f9af45976",
+      "afterSize": 24834
+    },
+    {
+      "index": 103,
+      "sku": "UTI-023",
+      "id": "csv-uti-023",
+      "slug": "suporte-multiuso-knife-cs2-para-headset-controle-cabos-e-acessorios",
+      "title": "Suporte Multiuso Knife CS2 para Headset, Controle, Cabos e Acessórios",
+      "category": "Utilitários/Ferramentas",
+      "image": "/products/csv-curated/uti-023/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "d5ef87c4552abbc6",
+      "afterSha": "86cd248c518509a7",
+      "afterSize": 25664
+    },
+    {
+      "index": 104,
+      "sku": "UTI-024",
+      "id": "csv-uti-024",
+      "slug": "organizador-modular-defuse-cs2-para-ferramentas-leves-pecas-e-acessorios-nerd",
+      "title": "Organizador Modular Defuse CS2 para Ferramentas Leves, Peças e Acessórios Nerd",
+      "category": "Utilitários/Ferramentas",
+      "image": "/products/csv-curated/uti-024/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "ce6ce93926ad502a",
+      "afterSha": "de758f8ab790d760",
+      "afterSize": 24242
+    },
+    {
+      "index": 105,
+      "sku": "UTI-025",
+      "id": "csv-uti-025",
+      "slug": "kit-ferramenta-gamer-los-santos-gta-v-organizador-utilitario-para-mesa-cabos-e-setup",
+      "title": "Kit Ferramenta Gamer Los Santos GTA V Organizador Utilitário para Mesa, Cabos e Setup",
+      "category": "Utilitários/Ferramentas",
+      "image": "/products/csv-curated/uti-025/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel",
+        "imagem_repetida_com_UTI-017_UTI-022_UTI-029"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "41d9942a576ed2bf",
+      "afterSha": "0ef212485af68295",
+      "afterSize": 23354
+    },
+    {
+      "index": 106,
+      "sku": "UTI-026",
+      "id": "csv-uti-026",
+      "slug": "porta-ferramentas-franklin-gta-v-para-mesa-gamer-oficina-criativa-e-home-office",
+      "title": "Porta Ferramentas Franklin GTA V para Mesa Gamer, Oficina Criativa e Home Office",
+      "category": "Utilitários/Ferramentas",
+      "image": "/products/csv-curated/uti-026/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel",
+        "imagem_repetida_com_COL-027"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "6638e2e28487cab5",
+      "afterSha": "3888080b2183c19e",
+      "afterSize": 24624
+    },
+    {
+      "index": 107,
+      "sku": "UTI-027",
+      "id": "csv-uti-027",
+      "slug": "suporte-multiuso-trevor-gta-v-para-headset-controle-cabos-e-acessorios",
+      "title": "Suporte Multiuso Trevor GTA V para Headset, Controle, Cabos e Acessórios",
+      "category": "Utilitários/Ferramentas",
+      "image": "/products/csv-curated/uti-027/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "1f40965d74cbbbb6",
+      "afterSha": "5cae0c0c88f21729",
+      "afterSize": 25114
+    },
+    {
+      "index": 108,
+      "sku": "UTI-028",
+      "id": "csv-uti-028",
+      "slug": "organizador-modular-michael-gta-v-para-ferramentas-leves-pecas-e-acessorios-nerd",
+      "title": "Organizador Modular Michael GTA V para Ferramentas Leves, Peças e Acessórios Nerd",
+      "category": "Utilitários/Ferramentas",
+      "image": "/products/csv-curated/uti-028/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "d2a72b871e1c614e",
+      "afterSha": "b26a68810a244ae9",
+      "afterSize": 24094
+    },
+    {
+      "index": 109,
+      "sku": "UTI-029",
+      "id": "csv-uti-029",
+      "slug": "kit-ferramenta-gamer-spider-man-marvel-organizador-utilitario-para-mesa-cabos-e-setup",
+      "title": "Kit Ferramenta Gamer Spider-Man Marvel Organizador Utilitário para Mesa, Cabos e Setup",
+      "category": "Utilitários/Ferramentas",
+      "image": "/products/csv-curated/uti-029/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel",
+        "imagem_repetida_com_UTI-017_UTI-022_UTI-025"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "41d9942a576ed2bf",
+      "afterSha": "e156f2be459014ef",
+      "afterSize": 24676
+    },
+    {
+      "index": 110,
+      "sku": "UTI-030",
+      "id": "csv-uti-030",
+      "slug": "porta-ferramentas-iron-man-marvel-para-mesa-gamer-oficina-criativa-e-home-office",
+      "title": "Porta Ferramentas Iron Man Marvel para Mesa Gamer, Oficina Criativa e Home Office",
+      "category": "Utilitários/Ferramentas",
+      "image": "/products/csv-curated/uti-030/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "639cd61a2eddc6cb",
+      "afterSha": "c2874783dfee40ec",
+      "afterSize": 25978
+    },
+    {
+      "index": 111,
+      "sku": "UTI-031",
+      "id": "csv-uti-031",
+      "slug": "suporte-multiuso-deadpool-marvel-para-headset-controle-cabos-e-acessorios",
+      "title": "Suporte Multiuso Deadpool Marvel para Headset, Controle, Cabos e Acessórios",
+      "category": "Utilitários/Ferramentas",
+      "image": "/products/csv-curated/uti-031/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "4ef94736d8073d2d",
+      "afterSha": "4d62a1e143e6f1bb",
+      "afterSize": 27338
+    },
+    {
+      "index": 112,
+      "sku": "UTI-032",
+      "id": "csv-uti-032",
+      "slug": "organizador-modular-groot-marvel-para-ferramentas-leves-pecas-e-acessorios-nerd",
+      "title": "Organizador Modular Groot Marvel para Ferramentas Leves, Peças e Acessórios Nerd",
+      "category": "Utilitários/Ferramentas",
+      "image": "/products/csv-curated/uti-032/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "34e7834e9c8ea62d",
+      "afterSha": "edf72e0fd71bcb41",
+      "afterSize": 25004
+    },
+    {
+      "index": 113,
+      "sku": "UTI-033",
+      "id": "csv-uti-033",
+      "slug": "kit-ferramenta-gamer-darth-vader-star-wars-organizador-utilitario-para-mesa-cabos-e-setup",
+      "title": "Kit Ferramenta Gamer Darth Vader Star Wars Organizador Utilitário para Mesa, Cabos e Setup",
+      "category": "Utilitários/Ferramentas",
+      "image": "/products/csv-curated/uti-033/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "2087211e21ef6c4e",
+      "afterSha": "fef49b75c57ed495",
+      "afterSize": 24686
+    },
+    {
+      "index": 114,
+      "sku": "UTI-034",
+      "id": "csv-uti-034",
+      "slug": "porta-ferramentas-stormtrooper-star-wars-para-mesa-gamer-oficina-criativa-e-home-office",
+      "title": "Porta Ferramentas Stormtrooper Star Wars para Mesa Gamer, Oficina Criativa e Home Office",
+      "category": "Utilitários/Ferramentas",
+      "image": "/products/csv-curated/uti-034/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "521a33c37f32c103",
+      "afterSha": "73c4741b52c14598",
+      "afterSize": 26622
+    },
+    {
+      "index": 115,
+      "sku": "UTI-035",
+      "id": "csv-uti-035",
+      "slug": "suporte-multiuso-mandalorian-star-wars-para-headset-controle-cabos-e-acessorios",
+      "title": "Suporte Multiuso Mandalorian Star Wars para Headset, Controle, Cabos e Acessórios",
+      "category": "Utilitários/Ferramentas",
+      "image": "/products/csv-curated/uti-035/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "4230a825440a55f6",
+      "afterSha": "583b06854b8061b2",
+      "afterSize": 26858
+    },
+    {
+      "index": 116,
+      "sku": "UTI-036",
+      "id": "csv-uti-036",
+      "slug": "organizador-modular-grogu-star-wars-para-ferramentas-leves-pecas-e-acessorios-nerd",
+      "title": "Organizador Modular Grogu Star Wars para Ferramentas Leves, Peças e Acessórios Nerd",
+      "category": "Utilitários/Ferramentas",
+      "image": "/products/csv-curated/uti-036/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel",
+        "imagem_repetida_com_COL-036"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "3353334ef14604e8",
+      "afterSha": "adc0d642ebd063c0",
+      "afterSize": 24826
+    },
+    {
+      "index": 117,
+      "sku": "UTI-037",
+      "id": "csv-uti-037",
+      "slug": "kit-ferramenta-gamer-pikachu-pokemon-organizador-utilitario-para-mesa-cabos-e-setup",
+      "title": "Kit Ferramenta Gamer Pikachu Pokémon Organizador Utilitário para Mesa, Cabos e Setup",
+      "category": "Utilitários/Ferramentas",
+      "image": "/products/csv-curated/uti-037/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel",
+        "imagem_repetida_com_UTI-040"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "abb0c10ea2552b05",
+      "afterSha": "c92f5991bbb8b8c9",
+      "afterSize": 23818
+    },
+    {
+      "index": 118,
+      "sku": "UTI-038",
+      "id": "csv-uti-038",
+      "slug": "porta-ferramentas-charmander-pokemon-para-mesa-gamer-oficina-criativa-e-home-office",
+      "title": "Porta Ferramentas Charmander Pokémon para Mesa Gamer, Oficina Criativa e Home Office",
+      "category": "Utilitários/Ferramentas",
+      "image": "/products/csv-curated/uti-038/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "467b63d35de5259a",
+      "afterSha": "1bdc43a21dc923dc",
+      "afterSize": 27372
+    },
+    {
+      "index": 119,
+      "sku": "UTI-039",
+      "id": "csv-uti-039",
+      "slug": "suporte-multiuso-gengar-pokemon-para-headset-controle-cabos-e-acessorios",
+      "title": "Suporte Multiuso Gengar Pokémon para Headset, Controle, Cabos e Acessórios",
+      "category": "Utilitários/Ferramentas",
+      "image": "/products/csv-curated/uti-039/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "69fd0534f6002813",
+      "afterSha": "9826d9d9a866b15d",
+      "afterSize": 26914
+    },
+    {
+      "index": 120,
+      "sku": "UTI-040",
+      "id": "csv-uti-040",
+      "slug": "organizador-modular-eevee-pokemon-para-ferramentas-leves-pecas-e-acessorios-nerd",
+      "title": "Organizador Modular Eevee Pokémon para Ferramentas Leves, Peças e Acessórios Nerd",
+      "category": "Utilitários/Ferramentas",
+      "image": "/products/csv-curated/uti-040/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel",
+        "imagem_repetida_com_UTI-037"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "abb0c10ea2552b05",
+      "afterSha": "9589f2d00c93e663",
+      "afterSize": 24410
+    },
+    {
+      "index": 121,
+      "sku": "COL-001",
+      "id": "csv-col-001",
+      "slug": "mini-estatua-colecionavel-jett-valorant-edicao-decor-para-estante-mesa-e-setup",
+      "title": "Mini Estátua Colecionável Jett Valorant Edição Decor para Estante, Mesa e Setup",
+      "category": "Colecionáveis/Merch",
+      "image": "/products/csv-curated/col-001/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "b954b21762161575",
+      "afterSha": "2b070558b3565e9e",
+      "afterSize": 28610
+    },
+    {
+      "index": 122,
+      "sku": "COL-002",
+      "id": "csv-col-002",
+      "slug": "caneca-colecionavel-reyna-valorant-nerd-premium-para-cafe-desk-e-presente",
+      "title": "Caneca Colecionável Reyna Valorant Nerd Premium para Café, Desk e Presente",
+      "category": "Colecionáveis/Merch",
+      "image": "/products/csv-curated/col-002/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel",
+        "imagem_repetida_com_COL-026"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "25e0132719026734",
+      "afterSha": "4bdda99626f41307",
+      "afterSize": 27394
+    },
+    {
+      "index": 123,
+      "sku": "COL-003",
+      "id": "csv-col-003",
+      "slug": "mousepad-colecionavel-sage-valorant-desk-mat-gamer-para-setup-profissional",
+      "title": "Mousepad Colecionável Sage Valorant Desk Mat Gamer para Setup Profissional",
+      "category": "Colecionáveis/Merch",
+      "image": "/products/csv-curated/col-003/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "b2a5b81d9080e23e",
+      "afterSha": "0ee4ca64810b32ae",
+      "afterSize": 25536
+    },
+    {
+      "index": 124,
+      "sku": "COL-004",
+      "id": "csv-col-004",
+      "slug": "poster-premium-omen-valorant-colecionavel-para-parede-estudio-e-espaco-geek",
+      "title": "Poster Premium Omen Valorant Colecionável para Parede, Estúdio e Espaço Geek",
+      "category": "Colecionáveis/Merch",
+      "image": "/products/csv-curated/col-004/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "e3ef65eb9882f95a",
+      "afterSha": "18b23b142147d32f",
+      "afterSize": 24598
+    },
+    {
+      "index": 125,
+      "sku": "COL-005",
+      "id": "csv-col-005",
+      "slug": "mini-estatua-colecionavel-ahri-league-of-legends-edicao-decor-para-estante-mesa-e-setup",
+      "title": "Mini Estátua Colecionável Ahri League of Legends Edição Decor para Estante, Mesa e Setup",
+      "category": "Colecionáveis/Merch",
+      "image": "/products/csv-curated/col-005/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "c2d4bef5a96ebd98",
+      "afterSha": "732fe3210eabf162",
+      "afterSize": 29948
+    },
+    {
+      "index": 126,
+      "sku": "COL-006",
+      "id": "csv-col-006",
+      "slug": "caneca-colecionavel-yasuo-league-of-legends-nerd-premium-para-cafe-desk-e-presente",
+      "title": "Caneca Colecionável Yasuo League of Legends Nerd Premium para Café, Desk e Presente",
+      "category": "Colecionáveis/Merch",
+      "image": "/products/csv-curated/col-006/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "339cc6ff27c368e7",
+      "afterSha": "9dd9382e4b2dcb6f",
+      "afterSize": 28542
+    },
+    {
+      "index": 127,
+      "sku": "COL-007",
+      "id": "csv-col-007",
+      "slug": "mousepad-colecionavel-jinx-league-of-legends-desk-mat-gamer-para-setup-profissional",
+      "title": "Mousepad Colecionável Jinx League of Legends Desk Mat Gamer para Setup Profissional",
+      "category": "Colecionáveis/Merch",
+      "image": "/products/csv-curated/col-007/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "824d3e53b2ee3e45",
+      "afterSha": "24537ca5a2733a14",
+      "afterSize": 26472
+    },
+    {
+      "index": 128,
+      "sku": "COL-008",
+      "id": "csv-col-008",
+      "slug": "poster-premium-lux-league-of-legends-colecionavel-para-parede-estudio-e-espaco-geek",
+      "title": "Poster Premium Lux League of Legends Colecionável para Parede, Estúdio e Espaço Geek",
+      "category": "Colecionáveis/Merch",
+      "image": "/products/csv-curated/col-008/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "fd1d6a3ca734e3b5",
+      "afterSha": "2e04b68800efa244",
+      "afterSize": 25528
+    },
+    {
+      "index": 129,
+      "sku": "COL-009",
+      "id": "csv-col-009",
+      "slug": "mini-estatua-colecionavel-ghost-call-of-duty-edicao-decor-para-estante-mesa-e-setup",
+      "title": "Mini Estátua Colecionável Ghost Call of Duty Edição Decor para Estante, Mesa e Setup",
+      "category": "Colecionáveis/Merch",
+      "image": "/products/csv-curated/col-009/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "2cd251d6051a57fe",
+      "afterSha": "a1e29dcf2f6b744d",
+      "afterSize": 26512
+    },
+    {
+      "index": 130,
+      "sku": "COL-010",
+      "id": "csv-col-010",
+      "slug": "caneca-colecionavel-soap-call-of-duty-nerd-premium-para-cafe-desk-e-presente",
+      "title": "Caneca Colecionável Soap Call of Duty Nerd Premium para Café, Desk e Presente",
+      "category": "Colecionáveis/Merch",
+      "image": "/products/csv-curated/col-010/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel",
+        "arquivo_pequeno_baixa_confianca"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "db201ad94e04722c",
+      "afterSha": "5397bce338e2ed9f",
+      "afterSize": 24882
+    },
+    {
+      "index": 131,
+      "sku": "COL-011",
+      "id": "csv-col-011",
+      "slug": "mousepad-colecionavel-task-force-call-of-duty-desk-mat-gamer-para-setup-profissional",
+      "title": "Mousepad Colecionável Task Force Call of Duty Desk Mat Gamer para Setup Profissional",
+      "category": "Colecionáveis/Merch",
+      "image": "/products/csv-curated/col-011/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "74b3365e5aabf3f9",
+      "afterSha": "facfb70247cd8d1b",
+      "afterSize": 24066
+    },
+    {
+      "index": 132,
+      "sku": "COL-012",
+      "id": "csv-col-012",
+      "slug": "poster-premium-warzone-call-of-duty-colecionavel-para-parede-estudio-e-espaco-geek",
+      "title": "Poster Premium Warzone Call of Duty Colecionável para Parede, Estúdio e Espaço Geek",
+      "category": "Colecionáveis/Merch",
+      "image": "/products/csv-curated/col-012/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "983de7383fbc1a8f",
+      "afterSha": "305ae80d9aab87eb",
+      "afterSize": 22924
+    },
+    {
+      "index": 133,
+      "sku": "COL-013",
+      "id": "csv-col-013",
+      "slug": "mini-estatua-colecionavel-creeper-minecraft-edicao-decor-para-estante-mesa-e-setup",
+      "title": "Mini Estátua Colecionável Creeper Minecraft Edição Decor para Estante, Mesa e Setup",
+      "category": "Colecionáveis/Merch",
+      "image": "/products/csv-curated/col-013/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel",
+        "arquivo_pequeno_baixa_confianca"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "9897f533a7100cb0",
+      "afterSha": "1b69ce24efdba816",
+      "afterSize": 29170
+    },
+    {
+      "index": 134,
+      "sku": "COL-014",
+      "id": "csv-col-014",
+      "slug": "caneca-colecionavel-steve-minecraft-nerd-premium-para-cafe-desk-e-presente",
+      "title": "Caneca Colecionável Steve Minecraft Nerd Premium para Café, Desk e Presente",
+      "category": "Colecionáveis/Merch",
+      "image": "/products/csv-curated/col-014/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "7b5b29b468ed1480",
+      "afterSha": "d1d4d29ec0e9dbbb",
+      "afterSize": 26952
+    },
+    {
+      "index": 135,
+      "sku": "COL-015",
+      "id": "csv-col-015",
+      "slug": "mousepad-colecionavel-alex-minecraft-desk-mat-gamer-para-setup-profissional",
+      "title": "Mousepad Colecionável Alex Minecraft Desk Mat Gamer para Setup Profissional",
+      "category": "Colecionáveis/Merch",
+      "image": "/products/csv-curated/col-015/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "6aaf657108864519",
+      "afterSha": "67211080e0b83aba",
+      "afterSize": 25226
+    },
+    {
+      "index": 136,
+      "sku": "COL-016",
+      "id": "csv-col-016",
+      "slug": "poster-premium-enderman-minecraft-colecionavel-para-parede-estudio-e-espaco-geek",
+      "title": "Poster Premium Enderman Minecraft Colecionável para Parede, Estúdio e Espaço Geek",
+      "category": "Colecionáveis/Merch",
+      "image": "/products/csv-curated/col-016/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "41fea7c9dbe128e1",
+      "afterSha": "09597d7010177294",
+      "afterSize": 25324
+    },
+    {
+      "index": 137,
+      "sku": "COL-017",
+      "id": "csv-col-017",
+      "slug": "mini-estatua-colecionavel-lhama-fortnite-edicao-decor-para-estante-mesa-e-setup",
+      "title": "Mini Estátua Colecionável Lhama Fortnite Edição Decor para Estante, Mesa e Setup",
+      "category": "Colecionáveis/Merch",
+      "image": "/products/csv-curated/col-017/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "56384852611b01fd",
+      "afterSha": "918b78f06c83e14a",
+      "afterSize": 28142
+    },
+    {
+      "index": 138,
+      "sku": "COL-018",
+      "id": "csv-col-018",
+      "slug": "caneca-colecionavel-battle-royale-fortnite-nerd-premium-para-cafe-desk-e-presente",
+      "title": "Caneca Colecionável Battle Royale Fortnite Nerd Premium para Café, Desk e Presente",
+      "category": "Colecionáveis/Merch",
+      "image": "/products/csv-curated/col-018/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel",
+        "imagem_repetida_com_COL-022"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "b216fe6d48d428aa",
+      "afterSha": "e0740b9f773e2eec",
+      "afterSize": 27352
+    },
+    {
+      "index": 139,
+      "sku": "COL-019",
+      "id": "csv-col-019",
+      "slug": "mousepad-colecionavel-victory-crown-fortnite-desk-mat-gamer-para-setup-profissional",
+      "title": "Mousepad Colecionável Victory Crown Fortnite Desk Mat Gamer para Setup Profissional",
+      "category": "Colecionáveis/Merch",
+      "image": "/products/csv-curated/col-019/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "9e4a49b798a1496d",
+      "afterSha": "ce3c2019c60bec07",
+      "afterSize": 25606
+    },
+    {
+      "index": 140,
+      "sku": "COL-020",
+      "id": "csv-col-020",
+      "slug": "poster-premium-peely-fortnite-colecionavel-para-parede-estudio-e-espaco-geek",
+      "title": "Poster Premium Peely Fortnite Colecionável para Parede, Estúdio e Espaço Geek",
+      "category": "Colecionáveis/Merch",
+      "image": "/products/csv-curated/col-020/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "ba0b383cbf633d1a",
+      "afterSha": "e7bf4bb9ec1bd9bf",
+      "afterSize": 23838
+    },
+    {
+      "index": 141,
+      "sku": "COL-021",
+      "id": "csv-col-021",
+      "slug": "mini-estatua-colecionavel-awp-cs2-edicao-decor-para-estante-mesa-e-setup",
+      "title": "Mini Estátua Colecionável AWP CS2 Edição Decor para Estante, Mesa e Setup",
+      "category": "Colecionáveis/Merch",
+      "image": "/products/csv-curated/col-021/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel",
+        "arquivo_pequeno_baixa_confianca"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "bfe2360124d05e88",
+      "afterSha": "7a724bc5b97d3f31",
+      "afterSize": 27210
+    },
+    {
+      "index": 142,
+      "sku": "COL-022",
+      "id": "csv-col-022",
+      "slug": "caneca-colecionavel-ak-47-cs2-nerd-premium-para-cafe-desk-e-presente",
+      "title": "Caneca Colecionável AK-47 CS2 Nerd Premium para Café, Desk e Presente",
+      "category": "Colecionáveis/Merch",
+      "image": "/products/csv-curated/col-022/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel",
+        "imagem_repetida_com_COL-018"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "b216fe6d48d428aa",
+      "afterSha": "3a32cadcdead36b9",
+      "afterSize": 25662
+    },
+    {
+      "index": 143,
+      "sku": "COL-023",
+      "id": "csv-col-023",
+      "slug": "mousepad-colecionavel-knife-cs2-desk-mat-gamer-para-setup-profissional",
+      "title": "Mousepad Colecionável Knife CS2 Desk Mat Gamer para Setup Profissional",
+      "category": "Colecionáveis/Merch",
+      "image": "/products/csv-curated/col-023/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel",
+        "arquivo_pequeno_baixa_confianca"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "9b8b04c7e3daaf45",
+      "afterSha": "d686423caebd633b",
+      "afterSize": 24554
+    },
+    {
+      "index": 144,
+      "sku": "COL-024",
+      "id": "csv-col-024",
+      "slug": "poster-premium-defuse-cs2-colecionavel-para-parede-estudio-e-espaco-geek",
+      "title": "Poster Premium Defuse CS2 Colecionável para Parede, Estúdio e Espaço Geek",
+      "category": "Colecionáveis/Merch",
+      "image": "/products/csv-curated/col-024/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "c2347126ac7b4ef1",
+      "afterSha": "e79ee1cb0dc6d1f2",
+      "afterSize": 23764
+    },
+    {
+      "index": 145,
+      "sku": "COL-025",
+      "id": "csv-col-025",
+      "slug": "mini-estatua-colecionavel-los-santos-gta-v-edicao-decor-para-estante-mesa-e-setup",
+      "title": "Mini Estátua Colecionável Los Santos GTA V Edição Decor para Estante, Mesa e Setup",
+      "category": "Colecionáveis/Merch",
+      "image": "/products/csv-curated/col-025/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "f3509dc41c6ef94e",
+      "afterSha": "0744748f83d30a1f",
+      "afterSize": 27580
+    },
+    {
+      "index": 146,
+      "sku": "COL-026",
+      "id": "csv-col-026",
+      "slug": "caneca-colecionavel-franklin-gta-v-nerd-premium-para-cafe-desk-e-presente",
+      "title": "Caneca Colecionável Franklin GTA V Nerd Premium para Café, Desk e Presente",
+      "category": "Colecionáveis/Merch",
+      "image": "/products/csv-curated/col-026/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel",
+        "imagem_repetida_com_COL-002"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "25e0132719026734",
+      "afterSha": "a6810921067b99bc",
+      "afterSize": 25336
+    },
+    {
+      "index": 147,
+      "sku": "COL-027",
+      "id": "csv-col-027",
+      "slug": "mousepad-colecionavel-trevor-gta-v-desk-mat-gamer-para-setup-profissional",
+      "title": "Mousepad Colecionável Trevor GTA V Desk Mat Gamer para Setup Profissional",
+      "category": "Colecionáveis/Merch",
+      "image": "/products/csv-curated/col-027/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel",
+        "imagem_repetida_com_UTI-026"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "6638e2e28487cab5",
+      "afterSha": "c50583d8df068018",
+      "afterSize": 23648
+    },
+    {
+      "index": 148,
+      "sku": "COL-028",
+      "id": "csv-col-028",
+      "slug": "poster-premium-michael-gta-v-colecionavel-para-parede-estudio-e-espaco-geek",
+      "title": "Poster Premium Michael GTA V Colecionável para Parede, Estúdio e Espaço Geek",
+      "category": "Colecionáveis/Merch",
+      "image": "/products/csv-curated/col-028/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "7857307602a06cc6",
+      "afterSha": "293fed3f57a79882",
+      "afterSize": 23146
+    },
+    {
+      "index": 149,
+      "sku": "COL-029",
+      "id": "csv-col-029",
+      "slug": "mini-estatua-colecionavel-spider-man-marvel-edicao-decor-para-estante-mesa-e-setup",
+      "title": "Mini Estátua Colecionável Spider-Man Marvel Edição Decor para Estante, Mesa e Setup",
+      "category": "Colecionáveis/Merch",
+      "image": "/products/csv-curated/col-029/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "ee5237063f75b0bf",
+      "afterSha": "6206be98ce3f5b55",
+      "afterSize": 29122
+    },
+    {
+      "index": 150,
+      "sku": "COL-030",
+      "id": "csv-col-030",
+      "slug": "caneca-colecionavel-iron-man-marvel-nerd-premium-para-cafe-desk-e-presente",
+      "title": "Caneca Colecionável Iron Man Marvel Nerd Premium para Café, Desk e Presente",
+      "category": "Colecionáveis/Merch",
+      "image": "/products/csv-curated/col-030/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "a1383b6f085501ff",
+      "afterSha": "50e11c035ac55f5b",
+      "afterSize": 26940
+    },
+    {
+      "index": 151,
+      "sku": "COL-031",
+      "id": "csv-col-031",
+      "slug": "mousepad-colecionavel-deadpool-marvel-desk-mat-gamer-para-setup-profissional",
+      "title": "Mousepad Colecionável Deadpool Marvel Desk Mat Gamer para Setup Profissional",
+      "category": "Colecionáveis/Merch",
+      "image": "/products/csv-curated/col-031/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "0fe45038b6c43a3b",
+      "afterSha": "a595f723a9399d3e",
+      "afterSize": 25572
+    },
+    {
+      "index": 152,
+      "sku": "COL-032",
+      "id": "csv-col-032",
+      "slug": "poster-premium-groot-marvel-colecionavel-para-parede-estudio-e-espaco-geek",
+      "title": "Poster Premium Groot Marvel Colecionável para Parede, Estúdio e Espaço Geek",
+      "category": "Colecionáveis/Merch",
+      "image": "/products/csv-curated/col-032/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "7e92cee09d22f312",
+      "afterSha": "092d8d10cd3c3513",
+      "afterSize": 24626
+    },
+    {
+      "index": 153,
+      "sku": "COL-033",
+      "id": "csv-col-033",
+      "slug": "mini-estatua-colecionavel-darth-vader-star-wars-edicao-decor-para-estante-mesa-e-setup",
+      "title": "Mini Estátua Colecionável Darth Vader Star Wars Edição Decor para Estante, Mesa e Setup",
+      "category": "Colecionáveis/Merch",
+      "image": "/products/csv-curated/col-033/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "bab56e1617507adc",
+      "afterSha": "19ee2d99065390ac",
+      "afterSize": 29162
+    },
+    {
+      "index": 154,
+      "sku": "COL-034",
+      "id": "csv-col-034",
+      "slug": "caneca-colecionavel-stormtrooper-star-wars-nerd-premium-para-cafe-desk-e-presente",
+      "title": "Caneca Colecionável Stormtrooper Star Wars Nerd Premium para Café, Desk e Presente",
+      "category": "Colecionáveis/Merch",
+      "image": "/products/csv-curated/col-034/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "eb5e7ff516119bc8",
+      "afterSha": "8324d87adb09b121",
+      "afterSize": 27458
+    },
+    {
+      "index": 155,
+      "sku": "COL-035",
+      "id": "csv-col-035",
+      "slug": "mousepad-colecionavel-mandalorian-star-wars-desk-mat-gamer-para-setup-profissional",
+      "title": "Mousepad Colecionável Mandalorian Star Wars Desk Mat Gamer para Setup Profissional",
+      "category": "Colecionáveis/Merch",
+      "image": "/products/csv-curated/col-035/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "4f2b6949c85becf1",
+      "afterSha": "4d3b2caf463deba8",
+      "afterSize": 26464
+    },
+    {
+      "index": 156,
+      "sku": "COL-036",
+      "id": "csv-col-036",
+      "slug": "poster-premium-grogu-star-wars-colecionavel-para-parede-estudio-e-espaco-geek",
+      "title": "Poster Premium Grogu Star Wars Colecionável para Parede, Estúdio e Espaço Geek",
+      "category": "Colecionáveis/Merch",
+      "image": "/products/csv-curated/col-036/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel",
+        "imagem_repetida_com_UTI-036"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "3353334ef14604e8",
+      "afterSha": "1ab205a966427581",
+      "afterSize": 24370
+    },
+    {
+      "index": 157,
+      "sku": "COL-037",
+      "id": "csv-col-037",
+      "slug": "mini-estatua-colecionavel-pikachu-pokemon-edicao-decor-para-estante-mesa-e-setup",
+      "title": "Mini Estátua Colecionável Pikachu Pokémon Edição Decor para Estante, Mesa e Setup",
+      "category": "Colecionáveis/Merch",
+      "image": "/products/csv-curated/col-037/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "3ace63677a7f694f",
+      "afterSha": "8f23d1d87192a87b",
+      "afterSize": 27930
+    },
+    {
+      "index": 158,
+      "sku": "COL-038",
+      "id": "csv-col-038",
+      "slug": "caneca-colecionavel-charmander-pokemon-nerd-premium-para-cafe-desk-e-presente",
+      "title": "Caneca Colecionável Charmander Pokémon Nerd Premium para Café, Desk e Presente",
+      "category": "Colecionáveis/Merch",
+      "image": "/products/csv-curated/col-038/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "7a4bcbcbf90d7544",
+      "afterSha": "16d9d3243eec43b4",
+      "afterSize": 28534
+    },
+    {
+      "index": 159,
+      "sku": "COL-039",
+      "id": "csv-col-039",
+      "slug": "mousepad-colecionavel-gengar-pokemon-desk-mat-gamer-para-setup-profissional",
+      "title": "Mousepad Colecionável Gengar Pokémon Desk Mat Gamer para Setup Profissional",
+      "category": "Colecionáveis/Merch",
+      "image": "/products/csv-curated/col-039/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "0d06691ce7f52187",
+      "afterSha": "96fd6d648da158c6",
+      "afterSize": 24902
+    },
+    {
+      "index": 160,
+      "sku": "COL-040",
+      "id": "csv-col-040",
+      "slug": "poster-premium-eevee-pokemon-colecionavel-para-parede-estudio-e-espaco-geek",
+      "title": "Poster Premium Eevee Pokémon Colecionável para Parede, Estúdio e Espaço Geek",
+      "category": "Colecionáveis/Merch",
+      "image": "/products/csv-curated/col-040/cover.webp",
+      "previousStatus": "errada_ou_incoerente",
+      "previousIssues": [
+        "imagem_antiga_incoerente_ou_nao_auditavel"
+      ],
+      "corrected": true,
+      "finalStatus": "foto_principal_coerente_visivel",
+      "beforeSha": "2fe3d8dd0c629287",
+      "afterSha": "8a0d9ac95d3ddf69",
+      "afterSize": 23786
+    }
+  ]
+}
