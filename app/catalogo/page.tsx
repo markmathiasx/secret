@@ -39,7 +39,7 @@ export default async function CatalogPage({
   const initialCollection =
     params?.collection && collections.includes(params.collection) ? params.collection : "Todas";
   const initialVisualMode =
-    params?.mode === "verified" ? "verified" : params?.mode === "all" ? "all" : "real";
+    params?.mode === "verified" ? "verified" : params?.mode === "real" ? "real" : "all";
   const initialAvailability =
     params?.status === "Pronta entrega" || params?.status === "Sob encomenda" ? params.status : "Todos";
   const initialMaterial = params?.material?.trim() || "Todos";
@@ -58,7 +58,7 @@ export default async function CatalogPage({
       ? "Só foto real"
       : initialVisualMode === "verified"
       ? "Foto real + render fiel"
-      : "Todos os visuais",
+      : "Catálogo completo",
     initialAvailability !== "Todos" ? initialAvailability : null,
     initialMaterial !== "Todos" ? initialMaterial : null,
     initialIntent !== "Geral" ? initialIntent : null,
@@ -74,10 +74,10 @@ export default async function CatalogPage({
           <div className="max-w-3xl">
             <p className="text-xs uppercase tracking-[0.22em] text-cyan-200">Catálogo MDH 3D</p>
             <h1 className="catalog-hero-title mt-3 break-words text-3xl font-black leading-[1.06] text-white sm:text-4xl md:text-5xl">
-              A vitrine abre em foto real por padrao.
+              Todos os produtos publicados aparecem na vitrine.
             </h1>
             <p className="mt-4 text-base leading-7 text-white/72 md:text-lg md:leading-8">
-              A primeira leitura do catalogo destaca o que ja tem foto do objeto fisico. Itens com render fiel ou imagem conceitual continuam acessiveis, sempre com sinalizacao clara.
+              Cada item ativo tem uma imagem principal propria no card e na pagina do produto. Os filtros continuam disponiveis para quem quiser ver apenas fotos reais ou renders fieis.
             </p>
 
             <div className="catalog-active-lens mt-5 inline-flex max-w-full rounded-full border border-cyan-300/25 bg-cyan-300/10 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-cyan-100 md:text-xs md:tracking-[0.18em]">
@@ -126,8 +126,8 @@ export default async function CatalogPage({
       <div className="glass-panel mt-8 rounded-[28px] border border-emerald-300/15 bg-emerald-300/8 p-5 text-sm leading-7 text-emerald-50/90">
         <p className="text-xs uppercase tracking-[0.18em] text-emerald-100/80">Leitura comercial</p>
         <p className="mt-2">
-          Para divulgacao e trafego pago, a primeira camada do catalogo abre em <strong>so foto real</strong>.
-          Isso reduz a chance de o cliente entrar e achar que o produto ainda esta apenas em conceito.
+          A vitrine publica mostra o catalogo completo, sem esconder produto por tipo de midia. Quando a imagem nao e foto real,
+          o selo visual deixa claro o tipo de referencia antes da compra.
         </p>
       </div>
 

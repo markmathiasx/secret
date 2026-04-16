@@ -29,5 +29,5 @@ export function isCsvPendingMediaProduct(product: MinimalProduct) {
 }
 
 export function getSafePublicCatalog<T extends MinimalProduct>(products: T[]) {
-  return products.filter((product) => !isCsvPendingMediaProduct(product));
+  return products;
 }

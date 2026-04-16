@@ -81,7 +81,7 @@ export type Product = {
   };
 };
 
-const adminProductOverrides = adminProductOverridesJson as Record<string, AdminProductOverride>;
+const adminProductOverrides = adminProductOverridesJson as unknown as Record<string, AdminProductOverride>;
 
 function applyAdminOverride(product: Product): Product {
   const override = adminProductOverrides[product.id];

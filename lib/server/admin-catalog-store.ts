@@ -97,7 +97,7 @@ async function readOverridesFile() {
     const raw = await fs.readFile(OVERRIDES_PATH, "utf8");
     return JSON.parse(raw) as Record<string, AdminProductOverride>;
   } catch {
-    return overridesJson as Record<string, AdminProductOverride>;
+    return overridesJson as unknown as Record<string, AdminProductOverride>;
   }
 }
 
