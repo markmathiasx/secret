@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { replaceCatalogImages } from "@/lib/server/catalog-image-replacement";
 import { getServerSessionUser, isAdminSession } from "@/lib/server-session";
 
 const schema = z.object({
@@ -26,6 +25,17 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, error: "Parâmetros inválidos para substituição de imagens." }, { status: 400 });
   }
 
+  if (process.env.VERCEL || process.env.NODE_ENV === "production") {
+    return NextResponse.json(
+      {
+        ok: false,
+        error: "A substituição em massa de imagens fica disponível apenas no ambiente local de operação.",
+      },
+      { status: 501 }
+    );
+  }
+
+  const { replaceCatalogImages } = await import("@/lib/server/catalog-image-replacement");
   const report = await replaceCatalogImages(parsed.data);
   return NextResponse.json({ ok: true, report });
 }
