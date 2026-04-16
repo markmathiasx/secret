@@ -692,7 +692,7 @@ export function CatalogExplorer({
     visualMode === 'real'
       ? { id: 'relax-real', label: 'Aceitar render fiel', onClick: () => { setVisualMode('verified'); safeSetPage(1); } }
       : visualMode === 'verified'
-      ? { id: 'relax-verified', label: 'Liberar referência visual', onClick: () => { setVisualMode('all'); safeSetPage(1); } }
+      ? { id: 'relax-verified', label: 'Ver imagens conceituais', onClick: () => { setVisualMode('all'); safeSetPage(1); } }
       : null,
     availability !== 'Todos'
       ? { id: 'all-availability', label: 'Voltar disponibilidade', onClick: () => { setAvailability('Todos'); safeSetPage(1); } }

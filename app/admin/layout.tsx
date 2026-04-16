@@ -1,12 +1,12 @@
 import Link from "next/link";
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
+export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="mx-auto max-w-[1600px] px-6 py-10">
       <div className="mb-8 flex flex-col gap-4 rounded-[32px] border border-white/10 bg-[linear-gradient(180deg,rgba(15,23,42,0.94),rgba(15,23,42,0.72))] p-6 shadow-[0_28px_80px_rgba(2,8,23,0.32)] md:flex-row md:items-center md:justify-between">
         <div>
           <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Painel MDH 3D</p>
-          <h1 className="mt-2 text-2xl font-black text-white">Admin premium</h1>
+          <h1 className="mt-2 text-2xl font-black text-white">Painel administrativo</h1>
           <p className="mt-2 text-sm text-white/60">Catálogo, imagens reais, fila de produção e operação comercial em tempo real.</p>
         </div>
 

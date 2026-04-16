@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import type { Address as PrismaAddress } from "@prisma/client";
-import { auth } from "@/auth";
 import { addressInputSchema, normalizeAddressInput } from "@/lib/address-book";
 import { canConnectToDatabase, prisma } from "@/lib/prisma";
+import { getServerSessionUser } from "@/lib/server-session";
 
 export const runtime = "nodejs";
 
@@ -25,9 +25,9 @@ function serializeAddress(address: PrismaAddress) {
 }
 
 export async function GET() {
-  const session = await auth();
+  const user = await getServerSessionUser();
 
-  if (!session?.user?.id) {
+  if (!user?.id) {
     return NextResponse.json({ ok: true, addresses: [] });
   }
 
@@ -36,7 +36,7 @@ export async function GET() {
   }
 
   const addresses = await prisma.address.findMany({
-    where: { userId: session.user.id },
+    where: { userId: user.id },
     orderBy: [{ isDefaultShipping: "desc" }, { createdAt: "desc" }],
   });
 
@@ -47,9 +47,9 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
-  const session = await auth();
+  const user = await getServerSessionUser();
 
-  if (!session?.user?.id) {
+  if (!user?.id) {
     return NextResponse.json({ ok: false, error: "Faça login para salvar endereços." }, { status: 401 });
   }
 
@@ -69,21 +69,21 @@ export async function POST(request: Request) {
   const address = await prisma.$transaction(async (tx) => {
     if (addressData.isDefaultShipping) {
       await tx.address.updateMany({
-        where: { userId: session.user.id },
+        where: { userId: user.id },
         data: { isDefaultShipping: false },
       });
     }
 
     if (addressData.isDefaultBilling) {
       await tx.address.updateMany({
-        where: { userId: session.user.id },
+        where: { userId: user.id },
         data: { isDefaultBilling: false },
       });
     }
 
     return tx.address.create({
       data: {
-        userId: session.user.id,
+        userId: user.id,
         ...addressData,
       },
     });

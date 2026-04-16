@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { auth } from "@/auth";
 import { replaceCatalogImages } from "@/lib/server/catalog-image-replacement";
+import { getServerSessionUser, isAdminSession } from "@/lib/server-session";
 
 const schema = z.object({
   manifestPath: z.string().optional(),
@@ -14,8 +14,8 @@ function unauthorized() {
 }
 
 export async function POST(request: Request) {
-  const session = await auth();
-  if (session?.user?.role !== "admin") {
+  const user = await getServerSessionUser();
+  if (!isAdminSession(user)) {
     return unauthorized();
   }
 

@@ -23,6 +23,7 @@ export function TwoFactorPanel() {
 
   const enabled = Boolean(session.user?.twoFactorEnabled);
   const canManage = session.loggedIn;
+  const supportsTwoFactor = Boolean(session.user?.supportsTwoFactor);
   const helperText = useMemo(() => {
     if (enabled) return "Seu login já pode pedir TOTP ou backup code quando necessário.";
     return "Ative o 2FA opcional para proteger compras, pedidos e acesso seller/admin com uma camada extra.";
@@ -129,7 +130,7 @@ export function TwoFactorPanel() {
     }
   }
 
-  if (!canManage) return null;
+  if (!canManage || !supportsTwoFactor) return null;
 
   return (
     <section className="glass-panel p-6">

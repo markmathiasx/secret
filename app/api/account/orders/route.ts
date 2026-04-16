@@ -1,16 +1,16 @@
 import { NextResponse } from "next/server";
-import { auth } from "@/auth";
 import { getCustomerOrdersByEmail } from "@/lib/server-store";
+import { getServerSessionUser } from "@/lib/server-session";
 
 export const runtime = "nodejs";
 
 export async function GET() {
-  const session = await auth();
+  const user = await getServerSessionUser();
 
-  if (!session?.user?.email) {
+  if (!user?.email) {
     return NextResponse.json({ ok: true, orders: [] });
   }
 
-  const orders = await getCustomerOrdersByEmail(session.user.email);
+  const orders = await getCustomerOrdersByEmail(user.email);
   return NextResponse.json({ ok: true, orders });
 }

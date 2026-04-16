@@ -1,7 +1,6 @@
-import fs from "node:fs";
-import path from "node:path";
+import csvCuratedMediaMapJson from "@/data/csv-curated-media-map.json";
 
-const BASE_DIR = path.join(process.cwd(), "public", "products", "csv-curated");
+const csvCuratedMediaMap = csvCuratedMediaMapJson as Record<string, string[]>;
 
 function normalizeSku(sku: string) {
   return String(sku || "")
@@ -10,33 +9,10 @@ function normalizeSku(sku: string) {
     .replace(/[^a-z0-9]+/g, "-");
 }
 
-function existingLocalImages(dir: string) {
-  const candidates = [
-    "cover.webp",
-    "cover.png",
-    "cover.jpg",
-    "1.webp",
-    "1.png",
-    "1.jpg",
-    "2.webp",
-    "2.png",
-    "2.jpg",
-    "3.webp",
-    "3.png",
-    "3.jpg",
-  ];
-
-  return candidates
-    .map((name) => ({ name, abs: path.join(dir, name) }))
-    .filter((item) => fs.existsSync(item.abs))
-    .map((item) => `${item.name}`);
-}
-
 export function getCsvCuratedLocalImages(sku: string) {
   const normalized = normalizeSku(sku);
-  const dir = path.join(BASE_DIR, normalized);
-  if (!fs.existsSync(dir)) return [] as string[];
-  return existingLocalImages(dir).map((name) => `/products/csv-curated/${normalized}/${name}`);
+  const images = csvCuratedMediaMap[normalized];
+  return Array.isArray(images) ? images.filter(Boolean) : [];
 }
 
 export function hasCsvCuratedLocalMedia(sku: string) {

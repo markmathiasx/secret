@@ -1,18 +1,35 @@
 import { NextRequest, NextResponse } from "next/server";
 
 const protectedPrefixes = ["/conta", "/checkout", "/seller", "/admin"];
+const adminLoginPath = "/admin/login";
 
 function isProtectedPath(pathname: string) {
+  if (pathname === adminLoginPath || pathname.startsWith(`${adminLoginPath}/`)) {
+    return false;
+  }
+
   return protectedPrefixes.some((prefix) => pathname === prefix || pathname.startsWith(prefix + "/"));
 }
 
-function hasSessionCookie(request: NextRequest) {
+function hasSharedAuthCookie(request: NextRequest) {
   return Boolean(
     request.cookies.get("authjs.session-token")?.value ||
     request.cookies.get("__Secure-authjs.session-token")?.value ||
     request.cookies.get("next-auth.session-token")?.value ||
     request.cookies.get("__Secure-next-auth.session-token")?.value
   );
+}
+
+function hasMarketplaceSessionCookie(request: NextRequest) {
+  return Boolean(request.cookies.get("mdh_customer")?.value || hasSharedAuthCookie(request));
+}
+
+function hasAdminSessionCookie(request: NextRequest) {
+  return Boolean(request.cookies.get("mdh_admin")?.value || hasSharedAuthCookie(request));
+}
+
+function hasSellerSessionCookie(request: NextRequest) {
+  return Boolean(request.cookies.get("mdh_admin")?.value || request.cookies.get("mdh_customer")?.value || hasSharedAuthCookie(request));
 }
 
 export function middleware(request: NextRequest) {
@@ -56,11 +73,18 @@ export function middleware(request: NextRequest) {
     return response;
   }
 
-  if (hasSessionCookie(request)) {
+  const hasRequiredSession =
+    pathname === "/admin" || pathname.startsWith("/admin/")
+      ? hasAdminSessionCookie(request)
+      : pathname === "/seller" || pathname.startsWith("/seller/")
+        ? hasSellerSessionCookie(request)
+        : hasMarketplaceSessionCookie(request);
+
+  if (hasRequiredSession) {
     return response;
   }
 
-  const loginUrl = new URL("/login", request.url);
+  const loginUrl = new URL(pathname === "/admin" || pathname.startsWith("/admin/") ? adminLoginPath : "/login", request.url);
   loginUrl.searchParams.set("redirect", pathname);
   return NextResponse.redirect(loginUrl);
 }

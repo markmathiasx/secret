@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
 import { Prisma, PaymentMethod, PaymentProvider, PaymentStatus, ShipmentStatus, OrderStatus } from "@prisma/client";
 import { z } from "zod";
-import { auth } from "@/auth";
 import { addressInputSchema, normalizeAddressInput } from "@/lib/address-book";
 import { findProduct } from "@/lib/catalog";
 import { canConnectToDatabase, prisma } from "@/lib/prisma";
 import { getClientIp, checkRateLimit } from "@/lib/security";
+import { getServerSessionUser } from "@/lib/server-session";
 import { buildShippingQuote } from "@/lib/shipping";
 import { storeRecord } from "@/lib/storage";
 
@@ -130,7 +130,7 @@ async function maybePersistAddress(input: {
 }
 
 export async function POST(request: Request) {
-  const session = await auth();
+  const user = await getServerSessionUser();
   const ip = getClientIp(request.headers);
   const rateLimit = checkRateLimit(`order:${ip}`, 8, 60_000);
 
@@ -166,7 +166,7 @@ export async function POST(request: Request) {
   const totalCard = Number((subtotalCard + shippingOption.price).toFixed(2));
   const createdAt = new Date().toISOString();
   const orderState = buildOrderState(parsed.data.paymentMethod);
-  const buyerId = session?.user?.id || null;
+  const buyerId = user?.id || null;
   const savedAddress = await maybePersistAddress({
     userId: buyerId,
     addressId: parsed.data.addressId,

@@ -154,7 +154,7 @@ export function HeaderCommandPalette() {
       id: `product-${product.id}`,
       label: product.name,
       href: getProductUrl(product),
-      note: `${product.category} • ${formatCurrency(product.pricePix)} • ${product.productionWindow} • ${isProductVisualVerified(product) ? "visual validado" : "referência visual"}`,
+      note: `${product.category} • ${formatCurrency(product.pricePix)} • ${product.productionWindow} • ${isProductVisualVerified(product) ? "visual validado" : "imagem conceitual"}`,
       group: "Produtos em destaque",
       icon: "product" as const,
     }));

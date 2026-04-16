@@ -15,7 +15,7 @@ export const CARD_MULTIPLIER = 1.12;
 export const BOLETO_MULTIPLIER = 1.08;
 export const MARKETPLACE_PRICE_MULTIPLIER = 1.15;
 export const REFERENCE_PRICE_MULTIPLIER = 1.18;
-export const FIXED_MARGIN_BADGE_LABEL = "40% lucro garantido";
+export const FIXED_MARGIN_BADGE_LABEL = "Preco auditado";
 export const LOCAL_PRODUCTION_BADGE_LABEL = "Produção local RJ";
 
 const filamentCostPerGram = 0.11;
@@ -87,6 +87,6 @@ export function calculateSalePrice(
   return roundCurrency(price);
 }
 
-export function buildFixedMarginNarrative(costBase: number, pricePix: number) {
-  return `Preço Pix calculado em R$ ${pricePix.toFixed(2)} sobre custo total estimado de R$ ${costBase.toFixed(2)}, preservando margem líquida fixa de 40% para operação local no RJ.`;
+export function buildFixedMarginNarrative(_costBase: number, pricePix: number) {
+  return `Preco Pix calculado em R$ ${pricePix.toFixed(2)} com base em material, tempo de producao e acabamento estimados para a peca.`;
 }

@@ -2687,7 +2687,12 @@ const curatedCatalog: Product[] = [
 const fullCatalog = [
   ...verifiedCatalog.map((product) => applyCatalogMedia(enrichProduct(product), { preserveExisting: true })),
   ...curatedCatalog.map((product) => applyCatalogMedia(enrichProduct(product), { preserveExisting: false })),
-  ...csvCuratedCatalog.map((product) => applyCatalogMedia(enrichProduct(product), { preserveExisting: false })),
+  ...csvCuratedCatalog.map((product) =>
+    applyCatalogMedia(enrichProduct(product), {
+      preserveExisting: true,
+      preferExistingImages: true,
+    })
+  ),
 ];
 export const catalog = getSafePublicCatalog(fullCatalog);
 export const featuredCatalog = catalog.filter((item) => item.featured).slice(0, 12);

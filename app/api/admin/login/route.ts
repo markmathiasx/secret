@@ -3,7 +3,7 @@ import { scryptSync, timingSafeEqual } from 'node:crypto';
 import { checkRateLimit, getClientIp } from '@/lib/security';
 import { adminConfig } from '@/lib/constants';
 import { authenticateUser } from '@/lib/auth-store';
-import { createSignedSessionToken } from '@/lib/session-token';
+import { createSignedSessionToken, isSessionSecretConfigured } from '@/lib/session-token';
 
 export const runtime = 'nodejs';
 
@@ -34,7 +34,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, error: 'Informe e-mail e senha válidos.' }, { status: 400 });
   }
 
-  if (!adminConfig.sessionSecret || adminConfig.sessionSecret === 'troque-o-session-secret') {
+  if (!isSessionSecretConfigured(adminConfig.sessionSecret)) {
     return NextResponse.json({ ok: false, error: 'Configure ADMIN_SESSION_SECRET nas variáveis do projeto.' }, { status: 500 });
   }
 

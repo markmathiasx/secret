@@ -8,6 +8,8 @@ export type CustomerSessionUser = {
   displayName: string;
   role: "customer" | "seller" | "admin";
   twoFactorEnabled?: boolean;
+  supportsTwoFactor?: boolean;
+  source?: "authjs" | "customer-cookie" | "admin-cookie";
 };
 
 type SessionState = {

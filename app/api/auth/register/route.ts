@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { registerBuyerAccount } from "@/lib/marketplace-auth";
 import { applyNoStoreHeaders } from "@/lib/http-cache";
+import { createCustomerAccount } from "@/lib/auth-store";
+import { canConnectToDatabase } from "@/lib/prisma";
 import { checkRateLimit, getClientIp } from "@/lib/security";
 
 export const runtime = "nodejs";
@@ -25,6 +27,32 @@ export async function POST(req: Request) {
         NextResponse.json(
           { error: "Use uma senha com pelo menos 8 caracteres, incluindo maiúscula, minúscula e número." },
           { status: 400 }
+        )
+      );
+    }
+
+    const hasDatabase = await canConnectToDatabase();
+
+    if (!hasDatabase) {
+      const user = await createCustomerAccount({
+        email,
+        password,
+        displayName: name,
+      });
+
+      return applyNoStoreHeaders(
+        NextResponse.json(
+          {
+            success: true,
+            needsVerification: false,
+            message: "Conta criada com sucesso.",
+            user: {
+              id: user.id,
+              email: user.email,
+              name: user.displayName,
+            },
+          },
+          { status: 201 }
         )
       );
     }
@@ -56,7 +84,7 @@ export async function POST(req: Request) {
     const message = error instanceof Error ? error.message : "Erro ao cadastrar.";
     const normalized = message.toLowerCase();
 
-    if (normalized.includes("já existe")) {
+    if (normalized.includes("já existe") || normalized.includes("already") || normalized.includes("registered")) {
       return applyNoStoreHeaders(NextResponse.json({ error: message }, { status: 409 }));
     }
 

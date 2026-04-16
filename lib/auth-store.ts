@@ -299,32 +299,36 @@ export async function createCustomerAccount(input: {
   const supabaseAdmin = getSupabaseAdmin();
 
   if (supabaseAdmin) {
-    const remoteUsers = await listRemoteUsers();
-    const remoteCustomers = remoteUsers.filter((user) => {
-      const providers = Array.isArray(user.app_metadata?.providers) ? user.app_metadata.providers : [];
-      const source = typeof user.user_metadata?.source === "string" ? user.user_metadata.source : "";
-      return source === "local-site" || providers.includes("email");
-    });
+    try {
+      const remoteUsers = await listRemoteUsers();
+      const remoteCustomers = remoteUsers.filter((user) => {
+        const providers = Array.isArray(user.app_metadata?.providers) ? user.app_metadata.providers : [];
+        const source = typeof user.user_metadata?.source === "string" ? user.user_metadata.source : "";
+        return source === "local-site" || providers.includes("email");
+      });
 
-    if (remoteCustomers.length >= getRoleLimit("customer")) {
-      throw new Error("O limite inicial de 100 contas foi atingido.");
-    }
-
-    const { data, error } = await supabaseAdmin.auth.admin.createUser({
-      email: normalizeEmail(input.email),
-      password: input.password,
-      email_confirm: true,
-      user_metadata: {
-        display_name: normalizeDisplayName(input.displayName),
-        source: "local-site"
+      if (remoteCustomers.length >= getRoleLimit("customer")) {
+        throw new Error("O limite inicial de 100 contas foi atingido.");
       }
-    });
 
-    if (error || !data.user) {
-      throw new Error(error?.message || "Não foi possível criar a conta.");
+      const { data, error } = await supabaseAdmin.auth.admin.createUser({
+        email: normalizeEmail(input.email),
+        password: input.password,
+        email_confirm: true,
+        user_metadata: {
+          display_name: normalizeDisplayName(input.displayName),
+          source: "local-site"
+        }
+      });
+
+      if (error || !data.user) {
+        throw new Error(error?.message || "Não foi possível criar a conta.");
+      }
+
+      return toRemoteAuthUser(data.user);
+    } catch {
+      // Fallback local para ambientes sem acesso ao Supabase ou com instabilidade temporaria.
     }
-
-    return toRemoteAuthUser(data.user);
   }
 
   return createUser({ ...input, role: "customer" });
@@ -337,13 +341,18 @@ export async function authenticateCustomerUser(input: {
   const supabasePublic = getSupabasePublic();
 
   if (supabasePublic) {
-    const { data, error } = await supabasePublic.auth.signInWithPassword({
-      email: normalizeEmail(input.email),
-      password: input.password
-    });
+    try {
+      const { data, error } = await supabasePublic.auth.signInWithPassword({
+        email: normalizeEmail(input.email),
+        password: input.password
+      });
 
-    if (error || !data.user) return null;
-    return toRemoteAuthUser(data.user);
+      if (!error && data.user) {
+        return toRemoteAuthUser(data.user);
+      }
+    } catch {
+      // Segue para o fallback local abaixo.
+    }
   }
 
   return authenticateUser({ ...input, role: "customer" });

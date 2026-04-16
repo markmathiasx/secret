@@ -1,5 +1,7 @@
+import { redirect } from "next/navigation";
 import { ArrowDownRight, ArrowUpRight, Landmark, ReceiptText, WalletCards } from "lucide-react";
 import { getAdminFinanceSnapshot } from "@/lib/server-store";
+import { getServerSessionUser, isAdminSession } from "@/lib/server-session";
 import { formatCurrency } from "@/lib/utils";
 
 function formatDate(value: string) {
@@ -35,6 +37,12 @@ function orderStatusLabel(value: string) {
 export const dynamic = "force-dynamic";
 
 export default async function FinancePage() {
+  const user = await getServerSessionUser();
+
+  if (!isAdminSession(user)) {
+    redirect("/admin/login");
+  }
+
   const snapshot = await getAdminFinanceSnapshot();
   const metrics = snapshot.metrics;
 

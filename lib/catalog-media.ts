@@ -68,19 +68,26 @@ export function applyCatalogMedia<T extends ProductImageShape>(
   product: T,
   options?: {
     preserveExisting?: boolean;
+    preferExistingImages?: boolean;
     imageCount?: number;
   }
 ) {
   const slug = getProductSlugValue(product);
   const preserveExisting = options?.preserveExisting ?? false;
+  const preferExistingImages = options?.preferExistingImages ?? false;
   const mappedGallery = getMappedGallery(product.id);
-  const baseImages = mappedGallery.length
-    ? mappedGallery
-    : preserveExisting && product.images?.length
-      ? product.images
+  const existingImages = product.images?.filter(Boolean) || [];
+  const baseImages = preferExistingImages && existingImages.length
+    ? existingImages
+    : mappedGallery.length
+      ? mappedGallery
+      : preserveExisting && existingImages.length
+        ? existingImages
       : buildGeneratedProductImages(slug, options?.imageCount ?? 4, product.id);
   const images = unique(baseImages.filter(Boolean));
-  const image = getMappedPrimaryImage(product.id) || images[0] || buildGeneratedProductImages(slug, 1, product.id)[0];
+  const image = preferExistingImages
+    ? product.image?.trim() || images[0] || getMappedPrimaryImage(product.id) || buildGeneratedProductImages(slug, 1, product.id)[0]
+    : getMappedPrimaryImage(product.id) || images[0] || buildGeneratedProductImages(slug, 1, product.id)[0];
   const imageAlt = product.imageAlt?.trim() || buildProductImageAlt(product.name);
 
   return {

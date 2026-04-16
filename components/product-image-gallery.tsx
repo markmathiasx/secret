@@ -62,7 +62,7 @@ export function ProductImageGallery({
             <div className="min-w-0">
               <p className="truncate uppercase tracking-[0.16em] text-white/80 font-medium">{product.material} • {product.finish}</p>
               <p className="mt-1 line-clamp-1 text-[11px] text-white/55">
-                {visual.kind === "imagem-conceitual" ? "Produto exibido com referência visual para orientar a compra." : "Peça já produzida ou visual fiel do produto final."}
+                {visual.kind === "imagem-conceitual" ? "Produto exibido com imagem conceitual para orientar forma, estilo e proposta." : "Peca ja produzida ou visual fiel do produto final."}
               </p>
             </div>
             <ProductVisualBadge product={product} />

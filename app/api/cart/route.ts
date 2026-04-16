@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
 import { Prisma } from "@prisma/client";
 import { z } from "zod";
-import { auth } from "@/auth";
 import { findProduct } from "@/lib/catalog";
 import { canConnectToDatabase, prisma } from "@/lib/prisma";
+import { getServerSessionUser } from "@/lib/server-session";
 
 const cartItemSchema = z.object({
   productId: z.string().min(1),
@@ -84,9 +84,9 @@ async function ensureActiveCart(userId: string) {
 }
 
 export async function GET() {
-  const session = await auth();
+  const user = await getServerSessionUser();
 
-  if (!session?.user?.id) {
+  if (!user?.id) {
     return NextResponse.json({ ok: true, cart: null, persisted: false });
   }
 
@@ -94,14 +94,14 @@ export async function GET() {
     return NextResponse.json({ ok: true, cart: null, persisted: false });
   }
 
-  const cart = await getActiveCart(session.user.id);
+  const cart = await getActiveCart(user.id);
   return NextResponse.json({ ok: true, cart: mapCart(cart), persisted: true });
 }
 
 export async function POST(request: Request) {
-  const session = await auth();
+  const user = await getServerSessionUser();
 
-  if (!session?.user?.id) {
+  if (!user?.id) {
     return NextResponse.json({ ok: false, error: "Faça login para sincronizar o carrinho." }, { status: 401 });
   }
 
@@ -127,7 +127,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, error: "Nenhum item válido foi enviado para o carrinho." }, { status: 400 });
   }
 
-  const cart = await ensureActiveCart(session.user.id);
+  const cart = await ensureActiveCart(user.id);
 
   await prisma.$transaction(async (tx) => {
     for (const item of items) {
@@ -178,6 +178,6 @@ export async function POST(request: Request) {
     }
   });
 
-  const hydratedCart = await getActiveCart(session.user.id);
+  const hydratedCart = await getActiveCart(user.id);
   return NextResponse.json({ ok: true, cart: mapCart(hydratedCart), persisted: true });
 }

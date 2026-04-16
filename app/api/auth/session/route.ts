@@ -1,23 +1,25 @@
 import { NextResponse } from "next/server";
-import { auth } from "@/auth";
+import { getServerSessionUser } from "@/lib/server-session";
 
 export const runtime = "nodejs";
 
 export async function GET() {
-  const session = await auth();
+  const user = await getServerSessionUser();
 
-  if (!session?.user?.email) {
+  if (!user?.email) {
     return NextResponse.json({ ok: true, user: null });
   }
 
   return NextResponse.json({
     ok: true,
     user: {
-      id: session.user.id,
-      email: session.user.email,
-      displayName: session.user.name || session.user.email.split("@")[0],
-      role: session.user.role === "admin" ? "admin" : session.user.role === "seller" ? "seller" : "customer",
-      twoFactorEnabled: session.user.twoFactorEnabled || false,
+      id: user.id,
+      email: user.email,
+      displayName: user.displayName,
+      role: user.role,
+      twoFactorEnabled: user.twoFactorEnabled,
+      supportsTwoFactor: user.supportsTwoFactor,
+      source: user.source,
     },
   });
 }

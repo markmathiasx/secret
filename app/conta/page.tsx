@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import { signOut as nextAuthSignOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import {
@@ -166,7 +165,7 @@ export default function AccountPage() {
   }, [favoriteProducts, recentProducts]);
 
   async function signOut() {
-    await nextAuthSignOut({ redirect: false });
+    await fetch('/api/auth/logout', { method: 'POST', credentials: 'same-origin', cache: 'no-store' });
     emitCustomerAuthChange();
     router.replace('/');
     router.refresh();

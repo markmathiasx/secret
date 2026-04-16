@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import type { Address as PrismaAddress } from "@prisma/client";
-import { auth } from "@/auth";
 import { addressInputSchema, normalizeAddressInput } from "@/lib/address-book";
 import { canConnectToDatabase, prisma } from "@/lib/prisma";
+import { getServerSessionUser } from "@/lib/server-session";
 
 export const runtime = "nodejs";
 
@@ -31,10 +31,10 @@ function serializeAddress(address: PrismaAddress) {
 }
 
 export async function PATCH(request: Request, context: RouteContext) {
-  const session = await auth();
+  const user = await getServerSessionUser();
   const { id } = await context.params;
 
-  if (!session?.user?.id) {
+  if (!user?.id) {
     return NextResponse.json({ ok: false, error: "Faça login para atualizar endereços." }, { status: 401 });
   }
 
@@ -52,7 +52,7 @@ export async function PATCH(request: Request, context: RouteContext) {
   const existing = await prisma.address.findFirst({
     where: {
       id,
-      userId: session.user.id,
+      userId: user.id,
     },
   });
 
@@ -65,14 +65,14 @@ export async function PATCH(request: Request, context: RouteContext) {
   const address = await prisma.$transaction(async (tx) => {
     if (addressData.isDefaultShipping) {
       await tx.address.updateMany({
-        where: { userId: session.user.id },
+        where: { userId: user.id },
         data: { isDefaultShipping: false },
       });
     }
 
     if (addressData.isDefaultBilling) {
       await tx.address.updateMany({
-        where: { userId: session.user.id },
+        where: { userId: user.id },
         data: { isDefaultBilling: false },
       });
     }
@@ -90,10 +90,10 @@ export async function PATCH(request: Request, context: RouteContext) {
 }
 
 export async function DELETE(_request: Request, context: RouteContext) {
-  const session = await auth();
+  const user = await getServerSessionUser();
   const { id } = await context.params;
 
-  if (!session?.user?.id) {
+  if (!user?.id) {
     return NextResponse.json({ ok: false, error: "Faça login para remover endereços." }, { status: 401 });
   }
 
@@ -104,7 +104,7 @@ export async function DELETE(_request: Request, context: RouteContext) {
   const existing = await prisma.address.findFirst({
     where: {
       id,
-      userId: session.user.id,
+      userId: user.id,
     },
   });
 

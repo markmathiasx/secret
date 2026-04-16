@@ -1,14 +1,14 @@
 import { NextResponse } from "next/server";
-import { auth } from "@/auth";
 import { getAdminCatalogSnapshot } from "@/lib/server/admin-catalog-store";
+import { getServerSessionUser, isAdminSession } from "@/lib/server-session";
 
 function unauthorized() {
   return NextResponse.json({ ok: false, error: "Acesso restrito ao admin." }, { status: 401 });
 }
 
 export async function GET() {
-  const session = await auth();
-  if (session?.user?.role !== "admin") {
+  const user = await getServerSessionUser();
+  if (!isAdminSession(user)) {
     return unauthorized();
   }
 

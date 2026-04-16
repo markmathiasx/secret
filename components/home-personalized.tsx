@@ -47,7 +47,7 @@ export function HomePersonalized() {
           <p className="section-kicker">Linhas principais</p>
           <h2 className="section-title">Uma vitrine mais clara, segmentada e fácil de vender</h2>
           <p className="section-copy max-w-3xl">
-            Em vez de parecer um catálogo genérico, a home passa a guiar o cliente por intenções de compra com hierarquia visual mais forte.
+            A home guia o cliente por intencoes de compra para facilitar descoberta, comparacao e decisao.
           </p>
         </div>
         <Link href="/catalogo" className="btn-dark">

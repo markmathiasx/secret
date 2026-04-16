@@ -123,7 +123,7 @@ export function SiteHeader({
                 : "Pix imediato • orçamento claro • atendimento humano"}
             </span>
             <span className="rounded-full border border-emerald-300/25 bg-emerald-300/10 px-3 py-1 text-[10px] font-semibold text-emerald-100">
-              40% lucro garantido
+              Producao local e acabamento sob medida
             </span>
             <a href={socialLinks.instagram} target="_blank" rel="noreferrer" className="text-cyan-100 transition hover:text-cyan-glow">
               @{brand.instagramHandle}

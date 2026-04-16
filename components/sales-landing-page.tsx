@@ -53,7 +53,7 @@ export function SalesLandingPage({ landingKey }: { landingKey: SalesLandingKey }
     },
     {
       title: "Quero algo mais autoral",
-      description: "Se esta linha estiver perto do que você imaginou, vale avançar para personalização com referência visual.",
+      description: "Se esta linha estiver perto do que voce imaginou, vale avancar para personalizacao com briefing e ajuste sob medida.",
       href: "/imagem-para-impressao-3d",
     },
     {

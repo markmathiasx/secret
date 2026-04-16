@@ -1,11 +1,9 @@
 'use client';
 
-import { signIn } from 'next-auth/react';
 import { useState } from 'react';
-import { adminConfig } from '@/lib/constants';
 
 export function AdminLoginForm() {
-  const [email, setEmail] = useState(adminConfig.email);
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'error'>('idle');
   const [message, setMessage] = useState('');
@@ -15,21 +13,27 @@ export function AdminLoginForm() {
     setStatus('loading');
     setMessage('');
 
-    const result = await signIn('credentials', {
-      email,
-      password,
-      role: 'admin',
-      redirect: false,
-      callbackUrl: '/admin'
+    const response = await fetch('/api/admin/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      cache: 'no-store',
+      body: JSON.stringify({
+        email,
+        password,
+      }),
     });
 
-    if (result?.error) {
+    const payload = await response.json().catch(() => ({}));
+
+    if (!response.ok || !payload?.ok) {
       setStatus('error');
-      setMessage('Falha no login. Verifique as credenciais do admin e o status da conta.');
+      setMessage(payload?.error || 'Falha no login. Verifique as credenciais do admin.');
       return;
     }
 
-    window.location.href = result?.url || '/admin';
+    window.location.href = payload?.redirectTo || '/admin';
   }
 
   return (
@@ -47,7 +51,7 @@ export function AdminLoginForm() {
       {status === 'error' ? (
         <p className="text-sm text-rose-200">{message}</p>
       ) : (
-        <p className="text-xs text-white/45">Senha validada pelo fluxo de credenciais do Auth.js com role admin.</p>
+        <p className="text-xs text-white/45">Use apenas o e-mail administrativo autorizado para entrar no painel.</p>
       )}
 
       <button type="submit" disabled={status === 'loading'} className="btn-primary w-full justify-center disabled:opacity-60">

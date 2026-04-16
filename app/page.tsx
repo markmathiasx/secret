@@ -18,7 +18,7 @@ const faqItems = [
   {
     question: "Como vocês tratam as imagens da loja?",
     answer:
-      "A home passa a priorizar só itens com foto real do objeto físico. Produtos ainda sem foto real continuam acessíveis, mas ficam fora da vitrine principal.",
+      "A vitrine principal prioriza itens com foto real do objeto fisico. Produtos personalizados ou em fase de curadoria continuam disponiveis, sempre com classificacao visual clara.",
   },
   {
     question: "Qual é o prazo médio?",
@@ -36,7 +36,7 @@ const homeSteps = [
   {
     title: "Escolha uma peça com foto real",
     description:
-      "A entrada da loja passa a destacar itens já fotografados fisicamente, reduzindo dúvida logo no primeiro contato.",
+      "A vitrine destaca itens ja fotografados fisicamente para reduzir duvida logo no primeiro contato.",
   },
   {
     title: "Confirme material, prazo e acabamento",
@@ -77,7 +77,7 @@ export default function HomePage() {
       label: "Pronta para vender",
       description: "Item com foto real e leitura comercial rápida para anúncio, vitrine e atendimento.",
       href: "/catalogo?mode=real&status=Pronta%20entrega",
-      product: selectProduct((product) => product.readyToShip && isProductRealPhoto(product)),
+      product: selectProduct((product) => Boolean(product.readyToShip) && isProductRealPhoto(product)),
     },
     {
       id: "gift",
@@ -119,10 +119,9 @@ export default function HomePage() {
         <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
           <div className="max-w-3xl">
             <p className="section-kicker">Portfólio com foto real</p>
-            <h2 className="section-title">A entrada da loja agora prioriza peças fotografadas de verdade.</h2>
+            <h2 className="section-title">A vitrine principal prioriza pecas fotografadas de verdade.</h2>
             <p className="section-copy mt-4">
-              Em vez de abrir com imagem conceitual, a home passa a puxar só itens com foto do objeto físico.
-              Isso deixa a vitrine mais confiável para anunciar, divulgar e fechar pedido.
+              Aqui entram primeiro as pecas com prova visual mais forte. Isso deixa a navegacao mais confiavel para descobrir, comparar e fechar pedido.
             </p>
           </div>
 
@@ -156,9 +155,9 @@ export default function HomePage() {
         <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
           <div className="max-w-3xl">
             <p className="section-kicker">Escolhas rápidas</p>
-            <h2 className="section-title">Peças reais para a loja parecer pronta e segura na primeira visita.</h2>
+            <h2 className="section-title">Pecas reais para abrir a loja com mais seguranca na primeira visita.</h2>
             <p className="section-copy mt-4">
-              Esta seção corta ruído visual e mostra só peças que já sustentam anúncio, catálogo e conversa comercial.
+              Esta secao corta ruido visual e mostra pecas que sustentam catalogo, anuncio e conversa comercial com mais confianca.
             </p>
           </div>
           <Link href="/catalogo?mode=real" className="btn-glass">
@@ -224,7 +223,7 @@ export default function HomePage() {
         <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr]">
           <div className="glass-panel p-8">
             <p className="section-kicker">Como comprar</p>
-            <h2 className="section-title">Fluxo mais simples para vender sem parecer catálogo em montagem.</h2>
+            <h2 className="section-title">Fluxo simples para escolher, confirmar e fechar com seguranca.</h2>
             <div className="mt-8 grid gap-4">
               {homeSteps.map((step, index) => (
                 <div key={step.title} className="rounded-[24px] border border-white/10 bg-black/20 p-5">
@@ -237,14 +236,14 @@ export default function HomePage() {
           </div>
 
           <div className="glass-panel p-8">
-            <p className="section-kicker">O que muda</p>
-            <h2 className="section-title">Menos imagem errada na frente, mais confiança para anunciar hoje.</h2>
+            <p className="section-kicker">Por que confiar</p>
+            <h2 className="section-title">Menos ambiguidade visual, mais confianca para comprar hoje.</h2>
             <div className="mt-6 grid gap-4">
               {[
-                "Home puxando só peças com foto real.",
-                "Catálogo abrindo em modo foto real por padrão.",
-                "Itens conceituais deixam de dominar a primeira impressão.",
-                "Fluxo em lote preparado para importar novas fotos sem troca manual uma a uma.",
+                "A home prioriza pecas com foto real.",
+                "O catalogo abre em modo foto real por padrao.",
+                "Imagens conceituais aparecem de forma sinalizada, sem confundir a primeira impressao.",
+                "Novas galerias locais entram no catalogo sem duplicar imagem antiga.",
               ].map((item) => (
                 <div key={item} className="rounded-[24px] border border-white/10 bg-black/20 p-4 text-sm leading-7 text-white/70">
                   {item}
@@ -278,9 +277,9 @@ export default function HomePage() {
           <div className="grid gap-8 lg:grid-cols-[0.92fr_1.08fr]">
             <div>
               <p className="section-kicker">Perguntas frequentes</p>
-              <h2 className="section-title">Respostas curtas para o cliente avançar sem ruído.</h2>
+              <h2 className="section-title">Respostas curtas para o cliente avancar sem ruido.</h2>
               <p className="section-copy mt-4">
-                O foco aqui é reduzir atrito visual e comercial para você conseguir anunciar sem cara de protótipo.
+                O foco aqui e reduzir atrito visual e comercial para deixar a compra mais clara do primeiro clique ao checkout.
               </p>
             </div>
 

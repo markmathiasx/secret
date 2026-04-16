@@ -128,13 +128,13 @@ function getVisualDefaults(kind: ProductVisualKind) {
       };
     default:
       return {
-        label: "Referência visual",
+        label: "Imagem conceitual",
         badgeClassName: "border-amber-300/25 bg-amber-300/10 text-amber-100",
         panelClassName: "border-amber-400/20 bg-amber-400/10 text-amber-50",
         description:
-          "A imagem funciona como referência visual do produto anunciado. Ela ajuda a entender forma, proposta e estilo, mas não substitui foto real da peça pronta.",
+          "A imagem apresenta a ideia visual do produto anunciado. Ela ajuda a entender forma, proposta e estilo, mas nao substitui foto real da peca pronta.",
         recommendedNextStep:
-          "Substituir por foto real da peça pronta ou por render fiel derivado do arquivo STL/OBJ/3MF correspondente.",
+          "Substituir por foto real da peca pronta ou por render fiel derivado do arquivo STL/OBJ/3MF correspondente.",
         merchantReady: false,
       };
   }

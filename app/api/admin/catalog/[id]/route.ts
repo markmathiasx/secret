@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { auth } from "@/auth";
 import { updateAdminCatalogProduct } from "@/lib/server/admin-catalog-store";
+import { getServerSessionUser, isAdminSession } from "@/lib/server-session";
 
 const patchSchema = z.object({
   title: z.string().min(3).max(160).optional(),
@@ -25,8 +25,8 @@ function unauthorized() {
 }
 
 export async function PATCH(request: Request, context: { params: Promise<{ id: string }> }) {
-  const session = await auth();
-  if (session?.user?.role !== "admin") {
+  const user = await getServerSessionUser();
+  if (!isAdminSession(user)) {
     return unauthorized();
   }
 

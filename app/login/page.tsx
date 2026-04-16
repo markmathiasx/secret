@@ -1,17 +1,16 @@
 'use client';
 
 import Link from 'next/link';
-import { getProviders, signIn } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
-import { Apple, ArrowRight, LockKeyhole, Mail, MessageCircleMore, ShieldCheck, User } from 'lucide-react';
+import { ArrowRight, LockKeyhole, Mail, MessageCircleMore, ShieldCheck, User } from 'lucide-react';
 import { emitCustomerAuthChange } from '@/lib/customer-session-client';
 import { whatsappMessage, whatsappNumber } from '@/lib/constants';
 
 const benefits = [
   'Salvar favoritos e voltar mais rápido aos produtos vistos',
   'Acompanhar pedidos e próximos orçamentos em um só lugar',
-  'Organizar sua jornada de compra sem depender de login social',
+  'Guardar seu historico sem recomecar a navegacao do zero',
   'Comprar novamente com mais agilidade'
 ];
 const LOGIN_REDIRECT_KEY = 'mdh_login_redirect';
@@ -39,14 +38,9 @@ export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [loginRole, setLoginRole] = useState<'buyer' | 'seller' | 'admin'>('buyer');
-  const [twoFactorCode, setTwoFactorCode] = useState('');
-  const [providers, setProviders] = useState<Record<string, { id: string; name: string }>>({});
   const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
   const redirectTo = searchParams.get('redirect') || '';
   const verificationStatus = searchParams.get('verified') || '';
-  const hasGoogle = Boolean(providers.google);
-  const hasApple = Boolean(providers.apple);
   const passwordStrength = useMemo(() => getPasswordStrength(password), [password]);
   const loginContext = useMemo(() => {
     if (redirectTo.includes('/checkout')) return 'Entre para continuar o checkout com seus dados e pedidos salvos.';
@@ -74,29 +68,6 @@ export default function LoginPage() {
     }
   }, [verificationStatus]);
 
-  useEffect(() => {
-    let active = true;
-
-    getProviders()
-      .then((availableProviders) => {
-        if (!active || !availableProviders) return;
-
-        const normalized = Object.values(availableProviders).reduce<Record<string, { id: string; name: string }>>((acc, provider) => {
-          acc[provider.id] = { id: provider.id, name: provider.name };
-          return acc;
-        }, {});
-
-        setProviders(normalized);
-      })
-      .catch(() => {
-        if (active) setProviders({});
-      });
-
-    return () => {
-      active = false;
-    };
-  }, []);
-
   async function handleEmailAuth(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setMessage(null);
@@ -111,40 +82,35 @@ export default function LoginPage() {
 
     try {
       if (mode === 'register') {
-        const response = await fetch('/api/auth/register', {
+        const registerResponse = await fetch('/api/auth/register', {
           method: 'POST',
           cache: 'no-store',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ name, email, password }),
         });
 
-        const data = await response.json().catch(() => ({}));
-        if (!response.ok) {
-          setMessage(data?.error || 'Não foi possível concluir o cadastro.');
+        const registerData = await registerResponse.json().catch(() => ({}));
+        if (!registerResponse.ok) {
+          setMessage(registerData?.error || 'Nao foi possivel concluir o cadastro.');
           return;
         }
 
-        if (data?.needsVerification) {
+        if (registerData?.needsVerification) {
           setSuccess('Conta criada. Verifique seu e-mail para confirmar o acesso.');
           return;
         }
       }
 
-      const result = await signIn('credentials', {
-        email,
-        password,
-        role: mode === 'register' ? 'buyer' : loginRole,
-        twoFactorCode: mode === 'login' ? twoFactorCode.trim() || undefined : undefined,
-        redirect: false,
-        callbackUrl: redirectTo || '/conta',
+      const loginResponse = await fetch('/api/auth/login', {
+        method: 'POST',
+        cache: 'no-store',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
       });
+      const loginData = await loginResponse.json().catch(() => ({}));
 
-      if (result?.error) {
-        setMessage(
-          mode === 'login'
-            ? 'Não foi possível validar seu acesso. Confira e-mail, senha, perfil selecionado e o código 2FA se sua conta já usa autenticação em duas etapas.'
-            : 'Não foi possível validar seu acesso. Confira os dados enviados.'
-        );
+      if (!loginResponse.ok || !loginData?.success) {
+        setMessage(loginData?.error || 'Nao foi possivel validar seu acesso agora.');
         return;
       }
 
@@ -195,6 +161,16 @@ export default function LoginPage() {
               <p className="mt-1 text-white/55">Útil para quem já está decidindo pagamento e entrega.</p>
             </Link>
           </div>
+
+          <div className="mt-6 rounded-[24px] border border-white/10 bg-white/5 p-4 text-sm leading-7 text-white/68">
+            <p className="font-semibold text-white">Acesso da equipe</p>
+            <p className="mt-1">
+              Se voce precisa entrar no painel administrativo, use a rota separada para manter o ambiente comercial protegido.
+            </p>
+            <Link href="/admin/login" className="mt-3 inline-flex text-sm font-semibold text-cyan-100 transition hover:text-cyan-50">
+              Abrir login do admin
+            </Link>
+          </div>
         </div>
 
         <div className="glass-panel p-6 md:p-7">
@@ -213,8 +189,6 @@ export default function LoginPage() {
               type="button"
               onClick={() => {
                 setMode('register');
-                setLoginRole('buyer');
-                setTwoFactorCode('');
                 setMessage(null);
                 setSuccess(null);
               }}
@@ -234,30 +208,6 @@ export default function LoginPage() {
               Entrar
             </button>
           </div>
-
-          {(hasGoogle || hasApple) ? (
-            <div className="mt-4 grid gap-3">
-              {hasGoogle ? (
-                <button
-                  type="button"
-                  onClick={() => void signIn('google', { callbackUrl: redirectTo || '/conta' })}
-                  className="btn-secondary w-full justify-center"
-                >
-                  Entrar com Google
-                </button>
-              ) : null}
-              {hasApple ? (
-                <button
-                  type="button"
-                  onClick={() => void signIn('apple', { callbackUrl: redirectTo || '/conta' })}
-                  className="btn-secondary w-full justify-center gap-2"
-                >
-                  <Apple className="h-4 w-4" />
-                  Entrar com Apple
-                </button>
-              ) : null}
-            </div>
-          ) : null}
 
           <form onSubmit={handleEmailAuth} className="mt-6 space-y-4">
             {mode === 'register' ? (
@@ -307,57 +257,13 @@ export default function LoginPage() {
               </label>
             ) : null}
 
-            {mode === 'login' ? (
-              <>
-                <div className="rounded-[20px] border border-white/10 bg-black/20 p-4">
-                  <p className="text-xs uppercase tracking-[0.16em] text-white/45">Perfil de acesso</p>
-                  <div className="mt-3 grid gap-2 sm:grid-cols-3">
-                    {[
-                      { value: 'buyer', label: 'Comprador' },
-                      { value: 'seller', label: 'Vendedor' },
-                      { value: 'admin', label: 'Admin' },
-                    ].map((item) => (
-                      <button
-                        key={item.value}
-                        type="button"
-                        onClick={() => setLoginRole(item.value as typeof loginRole)}
-                        className={`rounded-full border px-4 py-2 text-sm font-semibold transition ${
-                          loginRole === item.value
-                            ? 'border-cyan-300/35 bg-cyan-300/12 text-cyan-50'
-                            : 'border-white/10 bg-white/5 text-white/70'
-                        }`}
-                      >
-                        {item.label}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                <label className="block">
-                  <span className="mb-2 block text-sm text-white/70">Código 2FA ou backup code</span>
-                  <div className="field-base flex items-center gap-3">
-                    <ShieldCheck className="h-4 w-4 text-white/45" />
-                    <input
-                      value={twoFactorCode}
-                      onChange={(e) => setTwoFactorCode(e.target.value)}
-                      type="text"
-                      inputMode="numeric"
-                      autoComplete="one-time-code"
-                      className="w-full bg-transparent outline-none"
-                      placeholder="Preencha se sua conta usa 2FA"
-                    />
-                  </div>
-                </label>
-              </>
-            ) : null}
-
             <div className="rounded-[24px] border border-cyan-300/20 bg-cyan-300/10 p-4">
               <div className="flex items-start gap-3">
                 <ShieldCheck className="mt-0.5 h-5 w-5 text-cyan-100" />
                 <div>
                   <p className="text-sm font-semibold text-cyan-50">Armazenamento seguro</p>
                   <p className="mt-1 text-sm leading-6 text-cyan-100/78">
-                    A senha é transformada em hash no servidor, a sessão roda em cookie assinado e você pode ativar 2FA opcional por app autenticador.
+                    A senha e processada no servidor, a sessao roda em cookie assinado e o seu historico fica vinculado ao seu email.
                   </p>
                 </div>
               </div>

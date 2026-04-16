@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { auth } from "@/auth";
 import { canConnectToDatabase, prisma } from "@/lib/prisma";
+import { canAccessSellerArea, getServerSessionUser } from "@/lib/server-session";
 
 type SellerRecentOrder = {
   id: string;
@@ -14,10 +14,9 @@ type SellerRecentOrder = {
 export const dynamic = "force-dynamic";
 
 export default async function SellerPage() {
-  const session = await auth();
-  const role = session?.user?.role || "guest";
+  const user = await getServerSessionUser();
 
-  if (role !== "seller" && role !== "admin") {
+  if (!canAccessSellerArea(user)) {
     return (
       <section className="mx-auto max-w-5xl px-6 py-20">
         <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Seller Central</p>
@@ -26,11 +25,11 @@ export default async function SellerPage() {
           Entre com uma conta de seller ou admin para abrir o painel operacional da loja.
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
-          <Link href="/login?redirect=/seller" className="btn-primary">
-            Entrar como seller
+          <Link href="/admin/login" className="btn-primary">
+            Abrir login da equipe
           </Link>
-          <Link href="/admin" className="btn-secondary">
-            Abrir admin
+          <Link href="/catalogo" className="btn-secondary">
+            Voltar para a loja
           </Link>
         </div>
       </section>
@@ -79,8 +78,8 @@ export default async function SellerPage() {
             <p className="mt-3 text-3xl font-black text-white">{orderCount}</p>
           </div>
           <div className="surface-stat rounded-[22px] px-4 py-4">
-            <p className="text-[11px] uppercase tracking-[0.18em] text-white/50">Base pronta</p>
-            <p className="mt-3 text-lg font-black text-white">{hasDatabase ? "Prisma online" : "Fallback local"}</p>
+            <p className="text-[11px] uppercase tracking-[0.18em] text-white/50">Operação</p>
+            <p className="mt-3 text-lg font-black text-white">{hasDatabase ? "Catálogo + pedidos" : "Catálogo publicado"}</p>
           </div>
         </div>
 
@@ -106,10 +105,10 @@ export default async function SellerPage() {
             <p className="text-sm font-semibold text-white">Próximos blocos</p>
             <div className="mt-4 grid gap-3 text-sm text-white/72">
               {[
-                "CRUD de produtos e variantes",
+                "Edição rápida de catálogo e variações",
                 "Upload em massa de STL e mídia",
                 "Fila de produção e rastreio",
-                "Cupons, promoções e flash sales",
+                "Campanhas, cupons e ofertas sazonais",
               ].map((item) => (
                 <div key={item} className="rounded-[18px] border border-white/10 bg-white/5 px-4 py-3">
                   {item}

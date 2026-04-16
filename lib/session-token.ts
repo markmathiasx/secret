@@ -11,6 +11,13 @@ export type SessionPayload = {
 
 export const customerSessionCookieName = "mdh_customer";
 
+const invalidSecretFragments = [
+  "troque-o-session-secret",
+  "mdh_troque_este_token_no_env",
+  "gere_uma_chave_aleatoria",
+  "cole_o_hash_gerado_aqui",
+];
+
 const encoder = new TextEncoder();
 const decoder = new TextDecoder();
 
@@ -38,14 +45,27 @@ async function getHmacKey(secret: string) {
   return crypto.subtle.importKey("raw", encoder.encode(secret), { name: "HMAC", hash: "SHA-256" }, false, ["sign", "verify"]);
 }
 
+export function isSessionSecretConfigured(secret: string | null | undefined) {
+  const normalized = secret?.trim().toLowerCase() || "";
+  if (!normalized) return false;
+  return !invalidSecretFragments.some((fragment) => normalized.includes(fragment));
+}
+
 export function getCustomerSessionSecret() {
-  return (
-    process.env.AUTH_CUSTOMER_SESSION_SECRET?.trim() ||
-    process.env.AUTH_SESSION_SECRET?.trim() ||
-    process.env.ADMIN_SESSION_SECRET?.trim() ||
-    process.env.ADMIN_SESSION_TOKEN?.trim() ||
-    null
-  );
+  const candidates = [
+    process.env.AUTH_CUSTOMER_SESSION_SECRET,
+    process.env.AUTH_SESSION_SECRET,
+    process.env.ADMIN_SESSION_SECRET,
+    process.env.ADMIN_SESSION_TOKEN,
+  ];
+
+  for (const candidate of candidates) {
+    if (isSessionSecretConfigured(candidate)) {
+      return candidate!.trim();
+    }
+  }
+
+  return null;
 }
 
 export async function createSignedSessionToken(payload: Omit<SessionPayload, "iat" | "exp"> & { expiresInSeconds: number }, secret: string) {

@@ -1,20 +1,20 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { auth } from "@/auth";
 import { canConnectToDatabase, prisma } from "@/lib/prisma";
+import { getServerSessionUser } from "@/lib/server-session";
 
 const schema = z.object({
   productId: z.string().min(1),
 });
 
 export async function GET() {
-  const session = await auth();
-  if (!session?.user?.id || !(await canConnectToDatabase())) {
+  const user = await getServerSessionUser();
+  if (!user?.id || !(await canConnectToDatabase())) {
     return NextResponse.json({ ok: true, items: [] });
   }
 
   const wishlist = await prisma.wishlist.findUnique({
-    where: { userId: session.user.id },
+    where: { userId: user.id },
     include: {
       items: {
         include: {
@@ -31,9 +31,13 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
-  const session = await auth();
-  if (!session?.user?.id || !(await canConnectToDatabase())) {
+  const user = await getServerSessionUser();
+  if (!user?.id) {
     return NextResponse.json({ ok: false, error: "Faça login para salvar favoritos." }, { status: 401 });
+  }
+
+  if (!(await canConnectToDatabase())) {
+    return NextResponse.json({ ok: false, error: "Banco indisponível para salvar favoritos." }, { status: 503 });
   }
 
   const body = await request.json().catch(() => null);
@@ -44,9 +48,9 @@ export async function POST(request: Request) {
   }
 
   const wishlist = await prisma.wishlist.upsert({
-    where: { userId: session.user.id },
+    where: { userId: user.id },
     update: {},
-    create: { userId: session.user.id },
+    create: { userId: user.id },
   });
 
   const existing = await prisma.wishlistItem.findUnique({

@@ -1,6 +1,7 @@
 import { createClient } from "@supabase/supabase-js";
 import { getSupabaseEnv } from "@/lib/env";
 import { canConnectToDatabase, prisma } from "@/lib/prisma";
+import { getMemoryRecords } from "@/lib/storage";
 
 type OrderRow = {
   id: string;
@@ -52,6 +53,128 @@ type FinanceOrderRow = {
   estimated_profit: number;
   created_at: string;
 };
+
+function toStringValue(value: unknown, fallback = "") {
+  return typeof value === "string" ? value : fallback;
+}
+
+function toNullableString(value: unknown) {
+  return typeof value === "string" && value.trim() ? value : null;
+}
+
+function toNumberValue(value: unknown, fallback = 0) {
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : fallback;
+}
+
+function toIsoDate(value: unknown) {
+  if (typeof value === "string" && value.trim()) {
+    const parsed = new Date(value);
+    if (!Number.isNaN(parsed.getTime())) {
+      return parsed.toISOString();
+    }
+  }
+
+  return new Date(0).toISOString();
+}
+
+function byCreatedAtDesc<T extends { created_at: string }>(left: T, right: T) {
+  return new Date(right.created_at).getTime() - new Date(left.created_at).getTime();
+}
+
+function mapMemoryOrderRow(record: Record<string, unknown>): OrderRow {
+  return {
+    id: toStringValue(record.id),
+    order_code: toStringValue(record.order_code),
+    product_name: toStringValue(record.product_name, "Pedido sem item"),
+    customer_name: toStringValue(record.customer_name, "Cliente não identificado"),
+    email: toStringValue(record.email).toLowerCase(),
+    payment_method: toStringValue(record.payment_method, "pix"),
+    payment_status: toNullableString(record.payment_status),
+    payment_reference: toNullableString(record.payment_reference),
+    quantity: toNumberValue(record.quantity, 1),
+    total_pix: toNumberValue(record.total_pix, 0),
+    total_card: toNumberValue(record.total_card, toNumberValue(record.total_pix, 0)),
+    status: toStringValue(record.status, "aguardando pagamento"),
+    created_at: toIsoDate(record.created_at),
+  };
+}
+
+function mapMemoryQuoteRow(record: Record<string, unknown>): QuoteRow {
+  return {
+    id: toStringValue(record.id),
+    quote_id: toStringValue(record.quote_id),
+    product_name: toStringValue(record.product_name, "Projeto sob medida"),
+    customername: toStringValue(record.customername || record.customer_name, "Cliente não identificado"),
+    paymentmethod: toStringValue(record.paymentmethod || record.payment_method, "pix"),
+    estimated_total_pix: toNumberValue(record.estimated_total_pix, 0),
+    created_at: toIsoDate(record.created_at),
+  };
+}
+
+function mapMemoryQuoteRequestRow(record: Record<string, unknown>): QuoteRequestRow {
+  return {
+    id: toStringValue(record.id),
+    quote_id: toNullableString(record.quote_id),
+    request_type: toNullableString(record.request_type),
+    customer_name: toNullableString(record.customer_name),
+    phone: toNullableString(record.phone),
+    email: toNullableString(record.email),
+    source: toNullableString(record.source),
+    status: toNullableString(record.status),
+    created_at: toIsoDate(record.created_at),
+  };
+}
+
+function buildMemoryAdminDashboardSnapshot() {
+  const recentOrders = getMemoryRecords("orders").map(mapMemoryOrderRow).sort(byCreatedAtDesc).slice(0, 10);
+  const recentQuotes = getMemoryRecords("quotes").map(mapMemoryQuoteRow).sort(byCreatedAtDesc).slice(0, 10);
+  const recentQuoteRequests = getMemoryRecords("quoteRequests")
+    .map(mapMemoryQuoteRequestRow)
+    .sort(byCreatedAtDesc)
+    .slice(0, 10);
+
+  const totalRevenuePix = recentOrders
+    .filter((item) => item.payment_method === "pix")
+    .reduce((acc, item) => acc + Number(item.total_pix || 0), 0);
+  const totalRevenueCard = recentOrders
+    .filter((item) => item.payment_method === "card" || item.payment_method === "cartao")
+    .reduce((acc, item) => acc + Number(item.total_card || item.total_pix || 0), 0);
+
+  return {
+    metrics: {
+      totalOrders: recentOrders.length,
+      totalQuotes: recentQuotes.length,
+      openRequests: recentQuoteRequests.filter((item) => (item.status || "recebido") !== "concluido").length,
+      totalRevenuePix,
+      totalRevenueCard,
+    },
+    recentOrders,
+    recentQuotes,
+    recentQuoteRequests,
+  };
+}
+
+function getMemoryCustomerOrdersByEmail(email: string) {
+  return getMemoryRecords("orders")
+    .map(mapMemoryOrderRow)
+    .filter((order) => order.email === email)
+    .sort(byCreatedAtDesc)
+    .slice(0, 12)
+    .map((order) => ({
+      id: order.id,
+      order_code: order.order_code,
+      product_name: order.product_name,
+      payment_method: order.payment_method,
+      payment_status: order.payment_status,
+      payment_reference: order.payment_reference,
+      quantity: order.quantity,
+      total_pix: order.total_pix,
+      total_card: order.total_card,
+      status: order.status,
+      created_at: order.created_at,
+    }));
+}
 
 function getSupabaseAdmin() {
   const { url, serviceRole } = getSupabaseEnv();
@@ -178,57 +301,50 @@ export async function getAdminDashboardSnapshot() {
   const supabase = getSupabaseAdmin();
 
   if (!supabase) {
-    return {
-      metrics: {
-        totalOrders: 0,
-        totalQuotes: 0,
-        openRequests: 0,
-        totalRevenuePix: 0,
-        totalRevenueCard: 0,
-      },
-      recentOrders: [] as OrderRow[],
-      recentQuotes: [] as QuoteRow[],
-      recentQuoteRequests: [] as QuoteRequestRow[],
-    };
+    return buildMemoryAdminDashboardSnapshot();
   }
 
-  const [ordersRes, quotesRes, quoteRequestsRes] = await Promise.all([
-    supabase
-      .from(getTableName("orders"))
-      .select("id, order_code, product_name, customer_name, email, payment_method, payment_status, payment_reference, quantity, total_pix, total_card, status, created_at")
-      .order("created_at", { ascending: false })
-      .limit(10),
-    supabase
-      .from(getTableName("quotes"))
-      .select("id, quote_id, product_name, customername, paymentmethod, estimated_total_pix, created_at")
-      .order("created_at", { ascending: false })
-      .limit(10),
-    supabase
-      .from(getTableName("quoteRequests"))
-      .select("id, quote_id, request_type, customer_name, phone, email, source, status, created_at")
-      .order("created_at", { ascending: false })
-      .limit(10),
-  ]);
+  try {
+    const [ordersRes, quotesRes, quoteRequestsRes] = await Promise.all([
+      supabase
+        .from(getTableName("orders"))
+        .select("id, order_code, product_name, customer_name, email, payment_method, payment_status, payment_reference, quantity, total_pix, total_card, status, created_at")
+        .order("created_at", { ascending: false })
+        .limit(10),
+      supabase
+        .from(getTableName("quotes"))
+        .select("id, quote_id, product_name, customername, paymentmethod, estimated_total_pix, created_at")
+        .order("created_at", { ascending: false })
+        .limit(10),
+      supabase
+        .from(getTableName("quoteRequests"))
+        .select("id, quote_id, request_type, customer_name, phone, email, source, status, created_at")
+        .order("created_at", { ascending: false })
+        .limit(10),
+    ]);
 
-  const recentOrders = (ordersRes.error ? [] : ordersRes.data || []) as OrderRow[];
-  const recentQuotes = (quotesRes.error ? [] : quotesRes.data || []) as QuoteRow[];
-  const recentQuoteRequests = (quoteRequestsRes.error ? [] : quoteRequestsRes.data || []) as QuoteRequestRow[];
+    const recentOrders = (ordersRes.error ? [] : ordersRes.data || []) as OrderRow[];
+    const recentQuotes = (quotesRes.error ? [] : quotesRes.data || []) as QuoteRow[];
+    const recentQuoteRequests = (quoteRequestsRes.error ? [] : quoteRequestsRes.data || []) as QuoteRequestRow[];
 
-  const totalRevenuePix = recentOrders.reduce((acc, item) => acc + Number(item.total_pix || 0), 0);
-  const totalRevenueCard = recentOrders.reduce((acc, item) => acc + Number(item.total_card || 0), 0);
+    const totalRevenuePix = recentOrders.reduce((acc, item) => acc + Number(item.total_pix || 0), 0);
+    const totalRevenueCard = recentOrders.reduce((acc, item) => acc + Number(item.total_card || 0), 0);
 
-  return {
-    metrics: {
-      totalOrders: recentOrders.length,
-      totalQuotes: recentQuotes.length,
-      openRequests: recentQuoteRequests.filter((item) => (item.status || "recebido") !== "concluido").length,
-      totalRevenuePix,
-      totalRevenueCard,
-    },
-    recentOrders,
-    recentQuotes,
-    recentQuoteRequests,
-  };
+    return {
+      metrics: {
+        totalOrders: recentOrders.length,
+        totalQuotes: recentQuotes.length,
+        openRequests: recentQuoteRequests.filter((item) => (item.status || "recebido") !== "concluido").length,
+        totalRevenuePix,
+        totalRevenueCard,
+      },
+      recentOrders,
+      recentQuotes,
+      recentQuoteRequests,
+    };
+  } catch {
+    return buildMemoryAdminDashboardSnapshot();
+  }
 }
 
 function isApprovedOrder(input: { orderStatus: string; paymentStatus: string | null }) {
@@ -402,15 +518,19 @@ export async function getCustomerOrdersByEmail(email: string) {
   }
 
   const supabase = getSupabaseAdmin();
-  if (!supabase) return [];
+  if (!supabase) return getMemoryCustomerOrdersByEmail(normalizedEmail);
 
-  const { data, error } = await supabase
-    .from(getTableName("orders"))
-    .select("id, order_code, product_name, payment_method, payment_status, payment_reference, quantity, total_pix, total_card, status, created_at")
-    .eq("email", normalizedEmail)
-    .order("created_at", { ascending: false })
-    .limit(12);
+  try {
+    const { data, error } = await supabase
+      .from(getTableName("orders"))
+      .select("id, order_code, product_name, payment_method, payment_status, payment_reference, quantity, total_pix, total_card, status, created_at")
+      .eq("email", normalizedEmail)
+      .order("created_at", { ascending: false })
+      .limit(12);
 
-  if (error) return [];
-  return data || [];
+    if (error) return getMemoryCustomerOrdersByEmail(normalizedEmail);
+    return data || [];
+  } catch {
+    return getMemoryCustomerOrdersByEmail(normalizedEmail);
+  }
 }

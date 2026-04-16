@@ -43,6 +43,44 @@ function getTableName(kind: StorageKind) {
   return process.env.SUPABASE_ORDERS_TABLE || "orders";
 }
 
+function storeRecordInMemory(kind: StorageKind, payload: Record<string, unknown>) {
+  const data = {
+    id: crypto.randomUUID(),
+    ...payload,
+  };
+
+  getMemoryStore()[kind].push(data);
+
+  return {
+    ok: true,
+    storage: "memory" as const,
+    data,
+  };
+}
+
+function updateMemoryOrderRecord(orderCode: string, payload: Record<string, unknown>) {
+  const order = getMemoryStore().orders.find((item) => item.order_code === orderCode);
+  if (!order) {
+    return {
+      ok: false,
+      storage: "memory" as const,
+      error: "Pedido não encontrado.",
+    };
+  }
+
+  Object.assign(order, payload);
+
+  return {
+    ok: true,
+    storage: "memory" as const,
+    data: order,
+  };
+}
+
+export function getMemoryRecords(kind: StorageKind) {
+  return [...getMemoryStore()[kind]];
+}
+
 function toStringValue(value: unknown, fallback = "") {
   return typeof value === "string" ? value : fallback;
 }
@@ -241,46 +279,27 @@ export async function storeRecord(kind: StorageKind, payload: Record<string, unk
         storage: "prisma" as const,
         data,
       };
-    } catch (error) {
-      return {
-        ok: false,
-        storage: "prisma" as const,
-        error: error instanceof Error ? error.message : "Falha inesperada ao salvar registro no Prisma.",
-      };
+    } catch {
+      // Fall through to Supabase / memory so the storefront can still accept requests.
     }
   }
 
   const supabase = getSupabaseAdmin();
 
   if (!supabase) {
-    const data = {
-      id: crypto.randomUUID(),
-      ...payload,
-    };
-
-    getMemoryStore()[kind].push(data);
-
-    return {
-      ok: true,
-      storage: "memory" as const,
-      data,
-    };
+    return storeRecordInMemory(kind, payload);
   }
 
   try {
     const { data, error } = await supabase.from(getTableName(kind)).insert(payload).select().single();
 
     if (error) {
-      return { ok: false, storage: "supabase" as const, error: error.message };
+      return storeRecordInMemory(kind, payload);
     }
 
     return { ok: true, storage: "supabase" as const, data };
-  } catch (error) {
-    return {
-      ok: false,
-      storage: "supabase" as const,
-      error: error instanceof Error ? error.message : "Falha inesperada ao salvar registro.",
-    };
+  } catch {
+    return storeRecordInMemory(kind, payload);
   }
 }
 
@@ -300,90 +319,65 @@ export async function updateOrderRecord(orderCode: string, payload: Record<strin
         where: { orderNumber: normalizedCode },
       });
 
-      if (!existingOrder) {
+      if (existingOrder) {
+        const order = await prisma.order.update({
+          where: { orderNumber: normalizedCode },
+          data: {
+            status: payload.status ? mapOrderStatus(payload.status) : undefined,
+            notes: payload.notes ? toStringValue(payload.notes) : undefined,
+            paidAt: payload.payment_approved_at ? new Date(toStringValue(payload.payment_approved_at)) : undefined,
+            updatedAt: new Date(),
+          },
+        });
+
+        await prisma.payment.upsert({
+          where: { externalReference: normalizedCode },
+          update: {
+            orderId: order.id,
+            method: payload.payment_method ? mapPaymentMethod(payload.payment_method) : undefined,
+            provider: payload.payment_provider ? mapPaymentProvider(payload.payment_provider) : undefined,
+            status: payload.payment_status ? mapPaymentStatus(payload.payment_status) : undefined,
+            providerPaymentId: payload.payment_reference ? toStringValue(payload.payment_reference) : undefined,
+            pixPayload: payload.pix_payload ? toStringValue(payload.pix_payload) : undefined,
+            pixQrCode: payload.pix_qr_code ? toStringValue(payload.pix_qr_code) : undefined,
+            boletoUrl: payload.boleto_url ? toStringValue(payload.boleto_url) : undefined,
+            paidAt: payload.payment_approved_at ? new Date(toStringValue(payload.payment_approved_at)) : undefined,
+            metadata: toJsonValue(payload),
+          },
+          create: {
+            orderId: order.id,
+            method: mapPaymentMethod(payload.payment_method),
+            provider: mapPaymentProvider(payload.payment_provider),
+            status: mapPaymentStatus(payload.payment_status),
+            amount: new Prisma.Decimal(order.grandTotal.toString()),
+            externalReference: normalizedCode,
+            providerPaymentId: toStringValue(payload.payment_reference) || null,
+            pixPayload: toStringValue(payload.pix_payload) || null,
+            pixQrCode: toStringValue(payload.pix_qr_code) || null,
+            boletoUrl: toStringValue(payload.boleto_url) || null,
+            paidAt: payload.payment_approved_at ? new Date(toStringValue(payload.payment_approved_at)) : null,
+            metadata: toJsonValue(payload),
+          },
+        });
+
         return {
-          ok: false,
+          ok: true,
           storage: "prisma" as const,
-          error: "Pedido não encontrado.",
+          data: {
+            id: order.id,
+            order_code: order.orderNumber,
+          },
         };
       }
-
-      const order = await prisma.order.update({
-        where: { orderNumber: normalizedCode },
-        data: {
-          status: payload.status ? mapOrderStatus(payload.status) : undefined,
-          notes: payload.notes ? toStringValue(payload.notes) : undefined,
-          paidAt: payload.payment_approved_at ? new Date(toStringValue(payload.payment_approved_at)) : undefined,
-          updatedAt: new Date(),
-        },
-      });
-
-      await prisma.payment.upsert({
-        where: { externalReference: normalizedCode },
-        update: {
-          orderId: order.id,
-          method: payload.payment_method ? mapPaymentMethod(payload.payment_method) : undefined,
-          provider: payload.payment_provider ? mapPaymentProvider(payload.payment_provider) : undefined,
-          status: payload.payment_status ? mapPaymentStatus(payload.payment_status) : undefined,
-          providerPaymentId: payload.payment_reference ? toStringValue(payload.payment_reference) : undefined,
-          pixPayload: payload.pix_payload ? toStringValue(payload.pix_payload) : undefined,
-          pixQrCode: payload.pix_qr_code ? toStringValue(payload.pix_qr_code) : undefined,
-          boletoUrl: payload.boleto_url ? toStringValue(payload.boleto_url) : undefined,
-          paidAt: payload.payment_approved_at ? new Date(toStringValue(payload.payment_approved_at)) : undefined,
-          metadata: toJsonValue(payload),
-        },
-        create: {
-          orderId: order.id,
-          method: mapPaymentMethod(payload.payment_method),
-          provider: mapPaymentProvider(payload.payment_provider),
-          status: mapPaymentStatus(payload.payment_status),
-          amount: new Prisma.Decimal(order.grandTotal.toString()),
-          externalReference: normalizedCode,
-          providerPaymentId: toStringValue(payload.payment_reference) || null,
-          pixPayload: toStringValue(payload.pix_payload) || null,
-          pixQrCode: toStringValue(payload.pix_qr_code) || null,
-          boletoUrl: toStringValue(payload.boleto_url) || null,
-          paidAt: payload.payment_approved_at ? new Date(toStringValue(payload.payment_approved_at)) : null,
-          metadata: toJsonValue(payload),
-        },
-      });
-
-      return {
-        ok: true,
-        storage: "prisma" as const,
-        data: {
-          id: order.id,
-          order_code: order.orderNumber,
-        },
-      };
-    } catch (error) {
-      return {
-        ok: false,
-        storage: "prisma" as const,
-        error: error instanceof Error ? error.message : "Falha inesperada ao atualizar pedido.",
-      };
+    } catch {
+      // Fall through to Supabase / memory so checkout updates continue to work.
     }
   }
 
   const supabase = getSupabaseAdmin();
 
   if (!supabase) {
-    const order = getMemoryStore().orders.find((item) => item.order_code === normalizedCode);
-    if (!order) {
-      return {
-        ok: false,
-        storage: "memory" as const,
-        error: "Pedido não encontrado.",
-      };
-    }
-
-    Object.assign(order, payload);
-
-    return {
-      ok: true,
-      storage: "memory" as const,
-      data: order,
-    };
+    return updateMemoryOrderRecord(normalizedCode, payload);
   }
 
   try {
@@ -395,19 +389,15 @@ export async function updateOrderRecord(orderCode: string, payload: Record<strin
       .maybeSingle();
 
     if (error) {
-      return { ok: false, storage: "supabase" as const, error: error.message };
+      return updateMemoryOrderRecord(normalizedCode, payload);
     }
 
     if (!data) {
-      return { ok: false, storage: "supabase" as const, error: "Pedido não encontrado." };
+      return updateMemoryOrderRecord(normalizedCode, payload);
     }
 
     return { ok: true, storage: "supabase" as const, data };
-  } catch (error) {
-    return {
-      ok: false,
-      storage: "supabase" as const,
-      error: error instanceof Error ? error.message : "Falha inesperada ao atualizar pedido.",
-    };
+  } catch {
+    return updateMemoryOrderRecord(normalizedCode, payload);
   }
 }
