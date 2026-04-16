@@ -142,8 +142,8 @@ export default function HomePage() {
         <CatalogGrid products={realShowcase} />
 
         <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <Link href="/catalogo?mode=real" className="btn-primary px-8 py-4">
-            Ver catálogo com foto real
+          <Link href="/catalogo" className="btn-primary px-8 py-4">
+            Ver catálogo completo
           </Link>
           <Link href="/imagem-para-impressao-3d" className="btn-secondary px-8 py-4">
             Enviar referência personalizada
@@ -160,8 +160,8 @@ export default function HomePage() {
               Esta secao corta ruido visual e mostra pecas que sustentam catalogo, anuncio e conversa comercial com mais confianca.
             </p>
           </div>
-          <Link href="/catalogo?mode=real" className="btn-glass">
-            Abrir vitrine real
+          <Link href="/catalogo" className="btn-glass">
+            Abrir catálogo completo
           </Link>
         </div>
 
@@ -241,7 +241,7 @@ export default function HomePage() {
             <div className="mt-6 grid gap-4">
               {[
                 "A home prioriza pecas com foto real.",
-                "O catalogo abre em modo foto real por padrao.",
+                "O catalogo principal abre completo; filtros de foto real ficam opcionais.",
                 "Imagens conceituais aparecem de forma sinalizada, sem confundir a primeira impressao.",
                 "Novas galerias locais entram no catalogo sem duplicar imagem antiga.",
               ].map((item) => (
@@ -252,8 +252,8 @@ export default function HomePage() {
             </div>
 
             <div className="mt-6 flex flex-wrap gap-3">
-              <Link href="/catalogo?mode=real" className="btn-primary">
-                Abrir catálogo real
+              <Link href="/catalogo" className="btn-primary">
+                Abrir catálogo completo
               </Link>
               <Link href="/checkout" className="btn-secondary">
                 Ir para checkout

@@ -6,11 +6,11 @@ const lanes = [
   {
     id: "comprar",
     title: "Comprar algo pronto para pedir",
-    description: "Comece pelas peças com foto real, preço confirmado e caminho direto para checkout.",
-    proof: "Foto real • preço claro • Pix em destaque",
-    href: "/catalogo?mode=real",
-    cta: "Ver fotos reais",
-    subline: "Ideal para quem quer decidir com menos risco percebido.",
+    description: "Comece pelo catálogo completo, com preço confirmado, fotos sinalizadas e caminho direto para checkout.",
+    proof: "catálogo completo • preço claro • Pix em destaque",
+    href: "/catalogo",
+    cta: "Abrir catálogo completo",
+    subline: "Ideal para comparar tudo sem cair em uma vitrine reduzida.",
     icon: Gift,
   },
   {

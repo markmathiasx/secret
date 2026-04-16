@@ -113,7 +113,7 @@ export default async function CatalogPage({
                 Foto real + render fiel
               </Link>
               <Link
-                href="/catalogo?mode=all"
+                href="/catalogo"
                 className="rounded-full border border-white/10 bg-white/5 px-4 py-2.5 text-xs font-semibold text-white/80 transition hover:border-white/20 hover:text-white md:px-5 md:py-3 md:text-sm"
               >
                 Ver tudo
