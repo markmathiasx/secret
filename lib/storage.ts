@@ -1,5 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import { OrderStatus, PaymentMethod, PaymentProvider, PaymentStatus, Prisma } from "@prisma/client";
+import { storeBlobRecord, updateBlobOrderRecord } from "@/lib/blob-store";
 import { getSupabaseEnv } from "@/lib/env";
 import { canConnectToDatabase, prisma } from "@/lib/prisma";
 
@@ -41,6 +42,162 @@ function getTableName(kind: StorageKind) {
   if (kind === "quotes") return process.env.SUPABASE_QUOTES_TABLE || "quotes";
   if (kind === "quoteRequests") return process.env.SUPABASE_QUOTE_REQUESTS_TABLE || "quote_requests";
   return process.env.SUPABASE_ORDERS_TABLE || "orders";
+}
+
+const SUPABASE_COLUMNS = {
+  quotes: [
+    "quote_id",
+    "product_id",
+    "product_name",
+    "customername",
+    "phone",
+    "cep",
+    "neighborhood",
+    "distancekm",
+    "colorpreference",
+    "paymentmethod",
+    "notes",
+    "estimated_price_pix",
+    "estimated_price_card",
+    "estimated_delivery_fee",
+    "estimated_total_pix",
+    "created_at",
+  ],
+  quoteRequests: [
+    "quote_id",
+    "request_type",
+    "customer_name",
+    "phone",
+    "email",
+    "project_description",
+    "project_size",
+    "preferred_material",
+    "preferred_color",
+    "desired_deadline",
+    "quantity",
+    "reference_image_name",
+    "reference_image_size",
+    "model_file_name",
+    "model_file_size",
+    "source",
+    "storage_mode",
+    "details",
+    "status",
+    "created_at",
+  ],
+  ordersModern: [
+    "order_code",
+    "product_id",
+    "product_name",
+    "quantity",
+    "customer_name",
+    "email",
+    "phone",
+    "neighborhood",
+    "cep",
+    "payment_method",
+    "notes",
+    "total_pix",
+    "total_card",
+    "status",
+    "created_at",
+    "payment_provider",
+    "payment_reference",
+    "payment_status",
+    "payment_status_detail",
+    "payment_approved_at",
+    "updated_at",
+  ],
+  ordersLegacy: [
+    "order_code",
+    "product_id",
+    "product_name",
+    "quantity",
+    "customer_name",
+    "email",
+    "phone",
+    "neighborhood",
+    "cep",
+    "payment_method",
+    "notes",
+    "total_pix",
+    "total_card",
+    "status",
+    "created_at",
+  ],
+  ordersUpdateModern: [
+    "status",
+    "payment_method",
+    "notes",
+    "payment_provider",
+    "payment_reference",
+    "payment_status",
+    "payment_status_detail",
+    "payment_approved_at",
+    "updated_at",
+  ],
+  ordersUpdateLegacy: ["status", "payment_method", "notes"],
+} as const;
+
+function pickSupabaseColumns(
+  payload: Record<string, unknown>,
+  columns: readonly string[]
+) {
+  const data: Record<string, unknown> = {};
+
+  for (const column of columns) {
+    const value = payload[column];
+    if (value !== undefined) {
+      data[column] = value;
+    }
+  }
+
+  return data;
+}
+
+function buildSupabaseOrderNotes(payload: Record<string, unknown>) {
+  const purpose = toStringValue(payload.purpose).trim();
+  const notes = toStringValue(payload.notes).trim();
+  const combined = [purpose, notes].filter(Boolean).join(" • ");
+  return combined || undefined;
+}
+
+function getSupabaseInsertCandidates(kind: StorageKind, payload: Record<string, unknown>) {
+  if (kind === "quotes") {
+    return [pickSupabaseColumns(payload, SUPABASE_COLUMNS.quotes)];
+  }
+
+  if (kind === "quoteRequests") {
+    return [pickSupabaseColumns(payload, SUPABASE_COLUMNS.quoteRequests)];
+  }
+
+  const sharedPayload = {
+    ...payload,
+    notes: buildSupabaseOrderNotes(payload) ?? payload.notes,
+  };
+
+  return [
+    pickSupabaseColumns(sharedPayload, SUPABASE_COLUMNS.ordersModern),
+    pickSupabaseColumns(sharedPayload, SUPABASE_COLUMNS.ordersLegacy),
+  ].filter((candidate, index, list) => {
+    const serialized = JSON.stringify(candidate);
+    return serialized !== "{}" && list.findIndex((item) => JSON.stringify(item) === serialized) === index;
+  });
+}
+
+function getSupabaseOrderUpdateCandidates(payload: Record<string, unknown>) {
+  const sharedPayload = {
+    ...payload,
+    notes: buildSupabaseOrderNotes(payload) ?? payload.notes,
+  };
+
+  return [
+    pickSupabaseColumns(sharedPayload, SUPABASE_COLUMNS.ordersUpdateModern),
+    pickSupabaseColumns(sharedPayload, SUPABASE_COLUMNS.ordersUpdateLegacy),
+  ].filter((candidate, index, list) => {
+    const serialized = JSON.stringify(candidate);
+    return serialized !== "{}" && list.findIndex((item) => JSON.stringify(item) === serialized) === index;
+  });
 }
 
 function storeRecordInMemory(kind: StorageKind, payload: Record<string, unknown>) {
@@ -291,16 +448,35 @@ export async function storeRecord(kind: StorageKind, payload: Record<string, unk
   }
 
   try {
-    const { data, error } = await supabase.from(getTableName(kind)).insert(payload).select().single();
+    for (const candidate of getSupabaseInsertCandidates(kind, payload)) {
+      const { data, error } = await supabase.from(getTableName(kind)).insert(candidate).select().single();
 
-    if (error) {
-      return storeRecordInMemory(kind, payload);
+      if (!error) {
+        return { ok: true, storage: "supabase" as const, data };
+      }
+
+      console.error("[storage] Supabase insert failed", {
+        kind,
+        table: getTableName(kind),
+        columns: Object.keys(candidate),
+        code: error.code,
+        message: error.message,
+        details: error.details,
+      });
     }
-
-    return { ok: true, storage: "supabase" as const, data };
   } catch {
-    return storeRecordInMemory(kind, payload);
+    console.error("[storage] Supabase insert threw", {
+      kind,
+      table: getTableName(kind),
+    });
   }
+
+  const blobResult = await storeBlobRecord(kind, payload);
+  if (blobResult.ok) {
+    return blobResult;
+  }
+
+  return storeRecordInMemory(kind, payload);
 }
 
 export async function updateOrderRecord(orderCode: string, payload: Record<string, unknown>) {
@@ -381,23 +557,40 @@ export async function updateOrderRecord(orderCode: string, payload: Record<strin
   }
 
   try {
-    const { data, error } = await supabase
-      .from(getTableName("orders"))
-      .update(payload)
-      .eq("order_code", normalizedCode)
-      .select()
-      .maybeSingle();
+    for (const candidate of getSupabaseOrderUpdateCandidates(payload)) {
+      const { data, error } = await supabase
+        .from(getTableName("orders"))
+        .update(candidate)
+        .eq("order_code", normalizedCode)
+        .select()
+        .maybeSingle();
 
-    if (error) {
-      return updateMemoryOrderRecord(normalizedCode, payload);
+      if (!error && data) {
+        return { ok: true, storage: "supabase" as const, data };
+      }
+
+      if (error) {
+        console.error("[storage] Supabase update failed", {
+          table: getTableName("orders"),
+          orderCode: normalizedCode,
+          columns: Object.keys(candidate),
+          code: error.code,
+          message: error.message,
+          details: error.details,
+        });
+      }
     }
-
-    if (!data) {
-      return updateMemoryOrderRecord(normalizedCode, payload);
-    }
-
-    return { ok: true, storage: "supabase" as const, data };
   } catch {
-    return updateMemoryOrderRecord(normalizedCode, payload);
+    console.error("[storage] Supabase update threw", {
+      table: getTableName("orders"),
+      orderCode: normalizedCode,
+    });
   }
+
+  const blobResult = await updateBlobOrderRecord(normalizedCode, payload);
+  if (blobResult.ok) {
+    return blobResult;
+  }
+
+  return updateMemoryOrderRecord(normalizedCode, payload);
 }

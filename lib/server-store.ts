@@ -1,4 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
+import { listBlobRecords } from "@/lib/blob-store";
 import { getSupabaseEnv } from "@/lib/env";
 import { canConnectToDatabase, prisma } from "@/lib/prisma";
 import { getMemoryRecords } from "@/lib/storage";
@@ -155,6 +156,38 @@ function buildMemoryAdminDashboardSnapshot() {
   };
 }
 
+async function buildBlobAdminDashboardSnapshot() {
+  const [orders, quotes, quoteRequests] = await Promise.all([
+    listBlobRecords("orders", { limit: 10 }),
+    listBlobRecords("quotes", { limit: 10 }),
+    listBlobRecords("quoteRequests", { limit: 10 }),
+  ]);
+
+  const recentOrders = orders.map(mapMemoryOrderRow).sort(byCreatedAtDesc).slice(0, 10);
+  const recentQuotes = quotes.map(mapMemoryQuoteRow).sort(byCreatedAtDesc).slice(0, 10);
+  const recentQuoteRequests = quoteRequests.map(mapMemoryQuoteRequestRow).sort(byCreatedAtDesc).slice(0, 10);
+
+  const totalRevenuePix = recentOrders
+    .filter((item) => item.payment_method === "pix")
+    .reduce((acc, item) => acc + Number(item.total_pix || 0), 0);
+  const totalRevenueCard = recentOrders
+    .filter((item) => item.payment_method === "card" || item.payment_method === "cartao")
+    .reduce((acc, item) => acc + Number(item.total_card || item.total_pix || 0), 0);
+
+  return {
+    metrics: {
+      totalOrders: recentOrders.length,
+      totalQuotes: recentQuotes.length,
+      openRequests: recentQuoteRequests.filter((item) => (item.status || "recebido") !== "concluido").length,
+      totalRevenuePix,
+      totalRevenueCard,
+    },
+    recentOrders,
+    recentQuotes,
+    recentQuoteRequests,
+  };
+}
+
 function getMemoryCustomerOrdersByEmail(email: string) {
   return getMemoryRecords("orders")
     .map(mapMemoryOrderRow)
@@ -192,6 +225,59 @@ function getTableName(kind: "orders" | "quotes" | "quoteRequests") {
   if (kind === "orders") return process.env.SUPABASE_ORDERS_TABLE || "orders";
   if (kind === "quoteRequests") return process.env.SUPABASE_QUOTE_REQUESTS_TABLE || "quote_requests";
   return process.env.SUPABASE_QUOTES_TABLE || "quotes";
+}
+
+function normalizeSupabaseOrderRows(rows: Array<Record<string, unknown>>) {
+  return rows.map((row) => ({
+    id: toStringValue(row.id),
+    order_code: toStringValue(row.order_code),
+    product_name: toStringValue(row.product_name, "Pedido sem item"),
+    customer_name: toStringValue(row.customer_name, "Cliente não identificado"),
+    email: toStringValue(row.email).toLowerCase(),
+    payment_method: toStringValue(row.payment_method, "pix"),
+    payment_status: toNullableString(row.payment_status),
+    payment_reference: toNullableString(row.payment_reference),
+    quantity: toNumberValue(row.quantity, 1),
+    total_pix: toNumberValue(row.total_pix, 0),
+    total_card: toNumberValue(row.total_card, toNumberValue(row.total_pix, 0)),
+    status: toStringValue(row.status, "aguardando pagamento"),
+    created_at: toIsoDate(row.created_at),
+  })) satisfies OrderRow[];
+}
+
+async function fetchSupabaseOrders(
+  supabase: NonNullable<ReturnType<typeof getSupabaseAdmin>>,
+  options?: { email?: string; limit?: number }
+) {
+  const limit = options?.limit ?? 10;
+
+  const modernQuery = supabase
+    .from(getTableName("orders"))
+    .select("id, order_code, product_name, customer_name, email, payment_method, payment_status, payment_reference, quantity, total_pix, total_card, status, created_at")
+    .order("created_at", { ascending: false })
+    .limit(limit);
+
+  const modernResult = options?.email ? modernQuery.eq("email", options.email) : modernQuery;
+  const modernResponse = await modernResult;
+
+  if (!modernResponse.error) {
+    return normalizeSupabaseOrderRows((modernResponse.data || []) as Array<Record<string, unknown>>);
+  }
+
+  const legacyQuery = supabase
+    .from(getTableName("orders"))
+    .select("id, order_code, product_name, customer_name, email, payment_method, quantity, total_pix, total_card, status, created_at")
+    .order("created_at", { ascending: false })
+    .limit(limit);
+
+  const legacyResult = options?.email ? legacyQuery.eq("email", options.email) : legacyQuery;
+  const legacyResponse = await legacyResult;
+
+  if (legacyResponse.error) {
+    return null;
+  }
+
+  return normalizeSupabaseOrderRows((legacyResponse.data || []) as Array<Record<string, unknown>>);
 }
 
 async function getPrismaAdminDashboardSnapshot() {
@@ -301,16 +387,17 @@ export async function getAdminDashboardSnapshot() {
   const supabase = getSupabaseAdmin();
 
   if (!supabase) {
+    const blobSnapshot = await buildBlobAdminDashboardSnapshot();
+    if (blobSnapshot.metrics.totalOrders || blobSnapshot.metrics.totalQuotes || blobSnapshot.metrics.openRequests) {
+      return blobSnapshot;
+    }
+
     return buildMemoryAdminDashboardSnapshot();
   }
 
   try {
     const [ordersRes, quotesRes, quoteRequestsRes] = await Promise.all([
-      supabase
-        .from(getTableName("orders"))
-        .select("id, order_code, product_name, customer_name, email, payment_method, payment_status, payment_reference, quantity, total_pix, total_card, status, created_at")
-        .order("created_at", { ascending: false })
-        .limit(10),
+      fetchSupabaseOrders(supabase, { limit: 10 }),
       supabase
         .from(getTableName("quotes"))
         .select("id, quote_id, product_name, customername, paymentmethod, estimated_total_pix, created_at")
@@ -323,7 +410,7 @@ export async function getAdminDashboardSnapshot() {
         .limit(10),
     ]);
 
-    const recentOrders = (ordersRes.error ? [] : ordersRes.data || []) as OrderRow[];
+    const recentOrders = ordersRes || [];
     const recentQuotes = (quotesRes.error ? [] : quotesRes.data || []) as QuoteRow[];
     const recentQuoteRequests = (quoteRequestsRes.error ? [] : quoteRequestsRes.data || []) as QuoteRequestRow[];
 
@@ -343,6 +430,11 @@ export async function getAdminDashboardSnapshot() {
       recentQuoteRequests,
     };
   } catch {
+    const blobSnapshot = await buildBlobAdminDashboardSnapshot();
+    if (blobSnapshot.metrics.totalOrders || blobSnapshot.metrics.totalQuotes || blobSnapshot.metrics.openRequests) {
+      return blobSnapshot;
+    }
+
     return buildMemoryAdminDashboardSnapshot();
   }
 }
@@ -518,19 +610,69 @@ export async function getCustomerOrdersByEmail(email: string) {
   }
 
   const supabase = getSupabaseAdmin();
-  if (!supabase) return getMemoryCustomerOrdersByEmail(normalizedEmail);
+  if (!supabase) {
+    const blobOrders = await listBlobRecords("orders", { email: normalizedEmail, limit: 12 });
+    if (blobOrders.length) {
+      return blobOrders.map(mapMemoryOrderRow).map((order) => ({
+        id: order.id,
+        order_code: order.order_code,
+        product_name: order.product_name,
+        payment_method: order.payment_method,
+        payment_status: order.payment_status,
+        payment_reference: order.payment_reference,
+        quantity: order.quantity,
+        total_pix: order.total_pix,
+        total_card: order.total_card,
+        status: order.status,
+        created_at: order.created_at,
+      }));
+    }
+
+    return getMemoryCustomerOrdersByEmail(normalizedEmail);
+  }
 
   try {
-    const { data, error } = await supabase
-      .from(getTableName("orders"))
-      .select("id, order_code, product_name, payment_method, payment_status, payment_reference, quantity, total_pix, total_card, status, created_at")
-      .eq("email", normalizedEmail)
-      .order("created_at", { ascending: false })
-      .limit(12);
+    const orders = await fetchSupabaseOrders(supabase, { email: normalizedEmail, limit: 12 });
+    if (orders) {
+      return orders;
+    }
 
-    if (error) return getMemoryCustomerOrdersByEmail(normalizedEmail);
-    return data || [];
+    const blobOrders = await listBlobRecords("orders", { email: normalizedEmail, limit: 12 });
+    if (blobOrders.length) {
+      return blobOrders.map(mapMemoryOrderRow).map((order) => ({
+        id: order.id,
+        order_code: order.order_code,
+        product_name: order.product_name,
+        payment_method: order.payment_method,
+        payment_status: order.payment_status,
+        payment_reference: order.payment_reference,
+        quantity: order.quantity,
+        total_pix: order.total_pix,
+        total_card: order.total_card,
+        status: order.status,
+        created_at: order.created_at,
+      }));
+    }
+
+    return getMemoryCustomerOrdersByEmail(normalizedEmail);
   } catch {
+    const blobOrders = await listBlobRecords("orders", { email: normalizedEmail, limit: 12 });
+    if (blobOrders.length) {
+      return blobOrders.map(mapMemoryOrderRow).map((order) => ({
+        id: order.id,
+        order_code: order.order_code,
+        product_name: order.product_name,
+        payment_method: order.payment_method,
+        payment_status: order.payment_status,
+        payment_reference: order.payment_reference,
+        quantity: order.quantity,
+        total_pix: order.total_pix,
+        total_card: order.total_card,
+        status: order.status,
+        created_at: order.created_at,
+      }));
+    }
+
     return getMemoryCustomerOrdersByEmail(normalizedEmail);
   }
 }
