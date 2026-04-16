@@ -1,0 +1,19 @@
+ZIP DE AJUSTE DE PREÇOS
+
+Conteúdo:
+- scripts/aplicar-precos-populares.mjs
+- APLICAR-PRECOS-POPULARES.ps1
+
+Como usar:
+1. Extraia o ZIP por cima da raiz do projeto
+2. No PowerShell:
+   powershell -ExecutionPolicy Bypass -File .\APLICAR-PRECOS-POPULARES.ps1
+
+O que faz:
+- lê os slugs existentes em prompts_txt/by_slug
+- gera preços sugeridos por heurística comercial por segmento
+- grava em data/admin-product-overrides.json
+- gera relatórios em reports/popular-pricing-report.json e .csv
+
+Observação:
+- este ZIP é o patch local que ficou faltando na resposta anterior.
