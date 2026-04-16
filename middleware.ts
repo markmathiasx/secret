@@ -1,23 +1,23 @@
-import { NextResponse } from "next/server";
-import { auth } from "@/auth";
-import { adminConfig } from "@/lib/constants";
-import { verifySignedSessionToken } from "@/lib/session-token";
+import { NextRequest, NextResponse } from "next/server";
 
-function isProtectedAdminPath(path: string) {
-  return (
-    path === "/admin" ||
-    path.startsWith("/admin/") ||
-    path === adminConfig.hiddenPath ||
-    path.startsWith(`${adminConfig.hiddenPath}/`)
+const protectedPrefixes = ["/conta", "/checkout", "/seller", "/admin"];
+
+function isProtectedPath(pathname: string) {
+  return protectedPrefixes.some((prefix) => pathname === prefix || pathname.startsWith(prefix + "/"));
+}
+
+function hasSessionCookie(request: NextRequest) {
+  return Boolean(
+    request.cookies.get("authjs.session-token")?.value ||
+    request.cookies.get("__Secure-authjs.session-token")?.value ||
+    request.cookies.get("next-auth.session-token")?.value ||
+    request.cookies.get("__Secure-next-auth.session-token")?.value
   );
 }
 
-function isProtectedSellerPath(path: string) {
-  return path === "/seller" || path.startsWith("/seller/");
-}
+export function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
 
-export default auth(async (request) => {
-  const path = request.nextUrl.pathname;
   const response = NextResponse.next();
 
   const cspRules = [
@@ -35,7 +35,9 @@ export default auth(async (request) => {
     "frame-ancestors 'none'",
   ];
 
-  if (process.env.NODE_ENV === "production") cspRules.push("upgrade-insecure-requests");
+  if (process.env.NODE_ENV === "production") {
+    cspRules.push("upgrade-insecure-requests");
+  }
 
   response.headers.set("Content-Security-Policy", cspRules.join("; "));
   response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
@@ -45,33 +47,23 @@ export default auth(async (request) => {
   response.headers.set("Cross-Origin-Opener-Policy", "same-origin");
   response.headers.set("Cross-Origin-Resource-Policy", "same-site");
   response.headers.set("Permissions-Policy", "camera=(), microphone=(), geolocation=(), payment=()");
+
   if (process.env.NODE_ENV === "production") {
     response.headers.set("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload");
   }
 
-  const sessionRole = request.auth?.user?.role || "";
-
-  if (isProtectedAdminPath(path) && !path.endsWith("/login")) {
-    const adminCookie = request.cookies.get(adminConfig.sessionCookieName)?.value || "";
-    const legacySessionActive = Boolean(adminConfig.legacySessionToken && adminCookie === adminConfig.legacySessionToken);
-    const legacyAdminSession = legacySessionActive
-      ? { role: "admin" as const }
-      : await verifySignedSessionToken(adminCookie, adminConfig.sessionSecret);
-    const authenticatedAsAdmin = sessionRole === "admin" || legacyAdminSession?.role === "admin";
-
-    if (!authenticatedAsAdmin) {
-      const loginUrl = new URL(`${adminConfig.hiddenPath}/login`, request.url);
-      return NextResponse.redirect(loginUrl);
-    }
+  if (!isProtectedPath(pathname)) {
+    return response;
   }
 
-  if (isProtectedSellerPath(path) && sessionRole !== "seller" && sessionRole !== "admin") {
-    const loginUrl = new URL("/login?redirect=/seller", request.url);
-    return NextResponse.redirect(loginUrl);
+  if (hasSessionCookie(request)) {
+    return response;
   }
 
-  return response;
-});
+  const loginUrl = new URL("/login", request.url);
+  loginUrl.searchParams.set("redirect", pathname);
+  return NextResponse.redirect(loginUrl);
+}
 
 export const config = {
   matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
