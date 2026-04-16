@@ -7,6 +7,7 @@ import { getProductVisual } from "@/lib/product-visuals";
 import { verifiedCatalog } from "@/lib/verified-catalog";
 import { csvCuratedCatalog } from "@/lib/catalog-csv-curated";
 import { getSafePublicCatalog } from "@/lib/csv-curated-media";
+import { applyA1MiniProfile } from "@/lib/a1-mini-catalog";
 import adminProductOverridesJson from "@/data/admin-product-overrides.json";
 import type { AdminProductOverride, ProductionStage } from "@/types/admin-catalog";
 import {
@@ -114,7 +115,7 @@ function applyAdminOverride(product: Product): Product {
 }
 
 function enrichProduct(product: Product): Product {
-  const overridden = applyAdminOverride(product);
+  const overridden = applyA1MiniProfile(applyAdminOverride(product));
   const normalized = {
     ...overridden,
     category: normalizeProductCategory(overridden),

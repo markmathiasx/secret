@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { CatalogExplorer } from "@/components/catalog-explorer";
 import { CatalogRealCases } from "@/components/catalog-real-cases";
 import { catalog, categories, collections } from "@/lib/catalog";
+import { A1_MINI_COLLECTION, isA1MiniCatalogProduct } from "@/lib/a1-mini-catalog";
 import { summarizeProductVisuals } from "@/lib/product-visuals";
 
 export const metadata: Metadata = {
@@ -50,6 +51,14 @@ export default async function CatalogPage({
   const initialMax = params?.max ? Number(params.max) : undefined;
 
   const visualSummary = summarizeProductVisuals(catalog);
+  const a1MiniCount = catalog.filter(isA1MiniCatalogProduct).length;
+  const isA1MiniLens = initialCollection === A1_MINI_COLLECTION;
+  const heroTitle = isA1MiniLens
+    ? "100 itens compactos para vender com a Bambu Lab A1 Mini."
+    : "Todos os produtos publicados aparecem na vitrine.";
+  const heroDescription = isA1MiniLens
+    ? "Esta selecao concentra miniaturas, chaveiros, articulados, suportes, organizadores, decoracao e brindes com volume adequado para producao local em A1 Mini."
+    : "Cada item ativo tem uma imagem principal propria no card e na pagina do produto. Os filtros continuam disponiveis para quem quiser ver apenas fotos reais ou renders fieis.";
   const activeLens = [
     initialCategory !== "Todas" ? initialCategory : null,
     initialCollection !== "Todas" ? initialCollection : null,
@@ -74,10 +83,10 @@ export default async function CatalogPage({
           <div className="max-w-3xl">
             <p className="text-xs uppercase tracking-[0.22em] text-cyan-200">Catálogo MDH 3D</p>
             <h1 className="catalog-hero-title mt-3 break-words text-3xl font-black leading-[1.06] text-white sm:text-4xl md:text-5xl">
-              Todos os produtos publicados aparecem na vitrine.
+              {heroTitle}
             </h1>
             <p className="mt-4 text-base leading-7 text-white/72 md:text-lg md:leading-8">
-              Cada item ativo tem uma imagem principal propria no card e na pagina do produto. Os filtros continuam disponiveis para quem quiser ver apenas fotos reais ou renders fieis.
+              {heroDescription}
             </p>
 
             <div className="catalog-active-lens mt-5 inline-flex max-w-full rounded-full border border-cyan-300/25 bg-cyan-300/10 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-cyan-100 md:text-xs md:tracking-[0.18em]">
@@ -85,6 +94,12 @@ export default async function CatalogPage({
             </div>
 
             <div className="mt-6 flex flex-wrap gap-2.5 md:gap-3">
+              <Link
+                href={`/catalogo?collection=${encodeURIComponent(A1_MINI_COLLECTION)}&mode=all`}
+                className="rounded-full border border-emerald-300/25 bg-emerald-300/10 px-4 py-2.5 text-xs font-semibold text-emerald-100 transition hover:border-emerald-300/40 hover:bg-emerald-300/15 md:px-5 md:py-3 md:text-sm"
+              >
+                100 A1 Mini
+              </Link>
               <Link
                 href="/catalogo?mode=real"
                 className="rounded-full border border-cyan-300/25 bg-cyan-300/10 px-4 py-2.5 text-xs font-semibold text-cyan-100 transition hover:border-cyan-300/40 hover:bg-cyan-300/15 md:px-5 md:py-3 md:text-sm"
@@ -109,8 +124,8 @@ export default async function CatalogPage({
           <div className="grid gap-3 sm:grid-cols-3">
             {[
               { label: "Produtos ativos", value: String(catalog.length).padStart(4, "0") },
+              { label: "A1 Mini", value: String(a1MiniCount).padStart(3, "0") },
               { label: "Fotos reais", value: String(visualSummary.fotoReal).padStart(2, "0") },
-              { label: "Visuais conceituais", value: String(visualSummary.imagemConceitual).padStart(2, "0") },
             ].map((item) => (
               <div key={item.label} className="min-w-0 rounded-[22px] border border-white/12 bg-black/20 p-4 md:rounded-[28px] md:p-5">
                 <p className="text-[10px] uppercase tracking-[0.14em] text-white/55 md:text-xs md:tracking-[0.18em]">
