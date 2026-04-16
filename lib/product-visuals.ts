@@ -142,6 +142,14 @@ function getVisualDefaults(kind: ProductVisualKind) {
 
 function inferKindFromImages(product: Product): ProductVisualKind {
   if (realImageStatusMap[product.id]?.status === "real") return "foto-real";
+  if (product.makerWorldMeta?.sourceImageUrl === "local-manual-photo-override") return "foto-real";
+  if (
+    product.image?.includes("/products/a1-mini-expansion/") &&
+    product.makerWorldMeta?.sourceImageUrl &&
+    product.makerWorldMeta.sourceImageUrl !== "local-semantic-render"
+  ) {
+    return "render-fiel";
+  }
   const sources = [...(product.images || []), product.image || ""].join(" ").toLowerCase();
   if (sources.includes("/products/foto-")) return "foto-real";
   if (sources.includes("/products/render-")) return "render-fiel";

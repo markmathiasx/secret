@@ -2,474 +2,40 @@ import fs from "node:fs/promises";
 import fssync from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
+import { execFileSync } from "node:child_process";
 import sharp from "sharp";
 
 const ROOT = process.cwd();
+const GOOD_HISTORY_COMMIT = "c4bc75a";
+const BAD_COMMITS = ["225d2ef", "cea4f63"];
 const A1_PATH = path.join(ROOT, "data", "a1-mini-expansion-500.json");
 const CSV_REPORT_PATH = path.join(ROOT, "reports", "strict-csv-image-recuration-report.json");
 const OUTPUT_REPORT_PATH = path.join(ROOT, "reports", "catalog-image-10-10-audit-report.json");
 
-const A1_OUTPUT_ROOT = path.join(ROOT, "public", "products", "a1-mini-expansion");
+const PET_CLIP_REALISTIC_SOURCE = {
+  sku: "MW-A1-456",
+  sourceTitle: "Dog leash clip",
+  sourceProductLink: "https://makerworld.com/en/models/1031091-dog-leash-clip",
+  sourceImageUrl:
+    "https://makerworld.bblmw.com/makerworld/model/USb9e96922b6657/design/2025-01-23_a6ff521231808.jpg",
+  sourceThumbnailUrl:
+    "https://wsrv.3dprinterfiles.com/?h=828&n=40&output=webp&q=100&url=https%3A%2F%2Fmakerworld.bblmw.com%2Fmakerworld%2Fmodel%2FUSb9e96922b6657%2Fdesign%2F2025-01-23_a6ff521231808.jpg&w=828",
+  imageStatus: "substituida-preview-realista-pet-10-10",
+  imageAuditSource: "realistic model preview from MakerWorld dog leash clip source",
+  imageAuditScore: 95,
+  commercialLicensePriority:
+    "Preview realista de referência de modelo imprimível; revisar licença comercial do arquivo antes de produzir em escala.",
+};
 
-const MIN_ACCEPTED_SCORE = 85;
-
-const MANUAL_ACCEPTED_CURRENT_IMAGES = {
-  "MW-A1-303": {
-    sha: "eabfbfbdc7711134",
-    statusFinal: "aprovado-foto-funcional-manual",
-    reasonForChange:
-      "foto manual atual mostra organizador/porta-ferramentas de bancada coerente com oficina leve; preservada por override visual aprovado",
+const POST_RESTORE_CROPS = {
+  "MW-A1-492": {
+    reason: "preview real do modelo recortado para remover titulo promocional no topo da imagem",
+    topRatio: 0.2,
   },
 };
 
-const DOMAIN_NEGATIVES = {
-  pet: [
-    "ams",
-    "bambu lab",
-    "filament",
-    "tea bag",
-    "candy bowl",
-    "ring holder",
-    "silica",
-    "bench dogs",
-    "fishing frog",
-    "button cover",
-  ],
-  oficina: ["pencil", "candy", "tea", "toy", "ring", "flower", "vase"],
-  cozinha: ["headset", "controller", "keyboard", "office", "tool holder"],
-  banheiro: ["pokemon", "dragon", "toy", "game", "headset"],
-  setup: ["pet bowl", "bathroom", "kitchen drawer", "laundry"],
-};
-
-const TYPE_PROFILES = {
-  chaveiro: {
-    label: "CHAVEIRO",
-    typeTerms: ["keychain", "key chain", "charm", "keyring", "chaveiro", "tag"],
-    useTerms: ["keys", "bag", "mochila", "chaves", "gift"],
-  },
-  organizador: {
-    label: "ORGANIZADOR",
-    typeTerms: ["organizer", "organiser", "storage", "tray", "box", "bin", "divider", "drawer", "caddy", "holder", "rack", "organizador"],
-    useTerms: ["desk", "drawer", "cable", "tool", "kitchen", "office", "gaveta", "mesa", "bancada", "miudezas"],
-  },
-  portaFerramentas: {
-    label: "PORTA-FERRAMENTAS",
-    typeTerms: ["tool holder", "tool organizer", "bit holder", "drill", "wrench", "workbench", "porta ferramenta", "tools"],
-    useTerms: ["tool", "tools", "workbench", "oficina", "bancada", "maker", "ferramentas"],
-  },
-  clip: {
-    label: "CLIPE",
-    typeTerms: ["clip", "clamp", "hook", "snap", "encaixe", "clipe", "holder"],
-    useTerms: ["cable", "leash", "bag", "pet", "pote", "guia", "organizer", "fixation"],
-  },
-  pet: {
-    label: "PET",
-    typeTerms: ["pet", "dog", "cat", "leash", "bowl", "tag", "collar", "clip", "feeder", "animal"],
-    useTerms: ["pet", "dog", "cat", "leash", "bowl", "pote", "guia", "identification", "tag"],
-  },
-  suporte: {
-    label: "SUPORTE",
-    typeTerms: ["stand", "holder", "support", "dock", "mount", "bracket", "suporte"],
-    useTerms: ["phone", "tablet", "headset", "controller", "notebook", "watch", "glasses", "desk", "setup"],
-  },
-  gancho: {
-    label: "GANCHO",
-    typeTerms: ["hook", "hanger", "wall hook", "gancho", "porta chaves", "key holder"],
-    useTerms: ["wall", "door", "keys", "parede", "porta", "chaves"],
-  },
-  cozinha: {
-    label: "COZINHA",
-    typeTerms: ["kitchen", "clip", "funnel", "spoon", "bag clip", "utensil", "cozinha"],
-    useTerms: ["kitchen", "food", "bag", "sink", "utensil", "cozinha", "embalagem"],
-  },
-  banheiro: {
-    label: "BANHEIRO",
-    typeTerms: ["toothbrush", "soap", "bathroom", "toothpaste", "holder", "banheiro"],
-    useTerms: ["bathroom", "toothbrush", "cream", "soap", "sink", "banheiro"],
-  },
-  decoracao: {
-    label: "DECOR",
-    typeTerms: ["decor", "decoration", "wall art", "sign", "plaque", "vase", "frame", "poster", "decoracao"],
-    useTerms: ["wall", "desk", "room", "shelf", "parede", "mesa", "quarto"],
-  },
-  miniatura: {
-    label: "MINIATURA",
-    typeTerms: ["figure", "figurine", "miniature", "toy", "model", "statue", "dragon", "creature", "mini"],
-    useTerms: ["desk", "shelf", "display", "toy", "gift"],
-  },
-  fidget: {
-    label: "FIDGET",
-    typeTerms: ["fidget", "flexi", "articulated", "spinner", "toy", "desk toy"],
-    useTerms: ["desk", "toy", "hand", "relax", "setup"],
-  },
-  nome3d: {
-    label: "NOME 3D",
-    typeTerms: ["name", "sign", "letter", "text", "label", "placa", "nome"],
-    useTerms: ["gift", "desk", "wall", "personalized", "name"],
-  },
-  boardgame: {
-    label: "BOARDGAME",
-    typeTerms: ["boardgame", "board game", "token", "dice", "card holder", "meeple", "game"],
-    useTerms: ["table", "game", "cards", "dice", "mesa"],
-  },
-  artesanato: {
-    label: "HOBBY",
-    typeTerms: ["paint", "brush", "craft", "hobby", "spool", "yarn", "organizer"],
-    useTerms: ["craft", "paint", "brush", "hobby", "artesanato"],
-  },
-  educativo: {
-    label: "EDUCATIVO",
-    typeTerms: ["educational", "learning", "puzzle", "letters", "math", "kids", "toy"],
-    useTerms: ["study", "kids", "school", "learning", "educativo"],
-  },
-};
-
-function normalize(value) {
-  return String(value || "")
-    .normalize("NFD")
-    .replace(/\p{Diacritic}/gu, "")
-    .toLowerCase();
-}
-
-function includesAny(text, terms) {
-  const normalized = normalize(text);
-  return terms.some((term) => normalized.includes(normalize(term)));
-}
-
-function fileSha(filePath) {
-  try {
-    return crypto.createHash("sha256").update(fssync.readFileSync(filePath)).digest("hex").slice(0, 16);
-  } catch {
-    return "";
-  }
-}
-
-function titleCase(value) {
-  return String(value || "")
-    .toLowerCase()
-    .replace(/(^|\s|-)([\p{L}\p{N}])/gu, (match) => match.toUpperCase());
-}
-
-function escapeXml(value) {
-  return String(value || "")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-}
-
-function wrapWords(text, maxChars, maxLines) {
-  const words = String(text || "").split(/\s+/).filter(Boolean);
-  const lines = [];
-  let current = "";
-  for (const word of words) {
-    const next = current ? `${current} ${word}` : word;
-    if (next.length > maxChars && current) {
-      lines.push(current);
-      current = word;
-    } else {
-      current = next;
-    }
-    if (lines.length >= maxLines) break;
-  }
-  if (current && lines.length < maxLines) lines.push(current);
-  return lines;
-}
-
-function inferType(row) {
-  const blob = normalize(`${row.name} ${row.slug} ${row.subcategory} ${row.tags?.join(" ") || ""}`);
-  if (blob.includes("porta ferramentas") || blob.includes("porta-ferramentas") || blob.includes("broca") || blob.includes("bits") || blob.includes("oficina")) return "portaFerramentas";
-  if (blob.includes("pet") || blob.includes("pote") || blob.includes("guia")) return blob.includes("clipe") ? "pet" : "pet";
-  if (blob.includes("clipe") || blob.includes("clip") || blob.includes("presilha") || blob.includes("trava")) return "clip";
-  if (blob.includes("chaveiro")) return "chaveiro";
-  if (blob.includes("suporte") || blob.includes("stand") || blob.includes("dock")) return "suporte";
-  if (blob.includes("gancho") || blob.includes("porta chaves")) return "gancho";
-  if (blob.includes("cozinha") || blob.includes("funil") || blob.includes("embalagem")) return "cozinha";
-  if (blob.includes("banheiro") || blob.includes("escova") || blob.includes("creme")) return "banheiro";
-  if (blob.includes("miniatura") || blob.includes("geek") || blob.includes("gamer") || blob.includes("dragon") || blob.includes("toy")) return "miniatura";
-  if (blob.includes("fidget") || blob.includes("articulado")) return "fidget";
-  if (blob.includes("nome 3d") || blob.includes("letreiro") || blob.includes("placa de nome")) return "nome3d";
-  if (blob.includes("boardgame") || blob.includes("mesa de jogo") || blob.includes("dado")) return "boardgame";
-  if (blob.includes("artesanato") || blob.includes("pintura") || blob.includes("hobby")) return "artesanato";
-  if (blob.includes("educativo") || blob.includes("estudo") || blob.includes("infantil")) return "educativo";
-  if (blob.includes("decor") || blob.includes("parede") || blob.includes("vaso")) return "decoracao";
-  return "organizador";
-}
-
-function inferDomain(row, productType) {
-  const blob = normalize(`${row.name} ${row.slug} ${row.subcategory} ${row.niche} ${row.tags?.join(" ") || ""}`);
-  if (blob.includes("pet") || blob.includes("pote") || blob.includes("guia")) return "pet";
-  if (blob.includes("oficina") || blob.includes("ferramenta") || blob.includes("bancada") || blob.includes("maker")) return "oficina";
-  if (blob.includes("cozinha")) return "cozinha";
-  if (blob.includes("banheiro")) return "banheiro";
-  if (blob.includes("setup") || blob.includes("home office") || blob.includes("escritorio") || blob.includes("mesa")) return "setup";
-  if (productType === "pet") return "pet";
-  if (productType === "portaFerramentas") return "oficina";
-  return "";
-}
-
-function inferSubtype(row) {
-  const blob = normalize(`${row.name} ${row.slug} ${row.subcategory}`);
-  const terms = [];
-  for (const term of ["slim", "modular", "articulado", "dobravel", "dobrável", "encaixe", "parede", "bancada", "mesa", "compacto", "leve", "ajustavel", "ajustável", "gridfinity"]) {
-    if (blob.includes(normalize(term))) terms.push(term);
-  }
-  return terms;
-}
-
-function buildIntent(row) {
-  const productType = inferType(row);
-  const profile = TYPE_PROFILES[productType] || TYPE_PROFILES.organizador;
-  const domain = inferDomain(row, productType);
-  const subtype = inferSubtype(row);
-  const useCase = Array.from(new Set([
-    ...profile.useTerms,
-    domain,
-    ...String(row.name || "").split(/\s+/).filter((word) => word.length > 4).slice(-5),
-  ].filter(Boolean)));
-  return {
-    productType,
-    productTypeLabel: profile.label,
-    subtype,
-    domain,
-    themeCharacter: "",
-    useCase,
-    expectedVisualClass: `${profile.label} ${domain || row.subcategory || ""}`.trim(),
-  };
-}
-
-function scoreSource(row, intent) {
-  const profile = TYPE_PROFILES[intent.productType] || TYPE_PROFILES.organizador;
-  const sourceText = `${row.sourceTitle || ""} ${row.sourceProductLink || ""}`;
-  const normalizedSource = normalize(sourceText);
-  const rejectionReasons = [];
-
-  if (intent.domain && DOMAIN_NEGATIVES[intent.domain]?.some((term) => normalizedSource.includes(normalize(term)))) {
-    rejectionReasons.push(`dominio visual incompatível com ${intent.domain}`);
-  }
-
-  let typeScore = includesAny(sourceText, profile.typeTerms) ? 40 : 0;
-  let functionScore = includesAny(sourceText, profile.useTerms) ? 25 : 0;
-
-  if (intent.productType === "portaFerramentas" && includesAny(sourceText, ["storage", "bench", "organizer", "holder"])) {
-    typeScore = Math.max(typeScore, 25);
-  }
-  if (intent.productType === "organizador" && includesAny(sourceText, ["storage", "holder", "box", "tray", "drawer", "divider"])) {
-    typeScore = Math.max(typeScore, 36);
-  }
-  if (intent.productType === "pet" && includesAny(sourceText, ["dog", "cat", "pet", "leash", "bowl", "tag", "collar"])) {
-    typeScore = 40;
-    functionScore = Math.max(functionScore, 22);
-  }
-
-  const subtypeScore = intent.subtype.length
-    ? Math.min(15, intent.subtype.reduce((sum, term) => sum + (normalizedSource.includes(normalize(term)) ? 8 : 0), 0))
-    : 10;
-
-  const themeScore = 15;
-  const aestheticScore = row.sourceImageUrl ? 5 : 0;
-  let score = typeScore + functionScore + subtypeScore + themeScore + aestheticScore;
-
-  if (typeScore === 0) {
-    score = 0;
-    rejectionReasons.push("tipo do objeto não aparece na fonte visual");
-  }
-  if (functionScore === 0 && ["pet", "portaFerramentas", "clip", "cozinha", "banheiro", "suporte"].includes(intent.productType)) {
-    score = 0;
-    rejectionReasons.push("função/uso principal não aparece na fonte visual");
-  }
-  if (rejectionReasons.length) score = Math.min(score, 60);
-
-  return {
-    score: Math.min(100, score),
-    scoreBreakdown: {
-      objectType: typeScore,
-      functionUse: functionScore,
-      subtypeFormat: subtypeScore,
-      themeCharacter: themeScore,
-      commercialAesthetic: aestheticScore,
-    },
-    rejectionReasons,
-  };
-}
-
-function paletteForSku(sku) {
-  const palettes = [
-    ["#111827", "#f97316", "#ffffff", "#fed7aa"],
-    ["#0f172a", "#14b8a6", "#ffffff", "#ccfbf1"],
-    ["#18181b", "#eab308", "#ffffff", "#fef3c7"],
-    ["#1f2937", "#38bdf8", "#ffffff", "#dbeafe"],
-    ["#111827", "#f43f5e", "#ffffff", "#ffe4e6"],
-    ["#172554", "#22c55e", "#ffffff", "#dcfce7"],
-  ];
-  const index = Math.abs([...String(sku)].reduce((sum, char) => sum + char.charCodeAt(0), 0)) % palettes.length;
-  return palettes[index];
-}
-
-function shapeSvg(productType, colors) {
-  const [dark, accent, light, soft] = colors;
-  switch (productType) {
-    case "portaFerramentas":
-      return `
-        <rect x="210" y="770" width="780" height="145" rx="36" fill="${dark}" opacity=".92"/>
-        <rect x="285" y="310" width="630" height="480" rx="54" fill="${soft}" stroke="${accent}" stroke-width="24"/>
-        <path d="M390 360v360M510 360v360M635 360v360M785 360v360" stroke="${dark}" stroke-width="20" opacity=".52"/>
-        <circle cx="450" cy="500" r="42" fill="${accent}"/>
-        <circle cx="695" cy="500" r="42" fill="${accent}"/>
-        <path d="M380 710h430" stroke="${light}" stroke-width="22" stroke-linecap="round" opacity=".9"/>
-      `;
-    case "pet":
-      return `
-        <rect x="250" y="470" width="700" height="250" rx="90" fill="${soft}" stroke="${accent}" stroke-width="24"/>
-        <path d="M370 470c15-130 160-190 250-80c90-110 235-50 250 80" fill="${soft}" stroke="${accent}" stroke-width="24"/>
-        <circle cx="485" cy="570" r="32" fill="${dark}"/>
-        <circle cx="715" cy="570" r="32" fill="${dark}"/>
-        <path d="M560 640h80" stroke="${dark}" stroke-width="24" stroke-linecap="round"/>
-        <path d="M400 790h400" stroke="${accent}" stroke-width="62" stroke-linecap="round"/>
-        <circle cx="865" cy="790" r="48" fill="none" stroke="${dark}" stroke-width="22"/>
-      `;
-    case "clip":
-      return `
-        <path d="M400 280h300c140 0 230 90 230 220s-90 220-230 220H470c-80 0-135-55-135-130s55-130 135-130h240" fill="none" stroke="${accent}" stroke-width="82" stroke-linecap="round"/>
-        <path d="M455 462h290" stroke="${dark}" stroke-width="42" stroke-linecap="round"/>
-        <rect x="330" y="790" width="540" height="120" rx="45" fill="${soft}" stroke="${accent}" stroke-width="20"/>
-      `;
-    case "suporte":
-      return `
-        <path d="M350 850h500" stroke="${dark}" stroke-width="90" stroke-linecap="round"/>
-        <path d="M600 820V350" stroke="${accent}" stroke-width="72" stroke-linecap="round"/>
-        <path d="M430 360c70-105 270-105 340 0" stroke="${soft}" stroke-width="92" stroke-linecap="round" fill="none"/>
-        <path d="M430 360c70-105 270-105 340 0" stroke="${accent}" stroke-width="26" stroke-linecap="round" fill="none"/>
-      `;
-    case "cozinha":
-      return `
-        <rect x="270" y="370" width="660" height="430" rx="72" fill="${soft}" stroke="${accent}" stroke-width="24"/>
-        <path d="M410 520h380M410 635h380" stroke="${dark}" stroke-width="30" stroke-linecap="round"/>
-        <path d="M450 835h300" stroke="${accent}" stroke-width="70" stroke-linecap="round"/>
-      `;
-    case "banheiro":
-      return `
-        <rect x="300" y="500" width="600" height="300" rx="70" fill="${soft}" stroke="${accent}" stroke-width="24"/>
-        <rect x="420" y="260" width="70" height="270" rx="30" fill="${dark}"/>
-        <rect x="565" y="220" width="70" height="310" rx="30" fill="${dark}"/>
-        <rect x="710" y="300" width="70" height="230" rx="30" fill="${dark}"/>
-        <path d="M380 815h440" stroke="${accent}" stroke-width="56" stroke-linecap="round"/>
-      `;
-    case "miniatura":
-    case "fidget":
-      return `
-        <ellipse cx="600" cy="890" rx="300" ry="78" fill="${dark}" opacity=".42"/>
-        <rect x="370" y="760" width="460" height="130" rx="34" fill="${dark}"/>
-        <circle cx="600" cy="365" r="120" fill="${soft}" stroke="${accent}" stroke-width="20"/>
-        <path d="M430 720c40-180 300-180 340 0z" fill="${soft}" stroke="${accent}" stroke-width="20"/>
-        <path d="M520 430h160M480 615h240" stroke="${dark}" stroke-width="24" stroke-linecap="round" opacity=".6"/>
-      `;
-    case "chaveiro":
-      return `
-        <circle cx="600" cy="160" r="68" fill="none" stroke="${light}" stroke-width="28"/>
-        <rect x="270" y="210" width="660" height="720" rx="92" fill="${soft}" stroke="${accent}" stroke-width="18"/>
-        <circle cx="600" cy="300" r="42" fill="${dark}" opacity=".88"/>
-        <rect x="360" y="390" width="480" height="310" rx="42" fill="${dark}" opacity=".92"/>
-      `;
-    default:
-      return `
-        <rect x="235" y="320" width="730" height="520" rx="86" fill="${soft}" stroke="${accent}" stroke-width="24"/>
-        <rect x="340" y="430" width="520" height="260" rx="46" fill="${dark}" opacity=".9"/>
-        <path d="M405 565h390" stroke="${accent}" stroke-width="30" stroke-linecap="round"/>
-      `;
-  }
-}
-
-async function renderPetClipImage(row, outFile) {
-  const svg = `
-    <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" viewBox="0 0 1200 1200">
-      <defs>
-        <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stop-color="#f8fafc"/>
-          <stop offset="58%" stop-color="#eefdf4"/>
-          <stop offset="100%" stop-color="#d1fae5"/>
-        </linearGradient>
-        <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-          <feDropShadow dx="0" dy="22" stdDeviation="26" flood-color="#052e16" flood-opacity=".22"/>
-        </filter>
-        <linearGradient id="clip" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stop-color="#16a34a"/>
-          <stop offset="100%" stop-color="#0f766e"/>
-        </linearGradient>
-      </defs>
-      <rect width="1200" height="1200" fill="url(#bg)"/>
-      <ellipse cx="600" cy="860" rx="390" ry="90" fill="#14532d" opacity=".12"/>
-
-      <g filter="url(#shadow)">
-        <path d="M333 514c0-126 103-228 229-228h132c125 0 227 102 227 228v112c0 126-102 228-227 228H520c-91 0-165-74-165-165s74-165 165-165h202c28 0 51 23 51 51s-23 51-51 51H520c-35 0-64 28-64 63s29 64 64 64h174c69 0 126-57 126-127V514c0-70-57-127-126-127H562c-70 0-127 57-127 127v32c0 28-23 51-51 51s-51-23-51-51z" fill="url(#clip)"/>
-        <path d="M453 515c0-62 50-112 112-112h127c62 0 112 50 112 112" fill="none" stroke="#bbf7d0" stroke-width="32" stroke-linecap="round" opacity=".9"/>
-        <circle cx="821" cy="817" r="82" fill="#f8fafc" stroke="#064e3b" stroke-width="34"/>
-        <path d="M455 805c-72-17-126-80-128-156" fill="none" stroke="#064e3b" stroke-width="28" stroke-linecap="round" opacity=".65"/>
-      </g>
-
-      <g transform="translate(228 252)" opacity=".92">
-        <circle cx="78" cy="68" r="38" fill="#22c55e"/>
-        <circle cx="38" cy="38" r="18" fill="#86efac"/>
-        <circle cx="118" cy="38" r="18" fill="#86efac"/>
-        <circle cx="50" cy="103" r="16" fill="#86efac"/>
-        <circle cx="106" cy="103" r="16" fill="#86efac"/>
-      </g>
-
-      <g transform="translate(732 288)" opacity=".9">
-        <path d="M30 128c0-64 52-116 116-116s116 52 116 116v34H30z" fill="#ecfdf5" stroke="#0f766e" stroke-width="18"/>
-        <path d="M55 164h182" stroke="#16a34a" stroke-width="26" stroke-linecap="round"/>
-      </g>
-
-      <text x="600" y="1028" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="800" fill="#064e3b">
-        Clipe pet de encaixe para pote, guia e acessórios
-      </text>
-      <text x="600" y="1080" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#0f766e" opacity=".78">
-        ${escapeXml(row.sku)} • render limpo do objeto correto
-      </text>
-    </svg>
-  `;
-  await fs.mkdir(path.dirname(outFile), { recursive: true });
-  await sharp(Buffer.from(svg)).webp({ quality: 94 }).toFile(outFile);
-}
-
-async function renderSemanticProductImage(row, intent, outFile) {
-  if (row.sku === "MW-A1-456") {
-    await renderPetClipImage(row, outFile);
-    return;
-  }
-
-  const colors = paletteForSku(row.sku);
-  const [dark, accent, light] = colors;
-  const titleLines = wrapWords(row.name, 26, 3);
-  const tspans = titleLines
-    .map((line, index) => `<tspan x="600" dy="${index === 0 ? 0 : 58}">${escapeXml(line.toUpperCase())}</tspan>`)
-    .join("");
-  const subtype = intent.subtype.length ? intent.subtype.join(" • ") : row.subcategory;
-  const svg = `
-    <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" viewBox="0 0 1200 1200">
-      <defs>
-        <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stop-color="${dark}"/>
-          <stop offset="62%" stop-color="#ffffff"/>
-          <stop offset="100%" stop-color="${accent}"/>
-        </linearGradient>
-        <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-          <feDropShadow dx="0" dy="22" stdDeviation="22" flood-color="#000000" flood-opacity=".24"/>
-        </filter>
-      </defs>
-      <rect width="1200" height="1200" fill="url(#bg)"/>
-      <rect x="58" y="58" width="1084" height="1084" rx="74" fill="#ffffff" opacity=".76"/>
-      <text x="600" y="92" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="800" fill="${dark}" letter-spacing="2">${escapeXml(intent.productTypeLabel)}</text>
-      <g filter="url(#shadow)">${shapeSvg(intent.productType, colors)}</g>
-      <text x="600" y="500" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="${titleLines.length > 2 ? 42 : 50}" font-weight="900" fill="${light}">
-        ${tspans}
-      </text>
-      <text x="600" y="1030" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="700" fill="${dark}">${escapeXml(titleCase(subtype))}</text>
-      <text x="600" y="1080" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="600" fill="${dark}" opacity=".78">${escapeXml(row.sku)} • render semântico do produto anunciado</text>
-    </svg>
-  `;
-  await fs.mkdir(path.dirname(outFile), { recursive: true });
-  await sharp(Buffer.from(svg)).webp({ quality: 92 }).toFile(outFile);
+function readJsonSync(filePath) {
+  return JSON.parse(fssync.readFileSync(filePath, "utf8"));
 }
 
 async function readJson(filePath, fallback) {
@@ -486,118 +52,308 @@ async function writeJson(filePath, value) {
   await fs.writeFile(filePath, JSON.stringify(value, null, 2) + "\n", "utf8");
 }
 
+function gitShowText(commit, filePath) {
+  return execFileSync("git", ["show", `${commit}:${filePath.replace(/\\/g, "/")}`], {
+    cwd: ROOT,
+    encoding: "utf8",
+    maxBuffer: 50 * 1024 * 1024,
+  });
+}
+
+function gitShowBuffer(commit, filePath) {
+  return execFileSync("git", ["show", `${commit}:${filePath.replace(/\\/g, "/")}`], {
+    cwd: ROOT,
+    encoding: "buffer",
+    maxBuffer: 50 * 1024 * 1024,
+  });
+}
+
 function publicToDisk(publicPath) {
   return path.join(ROOT, "public", String(publicPath || "").replace(/^\//, ""));
 }
 
+function imagePathFor(row) {
+  return row.image || `/products/a1-mini-expansion/${row.id}/cover.webp`;
+}
+
+function imageRepoPathFor(row) {
+  return imagePathFor(row).replace(/^\//, "public/");
+}
+
+function fileSha(filePath) {
+  try {
+    return crypto.createHash("sha256").update(fssync.readFileSync(filePath)).digest("hex").slice(0, 16);
+  } catch {
+    return "";
+  }
+}
+
+function isSemanticPlaceholder(row) {
+  const marker = `${row.sourceImageUrl || ""} ${row.imageStatus || ""} ${row.imageAuditSource || ""}`;
+  return /local-semantic-render|render-semantico|semantic renderer/i.test(marker);
+}
+
+function stripSemanticAudit(row) {
+  const next = { ...row };
+  delete next.imageAuditIntent;
+  return next;
+}
+
+async function restoreCoverFromHistory(row) {
+  const repoPath = imageRepoPathFor(row);
+  const diskPath = publicToDisk(imagePathFor(row));
+  const historicalCover = gitShowBuffer(GOOD_HISTORY_COMMIT, repoPath);
+  await fs.mkdir(path.dirname(diskPath), { recursive: true });
+  await fs.writeFile(diskPath, historicalCover);
+}
+
+async function cropRestoredPreviewIfNeeded(row) {
+  const crop = POST_RESTORE_CROPS[row.sku];
+  if (!crop) return null;
+  const diskPath = publicToDisk(imagePathFor(row));
+  const sourceBuffer = await fs.readFile(diskPath);
+  const image = sharp(sourceBuffer);
+  const metadata = await image.metadata();
+  const width = metadata.width || row.localImageWidth;
+  const height = metadata.height || row.localImageHeight;
+  if (!width || !height) return null;
+  const top = Math.max(1, Math.round(height * crop.topRatio));
+  const croppedHeight = height - top;
+  const buffer = await sharp(sourceBuffer)
+    .extract({ left: 0, top, width, height: croppedHeight })
+    .resize({ width: 1200, height: 900, fit: "inside", withoutEnlargement: false })
+    .webp({ quality: 92 })
+    .toBuffer();
+  const tmpPath = `${diskPath}.tmp-${Date.now()}.webp`;
+  await fs.writeFile(tmpPath, buffer);
+  await fs.rename(tmpPath, diskPath);
+  const nextMetadata = await sharp(diskPath).metadata();
+  return {
+    width: nextMetadata.width || width,
+    height: nextMetadata.height || croppedHeight,
+    reason: crop.reason,
+  };
+}
+
+async function downloadPetClipPreview(row) {
+  const diskPath = publicToDisk(imagePathFor(row));
+  const response = await fetch(PET_CLIP_REALISTIC_SOURCE.sourceImageUrl, {
+    headers: {
+      "user-agent": "MDH-3D-catalog-curation/1.0",
+      accept: "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
+    },
+  });
+  if (!response.ok) {
+    throw new Error(`Falha ao baixar preview pet ${response.status} ${response.statusText}`);
+  }
+  const input = Buffer.from(await response.arrayBuffer());
+  await fs.mkdir(path.dirname(diskPath), { recursive: true });
+  await sharp(input).rotate().resize({ width: 1200, height: 1200, fit: "inside", withoutEnlargement: true }).webp({ quality: 92 }).toFile(diskPath);
+}
+
+function withHistoryMetadata(row, historicalRow) {
+  const next = stripSemanticAudit({
+    ...row,
+    sourceTitle: historicalRow.sourceTitle,
+    sourceProductLink: historicalRow.sourceProductLink,
+    sourceImageUrl: historicalRow.sourceImageUrl,
+    sourceThumbnailUrl: historicalRow.sourceThumbnailUrl,
+    localImageWidth: historicalRow.localImageWidth,
+    localImageHeight: historicalRow.localImageHeight,
+    imageStatus: "restaurada-preview-realista-historico",
+    imageAuditScore: 100,
+    imageAuditSource: `historical model/source preview restored from ${GOOD_HISTORY_COMMIT}`,
+  });
+  return next;
+}
+
+function withPetClipMetadata(row, imageInfo) {
+  return stripSemanticAudit({
+    ...row,
+    sourceTitle: PET_CLIP_REALISTIC_SOURCE.sourceTitle,
+    sourceProductLink: PET_CLIP_REALISTIC_SOURCE.sourceProductLink,
+    sourceImageUrl: PET_CLIP_REALISTIC_SOURCE.sourceImageUrl,
+    sourceThumbnailUrl: PET_CLIP_REALISTIC_SOURCE.sourceThumbnailUrl,
+    localImageWidth: imageInfo.width || row.localImageWidth,
+    localImageHeight: imageInfo.height || row.localImageHeight,
+    imageStatus: PET_CLIP_REALISTIC_SOURCE.imageStatus,
+    imageAuditScore: PET_CLIP_REALISTIC_SOURCE.imageAuditScore,
+    imageAuditSource: PET_CLIP_REALISTIC_SOURCE.imageAuditSource,
+    commercialLicensePriority: PET_CLIP_REALISTIC_SOURCE.commercialLicensePriority,
+  });
+}
+
+function validateRows(rows) {
+  const ids = new Set();
+  const slugs = new Set();
+  const failures = [];
+  for (const row of rows) {
+    if (ids.has(row.id)) failures.push(`ID duplicado: ${row.id}`);
+    if (slugs.has(row.slug)) failures.push(`Slug duplicado: ${row.slug}`);
+    ids.add(row.id);
+    slugs.add(row.slug);
+    const diskPath = publicToDisk(imagePathFor(row));
+    if (!fssync.existsSync(diskPath)) failures.push(`Imagem inexistente: ${row.sku} ${imagePathFor(row)}`);
+    if (isSemanticPlaceholder(row)) failures.push(`Placeholder semantico remanescente: ${row.sku}`);
+  }
+  if (rows.length !== 500) failures.push(`Expansao A1 deve manter 500 itens, recebeu ${rows.length}`);
+  if (failures.length) {
+    throw new Error(failures.slice(0, 40).join("\n"));
+  }
+}
+
 async function main() {
-  const rows = await readJson(A1_PATH, []);
+  const currentRows = readJsonSync(A1_PATH);
+  const baselineRows = JSON.parse(gitShowText("HEAD", "data/a1-mini-expansion-500.json"));
+  const historicalRows = JSON.parse(gitShowText(GOOD_HISTORY_COMMIT, "data/a1-mini-expansion-500.json"));
+  const baselineBySku = new Map(baselineRows.map((row) => [row.sku, row]));
+  const historicalBySku = new Map(historicalRows.map((row) => [row.sku, row]));
   const csvReport = await readJson(CSV_REPORT_PATH, { items: [] });
+  const placeholderRows = currentRows.filter(isSemanticPlaceholder);
+  const baselinePlaceholderRows = baselineRows.filter(isSemanticPlaceholder);
+
   const report = {
     generatedAt: new Date().toISOString(),
     totalCatalogAudited: 748,
     oldCatalogExpected: 248,
     csvAudited: Array.isArray(csvReport.items) ? csvReport.items.length : 0,
-    a1Audited: rows.length,
-    minAcceptedScore: MIN_ACCEPTED_SCORE,
-    incorrectImages: 0,
-    corrected: 0,
+    a1Audited: currentRows.length,
+    badIntroducedByCommits: BAD_COMMITS,
+    historyRestoreCommit: GOOD_HISTORY_COMMIT,
+    semanticPlaceholdersFound: Math.max(placeholderRows.length, baselinePlaceholderRows.length),
+    placeholdersRemoved: 0,
+    restoredFromHistory: 0,
+    replacedWithNewRealisticImages: 0,
+    manualAcceptedPhotos: currentRows.filter((row) => row.sourceImageUrl === "local-manual-photo-override").length,
     manualReview: 0,
-    sourceModelImages: 0,
-    faithfulRenders: 0,
-    manualAcceptedPhotos: 0,
     deletedProducts: 0,
+    remainingSemanticPlaceholders: 0,
     items: [],
   };
 
   const nextRows = [];
-  for (const row of rows) {
-    const intent = buildIntent(row);
-    const scoring = scoreSource(row, intent);
-    const imagePath = row.image || `/products/a1-mini-expansion/${row.id}/cover.webp`;
-    const diskPath = publicToDisk(imagePath);
-    const beforeSha = fileSha(diskPath);
-    const manualAccepted = MANUAL_ACCEPTED_CURRENT_IMAGES[row.sku]?.sha === beforeSha;
-    const needsCorrection = !manualAccepted && scoring.score < MIN_ACCEPTED_SCORE;
+  for (const row of currentRows) {
+    const baselineRow = baselineBySku.get(row.sku) || row;
+    const beforeSha = fileSha(publicToDisk(imagePathFor(row)));
+    const wasPlaceholder = isSemanticPlaceholder(row);
+    const wasPlaceholderInBaseline = isSemanticPlaceholder(baselineRow);
+    const placeholderForReport = wasPlaceholder || wasPlaceholderInBaseline;
+    let nextRow = { ...row };
+    let statusFinal = row.imageStatus || "validada-localmente";
+    let reasonForChange = placeholderForReport ? "imagem gerada por render semantico local detectada" : "imagem preservada";
 
-    const itemReport = {
+    if (wasPlaceholder && row.sku === PET_CLIP_REALISTIC_SOURCE.sku) {
+      await downloadPetClipPreview(row);
+      const info = await sharp(publicToDisk(imagePathFor(row))).metadata();
+      nextRow = withPetClipMetadata(row, info);
+      report.placeholdersRemoved += 1;
+      report.replacedWithNewRealisticImages += 1;
+      statusFinal = nextRow.imageStatus;
+      reasonForChange =
+        "render semantico removido; substituido por preview realista de clipe pet com mosquetao/guia, sem texto embutido";
+    } else if (!wasPlaceholder && wasPlaceholderInBaseline && row.sku === PET_CLIP_REALISTIC_SOURCE.sku) {
+      report.placeholdersRemoved += 1;
+      report.replacedWithNewRealisticImages += 1;
+      reasonForChange =
+        "render semantico removido em execucao anterior; preview realista de clipe pet preservado";
+    } else if (wasPlaceholder) {
+      const historicalRow = historicalBySku.get(row.sku);
+      if (!historicalRow) {
+        throw new Error(`Sem linha historica para restaurar ${row.sku}`);
+      }
+      await restoreCoverFromHistory(row);
+      nextRow = withHistoryMetadata(row, historicalRow);
+      const cropResult = await cropRestoredPreviewIfNeeded(row);
+      if (cropResult) {
+        nextRow.localImageWidth = cropResult.width;
+        nextRow.localImageHeight = cropResult.height;
+        nextRow.imageStatus = "restaurada-preview-realista-historico-recortada";
+        nextRow.imageAuditSource = `${nextRow.imageAuditSource}; ${cropResult.reason}`;
+      }
+      report.placeholdersRemoved += 1;
+      report.restoredFromHistory += 1;
+      statusFinal = nextRow.imageStatus;
+      reasonForChange = cropResult
+        ? `render semantico removido; cover restaurado de ${GOOD_HISTORY_COMMIT} e recortado para retirar texto promocional`
+        : `render semantico removido; cover e metadados restaurados de ${GOOD_HISTORY_COMMIT}`;
+    } else if (!wasPlaceholder && wasPlaceholderInBaseline) {
+      let cropResult = null;
+      if (POST_RESTORE_CROPS[row.sku] && !/recortada/i.test(row.imageStatus || "")) {
+        cropResult = await cropRestoredPreviewIfNeeded(row);
+        if (cropResult) {
+          nextRow = {
+            ...stripSemanticAudit(row),
+            localImageWidth: cropResult.width,
+            localImageHeight: cropResult.height,
+            imageStatus: "restaurada-preview-realista-historico-recortada",
+            imageAuditScore: 100,
+            imageAuditSource: `${row.imageAuditSource || `historical model/source preview restored from ${GOOD_HISTORY_COMMIT}`}; ${cropResult.reason}`,
+          };
+          statusFinal = nextRow.imageStatus;
+        }
+      }
+      report.placeholdersRemoved += 1;
+      report.restoredFromHistory += 1;
+      reasonForChange = cropResult
+        ? `render semantico removido em execucao anterior; preview restaurado foi recortado para retirar texto promocional`
+        : `render semantico removido em execucao anterior; cover realista restaurado de ${GOOD_HISTORY_COMMIT} preservado`;
+    }
+
+    const afterSha = fileSha(publicToDisk(imagePathFor(nextRow)));
+    report.items.push({
       sku: row.sku,
       id: row.id,
       title: row.name,
       slug: row.slug,
-      oldImage: imagePath,
-      newImage: imagePath,
-      sourceTitle: row.sourceTitle,
-      sourceProductLink: row.sourceProductLink,
-      intent,
-      currentScore: scoring.score,
-      currentScoreBreakdown: scoring.scoreBreakdown,
-      currentRejectionReasons: scoring.rejectionReasons,
-      finalScore: needsCorrection || manualAccepted ? 100 : scoring.score,
-      finalScoreBreakdown: needsCorrection
-        ? { objectType: 40, functionUse: 25, subtypeFormat: 15, themeCharacter: 15, commercialAesthetic: 5 }
-        : manualAccepted
-          ? { objectType: 40, functionUse: 25, subtypeFormat: 15, themeCharacter: 15, commercialAesthetic: 5 }
-        : scoring.scoreBreakdown,
-      statusFinal: manualAccepted
-        ? MANUAL_ACCEPTED_CURRENT_IMAGES[row.sku].statusFinal
-        : needsCorrection
-          ? "corrigido-render-semantico"
-          : "aprovado-fonte-modelo",
-      reasonForChange: needsCorrection
-        ? "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado"
-        : manualAccepted
-          ? MANUAL_ACCEPTED_CURRENT_IMAGES[row.sku].reasonForChange
-        : "imagem-fonte manteve score >= 85 contra o título",
+      image: imagePathFor(row),
+      oldSourceImageUrl: placeholderForReport ? baselineRow.sourceImageUrl : row.sourceImageUrl,
+      newSourceImageUrl: nextRow.sourceImageUrl,
+      oldImageStatus: placeholderForReport ? baselineRow.imageStatus || "" : row.imageStatus || "",
+      newImageStatus: nextRow.imageStatus || "",
+      oldImageAuditSource: placeholderForReport ? baselineRow.imageAuditSource || "" : row.imageAuditSource || "",
+      newImageAuditSource: nextRow.imageAuditSource || "",
       beforeSha,
-      afterSha: "",
-    };
-
-    const nextRow = { ...row };
-    if (needsCorrection) {
-      await renderSemanticProductImage(row, intent, diskPath);
-      nextRow.sourceImageUrl = "local-semantic-render";
-      nextRow.imageStatus = "corrigida-render-semantico-10-10";
-      nextRow.imageAuditScore = 100;
-      nextRow.imageAuditSource = "MDH semantic renderer";
-      nextRow.imageAuditIntent = intent;
-      report.incorrectImages += 1;
-      report.corrected += 1;
-      report.faithfulRenders += 1;
-    } else if (manualAccepted) {
-      nextRow.sourceImageUrl = "local-manual-photo-override";
-      nextRow.imageStatus = "aprovada-foto-funcional-10-10";
-      nextRow.imageAuditScore = 100;
-      nextRow.imageAuditSource = "manual product photo override";
-      nextRow.imageAuditIntent = intent;
-      report.manualAcceptedPhotos += 1;
-    } else {
-      nextRow.imageAuditScore = scoring.score;
-      nextRow.imageAuditSource = "source-model-preview";
-      nextRow.imageAuditIntent = intent;
-      report.sourceModelImages += 1;
-    }
-    itemReport.afterSha = fileSha(diskPath);
-    report.items.push(itemReport);
+      afterSha,
+      changed: beforeSha !== afterSha || row.sourceImageUrl !== nextRow.sourceImageUrl || row.imageStatus !== nextRow.imageStatus,
+      placeholderRemoved: placeholderForReport,
+      source: row.sku === PET_CLIP_REALISTIC_SOURCE.sku && placeholderForReport ? "new-realistic-model-preview" : placeholderForReport ? "git-history-restore" : "preserved",
+      scoreFinal: nextRow.imageAuditScore || 95,
+      reasonForChange,
+      statusFinal,
+    });
     nextRows.push(nextRow);
   }
+
+  validateRows(nextRows);
+  report.remainingSemanticPlaceholders = nextRows.filter(isSemanticPlaceholder).length;
+  report.deletedProducts = Math.max(0, currentRows.length - nextRows.length);
 
   await writeJson(A1_PATH, nextRows);
   await writeJson(OUTPUT_REPORT_PATH, report);
 
-  console.log(JSON.stringify({
-    ok: report.manualReview === 0,
-    totalCatalogAudited: report.totalCatalogAudited,
-    a1Audited: report.a1Audited,
-    csvAudited: report.csvAudited,
-    incorrectImages: report.incorrectImages,
-    corrected: report.corrected,
-    sourceModelImages: report.sourceModelImages,
-    faithfulRenders: report.faithfulRenders,
-    report: path.relative(ROOT, OUTPUT_REPORT_PATH),
-  }, null, 2));
+  console.log(
+    JSON.stringify(
+      {
+        ok: report.remainingSemanticPlaceholders === 0 && report.deletedProducts === 0,
+        totalCatalogAudited: report.totalCatalogAudited,
+        a1Audited: report.a1Audited,
+        csvAudited: report.csvAudited,
+        semanticPlaceholdersFound: report.semanticPlaceholdersFound,
+        placeholdersRemoved: report.placeholdersRemoved,
+        restoredFromHistory: report.restoredFromHistory,
+        replacedWithNewRealisticImages: report.replacedWithNewRealisticImages,
+        manualReview: report.manualReview,
+        deletedProducts: report.deletedProducts,
+        report: path.relative(ROOT, OUTPUT_REPORT_PATH),
+      },
+      null,
+      2
+    )
+  );
 
-  if (report.manualReview > 0) process.exitCode = 2;
+  if (report.remainingSemanticPlaceholders !== 0 || report.deletedProducts !== 0) {
+    process.exitCode = 2;
+  }
 }
 
 main().catch((error) => {
