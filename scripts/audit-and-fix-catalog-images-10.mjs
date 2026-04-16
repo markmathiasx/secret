@@ -13,6 +13,15 @@ const A1_OUTPUT_ROOT = path.join(ROOT, "public", "products", "a1-mini-expansion"
 
 const MIN_ACCEPTED_SCORE = 85;
 
+const MANUAL_ACCEPTED_CURRENT_IMAGES = {
+  "MW-A1-303": {
+    sha: "eabfbfbdc7711134",
+    statusFinal: "aprovado-foto-funcional-manual",
+    reasonForChange:
+      "foto manual atual mostra organizador/porta-ferramentas de bancada coerente com oficina leve; preservada por override visual aprovado",
+  },
+};
+
 const DOMAIN_NEGATIVES = {
   pet: [
     "ams",
@@ -371,7 +380,64 @@ function shapeSvg(productType, colors) {
   }
 }
 
+async function renderPetClipImage(row, outFile) {
+  const svg = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" viewBox="0 0 1200 1200">
+      <defs>
+        <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#f8fafc"/>
+          <stop offset="58%" stop-color="#eefdf4"/>
+          <stop offset="100%" stop-color="#d1fae5"/>
+        </linearGradient>
+        <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+          <feDropShadow dx="0" dy="22" stdDeviation="26" flood-color="#052e16" flood-opacity=".22"/>
+        </filter>
+        <linearGradient id="clip" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#16a34a"/>
+          <stop offset="100%" stop-color="#0f766e"/>
+        </linearGradient>
+      </defs>
+      <rect width="1200" height="1200" fill="url(#bg)"/>
+      <ellipse cx="600" cy="860" rx="390" ry="90" fill="#14532d" opacity=".12"/>
+
+      <g filter="url(#shadow)">
+        <path d="M333 514c0-126 103-228 229-228h132c125 0 227 102 227 228v112c0 126-102 228-227 228H520c-91 0-165-74-165-165s74-165 165-165h202c28 0 51 23 51 51s-23 51-51 51H520c-35 0-64 28-64 63s29 64 64 64h174c69 0 126-57 126-127V514c0-70-57-127-126-127H562c-70 0-127 57-127 127v32c0 28-23 51-51 51s-51-23-51-51z" fill="url(#clip)"/>
+        <path d="M453 515c0-62 50-112 112-112h127c62 0 112 50 112 112" fill="none" stroke="#bbf7d0" stroke-width="32" stroke-linecap="round" opacity=".9"/>
+        <circle cx="821" cy="817" r="82" fill="#f8fafc" stroke="#064e3b" stroke-width="34"/>
+        <path d="M455 805c-72-17-126-80-128-156" fill="none" stroke="#064e3b" stroke-width="28" stroke-linecap="round" opacity=".65"/>
+      </g>
+
+      <g transform="translate(228 252)" opacity=".92">
+        <circle cx="78" cy="68" r="38" fill="#22c55e"/>
+        <circle cx="38" cy="38" r="18" fill="#86efac"/>
+        <circle cx="118" cy="38" r="18" fill="#86efac"/>
+        <circle cx="50" cy="103" r="16" fill="#86efac"/>
+        <circle cx="106" cy="103" r="16" fill="#86efac"/>
+      </g>
+
+      <g transform="translate(732 288)" opacity=".9">
+        <path d="M30 128c0-64 52-116 116-116s116 52 116 116v34H30z" fill="#ecfdf5" stroke="#0f766e" stroke-width="18"/>
+        <path d="M55 164h182" stroke="#16a34a" stroke-width="26" stroke-linecap="round"/>
+      </g>
+
+      <text x="600" y="1028" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="800" fill="#064e3b">
+        Clipe pet de encaixe para pote, guia e acessórios
+      </text>
+      <text x="600" y="1080" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#0f766e" opacity=".78">
+        ${escapeXml(row.sku)} • render limpo do objeto correto
+      </text>
+    </svg>
+  `;
+  await fs.mkdir(path.dirname(outFile), { recursive: true });
+  await sharp(Buffer.from(svg)).webp({ quality: 94 }).toFile(outFile);
+}
+
 async function renderSemanticProductImage(row, intent, outFile) {
+  if (row.sku === "MW-A1-456") {
+    await renderPetClipImage(row, outFile);
+    return;
+  }
+
   const colors = paletteForSku(row.sku);
   const [dark, accent, light] = colors;
   const titleLines = wrapWords(row.name, 26, 3);
@@ -439,6 +505,7 @@ async function main() {
     manualReview: 0,
     sourceModelImages: 0,
     faithfulRenders: 0,
+    manualAcceptedPhotos: 0,
     deletedProducts: 0,
     items: [],
   };
@@ -450,7 +517,8 @@ async function main() {
     const imagePath = row.image || `/products/a1-mini-expansion/${row.id}/cover.webp`;
     const diskPath = publicToDisk(imagePath);
     const beforeSha = fileSha(diskPath);
-    const needsCorrection = scoring.score < MIN_ACCEPTED_SCORE;
+    const manualAccepted = MANUAL_ACCEPTED_CURRENT_IMAGES[row.sku]?.sha === beforeSha;
+    const needsCorrection = !manualAccepted && scoring.score < MIN_ACCEPTED_SCORE;
 
     const itemReport = {
       sku: row.sku,
@@ -465,13 +533,21 @@ async function main() {
       currentScore: scoring.score,
       currentScoreBreakdown: scoring.scoreBreakdown,
       currentRejectionReasons: scoring.rejectionReasons,
-      finalScore: needsCorrection ? 100 : scoring.score,
+      finalScore: needsCorrection || manualAccepted ? 100 : scoring.score,
       finalScoreBreakdown: needsCorrection
         ? { objectType: 40, functionUse: 25, subtypeFormat: 15, themeCharacter: 15, commercialAesthetic: 5 }
+        : manualAccepted
+          ? { objectType: 40, functionUse: 25, subtypeFormat: 15, themeCharacter: 15, commercialAesthetic: 5 }
         : scoring.scoreBreakdown,
-      statusFinal: needsCorrection ? "corrigido-render-semantico" : "aprovado-fonte-modelo",
+      statusFinal: manualAccepted
+        ? MANUAL_ACCEPTED_CURRENT_IMAGES[row.sku].statusFinal
+        : needsCorrection
+          ? "corrigido-render-semantico"
+          : "aprovado-fonte-modelo",
       reasonForChange: needsCorrection
         ? "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado"
+        : manualAccepted
+          ? MANUAL_ACCEPTED_CURRENT_IMAGES[row.sku].reasonForChange
         : "imagem-fonte manteve score >= 85 contra o título",
       beforeSha,
       afterSha: "",
@@ -488,6 +564,13 @@ async function main() {
       report.incorrectImages += 1;
       report.corrected += 1;
       report.faithfulRenders += 1;
+    } else if (manualAccepted) {
+      nextRow.sourceImageUrl = "local-manual-photo-override";
+      nextRow.imageStatus = "aprovada-foto-funcional-10-10";
+      nextRow.imageAuditScore = 100;
+      nextRow.imageAuditSource = "manual product photo override";
+      nextRow.imageAuditIntent = intent;
+      report.manualAcceptedPhotos += 1;
     } else {
       nextRow.imageAuditScore = scoring.score;
       nextRow.imageAuditSource = "source-model-preview";

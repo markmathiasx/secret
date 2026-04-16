@@ -1,15 +1,16 @@
 {
-  "generatedAt": "2026-04-16T18:56:55.093Z",
+  "generatedAt": "2026-04-16T20:10:54.436Z",
   "totalCatalogAudited": 748,
   "oldCatalogExpected": 248,
   "csvAudited": 160,
   "a1Audited": 500,
   "minAcceptedScore": 85,
-  "incorrectImages": 376,
-  "corrected": 376,
+  "incorrectImages": 375,
+  "corrected": 375,
   "manualReview": 0,
   "sourceModelImages": 124,
-  "faithfulRenders": 376,
+  "faithfulRenders": 375,
+  "manualAcceptedPhotos": 1,
   "deletedProducts": 0,
   "items": [
     {
@@ -184,7 +185,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "60e27e59635ce0e7",
+      "beforeSha": "e8c02e6ad332b09b",
       "afterSha": "e8c02e6ad332b09b"
     },
     {
@@ -244,7 +245,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "76f07588d8e8848c",
+      "beforeSha": "d5ee55c39a24151a",
       "afterSha": "d5ee55c39a24151a"
     },
     {
@@ -362,7 +363,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "251c98b1ef6f2fad",
+      "beforeSha": "ef0dbcdee6de9a98",
       "afterSha": "ef0dbcdee6de9a98"
     },
     {
@@ -536,7 +537,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "4068a7137456de06",
+      "beforeSha": "6a86baef8a55d5e7",
       "afterSha": "6a86baef8a55d5e7"
     },
     {
@@ -761,7 +762,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "f8ccc36e38a38919",
+      "beforeSha": "7b83a2eb5f27d7ae",
       "afterSha": "7b83a2eb5f27d7ae"
     },
     {
@@ -817,7 +818,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "1dc050a5a9bc7f82",
+      "beforeSha": "3880529eda3e8050",
       "afterSha": "3880529eda3e8050"
     },
     {
@@ -876,7 +877,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "e5e347096d36cd56",
+      "beforeSha": "f7940a11045b2b47",
       "afterSha": "f7940a11045b2b47"
     },
     {
@@ -989,7 +990,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "d8708e86fe9e0e07",
+      "beforeSha": "4f7d6ea6f70066a5",
       "afterSha": "4f7d6ea6f70066a5"
     },
     {
@@ -1047,7 +1048,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "6efe273fd4ce2b72",
+      "beforeSha": "aad875f5a3886235",
       "afterSha": "aad875f5a3886235"
     },
     {
@@ -1105,7 +1106,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "06b521d0a73fb4ae",
+      "beforeSha": "6dd435114f3c3cb4",
       "afterSha": "6dd435114f3c3cb4"
     },
     {
@@ -1163,7 +1164,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "f39487b231c8bed6",
+      "beforeSha": "0b7b0169471354f9",
       "afterSha": "0b7b0169471354f9"
     },
     {
@@ -1221,7 +1222,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "b9d0085775c33438",
+      "beforeSha": "5fdbec3723c5fcae",
       "afterSha": "5fdbec3723c5fcae"
     },
     {
@@ -1280,7 +1281,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "a7415cf171557081",
+      "beforeSha": "e2e2e3bde6fc2d24",
       "afterSha": "e2e2e3bde6fc2d24"
     },
     {
@@ -1339,7 +1340,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "149889d86a01304b",
+      "beforeSha": "05a84802104ff6b6",
       "afterSha": "05a84802104ff6b6"
     },
     {
@@ -1398,7 +1399,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "619e5e4f122d1c05",
+      "beforeSha": "5736e6c31ff5ea48",
       "afterSha": "5736e6c31ff5ea48"
     },
     {
@@ -1456,7 +1457,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "6ee488be7763ac50",
+      "beforeSha": "dce96108ee366174",
       "afterSha": "dce96108ee366174"
     },
     {
@@ -1512,7 +1513,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "61dd4a836db0ad78",
+      "beforeSha": "8980a07247b2fba2",
       "afterSha": "8980a07247b2fba2"
     },
     {
@@ -1570,7 +1571,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "844e36ef93eef732",
+      "beforeSha": "d6031618a4768043",
       "afterSha": "d6031618a4768043"
     },
     {
@@ -1626,7 +1627,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "bde0edbdddc07895",
+      "beforeSha": "51ce333e1a4660a4",
       "afterSha": "51ce333e1a4660a4"
     },
     {
@@ -1683,7 +1684,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "42c579d6f5984dd0",
+      "beforeSha": "5838407fcd3c3141",
       "afterSha": "5838407fcd3c3141"
     },
     {
@@ -1740,7 +1741,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "fa37dc2a71f2200c",
+      "beforeSha": "e012dc3efcff488e",
       "afterSha": "e012dc3efcff488e"
     },
     {
@@ -1796,7 +1797,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "9c9a323378fa688d",
+      "beforeSha": "c8d32f5ea69bb6fa",
       "afterSha": "c8d32f5ea69bb6fa"
     },
     {
@@ -1854,7 +1855,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "31c7bad44ae62bde",
+      "beforeSha": "6a0fe62fdb782fec",
       "afterSha": "6a0fe62fdb782fec"
     },
     {
@@ -1911,7 +1912,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "f44b65debf1aa133",
+      "beforeSha": "9f8a79997baf3d9b",
       "afterSha": "9f8a79997baf3d9b"
     },
     {
@@ -1968,7 +1969,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "16080dbdb0f43115",
+      "beforeSha": "d9de17396c415ee2",
       "afterSha": "d9de17396c415ee2"
     },
     {
@@ -2025,7 +2026,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "c07b0bb9e871aeba",
+      "beforeSha": "17dfd92a1f696e23",
       "afterSha": "17dfd92a1f696e23"
     },
     {
@@ -2082,7 +2083,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "57fa36a8fd4e69d9",
+      "beforeSha": "8c14f8713f16e012",
       "afterSha": "8c14f8713f16e012"
     },
     {
@@ -2142,7 +2143,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "a88a47ca3cf7ea16",
+      "beforeSha": "f9a6214f9256de37",
       "afterSha": "f9a6214f9256de37"
     },
     {
@@ -2204,7 +2205,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "b546e60cce798675",
+      "beforeSha": "354a20bd5296774a",
       "afterSha": "354a20bd5296774a"
     },
     {
@@ -2265,7 +2266,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "a8b32f2f1208db46",
+      "beforeSha": "e68fe1c038e20e11",
       "afterSha": "e68fe1c038e20e11"
     },
     {
@@ -2324,7 +2325,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "e1a7adb21e6d2a2f",
+      "beforeSha": "45e076e4315d40c4",
       "afterSha": "45e076e4315d40c4"
     },
     {
@@ -2384,7 +2385,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "a3d127654fbf31ba",
+      "beforeSha": "90a3ff760b318740",
       "afterSha": "90a3ff760b318740"
     },
     {
@@ -2446,7 +2447,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "3ad47ee975b53811",
+      "beforeSha": "c8163b34871aebde",
       "afterSha": "c8163b34871aebde"
     },
     {
@@ -2507,7 +2508,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "f956d57d56ecee8c",
+      "beforeSha": "346612046fed5963",
       "afterSha": "346612046fed5963"
     },
     {
@@ -2567,7 +2568,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "1d63ddf631e2de74",
+      "beforeSha": "fc3d2ee5542fd213",
       "afterSha": "fc3d2ee5542fd213"
     },
     {
@@ -2627,7 +2628,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "ee52309ddf7e7bfc",
+      "beforeSha": "28b81b81bf9cf9e2",
       "afterSha": "28b81b81bf9cf9e2"
     },
     {
@@ -2687,7 +2688,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "1983450b729d5cd5",
+      "beforeSha": "32af949e5c7d8760",
       "afterSha": "32af949e5c7d8760"
     },
     {
@@ -2748,7 +2749,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "39e1ebd4cc5eb386",
+      "beforeSha": "0288793cf5ef9066",
       "afterSha": "0288793cf5ef9066"
     },
     {
@@ -2808,7 +2809,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "9b40104c469c5c3c",
+      "beforeSha": "3b9b731f5bb6caa3",
       "afterSha": "3b9b731f5bb6caa3"
     },
     {
@@ -2868,7 +2869,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "1a8c6b6f9d9023bd",
+      "beforeSha": "196133f912078e58",
       "afterSha": "196133f912078e58"
     },
     {
@@ -2928,7 +2929,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "4837c26069f680d9",
+      "beforeSha": "550e9117c217b83a",
       "afterSha": "550e9117c217b83a"
     },
     {
@@ -2988,7 +2989,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "26a34081891c5846",
+      "beforeSha": "07d3723adc7ced4a",
       "afterSha": "07d3723adc7ced4a"
     },
     {
@@ -3049,7 +3050,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "7f69ad2cd786365a",
+      "beforeSha": "1c8a11d955a51b34",
       "afterSha": "1c8a11d955a51b34"
     },
     {
@@ -3110,7 +3111,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "fda7f01143713f11",
+      "beforeSha": "76d041fd8c831e36",
       "afterSha": "76d041fd8c831e36"
     },
     {
@@ -3171,7 +3172,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "ecc3074d2f5758f5",
+      "beforeSha": "14208843fadfe258",
       "afterSha": "14208843fadfe258"
     },
     {
@@ -3231,7 +3232,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "d7b1dfbf3b2650ab",
+      "beforeSha": "4c53d80bd5f8c15b",
       "afterSha": "4c53d80bd5f8c15b"
     },
     {
@@ -3292,7 +3293,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "a87c4ed4cb16966c",
+      "beforeSha": "130f73076b7c2367",
       "afterSha": "130f73076b7c2367"
     },
     {
@@ -3353,7 +3354,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "f170b350739cc32e",
+      "beforeSha": "9de84bf98ab036cf",
       "afterSha": "9de84bf98ab036cf"
     },
     {
@@ -3414,7 +3415,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "cab8c0552919ac59",
+      "beforeSha": "a339e03785ce423f",
       "afterSha": "a339e03785ce423f"
     },
     {
@@ -3476,7 +3477,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "258809c55db435fc",
+      "beforeSha": "9c536acf3942b337",
       "afterSha": "9c536acf3942b337"
     },
     {
@@ -3538,7 +3539,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "00716b0222d6dc29",
+      "beforeSha": "61389436758eb454",
       "afterSha": "61389436758eb454"
     },
     {
@@ -3596,7 +3597,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "0478248f6a7a6825",
+      "beforeSha": "1e3e2099f15cbf90",
       "afterSha": "1e3e2099f15cbf90"
     },
     {
@@ -3656,7 +3657,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "b34d28cfdbaac2c6",
+      "beforeSha": "7e6c1e58d608d399",
       "afterSha": "7e6c1e58d608d399"
     },
     {
@@ -3716,7 +3717,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "1e8ae11ff7a70ec8",
+      "beforeSha": "99af1032c1cdd2e4",
       "afterSha": "99af1032c1cdd2e4"
     },
     {
@@ -3834,7 +3835,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "1d783ef67a31fb6b",
+      "beforeSha": "4a9540636b415656",
       "afterSha": "4a9540636b415656"
     },
     {
@@ -3895,7 +3896,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "6cc10fbcbb469903",
+      "beforeSha": "8e3fa960f7d4e0b0",
       "afterSha": "8e3fa960f7d4e0b0"
     },
     {
@@ -3954,7 +3955,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "222ccb739ae74b43",
+      "beforeSha": "4621c38d9c05936c",
       "afterSha": "4621c38d9c05936c"
     },
     {
@@ -4014,7 +4015,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "b5bd309e9b538ce5",
+      "beforeSha": "ceb222828f12b8e8",
       "afterSha": "ceb222828f12b8e8"
     },
     {
@@ -4075,7 +4076,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "98b13a3a77053e7a",
+      "beforeSha": "bdb5a843d43853f2",
       "afterSha": "bdb5a843d43853f2"
     },
     {
@@ -4135,7 +4136,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "80ba13c33fe01c79",
+      "beforeSha": "02641d3e3208bcc1",
       "afterSha": "02641d3e3208bcc1"
     },
     {
@@ -4197,7 +4198,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "53c4f26c82eee321",
+      "beforeSha": "1f4e67f8a294cf87",
       "afterSha": "1f4e67f8a294cf87"
     },
     {
@@ -4258,7 +4259,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "fd6a4ad1faebd243",
+      "beforeSha": "54ce872397c801bc",
       "afterSha": "54ce872397c801bc"
     },
     {
@@ -5071,7 +5072,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "023ae890e9593d7b",
+      "beforeSha": "ec15326d728a85ca",
       "afterSha": "ec15326d728a85ca"
     },
     {
@@ -5127,7 +5128,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "1cb52ee85b5786ee",
+      "beforeSha": "1a49e86acc331ded",
       "afterSha": "1a49e86acc331ded"
     },
     {
@@ -5186,7 +5187,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "e8fd7edf7fcf205c",
+      "beforeSha": "3eafe954ebeec959",
       "afterSha": "3eafe954ebeec959"
     },
     {
@@ -5246,7 +5247,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "ef832a99367853a4",
+      "beforeSha": "699e844cf6fd3067",
       "afterSha": "699e844cf6fd3067"
     },
     {
@@ -5303,7 +5304,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "65dcec9894cb5bb4",
+      "beforeSha": "8d574e2e7e708a76",
       "afterSha": "8d574e2e7e708a76"
     },
     {
@@ -5363,7 +5364,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "cfd822027cabe936",
+      "beforeSha": "a10bd511276f5b3a",
       "afterSha": "a10bd511276f5b3a"
     },
     {
@@ -5422,7 +5423,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "6ccf0df147a3a18c",
+      "beforeSha": "a4a6f71525dcdef5",
       "afterSha": "a4a6f71525dcdef5"
     },
     {
@@ -5482,7 +5483,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "b1cdd6cc4c3eacdc",
+      "beforeSha": "c139abe6c0be98f8",
       "afterSha": "c139abe6c0be98f8"
     },
     {
@@ -5541,7 +5542,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "25a621714e419928",
+      "beforeSha": "a6811b7e897a40f6",
       "afterSha": "a6811b7e897a40f6"
     },
     {
@@ -5597,7 +5598,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "aafcf557f6161cc7",
+      "beforeSha": "9a0c2f420b7b4a0a",
       "afterSha": "9a0c2f420b7b4a0a"
     },
     {
@@ -5655,7 +5656,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "3ec338684c70f328",
+      "beforeSha": "ae73d670ac110bab",
       "afterSha": "ae73d670ac110bab"
     },
     {
@@ -5714,7 +5715,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "2969843902e0e101",
+      "beforeSha": "69ae1ff19db6aa14",
       "afterSha": "69ae1ff19db6aa14"
     },
     {
@@ -5770,7 +5771,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "e125ecac3993166f",
+      "beforeSha": "b8d03d286b1b1bee",
       "afterSha": "b8d03d286b1b1bee"
     },
     {
@@ -5826,7 +5827,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "223f8278767638fb",
+      "beforeSha": "56136988b69ac3b0",
       "afterSha": "56136988b69ac3b0"
     },
     {
@@ -5886,7 +5887,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "37a173050708f176",
+      "beforeSha": "28b3afe32c856a84",
       "afterSha": "28b3afe32c856a84"
     },
     {
@@ -5943,7 +5944,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "b5b24a43b2ab22e9",
+      "beforeSha": "7f75912689dc5e2f",
       "afterSha": "7f75912689dc5e2f"
     },
     {
@@ -6000,7 +6001,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "8cea96c2bc6a40f9",
+      "beforeSha": "6009dd1ee8a08b58",
       "afterSha": "6009dd1ee8a08b58"
     },
     {
@@ -6057,7 +6058,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "3924fe92829f2b02",
+      "beforeSha": "4a8d2d681191a5b4",
       "afterSha": "4a8d2d681191a5b4"
     },
     {
@@ -6113,7 +6114,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "5988062915d87329",
+      "beforeSha": "375002c445f9c974",
       "afterSha": "375002c445f9c974"
     },
     {
@@ -6170,7 +6171,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "bb08db8db86d7f27",
+      "beforeSha": "7b3e03db77d6cb9f",
       "afterSha": "7b3e03db77d6cb9f"
     },
     {
@@ -6227,7 +6228,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "f7bb291b211dfa57",
+      "beforeSha": "6a61a98418175ea9",
       "afterSha": "6a61a98418175ea9"
     },
     {
@@ -6282,7 +6283,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "7bd6824165ce96e8",
+      "beforeSha": "4d2025bd4b90904b",
       "afterSha": "4d2025bd4b90904b"
     },
     {
@@ -6341,7 +6342,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "34ed295e61127ba0",
+      "beforeSha": "12516b3abd99ae4c",
       "afterSha": "12516b3abd99ae4c"
     },
     {
@@ -6398,7 +6399,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "9d3760da03fabb66",
+      "beforeSha": "43992ff402a6ae20",
       "afterSha": "43992ff402a6ae20"
     },
     {
@@ -6457,7 +6458,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "a673947604b4cf7c",
+      "beforeSha": "4ad91f1c33b3b135",
       "afterSha": "4ad91f1c33b3b135"
     },
     {
@@ -6515,7 +6516,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "5926d05e408689fd",
+      "beforeSha": "613d491077457987",
       "afterSha": "613d491077457987"
     },
     {
@@ -6572,7 +6573,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "ea0f6ea814e8b616",
+      "beforeSha": "a8eae75129ec7ff7",
       "afterSha": "a8eae75129ec7ff7"
     },
     {
@@ -6628,7 +6629,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "5465e145498e930b",
+      "beforeSha": "903e80a29453f801",
       "afterSha": "903e80a29453f801"
     },
     {
@@ -6687,7 +6688,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "81e971915cf553b6",
+      "beforeSha": "e7fe888bff474566",
       "afterSha": "e7fe888bff474566"
     },
     {
@@ -6749,7 +6750,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "2bed44b85feb068f",
+      "beforeSha": "af34fd17c8173083",
       "afterSha": "af34fd17c8173083"
     },
     {
@@ -6811,7 +6812,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "0d2c4a36bf7a7918",
+      "beforeSha": "37a8cf16046f2b0f",
       "afterSha": "37a8cf16046f2b0f"
     },
     {
@@ -6868,7 +6869,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "a4cabb07cc2ab683",
+      "beforeSha": "3a0160fd1f04b299",
       "afterSha": "3a0160fd1f04b299"
     },
     {
@@ -6931,7 +6932,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "1a32acaa66941e19",
+      "beforeSha": "6816535b60173ae3",
       "afterSha": "6816535b60173ae3"
     },
     {
@@ -6992,7 +6993,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "1bff4c33b2356c92",
+      "beforeSha": "48cbf3f89a207d84",
       "afterSha": "48cbf3f89a207d84"
     },
     {
@@ -7052,7 +7053,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "ddfcb9bf141b68ed",
+      "beforeSha": "0371a81ddb17d0ee",
       "afterSha": "0371a81ddb17d0ee"
     },
     {
@@ -7113,7 +7114,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "646d50dc1eb07a10",
+      "beforeSha": "6c69ccba4e4993fb",
       "afterSha": "6c69ccba4e4993fb"
     },
     {
@@ -7174,7 +7175,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "68cfbffd2c3b0844",
+      "beforeSha": "b2c0efaa0a7f9c36",
       "afterSha": "b2c0efaa0a7f9c36"
     },
     {
@@ -7232,7 +7233,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "a92ec9305978dd6d",
+      "beforeSha": "79c99957b274862b",
       "afterSha": "79c99957b274862b"
     },
     {
@@ -7293,7 +7294,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "f80e532319b297eb",
+      "beforeSha": "f87c5d1c83b6572f",
       "afterSha": "f87c5d1c83b6572f"
     },
     {
@@ -7354,7 +7355,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "06397912403c176f",
+      "beforeSha": "b3da72a90bd61175",
       "afterSha": "b3da72a90bd61175"
     },
     {
@@ -7412,7 +7413,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "b6ecbf2103c91af9",
+      "beforeSha": "0546e34e3319b72b",
       "afterSha": "0546e34e3319b72b"
     },
     {
@@ -7531,7 +7532,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "5603c5147211baf7",
+      "beforeSha": "78441bace885ecd7",
       "afterSha": "78441bace885ecd7"
     },
     {
@@ -7590,7 +7591,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "c6765f9d8ef21149",
+      "beforeSha": "1c1664394b06292f",
       "afterSha": "1c1664394b06292f"
     },
     {
@@ -7651,7 +7652,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "9a70c5184772b2cc",
+      "beforeSha": "27118cb5a601c1a9",
       "afterSha": "27118cb5a601c1a9"
     },
     {
@@ -7712,7 +7713,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "ed3c58998f158d98",
+      "beforeSha": "dfefabde2eb1cb21",
       "afterSha": "dfefabde2eb1cb21"
     },
     {
@@ -7771,7 +7772,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "6b87517d15a9101a",
+      "beforeSha": "16c7457f571f67fc",
       "afterSha": "16c7457f571f67fc"
     },
     {
@@ -7832,7 +7833,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "e7f66d5727683846",
+      "beforeSha": "bc662de524f8c7bb",
       "afterSha": "bc662de524f8c7bb"
     },
     {
@@ -7892,7 +7893,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "250655d42400b604",
+      "beforeSha": "5cd59762dd4bc9a9",
       "afterSha": "5cd59762dd4bc9a9"
     },
     {
@@ -7952,7 +7953,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "b7d08d1b827ba0ff",
+      "beforeSha": "0e503a17b992dad4",
       "afterSha": "0e503a17b992dad4"
     },
     {
@@ -8013,7 +8014,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "cd1d4cf2ddecd449",
+      "beforeSha": "d219566de8ab19fe",
       "afterSha": "d219566de8ab19fe"
     },
     {
@@ -8074,7 +8075,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "12003c86d4f80c97",
+      "beforeSha": "65d656490c8d4c98",
       "afterSha": "65d656490c8d4c98"
     },
     {
@@ -8131,7 +8132,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "26a4d86b47eef1a3",
+      "beforeSha": "c745627e65fe2420",
       "afterSha": "c745627e65fe2420"
     },
     {
@@ -8192,7 +8193,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "bd0df1dcc333d061",
+      "beforeSha": "9fc25f1c7e5d084d",
       "afterSha": "9fc25f1c7e5d084d"
     },
     {
@@ -9331,7 +9332,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "6507369381d26b02",
+      "beforeSha": "801732d72cd2fd62",
       "afterSha": "801732d72cd2fd62"
     },
     {
@@ -9952,7 +9953,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "1d94030223b3b320",
+      "beforeSha": "311d7122f787b494",
       "afterSha": "311d7122f787b494"
     },
     {
@@ -10571,7 +10572,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "706073b4279606f3",
+      "beforeSha": "05507a3a78a1d512",
       "afterSha": "05507a3a78a1d512"
     },
     {
@@ -10742,7 +10743,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "cc834b7c4f5db03b",
+      "beforeSha": "0a98709f92bee3df",
       "afterSha": "0a98709f92bee3df"
     },
     {
@@ -10913,7 +10914,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "28160cd079b11ae8",
+      "beforeSha": "ab327b86dd1ac22e",
       "afterSha": "ab327b86dd1ac22e"
     },
     {
@@ -11030,7 +11031,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "0ddd831f9838c12a",
+      "beforeSha": "0b1ac98971fe0c75",
       "afterSha": "0b1ac98971fe0c75"
     },
     {
@@ -11084,7 +11085,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "8697eae0c501da14",
+      "beforeSha": "a8744b12a583074b",
       "afterSha": "a8744b12a583074b"
     },
     {
@@ -11260,7 +11261,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "3a3f766359032947",
+      "beforeSha": "3684d60ac81c8eec",
       "afterSha": "3684d60ac81c8eec"
     },
     {
@@ -11318,7 +11319,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "ce762098e97a73bd",
+      "beforeSha": "c1c1477c102a2d6c",
       "afterSha": "c1c1477c102a2d6c"
     },
     {
@@ -11437,7 +11438,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "6bd7ad3813448501",
+      "beforeSha": "949dff3200ee50ca",
       "afterSha": "949dff3200ee50ca"
     },
     {
@@ -11494,7 +11495,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "dbe535fe11b1864c",
+      "beforeSha": "d17f7ea983fc3633",
       "afterSha": "d17f7ea983fc3633"
     },
     {
@@ -11554,7 +11555,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "43a87024c2a6d8c2",
+      "beforeSha": "4aca1c431fbbbd65",
       "afterSha": "4aca1c431fbbbd65"
     },
     {
@@ -11614,7 +11615,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "4d7b11dddc9dd4c9",
+      "beforeSha": "74803c20c2f1b9f8",
       "afterSha": "74803c20c2f1b9f8"
     },
     {
@@ -11783,7 +11784,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "d712a8512d4f8cae",
+      "beforeSha": "f2bf7dadee281543",
       "afterSha": "f2bf7dadee281543"
     },
     {
@@ -11844,7 +11845,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "2a9bb69bb1adee11",
+      "beforeSha": "9d508e0c1ac65c3e",
       "afterSha": "9d508e0c1ac65c3e"
     },
     {
@@ -11903,7 +11904,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "72bb18b83197c18e",
+      "beforeSha": "a12761f48dc92b5e",
       "afterSha": "a12761f48dc92b5e"
     },
     {
@@ -11963,7 +11964,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "3cae6f172167c8fb",
+      "beforeSha": "fffb1ad49d210f17",
       "afterSha": "fffb1ad49d210f17"
     },
     {
@@ -12024,7 +12025,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "59fd3009b64e9610",
+      "beforeSha": "ce8e78fc8b9391ef",
       "afterSha": "ce8e78fc8b9391ef"
     },
     {
@@ -12140,7 +12141,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "6bdca52cade2f3f9",
+      "beforeSha": "b79ee673b35907e7",
       "afterSha": "b79ee673b35907e7"
     },
     {
@@ -12199,7 +12200,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "829deb71ac090863",
+      "beforeSha": "517b229e7dabc40e",
       "afterSha": "517b229e7dabc40e"
     },
     {
@@ -12432,7 +12433,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "975f9c1fe16f6b6d",
+      "beforeSha": "27506cddf36d10be",
       "afterSha": "27506cddf36d10be"
     },
     {
@@ -12492,7 +12493,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "cc51e6375181ce55",
+      "beforeSha": "9ae35095426476ba",
       "afterSha": "9ae35095426476ba"
     },
     {
@@ -12552,7 +12553,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "9a6a1069ed490f6a",
+      "beforeSha": "45d96f1a9acd6864",
       "afterSha": "45d96f1a9acd6864"
     },
     {
@@ -12612,7 +12613,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "82f5cbe3a16ee22e",
+      "beforeSha": "a065ffaeb9e4e7ab",
       "afterSha": "a065ffaeb9e4e7ab"
     },
     {
@@ -12670,7 +12671,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "581d7f6c53d41872",
+      "beforeSha": "7f247b50d91beabf",
       "afterSha": "7f247b50d91beabf"
     },
     {
@@ -12729,7 +12730,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "9ef4f1e38ac9c825",
+      "beforeSha": "f456ed05f51ae3b0",
       "afterSha": "f456ed05f51ae3b0"
     },
     {
@@ -12788,7 +12789,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "837c982e8c14e9a2",
+      "beforeSha": "26a82e80c60c802d",
       "afterSha": "26a82e80c60c802d"
     },
     {
@@ -12904,7 +12905,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "050d8753960a3d59",
+      "beforeSha": "2d39da5d67e9c556",
       "afterSha": "2d39da5d67e9c556"
     },
     {
@@ -12962,7 +12963,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "133ea9afcd78bbd4",
+      "beforeSha": "3235c8ce98c6f291",
       "afterSha": "3235c8ce98c6f291"
     },
     {
@@ -13020,7 +13021,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "829222ffc9438b6d",
+      "beforeSha": "8b2f950dcb9ce6a5",
       "afterSha": "8b2f950dcb9ce6a5"
     },
     {
@@ -13080,7 +13081,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "8279221924f04c4e",
+      "beforeSha": "8ebf6d18c4ec21ae",
       "afterSha": "8ebf6d18c4ec21ae"
     },
     {
@@ -13140,7 +13141,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "f8802ee543277264",
+      "beforeSha": "6b20c64a8868f618",
       "afterSha": "6b20c64a8868f618"
     },
     {
@@ -13198,7 +13199,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "3144026733bd7ab0",
+      "beforeSha": "65ea0bc1e0834894",
       "afterSha": "65ea0bc1e0834894"
     },
     {
@@ -13260,7 +13261,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "6569fdc3d3c103f3",
+      "beforeSha": "f9746bcf48521751",
       "afterSha": "f9746bcf48521751"
     },
     {
@@ -13319,7 +13320,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "759a86e7cb3717a1",
+      "beforeSha": "32f312e7f753a0b6",
       "afterSha": "32f312e7f753a0b6"
     },
     {
@@ -13376,7 +13377,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "cc2435ea65ad547d",
+      "beforeSha": "56de285f4fcd5f6d",
       "afterSha": "56de285f4fcd5f6d"
     },
     {
@@ -13754,7 +13755,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "85e98ca00477756d",
+      "beforeSha": "0624a72588c9d7b0",
       "afterSha": "0624a72588c9d7b0"
     },
     {
@@ -13806,7 +13807,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "8416d4de0aa2a486",
+      "beforeSha": "c2a056b9f913d839",
       "afterSha": "c2a056b9f913d839"
     },
     {
@@ -13968,7 +13969,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "8cb3555d1beaeb29",
+      "beforeSha": "f3427ba19110660c",
       "afterSha": "f3427ba19110660c"
     },
     {
@@ -14021,7 +14022,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "6f627adbd945b007",
+      "beforeSha": "b2b634c4c610cc5b",
       "afterSha": "b2b634c4c610cc5b"
     },
     {
@@ -14131,7 +14132,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "cee55fc7843fa6f2",
+      "beforeSha": "2c07951d735897a8",
       "afterSha": "2c07951d735897a8"
     },
     {
@@ -14185,7 +14186,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "6b92c8d3b168b498",
+      "beforeSha": "5f681683e57f694d",
       "afterSha": "5f681683e57f694d"
     },
     {
@@ -14347,7 +14348,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "2621b64bba747bac",
+      "beforeSha": "8b1804fa8f497d54",
       "afterSha": "8b1804fa8f497d54"
     },
     {
@@ -14402,7 +14403,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "58a696267b2f57e9",
+      "beforeSha": "488e08989e5a9ee8",
       "afterSha": "488e08989e5a9ee8"
     },
     {
@@ -14458,7 +14459,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "691c8b8ba336c3f4",
+      "beforeSha": "eb988f838c5a1725",
       "afterSha": "eb988f838c5a1725"
     },
     {
@@ -14515,7 +14516,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "20d3403b3f5bc14b",
+      "beforeSha": "9126049cce7d44fa",
       "afterSha": "9126049cce7d44fa"
     },
     {
@@ -14572,7 +14573,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "7fbeff72b3ba42d3",
+      "beforeSha": "1653ba276e873b58",
       "afterSha": "1653ba276e873b58"
     },
     {
@@ -14629,7 +14630,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "a0eaa896db09d54b",
+      "beforeSha": "4ea70f5fdd47b8fc",
       "afterSha": "4ea70f5fdd47b8fc"
     },
     {
@@ -14685,7 +14686,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "fb6907213301ebea",
+      "beforeSha": "e826b4a9307daebd",
       "afterSha": "e826b4a9307daebd"
     },
     {
@@ -14743,7 +14744,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "a87a04b437715177",
+      "beforeSha": "5f4e6944a87110bd",
       "afterSha": "5f4e6944a87110bd"
     },
     {
@@ -14799,7 +14800,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "ccaee5276e78b58d",
+      "beforeSha": "e66d653618723ddf",
       "afterSha": "e66d653618723ddf"
     },
     {
@@ -14856,7 +14857,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "a5230a7f60afbc89",
+      "beforeSha": "6f2069d738d546dd",
       "afterSha": "6f2069d738d546dd"
     },
     {
@@ -14912,7 +14913,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "3b25fda410c1e816",
+      "beforeSha": "c39d01f5b78cfd9f",
       "afterSha": "c39d01f5b78cfd9f"
     },
     {
@@ -14967,7 +14968,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "ec7327327c7151bb",
+      "beforeSha": "d51899ad0b0a4d5b",
       "afterSha": "d51899ad0b0a4d5b"
     },
     {
@@ -15023,7 +15024,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "24daaa57cf0133a5",
+      "beforeSha": "704b4c05a66bf193",
       "afterSha": "704b4c05a66bf193"
     },
     {
@@ -15078,7 +15079,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "3609236d604c938b",
+      "beforeSha": "98c633d35acd7972",
       "afterSha": "98c633d35acd7972"
     },
     {
@@ -15134,7 +15135,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "d61e0a1487e2eaf6",
+      "beforeSha": "c1234c783c410410",
       "afterSha": "c1234c783c410410"
     },
     {
@@ -15190,7 +15191,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "5da0512d22f63aa9",
+      "beforeSha": "ae3d73bdb78a561a",
       "afterSha": "ae3d73bdb78a561a"
     },
     {
@@ -15245,7 +15246,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "8cf26ade2d3410de",
+      "beforeSha": "2a3f64068d7f3640",
       "afterSha": "2a3f64068d7f3640"
     },
     {
@@ -15301,7 +15302,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "aa2c29f68a7db1bf",
+      "beforeSha": "82a79ca4f9198c3b",
       "afterSha": "82a79ca4f9198c3b"
     },
     {
@@ -15357,7 +15358,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "f8f62ff3271dc960",
+      "beforeSha": "bd1d1cda74308a6a",
       "afterSha": "bd1d1cda74308a6a"
     },
     {
@@ -15413,7 +15414,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "1e3b19630665eb77",
+      "beforeSha": "076489284505ff43",
       "afterSha": "076489284505ff43"
     },
     {
@@ -15469,7 +15470,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "bcad38cff450b2ca",
+      "beforeSha": "42f2d54adc8a70d3",
       "afterSha": "42f2d54adc8a70d3"
     },
     {
@@ -15526,7 +15527,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "9ce5e7db320c5911",
+      "beforeSha": "5fdb827ae4ef7037",
       "afterSha": "5fdb827ae4ef7037"
     },
     {
@@ -15581,7 +15582,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "99a43722a09c0857",
+      "beforeSha": "c46faea8e90b6ec6",
       "afterSha": "c46faea8e90b6ec6"
     },
     {
@@ -15638,7 +15639,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "dcd0701ee6fc43c6",
+      "beforeSha": "b0ec8300eab8ace3",
       "afterSha": "b0ec8300eab8ace3"
     },
     {
@@ -15694,7 +15695,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "68c089e9556b45fd",
+      "beforeSha": "fb774bbfba7e5102",
       "afterSha": "fb774bbfba7e5102"
     },
     {
@@ -15751,7 +15752,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "176b5a3c3cacd792",
+      "beforeSha": "56d9b515ac919a99",
       "afterSha": "56d9b515ac919a99"
     },
     {
@@ -15807,7 +15808,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "9502ca56a40feb77",
+      "beforeSha": "7320ddf5de79bbcd",
       "afterSha": "7320ddf5de79bbcd"
     },
     {
@@ -15863,7 +15864,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "82ac9bceb76dc104",
+      "beforeSha": "264d5e8c52916cc8",
       "afterSha": "264d5e8c52916cc8"
     },
     {
@@ -15919,7 +15920,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "8ac01f805d099187",
+      "beforeSha": "46ddd21b9eaf671f",
       "afterSha": "46ddd21b9eaf671f"
     },
     {
@@ -15975,7 +15976,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "57dde3916853b9b5",
+      "beforeSha": "863129ebb6f905d4",
       "afterSha": "863129ebb6f905d4"
     },
     {
@@ -16033,7 +16034,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "8b42ac120db828e4",
+      "beforeSha": "6cde2b6898234fd4",
       "afterSha": "6cde2b6898234fd4"
     },
     {
@@ -16147,7 +16148,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "8d122b6d5c07baa9",
+      "beforeSha": "b22d31f681a1e9ff",
       "afterSha": "b22d31f681a1e9ff"
     },
     {
@@ -16260,7 +16261,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "90b4ac6fb5d8a18e",
+      "beforeSha": "b9713bc2013b3cc9",
       "afterSha": "b9713bc2013b3cc9"
     },
     {
@@ -16484,7 +16485,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "bdb844c6e703e495",
+      "beforeSha": "ac869acd26f667cb",
       "afterSha": "ac869acd26f667cb"
     },
     {
@@ -16540,7 +16541,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "cd4905b888168e7e",
+      "beforeSha": "80080d322ade678c",
       "afterSha": "80080d322ade678c"
     },
     {
@@ -16650,7 +16651,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "757104ad0aaa0f73",
+      "beforeSha": "9c9d88e34b442e5a",
       "afterSha": "9c9d88e34b442e5a"
     },
     {
@@ -16762,7 +16763,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "2a1313548d6698d4",
+      "beforeSha": "38e4db8d9cc3552a",
       "afterSha": "38e4db8d9cc3552a"
     },
     {
@@ -16816,7 +16817,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "fd32fda4ac3603cd",
+      "beforeSha": "e33d0edb7205eee7",
       "afterSha": "e33d0edb7205eee7"
     },
     {
@@ -16869,7 +16870,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "4637a2420b747a88",
+      "beforeSha": "8157fb523a53d339",
       "afterSha": "8157fb523a53d339"
     },
     {
@@ -16925,7 +16926,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "ef9270daa73b8613",
+      "beforeSha": "7b71abbbd182314a",
       "afterSha": "7b71abbbd182314a"
     },
     {
@@ -16982,7 +16983,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "704f625a55a2b822",
+      "beforeSha": "b92528a1f2ecbe81",
       "afterSha": "b92528a1f2ecbe81"
     },
     {
@@ -17038,7 +17039,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "08b78df6a1fa1584",
+      "beforeSha": "c6402315212071d5",
       "afterSha": "c6402315212071d5"
     },
     {
@@ -17093,7 +17094,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "08976413d4d37cce",
+      "beforeSha": "14363cb783340e88",
       "afterSha": "14363cb783340e88"
     },
     {
@@ -17148,7 +17149,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "86bec66636160dd9",
+      "beforeSha": "55b8b1ecb6d0c12f",
       "afterSha": "55b8b1ecb6d0c12f"
     },
     {
@@ -17203,7 +17204,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "1a2c0d8442d326a6",
+      "beforeSha": "de67a28d5e4f564e",
       "afterSha": "de67a28d5e4f564e"
     },
     {
@@ -17258,7 +17259,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "9eab6a60b6284142",
+      "beforeSha": "633a36bfaa2bc88c",
       "afterSha": "633a36bfaa2bc88c"
     },
     {
@@ -17312,7 +17313,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "d76d3b373294e011",
+      "beforeSha": "54bb621439eb0052",
       "afterSha": "54bb621439eb0052"
     },
     {
@@ -17367,7 +17368,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "12d1ab85aaee1bfa",
+      "beforeSha": "a04e14a84f83667f",
       "afterSha": "a04e14a84f83667f"
     },
     {
@@ -17422,10 +17423,10 @@
         "themeCharacter": 15,
         "commercialAesthetic": 5
       },
-      "statusFinal": "corrigido-render-semantico",
-      "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "f63438c010361dc6",
-      "afterSha": "e45f04c275af9863"
+      "statusFinal": "aprovado-foto-funcional-manual",
+      "reasonForChange": "foto manual atual mostra organizador/porta-ferramentas de bancada coerente com oficina leve; preservada por override visual aprovado",
+      "beforeSha": "eabfbfbdc7711134",
+      "afterSha": "eabfbfbdc7711134"
     },
     {
       "sku": "MW-A1-304",
@@ -17537,7 +17538,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "02ea2db32a5440f0",
+      "beforeSha": "259761865b6b4bec",
       "afterSha": "259761865b6b4bec"
     },
     {
@@ -17593,7 +17594,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "2e59030ae8c737f7",
+      "beforeSha": "5036bebb9706aa37",
       "afterSha": "5036bebb9706aa37"
     },
     {
@@ -17647,7 +17648,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "147147eb5a5281cb",
+      "beforeSha": "b2bf49dbf2adc062",
       "afterSha": "b2bf49dbf2adc062"
     },
     {
@@ -17703,7 +17704,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "12ccef745f4a9aeb",
+      "beforeSha": "ce63ad8dd0178887",
       "afterSha": "ce63ad8dd0178887"
     },
     {
@@ -17757,7 +17758,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "aeca85c801e99975",
+      "beforeSha": "3e797cf30840e1e3",
       "afterSha": "3e797cf30840e1e3"
     },
     {
@@ -17811,7 +17812,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "eed0a4691754cdb5",
+      "beforeSha": "b46b0ffa0686ec0b",
       "afterSha": "b46b0ffa0686ec0b"
     },
     {
@@ -17861,7 +17862,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "47c230aa4b684779",
+      "beforeSha": "034e00c0dfcd4560",
       "afterSha": "034e00c0dfcd4560"
     },
     {
@@ -17914,7 +17915,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "01b2b12c88978d97",
+      "beforeSha": "15a1e52c87ee533f",
       "afterSha": "15a1e52c87ee533f"
     },
     {
@@ -17967,7 +17968,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "769f0608b9f1ea76",
+      "beforeSha": "dfb5536a562b63a3",
       "afterSha": "dfb5536a562b63a3"
     },
     {
@@ -18020,7 +18021,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "5b6a51cd2ff80c8f",
+      "beforeSha": "e261b4f9f16f8501",
       "afterSha": "e261b4f9f16f8501"
     },
     {
@@ -18074,7 +18075,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "03f71ca69058b39b",
+      "beforeSha": "d5182f1c28ab232d",
       "afterSha": "d5182f1c28ab232d"
     },
     {
@@ -18128,7 +18129,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "4ead8a8286ebde21",
+      "beforeSha": "152188fc258cfdac",
       "afterSha": "152188fc258cfdac"
     },
     {
@@ -18180,7 +18181,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "70742b604693cf80",
+      "beforeSha": "cdaf464a6a0ae27b",
       "afterSha": "cdaf464a6a0ae27b"
     },
     {
@@ -18232,7 +18233,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "fe303aef704ce293",
+      "beforeSha": "943cb7063a77e9b1",
       "afterSha": "943cb7063a77e9b1"
     },
     {
@@ -18285,7 +18286,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "39c2e022bc5f0fc5",
+      "beforeSha": "99e83820005ac228",
       "afterSha": "99e83820005ac228"
     },
     {
@@ -18335,7 +18336,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "09aba90bc8edabb6",
+      "beforeSha": "409203f67b0c190a",
       "afterSha": "409203f67b0c190a"
     },
     {
@@ -18386,7 +18387,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "aaffa00bf80e01ed",
+      "beforeSha": "7e9b9be259f514fd",
       "afterSha": "7e9b9be259f514fd"
     },
     {
@@ -18439,7 +18440,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "def862d69b05219a",
+      "beforeSha": "8458a049e98480e7",
       "afterSha": "8458a049e98480e7"
     },
     {
@@ -18489,7 +18490,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "82432295184320eb",
+      "beforeSha": "367e20365bd8944d",
       "afterSha": "367e20365bd8944d"
     },
     {
@@ -18541,7 +18542,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "6ce1981453186f5f",
+      "beforeSha": "befca587e46e6771",
       "afterSha": "befca587e46e6771"
     },
     {
@@ -18595,7 +18596,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "9d2b32df5bb0eeca",
+      "beforeSha": "b32259f2b9b59a68",
       "afterSha": "b32259f2b9b59a68"
     },
     {
@@ -18646,7 +18647,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "7336236f6881da7d",
+      "beforeSha": "bed47a083bf200d9",
       "afterSha": "bed47a083bf200d9"
     },
     {
@@ -18699,7 +18700,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "11802594d9cc4d17",
+      "beforeSha": "6b8ddf080557d979",
       "afterSha": "6b8ddf080557d979"
     },
     {
@@ -18751,7 +18752,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "a170d130db0a5d95",
+      "beforeSha": "53328ef577b6a18c",
       "afterSha": "53328ef577b6a18c"
     },
     {
@@ -18802,7 +18803,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "4bea2e867eeea57e",
+      "beforeSha": "5c23d1efe73b51df",
       "afterSha": "5c23d1efe73b51df"
     },
     {
@@ -18853,7 +18854,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "7fca5bdd442552bd",
+      "beforeSha": "dfa10189423f3b56",
       "afterSha": "dfa10189423f3b56"
     },
     {
@@ -18907,7 +18908,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "b6c32685394f7162",
+      "beforeSha": "06b31acda7ad3d78",
       "afterSha": "06b31acda7ad3d78"
     },
     {
@@ -18961,7 +18962,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "639c82c0b9f7d398",
+      "beforeSha": "33c1204a1ead32d1",
       "afterSha": "33c1204a1ead32d1"
     },
     {
@@ -19014,7 +19015,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "8673153fda6c5a20",
+      "beforeSha": "3ec2c6564103f3b7",
       "afterSha": "3ec2c6564103f3b7"
     },
     {
@@ -19069,7 +19070,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "12e3a3fd269e1ab4",
+      "beforeSha": "f2a9aa64921e4e13",
       "afterSha": "f2a9aa64921e4e13"
     },
     {
@@ -19124,7 +19125,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "2769bf2f3791c750",
+      "beforeSha": "bf62d3e221706c4e",
       "afterSha": "bf62d3e221706c4e"
     },
     {
@@ -19174,7 +19175,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "d4f72587cd478156",
+      "beforeSha": "f5bc1c4cb227ca58",
       "afterSha": "f5bc1c4cb227ca58"
     },
     {
@@ -19228,7 +19229,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "ea57afada46ffc6f",
+      "beforeSha": "db03e5699595c848",
       "afterSha": "db03e5699595c848"
     },
     {
@@ -19280,7 +19281,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "c19e6e696826bfdc",
+      "beforeSha": "7a4459e1f5a0f1a6",
       "afterSha": "7a4459e1f5a0f1a6"
     },
     {
@@ -19332,7 +19333,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "a87c5f1bb120ca1f",
+      "beforeSha": "3429182537f0feab",
       "afterSha": "3429182537f0feab"
     },
     {
@@ -19384,7 +19385,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "23db51286a0362da",
+      "beforeSha": "9e9407358eee70e4",
       "afterSha": "9e9407358eee70e4"
     },
     {
@@ -19439,7 +19440,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "6c2f5844490c4e02",
+      "beforeSha": "22f33e2980252fb0",
       "afterSha": "22f33e2980252fb0"
     },
     {
@@ -19490,7 +19491,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "1dccbed6c2724450",
+      "beforeSha": "217c3e68e0e09b0d",
       "afterSha": "217c3e68e0e09b0d"
     },
     {
@@ -19542,7 +19543,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "6b28dab37fc8b6da",
+      "beforeSha": "11c77fe6d4f6fd52",
       "afterSha": "11c77fe6d4f6fd52"
     },
     {
@@ -19646,7 +19647,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "d69091c9c069fd25",
+      "beforeSha": "bc1f2f9ab3b60452",
       "afterSha": "bc1f2f9ab3b60452"
     },
     {
@@ -19700,7 +19701,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "64b2b444c7c7cddc",
+      "beforeSha": "c1b84ea8c01a664f",
       "afterSha": "c1b84ea8c01a664f"
     },
     {
@@ -19752,7 +19753,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "5b1a67caa139c5e3",
+      "beforeSha": "3b54ee788e28159f",
       "afterSha": "3b54ee788e28159f"
     },
     {
@@ -19806,7 +19807,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "7a64693b38d30796",
+      "beforeSha": "f9bc1816ebe47821",
       "afterSha": "f9bc1816ebe47821"
     },
     {
@@ -19861,7 +19862,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "35e36c92e6a30200",
+      "beforeSha": "c50dff90e6bce976",
       "afterSha": "c50dff90e6bce976"
     },
     {
@@ -19968,7 +19969,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "ad810ea3f7aac880",
+      "beforeSha": "0480821639808db3",
       "afterSha": "0480821639808db3"
     },
     {
@@ -20022,7 +20023,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "7ef3aa2cb17153a7",
+      "beforeSha": "61baea0c38423aae",
       "afterSha": "61baea0c38423aae"
     },
     {
@@ -20074,7 +20075,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "122d905e6305c00a",
+      "beforeSha": "06a076843492623f",
       "afterSha": "06a076843492623f"
     },
     {
@@ -20128,7 +20129,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "2d5e737b03522c1d",
+      "beforeSha": "44c975d3b8a18bcc",
       "afterSha": "44c975d3b8a18bcc"
     },
     {
@@ -20180,7 +20181,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "50b2bfdd7994aa20",
+      "beforeSha": "286e45276935acac",
       "afterSha": "286e45276935acac"
     },
     {
@@ -20235,7 +20236,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "16877db05606fbef",
+      "beforeSha": "4ec91294a712d96d",
       "afterSha": "4ec91294a712d96d"
     },
     {
@@ -20288,7 +20289,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "d5d446dc0e70b02e",
+      "beforeSha": "33b56e4c5f7ba803",
       "afterSha": "33b56e4c5f7ba803"
     },
     {
@@ -20340,7 +20341,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "5b8833130bd793f6",
+      "beforeSha": "226ff4e793e588ec",
       "afterSha": "226ff4e793e588ec"
     },
     {
@@ -20394,7 +20395,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "f97a20b75896b76f",
+      "beforeSha": "df20f87f1fca349a",
       "afterSha": "df20f87f1fca349a"
     },
     {
@@ -20448,7 +20449,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "82e129d3f5bc7a39",
+      "beforeSha": "96e51650f54c3a30",
       "afterSha": "96e51650f54c3a30"
     },
     {
@@ -20501,7 +20502,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "73a5e3dbb1f3f1ac",
+      "beforeSha": "7d11a49c14fe3a65",
       "afterSha": "7d11a49c14fe3a65"
     },
     {
@@ -20554,7 +20555,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "2f40b3e4a0a0083c",
+      "beforeSha": "371f235e7b8cfb06",
       "afterSha": "371f235e7b8cfb06"
     },
     {
@@ -20606,7 +20607,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "1bcb973a02072bc3",
+      "beforeSha": "635b403f6b926d5c",
       "afterSha": "635b403f6b926d5c"
     },
     {
@@ -20658,7 +20659,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "b595016ae041174b",
+      "beforeSha": "def2920e70627548",
       "afterSha": "def2920e70627548"
     },
     {
@@ -20710,7 +20711,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "8c2cc75ecf7b463a",
+      "beforeSha": "da805292a8e135b8",
       "afterSha": "da805292a8e135b8"
     },
     {
@@ -20763,7 +20764,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "353b0688bdd145dd",
+      "beforeSha": "f44e9a13816ac264",
       "afterSha": "f44e9a13816ac264"
     },
     {
@@ -20814,7 +20815,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "63bd73097c348fb7",
+      "beforeSha": "827e15af0eee4c91",
       "afterSha": "827e15af0eee4c91"
     },
     {
@@ -20865,7 +20866,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "10e1c3132d045080",
+      "beforeSha": "e0555bc81844abd0",
       "afterSha": "e0555bc81844abd0"
     },
     {
@@ -20918,7 +20919,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "e16f4de775f8924a",
+      "beforeSha": "b532c6ff9847db79",
       "afterSha": "b532c6ff9847db79"
     },
     {
@@ -20972,7 +20973,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "5a67577f44bb153a",
+      "beforeSha": "2d3da570d23bf2bd",
       "afterSha": "2d3da570d23bf2bd"
     },
     {
@@ -21027,7 +21028,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "154e0a5be9af7b8c",
+      "beforeSha": "a7b3c994411f8eff",
       "afterSha": "a7b3c994411f8eff"
     },
     {
@@ -21081,7 +21082,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "22d5818af64cee4d",
+      "beforeSha": "07058acc64b4e20e",
       "afterSha": "07058acc64b4e20e"
     },
     {
@@ -21137,7 +21138,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "50bc679b60b5a0a0",
+      "beforeSha": "50f56b8be29f8fcc",
       "afterSha": "50f56b8be29f8fcc"
     },
     {
@@ -21194,7 +21195,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "d28f0ef344950339",
+      "beforeSha": "5ce4d14e621ce9c5",
       "afterSha": "5ce4d14e621ce9c5"
     },
     {
@@ -21249,7 +21250,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "149ccee2954ba4f7",
+      "beforeSha": "28f6282f7d3ea857",
       "afterSha": "28f6282f7d3ea857"
     },
     {
@@ -21357,7 +21358,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "dd37cbeb5d1ddd28",
+      "beforeSha": "77444fe88bd1816b",
       "afterSha": "77444fe88bd1816b"
     },
     {
@@ -21464,7 +21465,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "9c8c8d784d142927",
+      "beforeSha": "857c1aec61e19384",
       "afterSha": "857c1aec61e19384"
     },
     {
@@ -21519,7 +21520,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "da9eb99d13478bb6",
+      "beforeSha": "8f98737306479d59",
       "afterSha": "8f98737306479d59"
     },
     {
@@ -21695,7 +21696,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "74f5e349b79dc533",
+      "beforeSha": "8a5185fe5d7eb196",
       "afterSha": "8a5185fe5d7eb196"
     },
     {
@@ -21756,7 +21757,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "b9ce7995dcde258f",
+      "beforeSha": "afefceb14d1aeceb",
       "afterSha": "afefceb14d1aeceb"
     },
     {
@@ -21816,7 +21817,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "6ea914a1dd02865f",
+      "beforeSha": "a7c36be129bd93e0",
       "afterSha": "a7c36be129bd93e0"
     },
     {
@@ -21876,7 +21877,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "2bb7cd18fac50232",
+      "beforeSha": "2c6c3af375ace237",
       "afterSha": "2c6c3af375ace237"
     },
     {
@@ -21991,7 +21992,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "d5e8cd75cbd69272",
+      "beforeSha": "9bdbd006c0191211",
       "afterSha": "9bdbd006c0191211"
     },
     {
@@ -22105,7 +22106,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "dc3b5bdc6c547ccc",
+      "beforeSha": "2fb00e4edfe0ae7d",
       "afterSha": "2fb00e4edfe0ae7d"
     },
     {
@@ -22735,7 +22736,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "e16f4de775f8924a",
+      "beforeSha": "e476d973de6dde99",
       "afterSha": "e476d973de6dde99"
     },
     {
@@ -22788,7 +22789,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "1e274702114bee86",
+      "beforeSha": "ea052c68a4f6ec35",
       "afterSha": "ea052c68a4f6ec35"
     },
     {
@@ -22840,7 +22841,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "6cee276cd8a4f7ab",
+      "beforeSha": "572554712829cc25",
       "afterSha": "572554712829cc25"
     },
     {
@@ -22893,7 +22894,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "b89ff59a23f4252a",
+      "beforeSha": "513403d9e3dffd66",
       "afterSha": "513403d9e3dffd66"
     },
     {
@@ -22947,7 +22948,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "a4f3a94a243af692",
+      "beforeSha": "98fd3d914acf1aad",
       "afterSha": "98fd3d914acf1aad"
     },
     {
@@ -23000,7 +23001,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "8ca88c5d4e05a606",
+      "beforeSha": "666b2b177bab77bf",
       "afterSha": "666b2b177bab77bf"
     },
     {
@@ -23056,7 +23057,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "97046e77de97610f",
+      "beforeSha": "978b94a0e2dcf493",
       "afterSha": "978b94a0e2dcf493"
     },
     {
@@ -23109,7 +23110,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "82f9099714e88b50",
+      "beforeSha": "ced43474018f3495",
       "afterSha": "ced43474018f3495"
     },
     {
@@ -23160,7 +23161,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "0c15b93befe0f8cd",
+      "beforeSha": "a2a54c08ec30f1c1",
       "afterSha": "a2a54c08ec30f1c1"
     },
     {
@@ -23213,7 +23214,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "1d33fa6719f649ec",
+      "beforeSha": "746dfd460361a824",
       "afterSha": "746dfd460361a824"
     },
     {
@@ -23264,7 +23265,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "52b6f9fefa2c34bf",
+      "beforeSha": "81839d344fda724c",
       "afterSha": "81839d344fda724c"
     },
     {
@@ -23314,7 +23315,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "dab671f8aa0dd65b",
+      "beforeSha": "17d4ef5ff4368a2c",
       "afterSha": "17d4ef5ff4368a2c"
     },
     {
@@ -23366,7 +23367,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "751b767a66012be3",
+      "beforeSha": "0a442c7adf862f77",
       "afterSha": "0a442c7adf862f77"
     },
     {
@@ -23426,7 +23427,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "bb957156c387dc12",
+      "beforeSha": "07d4d71343837bdf",
       "afterSha": "07d4d71343837bdf"
     },
     {
@@ -23488,7 +23489,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "08187e172f32f939",
+      "beforeSha": "234aa8600f79d7f3",
       "afterSha": "234aa8600f79d7f3"
     },
     {
@@ -23545,7 +23546,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "fb8b5f17447b446a",
+      "beforeSha": "51e0e457e1912b7d",
       "afterSha": "51e0e457e1912b7d"
     },
     {
@@ -23604,7 +23605,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "b8f623a4f6a1853b",
+      "beforeSha": "edbf8af2d7d805a5",
       "afterSha": "edbf8af2d7d805a5"
     },
     {
@@ -23664,7 +23665,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "ce5803457f215067",
+      "beforeSha": "a5cb5fe94a05b2aa",
       "afterSha": "a5cb5fe94a05b2aa"
     },
     {
@@ -23724,7 +23725,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "0f2d61c1ff6e4529",
+      "beforeSha": "59a25e03a9a8693d",
       "afterSha": "59a25e03a9a8693d"
     },
     {
@@ -23782,7 +23783,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "ff5cfd6245dd7682",
+      "beforeSha": "c4ff43f1f06e53f3",
       "afterSha": "c4ff43f1f06e53f3"
     },
     {
@@ -23842,7 +23843,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "6b7bb14e606c6eeb",
+      "beforeSha": "e8f99c8b870783b4",
       "afterSha": "e8f99c8b870783b4"
     },
     {
@@ -23899,7 +23900,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "f99f153260f68762",
+      "beforeSha": "80202700cebf2736",
       "afterSha": "80202700cebf2736"
     },
     {
@@ -23957,7 +23958,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "f6b669a7ecbc20f3",
+      "beforeSha": "215bf6e8909df64d",
       "afterSha": "215bf6e8909df64d"
     },
     {
@@ -24014,7 +24015,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "f78eaa25f7ae5f9b",
+      "beforeSha": "6a18c18e1527e78d",
       "afterSha": "6a18c18e1527e78d"
     },
     {
@@ -24070,7 +24071,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "0614c35ab2073e76",
+      "beforeSha": "9ab1faa7e55a2335",
       "afterSha": "9ab1faa7e55a2335"
     },
     {
@@ -24126,7 +24127,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "21b2ede8ed5ee948",
+      "beforeSha": "43c109d5916186ef",
       "afterSha": "43c109d5916186ef"
     },
     {
@@ -24186,7 +24187,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "d0dd06075a97064a",
+      "beforeSha": "95c8239cd8ceb277",
       "afterSha": "95c8239cd8ceb277"
     },
     {
@@ -24243,7 +24244,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "0f759d2865da28e9",
+      "beforeSha": "8f2e9c695a4657ce",
       "afterSha": "8f2e9c695a4657ce"
     },
     {
@@ -24303,7 +24304,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "8f3595f5692d5179",
+      "beforeSha": "1ded9b6c4d8c8365",
       "afterSha": "1ded9b6c4d8c8365"
     },
     {
@@ -24364,7 +24365,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "846ea6c8a555e373",
+      "beforeSha": "2c556ceb6566fc8d",
       "afterSha": "2c556ceb6566fc8d"
     },
     {
@@ -24422,7 +24423,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "4ac2e9b66aeee71a",
+      "beforeSha": "3aacca695237b1ac",
       "afterSha": "3aacca695237b1ac"
     },
     {
@@ -24481,7 +24482,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "c081a259401fccba",
+      "beforeSha": "d1e651c8c98dbfe4",
       "afterSha": "d1e651c8c98dbfe4"
     },
     {
@@ -24540,7 +24541,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "f7ca274529b61be2",
+      "beforeSha": "a0ee2a16ded287dd",
       "afterSha": "a0ee2a16ded287dd"
     },
     {
@@ -24597,7 +24598,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "8e7119ea3e48b34b",
+      "beforeSha": "a5a22f884b9b1da9",
       "afterSha": "a5a22f884b9b1da9"
     },
     {
@@ -24654,7 +24655,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "338800de0d05f2d4",
+      "beforeSha": "d77f69c7b383dff1",
       "afterSha": "d77f69c7b383dff1"
     },
     {
@@ -24710,7 +24711,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "c1fdad1c0b975012",
+      "beforeSha": "31d67a655a2ac5cd",
       "afterSha": "31d67a655a2ac5cd"
     },
     {
@@ -24766,7 +24767,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "8453e9359d3a3576",
+      "beforeSha": "16e11bbb37afb2ca",
       "afterSha": "16e11bbb37afb2ca"
     },
     {
@@ -24825,7 +24826,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "603e1914955aa3fa",
+      "beforeSha": "b046b5eb14ea9e80",
       "afterSha": "b046b5eb14ea9e80"
     },
     {
@@ -24883,7 +24884,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "ea604cbfbc89e8ba",
+      "beforeSha": "11bdd6c3ea9f14c1",
       "afterSha": "11bdd6c3ea9f14c1"
     },
     {
@@ -24940,7 +24941,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "b5fca4dcfbfe4aac",
+      "beforeSha": "9f193adc2647632e",
       "afterSha": "9f193adc2647632e"
     },
     {
@@ -25002,7 +25003,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "48d856e8c3cae3e2",
+      "beforeSha": "475abf33cdb6b5b3",
       "afterSha": "475abf33cdb6b5b3"
     },
     {
@@ -25061,7 +25062,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "4fc061a2349026ba",
+      "beforeSha": "2091267a1297af07",
       "afterSha": "2091267a1297af07"
     },
     {
@@ -25122,7 +25123,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "d28b80ca630b6072",
+      "beforeSha": "32744f0e19917c73",
       "afterSha": "32744f0e19917c73"
     },
     {
@@ -25183,7 +25184,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "da498340b7481328",
+      "beforeSha": "af8ec99be9495865",
       "afterSha": "af8ec99be9495865"
     },
     {
@@ -25239,7 +25240,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "813b7cd5be7b30cf",
+      "beforeSha": "9930e75a6bf2c9b8",
       "afterSha": "9930e75a6bf2c9b8"
     },
     {
@@ -25299,7 +25300,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "f6ccad181d8a7905",
+      "beforeSha": "3d7a709408d0dd5d",
       "afterSha": "3d7a709408d0dd5d"
     },
     {
@@ -25356,7 +25357,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "b4c76f6635c50cc7",
+      "beforeSha": "f63684437f49d97a",
       "afterSha": "f63684437f49d97a"
     },
     {
@@ -25413,7 +25414,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "41696f985556a67d",
+      "beforeSha": "85fdc61471ab1a67",
       "afterSha": "85fdc61471ab1a67"
     },
     {
@@ -25472,7 +25473,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "7b11281be045f76b",
+      "beforeSha": "596fe41e0fa9a727",
       "afterSha": "596fe41e0fa9a727"
     },
     {
@@ -25640,7 +25641,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "ae6ea3a02e22e5d5",
+      "beforeSha": "f565a3c5b7b83a00",
       "afterSha": "f565a3c5b7b83a00"
     },
     {
@@ -25701,7 +25702,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "529b8e1492601137",
+      "beforeSha": "aa28f3ddc5cc10e6",
       "afterSha": "aa28f3ddc5cc10e6"
     },
     {
@@ -25760,7 +25761,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "53734dfe72964d42",
+      "beforeSha": "a57362f01b6872de",
       "afterSha": "a57362f01b6872de"
     },
     {
@@ -25819,8 +25820,8 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "c914055ee1d10777",
-      "afterSha": "682079045b671a93"
+      "beforeSha": "682079045b671a93",
+      "afterSha": "4538218dad5b266e"
     },
     {
       "sku": "MW-A1-457",
@@ -25931,7 +25932,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "f52d0daef67a5f4c",
+      "beforeSha": "21c3fd40a22b7eb4",
       "afterSha": "21c3fd40a22b7eb4"
     },
     {
@@ -25989,7 +25990,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "774c453638c92d99",
+      "beforeSha": "6373df00b371fb25",
       "afterSha": "6373df00b371fb25"
     },
     {
@@ -26047,7 +26048,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "a8682e3122dc75e2",
+      "beforeSha": "838f2dff8b5a44e0",
       "afterSha": "838f2dff8b5a44e0"
     },
     {
@@ -26105,7 +26106,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "41c906fc5b472503",
+      "beforeSha": "3357ddaa4da35fff",
       "afterSha": "3357ddaa4da35fff"
     },
     {
@@ -26164,7 +26165,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "0a59aa51c5bbcb07",
+      "beforeSha": "de3af454dd0c96d4",
       "afterSha": "de3af454dd0c96d4"
     },
     {
@@ -26224,7 +26225,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "0ca7339ee0e9baf1",
+      "beforeSha": "2a5a600f36c09992",
       "afterSha": "2a5a600f36c09992"
     },
     {
@@ -26284,7 +26285,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "e32163d55f3b77ae",
+      "beforeSha": "3b326cfaf7f9e7aa",
       "afterSha": "3b326cfaf7f9e7aa"
     },
     {
@@ -26344,7 +26345,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "45b466215ff7aa07",
+      "beforeSha": "321429d69117d47a",
       "afterSha": "321429d69117d47a"
     },
     {
@@ -26404,7 +26405,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "2724b23fd33a9562",
+      "beforeSha": "c7e3023dba604972",
       "afterSha": "c7e3023dba604972"
     },
     {
@@ -26465,7 +26466,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "e5b8765c584b4cbf",
+      "beforeSha": "a72fe3c79ce7700e",
       "afterSha": "a72fe3c79ce7700e"
     },
     {
@@ -26525,7 +26526,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "3092a706c7542b32",
+      "beforeSha": "1cefd245753a0bb1",
       "afterSha": "1cefd245753a0bb1"
     },
     {
@@ -26585,7 +26586,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "c3dfbed1e8613c83",
+      "beforeSha": "1519b4efb74e366a",
       "afterSha": "1519b4efb74e366a"
     },
     {
@@ -26644,7 +26645,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "9dfb76ef0f1e8ce7",
+      "beforeSha": "624acf25e44311b9",
       "afterSha": "624acf25e44311b9"
     },
     {
@@ -26703,7 +26704,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "0bec7f0df4d0a17f",
+      "beforeSha": "690447fd978b65e6",
       "afterSha": "690447fd978b65e6"
     },
     {
@@ -26763,7 +26764,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "2a2407f080a449ec",
+      "beforeSha": "4af77a0566daa9e8",
       "afterSha": "4af77a0566daa9e8"
     },
     {
@@ -26823,7 +26824,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "42afe011e38be97a",
+      "beforeSha": "46b7a5f7230a2d11",
       "afterSha": "46b7a5f7230a2d11"
     },
     {
@@ -26883,7 +26884,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "bc3aa199f2c273f6",
+      "beforeSha": "fbeded67b0c273b3",
       "afterSha": "fbeded67b0c273b3"
     },
     {
@@ -27002,7 +27003,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "16c748e3365b9143",
+      "beforeSha": "905760b055dcd8f4",
       "afterSha": "905760b055dcd8f4"
     },
     {
@@ -27059,7 +27060,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "65a1e3e01e0eb2e5",
+      "beforeSha": "76af6c4126aed9ef",
       "afterSha": "76af6c4126aed9ef"
     },
     {
@@ -27117,7 +27118,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "1062cec285c2634f",
+      "beforeSha": "4b8433cd62ba38e4",
       "afterSha": "4b8433cd62ba38e4"
     },
     {
@@ -27176,7 +27177,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "b3ca70eaa7546fcf",
+      "beforeSha": "c0a2285dce43dbc1",
       "afterSha": "c0a2285dce43dbc1"
     },
     {
@@ -27234,7 +27235,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "f13666df5b30c8d6",
+      "beforeSha": "cb2b7d9d75c2c47a",
       "afterSha": "cb2b7d9d75c2c47a"
     },
     {
@@ -27291,7 +27292,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "50424e13e8e39a8b",
+      "beforeSha": "979503306d84c7b2",
       "afterSha": "979503306d84c7b2"
     },
     {
@@ -27349,7 +27350,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "a4a865b4c7d8e61e",
+      "beforeSha": "39fc8d4a38b29de7",
       "afterSha": "39fc8d4a38b29de7"
     },
     {
@@ -27404,7 +27405,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "a80849594a81eee5",
+      "beforeSha": "96f6683a6c86af16",
       "afterSha": "96f6683a6c86af16"
     },
     {
@@ -27460,7 +27461,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "74708d6d1d40d034",
+      "beforeSha": "0febea0f83ec8aa4",
       "afterSha": "0febea0f83ec8aa4"
     },
     {
@@ -27516,7 +27517,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "ebd15b0a3f167119",
+      "beforeSha": "1fd1a61f75b96e27",
       "afterSha": "1fd1a61f75b96e27"
     },
     {
@@ -27572,7 +27573,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "0150e365204a4063",
+      "beforeSha": "ea8e009b8b048260",
       "afterSha": "ea8e009b8b048260"
     },
     {
@@ -27627,7 +27628,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "8d6dc620c6d96439",
+      "beforeSha": "882b6f2548eb1cd0",
       "afterSha": "882b6f2548eb1cd0"
     },
     {
@@ -27682,7 +27683,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "cae451bad01542a9",
+      "beforeSha": "5f49bc37009672fc",
       "afterSha": "5f49bc37009672fc"
     },
     {
@@ -27737,7 +27738,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "ae0c7c189da367bc",
+      "beforeSha": "c3e78f1b1f1f07b9",
       "afterSha": "c3e78f1b1f1f07b9"
     },
     {
@@ -27790,7 +27791,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "df5fc0e3fed7e64b",
+      "beforeSha": "464f52022d3d6109",
       "afterSha": "464f52022d3d6109"
     },
     {
@@ -27906,7 +27907,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "24d3b6253f9ee4a7",
+      "beforeSha": "ed4f28d666262b4e",
       "afterSha": "ed4f28d666262b4e"
     },
     {
@@ -27967,7 +27968,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "9e6efe93855b0b0a",
+      "beforeSha": "6018e967f20720f9",
       "afterSha": "6018e967f20720f9"
     },
     {
@@ -28085,7 +28086,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "25aa34a738ff2857",
+      "beforeSha": "2353922c0a996216",
       "afterSha": "2353922c0a996216"
     },
     {
@@ -28202,7 +28203,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "111d1cfbb49482af",
+      "beforeSha": "2a87087d8524b164",
       "afterSha": "2a87087d8524b164"
     },
     {
@@ -28261,7 +28262,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "e644ea1e31dc418a",
+      "beforeSha": "e978b02b6a904e18",
       "afterSha": "e978b02b6a904e18"
     },
     {
@@ -28322,7 +28323,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "5dd8155436683d83",
+      "beforeSha": "4730f02abbff8987",
       "afterSha": "4730f02abbff8987"
     },
     {
@@ -28379,7 +28380,7 @@
       },
       "statusFinal": "corrigido-render-semantico",
       "reasonForChange": "imagem-fonte nao atingiu score 85 contra tipo/função/subtipo/tema; substituida por render semântico local do item anunciado",
-      "beforeSha": "837d9177006a6ff9",
+      "beforeSha": "a3158dd0c3029269",
       "afterSha": "a3158dd0c3029269"
     }
   ]
