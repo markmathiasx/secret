@@ -1,0 +1,490 @@
+{
+  "baseUrl": "https://mdh-3d-store.vercel.app",
+  "startedAt": "2026-04-17T19:06:15.605Z",
+  "finishedAt": "2026-04-17T19:07:46.839Z",
+  "checkoutMode": "full",
+  "desktop": {
+    "viewport": "desktop",
+    "catalogTotal": 748,
+    "catalogExpected": 748,
+    "catalogCountOk": true,
+    "routes": [
+      {
+        "route": "/",
+        "status": 200,
+        "location": "",
+        "cache": "PRERENDER",
+        "ok": true,
+        "internalError": false
+      },
+      {
+        "route": "/catalogo",
+        "status": 200,
+        "location": "",
+        "cache": "PRERENDER",
+        "ok": true,
+        "internalError": false
+      },
+      {
+        "route": "/catalogo?mode=real",
+        "status": 200,
+        "location": "",
+        "cache": "PRERENDER",
+        "ok": true,
+        "internalError": false
+      },
+      {
+        "route": "/catalogo?page=2",
+        "status": 200,
+        "location": "",
+        "cache": "HIT",
+        "ok": true,
+        "internalError": false
+      },
+      {
+        "route": "/checkout",
+        "status": 200,
+        "location": "",
+        "cache": "MISS",
+        "ok": true,
+        "internalError": false
+      },
+      {
+        "route": "/conta",
+        "status": 200,
+        "location": "",
+        "cache": "PRERENDER",
+        "ok": true,
+        "internalError": false
+      },
+      {
+        "route": "/login",
+        "status": 200,
+        "location": "",
+        "cache": "PRERENDER",
+        "ok": true,
+        "internalError": false
+      },
+      {
+        "route": "/presentes-3d",
+        "status": 200,
+        "location": "",
+        "cache": "PRERENDER",
+        "ok": true,
+        "internalError": false
+      },
+      {
+        "route": "/brindes-personalizados-3d",
+        "status": 200,
+        "location": "",
+        "cache": "PRERENDER",
+        "ok": true,
+        "internalError": false
+      },
+      {
+        "route": "/colecionaveis-geek-3d",
+        "status": 200,
+        "location": "",
+        "cache": "PRERENDER",
+        "ok": true,
+        "internalError": false
+      },
+      {
+        "route": "/decoracao-3d-para-casa",
+        "status": 200,
+        "location": "",
+        "cache": "PRERENDER",
+        "ok": true,
+        "internalError": false
+      },
+      {
+        "route": "/setup-e-organizacao-3d",
+        "status": 200,
+        "location": "",
+        "cache": "PRERENDER",
+        "ok": true,
+        "internalError": false
+      },
+      {
+        "route": "/imagem-para-impressao-3d",
+        "status": 200,
+        "location": "",
+        "cache": "PRERENDER",
+        "ok": true,
+        "internalError": false
+      },
+      {
+        "route": "/faq",
+        "status": 200,
+        "location": "",
+        "cache": "PRERENDER",
+        "ok": true,
+        "internalError": false
+      },
+      {
+        "route": "/entregas",
+        "status": 200,
+        "location": "",
+        "cache": "PRERENDER",
+        "ok": true,
+        "internalError": false
+      },
+      {
+        "route": "/seller",
+        "status": 307,
+        "location": "/login?redirect=%2Fseller",
+        "cache": "",
+        "ok": true,
+        "internalError": false
+      },
+      {
+        "route": "/politica-de-privacidade",
+        "status": 200,
+        "location": "",
+        "cache": "PRERENDER",
+        "ok": true,
+        "internalError": false
+      },
+      {
+        "route": "/termos",
+        "status": 200,
+        "location": "",
+        "cache": "PRERENDER",
+        "ok": true,
+        "internalError": false
+      },
+      {
+        "route": "/trocas-e-devolucoes",
+        "status": 200,
+        "location": "",
+        "cache": "PRERENDER",
+        "ok": true,
+        "internalError": false
+      },
+      {
+        "route": "/api/health",
+        "status": 200,
+        "location": "",
+        "cache": "MISS",
+        "ok": true,
+        "internalError": false
+      },
+      {
+        "route": "/api/catalog/health",
+        "status": 200,
+        "location": "",
+        "cache": "MISS",
+        "ok": true,
+        "internalError": false
+      },
+      {
+        "route": "/api/payments/status",
+        "status": 200,
+        "location": "",
+        "cache": "MISS",
+        "ok": true,
+        "internalError": false
+      },
+      {
+        "route": "/catalogo/real-001-grinder-3-partes-premium",
+        "status": 200,
+        "location": "",
+        "cache": "PRERENDER",
+        "ok": true,
+        "internalError": false
+      }
+    ],
+    "actionsVisible": 572,
+    "linkActionsTested": 473,
+    "buttonActionsObserved": 99,
+    "failedLinks": [],
+    "catalogFlow": [
+      {
+        "step": "catalog_page_jump",
+        "ok": true,
+        "url": "https://mdh-3d-store.vercel.app/catalogo?page=2"
+      },
+      {
+        "step": "pdp_open",
+        "ok": true,
+        "url": "https://mdh-3d-store.vercel.app/catalogo/mw-a1-486-bandeja-criativa-de-encaixe-para-pecas-pequenas?from=%2Fcatalogo%3Fpage%3D2&focus=mw-a1-486"
+      },
+      {
+        "step": "back_to_catalog",
+        "ok": true,
+        "url": "https://mdh-3d-store.vercel.app/catalogo?page=2#produto-mw-a1-486"
+      }
+    ],
+    "checkoutFlow": [
+      {
+        "step": "checkout_open",
+        "ok": true
+      },
+      {
+        "step": "checkout_shipping",
+        "ok": true
+      },
+      {
+        "step": "checkout_payment",
+        "ok": true
+      },
+      {
+        "step": "checkout_confirm",
+        "ok": true
+      },
+      {
+        "step": "checkout_order_created",
+        "ok": true
+      }
+    ],
+    "consoleErrors": [],
+    "pageErrors": []
+  },
+  "mobile": {
+    "viewport": "mobile",
+    "catalogTotal": 748,
+    "catalogExpected": 748,
+    "catalogCountOk": true,
+    "routes": [
+      {
+        "route": "/",
+        "status": 200,
+        "location": "",
+        "cache": "HIT",
+        "ok": true,
+        "internalError": false
+      },
+      {
+        "route": "/catalogo",
+        "status": 200,
+        "location": "",
+        "cache": "HIT",
+        "ok": true,
+        "internalError": false
+      },
+      {
+        "route": "/catalogo?mode=real",
+        "status": 200,
+        "location": "",
+        "cache": "HIT",
+        "ok": true,
+        "internalError": false
+      },
+      {
+        "route": "/catalogo?page=2",
+        "status": 200,
+        "location": "",
+        "cache": "HIT",
+        "ok": true,
+        "internalError": false
+      },
+      {
+        "route": "/checkout",
+        "status": 200,
+        "location": "",
+        "cache": "MISS",
+        "ok": true,
+        "internalError": false
+      },
+      {
+        "route": "/conta",
+        "status": 200,
+        "location": "",
+        "cache": "HIT",
+        "ok": true,
+        "internalError": false
+      },
+      {
+        "route": "/login",
+        "status": 200,
+        "location": "",
+        "cache": "HIT",
+        "ok": true,
+        "internalError": false
+      },
+      {
+        "route": "/presentes-3d",
+        "status": 200,
+        "location": "",
+        "cache": "HIT",
+        "ok": true,
+        "internalError": false
+      },
+      {
+        "route": "/brindes-personalizados-3d",
+        "status": 200,
+        "location": "",
+        "cache": "HIT",
+        "ok": true,
+        "internalError": false
+      },
+      {
+        "route": "/colecionaveis-geek-3d",
+        "status": 200,
+        "location": "",
+        "cache": "HIT",
+        "ok": true,
+        "internalError": false
+      },
+      {
+        "route": "/decoracao-3d-para-casa",
+        "status": 200,
+        "location": "",
+        "cache": "HIT",
+        "ok": true,
+        "internalError": false
+      },
+      {
+        "route": "/setup-e-organizacao-3d",
+        "status": 200,
+        "location": "",
+        "cache": "HIT",
+        "ok": true,
+        "internalError": false
+      },
+      {
+        "route": "/imagem-para-impressao-3d",
+        "status": 200,
+        "location": "",
+        "cache": "HIT",
+        "ok": true,
+        "internalError": false
+      },
+      {
+        "route": "/faq",
+        "status": 200,
+        "location": "",
+        "cache": "HIT",
+        "ok": true,
+        "internalError": false
+      },
+      {
+        "route": "/entregas",
+        "status": 200,
+        "location": "",
+        "cache": "HIT",
+        "ok": true,
+        "internalError": false
+      },
+      {
+        "route": "/seller",
+        "status": 307,
+        "location": "/login?redirect=%2Fseller",
+        "cache": "",
+        "ok": true,
+        "internalError": false
+      },
+      {
+        "route": "/politica-de-privacidade",
+        "status": 200,
+        "location": "",
+        "cache": "HIT",
+        "ok": true,
+        "internalError": false
+      },
+      {
+        "route": "/termos",
+        "status": 200,
+        "location": "",
+        "cache": "HIT",
+        "ok": true,
+        "internalError": false
+      },
+      {
+        "route": "/trocas-e-devolucoes",
+        "status": 200,
+        "location": "",
+        "cache": "HIT",
+        "ok": true,
+        "internalError": false
+      },
+      {
+        "route": "/api/health",
+        "status": 200,
+        "location": "",
+        "cache": "MISS",
+        "ok": true,
+        "internalError": false
+      },
+      {
+        "route": "/api/catalog/health",
+        "status": 200,
+        "location": "",
+        "cache": "MISS",
+        "ok": true,
+        "internalError": false
+      },
+      {
+        "route": "/api/payments/status",
+        "status": 200,
+        "location": "",
+        "cache": "MISS",
+        "ok": true,
+        "internalError": false
+      },
+      {
+        "route": "/catalogo/real-001-grinder-3-partes-premium",
+        "status": 200,
+        "location": "",
+        "cache": "HIT",
+        "ok": true,
+        "internalError": false
+      }
+    ],
+    "actionsVisible": 474,
+    "linkActionsTested": 394,
+    "buttonActionsObserved": 80,
+    "failedLinks": [],
+    "catalogFlow": [
+      {
+        "step": "catalog_page_jump",
+        "ok": true,
+        "url": "https://mdh-3d-store.vercel.app/catalogo?page=2"
+      },
+      {
+        "step": "pdp_open",
+        "ok": true,
+        "url": "https://mdh-3d-store.vercel.app/catalogo/mw-a1-486-bandeja-criativa-de-encaixe-para-pecas-pequenas?from=%2Fcatalogo%3Fpage%3D2&focus=mw-a1-486"
+      },
+      {
+        "step": "back_to_catalog",
+        "ok": true,
+        "url": "https://mdh-3d-store.vercel.app/catalogo?page=2#produto-mw-a1-486"
+      }
+    ],
+    "checkoutFlow": [
+      {
+        "step": "checkout_open",
+        "ok": true
+      },
+      {
+        "step": "checkout_shipping",
+        "ok": true
+      },
+      {
+        "step": "checkout_payment",
+        "ok": true
+      },
+      {
+        "step": "checkout_confirm",
+        "ok": true
+      },
+      {
+        "step": "checkout_order_created",
+        "ok": true
+      }
+    ],
+    "consoleErrors": [],
+    "pageErrors": []
+  },
+  "summary": {
+    "routesTested": 46,
+    "desktopActionsTested": 572,
+    "mobileActionsTested": 474,
+    "routeFailures": [],
+    "linkFailures": [],
+    "flowFailures": [],
+    "consoleErrors": 0,
+    "pageErrors": 0
+  }
+}
