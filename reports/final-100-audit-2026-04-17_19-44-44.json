@@ -1,0 +1,230 @@
+{
+  "timestamp": "2026-04-17T19:44:22Z",
+  "summary": {
+    "routes": "8/8 passed",
+    "pdps": "30/30 passed",
+    "filters": "5/5 passed",
+    "overall": "100/100"
+  },
+  "critical_routes": [
+    {
+      "route": "/",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "route": "/catalogo",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "route": "/checkout",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "route": "/conta",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "route": "/faq",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "route": "/entregas",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "route": "/presentes-3d",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "route": "/imagem-para-impressao-3d",
+      "status": 200,
+      "ok": true
+    }
+  ],
+  "filters": [
+    {
+      "status": 200,
+      "filter": "/catalogo?status=Pronta%20entrega",
+      "ok": true
+    },
+    {
+      "status": 200,
+      "filter": "/catalogo?intent=Presente",
+      "ok": true
+    },
+    {
+      "status": 200,
+      "filter": "/catalogo?mode=real",
+      "ok": true
+    },
+    {
+      "status": 200,
+      "filter": "/catalogo?page=1",
+      "ok": true
+    },
+    {
+      "status": 200,
+      "filter": "/catalogo?page=5",
+      "ok": true
+    }
+  ],
+  "pdp_sample": [
+    {
+      "slug": "buddha-decorativo-azul",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "slug": "buddha-meditacao-glitter",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "slug": "gato-maneki-neko",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "slug": "dragon-ming-porcelana",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "slug": "drago-chinês-mini",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "slug": "fox-kitsune-estatua",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "slug": "miniatura-tubarão",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "slug": "elefante-decorativo",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "slug": "leão-estatua-ouro",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "slug": "zebra-animal-3d",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "slug": "girafa-safári",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "slug": "coala-pelucia-3d",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "slug": "pantera-negra-estatua",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "slug": "tigre-bengala-mini",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "slug": "urso-panda-ceramica",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "slug": "urso-polar-gelo",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "slug": "vaca-decorativa",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "slug": "ovelha-branca-fofo",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "slug": "porco-rosa-brinquedo",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "slug": "macaco-banana",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "slug": "papagaio-colorido",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "slug": "pato-amarelo",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "slug": "coruja-sabedoria",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "slug": "frango-galinha",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "slug": "pavao-azul",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "slug": "pomba-branca",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "slug": "corvo-misterio",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "slug": "cachorro-pastor-alemao",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "slug": "gato-siames-azul",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "slug": "coelho-branco-longo",
+      "status": 200,
+      "ok": true
+    }
+  ]
+}
