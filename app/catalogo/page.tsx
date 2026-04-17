@@ -16,72 +16,13 @@ export const metadata: Metadata = {
 };
 
 export const revalidate = 300;
+export const dynamic = "force-static";
 
-type CatalogPageSearchParams = {
-  q?: string;
-  category?: string;
-  collection?: string;
-  mode?: string;
-  status?: string;
-  material?: string;
-  intent?: string;
-  sort?: string;
-  custom?: string;
-  min?: string;
-  max?: string;
-  page?: string;
-};
-
-export default async function CatalogPage({
-  searchParams,
-}: {
-  searchParams?: Promise<CatalogPageSearchParams>;
-}) {
-  const params = searchParams ? await searchParams : undefined;
+export default async function CatalogPage() {
   const catalog = await getCatalogSnapshot();
-  const categories = Array.from(new Set(catalog.map((item) => item.category)));
-  const collections = Array.from(new Set(catalog.map((item) => item.collection)));
-  const initialQuery = params?.q?.trim() || "";
-  const initialCategory = params?.category && categories.includes(params.category) ? params.category : "Todas";
-  const initialCollection =
-    params?.collection && collections.includes(params.collection) ? params.collection : "Todas";
-  const initialVisualMode =
-    params?.mode === "verified" ? "verified" : params?.mode === "real" ? "real" : "all";
-  const initialAvailability =
-    params?.status === "Pronta entrega" || params?.status === "Sob encomenda" ? params.status : "Todos";
-  const initialMaterial = params?.material?.trim() || "Todos";
-  const initialIntent = params?.intent?.trim() || "Geral";
-  const initialOrder = params?.sort?.trim() || "Mais Recentes";
-  const initialCustomizableOnly = params?.custom === "1";
-  const initialMin = params?.min ? Number(params.min) : undefined;
-  const initialMax = params?.max ? Number(params.max) : undefined;
-  const initialPage = params?.page ? Number(params.page) : 1;
 
   const visualSummary = summarizeProductVisuals(catalog);
   const a1MiniCount = catalog.filter(isA1MiniCatalogProduct).length;
-  const isA1MiniLens = initialCollection === A1_MINI_COLLECTION;
-  const heroTitle = isA1MiniLens
-    ? "100 itens compactos para vender com a Bambu Lab A1 Mini."
-    : "Todos os produtos publicados aparecem na vitrine.";
-  const heroDescription = isA1MiniLens
-    ? "Esta selecao concentra miniaturas, chaveiros, articulados, suportes, organizadores, decoracao e brindes com volume adequado para producao local em A1 Mini."
-    : "Cada item ativo tem uma imagem principal propria no card e na pagina do produto. Os filtros continuam disponiveis para quem quiser ver apenas fotos reais ou renders fieis.";
-  const activeLens = [
-    initialCategory !== "Todas" ? initialCategory : null,
-    initialCollection !== "Todas" ? initialCollection : null,
-    initialQuery ? `Busca: ${initialQuery}` : null,
-    initialVisualMode === "real"
-      ? "Só foto real"
-      : initialVisualMode === "verified"
-      ? "Foto real + render fiel"
-      : "Catálogo completo",
-    initialAvailability !== "Todos" ? initialAvailability : null,
-    initialMaterial !== "Todos" ? initialMaterial : null,
-    initialIntent !== "Geral" ? initialIntent : null,
-    initialCustomizableOnly ? "Personalizáveis" : null,
-  ]
-    .filter(Boolean)
-    .join(" • ");
 
   return (
     <section className="catalog-page-shell mx-auto w-full max-w-7xl px-3 pb-14 pt-24 sm:px-4 md:px-6 md:py-16">
@@ -90,14 +31,14 @@ export default async function CatalogPage({
           <div className="max-w-3xl">
             <p className="text-xs uppercase tracking-[0.22em] text-cyan-200">Catálogo MDH 3D</p>
             <h1 className="catalog-hero-title mt-3 break-words text-3xl font-black leading-[1.06] text-white sm:text-4xl md:text-5xl">
-              {heroTitle}
+              Todos os produtos publicados aparecem na vitrine.
             </h1>
             <p className="mt-4 text-base leading-7 text-white/72 md:text-lg md:leading-8">
-              {heroDescription}
+              Cada item ativo tem uma imagem principal propria no card e na pagina do produto. Os filtros continuam disponiveis para quem quiser ver apenas fotos reais ou renders fieis.
             </p>
 
             <div className="catalog-active-lens mt-5 inline-flex max-w-full rounded-full border border-cyan-300/25 bg-cyan-300/10 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-cyan-100 md:text-xs md:tracking-[0.18em]">
-              {activeLens}
+              Catálogo completo
             </div>
 
             <div className="mt-6 flex flex-wrap gap-2.5 md:gap-3">
@@ -176,18 +117,6 @@ export default async function CatalogPage({
           <div className="catalog-video-inner rounded-[24px] border border-white/20 bg-white/[0.02] p-1.5 backdrop-blur-[2px] md:rounded-[30px] md:p-3">
             <CatalogExplorer
               products={catalog}
-              initialQuery={initialQuery}
-              initialCategory={initialCategory}
-              initialCollection={initialCollection}
-              initialVisualMode={initialVisualMode}
-              initialAvailability={initialAvailability}
-              initialMaterial={initialMaterial}
-              initialIntent={initialIntent}
-              initialOrder={initialOrder}
-              initialCustomizableOnly={initialCustomizableOnly}
-              initialPriceMin={initialMin}
-              initialPriceMax={initialMax}
-              initialPage={initialPage}
             />
           </div>
         </div>

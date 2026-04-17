@@ -1,7 +1,7 @@
 {
   "baseUrl": "http://127.0.0.1:3000",
-  "startedAt": "2026-04-17T18:41:30.203Z",
-  "finishedAt": "2026-04-17T18:42:11.437Z",
+  "startedAt": "2026-04-17T18:54:14.136Z",
+  "finishedAt": "2026-04-17T18:54:37.841Z",
   "checkoutMode": "full",
   "desktop": {
     "viewport": "desktop",
@@ -21,7 +21,7 @@
         "route": "/catalogo",
         "status": 200,
         "location": "",
-        "cache": "",
+        "cache": "HIT",
         "ok": true,
         "internalError": false
       },
@@ -29,7 +29,7 @@
         "route": "/catalogo?mode=real",
         "status": 200,
         "location": "",
-        "cache": "",
+        "cache": "HIT",
         "ok": true,
         "internalError": false
       },
@@ -37,7 +37,7 @@
         "route": "/catalogo?page=2",
         "status": 200,
         "location": "",
-        "cache": "",
+        "cache": "HIT",
         "ok": true,
         "internalError": false
       },
@@ -189,7 +189,7 @@
         "route": "/catalogo/real-001-grinder-3-partes-premium",
         "status": 200,
         "location": "",
-        "cache": "",
+        "cache": "HIT",
         "ok": true,
         "internalError": false
       }
@@ -258,7 +258,7 @@
         "route": "/catalogo",
         "status": 200,
         "location": "",
-        "cache": "",
+        "cache": "HIT",
         "ok": true,
         "internalError": false
       },
@@ -266,7 +266,7 @@
         "route": "/catalogo?mode=real",
         "status": 200,
         "location": "",
-        "cache": "",
+        "cache": "HIT",
         "ok": true,
         "internalError": false
       },
@@ -274,7 +274,7 @@
         "route": "/catalogo?page=2",
         "status": 200,
         "location": "",
-        "cache": "",
+        "cache": "HIT",
         "ok": true,
         "internalError": false
       },
@@ -426,14 +426,14 @@
         "route": "/catalogo/real-001-grinder-3-partes-premium",
         "status": 200,
         "location": "",
-        "cache": "",
+        "cache": "HIT",
         "ok": true,
         "internalError": false
       }
     ],
-    "actionsVisible": 366,
-    "linkActionsTested": 316,
-    "buttonActionsObserved": 50,
+    "actionsVisible": 454,
+    "linkActionsTested": 384,
+    "buttonActionsObserved": 70,
     "failedLinks": [],
     "catalogFlow": [
       {
@@ -480,7 +480,7 @@
   "summary": {
     "routesTested": 46,
     "desktopActionsTested": 460,
-    "mobileActionsTested": 366,
+    "mobileActionsTested": 454,
     "routeFailures": [],
     "linkFailures": [],
     "flowFailures": [],

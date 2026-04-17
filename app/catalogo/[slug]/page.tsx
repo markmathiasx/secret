@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { ArrowLeft, CopyPlus, MessageCircleMore, Share2 } from 'lucide-react';
+import { Suspense } from 'react';
+import { CopyPlus, MessageCircleMore, Share2 } from 'lucide-react';
 import { findCatalogProductBySlug, getCatalogStaticParams } from '@/lib/catalog-repository';
 import { ProductImageGallery } from '@/components/product-image-gallery';
 import { ProductModelPanel } from '@/components/product-model-panel';
@@ -9,6 +10,7 @@ import { ProductRelatedShelf } from '@/components/product-related-shelf';
 import { ProductVisualBadge, ProductVisualNotice } from '@/components/product-visual-authenticity';
 import { ProductPurchaseTools } from '@/components/product-purchase-tools';
 import { ProductAnalytics } from '@/components/product-analytics';
+import { ProductCatalogBackLink } from '@/components/product-catalog-back-link';
 import { QuoteForm } from '@/components/quote-form';
 import { formatCurrency } from '@/lib/utils';
 import { whatsappMessage, whatsappNumber } from '@/lib/constants';
@@ -18,6 +20,7 @@ import { getProductHighlights, getProductLongDescription } from '@/lib/catalog-c
 import { resolveProductImage } from '@/lib/product-images';
 
 export const revalidate = 300;
+export const dynamic = 'force-static';
 
 export async function generateStaticParams() {
   return getCatalogStaticParams();
@@ -68,22 +71,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   };
 }
 
-function getSafeCatalogBackHref(from?: string, focus?: string) {
-  const fallback = '/catalogo';
-  if (!from || !from.startsWith('/catalogo')) return fallback;
-  if (from.startsWith('//') || from.includes('://')) return fallback;
-  return focus ? `${from}#produto-${encodeURIComponent(focus)}` : from;
-}
-
 export default async function ProductPage({
   params,
-  searchParams,
 }: {
   params: Promise<{ slug: string }>;
-  searchParams?: Promise<{ from?: string; focus?: string }>;
 }) {
   const { slug } = await params;
-  const resolvedSearchParams = searchParams ? await searchParams : {};
   const product = await findCatalogProductBySlug(slug);
 
   if (!product) {
@@ -153,8 +146,6 @@ export default async function ProductPage({
       },
     ],
   };
-  const catalogBackHref = getSafeCatalogBackHref(resolvedSearchParams?.from, resolvedSearchParams?.focus);
-
   const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`${whatsappMessage}\n\nTenho interesse em ${product.name} (${product.sku}).`)}`;
   const customizationHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`${whatsappMessage}\n\nQuero personalizar ${product.name} (${product.sku}).`)}`;
   const primaryActionLabel = product.pricingMode === 'faixa-auditada' ? 'Comprar agora (Pix)' : 'Pedir orçamento';
@@ -219,9 +210,9 @@ export default async function ProductPage({
       </div>
 
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
-        <Link href={catalogBackHref} className="btn-ghost-sm inline-flex">
-          <ArrowLeft className="h-4 w-4" /> Voltar ao catálogo
-        </Link>
+        <Suspense fallback={<Link href="/catalogo" className="btn-ghost-sm inline-flex">Voltar ao catálogo</Link>}>
+          <ProductCatalogBackLink className="btn-ghost-sm inline-flex" />
+        </Suspense>
         <div className="flex flex-wrap gap-2">
           <span className="chip-nav"><CopyPlus className="h-4 w-4" /> SKU {product.sku}</span>
           <span className="chip-nav"><Share2 className="h-4 w-4" /> página individual</span>

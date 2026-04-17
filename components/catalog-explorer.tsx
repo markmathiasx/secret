@@ -339,6 +339,26 @@ export function CatalogExplorer({
     priceLimits.min,
   ]);
 
+  useEffect(() => {
+    if (typeof window === 'undefined' || !window.location.search) return;
+
+    const params = new URLSearchParams(window.location.search);
+    const minValue = clampRangeValue(Number(params.get('min')), priceLimits.min, priceLimits.max) ?? priceLimits.min;
+    const maxValue = clampRangeValue(Number(params.get('max')), priceLimits.min, priceLimits.max) ?? priceLimits.max;
+
+    setQuery(params.get('q')?.trim() || '');
+    setCategory(sanitizeOption(params.get('category') || undefined, categoryOptions));
+    setCollection(sanitizeOption(params.get('collection') || undefined, collectionOptions));
+    setVisualMode(sanitizeVisualMode(params.get('mode') || undefined));
+    setAvailability(sanitizeAvailability((params.get('status') || undefined) as CatalogAvailability | undefined));
+    setSelectedMaterial(sanitizeMaterial(params.get('material') || undefined, materialOptions));
+    setPurchaseIntent(sanitizePurchaseIntent(params.get('intent') || undefined));
+    setOrder(sanitizeOrder(params.get('sort') || undefined));
+    setCustomizableOnly(params.get('custom') === '1');
+    setPriceRange([Math.min(minValue, maxValue), Math.max(minValue, maxValue)]);
+    setPage(sanitizePage(Number(params.get('page'))));
+  }, [categoryOptions, collectionOptions, materialOptions, priceLimits.max, priceLimits.min]);
+
   const filtered = useMemo(() => {
     const normalizedQuery = deferredQuery.trim();
     let items = products
