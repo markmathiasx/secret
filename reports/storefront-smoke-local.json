@@ -1,7 +1,7 @@
 {
   "baseUrl": "http://127.0.0.1:3000",
-  "startedAt": "2026-04-17T18:54:14.136Z",
-  "finishedAt": "2026-04-17T18:54:37.841Z",
+  "startedAt": "2026-04-17T19:02:09.711Z",
+  "finishedAt": "2026-04-17T19:02:32.287Z",
   "checkoutMode": "full",
   "desktop": {
     "viewport": "desktop",
@@ -21,7 +21,7 @@
         "route": "/catalogo",
         "status": 200,
         "location": "",
-        "cache": "HIT",
+        "cache": "STALE",
         "ok": true,
         "internalError": false
       },
@@ -189,14 +189,14 @@
         "route": "/catalogo/real-001-grinder-3-partes-premium",
         "status": 200,
         "location": "",
-        "cache": "HIT",
+        "cache": "STALE",
         "ok": true,
         "internalError": false
       }
     ],
-    "actionsVisible": 460,
-    "linkActionsTested": 398,
-    "buttonActionsObserved": 62,
+    "actionsVisible": 558,
+    "linkActionsTested": 463,
+    "buttonActionsObserved": 95,
     "failedLinks": [],
     "catalogFlow": [
       {
@@ -212,7 +212,7 @@
       {
         "step": "back_to_catalog",
         "ok": true,
-        "url": "http://127.0.0.1:3000/catalogo/mw-a1-486-bandeja-criativa-de-encaixe-para-pecas-pequenas?from=%2Fcatalogo%3Fpage%3D2&focus=mw-a1-486"
+        "url": "http://127.0.0.1:3000/catalogo?page=2#produto-mw-a1-486"
       }
     ],
     "checkoutFlow": [
@@ -431,9 +431,9 @@
         "internalError": false
       }
     ],
-    "actionsVisible": 454,
-    "linkActionsTested": 384,
-    "buttonActionsObserved": 70,
+    "actionsVisible": 349,
+    "linkActionsTested": 315,
+    "buttonActionsObserved": 34,
     "failedLinks": [],
     "catalogFlow": [
       {
@@ -449,7 +449,7 @@
       {
         "step": "back_to_catalog",
         "ok": true,
-        "url": "http://127.0.0.1:3000/catalogo/mw-a1-486-bandeja-criativa-de-encaixe-para-pecas-pequenas?from=%2Fcatalogo%3Fpage%3D2&focus=mw-a1-486"
+        "url": "http://127.0.0.1:3000/catalogo?page=2#produto-mw-a1-486"
       }
     ],
     "checkoutFlow": [
@@ -479,8 +479,8 @@
   },
   "summary": {
     "routesTested": 46,
-    "desktopActionsTested": 460,
-    "mobileActionsTested": 454,
+    "desktopActionsTested": 558,
+    "mobileActionsTested": 349,
     "routeFailures": [],
     "linkFailures": [],
     "flowFailures": [],

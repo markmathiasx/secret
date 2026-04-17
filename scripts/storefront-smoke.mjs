@@ -145,8 +145,8 @@ async function runCatalogFlow(page) {
   evidence.push({ step: "pdp_open", ok: productOk, url: page.url() });
 
   await page.getByRole("link", { name: /Voltar ao catálogo/ }).click();
-  await page.waitForURL(/\/catalogo/, { timeout: 10000, waitUntil: "domcontentloaded" });
-  evidence.push({ step: "back_to_catalog", ok: page.url().includes("/catalogo"), url: page.url() });
+  await page.waitForURL((url) => url.pathname === "/catalogo", { timeout: 10000, waitUntil: "domcontentloaded" });
+  evidence.push({ step: "back_to_catalog", ok: new URL(page.url()).pathname === "/catalogo", url: page.url() });
   return evidence;
 }
 
