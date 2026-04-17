@@ -1,7 +1,7 @@
 {
   "baseUrl": "http://127.0.0.1:3000",
-  "startedAt": "2026-04-17T18:12:52.212Z",
-  "finishedAt": "2026-04-17T18:13:35.395Z",
+  "startedAt": "2026-04-17T18:30:12.017Z",
+  "finishedAt": "2026-04-17T18:30:54.469Z",
   "checkoutMode": "full",
   "desktop": {
     "viewport": "desktop",
@@ -194,9 +194,9 @@
         "internalError": false
       }
     ],
-    "actionsVisible": 546,
-    "linkActionsTested": 459,
-    "buttonActionsObserved": 87,
+    "actionsVisible": 454,
+    "linkActionsTested": 388,
+    "buttonActionsObserved": 66,
     "failedLinks": [],
     "catalogFlow": [
       {
@@ -431,9 +431,9 @@
         "internalError": false
       }
     ],
-    "actionsVisible": 382,
-    "linkActionsTested": 323,
-    "buttonActionsObserved": 59,
+    "actionsVisible": 458,
+    "linkActionsTested": 387,
+    "buttonActionsObserved": 71,
     "failedLinks": [],
     "catalogFlow": [
       {
@@ -479,8 +479,8 @@
   },
   "summary": {
     "routesTested": 46,
-    "desktopActionsTested": 546,
-    "mobileActionsTested": 382,
+    "desktopActionsTested": 454,
+    "mobileActionsTested": 458,
     "routeFailures": [],
     "linkFailures": [],
     "flowFailures": [],

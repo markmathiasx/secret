@@ -105,7 +105,6 @@ const REQUIRED_SOURCE_FILES = [
   "data/catalog-photo-manifest.json",
   "data/catalogo_curado_160_itens_ptbr.json",
   "data/products.json",
-  "seed.config.ts",
   "lib/catalog.ts",
   "lib/verified-catalog.ts",
   "lib/catalog-csv-curated.ts",
@@ -732,7 +731,6 @@ async function main() {
   const photoManifest = readJson<CatalogPhotoEntry[]>("data/catalog-photo-manifest.json");
   const legacyProducts = readJson<Array<Record<string, unknown>>>("data/products.json");
   const realImagesManifest = readJson<Array<Record<string, unknown>>>("real-images-manifest.json");
-  const seedConfigSource = readText("seed.config.ts");
   const promptsIaText = readText("prompts-ia-imagens.txt");
   const dataFiles = listFilesRecursive("data");
 
@@ -881,7 +879,7 @@ async function main() {
       realImagesManifestCount: realImagesManifest.length,
       promptsBatchCount: promptsBatch.length,
       promptsIaTextLength: promptsIaText.length,
-      seedConfigHasSnaplet: /@snaplet\/seed/.test(seedConfigSource),
+      snapletSeedDependencyRemoved: true,
     },
   };
 
