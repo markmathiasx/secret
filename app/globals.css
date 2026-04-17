@@ -359,9 +359,10 @@ p {
 
 /* Buttons */
 .btn-primary {
-  @apply inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-cyan-glow to-cyan-glow/80 text-black font-bold rounded-xl shadow-glow-cyan hover:shadow-glow-cyan transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-cyan-glow focus:ring-offset-2 focus:ring-offset-base;
+  @apply inline-flex items-center justify-center px-6 py-3 sm:py-3 md:py-3 bg-gradient-to-r from-cyan-glow to-cyan-glow/80 text-black font-bold rounded-xl shadow-glow-cyan hover:shadow-glow-cyan transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-cyan-glow focus:ring-offset-2 focus:ring-offset-base;
   position: relative;
   overflow: hidden;
+  min-height: 48px;
   box-shadow:
     0 14px 34px rgba(3, 233, 244, 0.28),
     0 0 0 1px rgba(255, 255, 255, 0.08);
@@ -372,6 +373,7 @@ p {
   @apply inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-whatsapp-green to-green-500 text-white font-bold rounded-xl shadow-glow-green hover:shadow-glow-green transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-whatsapp-green focus:ring-offset-2 focus:ring-offset-base;
   position: relative;
   overflow: hidden;
+  min-height: 48px;
   box-shadow:
     0 14px 34px rgba(37, 211, 102, 0.26),
     0 0 0 1px rgba(255, 255, 255, 0.08);
@@ -382,6 +384,7 @@ p {
   @apply inline-flex items-center justify-center px-6 py-3 bg-white/10 backdrop-blur-sm border border-white/20 text-white font-semibold rounded-xl hover:bg-white/20 transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-base;
   position: relative;
   overflow: hidden;
+  min-height: 48px;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.05)),
     rgba(255, 255, 255, 0.04);
@@ -410,6 +413,7 @@ p {
   @apply inline-flex items-center justify-center rounded-xl border border-white/15 bg-white/10 px-5 py-3 text-sm font-semibold text-white backdrop-blur-sm;
   position: relative;
   overflow: hidden;
+  min-height: 48px;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.11), rgba(255, 255, 255, 0.04)),
     rgba(255, 255, 255, 0.05);
@@ -425,6 +429,7 @@ p {
   @apply inline-flex items-center justify-center px-4 py-2 text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/50;
   border: 1px solid rgba(255, 255, 255, 0.1);
   background: rgba(255, 255, 255, 0.04);
+  min-height: 44px;
 }
 
 .btn-primary::before,
