@@ -98,7 +98,43 @@ const nextConfig: NextConfig = {
           },
           {
             key: 'Cache-Control',
-            value: 'public, max-age=3600, s-maxage=86400'
+            value: 'public, max-age=0, s-maxage=300, stale-while-revalidate=60'
+          }
+        ]
+      },
+      {
+        source: '/checkout/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'private, no-store, no-cache, max-age=0, must-revalidate'
+          }
+        ]
+      },
+      {
+        source: '/conta/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'private, no-store, no-cache, max-age=0, must-revalidate'
+          }
+        ]
+      },
+      {
+        source: '/login/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'private, no-store, no-cache, max-age=0, must-revalidate'
+          }
+        ]
+      },
+      {
+        source: '/recuperar-senha/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'private, no-store, no-cache, max-age=0, must-revalidate'
           }
         ]
       },
@@ -153,18 +189,58 @@ const nextConfig: NextConfig = {
         source: '/loja',
         destination: '/catalogo',
         permanent: true,
+      },
+      {
+        source: '/loja/:path*',
+        destination: '/catalogo',
+        permanent: true,
+      },
+      {
+        source: '/produtos',
+        destination: '/catalogo',
+        permanent: true,
+      },
+      {
+        source: '/produto/:slug*',
+        destination: '/catalogo/:slug*',
+        permanent: true,
+      },
+      {
+        source: '/presentes',
+        destination: '/presentes-3d',
+        permanent: true,
+      },
+      {
+        source: '/brindes',
+        destination: '/brindes-personalizados-3d',
+        permanent: true,
+      },
+      {
+        source: '/personalizados',
+        destination: '/imagem-para-impressao-3d',
+        permanent: true,
+      },
+      {
+        source: '/orcamento',
+        destination: '/imagem-para-impressao-3d',
+        permanent: true,
+      },
+      {
+        source: '/carrinho',
+        destination: '/checkout',
+        permanent: true,
+      },
+      {
+        source: '/minha-conta',
+        destination: '/conta',
+        permanent: true,
       }
     ];
   },
 
   // Rewrites
   async rewrites() {
-    return [
-      {
-        source: '/sitemap.xml',
-        destination: '/api/sitemap',
-      }
-    ];
+    return [];
   },
 
   // Webpack Configuration

@@ -14,6 +14,7 @@ export function CheckoutConfirmStep({
   status,
   loading,
   whatsappHref,
+  onWhatsAppClick,
   onBack,
   onSubmit,
   onClearDraft,
@@ -37,6 +38,7 @@ export function CheckoutConfirmStep({
   status: string | null;
   loading: boolean;
   whatsappHref: string;
+  onWhatsAppClick: () => void;
   onBack: () => void;
   onSubmit: () => void;
   onClearDraft: () => void;
@@ -76,7 +78,7 @@ export function CheckoutConfirmStep({
           <h3 className="mt-2 text-2xl font-black text-white">{orderCode}</h3>
           <p className="mt-3 leading-7">{status || "Seu pedido foi registrado com sucesso."}</p>
           <div className="mt-4 flex flex-wrap gap-3">
-            <a href={whatsappHref} target="_blank" rel="noreferrer" className="btn-secondary inline-flex items-center gap-2">
+            <a href={whatsappHref} target="_blank" rel="noreferrer" onClick={onWhatsAppClick} className="btn-secondary inline-flex items-center gap-2">
               <MessageCircleMore className="h-4 w-4" />
               Continuar no WhatsApp
             </a>
@@ -104,7 +106,7 @@ export function CheckoutConfirmStep({
             </button>
           </>
         ) : (
-          <a href={whatsappHref} target="_blank" rel="noreferrer" className="btn-primary inline-flex items-center gap-2">
+          <a href={whatsappHref} target="_blank" rel="noreferrer" onClick={onWhatsAppClick} className="btn-primary inline-flex items-center gap-2">
             <MessageCircleMore className="h-4 w-4" />
             Confirmar com a equipe
           </a>

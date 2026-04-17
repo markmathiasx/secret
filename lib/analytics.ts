@@ -2,68 +2,175 @@
 
 import { useEffect } from 'react';
 
-// Analytics events
-export const trackEvent = (event: string, properties?: Record<string, any>) => {
+type AnalyticsProduct = {
+  id: string;
+  sku?: string;
+  name: string;
+  category?: string;
+  collection?: string;
+  pricePix?: number;
+  priceCard?: number;
+};
+
+type EcommerceItem = {
+  item_id: string;
+  item_name: string;
+  item_brand: string;
+  item_category?: string;
+  item_category2?: string;
+  item_variant?: string;
+  item_list_name?: string;
+  index?: number;
+  price?: number;
+  quantity?: number;
+};
+
+declare global {
+  interface Window {
+    dataLayer?: unknown[];
+    gtag?: (...args: unknown[]) => void;
+    fbq?: (...args: unknown[]) => void;
+  }
+}
+
+function sanitizeProperties(properties?: Record<string, unknown>) {
+  if (!properties) return undefined;
+
+  const blocked = /email|phone|telefone|whatsapp|password|senha|token|secret|session|cpf|cnpj|address|endereco/i;
+  return Object.fromEntries(
+    Object.entries(properties).filter(([key, value]) => {
+      if (blocked.test(key)) return false;
+      if (typeof value === "string" && value.length > 300) return false;
+      return true;
+    })
+  );
+}
+
+function toGa4Item(product: AnalyticsProduct, quantity = 1, index?: number, itemListName?: string): EcommerceItem {
+  return {
+    item_id: product.sku || product.id,
+    item_name: product.name,
+    item_brand: "MDH 3D",
+    item_category: product.category,
+    item_category2: product.collection,
+    item_list_name: itemListName,
+    index,
+    price: product.pricePix,
+    quantity,
+  };
+}
+
+export const trackEvent = (event: string, properties?: Record<string, unknown>) => {
   if (typeof window !== 'undefined') {
-    // Google Analytics 4
-    if ((window as any).gtag) {
-      (window as any).gtag('event', event, properties);
+    const safeProperties = sanitizeProperties(properties);
+
+    if (window.gtag) {
+      window.gtag('event', event, safeProperties);
     }
 
-    // Facebook Pixel
-    if ((window as any).fbq) {
-      (window as any).fbq('track', 'Lead', properties);
+    if (Array.isArray(window.dataLayer)) {
+      window.dataLayer.push({ event, ...safeProperties });
     }
 
-    // Custom analytics
-    console.log('Analytics Event:', event, properties);
+    if (window.fbq && event === "whatsapp_click") {
+      window.fbq('track', 'Contact', safeProperties);
+    }
   }
 };
 
-export const trackProductView = (product: any) => {
+export const trackViewItemList = (products: AnalyticsProduct[], itemListName = "Catalogo") => {
+  trackEvent('view_item_list', {
+    item_list_name: itemListName,
+    items: products.slice(0, 24).map((product, index) => toGa4Item(product, 1, index, itemListName)),
+  });
+};
+
+export const trackSelectItem = (product: AnalyticsProduct, itemListName = "Catalogo", index?: number) => {
+  trackEvent('select_item', {
+    item_list_name: itemListName,
+    items: [toGa4Item(product, 1, index, itemListName)],
+  });
+};
+
+export const trackProductView = (product: AnalyticsProduct) => {
   trackEvent('view_item', {
     currency: 'BRL',
-    value: product.pricePix,
-    items: [{
-      item_id: product.id,
-      item_name: product.name,
-      category: product.category,
-      price: product.pricePix,
-    }]
+    value: product.pricePix || 0,
+    items: [toGa4Item(product)],
   });
 };
 
-export const trackAddToCart = (product: any, quantity = 1) => {
+export const trackAddToCart = (product: AnalyticsProduct, quantity = 1) => {
   trackEvent('add_to_cart', {
     currency: 'BRL',
-    value: product.pricePix * quantity,
-    items: [{
-      item_id: product.id,
-      item_name: product.name,
-      category: product.category,
-      price: product.pricePix,
-      quantity,
-    }]
+    value: (product.pricePix || 0) * quantity,
+    items: [toGa4Item(product, quantity)],
   });
 };
 
-export const trackPurchase = (order: any) => {
+export const trackBeginCheckout = (product: AnalyticsProduct, quantity = 1, value?: number) => {
+  trackEvent('begin_checkout', {
+    currency: 'BRL',
+    value: value ?? (product.pricePix || 0) * quantity,
+    items: [toGa4Item(product, quantity)],
+  });
+};
+
+export const trackAddPaymentInfo = (product: AnalyticsProduct, paymentType: string, quantity = 1, value?: number) => {
+  trackEvent('add_payment_info', {
+    currency: 'BRL',
+    value: value ?? (product.pricePix || 0) * quantity,
+    payment_type: paymentType,
+    items: [toGa4Item(product, quantity)],
+  });
+};
+
+export const trackPurchase = (order: {
+  id: string;
+  total: number;
+  shipping?: number;
+  paymentType?: string;
+  items?: Array<AnalyticsProduct & { quantity?: number; price?: number }>;
+}) => {
   trackEvent('purchase', {
     transaction_id: order.id,
     currency: 'BRL',
     value: order.total,
-    items: order.items?.map((item: any) => ({
-      item_id: item.id,
-      item_name: item.name,
-      category: item.category,
-      price: item.price,
-      quantity: item.quantity,
+    shipping: order.shipping,
+    payment_type: order.paymentType,
+    items: order.items?.map((item) => ({
+      ...toGa4Item(item, item.quantity || 1),
+      price: item.price ?? item.pricePix,
     })),
   });
 };
 
 export const trackWhatsAppClick = (source: string) => {
   trackEvent('whatsapp_click', { source });
+};
+
+export const trackFilterApplied = (filterName: string, filterValue: string, results: number) => {
+  trackEvent('filter_applied', { filter_name: filterName, filter_value: filterValue, results });
+};
+
+export const trackCatalogPageChange = (page: number, totalPages: number) => {
+  trackEvent('page_change_catalog', { page, total_pages: totalPages });
+};
+
+export const trackBackToCatalogRestored = (productId?: string) => {
+  trackEvent('back_to_catalog_restored', { product_id: productId || "unknown" });
+};
+
+export const trackPaymentError = (paymentMethod: string, reason: string) => {
+  trackEvent('payment_error', { payment_method: paymentMethod, reason });
+};
+
+export const trackRouteError = (route: string, reason: string) => {
+  trackEvent('route_error', { route, reason });
+};
+
+export const trackCacheErrorDetected = (route: string, status?: number) => {
+  trackEvent('cache_error_detected', { route, status });
 };
 
 export const trackSearch = (query: string, results: number) => {

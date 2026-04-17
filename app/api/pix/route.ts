@@ -42,7 +42,7 @@ export async function POST(request: Request) {
   if (pixPayment?.ok) {
     if (paymentContext.orderCode) {
       await updateOrderRecord(paymentContext.orderCode, {
-        status: "aguardando pix",
+        status: "pending_payment",
         payment_provider: "mercado-pago",
         payment_method: "pix",
         payment_reference: pixPayment.paymentId,
@@ -75,7 +75,7 @@ export async function POST(request: Request) {
 
   if (paymentContext.orderCode) {
     await updateOrderRecord(paymentContext.orderCode, {
-      status: "aguardando pix manual",
+      status: "pending_payment",
       payment_provider: "manual",
       payment_method: "pix",
       payment_status: "pending",

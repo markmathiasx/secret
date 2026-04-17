@@ -1,8 +1,14 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect } from "react";
+import { trackRouteError } from "@/lib/analytics";
 
 export default function Error({ error }: { error: Error }) {
+  useEffect(() => {
+    trackRouteError(window.location.pathname, error.message || "unexpected_route_error");
+  }, [error.message]);
+
   return (
     <section className="mx-auto max-w-4xl px-6 py-20">
       <p className="text-xs uppercase tracking-[0.2em] text-rose-200">Erro</p>

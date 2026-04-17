@@ -65,6 +65,12 @@ function readRecentIds() {
 
 function formatOrderStatus(status: string | null | undefined) {
   const normalized = (status || '').toLowerCase();
+  if (normalized === 'draft') return 'Rascunho';
+  if (normalized === 'pending_payment') return 'Aguardando pagamento';
+  if (normalized === 'paid') return 'Pago';
+  if (normalized === 'failed') return 'Falhou';
+  if (normalized === 'cancelled' || normalized === 'canceled') return 'Cancelado';
+  if (normalized === 'fulfilled') return 'Concluído';
   if (normalized.includes('pix')) return 'Aguardando Pix';
   if (normalized.includes('cartao')) return 'Aguardando cartão';
   if (normalized.includes('checkout')) return 'Checkout iniciado';

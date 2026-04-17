@@ -522,6 +522,28 @@ p {
     inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
+.field-base,
+.btn-primary,
+.btn-whatsapp,
+.btn-secondary,
+.btn-zap,
+.btn-glass,
+.btn-ghost-sm,
+.chip-nav {
+  min-height: 44px;
+  overflow-wrap: anywhere;
+  line-height: 1.25;
+}
+
+select.field-base,
+input.field-base {
+  line-height: 1.4;
+}
+
+.catalog-product-card {
+  scroll-margin-top: 8rem;
+}
+
 /* Cards */
 .card-hover {
   @apply transition-all duration-300 hover:scale-105 hover:shadow-card-hover;
@@ -938,6 +960,34 @@ p {
   .catalog-product-card {
     border-radius: 1.1rem;
     padding: 0.85rem;
+  }
+
+  .btn-primary,
+  .btn-whatsapp,
+  .btn-secondary,
+  .btn-zap,
+  .btn-glass,
+  .btn-ghost-sm,
+  .chip-nav {
+    width: auto;
+    max-width: 100%;
+    justify-content: center;
+    padding-left: 0.85rem;
+    padding-right: 0.85rem;
+    white-space: normal;
+  }
+
+  .field-base {
+    min-height: 46px;
+    padding: 0.72rem 0.85rem;
+    font-size: 16px;
+  }
+
+  .catalog-active-lens,
+  .surface-stat,
+  .glass-panel,
+  .glass-card {
+    overflow-wrap: anywhere;
   }
 
   .catalog-video-shell {

@@ -1,9 +1,11 @@
 import type { MetadataRoute } from "next";
-import { catalog, getProductUrl } from "@/lib/catalog";
+import { getProductUrl } from "@/lib/catalog";
+import { getCatalogSnapshot } from "@/lib/catalog-repository";
 import { getSiteUrl } from "@/lib/env";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = getSiteUrl();
+  const catalog = await getCatalogSnapshot();
 
   const staticPages = [
     "",

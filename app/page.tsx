@@ -5,7 +5,8 @@ import { STLUploader } from "@/components/stl-uploader";
 import { TrustSignals } from "@/components/trust-signals";
 import { SafeProductImage } from "@/components/safe-product-image";
 import { ProductVisualBadge } from "@/components/product-visual-authenticity";
-import { catalog, getProductUrl, type Product } from "@/lib/catalog";
+import { getProductUrl, type Product } from "@/lib/catalog";
+import { getCatalogSnapshot } from "@/lib/catalog-repository";
 import { isProductRealPhoto, summarizeProductVisuals } from "@/lib/product-visuals";
 import { formatCurrency } from "@/lib/utils";
 
@@ -58,7 +59,8 @@ type ShowcaseCard = {
   product: Product | null;
 };
 
-export default function HomePage() {
+export default async function HomePage() {
+  const catalog = await getCatalogSnapshot();
   const visualSummary = summarizeProductVisuals(catalog);
   const realShowcase = catalog.filter((product) => isProductRealPhoto(product)).slice(0, 4);
   const readyRealCount = catalog.filter((product) => product.readyToShip && isProductRealPhoto(product)).length;

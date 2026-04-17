@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { MessageCircleMore, ShieldCheck, Truck } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { DeliveryCalculator } from "@/components/delivery-calculator";
@@ -28,6 +28,7 @@ import { pix, whatsappNumber } from "@/lib/constants";
 import { type ShippingOption } from "@/lib/shipping";
 import { getProductImageCandidates } from "@/lib/product-images";
 import { formatCurrency } from "@/lib/utils";
+import { trackAddPaymentInfo, trackBeginCheckout, trackPaymentError, trackPurchase, trackWhatsAppClick } from "@/lib/analytics";
 
 export function CheckoutFlow() {
   const searchParams = useSearchParams();
@@ -69,6 +70,7 @@ export function CheckoutFlow() {
   } | null>(null);
   const [draftHydrated, setDraftHydrated] = useState(false);
   const [draftRestored, setDraftRestored] = useState(false);
+  const beginCheckoutTrackedRef = useRef("");
 
   const product = useMemo(() => catalog.find((item) => item.id === productId) || initialProduct, [initialProduct, productId]);
   const sortedCatalog = useMemo(
@@ -119,6 +121,21 @@ export function CheckoutFlow() {
   ];
   const quantityPresets = [1, 2, 5, 10];
   const paymentTitle = orderCode && product ? `${product.name} • ${orderCode}` : product ? `${product.name} • MDH 3D` : "Pagamento MDH 3D";
+  const analyticsProduct = useMemo(
+    () =>
+      product
+        ? {
+            id: product.id,
+            sku: product.sku,
+            name: product.name,
+            category: product.category,
+            collection: product.collection,
+            pricePix: product.pricePix,
+            priceCard: product.priceCard,
+          }
+        : null,
+    [product]
+  );
 
   useEffect(() => {
     if (!session.ready || !session.user) return;
@@ -166,6 +183,27 @@ export function CheckoutFlow() {
       setCurrentStep(3);
     }
   }, [searchParams]);
+
+  useEffect(() => {
+    if (!analyticsProduct) return;
+    const key = `${analyticsProduct.id}:${quantity}`;
+    if (beginCheckoutTrackedRef.current === key) return;
+    beginCheckoutTrackedRef.current = key;
+    trackBeginCheckout(analyticsProduct, quantity, totalPix);
+  }, [analyticsProduct, quantity, totalPix]);
+
+  useEffect(() => {
+    const checkoutStatus = searchParams.get("status");
+    const checkoutOrder = searchParams.get("order");
+    if (checkoutStatus !== "success" || !checkoutOrder || !analyticsProduct) return;
+
+    trackPurchase({
+      id: checkoutOrder,
+      total: totalCard,
+      paymentType: "cartao",
+      items: [{ ...analyticsProduct, quantity, price: analyticsProduct.priceCard }],
+    });
+  }, [analyticsProduct, quantity, searchParams, totalCard]);
 
   useEffect(() => {
     if (!queryProductId) return;
@@ -386,6 +424,7 @@ export function CheckoutFlow() {
       const orderData = await orderResponse.json().catch(() => ({}));
       if (!orderResponse.ok) {
         setStatus(orderData?.message || "Não foi possível criar o pedido agora.");
+        trackPaymentError(paymentMethod, "order_create_failed");
         return;
       }
 
@@ -406,6 +445,7 @@ export function CheckoutFlow() {
         const cardData = await cardResponse.json().catch(() => ({}));
         if (!cardResponse.ok || !cardData?.initPoint) {
           setStatus(cardData?.fallbackMessage || cardData?.message || "Não foi possível abrir o checkout do cartão agora.");
+          trackPaymentError("cartao", cardData?.reason || "card_checkout_failed");
           return;
         }
         window.location.href = cardData.initPoint;
@@ -434,6 +474,9 @@ export function CheckoutFlow() {
             provider: pixData.provider === "mercado-pago" ? "Mercado Pago" : "Pix manual",
           });
         }
+        if (!pixResponse.ok) {
+          trackPaymentError("pix", pixData?.error || "pix_payload_failed");
+        }
         setStatus(
           pixData.provider === "mercado-pago"
             ? `Pedido ${orderData.orderCode} criado. O QR dinâmico do Mercado Pago já está pronto abaixo para pagamento imediato.`
@@ -445,6 +488,7 @@ export function CheckoutFlow() {
       setStatus(`Pedido ${orderData.orderCode} criado. Finalize o boleto com a equipe para concluir o pagamento.`);
     } catch {
       setStatus("Falha de rede ao criar o pedido. Tente novamente em instantes.");
+      trackPaymentError(paymentMethod, "network_error");
     } finally {
       setLoading(false);
     }
@@ -564,7 +608,17 @@ export function CheckoutFlow() {
               onPaymentMethodChange={setPaymentMethod}
               onNotesChange={setNotes}
               onBack={() => setCurrentStep(1)}
-              onContinue={() => setCurrentStep(3)}
+              onContinue={() => {
+                if (analyticsProduct) {
+                  trackAddPaymentInfo(
+                    analyticsProduct,
+                    paymentMethod === "pix" ? "Pix" : paymentMethod === "cartao" ? "Cartão" : "Boleto",
+                    quantity,
+                    paymentMethod === "cartao" ? totalCard : totalPix
+                  );
+                }
+                setCurrentStep(3);
+              }}
             />
           ) : null}
 
@@ -579,6 +633,7 @@ export function CheckoutFlow() {
               status={status}
               loading={loading}
               whatsappHref={whatsappHref}
+              onWhatsAppClick={() => trackWhatsAppClick("checkout_confirm")}
               onBack={() => setCurrentStep(2)}
               onSubmit={() => void handleSubmitOrder()}
               onClearDraft={clearDraft}

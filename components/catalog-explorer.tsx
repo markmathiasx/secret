@@ -23,12 +23,21 @@ import { ProductPriceStack } from '@/components/product-price-stack';
 import { ProductVisualBadge } from '@/components/product-visual-authenticity';
 import { isProductRealPhoto, isProductVisualVerified } from '@/lib/product-visuals';
 import { formatCurrency } from '@/lib/utils';
+import {
+  trackBackToCatalogRestored,
+  trackCatalogPageChange,
+  trackFilterApplied,
+  trackSelectItem,
+  trackViewItemList,
+  trackWhatsAppClick,
+} from '@/lib/analytics';
 
 const PAGE_SIZE = 24;
 const FAVORITES_KEY = 'mdh_catalog_favorites';
 const RECENT_KEY = 'mdh_catalog_recent';
 const RECENT_SEARCHES_KEY = 'mdh_catalog_recent_searches';
 const SAVED_VIEWS_KEY = 'mdh_catalog_saved_views';
+const RETURN_STATE_KEY = 'mdh_catalog_return_state';
 const ORDER_OPTIONS = ['Mais Recentes', 'Preço', 'Nome', 'Maior lucro', 'Menor prazo'] as const;
 const PURCHASE_INTENTS = ['Geral', 'Compra rápida', 'Economia', 'Presente', 'Atacado'] as const;
 
@@ -184,6 +193,10 @@ function saveViews(value: SavedCatalogView[]) {
   }
 }
 
+function sanitizePage(value: number | undefined) {
+  return Number.isFinite(value) && value && value > 0 ? Math.floor(value) : 1;
+}
+
 export function CatalogExplorer({
   products,
   initialQuery = '',
@@ -197,6 +210,7 @@ export function CatalogExplorer({
   initialCustomizableOnly = false,
   initialPriceMin,
   initialPriceMax,
+  initialPage = 1,
 }: {
   products: Product[];
   initialQuery?: string;
@@ -210,12 +224,15 @@ export function CatalogExplorer({
   initialCustomizableOnly?: boolean;
   initialPriceMin?: number;
   initialPriceMax?: number;
+  initialPage?: number;
 }) {
   const router = useRouter();
 
   function openProduct(product: Product) {
     addRecent(product.id);
-    router.push(getProductUrl(product));
+    trackSelectItem(product, 'Catalogo', (currentPage - 1) * PAGE_SIZE + visibleItems.findIndex((item) => item.id === product.id));
+    saveCatalogReturnState(product.id);
+    router.push(buildProductHref(product));
   }
 
   function compareBySelectedOrder(a: Product, b: Product, selectedOrder: CatalogOrder) {
@@ -254,7 +271,8 @@ export function CatalogExplorer({
   const [order, setOrder] = useState<CatalogOrder>('Mais Recentes');
   const [priceRange, setPriceRange] = useState<[number, number]>([priceLimits.min, priceLimits.max]);
   const [quantity, setQuantity] = useState(1);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(sanitizePage(initialPage));
+  const [pageInput, setPageInput] = useState(String(sanitizePage(initialPage)));
   const [favoriteIds, setFavoriteIds] = useState<string[]>([]);
   const [recentIds, setRecentIds] = useState<string[]>([]);
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
@@ -300,7 +318,7 @@ export function CatalogExplorer({
     setOrder(sanitizeOrder(initialOrder));
     setCustomizableOnly(initialCustomizableOnly);
     setPriceRange([Math.min(minValue, maxValue), Math.max(minValue, maxValue)]);
-    setPage(1);
+    setPage(sanitizePage(initialPage));
   }, [
     initialAvailability,
     initialCategory,
@@ -309,6 +327,7 @@ export function CatalogExplorer({
     initialIntent,
     initialMaterial,
     initialOrder,
+    initialPage,
     initialPriceMax,
     initialPriceMin,
     initialQuery,
@@ -593,14 +612,50 @@ export function CatalogExplorer({
     if (order !== 'Mais Recentes') params.set('sort', order);
     if (priceRange[0] !== priceLimits.min) params.set('min', String(priceRange[0]));
     if (priceRange[1] !== priceLimits.max) params.set('max', String(priceRange[1]));
+    if (currentPage > 1) params.set('page', String(currentPage));
     const queryString = params.toString();
     return queryString ? `/catalogo?${queryString}` : '/catalogo';
-  }, [availability, category, collection, customizableOnly, order, priceLimits.max, priceLimits.min, priceRange, purchaseIntent, query, selectedMaterial, visualMode]);
+  }, [availability, category, collection, currentPage, customizableOnly, order, priceLimits.max, priceLimits.min, priceRange, purchaseIntent, query, selectedMaterial, visualMode]);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
     window.history.replaceState({}, '', sharePath);
   }, [sharePath]);
+
+  useEffect(() => {
+    setPageInput(String(currentPage));
+  }, [currentPage]);
+
+  useEffect(() => {
+    trackViewItemList(visibleItems, 'Catalogo');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPage, category, collection, availability, visualMode, selectedMaterial, purchaseIntent, customizableOnly, order, deferredQuery]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    try {
+      const raw = window.sessionStorage.getItem(RETURN_STATE_KEY);
+      if (!raw) return;
+      const state = JSON.parse(raw) as { path?: string; productId?: string; scrollY?: number };
+      const currentPath = `${window.location.pathname}${window.location.search}`;
+      if (state.path !== currentPath) return;
+
+      window.setTimeout(() => {
+        const target = state.productId ? document.getElementById(`produto-${state.productId}`) : null;
+        if (target) {
+          target.scrollIntoView({ block: 'center' });
+          target.focus({ preventScroll: true });
+        } else if (Number.isFinite(state.scrollY)) {
+          window.scrollTo({ top: state.scrollY || 0, behavior: 'instant' as ScrollBehavior });
+        }
+        trackBackToCatalogRestored(state.productId);
+        window.sessionStorage.removeItem(RETURN_STATE_KEY);
+      }, 120);
+    } catch {
+      window.sessionStorage.removeItem(RETURN_STATE_KEY);
+    }
+  }, []);
 
   useEffect(() => {
     const normalized = deferredQuery.trim();
@@ -610,8 +665,30 @@ export function CatalogExplorer({
 
   function safeSetPage(nextPage: number) {
     startTransition(() => {
-      setPage(Math.max(1, Math.min(totalPages, nextPage)));
+      const targetPage = Math.max(1, Math.min(totalPages, nextPage));
+      setPage(targetPage);
+      trackCatalogPageChange(targetPage, totalPages);
     });
+  }
+
+  function buildProductHref(product: Product) {
+    const params = new URLSearchParams();
+    params.set('from', sharePath);
+    params.set('focus', product.id);
+    return `${getProductUrl(product)}?${params.toString()}`;
+  }
+
+  function saveCatalogReturnState(productId: string) {
+    if (typeof window === 'undefined') return;
+
+    window.sessionStorage.setItem(
+      RETURN_STATE_KEY,
+      JSON.stringify({
+        path: sharePath,
+        productId,
+        scrollY: window.scrollY,
+      })
+    );
   }
 
   function resetFilters() {
@@ -626,6 +703,11 @@ export function CatalogExplorer({
     setPurchaseIntent(sanitizePurchaseIntent(initialIntent));
     setCustomizableOnly(initialCustomizableOnly);
     setPage(1);
+  }
+
+  function applyTrackedFilter(filterName: string, filterValue: string, apply: () => void) {
+    apply();
+    trackFilterApplied(filterName, filterValue, filtered.length);
   }
 
   function toggleFavorite(productId: string) {
@@ -848,8 +930,10 @@ export function CatalogExplorer({
             <select
               value={category}
               onChange={(event) => {
-                setCategory(event.target.value);
-                safeSetPage(1);
+                applyTrackedFilter('category', event.target.value, () => {
+                  setCategory(event.target.value);
+                  safeSetPage(1);
+                });
               }}
               className="field-base"
             >
@@ -865,8 +949,10 @@ export function CatalogExplorer({
             <select
               value={collection}
               onChange={(event) => {
-                setCollection(event.target.value);
-                safeSetPage(1);
+                applyTrackedFilter('collection', event.target.value, () => {
+                  setCollection(event.target.value);
+                  safeSetPage(1);
+                });
               }}
               className="field-base"
             >
@@ -882,8 +968,10 @@ export function CatalogExplorer({
             <select
               value={availability}
               onChange={(event) => {
-                setAvailability(event.target.value as CatalogAvailability);
-                safeSetPage(1);
+                applyTrackedFilter('availability', event.target.value, () => {
+                  setAvailability(event.target.value as CatalogAvailability);
+                  safeSetPage(1);
+                });
               }}
               className="field-base"
             >
@@ -898,8 +986,10 @@ export function CatalogExplorer({
             <select
               value={selectedMaterial}
               onChange={(event) => {
-                setSelectedMaterial(event.target.value);
-                safeSetPage(1);
+                applyTrackedFilter('material', event.target.value, () => {
+                  setSelectedMaterial(event.target.value);
+                  safeSetPage(1);
+                });
               }}
               className="field-base"
             >
@@ -914,8 +1004,10 @@ export function CatalogExplorer({
             <select
               value={purchaseIntent}
               onChange={(event) => {
-                setPurchaseIntent(event.target.value as PurchaseIntent);
-                safeSetPage(1);
+                applyTrackedFilter('intent', event.target.value, () => {
+                  setPurchaseIntent(event.target.value as PurchaseIntent);
+                  safeSetPage(1);
+                });
               }}
               className="field-base"
             >
@@ -927,7 +1019,11 @@ export function CatalogExplorer({
 
           <label className="text-sm text-white/70">
             <span className="mb-2 block">Ordenar</span>
-            <select value={order} onChange={(event) => setOrder(event.target.value as CatalogOrder)} className="field-base">
+            <select
+              value={order}
+              onChange={(event) => applyTrackedFilter('sort', event.target.value, () => setOrder(event.target.value as CatalogOrder))}
+              className="field-base"
+            >
               {ORDER_OPTIONS.map((option) => (
                 <option key={option}>{option}</option>
               ))}
@@ -1161,8 +1257,12 @@ export function CatalogExplorer({
               {favoriteProducts.slice(0, 8).map((product) => (
                 <Link
                   key={product.id}
-                  href={getProductUrl(product)}
-                  onClick={() => addRecent(product.id)}
+                  href={buildProductHref(product)}
+                  onClick={() => {
+                    addRecent(product.id);
+                    saveCatalogReturnState(product.id);
+                    trackSelectItem(product, 'Catalogo');
+                  }}
                   className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/80"
                 >
                   {product.name}
@@ -1214,6 +1314,7 @@ export function CatalogExplorer({
           return (
             <article
               key={product.id}
+              id={`produto-${product.id}`}
               className={`catalog-product-card group relative overflow-hidden rounded-[28px] border p-5 transition-all duration-500 ${
                 isProductRealPhoto(product)
                   ? 'border-emerald-300/18 bg-card hover:border-emerald-200/45'
@@ -1289,8 +1390,12 @@ export function CatalogExplorer({
                 </div>
                 <div className="flex flex-col gap-2">
                   <Link
-                    href={getProductUrl(product)}
-                    onClick={() => addRecent(product.id)}
+                    href={buildProductHref(product)}
+                    onClick={() => {
+                      addRecent(product.id);
+                      saveCatalogReturnState(product.id);
+                      trackSelectItem(product, 'Catalogo', (currentPage - 1) * PAGE_SIZE + index);
+                    }}
                     className="btn-secondary px-4 py-2 text-center text-sm font-semibold text-cyan-100"
                   >
                     {product.pricingMode === 'faixa-auditada' ? 'Comprar' : 'Orçar'}
@@ -1299,6 +1404,7 @@ export function CatalogExplorer({
                     href={buildWhatsAppQuote(product, quantity)}
                     target="_blank"
                     rel="noreferrer"
+                    onClick={() => trackWhatsAppClick('catalog_card')}
                     className="btn-glass px-4 py-2 text-center text-xs font-semibold text-emerald-100"
                   >
                     WhatsApp
@@ -1391,6 +1497,30 @@ export function CatalogExplorer({
           >
             Próxima
           </button>
+          <form
+            className="flex min-h-11 items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1"
+            onSubmit={(event) => {
+              event.preventDefault();
+              safeSetPage(Number(pageInput));
+            }}
+          >
+            <label htmlFor="catalog-page-jump" className="text-xs font-semibold text-white/60">
+              Ir para
+            </label>
+            <input
+              id="catalog-page-jump"
+              type="number"
+              min={1}
+              max={totalPages}
+              value={pageInput}
+              onChange={(event) => setPageInput(event.target.value)}
+              className="h-9 w-16 rounded-full border border-white/10 bg-black/20 px-3 text-center text-sm font-semibold text-white outline-none focus:border-cyan-300/50"
+              aria-label="Ir para página do catálogo"
+            />
+            <button type="submit" className="rounded-full bg-cyan-300 px-3 py-2 text-xs font-bold text-slate-950">
+              Abrir
+            </button>
+          </form>
         </div>
       ) : null}
     </div>

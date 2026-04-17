@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const protectedPrefixes = ["/conta", "/checkout", "/seller", "/admin"];
+const protectedPrefixes = ["/seller", "/admin"];
 const adminLoginPath = "/admin/login";
 
 function isProtectedPath(pathname: string) {
@@ -39,12 +39,12 @@ export function middleware(request: NextRequest) {
 
   const cspRules = [
     "default-src 'self'",
-    "script-src 'self' 'unsafe-inline' https://sdk.mercadopago.com https://maps.googleapis.com",
+    "script-src 'self' 'unsafe-inline' https://sdk.mercadopago.com https://maps.googleapis.com https://www.googletagmanager.com",
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
     "img-src 'self' data: https:",
     "media-src 'self' https: blob:",
     "font-src 'self' data: https://fonts.gstatic.com",
-    "connect-src 'self' https://api.mercadopago.com https://graph.facebook.com https://viacep.com.br https://*.supabase.co wss://*.supabase.co https://*.supabase.in wss://*.supabase.in https://maps.googleapis.com https://maps.gstatic.com",
+    "connect-src 'self' https://api.mercadopago.com https://graph.facebook.com https://viacep.com.br https://*.supabase.co wss://*.supabase.co https://*.supabase.in wss://*.supabase.in https://maps.googleapis.com https://maps.gstatic.com https://www.google-analytics.com https://region1.google-analytics.com",
     "frame-src https://www.mercadopago.com.br https://www.mercadopago.com",
     "object-src 'none'",
     "base-uri 'self'",

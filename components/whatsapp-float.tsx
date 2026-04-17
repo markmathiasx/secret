@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { MessageCircleMore, Sparkles } from "lucide-react";
 import { whatsappMessage, whatsappNumber } from "@/lib/constants";
+import { trackWhatsAppClick } from "@/lib/analytics";
 
 export function WhatsAppFloat() {
   const href = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
@@ -35,6 +36,7 @@ export function WhatsAppFloat() {
                 href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Oi! ${item}`)}`}
                 target="_blank"
                 rel="noreferrer"
+                onClick={() => trackWhatsAppClick("float_quick_link")}
                 className="rounded-[18px] border border-white/10 bg-white/5 px-3 py-3 text-sm text-white/78 transition hover:border-emerald-300/30 hover:text-white"
               >
                 {item}
@@ -48,6 +50,7 @@ export function WhatsAppFloat() {
         href={href}
         target="_blank"
         rel="noreferrer"
+        onClick={() => trackWhatsAppClick("float_main")}
         className="flex h-[62px] w-[62px] items-center justify-center rounded-full border border-green-400/35 bg-green-400/15 shadow-glow transition-all duration-300 hover:scale-110 hover:bg-green-400/25 focus:outline-none md:h-[70px] md:w-[70px]"
         style={{ boxShadow: "0 18px 44px rgba(37,211,102,0.28), 0 0 34px rgba(37,211,102,0.18)" }}
         aria-label="Fale conosco no WhatsApp"

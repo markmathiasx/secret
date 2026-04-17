@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { findProduct } from "@/lib/catalog";
 import { quoteSchema } from "@/lib/schemas";
-import { getClientIp, checkRateLimit } from "@/lib/security";
+import { getClientIp, checkRateLimit, validateUploadFile } from "@/lib/security";
 import { storeRecord } from "@/lib/storage";
 import { estimateDeliveryFeeKm } from "@/lib/delivery";
 
@@ -22,14 +22,14 @@ export async function POST(request: Request) {
     const form = await request.formData();
     const image = form.get('referenceImage');
     const model = form.get('modelFile');
-    const imageSize = image instanceof File ? image.size : 0;
-    const modelSize = model instanceof File ? model.size : 0;
+    const imageValidation = image instanceof File ? await validateUploadFile(image, "image", { maxBytes: 10 * 1024 * 1024 }) : null;
+    const modelValidation = model instanceof File ? await validateUploadFile(model, "model", { maxBytes: 50 * 1024 * 1024 }) : null;
 
-    if (image instanceof File && image.size > 10 * 1024 * 1024) {
-      return NextResponse.json({ message: 'A imagem de referência excede 10MB.' }, { status: 400 });
+    if (imageValidation && !imageValidation.ok) {
+      return NextResponse.json({ message: imageValidation.message }, { status: 400 });
     }
-    if (model instanceof File && model.size > 50 * 1024 * 1024) {
-      return NextResponse.json({ message: 'O arquivo 3D excede 50MB.' }, { status: 400 });
+    if (modelValidation && !modelValidation.ok) {
+      return NextResponse.json({ message: modelValidation.message }, { status: 400 });
     }
 
     const quoteId = buildRequestId();
@@ -45,16 +45,18 @@ export async function POST(request: Request) {
       preferred_color: String(form.get('color') || ''),
       desired_deadline: String(form.get('deadline') || ''),
       quantity: Number(form.get('quantity') || '1'),
-      reference_image_name: image instanceof File ? image.name : '',
-      reference_image_size: imageSize,
-      model_file_name: model instanceof File ? model.name : '',
-      model_file_size: modelSize,
+      reference_image_name: imageValidation?.ok ? imageValidation.safeName : '',
+      reference_image_size: imageValidation?.ok ? imageValidation.size : 0,
+      model_file_name: modelValidation?.ok ? modelValidation.safeName : '',
+      model_file_size: modelValidation?.ok ? modelValidation.size : 0,
       created_at: new Date().toISOString(),
       source: 'site',
       storage_mode: 'metadata-only',
       details: {
         has_reference_image: image instanceof File,
-        has_model_file: model instanceof File
+        has_model_file: model instanceof File,
+        reference_image_content_type: imageValidation?.ok ? imageValidation.contentType : null,
+        model_file_content_type: modelValidation?.ok ? modelValidation.contentType : null
       },
       status: 'recebido'
     };

@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Check, Copy, Minus, Plus, Share2, ShoppingCart, Sparkles, Wallet } from "lucide-react";
 import { useCustomerSession } from "@/lib/customer-session-client";
 import { addLocalCartItem } from "@/lib/cart-store";
+import { trackAddToCart, trackBeginCheckout, trackWhatsAppClick } from "@/lib/analytics";
 import { formatCurrency } from "@/lib/utils";
 
 const PURCHASE_MEMORY_PREFIX = "mdh:product-config:";
@@ -114,6 +115,15 @@ export function ProductPurchaseTools({
   }
 
   async function addToCart(redirectToCheckout = false) {
+    const analyticsProduct = {
+      id: productId,
+      sku,
+      name: productName,
+      pricePix,
+      priceCard,
+    };
+    trackAddToCart(analyticsProduct, quantity);
+
     addLocalCartItem({
       productId,
       quantity,
@@ -140,6 +150,7 @@ export function ProductPurchaseTools({
     window.setTimeout(() => setCartMessage(""), 2000);
 
     if (redirectToCheckout) {
+      trackBeginCheckout(analyticsProduct, quantity, totalPix);
       window.location.href = checkoutHref;
     }
   }
@@ -250,11 +261,11 @@ export function ProductPurchaseTools({
           <ShoppingCart className="h-4 w-4" />
           Adicionar ao carrinho
         </button>
-        <a href={contextualWhatsappHref} target="_blank" rel="noreferrer" className="btn-whatsapp justify-center">
+        <a href={contextualWhatsappHref} target="_blank" rel="noreferrer" onClick={() => trackWhatsAppClick("product_purchase_tools")} className="btn-whatsapp justify-center">
           Tirar dúvida antes de pagar
         </a>
         {customizable ? (
-          <a href={customizationHref} target="_blank" rel="noreferrer" className="btn-secondary justify-center">
+          <a href={customizationHref} target="_blank" rel="noreferrer" onClick={() => trackWhatsAppClick("product_customization")} className="btn-secondary justify-center">
             Personalizar este item
           </a>
         ) : (
@@ -267,7 +278,7 @@ export function ProductPurchaseTools({
           {copied === "link" ? <Check className="h-4 w-4" /> : <Share2 className="h-4 w-4" />}
           {copied === "link" ? "Link copiado" : "Compartilhar item"}
         </button>
-        <Link href={checkoutHref} className="btn-glass justify-center">
+        <Link href={checkoutHref} onClick={() => trackBeginCheckout({ id: productId, sku, name: productName, pricePix, priceCard }, quantity, totalPix)} className="btn-glass justify-center">
           Revisar no checkout
         </Link>
       </div>

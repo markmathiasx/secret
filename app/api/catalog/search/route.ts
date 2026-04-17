@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { searchCatalogProducts } from "@/lib/catalog-repository";
+import { applyNoStoreHeaders } from "@/lib/http-cache";
 
 export async function GET(request: Request) {
   const url = new URL(request.url);
@@ -16,8 +17,8 @@ export async function GET(request: Request) {
     limit: url.searchParams.get("limit") ? Number(url.searchParams.get("limit")) : 24,
   });
 
-  return NextResponse.json({
+  return applyNoStoreHeaders(NextResponse.json({
     ok: true,
     ...results,
-  });
+  }));
 }

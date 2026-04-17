@@ -3,7 +3,10 @@ import { MediaType, ProductStatus, ProductVisibility } from "@prisma/client";
 import { getProductLongDescription, buildProductSearchText } from "@/lib/catalog-content";
 import { applyCatalogMedia, buildProductImageAlt } from "@/lib/catalog-media";
 import { catalog as staticCatalog, findProductBySlug as findStaticProductBySlug, type Product } from "@/lib/catalog";
+import { logStructured } from "@/lib/logger";
 import { canConnectToDatabase, prisma } from "@/lib/prisma";
+
+type CatalogSource = "static" | "database";
 
 const defaultProductInclude = {
   category: true,
@@ -28,6 +31,36 @@ const defaultProductInclude = {
 type PrismaProductRecord = Prisma.ProductGetPayload<{
   include: typeof defaultProductInclude;
 }>;
+
+function getConfiguredCatalogSource(): CatalogSource {
+  const raw = (process.env.CATALOG_SOURCE || process.env.NEXT_PUBLIC_CATALOG_SOURCE || "static").trim().toLowerCase();
+  return raw === "database" || raw === "prisma" || raw === "db" ? "database" : "static";
+}
+
+function getDuplicateValues(values: string[]) {
+  const seen = new Set<string>();
+  const duplicates = new Set<string>();
+
+  values.forEach((value) => {
+    if (seen.has(value)) duplicates.add(value);
+    seen.add(value);
+  });
+
+  return [...duplicates].sort();
+}
+
+function getStaticCatalogDiagnostics() {
+  return {
+    total: staticCatalog.length,
+    duplicateIds: getDuplicateValues(staticCatalog.map((product) => product.id)),
+    duplicateSlugs: getDuplicateValues(
+      staticCatalog
+        .map((product) => product.slug || product.name)
+        .filter(Boolean)
+    ),
+    missingImages: staticCatalog.filter((product) => !product.images?.length && !product.image).map((product) => product.id),
+  };
+}
 
 function decimalToNumber(value: Prisma.Decimal | number | null | undefined) {
   if (typeof value === "number") return value;
@@ -123,29 +156,46 @@ export type CatalogQuery = {
   limit?: number;
 };
 
+async function getDatabaseCatalogSnapshot(): Promise<Product[]> {
+  const products = await prisma.product.findMany({
+    where: {
+      visibility: ProductVisibility.PUBLIC,
+    },
+    include: defaultProductInclude,
+    orderBy: [
+      { featured: "desc" },
+      { updatedAt: "desc" },
+    ],
+  });
+
+  return products.map(mapPrismaProduct);
+}
+
 export async function getCatalogSnapshot(): Promise<Product[]> {
+  const configuredSource = getConfiguredCatalogSource();
+
+  if (configuredSource === "static") {
+    return staticCatalog;
+  }
+
   if (!(await canConnectToDatabase())) {
+    logStructured("error", "catalog_database_unavailable", { configuredSource });
     return staticCatalog;
   }
 
   try {
-    const products = await prisma.product.findMany({
-      where: {
-        visibility: ProductVisibility.PUBLIC,
-      },
-      include: defaultProductInclude,
-      orderBy: [
-        { featured: "desc" },
-        { updatedAt: "desc" },
-      ],
-    });
+    const products = await getDatabaseCatalogSnapshot();
 
     if (!products.length) {
+      logStructured("error", "catalog_database_empty", { configuredSource });
       return staticCatalog;
     }
 
-    return products.map(mapPrismaProduct);
-  } catch {
+    return products;
+  } catch (error) {
+    logStructured("error", "catalog_database_failed", {
+      message: error instanceof Error ? error.message : "unknown",
+    });
     return staticCatalog;
   }
 }
@@ -168,7 +218,7 @@ export async function getCatalogStaticParams(): Promise<Array<{ slug: string }>>
 }
 
 export async function findCatalogProductBySlug(slug: string): Promise<Product | undefined> {
-  if (!(await canConnectToDatabase())) {
+  if (getConfiguredCatalogSource() === "static" || !(await canConnectToDatabase())) {
     return findStaticProductBySlug(slug);
   }
 
@@ -191,6 +241,52 @@ export async function findCatalogProductBySlug(slug: string): Promise<Product | 
   } catch {
     return findStaticProductBySlug(slug);
   }
+}
+
+export async function getCatalogDiagnostics() {
+  const configuredSource = getConfiguredCatalogSource();
+  const staticDiagnostics = getStaticCatalogDiagnostics();
+  const databaseConfigured = configuredSource === "database";
+  let databaseConnectable = false;
+  let databasePublicCount: number | null = null;
+  let databaseError: string | null = null;
+
+  if (databaseConfigured || process.env.DATABASE_URL) {
+    try {
+      databaseConnectable = await canConnectToDatabase();
+      if (databaseConnectable) {
+        databasePublicCount = await prisma.product.count({
+          where: {
+            visibility: ProductVisibility.PUBLIC,
+          },
+        });
+      }
+    } catch (error) {
+      databaseError = error instanceof Error ? error.message : "Falha desconhecida no catálogo do banco.";
+    }
+  }
+
+  const databaseUsable = configuredSource === "database" && databaseConnectable && Boolean(databasePublicCount);
+  const fallbackActive = configuredSource === "database" && !databaseUsable;
+  const publicCount = databaseUsable && databasePublicCount ? databasePublicCount : staticDiagnostics.total;
+  const servedSource = databaseUsable ? "database" : fallbackActive ? "static-fallback" : "static";
+
+  return {
+    ok: !fallbackActive && staticDiagnostics.duplicateIds.length === 0,
+    configuredSource,
+    servedSource,
+    fallbackActive,
+    publicCount,
+    pageSize: 24,
+    expectedPages: Math.ceil(publicCount / 24),
+    staticCatalog: staticDiagnostics,
+    database: {
+      configured: databaseConfigured,
+      connectable: databaseConnectable,
+      publicCount: databasePublicCount,
+      error: databaseError,
+    },
+  };
 }
 
 export async function searchCatalogProducts(query: CatalogQuery) {

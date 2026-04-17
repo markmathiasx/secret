@@ -8,6 +8,7 @@ import { ProductPriceStack } from '@/components/product-price-stack';
 import { ProductRelatedShelf } from '@/components/product-related-shelf';
 import { ProductVisualBadge, ProductVisualNotice } from '@/components/product-visual-authenticity';
 import { ProductPurchaseTools } from '@/components/product-purchase-tools';
+import { ProductAnalytics } from '@/components/product-analytics';
 import { QuoteForm } from '@/components/quote-form';
 import { formatCurrency } from '@/lib/utils';
 import { whatsappMessage, whatsappNumber } from '@/lib/constants';
@@ -39,6 +40,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: product.name,
     description: longDescription,
+    alternates: {
+      canonical: `/catalogo/${slug}`,
+    },
     keywords: [...product.tags, 'impressão 3D', 'PLA', 'Bambu Lab', 'personalizado'].join(', '),
     openGraph: {
       title: `${product.name} - Impressão 3D`,
@@ -62,8 +66,22 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   };
 }
 
-export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
+function getSafeCatalogBackHref(from?: string, focus?: string) {
+  const fallback = '/catalogo';
+  if (!from || !from.startsWith('/catalogo')) return fallback;
+  if (from.startsWith('//') || from.includes('://')) return fallback;
+  return focus ? `${from}#produto-${encodeURIComponent(focus)}` : from;
+}
+
+export default async function ProductPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ slug: string }>;
+  searchParams?: Promise<{ from?: string; focus?: string }>;
+}) {
   const { slug } = await params;
+  const resolvedSearchParams = searchParams ? await searchParams : {};
   const product = await findCatalogProductBySlug(slug);
 
   if (!product) {
@@ -109,6 +127,31 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
     category: product.category,
     material: product.material,
   };
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Início',
+        item: siteUrl,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Catálogo',
+        item: `${siteUrl}/catalogo`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: product.name,
+        item: productUrl,
+      },
+    ],
+  };
+  const catalogBackHref = getSafeCatalogBackHref(resolvedSearchParams?.from, resolvedSearchParams?.focus);
 
   const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`${whatsappMessage}\n\nTenho interesse em ${product.name} (${product.sku}).`)}`;
   const customizationHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`${whatsappMessage}\n\nQuero personalizar ${product.name} (${product.sku}).`)}`;
@@ -148,6 +191,22 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           __html: JSON.stringify(jsonLd),
         }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbJsonLd),
+        }}
+      />
+      <ProductAnalytics
+        product={{
+          id: product.id,
+          sku: product.sku,
+          name: product.name,
+          category: product.category,
+          collection: product.collection,
+          pricePix: product.pricePix,
+        }}
+      />
       <section className="mx-auto max-w-7xl px-6 py-16">
       <div className="mb-6 flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.18em] text-white/50">
         <Link href="/" className="transition hover:text-cyan-100">Início</Link>
@@ -158,7 +217,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       </div>
 
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
-        <Link href="/catalogo" className="btn-ghost-sm inline-flex">
+        <Link href={catalogBackHref} className="btn-ghost-sm inline-flex">
           <ArrowLeft className="h-4 w-4" /> Voltar ao catálogo
         </Link>
         <div className="flex flex-wrap gap-2">

@@ -282,6 +282,10 @@ function mapPaymentStatus(status: unknown) {
 
 function mapOrderStatus(status: unknown) {
   const normalized = toStringValue(status).toLowerCase();
+  if (normalized === "draft") return OrderStatus.PENDING_PAYMENT;
+  if (normalized === "pending_payment") return OrderStatus.PENDING_PAYMENT;
+  if (normalized === "fulfilled") return OrderStatus.DELIVERED;
+  if (normalized === "failed") return OrderStatus.PENDING_PAYMENT;
   if (normalized.includes("entreg")) return OrderStatus.DELIVERED;
   if (normalized.includes("enviado")) return OrderStatus.SHIPPED;
   if (normalized.includes("imprim")) return OrderStatus.PRINTING;

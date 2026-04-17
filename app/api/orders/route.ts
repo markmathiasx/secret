@@ -8,6 +8,7 @@ import { getClientIp, checkRateLimit } from "@/lib/security";
 import { getServerSessionUser } from "@/lib/server-session";
 import { buildShippingQuote } from "@/lib/shipping";
 import { storeRecord } from "@/lib/storage";
+import { logStructured } from "@/lib/logger";
 
 const orderSchema = z.object({
   productId: z.string().min(1),
@@ -47,7 +48,7 @@ function buildOrderState(method: "pix" | "cartao" | "boleto") {
       paymentProvider: PaymentProvider.MERCADO_PAGO,
       paymentStatus: PaymentStatus.PENDING,
       paymentStatusDetail: "checkout_pending",
-      orderLabel: "aguardando pagamento no cartao",
+      orderLabel: "pending_payment",
     } as const;
   }
 
@@ -57,7 +58,7 @@ function buildOrderState(method: "pix" | "cartao" | "boleto") {
       paymentProvider: PaymentProvider.MANUAL,
       paymentStatus: PaymentStatus.PENDING,
       paymentStatusDetail: "awaiting_boleto",
-      orderLabel: "aguardando boleto",
+      orderLabel: "pending_payment",
     } as const;
   }
 
@@ -66,7 +67,7 @@ function buildOrderState(method: "pix" | "cartao" | "boleto") {
     paymentProvider: PaymentProvider.MANUAL,
     paymentStatus: PaymentStatus.PENDING,
     paymentStatusDetail: "awaiting_payment",
-    orderLabel: "aguardando pix",
+    orderLabel: "pending_payment",
   } as const;
 }
 
@@ -266,10 +267,17 @@ export async function POST(request: Request) {
         orderId: order.id,
       });
     } catch (error) {
+      logStructured("error", "order_create_prisma_failed", {
+        orderCode,
+        productId: product.id,
+        paymentMethod: parsed.data.paymentMethod,
+        message: error instanceof Error ? error.message : "unknown",
+      });
+
       return NextResponse.json(
         {
           ok: false,
-          message: error instanceof Error ? error.message : "Falha ao criar pedido no banco.",
+          message: "Não foi possível criar o pedido agora. Tente novamente ou fale com a equipe.",
         },
         { status: 500 }
       );

@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { CatalogExplorer } from "@/components/catalog-explorer";
 import { CatalogRealCases } from "@/components/catalog-real-cases";
-import { catalog, categories, collections } from "@/lib/catalog";
+import { getCatalogSnapshot } from "@/lib/catalog-repository";
 import { A1_MINI_COLLECTION, isA1MiniCatalogProduct } from "@/lib/a1-mini-catalog";
 import { summarizeProductVisuals } from "@/lib/product-visuals";
 
@@ -27,6 +27,7 @@ type CatalogPageSearchParams = {
   custom?: string;
   min?: string;
   max?: string;
+  page?: string;
 };
 
 export default async function CatalogPage({
@@ -35,6 +36,9 @@ export default async function CatalogPage({
   searchParams?: Promise<CatalogPageSearchParams>;
 }) {
   const params = searchParams ? await searchParams : undefined;
+  const catalog = await getCatalogSnapshot();
+  const categories = Array.from(new Set(catalog.map((item) => item.category)));
+  const collections = Array.from(new Set(catalog.map((item) => item.collection)));
   const initialQuery = params?.q?.trim() || "";
   const initialCategory = params?.category && categories.includes(params.category) ? params.category : "Todas";
   const initialCollection =
@@ -49,6 +53,7 @@ export default async function CatalogPage({
   const initialCustomizableOnly = params?.custom === "1";
   const initialMin = params?.min ? Number(params.min) : undefined;
   const initialMax = params?.max ? Number(params.max) : undefined;
+  const initialPage = params?.page ? Number(params.page) : 1;
 
   const visualSummary = summarizeProductVisuals(catalog);
   const a1MiniCount = catalog.filter(isA1MiniCatalogProduct).length;
@@ -180,6 +185,7 @@ export default async function CatalogPage({
               initialCustomizableOnly={initialCustomizableOnly}
               initialPriceMin={initialMin}
               initialPriceMax={initialMax}
+              initialPage={initialPage}
             />
           </div>
         </div>

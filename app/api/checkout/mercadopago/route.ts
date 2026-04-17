@@ -56,7 +56,7 @@ export async function POST(request: Request) {
 
   if (parsed.data.orderCode) {
     await updateOrderRecord(parsed.data.orderCode, {
-      status: "checkout de cartao iniciado",
+      status: "pending_payment",
       payment_provider: "mercado-pago",
       payment_reference: preference.id || null,
       payment_status: "checkout_created",

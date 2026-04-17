@@ -65,22 +65,22 @@ function verifyMercadoPagoSignature({
 function mapPaymentStatus(status?: string, detail?: string) {
   switch (status) {
     case "approved":
-      return "pagamento aprovado";
+      return "paid";
     case "pending":
     case "in_process":
-      return "pagamento em analise";
+      return "pending_payment";
     case "authorized":
-      return "pagamento autorizado";
+      return "pending_payment";
     case "rejected":
-      return "pagamento recusado";
+      return "failed";
     case "cancelled":
-      return "pagamento cancelado";
+      return "cancelled";
     case "refunded":
-      return "pagamento estornado";
+      return "cancelled";
     case "charged_back":
-      return "pagamento contestado";
+      return "failed";
     default:
-      return detail ? `status ${detail}` : "atualizacao de pagamento";
+      return detail ? "pending_payment" : "draft";
   }
 }
 
