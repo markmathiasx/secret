@@ -15,6 +15,8 @@ export const metadata: Metadata = {
   },
 };
 
+export const revalidate = 300;
+
 type CatalogPageSearchParams = {
   q?: string;
   category?: string;
