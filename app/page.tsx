@@ -8,56 +8,8 @@ import { ProductVisualBadge } from "@/components/product-visual-authenticity";
 import { getProductUrl, type Product } from "@/lib/catalog";
 import { getCatalogSnapshot } from "@/lib/catalog-repository";
 import { isProductRealPhoto, summarizeProductVisuals } from "@/lib/product-visuals";
+import { whatsappNumber, whatsappMessage } from "@/lib/constants";
 import { formatCurrency } from "@/lib/utils";
-
-const faqItems = [
-  {
-    question: "Vocês fazem peças sob encomenda?",
-    answer:
-      "Sim. Você pode enviar STL, imagem, briefing ou referência para receber análise de viabilidade, material e prazo antes do fechamento.",
-  },
-  {
-    question: "Como vocês tratam as imagens da loja?",
-    answer:
-      "A vitrine principal prioriza itens com foto real do objeto fisico. Produtos personalizados ou em fase de curadoria continuam disponiveis, sempre com classificacao visual clara.",
-  },
-  {
-    question: "Qual é o prazo médio?",
-    answer:
-      "Itens mais simples costumam sair em 24 a 48 horas. Peças maiores, pintadas ou personalizadas podem levar de 3 a 10 dias úteis, conforme complexidade.",
-  },
-  {
-    question: "Como funciona o pagamento?",
-    answer:
-      "O site destaca Pix de forma direta e mantém o atendimento por WhatsApp para validação final de cor, escala, prazo e acabamento.",
-  },
-];
-
-const homeSteps = [
-  {
-    title: "Escolha uma peça com foto real",
-    description:
-      "A vitrine destaca itens ja fotografados fisicamente para reduzir duvida logo no primeiro contato.",
-  },
-  {
-    title: "Confirme material, prazo e acabamento",
-    description:
-      "Antes do fechamento, a equipe valida os detalhes de produção para evitar promessa visual errada ou expectativa fora do real.",
-  },
-  {
-    title: "Feche no Pix ou pelo canal combinado",
-    description:
-      "Com o item certo e a referência correta, o cliente entra mais rápido em checkout ou atendimento.",
-  },
-];
-
-type ShowcaseCard = {
-  id: string;
-  label: string;
-  description: string;
-  href: string;
-  product: Product | null;
-};
 
 export default async function HomePage() {
   const catalog = await getCatalogSnapshot();
@@ -66,233 +18,106 @@ export default async function HomePage() {
   const readyRealCount = catalog.filter((product) => product.readyToShip && isProductRealPhoto(product)).length;
   const customizableRealCount = catalog.filter((product) => product.customizable && isProductRealPhoto(product)).length;
 
-  const usedProductIds = new Set<string>();
-  const selectProduct = (predicate: (product: Product) => boolean) => {
-    const item = catalog.find((product) => !usedProductIds.has(product.id) && predicate(product));
-    if (item) usedProductIds.add(item.id);
-    return item ?? null;
-  };
-
-  const smartShowcase: ShowcaseCard[] = [
-    {
-      id: "ready",
-      label: "Pronta para vender",
-      description: "Item com foto real e leitura comercial rápida para anúncio, vitrine e atendimento.",
-      href: "/catalogo?mode=real&status=Pronta%20entrega",
-      product: selectProduct((product) => Boolean(product.readyToShip) && isProductRealPhoto(product)),
-    },
-    {
-      id: "gift",
-      label: "Boa para presente",
-      description: "Peça com apelo visual forte e pouca fricção para quem quer comprar sem briefing longo.",
-      href: "/catalogo?mode=real&intent=Presente",
-      product: selectProduct(
-        (product) =>
-          isProductRealPhoto(product) &&
-          (product.category === "Presentes Criativos" ||
-            product.tags.some((tag) => tag.toLowerCase().includes("presente")))
-      ),
-    },
-    {
-      id: "utility",
-      label: "Boa para utilidade",
-      description: "Peça com foto real e apelo funcional para setup, organização ou uso recorrente.",
-      href: "/catalogo?mode=real&category=Setup%20%26%20Organiza%C3%A7%C3%A3o",
-      product: selectProduct(
-        (product) =>
-          isProductRealPhoto(product) &&
-          (product.category.includes("Setup") || product.category.includes("Utilidade"))
-      ),
-    },
-    {
-      id: "custom",
-      label: "Boa para personalizar",
-      description: "Referência segura para puxar conversa de cor, escala, nome ou adaptação sob medida.",
-      href: "/catalogo?mode=real&custom=1",
-      product: selectProduct((product) => isProductRealPhoto(product) && product.customizable),
-    },
-  ];
-
   return (
     <main>
       <Hero />
 
-      <section id="home-portfolio" className="mx-auto max-w-7xl px-6 py-16">
-        <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
-          <div className="max-w-3xl">
-            <p className="section-kicker">Portfólio com foto real</p>
-            <h2 className="section-title">A vitrine principal prioriza pecas fotografadas de verdade.</h2>
-            <p className="section-copy mt-4">
-              Aqui entram primeiro as pecas com prova visual mais forte. Isso deixa a navegacao mais confiavel para descobrir, comparar e fechar pedido.
-            </p>
-          </div>
+      <section id="home-featured" className="mx-auto max-w-7xl px-6 py-16">
+        <div className="mb-8">
+          <p className="section-kicker">Catálogo com foto real</p>
+          <h2 className="section-title">748 peças em estoque. Acesso rápido aos itens mais confiáveis.</h2>
+          <p className="section-copy mt-4 max-w-3xl">
+            Navegue entre peças com prova visual forte, orçamentos customizados ou busque material específico.
+          </p>
+        </div>
 
-          <div className="grid gap-3 sm:grid-cols-3">
-            {[
-              { label: "Itens com foto real", value: String(visualSummary.fotoReal).padStart(2, "0") },
-              { label: "Pronta entrega com foto real", value: String(readyRealCount).padStart(2, "0") },
-              { label: "Personalizáveis com foto real", value: String(customizableRealCount).padStart(2, "0") },
-            ].map((item) => (
-              <div key={item.label} className="glass-card min-w-[160px] p-5 text-center">
-                <p className="text-xs uppercase tracking-[0.18em] text-white/45">{item.label}</p>
-                <p className="mt-3 text-3xl font-black text-white">{item.value}</p>
-              </div>
-            ))}
-          </div>
+        <div className="grid gap-4 mb-8 sm:grid-cols-3">
+          {[
+            { label: "Foto real", value: String(visualSummary.fotoReal).padStart(2, "0") },
+            { label: "Pronta entrega", value: String(readyRealCount).padStart(2, "0") },
+            { label: "Customizável", value: String(customizableRealCount).padStart(2, "0") },
+          ].map((item) => (
+            <div key={item.label} className="glass-card p-4 text-center">
+              <p className="text-xs uppercase tracking-[0.18em] text-white/45">{item.label}</p>
+              <p className="mt-2 text-2xl font-black text-white">{item.value}</p>
+            </div>
+          ))}
         </div>
 
         <CatalogGrid products={realShowcase} />
 
-        <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <Link href="/catalogo" className="btn-primary px-8 py-4">
+        <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <Link href="/catalogo" className="btn-primary px-8 py-3">
             Ver catálogo completo
           </Link>
-          <Link href="/imagem-para-impressao-3d" className="btn-secondary px-8 py-4">
-            Enviar referência personalizada
+          <Link href="/imagem-para-impressao-3d" className="btn-secondary px-8 py-3">
+            Enviar referência para orçamento
           </Link>
         </div>
       </section>
 
-      <section id="home-smart-picks" className="mx-auto max-w-7xl px-6 py-8">
-        <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
-          <div className="max-w-3xl">
-            <p className="section-kicker">Escolhas rápidas</p>
-            <h2 className="section-title">Pecas reais para abrir a loja com mais seguranca na primeira visita.</h2>
-            <p className="section-copy mt-4">
-              Esta secao corta ruido visual e mostra pecas que sustentam catalogo, anuncio e conversa comercial com mais confianca.
-            </p>
-          </div>
-          <Link href="/catalogo" className="btn-glass">
-            Abrir catálogo completo
-          </Link>
-        </div>
+      <section id="home-paths" className="mx-auto max-w-7xl px-6 py-16">
+        <div className="glass-panel p-8 md:p-10">
+          <p className="section-kicker">Como começar</p>
+          <h2 className="section-title">Três caminhos para encontrar exatamente o que você precisa.</h2>
 
-        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-          {smartShowcase
-            .filter((item) => item.product)
-            .map((item) =>
-              item.product ? (
-                <article key={item.id} className="catalog-product-card rounded-[28px] border border-white/10 bg-card p-5">
-                  <div className="overflow-hidden rounded-[20px] border border-white/10 bg-white/5">
-                    <SafeProductImage
-                      product={item.product}
-                      alt={item.product.name}
-                      className="aspect-square w-full object-cover"
-                    />
-                  </div>
-
-                  <div className="mt-4 flex items-start justify-between gap-3">
-                    <div>
-                      <p className="text-xs uppercase tracking-[0.18em] text-cyan-200/80">{item.label}</p>
-                      <h3 className="mt-2 line-clamp-2 text-lg font-semibold text-white">{item.product.name}</h3>
-                    </div>
-                    <ProductVisualBadge product={item.product} />
-                  </div>
-
-                  <p className="mt-3 text-sm leading-6 text-white/66">{item.description}</p>
-
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    <span className="rounded-full border border-white/10 px-3 py-1 text-xs text-white/60">
-                      {item.product.material}
-                    </span>
-                    <span className="rounded-full border border-white/10 px-3 py-1 text-xs text-white/60">
-                      {item.product.productionWindow}
-                    </span>
-                  </div>
-
-                  <div className="mt-5 flex items-end justify-between gap-3">
-                    <div>
-                      <p className="text-xs text-white/45">Preço Pix</p>
-                      <p className="text-2xl font-black text-white">{formatCurrency(item.product.pricePix)}</p>
-                    </div>
-
-                    <div className="flex flex-col gap-2">
-                      <Link href={getProductUrl(item.product)} className="btn-secondary px-4 py-2 text-sm">
-                        Ver produto
-                      </Link>
-                      <Link href={item.href} className="btn-glass px-4 py-2 text-xs">
-                        Abrir recorte
-                      </Link>
-                    </div>
-                  </div>
-                </article>
-              ) : null
-            )}
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-7xl px-6 py-16">
-        <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr]">
-          <div className="glass-panel p-8">
-            <p className="section-kicker">Como comprar</p>
-            <h2 className="section-title">Fluxo simples para escolher, confirmar e fechar com seguranca.</h2>
-            <div className="mt-8 grid gap-4">
-              {homeSteps.map((step, index) => (
-                <div key={step.title} className="rounded-[24px] border border-white/10 bg-black/20 p-5">
-                  <p className="text-xs uppercase tracking-[0.18em] text-cyan-100/70">Passo {index + 1}</p>
-                  <h3 className="mt-2 text-xl font-bold text-white">{step.title}</h3>
-                  <p className="mt-3 text-sm leading-7 text-white/68">{step.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="glass-panel p-8">
-            <p className="section-kicker">Por que confiar</p>
-            <h2 className="section-title">Menos ambiguidade visual, mais confianca para comprar hoje.</h2>
-            <div className="mt-6 grid gap-4">
-              {[
-                "A home prioriza pecas com foto real.",
-                "O catalogo principal abre completo; filtros de foto real ficam opcionais.",
-                "Imagens conceituais aparecem de forma sinalizada, sem confundir a primeira impressao.",
-                "Novas galerias locais entram no catalogo sem duplicar imagem antiga.",
-              ].map((item) => (
-                <div key={item} className="rounded-[24px] border border-white/10 bg-black/20 p-4 text-sm leading-7 text-white/70">
-                  {item}
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-6 flex flex-wrap gap-3">
-              <Link href="/catalogo" className="btn-primary">
-                Abrir catálogo completo
+          <div className="mt-8 grid gap-5 md:grid-cols-3">
+            <article className="rounded-[24px] border border-white/10 bg-black/20 p-6">
+              <p className="text-3xl font-black text-cyan-300">1</p>
+              <h3 className="mt-3 text-lg font-bold text-white">Browsar o catálogo</h3>
+              <p className="mt-2 text-sm leading-6 text-white/68">
+                748 peças prontas. Filtre por material, preço, disponibilidade ou categoria. Pronto para comprar hoje.
+              </p>
+              <Link href="/catalogo" className="btn-glass mt-4 inline-block px-4 py-2 text-sm">
+                Abrir catálogo
               </Link>
-              <Link href="/checkout" className="btn-secondary">
-                Ir para checkout
+            </article>
+
+            <article className="rounded-[24px] border border-white/10 bg-black/20 p-6">
+              <p className="text-3xl font-black text-emerald-300">2</p>
+              <h3 className="mt-3 text-lg font-bold text-white">Orçar um projeto</h3>
+              <p className="mt-2 text-sm leading-6 text-white/68">
+                Envie uma imagem, STL ou briefing. Receba análise de viabilidade, material e prazo direto no WhatsApp.
+              </p>
+              <Link href="/imagem-para-impressao-3d" className="btn-glass mt-4 inline-block px-4 py-2 text-sm">
+                Abrir orçador
               </Link>
-              <Link href="/imagem-para-impressao-3d" className="btn-glass">
-                Pedir sob medida
-              </Link>
-            </div>
+            </article>
+
+            <article className="rounded-[24px] border border-white/10 bg-black/20 p-6">
+              <p className="text-3xl font-black text-rose-300">3</p>
+              <h3 className="mt-3 text-lg font-bold text-white">Falar com atendimento</h3>
+              <p className="mt-2 text-sm leading-6 text-white/68">
+                Dúvidas sobre material, prazo ou customização? Tire dúvidas direto pelo WhatsApp. Resposta em até 2h.
+              </p>
+              <a href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`} className="btn-glass mt-4 inline-block px-4 py-2 text-sm">
+                WhatsApp
+              </a>
+            </article>
           </div>
         </div>
       </section>
 
-      <section id="home-upload" className="bg-gradient-to-b from-black to-slate-950/20 py-4">
+      <section id="home-upload" className="bg-gradient-to-b from-black to-slate-950/20 py-6">
         <STLUploader />
       </section>
 
       <TrustSignals />
 
-      <section id="home-faq" className="mx-auto max-w-6xl px-6 py-16">
-        <div className="glass-panel p-8 md:p-10">
-          <div className="grid gap-8 lg:grid-cols-[0.92fr_1.08fr]">
-            <div>
-              <p className="section-kicker">Perguntas frequentes</p>
-              <h2 className="section-title">Respostas curtas para o cliente avancar sem ruido.</h2>
-              <p className="section-copy mt-4">
-                O foco aqui e reduzir atrito visual e comercial para deixar a compra mais clara do primeiro clique ao checkout.
-              </p>
-            </div>
-
-            <div className="grid gap-4">
-              {faqItems.map((item) => (
-                <article key={item.question} className="rounded-[24px] border border-white/10 bg-black/20 p-5">
-                  <h3 className="text-lg font-bold text-white">{item.question}</h3>
-                  <p className="mt-3 text-sm leading-7 text-white/68">{item.answer}</p>
-                </article>
-              ))}
-            </div>
+      <section id="home-cta-final" className="mx-auto max-w-7xl px-6 py-16">
+        <div className="glass-panel p-8 md:p-10 text-center">
+          <p className="section-kicker">Pronto para começar?</p>
+          <h2 className="section-title">Escolha seu caminho: catálogo, orçamento ou conversa direta.</h2>
+          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <Link href="/catalogo" className="btn-primary px-8 py-3">
+              Navegar catálogo
+            </Link>
+            <Link href="/imagem-para-impressao-3d" className="btn-secondary px-8 py-3">
+              Enviar projeto
+            </Link>
+            <a href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`} className="btn-glass px-8 py-3">
+              Falar por WhatsApp
+            </a>
           </div>
         </div>
       </section>

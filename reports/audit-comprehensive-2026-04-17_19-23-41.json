@@ -1,0 +1,227 @@
+{
+  "environment": "Local",
+  "totalTests": 31,
+  "passedTests": 31,
+  "tests": [
+    {
+      "ok": true,
+      "statusCode": "200",
+      "timestamp": "2026-04-17 19:23:23",
+      "url": "http://localhost:3000/",
+      "route": "/"
+    },
+    {
+      "ok": true,
+      "statusCode": "200",
+      "timestamp": "2026-04-17 19:23:24",
+      "url": "http://localhost:3000/catalogo",
+      "route": "/catalogo"
+    },
+    {
+      "ok": true,
+      "statusCode": "200",
+      "timestamp": "2026-04-17 19:23:25",
+      "url": "http://localhost:3000/checkout",
+      "route": "/checkout"
+    },
+    {
+      "ok": true,
+      "statusCode": "200",
+      "timestamp": "2026-04-17 19:23:25",
+      "url": "http://localhost:3000/conta",
+      "route": "/conta"
+    },
+    {
+      "ok": true,
+      "statusCode": "200",
+      "timestamp": "2026-04-17 19:23:26",
+      "url": "http://localhost:3000/presentes-3d",
+      "route": "/presentes-3d"
+    },
+    {
+      "ok": true,
+      "statusCode": "200",
+      "timestamp": "2026-04-17 19:23:27",
+      "url": "http://localhost:3000/imagem-para-impressao-3d",
+      "route": "/imagem-para-impressao-3d"
+    },
+    {
+      "ok": true,
+      "statusCode": "200",
+      "timestamp": "2026-04-17 19:23:27",
+      "url": "http://localhost:3000/faq",
+      "route": "/faq"
+    },
+    {
+      "ok": true,
+      "statusCode": "200",
+      "timestamp": "2026-04-17 19:23:28",
+      "url": "http://localhost:3000/entregas",
+      "route": "/entregas"
+    },
+    {
+      "ok": true,
+      "statusCode": "200",
+      "timestamp": "2026-04-17 19:23:29",
+      "url": "http://localhost:3000/brindes-personalizados-3d",
+      "route": "/brindes-personalizados-3d"
+    },
+    {
+      "ok": true,
+      "statusCode": "200",
+      "timestamp": "2026-04-17 19:23:30",
+      "url": "http://localhost:3000/colecionaveis-geek-3d",
+      "route": "/colecionaveis-geek-3d"
+    },
+    {
+      "ok": true,
+      "statusCode": "200",
+      "timestamp": "2026-04-17 19:23:31",
+      "url": "http://localhost:3000/decoracao-3d-para-casa",
+      "route": "/decoracao-3d-para-casa"
+    },
+    {
+      "ok": true,
+      "statusCode": "200",
+      "timestamp": "2026-04-17 19:23:32",
+      "url": "http://localhost:3000/setup-e-organizacao-3d",
+      "route": "/setup-e-organizacao-3d"
+    },
+    {
+      "ok": true,
+      "statusCode": "200",
+      "timestamp": "2026-04-17 19:23:33",
+      "url": "http://localhost:3000/login",
+      "route": "/login"
+    },
+    {
+      "ok": true,
+      "statusCode": "200",
+      "timestamp": "2026-04-17 19:23:33",
+      "url": "http://localhost:3000/recuperar-senha",
+      "route": "/recuperar-senha"
+    },
+    {
+      "ok": true,
+      "statusCode": "200",
+      "timestamp": "2026-04-17 19:23:34",
+      "url": "http://localhost:3000/politica-de-privacidade",
+      "route": "/politica-de-privacidade"
+    },
+    {
+      "ok": true,
+      "statusCode": "200",
+      "timestamp": "2026-04-17 19:23:35",
+      "url": "http://localhost:3000/trocas-e-devolucoes",
+      "route": "/trocas-e-devolucoes"
+    },
+    {
+      "ok": true,
+      "statusCode": "200",
+      "timestamp": "2026-04-17 19:23:36",
+      "url": "http://localhost:3000/catalogo/real-001-grinder-3-partes-premium",
+      "route": "/catalogo/real-001-grinder-3-partes-premium"
+    },
+    {
+      "ok": true,
+      "statusCode": "200",
+      "timestamp": "2026-04-17 19:23:36",
+      "url": "http://localhost:3000/catalogo/real-002-porta-creme-dental-de-bancada",
+      "route": "/catalogo/real-002-porta-creme-dental-de-bancada"
+    },
+    {
+      "ok": true,
+      "statusCode": "200",
+      "timestamp": "2026-04-17 19:23:37",
+      "url": "http://localhost:3000/catalogo/real-003-demogorgon-decorativo-premium",
+      "route": "/catalogo/real-003-demogorgon-decorativo-premium"
+    },
+    {
+      "ok": true,
+      "statusCode": "200",
+      "timestamp": "2026-04-17 19:23:37",
+      "url": "http://localhost:3000/catalogo/real-004-pote-decorativo-ondulado",
+      "route": "/catalogo/real-004-pote-decorativo-ondulado"
+    },
+    {
+      "ok": true,
+      "statusCode": "200",
+      "timestamp": "2026-04-17 19:23:37",
+      "url": "http://localhost:3000/catalogo/real-005-base-fone-premium",
+      "route": "/catalogo/real-005-base-fone-premium"
+    },
+    {
+      "ok": true,
+      "statusCode": "200",
+      "timestamp": "2026-04-17 19:23:38",
+      "url": "http://localhost:3000/catalogo/real-006-botao-grande-customizavel",
+      "route": "/catalogo/real-006-botao-grande-customizavel"
+    },
+    {
+      "ok": true,
+      "statusCode": "200",
+      "timestamp": "2026-04-17 19:23:38",
+      "url": "http://localhost:3000/catalogo/real-007-dado-multifacetado-gamer",
+      "route": "/catalogo/real-007-dado-multifacetado-gamer"
+    },
+    {
+      "ok": true,
+      "statusCode": "200",
+      "timestamp": "2026-04-17 19:23:38",
+      "url": "http://localhost:3000/catalogo/real-008-mancala-3d-completo",
+      "route": "/catalogo/real-008-mancala-3d-completo"
+    },
+    {
+      "ok": true,
+      "statusCode": "200",
+      "timestamp": "2026-04-17 19:23:38",
+      "url": "http://localhost:3000/catalogo/real-009-miniaturas-geek-sortidas",
+      "route": "/catalogo/real-009-miniaturas-geek-sortidas"
+    },
+    {
+      "ok": true,
+      "statusCode": "200",
+      "timestamp": "2026-04-17 19:23:39",
+      "url": "http://localhost:3000/catalogo/real-010-suporte-articulado-fone",
+      "route": "/catalogo/real-010-suporte-articulado-fone"
+    },
+    {
+      "ok": true,
+      "statusCode": "200",
+      "timestamp": "2026-04-17 19:23:39",
+      "url": "http://localhost:3000/api/health",
+      "route": "/api/health"
+    },
+    {
+      "ok": true,
+      "statusCode": "200",
+      "timestamp": "2026-04-17 19:23:40",
+      "url": "http://localhost:3000/api/catalog",
+      "route": "/api/catalog"
+    },
+    {
+      "ok": true,
+      "statusCode": "200",
+      "timestamp": "2026-04-17 19:23:40",
+      "url": "http://localhost:3000/api/catalog/health",
+      "route": "/api/catalog/health"
+    },
+    {
+      "ok": true,
+      "statusCode": "200",
+      "timestamp": "2026-04-17 19:23:41",
+      "url": "http://localhost:3000/api/catalog/search",
+      "route": "/api/catalog/search"
+    },
+    {
+      "ok": true,
+      "statusCode": "200",
+      "timestamp": "2026-04-17 19:23:41",
+      "url": "http://localhost:3000/api/catalog/recommendations",
+      "route": "/api/catalog/recommendations"
+    }
+  ],
+  "timestamp": "2026-04-17 19:23:41",
+  "passPercentage": 100.0,
+  "failedTests": 0
+}
