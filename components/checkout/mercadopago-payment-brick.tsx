@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { AlertTriangle, Loader2 } from "lucide-react";
 import { getMercadoPagoPublicKey } from "@/lib/env";
 import { logStructured } from "@/lib/logger";
@@ -80,8 +80,11 @@ export function MercadoPagoPaymentBrick({
   onResult: (result: BrickSubmitResult) => void;
 }) {
   const [retryCount, setRetryCount] = useState(0);
-  const containerId = useMemo(() => `mp-card-payment-brick-${retryCount}-${Math.random().toString(36).slice(2)}`, [retryCount]);
+  const reactId = useId();
+  const containerId = useMemo(() => `mp-card-payment-brick-${reactId.replace(/:/g, "")}-${retryCount}`, [reactId, retryCount]);
   const brickRef = useRef<{ unmount?: () => void } | null>(null);
+  const checkoutPayloadRef = useRef(checkoutPayload);
+  const onResultRef = useRef(onResult);
   const [sdkReady, setSdkReady] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -103,6 +106,14 @@ export function MercadoPagoPaymentBrick({
         : {},
     [paymentMethod]
   );
+
+  useEffect(() => {
+    checkoutPayloadRef.current = checkoutPayload;
+  }, [checkoutPayload]);
+
+  useEffect(() => {
+    onResultRef.current = onResult;
+  }, [onResult]);
 
   useEffect(() => {
     let cancelled = false;
@@ -134,6 +145,12 @@ export function MercadoPagoPaymentBrick({
         const mp = new win.MercadoPago(getMercadoPagoPublicKey(), { locale: "pt-BR" });
         const bricksBuilder = mp.bricks();
 
+        logStructured("info", "mercadopago_brick_mount_start", {
+          paymentMethod,
+          amount,
+          containerId,
+        });
+
         const controller = await bricksBuilder.create(brickType, containerId, {
           initialization: {
             amount,
@@ -159,7 +176,7 @@ export function MercadoPagoPaymentBrick({
                   method: "POST",
                   headers: { "Content-Type": "application/json" },
                   body: JSON.stringify({
-                    ...checkoutPayload,
+                    ...checkoutPayloadRef.current,
                     mpPaymentData: formData,
                     paymentMethod,
                   }),
@@ -171,7 +188,7 @@ export function MercadoPagoPaymentBrick({
                   throw new Error(String(data?.message || "Falha ao criar pagamento."));
                 }
 
-                onResult({
+                onResultRef.current({
                   ok: true,
                   orderCode: data?.orderCode || null,
                   paymentId: data?.paymentId || null,
@@ -189,7 +206,7 @@ export function MercadoPagoPaymentBrick({
                   paymentMethod,
                   message,
                 });
-                onResult({
+                onResultRef.current({
                   ok: false,
                   message,
                 });
@@ -210,6 +227,11 @@ export function MercadoPagoPaymentBrick({
         });
 
         brickRef.current = controller || null;
+        logStructured("info", "mercadopago_brick_mount_ready", {
+          paymentMethod,
+          amount,
+          containerId,
+        });
       } catch (brickError) {
         const message = brickError instanceof Error ? brickError.message : "Falha ao inicializar o pagamento.";
         setError(message);
@@ -230,7 +252,7 @@ export function MercadoPagoPaymentBrick({
       brickRef.current?.unmount?.();
       brickRef.current = null;
     };
-  }, [amount, brickType, checkoutPayload, containerId, customization, paymentMethod, payerEmail, payerName, onResult, retryCount]);
+  }, [amount, brickType, containerId, customization, paymentMethod, payerEmail, payerName, retryCount]);
 
   if (!publicKeyReady) {
     return (

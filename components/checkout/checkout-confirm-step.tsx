@@ -1,6 +1,7 @@
 "use client";
 
 import { MessageCircleMore } from "lucide-react";
+import { GuaranteeBar } from "@/components/guarantee-bar";
 import { formatCep } from "@/lib/shipping";
 import { formatCurrency } from "@/lib/utils";
 
@@ -47,6 +48,16 @@ export function CheckoutConfirmStep({
 }) {
   return (
     <div className="mt-6 space-y-5">
+      <div className="rounded-[24px] border border-white/10 bg-white/5 p-4">
+        <p className="text-xs uppercase tracking-[0.18em] text-white/50">Compra protegida</p>
+        <p className="mt-2 text-sm leading-7 text-white/68">
+          O fechamento segue com produção local, suporte humano e troca clara em caso de problema. Pix continua disponível e o cartão segue pela rota segura.
+        </p>
+        <div className="mt-4">
+          <GuaranteeBar />
+        </div>
+      </div>
+
       <div className="rounded-[24px] border border-white/10 bg-white/5 p-4">
         <p className="text-xs uppercase tracking-[0.18em] text-white/50">Resumo final</p>
         <div className="mt-4 grid gap-4 md:grid-cols-2">

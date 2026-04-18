@@ -16,7 +16,6 @@ import { DeliveryCalculator } from '@/components/delivery-calculator';
 import { QuoteForm } from '@/components/quote-form';
 import { GuaranteeBar } from '@/components/guarantee-bar';
 import { ProductSocialProof } from '@/components/product-social-proof';
-import { RecentPurchaseToast } from '@/components/recent-purchase-toast';
 import { StickyPdpCta } from '@/components/sticky-pdp-cta';
 import { ProductBundleSuggestion } from '@/components/product-bundle-suggestion';
 import { RecentlyViewedShelf } from '@/components/recently-viewed-shelf';
@@ -434,7 +433,6 @@ export default async function ProductPage({
         checkoutHref={`/checkout?product=${product.id}`}
       />
 
-      <RecentPurchaseToast productName={product.name} />
     </section>
     </>
   );

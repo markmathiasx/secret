@@ -14,6 +14,7 @@ import { formatCurrency } from "@/lib/utils";
 
 export default async function HomePage() {
   const catalog = await getCatalogSnapshot();
+  const catalogCount = catalog.length;
   const visualSummary = summarizeProductVisuals(catalog);
   const realShowcase = catalog.filter((product) => isProductRealPhoto(product)).slice(0, 4);
   const readyRealCount = catalog.filter((product) => product.readyToShip && isProductRealPhoto(product)).length;
@@ -27,7 +28,7 @@ export default async function HomePage() {
         <div className="mx-auto max-w-7xl px-6">
           <div className="flex flex-wrap items-center justify-center gap-8 text-center">
             {[
-              { value: "748", label: "peças no catálogo" },
+              { value: catalogCount.toLocaleString("pt-BR"), label: "peças no catálogo" },
               { value: "4.9★", label: "avaliação média" },
               { value: "2-5 dias", label: "prazo de entrega" },
               { value: "Rio de Janeiro", label: "produção local" },
@@ -44,7 +45,7 @@ export default async function HomePage() {
       <section id="home-featured" className="mx-auto max-w-7xl px-6 py-16">
         <div className="mb-8">
           <p className="section-kicker">Catálogo com foto real</p>
-          <h2 className="section-title">748 peças em estoque. Acesso rápido aos itens mais confiáveis.</h2>
+          <h2 className="section-title">{catalogCount.toLocaleString("pt-BR")} peças em estoque. Acesso rápido aos itens mais confiáveis.</h2>
           <p className="section-copy mt-4 max-w-3xl">
             Navegue entre peças com prova visual forte, orçamentos customizados ou busque material específico.
           </p>
@@ -117,7 +118,7 @@ export default async function HomePage() {
               <p className="text-3xl font-black text-cyan-300">1</p>
               <h3 className="mt-3 text-lg font-bold text-white">Browsar o catálogo</h3>
               <p className="mt-2 text-sm leading-6 text-white/68">
-                748 peças prontas. Filtre por material, preço, disponibilidade ou categoria. Pronto para comprar hoje.
+                {catalogCount.toLocaleString("pt-BR")} peças prontas. Filtre por material, preço, disponibilidade ou categoria. Pronto para comprar hoje.
               </p>
               <Link href="/catalogo" className="btn-glass mt-4 inline-block px-4 py-2 text-sm">
                 Abrir catálogo
