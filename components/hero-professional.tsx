@@ -88,6 +88,14 @@ export function Hero() {
             A MDH 3D reúne presentes criativos, peças geek, utilidades e projetos personalizados com catálogo claro, prova visual real e atendimento direto para fechar o pedido sem ruído.
           </p>
 
+          <div className="mt-5 flex flex-wrap gap-2">
+            {["Foto real", "Produção local RJ", "Pix visível", "Suporte humano"].map((item) => (
+              <span key={item} className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/72">
+                {item}
+              </span>
+            ))}
+          </div>
+
           <div className="mt-8 grid gap-3 md:max-w-2xl">
             {highlights.map((item) => (
               <div
@@ -100,7 +108,7 @@ export function Hero() {
             ))}
           </div>
 
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
             <Link href="/catalogo" className="btn-primary gap-2">
               Explorar catálogo
               <ArrowRight className="h-4 w-4" />
@@ -136,7 +144,7 @@ export function Hero() {
           ) : null}
         </div>
 
-        <div className="glass-panel relative overflow-hidden border-white/12 p-6 md:p-7">
+        <div className="glass-panel relative overflow-hidden border-white/12 p-6 md:p-7 lg:translate-y-2">
           <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-200/70 to-transparent" />
           <p className="text-xs uppercase tracking-[0.22em] text-cyan-100/78">Destaques comerciais</p>
           <h2 className="mt-3 text-3xl font-black text-white">

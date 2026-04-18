@@ -277,10 +277,13 @@ p {
 
 .section-title {
   @apply text-4xl md:text-5xl font-black text-white mb-4 leading-tight;
+  text-wrap: balance;
+  max-width: 16ch;
 }
 
 .section-copy {
   @apply text-lg text-white/70 leading-relaxed;
+  max-width: 65ch;
 }
 
 /* Glass Morphism */
@@ -359,7 +362,7 @@ p {
 
 /* Buttons */
 .btn-primary {
-  @apply inline-flex items-center justify-center px-6 py-3 sm:py-3 md:py-3 bg-gradient-to-r from-cyan-glow to-cyan-glow/80 text-black font-bold rounded-xl shadow-glow-cyan hover:shadow-glow-cyan transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-cyan-glow focus:ring-offset-2 focus:ring-offset-base;
+  @apply inline-flex items-center justify-center px-6 py-3 sm:py-3 md:py-3 bg-gradient-to-r from-cyan-glow to-cyan-glow/80 text-black font-bold rounded-[1.1rem] shadow-glow-cyan hover:shadow-glow-cyan transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-cyan-glow focus:ring-offset-2 focus:ring-offset-base;
   position: relative;
   overflow: hidden;
   min-height: 48px;
@@ -370,7 +373,7 @@ p {
 }
 
 .btn-whatsapp {
-  @apply inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-whatsapp-green to-green-500 text-white font-bold rounded-xl shadow-glow-green hover:shadow-glow-green transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-whatsapp-green focus:ring-offset-2 focus:ring-offset-base;
+  @apply inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-whatsapp-green to-green-500 text-white font-bold rounded-[1.1rem] shadow-glow-green hover:shadow-glow-green transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-whatsapp-green focus:ring-offset-2 focus:ring-offset-base;
   position: relative;
   overflow: hidden;
   min-height: 48px;
@@ -381,7 +384,7 @@ p {
 }
 
 .btn-secondary {
-  @apply inline-flex items-center justify-center px-6 py-3 bg-white/10 backdrop-blur-sm border border-white/20 text-white font-semibold rounded-xl hover:bg-white/20 transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-base;
+  @apply inline-flex items-center justify-center px-6 py-3 bg-white/10 backdrop-blur-sm border border-white/20 text-white font-semibold rounded-[1.1rem] hover:bg-white/20 transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-base;
   position: relative;
   overflow: hidden;
   min-height: 48px;
@@ -404,13 +407,13 @@ p {
 }
 
 .btn-zap {
-  @apply inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-whatsapp-green to-green-500 px-5 py-3 text-sm font-bold text-white shadow-glow-green;
+  @apply inline-flex items-center justify-center rounded-[1.1rem] bg-gradient-to-r from-whatsapp-green to-green-500 px-5 py-3 text-sm font-bold text-white shadow-glow-green;
   position: relative;
   overflow: hidden;
 }
 
 .btn-glass {
-  @apply inline-flex items-center justify-center rounded-xl border border-white/15 bg-white/10 px-5 py-3 text-sm font-semibold text-white backdrop-blur-sm;
+  @apply inline-flex items-center justify-center rounded-[1.1rem] border border-white/15 bg-white/10 px-5 py-3 text-sm font-semibold text-white backdrop-blur-sm;
   position: relative;
   overflow: hidden;
   min-height: 48px;
@@ -426,7 +429,7 @@ p {
 }
 
 .btn-ghost-sm {
-  @apply inline-flex items-center justify-center px-4 py-2 text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/50;
+  @apply inline-flex items-center justify-center px-4 py-2 text-white/70 hover:text-white hover:bg-white/10 rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/50;
   border: 1px solid rgba(255, 255, 255, 0.1);
   background: rgba(255, 255, 255, 0.04);
   min-height: 44px;
@@ -511,7 +514,7 @@ p {
 
 /* Form Fields */
 .field-base {
-  @apply w-full px-4 py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-cyan-glow focus:border-cyan-glow transition-all duration-200 backdrop-blur-sm;
+  @apply w-full px-4 py-3 bg-white/5 border border-white/20 rounded-[1.05rem] text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-cyan-glow focus:border-cyan-glow transition-all duration-200 backdrop-blur-sm;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.03)),
     rgba(255, 255, 255, 0.04);
@@ -525,6 +528,15 @@ p {
     0 0 0 1px rgba(3, 233, 244, 0.2),
     0 0 22px rgba(3, 233, 244, 0.14),
     inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.field-base:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.field-base::placeholder {
+  color: rgba(255, 255, 255, 0.38);
 }
 
 .field-base,
@@ -547,6 +559,9 @@ input.field-base {
 
 .catalog-product-card {
   scroll-margin-top: 8rem;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 /* Cards */
@@ -696,6 +711,23 @@ input.field-base {
     0 18px 34px rgba(2, 8, 23, 0.22),
     0 0 18px rgba(3, 233, 244, 0.16),
     0 0 24px rgba(123, 44, 191, 0.14);
+}
+
+.checkout-stepper-track {
+  position: relative;
+  overflow: hidden;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.checkout-stepper-track::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(3, 233, 244, 0.18), rgba(123, 44, 191, 0.14), rgba(37, 211, 102, 0.12));
+  transform-origin: left;
+  transform: scaleX(var(--checkout-progress, 0));
 }
 
 .tab-button {

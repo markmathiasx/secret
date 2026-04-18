@@ -28,18 +28,24 @@ export function ProductPriceStack({
   showInstallments?: boolean;
 }) {
   const referencePrice = getReferencePrice(product);
+  const savings = Math.max(0, referencePrice - product.pricePix);
 
   return (
     <div className="space-y-2">
       <p className="text-xs uppercase tracking-[0.16em] text-white/45">{label}</p>
       <div className="flex flex-wrap items-end gap-3">
-        <span className="text-sm font-medium text-white/35 line-through">
+        <span className="text-sm font-medium text-white/30 line-through">
           {formatCurrency(referencePrice)}
         </span>
-        <span className={compact ? "text-xl font-black text-white" : "text-3xl font-black text-white"}>
+        <span className={compact ? "text-[1.55rem] font-black leading-none text-white" : "text-3xl font-black leading-none text-white"}>
           {formatCurrency(product.pricePix)}
         </span>
       </div>
+      {savings > 0 ? (
+        <div className="inline-flex items-center gap-2 rounded-full border border-emerald-300/20 bg-emerald-300/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-emerald-100">
+          Economia no Pix {formatCurrency(savings)}
+        </div>
+      ) : null}
       {showInstallments ? (
         <p className="text-xs text-white/55">12x de {formatCurrency(product.priceCard / 12)} no cartão</p>
       ) : null}

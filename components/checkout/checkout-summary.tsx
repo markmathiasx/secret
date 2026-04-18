@@ -75,7 +75,7 @@ export function CheckoutSummary({
           Endereço, envio, pagamento e confirmação. O fluxo continua compatível com Pix e cartão, mas agora com resumo mais completo e endereço salvo para quem tem conta.
         </p>
 
-        <div className="mt-6 grid gap-3 sm:grid-cols-4">
+        <div className="mt-6 grid gap-3 grid-cols-2 lg:grid-cols-4">
           {orderChecklist.map((item) => (
             <div key={item.label} className="surface-stat rounded-[18px] px-4 py-4">
               <div className="flex items-center gap-2">
@@ -108,7 +108,7 @@ export function CheckoutSummary({
                   <span className="glass-chip">{product.category}</span>
                   <ProductVisualBadge product={product as Product} />
                 </div>
-                <h2 className="text-2xl font-bold text-white">{product.name}</h2>
+                <h2 className="text-2xl font-bold tracking-tight text-white">{product.name}</h2>
                 <p className="mt-2 text-sm leading-7 text-white/65">{product.description}</p>
                 <div className="mt-4 max-w-sm">
                   <ProductPriceStack product={product as Product} compact />

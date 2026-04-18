@@ -168,11 +168,11 @@ export function FormProvider({
     >
       <form onSubmit={handleSubmit} className="space-y-6">
         {children}
-        <div className="flex justify-end gap-4">
+        <div className="flex flex-wrap justify-end gap-4">
           <button
             type="button"
             onClick={reset}
-            className="px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors"
+            className="btn-ghost-sm px-4 py-2"
             disabled={isSubmitting}
           >
             Limpar
@@ -180,7 +180,7 @@ export function FormProvider({
           <button
             type="submit"
             disabled={isSubmitting}
-            className="px-6 py-2 bg-cyan-glow text-black font-semibold rounded-lg hover:bg-cyan-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="btn-primary px-6 py-2 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isSubmitting ? 'Enviando...' : 'Enviar'}
           </button>
@@ -208,14 +208,7 @@ export function FormField({ config }: { config: FieldConfig }) {
     setTouched(config.name);
   };
 
-  const inputClasses = `
-    w-full px-3 py-2 border rounded-lg transition-colors
-    ${hasError
-      ? 'border-red-300 focus:border-red-500 focus:ring-red-200'
-      : 'border-gray-300 focus:border-cyan-glow focus:ring-cyan-200'
-    }
-    focus:outline-none focus:ring-2
-  `;
+  const inputClasses = `field-base ${hasError ? 'border-red-300/40 focus:border-red-300 focus:ring-red-300/25' : ''}`;
 
   const renderInput = () => {
     switch (config.type) {
@@ -228,7 +221,7 @@ export function FormField({ config }: { config: FieldConfig }) {
             onChange={handleChange}
             onBlur={handleBlur}
             placeholder={config.placeholder}
-            className={`${inputClasses} min-h-[100px] resize-vertical`}
+            className={`${inputClasses} min-h-[120px] resize-y`}
             required={config.validation?.required}
           />
         );
@@ -263,9 +256,9 @@ export function FormField({ config }: { config: FieldConfig }) {
               checked={value}
               onChange={handleChange}
               onBlur={handleBlur}
-              className="w-4 h-4 text-cyan-glow border-gray-300 rounded focus:ring-cyan-200"
+              className="h-4 w-4 rounded border-white/25 text-cyan-glow focus:ring-cyan-200"
             />
-            <span className="text-sm text-gray-700">{config.label}</span>
+            <span className="text-sm text-white/78">{config.label}</span>
           </label>
         );
 
@@ -287,7 +280,7 @@ export function FormField({ config }: { config: FieldConfig }) {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-white/45 hover:text-white"
                 aria-label={showPassword ? 'Ocultar senha' : 'Mostrar senha'}
               >
                 {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -303,7 +296,7 @@ export function FormField({ config }: { config: FieldConfig }) {
       <div className="space-y-1">
         {renderInput()}
         {hasError && (
-          <div className="flex items-center gap-1 text-red-600 text-sm">
+          <div className="flex items-center gap-1 text-sm text-rose-200">
             <AlertCircle className="h-4 w-4" />
             {error}
           </div>
@@ -314,19 +307,19 @@ export function FormField({ config }: { config: FieldConfig }) {
 
   return (
     <div className="space-y-1">
-      <label htmlFor={config.name} className="block text-sm font-medium text-gray-700">
+      <label htmlFor={config.name} className="block text-sm font-medium text-white/78">
         {config.label}
-        {config.validation?.required && <span className="text-red-500 ml-1">*</span>}
+        {config.validation?.required && <span className="ml-1 text-rose-300">*</span>}
       </label>
       {renderInput()}
       {hasError && (
-        <div className="flex items-center gap-1 text-red-600 text-sm">
+        <div className="flex items-center gap-1 text-sm text-rose-200">
           <AlertCircle className="h-4 w-4" />
           {error}
         </div>
       )}
       {!hasError && isTouched && value && (
-        <div className="flex items-center gap-1 text-green-600 text-sm">
+        <div className="flex items-center gap-1 text-sm text-emerald-200">
           <CheckCircle className="h-4 w-4" />
           Válido
         </div>
