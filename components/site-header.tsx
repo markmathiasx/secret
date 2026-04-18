@@ -23,6 +23,7 @@ import {
 import { brand, socialLinks, whatsappNumber } from "@/lib/constants";
 import { emitCustomerAuthChange, useCustomerSession } from "@/lib/customer-session-client";
 import { cartChangeEvent, getLocalCartCount, readLocalCart } from "@/lib/cart-store";
+import { useCart } from "@/lib/cart-context";
 import { CommerceAssistantDialog } from "@/components/commerce-assistant-dialog";
 import { HeaderCommandPalette } from "@/components/header-command-palette";
 
@@ -62,6 +63,7 @@ export function SiteHeader({
 }) {
   const pathname = usePathname();
   const session = useCustomerSession();
+  const { openDrawer } = useCart();
   const [assistantOpen, setAssistantOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [cartCount, setCartCount] = useState(0);
@@ -200,13 +202,13 @@ export function SiteHeader({
               <ShoppingBag className="h-4 w-4" />
               Fechar pedido
             </Link>
-            <Link href={cartHref} className="btn-glass gap-2 px-4 py-3">
+            <button type="button" onClick={openDrawer} className="btn-glass gap-2 px-4 py-3">
               <ShoppingCart className="h-4 w-4" />
               Carrinho
               <span className="rounded-full border border-white/10 bg-black/25 px-2 py-0.5 text-[11px] text-white/80">
                 {cartCount}
               </span>
-            </Link>
+            </button>
           </div>
 
           <div className="flex items-center gap-2 lg:hidden">
@@ -312,10 +314,10 @@ export function SiteHeader({
                   <ShoppingBag className="mr-2 h-4 w-4" />
                   Fechar pedido
                 </Link>
-                <Link href={cartHref} className="btn-glass justify-center">
+                <button type="button" onClick={openDrawer} className="btn-glass justify-center">
                   <ShoppingCart className="mr-2 h-4 w-4" />
                   Carrinho ({cartCount})
-                </Link>
+                </button>
                 {session.loggedIn ? (
                   <button type="button" onClick={signOut} className="btn-glass justify-center">
                     <LogOut className="mr-2 h-4 w-4" />

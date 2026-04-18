@@ -88,6 +88,8 @@ export function HeaderCommandPalette() {
   const [query, setQuery] = useState("");
   const [recentIds, setRecentIds] = useState<string[]>([]);
   const [favoriteIds, setFavoriteIds] = useState<string[]>([]);
+  const [apiResults, setApiResults] = useState<PaletteEntry[]>([]);
+  const [apiLoading, setApiLoading] = useState(false);
 
   useEffect(() => {
     function handleKeydown(event: KeyboardEvent) {
@@ -128,6 +130,46 @@ export function HeaderCommandPalette() {
     const memberKey = getMemberKey({ id: session.user?.id, email: session.user?.email });
     setFavoriteIds(listFavorites(memberKey));
   }, [open, session.user?.email, session.user?.id]);
+
+  useEffect(() => {
+    const normalized = query.trim();
+    if (normalized.length < 3) {
+      setApiResults([]);
+      return;
+    }
+    const controller = new AbortController();
+    const timer = setTimeout(() => {
+      setApiLoading(true);
+      fetch(`/api/catalog/search?q=${encodeURIComponent(normalized)}&limit=8`, { signal: controller.signal })
+        .then((r) => r.json())
+        .then((data) => {
+          const results = (data.products || data.items || []) as Array<{
+            id?: string;
+            slug?: string;
+            sku?: string;
+            name?: string;
+            category?: string;
+            pricePix?: number;
+          }>;
+          setApiResults(
+            results.map((p) => ({
+              id: `api-${p.id || p.sku}`,
+              label: p.name || p.sku || "",
+              href: `/catalogo/${p.slug || p.id}`,
+              note: `${p.category || ""} • busca ao vivo`,
+              group: "Resultados",
+              icon: "product" as const,
+            }))
+          );
+        })
+        .catch(() => {})
+        .finally(() => setApiLoading(false));
+    }, 300);
+    return () => {
+      clearTimeout(timer);
+      controller.abort();
+    };
+  }, [query]);
 
   const entries = useMemo(() => {
     const routeEntries = [
@@ -190,9 +232,16 @@ export function HeaderCommandPalette() {
 
   const filtered = useMemo(() => {
     const normalized = query.trim().toLowerCase();
+    if (normalized.length >= 3 && apiResults.length > 0) {
+      const localFiltered = entries.filter((entry) =>
+        `${entry.label} ${entry.note} ${entry.group}`.toLowerCase().includes(normalized)
+      );
+      const apiIds = new Set(apiResults.map((r) => r.id));
+      return [...apiResults, ...localFiltered.filter((e) => !apiIds.has(e.id))];
+    }
     if (!normalized) return entries;
     return entries.filter((entry) => `${entry.label} ${entry.note} ${entry.group}`.toLowerCase().includes(normalized));
-  }, [entries, query]);
+  }, [entries, query, apiResults]);
 
   const grouped = useMemo(() => {
     return filtered.reduce<Record<string, PaletteEntry[]>>((acc, entry) => {
@@ -227,6 +276,9 @@ export function HeaderCommandPalette() {
                 placeholder="Busque produto, entrada de compra, checkout, entrega, STL..."
                 className="w-full bg-transparent text-base text-white outline-none placeholder:text-white/35"
               />
+              {apiLoading && (
+                <span className="text-xs text-cyan-100/60 animate-pulse">buscando...</span>
+              )}
               <span className="inline-flex items-center gap-1 rounded-full border border-white/10 bg-black/20 px-3 py-1 text-[11px] uppercase tracking-[0.16em] text-white/50">
                 <Command className="h-3.5 w-3.5" />
                 esc fecha

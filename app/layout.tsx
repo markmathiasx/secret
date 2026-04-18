@@ -1,10 +1,14 @@
 import type { Metadata, Viewport } from 'next';
 import Script from 'next/script';
+import { Suspense } from 'react';
 import { Manrope, Space_Grotesk } from 'next/font/google';
 import './globals.css';
 import { AccessibilityProvider, SkipLink } from '@/components/accessibility';
+import { CartDrawer } from '@/components/cart-drawer';
 import { CartSessionBridge } from '@/components/cart-session-bridge';
+import { CartProvider } from '@/lib/cart-context';
 import { CookieConsent } from '@/components/cookie-consent';
+import { FacebookPixel } from '@/components/facebook-pixel';
 import { PwaRegister } from '@/components/pwa-register';
 import { RouteActionDock } from '@/components/route-action-dock';
 import { SiteAssistant } from '@/components/site-assistant';
@@ -180,27 +184,31 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }} />
         <div className="site-shell">
-          <SkipLink />
-          <AccessibilityProvider />
-          <CartSessionBridge />
-          <SiteHeader
-            cardCheckoutReady={cardCheckoutReady}
-            aiAssistantReady={aiAssistantReady}
-            aiAssistantModel={aiAssistantModel}
-            aiAssistantProvider={aiAssistantProvider}
-          />
-          <main>{children}</main>
-          <SiteFooter />
-          <RouteActionDock />
-          <WhatsAppFloat />
-          <SiteAssistant
-            cardCheckoutReady={cardCheckoutReady}
-            aiAssistantReady={aiAssistantReady}
-            aiAssistantModel={aiAssistantModel}
-            aiAssistantProvider={aiAssistantProvider}
-          />
-          <PwaRegister />
-          <CookieConsent />
+          <CartProvider>
+            <SkipLink />
+            <AccessibilityProvider />
+            <CartSessionBridge />
+            <SiteHeader
+              cardCheckoutReady={cardCheckoutReady}
+              aiAssistantReady={aiAssistantReady}
+              aiAssistantModel={aiAssistantModel}
+              aiAssistantProvider={aiAssistantProvider}
+            />
+            <main>{children}</main>
+            <SiteFooter />
+            <RouteActionDock />
+            <WhatsAppFloat />
+            <SiteAssistant
+              cardCheckoutReady={cardCheckoutReady}
+              aiAssistantReady={aiAssistantReady}
+              aiAssistantModel={aiAssistantModel}
+              aiAssistantProvider={aiAssistantProvider}
+            />
+            <PwaRegister />
+            <CartDrawer />
+            <CookieConsent />
+            <Suspense fallback={null}><FacebookPixel /></Suspense>
+          </CartProvider>
         </div>
       </body>
     </html>

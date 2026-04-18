@@ -1,0 +1,117 @@
+import { NextResponse } from "next/server";
+import { z } from "zod";
+import { findCatalogProductBySlug } from "@/lib/catalog-repository";
+import { applyNoStoreHeaders } from "@/lib/http-cache";
+import { canConnectToDatabase, prisma } from "@/lib/prisma";
+import { checkRateLimit, getClientIp } from "@/lib/security";
+
+const postSchema = z.object({
+  authorName: z.string().min(2).max(80),
+  authorEmail: z.string().email().optional(),
+  rating: z.number().int().min(1).max(5),
+  title: z.string().max(120).optional(),
+  body: z.string().max(2000).optional(),
+});
+
+type Params = { params: Promise<{ slug: string }> };
+
+export async function GET(_req: Request, { params }: Params) {
+  const { slug } = await params;
+  const product = await findCatalogProductBySlug(slug);
+  if (!product) {
+    return applyNoStoreHeaders(NextResponse.json({ ok: false, error: "Produto não encontrado." }, { status: 404 }));
+  }
+
+  const dbAvailable = await canConnectToDatabase();
+  if (!dbAvailable) {
+    return applyNoStoreHeaders(NextResponse.json({ ok: true, reviews: [], total: 0, avgRating: null }));
+  }
+
+  try {
+    const reviews = await prisma.catalogReview.findMany({
+      where: { catalogSku: product.sku, approved: true },
+      orderBy: { createdAt: "desc" },
+      take: 50,
+      select: {
+        id: true,
+        authorName: true,
+        rating: true,
+        title: true,
+        body: true,
+        verifiedPurchase: true,
+        createdAt: true,
+      },
+    });
+
+    const total = reviews.length;
+    const avgRating = total > 0 ? reviews.reduce((acc, r) => acc + r.rating, 0) / total : null;
+
+    return applyNoStoreHeaders(
+      NextResponse.json({
+        ok: true,
+        reviews,
+        total,
+        avgRating: avgRating !== null ? Math.round(avgRating * 10) / 10 : null,
+      })
+    );
+  } catch {
+    return applyNoStoreHeaders(NextResponse.json({ ok: true, reviews: [], total: 0, avgRating: null }));
+  }
+}
+
+export async function POST(req: Request, { params }: Params) {
+  const ip = getClientIp(req.headers);
+  const rateLimit = checkRateLimit(`review:${ip}`, 3, 60_000 * 60);
+  if (!rateLimit.ok) {
+    return applyNoStoreHeaders(
+      NextResponse.json({ ok: false, error: "Muitas avaliações enviadas. Tente novamente em 1 hora." }, { status: 429 })
+    );
+  }
+
+  const { slug } = await params;
+  const product = await findCatalogProductBySlug(slug);
+  if (!product) {
+    return applyNoStoreHeaders(NextResponse.json({ ok: false, error: "Produto não encontrado." }, { status: 404 }));
+  }
+
+  const raw = await req.json().catch(() => null);
+  const parsed = postSchema.safeParse(raw);
+  if (!parsed.success) {
+    return applyNoStoreHeaders(
+      NextResponse.json({ ok: false, error: "Dados inválidos. Preencha nome, e-mail e nota de 1 a 5." }, { status: 400 })
+    );
+  }
+
+  const dbAvailable = await canConnectToDatabase();
+  if (!dbAvailable) {
+    return applyNoStoreHeaders(
+      NextResponse.json({ ok: false, error: "Serviço de avaliações temporariamente indisponível." }, { status: 503 })
+    );
+  }
+
+  try {
+    const review = await prisma.catalogReview.create({
+      data: {
+        catalogSku: product.sku,
+        authorName: parsed.data.authorName,
+        authorEmail: parsed.data.authorEmail,
+        rating: parsed.data.rating,
+        title: parsed.data.title,
+        body: parsed.data.body,
+        approved: false,
+      },
+    });
+
+    return applyNoStoreHeaders(
+      NextResponse.json({
+        ok: true,
+        message: "Avaliação recebida. Ela ficará visível após moderação.",
+        id: review.id,
+      })
+    );
+  } catch {
+    return applyNoStoreHeaders(
+      NextResponse.json({ ok: false, error: "Erro ao salvar avaliação. Tente novamente." }, { status: 500 })
+    );
+  }
+}

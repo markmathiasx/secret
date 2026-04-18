@@ -1,5 +1,6 @@
 import type { NextConfig } from "next";
 import { withBundleAnalyzer } from '@next/bundle-analyzer';
+import { withSentryConfig } from "@sentry/nextjs";
 
 function getHostname(value?: string) {
   if (!value) return null;
@@ -288,6 +289,17 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default process.env.ANALYZE === 'true'
+const baseConfig = process.env.ANALYZE === 'true'
   ? withBundleAnalyzer(nextConfig)
   : nextConfig;
+
+export default process.env.SENTRY_DSN || process.env.NEXT_PUBLIC_SENTRY_DSN
+  ? withSentryConfig(baseConfig, {
+      silent: true,
+      org: process.env.SENTRY_ORG,
+      project: process.env.SENTRY_PROJECT,
+      widenClientFileUpload: true,
+      hideSourceMaps: true,
+      disableLogger: true,
+    })
+  : baseConfig;

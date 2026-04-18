@@ -11,6 +11,8 @@ import { ProductVisualBadge, ProductVisualNotice } from '@/components/product-vi
 import { ProductPurchaseTools } from '@/components/product-purchase-tools';
 import { ProductAnalytics } from '@/components/product-analytics';
 import { ProductCatalogBackLink } from '@/components/product-catalog-back-link';
+import { ProductReviews } from '@/components/product-reviews';
+import { DeliveryCalculator } from '@/components/delivery-calculator';
 import { QuoteForm } from '@/components/quote-form';
 import { formatCurrency } from '@/lib/utils';
 import { whatsappMessage, whatsappNumber } from '@/lib/constants';
@@ -381,6 +383,14 @@ export default async function ProductPage({
 
       <div className="mt-12">
         <QuoteForm product={product} />
+      </div>
+
+      <div className="mt-12">
+        <DeliveryCalculator />
+      </div>
+
+      <div className="mt-12">
+        <ProductReviews productSlug={slug} productSku={product.sku} />
       </div>
 
       <ProductRelatedShelf product={product} />

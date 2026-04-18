@@ -13,9 +13,11 @@ import {
   History,
   MessageCircleMore,
   RotateCcw,
+  ShoppingCart,
   Sparkles,
   Target,
 } from 'lucide-react';
+import { useCart } from '@/lib/cart-context';
 import { getProductUrl, type Product } from '@/lib/catalog';
 import { getProductSearchScore } from '@/lib/catalog-content';
 import { ProductImageGallery } from '@/components/product-image-gallery';
@@ -227,6 +229,7 @@ export function CatalogExplorer({
   initialPage?: number;
 }) {
   const router = useRouter();
+  const { addItem: addToCart } = useCart();
 
   function openProduct(product: Product) {
     addRecent(product.id);
@@ -1420,6 +1423,26 @@ export function CatalogExplorer({
                   >
                     {product.pricingMode === 'faixa-auditada' ? 'Comprar' : 'Orçar'}
                   </Link>
+                  {product.pricingMode === 'faixa-auditada' && (
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        addToCart({
+                          productId: product.id,
+                          quantity: 1,
+                          title: product.name,
+                          pricePix: product.pricePix,
+                          priceCard: product.priceCard,
+                          image: product.images?.[0] || product.image,
+                        });
+                      }}
+                      className="btn-primary px-4 py-2 text-center text-xs font-semibold"
+                    >
+                      <ShoppingCart className="mr-1.5 inline h-3.5 w-3.5" />
+                      Adicionar
+                    </button>
+                  )}
                   <a
                     href={buildWhatsAppQuote(product, quantity)}
                     target="_blank"

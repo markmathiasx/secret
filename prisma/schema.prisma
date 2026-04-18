@@ -654,6 +654,23 @@ model Review {
   @@index([buyerId, createdAt])
 }
 
+model CatalogReview {
+  id               String   @id @default(cuid())
+  catalogSku       String
+  authorName       String
+  authorEmail      String?
+  rating           Int
+  title            String?
+  body             String?
+  verifiedPurchase Boolean  @default(false)
+  approved         Boolean  @default(false)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([catalogSku, createdAt])
+  @@index([catalogSku, approved])
+}
+
 model Question {
   id         String         @id @default(cuid())
   productId  String

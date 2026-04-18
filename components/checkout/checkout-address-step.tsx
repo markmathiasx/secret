@@ -60,6 +60,15 @@ export function CheckoutAddressStep({
 }) {
   return (
     <div className="mt-6 space-y-5">
+      {!sessionLoggedIn && (
+        <div className="rounded-[24px] border border-emerald-400/20 bg-emerald-400/10 p-4">
+          <p className="text-sm font-semibold text-emerald-100">✓ Compre sem criar conta</p>
+          <p className="mt-1 text-sm text-emerald-100/75">
+            Preencha seus dados abaixo e finalize normalmente — não é preciso se cadastrar.
+            Se preferir, <a href="/login" className="underline hover:text-white transition">entre na sua conta</a> para agilizar próximas compras.
+          </p>
+        </div>
+      )}
       <div className="rounded-[24px] border border-white/10 bg-white/5 p-4">
         <p className="text-xs uppercase tracking-[0.18em] text-white/50">Produto e contexto</p>
         <div className="mt-4 grid gap-4 md:grid-cols-2">
