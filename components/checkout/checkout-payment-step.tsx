@@ -53,7 +53,7 @@ export function CheckoutPaymentStep({
         >
           <div className="flex items-center gap-2 text-cyan-100">
             <CreditCard className="h-4 w-4" />
-            <span className="text-sm font-semibold">Cartão</span>
+            <span className="text-sm font-semibold">Cartão online</span>
           </div>
           <p className="mt-3 text-sm leading-6 text-white/68">
             {cardCheckoutReady ? "Abre o checkout seguro do parceiro de cobrança." : "Ative o checkout do cartão para usar esta rota."}
@@ -94,7 +94,7 @@ export function CheckoutPaymentStep({
       <div className="rounded-[24px] border border-white/10 bg-white/5 p-4 text-sm text-white/68">
         <p className="font-semibold text-white">Resumo desta etapa</p>
         <p className="mt-2">
-          Pagamento selecionado: <span className="text-cyan-100">{paymentMethod === "pix" ? "Pix" : paymentMethod === "cartao" ? "Cartão" : "Boleto"}</span>
+          Pagamento selecionado: <span className="text-cyan-100">{paymentMethod === "pix" ? "Pix" : paymentMethod === "cartao" ? "Cartão online" : "Boleto"}</span>
         </p>
         <p className="mt-1">
           Total projetado: <span className="text-white">{paymentMethod === "cartao" ? formatCurrency(totalCard) : formatCurrency(totalPix)}</span>

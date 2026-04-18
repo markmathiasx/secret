@@ -62,7 +62,7 @@ export function CheckoutConfirmStep({
           <div className="rounded-[20px] border border-white/10 bg-black/20 p-4 text-sm text-white/72">
             <p className="font-semibold text-white">Pagamento e envio</p>
             <p className="mt-2">{selectedShipping?.title || "Envio pendente"} • {selectedShipping?.eta || "prazo pendente"}</p>
-            <p>Pagamento: {paymentMethod === "pix" ? "Pix" : paymentMethod === "cartao" ? "Cartão" : "Boleto"}</p>
+            <p>Pagamento: {paymentMethod === "pix" ? "Pix" : paymentMethod === "cartao" ? "Cartão online" : "Boleto"}</p>
             <p>Total final: {paymentMethod === "cartao" ? formatCurrency(totalCard) : formatCurrency(totalPix)}</p>
           </div>
         </div>
@@ -113,7 +113,7 @@ export function CheckoutConfirmStep({
                 {loading
                   ? "Processando..."
                   : paymentMethod === "cartao"
-                    ? "Gerar pedido e ir para o cartão"
+                    ? "Gerar pedido e ir para o cartão online"
                     : paymentMethod === "boleto"
                       ? "Gerar pedido com boleto"
                       : "Gerar pedido e Pix"}

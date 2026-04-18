@@ -24,7 +24,7 @@ type MercadoPagoWindow = Window & {
   MercadoPago?: new (publicKey: string, options?: { locale?: string }) => {
     bricks: () => {
       create: (
-        type: "payment" | "statusScreen",
+        type: "payment" | "cardPayment" | "statusScreen",
         containerId: string,
         settings: Record<string, unknown>
       ) => Promise<{ unmount?: () => void } | void>;
@@ -79,18 +79,24 @@ export function MercadoPagoPaymentBrick({
   checkoutPayload: Record<string, unknown>;
   onResult: (result: BrickSubmitResult) => void;
 }) {
-  const containerId = useMemo(() => `mp-payment-brick-${Math.random().toString(36).slice(2)}`, []);
+  const [retryCount, setRetryCount] = useState(0);
+  const containerId = useMemo(() => `mp-card-payment-brick-${retryCount}-${Math.random().toString(36).slice(2)}`, [retryCount]);
   const brickRef = useRef<{ unmount?: () => void } | null>(null);
   const [sdkReady, setSdkReady] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [publicKeyReady] = useState(Boolean(getMercadoPagoPublicKey()));
+  const brickType = paymentMethod === "cartao" ? "cardPayment" : "payment";
 
   useEffect(() => {
     let cancelled = false;
 
     async function mountBrick() {
       try {
+        setSdkReady(false);
+        setLoading(true);
+        setError(null);
+
         if (!getMercadoPagoPublicKey()) {
           setError(
             "O Bricks do Mercado Pago ainda não está configurado neste ambiente. Defina NEXT_PUBLIC_MP_PUBLIC_KEY junto com MERCADOPAGO_ACCESS_TOKEN."
@@ -112,7 +118,7 @@ export function MercadoPagoPaymentBrick({
         const mp = new win.MercadoPago(getMercadoPagoPublicKey(), { locale: "pt-BR" });
         const bricksBuilder = mp.bricks();
 
-        const controller = await bricksBuilder.create("payment", containerId, {
+        const controller = await bricksBuilder.create(brickType, containerId, {
           initialization: {
             amount,
             payer: {
@@ -177,7 +183,7 @@ export function MercadoPagoPaymentBrick({
             onError: (submitError: unknown) => {
               const message = submitError instanceof Error ? submitError.message : "Falha no componente de pagamento.";
               setError(message);
-              logStructured("warn", "mercadopago_brick_error", {
+              logStructured("warn", paymentMethod === "cartao" ? "mercadopago_card_brick_error" : "mercadopago_payment_brick_error", {
                 paymentMethod,
                 message,
               });
@@ -191,7 +197,7 @@ export function MercadoPagoPaymentBrick({
         const message = brickError instanceof Error ? brickError.message : "Falha ao inicializar o pagamento.";
         setError(message);
         setLoading(false);
-        logStructured("error", "mercadopago_brick_mount_failed", {
+        logStructured("error", paymentMethod === "cartao" ? "mercadopago_card_brick_mount_failed" : "mercadopago_payment_brick_mount_failed", {
           paymentMethod,
           message,
           errorName: brickError instanceof Error ? brickError.name : typeof brickError,
@@ -207,7 +213,7 @@ export function MercadoPagoPaymentBrick({
       brickRef.current?.unmount?.();
       brickRef.current = null;
     };
-  }, [amount, checkoutPayload, containerId, paymentMethod, payerEmail, payerName, onResult]);
+  }, [amount, brickType, checkoutPayload, containerId, paymentMethod, payerEmail, payerName, onResult, retryCount]);
 
   if (!publicKeyReady) {
     return (
@@ -221,12 +227,17 @@ export function MercadoPagoPaymentBrick({
     <div className="rounded-[24px] border border-white/10 bg-black/20 p-4">
       <div className="mb-3 flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-white/50">
         <Loader2 className={`h-4 w-4 ${loading ? "animate-spin text-cyan-100" : "text-emerald-200"}`} />
-        <span>{paymentMethod === "pix" ? "Payment Brick • Pix" : "Payment Brick • Cartão"}</span>
+        <span>{paymentMethod === "cartao" ? "Card Payment Brick • Cartão" : "Payment Brick • Pix"}</span>
       </div>
       {error ? (
         <div className="mb-4 flex items-start gap-3 rounded-[20px] border border-rose-300/20 bg-rose-300/10 p-4 text-sm leading-7 text-rose-50">
           <AlertTriangle className="mt-0.5 h-4 w-4 flex-shrink-0 text-rose-100" />
-          <p>{error}</p>
+          <div className="space-y-3">
+            <p>{error}</p>
+            <button type="button" className="btn-secondary" onClick={() => setRetryCount((value) => value + 1)}>
+              Tentar novamente
+            </button>
+          </div>
         </div>
       ) : null}
       <div id={containerId} className="min-h-[420px]" />
