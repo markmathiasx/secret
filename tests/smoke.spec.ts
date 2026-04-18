@@ -67,6 +67,21 @@ test.describe("MDH 3D Store – Smoke Tests", () => {
     expect(response?.status()).toBe(200);
   });
 
+  test("Checkout retorno: sucesso/falha/pendente retornam 200", async ({ page }) => {
+    for (const route of ["/checkout/sucesso", "/checkout/falha", "/checkout/pendente"]) {
+      const response = await page.goto(`${BASE_URL}${route}`);
+      expect(response?.status(), route).toBe(200);
+      await expect(page.locator("main, section").first()).toBeVisible();
+    }
+  });
+
+  test("Busca, favoritos e páginas institucionais retornam 200", async ({ page }) => {
+    for (const route of ["/busca?q=medalha", "/favoritos", "/sobre", "/contato", "/devolucoes", "/rastrear"]) {
+      const response = await page.goto(`${BASE_URL}${route}`);
+      expect(response?.status(), route).toBe(200);
+    }
+  });
+
   test("Login: retorna 200 e mostra formulário", async ({ page }) => {
     const response = await page.goto(`${BASE_URL}/login`);
     expect(response?.status()).toBe(200);
@@ -89,6 +104,15 @@ test.describe("MDH 3D Store – Smoke Tests", () => {
     expect(response.status()).toBe(200);
     const body = await response.json();
     expect(body.ok).toBe(true);
+  });
+
+  test("Mercado Pago status: expõe readiness dos bricks", async ({ request }) => {
+    const response = await request.get(`${BASE_URL}/api/payments/status`);
+    expect(response.status()).toBe(200);
+    const body = await response.json();
+    expect(body.ok).toBe(true);
+    expect(typeof body.cardCheckoutReady).toBe("boolean");
+    expect(typeof body.pixCheckoutReady).toBe("boolean");
   });
 
   test("Sitemap: retorna 200 e contém URL do catálogo", async ({ request }) => {

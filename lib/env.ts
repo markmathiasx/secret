@@ -125,6 +125,43 @@ export function getModelUploadsDir() {
   return (process.env.MODEL_UPLOADS_DIR || `${getUploadsDir()}/stl`).trim();
 }
 
+export function getMercadoPagoPublicKey() {
+  return (
+    process.env.NEXT_PUBLIC_MP_PUBLIC_KEY ||
+    process.env.NEXT_PUBLIC_MERCADOPAGO_PUBLIC_KEY ||
+    ""
+  ).trim();
+}
+
+export function getMercadoPagoAccessToken() {
+  return (process.env.MERCADOPAGO_ACCESS_TOKEN || "").trim();
+}
+
+export function getMercadoPagoWebhookSecret() {
+  return (process.env.MERCADOPAGO_WEBHOOK_SECRET || "").trim();
+}
+
+export function getMercadoPagoAppId() {
+  return (process.env.MERCADOPAGO_APP_ID || "").trim();
+}
+
+export function getMercadoPagoStatementDescriptor() {
+  return (process.env.MP_STATEMENT_DESCRIPTOR || "MDH 3D").trim();
+}
+
+export function getMercadoPagoTimeoutMs() {
+  const parsed = Number(process.env.MP_TIMEOUT_MS || 15_000);
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : 15_000;
+}
+
+export function isMercadoPagoConfigured() {
+  return Boolean(getMercadoPagoAccessToken());
+}
+
+export function isMercadoPagoBricksConfigured() {
+  return Boolean(getMercadoPagoAccessToken() && getMercadoPagoPublicKey());
+}
+
 /**
  * Vercel plan helpers.
  *
@@ -148,7 +185,7 @@ export function isVercelProPlan(): boolean {
 }
 
 export function isCardCheckoutConfigured() {
-  return Boolean(process.env.MERCADOPAGO_ACCESS_TOKEN?.trim());
+  return isMercadoPagoBricksConfigured();
 }
 
 export function getOpenAiApiKey() {

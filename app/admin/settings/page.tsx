@@ -6,12 +6,14 @@ export const dynamic = "force-dynamic";
 const ENV_KEYS = [
   { key: "DATABASE_URL", label: "Banco de dados (PostgreSQL)" },
   { key: "NEXTAUTH_SECRET", label: "NextAuth Secret" },
+  { key: "NEXT_PUBLIC_MP_PUBLIC_KEY", label: "Mercado Pago Public Key" },
   { key: "NEXT_PUBLIC_PIX_KEY", label: "Chave Pix (pública)" },
   { key: "STAFF_NOTIFY_EMAIL", label: "E-mail de notificação" },
   { key: "SMTP_HOST", label: "SMTP Host" },
   { key: "SMTP_USER", label: "SMTP Usuário" },
   { key: "SUPABASE_URL", label: "Supabase URL" },
-  { key: "MERCADO_PAGO_ACCESS_TOKEN", label: "Mercado Pago Token" },
+  { key: "MERCADOPAGO_ACCESS_TOKEN", label: "Mercado Pago Token" },
+  { key: "MERCADOPAGO_WEBHOOK_SECRET", label: "Mercado Pago Webhook Secret" },
   { key: "GOOGLE_MAPS_API_KEY", label: "Google Maps API Key" },
   { key: "ADMIN_SESSION_SECRET", label: "Admin Session Secret" },
 ];

@@ -1,5 +1,6 @@
 import MercadoPagoConfig, { Payment, Preference } from 'mercadopago';
 import { getSiteUrl } from '@/lib/env';
+import { createMercadoPagoPayment as createMercadoPagoPaymentCore, normalizeMpPaymentFormData } from "@/lib/mercadopago";
 import { formatCurrency } from '@/lib/utils';
 
 function getMercadoPagoConfig() {
@@ -167,4 +168,36 @@ export async function getMercadoPagoPayment(paymentId: string | number) {
       details: error instanceof Error ? error.message : 'Falha desconhecida ao consultar pagamento.'
     } as const;
   }
+}
+
+export async function createMercadoPagoPayment(input: {
+  title: string;
+  amount: number;
+  externalReference: string;
+  paymentMethodId: string;
+  payerEmail?: string | null;
+  payerName?: string | null;
+  paymentData?: unknown;
+  notificationUrl?: string | null;
+  dateOfExpiration?: string | null;
+}) {
+  const normalized = normalizeMpPaymentFormData(input.paymentData);
+  return createMercadoPagoPaymentCore({
+    title: input.title,
+    amount: input.amount,
+    externalReference: input.externalReference,
+    paymentMethodId: input.paymentMethodId,
+    payerEmail: input.payerEmail || normalized.payer.email || null,
+    payerName: input.payerName || `${normalized.payer.firstName || ""} ${normalized.payer.lastName || ""}`.trim() || null,
+    token: normalized.token,
+    issuerId: normalized.issuerId,
+    installments: normalized.installments,
+    paymentMethodOptionId: normalized.paymentMethodOptionId,
+    identification: normalized.identification,
+    notificationUrl: input.notificationUrl,
+    dateOfExpiration: input.dateOfExpiration,
+    metadata: {
+      paymentData: normalized.raw,
+    },
+  });
 }

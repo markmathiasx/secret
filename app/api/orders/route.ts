@@ -4,10 +4,12 @@ import { z } from "zod";
 import { addressInputSchema, normalizeAddressInput } from "@/lib/address-book";
 import { findProduct } from "@/lib/catalog";
 import { canConnectToDatabase, prisma } from "@/lib/prisma";
+import { createMercadoPagoPayment } from "@/lib/payments";
+import { createStableExternalReference, mapMercadoPagoPaymentStatus, normalizeMpPaymentFormData } from "@/lib/mercadopago";
 import { getClientIp, checkRateLimit } from "@/lib/security";
 import { getServerSessionUser } from "@/lib/server-session";
 import { buildShippingQuote } from "@/lib/shipping";
-import { storeRecord } from "@/lib/storage";
+import { storeRecord, updateOrderRecord } from "@/lib/storage";
 import { logStructured } from "@/lib/logger";
 import { sendMail } from "@/lib/mailer";
 import { orderConfirmationHtml } from "@/lib/email-templates";
@@ -21,6 +23,7 @@ const orderSchema = z.object({
   notes: z.string().max(600).optional().default(""),
   purpose: z.string().trim().max(40).optional().default("Uso próprio"),
   paymentMethod: z.enum(["pix", "cartao", "boleto"]),
+  mpPaymentData: z.record(z.unknown()).optional(),
   saveAddress: z.boolean().optional().default(false),
   addressId: z.string().optional(),
   shippingOptionId: z.enum(["standard", "express"]).default("standard"),
@@ -28,6 +31,85 @@ const orderSchema = z.object({
     phone: z.string().trim().min(8).max(20).optional().default(""),
   }),
 });
+
+function getMercadoPagoRedirectPath(status: string | null | undefined, orderCode: string, paymentId: string | null) {
+  const normalized = (status || "").toLowerCase();
+  const query = new URLSearchParams({
+    order: orderCode,
+  });
+
+  if (paymentId) {
+    query.set("payment_id", paymentId);
+  }
+
+  if (normalized) {
+    query.set("status", normalized);
+  }
+
+  if (normalized === "approved") return `/checkout/sucesso?${query.toString()}`;
+  if (normalized === "rejected" || normalized === "cancelled") return `/checkout/falha?${query.toString()}`;
+  return `/checkout/pendente?${query.toString()}`;
+}
+
+async function persistMercadoPagoPayment(input: {
+  orderCode: string;
+  paymentMethod: "pix" | "cartao" | "boleto";
+  total: number;
+  title: string;
+  customerEmail: string;
+  customerName: string;
+  mpPaymentData?: Record<string, unknown>;
+}) {
+  if (input.paymentMethod === "boleto") {
+    return { ok: true as const, status: "pending", redirectUrl: `/checkout/pendente?order=${encodeURIComponent(input.orderCode)}` };
+  }
+
+  const normalized = normalizeMpPaymentFormData(input.mpPaymentData);
+  const paymentMethodId = input.paymentMethod === "pix" ? "pix" : normalized.paymentMethodId || "visa";
+
+  const paymentResult = await createMercadoPagoPayment({
+    title: input.title,
+    amount: input.total,
+    externalReference: createStableExternalReference(input.orderCode),
+    paymentMethodId,
+    payerEmail: input.customerEmail,
+    payerName: input.customerName,
+    paymentData: input.mpPaymentData,
+  });
+
+  if (!paymentResult.ok) {
+    return paymentResult;
+  }
+
+  const internalStatus = mapMercadoPagoPaymentStatus(paymentResult.status, paymentResult.statusDetail);
+  const paymentRecord = {
+    payment_provider: "mercado-pago",
+    payment_reference: paymentResult.paymentId || input.orderCode,
+    payment_status: paymentResult.status || "pending",
+    payment_status_detail: paymentResult.statusDetail || null,
+    payment_approved_at: paymentResult.paidAt || null,
+    pix_payload: paymentResult.pixPayload || null,
+    pix_qr_code: paymentResult.pixQrCode || null,
+    boleto_url: null,
+    payment_internal_status: internalStatus,
+    updated_at: new Date().toISOString(),
+  };
+
+  await updateOrderRecord(input.orderCode, paymentRecord);
+
+  return {
+    ok: true as const,
+    paymentId: paymentResult.paymentId,
+    status: paymentResult.status,
+    statusDetail: paymentResult.statusDetail,
+    redirectUrl: getMercadoPagoRedirectPath(paymentResult.status, input.orderCode, paymentResult.paymentId || null),
+    pixPayload: paymentResult.pixPayload,
+    pixQrCode: paymentResult.pixQrCode,
+    boletoUrl: null,
+    externalReference: paymentResult.externalReference,
+    raw: paymentResult.raw,
+  };
+}
 
 function toDecimal(value: number) {
   return new Prisma.Decimal(value.toFixed(2));
@@ -254,6 +336,68 @@ export async function POST(request: Request) {
       });
 
       const customerEmail = parsed.data.email.trim().toLowerCase();
+
+      if (parsed.data.mpPaymentData && parsed.data.paymentMethod !== "boleto") {
+        const paymentResult = await persistMercadoPagoPayment({
+          orderCode,
+          paymentMethod: parsed.data.paymentMethod,
+          total: parsed.data.paymentMethod === "cartao" ? totalCard : totalPix,
+          title: `${product.name} • ${orderCode}`,
+          customerEmail,
+          customerName: parsed.data.customerName,
+          mpPaymentData: parsed.data.mpPaymentData,
+        });
+
+        if (!paymentResult.ok) {
+          return NextResponse.json(
+            {
+              ok: false,
+              message: paymentResult.fallbackMessage || "Não foi possível concluir o pagamento agora.",
+              reason: paymentResult.reason,
+            },
+            { status: 400 }
+          );
+        }
+
+        sendMail({
+          to: customerEmail,
+          subject: `Pedido ${orderCode} recebido — MDH 3D Store`,
+          html: orderConfirmationHtml({
+            orderCode,
+            customerName: parsed.data.customerName,
+            productName: product.name,
+            quantity: parsed.data.quantity,
+            totalPix,
+            paymentMethod: parsed.data.paymentMethod,
+            productionWindow: product.productionWindow,
+          }),
+        }).catch(() => null);
+
+        return NextResponse.json({
+          ok: true,
+          orderCode,
+          storage: "prisma",
+          totalPix,
+          totalCard,
+          shippingPrice: shippingOption.price,
+          shippingEta: shippingOption.eta,
+          shippingRegion: shippingOption.region,
+          product: {
+            id: product.id,
+            name: product.name,
+          },
+          orderId: order.id,
+          paymentId: paymentResult.paymentId,
+          paymentStatus: paymentResult.status,
+          paymentStatusDetail: paymentResult.statusDetail,
+          externalReference: createStableExternalReference(orderCode),
+          redirectUrl: getMercadoPagoRedirectPath(paymentResult.status, orderCode, paymentResult.paymentId || null),
+          pixPayload: paymentResult.pixPayload,
+          pixQrCode: paymentResult.pixQrCode,
+          boletoUrl: null,
+        });
+      }
+
       sendMail({
         to: customerEmail,
         subject: `Pedido ${orderCode} recebido — MDH 3D Store`,
@@ -341,6 +485,67 @@ export async function POST(request: Request) {
   }
 
   const customerEmailFallback = parsed.data.email.trim().toLowerCase();
+
+  if (parsed.data.mpPaymentData && parsed.data.paymentMethod !== "boleto") {
+    const paymentResult = await persistMercadoPagoPayment({
+      orderCode,
+      paymentMethod: parsed.data.paymentMethod,
+      total: parsed.data.paymentMethod === "cartao" ? totalCard : totalPix,
+      title: `${product.name} • ${orderCode}`,
+      customerEmail: customerEmailFallback,
+      customerName: parsed.data.customerName,
+      mpPaymentData: parsed.data.mpPaymentData,
+    });
+
+    if (!paymentResult.ok) {
+      return NextResponse.json(
+        {
+          ok: false,
+          message: paymentResult.fallbackMessage || "Não foi possível concluir o pagamento agora.",
+          reason: paymentResult.reason,
+        },
+        { status: 400 }
+      );
+    }
+
+    sendMail({
+      to: customerEmailFallback,
+      subject: `Pedido ${orderCode} recebido — MDH 3D Store`,
+      html: orderConfirmationHtml({
+        orderCode,
+        customerName: parsed.data.customerName,
+        productName: product.name,
+        quantity: parsed.data.quantity,
+        totalPix,
+        paymentMethod: parsed.data.paymentMethod,
+        productionWindow: product.productionWindow,
+      }),
+    }).catch(() => null);
+
+    return NextResponse.json({
+      ok: true,
+      orderCode,
+      storage: result.storage,
+      totalPix,
+      totalCard,
+      shippingPrice: shippingOption.price,
+      shippingEta: shippingOption.eta,
+      shippingRegion: shippingOption.region,
+      product: {
+        id: product.id,
+        name: product.name,
+      },
+      paymentId: paymentResult.paymentId,
+      paymentStatus: paymentResult.status,
+      paymentStatusDetail: paymentResult.statusDetail,
+      externalReference: createStableExternalReference(orderCode),
+      redirectUrl: getMercadoPagoRedirectPath(paymentResult.status, orderCode, paymentResult.paymentId || null),
+      pixPayload: paymentResult.pixPayload,
+      pixQrCode: paymentResult.pixQrCode,
+      boletoUrl: null,
+    });
+  }
+
   sendMail({
     to: customerEmailFallback,
     subject: `Pedido ${orderCode} recebido — MDH 3D Store`,

@@ -1,10 +1,11 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { findProduct } from "@/lib/catalog";
-import { createMercadoPagoPreference } from "@/lib/payments";
+import { createMercadoPagoPayment } from "@/lib/payments";
 import { resolveOrderPaymentContext } from "@/lib/server/payment-order";
 import { updateOrderRecord } from "@/lib/storage";
 import { getClientIp, checkRateLimit } from "@/lib/security";
+import { createStableExternalReference, normalizeMpPaymentFormData } from "@/lib/mercadopago";
 
 const schema = z.object({
   productId: z.string().min(1),
@@ -12,6 +13,7 @@ const schema = z.object({
   email: z.string().email().optional(),
   orderCode: z.string().min(5).max(64).optional(),
   amount: z.number().positive().max(99999).optional(),
+  paymentData: z.record(z.unknown()).optional(),
 });
 
 export async function POST(request: Request) {
@@ -42,28 +44,50 @@ export async function POST(request: Request) {
     fallbackEmail: parsed.data.email,
   });
 
-  const preference = await createMercadoPagoPreference({
+  const normalizedPaymentData = normalizeMpPaymentFormData(parsed.data.paymentData);
+  const paymentMethodId = normalizedPaymentData.paymentMethodId || (parsed.data.paymentData?.payment_method_id as string | undefined) || (parsed.data.paymentData?.paymentMethodId as string | undefined) || (parsed.data.paymentData?.type as string | undefined) || (parsed.data.orderCode ? "pix" : "visa");
+
+  const payment = await createMercadoPagoPayment({
     title: paymentContext.title,
-    unitPrice: paymentContext.amount,
-    quantity: 1,
+    amount: paymentContext.amount,
+    externalReference: paymentContext.orderCode || `MDH-${product.id}-${Date.now()}`,
+    paymentMethodId,
     payerEmail: paymentContext.customerEmail || parsed.data.email,
-    externalReference: paymentContext.orderCode || `MDH-${product.id}-${Date.now()}`
+    payerName: paymentContext.customerName || undefined,
+    paymentData: parsed.data.paymentData,
   });
 
-  if (!preference.ok) {
-    return NextResponse.json(preference, { status: 400 });
+  if (!payment.ok) {
+    return NextResponse.json(payment, { status: 400 });
   }
 
   if (parsed.data.orderCode) {
     await updateOrderRecord(parsed.data.orderCode, {
-      status: "pending_payment",
+      status: payment.status === "approved" ? "paid" : "pending_payment",
       payment_provider: "mercado-pago",
-      payment_reference: preference.id || null,
-      payment_status: "checkout_created",
-      payment_status_detail: "checkout_pro_redirect",
-      updated_at: new Date().toISOString()
+      payment_method: paymentMethodId === "pix" ? "pix" : "cartao",
+      payment_reference: payment.paymentId,
+      payment_status: payment.status,
+      payment_status_detail: payment.statusDetail,
+      payment_approved_at: payment.paidAt || null,
+      pix_payload: payment.pixPayload,
+      pix_qr_code: payment.pixQrCode,
+      boleto_url: payment.ticketUrl,
+      updated_at: new Date().toISOString(),
     });
   }
 
-  return NextResponse.json(preference);
+  return NextResponse.json({
+    ok: true,
+    provider: "mercado-pago",
+    orderCode: paymentContext.orderCode,
+    paymentId: payment.paymentId,
+    status: payment.status,
+    statusDetail: payment.statusDetail,
+    externalReference: createStableExternalReference(paymentContext.orderCode || `MDH-${product.id}`),
+    payload: payment.pixPayload,
+    qrCodeBase64: payment.pixQrCode,
+    ticketUrl: payment.ticketUrl,
+    dateOfExpiration: payment.dateOfExpiration,
+  });
 }

@@ -1,12 +1,13 @@
 import { NextResponse } from "next/server";
 import { applyNoStoreHeaders } from "@/lib/http-cache";
-import { isCardCheckoutConfigured } from "@/lib/env";
+import { isMercadoPagoBricksConfigured, isMercadoPagoConfigured } from "@/lib/env";
 
 export async function GET() {
   return applyNoStoreHeaders(
     NextResponse.json({
       ok: true,
-      cardCheckoutReady: isCardCheckoutConfigured(),
+      cardCheckoutReady: isMercadoPagoBricksConfigured(),
+      pixCheckoutReady: isMercadoPagoConfigured(),
     })
   );
 }

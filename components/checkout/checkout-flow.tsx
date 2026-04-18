@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { MessageCircleMore, ShieldCheck, Truck } from "lucide-react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { DeliveryCalculator } from "@/components/delivery-calculator";
 import { CheckoutAddressStep } from "@/components/checkout/checkout-address-step";
 import { CheckoutConfirmStep } from "@/components/checkout/checkout-confirm-step";
@@ -10,6 +10,7 @@ import { CheckoutPaymentStep } from "@/components/checkout/checkout-payment-step
 import { CheckoutShippingStep } from "@/components/checkout/checkout-shipping-step";
 import { CheckoutStepper } from "@/components/checkout/checkout-stepper";
 import { CheckoutSummary } from "@/components/checkout/checkout-summary";
+import { MercadoPagoPaymentBrick } from "@/components/checkout/mercadopago-payment-brick";
 import {
   CHECKOUT_DRAFT_KEY,
   PAYMENT_STATUS,
@@ -32,6 +33,7 @@ import { trackAddPaymentInfo, trackBeginCheckout, trackPaymentError, trackPurcha
 
 export function CheckoutFlow() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const session = useCustomerSession();
   const initialProduct = featuredCatalog[0] || catalog[0];
   const queryProductId = searchParams.get("product");
@@ -121,6 +123,42 @@ export function CheckoutFlow() {
   ];
   const quantityPresets = [1, 2, 5, 10];
   const paymentTitle = orderCode && product ? `${product.name} • ${orderCode}` : product ? `${product.name} • MDH 3D` : "Pagamento MDH 3D";
+  const checkoutPayload = useMemo(
+    () => ({
+      productId,
+      quantity,
+      customerName,
+      email,
+      phone,
+      notes,
+      purpose: purchasePurpose,
+      paymentMethod,
+      saveAddress: session.loggedIn ? saveAddress : false,
+      addressId: addressMode === "saved" ? selectedAddressId : undefined,
+      shippingOptionId: selectedShipping?.id || "standard",
+      address: {
+        ...activeAddress,
+        phone: activeAddress.phone || phone,
+        recipientName: activeAddress.recipientName || customerName,
+      },
+    }),
+    [
+      activeAddress,
+      addressMode,
+      customerName,
+      email,
+      notes,
+      paymentMethod,
+      phone,
+      productId,
+      purchasePurpose,
+      quantity,
+      saveAddress,
+      selectedAddressId,
+      selectedShipping?.id,
+      session.loggedIn,
+    ]
+  );
   const analyticsProduct = useMemo(
     () =>
       product
@@ -494,6 +532,45 @@ export function CheckoutFlow() {
     }
   }
 
+  async function handleMercadoPagoResult(result: {
+    ok: boolean;
+    orderCode?: string | null;
+    paymentId?: string | null;
+    paymentStatus?: string | null;
+    paymentStatusDetail?: string | null;
+    redirectUrl?: string | null;
+    pixPayload?: string | null;
+    pixQrCode?: string | null;
+    boletoUrl?: string | null;
+    message?: string | null;
+  }) {
+    if (!result.ok) {
+      setStatus(result.message || "Não foi possível concluir o pagamento agora.");
+      return;
+    }
+
+    setOrderCode(result.orderCode || null);
+    setPixPayload(result.pixPayload || null);
+    setPixPayment({
+      payload: result.pixPayload || null,
+      qrCodeBase64: result.pixQrCode || null,
+      expiresAt: null,
+      provider: paymentMethod === "cartao" ? "Mercado Pago" : "Mercado Pago",
+    });
+
+    if (result.redirectUrl) {
+      router.push(result.redirectUrl);
+      return;
+    }
+
+    if (result.paymentStatus === "approved") {
+      router.push(`/checkout/sucesso?order=${encodeURIComponent(result.orderCode || "")}&payment_id=${encodeURIComponent(result.paymentId || "")}&status=approved`);
+      return;
+    }
+
+    router.push(`/checkout/pendente?order=${encodeURIComponent(result.orderCode || "")}&payment_id=${encodeURIComponent(result.paymentId || "")}&status=${encodeURIComponent(result.paymentStatus || "pending")}`);
+  }
+
   const suggestedRoute = useMemo(() => {
     if (!product) return "Escolha um item para o checkout sugerir a melhor rota.";
     if (purchasePurpose === "Lote" || purchasePurpose === "Revenda" || quantity >= 5) {
@@ -637,7 +714,18 @@ export function CheckoutFlow() {
               onBack={() => setCurrentStep(2)}
               onSubmit={() => void handleSubmitOrder()}
               onClearDraft={clearDraft}
-            />
+            >
+              {paymentMethod !== "boleto" ? (
+                <MercadoPagoPaymentBrick
+                  amount={paymentMethod === "cartao" ? totalCard : totalPix}
+                  payerEmail={email}
+                  payerName={customerName}
+                  paymentMethod={paymentMethod}
+                  checkoutPayload={checkoutPayload}
+                  onResult={(result) => void handleMercadoPagoResult(result)}
+                />
+              ) : null}
+            </CheckoutConfirmStep>
           ) : null}
 
           {status ? <p className="mt-5 text-sm text-amber-200">{status}</p> : null}

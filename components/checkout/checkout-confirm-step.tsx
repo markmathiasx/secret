@@ -18,6 +18,7 @@ export function CheckoutConfirmStep({
   onBack,
   onSubmit,
   onClearDraft,
+  children,
 }: {
   activeAddress: {
     recipientName: string;
@@ -42,6 +43,7 @@ export function CheckoutConfirmStep({
   onBack: () => void;
   onSubmit: () => void;
   onClearDraft: () => void;
+  children?: React.ReactNode;
 }) {
   return (
     <div className="mt-6 space-y-5">
@@ -89,29 +91,42 @@ export function CheckoutConfirmStep({
         </div>
       ) : null}
 
-      <div className="flex flex-wrap gap-3">
-        {!orderCode ? (
-          <>
+      {children ? (
+        <div className="space-y-4">
+          <div className="flex flex-wrap gap-3">
             <button type="button" onClick={onBack} className="btn-secondary">
               Voltar
             </button>
-            <button type="button" onClick={onSubmit} className="btn-primary" disabled={loading}>
-              {loading
-                ? "Processando..."
-                : paymentMethod === "cartao"
-                  ? "Gerar pedido e ir para o cartão"
-                  : paymentMethod === "boleto"
-                    ? "Gerar pedido com boleto"
-                    : "Gerar pedido e Pix"}
-            </button>
-          </>
-        ) : (
-          <a href={whatsappHref} target="_blank" rel="noreferrer" onClick={onWhatsAppClick} className="btn-primary inline-flex items-center gap-2">
-            <MessageCircleMore className="h-4 w-4" />
-            Confirmar com a equipe
-          </a>
-        )}
-      </div>
+          </div>
+          {children}
+        </div>
+      ) : null}
+
+      {!children ? (
+        <div className="flex flex-wrap gap-3">
+          {!orderCode ? (
+            <>
+              <button type="button" onClick={onBack} className="btn-secondary">
+                Voltar
+              </button>
+              <button type="button" onClick={onSubmit} className="btn-primary" disabled={loading}>
+                {loading
+                  ? "Processando..."
+                  : paymentMethod === "cartao"
+                    ? "Gerar pedido e ir para o cartão"
+                    : paymentMethod === "boleto"
+                      ? "Gerar pedido com boleto"
+                      : "Gerar pedido e Pix"}
+              </button>
+            </>
+          ) : (
+            <a href={whatsappHref} target="_blank" rel="noreferrer" onClick={onWhatsAppClick} className="btn-primary inline-flex items-center gap-2">
+              <MessageCircleMore className="h-4 w-4" />
+              Confirmar com a equipe
+            </a>
+          )}
+        </div>
+      ) : null}
     </div>
   );
 }

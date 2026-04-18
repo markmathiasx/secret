@@ -1,96 +1,78 @@
-import { createHmac, timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
-import { getMercadoPagoPayment } from "@/lib/payments";
+import { Prisma } from "@prisma/client";
+import { canConnectToDatabase, prisma } from "@/lib/prisma";
 import { updateOrderRecord } from "@/lib/storage";
 import { sendMail } from "@/lib/mailer";
 import { paymentConfirmedHtml } from "@/lib/email-templates";
-import { canConnectToDatabase, prisma } from "@/lib/prisma";
+import {
+  mapMercadoPagoPaymentStatus,
+  normalizeMercadoPagoError,
+  parseMercadoPagoSignature,
+  verifyMercadoPagoSignature,
+} from "@/lib/mercadopago";
+import { getMercadoPagoPayment } from "@/lib/payments";
+import { logStructured } from "@/lib/logger";
+import { getMercadoPagoWebhookSecret } from "@/lib/env";
 
 export const runtime = "nodejs";
 
-function parseSignature(signature: string) {
-  return signature
-    .split(",")
-    .map((part) => part.trim().split("="))
-    .reduce<Record<string, string>>((acc, [key, value]) => {
-      if (key && value) {
-        acc[key] = value;
-      }
-      return acc;
-    }, {});
+function readWebhookSignature(request: Request) {
+  return request.headers.get("x-signature") || request.headers.get("x-mercadopago-signature") || "";
 }
 
-function matchesDigest(candidate: string, expected: string) {
-  const left = Buffer.from(candidate, "hex");
-  const right = Buffer.from(expected, "hex");
+function getWebhookEventKey(topic: string, dataId: string, requestId: string, signature: string) {
+  const parsed = signature ? parseMercadoPagoSignature(signature) : {};
+  const ts = parsed.ts || "0";
+  return `${topic}:${dataId}:${requestId || ts}`;
+}
 
-  if (left.length !== right.length) {
-    return false;
+function toJsonValue(value: unknown) {
+  return JSON.parse(JSON.stringify(value ?? {})) as Prisma.InputJsonValue;
+}
+
+async function markWebhookEventProcessed(orderCode: string, eventKey: string, payload: Record<string, unknown>) {
+  if (!(await canConnectToDatabase())) {
+    return;
   }
 
-  return timingSafeEqual(left, right);
-}
+  const payment = await prisma.payment.findFirst({
+    where: {
+      externalReference: orderCode,
+    },
+    select: {
+      id: true,
+      metadata: true,
+    },
+  });
 
-function buildManifestCandidates(dataId: string, requestId: string, ts: string) {
-  return [
-    `id:${dataId};request-id:${requestId};ts:${ts};`,
-    `id:${dataId};request-id:${requestId};ts:${ts}`,
-    `id:${dataId};ts:${ts};`,
-    `id:${dataId};ts:${ts}`
-  ];
-}
+  if (!payment) return;
 
-function verifyMercadoPagoSignature({
-  secret,
-  signature,
-  requestId,
-  dataId
-}: {
-  secret: string;
-  signature: string;
-  requestId: string;
-  dataId: string;
-}) {
-  const parts = parseSignature(signature);
-  const ts = parts.ts || "";
-  const expected = parts.v1 || "";
+  const existingMetadata = (payment.metadata && typeof payment.metadata === "object" ? payment.metadata : {}) as Record<string, unknown>;
+  const processedIds = Array.isArray(existingMetadata.processedWebhookEventIds)
+    ? existingMetadata.processedWebhookEventIds.filter((item): item is string => typeof item === "string")
+    : [];
 
-  if (!ts || !expected || !dataId) {
-    return false;
+  if (processedIds.includes(eventKey)) {
+    return;
   }
 
-  return buildManifestCandidates(dataId, requestId, ts).some((manifest) => {
-    const digest = createHmac("sha256", secret).update(manifest).digest("hex");
-    return matchesDigest(digest, expected);
+  await prisma.payment.update({
+    where: { id: payment.id },
+    data: {
+      metadata: {
+        ...existingMetadata,
+        lastWebhookAt: new Date().toISOString(),
+        rawLastPayload: toJsonValue(payload),
+        processedWebhookEventIds: [...processedIds, eventKey].slice(-25),
+      },
+    },
   });
 }
 
-function mapPaymentStatus(status?: string, detail?: string) {
-  switch (status) {
-    case "approved":
-      return "paid";
-    case "pending":
-    case "in_process":
-      return "pending_payment";
-    case "authorized":
-      return "pending_payment";
-    case "rejected":
-      return "failed";
-    case "cancelled":
-      return "cancelled";
-    case "refunded":
-      return "cancelled";
-    case "charged_back":
-      return "failed";
-    default:
-      return detail ? "pending_payment" : "draft";
-  }
-}
-
 export async function POST(request: Request) {
-  const secret = process.env.MERCADOPAGO_WEBHOOK_SECRET;
-  const signature = request.headers.get("x-signature");
-  const requestId = request.headers.get("x-request-id") || "";
+  const secret = getMercadoPagoWebhookSecret();
+  const signature = readWebhookSignature(request);
+  const requestId = request.headers.get("x-request-id") || request.headers.get("x-mercadopago-request-id") || "";
   const url = new URL(request.url);
   const payload = await request.json().catch(() => ({}));
   const dataId =
@@ -107,7 +89,7 @@ export async function POST(request: Request) {
       secret,
       signature,
       requestId,
-      dataId
+      dataId,
     });
 
     if (!validSignature) {
@@ -117,65 +99,99 @@ export async function POST(request: Request) {
 
   const topic = String(
     (payload as { type?: string; action?: string; topic?: string })?.type ||
-    (payload as { type?: string; action?: string; topic?: string })?.action ||
-    (payload as { type?: string; action?: string; topic?: string })?.topic ||
-    "unknown"
+      (payload as { type?: string; action?: string; topic?: string })?.action ||
+      (payload as { type?: string; action?: string; topic?: string })?.topic ||
+      "unknown"
   );
 
   if (!dataId || !topic.includes("payment")) {
     return NextResponse.json({ ok: true, received: true, ignored: true, topic });
   }
 
+  const eventKey = getWebhookEventKey(topic, dataId, requestId, signature);
   const paymentResult = await getMercadoPagoPayment(dataId);
 
   if (!paymentResult.ok) {
+    logStructured("warn", "mercadopago_webhook_payment_lookup_failed", {
+      topic,
+      dataId,
+      requestId,
+      reason: paymentResult.reason,
+    });
     return NextResponse.json({ ok: true, received: true, ignored: true, topic, reason: paymentResult.reason });
   }
 
   const payment = paymentResult.payment;
-  const orderCode = String(payment.external_reference || "").trim();
+  const orderCode = String(payment.external_reference || "").trim().toUpperCase();
 
   if (!orderCode) {
     return NextResponse.json({ ok: true, received: true, ignored: true, topic, reason: "missing_external_reference" });
   }
 
+  if (await canConnectToDatabase()) {
+    const existingPayment = await prisma.payment.findFirst({
+      where: {
+        OR: [{ externalReference: orderCode }, { providerPaymentId: String(payment.id) }],
+      },
+      select: { id: true, metadata: true, status: true },
+    });
+
+    const processedIds = Array.isArray((existingPayment?.metadata as Record<string, unknown> | null)?.processedWebhookEventIds)
+      ? ((existingPayment?.metadata as Record<string, unknown>)?.processedWebhookEventIds as unknown[]).filter((item): item is string => typeof item === "string")
+      : [];
+
+    if (processedIds.includes(eventKey)) {
+      return NextResponse.json({ ok: true, received: true, ignored: true, topic, orderCode, duplicate: true });
+    }
+  }
+
+  const mappedStatus = mapMercadoPagoPaymentStatus(payment.status, payment.status_detail);
   const updated = await updateOrderRecord(orderCode, {
-    status: mapPaymentStatus(payment.status, payment.status_detail),
+    status: mappedStatus,
     payment_provider: "mercado-pago",
     payment_reference: payment.id ? String(payment.id) : dataId,
     payment_status: payment.status || "unknown",
     payment_status_detail: payment.status_detail || null,
     payment_approved_at: payment.date_approved || null,
-    updated_at: new Date().toISOString()
+    payment_payload: payment,
+    updated_at: new Date().toISOString(),
   });
 
-  if (payment.status === "approved") {
+  await markWebhookEventProcessed(orderCode, eventKey, payload as Record<string, unknown>);
+
+  if (payment.status === "approved" && await canConnectToDatabase()) {
     try {
-      if (await canConnectToDatabase()) {
-        const order = await prisma.order.findFirst({
-          where: { orderNumber: orderCode },
-          select: {
-            customerEmail: true,
-            customerName: true,
-            grandTotal: true,
-            items: { select: { title: true }, take: 1 },
-          },
+      const order = await prisma.order.findFirst({
+        where: { orderNumber: orderCode },
+        select: {
+          customerEmail: true,
+          customerName: true,
+          grandTotal: true,
+          items: { select: { title: true }, take: 1 },
+        },
+      });
+      if (order?.customerEmail) {
+        void sendMail({
+          to: order.customerEmail,
+          subject: `Pagamento confirmado — Pedido ${orderCode}`,
+          html: paymentConfirmedHtml({
+            orderCode,
+            customerName: order.customerName ?? "Cliente",
+            productName: order.items[0]?.title ?? "Produto MDH 3D",
+            totalPix: Number(order.grandTotal),
+          }),
+        }).catch((error) => {
+          logStructured("warn", "mercadopago_webhook_email_failed", {
+            orderCode,
+            message: normalizeMercadoPagoError(error).message,
+          });
         });
-        if (order?.customerEmail) {
-          sendMail({
-            to: order.customerEmail,
-            subject: `Pagamento confirmado — Pedido ${orderCode}`,
-            html: paymentConfirmedHtml({
-              orderCode,
-              customerName: order.customerName ?? "Cliente",
-              productName: order.items[0]?.title ?? "Produto MDH 3D",
-              totalPix: Number(order.grandTotal),
-            }),
-          }).catch(() => null);
-        }
       }
-    } catch {
-      // email is best-effort, never block webhook response
+    } catch (error) {
+      logStructured("warn", "mercadopago_webhook_email_lookup_failed", {
+        orderCode,
+        message: normalizeMercadoPagoError(error).message,
+      });
     }
   }
 
@@ -184,6 +200,7 @@ export async function POST(request: Request) {
     received: true,
     topic,
     orderCode,
-    updated: updated.ok
+    status: mappedStatus,
+    updated: updated.ok,
   });
 }
