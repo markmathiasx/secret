@@ -3,6 +3,7 @@ import { Hero } from "@/components/hero-professional";
 import { CatalogGrid } from "@/components/catalog-grid";
 import { STLUploader } from "@/components/stl-uploader";
 import { TrustSignals } from "@/components/trust-signals";
+import { ProductionProcess } from "@/components/production-process";
 import { SafeProductImage } from "@/components/safe-product-image";
 import { ProductVisualBadge } from "@/components/product-visual-authenticity";
 import { getProductUrl, type Product } from "@/lib/catalog";
@@ -21,6 +22,24 @@ export default async function HomePage() {
   return (
     <main>
       <Hero />
+
+      <section className="border-y border-white/[0.08] bg-black/20 py-4">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="flex flex-wrap items-center justify-center gap-8 text-center">
+            {[
+              { value: "748", label: "peças no catálogo" },
+              { value: "4.9★", label: "avaliação média" },
+              { value: "2-5 dias", label: "prazo de entrega" },
+              { value: "Rio de Janeiro", label: "produção local" },
+            ].map((stat) => (
+              <div key={stat.label} className="px-2">
+                <p className="text-xl font-black text-white">{stat.value}</p>
+                <p className="mt-0.5 text-xs text-white/50">{stat.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       <section id="home-featured" className="mx-auto max-w-7xl px-6 py-16">
         <div className="mb-8">
@@ -53,6 +72,38 @@ export default async function HomePage() {
           <Link href="/imagem-para-impressao-3d" className="btn-secondary px-8 py-3">
             Enviar referência para orçamento
           </Link>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-6 py-12">
+        <div className="glass-panel p-8 md:p-10">
+          <p className="section-kicker">Por que MDH 3D?</p>
+          <h2 className="section-title">O que os grandes marketplaces não oferecem.</h2>
+          <div className="mt-8 grid gap-4 md:grid-cols-3">
+            {[
+              {
+                icon: "🏭",
+                title: "Produção própria, não revendedor",
+                body: "Cada pedido sai de impressoras Bambu Lab no RJ. Você fala com quem faz, não com um intermediário.",
+              },
+              {
+                icon: "⚡",
+                title: "Pix com QR e cópia-e-cola imediato",
+                body: "Sem redirecionar para gateway externo. QR Code gerado na hora, confirmação em minutos.",
+              },
+              {
+                icon: "💬",
+                title: "Atendimento no WhatsApp com resposta real",
+                body: "Não é chatbot. É a equipe de produção respondendo dúvidas de cor, prazo e acabamento.",
+              },
+            ].map((item) => (
+              <article key={item.title} className="rounded-[24px] border border-white/10 bg-black/20 p-6">
+                <p className="text-3xl">{item.icon}</p>
+                <h3 className="mt-3 text-base font-bold text-white">{item.title}</h3>
+                <p className="mt-2 text-sm leading-6 text-white/65">{item.body}</p>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -104,7 +155,9 @@ export default async function HomePage() {
 
       <TrustSignals />
 
-      <section id="home-cta-final" className="mx-auto max-w-7xl px-6 py-16">
+      <ProductionProcess />
+
+      <section id="home-cta-final"className="mx-auto max-w-7xl px-6 py-16">
         <div className="glass-panel p-8 md:p-10 text-center">
           <p className="section-kicker">Pronto para começar?</p>
           <h2 className="section-title">Escolha seu caminho: catálogo, orçamento ou conversa direta.</h2>

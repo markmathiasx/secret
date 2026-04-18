@@ -2,6 +2,9 @@ import { createHmac, timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
 import { getMercadoPagoPayment } from "@/lib/payments";
 import { updateOrderRecord } from "@/lib/storage";
+import { sendMail } from "@/lib/mailer";
+import { paymentConfirmedHtml } from "@/lib/email-templates";
+import { canConnectToDatabase, prisma } from "@/lib/prisma";
 
 export const runtime = "nodejs";
 
@@ -145,6 +148,36 @@ export async function POST(request: Request) {
     payment_approved_at: payment.date_approved || null,
     updated_at: new Date().toISOString()
   });
+
+  if (payment.status === "approved") {
+    try {
+      if (await canConnectToDatabase()) {
+        const order = await prisma.order.findFirst({
+          where: { orderNumber: orderCode },
+          select: {
+            customerEmail: true,
+            customerName: true,
+            grandTotal: true,
+            items: { select: { title: true }, take: 1 },
+          },
+        });
+        if (order?.customerEmail) {
+          sendMail({
+            to: order.customerEmail,
+            subject: `Pagamento confirmado — Pedido ${orderCode}`,
+            html: paymentConfirmedHtml({
+              orderCode,
+              customerName: order.customerName ?? "Cliente",
+              productName: order.items[0]?.title ?? "Produto MDH 3D",
+              totalPix: Number(order.grandTotal),
+            }),
+          }).catch(() => null);
+        }
+      }
+    } catch {
+      // email is best-effort, never block webhook response
+    }
+  }
 
   return NextResponse.json({
     ok: true,

@@ -9,6 +9,8 @@ import { getServerSessionUser } from "@/lib/server-session";
 import { buildShippingQuote } from "@/lib/shipping";
 import { storeRecord } from "@/lib/storage";
 import { logStructured } from "@/lib/logger";
+import { sendMail } from "@/lib/mailer";
+import { orderConfirmationHtml } from "@/lib/email-templates";
 
 const orderSchema = z.object({
   productId: z.string().min(1),
@@ -251,6 +253,21 @@ export async function POST(request: Request) {
         },
       });
 
+      const customerEmail = parsed.data.email.trim().toLowerCase();
+      sendMail({
+        to: customerEmail,
+        subject: `Pedido ${orderCode} recebido — MDH 3D Store`,
+        html: orderConfirmationHtml({
+          orderCode,
+          customerName: parsed.data.customerName,
+          productName: product.name,
+          quantity: parsed.data.quantity,
+          totalPix,
+          paymentMethod: parsed.data.paymentMethod,
+          productionWindow: product.productionWindow,
+        }),
+      }).catch(() => null);
+
       return NextResponse.json({
         ok: true,
         orderCode,
@@ -322,6 +339,21 @@ export async function POST(request: Request) {
   if (!result.ok) {
     return NextResponse.json({ ok: false, message: "Falha ao criar pedido." }, { status: 500 });
   }
+
+  const customerEmailFallback = parsed.data.email.trim().toLowerCase();
+  sendMail({
+    to: customerEmailFallback,
+    subject: `Pedido ${orderCode} recebido — MDH 3D Store`,
+    html: orderConfirmationHtml({
+      orderCode,
+      customerName: parsed.data.customerName,
+      productName: product.name,
+      quantity: parsed.data.quantity,
+      totalPix,
+      paymentMethod: parsed.data.paymentMethod,
+      productionWindow: product.productionWindow,
+    }),
+  }).catch(() => null);
 
   return NextResponse.json({
     ok: true,

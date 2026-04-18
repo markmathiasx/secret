@@ -14,12 +14,19 @@ import { ProductCatalogBackLink } from '@/components/product-catalog-back-link';
 import { ProductReviews } from '@/components/product-reviews';
 import { DeliveryCalculator } from '@/components/delivery-calculator';
 import { QuoteForm } from '@/components/quote-form';
+import { GuaranteeBar } from '@/components/guarantee-bar';
+import { ProductSocialProof } from '@/components/product-social-proof';
+import { RecentPurchaseToast } from '@/components/recent-purchase-toast';
+import { StickyPdpCta } from '@/components/sticky-pdp-cta';
+import { ProductBundleSuggestion } from '@/components/product-bundle-suggestion';
+import { RecentlyViewedShelf } from '@/components/recently-viewed-shelf';
 import { formatCurrency } from '@/lib/utils';
 import { whatsappMessage, whatsappNumber } from '@/lib/constants';
 import { Metadata } from 'next';
 import { getSiteUrl } from '@/lib/env';
 import { getProductHighlights, getProductLongDescription } from '@/lib/catalog-content';
 import { resolveProductImage } from '@/lib/product-images';
+import { catalog, featuredCatalog } from '@/lib/catalog';
 
 export const revalidate = 300;
 export const dynamic = 'force-static';
@@ -235,6 +242,13 @@ export default async function ProductPage({
             <span className="chip-nav">{product.readyToShip ? 'Pronta entrega' : 'Sob encomenda'}</span>
             <ProductVisualBadge product={product} />
           </div>
+          <div className="mt-4">
+            <ProductSocialProof
+              productId={product.id}
+              stockLevel={product.stock}
+              soldThisMonth={product.stock > 0 ? Math.floor(product.stock * 1.5) + 3 : undefined}
+            />
+          </div>
           <h1 className="mt-5 text-4xl font-black text-white md:text-5xl">{product.name}</h1>
           <p className="mt-4 text-base leading-8 text-white/70">{longDescription}</p>
 
@@ -342,7 +356,7 @@ export default async function ProductPage({
             ))}
           </div>
 
-          <div className="mt-6">
+          <div id="pdp-purchase-tools" className="mt-6">
             <ProductPurchaseTools
               productId={product.id}
               productName={product.name}
@@ -354,6 +368,10 @@ export default async function ProductPage({
               whatsappHref={whatsappHref}
               customizationHref={customizationHref}
             />
+          </div>
+
+          <div className="mt-6">
+            <GuaranteeBar />
           </div>
 
           <div className="mt-6 rounded-[24px] border border-white/10 bg-black/20 p-4">
@@ -390,10 +408,33 @@ export default async function ProductPage({
       </div>
 
       <div className="mt-12">
+        <ProductBundleSuggestion
+          currentProduct={product}
+          relatedProducts={catalog
+            .filter((p) => (p.category === product.category || p.collection === product.collection) && p.id !== product.id && p.pricingMode === "faixa-auditada")
+            .slice(0, 3)}
+        />
+      </div>
+
+      <div className="mt-12">
         <ProductReviews productSlug={slug} productSku={product.sku} />
       </div>
 
       <ProductRelatedShelf product={product} />
+
+      <RecentlyViewedShelf
+        currentProductId={product.id}
+        catalog={featuredCatalog.map((p) => ({ id: p.id, slug: p.slug, name: p.name, pricePix: p.pricePix, images: p.images?.slice(0, 1) ?? [] }))}
+      />
+
+      <StickyPdpCta
+        productId={product.id}
+        productName={product.name}
+        pricePix={product.pricePix}
+        checkoutHref={`/checkout?product=${product.id}`}
+      />
+
+      <RecentPurchaseToast productName={product.name} />
     </section>
     </>
   );
