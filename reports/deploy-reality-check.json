@@ -1,0 +1,78 @@
+{
+  "audit_result": "PASS",
+  "divergence_found": "Token MP desatualizado. Todas as outras features (social proof, guarantee bar, sticky CTA, production process, recently viewed, bundle suggestions, notifications bell, admin CRUD, etc.) JA ESTAVAM em producao no deployment anterior.",
+  "features_confirmed_live": [
+    "stats bar — homepage (748 pecas, 4.9 estrelas, 2-5 dias, RJ)",
+    "GuaranteeBar — PDP (Producao local, Impressao certificada, Troca 30 dias, WhatsApp suporte)",
+    "ProductSocialProof — PDP (visualizacoes, vendidos, urgencia de estoque)",
+    "RecentPurchaseToast — PDP (toast social proof)",
+    "StickyPdpCta — PDP mobile (botao fixo comprar/carrinho)",
+    "ProductBundleSuggestion — PDP (cross-sell)",
+    "RecentlyViewedShelf — PDP (historico localStorage)",
+    "ProductionProcess — homepage (4 etapas de transparencia)",
+    "CartDrawer — header (ícone + badge + sidebar)",
+    "CheckoutFlow completo — PIX + cartao (agora com MP real)",
+    "PIX dinamico MercadoPago — QR code + copia-e-cola + expiresAt",
+    "Cartao MercadoPago Checkout Pro — redirect para init_point",
+    "Admin CRUD — /admin/products, /admin/inventory, /admin/users, /admin/analytics, /admin/coupons, /admin/settings",
+    "Search page — /busca",
+    "Wishlist — /favoritos",
+    "About — /sobre",
+    "Contact — /contato",
+    "Returns/RMA — /devolucoes",
+    "Order Tracking — /rastrear",
+    "Notifications bell — header (logado)",
+    "PIX countdown timer — checkout",
+    "Coupon input — checkout",
+    "Email templates — orderConfirmation, paymentConfirmed, passwordReset, orderShipped, orderCancelled"
+  ],
+  "generated_at": "2026-04-18T07:38:44.2176993-03:00",
+  "root_cause": "MERCADOPAGO_ACCESS_TOKEN was set to an old/empty value in Vercel; PIX dinamico e card checkout estavam desativados. Codigo estava correto e em producao.",
+  "corrections_applied": [
+    "Removed stale MERCADOPAGO_ACCESS_TOKEN from Vercel",
+    "Added TEST-4e00f55b-... to Vercel Production + Preview + Development",
+    "Triggered new production deploy via Vercel CLI"
+  ],
+  "deployment": {
+    "status": "Ready",
+    "production_domain": "https://mdh-3d-store.vercel.app",
+    "branch": "main",
+    "url": "https://mdh-3d-store-fbpaftn4u-markmathias.vercel.app",
+    "previous": "dpl_AHQyhHdqGxJRd7beaPjrBUwjtxpj",
+    "commit": "6c1b63b",
+    "current": "dpl_7MpZWZEnmMaaFFLCcuTpwwYsebt4"
+  },
+  "api_checks": {
+    "GET /api/payments/status": {
+      "status": 200,
+      "cardCheckoutReady": true,
+      "note": "MP token active"
+    },
+    "GET /conta": {
+      "note": "requires auth",
+      "status": 200
+    },
+    "GET /busca?q=medalha": {
+      "chunk": "app/busca/page-22b99ab985a7ffe5.js",
+      "status": 200
+    },
+    "GET /catalogo": {
+      "products": 748,
+      "status": 200
+    },
+    "GET /checkout": {
+      "status": 200
+    },
+    "GET /sobre": {
+      "status": 200
+    },
+    "GET /rastrear": {
+      "status": 200
+    }
+  },
+  "pending": [
+    "NEXT_PUBLIC_MERCADOPAGO_PUBLIC_KEY nao foi fornecida — card bricks (MP Bricks SDK) requerem public key separada; o Checkout Pro (redirect) funciona so com access token",
+    "SMTP nao configurado — emails sao fire-and-forget mas SMTP_HOST nao esta setado no Vercel; emails nao saem ate configurar",
+    "Coupon PERCENT_OFF / FIXED requer entrada de cupons validos no banco via /admin/coupons"
+  ]
+}
