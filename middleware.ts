@@ -44,11 +44,11 @@ export function middleware(request: NextRequest) {
     "img-src 'self' data: https:",
     "media-src 'self' https: blob:",
     "font-src 'self' data: https://fonts.gstatic.com",
-    "connect-src 'self' https://api.mercadopago.com https://api.mercadolibre.com https://http2.mlstatic.com https://graph.facebook.com https://viacep.com.br https://*.supabase.co wss://*.supabase.co https://*.supabase.in wss://*.supabase.in https://maps.googleapis.com https://maps.gstatic.com https://www.google-analytics.com https://region1.google-analytics.com",
-    "frame-src https://www.mercadopago.com.br https://www.mercadopago.com https://www.mercadolibre.com https://www.mercadolibre.com.br",
+    "connect-src 'self' https://api.mercadopago.com https://api.mercadolibre.com https://*.mercadolibre.com https://*.mercadolivre.com https://http2.mlstatic.com https://graph.facebook.com https://viacep.com.br https://*.supabase.co wss://*.supabase.co https://*.supabase.in wss://*.supabase.in https://maps.googleapis.com https://maps.gstatic.com https://www.google-analytics.com https://region1.google-analytics.com",
+    "frame-src https://www.mercadopago.com.br https://www.mercadopago.com https://www.mercadolibre.com https://www.mercadolibre.com.br https://www.mercadolivre.com https://www.mercadolivre.com.br",
     "object-src 'none'",
     "base-uri 'self'",
-    "form-action 'self' https://www.mercadopago.com.br https://www.mercadopago.com https://www.mercadolibre.com https://www.mercadolibre.com.br",
+    "form-action 'self' https://www.mercadopago.com.br https://www.mercadopago.com https://www.mercadolibre.com https://www.mercadolibre.com.br https://www.mercadolivre.com https://www.mercadolivre.com.br",
     "frame-ancestors 'none'",
   ];
 

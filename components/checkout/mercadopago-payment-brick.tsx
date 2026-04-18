@@ -117,6 +117,7 @@ export function MercadoPagoPaymentBrick({
             amount,
             payer: {
               email: payerEmail,
+              entityType: "individual",
               first_name: payerName.split(/\s+/)[0] || undefined,
               last_name: payerName.split(/\s+/).slice(1).join(" ") || undefined,
             },
