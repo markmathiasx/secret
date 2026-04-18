@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
 import { prisma } from '@/lib/prisma';
+import { sendMail } from '@/lib/mailer';
+import { orderShippedHtml } from '@/lib/email-templates';
 
 export async function GET(req: NextRequest, context: { params: Promise<{ id: string }> }) {
   const session = await auth();
@@ -45,8 +47,27 @@ export async function PATCH(req: NextRequest, context: { params: Promise<{ id: s
       ...(notes && { notes }),
       updatedAt: new Date(),
     },
-    include: { items: true, payments: true, invoice: true },
+    include: { items: { include: { product: true } }, payments: true, invoice: true },
   });
+
+  if (status === 'SHIPPED' && updated.customerEmail) {
+    const firstItem = updated.items[0];
+    const productName = firstItem?.product?.title ?? 'Produto';
+
+    try {
+      await sendMail({
+        to: updated.customerEmail,
+        subject: `Pedido ${updated.orderNumber} enviado — MDH 3D`,
+        html: orderShippedHtml({
+          orderCode: updated.orderNumber,
+          customerName: updated.customerName ?? 'cliente',
+          productName,
+        }),
+      });
+    } catch {
+      console.error('[orders PATCH] falha ao enviar e-mail de envio');
+    }
+  }
 
   return NextResponse.json(updated);
 }

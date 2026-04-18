@@ -167,3 +167,88 @@ export function paymentConfirmedHtml(order: {
 </body>
 </html>`;
 }
+
+export function passwordResetHtml(data: { customerName: string; resetLink: string }): string {
+  return `<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8" /><title>Redefinir senha — MDH 3D</title></head>
+<body style="margin:0;padding:0;background:#090f19;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#f1f5f9;">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#090f19;padding:40px 16px;">
+  <tr><td align="center">
+    <table width="100%" style="max-width:560px;border-radius:24px;border:1px solid rgba(255,255,255,0.1);background:#0d1824;overflow:hidden;">
+      <tr><td style="padding:32px;text-align:center;">
+        <p style="margin:0 0 16px;font-size:22px;font-weight:900;color:#22d3ee;">MDH 3D</p>
+        <h1 style="margin:0 0 16px;font-size:24px;font-weight:900;color:#ffffff;">Redefinir sua senha</h1>
+        <p style="margin:0 0 24px;font-size:15px;color:rgba(255,255,255,0.65);">Olá, ${data.customerName}. Clique no botão abaixo para criar uma nova senha. O link expira em 1 hora.</p>
+        <a href="${data.resetLink}" style="display:inline-block;background:#22d3ee;color:#020817;font-size:15px;font-weight:700;padding:14px 32px;border-radius:14px;text-decoration:none;margin-bottom:20px;">Redefinir senha</a>
+        <p style="margin:0;font-size:13px;color:rgba(255,255,255,0.45);">Se você não solicitou a redefinição, ignore este e-mail.</p>
+      </td></tr>
+      <tr><td style="background:#060c14;padding:16px;text-align:center;">
+        <p style="margin:0;font-size:12px;color:rgba(255,255,255,0.3);">MDH 3D Store • Rio de Janeiro</p>
+      </td></tr>
+    </table>
+  </td></tr>
+</table>
+</body>
+</html>`;
+}
+
+export function orderShippedHtml(order: {
+  orderCode: string;
+  customerName: string;
+  productName: string;
+  trackingCode?: string | null;
+  carrier?: string | null;
+}): string {
+  const waLink = `https://wa.me/5521920137249?text=${encodeURIComponent(`Oi! Quero rastrear o pedido ${order.orderCode}.`)}`;
+  return `<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8" /><title>Pedido enviado — MDH 3D</title></head>
+<body style="margin:0;padding:0;background:#090f19;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#f1f5f9;">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#090f19;padding:40px 16px;">
+  <tr><td align="center">
+    <table width="100%" style="max-width:560px;border-radius:24px;border:1px solid rgba(255,255,255,0.1);background:#0d1824;overflow:hidden;">
+      <tr><td style="padding:32px;">
+        <h1 style="margin:0 0 8px;font-size:26px;font-weight:900;color:#ffffff;">Pedido enviado! 🚚</h1>
+        <p style="margin:0 0 16px;font-size:15px;color:rgba(255,255,255,0.65);">Olá, ${order.customerName}. Seu pedido <strong>${order.orderCode}</strong> foi enviado.</p>
+        <p style="margin:0 0 8px;font-size:14px;color:rgba(255,255,255,0.65);">Produto: <strong style="color:#f1f5f9;">${order.productName}</strong></p>
+        ${order.trackingCode ? `<p style="margin:0 0 8px;font-size:14px;color:rgba(255,255,255,0.65);">Rastreio: <strong style="color:#22d3ee;">${order.trackingCode}</strong></p>` : ""}
+        ${order.carrier ? `<p style="margin:0 0 20px;font-size:14px;color:rgba(255,255,255,0.65);">Transportadora: ${order.carrier}</p>` : `<p style="margin:0 0 20px;"></p>`}
+        <a href="${waLink}" style="display:block;text-align:center;background:#25D366;color:#ffffff;font-size:15px;font-weight:700;padding:14px 24px;border-radius:14px;text-decoration:none;">💬 Acompanhar no WhatsApp</a>
+      </td></tr>
+      <tr><td style="background:#060c14;padding:16px;text-align:center;">
+        <p style="margin:0;font-size:12px;color:rgba(255,255,255,0.3);">MDH 3D Store • Rio de Janeiro</p>
+      </td></tr>
+    </table>
+  </td></tr>
+</table>
+</body>
+</html>`;
+}
+
+export function orderCancelledHtml(order: {
+  orderCode: string;
+  customerName: string;
+  productName: string;
+}): string {
+  return `<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8" /><title>Pedido cancelado — MDH 3D</title></head>
+<body style="margin:0;padding:0;background:#090f19;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#f1f5f9;">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#090f19;padding:40px 16px;">
+  <tr><td align="center">
+    <table width="100%" style="max-width:560px;border-radius:24px;border:1px solid rgba(255,255,255,0.1);background:#0d1824;overflow:hidden;">
+      <tr><td style="padding:32px;">
+        <h1 style="margin:0 0 8px;font-size:26px;font-weight:900;color:#ffffff;">Pedido cancelado</h1>
+        <p style="margin:0 0 16px;font-size:15px;color:rgba(255,255,255,0.65);">Olá, ${order.customerName}. Seu pedido <strong>${order.orderCode}</strong> (${order.productName}) foi cancelado.</p>
+        <a href="https://wa.me/5521920137249" style="display:block;text-align:center;background:#25D366;color:#ffffff;font-size:15px;font-weight:700;padding:14px 24px;border-radius:14px;text-decoration:none;margin-top:20px;">💬 Falar com a equipe</a>
+      </td></tr>
+      <tr><td style="background:#060c14;padding:16px;text-align:center;">
+        <p style="margin:0;font-size:12px;color:rgba(255,255,255,0.3);">MDH 3D Store • Rio de Janeiro</p>
+      </td></tr>
+    </table>
+  </td></tr>
+</table>
+</body>
+</html>`;
+}

@@ -73,6 +73,12 @@ export function SiteFooter() {
             <Link href="/faq" className="transition hover:text-cyan-glow">
               Perguntas frequentes
             </Link>
+            <Link href="/sobre" className="transition hover:text-cyan-glow">
+              Sobre a MDH 3D
+            </Link>
+            <Link href="/contato" className="transition hover:text-cyan-glow">
+              Contato
+            </Link>
             <Link href="/divulgacao" className="transition hover:text-cyan-glow">
               Portfólio e conteúdo
             </Link>
@@ -95,6 +101,12 @@ export function SiteFooter() {
             <Link href="/catalogo" className="transition hover:text-cyan-glow">
               Escolher um produto
             </Link>
+            <Link href="/busca" className="transition hover:text-cyan-glow">
+              Buscar no catálogo
+            </Link>
+            <Link href="/favoritos" className="transition hover:text-cyan-glow">
+              Favoritos
+            </Link>
             <Link href="/presentes-3d" className="transition hover:text-cyan-glow">
               Presentes 3D
             </Link>
@@ -107,8 +119,11 @@ export function SiteFooter() {
             <Link href="/checkout" className="transition hover:text-cyan-glow">
               Fechar pedido
             </Link>
-            <Link href="/imagem-para-impressao-3d" className="transition hover:text-cyan-glow">
-              Enviar referência ou STL
+            <Link href="/rastrear" className="transition hover:text-cyan-glow">
+              Rastrear pedido
+            </Link>
+            <Link href="/devolucoes" className="transition hover:text-cyan-glow">
+              Devoluções e trocas
             </Link>
             <Link href="/conta" className="transition hover:text-cyan-glow">
               Acompanhar conta e pedidos

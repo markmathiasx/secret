@@ -2,6 +2,7 @@
 
 import { CheckCircle2 } from "lucide-react";
 import { PixPaymentCard } from "@/components/pix-payment-card";
+import { PixCountdown } from "@/components/checkout/pix-countdown";
 import { ProductPriceStack } from "@/components/product-price-stack";
 import { ProductVisualBadge } from "@/components/product-visual-authenticity";
 import { SafeProductImage } from "@/components/safe-product-image";
@@ -168,14 +169,17 @@ export function CheckoutSummary({
       </div>
 
       {paymentMethod === "pix" && product ? (
-        <PixPaymentCard
-          title={paymentTitle}
-          amount={totalPix}
-          payload={pixPayment?.payload}
-          qrCodeBase64={pixPayment?.qrCodeBase64}
-          expiresAt={pixPayment?.expiresAt}
-          providerLabel={pixPayment?.provider}
-        />
+        <div className="space-y-3">
+          {pixPayment?.expiresAt && <PixCountdown expiresAt={pixPayment.expiresAt} />}
+          <PixPaymentCard
+            title={paymentTitle}
+            amount={totalPix}
+            payload={pixPayment?.payload}
+            qrCodeBase64={pixPayment?.qrCodeBase64}
+            expiresAt={pixPayment?.expiresAt}
+            providerLabel={pixPayment?.provider}
+          />
+        </div>
       ) : (
         <div className="glass-panel p-6 md:p-7">
           <p className="text-xs uppercase tracking-[0.2em] text-cyan-100/75">Pagamento</p>

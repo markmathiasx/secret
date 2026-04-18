@@ -1,6 +1,7 @@
 "use client";
 
 import { CreditCard, PackageCheck, QrCode } from "lucide-react";
+import { CouponInput } from "@/components/checkout/coupon-input";
 import { formatCurrency } from "@/lib/utils";
 
 export function CheckoutPaymentStep({
@@ -12,6 +13,7 @@ export function CheckoutPaymentStep({
   totalCard,
   onPaymentMethodChange,
   onNotesChange,
+  onCouponApplied,
   onBack,
   onContinue,
 }: {
@@ -23,6 +25,7 @@ export function CheckoutPaymentStep({
   totalCard: number;
   onPaymentMethodChange: (value: "pix" | "cartao" | "boleto") => void;
   onNotesChange: (value: string) => void;
+  onCouponApplied?: (discount: number, freeShipping: boolean) => void;
   onBack: () => void;
   onContinue: () => void;
 }) {
@@ -74,6 +77,14 @@ export function CheckoutPaymentStep({
           O Pix segue ativo no site. Se você precisar parcelar, use o WhatsApp para receber orientação da equipe e concluir o pedido com suporte humano.
         </div>
       ) : null}
+
+      <label>
+        <span className="mb-2 block text-sm text-white/70">Cupom de desconto</span>
+        <CouponInput
+          total={paymentMethod === "cartao" ? totalCard : totalPix}
+          onCouponApplied={(discount, freeShipping) => onCouponApplied?.(discount, freeShipping)}
+        />
+      </label>
 
       <label>
         <span className="mb-2 block text-sm text-white/70">Observações do pedido</span>
