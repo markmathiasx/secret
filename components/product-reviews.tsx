@@ -126,7 +126,9 @@ export function ProductReviews({ productSlug, productSku }: { productSlug: strin
               </div>
             </div>
           ) : (
-            <p className="mt-1 text-sm text-white/55">Seja o primeiro a avaliar <strong className="text-white">{productSku}</strong></p>
+            <p className="mt-1 text-sm text-white/55">
+              Este item ainda está reunindo avaliações reais. Se você já comprou, sua nota ajuda outros clientes.
+            </p>
           )}
         </div>
         <button
@@ -224,7 +226,7 @@ export function ProductReviews({ productSlug, productSku }: { productSlug: strin
         </div>
       ) : (
         <div className="rounded-[24px] border border-white/10 bg-white/5 p-8 text-center">
-          <p className="text-sm text-white/55">Ainda não há avaliações para este produto.</p>
+          <p className="text-sm text-white/55">Ainda estamos reunindo avaliações reais deste produto.</p>
         </div>
       )}
     </div>

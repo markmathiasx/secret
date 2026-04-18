@@ -29,6 +29,7 @@ export function ProductPriceStack({
 }) {
   const referencePrice = getReferencePrice(product);
   const savings = Math.max(0, referencePrice - product.pricePix);
+  const productionLeadTime = product.printTime || product.productionWindow || "sob consulta";
 
   return (
     <div className="space-y-2">
@@ -49,6 +50,7 @@ export function ProductPriceStack({
       {showInstallments ? (
         <p className="text-xs text-white/55">12x de {formatCurrency(product.priceCard / 12)} no cartão</p>
       ) : null}
+      <p className="text-xs text-white/55">Prazo: {productionLeadTime}</p>
       <div className="flex flex-wrap gap-2">
         <span className="rounded-full border border-emerald-300/25 bg-emerald-300/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-emerald-100">
           {FIXED_MARGIN_BADGE_LABEL}

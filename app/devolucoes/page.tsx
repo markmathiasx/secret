@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ChevronRight, CheckCircle } from "lucide-react";
+import { PurchaseProtectionBanner } from "@/components/purchase-protection-banner";
 
 const RETURN_REASONS = [
   "Produto danificado",
@@ -56,8 +57,10 @@ export default function DevolucoesPage() {
       <div className="mb-8">
         <p className="section-kicker">Pós-venda</p>
         <h1 className="section-title">Devoluções e trocas</h1>
-        <p className="section-copy">Abra uma solicitação de devolução ou troca em 3 passos simples.</p>
+        <p className="section-copy">Abra uma solicitação de devolução ou troca em 3 passos simples. Você recebe confirmação por e-mail e a equipe segue o fluxo com você.</p>
       </div>
+
+      <PurchaseProtectionBanner compact />
 
       {/* Stepper */}
       <div className="mb-8 flex items-center gap-2 text-sm">
@@ -148,7 +151,7 @@ export default function DevolucoesPage() {
 
       <div className="mt-6 rounded-[20px] border border-white/10 bg-white/5 p-4 text-sm text-white/60 leading-7">
         <p className="font-semibold text-white/80">Política de devolução</p>
-        <p className="mt-2">Aceitamos devoluções dentro de 7 dias corridos após o recebimento. O produto deve estar em sua embalagem original. Entraremos em contato para orientar o processo de envio.</p>
+        <p className="mt-2">Aceitamos devoluções dentro de 7 dias corridos após o recebimento. O produto deve estar em sua embalagem original. Entraremos em contato para orientar o processo de envio e a próxima etapa.</p>
       </div>
     </main>
   );

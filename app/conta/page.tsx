@@ -11,6 +11,7 @@ import {
   Sparkles,
   WalletCards,
 } from 'lucide-react';
+import { PurchaseProtectionBanner } from '@/components/purchase-protection-banner';
 import { TwoFactorPanel } from '@/components/account/two-factor-panel';
 import { featuredCatalog, findProduct, getProductUrl } from '@/lib/catalog';
 import { emitCustomerAuthChange, useCustomerSession } from '@/lib/customer-session-client';
@@ -200,6 +201,8 @@ export default function AccountPage() {
         <div className="mt-6 flex flex-wrap gap-3">
           <Link href="/catalogo" className="btn-secondary">Voltar ao catálogo</Link>
           <Link href="/imagem-para-impressao-3d" className="btn-secondary">Enviar referência</Link>
+          <Link href="/rastrear" className="btn-glass">Rastrear pedido</Link>
+          <Link href="/devolucoes" className="btn-glass">Trocas e devoluções</Link>
           {lastQuote ? <Link href={`/checkout?product=${lastQuote.productId}`} className="btn-primary">Continuar pedido</Link> : null}
         </div>
 
@@ -211,6 +214,10 @@ export default function AccountPage() {
             </div>
           ))}
         </div>
+      </div>
+
+      <div className="mt-6">
+        <PurchaseProtectionBanner compact />
       </div>
 
       <div className="mt-6 grid gap-6 xl:grid-cols-[0.9fr_1.1fr]">

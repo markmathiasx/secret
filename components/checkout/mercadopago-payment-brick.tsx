@@ -85,6 +85,8 @@ export function MercadoPagoPaymentBrick({
   const brickRef = useRef<{ unmount?: () => void } | null>(null);
   const checkoutPayloadRef = useRef(checkoutPayload);
   const onResultRef = useRef(onResult);
+  const payerEmailRef = useRef(payerEmail);
+  const payerNameRef = useRef(payerName);
   const [sdkReady, setSdkReady] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -106,10 +108,30 @@ export function MercadoPagoPaymentBrick({
         : {},
     [paymentMethod]
   );
+  const initialization = useMemo(
+    () => ({
+      amount,
+      payer: {
+        email: payerEmailRef.current,
+        entityType: "individual",
+        first_name: payerNameRef.current.split(/\s+/)[0] || undefined,
+        last_name: payerNameRef.current.split(/\s+/).slice(1).join(" ") || undefined,
+      },
+    }),
+    [amount]
+  );
 
   useEffect(() => {
     checkoutPayloadRef.current = checkoutPayload;
   }, [checkoutPayload]);
+
+  useEffect(() => {
+    payerEmailRef.current = payerEmail;
+  }, [payerEmail]);
+
+  useEffect(() => {
+    payerNameRef.current = payerName;
+  }, [payerName]);
 
   useEffect(() => {
     onResultRef.current = onResult;
@@ -117,6 +139,7 @@ export function MercadoPagoPaymentBrick({
 
   useEffect(() => {
     let cancelled = false;
+    let readyTimeout: number | null = null;
 
     async function mountBrick() {
       try {
@@ -145,6 +168,18 @@ export function MercadoPagoPaymentBrick({
         const mp = new win.MercadoPago(getMercadoPagoPublicKey(), { locale: "pt-BR" });
         const bricksBuilder = mp.bricks();
 
+        readyTimeout = window.setTimeout(() => {
+          if (cancelled) return;
+          const message = "O checkout do cartão demorou para montar. Recarregue a página ou use Pix enquanto ajustamos o provedor.";
+          setError(message);
+          setLoading(false);
+          logStructured("warn", "mercadopago_card_brick_ready_timeout", {
+            paymentMethod,
+            amount,
+            containerId,
+          });
+        }, 25000);
+
         logStructured("info", "mercadopago_brick_mount_start", {
           paymentMethod,
           amount,
@@ -152,18 +187,11 @@ export function MercadoPagoPaymentBrick({
         });
 
         const controller = await bricksBuilder.create(brickType, containerId, {
-          initialization: {
-            amount,
-            payer: {
-              email: payerEmail,
-              entityType: "individual",
-              first_name: payerName.split(/\s+/)[0] || undefined,
-              last_name: payerName.split(/\s+/).slice(1).join(" ") || undefined,
-            },
-          },
+          initialization,
           customization,
           callbacks: {
             onReady: () => {
+              if (readyTimeout) window.clearTimeout(readyTimeout);
               setSdkReady(true);
               setLoading(false);
             },
@@ -215,6 +243,7 @@ export function MercadoPagoPaymentBrick({
               }
             },
             onError: (submitError: unknown) => {
+              if (readyTimeout) window.clearTimeout(readyTimeout);
               const message = submitError instanceof Error ? submitError.message : "Falha no componente de pagamento.";
               setError(message);
               logStructured("warn", paymentMethod === "cartao" ? "mercadopago_card_brick_error" : "mercadopago_payment_brick_error", {
@@ -233,6 +262,7 @@ export function MercadoPagoPaymentBrick({
           containerId,
         });
       } catch (brickError) {
+        if (readyTimeout) window.clearTimeout(readyTimeout);
         const message = brickError instanceof Error ? brickError.message : "Falha ao inicializar o pagamento.";
         setError(message);
         setLoading(false);
@@ -249,10 +279,12 @@ export function MercadoPagoPaymentBrick({
 
     return () => {
       cancelled = true;
+      if (readyTimeout) window.clearTimeout(readyTimeout);
+      setSdkReady(false);
       brickRef.current?.unmount?.();
       brickRef.current = null;
     };
-  }, [amount, brickType, containerId, customization, paymentMethod, payerEmail, payerName, retryCount]);
+  }, [amount, brickType, containerId, customization, initialization, paymentMethod, retryCount]);
 
   if (!publicKeyReady) {
     return (

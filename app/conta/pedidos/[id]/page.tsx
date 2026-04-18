@@ -15,6 +15,7 @@ import {
 import { useCustomerSession } from "@/lib/customer-session-client";
 import { formatCurrency } from "@/lib/utils";
 import { whatsappNumber } from "@/lib/constants";
+import { PurchaseProtectionBanner } from "@/components/purchase-protection-banner";
 
 type Order = {
   id: string;
@@ -168,6 +169,10 @@ export default function OrderDetailPage() {
         </p>
       </div>
 
+      <div className="mt-6">
+        <PurchaseProtectionBanner compact />
+      </div>
+
       {/* Timeline */}
       <div className="mt-6 rounded-[24px] border border-white/10 bg-white/5 p-6">
         <h2 className="mb-6 text-sm font-semibold uppercase tracking-[0.18em] text-white/60">
@@ -245,6 +250,14 @@ export default function OrderDetailPage() {
           <MessageCircle className="h-4 w-4" />
           Falar sobre este pedido
         </a>
+        <Link href="/rastrear" className="btn-secondary gap-2">
+          <Clock className="h-4 w-4" />
+          Ver rastreio
+        </Link>
+        <Link href="/devolucoes" className="btn-secondary gap-2">
+          <ArrowLeft className="h-4 w-4" />
+          Trocas e devoluções
+        </Link>
         <Link href="/catalogo" className="btn-secondary gap-2">
           <Package className="h-4 w-4" />
           Ver catálogo

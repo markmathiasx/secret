@@ -209,7 +209,7 @@ export function Hero() {
 
       <div className="absolute inset-x-0 bottom-8 flex justify-center">
         <Link
-          href="#home-portfolio"
+          href="#home-featured"
           className="group inline-flex flex-col items-center gap-2 text-xs uppercase tracking-[0.18em] text-white/65 transition hover:text-cyan-100"
         >
           <span className="rounded-full border border-white/12 bg-white/5 px-4 py-2 backdrop-blur-sm">descer</span>

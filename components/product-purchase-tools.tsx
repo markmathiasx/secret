@@ -7,6 +7,7 @@ import { useCustomerSession } from "@/lib/customer-session-client";
 import { addLocalCartItem } from "@/lib/cart-store";
 import { trackAddToCart, trackBeginCheckout, trackWhatsAppClick } from "@/lib/analytics";
 import { formatCurrency } from "@/lib/utils";
+import { PurchaseProtectionBanner } from "@/components/purchase-protection-banner";
 
 const PURCHASE_MEMORY_PREFIX = "mdh:product-config:";
 const GOAL_OPTIONS = ["Uso próprio", "Presente", "Lote", "Revenda"] as const;
@@ -236,6 +237,10 @@ export function ProductPurchaseTools({
           <p className="text-xs uppercase tracking-[0.16em] text-white/50">Total no cartão</p>
           <p className="mt-2 text-2xl font-black text-white">{formatCurrency(totalCard)}</p>
         </div>
+      </div>
+
+      <div className="mt-5">
+        <PurchaseProtectionBanner compact />
       </div>
 
       <div className="mt-5 rounded-[20px] border border-white/10 bg-black/20 p-4 text-sm leading-7 text-white/70">

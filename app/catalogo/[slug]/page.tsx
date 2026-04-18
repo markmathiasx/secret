@@ -19,6 +19,7 @@ import { ProductSocialProof } from '@/components/product-social-proof';
 import { StickyPdpCta } from '@/components/sticky-pdp-cta';
 import { ProductBundleSuggestion } from '@/components/product-bundle-suggestion';
 import { RecentlyViewedShelf } from '@/components/recently-viewed-shelf';
+import { PurchaseProtectionBanner } from '@/components/purchase-protection-banner';
 import { formatCurrency } from '@/lib/utils';
 import { whatsappMessage, whatsappNumber } from '@/lib/constants';
 import { Metadata } from 'next';
@@ -26,6 +27,7 @@ import { getSiteUrl } from '@/lib/env';
 import { getProductHighlights, getProductLongDescription } from '@/lib/catalog-content';
 import { resolveProductImage } from '@/lib/product-images';
 import { catalog, featuredCatalog } from '@/lib/catalog';
+import { getProductMarketplaceSignals, getStoreReputationSummary } from '@/lib/marketplace-signals';
 
 export const revalidate = 300;
 export const dynamic = 'force-static';
@@ -49,6 +51,10 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const resolvedImage = resolveProductImage(product);
   const imageUrl = resolvedImage.startsWith("http") ? resolvedImage : `${siteUrl}${resolvedImage}`;
   const longDescription = getProductLongDescription(product);
+  const [productSignals, storeSummary] = await Promise.all([
+    getProductMarketplaceSignals(product.id, product.sku),
+    getStoreReputationSummary(),
+  ]);
 
   return {
     title: product.name,
@@ -103,6 +109,10 @@ export default async function ProductPage({
   );
   const highlights = getProductHighlights(product);
   const longDescription = getProductLongDescription(product);
+  const [productSignals, storeSummary] = await Promise.all([
+    getProductMarketplaceSignals(product.id, product.sku),
+    getStoreReputationSummary(),
+  ]);
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -229,6 +239,7 @@ export default async function ProductPage({
 
       <div className="grid gap-8 lg:grid-cols-[1fr_0.95fr]">
         <div className="space-y-6">
+          <PurchaseProtectionBanner summary={storeSummary} />
           <ProductImageGallery product={product} />
           <ProductModelPanel product={product} />
         </div>
@@ -243,9 +254,10 @@ export default async function ProductPage({
           </div>
           <div className="mt-4">
             <ProductSocialProof
-              productId={product.id}
+              averageRating={productSignals?.averageRating ?? storeSummary?.averageRating ?? null}
+              reviewCount={productSignals?.reviewCount ?? storeSummary?.reviewCount ?? 0}
+              soldLast30Days={productSignals?.soldLast30Days}
               stockLevel={product.stock}
-              soldThisMonth={product.stock > 0 ? Math.floor(product.stock * 1.5) + 3 : undefined}
             />
           </div>
           <h1 className="mt-5 text-4xl font-black text-white md:text-5xl">{product.name}</h1>

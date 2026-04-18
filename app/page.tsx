@@ -6,11 +6,12 @@ import { TrustSignals } from "@/components/trust-signals";
 import { ProductionProcess } from "@/components/production-process";
 import { SafeProductImage } from "@/components/safe-product-image";
 import { ProductVisualBadge } from "@/components/product-visual-authenticity";
-import { getProductUrl, type Product } from "@/lib/catalog";
+import { getProductUrl } from "@/lib/catalog";
 import { getCatalogSnapshot } from "@/lib/catalog-repository";
+import { PurchaseProtectionBanner } from "@/components/purchase-protection-banner";
 import { isProductRealPhoto, summarizeProductVisuals } from "@/lib/product-visuals";
 import { whatsappNumber, whatsappMessage } from "@/lib/constants";
-import { formatCurrency } from "@/lib/utils";
+import { getStoreReputationSummary } from "@/lib/marketplace-signals";
 
 export default async function HomePage() {
   const catalog = await getCatalogSnapshot();
@@ -19,6 +20,11 @@ export default async function HomePage() {
   const realShowcase = catalog.filter((product) => isProductRealPhoto(product)).slice(0, 4);
   const readyRealCount = catalog.filter((product) => product.readyToShip && isProductRealPhoto(product)).length;
   const customizableRealCount = catalog.filter((product) => product.customizable && isProductRealPhoto(product)).length;
+  const storeSummary = await getStoreReputationSummary();
+  const ratingLabel =
+    storeSummary?.averageRating !== null && typeof storeSummary?.averageRating === "number"
+      ? `${storeSummary.averageRating.toFixed(1)}★`
+      : "avaliações reais";
 
   return (
     <main>
@@ -29,7 +35,7 @@ export default async function HomePage() {
           <div className="flex flex-wrap items-center justify-center gap-8 text-center">
             {[
               { value: catalogCount.toLocaleString("pt-BR"), label: "peças no catálogo" },
-              { value: "4.9★", label: "avaliação média" },
+              { value: ratingLabel, label: storeSummary?.reviewCount ? `${storeSummary.reviewCount} avaliações aprovadas` : "avaliações reais" },
               { value: "2-5 dias", label: "prazo de entrega" },
               { value: "Rio de Janeiro", label: "produção local" },
             ].map((stat) => (
@@ -40,6 +46,10 @@ export default async function HomePage() {
             ))}
           </div>
         </div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-6 pt-4">
+        <PurchaseProtectionBanner summary={storeSummary} compact />
       </section>
 
       <section id="home-featured" className="mx-auto max-w-7xl px-6 py-16">
@@ -158,7 +168,7 @@ export default async function HomePage() {
 
       <ProductionProcess />
 
-      <section id="home-cta-final"className="mx-auto max-w-7xl px-6 py-16">
+      <section id="home-cta-final" className="mx-auto max-w-7xl px-6 py-16">
         <div className="glass-panel p-8 md:p-10 text-center">
           <p className="section-kicker">Pronto para começar?</p>
           <h2 className="section-title">Escolha seu caminho: catálogo, orçamento ou conversa direta.</h2>
