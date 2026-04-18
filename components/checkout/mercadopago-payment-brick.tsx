@@ -194,6 +194,8 @@ export function MercadoPagoPaymentBrick({
         logStructured("error", "mercadopago_brick_mount_failed", {
           paymentMethod,
           message,
+          errorName: brickError instanceof Error ? brickError.name : typeof brickError,
+          errorStack: brickError instanceof Error ? brickError.stack : undefined,
         });
       }
     }
