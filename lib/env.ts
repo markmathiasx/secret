@@ -109,7 +109,7 @@ export function getSmtpConfig() {
     secure: (process.env.SMTP_SECURE || "false").trim() === "true",
     user: (process.env.SMTP_USER || "").trim(),
     pass: (process.env.SMTP_PASS || "").trim(),
-    from: (process.env.EMAIL_FROM || "MDH 3D Store <no-reply@mdh3d.local>").trim(),
+    from: (process.env.EMAIL_FROM || "MDH 3D Store <noreply@mdh-3d-store.vercel.app>").trim(),
   };
 }
 

@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="FotoReal — O estúdio definitivo de fotos realistas e 3D para e-commerce em 2026. Converta produtos em masterpieces visuais.">
+    <meta name="theme-color" content="#0a0a0a">
+    <meta property="og:title" content="FotoReal — Studio de Fotos 3D Premium 2026">
+    <meta property="og:description" content="Transforme seus produtos com fotos realistas, renders 3D e tecnologia de IA. Aumente conversão em até 340%.">
+    <meta property="og:image" content="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 630'%3E%3Crect fill='%230a0a0a'/%3E%3Ctext x='50%' y='50%' font-size='72' font-weight='bold' fill='%2300d9ff' text-anchor='middle' dominant-baseline='middle'%3EFotoReal 2026%3C/text%3E%3C/svg%3E">
+    <title>FotoReal — Studio de Fotos 3D Premium 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: #0a0a0a;
+            color: #e8e8e8;
+            overflow-x: hidden;
+        }
+
+        .font-clash {
+            font-family: 'Clash Display', sans-serif;
+            font-weight: 700;
+        }
+
+        /* Glassmorphism 2.0 */
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+        }
+
+        .glass-effect-sm {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        /* Gradients premium */
+        .gradient-neon {
+            background: linear-gradient(135deg, #00d9ff 0%, #0099ff 25%, #ff00ff 100%);
+        }
+
+        .gradient-glow {
+            background: linear-gradient(135deg, rgba(0, 217, 255, 0.3) 0%, rgba(255, 0, 255, 0.3) 100%);
+        }
+
+        /* Neon glow text */
+        .text-glow-cyan {
+            color: #00d9ff;
+            text-shadow: 0 0 20px rgba(0, 217, 255, 0.8), 0 0 40px rgba(0, 217, 255, 0.4);
+        }
+
+        .text-glow-magenta {
+            color: #ff00ff;
+            text-shadow: 0 0 20px rgba(255, 0, 255, 0.8), 0 0 40px rgba(255, 0, 255, 0.4);
+        }
+
+        .text-glow-gold {
+            color: #ffd700;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 0 40px rgba(255, 215, 0, 0.4);
+        }
+
+        /* Animações */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes glow-pulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(0, 217, 255, 0.4); }
+            50% { box-shadow: 0 0 40px rgba(0, 217, 255, 0.8); }
+        }
+
+        @keyframes shimmer {
+            0%, 100% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+
+        @keyframes rotate-360 {
+            from { transform: rotateY(0deg); }
+            to { transform: rotateY(360deg); }
+        }
+
+        @keyframes slide-up {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fade-in-scale {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .animate-float {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .animate-glow-pulse {
+            animation: glow-pulse 2s ease-in-out infinite;
+        }
+
+        .animate-shimmer {
+            animation: shimmer 3s infinite;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            background-size: 1000px 100%;
+        }
+
+        .animate-rotate-360 {
+            animation: rotate-360 8s linear infinite;
+        }
+
+        .animate-slide-up {
+            animation: slide-up 0.6s ease-out;
+        }
+
+        .animate-fade-in-scale {
+            animation: fade-in-scale 0.5s ease-out;
+        }
+
+        /* Bento Grid */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+        }
+
+        .bento-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 24px;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .bento-item:hover {
+            transform: translateY(-8px);
+        }
+
+        /* Product cards 3D effect */
+        .product-card {
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .product-card-inner {
+            transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            transform-style: preserve-3d;
+        }
+
+        .product-card:hover .product-card-inner {
+            transform: rotateY(8deg) rotateX(-5deg);
+        }
+
+        /* Scrollytelling */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .scroll-reveal.in-view {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* CTA Buttons */
+        .btn-premium {
+            position: relative;
+            padding: 14px 32px;
+            font-weight: 600;
+            font-size: 15px;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #00d9ff 0%, #0099ff 100%);
+            color: #0a0a0a;
+            box-shadow: 0 10px 40px rgba(0, 217, 255, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 50px rgba(0, 217, 255, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.08);
+            color: #00d9ff;
+            border: 2px solid #00d9ff;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 217, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Mobile menu */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 70px;
+            left: 0;
+            right: 0;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 999;
+        }
+
+        .mobile-menu.active {
+            display: flex;
+        }
+
+        /* Accordion */
+        .accordion-item {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .accordion-header {
+            cursor: pointer;
+            padding: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .accordion-header:hover {
+            color: #00d9ff;
+        }
+
+        .accordion-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-icon.active {
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            padding-bottom: 0;
+        }
+
+        .accordion-content.active {
+            max-height: 300px;
+            padding-bottom: 20px;
+        }
+
+        /* Before/After Slider */
+        .before-after-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            overflow: hidden;
+            border-radius: 20px;
+        }
+
+        .before-after-image {
+            width: 100%;
+            display: block;
+            border-radius: 20px;
+        }
+
+        .before-after-before {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            border-radius: 20px;
+        }
+
+        .before-after-handle {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 4px;
+            height: 100%;
+            background: #00d9ff;
+            transform: translateX(-50%);
+            cursor: col-resize;
+            box-shadow: 0 0 20px rgba(0, 217, 255, 0.6);
+        }
+
+        /* Carousel */
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            border-radius: 20px;
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .carousel-item {
+            min-width: 100%;
+            padding: 40px;
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .bento-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .carousel-item {
+                flex-direction: column;
+                padding: 30px 20px;
+                gap: 20px;
+            }
+
+            .font-clash {
+                font-size: 28px !important;
+            }
+
+            .btn-premium {
+                width: 100%;
+            }
+        }
+
+        /* Hero video background */
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 50% 100%, rgba(0, 217, 255, 0.15) 0%, transparent 70%),
+                        radial-gradient(circle at 0% 50%, rgba(255, 0, 255, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        /* Trust section */
+        .trust-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 16px;
+            background: rgba(0, 217, 255, 0.1);
+            border: 1px solid rgba(0, 217, 255, 0.3);
+            border-radius: 20px;
+            font-size: 14px;
+            color: #00d9ff;
+        }
+
+        /* Newsletter input */
+        .newsletter-input {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #e8e8e8;
+            padding: 14px 18px;
+            border-radius: 12px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .newsletter-input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.08);
+            border-color: #00d9ff;
+            box-shadow: 0 0 20px rgba(0, 217, 255, 0.2);
+        }
+
+        /* Loading animation */
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(0, 217, 255, 0.2);
+            border-top-color: #00d9ff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-10 flex-1">
+                <div class="font-clash text-2xl">
+                    <span class="text-glow-cyan">Foto</span><span class="text-glow-magenta">Real</span>
+                </div>
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="#por-que" class="text-sm hover:text-glow-cyan transition-all">Por que</a>
+                    <a href="#galeria" class="text-sm hover:text-glow-cyan transition-all">Galeria</a>
+                    <a href="#como" class="text-sm hover:text-glow-cyan transition-all">Como</a>
+                    <a href="#planos" class="text-sm hover:text-glow-cyan transition-all">Planos</a>
+                    <a href="#faq" class="text-sm hover:text-glow-cyan transition-all">FAQ</a>
+                </div>
+            </div>
+
+            <div class="hidden md:flex items-center gap-4">
+                <button class="btn-premium btn-secondary">Gerar Foto</button>
+                <button class="btn-premium btn-primary">Começar Agora</button>
+            </div>
+
+            <button class="md:hidden text-glow-cyan" id="menu-toggle">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+
+        <div class="mobile-menu" id="mobile-menu">
+            <a href="#por-que" class="text-sm hover:text-glow-cyan transition-all">Por que</a>
+            <a href="#galeria" class="text-sm hover:text-glow-cyan transition-all">Galeria</a>
+            <a href="#como" class="text-sm hover:text-glow-cyan transition-all">Como</a>
+            <a href="#planos" class="text-sm hover:text-glow-cyan transition-all">Planos</a>
+            <a href="#faq" class="text-sm hover:text-glow-cyan transition-all">FAQ</a>
+            <button class="btn-premium btn-primary w-full mt-4">Começar Agora</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center px-6 pt-20 overflow-hidden">
+        <div class="hero-bg"></div>
+        
+        <div class="max-w-5xl mx-auto text-center relative z-10">
+            <div class="mb-6 animate-slide-up">
+                <span class="trust-badge">🚀 Tecnologia de IA em Tempo Real</span>
+            </div>
+
+            <h1 class="font-clash text-6xl md:text-8xl mb-8 animate-slide-up" style="animation-delay: 0.1s">
+                <span class="text-glow-cyan">Fotos</span> que
+                <br>
+                <span class="text-glow-magenta">Vendem</span>
+            </h1>
+
+            <p class="text-xl md:text-2xl text-gray-300 mb-12 max-w-2xl mx-auto animate-slide-up" style="animation-delay: 0.2s">
+                Estúdio profissional de fotos realistas e renders 3D para e-commerce. Aumente conversão em até 340% com tecnologia premium 2026.
+            </p>
+
+            <div class="flex flex-col md:flex-row gap-6 justify-center mb-20 animate-slide-up" style="animation-delay: 0.3s">
+                <button class="btn-premium btn-primary">
+                    ✨ Gerar Minha Foto Agora
+                </button>
+                <button class="btn-premium btn-secondary">
+                    Ver Demo →
+                </button>
+            </div>
+
+            <!-- 3D Product Preview -->
+            <div class="relative h-96 md:h-[500px] flex items-center justify-center animate-float" style="animation-delay: 0.5s">
+                <div class="absolute inset-0 gradient-glow rounded-full blur-3xl"></div>
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%2300d9ff;stop-opacity:0.8' /%3E%3Cstop offset='100%25' style='stop-color:%23ff00ff;stop-opacity:0.8' /%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='200' cy='200' r='150' fill='url(%23grad)' opacity='0.2'/%3E%3Crect x='100' y='100' width='200' height='200' fill='none' stroke='url(%23grad)' stroke-width='2' rx='20' opacity='0.4'/%3E%3Ctext x='200' y='200' font-size='32' fill='%2300d9ff' text-anchor='middle' dominant-baseline='middle' font-weight='bold'%3E3D Product%3C/text%3E%3C/svg%3E" alt="3D Product" class="w-full h-full object-contain animate-rotate-360" style="animation-duration: 12s">
+            </div>
+
+            <!-- Stats -->
+            <div class="grid grid-cols-3 gap-8 mt-20 max-w-2xl mx-auto animate-slide-up" style="animation-delay: 0.6s">
+                <div class="text-center">
+                    <div class="text-glow-cyan text-4xl font-clash mb-2">340%</div>
+                    <p class="text-sm text-gray-400">Aumento Médio</p>
+                </div>
+                <div class="text-center">
+                    <div class="text-glow-magenta text-4xl font-clash mb-2">15K+</div>
+                    <p class="text-sm text-gray-400">Lojas Ativas</p>
+                </div>
+                <div class="text-center">
+                    <div class="text-glow-gold text-4xl font-clash mb-2">2.1B</div>
+                    <p class="text-sm text-gray-400">Fotos Geradas</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Por que FotoReal 2026 -->
+    <section id="por-que" class="max-w-7xl mx-auto px-6 py-32">
+        <h2 class="font-clash text-5xl md:text-6xl mb-20 text-center">
+            Por que <span class="text-glow-cyan">FotoReal</span> em 2026
+        </h2>
+
+        <div class="bento-grid">
+            <!-- Card 1 -->
+            <div class="glass-effect p-8 bento-item scroll-reveal">
+                <div class="text-4xl mb-4">🤖</div>
+                <h3 class="text-xl font-semibold mb-3 text-glow-cyan">IA em Tempo Real</h3>
+                <p class="text-gray-400 text-sm">Gere fotos profissionais em segundos com nossos modelos de IA treinados em 1M+ referências premium.</p>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="glass-effect p-8 bento-item scroll-reveal" style="animation-delay: 0.1s">
+                <div class="text-4xl mb-4">🎬</div>
+                <h3 class="text-xl font-semibold mb-3 text-glow-magenta">Renders 3D Premium</h3>
+                <p class="text-gray-400 text-sm">Iluminação cinematográfica, reflexos reais, shadows perfeitos. Seus produtos como em Hollywood.</p>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="glass-effect p-8 bento-item scroll-reveal" style="animation-delay: 0.2s">
+                <div class="text-4xl mb-4">📱</div>
+                <h3 class="text-xl font-semibold mb-3 text-glow-cyan">Multi-Plataforma</h3>
+                <p class="text-gray-400 text-sm">Otimizado para Instagram, TikTok, e-commerce, ads. Um clique, múltiplos formatos.</p>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="glass-effect p-8 bento-item scroll-reveal" style="animation-delay: 0.3s">
+                <div class="text-4xl mb-4">🔒</div>
+                <h3 class="text-xl font-semibold mb-3 text-glow-magenta">100% Seguro</h3>
+                <p class="text-gray-400 text-sm">Seus arquivos criptografados, GDPR compliant. Zero rastreamento, zero retenção.</p>
+            </div>
+
+            <!-- Card 5 -->
+            <div class="glass-effect p-8 bento-item scroll-reveal" style="animation-delay: 0.4s">
+                <div class="text-4xl mb-4">⚡</div>
+                <h3 class="text-xl font-semibold mb-3 text-glow-cyan">Velocidade Extrema</h3>
+                <p class="text-gray-400 text-sm">Processamento em CDN global. Entrega em menos de 3 segundos, onde quer que esteja.</p>
+            </div>
+
+            <!-- Card 6 -->
+            <div class="glass-effect p-8 bento-item scroll-reveal" style="animation-delay: 0.5s">
+                <div class="text-4xl mb-4">💰</div>
+                <h3 class="text-xl font-semibold mb-3 text-glow-magenta">ROI Comprovado</h3>
+                <p class="text-gray-400 text-sm">Clientes ganham em média R$ 18k/mês. Analytics completo de conversão e performance.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Galeria Imersiva -->
+    <section id="galeria" class="max-w-7xl mx-auto px-6 py-32">
+        <h2 class="font-clash text-5xl md:text-6xl mb-8 text-center">
+            Galeria <span class="text-glow-magenta">Imersiva</span>
+        </h2>
+        <p class="text-center text-gray-400 mb-20 max-w-2xl mx-auto">Veja os resultados reais de nossos clientes. Cada imagem é 100% gerada com FotoReal 2026.</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Gallery Items -->
+            <div class="product-card glass-effect overflow-hidden aspect-square cursor-pointer group">
+                <div class="product-card-inner w-full h-full flex items-center justify-center relative">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Cdefs%3E%3CradialGradient id='r1' cx='40%25' cy='40%25'%3E%3Cstop offset='0%25' style='stop-color:%2300d9ff;stop-opacity:0.3' /%3E%3Cstop offset='100%25' style='stop-color:%230a0a0a;stop-opacity:1' /%3E%3C/radialGradient%3E%3C/defs%3E%3Crect fill='url(%23r1)' width='400' height='400'/%3E%3Ccircle cx='200' cy='150' r='80' fill='%2300d9ff' opacity='0.2'/%3E%3Crect x='50' y='200' width='300' height='150' fill='%23ff00ff' opacity='0.1' rx='20'/%3E%3C/svg%3E" alt="Produto 1" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                    <span class="text-sm font-semibold">Relógio Premium 3D ✨</span>
+                </div>
+            </div>
+
+            <div class="product-card glass-effect overflow-hidden aspect-square cursor-pointer group">
+                <div class="product-card-inner w-full h-full flex items-center justify-center relative">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Cdefs%3E%3CradialGradient id='r2' cx='60%25' cy='40%25'%3E%3Cstop offset='0%25' style='stop-color:%23ff00ff;stop-opacity:0.3' /%3E%3Cstop offset='100%25' style='stop-color:%230a0a0a;stop-opacity:1' /%3E%3C/radialGradient%3E%3C/defs%3E%3Crect fill='url(%23r2)' width='400' height='400'/%3E%3Crect x='80' y='100' width='240' height='200' fill='%23ffd700' opacity='0.2' rx='30'/%3E%3C/svg%3E" alt="Produto 2" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                    <span class="text-sm font-semibold">Fone de Ouro 2026 🎧</span>
+                </div>
+            </div>
+
+            <div class="product-card glass-effect overflow-hidden aspect-square cursor-pointer group">
+                <div class="product-card-inner w-full h-full flex items-center justify-center relative">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Cdefs%3E%3CradialGradient id='r3' cx='50%25' cy='50%25'%3E%3Cstop offset='0%25' style='stop-color:%2300d9ff;stop-opacity:0.2' /%3E%3Cstop offset='100%25' style='stop-color:%23ff00ff;stop-opacity:0.2' /%3E%3C/radialGradient%3E%3C/defs%3E%3Crect fill='url(%23r3)' width='400' height='400'/%3E%3Cpolygon points='200,50 350,350 50,350' fill='%23ff00ff' opacity='0.15'/%3E%3C/svg%3E" alt="Produto 3" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                    <span class="text-sm font-semibold">Teclado Mecânico RGB 💎</span>
+                </div>
+            </div>
+
+            <div class="product-card glass-effect overflow-hidden aspect-square cursor-pointer group md:col-span-2">
+                <div class="product-card-inner w-full h-full flex items-center justify-center relative">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 300'%3E%3Cdefs%3E%3ClinearGradient id='r4' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%2300d9ff;stop-opacity:0.2' /%3E%3Cstop offset='100%25' style='stop-color:%23ffd700;stop-opacity:0.2' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23r4)' width='600' height='300'/%3E%3Crect x='100' y='50' width='400' height='200' fill='%2300d9ff' opacity='0.15' rx='40'/%3E%3C/svg%3E" alt="Produto 4" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                    <span class="text-sm font-semibold">Monitor Curvo UltraWide 🖥️</span>
+                </div>
+            </div>
+
+            <div class="product-card glass-effect overflow-hidden aspect-square cursor-pointer group">
+                <div class="product-card-inner w-full h-full flex items-center justify-center relative">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Cdefs%3E%3CradialGradient id='r5' cx='50%25' cy='30%25'%3E%3Cstop offset='0%25' style='stop-color:%23ffd700;stop-opacity:0.3' /%3E%3Cstop offset='100%25' style='stop-color:%230a0a0a;stop-opacity:1' /%3E%3C/radialGradient%3E%3C/defs%3E%3Crect fill='url(%23r5)' width='400' height='400'/%3E%3Ccircle cx='200' cy='200' r='100' fill='%23ffd700' opacity='0.1'/3E%3C/svg%3E" alt="Produto 5" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                    <span class="text-sm font-semibold">Câmera Profissional 📷</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-16">
+            <button class="btn-premium btn-primary">Ver Galeria Completa (500+ Fotos)</button>
+        </div>
+    </section>
+
+    <!-- Antes × Depois -->
+    <section class="max-w-7xl mx-auto px-6 py-32">
+        <h2 class="font-clash text-5xl md:text-6xl mb-8 text-center">
+            Antes <span class="text-glow-cyan">×</span> Depois
+        </h2>
+        <p class="text-center text-gray-400 mb-20 max-w-2xl mx-auto">Arraste para comparar a transformação realista com FotoReal 2026.</p>
+
+        <div class="before-after-container">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 600'%3E%3Cdefs%3E%3ClinearGradient id='before' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23444;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%23222;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23before)' width='800' height='600'/%3E%3Ctext x='50%25' y='50%25' font-size='48' fill='%23888' text-anchor='middle' dominant-baseline='middle' font-weight='bold'%3EFoto Comum%3C/text%3E%3C/svg%3E" alt="Antes" class="before-after-image">
+            <div class="before-after-before" id="before-after-before">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 600'%3E%3Cdefs%3E%3CradialGradient id='after' cx='50%25' cy='40%25'%3E%3Cstop offset='0%25' style='stop-color:%2300d9ff;stop-opacity:0.2' /%3E%3Cstop offset='100%25' style='stop-color:%230a0a0a;stop-opacity:1' /%3E%3C/radialGradient%3E%3C/defs%3E%3Crect fill='url(%23after)' width='800' height='600'/%3E%3Crect x='150' y='100' width='500' height='400' fill='%2300d9ff' opacity='0.15' rx='30'/%3E%3Ctext x='50%25' y='50%25' font-size='48' fill='%2300d9ff' text-anchor='middle' dominant-baseline='middle' font-weight='bold'%3EFotoReal 2026%3C/text%3E%3C/svg%3E" alt="Depois" class="before-after-image w-full">
+            </div>
+            <div class="before-after-handle"></div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8 mt-20">
+            <div class="glass-effect p-8">
+                <h3 class="text-xl font-semibold mb-4 text-gray-400">❌ Antes</h3>
+                <ul class="space-y-3 text-sm text-gray-400">
+                    <li>✗ Fotógrafo caro e lento</li>
+                    <li>✗ Iluminação inconsistente</li>
+                    <li>✗ Apenas 1-2 ângulos</li>
+                    <li>✗ Edição manual demorada</li>
+                    <li>✗ Sem ambiente profissional</li>
+                </ul>
+            </div>
+
+            <div class="glass-effect p-8">
+                <h3 class="text-xl font-semibold mb-4 text-glow-cyan">✅ Depois</h3>
+                <ul class="space-y-3 text-sm text-cyan-200">
+                    <li>✓ Geração em segundos, 24/7</li>
+                    <li>✓ Iluminação cinematográfica perfeita</li>
+                    <li>✓ Ilimitados ângulos e ambientes</li>
+                    <li>✓ Editado automaticamente com IA</li>
+                    <li>✓ Studio Hollywood em casa</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Como Funciona - Scrollytelling -->
+    <section id="como" class="max-w-7xl mx-auto px-6 py-32">
+        <h2 class="font-clash text-5xl md:text-6xl mb-4 text-center">
+            Como <span class="text-glow-magenta">Funciona</span>
+        </h2>
+        <p class="text-center text-gray-400 mb-20 max-w-2xl mx-auto">4 passos simples para fotos profissionais em minutos.</p>
+
+        <div class="space-y-32">
+            <!-- Step 1 -->
+            <div class="grid md:grid-cols-2 gap-16 items-center scroll-reveal">
+                <div>
+                    <div class="text-6xl font-clash mb-4">
+                        <span class="text-glow-cyan">1.</span>
+                    </div>
+                    <h3 class="text-3xl font-semibold mb-6">Envie Seu Produto</h3>
+                    <p class="text-gray-400 mb-6">Qualquer imagem ou arquivo 3D. Não precisa ser perfeita — nossa IA cuida de tudo. Formato JPG, PNG, OBJ, STEP ou até vídeo.</p>
+                    <div class="flex gap-4">
+                        <span class="px-4 py-2 bg-cyan-900 bg-opacity-20 rounded-lg text-cyan-300 text-sm">📤 Upload</span>
+                        <span class="px-4 py-2 bg-cyan-900 bg-opacity-20 rounded-lg text-cyan-300 text-sm">⚡ Instant</span>
+                    </div>
+                </div>
+                <div class="h-64 bg-gradient-glow rounded-2xl flex items-center justify-center glass-effect">
+                    <svg class="w-32 h-32 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 4v16m8-8H4"></path>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="grid md:grid-cols-2 gap-16 items-center scroll-reveal">
+                <div class="h-64 bg-gradient-glow rounded-2xl flex items-center justify-center glass-effect order-2 md:order-1">
+                    <svg class="w-32 h-32 text-magenta-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    </svg>
+                </div>
+                <div class="order-1 md:order-2">
+                    <div class="text-6xl font-clash mb-4">
+                        <span class="text-glow-magenta">2.</span>
+                    </div>
+                    <h3 class="text-3xl font-semibold mb-6">IA Processa</h3>
+                    <p class="text-gray-400 mb-6">Nossos modelos analisam, otimizam e preparam seu produto. Análise de geometria, mapeamento de textura, detecção de material.</p>
+                    <div class="flex gap-4">
+                        <span class="px-4 py-2 bg-magenta-900 bg-opacity-20 rounded-lg text-magenta-300 text-sm">🧠 ML Model</span>
+                        <span class="px-4 py-2 bg-magenta-900 bg-opacity-20 rounded-lg text-magenta-300 text-sm">0.8s avg</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="grid md:grid-cols-2 gap-16 items-center scroll-reveal">
+                <div>
+                    <div class="text-6xl font-clash mb-4">
+                        <span class="text-glow-cyan">3.</span>
+                    </div>
+                    <h3 class="text-3xl font-semibold mb-6">Customize & Gere</h3>
+                    <p class="text-gray-400 mb-6">Escolha ambiente, iluminação, ângulo, estilo. Use templates pré-feitos ou crie do zero. Controle total sobre o resultado.</p>
+                    <div class="flex gap-4">
+                        <span class="px-4 py-2 bg-cyan-900 bg-opacity-20 rounded-lg text-cyan-300 text-sm">🎨 Designer</span>
+                        <span class="px-4 py-2 bg-cyan-900 bg-opacity-20 rounded-lg text-cyan-300 text-sm">Real-time</span>
+                    </div>
+                </div>
+                <div class="h-64 bg-gradient-glow rounded-2xl flex items-center justify-center glass-effect">
+                    <svg class="w-32 h-32 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="grid md:grid-cols-2 gap-16 items-center scroll-reveal">
+                <div class="h-64 bg-gradient-glow rounded-2xl flex items-center justify-center glass-effect order-2 md:order-1">
+                    <svg class="w-32 h-32 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <div class="order-1 md:order-2">
+                    <div class="text-6xl font-clash mb-4">
+                        <span class="text-glow-gold">4.</span>
+                    </div>
+                    <h3 class="text-3xl font-semibold mb-6">Download & Use</h3>
+                    <p class="text-gray-400 mb-6">Receba em alta resolução (até 8K), com fundo transparente, múltiplos formatos. Direto para seu e-commerce, ads ou redes sociais.</p>
+                    <div class="flex gap-4">
+                        <span class="px-4 py-2 bg-yellow-900 bg-opacity-20 rounded-lg text-yellow-300 text-sm">📥 8K Quality</span>
+                        <span class="px-4 py-2 bg-yellow-900 bg-opacity-20 rounded-lg text-yellow-300 text-sm">API Ready</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Depoimentos -->
+    <section class="max-w-7xl mx-auto px-6 py-32">
+        <h2 class="font-clash text-5xl md:text-6xl mb-20 text-center">
+            O que Dizem Nossos <span class="text-glow-magenta">Clientes</span>
+        </h2>
+
+        <div class="carousel-container glass-effect">
+            <div class="carousel-track" id="carousel-track">
+                <!-- Testimonial 1 -->
+                <div class="carousel-item">
+                    <div class="w-32 h-32 rounded-full bg-gradient-glow flex-shrink-0 flex items-center justify-center">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Ccircle cx='60' cy='60' r='60' fill='%2300d9ff' opacity='0.1'/%3E%3Ctext x='60' y='60' font-size='48' fill='%2300d9ff' text-anchor='middle' dominant-baseline='middle'%3E👨%3C/text%3E%3C/svg%3E" alt="Cliente 1" class="w-full h-full rounded-full">
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex items-center gap-2 mb-3">
+                            <div class="flex gap-1">
+                                <span class="text-yellow-400">⭐</span>
+                                <span class="text-yellow-400">⭐</span>
+                                <span class="text-yellow-400">⭐</span>
+                                <span class="text-yellow-400">⭐</span>
+                                <span class="text-yellow-400">⭐</span>
+                            </div>
+                        </div>
+                        <p class="text-lg mb-4">"FotoReal aumentou nossas conversões em 287%. As fotos ficam tão reais que clientes pensam que é estúdio físico. Absolutamente revolucionário."</p>
+                        <p class="font-semibold text-glow-cyan">João Silva</p>
+                        <p class="text-sm text-gray-500">CEO, TechStore Brasil</p>
+                    </div>
+                </div>
+
+                <!-- Testimonial 2 -->
+                <div class="carousel-item">
+                    <div class="w-32 h-32 rounded-full bg-gradient-glow flex-shrink-0 flex items-center justify-center">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Ccircle cx='60' cy='60' r='60' fill='%23ff00ff' opacity='0.1'/%3E%3Ctext x='60' y='60' font-size='48' fill='%23ff00ff' text-anchor='middle' dominant-baseline='middle'%3E👩%3C/text%3E%3C/svg%3E" alt="Cliente 2" class="w-full h-full rounded-full">
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex items-center gap-2 mb-3">
+                            <div class="flex gap-1">
+                                <span class="text-yellow-400">⭐</span>
+                                <span class="text-yellow-400">⭐</span>
+                                <span class="text-yellow-400">⭐</span>
+                                <span class="text-yellow-400">⭐</span>
+                                <span class="text-yellow-400">⭐</span>
+                            </div>
+                        </div>
+                        <p class="text-lg mb-4">"Economizei R$ 50k/mês em fotógrafos. Qualidade é idêntica, mas com IA é 100x mais rápido. Melhor investimento que fiz."</p>
+                        <p class="font-semibold text-glow-magenta">Marina Costa</p>
+                        <p class="text-sm text-gray-500">Gerente de Marketing, FashionHub</p>
+                    </div>
+                </div>
+
+                <!-- Testimonial 3 -->
+                <div class="carousel-item">
+                    <div class="w-32 h-32 rounded-full bg-gradient-glow flex-shrink-0 flex items-center justify-center">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Ccircle cx='60' cy='60' r='60' fill='%23ffd700' opacity='0.1'/%3E%3Ctext x='60' y='60' font-size='48' fill='%23ffd700' text-anchor='middle' dominant-baseline='middle'%3E👨‍💼%3C/text%3E%3C/svg%3E" alt="Cliente 3" class="w-full h-full rounded-full">
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex items-center gap-2 mb-3">
+                            <div class="flex gap-1">
+                                <span class="text-yellow-400">⭐</span>
+                                <span class="text-yellow-400">⭐</span>
+                                <span class="text-yellow-400">⭐</span>
+                                <span class="text-yellow-400">⭐</span>
+                                <span class="text-yellow-400">⭐</span>
+                            </div>
+                        </div>
+                        <p class="text-lg mb-4">"Integrei FotoReal com meu e-commerce e o ticket médio subiu 156%. Os clientes confiam mais quando veem qualidade profissional."</p>
+                        <p class="font-semibold text-glow-gold">Ricardo Mendes</p>
+                        <p class="text-sm text-gray-500">Founder, ElectroStore 3D</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <button class="absolute left-4 top-1/2 transform -translate-y-1/2 w-10 h-10 rounded-full bg-cyan-500 text-black flex items-center justify-center hover:bg-cyan-400 transition-all z-10" id="carousel-prev">
+                ←
+            </button>
+            <button class="absolute right-4 top-1/2 transform -translate-y-1/2 w-10 h-10 rounded-full bg-cyan-500 text-black flex items-center justify-center hover:bg-cyan-400 transition-all z-10" id="carousel-next">
+                →
+            </button>
+        </div>
+    </section>
+
+    <!-- Planos 2026 -->
+    <section id="planos" class="max-w-7xl mx-auto px-6 py-32">
+        <h2 class="font-clash text-5xl md:text-6xl mb-4 text-center">
+            Planos <span class="text-glow-cyan">2026</span>
+        </h2>
+        <p class="text-center text-gray-400 mb-20 max-w-2xl mx-auto">Escolha o plano ideal para seu negócio. Todos incluem suporte premium e atualização automática.</p>
+
+        <div class="grid md:grid-cols-3 gap-8">
+            <!-- Starter -->
+            <div class="glass-effect p-8 rounded-2xl hover:transform hover:scale-105 transition-all duration-300 scroll-reveal">
+                <h3 class="text-2xl font-semibold mb-4">Starter</h3>
+                <div class="mb-6">
+                    <span class="text-5xl font-clash">R$ 299</span>
+                    <span class="text-gray-400">/mês</span>
+                </div>
+                <p class="text-gray-400 mb-8">Perfeito para começar</p>
+                
+                <ul class="space-y-4 mb-10">
+                    <li class="flex items-center gap-3">
+                        <span class="text-glow-cyan">✓</span>
+                        <span>100 fotos/mês</span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <span class="text-glow-cyan">✓</span>
+                        <span>até 4K resolução</span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <span class="text-glow-cyan">✓</span>
+                        <span>5 ambientes</span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <span class="text-gray-600">✗</span>
+                        <span class="text-gray-600">IA avançada</span>
+                    </li>
+                </ul>
+
+                <button class="btn-premium btn-secondary w-full">Começar</button>
+            </div>
+
+            <!-- Pro (Destacado) -->
+            <div class="glass-effect p-8 rounded-2xl border-2 border-cyan-500 transform scale-105 scroll-reveal" style="animation-delay: 0.1s">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-2xl font-semibold">Pro</h3>
+                    <span class="px-3 py-1 bg-cyan-500 bg-opacity-20 text-cyan-400 text-sm rounded-full border border-cyan-500">Popular</span>
+                </div>
+                <div class="mb-6">
+                    <span class="text-5xl font-clash text-glow-cyan">R$ 899</span>
+                    <span class="text-gray-400">/mês</span>
+                </div>
+                <p class="text-gray-400 mb-8">Recomendado para agências</p>
+                
+                <ul class="space-y-4 mb-10">
+                    <li class="flex items-center gap-3">
+                        <span class="text-glow-cyan">✓</span>
+                        <span class="font-semibold">1000 fotos/mês</span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <span class="text-glow-cyan">✓</span>
+                        <span class="font-semibold">até 8K resolução</span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <span class="text-glow-cyan">✓</span>
+                        <span class="font-semibold">30+ ambientes</span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <span class="text-glow-cyan">✓</span>
+                        <span class="font-semibold">IA premium com filtros</span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <span class="text-glow-cyan">✓</span>
+                        <span class="font-semibold">API integrada</span>
+                    </li>
+                </ul>
+
+                <button class="btn-premium btn-primary w-full">Começar Grátis</button>
+            </div>
+
+            <!-- Enterprise -->
+            <div class="glass-effect p-8 rounded-2xl hover:transform hover:scale-105 transition-all duration-300 scroll-reveal" style="animation-delay: 0.2s">
+                <h3 class="text-2xl font-semibold mb-4">Enterprise</h3>
+                <div class="mb-6">
+                    <span class="text-5xl font-clash">Customizado</span>
+                </div>
+                <p class="text-gray-400 mb-8">Para grandes corporações</p>
+                
+                <ul class="space-y-4 mb-10">
+                    <li class="flex items-center gap-3">
+                        <span class="text-glow-magenta">✓</span>
+                        <span>Ilimitadas fotos</span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <span class="text-glow-magenta">✓</span>
+                        <span>Até 16K + formats</span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <span class="text-glow-magenta">✓</span>
+                        <span>Ambientes custom</span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <span class="text-glow-magenta">✓</span>
+                        <span>Suporte 24/7 dedicado</span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <span class="text-glow-magenta">✓</span>
+                        <span>Deploy privado</span>
+                    </li>
+                </ul>
+
+                <button class="btn-premium btn-secondary w-full">Contato Comercial</button>
+            </div>
+        </div>
+
+        <div class="mt-16 text-center">
+            <p class="text-gray-400 mb-4">Teste grátis por 14 dias sem cartão de crédito</p>
+            <button class="btn-premium btn-primary">Criar Conta Grátis</button>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="max-w-4xl mx-auto px-6 py-32">
+        <h2 class="font-clash text-5xl md:text-6xl mb-20 text-center">
+            Perguntas <span class="text-glow-cyan">Frequentes</span>
+        </h2>
+
+        <div class="space-y-4">
+            <!-- FAQ Item 1 -->
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span class="text-lg font-semibold">As fotos geradas são realmente realistas?</span>
+                    <span class="accordion-icon">▼</span>
+                </div>
+                <div class="accordion-content">
+                    <p class="text-gray-400">Sim, 100% realistas. Nossos modelos de IA foram treinados em milhões de fotos profissionais e renderizações. A diferença entre uma foto FotoReal e uma foto de estúdio é praticamente imperceptível. Clientes recebem feedback dizendo que as fotos parecem fisicamente tiradas.</p>
+                </div>
+            </div>
+
+            <!-- FAQ Item 2 -->
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span class="text-lg font-semibold">Preciso de conhecimento técnico para usar?</span>
+                    <span class="accordion-icon">▼</span>
+                </div>
+                <div class="accordion-content">
+                    <p class="text-gray-400">Não! A interface é intuitiva e feita para qualquer pessoa. Você apenas carrega o produto, escolhe ambiente e iluminação, e clica gerar. Se quiser controle avançado, existe, mas é totalmente opcional.</p>
+                </div>
+            </div>
+
+            <!-- FAQ Item 3 -->
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span class="text-lg font-semibold">Como funciona a integração com meu e-commerce?</span>
+                    <span class="accordion-icon">▼</span>
+                </div>
+                <div class="accordion-content">
+                    <p class="text-gray-400">Oferecemos plugins para Shopify, WooCommerce e Magento. Também oferecemos API REST completa para integrações custom. Você pode automatizar geração de fotos em lote ou sob demanda.</p>
+                </div>
+            </div>
+
+            <!-- FAQ Item 4 -->
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span class="text-lg font-semibold">Qual é a qualidade máxima das imagens?</span>
+                    <span class="accordion-icon">▼</span>
+                </div>
+                <div class="accordion-content">
+                    <p class="text-gray-400">Até 8K (7680×4320) em planos Pro e Enterprise. Para impressão física em grandes formatos, recomendamos 16K via API custom. Todas as fotos incluem versão com fundo transparente.</p>
+                </div>
+            </div>
+
+            <!-- FAQ Item 5 -->
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span class="text-lg font-semibold">Vocês oferecem suporte ao cliente?</span>
+                    <span class="accordion-icon">▼</span>
+                </div>
+                <div class="accordion-content">
+                    <p class="text-gray-400">Sim! Suporte por email para plano Starter (24-48h), chat ao vivo para Pro (2h), e suporte 24/7 dedicado para Enterprise. Também oferecemos treinamento customizado para equipes.</p>
+                </div>
+            </div>
+
+            <!-- FAQ Item 6 -->
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span class="text-lg font-semibold">Meus dados estão seguros?</span>
+                    <span class="accordion-icon">▼</span>
+                </div>
+                <div class="accordion-content">
+                    <p class="text-gray-400">Absolutamente. Criptografia AES-256, GDPR compliant, certificação ISO 27001. Seus arquivos são automaticamente deletados após 30 dias se você quiser. Zero rastreamento, zero venda de dados.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Final -->
+    <section class="max-w-7xl mx-auto px-6 py-32 text-center">
+        <h2 class="font-clash text-5xl md:text-6xl mb-8">
+            Pronto para Transformar Seus <span class="text-glow-cyan">Produtos?</span>
+        </h2>
+        <p class="text-xl text-gray-400 mb-12 max-w-2xl mx-auto">Comece com 14 dias grátis. Nenhum cartão de crédito necessário. Cancele quando quiser.</p>
+
+        <div class="flex flex-col md:flex-row gap-6 justify-center">
+            <button class="btn-premium btn-primary">✨ Criar Conta Grátis Agora</button>
+            <button class="btn-premium btn-secondary">Agendar Demo (15min)</button>
+        </div>
+
+        <p class="text-gray-600 text-sm mt-8">🔒 Dados 100% seguros | ✓ Sem compromisso | ⚡ Acesso imediato</p>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-800 mt-32 py-16 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-4 gap-12 mb-12">
+                <div>
+                    <div class="font-clash text-2xl mb-6">
+                        <span class="text-glow-cyan">Foto</span><span class="text-glow-magenta">Real</span>
+                    </div>
+                    <p class="text-gray-500 text-sm">O estúdio definitivo de fotos realistas e 3D para e-commerce em 2026.</p>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold mb-6">Produto</h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-glow-cyan transition-all">Recursos</a></li>
+                        <li><a href="#" class="hover:text-glow-cyan transition-all">Planos</a></li>
+                        <li><a href="#" class="hover:text-glow-cyan transition-all">Galeria</a></li>
+                        <li><a href="#" class="hover:text-glow-cyan transition-all">API</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold mb-6">Empresa</h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-glow-cyan transition-all">Sobre</a></li>
+                        <li><a href="#" class="hover:text-glow-cyan transition-all">Blog</a></li>
+                        <li><a href="#" class="hover:text-glow-cyan transition-all">Contato</a></li>
+                        <li><a href="#" class="hover:text-glow-cyan transition-all">Carreiras</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold mb-6">Legal</h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-glow-cyan transition-all">Privacidade</a></li>
+                        <li><a href="#" class="hover:text-glow-cyan transition-all">Termos</a></li>
+                        <li><a href="#" class="hover:text-glow-cyan transition-all">Cookies</a></li>
+                        <li><a href="#" class="hover:text-glow-cyan transition-all">GDPR</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Newsletter -->
+            <div class="glass-effect p-8 rounded-2xl mb-12">
+                <h3 class="text-xl font-semibold mb-4">Receba Novidades</h3>
+                <div class="flex flex-col md:flex-row gap-4">
+                    <input type="email" placeholder="Seu e-mail" class="newsletter-input flex-1">
+                    <button class="btn-premium btn-primary whitespace-nowrap">Inscrever</button>
+                </div>
+                <p class="text-gray-500 text-sm mt-4">Nunca compartilhamos dados. Desinscrever é fácil.</p>
+            </div>
+
+            <!-- Bottom -->
+            <div class="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-gray-800">
+                <p class="text-gray-600 text-sm">© 2026 FotoReal. Construído com IA, amor e tecnologia futurista.</p>
+                <div class="flex gap-6 mt-6 md:mt-0">
+                    <a href="#" class="text-gray-500 hover:text-glow-cyan transition-all text-sm">Twitter</a>
+                    <a href="#" class="text-gray-500 hover:text-glow-cyan transition-all text-sm">GitHub</a>
+                    <a href="#" class="text-gray-500 hover:text-glow-cyan transition-all text-sm">LinkedIn</a>
+                    <a href="#" class="text-gray-500 hover:text-glow-cyan transition-all text-sm">Discord</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Mobile menu toggle
+        document.getElementById('menu-toggle').addEventListener('click', () => {
+            document.getElementById('mobile-menu').classList.toggle('active');
+        });
+
+        // Close mobile menu when link clicked
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('mobile-menu').classList.remove('active');
+            });
+        });
+
+        // Scroll reveal animation
+        const revealElements = document.querySelectorAll('.scroll-reveal');
+        
+        const revealOnScroll = () => {
+            revealElements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('in-view');
+                }
+            });
+        };
+
+        window.addEventListener('scroll', revealOnScroll);
+        revealOnScroll();
+
+        // Before/After slider
+        const beforeAfterContainer = document.querySelector('.before-after-container');
+        const beforeAfterHandle = document.querySelector('.before-after-handle');
+        const beforeAfterBefore = document.getElementById('before-after-before');
+        let isActive = false;
+
+        const updateSlider = (e) => {
+            if (!isActive) return;
+            
+            const rect = beforeAfterContainer.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
+            
+            beforeAfterBefore.style.width = percentage + '%';
+            beforeAfterHandle.style.left = percentage + '%';
+        };
+
+        beforeAfterHandle.addEventListener('mousedown', () => { isActive = true; });
+        window.addEventListener('mouseup', () => { isActive = false; });
+        window.addEventListener('mousemove', updateSlider);
+
+        // Touch support
+        beforeAfterHandle.addEventListener('touchstart', () => { isActive = true; });
+        window.addEventListener('touchend', () => { isActive = false; });
+        window.addEventListener('touchmove', updateSlider);
+
+        // Carousel
+        const carouselTrack = document.getElementById('carousel-track');
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.carousel-item');
+        const totalSlides = slides.length;
+
+        const moveCarousel = (direction) => {
+            if (direction === 'next') {
+                currentSlide = (currentSlide + 1) % totalSlides;
+            } else {
+                currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+            }
+            
+            carouselTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+        };
+
+        document.getElementById('carousel-next').addEventListener('click', () => moveCarousel('next'));
+        document.getElementById('carousel-prev').addEventListener('click', () => moveCarousel('prev'));
+
+        // Auto-scroll carousel
+        setInterval(() => {
+            moveCarousel('next');
+        }, 5000);
+
+        // Accordion
+        function toggleAccordion(header) {
+            const content = header.nextElementSibling;
+            const icon = header.querySelector('.accordion-icon');
+            
+            // Close all others
+            document.querySelectorAll('.accordion-content').forEach(item => {
+                if (item !== content) {
+                    item.classList.remove('active');
+                    item.previousElementSibling.querySelector('.accordion-icon').classList.remove('active');
+                }
+            });
+            
+            // Toggle current
+            content.classList.toggle('active');
+            icon.classList.toggle('active');
+        }
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

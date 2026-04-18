@@ -36,7 +36,6 @@ export const pix = {
     "21974137662"
   ).trim(),
   provider: process.env.NEXT_PUBLIC_PIX_PROVIDER || "PicPay",
-  cpfSuffix: process.env.NEXT_PUBLIC_CPF_SUFFIX || "85",
 };
 
 export const socialLinks = {

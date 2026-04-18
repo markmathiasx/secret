@@ -10,24 +10,23 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages = [
     "",
     "/catalogo",
+    "/imagem-para-impressao-3d",
     "/presentes-3d",
     "/brindes-personalizados-3d",
     "/setup-e-organizacao-3d",
     "/colecionaveis-geek-3d",
     "/decoracao-3d-para-casa",
     "/divulgacao",
-    "/login",
     "/politica-de-privacidade",
     "/termos",
     "/trocas-e-devolucoes",
     "/entregas",
     "/faq",
-    "/checkout"
   ].map((path) => ({
     url: `${base}${path}`,
     lastModified: new Date(),
     changeFrequency: "weekly" as const,
-    priority: path === "" ? 1 : 0.7
+    priority: path === "" ? 1 : path === "/catalogo" ? 0.9 : 0.7
   }));
 
   const productPages = catalog.slice(0, 1000).map((product) => ({

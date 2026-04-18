@@ -1,0 +1,42 @@
+[
+  {
+    "status": 200,
+    "ok": true,
+    "path": "/"
+  },
+  {
+    "status": 200,
+    "ok": true,
+    "path": "/catalogo"
+  },
+  {
+    "status": 200,
+    "ok": true,
+    "path": "/checkout"
+  },
+  {
+    "status": 200,
+    "ok": true,
+    "path": "/conta"
+  },
+  {
+    "status": 200,
+    "ok": true,
+    "path": "/presentes-3d"
+  },
+  {
+    "status": 200,
+    "ok": true,
+    "path": "/imagem-para-impressao-3d"
+  },
+  {
+    "status": 200,
+    "ok": true,
+    "path": "/faq"
+  },
+  {
+    "status": 200,
+    "ok": true,
+    "path": "/entregas"
+  }
+]

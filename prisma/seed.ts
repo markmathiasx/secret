@@ -50,8 +50,16 @@ async function upsertCategoriesAndCollections() {
 }
 
 async function ensureAdminUser() {
-  const email = process.env.ADMIN_EMAIL?.trim().toLowerCase() || "admin@mdh3d.local";
-  const password = process.env.ADMIN_PASSWORD?.trim() || "admin123456";
+  const email = process.env.ADMIN_EMAIL?.trim().toLowerCase();
+  if (!email) {
+    console.warn("[seed] ADMIN_EMAIL não definido no .env — usuário admin não será criado.");
+    return null;
+  }
+  const password = process.env.ADMIN_PASSWORD?.trim();
+  if (!password) {
+    console.warn("[seed] ADMIN_PASSWORD não definido — usuário admin não será criado.");
+    return null;
+  }
 
   return prisma.user.upsert({
     where: { email },
@@ -76,8 +84,16 @@ async function ensureAdminUser() {
 }
 
 async function ensureSellerUser() {
-  const email = (process.env.SEED_SELLER_EMAIL || "seller@mdh3d.local").trim().toLowerCase();
-  const password = process.env.SEED_SELLER_PASSWORD?.trim() || "seller123456";
+  const email = process.env.SEED_SELLER_EMAIL?.trim().toLowerCase();
+  if (!email) {
+    console.warn("[seed] SEED_SELLER_EMAIL não definido — usuário seller não será criado.");
+    return null;
+  }
+  const password = process.env.SEED_SELLER_PASSWORD?.trim();
+  if (!password) {
+    console.warn("[seed] SEED_SELLER_PASSWORD não definido — usuário seller não será criado.");
+    return null;
+  }
   const slug = process.env.SEED_SELLER_SLUG?.trim() || "mdh-3d";
 
   return prisma.user.upsert({
@@ -119,6 +135,7 @@ async function ensureSellerUser() {
 async function seedCatalog() {
   const { categoryIds, collectionIds } = await upsertCategoriesAndCollections();
   const seller = await ensureSellerUser();
+  const sellerId = seller?.id ?? null;
 
   for (const item of catalog) {
     const product = await prisma.product.upsert({
@@ -159,7 +176,7 @@ async function seedCatalog() {
         readyToShip: item.readyToShip ?? false,
         status: item.readyToShip ? ProductStatus.READY_TO_SHIP : item.customizable ? ProductStatus.CUSTOMIZABLE : ProductStatus.MADE_TO_ORDER,
         visibility: ProductVisibility.PUBLIC,
-        sellerId: seller.id,
+        sellerId: sellerId,
         categoryId: categoryIds.get(item.category),
       },
       create: {
@@ -199,7 +216,7 @@ async function seedCatalog() {
         readyToShip: item.readyToShip ?? false,
         status: item.readyToShip ? ProductStatus.READY_TO_SHIP : item.customizable ? ProductStatus.CUSTOMIZABLE : ProductStatus.MADE_TO_ORDER,
         visibility: ProductVisibility.PUBLIC,
-        sellerId: seller.id,
+        sellerId: sellerId,
         categoryId: categoryIds.get(item.category),
       },
     });
@@ -301,9 +318,18 @@ async function seedCoupons() {
 }
 
 async function seedSampleBuyer() {
-  const email = (process.env.SEED_BUYER_EMAIL || "buyer@mdh3d.local").trim().toLowerCase();
-  const password = process.env.SEED_BUYER_PASSWORD?.trim() || "buyer123456";
+  const email = process.env.SEED_BUYER_EMAIL?.trim().toLowerCase();
+  if (!email) {
+    console.warn("[seed] SEED_BUYER_EMAIL não definido — usuário comprador de teste não será criado.");
+    return null;
+  }
+  const password = process.env.SEED_BUYER_PASSWORD?.trim();
+  if (!password) {
+    console.warn("[seed] SEED_BUYER_PASSWORD não definido — usuário comprador de teste não será criado.");
+    return null;
+  }
   const seller = await ensureSellerUser();
+  const sellerIdForOrder = seller?.id ?? null;
   const featured = catalog[0];
 
   const buyer = await prisma.user.upsert({
@@ -405,7 +431,7 @@ async function seedSampleBuyer() {
       where: { orderNumber: "MDH-SEED-0001" },
       update: {
         buyerId: buyer.id,
-        sellerId: seller.id,
+        sellerId: sellerIdForOrder,
         paymentMethod: PaymentMethod.PIX,
         status: "PAID",
         subtotal: toDecimal(featured.pricePix),
@@ -415,7 +441,7 @@ async function seedSampleBuyer() {
       create: {
         orderNumber: "MDH-SEED-0001",
         buyerId: buyer.id,
-        sellerId: seller.id,
+        sellerId: sellerIdForOrder,
         paymentMethod: PaymentMethod.PIX,
         status: "PAID",
         subtotal: toDecimal(featured.pricePix),

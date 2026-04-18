@@ -558,6 +558,7 @@ model Order {
   items             OrderItem[]
   payments          Payment[]
   shipment          Shipment?
+  invoice           Invoice?
   reviews           Review[]
   questions         Question[]
   chatThreads       ChatThread[]
@@ -767,6 +768,25 @@ model QuoteEstimate {
 
   @@index([buyerId, createdAt])
   @@index([productId, createdAt])
+}
+
+model Invoice {
+  id              String   @id @default(cuid())
+  orderId         String   @unique
+  invoiceType     String   @default("NFe")
+  invoiceNumber   String
+  invoiceSeries   String
+  invoiceKey      String?  @unique
+  invoiceUrl      String?
+  invoiceXmlUrl   String?
+  issuerNotes     String?
+  issuedAt        DateTime?
+  metadata        Json?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  order           Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@index([orderId])
 }
 
 model QuoteRequest {
