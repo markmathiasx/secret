@@ -56,7 +56,7 @@ export function CheckoutPaymentStep({
             <span className="text-sm font-semibold">Cartão online</span>
           </div>
           <p className="mt-3 text-sm leading-6 text-white/68">
-            {cardCheckoutReady ? "Abre o checkout seguro do parceiro de cobrança." : "Ative o checkout do cartão para usar esta rota."}
+            {cardCheckoutReady ? "Abre o formulário seguro do cartão no próprio fluxo de checkout." : "Cartão online ainda não está habilitado neste ambiente; Pix continua ativo."}
           </p>
         </button>
         <button

@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { BadgeCheck, CreditCard, MessageCircleMore, PackageCheck, QrCode, ShieldCheck, Truck } from 'lucide-react';
 import { pix } from '@/lib/constants';
 
@@ -104,6 +105,14 @@ export function TrustSignals() {
               <p className="mt-4 text-sm leading-7 text-white/68">
                 A operação foi desenhada para facilitar o fechamento do pedido com clareza: Pix para aprovação rápida e cartão em ambiente seguro quando o checkout online estiver disponível.
               </p>
+              <div className="mt-5 flex flex-wrap gap-3">
+                <Link href="/compra-protegida" className="btn-secondary">
+                  Ver compra protegida
+                </Link>
+                <Link href="/faq" className="btn-glass">
+                  Abrir FAQ
+                </Link>
+              </div>
             </div>
           </div>
         </div>

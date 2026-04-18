@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Star } from "lucide-react";
+import { trackReviewRequest, trackReviewSubmitted } from "@/lib/analytics";
 
 type Review = {
   id: string;
@@ -102,6 +103,7 @@ export function ProductReviews({ productSlug, productSku }: { productSlug: strin
       if (data.ok) {
         setSubmitted(true);
         setShowForm(false);
+        trackReviewSubmitted(productSlug, productSku);
       } else {
         setError(data.error || "Erro ao enviar avaliação.");
       }
@@ -117,6 +119,9 @@ export function ProductReviews({ productSlug, productSku }: { productSlug: strin
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <h2 className="text-xl font-black text-white">Avaliações</h2>
+          <p className="mt-2 max-w-2xl text-sm leading-7 text-white/55">
+            Reviews ficam visíveis após moderação e podem aparecer como compra verificada quando vierem de um pedido real.
+          </p>
           {avgRating !== null ? (
             <div className="mt-2 flex items-center gap-3">
               <span className="text-3xl font-black text-amber-400">{avgRating.toFixed(1)}</span>
@@ -132,7 +137,10 @@ export function ProductReviews({ productSlug, productSku }: { productSlug: strin
           )}
         </div>
         <button
-          onClick={() => setShowForm((v) => !v)}
+          onClick={() => {
+            if (!showForm) trackReviewRequest(productSlug, productSku);
+            setShowForm((v) => !v);
+          }}
           className="btn-secondary"
         >
           {showForm ? "Cancelar" : "Escrever avaliação"}

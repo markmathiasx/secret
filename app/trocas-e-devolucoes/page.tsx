@@ -51,6 +51,9 @@ export default function ReturnsPage() {
           A MDH 3D trata troca e devolução com foco em defeito de produção, divergência operacional e análise justa do
           que foi aprovado no pedido.
         </p>
+        <div className="mt-4 rounded-[20px] border border-emerald-300/20 bg-emerald-300/10 p-4 text-sm leading-7 text-emerald-50">
+          Janela simples: pedidos elegíveis podem entrar em análise dentro de 7 dias corridos após o recebimento. Projetos personalizados seguem a regra do briefing aprovado.
+        </div>
       </div>
 
       <div className="mt-8 grid gap-4 md:grid-cols-3">

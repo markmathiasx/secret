@@ -29,7 +29,14 @@ import { pix, whatsappNumber } from "@/lib/constants";
 import { type ShippingOption } from "@/lib/shipping";
 import { getProductImageCandidates } from "@/lib/product-images";
 import { formatCurrency } from "@/lib/utils";
-import { trackAddPaymentInfo, trackBeginCheckout, trackPaymentError, trackPurchase, trackWhatsAppClick } from "@/lib/analytics";
+import {
+  trackAddPaymentInfo,
+  trackAddShippingInfo,
+  trackBeginCheckout,
+  trackPaymentError,
+  trackPurchase,
+  trackWhatsAppClick,
+} from "@/lib/analytics";
 
 export function CheckoutFlow() {
   const searchParams = useSearchParams();
@@ -428,6 +435,18 @@ export function CheckoutFlow() {
     if (ok) setCurrentStep(1);
   }
 
+  function handleContinueToPayment() {
+    if (analyticsProduct && selectedShipping) {
+      trackAddShippingInfo(
+        analyticsProduct,
+        selectedShipping.title,
+        quantity,
+        totalPix
+      );
+    }
+    setCurrentStep(2);
+  }
+
   async function handleSubmitOrder() {
     if (!product || !selectedShipping) return;
     setLoading(true);
@@ -671,7 +690,7 @@ export function CheckoutFlow() {
               onRecalculate={() => void fetchShippingQuote()}
               onSelectShipping={setSelectedShippingId}
               onBack={() => setCurrentStep(0)}
-              onContinue={() => setCurrentStep(2)}
+              onContinue={() => handleContinueToPayment()}
             />
           ) : null}
 

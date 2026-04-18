@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { OrderStatus } from "@prisma/client";
 import { z } from "zod";
 import { findCatalogProductBySlug } from "@/lib/catalog-repository";
 import { applyNoStoreHeaders } from "@/lib/http-cache";
@@ -15,6 +16,27 @@ const postSchema = z.object({
 });
 
 type Params = { params: Promise<{ slug: string }> };
+
+async function hasVerifiedPurchase(productId: string, productSku: string, authorEmail?: string) {
+  if (!authorEmail) return false;
+
+  const order = await prisma.order.findFirst({
+    where: {
+      customerEmail: { equals: authorEmail, mode: "insensitive" },
+      status: {
+        in: [OrderStatus.PAID, OrderStatus.PRINTING, OrderStatus.READY_TO_SHIP, OrderStatus.SHIPPED, OrderStatus.DELIVERED],
+      },
+      items: {
+        some: {
+          OR: [{ sku: productSku }, { productId }],
+        },
+      },
+    },
+    select: { id: true },
+  });
+
+  return Boolean(order);
+}
 
 export async function GET(_req: Request, { params }: Params) {
   const { slug } = await params;
@@ -97,6 +119,7 @@ export async function POST(req: Request, { params }: Params) {
   }
 
   try {
+    const verifiedPurchase = await hasVerifiedPurchase(product.id, product.sku, parsed.data.authorEmail?.trim());
     const review = await prisma.catalogReview.create({
       data: {
         catalogSku: product.sku,
@@ -105,6 +128,7 @@ export async function POST(req: Request, { params }: Params) {
         rating: parsed.data.rating,
         title: parsed.data.title,
         body: parsed.data.body,
+        verifiedPurchase,
         approved: false,
       },
     });

@@ -19,8 +19,8 @@ const GUARANTEES = [
   },
   {
     icon: RefreshCw,
-    title: "Troca em 30 dias",
-    body: "Defeito de impressão ou dano no envio? A gente refaz ou reembolsa.",
+    title: "Troca em 7 dias",
+    body: "Defeito de impressão ou dano no envio? A gente reavalia, refaz ou devolve.",
     color: "text-violet-100",
     border: "border-violet-300/15",
     bg: "bg-violet-300/[0.08]",

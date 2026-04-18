@@ -3,6 +3,7 @@
 import { useState, useRef, useCallback, useMemo } from 'react';
 import { Upload, File, X, CheckCircle, AlertCircle, Zap, Send } from 'lucide-react';
 import { whatsappNumber } from '@/lib/constants';
+import { trackFileUpload, trackSupportRequest } from '@/lib/analytics';
 
 interface FormData {
   projectName: string;
@@ -66,6 +67,7 @@ export function STLUploader() {
         return;
       }
       setFile(droppedFile);
+      trackFileUpload("stl_uploader_drop", droppedFile.type || droppedFile.name.split('.').pop(), droppedFile.size);
       setShowForm(true);
     }
   }, [validateFile]);
@@ -79,6 +81,7 @@ export function STLUploader() {
         return;
       }
       setFile(selectedFile);
+      trackFileUpload("stl_uploader_select", selectedFile.type || selectedFile.name.split('.').pop(), selectedFile.size);
       setShowForm(true);
     }
   };
@@ -116,6 +119,7 @@ export function STLUploader() {
     setTimeout(() => {
       setUploadProgress(100);
       setTimeout(() => {
+        trackSupportRequest("stl_uploader", "whatsapp");
         window.open(
           `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`,
           '_blank'

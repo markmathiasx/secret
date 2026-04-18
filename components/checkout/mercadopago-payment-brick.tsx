@@ -312,7 +312,11 @@ export function MercadoPagoPaymentBrick({
         </div>
       ) : null}
       <div id={containerId} className="min-h-[420px]" />
-      {!sdkReady && loading ? <p className="mt-4 text-sm text-white/55">Carregando checkout seguro do Mercado Pago...</p> : null}
+      {!sdkReady && loading ? (
+        <p className="mt-4 text-sm leading-7 text-white/55">
+          Montando o formulário seguro do cartão. Se demorar, use Pix ou tente novamente pelo botão abaixo.
+        </p>
+      ) : null}
     </div>
   );
 }

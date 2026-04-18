@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { MessageCircleMore } from "lucide-react";
 import { GuaranteeBar } from "@/components/guarantee-bar";
 import { PurchaseProtectionBanner } from "@/components/purchase-protection-banner";
@@ -58,6 +59,14 @@ export function CheckoutConfirmStep({
         </p>
         <div className="mt-4">
           <GuaranteeBar />
+        </div>
+        <div className="mt-4 flex flex-wrap gap-3">
+          <Link href="/compra-protegida" className="btn-glass">
+            Como funciona
+          </Link>
+          <Link href="/trocas-e-devolucoes" className="btn-secondary">
+            Trocas e devoluções
+          </Link>
         </div>
       </div>
 

@@ -28,7 +28,9 @@ export default function CheckoutPage() {
                 <div className="h-11 flex-1 rounded-full bg-white/10" />
                 <div className="h-11 flex-1 rounded-full bg-white/8" />
               </div>
-              <p className="mt-6 text-sm text-white/55">Carregando checkout seguro da loja.</p>
+              <p className="mt-6 text-sm leading-7 text-white/55">
+                Montando seu checkout seguro. O Pix continua ativo enquanto o formulário do cartão termina de carregar.
+              </p>
             </div>
           </div>
         </section>

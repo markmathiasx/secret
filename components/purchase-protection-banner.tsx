@@ -58,6 +58,9 @@ export function PurchaseProtectionBanner({
       </div>
 
       <div className="mt-4 flex flex-wrap gap-3">
+        <Link href="/compra-protegida" className="btn-glass">
+          Como funciona
+        </Link>
         <Link href="/trocas-e-devolucoes" className="btn-secondary">
           Ver trocas e devoluções
         </Link>

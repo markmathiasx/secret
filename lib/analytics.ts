@@ -125,6 +125,44 @@ export const trackAddPaymentInfo = (product: AnalyticsProduct, paymentType: stri
   });
 };
 
+export const trackAddShippingInfo = (product: AnalyticsProduct, shippingTier: string, quantity = 1, value?: number) => {
+  trackEvent('add_shipping_info', {
+    currency: 'BRL',
+    value: value ?? (product.pricePix || 0) * quantity,
+    shipping_tier: shippingTier,
+    items: [toGa4Item(product, quantity)],
+  });
+};
+
+export const trackReviewSubmitted = (productSlug: string, productSku: string) => {
+  trackEvent('review_submitted', {
+    product_slug: productSlug,
+    product_sku: productSku,
+  });
+};
+
+export const trackReviewRequest = (productSlug: string, productSku: string) => {
+  trackEvent('review_request', {
+    product_slug: productSlug,
+    product_sku: productSku,
+  });
+};
+
+export const trackSupportRequest = (source: string, channel: string = "whatsapp") => {
+  trackEvent('support_request', {
+    source,
+    channel,
+  });
+};
+
+export const trackFileUpload = (source: string, fileType?: string, fileSize?: number) => {
+  trackEvent('file_upload', {
+    source,
+    file_type: fileType,
+    file_size_bytes: fileSize,
+  });
+};
+
 export const trackPurchase = (order: {
   id: string;
   total: number;

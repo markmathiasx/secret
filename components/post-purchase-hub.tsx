@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Clock3, MessageCircleMore, RotateCcw, ShieldCheck, UserRound } from "lucide-react";
 import { whatsappNumber } from "@/lib/constants";
+import { trackSupportRequest } from "@/lib/analytics";
 
 export function PostPurchaseHub({
   orderCode,
@@ -70,6 +71,7 @@ export function PostPurchaseHub({
           href={`https://wa.me/${whatsappNumber}?text=${supportMessage}`}
           target="_blank"
           rel="noreferrer"
+          onClick={() => trackSupportRequest("post_purchase_hub")}
           className="rounded-[20px] border border-white/10 bg-black/20 p-4 text-sm text-white/80 transition hover:border-emerald-300/30"
         >
           <div className="flex items-center gap-2 text-emerald-100">

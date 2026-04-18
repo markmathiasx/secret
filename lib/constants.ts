@@ -258,28 +258,49 @@ export const catalogShortcutLinks = [
 
 export const faqItems: any[] = [
   {
+    question: "Como funciona o pedido?",
+    answer: "Você escolhe o produto, confirma endereço e prazo, escolhe Pix ou cartão e recebe um código para acompanhar tudo depois.",
+  },
+  {
     question: "Vocês fazem peças sob encomenda?",
-    answer: "Sim. Você pode pedir orçamento pelo WhatsApp ou pela página de imagem para impressão 3D.",
+    answer: "Sim. Você pode mandar imagem, STL ou briefing pela página de personalização ou pelo WhatsApp para receber análise humana.",
   },
   {
     question: "Quais materiais vocês usam?",
-    answer: "A loja trabalha principalmente com PLA Premium, PLA Silk, PETG e resina, conforme o tipo de peça.",
+    answer: "Trabalhamos principalmente com PLA Premium, PLA Silk, PETG e resina, sempre escolhendo o material conforme uso, acabamento e resistência.",
   },
   {
     question: "Qual o prazo médio?",
-    answer: "Pronta entrega costuma sair em 24h a 48h. Sob encomenda normalmente fica entre 3 e 7 dias.",
+    answer: "Pronta entrega costuma sair em 24h a 48h. Sob encomenda normalmente fica entre 3 e 7 dias, variando com complexidade e fila.",
   },
   {
-    question: "Vocês entregam no Rio de Janeiro?",
-    answer: "Sim. A operação é baseada no Rio de Janeiro e também atende outras regiões conforme o frete.",
+    question: "Pix e cartão funcionam como?",
+    answer: "Pix aparece com chave, QR Code e copia e cola. O cartão fica disponível quando o checkout online do parceiro estiver habilitado.",
+  },
+  {
+    question: "Como acompanho meu pedido?",
+    answer: "Use o código do pedido em Rastrear ou entre na Conta para ver etapas, pagamento, envio e próximos passos.",
+  },
+  {
+    question: "Como funcionam trocas e devoluções?",
+    answer: "A política explica prazo, exceções para personalizados, quem paga o frete e como abrir a solicitação de forma simples.",
+  },
+  {
+    question: "Vocês fazem brindes e lotes?",
+    answer: "Sim. A loja atende pedidos em quantidade com orientação de prazo, material e condição comercial.",
   },
   {
     question: "Posso mandar imagem ou referência?",
-    answer: "Sim. A nova página de imagem para impressão 3D foi criada justamente para esse fluxo.",
+    answer: "Sim. A página de imagem para impressão 3D foi criada para enviar referência, material desejado e observações do projeto.",
+  },
+  {
+    question: "Vocês entregam no Rio de Janeiro?",
+    answer: "Sim. A operação é baseada no Rio de Janeiro e também atende outras regiões conforme o frete calculado no checkout.",
   },
 ];
 
 export const footerLinks: any[] = [
+  { label: "Compra protegida", href: "/compra-protegida" },
   { label: "Política de privacidade", href: "/politica-de-privacidade" },
   { label: "Termos de uso", href: "/termos" },
   { label: "Trocas e devoluções", href: "/trocas-e-devolucoes" },
