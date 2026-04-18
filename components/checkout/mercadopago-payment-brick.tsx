@@ -87,6 +87,22 @@ export function MercadoPagoPaymentBrick({
   const [error, setError] = useState<string | null>(null);
   const [publicKeyReady] = useState(Boolean(getMercadoPagoPublicKey()));
   const brickType = paymentMethod === "cartao" ? "cardPayment" : "payment";
+  const customization = useMemo(
+    () =>
+      paymentMethod === "cartao"
+        ? {
+            paymentMethods: {
+              creditCard: true,
+            },
+            visual: {
+              defaultPaymentOption: {
+                creditCardForm: true,
+              },
+            },
+          }
+        : {},
+    [paymentMethod]
+  );
 
   useEffect(() => {
     let cancelled = false;
@@ -128,6 +144,7 @@ export function MercadoPagoPaymentBrick({
               last_name: payerName.split(/\s+/).slice(1).join(" ") || undefined,
             },
           },
+          customization,
           callbacks: {
             onReady: () => {
               setSdkReady(true);
@@ -213,7 +230,7 @@ export function MercadoPagoPaymentBrick({
       brickRef.current?.unmount?.();
       brickRef.current = null;
     };
-  }, [amount, brickType, checkoutPayload, containerId, paymentMethod, payerEmail, payerName, onResult, retryCount]);
+  }, [amount, brickType, checkoutPayload, containerId, customization, paymentMethod, payerEmail, payerName, onResult, retryCount]);
 
   if (!publicKeyReady) {
     return (
