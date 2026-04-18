@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { AlertTriangle, CheckCircle2, Clock3, Package2, RefreshCw, ShoppingBag } from "lucide-react";
 import { MercadoPagoStatusBrick } from "@/components/checkout/mercadopago-status-brick";
+import { PostPurchaseHub } from "@/components/post-purchase-hub";
 import { formatCurrency } from "@/lib/utils";
 
 type TrackOrderResponse = {
@@ -178,6 +179,10 @@ export function MercadoPagoStatusPage({
                 <textarea readOnly value={resolvedOrder.payment.pixPayload} className="field-base mt-3 min-h-28 resize-none text-xs leading-6" />
               </div>
             ) : null}
+
+            <div className="mt-6">
+              <PostPurchaseHub orderCode={resolvedOrder.orderNumber} compact />
+            </div>
 
             <div className="mt-6 flex flex-wrap gap-3">
               <Link href="/conta" className="btn-primary gap-2">

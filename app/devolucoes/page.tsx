@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { ChevronRight, CheckCircle } from "lucide-react";
 import { PurchaseProtectionBanner } from "@/components/purchase-protection-banner";
+import { PostPurchaseHub } from "@/components/post-purchase-hub";
 
 const RETURN_REASONS = [
   "Produto danificado",
@@ -16,6 +18,7 @@ const RETURN_REASONS = [
 type Step = 0 | 1 | 2;
 
 export default function DevolucoesPage() {
+  const searchParams = useSearchParams();
   const [step, setStep] = useState<Step>(0);
   const [form, setForm] = useState({
     orderCode: "",
@@ -26,6 +29,12 @@ export default function DevolucoesPage() {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    const orderCode = searchParams.get("order") || searchParams.get("code") || "";
+    if (!orderCode) return;
+    setForm((current) => (current.orderCode ? current : { ...current, orderCode }));
+  }, [searchParams]);
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -61,6 +70,10 @@ export default function DevolucoesPage() {
       </div>
 
       <PurchaseProtectionBanner compact />
+
+      <div className="mt-4">
+        <PostPurchaseHub orderCode={form.orderCode || null} compact />
+      </div>
 
       {/* Stepper */}
       <div className="mb-8 flex items-center gap-2 text-sm">

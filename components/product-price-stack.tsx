@@ -50,7 +50,7 @@ export function ProductPriceStack({
       {showInstallments ? (
         <p className="text-xs text-white/55">12x de {formatCurrency(product.priceCard / 12)} no cartão</p>
       ) : null}
-      <p className="text-xs text-white/55">Prazo: {productionLeadTime}</p>
+      <p className="text-xs text-white/55">Prazo de produção: {productionLeadTime}</p>
       <div className="flex flex-wrap gap-2">
         <span className="rounded-full border border-emerald-300/25 bg-emerald-300/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-emerald-100">
           {FIXED_MARGIN_BADGE_LABEL}

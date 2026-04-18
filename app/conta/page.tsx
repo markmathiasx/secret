@@ -12,6 +12,7 @@ import {
   WalletCards,
 } from 'lucide-react';
 import { PurchaseProtectionBanner } from '@/components/purchase-protection-banner';
+import { PostPurchaseHub } from '@/components/post-purchase-hub';
 import { TwoFactorPanel } from '@/components/account/two-factor-panel';
 import { featuredCatalog, findProduct, getProductUrl } from '@/lib/catalog';
 import { emitCustomerAuthChange, useCustomerSession } from '@/lib/customer-session-client';
@@ -218,6 +219,10 @@ export default function AccountPage() {
 
       <div className="mt-6">
         <PurchaseProtectionBanner compact />
+      </div>
+
+      <div className="mt-6">
+        <PostPurchaseHub />
       </div>
 
       <div className="mt-6 grid gap-6 xl:grid-cols-[0.9fr_1.1fr]">

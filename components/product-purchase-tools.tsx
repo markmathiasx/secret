@@ -19,6 +19,8 @@ export function ProductPurchaseTools({
   sku,
   pricePix,
   priceCard,
+  productionWindow,
+  readyToShip,
   productImage,
   customizable,
   whatsappHref,
@@ -29,6 +31,8 @@ export function ProductPurchaseTools({
   sku: string;
   pricePix: number;
   priceCard: number;
+  productionWindow: string;
+  readyToShip: boolean;
   productImage?: string;
   customizable: boolean;
   whatsappHref: string;
@@ -236,6 +240,19 @@ export function ProductPurchaseTools({
         <div className="rounded-[20px] border border-white/10 bg-white/5 p-4">
           <p className="text-xs uppercase tracking-[0.16em] text-white/50">Total no cartão</p>
           <p className="mt-2 text-2xl font-black text-white">{formatCurrency(totalCard)}</p>
+        </div>
+      </div>
+
+      <div className="mt-4 grid gap-3 sm:grid-cols-2">
+        <div className="rounded-[20px] border border-white/10 bg-black/20 p-4 text-sm text-white/72">
+          <p className="text-xs uppercase tracking-[0.16em] text-white/45">Prazo de produção</p>
+          <p className="mt-2 font-semibold text-white">{productionWindow}</p>
+        </div>
+        <div className="rounded-[20px] border border-white/10 bg-black/20 p-4 text-sm text-white/72">
+          <p className="text-xs uppercase tracking-[0.16em] text-white/45">Entrega estimada</p>
+          <p className="mt-2 font-semibold text-white">
+            {readyToShip ? "Pronta entrega quando houver estoque" : "Frete e prazo final são calculados no checkout"}
+          </p>
         </div>
       </div>
 

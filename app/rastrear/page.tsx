@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Search, Package } from "lucide-react";
+import { PostPurchaseHub } from "@/components/post-purchase-hub";
 
 const STATUS_LABELS: Record<string, string> = {
   PENDING_PAYMENT: "Aguardando pagamento",
@@ -71,6 +72,10 @@ export default function RastrearPage() {
         <p className="section-kicker">Acompanhar pedido</p>
         <h1 className="section-title">Rastrear</h1>
         <p className="section-copy">Digite o código do seu pedido para acompanhar o status.</p>
+      </div>
+
+      <div className="mb-6">
+        <PostPurchaseHub compact />
       </div>
 
       <form onSubmit={handleSearch} className="mb-6 flex gap-3">
@@ -154,6 +159,13 @@ export default function RastrearPage() {
               )}
             </div>
           )}
+
+          <div className="rounded-[18px] border border-white/10 bg-white/5 p-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-white/45">Próxima ação</p>
+            <p className="mt-2 text-sm leading-7 text-white/68">
+              Se precisar abrir troca, falar com a equipe ou rever a compra, os atalhos do pós-venda ficam disponíveis na página.
+            </p>
+          </div>
         </div>
       )}
     </main>

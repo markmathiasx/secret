@@ -4,6 +4,7 @@ import { findCatalogProductBySlug } from "@/lib/catalog-repository";
 import { applyNoStoreHeaders } from "@/lib/http-cache";
 import { canConnectToDatabase, prisma } from "@/lib/prisma";
 import { checkRateLimit, getClientIp } from "@/lib/security";
+import { logStructured } from "@/lib/logger";
 
 const postSchema = z.object({
   authorName: z.string().min(2).max(80),
@@ -24,6 +25,7 @@ export async function GET(_req: Request, { params }: Params) {
 
   const dbAvailable = await canConnectToDatabase();
   if (!dbAvailable) {
+    logStructured("warn", "catalog_reviews_db_unavailable", { slug, method: "GET" });
     return applyNoStoreHeaders(NextResponse.json({ ok: true, reviews: [], total: 0, avgRating: null }));
   }
 
@@ -54,7 +56,11 @@ export async function GET(_req: Request, { params }: Params) {
         avgRating: avgRating !== null ? Math.round(avgRating * 10) / 10 : null,
       })
     );
-  } catch {
+  } catch (error) {
+    logStructured("error", "catalog_reviews_get_failed", {
+      slug,
+      message: error instanceof Error ? error.message : "Falha ao carregar avaliações.",
+    });
     return applyNoStoreHeaders(NextResponse.json({ ok: true, reviews: [], total: 0, avgRating: null }));
   }
 }
@@ -84,6 +90,7 @@ export async function POST(req: Request, { params }: Params) {
 
   const dbAvailable = await canConnectToDatabase();
   if (!dbAvailable) {
+    logStructured("warn", "catalog_reviews_db_unavailable", { slug, method: "POST" });
     return applyNoStoreHeaders(
       NextResponse.json({ ok: false, error: "Serviço de avaliações temporariamente indisponível." }, { status: 503 })
     );
@@ -109,7 +116,11 @@ export async function POST(req: Request, { params }: Params) {
         id: review.id,
       })
     );
-  } catch {
+  } catch (error) {
+    logStructured("error", "catalog_reviews_create_failed", {
+      slug,
+      message: error instanceof Error ? error.message : "Erro ao salvar avaliação.",
+    });
     return applyNoStoreHeaders(
       NextResponse.json({ ok: false, error: "Erro ao salvar avaliação. Tente novamente." }, { status: 500 })
     );

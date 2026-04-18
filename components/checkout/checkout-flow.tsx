@@ -663,6 +663,7 @@ export function CheckoutFlow() {
           {currentStep === 1 ? (
             <CheckoutShippingStep
               activeAddress={activeAddress}
+              productionWindow={product?.productionWindow || product?.printTime || "sob consulta"}
               shippingOptions={shippingOptions}
               selectedShippingId={selectedShippingId}
               shippingLoading={shippingLoading}

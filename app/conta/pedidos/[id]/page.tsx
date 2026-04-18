@@ -16,6 +16,7 @@ import { useCustomerSession } from "@/lib/customer-session-client";
 import { formatCurrency } from "@/lib/utils";
 import { whatsappNumber } from "@/lib/constants";
 import { PurchaseProtectionBanner } from "@/components/purchase-protection-banner";
+import { PostPurchaseHub } from "@/components/post-purchase-hub";
 
 type Order = {
   id: string;
@@ -171,6 +172,10 @@ export default function OrderDetailPage() {
 
       <div className="mt-6">
         <PurchaseProtectionBanner compact />
+      </div>
+
+      <div className="mt-6">
+        <PostPurchaseHub orderCode={order.order_code} />
       </div>
 
       {/* Timeline */}

@@ -5,12 +5,14 @@ import { BadgeCheck, ShieldCheck, ShoppingBag, Star, Zap } from "lucide-react";
 export function ProductSocialProof({
   averageRating,
   reviewCount,
+  soldTotal,
   soldLast30Days,
   stockLevel,
   protectedPurchaseHref = "/trocas-e-devolucoes",
 }: {
   averageRating?: number | null;
   reviewCount?: number;
+  soldTotal?: number;
   soldLast30Days?: number;
   stockLevel: number;
   protectedPurchaseHref?: string;
@@ -18,7 +20,8 @@ export function ProductSocialProof({
   const isLowStock = stockLevel > 0 && stockLevel <= 5;
   const isOutOfStock = stockLevel <= 0;
   const hasReviews = typeof reviewCount === "number" && reviewCount > 0 && typeof averageRating === "number";
-  const hasRecentSales = typeof soldLast30Days === "number" && soldLast30Days > 0;
+  const recentSales = typeof soldLast30Days === "number" && soldLast30Days > 0 ? soldLast30Days : 0;
+  const totalSales = typeof soldTotal === "number" && soldTotal > 0 ? soldTotal : 0;
 
   return (
     <div className="flex flex-wrap gap-2">
@@ -34,10 +37,15 @@ export function ProductSocialProof({
         </span>
       )}
 
-      {hasRecentSales ? (
+      {recentSales > 0 ? (
         <span className="flex items-center gap-1.5 rounded-full border border-cyan-300/20 bg-cyan-300/10 px-3 py-1.5 text-xs font-semibold text-cyan-100">
           <ShoppingBag className="h-3.5 w-3.5" />
-          {soldLast30Days}+ pedidos nos últimos 30 dias
+          {recentSales}+ pedidos nos últimos 30 dias
+        </span>
+      ) : totalSales > 0 ? (
+        <span className="flex items-center gap-1.5 rounded-full border border-cyan-300/20 bg-cyan-300/10 px-3 py-1.5 text-xs font-semibold text-cyan-100">
+          <ShoppingBag className="h-3.5 w-3.5" />
+          {totalSales}+ pedidos concluídos
         </span>
       ) : null}
 

@@ -6,6 +6,7 @@ import { formatCurrency } from "@/lib/utils";
 
 export function CheckoutShippingStep({
   activeAddress,
+  productionWindow,
   shippingOptions,
   selectedShippingId,
   shippingLoading,
@@ -23,6 +24,7 @@ export function CheckoutShippingStep({
     state: string;
     zipCode: string;
   };
+  productionWindow: string;
   shippingOptions: ShippingOption[];
   selectedShippingId: "standard" | "express";
   shippingLoading: boolean;
@@ -61,6 +63,12 @@ export function CheckoutShippingStep({
         </div>
 
         {shippingError ? <p className="mt-4 text-sm text-rose-200">{shippingError}</p> : null}
+
+        <div className="mt-4 rounded-[20px] border border-white/10 bg-black/20 p-4 text-sm text-white/72">
+          <p className="text-xs uppercase tracking-[0.16em] text-white/45">Prazo de produção deste item</p>
+          <p className="mt-2 font-semibold text-white">{productionWindow}</p>
+          <p className="mt-2 text-white/55">O prazo final combina produção + envio e fica claro antes da confirmação.</p>
+        </div>
 
         <div className="mt-4 grid gap-3">
           {shippingOptions.map((option) => (

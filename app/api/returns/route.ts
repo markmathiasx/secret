@@ -3,6 +3,7 @@ import { applyNoStoreHeaders } from "@/lib/http-cache";
 import { sendMail } from "@/lib/mailer";
 import { supportEmail } from "@/lib/constants";
 import { getClientIp, checkRateLimit } from "@/lib/security";
+import { logStructured } from "@/lib/logger";
 
 export const dynamic = "force-dynamic";
 
@@ -39,9 +40,12 @@ export async function POST(req: NextRequest) {
       subject: "Recebemos sua solicitação de devolução — MDH 3D",
       html: `<p>Olá ${customerName}, recebemos sua solicitação referente ao pedido <strong>${orderCode}</strong> e entraremos em contato em breve.</p>`,
     });
-  } catch {
-    // Log but don't fail the request
-    console.error("[returns] Falha ao enviar e-mail");
+  } catch (error) {
+    logStructured("error", "returns_mail_failed", {
+      orderCode,
+      customerName,
+      message: error instanceof Error ? error.message : "Falha ao enviar e-mail de devolução.",
+    });
   }
 
   return applyNoStoreHeaders(NextResponse.json({ ok: true, message: "Solicitação registrada com sucesso." }));

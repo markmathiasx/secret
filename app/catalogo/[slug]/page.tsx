@@ -256,6 +256,7 @@ export default async function ProductPage({
             <ProductSocialProof
               averageRating={productSignals?.averageRating ?? storeSummary?.averageRating ?? null}
               reviewCount={productSignals?.reviewCount ?? storeSummary?.reviewCount ?? 0}
+              soldTotal={productSignals?.soldTotal}
               soldLast30Days={productSignals?.soldLast30Days}
               stockLevel={product.stock}
             />
@@ -374,6 +375,8 @@ export default async function ProductPage({
               sku={product.sku}
               pricePix={product.pricePix}
               priceCard={product.priceCard}
+              productionWindow={product.productionWindow}
+              readyToShip={product.readyToShip ?? false}
               productImage={product.images?.[0]}
               customizable={product.customizable}
               whatsappHref={whatsappHref}

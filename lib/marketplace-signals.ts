@@ -1,5 +1,6 @@
 import { OrderStatus } from "@prisma/client";
 import { canConnectToDatabase, prisma } from "@/lib/prisma";
+import { logStructured } from "@/lib/logger";
 
 const ACTIVE_ORDER_STATUSES = [
   OrderStatus.PAID,
@@ -28,7 +29,10 @@ function roundAverage(value: number | null | undefined) {
 }
 
 export async function getStoreReputationSummary(): Promise<StoreReputationSummary | null> {
-  if (!(await canConnectToDatabase())) return null;
+  if (!(await canConnectToDatabase())) {
+    logStructured("warn", "marketplace_signals_db_unavailable", { scope: "store" });
+    return null;
+  }
 
   try {
     const [reviewAggregate, orderCount] = await Promise.all([
@@ -47,13 +51,19 @@ export async function getStoreReputationSummary(): Promise<StoreReputationSummar
       averageRating: roundAverage(reviewAggregate._avg.rating),
       orderCount,
     };
-  } catch {
+  } catch (error) {
+    logStructured("error", "marketplace_signals_store_failed", {
+      message: error instanceof Error ? error.message : "Falha ao carregar reputação da loja.",
+    });
     return null;
   }
 }
 
 export async function getProductMarketplaceSignals(productId: string, productSku: string): Promise<ProductMarketplaceSignals | null> {
-  if (!(await canConnectToDatabase())) return null;
+  if (!(await canConnectToDatabase())) {
+    logStructured("warn", "marketplace_signals_db_unavailable", { scope: "product", productId, productSku });
+    return null;
+  }
 
   try {
     const recentBoundary = new Date();
@@ -86,7 +96,12 @@ export async function getProductMarketplaceSignals(productId: string, productSku
       soldTotal,
       soldLast30Days,
     };
-  } catch {
+  } catch (error) {
+    logStructured("error", "marketplace_signals_product_failed", {
+      productId,
+      productSku,
+      message: error instanceof Error ? error.message : "Falha ao carregar sinais do produto.",
+    });
     return null;
   }
 }
