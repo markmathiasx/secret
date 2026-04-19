@@ -11,7 +11,7 @@ export default async function AdminCouponsPage() {
   if (!isAdminSession(user)) redirect("/admin/login");
 
   const connected = await canConnectToDatabase();
-  const coupons = connected
+  const coupons: { id: string; code: string; title: string | null; type: string; value: unknown; active: boolean; usageLimit: number | null; usedCount: number; endsAt: Date | null }[] = connected
     ? await prisma.coupon.findMany({
         orderBy: { createdAt: "desc" },
         select: {

@@ -10,7 +10,7 @@ export default async function AdminUsersPage() {
   if (!isAdminSession(user)) redirect("/admin/login");
 
   const connected = await canConnectToDatabase();
-  const users = connected
+  const users: { id: string; name: string | null; email: string | null; role: string; isActive: boolean; createdAt: Date; _count: { buyerOrders: number } }[] = connected
     ? await prisma.user.findMany({
         take: 50,
         orderBy: { createdAt: "desc" },
