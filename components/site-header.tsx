@@ -169,41 +169,41 @@ export function SiteHeader({
             </button>
           </form>
 
-          <div className="hidden items-center gap-2 lg:flex">
+          <div className="hidden items-center gap-2 lg:flex flex-nowrap">
             <HeaderCommandPalette />
-            <button type="button" onClick={() => setAssistantOpen(true)} className="btn-glass">
-              <Bot className="mr-2 h-4 w-4" />
+            <button type="button" onClick={() => setAssistantOpen(true)} className="btn-glass whitespace-nowrap">
+              <Bot className="mr-2 h-4 w-4 shrink-0" />
               Consultor MDH
             </button>
 
             {session.loggedIn ? (
               <>
-                <Link href="/conta" className="btn-glass">
-                  <User className="mr-2 h-4 w-4" />
+                <Link href="/conta" className="btn-glass whitespace-nowrap">
+                  <User className="mr-2 h-4 w-4 shrink-0" />
                   {userLabel}
                 </Link>
-                <button type="button" onClick={signOut} className="btn-glass">
-                  <LogOut className="mr-2 h-4 w-4" />
+                <button type="button" onClick={signOut} className="btn-glass whitespace-nowrap">
+                  <LogOut className="mr-2 h-4 w-4 shrink-0" />
                   Sair
                 </button>
               </>
             ) : (
-              <Link href="/login" className="btn-glass">
-                <User className="mr-2 h-4 w-4" />
+              <Link href="/login" className="btn-glass whitespace-nowrap">
+                <User className="mr-2 h-4 w-4 shrink-0" />
                 Minha conta
               </Link>
             )}
 
-            <a href={`https://wa.me/${whatsappNumber}`} className="btn-zap">
+            <a href={`https://wa.me/${whatsappNumber}`} className="btn-zap whitespace-nowrap">
               WhatsApp
             </a>
 
-            <Link href={cartHref} className="btn-primary gap-2 px-5 py-3">
-              <ShoppingBag className="h-4 w-4" />
+            <Link href={cartHref} className="btn-primary gap-2 px-5 py-3 whitespace-nowrap">
+              <ShoppingBag className="h-4 w-4 shrink-0" />
               Fechar pedido
             </Link>
-            <button type="button" onClick={openDrawer} className="btn-glass gap-2 px-4 py-3">
-              <ShoppingCart className="h-4 w-4" />
+            <button type="button" onClick={openDrawer} className="btn-glass gap-2 px-4 py-3 whitespace-nowrap">
+              <ShoppingCart className="h-4 w-4 shrink-0" />
               Carrinho
               <span className="rounded-full border border-white/10 bg-black/25 px-2 py-0.5 text-[11px] text-white/80">
                 {cartCount}

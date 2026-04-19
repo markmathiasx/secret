@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { getServerSessionUser, isAdminSession } from "@/lib/server-session";
 import { canConnectToDatabase, prisma } from "@/lib/prisma";
+import { AdminSendResetButton } from "@/components/admin/admin-send-reset-button";
 
 export const dynamic = "force-dynamic";
 
@@ -55,12 +56,13 @@ export default async function AdminUsersPage() {
               <th className="px-4 py-3 text-right text-xs font-semibold uppercase tracking-[0.14em] text-white/50">Pedidos</th>
               <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-[0.14em] text-white/50">Status</th>
               <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-[0.14em] text-white/50">Cadastro</th>
+              <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-[0.14em] text-white/50">Ações</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-white/5">
             {users.length === 0 && (
               <tr>
-                <td colSpan={5} className="px-4 py-8 text-center text-white/40">
+                <td colSpan={6} className="px-4 py-8 text-center text-white/40">
                   Nenhum usuário encontrado.
                 </td>
               </tr>
@@ -84,6 +86,9 @@ export default async function AdminUsersPage() {
                 </td>
                 <td className="px-4 py-3 text-white/40 text-xs">
                   {new Date(u.createdAt).toLocaleDateString("pt-BR")}
+                </td>
+                <td className="px-4 py-3">
+                  <AdminSendResetButton userId={u.id} userEmail={u.email || ""} userName={u.name || "—"} />
                 </td>
               </tr>
             ))}
