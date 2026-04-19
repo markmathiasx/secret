@@ -4,8 +4,12 @@
  * These guards run at module load time to detect critical configuration
  * issues before they cause runtime failures. Better to crash on startup
  * than to silently fail in production.
+ *
+ * NOTE: This module is server-only. It's imported only in instrumentation.ts
+ * which runs on server startup. It won't be bundled into client code.
  */
 
+import 'server-only';
 import { getMercadoPagoPublicKey, getMercadoPagoAccessToken, getDatabaseUrl, getSmtpConfig, getSiteUrl } from '@/lib/env';
 import { verifyEmailProvider, type EmailProvider } from '@/lib/email-provider';
 

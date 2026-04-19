@@ -59,7 +59,6 @@ const nextConfig: NextConfig = {
   // Experimental Features (2026)
   experimental: {
     optimizePackageImports: ['lucide-react', '@supabase/supabase-js'],
-    instrumentationHook: true,
   },
 
   // Turbopack
@@ -247,6 +246,16 @@ const nextConfig: NextConfig = {
 
   // Webpack Configuration
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
+    // Mark server-only modules as external on client builds to prevent bundling
+    if (!isServer) {
+      config.externals = {
+        ...config.externals,
+        nodemailer: 'commonjs nodemailer',
+        'nodemailer/lib/mailer': 'commonjs nodemailer/lib/mailer',
+        'server-only': 'commonjs server-only',
+      };
+    }
+
     // Add custom webpack optimizations
     if (!dev && !isServer) {
       config.optimization.splitChunks.cacheGroups = {

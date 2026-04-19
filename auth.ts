@@ -1,3 +1,4 @@
+import 'server-only';
 import NextAuth from "next-auth";
 import type { Provider } from "next-auth/providers";
 import Apple from "next-auth/providers/apple";

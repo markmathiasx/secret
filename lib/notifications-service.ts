@@ -3,6 +3,7 @@
  * Multi-channel notifications: Email, In-App, Push, SMS, WhatsApp
  */
 
+import 'server-only';
 import { prisma } from './prisma';
 import nodemailer from 'nodemailer';
 

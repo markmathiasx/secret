@@ -1,3 +1,4 @@
+import 'server-only';
 import { hash, compare } from "bcryptjs";
 import { generateSecret, generateURI, verifySync } from "otplib";
 import { Prisma, Role, type User } from "@prisma/client";

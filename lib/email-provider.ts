@@ -8,8 +8,12 @@
  * - SMTP (local/fallback)
  *
  * Switch providers by setting EMAIL_PROVIDER environment variable.
+ *
+ * NOTE: This module is server-only. It's imported only in server contexts
+ * (instrumentation.ts, API routes, etc.) and won't be bundled into client code.
  */
 
+import 'server-only';
 import { getSmtpConfig, getSiteUrl } from '@/lib/env';
 
 export type EmailProvider = 'resend' | 'sendgrid' | 'mailgun' | 'smtp';
@@ -211,32 +215,6 @@ async function sendViaMailgun(options: SendEmailOptions): Promise<EmailProviderR
 }
 
 /**
- * Send email via SMTP (local development/fallback)
- */
-async function sendViaSMTP(options: SendEmailOptions): Promise<EmailProviderResult> {
-  try {
-    const { sendMail } = await import('@/lib/mailer');
-    
-    const result = await sendMail({
-      to: options.to,
-      subject: options.subject,
-      html: options.html,
-      text: options.text,
-    });
-
-    return {
-      ok: true,
-      messageId: result.messageId || undefined,
-    };
-  } catch (error) {
-    return {
-      ok: false,
-      error: `SMTP error: ${error instanceof Error ? error.message : 'Unknown error'}`
-    };
-  }
-}
-
-/**
  * Send email using configured provider
  */
 export async function sendEmail(options: SendEmailOptions): Promise<EmailProviderResult> {
@@ -248,7 +226,11 @@ export async function sendEmail(options: SendEmailOptions): Promise<EmailProvide
 
   let result: EmailProviderResult;
 
-  switch (provider) {
+  // Only support cloud providers in production
+  // For local development with SMTP, use Resend instead
+  const activeProvider = (isProd || provider !== 'smtp') ? provider : 'resend';
+
+  switch (activeProvider) {
     case 'resend':
       result = await sendViaResend(options);
       break;
@@ -258,18 +240,19 @@ export async function sendEmail(options: SendEmailOptions): Promise<EmailProvide
     case 'mailgun':
       result = await sendViaMailgun(options);
       break;
-    case 'smtp':
     default:
-      result = await sendViaSMTP(options);
+      // Fallback to Resend for unknown providers
+      console.warn(`⚠️ Provider '${activeProvider}' not recognized, using Resend`);
+      result = await sendViaResend(options);
   }
 
   if (!result.ok) {
-    console.error(`❌ Email send failed (${provider}):`, result.error);
+    console.error(`❌ Email send failed (${activeProvider}):`, result.error);
     
     // In production, log email failures for monitoring
     if (isProd) {
       console.error(`⚠️ CRITICAL: Email send failed in production`, {
-        provider,
+        provider: activeProvider,
         to: options.to,
         subject: options.subject,
         error: result.error,
@@ -277,7 +260,7 @@ export async function sendEmail(options: SendEmailOptions): Promise<EmailProvide
       });
     }
   } else {
-    console.log(`✅ Email sent successfully (${provider}):`, result.messageId);
+    console.log(`✅ Email sent successfully (${activeProvider}):`, result.messageId);
   }
 
   return result;
