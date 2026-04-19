@@ -22,6 +22,12 @@ const imageHosts = new Set([
   "127.0.0.1"
 ]);
 
+// Add the custom domain from NEXT_PUBLIC_SITE_URL to allowed image hosts
+try {
+  const siteUrlHost = process.env.NEXT_PUBLIC_SITE_URL && new URL(process.env.NEXT_PUBLIC_SITE_URL).hostname;
+  if (siteUrlHost) imageHosts.add(siteUrlHost);
+} catch { /* ignore invalid URL */ }
+
 [process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.NEXT_PUBLIC_SUPABASE_CATALOG_BUCKET_URL]
   .map((value) => getHostname(value))
   .filter((value): value is string => Boolean(value))

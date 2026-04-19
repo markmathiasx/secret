@@ -4,6 +4,7 @@
  */
 
 import { prisma } from './prisma';
+import { getSiteUrl } from '@/lib/env';
 
 export interface PersonalizationProfile {
   user_id: string;
@@ -99,7 +100,7 @@ export async function getSocialWishlist(userId: string, isPublic: boolean = fals
       } : null
     })),
     total_value: items.reduce((sum, item) => sum + (item.product ? Number(item.product.pricePix) : 0), 0),
-    share_url: isPublic ? `${process.env.NEXTAUTH_URL}/wishlists/${generateWishlistCode(userId)}` : null,
+    share_url: isPublic ? `${getSiteUrl()}/wishlists/${generateWishlistCode(userId)}` : null,
     is_public: isPublic
   };
 }

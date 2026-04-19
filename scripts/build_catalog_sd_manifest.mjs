@@ -5,7 +5,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const defaultSourceUrl = "https://mdh-3d-store.vercel.app/api/catalog?scope=all";
+const defaultSourceUrl = process.env.CATALOG_SOURCE_URL || `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/catalog?scope=all`;
 const defaultManifestPath = path.join(root, "tmp", "sd", "catalog-regeneration-manifest.json");
 const defaultSummaryPath = path.join(root, "tmp", "sd", "catalog-regeneration-summary.json");
 const defaultImageMapPath = path.join(root, "tmp", "sd", "catalog-image-map.json");

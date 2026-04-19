@@ -9,7 +9,7 @@ param(
 )
 
 $baseUrlLocal = 'http://localhost:3000'
-$baseUrlProduction = 'https://mdh-3d-store.vercel.app'
+$baseUrlProduction = $env:NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
 $reportsDir = 'D:\mdh-3d-store\reports'
 
 if (!(Test-Path $reportsDir)) { mkdir $reportsDir | Out-Null }

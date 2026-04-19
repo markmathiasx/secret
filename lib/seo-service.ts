@@ -3,6 +3,8 @@
  * Complete schema.org markup for products, breadcrumbs, organizations
  */
 
+import { getSiteUrl } from '@/lib/env';
+
 export interface ProductSchemaData {
   name: string;
   description: string;
@@ -108,8 +110,8 @@ export function generateOrganizationSchema(): string {
     '@context': 'https://schema.org/',
     '@type': 'Organization',
     name: 'MDH 3D Store',
-    url: process.env.NEXTAUTH_URL || 'https://mdh3d.com.br',
-    logo: `${process.env.NEXTAUTH_URL}/logo.png`,
+    url: getSiteUrl(),
+    logo: `${getSiteUrl()}/logo.png`,
     description: 'Professional 3D printing services and products in Rio de Janeiro',
     address: {
       '@type': 'PostalAddress',
@@ -190,9 +192,9 @@ export function generateLocalBusinessSchema(): string {
   const schema = {
     '@context': 'https://schema.org/',
     '@type': 'LocalBusiness',
-    '@id': process.env.NEXTAUTH_URL || 'https://mdh3d.com.br',
+    '@id': getSiteUrl(),
     name: 'MDH 3D Store',
-    image: `${process.env.NEXTAUTH_URL}/hero.jpg`,
+    image: `${getSiteUrl()}/hero.jpg`,
     description: 'Professional 3D Printing & Services',
     address: {
       '@type': 'PostalAddress',
@@ -205,7 +207,7 @@ export function generateLocalBusinessSchema(): string {
       longitude: '-43.1729'
     },
     telephone: '+55-21-99999-9999',
-    url: process.env.NEXTAUTH_URL || 'https://mdh3d.com.br',
+    url: getSiteUrl(),
     priceRange: 'R$ 50 - R$ 5000',
     opens: 'Mo-Fr 09:00',
     closes: 'Mo-Fr 18:00'
@@ -230,7 +232,7 @@ export function generateCollectionSchema(
     description,
     image,
     numberOfItems: itemCount.toString(),
-    url: `${process.env.NEXTAUTH_URL}/catalogo/${name.toLowerCase()}`
+    url: `${getSiteUrl()}/catalogo/${name.toLowerCase()}`
   };
 
   return JSON.stringify(schema);

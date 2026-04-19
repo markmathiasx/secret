@@ -3,6 +3,7 @@ from __future__ import annotations
 import base64
 import io
 import json
+import os
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable
@@ -14,7 +15,7 @@ from PIL import Image
 ROOT = Path(__file__).resolve().parents[1]
 PUBLIC_DIR = ROOT / "public"
 SNAPSHOT_PATH = ROOT / "output" / "prod-catalog-api.json"
-LIVE_BASE = "https://mdh-3d-store.vercel.app"
+LIVE_BASE = os.environ.get("NEXT_PUBLIC_SITE_URL", "http://localhost:3000")
 SD_API = "http://127.0.0.1:7861/sdapi/v1/txt2img"
 SAMPLER = "DPM++ 2M Karras"
 NEGATIVE = (

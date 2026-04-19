@@ -34,6 +34,27 @@ function hasSellerSessionCookie(request: NextRequest) {
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  const host = request.headers.get("host") || "";
+
+  // --- Domain canonicalization (production only) ---
+  // Redirect apex → www (or vercel.app → custom domain) when NEXT_PUBLIC_SITE_URL is set
+  const canonicalHost = process.env.NEXT_PUBLIC_SITE_URL
+    ? new URL(process.env.NEXT_PUBLIC_SITE_URL).host
+    : "";
+
+  if (
+    canonicalHost &&
+    host !== canonicalHost &&
+    !host.includes("localhost") &&
+    !host.includes("127.0.0.1") &&
+    process.env.NODE_ENV === "production"
+  ) {
+    const url = request.nextUrl.clone();
+    url.host = canonicalHost;
+    url.protocol = "https";
+    url.port = "";
+    return NextResponse.redirect(url, 308);
+  }
 
   const response = NextResponse.next();
 

@@ -8,7 +8,7 @@ type BeforeInstallPromptEvent = Event & {
   userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
 };
 
-const CANONICAL_ORIGIN = "https://mdh-3d-store.vercel.app";
+const CANONICAL_ORIGIN = process.env.NEXT_PUBLIC_SITE_URL || "";
 const RECOVERY_VERSION = "2026-03-18-cache-recovery-v1";
 const RECOVERY_KEY = "mdh-sw-recovery-version";
 const CACHE_PREFIXES = ["mdh3d-", "mdh-static-", "mdh-3d-"];

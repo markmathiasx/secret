@@ -108,7 +108,7 @@ export function generateProductSEO(product: any): Metadata {
       'rio de janeiro',
     ],
     image: imageUrl,
-    url: `https://mdh-3d-store.vercel.app/catalogo/${product.id}`,
+    url: `${getSiteUrl()}/catalogo/${product.id}`,
     type: 'product',
     section: product.category,
     tags: product.tags,

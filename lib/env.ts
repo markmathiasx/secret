@@ -1,5 +1,4 @@
 const PROD = process.env.NODE_ENV === 'production' || process.env.VERCEL_ENV === 'production';
-const DEFAULT_PROD_URL = 'https://mdh-3d-store.vercel.app';
 const DEFAULT_DEV_URL = 'http://localhost:3000';
 
 function isLocalAddress(hostname: string) {
@@ -27,10 +26,9 @@ function normalizeUrl(value?: string | null, options?: { allowLocal?: boolean })
 export function getSiteUrl() {
   const candidates = PROD
     ? [
-        process.env.VERCEL_PROJECT_PRODUCTION_URL,
         process.env.NEXT_PUBLIC_SITE_URL,
+        process.env.VERCEL_PROJECT_PRODUCTION_URL,
         process.env.VERCEL_URL,
-        DEFAULT_PROD_URL,
       ]
     : [process.env.NEXT_PUBLIC_SITE_URL, process.env.VERCEL_URL, DEFAULT_DEV_URL];
 
@@ -39,7 +37,16 @@ export function getSiteUrl() {
     if (normalized) return normalized;
   }
 
-  return PROD ? DEFAULT_PROD_URL : DEFAULT_DEV_URL;
+  return DEFAULT_DEV_URL;
+}
+
+/**
+ * Returns true if the resolved site URL still points to a vercel.app domain.
+ * Useful for startup guards that should block production with the wrong canonical.
+ */
+export function isSiteUrlVercelDefault(): boolean {
+  const url = getSiteUrl();
+  return /\.vercel\.app$/i.test(new URL(url).hostname);
 }
 
 export function getSupabaseUrl() {
@@ -109,7 +116,7 @@ export function getSmtpConfig() {
     secure: (process.env.SMTP_SECURE || "false").trim() === "true",
     user: (process.env.SMTP_USER || "").trim(),
     pass: (process.env.SMTP_PASS || "").trim(),
-    from: (process.env.EMAIL_FROM || "MDH 3D Store <noreply@mdh-3d-store.vercel.app>").trim(),
+    from: (process.env.EMAIL_FROM || `MDH 3D Store <noreply@${new URL(getSiteUrl()).hostname}>`).trim(),
   };
 }
 

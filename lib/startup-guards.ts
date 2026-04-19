@@ -10,7 +10,7 @@
  */
 
 import 'server-only';
-import { getMercadoPagoPublicKey, getMercadoPagoAccessToken, getDatabaseUrl, getSmtpConfig, getSiteUrl } from '@/lib/env';
+import { getMercadoPagoPublicKey, getMercadoPagoAccessToken, getDatabaseUrl, getSmtpConfig, getSiteUrl, isSiteUrlVercelDefault } from '@/lib/env';
 import { verifyEmailProvider, type EmailProvider } from '@/lib/email-provider';
 
 interface StartupGuardResult {
@@ -154,6 +154,13 @@ function validateSiteUrl(): StartupGuardResult {
     if (isProd) {
       errors.push(`❌ Site URL is localhost in production: ${siteUrl}. Use a real domain.`);
     }
+  }
+
+  if (isProd && isSiteUrlVercelDefault()) {
+    warnings.push(
+      `⚠️ Site URL is still a vercel.app domain: ${siteUrl}. ` +
+      `Set NEXT_PUBLIC_SITE_URL to your custom .com.br domain for correct canonical, SEO and payment URLs.`
+    );
   }
 
   return {

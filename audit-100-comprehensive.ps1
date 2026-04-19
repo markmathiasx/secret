@@ -10,7 +10,7 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
-$baseUrl = if ($Environment -eq 'production') { 'https://mdh-3d-store.vercel.app' } else { 'http://localhost:3000' }
+$baseUrl = if ($Environment -eq 'production') { $env:NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000' } else { 'http://localhost:3000' }
 $report = @{
   timestamp = Get-Date -Format 'yyyy-MM-ddTHH:mm:ssZ'
   environment = $Environment

@@ -6,6 +6,7 @@
 import 'server-only';
 import { prisma } from './prisma';
 import nodemailer from 'nodemailer';
+import { getSiteUrl } from '@/lib/env';
 
 export type NotificationChannel = 'EMAIL' | 'IN_APP' | 'PUSH' | 'SMS' | 'WHATSAPP';
 export type NotificationType = 'order_confirmed' | 'shipment_update' | 'product_available' | 'price_drop' | 'review_request' | 'abandoned_cart' | 'promotion' | 'message';
@@ -299,10 +300,10 @@ function generateEmailTemplate(payload: NotificationPayload, userName: string): 
             <p>Hi ${userName},</p>
             <h2>${payload.title}</h2>
             <p>${payload.message}</p>
-            <a href="${process.env.NEXTAUTH_URL || 'http://localhost:3000'}" class="cta">View More</a>
+            <a href="${getSiteUrl()}" class="cta">View More</a>
             <div class="footer">
               <p>© 2026 MDH 3D Store. All rights reserved.</p>
-              <p><a href="${process.env.NEXTAUTH_URL}/notifications-preferences">Update your preferences</a></p>
+              <p><a href="${getSiteUrl()}/notifications-preferences">Update your preferences</a></p>
             </div>
           </div>
         </div>

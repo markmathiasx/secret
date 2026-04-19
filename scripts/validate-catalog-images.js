@@ -6,7 +6,7 @@ const sharp = require("sharp");
 
 const root = path.resolve(__dirname, "..");
 const reportPath = path.resolve(root, "CATALOG_VALIDATION_REPORT.json");
-const sourceUrl = process.env.CATALOG_SOURCE_URL || "https://mdh-3d-store.vercel.app/api/catalog?scope=all";
+const sourceUrl = process.env.CATALOG_SOURCE_URL || `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/catalog?scope=all`;
 const sourceFile = process.env.CATALOG_SOURCE_FILE || "";
 const placeholderCandidates = [
   path.resolve(root, "public", "catalog-assets", "product-placeholder.webp"),
