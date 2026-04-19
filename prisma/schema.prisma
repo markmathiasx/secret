@@ -867,10 +867,6 @@ model AnalyticsReport {
   createdAt       DateTime  @default(now())
 
   @@index([reportType, startDate])
-
-  @@index([type, createdAt])
-  @@index([userId, createdAt])
-  @@index([productId, createdAt])
 }
 
 model QuoteEstimate {
