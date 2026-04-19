@@ -1199,6 +1199,56 @@ input.field-base {
   }
 }
 
+/* ===== SELECT & OPTION FIXES (P0 BUG) ===== */
+/* Fix for white text on white background in select dropdowns */
+select,
+select.field-base {
+  color-scheme: dark;
+  background-color: #0d1824;
+  color: #f8fbff;
+}
+
+select option {
+  background-color: #0d1824;
+  color: #f8fbff;
+}
+
+select option:checked {
+  background: linear-gradient(#03e9f4, #03e9f4);
+  background-color: #03e9f4 !important;
+  color: #0d1824 !important;
+}
+
+select option:hover {
+  background-color: #1a2847;
+  color: #f8fbff;
+}
+
+/* Ensure proper contrast for disabled options */
+select option:disabled {
+  color: #888;
+  background-color: #0d1824;
+}
+
+/* iOS specific select styling */
+@supports (-webkit-appearance: none) {
+  select,
+  select.field-base {
+    -webkit-appearance: none;
+    appearance: none;
+  }
+}
+
+/* Firefox select styling */
+select,
+select.field-base {
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23f8fbff' stroke-width='2'%3e%3cpath d='M6 9l6 6 6-6'%3e%3c/path%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 20px;
+  padding-right: 32px;
+}
+
 /* ===== HIGH CONTRAST MODE ===== */
 @media (prefers-contrast: high) {
   :root {

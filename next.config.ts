@@ -59,6 +59,7 @@ const nextConfig: NextConfig = {
   // Experimental Features (2026)
   experimental: {
     optimizePackageImports: ['lucide-react', '@supabase/supabase-js'],
+    instrumentationHook: true,
   },
 
   // Turbopack
