@@ -20,7 +20,7 @@ export default async function AdminAnalyticsPage() {
       ])
     : [0, 0, 0];
 
-  const recentOrders = connected
+  const recentOrders: { orderNumber: string; status: string; grandTotal: unknown; createdAt: Date; customerName: string | null }[] = connected
     ? await prisma.order.findMany({
         take: 10,
         orderBy: { createdAt: "desc" },
