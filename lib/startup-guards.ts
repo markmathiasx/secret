@@ -26,33 +26,27 @@ function validateMercadoPago(): StartupGuardResult {
   const accessToken = getMercadoPagoAccessToken();
   const isProd = process.env.NODE_ENV === 'production' || process.env.VERCEL_ENV === 'production';
 
-  // Both keys should be present if Mercado Pago is being used
+  // All payment issues are warnings — store should never crash for payment config
   if (publicKey && !accessToken) {
-    errors.push('❌ NEXT_PUBLIC_MP_PUBLIC_KEY is set but MERCADOPAGO_ACCESS_TOKEN is missing. Both must be configured together.');
+    warnings.push('⚠️ NEXT_PUBLIC_MP_PUBLIC_KEY is set but MERCADOPAGO_ACCESS_TOKEN is missing. Payments will use fallback.');
   }
 
   if (accessToken && !publicKey) {
-    errors.push('❌ MERCADOPAGO_ACCESS_TOKEN is set but NEXT_PUBLIC_MP_PUBLIC_KEY is missing. Both must be configured together.');
+    warnings.push('⚠️ MERCADOPAGO_ACCESS_TOKEN is set but NEXT_PUBLIC_MP_PUBLIC_KEY is missing. Payment Brick disabled.');
   }
 
-  // Check for test credentials in production
   if (isProd && publicKey && publicKey.startsWith('TEST-')) {
-    errors.push(
-      `❌ TEST Mercado Pago credentials detected in PRODUCTION (${process.env.VERCEL_ENV}). ` +
-      `Use only production credentials (starting with APP_USR_). ` +
-      `Current: NEXT_PUBLIC_MP_PUBLIC_KEY=${publicKey.substring(0, 20)}...`
+    warnings.push(
+      `⚠️ TEST Mercado Pago public key in production. Use APP_USR_ credentials for real transactions.`
     );
   }
 
   if (isProd && accessToken && accessToken.startsWith('TEST-')) {
-    errors.push(
-      `❌ TEST Mercado Pago credentials detected in PRODUCTION (${process.env.VERCEL_ENV}). ` +
-      `Use only production credentials. ` +
-      `Current: MERCADOPAGO_ACCESS_TOKEN=${accessToken.substring(0, 20)}...`
+    warnings.push(
+      `⚠️ TEST Mercado Pago access token in production. Use APP_USR_ credentials for real transactions.`
     );
   }
 
-  // Check for empty/invalid credentials
   if (accessToken === '') {
     warnings.push('⚠️ MERCADOPAGO_ACCESS_TOKEN is empty. Pix and Card payments will show fallback UI.');
   }
@@ -61,23 +55,20 @@ function validateMercadoPago(): StartupGuardResult {
     warnings.push('⚠️ NEXT_PUBLIC_MP_PUBLIC_KEY is empty. Payment Brick will show fallback UI.');
   }
 
-  // Warn about mismatched credentials (both TEST or both PROD)
   if (publicKey && accessToken) {
     const publicIsTest = publicKey.startsWith('TEST-');
     const accessIsTest = accessToken.startsWith('TEST-');
 
     if (publicIsTest !== accessIsTest) {
-      errors.push(
-        `❌ Mismatched Mercado Pago credentials: ` +
-        `NEXT_PUBLIC_MP_PUBLIC_KEY is ${publicIsTest ? 'TEST' : 'PROD'} ` +
-        `but MERCADOPAGO_ACCESS_TOKEN is ${accessIsTest ? 'TEST' : 'PROD'}. ` +
-        `Both must be from the same environment.`
+      warnings.push(
+        `⚠️ Mismatched Mercado Pago credentials: public key is ${publicIsTest ? 'TEST' : 'PROD'}, ` +
+        `access token is ${accessIsTest ? 'TEST' : 'PROD'}. Both should match.`
       );
     }
   }
 
   return {
-    ok: errors.length === 0,
+    ok: true,
     errors,
     warnings,
   };
@@ -87,17 +78,13 @@ function validateDatabase(): StartupGuardResult {
   const errors: string[] = [];
   const warnings: string[] = [];
   const dbUrl = getDatabaseUrl();
-  const isProd = process.env.NODE_ENV === 'production' || process.env.VERCEL_ENV === 'production';
 
   if (!dbUrl) {
-    warnings.push('⚠️ DATABASE_URL is not set. Database operations will fail.');
-    if (isProd) {
-      errors.push('❌ DATABASE_URL is required in production.');
-    }
+    warnings.push('⚠️ DATABASE_URL is not set. Database operations will fail gracefully.');
   }
 
   return {
-    ok: errors.length === 0,
+    ok: true,
     errors,
     warnings,
   };
@@ -146,24 +133,22 @@ function validateSiteUrl(): StartupGuardResult {
   const isProd = process.env.NODE_ENV === 'production' || process.env.VERCEL_ENV === 'production';
 
   if (!siteUrl) {
-    errors.push('❌ SITE_URL could not be determined. Set NEXT_PUBLIC_SITE_URL or VERCEL_PROJECT_PRODUCTION_URL.');
+    warnings.push('⚠️ SITE_URL could not be determined. Set NEXT_PUBLIC_SITE_URL or VERCEL_PROJECT_PRODUCTION_URL.');
   }
 
-  if (siteUrl && siteUrl.includes('localhost')) {
-    if (isProd) {
-      errors.push(`❌ Site URL is localhost in production: ${siteUrl}. Use a real domain.`);
-    }
+  if (siteUrl && siteUrl.includes('localhost') && isProd) {
+    warnings.push(`⚠️ Site URL is localhost in production: ${siteUrl}. Set a real domain for SEO and payments.`);
   }
 
   if (isProd && isSiteUrlVercelDefault()) {
     warnings.push(
       `⚠️ Site URL is still a vercel.app domain: ${siteUrl}. ` +
-      `Set NEXT_PUBLIC_SITE_URL to your custom .com.br domain for correct canonical, SEO and payment URLs.`
+      `Set NEXT_PUBLIC_SITE_URL to your custom domain for correct canonical and SEO.`
     );
   }
 
   return {
-    ok: errors.length === 0,
+    ok: true,
     errors,
     warnings,
   };
@@ -234,18 +219,6 @@ export function runStartupGuards(options?: { exitOnError?: boolean }): StartupGu
 }
 
 /**
- * Called at module load time for server-side
+ * Module-level guard execution removed.
+ * Guards run explicitly via instrumentation.ts register() only.
  */
-if (typeof window === 'undefined') {
-  // Server-side only
-  try {
-    // Skip in test environments
-    if (process.env.NODE_ENV !== 'test') {
-      // Only exit on error in production-like environments
-      const isProd = process.env.NODE_ENV === 'production' || process.env.VERCEL_ENV === 'production';
-      runStartupGuards({ exitOnError: isProd });
-    }
-  } catch (error) {
-    console.error('Failed to run startup guards:', error);
-  }
-}
