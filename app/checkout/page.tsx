@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import { CheckoutFlow } from "@/components/checkout/checkout-flow";
+import { CheckoutErrorBoundary } from "@/components/checkout/checkout-error-boundary";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -36,7 +37,9 @@ export default function CheckoutPage() {
         </section>
       }
     >
-      <CheckoutFlow />
+      <CheckoutErrorBoundary>
+        <CheckoutFlow />
+      </CheckoutErrorBoundary>
     </Suspense>
   );
 }

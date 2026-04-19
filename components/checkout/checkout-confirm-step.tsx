@@ -136,10 +136,10 @@ export function CheckoutConfirmStep({
                 {loading
                   ? "Processando..."
                   : paymentMethod === "cartao"
-                    ? "Gerar pedido e ir para o cartão online"
+                    ? `Confirmar pedido — ${formatCurrency(totalCard)}`
                     : paymentMethod === "boleto"
-                      ? "Gerar pedido com boleto"
-                      : "Gerar pedido e Pix"}
+                      ? `Confirmar pedido — ${formatCurrency(totalPix)}`
+                      : `Confirmar pedido — ${formatCurrency(totalPix)}`}
               </button>
             </>
           ) : (

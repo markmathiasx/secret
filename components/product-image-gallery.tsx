@@ -116,7 +116,18 @@ export function ProductImageGallery({
         </div>
       </div>
       {expanded ? (
-        <div className="fixed inset-0 z-[90] bg-slate-950/86 p-4 backdrop-blur-sm animate-fadeIn" onClick={() => setExpanded(false)}>
+        <div
+          className="fixed inset-0 z-[90] bg-slate-950/86 p-4 backdrop-blur-sm animate-fadeIn"
+          onClick={() => setExpanded(false)}
+          onKeyDown={(event) => {
+            if (event.key === "Escape") setExpanded(false);
+            if (event.key === "ArrowRight") setActive((prev) => (prev + 1) % gallery.length);
+            if (event.key === "ArrowLeft") setActive((prev) => (prev - 1 + gallery.length) % gallery.length);
+          }}
+          tabIndex={0}
+          role="dialog"
+          aria-label="Galeria de imagens ampliada"
+        >
           <div className="mx-auto flex h-full max-w-6xl flex-col overflow-hidden rounded-[36px] border border-white/10 bg-slate-950 animate-scaleIn" onClick={(event) => event.stopPropagation()}>
             <div className="flex items-center justify-between border-b border-white/10 px-5 py-4">
               <div>

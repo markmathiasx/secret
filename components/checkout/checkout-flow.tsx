@@ -310,7 +310,9 @@ export function CheckoutFlow() {
     setSelectedShippingId("standard");
     setOrderCode(null);
     setPixPayload(null);
-    if (currentStep > 1) setCurrentStep(0);
+    // Only reset to shipping step (1) if past it — never reset to step 0 (address)
+    // so the user doesn't lose their entire form progress on a minor edit
+    if (currentStep > 1) setCurrentStep(1);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productId, quantity, activeAddress.zipCode, activeAddress.line1, activeAddress.neighborhood, activeAddress.city, activeAddress.state]);
 
@@ -748,7 +750,7 @@ export function CheckoutFlow() {
             </CheckoutConfirmStep>
           ) : null}
 
-          {status ? <p className="mt-5 text-sm text-amber-200">{status}</p> : null}
+          {status ? <div role="alert" aria-live="polite"><p className="mt-5 text-sm text-amber-200">{status}</p></div> : null}
 
           <div className="mt-6 flex items-start gap-3 rounded-[24px] border border-white/10 bg-black/20 p-4 text-sm text-white/68">
             <ShieldCheck className="mt-0.5 h-5 w-5 text-cyan-100" />

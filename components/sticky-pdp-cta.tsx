@@ -32,8 +32,8 @@ export function StickyPdpCta({
   if (!visible) return null;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-[120] border-t border-white/10 bg-[rgba(9,17,25,0.97)] px-4 py-3 backdrop-blur-xl lg:hidden">
-      <div className="mx-auto flex max-w-lg items-center justify-between gap-3">
+    <div className="fixed bottom-0 left-0 right-0 z-[120] border-t border-white/10 bg-[rgba(9,17,25,0.97)] px-4 py-3 backdrop-blur-xl">
+      <div className="mx-auto flex max-w-2xl items-center justify-between gap-3">
         <div className="min-w-0">
           <p className="truncate text-sm font-semibold text-white">{productName}</p>
           <p className="text-xs font-black text-emerald-100">{formatCurrency(pricePix * quantity)} no Pix</p>

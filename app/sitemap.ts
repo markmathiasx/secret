@@ -7,6 +7,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = getSiteUrl();
   const catalog = await getCatalogSnapshot();
 
+  const buildDate = new Date('2026-04-19');
+
   const staticPages = [
     "",
     "/catalogo",
@@ -24,14 +26,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/faq",
   ].map((path) => ({
     url: `${base}${path}`,
-    lastModified: new Date(),
+    lastModified: buildDate,
     changeFrequency: "weekly" as const,
     priority: path === "" ? 1 : path === "/catalogo" ? 0.9 : 0.7
   }));
 
   const productPages = catalog.slice(0, 1000).map((product) => ({
     url: `${base}${getProductUrl(product)}`,
-    lastModified: new Date(),
+    lastModified: buildDate,
     changeFrequency: "weekly" as const,
     priority: 0.6
   }));

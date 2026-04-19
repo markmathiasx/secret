@@ -19,7 +19,7 @@ import { brand, socialLinks, supportEmail, whatsappNumber } from '@/lib/constant
 import { getAiAssistantModel, getAiAssistantProvider, getSiteUrl, isAiAssistantConfigured, isCardCheckoutConfigured } from '@/lib/env';
 
 const siteUrl = getSiteUrl();
-const sans = Manrope({ subsets: ['latin'], variable: '--font-sans', display: 'swap', preload: false });
+const sans = Manrope({ subsets: ['latin'], variable: '--font-sans', display: 'swap', preload: true });
 const display = Space_Grotesk({ subsets: ['latin'], variable: '--font-display', display: 'swap', preload: false });
 const cardCheckoutReady = isCardCheckoutConfigured();
 const aiAssistantReady = isAiAssistantConfigured();

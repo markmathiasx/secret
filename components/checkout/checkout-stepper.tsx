@@ -25,7 +25,7 @@ export function CheckoutStepper({
         <div className="h-full w-full" />
       </div>
 
-      <div className="flex flex-wrap items-center gap-3">
+      <div className="flex flex-wrap items-center gap-3" role="tablist" aria-label="Etapas do checkout">
         {CHECKOUT_STEPS.map((step, index) => {
           const active = index === currentStep;
           const done = index < currentStep || (index === 3 && orderCreated);
@@ -35,6 +35,9 @@ export function CheckoutStepper({
             <button
               key={step}
               type="button"
+              role="tab"
+              aria-selected={active}
+              aria-label={`${step} — ${active ? "etapa atual" : done ? "concluída" : "pendente"}`}
               onClick={() => {
                 if (index <= currentStep) onSelect(index);
               }}

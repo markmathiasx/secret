@@ -1,5 +1,6 @@
 "use client";
 
+import { useCallback, useRef, useState } from "react";
 import { PURPOSE_OPTIONS, type AddressBookItem, type CheckoutAddress, type PurchasePurpose } from "@/lib/checkout-client";
 import { formatCep } from "@/lib/shipping";
 
@@ -58,6 +59,34 @@ export function CheckoutAddressStep({
   onContinue: () => void;
   onClearDraft: () => void;
 }) {
+  const [cepLoading, setCepLoading] = useState(false);
+  const [cepError, setCepError] = useState("");
+  const lastFetchedCep = useRef("");
+
+  const fetchViaCep = useCallback(async (rawCep: string) => {
+    const cep = rawCep.replace(/\D/g, "");
+    if (cep.length !== 8 || cep === lastFetchedCep.current) return;
+    lastFetchedCep.current = cep;
+    setCepLoading(true);
+    setCepError("");
+    try {
+      const res = await fetch(`https://viacep.com.br/ws/${cep}/json/`, { signal: AbortSignal.timeout(5000) });
+      const data = await res.json();
+      if (data.erro) {
+        setCepError("CEP não encontrado");
+        return;
+      }
+      if (data.logradouro) onAddressChange("line1", data.logradouro);
+      if (data.bairro) onAddressChange("neighborhood", data.bairro);
+      if (data.localidade) onAddressChange("city", data.localidade);
+      if (data.uf) onAddressChange("state", data.uf);
+    } catch {
+      setCepError("Erro ao buscar CEP");
+    } finally {
+      setCepLoading(false);
+    }
+  }, [onAddressChange]);
+
   return (
     <div className="mt-6 space-y-5">
       {!sessionLoggedIn && (
@@ -202,27 +231,41 @@ export function CheckoutAddressStep({
           <div className="mt-4 grid gap-4 md:grid-cols-2">
             <label>
               <span className="mb-2 block text-sm text-white/70">Apelido do endereço</span>
-              <input value={address.label} onChange={(event) => onAddressChange("label", event.target.value)} className="field-base" />
+              <input value={address.label} onChange={(event) => onAddressChange("label", event.target.value)} className="field-base" placeholder="Casa, Trabalho..." />
             </label>
             <label>
               <span className="mb-2 block text-sm text-white/70">Destinatário</span>
-              <input value={address.recipientName} onChange={(event) => onAddressChange("recipientName", event.target.value)} className="field-base" />
+              <input value={address.recipientName} onChange={(event) => onAddressChange("recipientName", event.target.value)} className="field-base" autoComplete="name" />
             </label>
             <label>
               <span className="mb-2 block text-sm text-white/70">CEP</span>
-              <input value={formatCep(address.zipCode)} onChange={(event) => onAddressChange("zipCode", event.target.value)} className="field-base" inputMode="numeric" />
+              <input
+                value={formatCep(address.zipCode)}
+                onChange={(event) => {
+                  const raw = event.target.value.replace(/\D/g, "").slice(0, 8);
+                  onAddressChange("zipCode", raw);
+                  if (raw.length === 8) fetchViaCep(raw);
+                }}
+                className="field-base"
+                inputMode="numeric"
+                autoComplete="postal-code"
+                maxLength={9}
+                placeholder="00000-000"
+              />
+              {cepLoading && <span className="mt-1 block text-xs text-cyan-300/80">Buscando endereço...</span>}
+              {cepError && <span className="mt-1 block text-xs text-red-400">{cepError}</span>}
             </label>
             <label>
               <span className="mb-2 block text-sm text-white/70">Telefone do endereço</span>
-              <input value={address.phone} onChange={(event) => onAddressChange("phone", event.target.value)} className="field-base" inputMode="tel" />
+              <input value={address.phone} onChange={(event) => onAddressChange("phone", event.target.value)} className="field-base" inputMode="tel" autoComplete="tel" maxLength={15} />
             </label>
             <label className="md:col-span-2">
               <span className="mb-2 block text-sm text-white/70">Rua e número</span>
-              <input value={address.line1} onChange={(event) => onAddressChange("line1", event.target.value)} className="field-base" />
+              <input value={address.line1} onChange={(event) => onAddressChange("line1", event.target.value)} className="field-base" autoComplete="address-line1" />
             </label>
             <label className="md:col-span-2">
               <span className="mb-2 block text-sm text-white/70">Complemento</span>
-              <input value={address.line2} onChange={(event) => onAddressChange("line2", event.target.value)} className="field-base" />
+              <input value={address.line2} onChange={(event) => onAddressChange("line2", event.target.value)} className="field-base" autoComplete="address-line2" placeholder="Apto, Sala, Bloco..." />
             </label>
             <label>
               <span className="mb-2 block text-sm text-white/70">Bairro</span>
@@ -230,15 +273,15 @@ export function CheckoutAddressStep({
             </label>
             <label>
               <span className="mb-2 block text-sm text-white/70">Cidade</span>
-              <input value={address.city} onChange={(event) => onAddressChange("city", event.target.value)} className="field-base" />
+              <input value={address.city} onChange={(event) => onAddressChange("city", event.target.value)} className="field-base" autoComplete="address-level2" />
             </label>
             <label>
               <span className="mb-2 block text-sm text-white/70">Estado</span>
-              <input value={address.state} onChange={(event) => onAddressChange("state", event.target.value)} className="field-base" />
+              <input value={address.state} onChange={(event) => onAddressChange("state", event.target.value)} className="field-base" autoComplete="address-level1" maxLength={2} />
             </label>
             <label>
               <span className="mb-2 block text-sm text-white/70">País</span>
-              <input value={address.country} onChange={(event) => onAddressChange("country", event.target.value)} className="field-base" />
+              <input value={address.country} onChange={(event) => onAddressChange("country", event.target.value)} className="field-base" autoComplete="country-name" />
             </label>
           </div>
         )}

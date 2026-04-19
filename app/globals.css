@@ -55,6 +55,18 @@
   --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 }
 
+/* ===== ACCESSIBILITY ===== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 /* ===== RESET & BASE STYLES ===== */
 * {
   box-sizing: border-box;
@@ -622,6 +634,18 @@ input.field-base {
 
 .animate-cyber-pulse {
   animation: cyberPulse 2s ease-in-out infinite;
+}
+
+/* Mobile performance: reduce GPU-heavy effects */
+@media (max-width: 640px) {
+  .glass-panel,
+  .glass-card {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  body::after {
+    display: none;
+  }
 }
 
 .hero-scanlines {

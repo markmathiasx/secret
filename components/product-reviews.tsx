@@ -72,7 +72,7 @@ export function ProductReviews({ productSlug, productSku }: { productSlug: strin
   });
 
   useEffect(() => {
-    fetch(`/api/products/${productSlug}/reviews`)
+    fetch(`/api/products/${productSlug}/reviews?limit=10`)
       .then((r) => r.json())
       .then((data) => {
         if (data.ok) {

@@ -139,6 +139,15 @@ export default async function ProductPage({
     },
     category: product.category,
     material: product.material,
+    ...(productSignals && productSignals.reviewCount > 0 && {
+      aggregateRating: {
+        '@type': 'AggregateRating',
+        ratingValue: productSignals.averageRating,
+        reviewCount: productSignals.reviewCount,
+        bestRating: 5,
+        worstRating: 1,
+      },
+    }),
   };
   const breadcrumbJsonLd = {
     '@context': 'https://schema.org',

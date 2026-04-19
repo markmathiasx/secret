@@ -107,7 +107,7 @@ export default async function CatalogPage() {
           muted
           loop
           playsInline
-          preload="metadata"
+          preload="none"
           aria-hidden
         />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_14%_20%,rgba(34,211,238,0.10),transparent_36%),radial-gradient(circle_at_86%_16%,rgba(16,185,129,0.08),transparent_36%),linear-gradient(180deg,rgba(2,6,23,0.06),rgba(2,6,23,0.12)_45%,rgba(2,6,23,0.18)_100%)]" />
