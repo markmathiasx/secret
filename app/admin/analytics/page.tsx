@@ -16,7 +16,7 @@ export default async function AdminAnalyticsPage() {
         prisma.user.count(),
         prisma.order
           .aggregate({ _sum: { grandTotal: true }, where: { status: { in: ["PAID", "PRINTING", "READY_TO_SHIP", "SHIPPED", "DELIVERED"] } } })
-          .then((r) => Number(r._sum.grandTotal ?? 0)),
+          .then((r: unknown) => Number((r as { _sum: { grandTotal: unknown } })._sum.grandTotal ?? 0)),
       ])
     : [0, 0, 0];
 
