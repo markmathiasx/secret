@@ -7,6 +7,7 @@
  */
 
 import { getMercadoPagoPublicKey, getMercadoPagoAccessToken, getDatabaseUrl, getSmtpConfig, getSiteUrl } from '@/lib/env';
+import { verifyEmailProvider, type EmailProvider } from '@/lib/email-provider';
 
 interface StartupGuardResult {
   ok: boolean;
@@ -103,20 +104,28 @@ function validateEmail(): StartupGuardResult {
   const warnings: string[] = [];
   const config = getSmtpConfig();
   const isProd = process.env.NODE_ENV === 'production' || process.env.VERCEL_ENV === 'production';
+  const emailProvider = verifyEmailProvider();
 
   // Check for localhost MailHog in production
   if (isProd && (config.host === '127.0.0.1' || config.host === 'localhost' || config.host === '0.0.0.0')) {
     errors.push(
       `❌ Email is configured for localhost (${config.host}) in PRODUCTION. ` +
-      `Set SMTP_HOST to a real transactional email provider (e.g., resend.com, mailgun, sendgrid).`
+      `Set EMAIL_PROVIDER to 'resend', 'sendgrid', or 'mailgun' and configure the required API keys.`
     );
+  }
+
+  // Check email provider configuration issues
+  if (!emailProvider.ok && isProd) {
+    emailProvider.issues.forEach(issue => {
+      errors.push(`❌ Email provider error: ${issue}`);
+    });
   }
 
   // Warn about localhost in development
   if (!isProd && (config.host === '127.0.0.1' || config.host === 'localhost')) {
     warnings.push(
-      `ℹ️ Email is using localhost SMTP (MailHog). In production, configure a real email provider. ` +
-      `Set: SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS`
+      `ℹ️ Email is using localhost SMTP (MailHog) in development. ` +
+      `In production, set EMAIL_PROVIDER=resend and configure RESEND_API_KEY.`
     );
   }
 
