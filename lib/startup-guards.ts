@@ -110,18 +110,17 @@ function validateEmail(): StartupGuardResult {
   const isProd = process.env.NODE_ENV === 'production' || process.env.VERCEL_ENV === 'production';
   const emailProvider = verifyEmailProvider();
 
-  // Check for localhost MailHog in production
+  // Email is non-critical — downgrade to warnings so the store can still operate
   if (isProd && (config.host === '127.0.0.1' || config.host === 'localhost' || config.host === '0.0.0.0')) {
-    errors.push(
-      `❌ Email is configured for localhost (${config.host}) in PRODUCTION. ` +
+    warnings.push(
+      `⚠️ Email is configured for localhost (${config.host}) in PRODUCTION. ` +
       `Set EMAIL_PROVIDER to 'resend', 'sendgrid', or 'mailgun' and configure the required API keys.`
     );
   }
 
-  // Check email provider configuration issues
   if (!emailProvider.ok && isProd) {
     emailProvider.issues.forEach(issue => {
-      errors.push(`❌ Email provider error: ${issue}`);
+      warnings.push(`⚠️ Email provider: ${issue}`);
     });
   }
 
