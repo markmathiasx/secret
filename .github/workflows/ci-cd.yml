@@ -1,166 +1,43 @@
-name: CI/CD Pipeline
+name: ci-cd
 
 on:
-  push:
-    branches: [main, develop]
   pull_request:
-    branches: [main, develop]
-
-env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
+  push:
+    branches: [main]
 
 jobs:
-  lint-and-typecheck:
+  quality-gates:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: '24'
-          cache: 'npm'
+          node-version: 24
+          cache: npm
 
-      - name: Install dependencies
-        run: npm ci
+      - run: npm ci
+      - run: npm run db:generate
+      - run: npm run lint:check
+      - run: npm run typecheck
+      - run: npm run build
 
-      - name: Lint
-        run: npm run lint:check
-
-      - name: Type check
-        run: npm run typecheck
-        env:
-          SKIP_ENV_VALIDATION: true
-
-  build-docker:
+  storefront-media:
     runs-on: ubuntu-latest
-    needs: lint-and-typecheck
-    permissions:
-      contents: read
-      packages: write
-
+    needs: quality-gates
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Log in to Container Registry
-        if: github.event_name == 'push'
-        uses: docker/login-action@v3
+      - uses: actions/setup-node@v4
         with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          node-version: 24
+          cache: npm
 
-      - name: Extract metadata
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          tags: |
-            type=ref,event=branch
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-            type=sha
-
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: ${{ github.event_name == 'push' }}
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-
-  build-next:
-    runs-on: ubuntu-latest
-    needs: lint-and-typecheck
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build Next.js
-        run: npm run build
-        env:
-          SKIP_ENV_VALIDATION: true
-
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: nextjs-build
-          path: |
-            .next
-            public
-          retention-days: 1
-
-  smoke-tests:
-    runs-on: ubuntu-latest
-    needs: build-next
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps
-
-      - uses: actions/download-artifact@v4
-        with:
-          name: nextjs-build
-          path: .
-      - name: Start server
-        run: |
-          npm run start &
-          npx wait-on http://localhost:3000 --timeout 30000
-        env:
-          SKIP_ENV_VALIDATION: true
-
-      - name: Run smoke tests
-        run: npm run test:smoke
-
-      - name: Upload test report
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: smoke-test-report
-          path: reports/
-          retention-days: 7
-
-  supabase-push:
-    runs-on: ubuntu-latest
-    needs: lint-and-typecheck
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Push Supabase Schema
-        run: npx supabase@latest db push
-        env:
-          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run build
+      - run: (npm run start &) && npx wait-on http://127.0.0.1:3000
+      - run: npm run validate:assets
+      - run: npm run test:images

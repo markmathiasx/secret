@@ -1,135 +1,32 @@
-name: Production Gates - Status Checks Obrigatórios
+name: production-gates
 
 on:
+  workflow_dispatch:
   push:
-    branches: [main, production]
-  pull_request:
-    branches: [main, production]
+    branches: [main]
 
 jobs:
-  # 1. TypeScript Type Checking
-  typecheck:
+  deploy-production:
     runs-on: ubuntu-latest
-    name: TypeScript Type Check
+    timeout-minutes: 45
+    environment: production
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-          cache: 'npm'
-      - run: npm ci
-      - run: npm run typecheck
-        env:
-          SKIP_ENV_VALIDATION: true
 
-  # 2. ESLint & Code Quality
-  lint:
-    runs-on: ubuntu-latest
-    name: Code Quality (ESLint)
-    steps:
-      - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '24'
-          cache: 'npm'
+          node-version: 24
+          cache: npm
+
       - run: npm ci
+      - run: npm run db:generate
       - run: npm run lint:check
-        env:
-          SKIP_ENV_VALIDATION: true
-
-  # 3. Build Verification
-  build:
-    runs-on: ubuntu-latest
-    name: Production Build
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-          cache: 'npm'
-      - run: npm ci
+      - run: npm run typecheck
       - run: npm run build
-        env:
-          SKIP_ENV_VALIDATION: true
-      - uses: actions/upload-artifact@v4
-        with:
-          name: next-build
-          path: .next
-
-  # 4. Playwright Smoke Tests (CRITICAL for checkout)
-  playwright:
-    runs-on: ubuntu-latest
-    name: Playwright Smoke Tests
-    needs: build
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-          cache: 'npm'
-      - run: npm ci
-      - run: npx playwright install --with-deps
-      - uses: actions/download-artifact@v4
-        with:
-          name: next-build
-          path: .next
-      - name: Start server and run smoke tests
-        run: |
-          npm run start &
-          npx wait-on http://localhost:3000 --timeout 30000
-          npm run test:smoke
-        env:
-          SKIP_ENV_VALIDATION: true
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: playwright-report
-          path: reports/
-          retention-days: 30
-
-  # 5. Security Audit
-  security:
-    runs-on: ubuntu-latest
-    name: Security Audit
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-          cache: 'npm'
-      - run: npm ci
-      - run: npm audit --audit-level=high || true
-
-  # 6. Database Schema Validation
-  migrations:
-    runs-on: ubuntu-latest
-    name: Prisma Schema Check
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-          cache: 'npm'
-      - run: npm ci
-      - run: npx prisma validate
-      - run: npx prisma generate
-
-  # Final Status Check
-  status-gates:
-    runs-on: ubuntu-latest
-    name: ✅ All Production Gates Passed
-    needs: [typecheck, lint, build, playwright, security, migrations]
-    if: always()
-    steps:
-      - name: Check all jobs passed
-        run: |
-          if [[ "${{ needs.typecheck.result }}" == "failure" || \
-                "${{ needs.lint.result }}" == "failure" || \
-                "${{ needs.build.result }}" == "failure" || \
-                "${{ needs.playwright.result }}" == "failure" || \
-                "${{ needs.security.result }}" == "failure" || \
-                "${{ needs.migrations.result }}" == "failure" ]]; then
-            echo "❌ Production gates failed!"
-            exit 1
-          fi
-          echo "✅ All production gates passed!"
+      - run: npm i -g wait-on vercel@latest
+      - run: (npm run start &) && wait-on http://127.0.0.1:3000
+      - run: npm run validate:assets
+      - run: npm run test:images
+      - run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+      - run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+      - run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}

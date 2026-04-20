@@ -1,0 +1,20 @@
+﻿=== AUDITORIA PRISMA ===
+Repo: D:\mdh-3d-store
+Data: 2026-04-20T15:55:52
+
+Schemas encontrados:
+ - .\prisma\schema.prisma
+ - D:\mdh-3d-store\prisma\schema.prisma
+
+[OK] Address encontrado em schema.prisma
+[OK] CatalogEventType encontrado em schema.prisma
+[OK] PaymentMethod encontrado em schema.prisma
+[OK] PaymentProvider encontrado em schema.prisma
+[OK] PaymentStatus encontrado em schema.prisma
+[OK] ShipmentStatus encontrado em schema.prisma
+[OK] OrderStatus encontrado em schema.prisma
+[OK] MediaType encontrado em schema.prisma
+[OK] ProductStatus encontrado em schema.prisma
+[OK] ProductVisibility encontrado em schema.prisma
+[OK] Role encontrado em schema.prisma
+[OK] User encontrado em schema.prisma

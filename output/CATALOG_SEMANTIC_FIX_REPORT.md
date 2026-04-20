@@ -1,6 +1,6 @@
 # Catalog Semantic Audit Report
 
-**Generated:** 2026-04-20T12:04:23.538Z
+**Generated:** 2026-04-20T19:11:21.424Z
 **Total SKUs:** 248
 
 ## Summary
@@ -8,18 +8,18 @@
 | Metric | Count |
 |--------|-------|
 | Total SKUs | 248 |
-| APPROVED (score >= 0.99) | 29 |
-| FIX_TEXT (reclassify) | 7 |
+| APPROVED (score >= 0.99) | 35 |
+| FIX_TEXT (reclassify) | 0 |
 | FIX_IMAGE | 0 |
 | FIX_BOTH | 0 |
-| BLOCKED | 212 |
+| BLOCKED | 213 |
 | With 4 images on disk | 245 |
-| Real product images | 37 |
-| Placeholder text cards | 211 |
+| Real product images | 38 |
+| Placeholder text cards | 210 |
 
 ## Critical Finding: Placeholder Text Cards
 
-**211 out of 248 SKUs (85%)** have placeholder text cards instead of real product images.
+**210 out of 248 SKUs (85%)** have placeholder text cards instead of real product images.
 
 These are JPEG files that render as gradient cards with text like:
 - Product name
@@ -43,9 +43,10 @@ These are NOT product photos and must NOT be used as hero images, in structured 
 
 **Assessment:** All 4 images for mdh-057 are placeholder text cards showing gradient backgrounds with rendered text. None show an actual makeup organizer product.
 
-## Approved Items (29)
+## Approved Items (35)
 
 - **real-001** Grinder 3 Partes Premium — foto-real (score: 1)
+- **real-002** Porta Creme Dental de Bancada — foto-real (score: 1)
 - **real-003** Demogorgon Decorativo Premium — foto-real (score: 1)
 - **real-004** Hello Kitty Jedi Colecionável — foto-real (score: 1)
 - **real-005** Stencil Rick and Morty Decorativo — foto-real (score: 1)
@@ -74,20 +75,18 @@ These are NOT product photos and must NOT be used as hero images, in structured 
 - **mdh-075** Coruja Floresta Articulada — foto-real (score: 1)
 - **mdh-077** Cavaleiro Medieval Mini — foto-real (score: 1)
 - **mdh-078** Robô Transformador BOX — foto-real (score: 1)
+- **csv-cha-006** Chaveiro Emborrachado Yasuo League of Legends Estilo Gamer Resistente para Chaves e Mochila — foto-real (score: 1)
+- **csv-cha-025** Chaveiro Acrílico Premium Los Santos GTA V Dupla Face para Mochila, Chaves e Setup Gamer — foto-real (score: 1)
+- **csv-cha-030** Chaveiro Emborrachado Iron Man Marvel Estilo Gamer Resistente para Chaves e Mochila — foto-real (score: 1)
+- **csv-uti-005** Kit Ferramenta Gamer Ahri League of Legends Organizador Utilitário para Mesa, Cabos e Setup — foto-real (score: 1)
+- **csv-uti-040** Organizador Modular Eevee Pokémon para Ferramentas Leves, Peças e Acessórios Nerd — foto-real (score: 1)
 
-## Items Needing Text Fix (7)
+## Items Needing Text Fix (0)
 
-- **mdh-062** Sasuke Uchiha Chibi — Has real images but classified as imagem-conceitual — reclassify visualKind
-- **mdh-063** Goku Dragon Ball Chibi — Has real images but classified as imagem-conceitual — reclassify visualKind
-- **csv-cha-006** Chaveiro Emborrachado Yasuo League of Legends Estilo Gamer Resistente para Chaves e Mochila — Has real images but classified as imagem-conceitual — reclassify visualKind
-- **csv-cha-025** Chaveiro Acrílico Premium Los Santos GTA V Dupla Face para Mochila, Chaves e Setup Gamer — Has real images but classified as imagem-conceitual — reclassify visualKind
-- **csv-cha-030** Chaveiro Emborrachado Iron Man Marvel Estilo Gamer Resistente para Chaves e Mochila — Has real images but classified as imagem-conceitual — reclassify visualKind
-- **csv-uti-005** Kit Ferramenta Gamer Ahri League of Legends Organizador Utilitário para Mesa, Cabos e Setup — Has real images but classified as imagem-conceitual — reclassify visualKind
-- **csv-uti-040** Organizador Modular Eevee Pokémon para Ferramentas Leves, Peças e Acessórios Nerd — Has real images but classified as imagem-conceitual — reclassify visualKind
 
-## Blocked Items (212)
 
-- **real-002** Porta Creme Dental de Bancada — All 4 images are placeholder text cards (uniform_size_text_card)
+## Blocked Items (213)
+
 - **mdh-001** Hello Kitty Chibi Premium — All 4 images are placeholder text cards (uniform_size_text_card)
 - **mdh-002** Mascote Kawaii Desk Buddy — All 4 images are placeholder text cards (uniform_size_text_card)
 - **mdh-003** Monstro Elétrico Pocket Mini — All 4 images are placeholder text cards (uniform_size_text_card)
@@ -117,5 +116,6 @@ These are NOT product photos and must NOT be used as hero images, in structured 
 - **mdh-027** Busto Colecionável Anime — All 4 images are placeholder text cards (uniform_size_text_card)
 - **mdh-028** Luminária LED Personalizada — All 4 images are placeholder text cards (uniform_size_text_card)
 - **mdh-029** Foto Litofania — All 4 images are placeholder text cards (uniform_size_text_card)
+- **mdh-030** Quadro Decorativo — All 4 images are placeholder text cards (uniform_size_text_card)
 
-... and 182 more
+... and 183 more

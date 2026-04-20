@@ -737,7 +737,7 @@ export function CheckoutFlow() {
               onSubmit={() => void handleSubmitOrder()}
               onClearDraft={clearDraft}
             >
-              {paymentMethod !== "boleto" ? (
+              {paymentMethod === "cartao" ? (
                 <MercadoPagoPaymentBrick
                   amount={paymentMethod === "cartao" ? totalCard : totalPix}
                   payerEmail={email}

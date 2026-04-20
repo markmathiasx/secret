@@ -1,7 +1,7 @@
 {
   "baseUrl": "http://127.0.0.1:3000",
-  "startedAt": "2026-04-17T20:09:51.708Z",
-  "finishedAt": "2026-04-17T20:17:00.497Z",
+  "startedAt": "2026-04-20T20:09:34.980Z",
+  "finishedAt": "2026-04-20T20:18:53.720Z",
   "checkoutMode": "full",
   "desktop": {
     "viewport": "desktop",
@@ -51,8 +51,8 @@
       },
       {
         "route": "/conta",
-        "status": 200,
-        "location": "",
+        "status": 307,
+        "location": "/login?redirect=%2Fconta",
         "cache": "",
         "ok": true,
         "internalError": false
@@ -192,11 +192,17 @@
         "cache": "HIT",
         "ok": true,
         "internalError": false
+      },
+      {
+        "route": "/catalogo/real-001-grinder-3-partes-premium",
+        "step": "real_pdp_gallery",
+        "ok": true,
+        "visibleThumbs": 4
       }
     ],
-    "actionsVisible": 559,
-    "linkActionsTested": 485,
-    "buttonActionsObserved": 74,
+    "actionsVisible": 672,
+    "linkActionsTested": 549,
+    "buttonActionsObserved": 123,
     "failedLinks": [],
     "catalogFlow": [
       {
@@ -288,8 +294,8 @@
       },
       {
         "route": "/conta",
-        "status": 200,
-        "location": "",
+        "status": 307,
+        "location": "/login?redirect=%2Fconta",
         "cache": "",
         "ok": true,
         "internalError": false
@@ -429,11 +435,17 @@
         "cache": "HIT",
         "ok": true,
         "internalError": false
+      },
+      {
+        "route": "/catalogo/real-001-grinder-3-partes-premium",
+        "step": "real_pdp_gallery",
+        "ok": true,
+        "visibleThumbs": 4
       }
     ],
-    "actionsVisible": 403,
-    "linkActionsTested": 337,
-    "buttonActionsObserved": 66,
+    "actionsVisible": 416,
+    "linkActionsTested": 358,
+    "buttonActionsObserved": 58,
     "failedLinks": [],
     "catalogFlow": [
       {
@@ -478,9 +490,9 @@
     "pageErrors": []
   },
   "summary": {
-    "routesTested": 46,
-    "desktopActionsTested": 559,
-    "mobileActionsTested": 403,
+    "routesTested": 48,
+    "desktopActionsTested": 672,
+    "mobileActionsTested": 416,
     "routeFailures": [],
     "linkFailures": [],
     "flowFailures": [],

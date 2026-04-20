@@ -1,0 +1,23 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "gate: lint + typecheck + build",
+      "type": "shell",
+      "command": "npm run lint:check && npm run typecheck && npm run build",
+      "problemMatcher": []
+    },
+    {
+      "label": "gate: validate assets",
+      "type": "shell",
+      "command": "npm run validate:assets",
+      "problemMatcher": []
+    },
+    {
+      "label": "gate: test images",
+      "type": "shell",
+      "command": "npm run test:images",
+      "problemMatcher": []
+    }
+  ]
+}

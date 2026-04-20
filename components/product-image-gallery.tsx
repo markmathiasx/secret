@@ -82,10 +82,11 @@ export function ProductImageGallery({
   }
   return (
     <>
-      <div className="space-y-4">
+      <div className="space-y-4" data-testid="product-image-gallery">
         <button
           type="button"
           onClick={() => setExpanded(true)}
+          data-testid="product-image-gallery-main"
           className="group relative block w-full overflow-hidden rounded-[24px] border border-white/10 bg-white/5 text-left transition-all duration-300 hover:border-cyan-300/30 hover:shadow-xl hover:shadow-cyan-400/10"
         >
           <SafeProductImage
@@ -121,6 +122,7 @@ export function ProductImageGallery({
               type="button"
               key={image.id}
               onClick={() => setActive(index)}
+              data-testid="product-image-gallery-thumb"
               className={`overflow-hidden rounded-[20px] border transition-all duration-300 hover:scale-105 ${
                 index === active ? "border-cyan-300/40 bg-cyan-400/10 shadow-cyan" : "border-white/10 bg-white/5 hover:border-white/20"
               }`}

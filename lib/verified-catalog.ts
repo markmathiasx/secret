@@ -63,7 +63,8 @@ export const verifiedCatalog: Product[] = [
     images: [
       "/products/foto-003-porta-creme-dental.webp",
       "/products/render-real-002-porta-creme.webp",
-      "/products/gallery/real-002/3.webp"
+      "/products/gallery/real-002/3.webp",
+      "/products/real-002-porta-creme-dental-de-bancada/04-packshot.jpg"
     ],
     licenseType: "personal",
     variants: [{ color: "Preto", available: true }],
@@ -262,7 +263,8 @@ export const verifiedCatalog: Product[] = [
     images: [
       "/products/foto-008-boneca-crianca.webp",
       "/products/render-real-007-boneca-crianca.webp",
-      "/products/gallery/real-007/3.webp"
+      "/products/gallery/real-007/3.webp",
+      "/products/real-007-boneca-infantil-personalizada/04-packshot.jpg"
     ],
     licenseType: "personal",
     variants: [{ color: "Colorido", available: true }],
@@ -301,7 +303,8 @@ export const verifiedCatalog: Product[] = [
     images: [
       "/products/foto-009-case-isqueiro-caveira.webp",
       "/products/render-real-008-case-isqueiro.webp",
-      "/products/gallery/real-008/3.webp"
+      "/products/gallery/real-008/3.webp",
+      "/products/real-008-case-de-isqueiro-caveira/04-packshot.jpg"
     ],
     licenseType: "personal",
     variants: [{ color: "Preto", available: true }],
@@ -340,7 +343,8 @@ export const verifiedCatalog: Product[] = [
     images: [
       "/products/foto-010-homer-pikachu.webp",
       "/products/render-real-009-homer-pikachu.webp",
-      "/products/gallery/real-009/3.webp"
+      "/products/gallery/real-009/3.webp",
+      "/products/real-009-homer-pikachu-mashup-colecionavel/04-packshot.jpg"
     ],
     licenseType: "personal",
     variants: [{ color: "Colorido", available: true }],

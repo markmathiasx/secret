@@ -187,7 +187,8 @@ async function runCheckoutFlow(page) {
   evidence.push({ step: "checkout_confirm", ok: await page.getByText("Resumo final").isVisible().catch(() => false) });
 
   if (checkoutMode === "full") {
-    await page.getByRole("button", { name: /Gerar pedido/ }).click();
+    const submitButton = page.getByRole("button", { name: /Confirmar pedido|Gerar pedido/ });
+    await submitButton.click();
     await page.getByText("Pedido criado").waitFor({ timeout: 20000 }).catch(() => null);
     evidence.push({ step: "checkout_order_created", ok: await page.getByText("Pedido criado").isVisible().catch(() => false) });
   }
@@ -214,6 +215,9 @@ async function runViewport(browser, viewportName, viewport) {
   const catalogJson = await catalogResponse.json().catch(() => ({}));
   const catalogTotal = Number(catalogJson.total || 0);
   const firstProduct = Array.isArray(catalogJson.items) ? catalogJson.items[0] : null;
+  const firstRealProduct = Array.isArray(catalogJson.items)
+    ? catalogJson.items.find((item) => String(item?.id || "").startsWith("real-") && Array.isArray(item?.images) && item.images.length >= 4)
+    : null;
   if (firstProduct) {
     routeResults.push(await testRoute(context, `/catalogo/${firstProduct.id}-${firstProduct.slug || firstProduct.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`));
   }
@@ -236,6 +240,25 @@ async function runViewport(browser, viewportName, viewport) {
   }
 
   const catalogFlow = await runCatalogFlow(page).catch((error) => [{ step: "catalog_flow", ok: false, error: error.message }]);
+  if (firstRealProduct) {
+    await page.goto(`${baseUrl}/catalogo/${firstRealProduct.id}-${firstRealProduct.slug || firstRealProduct.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`, { waitUntil: "domcontentloaded" });
+    const gallery = page.getByTestId("product-image-gallery");
+    await gallery.waitFor({ timeout: 15000 }).catch(() => null);
+    const thumbs = gallery.getByTestId("product-image-gallery-thumb");
+    const thumbCount = await thumbs.count().catch(() => 0);
+    const visibleThumbs = [];
+    for (let index = 0; index < thumbCount; index += 1) {
+      if (await thumbs.nth(index).isVisible().catch(() => false)) {
+        visibleThumbs.push(index);
+      }
+    }
+    routeResults.push({
+      route: `/catalogo/${firstRealProduct.id}-${firstRealProduct.slug || firstRealProduct.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`,
+      step: "real_pdp_gallery",
+      ok: visibleThumbs.length >= 4,
+      visibleThumbs: visibleThumbs.length,
+    });
+  }
   const checkoutFlow = await runCheckoutFlow(page).catch((error) => [{ step: "checkout_flow", ok: false, error: error.message }]);
 
   await context.close();
