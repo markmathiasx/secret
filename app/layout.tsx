@@ -11,9 +11,11 @@ import { CookieConsent } from '@/components/cookie-consent';
 import { FacebookPixel } from '@/components/facebook-pixel';
 import { PwaRegister } from '@/components/pwa-register';
 import { RouteActionDock } from '@/components/route-action-dock';
+import { ScrollToTop } from '@/components/scroll-to-top';
 import { SiteAssistant } from '@/components/site-assistant';
 import { SiteFooter } from '@/components/site-footer';
 import { SiteHeader } from '@/components/site-header';
+import { ToastProvider } from '@/components/toast';
 import { WhatsAppFloat } from '@/components/whatsapp-float';
 import { brand, socialLinks, supportEmail, whatsappNumber } from '@/lib/constants';
 import { getAiAssistantModel, getAiAssistantProvider, getSiteUrl, isAiAssistantConfigured, isCardCheckoutConfigured } from '@/lib/env';
@@ -185,6 +187,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }} />
         <div className="site-shell">
           <CartProvider>
+            <ToastProvider>
             <SkipLink />
             <AccessibilityProvider />
             <CartSessionBridge />
@@ -198,6 +201,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <SiteFooter />
             <RouteActionDock />
             <WhatsAppFloat />
+            <ScrollToTop />
             <SiteAssistant
               cardCheckoutReady={cardCheckoutReady}
               aiAssistantReady={aiAssistantReady}
@@ -208,6 +212,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <CartDrawer />
             <CookieConsent />
             <Suspense fallback={null}><FacebookPixel /></Suspense>
+            </ToastProvider>
           </CartProvider>
         </div>
       </body>

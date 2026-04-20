@@ -1248,6 +1248,204 @@ select option:hover {
   color: #f8fbff;
 }
 
+/* ===== GRADIENT TEXT ===== */
+.text-gradient-brand {
+  background: linear-gradient(135deg, #03e9f4, #7b2cbf, #25d366);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradientShift 6s ease infinite;
+}
+
+.text-gradient-cyan {
+  background: linear-gradient(135deg, #03e9f4, #67e8f9, #22d3ee);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* ===== BORDER GLOW ===== */
+.border-glow {
+  position: relative;
+}
+
+.border-glow::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(3, 233, 244, 0.4), rgba(123, 44, 191, 0.3), rgba(37, 211, 102, 0.3));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.border-glow:hover::after {
+  opacity: 1;
+}
+
+/* ===== PARTICLE DOTS ===== */
+.dot-pattern {
+  background-image: radial-gradient(circle at 1px 1px, rgba(3, 233, 244, 0.08) 1px, transparent 0);
+  background-size: 28px 28px;
+}
+
+/* ===== IMPROVED LOADING SKELETON ===== */
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.04));
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  border-radius: 0.75rem;
+}
+
+/* ===== NEW BADGE ===== */
+.badge-new {
+  @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider;
+  background: linear-gradient(135deg, #03e9f4, #7b2cbf);
+  color: white;
+  box-shadow: 0 0 16px rgba(3, 233, 244, 0.3);
+}
+
+.badge-bestseller {
+  @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider;
+  background: linear-gradient(135deg, #f59e0b, #ef4444);
+  color: white;
+  box-shadow: 0 0 16px rgba(245, 158, 11, 0.3);
+}
+
+.badge-promo {
+  @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider;
+  background: linear-gradient(135deg, #25d366, #10b981);
+  color: white;
+  box-shadow: 0 0 16px rgba(37, 211, 102, 0.3);
+}
+
+/* ===== DIVIDER ===== */
+.divider-glow {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(3, 233, 244, 0.3), rgba(123, 44, 191, 0.2), transparent);
+}
+
+/* ===== STAT CARD ===== */
+.stat-card {
+  @apply rounded-2xl border border-white/10 p-5;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02)),
+    rgba(255, 255, 255, 0.02);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(3, 233, 244, 0.25);
+  box-shadow: 0 20px 50px rgba(2, 8, 23, 0.3), 0 0 30px rgba(3, 233, 244, 0.1);
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #03e9f4, #7b2cbf);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.stat-card:hover::before {
+  opacity: 1;
+}
+
+/* ===== TESTIMONIAL CARD ===== */
+.testimonial-card {
+  @apply rounded-2xl border border-white/10 p-6;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+  position: relative;
+}
+
+.testimonial-card::before {
+  content: '"';
+  position: absolute;
+  top: -8px;
+  left: 16px;
+  font-size: 5rem;
+  font-family: Georgia, serif;
+  color: rgba(3, 233, 244, 0.15);
+  line-height: 1;
+}
+
+/* ===== IMPROVED MOBILE BOTTOM NAV ===== */
+@media (max-width: 768px) {
+  .mobile-bottom-safe {
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 4.5rem);
+  }
+}
+
+/* ===== PARALLAX-READY ===== */
+.parallax-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.parallax-section::before {
+  content: '';
+  position: absolute;
+  inset: -20%;
+  background: radial-gradient(ellipse at center, rgba(3, 233, 244, 0.06), transparent 50%);
+  pointer-events: none;
+}
+
+/* ===== SMOOTH IMAGE LOADING ===== */
+img[data-loading="true"] {
+  filter: blur(10px);
+  transition: filter 0.5s ease;
+}
+
+img[data-loading="false"] {
+  filter: blur(0);
+}
+
+/* ===== FEATURE GRID ===== */
+.feature-card {
+  @apply rounded-2xl border border-white/10 p-6;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.feature-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(3, 233, 244, 0.3);
+  box-shadow:
+    0 24px 48px rgba(2, 8, 23, 0.3),
+    0 0 32px rgba(3, 233, 244, 0.12),
+    0 0 48px rgba(123, 44, 191, 0.08);
+}
+
+.feature-card .feature-icon {
+  transition: transform 0.3s ease;
+}
+
+.feature-card:hover .feature-icon {
+  transform: scale(1.15) rotate(-5deg);
+}
+
 /* Ensure proper contrast for disabled options */
 select option:disabled {
   color: #888;

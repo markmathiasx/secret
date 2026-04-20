@@ -23,6 +23,7 @@ const quickWhatsAppLinks = [
 export function SiteFooter() {
   return (
     <footer className="footer-ambient border-t border-white/10 bg-slate-950/90">
+      <div className="divider-glow" />
       <div className="relative mx-auto grid max-w-7xl gap-10 px-6 py-14 lg:grid-cols-[1.2fr_0.8fr_0.8fr_1fr]">
         <div>
           <Image

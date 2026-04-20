@@ -133,3 +133,44 @@ export async function validateUploadFile(
     contentType: file.type || "application/octet-stream",
   };
 }
+
+/**
+ * Sanitize user-provided text input to prevent XSS and injection.
+ * Strips HTML tags and normalizes whitespace.
+ */
+export function sanitizeTextInput(input: string, maxLength = 500): string {
+  return input
+    .replace(/<[^>]*>/g, "")
+    .replace(/[<>"'&]/g, (ch) => {
+      switch (ch) {
+        case "<": return "&lt;";
+        case ">": return "&gt;";
+        case '"': return "&quot;";
+        case "'": return "&#39;";
+        case "&": return "&amp;";
+        default: return ch;
+      }
+    })
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, maxLength);
+}
+
+/**
+ * Validate that an email address has a basic valid format.
+ */
+export function isValidEmail(email: string): boolean {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && email.length <= 320;
+}
+
+/**
+ * Generate a timing-safe comparison of two strings.
+ */
+export function timingSafeEqual(a: string, b: string): boolean {
+  if (a.length !== b.length) return false;
+  let result = 0;
+  for (let i = 0; i < a.length; i++) {
+    result |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  }
+  return result === 0;
+}

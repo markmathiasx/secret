@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { authenticateCustomerUser } from "@/lib/auth-store";
 import { applyNoStoreHeaders } from "@/lib/http-cache";
-import { checkRateLimit, getClientIp } from "@/lib/security";
+import { checkRateLimit, getClientIp, isValidEmail } from "@/lib/security";
 import { createSignedSessionToken, customerSessionCookieName, getCustomerSessionSecret } from "@/lib/session-token";
 
 export const runtime = "nodejs";
@@ -15,10 +15,15 @@ export async function POST(req: Request) {
       return applyNoStoreHeaders(NextResponse.json({ error: "Muitas tentativas. Aguarde um pouco antes de tentar de novo." }, { status: 429 }));
     }
 
-    const { email, password } = await req.json();
+    const { email: rawEmail, password } = await req.json();
+    const email = typeof rawEmail === "string" ? rawEmail.trim().toLowerCase() : "";
 
     if (!email || !password) {
       return applyNoStoreHeaders(NextResponse.json({ error: "Email e senha são obrigatórios" }, { status: 400 }));
+    }
+
+    if (!isValidEmail(email)) {
+      return applyNoStoreHeaders(NextResponse.json({ error: "Formato de email inválido" }, { status: 400 }));
     }
 
     const secret = getCustomerSessionSecret();

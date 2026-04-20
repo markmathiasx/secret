@@ -6,6 +6,8 @@ import { useEffect, useMemo, useState } from 'react';
 import { ArrowRight, LockKeyhole, Mail, MessageCircleMore, ShieldCheck, User } from 'lucide-react';
 import { emitCustomerAuthChange } from '@/lib/customer-session-client';
 import { whatsappMessage, whatsappNumber } from '@/lib/constants';
+import { PasswordInput } from '@/components/password-input';
+import { HoneypotField } from '@/components/honeypot';
 
 const benefits = [
   'Salvar favoritos e voltar mais rápido aos produtos vistos',
@@ -21,10 +23,10 @@ function getPasswordStrength(password: string) {
   if (/[A-Z]/.test(password)) score += 1;
   if (/[0-9]/.test(password)) score += 1;
   if (/[^A-Za-z0-9]/.test(password)) score += 1;
-  if (score <= 1) return { label: 'Baixa', width: '25%' };
-  if (score === 2) return { label: 'Media', width: '50%' };
-  if (score === 3) return { label: 'Boa', width: '75%' };
-  return { label: 'Forte', width: '100%' };
+  if (score <= 1) return { label: 'Baixa', width: '25%', color: 'from-red-400 to-red-500' };
+  if (score === 2) return { label: 'Média', width: '50%', color: 'from-amber-400 to-amber-500' };
+  if (score === 3) return { label: 'Boa', width: '75%', color: 'from-cyan-300 to-cyan-400' };
+  return { label: 'Forte', width: '100%', color: 'from-emerald-300 to-emerald-400' };
 }
 
 export default function LoginPage() {
@@ -229,18 +231,32 @@ export default function LoginPage() {
               <span className="mb-2 block text-sm text-white/70">Senha</span>
               <div className="field-base flex items-center gap-3">
                 <LockKeyhole className="h-4 w-4 text-white/45" />
-                <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" autoComplete={mode === 'register' ? 'new-password' : 'current-password'} className="w-full bg-transparent outline-none" required minLength={8} />
+                <PasswordInput value={password} onChange={setPassword} autoComplete={mode === 'register' ? 'new-password' : 'current-password'} minLength={8} />
               </div>
             </label>
 
             {mode === 'register' ? (
               <div className="rounded-[20px] border border-white/10 bg-black/20 p-4">
                 <div className="flex items-center justify-between gap-3 text-xs uppercase tracking-[0.16em] text-white/50">
-                  <span>Forca da senha</span>
+                  <span>Força da senha</span>
                   <span className="text-cyan-100">{passwordStrength.label}</span>
                 </div>
                 <div className="mt-3 h-2 overflow-hidden rounded-full bg-white/10">
-                  <div className="h-full rounded-full bg-gradient-to-r from-cyan-300 to-emerald-300" style={{ width: passwordStrength.width }} />
+                  <div className={`h-full rounded-full bg-gradient-to-r ${passwordStrength.color} transition-all duration-500`} style={{ width: passwordStrength.width }} />
+                </div>
+                <div className="mt-3 grid grid-cols-2 gap-2 text-xs text-white/40">
+                  <span className={password.length >= 8 ? 'text-emerald-300' : ''}>
+                    {password.length >= 8 ? '✓' : '○'} 8+ caracteres
+                  </span>
+                  <span className={/[A-Z]/.test(password) ? 'text-emerald-300' : ''}>
+                    {/[A-Z]/.test(password) ? '✓' : '○'} Maiúscula
+                  </span>
+                  <span className={/[0-9]/.test(password) ? 'text-emerald-300' : ''}>
+                    {/[0-9]/.test(password) ? '✓' : '○'} Número
+                  </span>
+                  <span className={/[^A-Za-z0-9]/.test(password) ? 'text-emerald-300' : ''}>
+                    {/[^A-Za-z0-9]/.test(password) ? '✓' : '○'} Especial
+                  </span>
                 </div>
               </div>
             ) : null}
@@ -250,10 +266,12 @@ export default function LoginPage() {
                 <span className="mb-2 block text-sm text-white/70">Confirmar senha</span>
                 <div className="field-base flex items-center gap-3">
                   <ShieldCheck className="h-4 w-4 text-white/45" />
-                  <input value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} type="password" className="w-full bg-transparent outline-none" required minLength={8} />
+                  <PasswordInput value={confirmPassword} onChange={setConfirmPassword} minLength={8} />
                 </div>
               </label>
             ) : null}
+
+            <HoneypotField />
 
             <div className="rounded-[24px] border border-cyan-300/20 bg-cyan-300/10 p-4">
               <div className="flex items-start gap-3">

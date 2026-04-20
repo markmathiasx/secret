@@ -3,7 +3,7 @@ import { registerBuyerAccount } from "@/lib/marketplace-auth";
 import { applyNoStoreHeaders } from "@/lib/http-cache";
 import { createCustomerAccount } from "@/lib/auth-store";
 import { canConnectToDatabase } from "@/lib/prisma";
-import { checkRateLimit, getClientIp } from "@/lib/security";
+import { checkRateLimit, getClientIp, sanitizeTextInput, isValidEmail } from "@/lib/security";
 
 export const runtime = "nodejs";
 
@@ -16,13 +16,20 @@ export async function POST(req: Request) {
       return applyNoStoreHeaders(NextResponse.json({ error: "Muitas tentativas. Aguarde um pouco antes de tentar de novo." }, { status: 429 }));
     }
 
-    const { email, password, name } = await req.json();
+    const { email: rawEmail, password, name: rawName } = await req.json();
+
+    const email = typeof rawEmail === "string" ? rawEmail.trim().toLowerCase() : "";
+    const name = typeof rawName === "string" ? sanitizeTextInput(rawName, 100) : "";
 
     if (!email || !password || !name) {
       return applyNoStoreHeaders(NextResponse.json({ error: "Nome, email e senha são obrigatórios." }, { status: 400 }));
     }
 
-    if (password.length < 8 || !/[A-Z]/.test(password) || !/[a-z]/.test(password) || !/\d/.test(password)) {
+    if (!isValidEmail(email)) {
+      return applyNoStoreHeaders(NextResponse.json({ error: "Formato de email inválido." }, { status: 400 }));
+    }
+
+    if (typeof password !== "string" || password.length < 8 || !/[A-Z]/.test(password) || !/[a-z]/.test(password) || !/\d/.test(password)) {
       return applyNoStoreHeaders(
         NextResponse.json(
           { error: "Use uma senha com pelo menos 8 caracteres, incluindo maiúscula, minúscula e número." },

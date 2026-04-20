@@ -80,8 +80,8 @@ export function Hero() {
             Produção local no Rio de Janeiro
           </div>
 
-          <h1 className="animate-glow mt-6 max-w-4xl text-5xl font-black leading-[0.95] text-white md:text-7xl">
-            Impressão 3D com cara de produto pronto para vender, presentear e usar.
+          <h1 className="mt-6 max-w-4xl text-5xl font-black leading-[0.95] text-white md:text-7xl">
+            Impressão 3D com cara de <span className="text-gradient-brand">produto pronto</span> para vender, presentear e usar.
           </h1>
 
           <p className="mt-6 max-w-2xl text-base leading-8 text-white/78 md:text-lg">

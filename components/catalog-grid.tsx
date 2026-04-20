@@ -9,6 +9,7 @@ import { ProductVisualBadge } from "@/components/product-visual-authenticity";
 import { isProductVisualVerified } from "@/lib/product-visuals";
 import { ProductImageGallery } from "@/components/product-image-gallery";
 import { ProductPriceStack } from "@/components/product-price-stack";
+import { QuickAddToCart } from "@/components/quick-add-to-cart";
 
 function shouldIgnoreCardActivation(target: EventTarget | null) {
   return target instanceof Element && Boolean(target.closest("a, button, input, select, textarea, [role='button'], [data-card-interactive='true']"));
@@ -68,11 +69,16 @@ export function CatalogGrid({ products }: { products: Product[] }) {
               <span className="rounded-full border border-white/10 px-2.5 py-1 text-xs text-white/55">{product.finish}</span>
               <span className="rounded-full border border-white/10 px-2.5 py-1 text-xs text-white/55">{product.productionWindow}</span>
             </div>
-            <div className="mt-5 flex items-end justify-between gap-3">
+            <div className="mt-5 flex items-end justify-between gap-2">
               <ProductPriceStack product={product} compact />
-              <Link href={getProductUrl(product)} className="btn-primary rounded-full px-4 py-2 text-sm font-semibold">
-                {product.pricingMode === "faixa-auditada" ? "Comprar agora" : "Pedir orçamento"}
-              </Link>
+              <div className="flex items-center gap-2">
+                {product.pricingMode === "faixa-auditada" ? (
+                  <QuickAddToCart productId={product.id} productName={product.name} pricePix={product.pricePix} priceCard={product.priceCard} />
+                ) : null}
+                <Link href={getProductUrl(product)} className="btn-primary rounded-full px-4 py-2 text-sm font-semibold">
+                  {product.pricingMode === "faixa-auditada" ? "Ver" : "Orçar"}
+                </Link>
+              </div>
             </div>
           </div>
         </article>

@@ -12,6 +12,9 @@ import { PurchaseProtectionBanner } from "@/components/purchase-protection-banne
 import { isProductRealPhoto, summarizeProductVisuals } from "@/lib/product-visuals";
 import { whatsappNumber, whatsappMessage } from "@/lib/constants";
 import { getStoreReputationSummary } from "@/lib/marketplace-signals";
+import { HomeAnimatedStats } from "@/components/home-animated-stats";
+import { HomeTestimonials } from "@/components/home-testimonials";
+import { HomeCategoriesShowcase } from "@/components/home-categories-showcase";
 
 export default async function HomePage() {
   const catalog = await getCatalogSnapshot();
@@ -30,23 +33,11 @@ export default async function HomePage() {
     <main>
       <Hero />
 
-      <section className="border-y border-white/[0.08] bg-black/20 py-4">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="flex flex-wrap items-center justify-center gap-8 text-center">
-            {[
-              { value: catalogCount.toLocaleString("pt-BR"), label: "peças no catálogo" },
-              { value: ratingLabel, label: storeSummary?.reviewCount ? `${storeSummary.reviewCount} avaliações aprovadas` : "avaliações reais" },
-              { value: "2-5 dias", label: "prazo de entrega" },
-              { value: "Rio de Janeiro", label: "produção local" },
-            ].map((stat) => (
-              <div key={stat.label} className="px-2">
-                <p className="text-xl font-black text-white">{stat.value}</p>
-                <p className="mt-0.5 text-xs text-white/50">{stat.label}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <HomeAnimatedStats
+        catalogCount={catalogCount}
+        ratingLabel={ratingLabel}
+        reviewCount={storeSummary?.reviewCount}
+      />
 
       <section className="mx-auto max-w-7xl px-6 pt-4">
         <PurchaseProtectionBanner summary={storeSummary} compact />
@@ -108,8 +99,8 @@ export default async function HomePage() {
                 body: "Não é chatbot. É a equipe de produção respondendo dúvidas de cor, prazo e acabamento.",
               },
             ].map((item) => (
-              <article key={item.title} className="rounded-[24px] border border-white/10 bg-black/20 p-6">
-                <p className="text-3xl">{item.icon}</p>
+              <article key={item.title} className="feature-card">
+                <p className="feature-icon text-3xl inline-block">{item.icon}</p>
                 <h3 className="mt-3 text-base font-bold text-white">{item.title}</h3>
                 <p className="mt-2 text-sm leading-6 text-white/65">{item.body}</p>
               </article>
@@ -117,6 +108,10 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      <HomeCategoriesShowcase catalogCount={catalogCount} />
+
+      <HomeTestimonials />
 
       <section id="home-paths" className="mx-auto max-w-7xl px-6 py-16">
         <div className="glass-panel p-8 md:p-10">
