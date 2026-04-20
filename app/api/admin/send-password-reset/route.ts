@@ -3,6 +3,7 @@ import { z } from "zod";
 import { getServerSessionUser, isAdminSession } from "@/lib/server-session";
 import { createPasswordResetToken } from "@/lib/marketplace-auth";
 import { sendMail } from "@/lib/mailer";
+import { escapeHtml } from "@/lib/security";
 import { prisma } from "@/lib/prisma";
 import { getAuthBaseUrl } from "@/lib/env";
 
@@ -43,8 +44,8 @@ export async function POST(request: Request) {
     html: `
       <div style="font-family:Arial,sans-serif;line-height:1.6;color:#111827">
         <h1 style="font-size:20px;margin-bottom:12px">Redefinição de senha solicitada</h1>
-        <p><strong>Usuário:</strong> ${user.name || "—"}</p>
-        <p><strong>E-mail:</strong> ${user.email}</p>
+        <p><strong>Usuário:</strong> ${escapeHtml(user.name || "—")}</p>
+        <p><strong>E-mail:</strong> ${escapeHtml(user.email)}</p>
         <p style="margin-top:16px">Envie o link abaixo para o usuário redefinir a senha:</p>
         <p style="background:#f3f4f6;padding:12px 16px;border-radius:8px;word-break:break-all;font-size:14px;">
           <a href="${resetUrl}">${resetUrl}</a>
@@ -55,5 +56,5 @@ export async function POST(request: Request) {
     text: `Redefinição de senha para ${user.name || user.email}.\nLink: ${resetUrl}\nExpira em 30 minutos.`,
   });
 
-  return NextResponse.json({ ok: true, resetUrl });
+  return NextResponse.json({ ok: true, message: "Link de redefinição enviado por e-mail." });
 }

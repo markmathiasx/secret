@@ -41,9 +41,8 @@ export async function POST(request: Request) {
   let user = null;
 
   if (email === adminConfig.email.toLowerCase()) {
-    const adminPassword = process.env.ADMIN_PASSWORD || '';
     const adminPasswordHash = process.env.ADMIN_PASSWORD_HASH || '';
-    const passwordOk = adminPasswordHash ? verifyStoredPassword(password, adminPasswordHash) : adminPassword ? password === adminPassword : false;
+    const passwordOk = adminPasswordHash ? verifyStoredPassword(password, adminPasswordHash) : false;
 
     if (passwordOk) {
       user = {

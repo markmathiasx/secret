@@ -33,8 +33,6 @@ const IMAGE_EXTENSIONS = new Set(["jpg", "jpeg", "png", "webp"]);
 const MODEL_EXTENSIONS = new Set(["stl", "obj", "3mf", "step", "stp", "iges", "igs"]);
 const IMAGE_MIME_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
 const MODEL_MIME_TYPES = new Set([
-  "",
-  "application/octet-stream",
   "model/stl",
   "model/obj",
   "model/3mf",
@@ -173,4 +171,19 @@ export function timingSafeEqual(a: string, b: string): boolean {
     result |= a.charCodeAt(i) ^ b.charCodeAt(i);
   }
   return result === 0;
+}
+
+/**
+ * Escape special HTML characters to prevent XSS/HTML injection
+ * in dynamically generated HTML (e.g., email templates).
+ */
+export function escapeHtml(text: string): string {
+  const map: Record<string, string> = {
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;",
+  };
+  return text.replace(/[&<>"']/g, (ch) => map[ch] || ch);
 }

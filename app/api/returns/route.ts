@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { applyNoStoreHeaders } from "@/lib/http-cache";
 import { sendMail } from "@/lib/mailer";
 import { supportEmail } from "@/lib/constants";
-import { getClientIp, checkRateLimit } from "@/lib/security";
+import { getClientIp, checkRateLimit, escapeHtml, isValidEmail } from "@/lib/security";
 import { logStructured } from "@/lib/logger";
 
 export const dynamic = "force-dynamic";
@@ -24,21 +24,31 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: false, error: "Campos obrigatórios: orderCode, customerName, email, reason." }, { status: 400 });
   }
 
+  if (!isValidEmail(String(email))) {
+    return NextResponse.json({ ok: false, error: "E-mail inválido." }, { status: 400 });
+  }
+
+  const safeOrder = escapeHtml(String(orderCode).slice(0, 50));
+  const safeName = escapeHtml(String(customerName).slice(0, 200));
+  const safeEmail = escapeHtml(String(email).slice(0, 320));
+  const safeReason = escapeHtml(String(reason).slice(0, 500));
+  const safeDesc = description ? escapeHtml(String(description).slice(0, 2000)) : "";
+
   const html = `
     <h2>Solicitação de devolução/troca</h2>
-    <p><strong>Pedido:</strong> ${orderCode}</p>
-    <p><strong>Cliente:</strong> ${customerName}</p>
-    <p><strong>E-mail:</strong> ${email}</p>
-    <p><strong>Motivo:</strong> ${reason}</p>
-    ${description ? `<p><strong>Descrição:</strong> ${description}</p>` : ""}
+    <p><strong>Pedido:</strong> ${safeOrder}</p>
+    <p><strong>Cliente:</strong> ${safeName}</p>
+    <p><strong>E-mail:</strong> ${safeEmail}</p>
+    <p><strong>Motivo:</strong> ${safeReason}</p>
+    ${safeDesc ? `<p><strong>Descrição:</strong> ${safeDesc}</p>` : ""}
   `;
 
   try {
-    await sendMail({ to: supportEmail, subject: `[Devolução] Pedido ${orderCode} — ${customerName}`, html });
+    await sendMail({ to: supportEmail, subject: `[Devolução] Pedido ${safeOrder} — ${safeName}`, html });
     await sendMail({
       to: email,
       subject: "Recebemos sua solicitação de devolução — MDH 3D",
-      html: `<p>Olá ${customerName}, recebemos sua solicitação referente ao pedido <strong>${orderCode}</strong> e entraremos em contato em breve.</p>`,
+      html: `<p>Olá ${safeName}, recebemos sua solicitação referente ao pedido <strong>${safeOrder}</strong> e entraremos em contato em breve.</p>`,
     });
   } catch (error) {
     logStructured("error", "returns_mail_failed", {
