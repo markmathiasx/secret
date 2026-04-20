@@ -1,11 +1,12 @@
 "use client";
 import { useMemo, useState } from "react";
-import { Expand, Image as ImageIcon, X } from "lucide-react";
+import { AlertTriangle, Expand, Image as ImageIcon, X } from "lucide-react";
 import type { Product } from "@/lib/catalog";
 import { getProductGallery } from "@/lib/product-images";
 import { SafeProductImage } from "@/components/safe-product-image";
 import { ProductVisualBadge } from "@/components/product-visual-authenticity";
 import { getProductVisual } from "@/lib/product-visuals";
+import { validateProductMedia, isPublicSafe } from "@/lib/media-validation";
 
 const compactCardSizes =
   "(min-width: 1536px) 23vw, (min-width: 1280px) 31vw, (min-width: 640px) 48vw, 96vw";
@@ -24,6 +25,8 @@ export function ProductImageGallery({
 }) {
   const gallery = useMemo(() => getProductGallery(product), [product]);
   const visual = useMemo(() => getProductVisual(product), [product]);
+  const mediaRecord = useMemo(() => validateProductMedia(product), [product]);
+  const isConceptual = !isPublicSafe(mediaRecord.status);
   const [active, setActive] = useState(0);
   const [expanded, setExpanded] = useState(false);
   const current = gallery[active] || gallery[0];
@@ -42,6 +45,12 @@ export function ProductImageGallery({
             fetchPriority={priority ? "high" : "auto"}
             sizes={compactCardSizes}
           />
+          {isConceptual && (
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-center gap-1.5 bg-gradient-to-t from-amber-950/80 via-amber-950/40 to-transparent px-3 pb-2.5 pt-8">
+              <AlertTriangle className="h-3.5 w-3.5 text-amber-300/90 shrink-0" />
+              <span className="text-[10px] font-medium tracking-wide text-amber-100/90">Imagem ilustrativa — não representa o produto final</span>
+            </div>
+          )}
           <div className="pointer-events-none absolute inset-x-0 top-0 flex items-start justify-between gap-2 p-3">
             <span
               className={`rounded-full border px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] backdrop-blur-sm ${
@@ -62,7 +71,7 @@ export function ProductImageGallery({
             <div className="min-w-0">
               <p className="truncate uppercase tracking-[0.16em] text-white/80 font-medium">{product.material} • {product.finish}</p>
               <p className="mt-1 line-clamp-1 text-[11px] text-white/55">
-                {visual.kind === "imagem-conceitual" ? "Produto exibido com imagem conceitual para orientar forma, estilo e proposta." : "Peca ja produzida ou visual fiel do produto final."}
+                {isConceptual ? "Imagem conceitual — peça final pode variar em forma, cor e acabamento." : "Peça já produzida ou visual fiel do produto final."}
               </p>
             </div>
             <ProductVisualBadge product={product} />
@@ -77,7 +86,7 @@ export function ProductImageGallery({
         <button
           type="button"
           onClick={() => setExpanded(true)}
-          className="group block w-full overflow-hidden rounded-[24px] border border-white/10 bg-white/5 text-left transition-all duration-300 hover:border-cyan-300/30 hover:shadow-xl hover:shadow-cyan-400/10"
+          className="group relative block w-full overflow-hidden rounded-[24px] border border-white/10 bg-white/5 text-left transition-all duration-300 hover:border-cyan-300/30 hover:shadow-xl hover:shadow-cyan-400/10"
         >
           <SafeProductImage
             candidates={current.candidates}
@@ -87,6 +96,12 @@ export function ProductImageGallery({
             fetchPriority="high"
             sizes={expandedMainSizes}
           />
+          {isConceptual && (
+            <div className="absolute inset-x-0 bottom-0 flex items-center gap-2 bg-gradient-to-t from-amber-950/80 via-amber-950/40 to-transparent px-5 pb-4 pt-10 pointer-events-none">
+              <AlertTriangle className="h-4 w-4 text-amber-300/90 shrink-0" />
+              <span className="text-xs font-medium text-amber-100/90">Imagem ilustrativa — não representa fielmente o produto final</span>
+            </div>
+          )}
           <div className="flex items-center justify-between gap-3 border-t border-white/10 bg-slate-950/78 px-5 py-4">
             <div className="flex flex-col">
               <span className="text-sm text-white/90 font-medium">{product.name}</span>
@@ -100,8 +115,8 @@ export function ProductImageGallery({
             </div>
           </div>
         </button>
-        <div className="grid grid-cols-3 gap-3">
-          {gallery.map((image, index) => (
+        <div className={`grid gap-3 ${gallery.length <= 3 ? "grid-cols-3" : "grid-cols-4"}`}>
+          {gallery.slice(0, gallery.length <= 4 ? gallery.length : 3).map((image, index) => (
             <button
               type="button"
               key={image.id}
@@ -113,6 +128,18 @@ export function ProductImageGallery({
               <SafeProductImage candidates={image.candidates} alt={image.alt} className="aspect-square w-full object-cover" sizes={thumbSizes} />
             </button>
           ))}
+          {gallery.length > 4 && (
+            <button
+              type="button"
+              onClick={() => setExpanded(true)}
+              className="flex items-center justify-center overflow-hidden rounded-[20px] border border-white/10 bg-white/5 transition-all duration-300 hover:scale-105 hover:border-cyan-300/30"
+            >
+              <div className="flex flex-col items-center gap-1">
+                <span className="text-lg font-bold text-white/80">+{gallery.length - 3}</span>
+                <span className="text-[10px] uppercase tracking-wider text-white/50">fotos</span>
+              </div>
+            </button>
+          )}
         </div>
       </div>
       {expanded ? (

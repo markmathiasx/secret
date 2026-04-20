@@ -28,6 +28,7 @@ import { getProductHighlights, getProductLongDescription } from '@/lib/catalog-c
 import { resolveProductImage } from '@/lib/product-images';
 import { catalog, featuredCatalog } from '@/lib/catalog';
 import { getProductMarketplaceSignals, getStoreReputationSummary } from '@/lib/marketplace-signals';
+import { validateProductMedia, isPublicSafe } from '@/lib/media-validation';
 
 export const revalidate = 300;
 export const dynamic = 'force-static';
@@ -55,6 +56,10 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     getProductMarketplaceSignals(product.id, product.sku),
     getStoreReputationSummary(),
   ]);
+  const metaMediaRecord = validateProductMedia(product);
+  const metaMediaSafe = isPublicSafe(metaMediaRecord.status);
+  // Only use real/verified images in OG/Twitter; fallback to brand logo
+  const ogImageUrl = metaMediaSafe ? imageUrl : `${siteUrl}/logo-mdh-3d.webp`;
 
   return {
     title: product.name,
@@ -69,7 +74,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       url: productUrl,
       images: [
         {
-          url: imageUrl,
+          url: ogImageUrl,
           width: 800,
           height: 600,
           alt: product.name,
@@ -80,7 +85,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       card: 'summary_large_image',
       title: `${product.name} | MDH 3D`,
       description: longDescription,
-      images: [imageUrl],
+      images: [ogImageUrl],
     },
   };
 }
@@ -113,13 +118,17 @@ export default async function ProductPage({
     getProductMarketplaceSignals(product.id, product.sku),
     getStoreReputationSummary(),
   ]);
+  const mediaRecord = validateProductMedia(product);
+  const mediaIsPublicSafe = isPublicSafe(mediaRecord.status);
+  // Only include images in structured data if they are verified/probable
+  const structuredDataImages = mediaIsPublicSafe ? resolvedImages : [];
 
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: product.name,
     description: longDescription,
-    image: resolvedImages,
+    image: structuredDataImages,
     sku: product.sku,
     brand: {
       '@type': 'Brand',

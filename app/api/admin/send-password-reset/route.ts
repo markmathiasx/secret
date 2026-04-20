@@ -36,7 +36,7 @@ export async function POST(request: Request) {
   }
 
   const token = await createPasswordResetToken(user);
-  const resetUrl = `${getAuthBaseUrl()}/recuperar-senha?token=${encodeURIComponent(token)}`;
+  const resetUrl = `${getAuthBaseUrl()}/recuperar-senha/confirmar?token=${encodeURIComponent(token)}`;
 
   await sendMail({
     to: ADMIN_EMAIL,

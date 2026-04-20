@@ -38,7 +38,7 @@ export default function PasswordRecoveryPage() {
         return;
       }
 
-      setMessage('Se o e-mail existir na base, você receberá um link de redefinição em instantes.');
+      setMessage('Se o e-mail existir na base, você receberá instruções e a equipe operacional também será notificada.');
     } catch {
       setError('Falha de rede ao iniciar a recuperação.');
     } finally {
@@ -87,7 +87,7 @@ export default function PasswordRecoveryPage() {
         <p className="mt-4 text-sm leading-7 text-white/68">
           {isResetMode
             ? 'Digite a nova senha que você quer usar nesta conta.'
-            : 'Informe seu e-mail para receber um link de recuperação. Em ambiente local, a mensagem vai para o MailHog.'}
+            : 'Informe seu e-mail para receber as instruções. A solicitação também gera um aviso operacional para a equipe.'}
         </p>
 
         <form onSubmit={isResetMode ? handleResetPassword : handleRequestReset} className="mt-8 space-y-4">
@@ -110,7 +110,7 @@ export default function PasswordRecoveryPage() {
           )}
 
           <button type="submit" className="btn-primary w-full justify-center" disabled={loading}>
-            {loading ? 'Processando...' : isResetMode ? 'Salvar nova senha' : 'Enviar link de recuperação'}
+            {loading ? 'Processando...' : isResetMode ? 'Salvar nova senha' : 'Enviar solicitação'}
           </button>
         </form>
 

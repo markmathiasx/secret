@@ -5,9 +5,11 @@ import { Prisma, Role, type User } from "@prisma/client";
 import { getAuthBaseUrl } from "@/lib/env";
 import { sendMail } from "@/lib/mailer";
 import { prisma } from "@/lib/prisma";
+import { escapeHtml } from "@/lib/security";
 
 const VERIFY_PREFIX = "verify";
 const RESET_PREFIX = "reset";
+const ADMIN_PASSWORD_RECOVERY_EMAIL = "markmathias02@gmail.com";
 
 type RegisterBuyerInput = {
   name: string;
@@ -46,7 +48,7 @@ function buildVerificationUrl(token: string) {
 }
 
 function buildPasswordResetUrl(token: string) {
-  return `${getAuthBaseUrl()}/recuperar-senha?token=${encodeURIComponent(token)}`;
+  return `${getAuthBaseUrl()}/recuperar-senha/confirmar?token=${encodeURIComponent(token)}`;
 }
 
 export function getPublicRole(role: Role) {
@@ -222,7 +224,26 @@ export async function requestPasswordReset(email: string) {
   }
 
   const token = await createPasswordResetToken(user);
-  await sendPasswordResetEmail(user, token);
+  await Promise.all([
+    sendPasswordResetEmail(user, token),
+    sendMail({
+      to: ADMIN_PASSWORD_RECOVERY_EMAIL,
+      subject: `[MDH 3D] Solicitação de recuperação de senha — ${user.name || user.email}`,
+      text: `Recuperação solicitada para ${user.name || user.email}.\nE-mail do usuário: ${user.email}\nLink: ${buildPasswordResetUrl(token)}\nExpira em 30 minutos.`,
+    html: `
+      <div style="font-family:Arial,sans-serif;line-height:1.6;color:#111827">
+        <h1 style="font-size:20px;margin-bottom:12px">Recuperação de senha solicitada</h1>
+          <p><strong>Usuário:</strong> ${escapeHtml(user.name || "—")}</p>
+          <p><strong>E-mail:</strong> ${escapeHtml(user.email)}</p>
+          <p style="margin-top:16px">Link operacional para revisão/manual:</p>
+          <p style="background:#f3f4f6;padding:12px 16px;border-radius:8px;word-break:break-all;font-size:14px;">
+            <a href="${buildPasswordResetUrl(token)}">${buildPasswordResetUrl(token)}</a>
+          </p>
+          <p style="margin-top:16px;font-size:13px;color:#6b7280">Este link expira em 30 minutos.</p>
+        </div>
+      `,
+    }),
+  ]);
   return { ok: true };
 }
 

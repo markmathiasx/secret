@@ -102,6 +102,12 @@ const PRODUCT_VISUAL_OVERRIDES: Record<string, ProductVisualOverride> = {
     recommendedNextStep: "Capturar novas fotos reais por variação de nome, cor e acabamento para ampliar o portfólio.",
     merchantReady: true,
   },
+  "mdh-057": {
+    kind: "imagem-conceitual",
+    note: "ATENÇÃO: A imagem atual é um blob abstrato gerado por IA que NÃO corresponde a um organizador de maquiagem. Aguardando substituição por foto real ou render fiel do produto.",
+    recommendedNextStep: "Fotografar o organizador de maquiagem real ou gerar render a partir do arquivo 3MF/STL. Remover imagem conceitual enganosa.",
+    merchantReady: false,
+  },
 };
 
 const realImageStatusMap = realImageStatusJson as Record<string, RealImageStatusRecord>;
