@@ -57,7 +57,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     getStoreReputationSummary(),
   ]);
   const metaMediaRecord = validateProductMedia(product);
-  const metaMediaSafe = isPublicSafe(metaMediaRecord.status) && metaMediaRecord.gallery.length >= 4;
+  const metaMediaSafe = isPublicSafe(metaMediaRecord.status) && metaMediaRecord.gallery.length >= 1;
   // Only use real/verified images in OG/Twitter; fallback to brand logo
   const ogImageUrl = metaMediaSafe ? imageUrl : `${siteUrl}/logo-mdh-3d.webp`;
 
@@ -119,7 +119,7 @@ export default async function ProductPage({
     getStoreReputationSummary(),
   ]);
   const mediaRecord = validateProductMedia(product);
-  const mediaIsPublicSafe = isPublicSafe(mediaRecord.status) && mediaRecord.gallery.length >= 4;
+  const mediaIsPublicSafe = isPublicSafe(mediaRecord.status) && mediaRecord.gallery.length >= 1;
   // Only include images in structured data if they are verified/probable
   const structuredDataImages = mediaIsPublicSafe ? resolvedImages : [];
 

@@ -53,15 +53,9 @@ export function buildGeneratedProductImages(slug: string, imageCount = 4, produc
     return [mappedPrimaryImage];
   }
 
-  const normalizedSlug = slugify(slug);
-  const variants = [
-    `https://picsum.photos/seed/mdh-3d-${normalizedSlug}/1200/800`,
-    `https://picsum.photos/seed/mdh-3d-${normalizedSlug}-square/600/600`,
-    `https://picsum.photos/seed/mdh-3d-${normalizedSlug}-detail/1200/900`,
-    `https://picsum.photos/seed/mdh-3d-${normalizedSlug}-pack/1200/900`,
-  ];
-
-  return variants.slice(0, Math.max(1, Math.min(imageCount, variants.length)));
+  // No verified images mapped for this product — return empty rather than showing
+  // unrelated placeholder images (picsum, etc.) which are never semantically correct.
+  return [];
 }
 
 export function applyCatalogMedia<T extends ProductImageShape>(

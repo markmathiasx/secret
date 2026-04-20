@@ -23,7 +23,8 @@ export const verifiedCatalog: Product[] = [
     images: [
       "/products/foto-001-grinder-01.webp",
       "/products/foto-002-grinder-02.webp",
-      "/products/render-real-001-grinder.webp"
+      "/products/render-real-001-grinder.webp",
+      "/products/foto-extra-real-001-01.jpg"
     ],
     licenseType: "personal",
     variants: [{ color: "Preto", available: true }],
@@ -101,7 +102,8 @@ export const verifiedCatalog: Product[] = [
     images: [
       "/products/foto-004-demogorgon.webp",
       "/products/render-real-003-demogorgon.webp",
-      "/products/gallery/real-003/3.webp"
+      "/products/gallery/real-003/3.webp",
+      "/products/foto-extra-real-003-01.jpg"
     ],
     licenseType: "personal",
     variants: [{ color: "Pintura temática", available: true }],
@@ -140,7 +142,8 @@ export const verifiedCatalog: Product[] = [
     images: [
       "/products/foto-005-hello-kitty-jedi.webp",
       "/products/render-real-004-hello-kitty-jedi.webp",
-      "/products/gallery/real-004/3.webp"
+      "/products/gallery/real-004/3.webp",
+      "/products/foto-extra-real-004-01.jpg"
     ],
     licenseType: "personal",
     variants: [{ color: "Temática", available: true }],
@@ -179,7 +182,8 @@ export const verifiedCatalog: Product[] = [
     images: [
       "/products/foto-006-stencil-rick-morty.webp",
       "/products/render-real-005-stencil.webp",
-      "/products/gallery/real-005/3.webp"
+      "/products/gallery/real-005/3.webp",
+      "/products/foto-extra-real-005-01.jpg"
     ],
     licenseType: "personal",
     variants: [{ color: "Preto", available: true }],
@@ -218,7 +222,8 @@ export const verifiedCatalog: Product[] = [
     images: [
       "/products/foto-007-familia-custom.webp",
       "/products/render-real-006-familia-custom.webp",
-      "/products/gallery/real-006/3.webp"
+      "/products/gallery/real-006/3.webp",
+      "/products/foto-extra-real-006-01.jpg"
     ],
     licenseType: "personal",
     variants: [{ color: "Colorido", available: true }],
@@ -374,7 +379,8 @@ export const verifiedCatalog: Product[] = [
     images: [
       "/products/foto-011-chaveiro-maconaria.webp",
       "/products/render-real-010-chaveiro-maconaria.webp",
-      "/products/gallery/real-010/3.webp"
+      "/products/gallery/real-010/3.webp",
+      "/products/foto-extra-real-010-01.jpg"
     ],
     licenseType: "personal",
     variants: [{ color: "Colorido", available: true }],

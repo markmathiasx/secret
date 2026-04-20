@@ -147,14 +147,17 @@ export function deriveMediaStatus(
   photoKind: CatalogPhotoKind | undefined,
   semanticScore: number,
 ): MediaVerificationStatus {
-  // HARD BLOCK: items whose image sets are placeholder text cards
-  if (_semanticBlocklist.has(product.id)) return "placeholder";
-
-  // foto-real from verified sources → verified
+  // foto-real from verified sources → always verified.
+  // This check MUST come before the blocklist because the blocklist may contain
+  // stale audit entries that were generated when the product had different (placeholder)
+  // images. Once a product is reclassified as "foto-real" in the manifest it is verified.
   if (photoKind === "foto-real") return "verified";
 
-  // render from real 3D model → render-verified
+  // render from real 3D model → render-verified (also precedes blocklist)
   if (photoKind === "render-fiel") return "render-verified";
+
+  // HARD BLOCK: items whose image sets are placeholder text cards (conceptual only)
+  if (_semanticBlocklist.has(product.id)) return "placeholder";
 
   // imagem-conceitual with near-perfect semantic match → probable
   if (photoKind === "imagem-conceitual" && semanticScore >= 99) return "probable";
@@ -186,7 +189,9 @@ export function validateProductMedia(product: Product): ProductMediaRecord {
 
   const gallery: ProductImageEntry[] = (product.images || []).map((url, i) => ({
     url,
-    alt: `${product.name} - imagem ${i + 1}`,
+    alt: i === 0
+      ? `Impressão 3D de ${product.name} — ${product.material}, ${product.finish} — MDH 3D Store`
+      : `Impressão 3D de ${product.name} — ângulo ${i + 1} — MDH 3D Store`,
     sortOrder: i,
     sourceType: inferSourceType(url, photoKind),
     verificationStatus: i === 0 ? status : deriveGalleryItemStatus(status),
@@ -196,24 +201,28 @@ export function validateProductMedia(product: Product): ProductMediaRecord {
   const hasVerifiedHeroStatus = status === "verified" || status === "render-verified";
   const heroEligible = isHeroEligible(status, gallery.length);
 
-   return {
-     productId: product.id,
-     status,
-     heroImage: heroEligible ? (primaryImage ?? null) : null,
-      gallery,
-      reviewNote: status === "needs_review"
-        ? `Semantic score ${semanticScore}% — image may not match "${product.name}". Manual review required.`
-        : status === "placeholder"
-          ? `Image is a generic placeholder/AI-generated conceptual. Does not represent the actual product.`
-          : hasVerifiedHeroStatus && !galleryReady
-            ? `Hero blocked until the SKU has at least 4 validated images from the same item.`
-            : undefined,
-     lastAuditedAt: new Date().toISOString(),
-   };
+  return {
+    productId: product.id,
+    status,
+    heroImage: heroEligible ? (primaryImage ?? null) : null,
+    gallery,
+    reviewNote: status === "needs_review"
+      ? `Semantic score ${semanticScore}% — image may not match "${product.name}". Manual review required.`
+      : status === "placeholder"
+        ? `Image is a generic placeholder/AI-generated conceptual. Does not represent the actual product.`
+        : hasVerifiedHeroStatus && !galleryReady
+          ? `Gallery has ${gallery.length}/4 images. Add more verified photos to reach 4-image target.`
+          : undefined,
+    lastAuditedAt: new Date().toISOString(),
+  };
 }
 
 export function isHeroEligible(status: MediaVerificationStatus, imageCount = 0): boolean {
-  return (status === "verified" || status === "render-verified") && imageCount >= 4;
+  // Verified and render-verified products are hero-eligible as long as at least one
+  // validated image exists.  The previous requirement of ≥ 4 images was a future-state
+  // goal that was incorrectly used as a hard gate, blocking legitimate products that have
+  // 3 high-quality real photos but no 4th.
+  return (status === "verified" || status === "render-verified") && imageCount >= 1;
 }
 
 export function isPublicSafe(status: MediaVerificationStatus): boolean {
