@@ -52,6 +52,7 @@ const providers: Provider[] = [
         email: user.email,
         role: getPublicRole(user.role),
         twoFactorEnabled: user.twoFactorEnabled,
+        passwordUpdatedAt: user.passwordUpdatedAt?.toISOString() || null,
       };
     },
   }),
@@ -92,6 +93,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         token.userId = user.id;
         token.role = (user as { role?: string }).role || "buyer";
         token.twoFactorEnabled = Boolean((user as { twoFactorEnabled?: boolean }).twoFactorEnabled);
+        token.passwordUpdatedAt = (user as { passwordUpdatedAt?: string | null }).passwordUpdatedAt || null;
+        token.sessionIssuedAt = Math.floor(Date.now() / 1000);
+      } else if (typeof token.sessionIssuedAt !== "number") {
+        token.sessionIssuedAt = typeof token.iat === "number" ? token.iat : Math.floor(Date.now() / 1000);
       }
       return token;
     },
@@ -100,6 +105,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         session.user.id = String(token.userId || token.sub || "");
         session.user.role = String(token.role || "buyer");
         session.user.twoFactorEnabled = Boolean(token.twoFactorEnabled);
+        session.user.passwordUpdatedAt = typeof token.passwordUpdatedAt === "string" ? token.passwordUpdatedAt : null;
+        session.user.sessionIssuedAt = typeof token.sessionIssuedAt === "number" ? token.sessionIssuedAt : undefined;
       }
       return session;
     },

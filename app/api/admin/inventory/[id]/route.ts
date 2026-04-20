@@ -3,6 +3,7 @@ import { applyNoStoreHeaders } from "@/lib/http-cache";
 import { getServerSessionUser, isAdminSession } from "@/lib/server-session";
 import { canConnectToDatabase, prisma } from "@/lib/prisma";
 import { updateAdminCatalogProduct } from "@/lib/server/admin-catalog-store";
+import { recordAdminAction } from "@/lib/admin-audit";
 
 export const dynamic = "force-dynamic";
 
@@ -45,6 +46,23 @@ export async function PUT(req: NextRequest, context: RouteContext) {
         });
       }
 
+      await recordAdminAction({
+        actorId: user?.id,
+        actorEmail: user?.email,
+        action: "admin.inventory.update",
+        entityType: "Inventory",
+        entityId: id,
+        summary: `Atualizou inventário do produto ${id}`,
+        metadata: {
+          quantity: body.quantity,
+          reservedQuantity: body.reservedQuantity,
+          reorderLevel: body.reorderLevel,
+        },
+        requestId: req.headers.get("x-request-id"),
+        ipAddress: req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip"),
+        userAgent: req.headers.get("user-agent"),
+      });
+
       return applyNoStoreHeaders(NextResponse.json({ ok: true, inventory }));
     } catch (err) {
       console.error("[inventory] prisma error", err);
@@ -55,5 +73,17 @@ export async function PUT(req: NextRequest, context: RouteContext) {
   if (body.quantity !== undefined) {
     await updateAdminCatalogProduct(id, { stock: Number(body.quantity) });
   }
+  await recordAdminAction({
+    actorId: user?.id,
+    actorEmail: user?.email,
+    action: "admin.inventory.update_fallback",
+    entityType: "Inventory",
+    entityId: id,
+    summary: `Atualizou inventário via fallback ${id}`,
+    metadata: body as Record<string, unknown>,
+    requestId: req.headers.get("x-request-id"),
+    ipAddress: req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip"),
+    userAgent: req.headers.get("user-agent"),
+  });
   return applyNoStoreHeaders(NextResponse.json({ ok: true }));
 }

@@ -1,15 +1,27 @@
 import 'server-only';
 import { hash, compare } from "bcryptjs";
+import { createHash } from "node:crypto";
 import { generateSecret, generateURI, verifySync } from "otplib";
 import { Prisma, Role, type User } from "@prisma/client";
 import { getAuthBaseUrl } from "@/lib/env";
 import { sendMail } from "@/lib/mailer";
-import { prisma } from "@/lib/prisma";
+import { canConnectToDatabase, prisma } from "@/lib/prisma";
 import { escapeHtml } from "@/lib/security";
+import { logStructured } from "@/lib/logger";
 
 const VERIFY_PREFIX = "verify";
 const RESET_PREFIX = "reset";
 const ADMIN_PASSWORD_RECOVERY_EMAIL = "markmathias02@gmail.com";
+
+export type PasswordResetRequestSource = "customer" | "admin";
+
+export type PasswordResetRequestMeta = {
+  source?: PasswordResetRequestSource;
+  requestedByIp?: string | null;
+  requestedByUserAgent?: string | null;
+  requestId?: string | null;
+  adminEmail?: string | null;
+};
 
 type RegisterBuyerInput = {
   name: string;
@@ -35,6 +47,10 @@ function createToken() {
   return randomHex(32);
 }
 
+function hashToken(token: string) {
+  return createHash("sha256").update(token).digest("hex");
+}
+
 function buildVerificationIdentifier(userId: string, email: string) {
   return `${VERIFY_PREFIX}:${userId}:${normalizeEmail(email)}`;
 }
@@ -49,6 +65,49 @@ function buildVerificationUrl(token: string) {
 
 function buildPasswordResetUrl(token: string) {
   return `${getAuthBaseUrl()}/recuperar-senha/confirmar?token=${encodeURIComponent(token)}`;
+}
+
+export async function createPasswordResetRequestRecord(input: {
+  email: string;
+  userId?: string | null;
+  token?: string | null;
+  expiresAt?: Date | null;
+  status?: "REQUESTED" | "CONSUMED" | "EXPIRED" | "REVOKED";
+  meta?: PasswordResetRequestMeta;
+  adminNotifiedAt?: Date | null;
+}) {
+  if (!(await canConnectToDatabase())) {
+    return null;
+  }
+
+  try {
+    return await prisma.passwordResetRequest.create({
+      data: {
+        email: input.email,
+        userId: input.userId ?? null,
+        tokenHash: input.token ? hashToken(input.token) : null,
+        status: input.status ?? "REQUESTED",
+        requestedByIp: input.meta?.requestedByIp ?? null,
+        requestedByUserAgent: input.meta?.requestedByUserAgent ?? null,
+        adminEmail: input.meta?.adminEmail ?? null,
+        adminNotifiedAt: input.adminNotifiedAt ?? null,
+        expiresAt: input.expiresAt ?? null,
+        metadata: input.meta
+          ? {
+              source: input.meta.source ?? "customer",
+              requestId: input.meta.requestId ?? null,
+            }
+          : undefined,
+      },
+    });
+  } catch (error) {
+    logStructured("error", "password_reset_request_audit_failed", {
+      emailDomain: input.email.split("@")[1] || "unknown",
+      requestId: input.meta?.requestId ?? null,
+      error: error instanceof Error ? error.message : "unknown",
+    });
+    return null;
+  }
 }
 
 export function getPublicRole(role: Role) {
@@ -213,26 +272,50 @@ export async function verifyEmailWithToken(token: string) {
   });
 }
 
-export async function requestPasswordReset(email: string) {
+export async function requestPasswordReset(email: string, meta?: PasswordResetRequestMeta) {
   const normalizedEmail = normalizeEmail(email);
   const user = await prisma.user.findUnique({
     where: { email: normalizedEmail },
   });
 
   if (!user || !user.email) {
+    await createPasswordResetRequestRecord({
+      email: normalizedEmail,
+      meta: {
+        source: meta?.source || "customer",
+        requestedByIp: meta?.requestedByIp,
+        requestedByUserAgent: meta?.requestedByUserAgent,
+        requestId: meta?.requestId,
+      },
+      expiresAt: null,
+    });
     return { ok: true };
   }
 
   const token = await createPasswordResetToken(user);
-  await Promise.all([
-    sendPasswordResetEmail(user, token),
-    sendMail({
+  const requestRecord = await createPasswordResetRequestRecord({
+    email: normalizedEmail,
+    userId: user.id,
+    token,
+    expiresAt: new Date(Date.now() + 1000 * 60 * 30),
+    meta: {
+      source: meta?.source || "customer",
+      requestedByIp: meta?.requestedByIp,
+      requestedByUserAgent: meta?.requestedByUserAgent,
+      requestId: meta?.requestId,
+    },
+  });
+
+  await sendPasswordResetEmail(user, token);
+
+  try {
+    await sendMail({
       to: ADMIN_PASSWORD_RECOVERY_EMAIL,
       subject: `[MDH 3D] Solicitação de recuperação de senha — ${user.name || user.email}`,
       text: `Recuperação solicitada para ${user.name || user.email}.\nE-mail do usuário: ${user.email}\nLink: ${buildPasswordResetUrl(token)}\nExpira em 30 minutos.`,
-    html: `
-      <div style="font-family:Arial,sans-serif;line-height:1.6;color:#111827">
-        <h1 style="font-size:20px;margin-bottom:12px">Recuperação de senha solicitada</h1>
+      html: `
+        <div style="font-family:Arial,sans-serif;line-height:1.6;color:#111827">
+          <h1 style="font-size:20px;margin-bottom:12px">Recuperação de senha solicitada</h1>
           <p><strong>Usuário:</strong> ${escapeHtml(user.name || "—")}</p>
           <p><strong>E-mail:</strong> ${escapeHtml(user.email)}</p>
           <p style="margin-top:16px">Link operacional para revisão/manual:</p>
@@ -242,8 +325,29 @@ export async function requestPasswordReset(email: string) {
           <p style="margin-top:16px;font-size:13px;color:#6b7280">Este link expira em 30 minutos.</p>
         </div>
       `,
-    }),
-  ]);
+    });
+  } catch (error) {
+    logStructured("error", "password_reset_admin_notice_failed", {
+      requestId: meta?.requestId ?? null,
+      error: error instanceof Error ? error.message : "unknown",
+    });
+  }
+
+  if (requestRecord) {
+    await prisma.passwordResetRequest.update({
+      where: { id: requestRecord.id },
+      data: {
+        adminEmail: ADMIN_PASSWORD_RECOVERY_EMAIL,
+        adminNotifiedAt: new Date(),
+      },
+    });
+  }
+
+  logStructured("info", "password_reset_requested", {
+    requestId: meta?.requestId ?? null,
+    source: meta?.source || "customer",
+    emailDomain: normalizedEmail.split("@")[1] || "unknown",
+  });
   return { ok: true };
 }
 
@@ -253,14 +357,34 @@ export async function resetPasswordWithToken(token: string, password: string) {
 
   const [, userId] = record.identifier.split(":");
   const passwordHash = await hash(password, 10);
+  const resetRequest = await prisma.passwordResetRequest.findUnique({
+    where: { tokenHash: hashToken(token) },
+  }).catch(() => null);
 
-  return prisma.user.update({
+  const user = await prisma.user.update({
     where: { id: userId },
     data: {
       passwordHash,
       passwordUpdatedAt: new Date(),
     },
   });
+
+  if (resetRequest) {
+    await prisma.passwordResetRequest.update({
+      where: { id: resetRequest.id },
+      data: {
+        status: "CONSUMED",
+        consumedAt: new Date(),
+      },
+    }).catch((error: unknown) => {
+      logStructured("error", "password_reset_request_mark_failed", {
+        requestId: resetRequest.id,
+        error: error instanceof Error ? error.message : "unknown",
+      });
+    });
+  }
+
+  return user;
 }
 
 export async function beginTwoFactorEnrollment(userId: string) {

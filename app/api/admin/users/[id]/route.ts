@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { applyNoStoreHeaders } from "@/lib/http-cache";
 import { getServerSessionUser, isAdminSession } from "@/lib/server-session";
 import { canConnectToDatabase, prisma } from "@/lib/prisma";
+import { recordAdminAction } from "@/lib/admin-audit";
 
 export const dynamic = "force-dynamic";
 
@@ -30,6 +31,22 @@ export async function PUT(req: NextRequest, context: RouteContext) {
       ...(body.role !== undefined && { role: body.role }),
     },
     select: { id: true, name: true, email: true, role: true, isActive: true },
+  });
+
+  await recordAdminAction({
+    actorId: user?.id,
+    actorEmail: user?.email,
+    action: "admin.user.update",
+    entityType: "User",
+    entityId: id,
+    summary: `Atualizou usuário ${updated.email || updated.id}`,
+    metadata: {
+      isActive: updated.isActive,
+      role: updated.role,
+    },
+    requestId: req.headers.get("x-request-id"),
+    ipAddress: req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip"),
+    userAgent: req.headers.get("user-agent"),
   });
 
   return applyNoStoreHeaders(NextResponse.json({ ok: true, user: updated }));

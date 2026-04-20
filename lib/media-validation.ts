@@ -156,11 +156,11 @@ export function deriveMediaStatus(
   // render from real 3D model → render-verified
   if (photoKind === "render-fiel") return "render-verified";
 
-  // imagem-conceitual with high semantic match → probable
-  if (photoKind === "imagem-conceitual" && semanticScore >= 60) return "probable";
+  // imagem-conceitual with near-perfect semantic match → probable
+  if (photoKind === "imagem-conceitual" && semanticScore >= 99) return "probable";
 
-  // imagem-conceitual with low semantic match → needs_review
-  if (photoKind === "imagem-conceitual" && semanticScore >= 30) return "needs_review";
+  // imagem-conceitual with partial match → needs_review
+  if (photoKind === "imagem-conceitual" && semanticScore >= 80) return "needs_review";
 
   // Very low score → placeholder
   if (photoKind === "imagem-conceitual") return "placeholder";
@@ -192,23 +192,28 @@ export function validateProductMedia(product: Product): ProductMediaRecord {
     verificationStatus: i === 0 ? status : deriveGalleryItemStatus(status),
     usageHint: i === 0 ? "hero" : i === 1 ? "gallery" : i === 2 ? "detail" : "context",
   }));
+  const galleryReady = gallery.length >= 4;
+  const hasVerifiedHeroStatus = status === "verified" || status === "render-verified";
+  const heroEligible = isHeroEligible(status, gallery.length);
 
-  return {
-    productId: product.id,
-    status,
-    heroImage: isHeroEligible(status) ? (primaryImage ?? null) : null,
-    gallery,
-    reviewNote: status === "needs_review"
-      ? `Semantic score ${semanticScore}% — image may not match "${product.name}". Manual review required.`
-      : status === "placeholder"
-        ? `Image is a generic placeholder/AI-generated conceptual. Does not represent the actual product.`
-        : undefined,
-    lastAuditedAt: new Date().toISOString(),
-  };
+   return {
+     productId: product.id,
+     status,
+     heroImage: heroEligible ? (primaryImage ?? null) : null,
+      gallery,
+      reviewNote: status === "needs_review"
+        ? `Semantic score ${semanticScore}% — image may not match "${product.name}". Manual review required.`
+        : status === "placeholder"
+          ? `Image is a generic placeholder/AI-generated conceptual. Does not represent the actual product.`
+          : hasVerifiedHeroStatus && !galleryReady
+            ? `Hero blocked until the SKU has at least 4 validated images from the same item.`
+            : undefined,
+     lastAuditedAt: new Date().toISOString(),
+   };
 }
 
-export function isHeroEligible(status: MediaVerificationStatus): boolean {
-  return status === "verified" || status === "render-verified";
+export function isHeroEligible(status: MediaVerificationStatus, imageCount = 0): boolean {
+  return (status === "verified" || status === "render-verified") && imageCount >= 4;
 }
 
 export function isPublicSafe(status: MediaVerificationStatus): boolean {

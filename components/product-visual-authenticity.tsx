@@ -7,19 +7,24 @@ import { validateProductMedia, isPublicSafe, isHeroEligible } from "@/lib/media-
 export function ProductVisualBadge({ product, className = "" }: { product: Product; className?: string }) {
   const visual = getProductVisual(product);
   const mediaRecord = validateProductMedia(product);
+  const heroEligible = isHeroEligible(mediaRecord.status, mediaRecord.gallery.length);
 
   // Use media validation status for more nuanced badge
   const badgeLabel = mediaRecord.status === "verified"
-    ? "Foto real"
+    ? heroEligible
+      ? "Foto real"
+      : "Verificada"
     : mediaRecord.status === "render-verified"
-      ? "Render fiel"
+      ? heroEligible
+        ? "Render fiel"
+        : "Render validado"
       : mediaRecord.status === "probable"
         ? "Imagem provável"
         : mediaRecord.status === "needs_review"
           ? "Em revisão"
           : "Ilustrativa";
 
-  const badgeClass = isHeroEligible(mediaRecord.status)
+  const badgeClass = isHeroEligible(mediaRecord.status, mediaRecord.gallery.length)
     ? "border-emerald-300/25 bg-emerald-300/10 text-emerald-100"
     : isPublicSafe(mediaRecord.status)
       ? "border-cyan-300/25 bg-cyan-300/10 text-cyan-100"
@@ -45,8 +50,14 @@ export function ProductVisualNotice({ product }: { product: Product }) {
       <p className="mt-2 font-semibold text-white">{visual.label}</p>
       <p className="mt-2 opacity-90">{visual.description}</p>
       {visual.note ? <p className="mt-2 opacity-90">{visual.note}</p> : null}
-      {!isSafe && mediaRecord.reviewNote && (
-        <p className="mt-3 rounded-lg border border-amber-400/20 bg-amber-400/10 px-3 py-2 text-xs text-amber-200">
+      {mediaRecord.reviewNote && (
+        <p
+          className={`mt-3 rounded-lg px-3 py-2 text-xs ${
+            isSafe
+              ? "border border-cyan-400/20 bg-cyan-400/10 text-cyan-100"
+              : "border border-amber-400/20 bg-amber-400/10 text-amber-200"
+          }`}
+        >
           {mediaRecord.reviewNote}
         </p>
       )}

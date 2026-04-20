@@ -324,7 +324,7 @@ export default function AccountPage() {
           <p className="mt-1 text-sm text-white/60">{account.orders.length} pedido(s) encontrado(s)</p>
           <div className="mt-4 grid gap-3">
             {account.orders.length ? account.orders.slice(0, 8).map((item) => (
-              <div key={item.id} className="rounded-2xl border border-white/10 bg-black/20 p-4 text-sm text-white/80">
+              <Link key={item.id} href={`/conta/pedidos/${item.id}`} className="rounded-2xl border border-white/10 bg-black/20 p-4 text-sm text-white/80 transition hover:border-cyan-300/35">
                 <div className="flex items-center justify-between gap-3">
                   <p className="font-semibold text-white">{item.product_name}</p>
                   <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] uppercase tracking-[0.16em] text-white/55">{formatOrderStatus(item.status)}</span>
@@ -334,7 +334,7 @@ export default function AccountPage() {
                 <p className="mt-2 text-cyan-100">
                   {item.payment_method === 'cartao' ? formatCurrency(Number(item.total_card || 0)) : formatCurrency(Number(item.total_pix || 0))}
                 </p>
-              </div>
+              </Link>
             )) : <p className="text-sm text-white/70">Você ainda não tem pedido com este email. Quando comprar pelo checkout, o histórico aparece aqui.</p>}
           </div>
         </div>

@@ -130,6 +130,13 @@ enum QuestionStatus {
   HIDDEN
 }
 
+enum PasswordResetRequestStatus {
+  REQUESTED
+  CONSUMED
+  EXPIRED
+  REVOKED
+}
+
 enum CatalogEventType {
   VIEW
   SEARCH
@@ -178,6 +185,8 @@ model User {
   analyticsEvents   AnalyticsEvent[] @relation("analyticsEvents")
   personalization   UserPersonalization? @relation("personalization")
   recommendations   ProductRecommendation[] @relation("recommendations")
+  passwordResetRequests PasswordResetRequest[] @relation("PasswordResetRequestUser")
+  adminActionLogs   AdminActionLog[] @relation("AdminActionLogActor")
 }
 
 model Account {
@@ -215,6 +224,48 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model PasswordResetRequest {
+  id                String                    @id @default(cuid())
+  userId            String?
+  email             String
+  tokenHash         String?                   @unique
+  status            PasswordResetRequestStatus @default(REQUESTED)
+  requestedByIp     String?
+  requestedByUserAgent String?
+  adminEmail        String?
+  adminNotifiedAt   DateTime?
+  requestedAt       DateTime                  @default(now())
+  expiresAt         DateTime?
+  consumedAt        DateTime?
+  revokedAt         DateTime?
+  metadata          Json?
+  user              User?                     @relation("PasswordResetRequestUser", fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([email, requestedAt])
+  @@index([userId, requestedAt])
+  @@index([status, requestedAt])
+}
+
+model AdminActionLog {
+  id            String    @id @default(cuid())
+  actorId       String?
+  actorEmail    String?
+  action        String
+  entityType    String?
+  entityId      String?
+  summary       String
+  metadata      Json?
+  requestId     String?
+  ipAddress     String?
+  userAgent     String?
+  createdAt     DateTime  @default(now())
+  actor         User?     @relation("AdminActionLogActor", fields: [actorId], references: [id], onDelete: SetNull)
+
+  @@index([actorId, createdAt])
+  @@index([entityType, entityId])
+  @@index([action, createdAt])
 }
 
 model Authenticator {

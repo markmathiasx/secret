@@ -1,11 +1,14 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getServerSessionUser, isAdminSession } from "@/lib/server-session";
-import { createPasswordResetToken } from "@/lib/marketplace-auth";
+import { createPasswordResetRequestRecord, createPasswordResetToken } from "@/lib/marketplace-auth";
 import { sendMail } from "@/lib/mailer";
 import { escapeHtml } from "@/lib/security";
 import { prisma } from "@/lib/prisma";
 import { getAuthBaseUrl } from "@/lib/env";
+import { logStructured } from "@/lib/logger";
+import { recordAdminAction } from "@/lib/admin-audit";
+import { applyNoStoreHeaders } from "@/lib/http-cache";
 
 const schema = z.object({
   userId: z.string().min(1),
@@ -16,14 +19,14 @@ const ADMIN_EMAIL = "markmathias02@gmail.com";
 export async function POST(request: Request) {
   const admin = await getServerSessionUser();
   if (!isAdminSession(admin)) {
-    return NextResponse.json({ ok: false, error: "Não autorizado." }, { status: 403 });
+    return applyNoStoreHeaders(NextResponse.json({ ok: false, error: "Não autorizado." }, { status: 403 }));
   }
 
   const body = await request.json().catch(() => null);
   const parsed = schema.safeParse(body);
 
   if (!parsed.success) {
-    return NextResponse.json({ ok: false, error: "Dados inválidos." }, { status: 400 });
+    return applyNoStoreHeaders(NextResponse.json({ ok: false, error: "Dados inválidos." }, { status: 400 }));
   }
 
   const user = await prisma.user.findUnique({
@@ -32,11 +35,26 @@ export async function POST(request: Request) {
   });
 
   if (!user || !user.email) {
-    return NextResponse.json({ ok: false, error: "Usuário não encontrado." }, { status: 404 });
+    return applyNoStoreHeaders(NextResponse.json({ ok: false, error: "Usuário não encontrado." }, { status: 404 }));
   }
 
   const token = await createPasswordResetToken(user);
   const resetUrl = `${getAuthBaseUrl()}/recuperar-senha/confirmar?token=${encodeURIComponent(token)}`;
+
+  await createPasswordResetRequestRecord({
+    email: user.email,
+    userId: user.id,
+    token,
+    expiresAt: new Date(Date.now() + 1000 * 60 * 30),
+    meta: {
+      source: "admin",
+      adminEmail: ADMIN_EMAIL,
+      requestId: request.headers.get("x-request-id"),
+      requestedByIp: request.headers.get("x-forwarded-for") || request.headers.get("x-real-ip"),
+      requestedByUserAgent: request.headers.get("user-agent"),
+    },
+    adminNotifiedAt: new Date(),
+  });
 
   await sendMail({
     to: ADMIN_EMAIL,
@@ -56,5 +74,26 @@ export async function POST(request: Request) {
     text: `Redefinição de senha para ${user.name || user.email}.\nLink: ${resetUrl}\nExpira em 30 minutos.`,
   });
 
-  return NextResponse.json({ ok: true, message: "Link de redefinição enviado por e-mail." });
+  logStructured("info", "admin_password_reset_link_sent", {
+    requestId: request.headers.get("x-request-id") || null,
+    actorId: admin.id,
+    targetUserId: user.id,
+  });
+
+  await recordAdminAction({
+    actorId: admin.id,
+    actorEmail: admin.email,
+    action: "admin.password_reset.send_link",
+    entityType: "User",
+    entityId: user.id,
+    summary: `Enviou link de redefinição para ${user.email}`,
+    requestId: request.headers.get("x-request-id"),
+    ipAddress: request.headers.get("x-forwarded-for") || request.headers.get("x-real-ip"),
+    userAgent: request.headers.get("user-agent"),
+    metadata: {
+      adminEmail: ADMIN_EMAIL,
+    },
+  });
+
+  return applyNoStoreHeaders(NextResponse.json({ ok: true, message: "Link de redefinição enviado por e-mail." }));
 }

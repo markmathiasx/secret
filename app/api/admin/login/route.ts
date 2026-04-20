@@ -4,6 +4,8 @@ import { checkRateLimit, getClientIp } from '@/lib/security';
 import { adminConfig } from '@/lib/constants';
 import { authenticateUser } from '@/lib/auth-store';
 import { createSignedSessionToken, isSessionSecretConfigured } from '@/lib/session-token';
+import { applyNoStoreHeaders } from '@/lib/http-cache';
+import { logStructured } from '@/lib/logger';
 
 export const runtime = 'nodejs';
 
@@ -23,7 +25,8 @@ export async function POST(request: Request) {
   const ip = getClientIp(request.headers);
   const rateLimit = checkRateLimit(`admin_login:${ip}`, 5, 60_000);
   if (!rateLimit.ok) {
-    return NextResponse.json({ ok: false, error: 'Muitas tentativas. Tente novamente em instantes.' }, { status: 429 });
+    logStructured("warn", "admin_login_rate_limited", { ip, requestId: request.headers.get("x-request-id") || null });
+    return applyNoStoreHeaders(NextResponse.json({ ok: false, error: 'Muitas tentativas. Tente novamente em instantes.' }, { status: 429 }));
   }
 
   const body = await request.json().catch(() => ({}));
@@ -31,11 +34,12 @@ export async function POST(request: Request) {
   const password = String((body as any)?.password || '');
 
   if (!email || !password) {
-    return NextResponse.json({ ok: false, error: 'Informe e-mail e senha válidos.' }, { status: 400 });
+    logStructured("warn", "admin_login_invalid_payload", { ip, requestId: request.headers.get("x-request-id") || null });
+    return applyNoStoreHeaders(NextResponse.json({ ok: false, error: 'Informe e-mail e senha válidos.' }, { status: 400 }));
   }
 
   if (!isSessionSecretConfigured(adminConfig.sessionSecret)) {
-    return NextResponse.json({ ok: false, error: 'Configure ADMIN_SESSION_SECRET nas variáveis do projeto.' }, { status: 500 });
+    return applyNoStoreHeaders(NextResponse.json({ ok: false, error: 'Configure ADMIN_SESSION_SECRET nas variáveis do projeto.' }, { status: 500 }));
   }
 
   let user = null;
@@ -61,7 +65,8 @@ export async function POST(request: Request) {
   }
 
   if (!user) {
-    return NextResponse.json({ ok: false, error: 'Credenciais incorretas' }, { status: 401 });
+    logStructured("warn", "admin_login_failed", { ip, requestId: request.headers.get("x-request-id") || null, emailDomain: email.split("@")[1] || "unknown" });
+    return applyNoStoreHeaders(NextResponse.json({ ok: false, error: 'Credenciais incorretas' }, { status: 401 }));
   }
 
   const sessionToken = await createSignedSessionToken(
@@ -86,5 +91,6 @@ export async function POST(request: Request) {
     maxAge: 60 * 60 * 8
   });
 
-  return response;
+  logStructured("info", "admin_login_success", { ip, requestId: request.headers.get("x-request-id") || null, actorId: user.id });
+  return applyNoStoreHeaders(response);
 }

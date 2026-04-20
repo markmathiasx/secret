@@ -6,12 +6,15 @@ declare module "next-auth" {
       id: string;
       role: string;
       twoFactorEnabled?: boolean;
+      passwordUpdatedAt?: string | null;
+      sessionIssuedAt?: number;
     };
   }
 
   interface User {
     role?: string;
     twoFactorEnabled?: boolean;
+    passwordUpdatedAt?: string | null;
   }
 }
 
@@ -20,5 +23,7 @@ declare module "next-auth/jwt" {
     userId?: string;
     role?: string;
     twoFactorEnabled?: boolean;
+    passwordUpdatedAt?: string | null;
+    sessionIssuedAt?: number;
   }
 }

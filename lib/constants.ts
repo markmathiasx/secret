@@ -48,15 +48,15 @@ export const socialLinks = {
 const fallbackSessionToken =
   process.env.ADMIN_SESSION_TOKEN ||
   process.env.ADMIN_SESSION_SECRET ||
-  "mdh_troque_este_token_no_env";
+  "";
 
 export const adminConfig = {
-  email: process.env.ADMIN_EMAIL || "markmathias01@gmail.com",
+  email: process.env.ADMIN_EMAIL || "markmathias02@gmail.com",
   hiddenPath: process.env.ADMIN_HIDDEN_PATH || "/admin",
   sessionCookieName: "mdh_admin",
   legacySessionToken: process.env.ADMIN_SESSION_TOKEN || "",
   sessionSecret:
-    process.env.ADMIN_SESSION_SECRET || process.env.ADMIN_SESSION_TOKEN || "troque-o-session-secret",
+    process.env.ADMIN_SESSION_SECRET || process.env.ADMIN_SESSION_TOKEN || "",
   sessionToken: fallbackSessionToken,
   passwordHash: process.env.ADMIN_PASSWORD_HASH || "",
 };
@@ -127,9 +127,9 @@ export const trustHighlights: any[] = [
     badge: "RJ",
   },
   {
-    title: "Pix com preço mais forte",
-    description: "A comunicação de valor no site já privilegia Pix para melhorar conversão.",
-    badge: "PIX",
+    title: "Checkout claro e flexível",
+    description: "O site deixa pagamento como etapa de compra, não como identidade da marca.",
+    badge: "PAGAMENTO",
   },
   {
     title: "Atendimento humano no WhatsApp",

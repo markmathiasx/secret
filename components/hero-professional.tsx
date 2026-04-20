@@ -11,7 +11,7 @@ import {
   ShieldCheck,
   Upload,
 } from "lucide-react";
-import { pix, whatsappNumber } from "@/lib/constants";
+import { whatsappNumber } from "@/lib/constants";
 import { getProductUrl } from "@/lib/catalog";
 import { verifiedCatalog } from "@/lib/verified-catalog";
 import { SafeProductImage } from "@/components/safe-product-image";
@@ -19,13 +19,13 @@ import { SafeProductImage } from "@/components/safe-product-image";
 const highlights = [
   "Presentes personalizados, utilidades, decoração e projetos sob medida",
   "Portfólio com foto real para reduzir dúvida e melhorar a confiança",
-  "Pix direto, atendimento humano e produção local no Rio de Janeiro",
+  "Checkout claro, atendimento humano e produção local no Rio de Janeiro",
 ];
 
 const quickFacts = [
   { label: "Prova visual", value: "Fotos reais" },
   { label: "Prazo inicial", value: "24h a 48h" },
-  { label: "Pagamento", value: "Pix imediato" },
+  { label: "Pagamento", value: "Opções claras" },
 ];
 
 export function Hero() {
@@ -151,7 +151,7 @@ export function Hero() {
             Uma vitrine pensada para convencer pelo valor e pela prova real.
           </h2>
           <p className="mt-4 text-sm leading-7 text-white/70">
-            O cliente encontra preço no Pix, caminho de personalização, referências reais de acabamento e um canal humano para fechar a compra com segurança.
+            O cliente encontra preço, caminho de personalização, referências reais de acabamento e um canal humano para fechar a compra com segurança.
           </p>
 
           <div className="mt-6 grid gap-3 sm:grid-cols-3">
@@ -166,9 +166,10 @@ export function Hero() {
           <div className="mt-6 rounded-[24px] border border-emerald-400/20 bg-emerald-400/10 p-5 shadow-[0_0_28px_rgba(37,211,102,0.1)]">
             <div className="flex items-center gap-3 text-emerald-50">
               <QrCode className="h-5 w-5" />
-              <p className="text-sm font-semibold uppercase tracking-[0.18em]">Pix em destaque</p>
+              <p className="text-sm font-semibold uppercase tracking-[0.18em]">Checkout e pagamento</p>
             </div>
-            <p className="mt-3 text-2xl font-black text-white">Chave {pix.key}</p>
+            <p className="mt-3 text-2xl font-black text-white">Pagamento flexível</p>
+            <p className="mt-1 text-sm text-white/72">Pix, cartão e fluxo assistido aparecem no checkout, sem pesar a vitrine.</p>
             <div className="mt-3 flex flex-wrap gap-2">
               <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] uppercase tracking-[0.16em] text-white/70">
                 pagamento rápido

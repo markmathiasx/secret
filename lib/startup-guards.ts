@@ -10,7 +10,7 @@
  */
 
 import 'server-only';
-import { getMercadoPagoPublicKey, getMercadoPagoAccessToken, getDatabaseUrl, getSmtpConfig, getSiteUrl, isSiteUrlVercelDefault } from '@/lib/env';
+import { getMercadoPagoPublicKey, getMercadoPagoAccessToken, getDatabaseUrl, getSmtpConfig, getSiteUrl, isSiteUrlVercelDefault, getAuthSecret } from '@/lib/env';
 import { verifyEmailProvider, type EmailProvider } from '@/lib/email-provider';
 
 interface StartupGuardResult {
@@ -154,6 +154,27 @@ function validateSiteUrl(): StartupGuardResult {
   };
 }
 
+function validateAuth(): StartupGuardResult {
+  const errors: string[] = [];
+  const warnings: string[] = [];
+  const authSecret = getAuthSecret();
+  const isProd = process.env.NODE_ENV === 'production' || process.env.VERCEL_ENV === 'production';
+
+  if (!authSecret) {
+    errors.push("❌ AUTH_SECRET / NEXTAUTH_SECRET / AUTH_CUSTOMER_SESSION_SECRET / ADMIN_SESSION_SECRET não configurado.");
+  }
+
+  if (isProd && !process.env.AUTH_URL && !process.env.NEXTAUTH_URL) {
+    warnings.push("⚠️ AUTH_URL / NEXTAUTH_URL não configurado em produção. Isso pode afetar links de reset e OAuth.");
+  }
+
+  return {
+    ok: errors.length === 0,
+    errors,
+    warnings,
+  };
+}
+
 /**
  * Run all startup guards and report results
  */
@@ -164,6 +185,7 @@ export function runStartupGuards(options?: { exitOnError?: boolean }): StartupGu
     { name: '🗄️ Database', validate: validateDatabase },
     { name: '📧 Email', validate: validateEmail },
     { name: '🔗 Site URL', validate: validateSiteUrl },
+    { name: '🔐 Auth', validate: validateAuth },
   ];
 
   const allResults: StartupGuardResult = {

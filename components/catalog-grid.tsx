@@ -26,7 +26,7 @@ export function CatalogGrid({ products }: { products: Product[] }) {
     <div className="grid gap-5 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
       {products.map((product) => {
         const mediaRecord = validateProductMedia(product);
-        const heroEligible = isHeroEligible(mediaRecord.status);
+        const heroEligible = isHeroEligible(mediaRecord.status, mediaRecord.gallery.length);
         const publicSafe = isPublicSafe(mediaRecord.status);
         return (
           <article

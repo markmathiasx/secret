@@ -3,8 +3,9 @@ import { auth } from '@/auth';
 import { prisma } from '@/lib/prisma';
 import { sendMail } from '@/lib/mailer';
 import { orderShippedHtml } from '@/lib/email-templates';
+import { recordAdminAction } from '@/lib/admin-audit';
 
-export async function GET(req: NextRequest, context: { params: Promise<{ id: string }> }) {
+export async function GET(_req: NextRequest, context: { params: Promise<{ id: string }> }) {
   const session = await auth();
   if (!session?.user || session.user.role !== 'admin') {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -38,6 +39,10 @@ export async function PATCH(req: NextRequest, context: { params: Promise<{ id: s
   }
 
   const { id } = await context.params;
+  const before = await prisma.order.findUnique({
+    where: { id },
+    select: { status: true, notes: true, orderNumber: true },
+  });
   const { status, notes } = await req.json();
 
   const updated = await prisma.order.update({
@@ -48,6 +53,23 @@ export async function PATCH(req: NextRequest, context: { params: Promise<{ id: s
       updatedAt: new Date(),
     },
     include: { items: { include: { product: true } }, payments: true, invoice: true },
+  });
+
+  await recordAdminAction({
+    actorId: session.user.id || null,
+    actorEmail: session.user.email || null,
+    action: "admin.order.update",
+    entityType: "Order",
+    entityId: id,
+    summary: `Atualizou pedido ${updated.orderNumber}`,
+    metadata: {
+      previousStatus: before?.status || null,
+      nextStatus: updated.status,
+      notesChanged: before?.notes !== updated.notes,
+    },
+    requestId: req.headers.get("x-request-id"),
+    ipAddress: req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip"),
+    userAgent: req.headers.get("user-agent"),
   });
 
   if (status === 'SHIPPED' && updated.customerEmail) {

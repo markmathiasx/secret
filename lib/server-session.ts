@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 import { auth } from "@/auth";
 import { adminConfig } from "@/lib/constants";
+import { canConnectToDatabase, prisma } from "@/lib/prisma";
 import {
   customerSessionCookieName,
   getCustomerSessionSecret,
@@ -43,6 +44,25 @@ async function getAuthJsSession(): Promise<ServerSession | null> {
       return null;
     }
 
+    if (await canConnectToDatabase()) {
+      const currentUser = await prisma.user.findUnique({
+        where: { email: session.user.email },
+        select: { isActive: true, passwordUpdatedAt: true },
+      });
+
+      if (!currentUser?.isActive) {
+        return null;
+      }
+
+      if (
+        currentUser.passwordUpdatedAt &&
+        typeof session.user.sessionIssuedAt === "number" &&
+        currentUser.passwordUpdatedAt.getTime() > session.user.sessionIssuedAt * 1000
+      ) {
+        return null;
+      }
+    }
+
     return {
       user: {
         id: String(session.user.id || session.user.email),
@@ -79,6 +99,21 @@ async function getCookieSession(
   const payload = await verifySignedSessionToken(token, secret!);
   if (!payload?.email || !payload.sub) {
     return null;
+  }
+
+  if (await canConnectToDatabase()) {
+    const currentUser = await prisma.user.findUnique({
+      where: { email: payload.email },
+      select: { isActive: true, passwordUpdatedAt: true },
+    });
+
+    if (!currentUser?.isActive) {
+      return null;
+    }
+
+    if (currentUser.passwordUpdatedAt && payload.iat * 1000 < currentUser.passwordUpdatedAt.getTime()) {
+      return null;
+    }
   }
 
   return {
@@ -122,7 +157,9 @@ export async function getServerSessionUser() {
   return session?.user || null;
 }
 
-export function isAdminSession(user: ServerSessionUser | null | undefined) {
+export function isAdminSession(
+  user: ServerSessionUser | null | undefined
+): user is ServerSessionUser & { role: "admin" } {
   return user?.role === "admin";
 }
 

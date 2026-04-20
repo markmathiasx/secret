@@ -35,6 +35,10 @@ function hasSellerSessionCookie(request: NextRequest) {
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const host = request.headers.get("host") || "";
+  const requestId = request.headers.get("x-request-id") || crypto.randomUUID();
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set("x-request-id", requestId);
+  requestHeaders.set("x-trace-id", requestId);
 
   // --- Domain canonicalization (production only) ---
   // Redirect apex → www (or vercel.app → custom domain) when NEXT_PUBLIC_SITE_URL is set
@@ -53,10 +57,17 @@ export function middleware(request: NextRequest) {
     url.host = canonicalHost;
     url.protocol = "https";
     url.port = "";
-    return NextResponse.redirect(url, 308);
+    const redirectResponse = NextResponse.redirect(url, 308);
+    redirectResponse.headers.set("x-request-id", requestId);
+    redirectResponse.headers.set("x-trace-id", requestId);
+    return redirectResponse;
   }
 
-  const response = NextResponse.next();
+  const response = NextResponse.next({
+    request: {
+      headers: requestHeaders,
+    },
+  });
 
   const cspRules = [
     "default-src 'self'",
@@ -91,6 +102,8 @@ export function middleware(request: NextRequest) {
   }
 
   if (!isProtectedPath(pathname)) {
+    response.headers.set("x-request-id", requestId);
+    response.headers.set("x-trace-id", requestId);
     return response;
   }
 
@@ -102,12 +115,17 @@ export function middleware(request: NextRequest) {
         : hasMarketplaceSessionCookie(request);
 
   if (hasRequiredSession) {
+    response.headers.set("x-request-id", requestId);
+    response.headers.set("x-trace-id", requestId);
     return response;
   }
 
   const loginUrl = new URL(pathname === "/admin" || pathname.startsWith("/admin/") ? adminLoginPath : "/login", request.url);
   loginUrl.searchParams.set("redirect", pathname);
-  return NextResponse.redirect(loginUrl);
+  const redirectResponse = NextResponse.redirect(loginUrl);
+  redirectResponse.headers.set("x-request-id", requestId);
+  redirectResponse.headers.set("x-trace-id", requestId);
+  return redirectResponse;
 }
 
 export const config = {
