@@ -18,7 +18,7 @@
   },
   "scripts": {
     "dev": "next dev --turbo",
-    "build": "prisma generate && next build",
+    "build": "next build",
     "start": "node scripts/start-standalone.mjs",
     "lint": "next lint --fix",
     "lint:check": "next lint",
@@ -48,7 +48,7 @@
     "db:backup": "node scripts/backup-db.mjs",
     "validate:assets": "node scripts/validate-assets.mjs --baseUrl=http://127.0.0.1:3000 --manifest=output/CATALOG_SEMANTIC_AUDIT.json --publicMode=strict",
     "test:images": "playwright test tests/storefront-images.spec.ts",
-    "gate:local": "npm run lint:check && npm run prisma:generate && npm run typecheck && npm run build",
+    "gate:local": "npm run lint:check && npm run typecheck && npm run build",
     "prisma:validate": "prisma validate",
     "prisma:generate": "prisma generate",
     "validate:assets:fs": "node scripts/validate-assets.mjs --mode=fs --manifest=output/CATALOG_SEMANTIC_AUDIT.json --publicMode=strict",
