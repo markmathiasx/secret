@@ -61,7 +61,8 @@ export const verifiedCatalog: Product[] = [
     dimensions: "8x6x7cm",
     images: [
       "/products/foto-003-porta-creme-dental.webp",
-      "/products/render-real-002-porta-creme.webp"
+      "/products/render-real-002-porta-creme.webp",
+      "/products/gallery/real-002/3.webp"
     ],
     licenseType: "personal",
     variants: [{ color: "Preto", available: true }],
@@ -99,7 +100,8 @@ export const verifiedCatalog: Product[] = [
     dimensions: "16x10x23cm",
     images: [
       "/products/foto-004-demogorgon.webp",
-      "/products/render-real-003-demogorgon.webp"
+      "/products/render-real-003-demogorgon.webp",
+      "/products/gallery/real-003/3.webp"
     ],
     licenseType: "personal",
     variants: [{ color: "Pintura temática", available: true }],
@@ -137,7 +139,8 @@ export const verifiedCatalog: Product[] = [
     dimensions: "10x8x15cm",
     images: [
       "/products/foto-005-hello-kitty-jedi.webp",
-      "/products/render-real-004-hello-kitty-jedi.webp"
+      "/products/render-real-004-hello-kitty-jedi.webp",
+      "/products/gallery/real-004/3.webp"
     ],
     licenseType: "personal",
     variants: [{ color: "Temática", available: true }],
@@ -175,7 +178,8 @@ export const verifiedCatalog: Product[] = [
     dimensions: "18x18x1cm",
     images: [
       "/products/foto-006-stencil-rick-morty.webp",
-      "/products/render-real-005-stencil.webp"
+      "/products/render-real-005-stencil.webp",
+      "/products/gallery/real-005/3.webp"
     ],
     licenseType: "personal",
     variants: [{ color: "Preto", available: true }],
@@ -213,7 +217,8 @@ export const verifiedCatalog: Product[] = [
     dimensions: "14x10x19cm",
     images: [
       "/products/foto-007-familia-custom.webp",
-      "/products/render-real-006-familia-custom.webp"
+      "/products/render-real-006-familia-custom.webp",
+      "/products/gallery/real-006/3.webp"
     ],
     licenseType: "personal",
     variants: [{ color: "Colorido", available: true }],
@@ -251,7 +256,8 @@ export const verifiedCatalog: Product[] = [
     dimensions: "10x8x16cm",
     images: [
       "/products/foto-008-boneca-crianca.webp",
-      "/products/render-real-007-boneca-crianca.webp"
+      "/products/render-real-007-boneca-crianca.webp",
+      "/products/gallery/real-007/3.webp"
     ],
     licenseType: "personal",
     variants: [{ color: "Colorido", available: true }],
@@ -289,7 +295,8 @@ export const verifiedCatalog: Product[] = [
     dimensions: "3x3x8cm",
     images: [
       "/products/foto-009-case-isqueiro-caveira.webp",
-      "/products/render-real-008-case-isqueiro.webp"
+      "/products/render-real-008-case-isqueiro.webp",
+      "/products/gallery/real-008/3.webp"
     ],
     licenseType: "personal",
     variants: [{ color: "Preto", available: true }],
@@ -327,7 +334,8 @@ export const verifiedCatalog: Product[] = [
     dimensions: "9x8x16cm",
     images: [
       "/products/foto-010-homer-pikachu.webp",
-      "/products/render-real-009-homer-pikachu.webp"
+      "/products/render-real-009-homer-pikachu.webp",
+      "/products/gallery/real-009/3.webp"
     ],
     licenseType: "personal",
     variants: [{ color: "Colorido", available: true }],
@@ -365,7 +373,8 @@ export const verifiedCatalog: Product[] = [
     dimensions: "6x6x0.8cm",
     images: [
       "/products/foto-011-chaveiro-maconaria.webp",
-      "/products/render-real-010-chaveiro-maconaria.webp"
+      "/products/render-real-010-chaveiro-maconaria.webp",
+      "/products/gallery/real-010/3.webp"
     ],
     licenseType: "personal",
     variants: [{ color: "Colorido", available: true }],
