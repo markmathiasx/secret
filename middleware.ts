@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
+import { adminConfig } from "@/lib/constants";
+import { getCustomerSessionSecret, verifySignedSessionToken } from "@/lib/session-token";
 
-const protectedPrefixes = ["/seller", "/admin"];
+const protectedPrefixes = ["/seller", "/admin", "/conta"];
 const adminLoginPath = "/admin/login";
 
 function isProtectedPath(pathname: string) {
@@ -24,15 +26,34 @@ function hasMarketplaceSessionCookie(request: NextRequest) {
   return Boolean(request.cookies.get("mdh_customer")?.value || hasSharedAuthCookie(request));
 }
 
-function hasAdminSessionCookie(request: NextRequest) {
-  return Boolean(request.cookies.get("mdh_admin")?.value || hasSharedAuthCookie(request));
+async function hasVerifiedCookieSession(request: NextRequest, cookieName: string, secret: string | null) {
+  const token = request.cookies.get(cookieName)?.value;
+  if (!token || !secret) return false;
+  const payload = await verifySignedSessionToken(token, secret);
+  return Boolean(payload);
 }
 
-function hasSellerSessionCookie(request: NextRequest) {
-  return Boolean(request.cookies.get("mdh_admin")?.value || request.cookies.get("mdh_customer")?.value || hasSharedAuthCookie(request));
+async function hasAdminSessionCookie(request: NextRequest) {
+  if (await hasVerifiedCookieSession(request, "mdh_admin", adminConfig.sessionSecret)) {
+    return true;
+  }
+
+  return hasSharedAuthCookie(request);
 }
 
-export function middleware(request: NextRequest) {
+async function hasSellerSessionCookie(request: NextRequest) {
+  if (await hasVerifiedCookieSession(request, "mdh_admin", adminConfig.sessionSecret)) {
+    return true;
+  }
+
+  if (await hasVerifiedCookieSession(request, "mdh_customer", getCustomerSessionSecret())) {
+    return true;
+  }
+
+  return hasSharedAuthCookie(request);
+}
+
+export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const host = request.headers.get("host") || "";
   const requestId = request.headers.get("x-request-id") || crypto.randomUUID();
@@ -109,9 +130,9 @@ export function middleware(request: NextRequest) {
 
   const hasRequiredSession =
     pathname === "/admin" || pathname.startsWith("/admin/")
-      ? hasAdminSessionCookie(request)
+      ? await hasAdminSessionCookie(request)
       : pathname === "/seller" || pathname.startsWith("/seller/")
-        ? hasSellerSessionCookie(request)
+        ? await hasSellerSessionCookie(request)
         : hasMarketplaceSessionCookie(request);
 
   if (hasRequiredSession) {

@@ -205,7 +205,7 @@ export function SiteHeader({
             <button type="button" onClick={openDrawer} className="btn-glass gap-2 px-4 py-3 whitespace-nowrap">
               <ShoppingCart className="h-4 w-4 shrink-0" />
               Carrinho
-              <span className="rounded-full border border-white/10 bg-black/25 px-2 py-0.5 text-[11px] text-white/80">
+              <span aria-live="polite" className="rounded-full border border-white/10 bg-black/25 px-2 py-0.5 text-[11px] text-white/80">
                 {cartCount}
               </span>
             </button>

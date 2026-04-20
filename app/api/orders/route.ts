@@ -263,76 +263,101 @@ export async function POST(request: Request) {
     try {
       const productRecord = await prisma.product.findUnique({
         where: { id: product.id },
-        select: { id: true, sellerId: true, title: true, sku: true },
+        select: { id: true, sellerId: true, title: true, sku: true, stock: true },
       });
+
+      if (productRecord?.stock && productRecord.stock > 0 && productRecord.stock < parsed.data.quantity) {
+        return NextResponse.json(
+          {
+            ok: false,
+            message: "Este produto está sem estoque suficiente para a quantidade escolhida.",
+          },
+          { status: 409 }
+        );
+      }
 
       const paymentMethod = mapPaymentMethod(parsed.data.paymentMethod);
       const unitPrice = parsed.data.paymentMethod === "cartao" ? product.priceCard : product.pricePix;
       const grandTotal = parsed.data.paymentMethod === "cartao" ? totalCard : totalPix;
 
-      const order = await prisma.order.create({
-        data: {
-          orderNumber: orderCode,
-          buyerId,
-          sellerId: productRecord?.sellerId || null,
-          customerName: parsed.data.customerName,
-          customerEmail: parsed.data.email.trim().toLowerCase(),
-          customerPhone: parsed.data.phone,
-          postalCode: address.zipCode,
-          neighborhood: address.neighborhood,
-          shippingAddressId: savedAddress?.id || null,
-          billingAddressId: savedAddress?.id || null,
-          status: orderState.status,
-          paymentMethod,
-          subtotal: toDecimal(parsed.data.paymentMethod === "cartao" ? subtotalCard : subtotalPix),
-          shippingTotal: toDecimal(shippingOption.price),
-          grandTotal: toDecimal(grandTotal),
-          notes: [parsed.data.purpose, parsed.data.notes].filter(Boolean).join(" • ") || null,
-          items: {
-            create: {
-              productId: productRecord?.id || null,
-              title: productRecord?.title || product.name,
-              sku: productRecord?.sku || product.sku,
-              quantity: parsed.data.quantity,
-              unitPrice: toDecimal(unitPrice),
-              totalPrice: toDecimal(unitPrice * parsed.data.quantity),
-              color: product.colors[0] || null,
-              material: product.material,
+      const order = await prisma.$transaction(async (tx) => {
+        const createdOrder = await tx.order.create({
+          data: {
+            orderNumber: orderCode,
+            buyerId,
+            sellerId: productRecord?.sellerId || null,
+            customerName: parsed.data.customerName,
+            customerEmail: parsed.data.email.trim().toLowerCase(),
+            customerPhone: parsed.data.phone,
+            postalCode: address.zipCode,
+            neighborhood: address.neighborhood,
+            shippingAddressId: savedAddress?.id || null,
+            billingAddressId: savedAddress?.id || null,
+            status: orderState.status,
+            paymentMethod,
+            subtotal: toDecimal(parsed.data.paymentMethod === "cartao" ? subtotalCard : subtotalPix),
+            shippingTotal: toDecimal(shippingOption.price),
+            grandTotal: toDecimal(grandTotal),
+            notes: [parsed.data.purpose, parsed.data.notes].filter(Boolean).join(" • ") || null,
+            items: {
+              create: {
+                productId: productRecord?.id || null,
+                title: productRecord?.title || product.name,
+                sku: productRecord?.sku || product.sku,
+                quantity: parsed.data.quantity,
+                unitPrice: toDecimal(unitPrice),
+                totalPrice: toDecimal(unitPrice * parsed.data.quantity),
+                color: product.colors[0] || null,
+                material: product.material,
+              },
             },
-          },
-          payments: {
-            create: {
-              method: paymentMethod,
-              provider: orderState.paymentProvider,
-              status: orderState.paymentStatus,
-              amount: toDecimal(grandTotal),
-              externalReference: orderCode,
-              metadata: {
-                shippingOptionId: shippingOption.id,
-                shippingRegion: shippingOption.region,
-                shippingEta: shippingOption.eta,
-                purpose: parsed.data.purpose,
+            payments: {
+              create: {
+                method: paymentMethod,
+                provider: orderState.paymentProvider,
+                status: orderState.paymentStatus,
+                amount: toDecimal(grandTotal),
+                externalReference: orderCode,
+                metadata: {
+                  shippingOptionId: shippingOption.id,
+                  shippingRegion: shippingOption.region,
+                  shippingEta: shippingOption.eta,
+                  purpose: parsed.data.purpose,
+                },
+              },
+            },
+            shipment: {
+              create: {
+                status: ShipmentStatus.DRAFT,
+                carrier: "MDH Local",
+                serviceLevel: shippingOption.id,
+                quotedPrice: toDecimal(shippingOption.price),
+                addressSnapshot: {
+                  ...address,
+                  phone: parsed.data.phone,
+                },
+                metadata: {
+                  region: shippingOption.region,
+                  eta: shippingOption.eta,
+                  provider: shippingOption.provider,
+                },
               },
             },
           },
-          shipment: {
-            create: {
-              status: ShipmentStatus.DRAFT,
-              carrier: "MDH Local",
-              serviceLevel: shippingOption.id,
-              quotedPrice: toDecimal(shippingOption.price),
-              addressSnapshot: {
-                ...address,
-                phone: parsed.data.phone,
-              },
-              metadata: {
-                region: shippingOption.region,
-                eta: shippingOption.eta,
-                provider: shippingOption.provider,
+        });
+
+        if (productRecord?.stock && productRecord.stock > 0) {
+          await tx.product.update({
+            where: { id: productRecord.id },
+            data: {
+              stock: {
+                decrement: parsed.data.quantity,
               },
             },
-          },
-        },
+          });
+        }
+
+        return createdOrder;
       });
 
       const customerEmail = parsed.data.email.trim().toLowerCase();

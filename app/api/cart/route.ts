@@ -7,13 +7,13 @@ import { getServerSessionUser } from "@/lib/server-session";
 
 const cartItemSchema = z.object({
   productId: z.string().min(1),
-  quantity: z.number().int().min(1).max(20).default(1),
+  quantity: z.number().int().min(0).max(20).default(1),
 });
 
 const cartMutationSchema = z.object({
-  action: z.enum(["set", "merge"]).default("set"),
+  action: z.enum(["set", "merge", "remove"]).default("set"),
   productId: z.string().min(1).optional(),
-  quantity: z.number().int().min(1).max(20).optional(),
+  quantity: z.number().int().min(0).max(20).optional(),
   items: z.array(cartItemSchema).max(40).optional(),
 });
 
@@ -119,6 +119,10 @@ export async function POST(request: Request) {
   const items =
     parsed.data.action === "merge"
       ? parsed.data.items || []
+      : parsed.data.action === "remove"
+        ? parsed.data.productId
+          ? [{ productId: parsed.data.productId, quantity: 0 }]
+          : []
       : parsed.data.productId
         ? [{ productId: parsed.data.productId, quantity: parsed.data.quantity ?? 1 }]
         : [];
@@ -154,6 +158,17 @@ export async function POST(request: Request) {
         parsed.data.action === "merge" && existing
           ? Math.min(20, existing.quantity + item.quantity)
           : Math.min(20, item.quantity);
+
+      if (nextQuantity <= 0) {
+        if (existing) {
+          await tx.cartItem.delete({
+            where: {
+              id: existing.id,
+            },
+          });
+        }
+        continue;
+      }
 
       if (existing) {
         await tx.cartItem.update({

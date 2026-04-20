@@ -207,7 +207,7 @@ export function runStartupGuards(options?: { exitOnError?: boolean }): StartupGu
       allResults.errors.push(...result.errors);
     }
 
-    if (result.warnings.length > 0 && !result.ok) {
+    if (result.warnings.length > 0) {
       console.warn(`\n${guard.name} - WARNINGS:`);
       result.warnings.forEach(warn => console.warn(`  ${warn}`));
       allResults.warnings.push(...result.warnings);

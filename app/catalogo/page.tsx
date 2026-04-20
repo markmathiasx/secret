@@ -5,6 +5,7 @@ import { CatalogRealCases } from "@/components/catalog-real-cases";
 import { getCatalogSnapshot } from "@/lib/catalog-repository";
 import { A1_MINI_COLLECTION, isA1MiniCatalogProduct } from "@/lib/a1-mini-catalog";
 import { summarizeProductVisuals } from "@/lib/product-visuals";
+import { getSiteUrl } from "@/lib/env";
 
 export const metadata: Metadata = {
   title: "Catálogo",
@@ -20,12 +21,22 @@ export const dynamic = "force-static";
 
 export default async function CatalogPage() {
   const catalog = await getCatalogSnapshot();
+  const siteUrl = getSiteUrl();
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Início", item: siteUrl },
+      { "@type": "ListItem", position: 2, name: "Catálogo", item: `${siteUrl}/catalogo` },
+    ],
+  };
 
   const visualSummary = summarizeProductVisuals(catalog);
   const a1MiniCount = catalog.filter(isA1MiniCatalogProduct).length;
 
   return (
     <section className="catalog-page-shell mx-auto w-full max-w-7xl px-3 pb-14 pt-24 sm:px-4 md:px-6 md:py-16">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <div className="catalog-hero-shell overflow-hidden rounded-[28px] border border-white/12 bg-[radial-gradient(circle_at_top_left,rgba(34,211,238,0.18),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(16,185,129,0.16),transparent_28%),linear-gradient(135deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02))] p-4 shadow-[0_24px_80px_rgba(2,8,23,0.32)] sm:p-6 md:rounded-[40px] md:p-8">
         <div className="grid gap-6 md:gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
           <div className="max-w-3xl">

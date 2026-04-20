@@ -10,14 +10,18 @@ import { getProductUrl } from "@/lib/catalog";
 import { getCatalogSnapshot } from "@/lib/catalog-repository";
 import { PurchaseProtectionBanner } from "@/components/purchase-protection-banner";
 import { isProductRealPhoto, summarizeProductVisuals } from "@/lib/product-visuals";
-import { whatsappNumber, whatsappMessage } from "@/lib/constants";
+import { brand, socialLinks, supportEmail, whatsappNumber, whatsappMessage } from "@/lib/constants";
 import { getStoreReputationSummary } from "@/lib/marketplace-signals";
 import { HomeAnimatedStats } from "@/components/home-animated-stats";
 import { HomeTestimonials } from "@/components/home-testimonials";
 import { HomeCategoriesShowcase } from "@/components/home-categories-showcase";
+import { getSiteUrl } from "@/lib/env";
+
+export const revalidate = 300;
 
 export default async function HomePage() {
   const catalog = await getCatalogSnapshot();
+  const siteUrl = getSiteUrl();
   const catalogCount = catalog.length;
   const visualSummary = summarizeProductVisuals(catalog);
   const realShowcase = catalog.filter((product) => isProductRealPhoto(product)).slice(0, 4);
@@ -28,9 +32,41 @@ export default async function HomePage() {
     storeSummary?.averageRating !== null && typeof storeSummary?.averageRating === "number"
       ? `${storeSummary.averageRating.toFixed(1)}★`
       : "avaliações reais";
+  const localBusinessJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "@id": `${siteUrl}#local-business`,
+    name: brand.legalName,
+    alternateName: brand.name,
+    url: siteUrl,
+    image: `${siteUrl}/backgrounds/hero-printer-fallback.jpg`,
+    telephone: `+${whatsappNumber.replace(/\D/g, "")}`,
+    email: supportEmail,
+    priceRange: "R$",
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: brand.city,
+      addressRegion: brand.state,
+      addressCountry: "BR",
+    },
+    areaServed: {
+      "@type": "AdministrativeArea",
+      name: "Rio de Janeiro",
+    },
+    sameAs: [socialLinks.instagram].filter(Boolean),
+    openingHoursSpecification: [
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+        opens: "09:00",
+        closes: "20:00",
+      },
+    ],
+  };
 
   return (
     <main>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd) }} />
       <Hero />
 
       <HomeAnimatedStats

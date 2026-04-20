@@ -37,13 +37,19 @@ function formatOrderStatus(status: string | null | undefined) {
   if (normalized === "draft") return "Rascunho";
   if (normalized === "pending_payment") return "Aguardando pagamento";
   if (normalized === "paid") return "Pago";
+  if (normalized === "printing") return "Em impressão";
+  if (normalized === "ready_to_ship") return "Pronto para envio";
+  if (normalized === "shipped") return "Enviado";
+  if (normalized === "delivered") return "Entregue";
   if (normalized === "failed") return "Falhou";
+  if (normalized === "refunded") return "Reembolsado";
   if (normalized === "cancelled" || normalized === "canceled") return "Cancelado";
   if (normalized === "fulfilled") return "Concluído";
   if (normalized.includes("pix")) return "Aguardando Pix";
-  if (normalized.includes("cartao")) return "Aguardando cartão";
-  if (normalized.includes("produc")) return "Em produção";
-  if (normalized.includes("entreg")) return "Em entrega";
+  if (normalized.includes("card") || normalized.includes("cartao") || normalized.includes("cartão")) return "Aguardando cartão";
+  if (normalized.includes("checkout")) return "Checkout iniciado";
+  if (normalized.includes("print") || normalized.includes("produc")) return "Em produção";
+  if (normalized.includes("ship") || normalized.includes("entreg") || normalized.includes("envi")) return "Em entrega";
   return status || "Em análise";
 }
 
@@ -65,9 +71,11 @@ type TimelineStep = {
 
 function buildTimeline(status: string): TimelineStep[] {
   const s = status.toLowerCase();
-  const isCancelled = s.includes("cancel") || s.includes("failed") || s === "failed";
-  const isFulfilled = s === "fulfilled" || s.includes("entreg") || s.includes("conclu");
-  const isInProduction = isFulfilled || s.includes("produc") || s === "paid";
+  const isCancelled = s.includes("cancel") || s.includes("failed") || s === "failed" || s.includes("refund");
+  const isFulfilled = s === "fulfilled" || s === "delivered" || s.includes("entreg") || s.includes("conclu");
+  const isShipped = isFulfilled || s === "shipped" || s.includes("ship") || s.includes("envi");
+  const isReadyToShip = isShipped || s === "ready_to_ship" || s.includes("pronto");
+  const isInProduction = isReadyToShip || s === "printing" || s.includes("print") || s.includes("produc") || s === "paid";
   const isPaid = isInProduction || isFulfilled || s === "paid" || s.includes("paid") || s.includes("pago");
   const isReceived = true;
 
@@ -82,7 +90,7 @@ function buildTimeline(status: string): TimelineStep[] {
     { label: "Pedido recebido", icon: Clock, done: isReceived, active: !isPaid },
     { label: "Pagamento confirmado", icon: CheckCircle2, done: isPaid, active: isPaid && !isInProduction },
     { label: "Em produção", icon: Package, done: isInProduction, active: isInProduction && !isFulfilled },
-    { label: "Enviado", icon: Truck, done: isFulfilled, active: isFulfilled },
+    { label: "Enviado", icon: Truck, done: isShipped, active: isShipped && !isFulfilled },
     { label: "Entregue", icon: PackageCheck, done: isFulfilled, active: false },
   ];
 }
@@ -107,11 +115,10 @@ export default function OrderDetailPage() {
 
     async function load() {
       try {
-        const res = await fetch("/api/account/orders", { cache: "no-store" });
+        const res = await fetch(`/api/account/orders/${encodeURIComponent(orderId)}`, { cache: "no-store" });
         const data = await res.json().catch(() => ({}));
-        const orders: Order[] = Array.isArray(data?.orders) ? data.orders : [];
-        const found = orders.find((o) => o.id === orderId || o.order_code === orderId);
-        if (found) {
+        const found: Order | null = data?.order || null;
+        if (res.ok && found) {
           setOrder(found);
         } else {
           setNotFound(true);

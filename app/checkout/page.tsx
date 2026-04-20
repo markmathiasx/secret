@@ -1,9 +1,30 @@
+import type { Metadata } from "next";
 import { Suspense } from "react";
 import { CheckoutFlow } from "@/components/checkout/checkout-flow";
 import { CheckoutErrorBoundary } from "@/components/checkout/checkout-error-boundary";
+import { getSiteUrl } from "@/lib/env";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
+
+const siteUrl = getSiteUrl();
+
+export const metadata: Metadata = {
+  title: "Checkout",
+  description: "Feche seu pedido na MDH 3D com endereço, frete e pagamento em um fluxo único.",
+  alternates: {
+    canonical: `${siteUrl}/checkout`,
+  },
+  robots: {
+    index: false,
+    follow: false,
+    googleBot: {
+      index: false,
+      follow: false,
+      noimageindex: true,
+    },
+  },
+};
 
 export default function CheckoutPage() {
   return (

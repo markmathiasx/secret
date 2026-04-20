@@ -70,14 +70,19 @@ function formatOrderStatus(status: string | null | undefined) {
   if (normalized === 'draft') return 'Rascunho';
   if (normalized === 'pending_payment') return 'Aguardando pagamento';
   if (normalized === 'paid') return 'Pago';
+  if (normalized === 'printing') return 'Em impressão';
+  if (normalized === 'ready_to_ship') return 'Pronto para envio';
+  if (normalized === 'shipped') return 'Enviado';
+  if (normalized === 'delivered') return 'Entregue';
   if (normalized === 'failed') return 'Falhou';
+  if (normalized === 'refunded') return 'Reembolsado';
   if (normalized === 'cancelled' || normalized === 'canceled') return 'Cancelado';
   if (normalized === 'fulfilled') return 'Concluído';
   if (normalized.includes('pix')) return 'Aguardando Pix';
-  if (normalized.includes('cartao')) return 'Aguardando cartão';
+  if (normalized.includes('card') || normalized.includes('cartao') || normalized.includes('cartão')) return 'Aguardando cartão';
   if (normalized.includes('checkout')) return 'Checkout iniciado';
-  if (normalized.includes('produc')) return 'Em produção';
-  if (normalized.includes('entreg')) return 'Em entrega';
+  if (normalized.includes('print') || normalized.includes('produc')) return 'Em produção';
+  if (normalized.includes('ship') || normalized.includes('entreg') || normalized.includes('envi')) return 'Em entrega';
   return status || 'Em análise';
 }
 

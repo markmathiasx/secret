@@ -88,18 +88,18 @@ export async function GET(_req: Request, { params }: Params) {
 }
 
 export async function POST(req: Request, { params }: Params) {
-  const ip = getClientIp(req.headers);
-  const rateLimit = checkRateLimit(`review:${ip}`, 3, 60_000 * 60);
-  if (!rateLimit.ok) {
-    return applyNoStoreHeaders(
-      NextResponse.json({ ok: false, error: "Muitas avaliações enviadas. Tente novamente em 1 hora." }, { status: 429 })
-    );
-  }
-
   const { slug } = await params;
   const product = await findCatalogProductBySlug(slug);
   if (!product) {
     return applyNoStoreHeaders(NextResponse.json({ ok: false, error: "Produto não encontrado." }, { status: 404 }));
+  }
+
+  const ip = getClientIp(req.headers);
+  const rateLimit = checkRateLimit(`review:${slug}:${ip}`, 3, 60_000 * 60);
+  if (!rateLimit.ok) {
+    return applyNoStoreHeaders(
+      NextResponse.json({ ok: false, error: "Muitas avaliações enviadas. Tente novamente em 1 hora." }, { status: 429 })
+    );
   }
 
   const raw = await req.json().catch(() => null);
