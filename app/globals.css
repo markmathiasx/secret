@@ -648,6 +648,38 @@ input.field-base {
   }
 }
 
+/* ── Hero video layer: responsive opacity (locally-owned assets) ── */
+.hero-video-layer {
+  opacity: 0.58;
+}
+@media (min-width: 768px) {
+  .hero-video-layer {
+    opacity: 0.68;
+  }
+}
+
+/* ── Hero gradient overlay: ensures AA contrast on ALL viewport sizes ── */
+/*
+  Breakdown:
+    0%   → 18% dark  (video clearly visible at top — cinematic opening)
+    30%  → 48% dark  (mid-hero, ambient zone)
+    62%  → 74% dark  (text zone — white h1/p must pass WCAG AA)
+    100% → 93% dark  (seamless transition to page body)
+  Ambient radial glows preserved for brand identity.
+*/
+.hero-overlay {
+  background:
+    radial-gradient(circle at 18% 14%, rgba(3, 233, 244, 0.18), transparent 26%),
+    radial-gradient(circle at 82% 12%, rgba(123, 44, 191, 0.14), transparent 24%),
+    linear-gradient(
+      180deg,
+      rgba(4, 8, 16, 0.18)  0%,
+      rgba(4, 8, 16, 0.48) 30%,
+      rgba(4, 8, 16, 0.74) 62%,
+      rgba(4, 8, 16, 0.93) 100%
+    );
+}
+
 .hero-scanlines {
   position: absolute;
   inset: 0;
