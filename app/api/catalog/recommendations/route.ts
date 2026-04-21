@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { catalog } from "@/lib/catalog";
-import { searchCatalogProducts } from "@/lib/catalog-repository";
+import { getCatalogSnapshot, searchCatalogProducts } from "@/lib/catalog-repository";
+import { publicFeaturedCatalog, serializePublicProducts } from "@/lib/public-catalog";
 
 export async function GET(request: Request) {
   const url = new URL(request.url);
@@ -17,12 +17,17 @@ export async function GET(request: Request) {
 
     return NextResponse.json({
       ok: true,
-      items: results.items,
+      items: serializePublicProducts(results.items),
     });
   }
 
+  const products = await getCatalogSnapshot();
+  const featured = (products.length ? products : publicFeaturedCatalog)
+    .filter((item) => item.featured)
+    .slice(0, limit);
+
   return NextResponse.json({
     ok: true,
-    items: catalog.filter((item) => item.featured).slice(0, limit),
+    items: serializePublicProducts(featured),
   });
 }

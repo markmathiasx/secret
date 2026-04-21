@@ -3,9 +3,9 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { Heart, History, ReceiptText, RotateCcw } from "lucide-react";
-import { catalog, getProductUrl } from "@/lib/catalog";
 import { useCustomerSession } from "@/lib/customer-session-client";
 import { getMemberKey, listFavorites, listSavedQuotes, type SavedQuote } from "@/lib/member-store";
+import type { PublicProductPayload } from "@/lib/public-catalog";
 import { formatCurrency } from "@/lib/utils";
 
 const RECENT_KEY = "mdh_catalog_recent";
@@ -21,11 +21,16 @@ function readRecentIds() {
   }
 }
 
+function getProductHref(product: Pick<PublicProductPayload, "id" | "slug">) {
+  return `/catalogo/${product.id}-${product.slug}`;
+}
+
 export function HomeResumePanel() {
   const session = useCustomerSession();
   const [recentIds, setRecentIds] = useState<string[]>([]);
   const [favoriteIds, setFavoriteIds] = useState<string[]>([]);
   const [quotes, setQuotes] = useState<SavedQuote[]>([]);
+  const [catalogItems, setCatalogItems] = useState<PublicProductPayload[]>([]);
 
   useEffect(() => {
     if (!session.ready) return;
@@ -33,6 +38,12 @@ export function HomeResumePanel() {
     setFavoriteIds(listFavorites(memberKey));
     setQuotes(listSavedQuotes(memberKey));
     setRecentIds(readRecentIds());
+    fetch("/api/store/products", { cache: "no-store" })
+      .then((response) => response.json())
+      .then((payload) => {
+        setCatalogItems(Array.isArray(payload?.products) ? (payload.products as PublicProductPayload[]) : []);
+      })
+      .catch(() => {});
   }, [session.ready, session.user?.email, session.user?.id]);
 
   function clearRecent() {
@@ -42,12 +53,12 @@ export function HomeResumePanel() {
   }
 
   const favorites = useMemo(
-    () => favoriteIds.map((id) => catalog.find((product) => product.id === id)).filter(Boolean).slice(0, 6),
-    [favoriteIds]
+    () => favoriteIds.map((id) => catalogItems.find((product) => product.id === id)).filter(Boolean).slice(0, 6),
+    [catalogItems, favoriteIds]
   );
   const recents = useMemo(
-    () => recentIds.map((id) => catalog.find((product) => product.id === id)).filter(Boolean).slice(0, 6),
-    [recentIds]
+    () => recentIds.map((id) => catalogItems.find((product) => product.id === id)).filter(Boolean).slice(0, 6),
+    [catalogItems, recentIds]
   );
   const lastQuote = quotes[0] || null;
 
@@ -119,7 +130,7 @@ export function HomeResumePanel() {
                 favorites.map((product) => (
                   <Link
                     key={product!.id}
-                    href={getProductUrl(product!)}
+                    href={getProductHref(product!)}
                     className="rounded-full border border-white/10 bg-black/20 px-3 py-2 text-xs text-white/78 transition hover:border-cyan-300/25 hover:text-cyan-100"
                   >
                     {product!.name}
@@ -151,7 +162,7 @@ export function HomeResumePanel() {
                 recents.map((product) => (
                   <Link
                     key={product!.id}
-                    href={getProductUrl(product!)}
+                    href={getProductHref(product!)}
                     className="rounded-full border border-white/10 bg-black/20 px-3 py-2 text-xs text-white/78 transition hover:border-cyan-300/25 hover:text-cyan-100"
                   >
                     {product!.name}

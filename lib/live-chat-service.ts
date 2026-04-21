@@ -25,6 +25,7 @@ export interface ChatMessage {
 export interface ChatSession {
   id: string;
   customer_id: string;
+  visitor_id?: string;
   subject: string;
   status: "active" | "waiting" | "resolved" | "closed";
   priority: "low" | "normal" | "high" | "urgent";
@@ -204,6 +205,7 @@ export async function startChatSession(visitorId: string, subject: string, prior
   return {
     id: thread.id,
     customer_id: visitor.id,
+    visitor_id: normalizeVisitorId(visitorId),
     subject: thread.subject || "Atendimento comercial",
     status: "active",
     priority: (["low", "normal", "high", "urgent"].includes(priority) ? priority : "normal") as ChatSession["priority"],
@@ -227,8 +229,14 @@ export async function sendChatMessage(message: ChatMessage): Promise<ChatMessage
   if (message.sender_type === "ai") {
     await ensureSupportBotUser();
     senderId = AI_BOT_ID;
+  } else if (message.sender_type === "customer") {
+    senderId = thread.buyerId || senderId;
   } else if (!senderId) {
     throw new Error("Missing sender id");
+  }
+
+  if (!senderId) {
+    throw new Error("Missing thread owner");
   }
 
   const saved = await prisma.chatMessage.create({
@@ -291,6 +299,9 @@ export async function getChatSession(threadId: string): Promise<ChatSession | nu
   return {
     id: thread.id,
     customer_id: thread.buyerId || "",
+    visitor_id: thread.buyer?.email?.endsWith(`@${VISITOR_EMAIL_DOMAIN}`)
+      ? thread.buyer.email.slice(0, thread.buyer.email.indexOf("@"))
+      : undefined,
     subject: thread.subject || "",
     status: "active",
     priority: "normal",
@@ -330,6 +341,7 @@ export async function getActiveChats(customerId: string): Promise<ChatSession[]>
   return threads.map((thread) => ({
     id: thread.id,
     customer_id: thread.buyerId || "",
+    visitor_id: thread.buyerId || undefined,
     subject: thread.subject || "",
     status: "active",
     priority: "normal",
@@ -351,6 +363,16 @@ export async function closeChatSession(threadId: string, rating?: number): Promi
   if (typeof rating === "number" && Number.isFinite(rating)) {
     await createBotMessage(threadId, `Obrigado pelo feedback. Vou registrar sua avaliação como ${rating}/5.`);
   }
+}
+
+export async function getChatThreadAccess(threadId: string) {
+  return prisma.chatThread.findUnique({
+    where: { id: threadId },
+    select: {
+      id: true,
+      buyerId: true,
+    },
+  });
 }
 
 export async function assignAgentToChat(threadId: string, agentId: string): Promise<void> {

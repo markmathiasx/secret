@@ -7,12 +7,12 @@ test.describe("MDH 3D Store – Smoke Tests", () => {
     await page.goto(BASE_URL);
     await expect(page).toHaveTitle(/MDH 3D/i);
     await expect(page.locator("h1, h2").first()).toBeVisible();
-    await expect(page.locator('a[href="/catalogo"]').first()).toBeVisible();
+    await expect(page.locator('a[href="/catalogo"]:visible').first()).toBeVisible();
   });
 
   test("Home: botão Ver catálogo completo navega para /catalogo", async ({ page }) => {
     await page.goto(BASE_URL);
-    const link = page.locator('a[href="/catalogo"]').first();
+    const link = page.locator('a[href="/catalogo"]:visible').first();
     await link.click();
     await expect(page).toHaveURL(/\/catalogo/);
     await expect(page.locator("h1, h2").first()).toBeVisible();
@@ -113,6 +113,58 @@ test.describe("MDH 3D Store – Smoke Tests", () => {
     expect(body.ok).toBe(true);
     expect(typeof body.cardCheckoutReady).toBe("boolean");
     expect(typeof body.pixCheckoutReady).toBe("boolean");
+  });
+
+  test("Catálogo API: retorna payload público sem campos internos", async ({ request }) => {
+    const response = await request.get(`${BASE_URL}/api/catalog`);
+    expect(response.status()).toBe(200);
+
+    const body = await response.json();
+    expect(Array.isArray(body.items)).toBe(true);
+    expect(body.items.length).toBeGreaterThan(0);
+
+    const first = body.items[0] as Record<string, unknown>;
+    expect(first.estimatedUnitCost).toBeUndefined();
+    expect(first.estimatedUnitProfit).toBeUndefined();
+    expect(first.csvMeta).toBeUndefined();
+    expect(first.makerWorldMeta).toBeUndefined();
+    expect(typeof first.visualStatus).toBe("string");
+  });
+
+  test("Store product API: entrega detalhes públicos saneados", async ({ request }) => {
+    const listingResponse = await request.get(`${BASE_URL}/api/store/products`);
+    expect(listingResponse.status()).toBe(200);
+    const listing = await listingResponse.json();
+    const first = Array.isArray(listing.products) ? listing.products[0] : null;
+    expect(first).toBeTruthy();
+
+    const response = await request.get(`${BASE_URL}/api/store/products/${first.id}-${first.slug}`);
+    expect(response.status()).toBe(200);
+    const body = await response.json();
+    const product = body.product as Record<string, unknown>;
+
+    expect(product.estimatedUnitCost).toBeUndefined();
+    expect(product.estimatedUnitProfit).toBeUndefined();
+    expect(product.pricingNarrative).toBeUndefined();
+    expect(product.visualLabel).toBeTruthy();
+  });
+
+  test("Chat público responde sem 500 nas leituras básicas", async ({ request }) => {
+    const statusResponse = await request.get(`${BASE_URL}/api/chat?action=status`);
+    expect(statusResponse.status()).toBe(200);
+
+    const currentResponse = await request.get(`${BASE_URL}/api/chat?action=current`);
+    expect(currentResponse.status()).toBe(200);
+    const body = await currentResponse.json();
+    expect(body).toHaveProperty("session");
+  });
+
+  test("Rotas sensíveis exigem autenticação", async ({ request }) => {
+    const adminInbox = await request.get(`${BASE_URL}/api/admin/inbox`);
+    expect([401, 403]).toContain(adminInbox.status());
+
+    const visualManifest = await request.get(`${BASE_URL}/api/catalog/visual-manifest`);
+    expect([401, 403]).toContain(visualManifest.status());
   });
 
   test("Sitemap: retorna 200 e contém URL do catálogo", async ({ request }) => {

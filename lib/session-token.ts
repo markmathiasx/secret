@@ -7,6 +7,7 @@ export type SessionPayload = {
   role: SessionRole;
   iat: number;
   exp: number;
+  metadata?: Record<string, string | number | boolean | null>;
 };
 
 export const customerSessionCookieName = "mdh_customer";
@@ -68,7 +69,10 @@ export function getCustomerSessionSecret() {
   return null;
 }
 
-export async function createSignedSessionToken(payload: Omit<SessionPayload, "iat" | "exp"> & { expiresInSeconds: number }, secret: string) {
+export async function createSignedSessionToken(
+  payload: Omit<SessionPayload, "iat" | "exp"> & { expiresInSeconds: number },
+  secret: string
+) {
   const now = Math.floor(Date.now() / 1000);
   const fullPayload: SessionPayload = {
     sub: payload.sub,
@@ -76,7 +80,8 @@ export async function createSignedSessionToken(payload: Omit<SessionPayload, "ia
     displayName: payload.displayName,
     role: payload.role,
     iat: now,
-    exp: now + payload.expiresInSeconds
+    exp: now + payload.expiresInSeconds,
+    ...(payload.metadata ? { metadata: payload.metadata } : {}),
   };
 
   const encodedPayload = toBase64Url(encoder.encode(JSON.stringify(fullPayload)));
@@ -99,6 +104,17 @@ export async function verifySignedSessionToken(token: string, secret: string) {
 
     const payload = JSON.parse(decoder.decode(fromBase64Url(encodedPayload))) as SessionPayload;
     if (!payload?.sub || !payload?.email || !payload?.role || typeof payload.exp !== "number") {
+      return null;
+    }
+
+    if (
+      payload.metadata !== undefined &&
+      (
+        payload.metadata === null ||
+        typeof payload.metadata !== "object" ||
+        Array.isArray(payload.metadata)
+      )
+    ) {
       return null;
     }
 

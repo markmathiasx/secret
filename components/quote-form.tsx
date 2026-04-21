@@ -3,9 +3,9 @@
 import { useEffect, useMemo, useState } from 'react';
 import { MessageCircleMore } from 'lucide-react';
 import type { Product } from '@/lib/catalog';
-import { catalog, featuredCatalog, findProduct } from '@/lib/catalog';
 import { useCustomerSession } from '@/lib/customer-session-client';
 import { getMemberKey, saveQuote } from '@/lib/member-store';
+import type { PublicProductPayload } from '@/lib/public-catalog';
 import { formatCurrency } from '@/lib/utils';
 import { whatsappMessage, whatsappNumber } from '@/lib/constants';
 
@@ -31,15 +31,29 @@ export function QuoteForm({
   description = 'Receba retorno com validação de material, prazo, frete e acabamento sem bloquear a navegação pública.'
 }: Props) {
   const session = useCustomerSession();
+  const [catalogItems, setCatalogItems] = useState<PublicProductPayload[]>([]);
+
+  useEffect(() => {
+    if (products?.length || initialProduct || product) return;
+
+    fetch('/api/store/products', { cache: 'no-store' })
+      .then((response) => response.json())
+      .then((payload) => {
+        const nextProducts = Array.isArray(payload?.products) ? (payload.products as PublicProductPayload[]) : [];
+        setCatalogItems(nextProducts);
+      })
+      .catch(() => {});
+  }, [initialProduct, product, products]);
+
   const availableProducts = useMemo(() => {
     if (products?.length) return products;
     if (initialProduct) return [initialProduct];
     if (product) return [product];
-    return featuredCatalog.slice(0, 18);
-  }, [initialProduct, product, products]);
+    return catalogItems.filter((item) => item.featured).slice(0, 18);
+  }, [catalogItems, initialProduct, product, products]);
 
   const [selectedProductId, setSelectedProductId] = useState(
-    initialProduct?.id || product?.id || availableProducts[0]?.id || catalog[0]?.id || ''
+    initialProduct?.id || product?.id || availableProducts[0]?.id || ''
   );
   const [customerName, setCustomerName] = useState('');
   const [customerEmail, setCustomerEmail] = useState('');
@@ -53,8 +67,8 @@ export function QuoteForm({
   const [submitState, setSubmitState] = useState<SubmitState>({ kind: 'idle' });
 
   const selectedProduct = useMemo(
-    () => initialProduct || product || findProduct(selectedProductId) || availableProducts[0] || null,
-    [availableProducts, initialProduct, product, selectedProductId]
+    () => initialProduct || product || catalogItems.find((item) => item.id === selectedProductId) || availableProducts[0] || null,
+    [availableProducts, catalogItems, initialProduct, product, selectedProductId]
   );
 
   const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
@@ -64,6 +78,11 @@ export function QuoteForm({
     setCustomerName(session.user?.displayName || '');
     setCustomerEmail(session.user?.email || '');
   }, [session.loggedIn, session.user?.displayName, session.user?.email]);
+
+  useEffect(() => {
+    if (selectedProductId || !availableProducts[0]?.id) return;
+    setSelectedProductId(availableProducts[0].id);
+  }, [availableProducts, selectedProductId]);
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();

@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { auth } from '@/auth';
 import { prisma } from '@/lib/prisma';
 import { sendMail } from '@/lib/mailer';
 import { orderShippedHtml } from '@/lib/email-templates';
 import { recordAdminAction } from '@/lib/admin-audit';
+import { getServerSessionUser, isAdminSession } from '@/lib/server-session';
 
 export async function GET(_req: NextRequest, context: { params: Promise<{ id: string }> }) {
-  const session = await auth();
-  if (!session?.user || session.user.role !== 'admin') {
+  const user = await getServerSessionUser();
+  if (!isAdminSession(user)) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
@@ -33,8 +33,8 @@ export async function GET(_req: NextRequest, context: { params: Promise<{ id: st
 }
 
 export async function PATCH(req: NextRequest, context: { params: Promise<{ id: string }> }) {
-  const session = await auth();
-  if (!session?.user || session.user.role !== 'admin') {
+  const user = await getServerSessionUser();
+  if (!isAdminSession(user)) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
@@ -56,8 +56,8 @@ export async function PATCH(req: NextRequest, context: { params: Promise<{ id: s
   });
 
   await recordAdminAction({
-    actorId: session.user.id || null,
-    actorEmail: session.user.email || null,
+    actorId: user.id || null,
+    actorEmail: user.email || null,
     action: "admin.order.update",
     entityType: "Order",
     entityId: id,

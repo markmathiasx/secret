@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { isA1MiniCatalogProduct } from "@/lib/a1-mini-catalog";
 import { applyNoStoreHeaders } from "@/lib/http-cache";
 import { getCatalogDiagnostics, getCatalogSnapshot } from "@/lib/catalog-repository";
+import { serializePublicProducts } from "@/lib/public-catalog";
 import { isProductVisualVerified } from "@/lib/product-visuals";
 
 export async function GET(request: Request) {
@@ -16,5 +17,12 @@ export async function GET(request: Request) {
       : scope === "verified"
         ? catalog.filter(isProductVisualVerified)
         : catalog;
-  return applyNoStoreHeaders(NextResponse.json({ total: items.length, scope, source: diagnostics.servedSource, items }));
+  return applyNoStoreHeaders(
+    NextResponse.json({
+      total: items.length,
+      scope,
+      source: diagnostics.servedSource,
+      items: serializePublicProducts(items),
+    })
+  );
 }

@@ -69,11 +69,13 @@ export function MercadoPagoStatusPage({
   orderCode,
   paymentId,
   status,
+  email,
 }: {
   variant: "success" | "failure" | "pending";
   orderCode: string | null;
   paymentId: string | null;
   status: string | null;
+  email?: string | null;
 }) {
   const tone = statusTone(variant);
   const Icon = tone.icon;
@@ -94,7 +96,12 @@ export function MercadoPagoStatusPage({
       }
 
       try {
-        const response = await fetch(`/api/orders/track?code=${encodeURIComponent(orderCode)}`, { cache: "no-store" });
+        const params = new URLSearchParams({ code: orderCode });
+        if (email) {
+          params.set("email", email);
+        }
+
+        const response = await fetch(`/api/orders/track?${params.toString()}`, { cache: "no-store" });
         const json = (await response.json().catch(() => ({}))) as TrackOrderResponse;
         if (!active) return;
         setData(json);
@@ -114,7 +121,7 @@ export function MercadoPagoStatusPage({
     return () => {
       active = false;
     };
-  }, [orderCode]);
+  }, [email, orderCode]);
 
   return (
     <section className="mx-auto max-w-4xl px-6 py-20">

@@ -22,7 +22,6 @@ type SupportStatus = {
 };
 
 const VISITOR_STORAGE_KEY = "mdh-chat-visitor-id";
-const THREAD_STORAGE_KEY = "mdh-chat-thread-id";
 
 function createVisitorId() {
   const random = typeof crypto !== "undefined" && "randomUUID" in crypto ? crypto.randomUUID() : `${Date.now()}-${Math.random()}`;
@@ -111,11 +110,37 @@ export function LiveChatWidget() {
         }
 
         scrollToBottom();
+      } else if (response.status === 403) {
+        setThreadId(null);
+        setMessages([]);
+        lastMessageCountRef.current = 0;
       }
     } finally {
       if (!silent) setLoading(false);
     }
   }, [isOpen]);
+
+  const restoreCurrentThread = useCallback(async () => {
+    try {
+      const response = await fetch("/api/chat?action=current", { cache: "no-store" });
+      const payload = await response.json().catch(() => null);
+      const session = payload?.session;
+
+      if (response.ok && session?.id && Array.isArray(session.messages)) {
+        setThreadId(session.id as string);
+        setMessages(session.messages as ChatMessage[]);
+        lastMessageCountRef.current = session.messages.length;
+      } else {
+        setThreadId(null);
+        setMessages([]);
+        lastMessageCountRef.current = 0;
+      }
+    } catch {
+      setThreadId(null);
+      setMessages([]);
+      lastMessageCountRef.current = 0;
+    }
+  }, []);
 
   async function startChat(subjectOverride?: string): Promise<string | null> {
     const id = visitorId || getClientVisitorId();
@@ -152,7 +177,6 @@ export function LiveChatWidget() {
       }
 
       setThreadId(session.id);
-      window.localStorage.setItem(THREAD_STORAGE_KEY, session.id);
       lastMessageCountRef.current = 0;
       setMessages([]);
       setUnreadCount(0);
@@ -195,7 +219,6 @@ export function LiveChatWidget() {
         cache: "no-store",
         body: JSON.stringify({
           action: "send_message",
-          visitor_id: visitorId || getClientVisitorId(),
           thread_id: currentThreadId,
           message: trimmed,
         }),
@@ -234,13 +257,9 @@ export function LiveChatWidget() {
 
   useEffect(() => {
     setVisitorId(getClientVisitorId());
-    const storedThread = window.localStorage.getItem(THREAD_STORAGE_KEY);
-    if (storedThread) {
-      setThreadId(storedThread);
-      void loadThread(storedThread, true);
-    }
+    void restoreCurrentThread();
     void loadSupportStatus();
-  }, [loadSupportStatus, loadThread]);
+  }, [loadSupportStatus, restoreCurrentThread]);
 
   // Listen for product-context open-chat events dispatched by PDP CTAs
   useEffect(() => {

@@ -2,11 +2,13 @@ import Link from "next/link";
 import { SafeProductImage } from "@/components/safe-product-image";
 import { ProductVisualBadge } from "@/components/product-visual-authenticity";
 import { whatsappNumber } from "@/lib/constants";
-import { catalog, getProductUrl } from "@/lib/catalog";
+import { getProductUrl } from "@/lib/catalog";
+import { getCatalogSnapshot } from "@/lib/catalog-repository";
 import { isProductRealPhoto } from "@/lib/product-visuals";
 import { resolveProductImage } from "@/lib/product-images";
 
-export function CatalogRealCases() {
+export async function CatalogRealCases() {
+  const catalog = await getCatalogSnapshot();
   const realCaseStudies = catalog.filter((product) => isProductRealPhoto(product)).slice(0, 6);
 
   return (

@@ -4,9 +4,6 @@ import { CatalogGrid } from "@/components/catalog-grid";
 import { STLUploader } from "@/components/stl-uploader";
 import { TrustSignals } from "@/components/trust-signals";
 import { ProductionProcess } from "@/components/production-process";
-import { SafeProductImage } from "@/components/safe-product-image";
-import { ProductVisualBadge } from "@/components/product-visual-authenticity";
-import { getProductUrl } from "@/lib/catalog";
 import { getCatalogSnapshot } from "@/lib/catalog-repository";
 import { PurchaseProtectionBanner } from "@/components/purchase-protection-banner";
 import { isProductRealPhoto, summarizeProductVisuals } from "@/lib/product-visuals";
@@ -67,7 +64,47 @@ export default async function HomePage() {
   return (
     <main>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd) }} />
-      <Hero />
+      <Hero
+        catalogCount={catalogCount}
+        realPhotoCount={visualSummary.fotoReal}
+        readyRealCount={readyRealCount}
+        ratingLabel={ratingLabel}
+        reviewCount={storeSummary?.reviewCount}
+      />
+
+      <section className="mx-auto max-w-7xl px-6 py-6">
+        <div className="grid gap-4 xl:grid-cols-[1.05fr_0.95fr]">
+          <div className="glass-panel p-6 md:p-7">
+            <p className="section-kicker">Sinais de confiança</p>
+            <h2 className="section-title">A primeira rolagem já explica por que a MDH 3D não parece loja genérica.</h2>
+            <div className="mt-6 grid gap-4 md:grid-cols-3">
+              {[
+                {
+                  title: "Mídia pública governada",
+                  body: "A vitrine pública não fica misturando placeholder, item bloqueado e mídia sem contexto. A leitura visual já nasce mais honesta.",
+                },
+                {
+                  title: "Compra com status claro",
+                  body: "Checkout, retorno de pagamento e rastreio usam estados explícitos para sucesso, falha e pendência sem esconder o que aconteceu.",
+                },
+                {
+                  title: "Atendimento integrado",
+                  body: "Chat, WhatsApp e inbox entram como continuidade comercial da jornada, não como ferramenta solta brigando com o resto da loja.",
+                },
+              ].map((item) => (
+                <article key={item.title} className="rounded-[24px] border border-white/10 bg-black/20 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-cyan-300/25">
+                  <h3 className="text-base font-bold text-white">{item.title}</h3>
+                  <p className="mt-3 text-sm leading-7 text-white/65">{item.body}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+
+          <div className="glass-panel p-4 md:p-5">
+            <PurchaseProtectionBanner summary={storeSummary} compact />
+          </div>
+        </div>
+      </section>
 
       <HomeAnimatedStats
         catalogCount={catalogCount}
@@ -75,16 +112,12 @@ export default async function HomePage() {
         reviewCount={storeSummary?.reviewCount}
       />
 
-      <section className="mx-auto max-w-7xl px-6 pt-4">
-        <PurchaseProtectionBanner summary={storeSummary} compact />
-      </section>
-
       <section id="home-featured" className="mx-auto max-w-7xl px-6 py-16">
         <div className="mb-8">
           <p className="section-kicker">Catálogo com foto real</p>
-          <h2 className="section-title">{catalogCount.toLocaleString("pt-BR")} peças em estoque. Acesso rápido aos itens mais confiáveis.</h2>
+          <h2 className="section-title">{catalogCount.toLocaleString("pt-BR")} peças públicas com leitura forte para decidir mais rápido.</h2>
           <p className="section-copy mt-4 max-w-3xl">
-            Navegue entre peças com prova visual forte, orçamentos customizados ou busque material específico.
+            Comece pelos itens com prova visual mais forte, pronta entrega real ou espaço claro para personalização.
           </p>
         </div>
 

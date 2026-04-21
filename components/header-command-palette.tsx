@@ -11,11 +11,10 @@ import {
   Search,
   Sparkles,
 } from "lucide-react";
-import { catalog, featuredCatalog, getProductUrl } from "@/lib/catalog";
 import { catalogShortcutLinks, customerSegments } from "@/lib/constants";
 import { useCustomerSession } from "@/lib/customer-session-client";
 import { getMemberKey, listFavorites } from "@/lib/member-store";
-import { isProductVisualVerified } from "@/lib/product-visuals";
+import type { PublicProductPayload } from "@/lib/public-catalog";
 import { formatCurrency } from "@/lib/utils";
 
 type PaletteEntry = {
@@ -82,6 +81,10 @@ function getIcon(kind: PaletteEntry["icon"]) {
   return Sparkles;
 }
 
+function getProductHref(product: Pick<PublicProductPayload, "id" | "slug">) {
+  return `/catalogo/${product.id}-${product.slug}`;
+}
+
 export function HeaderCommandPalette() {
   const session = useCustomerSession();
   const [open, setOpen] = useState(false);
@@ -90,6 +93,7 @@ export function HeaderCommandPalette() {
   const [favoriteIds, setFavoriteIds] = useState<string[]>([]);
   const [apiResults, setApiResults] = useState<PaletteEntry[]>([]);
   const [apiLoading, setApiLoading] = useState(false);
+  const [catalogItems, setCatalogItems] = useState<PublicProductPayload[]>([]);
 
   useEffect(() => {
     function handleKeydown(event: KeyboardEvent) {
@@ -129,7 +133,17 @@ export function HeaderCommandPalette() {
     setRecentIds(readRecentIds());
     const memberKey = getMemberKey({ id: session.user?.id, email: session.user?.email });
     setFavoriteIds(listFavorites(memberKey));
-  }, [open, session.user?.email, session.user?.id]);
+
+    if (catalogItems.length > 0) return;
+
+    fetch("/api/store/products", { cache: "no-store" })
+      .then((response) => response.json())
+      .then((payload) => {
+        const products = Array.isArray(payload?.products) ? (payload.products as PublicProductPayload[]) : [];
+        setCatalogItems(products);
+      })
+      .catch(() => {});
+  }, [catalogItems.length, open, session.user?.email, session.user?.id]);
 
   useEffect(() => {
     const normalized = query.trim();
@@ -192,43 +206,43 @@ export function HeaderCommandPalette() {
       })),
     ];
 
-    const productEntries = featuredCatalog.slice(0, 10).map((product) => ({
+    const productEntries = catalogItems.filter((product) => product.featured).slice(0, 10).map((product) => ({
       id: `product-${product.id}`,
       label: product.name,
-      href: getProductUrl(product),
-      note: `${product.category} • ${formatCurrency(product.pricePix)} • ${product.productionWindow} • ${isProductVisualVerified(product) ? "visual validado" : "imagem conceitual"}`,
+      href: getProductHref(product),
+      note: `${product.category} • ${formatCurrency(product.pricePix)} • ${product.productionWindow} • ${product.visualLabel.toLowerCase()}`,
       group: "Produtos em destaque",
       icon: "product" as const,
     }));
 
     const recentEntries = recentIds
-      .map((id) => catalog.find((product) => product.id === id))
+      .map((id) => catalogItems.find((product) => product.id === id))
       .filter(Boolean)
       .slice(0, 6)
       .map((product) => ({
         id: `recent-${product!.id}`,
         label: product!.name,
-        href: getProductUrl(product!),
+        href: getProductHref(product!),
         note: "visto recentemente",
         group: "Recentes",
         icon: "product" as const,
       }));
 
     const favoriteEntries = favoriteIds
-      .map((id) => catalog.find((product) => product.id === id))
+      .map((id) => catalogItems.find((product) => product.id === id))
       .filter(Boolean)
       .slice(0, 6)
       .map((product) => ({
         id: `favorite-${product!.id}`,
         label: product!.name,
-        href: getProductUrl(product!),
+        href: getProductHref(product!),
         note: "favoritado por você",
         group: "Favoritos",
         icon: "favorite" as const,
       }));
 
     return [...routeEntries, ...recentEntries, ...favoriteEntries, ...productEntries];
-  }, [favoriteIds, recentIds]);
+  }, [catalogItems, favoriteIds, recentIds]);
 
   const filtered = useMemo(() => {
     const normalized = query.trim().toLowerCase();

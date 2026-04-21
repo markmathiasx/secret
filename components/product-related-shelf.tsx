@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { CatalogGrid } from "@/components/catalog-grid";
-import { catalog, getProductUrl, type Product } from "@/lib/catalog";
+import { getProductUrl, type Product } from "@/lib/catalog";
+import { getCatalogSnapshot } from "@/lib/catalog-repository";
 import { isProductVisualVerified } from "@/lib/product-visuals";
 
 function scoreRelatedProduct(base: Product, candidate: Product) {
@@ -16,7 +17,8 @@ function scoreRelatedProduct(base: Product, candidate: Product) {
   return score;
 }
 
-export function ProductRelatedShelf({ product }: { product: Product }) {
+export async function ProductRelatedShelf({ product }: { product: Product }) {
+  const catalog = await getCatalogSnapshot();
   const related = catalog
     .filter((candidate) => candidate.id !== product.id)
     .map((candidate) => ({ candidate, score: scoreRelatedProduct(product, candidate) }))

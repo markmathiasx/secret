@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Search } from "lucide-react";
-import { catalog } from "@/lib/catalog";
+import { getCatalogSnapshot } from "@/lib/catalog-repository";
 
 export const dynamic = "force-dynamic";
 
@@ -9,6 +9,7 @@ type Props = { searchParams: Promise<{ q?: string }> };
 export default async function BuscaPage({ searchParams }: Props) {
   const { q } = await searchParams;
   const query = q?.trim().toLowerCase() || "";
+  const catalog = await getCatalogSnapshot();
 
   const results = query
     ? catalog.filter(

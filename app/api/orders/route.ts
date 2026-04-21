@@ -7,6 +7,7 @@ import { canConnectToDatabase, prisma } from "@/lib/prisma";
 import { createMercadoPagoPayment } from "@/lib/payments";
 import { createStableExternalReference, mapMercadoPagoPaymentStatus, normalizeMpPaymentFormData } from "@/lib/mercadopago";
 import { getClientIp, checkRateLimit } from "@/lib/security";
+import { createOrderAccessToken, orderAccessCookieName, orderAccessMaxAgeSeconds } from "@/lib/order-access";
 import { getServerSessionUser } from "@/lib/server-session";
 import { buildShippingQuote } from "@/lib/shipping";
 import { storeRecord, updateOrderRecord } from "@/lib/storage";
@@ -117,6 +118,34 @@ function toDecimal(value: number) {
 
 function createOrderCode() {
   return `MDH-${new Date().toISOString().slice(0, 10).replace(/-/g, "")}-${Math.floor(1000 + Math.random() * 9000)}`;
+}
+
+function buildOrderSuccessResponse(
+  payload: Record<string, unknown>,
+  access: { orderCode: string; customerEmail: string; customerName: string }
+) {
+  return (async () => {
+    const response = NextResponse.json(payload);
+    const orderAccessToken = await createOrderAccessToken({
+      orderCode: access.orderCode,
+      customerEmail: access.customerEmail,
+      customerName: access.customerName,
+    });
+
+    if (orderAccessToken) {
+      response.cookies.set({
+        name: orderAccessCookieName,
+        value: orderAccessToken,
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        path: "/",
+        maxAge: orderAccessMaxAgeSeconds,
+      });
+    }
+
+    return response;
+  })();
 }
 
 function mapPaymentMethod(method: "pix" | "cartao" | "boleto") {
@@ -398,7 +427,7 @@ export async function POST(request: Request) {
           }),
         }).catch(() => null);
 
-        return NextResponse.json({
+        return buildOrderSuccessResponse({
           ok: true,
           orderCode,
           storage: "prisma",
@@ -420,6 +449,10 @@ export async function POST(request: Request) {
           pixPayload: paymentResult.pixPayload,
           pixQrCode: paymentResult.pixQrCode,
           boletoUrl: null,
+        }, {
+          orderCode,
+          customerEmail,
+          customerName: parsed.data.customerName,
         });
       }
 
@@ -437,7 +470,7 @@ export async function POST(request: Request) {
         }),
       }).catch(() => null);
 
-      return NextResponse.json({
+      return buildOrderSuccessResponse({
         ok: true,
         orderCode,
         storage: "prisma",
@@ -451,6 +484,10 @@ export async function POST(request: Request) {
           name: product.name,
         },
         orderId: order.id,
+      }, {
+        orderCode,
+        customerEmail,
+        customerName: parsed.data.customerName,
       });
     } catch (error) {
       logStructured("error", "order_create_prisma_failed", {
@@ -547,7 +584,7 @@ export async function POST(request: Request) {
       }),
     }).catch(() => null);
 
-    return NextResponse.json({
+    return buildOrderSuccessResponse({
       ok: true,
       orderCode,
       storage: result.storage,
@@ -568,6 +605,10 @@ export async function POST(request: Request) {
       pixPayload: paymentResult.pixPayload,
       pixQrCode: paymentResult.pixQrCode,
       boletoUrl: null,
+    }, {
+      orderCode,
+      customerEmail: customerEmailFallback,
+      customerName: parsed.data.customerName,
     });
   }
 
@@ -585,7 +626,7 @@ export async function POST(request: Request) {
     }),
   }).catch(() => null);
 
-  return NextResponse.json({
+  return buildOrderSuccessResponse({
     ok: true,
     orderCode,
     storage: result.storage,
@@ -598,5 +639,9 @@ export async function POST(request: Request) {
       id: product.id,
       name: product.name,
     },
+  }, {
+    orderCode,
+    customerEmail: customerEmailFallback,
+    customerName: parsed.data.customerName,
   });
 }

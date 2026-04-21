@@ -42,14 +42,14 @@ export default async function CatalogPage() {
           <div className="max-w-3xl">
             <p className="text-xs uppercase tracking-[0.22em] text-cyan-200">Catálogo MDH 3D</p>
             <h1 className="catalog-hero-title mt-3 break-words text-3xl font-black leading-[1.06] text-white sm:text-4xl md:text-5xl">
-              Todos os produtos publicados aparecem na vitrine.
+              Só entram na vitrine os produtos com mídia pública aprovada.
             </h1>
             <p className="mt-4 text-base leading-7 text-white/72 md:text-lg md:leading-8">
-              Cada item ativo tem uma imagem principal propria no card e na pagina do produto. Os filtros continuam disponiveis para quem quiser ver apenas fotos reais ou renders fieis.
+              Cada item exibido no catálogo público já passa pelo filtro de mídia segura. Os atalhos continuam disponíveis para focar só em foto real ou render fiel.
             </p>
 
             <div className="catalog-active-lens mt-5 inline-flex max-w-full rounded-full border border-cyan-300/25 bg-cyan-300/10 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-cyan-100 md:text-xs md:tracking-[0.18em]">
-              Catálogo completo
+              Catálogo público seguro
             </div>
 
             <div className="mt-6 flex flex-wrap gap-2.5 md:gap-3">
@@ -100,8 +100,7 @@ export default async function CatalogPage() {
       <div className="glass-panel mt-8 rounded-[28px] border border-emerald-300/15 bg-emerald-300/8 p-5 text-sm leading-7 text-emerald-50/90">
         <p className="text-xs uppercase tracking-[0.18em] text-emerald-100/80">Leitura comercial</p>
         <p className="mt-2">
-          A vitrine publica mostra o catalogo completo, sem esconder produto por tipo de midia. Quando a imagem nao e foto real,
-          o selo visual deixa claro o tipo de referencia antes da compra.
+          A vitrine pública só mostra produtos com mídia aprovada para exposição. Os selos continuam deixando claro quando a referência é foto real ou render fiel.
         </p>
       </div>
 

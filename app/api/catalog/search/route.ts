@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { searchCatalogProducts } from "@/lib/catalog-repository";
 import { applyNoStoreHeaders } from "@/lib/http-cache";
+import { serializePublicProducts } from "@/lib/public-catalog";
 
 export async function GET(request: Request) {
   const url = new URL(request.url);
@@ -20,5 +21,6 @@ export async function GET(request: Request) {
   return applyNoStoreHeaders(NextResponse.json({
     ok: true,
     ...results,
+    items: serializePublicProducts(results.items),
   }));
 }

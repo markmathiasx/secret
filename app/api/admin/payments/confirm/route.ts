@@ -1,14 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { auth } from '@/auth';
 import { prisma } from '@/lib/prisma';
 import { logStructured } from '@/lib/logger';
+import { getServerSessionUser, isAdminSession } from '@/lib/server-session';
 
 const ALLOWED_PAYMENT_STATUSES = ['PENDING', 'PAID', 'FAILED', 'CANCELLED', 'REFUNDED'] as const;
 type PaymentStatus = typeof ALLOWED_PAYMENT_STATUSES[number];
 
 export async function POST(req: NextRequest) {
-  const session = await auth();
-  if (!session?.user || session.user.role !== 'admin') {
+  const user = await getServerSessionUser();
+  if (!isAdminSession(user)) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
@@ -32,8 +32,8 @@ export async function POST(req: NextRequest) {
   }
 
   logStructured('info', 'payment_status_changed', {
-    adminId: session.user.id,
-    adminEmail: session.user.email,
+    adminId: user.id,
+    adminEmail: user.email,
     orderId,
     oldStatus: payment.status,
     newStatus: status,

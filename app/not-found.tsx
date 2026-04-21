@@ -1,13 +1,15 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Home, Search, ShoppingBag, MessageCircleMore } from "lucide-react";
-import { featuredCatalog, getProductUrl } from "@/lib/catalog";
+import { getProductUrl } from "@/lib/catalog";
+import { getCatalogSnapshot } from "@/lib/catalog-repository";
 import { formatCurrency } from "@/lib/utils";
 import { resolveProductImage } from "@/lib/product-images";
 import { whatsappNumber } from "@/lib/constants";
 
-export default function NotFound() {
-  const suggestions = featuredCatalog.slice(0, 4);
+export default async function NotFound() {
+  const catalog = await getCatalogSnapshot();
+  const suggestions = catalog.filter((product) => product.featured).slice(0, 4);
 
   return (
     <main className="mx-auto max-w-4xl px-6 py-24">

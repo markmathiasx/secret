@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { createHmac, timingSafeEqual } from "node:crypto";
 import { catalog, getProductUrl } from "@/lib/catalog";
 import { estimateDeliveryFeeKm } from "@/lib/delivery";
 import { formatCurrency } from "@/lib/utils";
@@ -11,6 +12,21 @@ type Session = { distanceKm?: number; lastProductId?: string; wantsHuman?: boole
 const sessionsCache = new Map<string, Session>();
 const AI_BOT_ID = "ai-bot";
 const WA_API_VERSION = "v23.0";
+
+function isValidWebhookSignature(rawBody: string, signatureHeader: string | null, secret: string) {
+  if (!signatureHeader?.startsWith("sha256=")) {
+    return false;
+  }
+
+  const received = signatureHeader.slice("sha256=".length);
+  const expected = createHmac("sha256", secret).update(rawBody).digest("hex");
+
+  if (received.length !== expected.length) {
+    return false;
+  }
+
+  return timingSafeEqual(Buffer.from(received, "hex"), Buffer.from(expected, "hex"));
+}
 
 async function ensureBotUser() {
   await prisma.user.upsert({
@@ -256,102 +272,123 @@ function normalizeQuery(text: string) {
 }
 
 export async function POST(request: Request) {
-  const payload = await request.json().catch(() => ({}));
-  const entries = payload?.entry || [];
+  try {
+    const appSecret = process.env.WHATSAPP_APP_SECRET || process.env.META_APP_SECRET;
+    if (!appSecret) {
+      console.error("[whatsapp-webhook] missing app secret");
+      return NextResponse.json({ ok: false }, { status: 503 });
+    }
 
-  for (const entry of entries) {
-    for (const change of entry?.changes || []) {
-      const value = change?.value || {};
-      const messages = value?.messages || [];
+    const rawBody = await request.text();
+    const signatureHeader = request.headers.get("x-hub-signature-256");
 
-      for (const msg of messages) {
-        const from = String(msg?.from || "");
-        const text = String(msg?.text?.body || "").trim();
-        if (!from || !text) continue;
+    if (!isValidWebhookSignature(rawBody, signatureHeader, appSecret)) {
+      console.warn("[whatsapp-webhook] invalid signature");
+      return NextResponse.json({ ok: false }, { status: 401 });
+    }
 
-        const contact = await ensureWhatsAppUser(from);
-        const thread = await ensureWhatsAppThread(contact.id, `WhatsApp ${from}`);
-        await storeMessage(thread.id, contact.id, text);
+    const payload = JSON.parse(rawBody || "{}");
+    const entries = payload?.entry || [];
 
-        // Load session from cache or DB (persists across serverless invocations)
-        const session = await getSession(from, thread.id);
+    for (const entry of entries) {
+      for (const change of entry?.changes || []) {
+        const value = change?.value || {};
+        const messages = value?.messages || [];
 
-        if (/^(oi|ol[aá]|menu|in[ií]cio|começar)$/i.test(text)) {
-          const reply = menuText();
-          const result = await sendText(from, reply);
-          if (result.ok) {
-            await storeMessage(thread.id, AI_BOT_ID, reply);
-          } else {
-            console.error("WhatsApp reply failed:", result);
+        for (const msg of messages) {
+          const from = String(msg?.from || "");
+          const text = String(msg?.text?.body || "").trim();
+          if (!from || !text) continue;
+
+          const contact = await ensureWhatsAppUser(from);
+          const thread = await ensureWhatsAppThread(contact.id, `WhatsApp ${from}`);
+          await storeMessage(thread.id, contact.id, text);
+
+          // Load session from cache or DB (persists across serverless invocations)
+          const session = await getSession(from, thread.id);
+
+          if (/^(oi|ol[aá]|menu|in[ií]cio|começar)$/i.test(text)) {
+            const reply = menuText();
+            const result = await sendText(from, reply);
+            if (result.ok) {
+              await storeMessage(thread.id, AI_BOT_ID, reply);
+            } else {
+              console.error("WhatsApp reply failed:", result);
+            }
+            continue;
           }
-          continue;
-        }
 
-        if (wantsHuman(text)) {
-          session.wantsHuman = true;
+          if (wantsHuman(text)) {
+            session.wantsHuman = true;
+            saveSession(from, session);
+            const reply = [
+              "Perfeito. Vou direcionar para atendimento humano.",
+              `WhatsApp principal: +${whatsappNumber}`,
+              `E-mail de apoio: ${supportEmail}`,
+              "Se quiser agilizar, já me mande: item, cor, bairro/CEP e prazo desejado."
+            ].join("\n");
+            const result = await sendText(from, reply);
+            if (result.ok) {
+              await storeMessage(thread.id, AI_BOT_ID, reply);
+            } else {
+              console.error("WhatsApp reply failed:", result);
+            }
+            continue;
+          }
+
+          const km = parseDistanceKm(text);
+          if (km != null) session.distanceKm = km;
+
+          const query = normalizeQuery(text);
+          const product = findBestProduct(query) || (session.lastProductId ? catalog.find((p) => p.id === session.lastProductId) : null);
+
+          if (!product) {
+            saveSession(from, session);
+            const reply = menuText();
+            const result = await sendText(from, reply);
+            if (result.ok) {
+              await storeMessage(thread.id, AI_BOT_ID, reply);
+            } else {
+              console.error("WhatsApp reply failed:", result);
+            }
+            continue;
+          }
+
+          session.lastProductId = product.id;
           saveSession(from, session);
-          const reply = [
-            "Perfeito. Vou direcionar para atendimento humano.",
-            `WhatsApp principal: +${whatsappNumber}`,
-            `E-mail de apoio: ${supportEmail}`,
-            "Se quiser agilizar, já me mande: item, cor, bairro/CEP e prazo desejado."
-          ].join("\n");
+
+          const siteUrl = getSiteUrl();
+          const link = `${siteUrl}${getProductUrl(product)}`;
+          const deliveryFee = session.distanceKm ? estimateDeliveryFeeKm(session.distanceKm) : 0;
+          const total = Number((product.pricePix + deliveryFee).toFixed(2));
+
+          const lines = [
+            `MDH 3D | ${product.name}`,
+            `Preço base no Pix: ${formatCurrency(product.pricePix)}`,
+            deliveryFee > 0 ? `Frete estimado (${session.distanceKm} km): ${formatCurrency(deliveryFee)}` : "Frete: me envie km ou calcule pelo CEP no site.",
+            `Total estimado: ${formatCurrency(total)}`,
+            `Link do produto: ${link}`,
+            "",
+            "Quer seguir? Responda com cor, bairro/CEP e forma de pagamento.",
+            "Se quiser atendimento humano, escreva HUMANO."
+          ];
+
+          const reply = lines.join("\n");
           const result = await sendText(from, reply);
           if (result.ok) {
             await storeMessage(thread.id, AI_BOT_ID, reply);
           } else {
             console.error("WhatsApp reply failed:", result);
           }
-          continue;
-        }
-
-        const km = parseDistanceKm(text);
-        if (km != null) session.distanceKm = km;
-
-        const query = normalizeQuery(text);
-        const product = findBestProduct(query) || (session.lastProductId ? catalog.find((p) => p.id === session.lastProductId) : null);
-
-        if (!product) {
-          saveSession(from, session);
-          const reply = menuText();
-          const result = await sendText(from, reply);
-          if (result.ok) {
-            await storeMessage(thread.id, AI_BOT_ID, reply);
-          } else {
-            console.error("WhatsApp reply failed:", result);
-          }
-          continue;
-        }
-
-        session.lastProductId = product.id;
-        saveSession(from, session);
-
-        const siteUrl = getSiteUrl();
-        const link = `${siteUrl}${getProductUrl(product)}`;
-        const deliveryFee = session.distanceKm ? estimateDeliveryFeeKm(session.distanceKm) : 0;
-        const total = Number((product.pricePix + deliveryFee).toFixed(2));
-
-        const lines = [
-          `MDH 3D | ${product.name}`,
-          `Preço base no Pix: ${formatCurrency(product.pricePix)}`,
-          deliveryFee > 0 ? `Frete estimado (${session.distanceKm} km): ${formatCurrency(deliveryFee)}` : "Frete: me envie km ou calcule pelo CEP no site.",
-          `Total estimado: ${formatCurrency(total)}`,
-          `Link do produto: ${link}`,
-          "",
-          "Quer seguir? Responda com cor, bairro/CEP e forma de pagamento.",
-          "Se quiser atendimento humano, escreva HUMANO."
-        ];
-
-        const reply = lines.join("\n");
-        const result = await sendText(from, reply);
-        if (result.ok) {
-          await storeMessage(thread.id, AI_BOT_ID, reply);
-        } else {
-          console.error("WhatsApp reply failed:", result);
         }
       }
     }
-  }
 
-  return NextResponse.json({ ok: true });
+    return NextResponse.json({ ok: true });
+  } catch (error) {
+    console.error("[whatsapp-webhook] processing failed", {
+      message: error instanceof Error ? error.message : "unknown",
+    });
+    return NextResponse.json({ ok: false }, { status: 500 });
+  }
 }

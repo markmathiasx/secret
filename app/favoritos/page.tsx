@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Heart } from "lucide-react";
-import { catalog } from "@/lib/catalog";
+import type { PublicProductPayload } from "@/lib/public-catalog";
 
 const FAVORITES_KEY = "mdh:favorites";
 
@@ -13,14 +13,27 @@ type FavoriteItem = {
 };
 
 export default function FavoritosPage() {
-  const [favoriteProducts, setFavoriteProducts] = useState<typeof catalog>([]);
+  const [catalogItems, setCatalogItems] = useState<PublicProductPayload[]>([]);
+  const [favoriteProducts, setFavoriteProducts] = useState<PublicProductPayload[]>([]);
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
+    fetch("/api/store/products", { cache: "no-store" })
+      .then((response) => response.json())
+      .then((payload) => {
+        setCatalogItems(Array.isArray(payload?.products) ? (payload.products as PublicProductPayload[]) : []);
+      })
+      .catch(() => {})
+      .finally(() => setLoaded(true));
+  }, []);
+
+  useEffect(() => {
+    if (!catalogItems.length) return;
+
     try {
       const raw = localStorage.getItem(FAVORITES_KEY);
       if (!raw) {
-        setLoaded(true);
+        setFavoriteProducts([]);
         return;
       }
 
@@ -35,14 +48,11 @@ export default function FavoritosPage() {
         }
       }
 
-      const found = catalog.filter((p) => ids.has(p.id));
-      setFavoriteProducts(found);
+      setFavoriteProducts(catalogItems.filter((product) => ids.has(product.id)));
     } catch {
-      // ignore storage errors
-    } finally {
-      setLoaded(true);
+      setFavoriteProducts([]);
     }
-  }, []);
+  }, [catalogItems]);
 
   function removeFavorite(productId: string) {
     try {

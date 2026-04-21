@@ -5,6 +5,7 @@ import { applyCatalogMedia, buildProductImageAlt } from "@/lib/catalog-media";
 import { catalog as staticCatalog, findProductBySlug as findStaticProductBySlug, type Product } from "@/lib/catalog";
 import { logStructured } from "@/lib/logger";
 import { canConnectToDatabase, prisma } from "@/lib/prisma";
+import { filterPublicCatalogProducts, isPublicCatalogProduct } from "@/lib/public-catalog";
 
 type CatalogSource = "static" | "database";
 
@@ -50,8 +51,11 @@ function getDuplicateValues(values: string[]) {
 }
 
 function getStaticCatalogDiagnostics() {
+  const publicSafeCatalog = filterPublicCatalogProducts(staticCatalog);
+
   return {
     total: staticCatalog.length,
+    publicSafeTotal: publicSafeCatalog.length,
     duplicateIds: getDuplicateValues(staticCatalog.map((product) => product.id)),
     duplicateSlugs: getDuplicateValues(
       staticCatalog
@@ -142,7 +146,6 @@ function mapPrismaProduct(record: PrismaProductRecord): Product {
 
   return applyCatalogMedia(baseProduct, { preserveExisting: true });
 }
-
 export type CatalogQuery = {
   q?: string;
   category?: string;
@@ -168,19 +171,19 @@ async function getDatabaseCatalogSnapshot(): Promise<Product[]> {
     ],
   });
 
-  return products.map(mapPrismaProduct);
+  return filterPublicCatalogProducts(products.map(mapPrismaProduct));
 }
 
 export async function getCatalogSnapshot(): Promise<Product[]> {
   const configuredSource = getConfiguredCatalogSource();
 
   if (configuredSource === "static") {
-    return staticCatalog;
+    return filterPublicCatalogProducts(staticCatalog);
   }
 
   if (!(await canConnectToDatabase())) {
     logStructured("error", "catalog_database_unavailable", { configuredSource });
-    return staticCatalog;
+    return filterPublicCatalogProducts(staticCatalog);
   }
 
   try {
@@ -188,7 +191,7 @@ export async function getCatalogSnapshot(): Promise<Product[]> {
 
     if (!products.length) {
       logStructured("error", "catalog_database_empty", { configuredSource });
-      return staticCatalog;
+      return filterPublicCatalogProducts(staticCatalog);
     }
 
     return products;
@@ -196,7 +199,7 @@ export async function getCatalogSnapshot(): Promise<Product[]> {
     logStructured("error", "catalog_database_failed", {
       message: error instanceof Error ? error.message : "unknown",
     });
-    return staticCatalog;
+    return filterPublicCatalogProducts(staticCatalog);
   }
 }
 
@@ -219,7 +222,8 @@ export async function getCatalogStaticParams(): Promise<Array<{ slug: string }>>
 
 export async function findCatalogProductBySlug(slug: string): Promise<Product | undefined> {
   if (getConfiguredCatalogSource() === "static" || !(await canConnectToDatabase())) {
-    return findStaticProductBySlug(slug);
+    const product = findStaticProductBySlug(slug);
+    return product && isPublicCatalogProduct(product) ? product : undefined;
   }
 
   const normalized = slug.includes("-") ? slug.substring(slug.indexOf("-") + 1) : slug;
@@ -228,6 +232,7 @@ export async function findCatalogProductBySlug(slug: string): Promise<Product | 
   try {
     const record = await prisma.product.findFirst({
       where: {
+        visibility: ProductVisibility.PUBLIC,
         OR: [
           { slug: normalized },
           { id: idCandidate },
@@ -236,10 +241,16 @@ export async function findCatalogProductBySlug(slug: string): Promise<Product | 
       include: defaultProductInclude,
     });
 
-    if (!record) return findStaticProductBySlug(slug);
-    return mapPrismaProduct(record);
+    if (!record) {
+      const fallback = findStaticProductBySlug(slug);
+      return fallback && isPublicCatalogProduct(fallback) ? fallback : undefined;
+    }
+
+    const product = mapPrismaProduct(record);
+    return isPublicCatalogProduct(product) ? product : undefined;
   } catch {
-    return findStaticProductBySlug(slug);
+    const fallback = findStaticProductBySlug(slug);
+    return fallback && isPublicCatalogProduct(fallback) ? fallback : undefined;
   }
 }
 
@@ -268,7 +279,7 @@ export async function getCatalogDiagnostics() {
 
   const databaseUsable = configuredSource === "database" && databaseConnectable && Boolean(databasePublicCount);
   const fallbackActive = configuredSource === "database" && !databaseUsable;
-  const publicCount = databaseUsable && databasePublicCount ? databasePublicCount : staticDiagnostics.total;
+  const publicCount = databaseUsable && databasePublicCount ? databasePublicCount : staticDiagnostics.publicSafeTotal;
   const servedSource = databaseUsable ? "database" : fallbackActive ? "static-fallback" : "static";
 
   return {

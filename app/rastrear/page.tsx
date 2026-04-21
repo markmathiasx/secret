@@ -40,19 +40,24 @@ type OrderResult = {
 
 export default function RastrearPage() {
   const [code, setCode] = useState("");
+  const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [order, setOrder] = useState<OrderResult | null>(null);
   const [error, setError] = useState("");
 
   async function handleSearch(e: React.FormEvent) {
     e.preventDefault();
-    if (!code.trim()) return;
+    if (!code.trim() || !email.trim()) return;
     setLoading(true);
     setError("");
     setOrder(null);
 
     try {
-      const res = await fetch(`/api/orders/track?code=${encodeURIComponent(code.trim().toUpperCase())}`);
+      const params = new URLSearchParams({
+        code: code.trim().toUpperCase(),
+        email: email.trim().toLowerCase(),
+      });
+      const res = await fetch(`/api/orders/track?${params.toString()}`);
       const data = await res.json();
       if (!res.ok) throw new Error(data?.error || "Pedido não encontrado.");
       setOrder(data.order);
@@ -71,23 +76,31 @@ export default function RastrearPage() {
       <div className="mb-8">
         <p className="section-kicker">Acompanhar pedido</p>
         <h1 className="section-title">Rastrear</h1>
-        <p className="section-copy">Digite o código do seu pedido para acompanhar o status.</p>
+        <p className="section-copy">Digite o código e o e-mail usado na compra para acompanhar o status.</p>
       </div>
 
       <div className="mb-6">
         <PostPurchaseHub compact />
       </div>
 
-      <form onSubmit={handleSearch} className="mb-6 flex gap-3">
+      <form onSubmit={handleSearch} className="mb-6 grid gap-3 sm:grid-cols-[1.1fr,1fr,auto]">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40" />
           <input
             value={code}
             onChange={(e) => setCode(e.target.value)}
-            placeholder="Ex: MDH-001234"
+            placeholder="Ex: MDH-20260421-1234"
             className="field-base pl-9 uppercase tracking-widest"
           />
         </div>
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="E-mail do pedido"
+          className="field-base"
+          autoComplete="email"
+        />
         <button type="submit" disabled={loading} className="btn-primary whitespace-nowrap">
           {loading ? "Buscando…" : "Rastrear"}
         </button>

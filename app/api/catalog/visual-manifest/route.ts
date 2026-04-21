@@ -1,9 +1,11 @@
 import { NextResponse } from "next/server";
-import { catalog, getProductUrl } from "@/lib/catalog";
+import { getProductUrl } from "@/lib/catalog";
 import { getSiteUrl } from "@/lib/env";
 import { getProductLongDescription } from "@/lib/catalog-content";
 import { getProductVisual } from "@/lib/product-visuals";
 import { resolveProductImage } from "@/lib/product-images";
+import { publicCatalog } from "@/lib/public-catalog";
+import { getServerSessionUser, isAdminSession } from "@/lib/server-session";
 
 function escapeCsv(value: string | number | boolean) {
   const stringValue = String(value ?? "");
@@ -14,11 +16,16 @@ function escapeCsv(value: string | number | boolean) {
 }
 
 export async function GET(request: Request) {
+  const user = await getServerSessionUser();
+  if (!isAdminSession(user)) {
+    return NextResponse.json({ ok: false, error: "Unauthorized" }, { status: 403 });
+  }
+
   const url = new URL(request.url);
   const format = url.searchParams.get("format") || "csv";
   const siteUrl = getSiteUrl();
 
-  const rows = catalog.map((product) => {
+  const rows = publicCatalog.map((product) => {
     const visual = getProductVisual(product);
     const image = resolveProductImage(product);
     const absoluteImage = image.startsWith("http") ? image : `${siteUrl}${image}`;
@@ -34,13 +41,7 @@ export async function GET(request: Request) {
       primary_image: absoluteImage,
       product_url: `${siteUrl}${getProductUrl(product)}`,
       description: getProductLongDescription(product),
-      recommended_next_step: visual.recommendedNextStep,
       price_pix: product.pricePix,
-      pricing_mode: product.pricingMode || "",
-      pricing_narrative: product.pricingNarrative || "",
-      estimated_unit_cost: product.estimatedUnitCost || 0,
-      estimated_unit_profit: product.estimatedUnitProfit || 0,
-      market_segment: product.marketBenchmark?.label || "",
       production_window: product.productionWindow,
       material: product.material,
       finish: product.finish,
@@ -70,13 +71,7 @@ export async function GET(request: Request) {
     "primary_image",
     "product_url",
     "description",
-    "recommended_next_step",
     "price_pix",
-    "pricing_mode",
-    "pricing_narrative",
-    "estimated_unit_cost",
-    "estimated_unit_profit",
-    "market_segment",
     "production_window",
     "material",
     "finish",
