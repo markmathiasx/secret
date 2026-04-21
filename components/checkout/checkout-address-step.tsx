@@ -167,7 +167,7 @@ export function CheckoutAddressStep({
         <div className="mt-4 grid gap-4 md:grid-cols-3">
           <label>
             <span className="mb-2 block text-sm text-white/70">Nome completo</span>
-            <input value={customerName} onChange={(event) => onCustomerNameChange(event.target.value)} className="field-base" autoComplete="name" />
+            <input type="text" value={customerName} onChange={(event) => onCustomerNameChange(event.target.value)} className="field-base" autoComplete="name" />
           </label>
           <label>
             <span className="mb-2 block text-sm text-white/70">Email</span>
@@ -175,7 +175,7 @@ export function CheckoutAddressStep({
           </label>
           <label>
             <span className="mb-2 block text-sm text-white/70">WhatsApp</span>
-            <input value={phone} onChange={(event) => onPhoneChange(event.target.value)} className="field-base" autoComplete="tel" />
+            <input type="tel" value={phone} onChange={(event) => onPhoneChange(event.target.value)} className="field-base" autoComplete="tel" />
           </label>
         </div>
       </div>

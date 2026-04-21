@@ -10,7 +10,7 @@ import { getSiteUrl } from "@/lib/env";
 export const metadata: Metadata = {
   title: "Catálogo",
   description:
-    "Catalogo MDH 3D com foco em foto real e leitura clara para comparar, escolher e comprar com mais confianca.",
+    "Catálogo MDH 3D com foco em foto real e leitura clara para comparar, escolher e comprar com mais confiança.",
   alternates: {
     canonical: "/catalogo",
   },
