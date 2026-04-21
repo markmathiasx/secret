@@ -7,7 +7,7 @@
  */
 
 import { prisma } from "./prisma";
-import { getSiteUrl } from "./env";
+import { getDatabaseUrl, getSiteUrl } from "./env";
 import { whatsappNumber } from "./constants";
 
 export interface ChatMessage {
@@ -375,19 +375,39 @@ export async function getSupportStatus(): Promise<{
   active_agents: number;
   queue_length: number;
 }> {
-  const activeChats = await prisma.chatThread.count();
-  const activeAgents = await prisma.user.count({
-    where: {
-      role: { in: ["ADMIN"] },
-    },
-  });
+  if (!getDatabaseUrl()) {
+    return {
+      available: false,
+      average_wait_time: 30,
+      active_agents: 0,
+      queue_length: 0,
+    };
+  }
 
-  return {
-    available: activeAgents > 0,
-    average_wait_time: activeAgents > 0 ? Math.ceil(activeChats / activeAgents) * 5 : 30,
-    active_agents: activeAgents,
-    queue_length: activeChats,
-  };
+  try {
+    const activeChats = await prisma.chatThread.count();
+    const activeAgents = await prisma.user.count({
+      where: {
+        role: { in: ["ADMIN"] },
+      },
+    });
+
+    return {
+      available: activeAgents > 0,
+      average_wait_time: activeAgents > 0 ? Math.ceil(activeChats / activeAgents) * 5 : 30,
+      active_agents: activeAgents,
+      queue_length: activeChats,
+    };
+  } catch (error) {
+    console.error("Support status unavailable:", error);
+
+    return {
+      available: false,
+      average_wait_time: 30,
+      active_agents: 0,
+      queue_length: 0,
+    };
+  }
 }
 
 export async function getChatAnalytics(days: number = 30) {
