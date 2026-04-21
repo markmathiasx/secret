@@ -8,7 +8,6 @@ import {
   LoaderCircle,
   MessageCircleMore,
   PackageCheck,
-  QrCode,
   SendHorizonal,
   ShieldCheck,
   Sparkles,
@@ -34,60 +33,50 @@ type AssistantApiResponse = {
   model?: string;
 };
 
-function getAssistantStackLabel(provider: "openai" | "groq" | "ollama" | "fallback", model: string) {
-  if (provider === "ollama") return "consultor automático local";
-  if (provider === "groq" || provider === "openai") return "consultor automático online";
-  return "consultor guiado";
-}
-
 function createWelcomeMessage(
   aiAssistantReady: boolean,
-  cardCheckoutReady: boolean,
-  aiAssistantProvider: "openai" | "groq" | "ollama" | "fallback",
-  aiAssistantModel: string
+  cardCheckoutReady: boolean
 ): ChatMessage {
-  const stackLabel = getAssistantStackLabel(aiAssistantProvider, aiAssistantModel);
-
   return {
     id: "welcome",
     role: "assistant",
     source: aiAssistantReady ? "ai" : "fallback",
     content: aiAssistantReady
       ? [
-          "Sou o consultor digital da MDH 3D.",
-          "Posso te indicar produtos do catalogo, explicar foto real, render do produto e imagem conceitual, orientar personalizacao e te conduzir para Pix ou cartao.",
+          "Sou o consultor de compra da MDH 3D.",
+          "Posso separar produtos por faixa de preço, foto real, pronta entrega, setup, presente ou personalização.",
           cardCheckoutReady
-            ? "Se quiser, já posso começar por produto, presente, setup ou pagamento."
-            : "Se quiser, já posso começar por produto, presente, setup, Pix ou parcelamento com a equipe.",
+            ? "Se você já souber o objetivo da compra, eu encurto a seleção e te levo para o fechamento."
+            : "Se você já souber o objetivo da compra, eu encurto a seleção e te levo para Pix ou atendimento humano.",
         ].join(" ")
       : [
-          "Sou o consultor guiado da MDH 3D.",
-          "Consigo te orientar com base no catálogo, pagamento, entrega e personalização, e se precisar a equipe humana assume pelo WhatsApp.",
+          "Sou o consultor de compra da MDH 3D.",
+          "Consigo te orientar com base no catálogo, no pagamento, na entrega e na personalização, e a equipe humana assume pelo WhatsApp quando for necessário.",
         ].join(" "),
   };
 }
 
 const infoCards = [
   {
-    id: "pix",
-    title: "Pix ativo",
-    icon: QrCode,
-    description: "Chave direta, QR Code e fluxo imediato no checkout para acelerar o fechamento.",
-    actionLabel: "Fechar no Pix",
-    actionHref: "/checkout",
+    id: "gift",
+    title: "Presentes com foto real",
+    icon: Sparkles,
+    description: "Comece por itens com impacto visual forte e caminho curto até o fechamento.",
+    actionLabel: "Ver presentes",
+    actionHref: "/catalogo?intent=Presente&mode=real",
   },
   {
-    id: "card",
-    title: "Cartão e parcelamento",
-    icon: CreditCard,
-    description: "Checkout online quando ativo, com apoio do atendimento humano para fechar sem ruído.",
-    actionLabel: "Falar sobre cartão",
-    actionHref: `https://wa.me/${whatsappNumber}?text=Quero%20pagar%20no%20cartao%20de%20credito`,
+    id: "setup",
+    title: "Setup e utilidades",
+    icon: PackageCheck,
+    description: "Peças funcionais para mesa, bancada e organização com leitura rápida de valor.",
+    actionLabel: "Ver setup",
+    actionHref: "/catalogo?category=Setup%20%26%20Organiza%C3%A7%C3%A3o&status=Pronta%20entrega",
   },
   {
     id: "custom",
     title: "Projeto personalizado",
-    icon: PackageCheck,
+    icon: CreditCard,
     description: "Envie imagem, briefing, STL, OBJ ou 3MF para receber análise de material, prazo e acabamento.",
     actionLabel: "Enviar referência",
     actionHref: "/imagem-para-impressao-3d",
@@ -99,8 +88,8 @@ export function CommerceAssistantDialog({
   onClose,
   cardCheckoutReady,
   aiAssistantReady,
-  aiAssistantProvider,
-  aiAssistantModel,
+  aiAssistantProvider: _aiAssistantProvider,
+  aiAssistantModel: _aiAssistantModel,
 }: {
   open: boolean;
   onClose: () => void;
@@ -110,7 +99,7 @@ export function CommerceAssistantDialog({
   aiAssistantModel: string;
 }) {
   const [messages, setMessages] = useState<ChatMessage[]>(() => [
-    createWelcomeMessage(aiAssistantReady, cardCheckoutReady, aiAssistantProvider, aiAssistantModel),
+    createWelcomeMessage(aiAssistantReady, cardCheckoutReady),
   ]);
   const [input, setInput] = useState("");
   const [isSending, setIsSending] = useState(false);
@@ -132,24 +121,19 @@ export function CommerceAssistantDialog({
 
   useEffect(() => {
     if (!open) return;
-    setMessages([createWelcomeMessage(aiAssistantReady, cardCheckoutReady, aiAssistantProvider, aiAssistantModel)]);
+    setMessages([createWelcomeMessage(aiAssistantReady, cardCheckoutReady)]);
     setInput("");
     setError("");
     setResponseId(null);
     setIsSending(false);
-  }, [open, aiAssistantReady, cardCheckoutReady, aiAssistantProvider, aiAssistantModel]);
+  }, [open, aiAssistantReady, cardCheckoutReady]);
 
   const statusLabel = useMemo(() => {
     if (aiAssistantReady) {
-      return aiAssistantProvider === "ollama" ? "Atendimento automático ativo" : "Atendimento automático ativo";
+      return "Resposta imediata no site";
     }
-    return "Consultor guiado";
-  }, [aiAssistantProvider, aiAssistantReady]);
-
-  const stackLabel = useMemo(
-    () => getAssistantStackLabel(aiAssistantProvider, aiAssistantModel),
-    [aiAssistantModel, aiAssistantProvider]
-  );
+    return "Catálogo + apoio humano";
+  }, [aiAssistantReady]);
 
   async function sendMessage(content: string) {
     const trimmed = content.trim();
@@ -235,14 +219,14 @@ export function CommerceAssistantDialog({
         <div className="shrink-0 flex items-start justify-between gap-4 border-b border-white/10 px-6 py-5">
           <div>
             <div className="flex flex-wrap items-center gap-3">
-              <p className="text-xs uppercase tracking-[0.22em] text-cyan-100/75">Consultor comercial</p>
+              <p className="text-xs uppercase tracking-[0.22em] text-cyan-100/75">Consultor de compra</p>
               <span className="rounded-full border border-cyan-300/20 bg-cyan-300/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-cyan-100">
                 {statusLabel}
               </span>
             </div>
-            <h2 className="mt-2 text-3xl font-black text-white">Tire dúvidas, descubra produtos e avance para a compra.</h2>
+            <h2 className="mt-2 text-3xl font-black text-white">Encontre a peça certa e avance para o fechamento.</h2>
             <p className="mt-3 max-w-3xl text-sm leading-7 text-white/68">
-              Este consultor responde com base no catálogo, na política comercial da loja e no fluxo real de pagamento e personalização da MDH 3D.
+              Este consultor responde com base no catálogo, na política comercial da loja e no fluxo real de pagamento, entrega e personalização da MDH 3D.
             </p>
           </div>
           <button type="button" onClick={onClose} className="rounded-full border border-white/10 bg-white/5 p-3 text-white/70 transition hover:bg-white/10">
@@ -255,7 +239,7 @@ export function CommerceAssistantDialog({
             <div className="rounded-[28px] border border-white/10 bg-black/20 p-5">
               <div className="flex items-center gap-3 text-cyan-100">
                 <Sparkles className="h-5 w-5" />
-                <p className="text-sm font-semibold uppercase tracking-[0.18em]">Resumo da operação</p>
+                <p className="text-sm font-semibold uppercase tracking-[0.18em]">Base para fechar</p>
               </div>
               <div className="mt-4 grid gap-3 text-sm leading-7 text-white/72">
                 <p>Pix visível no checkout e chave ativa em <span className="font-semibold text-white">{pix.key}</span>.</p>
@@ -312,7 +296,7 @@ export function CommerceAssistantDialog({
                 <div>
                   <p className="text-sm font-semibold text-white">Conversa de compra</p>
                   <p className="text-xs text-white/50">
-                    Pergunte por item, faixa de preço, foto real, pagamento, frete ou personalização.
+                    Pergunte por objetivo, faixa de preço, foto real, pronta entrega, pagamento ou personalização.
                   </p>
                 </div>
               </div>
@@ -369,7 +353,7 @@ export function CommerceAssistantDialog({
                     value={input}
                     onChange={(event) => setInput(event.target.value)}
                     onKeyDown={handleComposerKeyDown}
-                    placeholder="Ex.: quero um presente geek até R$ 80 com foto real, ou preciso de um suporte para controle..."
+                    placeholder="Ex.: quero um presente com foto real até R$ 100, preciso de um suporte para setup ou quero enviar STL..."
                     className="min-h-[104px] max-h-[220px] flex-1 resize-none rounded-[24px] border border-white/10 bg-white/5 px-4 py-4 text-sm text-white outline-none placeholder:text-white/30"
                     disabled={isSending}
                   />

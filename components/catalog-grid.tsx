@@ -56,24 +56,40 @@ export function CatalogGrid({ products }: { products: Product[] }) {
               <ProductImageGallery product={product} compact />
               <div className="mt-4 flex flex-1 flex-col">
                 <div className="flex items-start justify-between gap-3">
-                  <div>
+                  <div className="min-w-0">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <ProductVisualBadge product={product} />
+                      {product.readyToShip ? (
+                        <span className="rounded-full border border-emerald-300/20 bg-emerald-300/10 px-2.5 py-1 text-[11px] font-semibold text-emerald-100">
+                          Pronta entrega
+                        </span>
+                      ) : null}
+                    </div>
                     <p className="text-xs uppercase tracking-[0.2em] text-cyan-200/80">{product.category}</p>
                     <h3 className="mt-2 text-lg font-semibold text-white">{product.name}</h3>
-                    <p className="mt-2 min-h-[72px] line-clamp-3 text-sm leading-6 text-white/62">{product.description}</p>
+                    <p className="mt-2 line-clamp-2 text-sm leading-6 text-white/62">{product.description}</p>
                   </div>
                   <FavoriteButton productId={product.id} className="shrink-0" />
-                </div>
-                <div className="mt-3">
-                  <ProductVisualBadge product={product} />
-                </div>
-                <div className="mt-3 rounded-[22px] border border-white/10 bg-black/20 p-3 text-xs leading-6 text-white/62">
-                  <p className="font-semibold text-white/82">{product.pricingMode === "faixa-auditada" ? "Compra direta" : "Projeto sob medida"}</p>
-                  <p className="mt-1">{product.pricingNarrative}</p>
                 </div>
                 <div className="mt-4 flex flex-wrap gap-2">
                   <span className="rounded-full border border-white/10 px-2.5 py-1 text-xs text-white/55">{product.material}</span>
                   <span className="rounded-full border border-white/10 px-2.5 py-1 text-xs text-white/55">{product.finish}</span>
                   <span className="rounded-full border border-white/10 px-2.5 py-1 text-xs text-white/55">{product.productionWindow}</span>
+                  {product.customizable ? (
+                    <span className="rounded-full border border-cyan-300/20 bg-cyan-300/10 px-2.5 py-1 text-xs text-cyan-100">
+                      Personalizável
+                    </span>
+                  ) : null}
+                </div>
+                <div className="mt-4 rounded-[22px] border border-white/10 bg-black/20 p-3 text-xs leading-6 text-white/62">
+                  <p className="font-semibold text-white/82">
+                    {product.pricingMode === "faixa-auditada" ? "Compra direta" : "Projeto sob medida"}
+                  </p>
+                  <p className="mt-1">
+                    {product.pricingMode === "faixa-auditada"
+                      ? "Preço claro no site para comparar, ir ao checkout ou fechar pelo WhatsApp."
+                      : "Envie sua referência para validar material, prazo e acabamento antes de produzir."}
+                  </p>
                 </div>
                 <div className="mt-5 flex items-end justify-between gap-2">
                   <ProductPriceStack product={product} compact />

@@ -24,32 +24,28 @@ const HERO_VIDEO = {
 };
 
 const HERO_SIGNALS = [
-  "Catálogo público seguro",
+  "Foto real e render fiel separados",
   "Produção local no Rio",
-  "Motion hero com asset local",
+  "Personalização com STL, imagem e briefing",
 ];
 
 const HERO_STEPS = [
   {
     value: "01",
-    title: "Escolha com prova visual",
-    body: "A vitrine pública prioriza mídia segura e deixa claro quando é foto real ou render fiel.",
+    title: "Ache a peça certa",
+    body: "Comece por presente, utilidade, pronta entrega ou foto real sem navegar uma vitrine confusa.",
   },
   {
     value: "02",
-    title: "Valide rápido",
-    body: "WhatsApp e chat entram como apoio comercial, não como atalho confuso.",
+    title: "Confirme sem ruído",
+    body: "Página do produto, consultor e WhatsApp ajudam a validar material, prazo e acabamento.",
   },
   {
     value: "03",
-    title: "Feche sem ruído",
-    body: "Checkout, rastreio e pós-venda ficam no mesmo eixo visual e operacional.",
+    title: "Feche com clareza",
+    body: "Pix, cartão, rastreio e pós-venda seguem no mesmo fluxo para evitar dúvida na hora de comprar.",
   },
 ] as const;
-
-function getProductHref(id: string, slug: string | undefined) {
-  return `/catalogo/${id}-${slug || id}`;
-}
 
 type HeroProps = {
   catalogCount: number;
@@ -238,14 +234,13 @@ export function Hero({
             </div>
 
             <h1 className="mt-6 max-w-5xl text-5xl font-black leading-[0.92] text-white md:text-7xl">
-              Impressão 3D com{" "}
-              <span className="text-gradient-brand">precisão de estúdio</span>{" "}
-              e presença de produto premium.
+              Impressão 3D premium com{" "}
+              <span className="text-gradient-brand">foto real</span>, produção local e acabamento de vitrine.
             </h1>
 
             <p className="mt-6 max-w-2xl text-base leading-8 text-white/82 md:text-lg">
-              Catálogo com mídia pública segura, produção local no Rio de Janeiro e um fluxo claro para explorar,
-              validar detalhes e fechar sem ruído no checkout ou no atendimento.
+              Explore presentes, utilidades, colecionáveis e projetos sob medida com uma jornada clara para comparar,
+              validar detalhes e fechar no checkout ou no atendimento.
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
@@ -281,7 +276,7 @@ export function Hero({
             </div>
 
             <p className="mt-4 text-sm leading-7 text-white/58">
-              Rastreio com código + e-mail do pedido, checkout com sinais claros de status e atendimento humano quando a compra pede validação.
+              Foto real, render fiel e projeto personalizado aparecem com sinalização clara antes de qualquer pagamento.
             </p>
 
             {selectedFile ? (
@@ -311,13 +306,13 @@ export function Hero({
 
             <div className="relative">
               <p className="text-xs uppercase tracking-[0.22em] text-cyan-100/78">
-                Entrada premium
+                Decisão rápida
               </p>
               <h2 className="mt-2 text-2xl font-black leading-tight text-white">
-                A home agora se comporta como uma frente de operação, não como vitrine genérica.
+                Escolha com menos dúvida e feche com mais segurança.
               </h2>
               <p className="mt-3 text-sm leading-7 text-white/62">
-                Direção visual mais direta, CTA dominante e prova operacional logo na primeira dobra para reduzir sensação de site comum.
+                A entrada do site já separa foto real, pronta entrega, personalizados e pagamento para encurtar o caminho entre descobrir, validar e comprar.
               </p>
             </div>
 
@@ -326,7 +321,7 @@ export function Hero({
                 <p className="text-[11px] uppercase tracking-[0.18em] text-white/45">Avaliações</p>
                 <p className="mt-3 text-2xl font-black text-white">{ratingLabel}</p>
                 <p className="mt-2 text-sm text-white/62">
-                  {reviewCount ? `${reviewCount} sinais de confiança já consolidados.` : "Prova social real em construção contínua."}
+                  {reviewCount ? `${reviewCount} sinais públicos já visíveis.` : "Atendimento direto, política clara e leitura honesta da vitrine."}
                 </p>
               </div>
               <div className="surface-stat rounded-[22px] p-4">
@@ -336,7 +331,7 @@ export function Hero({
                   Pix visível
                 </p>
                 <p className="mt-2 text-sm text-white/62">
-                  Fechamento com sinal claro de sucesso, falha ou pendência sem esconder o estado real do pedido.
+                  Pix visível, cartão seguro quando disponível e status claros no pós-venda.
                 </p>
               </div>
             </div>
@@ -409,10 +404,10 @@ export function Hero({
 
         <div className="mt-10 grid gap-3 md:grid-cols-4">
           {[
-            "Hero com vídeo local sem áudio e poster próprio.",
-            "Contraste reforçado para desktop, mobile e fallback sem motion.",
-            "CTA principal para catálogo e CTA secundário para dúvida imediata.",
-            "Sensação de produto vivo sem inventar capacidade que a loja não tem.",
+            "Foto real, render fiel e imagem conceitual aparecem com selo claro na vitrine.",
+            "Pix, cartão e acompanhamento seguem no mesmo fluxo de compra.",
+            "Consultor e WhatsApp ajudam a escolher sem tirar o cliente do caminho de compra.",
+            "Projetos sob medida aceitam STL, imagem e briefing com análise humana.",
           ].map((item) => (
             <div key={item} className="rounded-[22px] border border-white/10 bg-black/20 px-4 py-4 text-sm leading-7 text-white/66 backdrop-blur-sm">
               {item}

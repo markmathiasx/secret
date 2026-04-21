@@ -60,9 +60,9 @@ export function CatalogBuyingIntents({ products }: { products: Product[] }) {
     <section className="mt-10">
       <div className="mb-6 max-w-3xl">
         <p className="text-xs uppercase tracking-[0.2em] text-cyan-100/75">Comprar por objetivo</p>
-        <h2 className="mt-3 text-3xl font-black text-white">Entradas rápidas para quem quer decidir mais rápido.</h2>
+        <h2 className="mt-3 text-3xl font-black text-white">Comece pelo motivo da compra, não pelo excesso de opções.</h2>
         <p className="mt-4 text-sm leading-7 text-white/68">
-          Em vez de navegar tudo, o cliente pode começar pelo tipo de compra que mais converte: presente, utilidade, peça real ou projeto premium.
+          Em vez de varrer a vitrine inteira, entre por presente, utilidade, peça com foto real ou projeto premium e avance mais rápido.
         </p>
       </div>
 

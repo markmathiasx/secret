@@ -3,7 +3,7 @@ import { catalog, getProductUrl } from "@/lib/catalog";
 import { buildProductSearchText, normalizeProductCategory } from "@/lib/catalog-content";
 import { brand, deliveryZones, pix, supportEmail, whatsappNumber } from "@/lib/constants";
 import { getAiAssistantModel, getAiAssistantProviderLabel, getSiteUrl, isCardCheckoutConfigured } from "@/lib/env";
-import { getProductVisual, isProductVisualVerified, type ProductVisualKind } from "@/lib/product-visuals";
+import { getProductVisual, isProductRealPhoto, isProductVisualVerified, type ProductVisualKind } from "@/lib/product-visuals";
 import { formatCurrency } from "@/lib/utils";
 
 export type AssistantChannel = "site" | "whatsapp";
@@ -23,12 +23,12 @@ const customOrderUrl = `${siteUrl}/imagem-para-impressao-3d`;
 const whatsappUrl = `https://wa.me/${whatsappNumber}`;
 
 export const assistantQuickPrompts = [
-  "Quero um presente até R$ 100",
-  "Quais itens têm foto real?",
+  "Quero um presente com foto real até R$ 100",
+  "Me mostre itens de pronta entrega",
   "Preciso de um suporte para setup",
-  "Como funciona um projeto personalizado?",
-  "Posso pagar no cartão?",
-  "Quero enviar STL ou imagem para orçamento",
+  "Como funciona um projeto personalizado com STL?",
+  "Posso pagar no Pix ou no cartão?",
+  "Quero falar com a equipe para fechar hoje",
 ];
 
 const authenticityGuide = {
@@ -50,6 +50,13 @@ function tokenize(value: string) {
     .split(/[^a-z0-9]+/)
     .map((item) => item.trim())
     .filter(Boolean);
+}
+
+function extractBudget(value: string) {
+  const match = value.match(/(?:ate|até|max(?:imo)?|no max(?:imo)?)[^0-9]{0,8}(\d{2,4})/i);
+  if (!match) return null;
+  const amount = Number(match[1]);
+  return Number.isFinite(amount) ? amount : null;
 }
 
 function detectVisualIntent(query: string): AssistantVisualIntent {
@@ -109,6 +116,21 @@ function scoreProduct(product: Product, normalizedQuery: string, tokens: string[
 
 function toAbsoluteProductUrl(product: Product) {
   return `${siteUrl}${getProductUrl(product)}`;
+}
+
+function buildSuggestedReply(
+  intro: string,
+  products: Product[],
+  outro = `Se quiser, eu sigo com a melhor opção, te mando para o checkout ${checkoutUrl} ou te levo para o WhatsApp ${whatsappUrl}.`
+) {
+  if (!products.length) return null;
+
+  const lines = products.slice(0, 3).map((product, index) => {
+    const visual = getProductVisual(product);
+    return `${index + 1}. ${product.name} — Pix ${formatCurrency(product.pricePix)} — ${visual.label} — ${product.productionWindow} — ${toAbsoluteProductUrl(product)}`;
+  });
+
+  return [intro, ...lines, outro].join("\n");
 }
 
 function formatProductSummary(product: Product) {
@@ -379,6 +401,7 @@ export async function executeCommerceTool(name: string, args: Record<string, unk
 
 export function buildCommerceFallbackReply(message: string) {
   const normalized = normalizeText(message);
+  const budget = extractBudget(normalized);
 
   if (!normalized) {
     return [
@@ -416,29 +439,95 @@ export function buildCommerceFallbackReply(message: string) {
   }
 
   if (/(foto real|render fiel|autentic|imagem real)/.test(normalized)) {
-    const verified = catalog.filter((product) => isProductVisualVerified(product)).slice(0, 3);
+    const verified = catalog
+      .filter((product) => isProductVisualVerified(product))
+      .filter((product) => (budget ? product.pricePix <= budget : true))
+      .slice(0, 3);
     if (!verified.length) {
       return `No momento, o catálogo não tem itens marcados como visual verificado. Posso te direcionar para um projeto personalizado ou atendimento humano.`;
     }
 
-    const items = verified.map((product) => `${product.name} (${toAbsoluteProductUrl(product)})`).join("; ");
-    return `Hoje os destaques com visual verificado incluem: ${items}. Quando eu indicar um item, tambem consigo dizer se ele usa Foto real, Render fiel ou Imagem conceitual.`;
+    return (
+      buildSuggestedReply(
+        budget
+          ? `Separei opções com leitura visual mais forte até R$ ${budget}:`
+          : "Separei opções com leitura visual mais forte para você comparar sem dúvida:",
+        verified,
+        `Quando eu indicar um item, também consigo dizer se ele usa Foto real, Render fiel ou Imagem conceitual. Se quiser, continuo a seleção no catálogo ${catalogUrl}.`
+      ) ||
+      `No momento, não encontrei opções visuais dentro desse recorte. Posso abrir uma seleção mais ampla ou te direcionar para o WhatsApp ${whatsappUrl}.`
+    );
+  }
+
+  if (/(presente|lembranca|lembrancinha|gift)/.test(normalized)) {
+    const giftMatches = catalog
+      .filter((product) =>
+        /(presente|geek|colecion|chibi|lembranc|utilidade)/i.test(
+          [product.category, product.subcategory, product.theme, product.name, ...product.tags].join(" ")
+        )
+      )
+      .filter((product) => (budget ? product.pricePix <= budget : true))
+      .sort((left, right) => Number(isProductRealPhoto(right)) - Number(isProductRealPhoto(left)) || left.pricePix - right.pricePix)
+      .slice(0, 3);
+
+    return (
+      buildSuggestedReply(
+        budget
+          ? `Para presentear até R$ ${budget}, estas são as opções mais promissoras agora:`
+          : "Para presentear sem complicar a escolha, estas são as opções mais promissoras agora:",
+        giftMatches
+      ) ||
+      `Não encontrei uma seleção forte dentro desse orçamento. Posso abrir algo um pouco acima, buscar por foto real ou montar um projeto sob medida em ${customOrderUrl}.`
+    );
+  }
+
+  if (/(setup|suporte|organiza|headphone|fone|controle|mesa|bancada)/.test(normalized)) {
+    const setupMatches = catalog
+      .filter((product) =>
+        /(setup|suporte|organizador|bancada|controle|headphone|fone|mesa|utilidade)/i.test(
+          [product.category, product.subcategory, product.theme, product.name, ...product.tags].join(" ")
+        )
+      )
+      .filter((product) => (budget ? product.pricePix <= budget : true))
+      .sort((left, right) => Number(Boolean(right.readyToShip)) - Number(Boolean(left.readyToShip)) || left.pricePix - right.pricePix)
+      .slice(0, 3);
+
+    return (
+      buildSuggestedReply(
+        budget
+          ? `Para setup e utilidade até R$ ${budget}, eu começaria por estas peças:`
+          : "Para setup e utilidade, eu começaria por estas peças:",
+        setupMatches
+      ) ||
+      `Não encontrei uma seleção boa para setup dentro desse recorte. Posso abrir pronta entrega, ampliar o orçamento ou levar direto para o WhatsApp ${whatsappUrl}.`
+    );
+  }
+
+  if (/(pronta entrega|entrega rapida|entrega rápida|hoje|urgente|rapido|rápido)/.test(normalized)) {
+    const readyMatches = catalog
+      .filter((product) => product.readyToShip)
+      .filter((product) => (budget ? product.pricePix <= budget : true))
+      .sort((left, right) => left.pricePix - right.pricePix)
+      .slice(0, 3);
+
+    return (
+      buildSuggestedReply(
+        budget
+          ? `Para agilizar a compra até R$ ${budget}, estas peças estão na frente:`
+          : "Para agilizar a compra, estas peças estão na frente agora:",
+        readyMatches
+      ) ||
+      `Hoje eu não achei itens de pronta entrega dentro desse recorte. Posso abrir a seleção geral ou te direcionar para a equipe no WhatsApp ${whatsappUrl}.`
+    );
   }
 
   const matches = searchCatalogForAssistant(message, { limit: 3 });
   if (matches.length > 0) {
-    const suggestions = matches
-      .map((product) => {
-        const visual = getProductVisual(product);
-        return `${product.name} — Pix ${formatCurrency(product.pricePix)} — ${visual.label} — ${toAbsoluteProductUrl(product)}`;
-      })
-      .join("\n");
-
-    return [
-      "Encontrei estas opções que combinam com o que você pediu:",
-      suggestions,
-      `Se quiser, eu também posso te orientar entre catálogo, personalização e pagamento no checkout ${checkoutUrl}.`,
-    ].join("\n");
+    const budgetMatches = budget ? matches.filter((product) => product.pricePix <= budget) : matches;
+    return (
+      buildSuggestedReply("Encontrei estas opções que combinam com o que você pediu:", budgetMatches.length ? budgetMatches : matches) ||
+      `Encontrei opções relacionadas, mas nenhuma ficou redonda nesse recorte. Posso seguir pelo catálogo ${catalogUrl} ou pelo WhatsApp ${whatsappUrl}.`
+    );
   }
 
   return [

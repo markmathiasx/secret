@@ -5,16 +5,16 @@ import { usePathname } from 'next/navigation';
 import { pix, whatsappNumber } from '@/lib/constants';
 
 const quickQuestions = [
-  'Quero um presente personalizado',
+  'Quero um presente com foto real',
   'Preciso de uma peça funcional para setup',
-  'Quero fechar meu pedido no Pix'
+  'Quero enviar STL para orçamento'
 ];
 
 export function SiteAssistant({
   cardCheckoutReady,
   aiAssistantReady,
-  aiAssistantModel,
-  aiAssistantProvider,
+  aiAssistantModel: _aiAssistantModel,
+  aiAssistantProvider: _aiAssistantProvider,
 }: {
   cardCheckoutReady: boolean;
   aiAssistantReady: boolean;
@@ -47,10 +47,10 @@ export function SiteAssistant({
             </p>
           </div>
         </div>
-        <div className="mt-4 grid gap-2 rounded-[22px] border border-white/10 bg-white/5 p-4 text-xs text-white/68">
+          <div className="mt-4 grid gap-2 rounded-[22px] border border-white/10 bg-white/5 p-4 text-xs text-white/68">
           <div className="flex items-center gap-2">
             <Sparkles className="h-4 w-4 text-cyan-100" />
-            <span>{aiAssistantReady ? 'Consultor automático ativo para catálogo, orçamento e personalização' : 'Consultor guiado ativo para catálogo, orçamento e personalização'}</span>
+            <span>{aiAssistantReady ? 'Respostas imediatas no site para catálogo, orçamento e personalização' : 'Orientação guiada no site para catálogo, orçamento e personalização'}</span>
           </div>
           <div className="flex items-center gap-2">
             <QrCode className="h-4 w-4 text-emerald-200" />

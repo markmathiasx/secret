@@ -40,7 +40,7 @@ const RECENT_KEY = 'mdh_catalog_recent';
 const RECENT_SEARCHES_KEY = 'mdh_catalog_recent_searches';
 const SAVED_VIEWS_KEY = 'mdh_catalog_saved_views';
 const RETURN_STATE_KEY = 'mdh_catalog_return_state';
-const ORDER_OPTIONS = ['Mais Recentes', 'Preço', 'Nome', 'Maior lucro', 'Menor prazo'] as const;
+const ORDER_OPTIONS = ['Mais Recentes', 'Preço', 'Nome', 'Destaques', 'Menor prazo'] as const;
 const PURCHASE_INTENTS = ['Geral', 'Compra rápida', 'Economia', 'Presente', 'Atacado'] as const;
 
 type CatalogAvailability = 'Todos' | Product['status'];
@@ -241,7 +241,9 @@ export function CatalogExplorer({
   function compareBySelectedOrder(a: Product, b: Product, selectedOrder: CatalogOrder) {
     if (selectedOrder === 'Preço') return a.pricePix - b.pricePix;
     if (selectedOrder === 'Nome') return a.name.localeCompare(b.name);
-    if (selectedOrder === 'Maior lucro') return (b.estimatedUnitProfit ?? 0) - (a.estimatedUnitProfit ?? 0);
+    if (selectedOrder === 'Destaques') {
+      return Number(b.featured) - Number(a.featured) || Number(isProductVisualVerified(b)) - Number(isProductVisualVerified(a)) || a.pricePix - b.pricePix;
+    }
     if (selectedOrder === 'Menor prazo') return parseMinProductionDays(a.productionWindow) - parseMinProductionDays(b.productionWindow);
     return b.id.localeCompare(a.id);
   }
@@ -1247,7 +1249,7 @@ export function CatalogExplorer({
                 <h3 className="line-clamp-2 text-sm font-semibold text-white">{product.name}</h3>
                 <p className="mt-1 text-xs text-white/60">{formatCurrency(product.pricePix)} no Pix</p>
                 <p className="text-xs text-white/60">Prazo: {product.productionWindow}</p>
-                <p className="text-xs text-white/60">Lucro: {formatCurrency(product.estimatedUnitProfit ?? 0)}</p>
+                <p className="text-xs text-white/60">{product.material} • {product.finish}</p>
                 <div className="mt-3 flex items-center justify-between gap-3">
                   <Link href={getProductUrl(product)} onClick={() => addRecent(product.id)} className="text-xs font-semibold uppercase tracking-[0.16em] text-cyan-100 transition hover:text-cyan-50">
                     Abrir item
@@ -1375,31 +1377,54 @@ export function CatalogExplorer({
                   </span>
                 ) : null}
                 <ProductVisualBadge product={product} />
+                {product.readyToShip ? (
+                  <span className="rounded-full border border-emerald-300/25 bg-emerald-300/10 px-3 py-1 text-[11px] font-semibold text-emerald-100">
+                    Pronta entrega
+                  </span>
+                ) : null}
               </div>
 
-              <div className="mt-4 flex items-start justify-between gap-3">
+              <div className="mt-4">
                 <div className="min-w-0">
                   <p className="text-xs uppercase tracking-[0.18em] text-cyan-200/80">{product.category}</p>
                   <h3 className="mt-2 line-clamp-2 break-words text-base font-semibold text-white sm:text-lg">
                     {product.name}
                   </h3>
-                  <p className="mt-2 min-h-0 line-clamp-4 text-sm leading-6 text-white/62 sm:min-h-[72px] md:line-clamp-3">
+                  <p className="mt-2 line-clamp-2 text-sm leading-6 text-white/62">
                     {product.description}
                   </p>
                 </div>
+              </div>
+
+              <div className="mt-4 flex flex-wrap gap-2">
+                <span className="rounded-full border border-white/10 px-3 py-1 text-xs text-white/60">
+                  {product.material}
+                </span>
+                <span className="rounded-full border border-white/10 px-3 py-1 text-xs text-white/60">
+                  {product.finish}
+                </span>
                 <span className="rounded-full border border-white/10 px-3 py-1 text-xs text-white/60">
                   {product.productionWindow}
                 </span>
+                {product.customizable ? (
+                  <span className="rounded-full border border-cyan-300/20 bg-cyan-300/10 px-3 py-1 text-xs text-cyan-100">
+                    Personalizável
+                  </span>
+                ) : null}
               </div>
 
               <div className="mt-4 rounded-[18px] border border-white/10 bg-black/20 p-3 text-xs text-white/65">
                 <p className="font-semibold text-white/85">
-                  {product.pricingMode === 'faixa-auditada' ? 'Compra direta' : 'Projeto sob medida'}
+                  {product.pricingMode === 'faixa-auditada' ? 'Fechamento rápido' : 'Pedido sob medida'}
                 </p>
-                <p className="mt-1">{product.pricingNarrative}</p>
+                <p className="mt-1">
+                  {product.pricingMode === 'faixa-auditada'
+                    ? 'Preço claro no site para comparar, adicionar ao carrinho e seguir para checkout ou WhatsApp.'
+                    : 'Envie a referência para validar material, prazo e acabamento antes de fechar a produção.'}
+                </p>
                 <div className="mt-2 flex flex-wrap items-center gap-3">
                   <span className="text-emerald-200">{quantity}x: {formatCurrency(total)}</span>
-                  {bundleDiscount > 0 ? <span>Economia {formatCurrency(savings)}</span> : null}
+                  {bundleDiscount > 0 ? <span>Economia {formatCurrency(savings)}</span> : <span>Simulação ativa</span>}
                 </div>
               </div>
 
@@ -1411,7 +1436,7 @@ export function CatalogExplorer({
                     {product.productionWindow}
                   </div>
                 </div>
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-wrap justify-end gap-2">
                   <Link
                     href={buildProductHref(product)}
                     onClick={() => {

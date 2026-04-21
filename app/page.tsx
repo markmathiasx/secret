@@ -9,9 +9,10 @@ import { PurchaseProtectionBanner } from "@/components/purchase-protection-banne
 import { isProductRealPhoto, summarizeProductVisuals } from "@/lib/product-visuals";
 import { brand, socialLinks, supportEmail, whatsappNumber, whatsappMessage } from "@/lib/constants";
 import { getStoreReputationSummary } from "@/lib/marketplace-signals";
-import { HomeAnimatedStats } from "@/components/home-animated-stats";
 import { HomeTestimonials } from "@/components/home-testimonials";
 import { HomeCategoriesShowcase } from "@/components/home-categories-showcase";
+import { HomeResumePanel } from "@/components/home-resume-panel";
+import { CatalogBuyingIntents } from "@/components/catalog-buying-intents";
 import { getSiteUrl } from "@/lib/env";
 
 export const revalidate = 300;
@@ -76,20 +77,20 @@ export default async function HomePage() {
         <div className="grid gap-4 xl:grid-cols-[1.05fr_0.95fr]">
           <div className="glass-panel p-6 md:p-7">
             <p className="section-kicker">Sinais de confiança</p>
-            <h2 className="section-title">A primeira rolagem já explica por que a MDH 3D não parece loja genérica.</h2>
+            <h2 className="section-title">Escolha com menos dúvida e avance sem ruído.</h2>
             <div className="mt-6 grid gap-4 md:grid-cols-3">
               {[
                 {
-                  title: "Mídia pública governada",
-                  body: "A vitrine pública não fica misturando placeholder, item bloqueado e mídia sem contexto. A leitura visual já nasce mais honesta.",
+                  title: "Leitura visual honesta",
+                  body: "A vitrine separa foto real, render fiel e mídia conceitual para evitar surpresa depois da compra.",
                 },
                 {
-                  title: "Compra com status claro",
-                  body: "Checkout, retorno de pagamento e rastreio usam estados explícitos para sucesso, falha e pendência sem esconder o que aconteceu.",
+                  title: "Pagamento com status claro",
+                  body: "Checkout, retorno de pagamento e rastreio deixam claro o que já foi aprovado, o que está pendente e o que precisa de ação.",
                 },
                 {
-                  title: "Atendimento integrado",
-                  body: "Chat, WhatsApp e inbox entram como continuidade comercial da jornada, não como ferramenta solta brigando com o resto da loja.",
+                  title: "Atendimento no mesmo eixo",
+                  body: "Consultor, WhatsApp e checkout entram como continuidade da mesma compra, não como ferramentas soltas brigando entre si.",
                 },
               ].map((item) => (
                 <article key={item.title} className="rounded-[24px] border border-white/10 bg-black/20 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-cyan-300/25">
@@ -106,16 +107,14 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <HomeAnimatedStats
-        catalogCount={catalogCount}
-        ratingLabel={ratingLabel}
-        reviewCount={storeSummary?.reviewCount}
-      />
+      <section className="mx-auto max-w-7xl px-6 py-10">
+        <CatalogBuyingIntents products={catalog} />
+      </section>
 
       <section id="home-featured" className="mx-auto max-w-7xl px-6 py-16">
         <div className="mb-8">
           <p className="section-kicker">Catálogo com foto real</p>
-          <h2 className="section-title">{catalogCount.toLocaleString("pt-BR")} peças públicas com leitura forte para decidir mais rápido.</h2>
+          <h2 className="section-title">{catalogCount.toLocaleString("pt-BR")} peças públicas organizadas para decidir mais rápido.</h2>
           <p className="section-copy mt-4 max-w-3xl">
             Comece pelos itens com prova visual mais forte, pronta entrega real ou espaço claro para personalização.
           </p>
@@ -148,24 +147,24 @@ export default async function HomePage() {
 
       <section className="mx-auto max-w-7xl px-6 py-12">
         <div className="glass-panel p-8 md:p-10">
-          <p className="section-kicker">Por que MDH 3D?</p>
-          <h2 className="section-title">O que os grandes marketplaces não oferecem.</h2>
+          <p className="section-kicker">Fechamento direto</p>
+          <h2 className="section-title">Comprar aqui é mais claro do que procurar em marketplace genérico.</h2>
           <div className="mt-8 grid gap-4 md:grid-cols-3">
             {[
               {
                 icon: "🏭",
-                title: "Produção própria, não revendedor",
-                body: "Cada pedido sai de impressoras Bambu Lab no RJ. Você fala com quem faz, não com um intermediário.",
+                title: "Produção própria, não revenda",
+                body: "Cada pedido sai da operação da MDH 3D no RJ. Você fala com quem produz, não com um intermediário distante.",
               },
               {
                 icon: "⚡",
-                title: "Pix com QR e cópia-e-cola imediato",
-                body: "Sem redirecionar para gateway externo. QR Code gerado na hora, confirmação em minutos.",
+                title: "Pagamento visível e objetivo",
+                body: "Pix entra de forma direta e o cartão aparece quando o parceiro online está pronto, sem prometer mais do que a operação entrega.",
               },
               {
                 icon: "💬",
-                title: "Atendimento no WhatsApp com resposta real",
-                body: "Não é chatbot. É a equipe de produção respondendo dúvidas de cor, prazo e acabamento.",
+                title: "Atendimento que ajuda a fechar",
+                body: "Consultor, WhatsApp e pós-venda entram para reduzir dúvida de cor, prazo, acabamento e personalização.",
               },
             ].map((item) => (
               <article key={item.title} className="feature-card">
@@ -182,47 +181,7 @@ export default async function HomePage() {
 
       <HomeTestimonials />
 
-      <section id="home-paths" className="mx-auto max-w-7xl px-6 py-16">
-        <div className="glass-panel p-8 md:p-10">
-          <p className="section-kicker">Como começar</p>
-          <h2 className="section-title">Três caminhos para encontrar exatamente o que você precisa.</h2>
-
-          <div className="mt-8 grid gap-5 md:grid-cols-3">
-            <article className="rounded-[24px] border border-white/10 bg-black/20 p-6">
-              <p className="text-3xl font-black text-cyan-300">1</p>
-              <h3 className="mt-3 text-lg font-bold text-white">Browsar o catálogo</h3>
-              <p className="mt-2 text-sm leading-6 text-white/68">
-                {catalogCount.toLocaleString("pt-BR")} peças prontas. Filtre por material, preço, disponibilidade ou categoria. Pronto para comprar hoje.
-              </p>
-              <Link href="/catalogo" className="btn-glass mt-4 inline-block px-4 py-2 text-sm">
-                Abrir catálogo
-              </Link>
-            </article>
-
-            <article className="rounded-[24px] border border-white/10 bg-black/20 p-6">
-              <p className="text-3xl font-black text-emerald-300">2</p>
-              <h3 className="mt-3 text-lg font-bold text-white">Orçar um projeto</h3>
-              <p className="mt-2 text-sm leading-6 text-white/68">
-                Envie uma imagem, STL ou briefing. Receba análise de viabilidade, material e prazo direto no WhatsApp.
-              </p>
-              <Link href="/imagem-para-impressao-3d" className="btn-glass mt-4 inline-block px-4 py-2 text-sm">
-                Abrir orçador
-              </Link>
-            </article>
-
-            <article className="rounded-[24px] border border-white/10 bg-black/20 p-6">
-              <p className="text-3xl font-black text-rose-300">3</p>
-              <h3 className="mt-3 text-lg font-bold text-white">Falar com atendimento</h3>
-              <p className="mt-2 text-sm leading-6 text-white/68">
-                Dúvidas sobre material, prazo ou customização? Tire dúvidas direto pelo WhatsApp. Resposta em até 2h.
-              </p>
-              <a href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`} className="btn-glass mt-4 inline-block px-4 py-2 text-sm">
-                WhatsApp
-              </a>
-            </article>
-          </div>
-        </div>
-      </section>
+      <HomeResumePanel />
 
       <section id="home-upload" className="bg-gradient-to-b from-black to-slate-950/20 py-6">
         <STLUploader />

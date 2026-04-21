@@ -22,6 +22,11 @@ type SupportStatus = {
 };
 
 const VISITOR_STORAGE_KEY = "mdh-chat-visitor-id";
+const CHAT_QUICK_ACTIONS = [
+  "Quero um presente com foto real até R$ 100",
+  "Preciso de uma peça para setup",
+  "Como funciona um projeto com STL?",
+] as const;
 
 function createVisitorId() {
   const random = typeof crypto !== "undefined" && "randomUUID" in crypto ? crypto.randomUUID() : `${Date.now()}-${Math.random()}`;
@@ -329,7 +334,7 @@ export function LiveChatWidget() {
             <div className="min-h-0 flex-1 space-y-3 overflow-y-auto px-4 py-4">
               {messages.length === 0 ? (
                 <div className="rounded-[24px] border border-white/10 bg-white/5 p-4 text-sm leading-7 text-white/70">
-                  Escreva o que você quer comprar, seu orçamento ou sua dúvida sobre prazo, frete e personalização.
+                  Diga o que você quer comprar, sua faixa de preço ou se prefere foto real, pronta entrega e personalização. Se a equipe não estiver online, o WhatsApp assume sem te fazer recomeçar.
                 </div>
               ) : null}
 
@@ -365,11 +370,11 @@ export function LiveChatWidget() {
               <div ref={messagesEndRef} />
             </div>
 
-              <div className="border-t border-white/10 bg-[linear-gradient(180deg,rgba(8,15,24,0.5),rgba(8,15,24,0.95))] p-4">
+            <div className="border-t border-white/10 bg-[linear-gradient(180deg,rgba(8,15,24,0.5),rgba(8,15,24,0.95))] p-4">
               <div className="mb-3 flex flex-wrap gap-2 text-xs">
                 <span className="inline-flex items-center gap-2 rounded-full border border-emerald-300/20 bg-emerald-300/10 px-3 py-1 text-emerald-100">
                   <ShieldCheck className="h-3.5 w-3.5" />
-                  Fallback humano ativo
+                  Fechamento com equipe humana
                 </span>
                 <a
                   href={`https://wa.me/${whatsappNumber}`}
@@ -379,6 +384,19 @@ export function LiveChatWidget() {
                 >
                   WhatsApp
                 </a>
+              </div>
+
+              <div className="mb-3 flex flex-wrap gap-2">
+                {CHAT_QUICK_ACTIONS.map((prompt) => (
+                  <button
+                    key={prompt}
+                    type="button"
+                    onClick={() => setInput(prompt)}
+                    className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-white/72 transition hover:border-cyan-300/20 hover:text-white"
+                  >
+                    {prompt}
+                  </button>
+                ))}
               </div>
 
               <div className="flex gap-2">
