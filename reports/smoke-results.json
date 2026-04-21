@@ -66,7 +66,7 @@
       "specs": [
         {
           "title": "PDP mostra 4 imagens visiveis em real-001",
-          "ok": true,
+          "ok": false,
           "tags": [],
           "tests": [
             {
@@ -79,18 +79,53 @@
                 {
                   "workerIndex": 0,
                   "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 12470,
-                  "errors": [],
+                  "status": "failed",
+                  "duration": 13385,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('h1').first()\nExpected substring: \u001b[32m\"Grinder 3 Partes Premium\"\u001b[39m\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('h1').first()\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('h1').first()\nExpected substring: \u001b[32m\"Grinder 3 Partes Premium\"\u001b[39m\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('h1').first()\u001b[22m\n\n    at D:\\mdh-3d-store\\tests\\storefront-images.spec.ts:19:46",
+                    "location": {
+                      "file": "D:\\mdh-3d-store\\tests\\storefront-images.spec.ts",
+                      "column": 46,
+                      "line": 19
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 17 |\u001b[39m   test(\u001b[32m`PDP mostra 4 imagens visiveis em ${product.id}`\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 18 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m`${baseUrl}/catalogo/${product.slug}`\u001b[39m\u001b[33m,\u001b[39m { waitUntil\u001b[33m:\u001b[39m \u001b[32m\"networkidle\"\u001b[39m })\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 19 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m\"h1\"\u001b[39m)\u001b[33m.\u001b[39mfirst())\u001b[33m.\u001b[39mtoContainText(product\u001b[33m.\u001b[39mname \u001b[33m||\u001b[39m product\u001b[33m.\u001b[39mid)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                              \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 20 |\u001b[39m\n \u001b[90m 21 |\u001b[39m     \u001b[36mconst\u001b[39m imageState \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mevaluate(() \u001b[33m=>\u001b[39m {\n \u001b[90m 22 |\u001b[39m       \u001b[36mconst\u001b[39m gallery \u001b[33m=\u001b[39m document\u001b[33m.\u001b[39mquerySelector(\u001b[32m'[data-testid=\"product-image-gallery\"]'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "D:\\mdh-3d-store\\tests\\storefront-images.spec.ts",
+                        "column": 46,
+                        "line": 19
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('h1').first()\nExpected substring: \u001b[32m\"Grinder 3 Partes Premium\"\u001b[39m\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('h1').first()\u001b[22m\n\n\n\u001b[0m \u001b[90m 17 |\u001b[39m   test(\u001b[32m`PDP mostra 4 imagens visiveis em ${product.id}`\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 18 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m`${baseUrl}/catalogo/${product.slug}`\u001b[39m\u001b[33m,\u001b[39m { waitUntil\u001b[33m:\u001b[39m \u001b[32m\"networkidle\"\u001b[39m })\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 19 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m\"h1\"\u001b[39m)\u001b[33m.\u001b[39mfirst())\u001b[33m.\u001b[39mtoContainText(product\u001b[33m.\u001b[39mname \u001b[33m||\u001b[39m product\u001b[33m.\u001b[39mid)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                              \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 20 |\u001b[39m\n \u001b[90m 21 |\u001b[39m     \u001b[36mconst\u001b[39m imageState \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mevaluate(() \u001b[33m=>\u001b[39m {\n \u001b[90m 22 |\u001b[39m       \u001b[36mconst\u001b[39m gallery \u001b[33m=\u001b[39m document\u001b[33m.\u001b[39mquerySelector(\u001b[32m'[data-testid=\"product-image-gallery\"]'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at D:\\mdh-3d-store\\tests\\storefront-images.spec.ts:19:46\u001b[22m"
+                    }
+                  ],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-04-20T20:09:36.783Z",
+                  "startTime": "2026-04-21T07:58:35.630Z",
                   "annotations": [],
-                  "attachments": []
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "D:\\mdh-3d-store\\test-results\\storefront-images-PDP-mostra-4-imagens-visiveis-em-real-001-chromium\\test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\mdh-3d-store\\test-results\\storefront-images-PDP-mostra-4-imagens-visiveis-em-real-001-chromium\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "D:\\mdh-3d-store\\tests\\storefront-images.spec.ts",
+                    "column": 46,
+                    "line": 19
+                  }
                 }
               ],
-              "status": "expected"
+              "status": "unexpected"
             }
           ],
           "id": "ba125c80e441cb68a830-57950f4729b5930c4ffc",
@@ -100,7 +135,7 @@
         },
         {
           "title": "PDP mostra 4 imagens visiveis em real-002",
-          "ok": true,
+          "ok": false,
           "tags": [],
           "tests": [
             {
@@ -111,20 +146,55 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 0,
+                  "workerIndex": 1,
                   "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 4624,
-                  "errors": [],
+                  "status": "failed",
+                  "duration": 11062,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('h1').first()\nExpected substring: \u001b[32m\"Porta Creme Dental de Bancada\"\u001b[39m\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('h1').first()\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('h1').first()\nExpected substring: \u001b[32m\"Porta Creme Dental de Bancada\"\u001b[39m\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('h1').first()\u001b[22m\n\n    at D:\\mdh-3d-store\\tests\\storefront-images.spec.ts:19:46",
+                    "location": {
+                      "file": "D:\\mdh-3d-store\\tests\\storefront-images.spec.ts",
+                      "column": 46,
+                      "line": 19
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 17 |\u001b[39m   test(\u001b[32m`PDP mostra 4 imagens visiveis em ${product.id}`\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 18 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m`${baseUrl}/catalogo/${product.slug}`\u001b[39m\u001b[33m,\u001b[39m { waitUntil\u001b[33m:\u001b[39m \u001b[32m\"networkidle\"\u001b[39m })\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 19 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m\"h1\"\u001b[39m)\u001b[33m.\u001b[39mfirst())\u001b[33m.\u001b[39mtoContainText(product\u001b[33m.\u001b[39mname \u001b[33m||\u001b[39m product\u001b[33m.\u001b[39mid)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                              \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 20 |\u001b[39m\n \u001b[90m 21 |\u001b[39m     \u001b[36mconst\u001b[39m imageState \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mevaluate(() \u001b[33m=>\u001b[39m {\n \u001b[90m 22 |\u001b[39m       \u001b[36mconst\u001b[39m gallery \u001b[33m=\u001b[39m document\u001b[33m.\u001b[39mquerySelector(\u001b[32m'[data-testid=\"product-image-gallery\"]'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "D:\\mdh-3d-store\\tests\\storefront-images.spec.ts",
+                        "column": 46,
+                        "line": 19
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('h1').first()\nExpected substring: \u001b[32m\"Porta Creme Dental de Bancada\"\u001b[39m\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('h1').first()\u001b[22m\n\n\n\u001b[0m \u001b[90m 17 |\u001b[39m   test(\u001b[32m`PDP mostra 4 imagens visiveis em ${product.id}`\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 18 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m`${baseUrl}/catalogo/${product.slug}`\u001b[39m\u001b[33m,\u001b[39m { waitUntil\u001b[33m:\u001b[39m \u001b[32m\"networkidle\"\u001b[39m })\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 19 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m\"h1\"\u001b[39m)\u001b[33m.\u001b[39mfirst())\u001b[33m.\u001b[39mtoContainText(product\u001b[33m.\u001b[39mname \u001b[33m||\u001b[39m product\u001b[33m.\u001b[39mid)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                              \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 20 |\u001b[39m\n \u001b[90m 21 |\u001b[39m     \u001b[36mconst\u001b[39m imageState \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mevaluate(() \u001b[33m=>\u001b[39m {\n \u001b[90m 22 |\u001b[39m       \u001b[36mconst\u001b[39m gallery \u001b[33m=\u001b[39m document\u001b[33m.\u001b[39mquerySelector(\u001b[32m'[data-testid=\"product-image-gallery\"]'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at D:\\mdh-3d-store\\tests\\storefront-images.spec.ts:19:46\u001b[22m"
+                    }
+                  ],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-04-20T20:09:49.435Z",
+                  "startTime": "2026-04-21T07:58:50.062Z",
                   "annotations": [],
-                  "attachments": []
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "D:\\mdh-3d-store\\test-results\\storefront-images-PDP-mostra-4-imagens-visiveis-em-real-002-chromium\\test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\mdh-3d-store\\test-results\\storefront-images-PDP-mostra-4-imagens-visiveis-em-real-002-chromium\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "D:\\mdh-3d-store\\tests\\storefront-images.spec.ts",
+                    "column": 46,
+                    "line": 19
+                  }
                 }
               ],
-              "status": "expected"
+              "status": "unexpected"
             }
           ],
           "id": "ba125c80e441cb68a830-47910420171612f2a95f",
@@ -134,7 +204,7 @@
         },
         {
           "title": "PDP mostra 4 imagens visiveis em real-003",
-          "ok": true,
+          "ok": false,
           "tags": [],
           "tests": [
             {
@@ -145,20 +215,55 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 0,
+                  "workerIndex": 2,
                   "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 5576,
-                  "errors": [],
+                  "status": "failed",
+                  "duration": 11089,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('h1').first()\nExpected substring: \u001b[32m\"Demogorgon Decorativo Premium\"\u001b[39m\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('h1').first()\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('h1').first()\nExpected substring: \u001b[32m\"Demogorgon Decorativo Premium\"\u001b[39m\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('h1').first()\u001b[22m\n\n    at D:\\mdh-3d-store\\tests\\storefront-images.spec.ts:19:46",
+                    "location": {
+                      "file": "D:\\mdh-3d-store\\tests\\storefront-images.spec.ts",
+                      "column": 46,
+                      "line": 19
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 17 |\u001b[39m   test(\u001b[32m`PDP mostra 4 imagens visiveis em ${product.id}`\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 18 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m`${baseUrl}/catalogo/${product.slug}`\u001b[39m\u001b[33m,\u001b[39m { waitUntil\u001b[33m:\u001b[39m \u001b[32m\"networkidle\"\u001b[39m })\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 19 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m\"h1\"\u001b[39m)\u001b[33m.\u001b[39mfirst())\u001b[33m.\u001b[39mtoContainText(product\u001b[33m.\u001b[39mname \u001b[33m||\u001b[39m product\u001b[33m.\u001b[39mid)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                              \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 20 |\u001b[39m\n \u001b[90m 21 |\u001b[39m     \u001b[36mconst\u001b[39m imageState \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mevaluate(() \u001b[33m=>\u001b[39m {\n \u001b[90m 22 |\u001b[39m       \u001b[36mconst\u001b[39m gallery \u001b[33m=\u001b[39m document\u001b[33m.\u001b[39mquerySelector(\u001b[32m'[data-testid=\"product-image-gallery\"]'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "D:\\mdh-3d-store\\tests\\storefront-images.spec.ts",
+                        "column": 46,
+                        "line": 19
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('h1').first()\nExpected substring: \u001b[32m\"Demogorgon Decorativo Premium\"\u001b[39m\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('h1').first()\u001b[22m\n\n\n\u001b[0m \u001b[90m 17 |\u001b[39m   test(\u001b[32m`PDP mostra 4 imagens visiveis em ${product.id}`\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 18 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m`${baseUrl}/catalogo/${product.slug}`\u001b[39m\u001b[33m,\u001b[39m { waitUntil\u001b[33m:\u001b[39m \u001b[32m\"networkidle\"\u001b[39m })\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 19 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m\"h1\"\u001b[39m)\u001b[33m.\u001b[39mfirst())\u001b[33m.\u001b[39mtoContainText(product\u001b[33m.\u001b[39mname \u001b[33m||\u001b[39m product\u001b[33m.\u001b[39mid)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                              \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 20 |\u001b[39m\n \u001b[90m 21 |\u001b[39m     \u001b[36mconst\u001b[39m imageState \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mevaluate(() \u001b[33m=>\u001b[39m {\n \u001b[90m 22 |\u001b[39m       \u001b[36mconst\u001b[39m gallery \u001b[33m=\u001b[39m document\u001b[33m.\u001b[39mquerySelector(\u001b[32m'[data-testid=\"product-image-gallery\"]'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at D:\\mdh-3d-store\\tests\\storefront-images.spec.ts:19:46\u001b[22m"
+                    }
+                  ],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-04-20T20:09:54.078Z",
+                  "startTime": "2026-04-21T07:59:02.066Z",
                   "annotations": [],
-                  "attachments": []
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "D:\\mdh-3d-store\\test-results\\storefront-images-PDP-mostra-4-imagens-visiveis-em-real-003-chromium\\test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\mdh-3d-store\\test-results\\storefront-images-PDP-mostra-4-imagens-visiveis-em-real-003-chromium\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "D:\\mdh-3d-store\\tests\\storefront-images.spec.ts",
+                    "column": 46,
+                    "line": 19
+                  }
                 }
               ],
-              "status": "expected"
+              "status": "unexpected"
             }
           ],
           "id": "ba125c80e441cb68a830-0ef1fcb21c70f29393f9",
@@ -168,7 +273,7 @@
         },
         {
           "title": "PDP mostra 4 imagens visiveis em real-004",
-          "ok": true,
+          "ok": false,
           "tags": [],
           "tests": [
             {
@@ -179,20 +284,55 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 0,
+                  "workerIndex": 3,
                   "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 4065,
-                  "errors": [],
+                  "status": "failed",
+                  "duration": 10921,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('h1').first()\nExpected substring: \u001b[32m\"Hello Kitty Jedi Colecionável\"\u001b[39m\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('h1').first()\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('h1').first()\nExpected substring: \u001b[32m\"Hello Kitty Jedi Colecionável\"\u001b[39m\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('h1').first()\u001b[22m\n\n    at D:\\mdh-3d-store\\tests\\storefront-images.spec.ts:19:46",
+                    "location": {
+                      "file": "D:\\mdh-3d-store\\tests\\storefront-images.spec.ts",
+                      "column": 46,
+                      "line": 19
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 17 |\u001b[39m   test(\u001b[32m`PDP mostra 4 imagens visiveis em ${product.id}`\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 18 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m`${baseUrl}/catalogo/${product.slug}`\u001b[39m\u001b[33m,\u001b[39m { waitUntil\u001b[33m:\u001b[39m \u001b[32m\"networkidle\"\u001b[39m })\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 19 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m\"h1\"\u001b[39m)\u001b[33m.\u001b[39mfirst())\u001b[33m.\u001b[39mtoContainText(product\u001b[33m.\u001b[39mname \u001b[33m||\u001b[39m product\u001b[33m.\u001b[39mid)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                              \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 20 |\u001b[39m\n \u001b[90m 21 |\u001b[39m     \u001b[36mconst\u001b[39m imageState \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mevaluate(() \u001b[33m=>\u001b[39m {\n \u001b[90m 22 |\u001b[39m       \u001b[36mconst\u001b[39m gallery \u001b[33m=\u001b[39m document\u001b[33m.\u001b[39mquerySelector(\u001b[32m'[data-testid=\"product-image-gallery\"]'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "D:\\mdh-3d-store\\tests\\storefront-images.spec.ts",
+                        "column": 46,
+                        "line": 19
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('h1').first()\nExpected substring: \u001b[32m\"Hello Kitty Jedi Colecionável\"\u001b[39m\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('h1').first()\u001b[22m\n\n\n\u001b[0m \u001b[90m 17 |\u001b[39m   test(\u001b[32m`PDP mostra 4 imagens visiveis em ${product.id}`\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 18 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m`${baseUrl}/catalogo/${product.slug}`\u001b[39m\u001b[33m,\u001b[39m { waitUntil\u001b[33m:\u001b[39m \u001b[32m\"networkidle\"\u001b[39m })\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 19 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m\"h1\"\u001b[39m)\u001b[33m.\u001b[39mfirst())\u001b[33m.\u001b[39mtoContainText(product\u001b[33m.\u001b[39mname \u001b[33m||\u001b[39m product\u001b[33m.\u001b[39mid)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                              \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 20 |\u001b[39m\n \u001b[90m 21 |\u001b[39m     \u001b[36mconst\u001b[39m imageState \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mevaluate(() \u001b[33m=>\u001b[39m {\n \u001b[90m 22 |\u001b[39m       \u001b[36mconst\u001b[39m gallery \u001b[33m=\u001b[39m document\u001b[33m.\u001b[39mquerySelector(\u001b[32m'[data-testid=\"product-image-gallery\"]'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at D:\\mdh-3d-store\\tests\\storefront-images.spec.ts:19:46\u001b[22m"
+                    }
+                  ],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-04-20T20:09:59.669Z",
+                  "startTime": "2026-04-21T07:59:14.062Z",
                   "annotations": [],
-                  "attachments": []
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "D:\\mdh-3d-store\\test-results\\storefront-images-PDP-mostra-4-imagens-visiveis-em-real-004-chromium\\test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\mdh-3d-store\\test-results\\storefront-images-PDP-mostra-4-imagens-visiveis-em-real-004-chromium\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "D:\\mdh-3d-store\\tests\\storefront-images.spec.ts",
+                    "column": 46,
+                    "line": 19
+                  }
                 }
               ],
-              "status": "expected"
+              "status": "unexpected"
             }
           ],
           "id": "ba125c80e441cb68a830-dae9c6ef9dd2db0e99b2",
@@ -202,7 +342,7 @@
         },
         {
           "title": "PDP mostra 4 imagens visiveis em real-005",
-          "ok": true,
+          "ok": false,
           "tags": [],
           "tests": [
             {
@@ -213,20 +353,55 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 0,
+                  "workerIndex": 4,
                   "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 3907,
-                  "errors": [],
+                  "status": "failed",
+                  "duration": 10965,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('h1').first()\nExpected substring: \u001b[32m\"Stencil Rick and Morty Decorativo\"\u001b[39m\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('h1').first()\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('h1').first()\nExpected substring: \u001b[32m\"Stencil Rick and Morty Decorativo\"\u001b[39m\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('h1').first()\u001b[22m\n\n    at D:\\mdh-3d-store\\tests\\storefront-images.spec.ts:19:46",
+                    "location": {
+                      "file": "D:\\mdh-3d-store\\tests\\storefront-images.spec.ts",
+                      "column": 46,
+                      "line": 19
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 17 |\u001b[39m   test(\u001b[32m`PDP mostra 4 imagens visiveis em ${product.id}`\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 18 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m`${baseUrl}/catalogo/${product.slug}`\u001b[39m\u001b[33m,\u001b[39m { waitUntil\u001b[33m:\u001b[39m \u001b[32m\"networkidle\"\u001b[39m })\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 19 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m\"h1\"\u001b[39m)\u001b[33m.\u001b[39mfirst())\u001b[33m.\u001b[39mtoContainText(product\u001b[33m.\u001b[39mname \u001b[33m||\u001b[39m product\u001b[33m.\u001b[39mid)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                              \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 20 |\u001b[39m\n \u001b[90m 21 |\u001b[39m     \u001b[36mconst\u001b[39m imageState \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mevaluate(() \u001b[33m=>\u001b[39m {\n \u001b[90m 22 |\u001b[39m       \u001b[36mconst\u001b[39m gallery \u001b[33m=\u001b[39m document\u001b[33m.\u001b[39mquerySelector(\u001b[32m'[data-testid=\"product-image-gallery\"]'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "D:\\mdh-3d-store\\tests\\storefront-images.spec.ts",
+                        "column": 46,
+                        "line": 19
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('h1').first()\nExpected substring: \u001b[32m\"Stencil Rick and Morty Decorativo\"\u001b[39m\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('h1').first()\u001b[22m\n\n\n\u001b[0m \u001b[90m 17 |\u001b[39m   test(\u001b[32m`PDP mostra 4 imagens visiveis em ${product.id}`\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 18 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m`${baseUrl}/catalogo/${product.slug}`\u001b[39m\u001b[33m,\u001b[39m { waitUntil\u001b[33m:\u001b[39m \u001b[32m\"networkidle\"\u001b[39m })\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 19 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m\"h1\"\u001b[39m)\u001b[33m.\u001b[39mfirst())\u001b[33m.\u001b[39mtoContainText(product\u001b[33m.\u001b[39mname \u001b[33m||\u001b[39m product\u001b[33m.\u001b[39mid)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                              \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 20 |\u001b[39m\n \u001b[90m 21 |\u001b[39m     \u001b[36mconst\u001b[39m imageState \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mevaluate(() \u001b[33m=>\u001b[39m {\n \u001b[90m 22 |\u001b[39m       \u001b[36mconst\u001b[39m gallery \u001b[33m=\u001b[39m document\u001b[33m.\u001b[39mquerySelector(\u001b[32m'[data-testid=\"product-image-gallery\"]'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at D:\\mdh-3d-store\\tests\\storefront-images.spec.ts:19:46\u001b[22m"
+                    }
+                  ],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-04-20T20:10:03.759Z",
+                  "startTime": "2026-04-21T07:59:25.865Z",
                   "annotations": [],
-                  "attachments": []
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "D:\\mdh-3d-store\\test-results\\storefront-images-PDP-mostra-4-imagens-visiveis-em-real-005-chromium\\test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\mdh-3d-store\\test-results\\storefront-images-PDP-mostra-4-imagens-visiveis-em-real-005-chromium\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "D:\\mdh-3d-store\\tests\\storefront-images.spec.ts",
+                    "column": 46,
+                    "line": 19
+                  }
                 }
               ],
-              "status": "expected"
+              "status": "unexpected"
             }
           ],
           "id": "ba125c80e441cb68a830-74068d1e1eacebd6feac",
@@ -236,7 +411,7 @@
         },
         {
           "title": "PDP mostra 4 imagens visiveis em real-006",
-          "ok": true,
+          "ok": false,
           "tags": [],
           "tests": [
             {
@@ -247,20 +422,55 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 0,
+                  "workerIndex": 5,
                   "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 4418,
-                  "errors": [],
+                  "status": "failed",
+                  "duration": 10956,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('h1').first()\nExpected substring: \u001b[32m\"Família Customizada em Miniatura\"\u001b[39m\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('h1').first()\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('h1').first()\nExpected substring: \u001b[32m\"Família Customizada em Miniatura\"\u001b[39m\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('h1').first()\u001b[22m\n\n    at D:\\mdh-3d-store\\tests\\storefront-images.spec.ts:19:46",
+                    "location": {
+                      "file": "D:\\mdh-3d-store\\tests\\storefront-images.spec.ts",
+                      "column": 46,
+                      "line": 19
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 17 |\u001b[39m   test(\u001b[32m`PDP mostra 4 imagens visiveis em ${product.id}`\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 18 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m`${baseUrl}/catalogo/${product.slug}`\u001b[39m\u001b[33m,\u001b[39m { waitUntil\u001b[33m:\u001b[39m \u001b[32m\"networkidle\"\u001b[39m })\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 19 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m\"h1\"\u001b[39m)\u001b[33m.\u001b[39mfirst())\u001b[33m.\u001b[39mtoContainText(product\u001b[33m.\u001b[39mname \u001b[33m||\u001b[39m product\u001b[33m.\u001b[39mid)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                              \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 20 |\u001b[39m\n \u001b[90m 21 |\u001b[39m     \u001b[36mconst\u001b[39m imageState \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mevaluate(() \u001b[33m=>\u001b[39m {\n \u001b[90m 22 |\u001b[39m       \u001b[36mconst\u001b[39m gallery \u001b[33m=\u001b[39m document\u001b[33m.\u001b[39mquerySelector(\u001b[32m'[data-testid=\"product-image-gallery\"]'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "D:\\mdh-3d-store\\tests\\storefront-images.spec.ts",
+                        "column": 46,
+                        "line": 19
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('h1').first()\nExpected substring: \u001b[32m\"Família Customizada em Miniatura\"\u001b[39m\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('h1').first()\u001b[22m\n\n\n\u001b[0m \u001b[90m 17 |\u001b[39m   test(\u001b[32m`PDP mostra 4 imagens visiveis em ${product.id}`\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 18 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m`${baseUrl}/catalogo/${product.slug}`\u001b[39m\u001b[33m,\u001b[39m { waitUntil\u001b[33m:\u001b[39m \u001b[32m\"networkidle\"\u001b[39m })\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 19 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m\"h1\"\u001b[39m)\u001b[33m.\u001b[39mfirst())\u001b[33m.\u001b[39mtoContainText(product\u001b[33m.\u001b[39mname \u001b[33m||\u001b[39m product\u001b[33m.\u001b[39mid)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                              \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 20 |\u001b[39m\n \u001b[90m 21 |\u001b[39m     \u001b[36mconst\u001b[39m imageState \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mevaluate(() \u001b[33m=>\u001b[39m {\n \u001b[90m 22 |\u001b[39m       \u001b[36mconst\u001b[39m gallery \u001b[33m=\u001b[39m document\u001b[33m.\u001b[39mquerySelector(\u001b[32m'[data-testid=\"product-image-gallery\"]'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at D:\\mdh-3d-store\\tests\\storefront-images.spec.ts:19:46\u001b[22m"
+                    }
+                  ],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-04-20T20:10:07.681Z",
+                  "startTime": "2026-04-21T07:59:37.746Z",
                   "annotations": [],
-                  "attachments": []
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "D:\\mdh-3d-store\\test-results\\storefront-images-PDP-mostra-4-imagens-visiveis-em-real-006-chromium\\test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\mdh-3d-store\\test-results\\storefront-images-PDP-mostra-4-imagens-visiveis-em-real-006-chromium\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "D:\\mdh-3d-store\\tests\\storefront-images.spec.ts",
+                    "column": 46,
+                    "line": 19
+                  }
                 }
               ],
-              "status": "expected"
+              "status": "unexpected"
             }
           ],
           "id": "ba125c80e441cb68a830-d00fe75d45a34b36fd3c",
@@ -270,7 +480,7 @@
         },
         {
           "title": "PDP mostra 4 imagens visiveis em real-007",
-          "ok": true,
+          "ok": false,
           "tags": [],
           "tests": [
             {
@@ -281,20 +491,55 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 0,
+                  "workerIndex": 6,
                   "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 7178,
-                  "errors": [],
+                  "status": "failed",
+                  "duration": 11010,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('h1').first()\nExpected substring: \u001b[32m\"Boneca Infantil Personalizada\"\u001b[39m\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('h1').first()\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('h1').first()\nExpected substring: \u001b[32m\"Boneca Infantil Personalizada\"\u001b[39m\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('h1').first()\u001b[22m\n\n    at D:\\mdh-3d-store\\tests\\storefront-images.spec.ts:19:46",
+                    "location": {
+                      "file": "D:\\mdh-3d-store\\tests\\storefront-images.spec.ts",
+                      "column": 46,
+                      "line": 19
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 17 |\u001b[39m   test(\u001b[32m`PDP mostra 4 imagens visiveis em ${product.id}`\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 18 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m`${baseUrl}/catalogo/${product.slug}`\u001b[39m\u001b[33m,\u001b[39m { waitUntil\u001b[33m:\u001b[39m \u001b[32m\"networkidle\"\u001b[39m })\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 19 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m\"h1\"\u001b[39m)\u001b[33m.\u001b[39mfirst())\u001b[33m.\u001b[39mtoContainText(product\u001b[33m.\u001b[39mname \u001b[33m||\u001b[39m product\u001b[33m.\u001b[39mid)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                              \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 20 |\u001b[39m\n \u001b[90m 21 |\u001b[39m     \u001b[36mconst\u001b[39m imageState \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mevaluate(() \u001b[33m=>\u001b[39m {\n \u001b[90m 22 |\u001b[39m       \u001b[36mconst\u001b[39m gallery \u001b[33m=\u001b[39m document\u001b[33m.\u001b[39mquerySelector(\u001b[32m'[data-testid=\"product-image-gallery\"]'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "D:\\mdh-3d-store\\tests\\storefront-images.spec.ts",
+                        "column": 46,
+                        "line": 19
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('h1').first()\nExpected substring: \u001b[32m\"Boneca Infantil Personalizada\"\u001b[39m\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('h1').first()\u001b[22m\n\n\n\u001b[0m \u001b[90m 17 |\u001b[39m   test(\u001b[32m`PDP mostra 4 imagens visiveis em ${product.id}`\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 18 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m`${baseUrl}/catalogo/${product.slug}`\u001b[39m\u001b[33m,\u001b[39m { waitUntil\u001b[33m:\u001b[39m \u001b[32m\"networkidle\"\u001b[39m })\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 19 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m\"h1\"\u001b[39m)\u001b[33m.\u001b[39mfirst())\u001b[33m.\u001b[39mtoContainText(product\u001b[33m.\u001b[39mname \u001b[33m||\u001b[39m product\u001b[33m.\u001b[39mid)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                              \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 20 |\u001b[39m\n \u001b[90m 21 |\u001b[39m     \u001b[36mconst\u001b[39m imageState \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mevaluate(() \u001b[33m=>\u001b[39m {\n \u001b[90m 22 |\u001b[39m       \u001b[36mconst\u001b[39m gallery \u001b[33m=\u001b[39m document\u001b[33m.\u001b[39mquerySelector(\u001b[32m'[data-testid=\"product-image-gallery\"]'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at D:\\mdh-3d-store\\tests\\storefront-images.spec.ts:19:46\u001b[22m"
+                    }
+                  ],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-04-20T20:10:12.118Z",
+                  "startTime": "2026-04-21T07:59:49.626Z",
                   "annotations": [],
-                  "attachments": []
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "D:\\mdh-3d-store\\test-results\\storefront-images-PDP-mostra-4-imagens-visiveis-em-real-007-chromium\\test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\mdh-3d-store\\test-results\\storefront-images-PDP-mostra-4-imagens-visiveis-em-real-007-chromium\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "D:\\mdh-3d-store\\tests\\storefront-images.spec.ts",
+                    "column": 46,
+                    "line": 19
+                  }
                 }
               ],
-              "status": "expected"
+              "status": "unexpected"
             }
           ],
           "id": "ba125c80e441cb68a830-8e16f2bf60caef6206a9",
@@ -304,7 +549,7 @@
         },
         {
           "title": "PDP mostra 4 imagens visiveis em real-008",
-          "ok": true,
+          "ok": false,
           "tags": [],
           "tests": [
             {
@@ -315,20 +560,55 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 0,
+                  "workerIndex": 7,
                   "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 8350,
-                  "errors": [],
+                  "status": "failed",
+                  "duration": 10958,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('h1').first()\nExpected substring: \u001b[32m\"Case de Isqueiro Caveira\"\u001b[39m\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('h1').first()\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('h1').first()\nExpected substring: \u001b[32m\"Case de Isqueiro Caveira\"\u001b[39m\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('h1').first()\u001b[22m\n\n    at D:\\mdh-3d-store\\tests\\storefront-images.spec.ts:19:46",
+                    "location": {
+                      "file": "D:\\mdh-3d-store\\tests\\storefront-images.spec.ts",
+                      "column": 46,
+                      "line": 19
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 17 |\u001b[39m   test(\u001b[32m`PDP mostra 4 imagens visiveis em ${product.id}`\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 18 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m`${baseUrl}/catalogo/${product.slug}`\u001b[39m\u001b[33m,\u001b[39m { waitUntil\u001b[33m:\u001b[39m \u001b[32m\"networkidle\"\u001b[39m })\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 19 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m\"h1\"\u001b[39m)\u001b[33m.\u001b[39mfirst())\u001b[33m.\u001b[39mtoContainText(product\u001b[33m.\u001b[39mname \u001b[33m||\u001b[39m product\u001b[33m.\u001b[39mid)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                              \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 20 |\u001b[39m\n \u001b[90m 21 |\u001b[39m     \u001b[36mconst\u001b[39m imageState \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mevaluate(() \u001b[33m=>\u001b[39m {\n \u001b[90m 22 |\u001b[39m       \u001b[36mconst\u001b[39m gallery \u001b[33m=\u001b[39m document\u001b[33m.\u001b[39mquerySelector(\u001b[32m'[data-testid=\"product-image-gallery\"]'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "D:\\mdh-3d-store\\tests\\storefront-images.spec.ts",
+                        "column": 46,
+                        "line": 19
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('h1').first()\nExpected substring: \u001b[32m\"Case de Isqueiro Caveira\"\u001b[39m\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('h1').first()\u001b[22m\n\n\n\u001b[0m \u001b[90m 17 |\u001b[39m   test(\u001b[32m`PDP mostra 4 imagens visiveis em ${product.id}`\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 18 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m`${baseUrl}/catalogo/${product.slug}`\u001b[39m\u001b[33m,\u001b[39m { waitUntil\u001b[33m:\u001b[39m \u001b[32m\"networkidle\"\u001b[39m })\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 19 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m\"h1\"\u001b[39m)\u001b[33m.\u001b[39mfirst())\u001b[33m.\u001b[39mtoContainText(product\u001b[33m.\u001b[39mname \u001b[33m||\u001b[39m product\u001b[33m.\u001b[39mid)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                              \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 20 |\u001b[39m\n \u001b[90m 21 |\u001b[39m     \u001b[36mconst\u001b[39m imageState \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mevaluate(() \u001b[33m=>\u001b[39m {\n \u001b[90m 22 |\u001b[39m       \u001b[36mconst\u001b[39m gallery \u001b[33m=\u001b[39m document\u001b[33m.\u001b[39mquerySelector(\u001b[32m'[data-testid=\"product-image-gallery\"]'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at D:\\mdh-3d-store\\tests\\storefront-images.spec.ts:19:46\u001b[22m"
+                    }
+                  ],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-04-20T20:10:19.316Z",
+                  "startTime": "2026-04-21T08:00:01.566Z",
                   "annotations": [],
-                  "attachments": []
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "D:\\mdh-3d-store\\test-results\\storefront-images-PDP-mostra-4-imagens-visiveis-em-real-008-chromium\\test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\mdh-3d-store\\test-results\\storefront-images-PDP-mostra-4-imagens-visiveis-em-real-008-chromium\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "D:\\mdh-3d-store\\tests\\storefront-images.spec.ts",
+                    "column": 46,
+                    "line": 19
+                  }
                 }
               ],
-              "status": "expected"
+              "status": "unexpected"
             }
           ],
           "id": "ba125c80e441cb68a830-53ceebe1ee84b59fcaad",
@@ -338,7 +618,7 @@
         },
         {
           "title": "PDP mostra 4 imagens visiveis em real-009",
-          "ok": true,
+          "ok": false,
           "tags": [],
           "tests": [
             {
@@ -349,20 +629,55 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 0,
+                  "workerIndex": 8,
                   "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 8389,
-                  "errors": [],
+                  "status": "failed",
+                  "duration": 10968,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('h1').first()\nExpected substring: \u001b[32m\"Homer Pikachu Mashup Colecionável\"\u001b[39m\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('h1').first()\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('h1').first()\nExpected substring: \u001b[32m\"Homer Pikachu Mashup Colecionável\"\u001b[39m\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('h1').first()\u001b[22m\n\n    at D:\\mdh-3d-store\\tests\\storefront-images.spec.ts:19:46",
+                    "location": {
+                      "file": "D:\\mdh-3d-store\\tests\\storefront-images.spec.ts",
+                      "column": 46,
+                      "line": 19
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 17 |\u001b[39m   test(\u001b[32m`PDP mostra 4 imagens visiveis em ${product.id}`\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 18 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m`${baseUrl}/catalogo/${product.slug}`\u001b[39m\u001b[33m,\u001b[39m { waitUntil\u001b[33m:\u001b[39m \u001b[32m\"networkidle\"\u001b[39m })\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 19 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m\"h1\"\u001b[39m)\u001b[33m.\u001b[39mfirst())\u001b[33m.\u001b[39mtoContainText(product\u001b[33m.\u001b[39mname \u001b[33m||\u001b[39m product\u001b[33m.\u001b[39mid)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                              \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 20 |\u001b[39m\n \u001b[90m 21 |\u001b[39m     \u001b[36mconst\u001b[39m imageState \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mevaluate(() \u001b[33m=>\u001b[39m {\n \u001b[90m 22 |\u001b[39m       \u001b[36mconst\u001b[39m gallery \u001b[33m=\u001b[39m document\u001b[33m.\u001b[39mquerySelector(\u001b[32m'[data-testid=\"product-image-gallery\"]'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "D:\\mdh-3d-store\\tests\\storefront-images.spec.ts",
+                        "column": 46,
+                        "line": 19
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('h1').first()\nExpected substring: \u001b[32m\"Homer Pikachu Mashup Colecionável\"\u001b[39m\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('h1').first()\u001b[22m\n\n\n\u001b[0m \u001b[90m 17 |\u001b[39m   test(\u001b[32m`PDP mostra 4 imagens visiveis em ${product.id}`\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 18 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m`${baseUrl}/catalogo/${product.slug}`\u001b[39m\u001b[33m,\u001b[39m { waitUntil\u001b[33m:\u001b[39m \u001b[32m\"networkidle\"\u001b[39m })\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 19 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m\"h1\"\u001b[39m)\u001b[33m.\u001b[39mfirst())\u001b[33m.\u001b[39mtoContainText(product\u001b[33m.\u001b[39mname \u001b[33m||\u001b[39m product\u001b[33m.\u001b[39mid)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                              \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 20 |\u001b[39m\n \u001b[90m 21 |\u001b[39m     \u001b[36mconst\u001b[39m imageState \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mevaluate(() \u001b[33m=>\u001b[39m {\n \u001b[90m 22 |\u001b[39m       \u001b[36mconst\u001b[39m gallery \u001b[33m=\u001b[39m document\u001b[33m.\u001b[39mquerySelector(\u001b[32m'[data-testid=\"product-image-gallery\"]'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at D:\\mdh-3d-store\\tests\\storefront-images.spec.ts:19:46\u001b[22m"
+                    }
+                  ],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-04-20T20:10:27.684Z",
+                  "startTime": "2026-04-21T08:00:13.500Z",
                   "annotations": [],
-                  "attachments": []
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "D:\\mdh-3d-store\\test-results\\storefront-images-PDP-mostra-4-imagens-visiveis-em-real-009-chromium\\test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\mdh-3d-store\\test-results\\storefront-images-PDP-mostra-4-imagens-visiveis-em-real-009-chromium\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "D:\\mdh-3d-store\\tests\\storefront-images.spec.ts",
+                    "column": 46,
+                    "line": 19
+                  }
                 }
               ],
-              "status": "expected"
+              "status": "unexpected"
             }
           ],
           "id": "ba125c80e441cb68a830-19c7c767be33e3b7d584",
@@ -372,7 +687,7 @@
         },
         {
           "title": "PDP mostra 4 imagens visiveis em real-010",
-          "ok": true,
+          "ok": false,
           "tags": [],
           "tests": [
             {
@@ -383,20 +698,55 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 0,
+                  "workerIndex": 9,
                   "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 8935,
-                  "errors": [],
+                  "status": "failed",
+                  "duration": 10965,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('h1').first()\nExpected substring: \u001b[32m\"Medalha Maçônica Personalizada\"\u001b[39m\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('h1').first()\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('h1').first()\nExpected substring: \u001b[32m\"Medalha Maçônica Personalizada\"\u001b[39m\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('h1').first()\u001b[22m\n\n    at D:\\mdh-3d-store\\tests\\storefront-images.spec.ts:19:46",
+                    "location": {
+                      "file": "D:\\mdh-3d-store\\tests\\storefront-images.spec.ts",
+                      "column": 46,
+                      "line": 19
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 17 |\u001b[39m   test(\u001b[32m`PDP mostra 4 imagens visiveis em ${product.id}`\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 18 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m`${baseUrl}/catalogo/${product.slug}`\u001b[39m\u001b[33m,\u001b[39m { waitUntil\u001b[33m:\u001b[39m \u001b[32m\"networkidle\"\u001b[39m })\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 19 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m\"h1\"\u001b[39m)\u001b[33m.\u001b[39mfirst())\u001b[33m.\u001b[39mtoContainText(product\u001b[33m.\u001b[39mname \u001b[33m||\u001b[39m product\u001b[33m.\u001b[39mid)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                              \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 20 |\u001b[39m\n \u001b[90m 21 |\u001b[39m     \u001b[36mconst\u001b[39m imageState \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mevaluate(() \u001b[33m=>\u001b[39m {\n \u001b[90m 22 |\u001b[39m       \u001b[36mconst\u001b[39m gallery \u001b[33m=\u001b[39m document\u001b[33m.\u001b[39mquerySelector(\u001b[32m'[data-testid=\"product-image-gallery\"]'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "D:\\mdh-3d-store\\tests\\storefront-images.spec.ts",
+                        "column": 46,
+                        "line": 19
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('h1').first()\nExpected substring: \u001b[32m\"Medalha Maçônica Personalizada\"\u001b[39m\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('h1').first()\u001b[22m\n\n\n\u001b[0m \u001b[90m 17 |\u001b[39m   test(\u001b[32m`PDP mostra 4 imagens visiveis em ${product.id}`\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 18 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m`${baseUrl}/catalogo/${product.slug}`\u001b[39m\u001b[33m,\u001b[39m { waitUntil\u001b[33m:\u001b[39m \u001b[32m\"networkidle\"\u001b[39m })\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 19 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m\"h1\"\u001b[39m)\u001b[33m.\u001b[39mfirst())\u001b[33m.\u001b[39mtoContainText(product\u001b[33m.\u001b[39mname \u001b[33m||\u001b[39m product\u001b[33m.\u001b[39mid)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                              \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 20 |\u001b[39m\n \u001b[90m 21 |\u001b[39m     \u001b[36mconst\u001b[39m imageState \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mevaluate(() \u001b[33m=>\u001b[39m {\n \u001b[90m 22 |\u001b[39m       \u001b[36mconst\u001b[39m gallery \u001b[33m=\u001b[39m document\u001b[33m.\u001b[39mquerySelector(\u001b[32m'[data-testid=\"product-image-gallery\"]'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at D:\\mdh-3d-store\\tests\\storefront-images.spec.ts:19:46\u001b[22m"
+                    }
+                  ],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-04-20T20:10:36.091Z",
+                  "startTime": "2026-04-21T08:00:25.430Z",
                   "annotations": [],
-                  "attachments": []
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "D:\\mdh-3d-store\\test-results\\storefront-images-PDP-mostra-4-imagens-visiveis-em-real-010-chromium\\test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\mdh-3d-store\\test-results\\storefront-images-PDP-mostra-4-imagens-visiveis-em-real-010-chromium\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "D:\\mdh-3d-store\\tests\\storefront-images.spec.ts",
+                    "column": 46,
+                    "line": 19
+                  }
                 }
               ],
-              "status": "expected"
+              "status": "unexpected"
             }
           ],
           "id": "ba125c80e441cb68a830-3ff7e96896d17031700a",
@@ -406,7 +756,7 @@
         },
         {
           "title": "checkout continua carregando sem imagens quebradas",
-          "ok": true,
+          "ok": false,
           "tags": [],
           "tests": [
             {
@@ -417,25 +767,60 @@
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 0,
+                  "workerIndex": 10,
                   "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 4673,
-                  "errors": [],
+                  "status": "failed",
+                  "duration": 10999,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('Produto e contexto')\nExpected: visible\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for getByText('Produto e contexto')\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('Produto e contexto')\nExpected: visible\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for getByText('Produto e contexto')\u001b[22m\n\n    at D:\\mdh-3d-store\\tests\\storefront-images.spec.ts:48:54",
+                    "location": {
+                      "file": "D:\\mdh-3d-store\\tests\\storefront-images.spec.ts",
+                      "column": 54,
+                      "line": 48
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 46 |\u001b[39m test(\u001b[32m\"checkout continua carregando sem imagens quebradas\"\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 47 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m`${baseUrl}/checkout`\u001b[39m\u001b[33m,\u001b[39m { waitUntil\u001b[33m:\u001b[39m \u001b[32m\"networkidle\"\u001b[39m })\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 48 |\u001b[39m   \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[32m\"Produto e contexto\"\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                      \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 49 |\u001b[39m\n \u001b[90m 50 |\u001b[39m   \u001b[36mconst\u001b[39m brokenImages \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mevaluate(() \u001b[33m=>\u001b[39m\n \u001b[90m 51 |\u001b[39m     [\u001b[33m...\u001b[39mdocument\u001b[33m.\u001b[39mquerySelectorAll(\u001b[32m\"img\"\u001b[39m)]\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "D:\\mdh-3d-store\\tests\\storefront-images.spec.ts",
+                        "column": 54,
+                        "line": 48
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('Produto e contexto')\nExpected: visible\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for getByText('Produto e contexto')\u001b[22m\n\n\n\u001b[0m \u001b[90m 46 |\u001b[39m test(\u001b[32m\"checkout continua carregando sem imagens quebradas\"\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 47 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m`${baseUrl}/checkout`\u001b[39m\u001b[33m,\u001b[39m { waitUntil\u001b[33m:\u001b[39m \u001b[32m\"networkidle\"\u001b[39m })\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 48 |\u001b[39m   \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[32m\"Produto e contexto\"\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                      \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 49 |\u001b[39m\n \u001b[90m 50 |\u001b[39m   \u001b[36mconst\u001b[39m brokenImages \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mevaluate(() \u001b[33m=>\u001b[39m\n \u001b[90m 51 |\u001b[39m     [\u001b[33m...\u001b[39mdocument\u001b[33m.\u001b[39mquerySelectorAll(\u001b[32m\"img\"\u001b[39m)]\u001b[0m\n\u001b[2m    at D:\\mdh-3d-store\\tests\\storefront-images.spec.ts:48:54\u001b[22m"
+                    }
+                  ],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-04-20T20:10:45.048Z",
+                  "startTime": "2026-04-21T08:00:37.332Z",
                   "annotations": [],
-                  "attachments": []
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "D:\\mdh-3d-store\\test-results\\storefront-images-checkout-31584-gando-sem-imagens-quebradas-chromium\\test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "D:\\mdh-3d-store\\test-results\\storefront-images-checkout-31584-gando-sem-imagens-quebradas-chromium\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "D:\\mdh-3d-store\\tests\\storefront-images.spec.ts",
+                    "column": 54,
+                    "line": 48
+                  }
                 }
               ],
-              "status": "expected"
+              "status": "unexpected"
             }
           ],
           "id": "ba125c80e441cb68a830-94567445342e5492d014",
           "file": "storefront-images.spec.ts",
-          "line": 48,
+          "line": 46,
           "column": 5
         }
       ]
@@ -443,11 +828,11 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-04-20T20:09:35.951Z",
-    "duration": 73938.837,
-    "expected": 11,
+    "startTime": "2026-04-21T07:58:34.811Z",
+    "duration": 133709.074,
+    "expected": 0,
     "skipped": 0,
-    "unexpected": 0,
+    "unexpected": 11,
     "flaky": 0
   }
 }

@@ -14,26 +14,56 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json();
-    const { action, user_id, thread_id, message, subject, priority } = body;
+    const body = await req.json().catch(() => null);
+    if (!body || typeof body !== "object") {
+      return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+    }
+
+    const { action, user_id, visitor_id, thread_id, message, subject, priority } = body as Record<string, unknown>;
+    const actorId = String(user_id || visitor_id || "").trim();
+    const threadId = String(thread_id || "").trim();
+    const text = String(message || "").trim();
+    const subjectText = String(subject || "").trim();
+    const priorityText = String(priority || "normal").trim();
 
     if (action === 'start') {
-      const session = await startChatSession(user_id, subject, priority);
+      if (!actorId) {
+        return NextResponse.json(
+          { error: 'Missing visitor or user id' },
+          { status: 400 }
+        );
+      }
+
+      const session = await startChatSession(actorId, subjectText, priorityText);
       return NextResponse.json(session);
     }
 
     if (action === 'send_message') {
+      if (!threadId || !text) {
+        return NextResponse.json(
+          { error: 'Missing thread or message' },
+          { status: 400 }
+        );
+      }
+
       const msg = await sendChatMessage({
-        thread_id,
-        sender_id: user_id,
+        thread_id: threadId,
+        sender_id: actorId,
         sender_type: 'customer',
-        message
+        message: text
       });
       return NextResponse.json(msg);
     }
 
     if (action === 'close') {
-      await closeChatSession(thread_id, body.rating);
+      if (!threadId) {
+        return NextResponse.json(
+          { error: 'Missing thread id' },
+          { status: 400 }
+        );
+      }
+
+      await closeChatSession(threadId, Number((body as { rating?: unknown }).rating));
       return NextResponse.json({ success: true });
     }
 

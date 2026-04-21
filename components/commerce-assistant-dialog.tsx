@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
+import { useEffect, useMemo, useRef, useState, type FormEvent, type KeyboardEvent } from "react";
 import {
   Bot,
   CreditCard,
@@ -117,10 +117,17 @@ export function CommerceAssistantDialog({
   const [responseId, setResponseId] = useState<string | null>(null);
   const [error, setError] = useState("");
   const conversationRef = useRef<HTMLDivElement | null>(null);
+  const conversationEndRef = useRef<HTMLDivElement | null>(null);
+
+  function scrollToLatest() {
+    requestAnimationFrame(() => {
+      conversationEndRef.current?.scrollIntoView({ block: "end", behavior: "smooth" });
+    });
+  }
 
   useEffect(() => {
     if (!open) return;
-    conversationRef.current?.scrollTo({ top: conversationRef.current.scrollHeight, behavior: "smooth" });
+    scrollToLatest();
   }, [messages, open]);
 
   useEffect(() => {
@@ -188,6 +195,7 @@ export function CommerceAssistantDialog({
           source: data.source || (data.aiReady ? "ai" : "fallback"),
         },
       ]);
+      scrollToLatest();
     } catch {
       setError("Não consegui responder agora. Use o WhatsApp para atendimento imediato.");
       setMessages((current) => [
@@ -199,9 +207,16 @@ export function CommerceAssistantDialog({
           content: `Posso te direcionar para o WhatsApp agora: https://wa.me/${whatsappNumber}`,
         },
       ]);
+      scrollToLatest();
     } finally {
       setIsSending(false);
     }
+  }
+
+  function handleComposerKeyDown(event: KeyboardEvent<HTMLTextAreaElement>) {
+    if (event.key !== "Enter" || event.shiftKey) return;
+    event.preventDefault();
+    void sendMessage(input);
   }
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -214,7 +229,7 @@ export function CommerceAssistantDialog({
   return (
     <div className="fixed inset-0 z-[120] bg-slate-950/72 p-4 backdrop-blur-sm" onClick={onClose}>
       <div
-        className="mx-auto max-h-[90vh] w-full max-w-6xl overflow-hidden rounded-[36px] border border-white/10 bg-[#07111a] shadow-[0_30px_120px_rgba(0,0,0,0.45)]"
+        className="mx-auto h-[min(92vh,860px)] w-full max-w-6xl overflow-hidden rounded-[36px] border border-white/10 bg-[#07111a] shadow-[0_30px_120px_rgba(0,0,0,0.45)]"
         onClick={(event) => event.stopPropagation()}
       >
         <div className="flex items-start justify-between gap-4 border-b border-white/10 px-6 py-5">
@@ -235,8 +250,8 @@ export function CommerceAssistantDialog({
           </button>
         </div>
 
-        <div className="grid gap-0 lg:grid-cols-[0.9fr_1.1fr]">
-          <aside className="border-b border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(34,211,238,0.16),transparent_34%),linear-gradient(180deg,rgba(255,255,255,0.03),rgba(255,255,255,0.015))] p-6 lg:border-b-0 lg:border-r">
+        <div className="grid h-[calc(100%-112px)] gap-0 overflow-hidden lg:grid-cols-[0.9fr_1.1fr]">
+          <aside className="overflow-y-auto border-b border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(34,211,238,0.16),transparent_34%),linear-gradient(180deg,rgba(255,255,255,0.03),rgba(255,255,255,0.015))] p-6 lg:border-b-0 lg:border-r">
             <div className="rounded-[28px] border border-white/10 bg-black/20 p-5">
               <div className="flex items-center gap-3 text-cyan-100">
                 <Sparkles className="h-5 w-5" />
@@ -288,7 +303,7 @@ export function CommerceAssistantDialog({
             </a>
           </aside>
 
-          <section className="flex min-h-[640px] flex-col bg-black/10">
+          <section className="flex min-h-0 flex-col overflow-hidden bg-black/10">
             <div className="border-b border-white/10 px-6 py-4">
               <div className="flex items-center gap-3">
                 <span className="rounded-2xl border border-white/10 bg-white/5 p-3 text-cyan-100">
@@ -326,9 +341,10 @@ export function CommerceAssistantDialog({
                   </div>
                 </div>
               ) : null}
+              <div ref={conversationEndRef} />
             </div>
 
-            <div className="border-t border-white/10 px-6 py-4">
+            <div className="border-t border-white/10 bg-black/20 px-6 py-4">
               <div className="mb-4 flex flex-wrap gap-2">
                 {assistantQuickPrompts.map((prompt) => (
                   <button
@@ -352,8 +368,9 @@ export function CommerceAssistantDialog({
                     id="commerce-assistant-input"
                     value={input}
                     onChange={(event) => setInput(event.target.value)}
+                    onKeyDown={handleComposerKeyDown}
                     placeholder="Ex.: quero um presente geek até R$ 80 com foto real, ou preciso de um suporte para controle..."
-                    className="min-h-[104px] flex-1 rounded-[24px] border border-white/10 bg-white/5 px-4 py-4 text-sm text-white outline-none placeholder:text-white/30"
+                    className="min-h-[104px] max-h-[220px] flex-1 rounded-[24px] border border-white/10 bg-white/5 px-4 py-4 text-sm text-white outline-none placeholder:text-white/30"
                     disabled={isSending}
                   />
                   <button type="submit" className="btn-primary self-end px-5 py-4" disabled={isSending || !input.trim()}>

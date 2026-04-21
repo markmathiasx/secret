@@ -16,6 +16,7 @@ import { SiteAssistant } from '@/components/site-assistant';
 import { SiteFooter } from '@/components/site-footer';
 import { SiteHeader } from '@/components/site-header';
 import { ToastProvider } from '@/components/toast';
+import { LiveChatWidget } from '@/components/live-chat-widget';
 import { WhatsAppFloat } from '@/components/whatsapp-float';
 import { brand, socialLinks, supportEmail, whatsappNumber } from '@/lib/constants';
 import { getAiAssistantModel, getAiAssistantProvider, getSiteUrl, isAiAssistantConfigured, isCardCheckoutConfigured } from '@/lib/env';
@@ -208,6 +209,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               aiAssistantModel={aiAssistantModel}
               aiAssistantProvider={aiAssistantProvider}
             />
+            <LiveChatWidget />
             <PwaRegister />
             <CartDrawer />
             <CookieConsent />

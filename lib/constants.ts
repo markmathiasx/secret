@@ -15,7 +15,7 @@ function parseList(value?: string) {
 }
 
 export const whatsappContacts = [
-  process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "5521920137249",
+  process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "5521974137662",
   ...parseList(process.env.NEXT_PUBLIC_EXTRA_WHATSAPP_NUMBERS),
 ].map((number, index) => ({
   id: `wa-${index + 1}`,
@@ -23,7 +23,7 @@ export const whatsappContacts = [
   number,
 }));
 
-export const whatsappNumber = whatsappContacts[0]?.number || "5521920137249";
+export const whatsappNumber = whatsappContacts[0]?.number || "5521974137662";
 export const whatsappMessage =
   process.env.NEXT_PUBLIC_WHATSAPP_MESSAGE || "Oi! Vim pelo site da MDH 3D e quero um orçamento.";
 export const supportEmail = process.env.STAFF_NOTIFY_EMAIL || "mdhatendimento@gmail.com";

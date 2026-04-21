@@ -18,9 +18,6 @@ export async function register() {
     // Run startup validation — log issues but never crash (resilient mode)
     runStartupGuards({ exitOnError: false });
 
-    // TODO: Initialize Sentry for server
-    // TODO: Initialize OpenTelemetry
-
     console.log('✅ Server initialization complete');
   }
 }

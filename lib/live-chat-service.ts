@@ -1,27 +1,20 @@
 /**
- * Live Chat & AI Support Service for 2026
- * Real-time customer support with AI-powered responses
+ * Live Chat & AI Support Service
+ *
+ * Reuses the existing Prisma chat models and the assistant route so the site,
+ * admin inbox and WhatsApp alerts stay on one flow instead of splitting into
+ * a second support stack.
  */
 
-import { prisma } from './prisma';
-import { OpenAI } from 'openai';
-
-let openai: OpenAI | null = null;
-
-function getOpenAIClient(): OpenAI {
-  if (!openai && process.env.OPENAI_API_KEY) {
-    openai = new OpenAI({
-      apiKey: process.env.OPENAI_API_KEY
-    });
-  }
-  return openai || ({} as OpenAI);
-}
+import { prisma } from "./prisma";
+import { getSiteUrl } from "./env";
+import { whatsappNumber } from "./constants";
 
 export interface ChatMessage {
   id?: string;
   thread_id: string;
   sender_id: string;
-  sender_type: 'customer' | 'support_agent' | 'ai';
+  sender_type: "customer" | "support_agent" | "ai";
   message: string;
   attachments?: string[];
   is_ai_generated?: boolean;
@@ -33,59 +26,241 @@ export interface ChatSession {
   id: string;
   customer_id: string;
   subject: string;
-  status: 'active' | 'waiting' | 'resolved' | 'closed';
-  priority: 'low' | 'normal' | 'high' | 'urgent';
+  status: "active" | "waiting" | "resolved" | "closed";
+  priority: "low" | "normal" | "high" | "urgent";
   assigned_agent_id?: string;
   messages: ChatMessage[];
   created_at: Date;
   updated_at: Date;
 }
 
-/**
- * Start a new chat session
- */
-export async function startChatSession(customerId: string, subject: string, priority: string = 'normal'): Promise<ChatSession> {
-  const session = await prisma.chatThread.create({
+const AI_BOT_ID = "ai-bot";
+const AI_BOT_EMAIL = "ai-bot@mdh.local";
+const VISITOR_EMAIL_DOMAIN = "guest.mdh.local";
+
+function normalizeVisitorId(value: string) {
+  return value.trim().toLowerCase().replace(/[^a-z0-9_-]+/g, "-").replace(/-+/g, "-").slice(0, 48) || "visitor";
+}
+
+function getSiteSupportUrl(threadId: string) {
+  return `${getSiteUrl()}/admin/inbox?thread=${encodeURIComponent(threadId)}`;
+}
+
+async function ensureSupportBotUser() {
+  return prisma.user.upsert({
+    where: { id: AI_BOT_ID },
+    update: {
+      name: "Assistente MDH",
+      role: "ADMIN",
+      isActive: true,
+      isInternalSeller: true,
+    },
+    create: {
+      id: AI_BOT_ID,
+      email: AI_BOT_EMAIL,
+      name: "Assistente MDH",
+      role: "ADMIN",
+      isActive: true,
+      isInternalSeller: true,
+    },
+    select: { id: true },
+  });
+}
+
+async function ensureVisitorUser(visitorId: string) {
+  const normalized = normalizeVisitorId(visitorId);
+  const email = `${normalized}@${VISITOR_EMAIL_DOMAIN}`;
+
+  return prisma.user.upsert({
+    where: { email },
+    update: {
+      name: `Visitante ${normalized.slice(0, 8).toUpperCase()}`,
+      phone: null,
+      role: "BUYER",
+      isActive: true,
+    },
+    create: {
+      email,
+      name: `Visitante ${normalized.slice(0, 8).toUpperCase()}`,
+      role: "BUYER",
+      isActive: true,
+      phone: null,
+    },
+    select: { id: true, email: true, name: true },
+  });
+}
+
+async function notifySupportOnWhatsApp(input: {
+  threadId: string;
+  customerLabel: string;
+  message: string;
+}) {
+  const phoneNumberId = process.env.WHATSAPP_PHONE_NUMBER_ID;
+  const accessToken = process.env.WHATSAPP_ACCESS_TOKEN;
+
+  if (!phoneNumberId || !accessToken || !whatsappNumber) {
+    return { ok: false, reason: "missing_whatsapp_credentials" } as const;
+  }
+
+  const payload = [
+    "Nova conversa no site MDH 3D",
+    `Cliente: ${input.customerLabel}`,
+    `Conversa: ${input.threadId}`,
+    `Mensagem: ${input.message}`,
+    `Inbox: ${getSiteSupportUrl(input.threadId)}`,
+  ].join("\n");
+
+  const response = await fetch(`https://graph.facebook.com/v23.0/${phoneNumberId}/messages`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      messaging_product: "whatsapp",
+      to: whatsappNumber.replace(/\D/g, ""),
+      type: "text",
+      text: { body: payload },
+    }),
+  });
+
+  if (!response.ok) {
+    return { ok: false, reason: await response.text() } as const;
+  }
+
+  return { ok: true, data: await response.json() } as const;
+}
+
+async function getAssistantReply(messages: Array<{ role: "user" | "assistant"; content: string }>) {
+  const response = await fetch(`${getSiteUrl()}/api/assistant/chat`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ messages }),
+  });
+
+  const payload = await response.json().catch(() => ({}));
+  if (!response.ok || !payload?.message) {
+    throw new Error(payload?.error || "assistant_unavailable");
+  }
+
+  return String(payload.message);
+}
+
+async function createBotMessage(threadId: string, body: string) {
+  await ensureSupportBotUser();
+  return prisma.chatMessage.create({
     data: {
-      buyerId: customerId,
-      subject,
-      type: 'SUPPORT',
-      lastMessageAt: new Date()
-    }
+      threadId,
+      senderId: AI_BOT_ID,
+      body,
+    },
+  });
+}
+
+async function generateAIResponse(threadId: string, customerMessage: string) {
+  const history = await prisma.chatMessage.findMany({
+    where: { threadId },
+    orderBy: { createdAt: "asc" },
+    select: {
+      senderId: true,
+      body: true,
+    },
+    take: 12,
+  });
+
+  const messages = history.map((entry) => ({
+    role: entry.senderId === AI_BOT_ID ? ("assistant" as const) : ("user" as const),
+    content: entry.body,
+  }));
+
+  if (messages[messages.length - 1]?.content !== customerMessage) {
+    messages.push({ role: "user", content: customerMessage });
+  }
+
+  const reply = await getAssistantReply(messages);
+  await createBotMessage(threadId, reply);
+}
+
+async function syncThreadLastMessage(threadId: string) {
+  await prisma.chatThread.update({
+    where: { id: threadId },
+    data: { lastMessageAt: new Date() },
+  });
+}
+
+export async function startChatSession(visitorId: string, subject: string, priority: string = "normal"): Promise<ChatSession> {
+  const visitor = await ensureVisitorUser(visitorId);
+  const thread = await prisma.chatThread.create({
+    data: {
+      buyerId: visitor.id,
+      type: "SUPPORT",
+      subject: subject?.trim() || "Atendimento comercial",
+      lastMessageAt: new Date(),
+    },
   });
 
   return {
-    id: session.id,
-    customer_id: session.buyerId || '',
-    subject: session.subject || '',
-    status: 'active',
-    priority: 'normal',
+    id: thread.id,
+    customer_id: visitor.id,
+    subject: thread.subject || "Atendimento comercial",
+    status: "active",
+    priority: (["low", "normal", "high", "urgent"].includes(priority) ? priority : "normal") as ChatSession["priority"],
     messages: [],
-    created_at: session.createdAt,
-    updated_at: session.updatedAt
+    created_at: thread.createdAt,
+    updated_at: thread.updatedAt,
   };
 }
 
-/**
- * Send message in chat (customer or AI)
- */
 export async function sendChatMessage(message: ChatMessage): Promise<ChatMessage> {
+  const thread = await prisma.chatThread.findUnique({
+    where: { id: message.thread_id },
+    select: { id: true, buyerId: true, sellerId: true, subject: true },
+  });
+
+  if (!thread) {
+    throw new Error("Thread not found");
+  }
+
+  let senderId = message.sender_id.trim();
+  if (message.sender_type === "ai") {
+    await ensureSupportBotUser();
+    senderId = AI_BOT_ID;
+  } else if (!senderId) {
+    throw new Error("Missing sender id");
+  }
+
   const saved = await prisma.chatMessage.create({
     data: {
       threadId: message.thread_id,
-      senderId: message.sender_id,
+      senderId,
       body: message.message,
-      attachments: message.attachments ? { attachments: message.attachments } : undefined
-    }
+      attachments: message.attachments ? { attachments: message.attachments } : undefined,
+    },
   });
 
-  // If customer message, trigger AI response
-  if (message.sender_type === 'customer') {
+  await syncThreadLastMessage(message.thread_id);
+
+  if (message.sender_type === "customer") {
+    const customer = await prisma.user.findUnique({
+      where: { id: thread.buyerId || senderId },
+      select: { name: true, email: true },
+    });
+
+    void notifySupportOnWhatsApp({
+      threadId: message.thread_id,
+      customerLabel: customer?.name || customer?.email || thread.subject || "Visitante",
+      message: message.message,
+    }).catch((error) => {
+      console.error("WhatsApp support notification failed:", error);
+    });
+
     setTimeout(() => {
-      generateAIResponse(message.thread_id, message.message).catch(err =>
-        console.error('AI response error:', err)
-      );
-    }, 500);
+      generateAIResponse(message.thread_id, message.message).catch((error) => {
+        console.error("AI response error:", error);
+      });
+    }, 400);
   }
 
   return {
@@ -95,186 +270,105 @@ export async function sendChatMessage(message: ChatMessage): Promise<ChatMessage
     sender_type: message.sender_type,
     message: saved.body,
     attachments: message.attachments,
-    created_at: saved.createdAt
+    created_at: saved.createdAt,
   };
 }
 
-/**
- * Generate AI response to customer message
- */
-async function generateAIResponse(threadId: string, customerMessage: string): Promise<void> {
-  try {
-    // Get conversation history for context
-    const history = await prisma.chatMessage.findMany({
-      where: { threadId: threadId },
-      orderBy: { createdAt: 'asc' },
-      take: 10
-    });
-
-    // Build conversation context
-    const conversationContext = history
-      .map(m => `${m.senderId}: ${m.body}`)
-      .join('\n');
-
-    const systemPrompt = `You are a helpful customer support AI for MDH 3D Store, a professional 3D printing service.
-    
-Guidelines:
-- Be friendly, professional, and helpful
-- Provide accurate information about 3D printing, products, and services
-- If you're unsure, admit it and offer to connect with a human agent
-- Keep responses concise (under 150 words)
-- Include product recommendations when relevant
-- Always offer a way to escalate to human support
-
-Store Information:
-- Specializes in 3D printing services and products
-- Located in Rio de Janeiro
-- Offers custom printing, 3D models, and pre-made products
-- Payment methods: Credit card, PIX, Mercado Pago
-- Shipping: Rio area and nationwide`;
-
-    const messages = [
-      { role: 'system' as const, content: systemPrompt },
-      ...history
-        .map(m => ({
-          role: (m.senderId === 'ai-bot' ? 'assistant' : 'user') as 'user' | 'assistant',
-          content: m.body
-        })),
-      { role: 'user' as const, content: customerMessage }
-    ];
-
-    const response = await getOpenAIClient().chat.completions.create({
-      model: 'gpt-4',
-      messages: messages as any,
-      temperature: 0.7,
-      max_tokens: 200
-    });
-
-    const aiMessage = response.choices[0]?.message?.content || 'How can I help you?';
-
-    // Save AI response
-    await prisma.chatMessage.create({
-      data: {
-        threadId: threadId,
-        senderId: 'ai-bot',
-        body: aiMessage
-      }
-    });
-  } catch (error) {
-    console.error('AI response generation error:', error);
-    
-    // Save fallback message
-    await prisma.chatMessage.create({
-      data: {
-        threadId: threadId,
-        senderId: 'ai-bot',
-        body: 'Thanks for your message! A team member will get back to you shortly. How can we help?'
-      }
-    });
-  }
-}
-
-/**
- * Get chat session with messages
- */
 export async function getChatSession(threadId: string): Promise<ChatSession | null> {
   const thread = await prisma.chatThread.findUnique({
     where: { id: threadId },
-    include: { messages: true }
+    include: {
+      buyer: true,
+      seller: true,
+      messages: {
+        orderBy: { createdAt: "asc" },
+      },
+    },
   });
 
   if (!thread) return null;
 
   return {
     id: thread.id,
-    customer_id: thread.buyerId || '',
-    subject: thread.subject || '',
-    status: 'active',
-    priority: 'normal',
+    customer_id: thread.buyerId || "",
+    subject: thread.subject || "",
+    status: "active",
+    priority: "normal",
     assigned_agent_id: thread.sellerId || undefined,
-    messages: thread.messages.map(m => ({
-      id: m.id,
-      thread_id: m.threadId,
-      sender_id: m.senderId,
-      sender_type: m.senderId === 'ai-bot' ? 'ai' : m.senderId === 'system' ? 'support_agent' : 'customer',
-      message: m.body,
-      created_at: m.createdAt
+    messages: thread.messages.map((entry) => ({
+      id: entry.id,
+      thread_id: entry.threadId,
+      sender_id: entry.senderId,
+      sender_type:
+        entry.senderId === AI_BOT_ID
+          ? "ai"
+          : entry.senderId === thread.buyerId
+            ? "customer"
+            : "support_agent",
+      message: entry.body,
+      created_at: entry.createdAt,
     })),
     created_at: thread.createdAt,
-    updated_at: thread.updatedAt
+    updated_at: thread.updatedAt,
   };
 }
 
-/**
- * Get active chats for customer
- */
 export async function getActiveChats(customerId: string): Promise<ChatSession[]> {
   const threads = await prisma.chatThread.findMany({
     where: {
-      buyerId: customerId
+      buyerId: customerId,
     },
-    orderBy: { updatedAt: 'desc' }
+    orderBy: { updatedAt: "desc" },
+    include: {
+      messages: {
+        orderBy: { createdAt: "desc" },
+        take: 1,
+      },
+    },
   });
 
-  return threads.map(t => ({
-    id: t.id,
-    customer_id: t.buyerId || '',
-    subject: t.subject || '',
-    status: 'active',
-    priority: 'normal',
-    assigned_agent_id: t.sellerId || undefined,
+  return threads.map((thread) => ({
+    id: thread.id,
+    customer_id: thread.buyerId || "",
+    subject: thread.subject || "",
+    status: "active",
+    priority: "normal",
+    assigned_agent_id: thread.sellerId || undefined,
     messages: [],
-    created_at: t.createdAt,
-    updated_at: t.updatedAt
+    created_at: thread.createdAt,
+    updated_at: thread.updatedAt,
   }));
 }
 
-/**
- * Close chat session
- */
 export async function closeChatSession(threadId: string, rating?: number): Promise<void> {
   await prisma.chatThread.update({
     where: { id: threadId },
     data: {
-      updatedAt: new Date()
-    }
+      updatedAt: new Date(),
+    },
   });
+
+  if (typeof rating === "number" && Number.isFinite(rating)) {
+    await createBotMessage(threadId, `Obrigado pelo feedback. Vou registrar sua avaliação como ${rating}/5.`);
+  }
 }
 
-/**
- * Assign human agent to chat
- */
 export async function assignAgentToChat(threadId: string, agentId: string): Promise<void> {
   await prisma.chatThread.update({
     where: { id: threadId },
     data: {
       sellerId: agentId,
-      updatedAt: new Date()
-    }
+      updatedAt: new Date(),
+    },
   });
 
-  // Add system message
-  await prisma.chatMessage.create({
-    data: {
-      threadId: threadId,
-      senderId: 'system',
-      body: `Support agent assigned. They will be with you shortly.`
-    }
-  });
+  await createBotMessage(threadId, "Atendente humano assumiu esta conversa.");
 }
 
-/**
- * Get FAQs relevant to customer inquiry
- */
 export async function getSuggestedFAQs(query: string): Promise<any[]> {
-  // For now, return empty array
-  // In production, implement FAQ search
   return [];
 }
 
-/**
- * Get support status and estimated wait time
- */
 export async function getSupportStatus(): Promise<{
   available: boolean;
   average_wait_time: number;
@@ -282,33 +376,29 @@ export async function getSupportStatus(): Promise<{
   queue_length: number;
 }> {
   const activeChats = await prisma.chatThread.count();
-
   const activeAgents = await prisma.user.count({
     where: {
-      role: { in: ['ADMIN'] }
-    }
+      role: { in: ["ADMIN"] },
+    },
   });
 
   return {
     available: activeAgents > 0,
     average_wait_time: activeAgents > 0 ? Math.ceil(activeChats / activeAgents) * 5 : 30,
     active_agents: activeAgents,
-    queue_length: activeChats
+    queue_length: activeChats,
   };
 }
 
-/**
- * Get chat analytics
- */
 export async function getChatAnalytics(days: number = 30) {
   const since = new Date(Date.now() - days * 24 * 60 * 60 * 1000);
 
   const chats = await prisma.chatThread.findMany({
-    where: { createdAt: { gte: since } }
+    where: { createdAt: { gte: since } },
   });
 
   const messages = await prisma.chatMessage.findMany({
-    where: { createdAt: { gte: since } }
+    where: { createdAt: { gte: since } },
   });
 
   return {
@@ -317,14 +407,6 @@ export async function getChatAnalytics(days: number = 30) {
     total_messages: messages.length,
     ai_messages: 0,
     average_resolution_time: 0,
-    customer_satisfaction: 0
+    customer_satisfaction: 0,
   };
-}
-
-function calculateAverageResolutionTime(chats: any[]): number {
-  return 0;
-}
-
-async function getAverageRating(chats: any[]): Promise<number> {
-  return 0;
 }

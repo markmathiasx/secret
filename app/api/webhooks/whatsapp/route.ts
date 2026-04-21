@@ -4,9 +4,97 @@ import { estimateDeliveryFeeKm } from "@/lib/delivery";
 import { formatCurrency } from "@/lib/utils";
 import { supportEmail, whatsappNumber } from "@/lib/constants";
 import { getSiteUrl } from "@/lib/env";
+import { prisma } from "@/lib/prisma";
 
 type Session = { distanceKm?: number; lastProductId?: string; wantsHuman?: boolean };
 const sessions = new Map<string, Session>();
+const AI_BOT_ID = "ai-bot";
+
+async function ensureBotUser() {
+  await prisma.user.upsert({
+    where: { id: AI_BOT_ID },
+    update: {
+      name: "Assistente MDH",
+      role: "ADMIN",
+      isActive: true,
+      isInternalSeller: true,
+    },
+    create: {
+      id: AI_BOT_ID,
+      email: "ai-bot@mdh.local",
+      name: "Assistente MDH",
+      role: "ADMIN",
+      isActive: true,
+      isInternalSeller: true,
+    },
+  });
+}
+
+async function ensureWhatsAppUser(from: string) {
+  const digits = from.replace(/\D/g, "");
+  const email = `wa-${digits}@mdh.local`;
+  return prisma.user.upsert({
+    where: { email },
+    update: {
+      phone: `+${digits}`,
+      name: `WhatsApp ${digits.slice(-4)}`,
+      role: "BUYER",
+      isActive: true,
+    },
+    create: {
+      email,
+      phone: `+${digits}`,
+      name: `WhatsApp ${digits.slice(-4)}`,
+      role: "BUYER",
+      isActive: true,
+    },
+  });
+}
+
+async function ensureWhatsAppThread(userId: string, subject: string) {
+  const existing = await prisma.chatThread.findFirst({
+    where: {
+      buyerId: userId,
+      type: "SUPPORT",
+      subject: {
+        contains: "WhatsApp",
+        mode: "insensitive",
+      },
+    },
+    orderBy: { updatedAt: "desc" },
+  });
+
+  if (existing) {
+    return existing;
+  }
+
+  return prisma.chatThread.create({
+    data: {
+      buyerId: userId,
+      type: "SUPPORT",
+      subject,
+      lastMessageAt: new Date(),
+    },
+  });
+}
+
+async function storeMessage(threadId: string, senderId: string, body: string) {
+  await ensureBotUser();
+  const message = await prisma.chatMessage.create({
+    data: {
+      threadId,
+      senderId,
+      body,
+    },
+  });
+
+  await prisma.chatThread.update({
+    where: { id: threadId },
+    data: { lastMessageAt: new Date() },
+  });
+
+  return message;
+}
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -128,24 +216,36 @@ export async function POST(request: Request) {
         if (!from || !text) continue;
 
         const session = sessions.get(from) || {};
+        const contact = await ensureWhatsAppUser(from);
+        const thread = await ensureWhatsAppThread(contact.id, `WhatsApp ${from}`);
+        await storeMessage(thread.id, contact.id, text);
 
         if (/^(oi|ol[aá]|menu|in[ií]cio|começar)$/i.test(text)) {
-          await sendText(from, menuText());
+          const reply = menuText();
+          const result = await sendText(from, reply);
+          if (result.ok) {
+            await storeMessage(thread.id, AI_BOT_ID, reply);
+          } else {
+            console.error("WhatsApp reply failed:", result);
+          }
           continue;
         }
 
         if (wantsHuman(text)) {
           session.wantsHuman = true;
           sessions.set(from, session);
-          await sendText(
-            from,
-            [
-              "Perfeito. Vou direcionar para atendimento humano.",
-              `WhatsApp principal: +${whatsappNumber}`,
-              `E-mail de apoio: ${supportEmail}`,
-              "Se quiser agilizar, já me mande: item, cor, bairro/CEP e prazo desejado."
-            ].join("\n")
-          );
+          const reply = [
+            "Perfeito. Vou direcionar para atendimento humano.",
+            `WhatsApp principal: +${whatsappNumber}`,
+            `E-mail de apoio: ${supportEmail}`,
+            "Se quiser agilizar, já me mande: item, cor, bairro/CEP e prazo desejado."
+          ].join("\n");
+          const result = await sendText(from, reply);
+          if (result.ok) {
+            await storeMessage(thread.id, AI_BOT_ID, reply);
+          } else {
+            console.error("WhatsApp reply failed:", result);
+          }
           continue;
         }
 
@@ -157,7 +257,13 @@ export async function POST(request: Request) {
 
         if (!product) {
           sessions.set(from, session);
-          await sendText(from, menuText());
+          const reply = menuText();
+          const result = await sendText(from, reply);
+          if (result.ok) {
+            await storeMessage(thread.id, AI_BOT_ID, reply);
+          } else {
+            console.error("WhatsApp reply failed:", result);
+          }
           continue;
         }
 
@@ -180,7 +286,13 @@ export async function POST(request: Request) {
           "Se quiser atendimento humano, escreva HUMANO."
         ];
 
-        await sendText(from, lines.join("\n"));
+        const reply = lines.join("\n");
+        const result = await sendText(from, reply);
+        if (result.ok) {
+          await storeMessage(thread.id, AI_BOT_ID, reply);
+        } else {
+          console.error("WhatsApp reply failed:", result);
+        }
       }
     }
   }
