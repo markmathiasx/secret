@@ -160,7 +160,6 @@ export default function AdminOrderDetail({ order }: OrderDetailProps) {
             {payment.pixQrCode && (
               <div>
                 <p className="text-white/60 mb-2">PIX QR Code:</p>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <Image src={payment.pixQrCode} alt="QR Code PIX" className="w-32 h-32" width={128} height={128} unoptimized />
                 {payment.pixPayload && (
                   <p className="text-xs text-white/60 mt-2 break-all">{payment.pixPayload}</p>

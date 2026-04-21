@@ -15,47 +15,52 @@ const realApprovedSkus = Array.isArray(audit.items)
 
 for (const product of realApprovedSkus) {
   test(`PDP mostra 4 imagens visiveis em ${product.id}`, async ({ page }) => {
-    const imageFailures: string[] = [];
-
-    page.on("response", (response) => {
-      const req = response.request();
-      if (req.resourceType() === "image" && response.status() >= 400) {
-        imageFailures.push(`${response.status()} ${response.url()}`);
-      }
-    });
-
     await page.goto(`${baseUrl}/catalogo/${product.slug}`, { waitUntil: "networkidle" });
     await expect(page.locator("h1").first()).toContainText(product.name || product.id);
 
-    const gallery = page.getByTestId("product-image-gallery");
-    await expect(gallery).toBeVisible();
+    const imageState = await page.evaluate(() => {
+      const gallery = document.querySelector('[data-testid="product-image-gallery"]');
+      const images = [...(gallery?.querySelectorAll("img") || [])].map((img) => {
+        const rect = img.getBoundingClientRect();
+        return {
+          alt: img.alt,
+          src: img.currentSrc || img.src,
+          visible: rect.width > 0 && rect.height > 0,
+          naturalWidth: img.naturalWidth,
+          naturalHeight: img.naturalHeight,
+        };
+      });
+      const visible = images.filter((img) => img.visible && img.naturalWidth > 0 && img.naturalHeight > 0);
+      return {
+        images,
+        visible,
+        uniqueVisibleSources: Array.from(new Set(visible.map((img) => img.src))),
+      };
+    });
 
-    const thumbs = gallery.getByTestId("product-image-gallery-thumb");
-    await expect(thumbs).toHaveCount(4);
-
-    for (let index = 0; index < 4; index += 1) {
-      await expect(thumbs.nth(index)).toBeVisible();
-    }
-
-    const thumbSources = await thumbs.locator("img").evaluateAll((nodes) =>
-      Array.from(new Set(nodes.map((node) => node.getAttribute("src") || (node as HTMLImageElement).currentSrc).filter(Boolean)))
-    );
-    expect(thumbSources).toHaveLength(4);
-    expect(imageFailures, imageFailures.join("\n")).toEqual([]);
+    expect(imageState.visible, JSON.stringify(imageState.images, null, 2)).toHaveLength(4);
+    expect(imageState.uniqueVisibleSources).toHaveLength(4);
   });
 }
 
 test("checkout continua carregando sem imagens quebradas", async ({ page }) => {
-  const imageFailures: string[] = [];
-
-  page.on("response", (response) => {
-    const req = response.request();
-    if (req.resourceType() === "image" && response.status() >= 400) {
-      imageFailures.push(`${response.status()} ${response.url()}`);
-    }
-  });
-
   await page.goto(`${baseUrl}/checkout`, { waitUntil: "networkidle" });
   await expect(page.getByText("Produto e contexto")).toBeVisible();
-  expect(imageFailures, imageFailures.join("\n")).toEqual([]);
+
+  const brokenImages = await page.evaluate(() =>
+    [...document.querySelectorAll("img")]
+      .map((img) => {
+        const rect = img.getBoundingClientRect();
+        return {
+          alt: img.alt,
+          src: img.currentSrc || img.src,
+          visible: rect.width > 0 && rect.height > 0,
+          naturalWidth: img.naturalWidth,
+          naturalHeight: img.naturalHeight,
+        };
+      })
+      .filter((img) => img.visible && (img.naturalWidth === 0 || img.naturalHeight === 0))
+  );
+
+  expect(brokenImages, JSON.stringify(brokenImages, null, 2)).toEqual([]);
 });

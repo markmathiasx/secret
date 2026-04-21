@@ -116,20 +116,23 @@ export function ProductImageGallery({
             </div>
           </div>
         </button>
-        <div className={`grid gap-3 ${gallery.length <= 3 ? "grid-cols-3" : "grid-cols-4"}`}>
-          {gallery.slice(0, gallery.length <= 4 ? gallery.length : 3).map((image, index) => (
+        <div className={`grid gap-3 ${gallery.length <= 4 ? "grid-cols-3" : "grid-cols-4"}`}>
+          {gallery.slice(1, 4).map((image, index) => {
+            const galleryIndex = index + 1;
+            return (
             <button
               type="button"
               key={image.id}
-              onClick={() => setActive(index)}
+              onClick={() => setActive(galleryIndex)}
               data-testid="product-image-gallery-thumb"
               className={`overflow-hidden rounded-[20px] border transition-all duration-300 hover:scale-105 ${
-                index === active ? "border-cyan-300/40 bg-cyan-400/10 shadow-cyan" : "border-white/10 bg-white/5 hover:border-white/20"
+                galleryIndex === active ? "border-cyan-300/40 bg-cyan-400/10 shadow-cyan" : "border-white/10 bg-white/5 hover:border-white/20"
               }`}
             >
               <SafeProductImage candidates={image.candidates} alt={image.alt} className="aspect-square w-full object-cover" sizes={thumbSizes} />
             </button>
-          ))}
+            );
+          })}
           {gallery.length > 4 && (
             <button
               type="button"
@@ -137,7 +140,7 @@ export function ProductImageGallery({
               className="flex items-center justify-center overflow-hidden rounded-[20px] border border-white/10 bg-white/5 transition-all duration-300 hover:scale-105 hover:border-cyan-300/30"
             >
               <div className="flex flex-col items-center gap-1">
-                <span className="text-lg font-bold text-white/80">+{gallery.length - 3}</span>
+                <span className="text-lg font-bold text-white/80">+{gallery.length - 4}</span>
                 <span className="text-[10px] uppercase tracking-wider text-white/50">fotos</span>
               </div>
             </button>

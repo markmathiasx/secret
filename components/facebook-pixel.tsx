@@ -21,7 +21,6 @@ function load(pixelId: string) {
   script.src = "https://connect.facebook.net/en_US/fbevents.js";
   document.head.appendChild(script);
 
-  // eslint-disable-next-line
   const n: any = function (...args: unknown[]) {
     (n.q = n.q || []).push(args);
   };
@@ -60,6 +59,8 @@ export function FacebookPixel() {
 
   return (
     <noscript>
+      {/* Meta Pixel requires a noscript image beacon fallback for non-JS clients. */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         alt=""
         height={1}

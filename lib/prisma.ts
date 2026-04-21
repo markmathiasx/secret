@@ -1,7 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 
 declare global {
-  // eslint-disable-next-line no-var
   var __mdhPrisma: PrismaClient | undefined;
 }
 
@@ -19,9 +18,15 @@ export function isDatabaseConfigured() {
   return Boolean(process.env.DATABASE_URL?.trim());
 }
 
+function isBuildTime() {
+  const phase = `${process.env.NEXT_PHASE ?? ""} ${process.env.npm_lifecycle_event ?? ""}`;
+  return /build/i.test(phase);
+}
+
 let dbHealthPromise: Promise<boolean> | null = null;
 
 export async function canConnectToDatabase() {
+  if (isBuildTime()) return false;
   if (!isDatabaseConfigured()) return false;
 
   if (!dbHealthPromise) {

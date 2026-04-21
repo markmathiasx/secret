@@ -42,6 +42,7 @@ function roundAverage(value: number | null | undefined) {
 function logDbUnavailable(scope: "store" | "product", context: Record<string, string> = {}) {
   if (dbUnavailableLogged) return;
   dbUnavailableLogged = true;
+  if ((process.env.NEXT_PHASE ?? "").includes("build")) return;
   logStructured("warn", "marketplace_signals_db_unavailable", { scope, ...context });
 }
 

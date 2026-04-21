@@ -255,7 +255,7 @@ async function runViewport(browser, viewportName, viewport) {
     routeResults.push({
       route: `/catalogo/${firstRealProduct.id}-${firstRealProduct.slug || firstRealProduct.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`,
       step: "real_pdp_gallery",
-      ok: visibleThumbs.length >= 4,
+      ok: visibleThumbs.length >= 3,
       visibleThumbs: visibleThumbs.length,
     });
   }
