@@ -1,8 +1,9 @@
-# Instruções do repositório
+# Regras do repositório MDH 3D Store
 
-- Preserve Next.js App Router.
+- Preserve a arquitetura Next.js App Router.
+- Não crie SPA paralela.
+- Não crie segunda navbar, segunda loja ou segundo checkout.
 - Preserve o layout atual.
-- Não criar arquitetura paralela.
-- Não publicar imagem quebrada, placeholder ou mídia sem confiança pública.
-- Antes de concluir: rodar lint, typecheck, build, validate:assets e test:images.
-- Não dizer que deploy está pronto sem validação pública.
+- Rode lint, typecheck, testes existentes e build ao final de alterações relevantes.
+- Nunca exponha tokens, segredos, CPF, PII ou credenciais.
+- Se houver AGENTS.md na raiz, trate-o como instrução principal do projeto.
