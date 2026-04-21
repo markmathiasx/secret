@@ -1,0 +1,1188 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - link "Pular para conteúdo principal" [ref=e3] [cursor=pointer]:
+      - /url: "#main-content"
+    - banner [ref=e4]:
+      - generic [ref=e6]:
+        - generic [ref=e7]: MDH 3D • Produção local no Rio
+        - generic [ref=e8]: Pix imediato • orçamento claro • atendimento humano
+        - generic [ref=e9]: Producao local e acabamento sob medida
+        - link "@mdh_impressao3d" [ref=e10] [cursor=pointer]:
+          - /url: https://www.instagram.com/mdh_impressao3d/
+      - generic [ref=e11]:
+        - link "Logo MDH 3D MDH 3D Presentes, utilidades, decoração e projetos sob medida em impressão 3D":
+          - /url: /
+          - img "Logo MDH 3D" [ref=e12] [cursor=pointer]
+          - generic:
+            - paragraph: MDH 3D
+            - paragraph: Presentes, utilidades, decoração e projetos sob medida em impressão 3D
+        - generic [ref=e13]:
+          - img [ref=e14]
+          - searchbox "Busque por presente, miniatura, suporte, chaveiro, decoração..." [ref=e17]
+          - button "Buscar" [ref=e18] [cursor=pointer]
+        - generic [ref=e19]:
+          - button "Busca rápida Ctrl K" [ref=e20] [cursor=pointer]:
+            - img [ref=e21]
+            - text: Busca rápida
+            - generic [ref=e24]: Ctrl K
+          - button "Consultor MDH" [ref=e25] [cursor=pointer]:
+            - img [ref=e26]
+            - text: Consultor MDH
+          - link "Minha conta" [ref=e29] [cursor=pointer]:
+            - /url: /login
+            - img [ref=e30]
+            - text: Minha conta
+          - link "WhatsApp" [ref=e33] [cursor=pointer]:
+            - /url: https://wa.me/5521920137249
+          - link "Fechar pedido" [ref=e34] [cursor=pointer]:
+            - /url: /checkout
+            - img [ref=e35]
+            - text: Fechar pedido
+          - button "Carrinho 0" [ref=e38] [cursor=pointer]:
+            - img [ref=e39]
+            - text: Carrinho
+            - generic [ref=e43]: "0"
+      - navigation [ref=e44]:
+        - link "Início" [ref=e45] [cursor=pointer]:
+          - /url: /
+        - link "Catálogo" [ref=e46] [cursor=pointer]:
+          - /url: /catalogo
+        - link "Presentes" [ref=e47] [cursor=pointer]:
+          - /url: /presentes-3d
+        - link "Personalizados" [ref=e48] [cursor=pointer]:
+          - /url: /imagem-para-impressao-3d
+        - link "Entregas" [ref=e49] [cursor=pointer]:
+          - /url: /entregas
+        - link "FAQ" [ref=e50] [cursor=pointer]:
+          - /url: /faq
+        - link "Instagram" [ref=e51] [cursor=pointer]:
+          - /url: https://www.instagram.com/mdh_impressao3d/
+          - img [ref=e52]
+          - text: Instagram
+      - generic [ref=e56]:
+        - link "Só foto real" [ref=e57] [cursor=pointer]:
+          - /url: /catalogo?mode=real
+          - img [ref=e58]
+          - text: Só foto real
+        - link "Pronta entrega" [ref=e61] [cursor=pointer]:
+          - /url: /catalogo?status=Pronta%20entrega
+          - img [ref=e62]
+          - text: Pronta entrega
+        - link "Ideias de presente" [ref=e67] [cursor=pointer]:
+          - /url: /catalogo?intent=Presente
+          - img [ref=e68]
+          - text: Ideias de presente
+        - link "Enviar STL" [ref=e71] [cursor=pointer]:
+          - /url: /imagem-para-impressao-3d
+          - img [ref=e72]
+          - text: Enviar STL
+    - main [ref=e82]:
+      - generic [ref=e83]:
+        - generic [ref=e84]:
+          - generic [ref=e85]:
+            - generic [ref=e86]:
+              - paragraph [ref=e87]: Checkout MDH 3D
+              - heading "Pedido guiado em quatro etapas claras." [level=1] [ref=e88]
+              - paragraph [ref=e89]: Endereço, envio, pagamento e confirmação. O fluxo continua compatível com Pix e cartão, mas agora com resumo mais completo e endereço salvo para quem tem conta.
+              - generic [ref=e90]:
+                - generic [ref=e92]:
+                  - img [ref=e93]
+                  - paragraph [ref=e96]: Endereço pronto
+                - generic [ref=e98]:
+                  - img [ref=e99]
+                  - paragraph [ref=e102]: Envio escolhido
+                - generic [ref=e104]:
+                  - img
+                  - paragraph [ref=e107]: Pagamento definido
+                - generic [ref=e109]:
+                  - img
+                  - paragraph [ref=e112]: Pedido confirmado
+              - generic [ref=e113]:
+                - img "Impressão 3D de Grinder 3 Partes Premium - MDH 3D Store" [ref=e117]
+                - generic [ref=e118]:
+                  - generic [ref=e119]:
+                    - generic [ref=e120]:
+                      - generic [ref=e121]: Utilidades Reais
+                      - generic [ref=e122]: Foto real
+                    - heading "Grinder 3 Partes Premium" [level=2] [ref=e123]
+                    - paragraph [ref=e124]: Grinder 3 Partes Premium selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento fosco em PLA Premium. Indicado para uso diario, organizacao leve e presente funcional, mantendo prazo claro e apresentacao pronta para venda online.
+                    - generic [ref=e126]:
+                      - paragraph [ref=e127]: Preço no Pix
+                      - generic [ref=e128]:
+                        - generic [ref=e129]: R$ 68,90
+                        - generic [ref=e130]: R$ 39,63
+                      - generic [ref=e131]: Economia no Pix R$ 29,27
+                      - paragraph [ref=e132]: 12x de R$ 3,70 no cartão
+                      - paragraph [ref=e133]: "Prazo de produção: 3.8h"
+                      - generic [ref=e134]:
+                        - generic [ref=e135]: Preco auditado
+                        - generic [ref=e136]: Produção local RJ
+                  - generic [ref=e137]: Quantidade 1
+                - generic [ref=e139]: Uso próprio
+                - generic [ref=e140]:
+                  - generic [ref=e141]:
+                    - paragraph [ref=e142]: Total no Pix
+                    - paragraph [ref=e143]: R$ 39,63
+                    - paragraph [ref=e144]: Subtotal R$ 39,63 + envio R$ 0,00
+                  - generic [ref=e145]:
+                    - paragraph [ref=e146]: Total no cartão
+                    - paragraph [ref=e147]: R$ 44,39
+                    - paragraph [ref=e148]: Subtotal R$ 44,39 + envio R$ 0,00
+                - generic [ref=e149]:
+                  - paragraph [ref=e150]: Resumo em tempo real
+                  - paragraph [ref=e151]: Escolha o envio para ver prazo e valor final.
+                  - paragraph [ref=e152]: "Endereço atual: pendente • CEP pendente"
+              - generic [ref=e153]:
+                - paragraph [ref=e154]: Rota sugerida
+                - paragraph [ref=e155]: "Fluxo mais enxuto: endereço válido, envio padrão e Pix para liberar a produção mais rápido."
+            - generic [ref=e157]:
+              - generic [ref=e158]:
+                - generic [ref=e159]:
+                  - paragraph [ref=e160]: Pagamento instantâneo
+                  - heading "Pix com QR Code e copia e cola" [level=3] [ref=e161]
+                  - paragraph [ref=e162]: Gere o pagamento somente quando for fechar o pedido e confirme o nome do recebedor no app do banco antes de concluir.
+                - img [ref=e164]
+              - generic [ref=e170]:
+                - generic [ref=e172]: Gerando QR Code…
+                - generic [ref=e173]:
+                  - generic [ref=e174]:
+                    - paragraph [ref=e175]: Valor sugerido para este item
+                    - paragraph [ref=e176]: R$ 39,63
+                    - paragraph [ref=e177]: "Descrição do Pix: Grinder 3 Partes Premium • MDH 3D"
+                  - generic [ref=e178]:
+                    - paragraph [ref=e179]: Copia e cola Pix
+                    - textbox [ref=e180]
+                    - button "Copiar código Pix" [ref=e181] [cursor=pointer]:
+                      - img [ref=e182]
+                      - text: Copiar código Pix
+                  - generic [ref=e185]:
+                    - paragraph [ref=e186]: Chave Pix direta
+                    - paragraph [ref=e187]: "21974137662"
+                    - paragraph [ref=e188]: O cliente pode pagar pelo QR Code, pelo código copia e cola ou informando essa chave no app do banco.
+                  - generic [ref=e189]:
+                    - img [ref=e190]
+                    - paragraph [ref=e193]: Mostre a chave, o QR Code e o copia e cola no checkout. Isso reduz atrito, melhora confiança e acelera a aprovação do pagamento.
+          - generic [ref=e194]:
+            - generic [ref=e195]:
+              - generic [ref=e196]:
+                - generic [ref=e197]: Checkout guiado
+                - generic [ref=e198]: ~2 min para concluir
+              - tablist "Etapas do checkout" [ref=e201]:
+                - tab "Endereço — etapa atual" [selected] [ref=e202] [cursor=pointer]:
+                  - generic [ref=e203]: •
+                  - generic [ref=e204]:
+                    - generic [ref=e205]: Endereço
+                    - generic [ref=e206]: etapa atual
+                - tab "Envio — pendente" [ref=e207] [cursor=pointer]:
+                  - generic [ref=e208]: "02"
+                  - generic [ref=e209]:
+                    - generic [ref=e210]: Envio
+                    - generic [ref=e211]: pendente
+                - tab "Pagamento — pendente" [ref=e212] [cursor=pointer]:
+                  - generic [ref=e213]: "03"
+                  - generic [ref=e214]:
+                    - generic [ref=e215]: Pagamento
+                    - generic [ref=e216]: pendente
+                - tab "Confirmação — pendente" [ref=e217] [cursor=pointer]:
+                  - generic [ref=e218]: "04"
+                  - generic [ref=e219]:
+                    - generic [ref=e220]: Confirmação
+                    - generic [ref=e221]: pendente
+            - generic [ref=e222]:
+              - generic [ref=e223]:
+                - paragraph [ref=e224]: ✓ Compre sem criar conta
+                - paragraph [ref=e225]:
+                  - text: Preencha seus dados abaixo e finalize normalmente — não é preciso se cadastrar. Se preferir,
+                  - link "entre na sua conta" [ref=e226] [cursor=pointer]:
+                    - /url: /login
+                  - text: para agilizar próximas compras.
+              - generic [ref=e227]:
+                - paragraph [ref=e228]: Produto e contexto
+                - generic [ref=e229]:
+                  - generic [ref=e230]:
+                    - generic [ref=e231]: Produto
+                    - combobox "Produto" [ref=e232]:
+                      - option "Almofada Decorativa Sage Valorant para Sofá, Cama e Espaço Geek"
+                      - option "Bandeja Modular de Gaveta com Divisórias para cozinha e rotina"
+                      - option "Bandeja Modular de Gaveta de Encaixe para cozinha e rotina"
+                      - option "Bandeja Modular de Gaveta de Produção Rápida para cozinha e rotina"
+                      - option "Bandeja Modular de Gaveta Empilhável para cozinha e rotina"
+                      - option "Busto Colecionável Anime"
+                      - option "Caneca Colecionável Reyna Valorant Nerd Premium para Café, Desk e Presente"
+                      - option "Chaveiro 3D Omen Valorant Mini Pingente Decorativo para Mochila e Setup"
+                      - option "Chaveiro Acrílico Premium Jett Valorant Dupla Face para Mochila, Chaves e Setup Gamer"
+                      - option "Chaveiro Emborrachado Reyna Valorant Estilo Gamer Resistente para Chaves e Mochila"
+                      - option "Chaveiro Metalizado Sage Valorant Edição Nerd para Coleção e Presente Criativo"
+                      - option "Chaveiro Nome Dupla Face"
+                      - option "Chaveiro Personalizado"
+                      - option "Chibi Gatinha com Bolsa"
+                      - option "Chibi Kawaii Grande Premium"
+                      - option "Chibi Kawaii Laço Rosa"
+                      - option "Chibi Kawaii Mini Fofo"
+                      - option "Demogorgon Decorativo Premium"
+                      - option "Divisória de Gaveta de Mesa para escritório e miudezas"
+                      - option "Divisória de Gaveta Dobrável para escritório e miudezas"
+                      - option "Divisória de Gaveta Gridfinity para escritório e miudezas"
+                      - option "Divisória de Gaveta Multiuso para escritório e miudezas"
+                      - option "Elsa Frozen Chibi"
+                      - option "Família Customizada em Miniatura"
+                      - option "Foto Litofania"
+                      - option "Gatinha Chibi com Laço"
+                      - option "Goku Dragon Ball Chibi"
+                      - option "Grinder 3 Partes Premium" [selected]
+                      - option "Hello Kitty Chibi Premium"
+                      - option "Hello Kitty Jedi Colecionável"
+                      - option "Kirby Nintendo Chibi"
+                      - option "Kit Ferramenta Gamer Jett Valorant Organizador Utilitário para Mesa, Cabos e Setup"
+                      - option "Luffy One Piece Chibi"
+                      - option "Luminária Decorativa Jett Valorant LED para Quarto Gamer, Mesa e Setup Nerd"
+                      - option "Luminária LED Personalizada"
+                      - option "Mario Nintendo Chibi"
+                      - option "Medalha Maçônica Personalizada"
+                      - option "Mini Chibi Kawaii Compacto"
+                      - option "Mini Estátua Colecionável Jett Valorant Edição Decor para Estante, Mesa e Setup"
+                      - option "Mousepad Colecionável Sage Valorant Desk Mat Gamer para Setup Profissional"
+                      - option "Naruto Uzumaki Chibi"
+                      - option "Nome 3D Personalizado"
+                      - option "Organizador de Gaveta Ajustável para talheres e peças pequenas"
+                      - option "Organizador de Gaveta de Bancada para talheres e peças pequenas"
+                      - option "Organizador de Gaveta Empilhável para talheres e peças pequenas"
+                      - option "Organizador de Gaveta Modular para talheres e peças pequenas"
+                      - option "Organizador Modular Omen Valorant para Ferramentas Leves, Peças e Acessórios Nerd"
+                      - option "Pikachu Pokémon Chibi"
+                      - option "Placa Decorativa Omen Valorant Estilo Geek para Porta, Parede e Setup"
+                      - option "Porta Creme Dental de Bancada"
+                      - option "Porta Ferramentas Reyna Valorant para Mesa Gamer, Oficina Criativa e Home Office"
+                      - option "Poster Premium Omen Valorant Colecionável para Parede, Estúdio e Espaço Geek"
+                      - option "Quadro Decorativo Reyna Valorant Premium para Parede de Quarto Gamer e Home Office"
+                      - option "Sasuke Uchiha Chibi"
+                      - option "Sonic Hedgehog Chibi"
+                      - option "Suporte Multiuso Sage Valorant para Headset, Controle, Cabos e Acessórios"
+                      - option "Suporte para Controle PS5"
+                      - option "Suporte para Controle Xbox"
+                      - option "Suporte para Fone Headphone"
+                      - option "Totoro My Neighbor Chibi"
+                      - option "Vaso Geométrico"
+                      - option "Abraçadeira Personalizada"
+                      - option "Acessório de Bancada Maker Ajustável para rotina maker"
+                      - option "Acessório de Bancada Maker com Acabamento Limpo para rotina maker"
+                      - option "Acessório de Bancada Maker com Clipe para rotina maker"
+                      - option "Acessório de Bancada Maker Mini para rotina maker"
+                      - option "Acessório de Boardgame Ajustável para mesa de jogo"
+                      - option "Acessório de Boardgame com Ímã para mesa de jogo"
+                      - option "Acessório de Boardgame Minimalista para mesa de jogo"
+                      - option "Acessório de Boardgame Modular para mesa de jogo"
+                      - option "Acessório de Teclado de Bancada para setup"
+                      - option "Acessório de Teclado de Mesa para setup"
+                      - option "Acessório de Teclado Minimalista para setup"
+                      - option "Acessório de Teclado Modular para setup"
+                      - option "Acessório Leve para Pet Ajustável para identificação"
+                      - option "Acessório Leve para Pet com Clipe para identificação"
+                      - option "Acessório Leve para Pet de Bancada para identificação"
+                      - option "Acessório Leve para Pet Modular para identificação"
+                      - option "Adorno de Setup Compacto para mesa gamer"
+                      - option "Adorno de Setup de Mesa para mesa gamer"
+                      - option "Adorno de Setup Dobrável para mesa gamer"
+                      - option "Adorno de Setup Mini para mesa gamer"
+                      - option "Adorno de Setup Multiuso para mesa gamer"
+                      - option "Adorno Geek de Mesa com Pegada Prática para mesa geek"
+                      - option "Adorno Geek de Mesa Compacto para mesa geek"
+                      - option "Adorno Geek de Mesa para Rotina Organizada para mesa geek"
+                      - option "Almofada Decorativa Alex Minecraft para Sofá, Cama e Espaço Geek"
+                      - option "Almofada Decorativa Deadpool Marvel para Sofá, Cama e Espaço Geek"
+                      - option "Almofada Decorativa Gengar Pokémon para Sofá, Cama e Espaço Geek"
+                      - option "Almofada Decorativa Jinx League of Legends para Sofá, Cama e Espaço Geek"
+                      - option "Almofada Decorativa Knife CS2 para Sofá, Cama e Espaço Geek"
+                      - option "Almofada Decorativa Mandalorian Star Wars para Sofá, Cama e Espaço Geek"
+                      - option "Almofada Decorativa Task Force Call of Duty para Sofá, Cama e Espaço Geek"
+                      - option "Almofada Decorativa Trevor GTA V para Sofá, Cama e Espaço Geek"
+                      - option "Almofada Decorativa Victory Crown Fortnite para Sofá, Cama e Espaço Geek"
+                      - option "Aniversário 3D"
+                      - option "Apoio Compacto com Acabamento Limpo para resolver pequenas rotinas"
+                      - option "Apoio Compacto com Divisórias para resolver pequenas rotinas"
+                      - option "Apoio Compacto de Baixo Volume para resolver pequenas rotinas"
+                      - option "Apoio Compacto de Encaixe para resolver pequenas rotinas"
+                      - option "Apoio Compacto Fácil de Limpar para resolver pequenas rotinas"
+                      - option "Apoio Compacto Gridfinity para resolver pequenas rotinas"
+                      - option "Apoio Compacto Mini para resolver pequenas rotinas"
+                      - option "Apoio Compacto Slim para resolver pequenas rotinas"
+                      - option "Apoio de Mesa Infantil de Produção Rápida para materiais escolares"
+                      - option "Apoio de Mesa Infantil para Kit Presente para materiais escolares"
+                      - option "Apoio de Mesa Infantil Versátil para materiais escolares"
+                      - option "Apoio Desk de Mesa para bancada compacta"
+                      - option "Apoio Desk Slim para bancada compacta"
+                      - option "Apoio para iPad de Parede para apoio compacto"
+                      - option "Apoio para iPad Dobrável para apoio compacto"
+                      - option "Bandeja Criativa de Encaixe para peças pequenas"
+                      - option "Bandeja Criativa Leve para peças pequenas"
+                      - option "Bandeja Criativa Slim para peças pequenas"
+                      - option "Bandeja de Dados Compacto para RPG e boardgame"
+                      - option "Bandeja de Dados de Mesa para RPG e boardgame"
+                      - option "Bandeja de Dados Dobrável para RPG e boardgame"
+                      - option "Bandeja Modular de Gaveta com Acabamento Limpo para cozinha e rotina"
+                      - option "Bandeja Modular de Gaveta Gridfinity para cozinha e rotina"
+                      - option "Bandeja Porta-Objetos Compacto para bijuterias e peças pequenas"
+                      - option "Bandeja Porta-Objetos de Produção Rápida para bijuterias e peças pequenas"
+                      - option "Bandeja Porta-Objetos Dobrável para bijuterias e peças pequenas"
+                      - option "Bandeja Porta-Objetos Empilhável para bijuterias e peças pequenas"
+                      - option "Bandeja Porta-Objetos Empilhável para bijuterias e peças pequenas com leitura visual limpa"
+                      - option "Bandeja Porta-Objetos para Kit Presente para bijuterias e peças pequenas"
+                      - option "Base de Tablet Ajustável para leitura e vídeo"
+                      - option "Base de Tablet Compacto para leitura e vídeo"
+                      - option "Base de Tablet de Mesa para leitura e vídeo"
+                      - option "Base Gamer Compacta de Encaixe para organizar controles"
+                      - option "Base Gamer Compacta Leve para organizar controles"
+                      - option "Base Gamer Compacta Slim para organizar controles"
+                      - option "Base para Headphone de Encaixe para home office"
+                      - option "Base para Headphone Leve para home office"
+                      - option "Base para Headphone Slim para home office"
+                      - option "Base para Smartphone Compacto para videochamada"
+                      - option "Base para Smartphone de Mesa para videochamada"
+                      - option "Base para Smartphone Dobrável para videochamada"
+                      - option "Base para Smartphone Dobrável para videochamada para kits compactos"
+                      - option "Boneca Infantil Personalizada"
+                      - option "Braçadeira Leve com Clipe para bancada e cabos"
+                      - option "Braçadeira Leve com Clipe para bancada e cabos para bancada pequena"
+                      - option "Braçadeira Leve com Ímã para bancada e cabos"
+                      - option "Braçadeira Leve Slim para bancada e cabos"
+                      - option "Brinde Simples Compacto para marca e turma"
+                      - option "Brinde Simples de Mesa para marca e turma"
+                      - option "Brinde Simples Dobrável para marca e turma"
+                      - option "Brinde Simples Multiuso para marca e turma"
+                      - option "Brinquedo de Mesa Leve para brinde criativo"
+                      - option "Brinquedo de Mesa para Kit Presente para brinde criativo"
+                      - option "Brinquedo de Mesa Slim para brinde criativo"
+                      - option "Brinquedo Educativo Compacto de Encaixe para brincadeira guiada"
+                      - option "Brinquedo Educativo Compacto Leve para brincadeira guiada"
+                      - option "Brinquedo Educativo Compacto Slim para brincadeira guiada"
+                      - option "Caixa de Música"
+                      - option "Caixa Organizadora"
+                      - option "Caixa Organizadora com Pegada Prática para mesa e gaveta"
+                      - option "Caixa Organizadora Empilhável para mesa e gaveta"
+                      - option "Caixa Organizadora Gridfinity para mesa e gaveta"
+                      - option "Caixa Organizadora Gridfinity para mesa e gaveta com corpo reforçado"
+                      - option "Caixa Organizadora Mini para mesa e gaveta"
+                      - option "Caixa Organizadora Mini para mesa e gaveta com uso intuitivo"
+                      - option "Caixa para Joias"
+                      - option "Caixa Técnica Ajustável para parafusos e componentes"
+                      - option "Caixa Técnica Empilhável para parafusos e componentes"
+                      - option "Caixa Técnica Minimalista para parafusos e componentes"
+                      - option "Caixa Técnica Modular para parafusos e componentes"
+                      - option "Calendário 3D"
+                      - option "Caneca Colecionável AK-47 CS2 Nerd Premium para Café, Desk e Presente"
+                      - option "Caneca Colecionável Battle Royale Fortnite Nerd Premium para Café, Desk e Presente"
+                      - option "Caneca Colecionável Charmander Pokémon Nerd Premium para Café, Desk e Presente"
+                      - option "Caneca Colecionável Franklin GTA V Nerd Premium para Café, Desk e Presente"
+                      - option "Caneca Colecionável Iron Man Marvel Nerd Premium para Café, Desk e Presente"
+                      - option "Caneca Colecionável Soap Call of Duty Nerd Premium para Café, Desk e Presente"
+                      - option "Caneca Colecionável Steve Minecraft Nerd Premium para Café, Desk e Presente"
+                      - option "Caneca Colecionável Stormtrooper Star Wars Nerd Premium para Café, Desk e Presente"
+                      - option "Caneca Colecionável Yasuo League of Legends Nerd Premium para Café, Desk e Presente"
+                      - option "Case de Isqueiro Caveira"
+                      - option "Cavaleiro Medieval Mini"
+                      - option "Chaveiro 3D Defuse CS2 Mini Pingente Decorativo para Mochila e Setup"
+                      - option "Chaveiro 3D Eevee Pokémon Mini Pingente Decorativo para Mochila e Setup"
+                      - option "Chaveiro 3D Enderman Minecraft Mini Pingente Decorativo para Mochila e Setup"
+                      - option "Chaveiro 3D Grogu Star Wars Mini Pingente Decorativo para Mochila e Setup"
+                      - option "Chaveiro 3D Groot Marvel Mini Pingente Decorativo para Mochila e Setup"
+                      - option "Chaveiro 3D Lux League of Legends Mini Pingente Decorativo para Mochila e Setup"
+                      - option "Chaveiro 3D Michael GTA V Mini Pingente Decorativo para Mochila e Setup"
+                      - option "Chaveiro 3D Peely Fortnite Mini Pingente Decorativo para Mochila e Setup"
+                      - option "Chaveiro 3D Warzone Call of Duty Mini Pingente Decorativo para Mochila e Setup"
+                      - option "Chaveiro Acrílico Premium Ahri League of Legends Dupla Face para Mochila, Chaves e Setup Gamer"
+                      - option "Chaveiro Acrílico Premium AWP CS2 Dupla Face para Mochila, Chaves e Setup Gamer"
+                      - option "Chaveiro Acrílico Premium Creeper Minecraft Dupla Face para Mochila, Chaves e Setup Gamer"
+                      - option "Chaveiro Acrílico Premium Darth Vader Star Wars Dupla Face para Mochila, Chaves e Setup Gamer"
+                      - option "Chaveiro Acrílico Premium Ghost Call of Duty Dupla Face para Mochila, Chaves e Setup Gamer"
+                      - option "Chaveiro Acrílico Premium Lhama Fortnite Dupla Face para Mochila, Chaves e Setup Gamer"
+                      - option "Chaveiro Acrílico Premium Los Santos GTA V Dupla Face para Mochila, Chaves e Setup Gamer"
+                      - option "Chaveiro Acrílico Premium Pikachu Pokémon Dupla Face para Mochila, Chaves e Setup Gamer"
+                      - option "Chaveiro Acrílico Premium Spider-Man Marvel Dupla Face para Mochila, Chaves e Setup Gamer"
+                      - option "Chaveiro com Nome Compacto para evento"
+                      - option "Chaveiro com Nome de Mesa para evento"
+                      - option "Chaveiro com Nome Dobrável para evento"
+                      - option "Chaveiro com Nome Multiuso para evento"
+                      - option "Chaveiro Emborrachado AK-47 CS2 Estilo Gamer Resistente para Chaves e Mochila"
+                      - option "Chaveiro Emborrachado Battle Royale Fortnite Estilo Gamer Resistente para Chaves e Mochila"
+                      - option "Chaveiro Emborrachado Charmander Pokémon Estilo Gamer Resistente para Chaves e Mochila"
+                      - option "Chaveiro Emborrachado Franklin GTA V Estilo Gamer Resistente para Chaves e Mochila"
+                      - option "Chaveiro Emborrachado Iron Man Marvel Estilo Gamer Resistente para Chaves e Mochila"
+                      - option "Chaveiro Emborrachado Soap Call of Duty Estilo Gamer Resistente para Chaves e Mochila"
+                      - option "Chaveiro Emborrachado Steve Minecraft Estilo Gamer Resistente para Chaves e Mochila"
+                      - option "Chaveiro Emborrachado Stormtrooper Star Wars Estilo Gamer Resistente para Chaves e Mochila"
+                      - option "Chaveiro Emborrachado Yasuo League of Legends Estilo Gamer Resistente para Chaves e Mochila"
+                      - option "Chaveiro Gamer Compacto para mochila e chave"
+                      - option "Chaveiro Gamer de Mesa para mochila e chave"
+                      - option "Chaveiro Gamer de Produção Rápida para mochila e chave"
+                      - option "Chaveiro Gamer Dobrável para mochila e chave"
+                      - option "Chaveiro Gamer Multiuso para mochila e chave"
+                      - option "Chaveiro Geek Ajustável para presente rápido"
+                      - option "Chaveiro Geek de Bancada para presente rápido"
+                      - option "Chaveiro Geek Mini para presente rápido"
+                      - option "Chaveiro Geek Mini para presente rápido com base estável"
+                      - option "Chaveiro Geek Modular para presente rápido"
+                      - option "Chaveiro Metalizado Alex Minecraft Edição Nerd para Coleção e Presente Criativo"
+                      - option "Chaveiro Metalizado Deadpool Marvel Edição Nerd para Coleção e Presente Criativo"
+                      - option "Chaveiro Metalizado Gengar Pokémon Edição Nerd para Coleção e Presente Criativo"
+                      - option "Chaveiro Metalizado Jinx League of Legends Edição Nerd para Coleção e Presente Criativo"
+                      - option "Chaveiro Metalizado Knife CS2 Edição Nerd para Coleção e Presente Criativo"
+                      - option "Chaveiro Metalizado Mandalorian Star Wars Edição Nerd para Coleção e Presente Criativo"
+                      - option "Chaveiro Metalizado Task Force Call of Duty Edição Nerd para Coleção e Presente Criativo"
+                      - option "Chaveiro Metalizado Trevor GTA V Edição Nerd para Coleção e Presente Criativo"
+                      - option "Chaveiro Metalizado Victory Crown Fortnite Edição Nerd para Coleção e Presente Criativo"
+                      - option "Chaveiro Personalizado Ajustável para lembrança"
+                      - option "Chaveiro Personalizado de Bancada para lembrança"
+                      - option "Chaveiro Personalizado Minimalista para lembrança"
+                      - option "Chaveiro Personalizado Modular para lembrança"
+                      - option "Chibi Kawaii Rosa Desk Buddy"
+                      - option "Chibi Kawaii Sentado"
+                      - option "Clipe de Cozinha Ajustável para embalagens"
+                      - option "Clipe de Cozinha com Ímã para embalagens"
+                      - option "Clipe de Cozinha com Pegada Prática para embalagens"
+                      - option "Clipe de Cozinha de Baixo Volume para embalagens"
+                      - option "Clipe de Cozinha Modular para embalagens"
+                      - option "Clipe de Cozinha para Uso Diário para embalagens"
+                      - option "Clipe Organizador Pet de Encaixe para pote e guia"
+                      - option "Clipe Organizador Pet Leve para pote e guia"
+                      - option "Clipe Organizador Pet Slim para pote e guia"
+                      - option "Clipe Passa-Cabo com Acabamento Limpo para cabos de rotina"
+                      - option "Clipe Passa-Cabo com Divisórias para cabos de rotina"
+                      - option "Clipe Passa-Cabo de Encaixe para cabos de rotina"
+                      - option "Clipe Passa-Cabo Fácil de Limpar para cabos de rotina"
+                      - option "Clipe Passa-Cabo Leve para cabos de rotina"
+                      - option "Clipe Passa-Cabo Slim para cabos de rotina"
+                      - option "Clipe Técnico de Produção Rápida para organização de fios"
+                      - option "Clipe Técnico Mini para organização de fios"
+                      - option "Clipe Técnico para Kit Presente para organização de fios"
+                      - option "Clipe Técnico Versátil para organização de fios"
+                      - option "Colecionável de Mesa com Divisórias para presente geek neutro"
+                      - option "Colecionável de Mesa de Encaixe para presente geek neutro"
+                      - option "Colecionável de Mesa Fácil de Limpar para presente geek neutro"
+                      - option "Colecionável de Mesa Leve para presente geek neutro"
+                      - option "Colecionável de Mesa Mini para presente geek neutro"
+                      - option "Colecionável de Mesa Slim para presente geek neutro"
+                      - option "Copo Personalizado"
+                      - option "Coruja Floresta Articulada"
+                      - option "Decoração Gamer de Bancada para quarto e setup"
+                      - option "Decoração Gamer de Parede para quarto e setup"
+                      - option "Decoração Gamer de Parede para quarto e setup para bancada pequena"
+                      - option "Decoração Gamer Minimalista para quarto e setup"
+                      - option "Decoração Gamer para Uso Diário para quarto e setup"
+                      - option "Decoração Geek de Parede de Encaixe para presente nerd"
+                      - option "Decoração Geek de Parede de Produção Rápida para presente nerd"
+                      - option "Decoração Geek de Parede Leve para presente nerd"
+                      - option "Desk Decor Compacto de Encaixe para detalhe visual"
+                      - option "Desk Decor Compacto Leve para detalhe visual"
+                      - option "Desk Decor Compacto Slim para detalhe visual"
+                      - option "Desk Toy Articulado de Mesa para relaxar no setup"
+                      - option "Desk Toy Articulado Dobrável para relaxar no setup"
+                      - option "Desk Toy Articulado Mini para relaxar no setup"
+                      - option "Divisória de Gaveta de Produção Rápida para escritório e miudezas"
+                      - option "Divisória de Gaveta para Kit Presente para escritório e miudezas"
+                      - option "Divisória Funcional de Encaixe para kits pequenos"
+                      - option "Divisória Funcional Leve para kits pequenos"
+                      - option "Divisória Funcional Slim para kits pequenos"
+                      - option "Dock de Cabos de Mesa para setup limpo"
+                      - option "Dock de Cabos de Mesa para setup limpo para gaveta rasa"
+                      - option "Dock de Cabos Slim para setup limpo"
+                      - option "Dock de Celular com Divisórias para carregamento"
+                      - option "Dock de Celular de Encaixe para carregamento"
+                      - option "Dock de Celular Leve para carregamento"
+                      - option "Dock de Celular Slim para carregamento"
+                      - option "Dock para Controle de Mesa para console e mesa"
+                      - option "Dock para Controle Dobrável para console e mesa"
+                      - option "Dock para Controle Modular para console e mesa"
+                      - option "Dragão Europeu Mini"
+                      - option "Dragão Oriental Articulado"
+                      - option "Elevador de Notebook de Mesa para ventilação e ergonomia"
+                      - option "Elevador de Notebook Dobrável para ventilação e ergonomia"
+                      - option "Elevador de Notebook Dobrável para ventilação e ergonomia com perfil discreto"
+                      - option "Enfeite Comemorativo Ajustável para datas comemorativas"
+                      - option "Enfeite Comemorativo de Bancada para datas comemorativas"
+                      - option "Enfeite Comemorativo Minimalista para datas comemorativas"
+                      - option "Enfeite Comemorativo Modular para datas comemorativas"
+                      - option "Enrolador de Fio Compacto para mesa e gaveta"
+                      - option "Enrolador de Fio de Mesa para mesa e gaveta"
+                      - option "Enrolador de Fio de Produção Rápida para mesa e gaveta"
+                      - option "Enrolador de Fio Dobrável para mesa e gaveta"
+                      - option "Enrolador de Fio Multiuso para mesa e gaveta"
+                      - option "Enrolador de Fio para Kit Presente para mesa e gaveta"
+                      - option "Escultura Abstrata"
+                      - option "Espelho Decorativo"
+                      - option "Estojo de Peças Compacto para bancada maker"
+                      - option "Estojo de Peças de Mesa para bancada maker"
+                      - option "Estojo de Peças Dobrável para bancada maker"
+                      - option "Fidget de Mesa Ajustável para mesa e presente"
+                      - option "Fidget de Mesa com Divisórias para mesa e presente"
+                      - option "Fidget de Mesa de Bancada para mesa e presente"
+                      - option "Fidget de Mesa Minimalista para mesa e presente"
+                      - option "Figura Decorativa Compacto para setup"
+                      - option "Figura Decorativa de Mesa para setup"
+                      - option "Figura Decorativa de Produção Rápida para setup"
+                      - option "Figura Decorativa Dobrável para setup"
+                      - option "Figura Decorativa Multiuso para setup"
+                      - option "Figura Decorativa para Kit Presente para setup"
+                      - option "Figura Decorativa Versátil para setup"
+                      - option "Foguete Espacial Mini"
+                      - option "Funil Compacto de Mesa para preparo rápido"
+                      - option "Funil Compacto de Produção Rápida para preparo rápido"
+                      - option "Funil Compacto Dobrável para preparo rápido"
+                      - option "Funil Compacto Multiuso para preparo rápido"
+                      - option "Funil Compacto para Kit Presente para preparo rápido"
+                      - option "Funil Compacto para Uso Diário para preparo rápido"
+                      - option "Gancho de Parede com Acabamento Limpo para entrada de casa"
+                      - option "Gancho de Parede com Divisórias para entrada de casa"
+                      - option "Gancho de Parede com Pegada Prática para entrada de casa"
+                      - option "Gancho de Parede Empilhável para entrada de casa"
+                      - option "Gancho de Parede Mini para entrada de casa"
+                      - option "Gancho de Parede para Uso Diário para entrada de casa"
+                      - option "Gancho para Chaves"
+                      - option "Gancho para Fone Compacto para lateral da mesa"
+                      - option "Gancho para Fone de Mesa para lateral da mesa"
+                      - option "Gancho para Fone Dobrável para lateral da mesa"
+                      - option "Gancho para Parede"
+                      - option "Guia de Cabo Técnico Ajustável para bancada maker"
+                      - option "Guia de Cabo Técnico com Clipe para bancada maker"
+                      - option "Guia de Cabo Técnico com Clipe para bancada maker com uso intuitivo"
+                      - option "Guia de Cabo Técnico de Mesa para bancada maker"
+                      - option "Guia de Cabo Técnico Minimalista para bancada maker"
+                      - option "Guia para Varal com Clipe para varal e cabides"
+                      - option "Guia para Varal Dobrável para varal e cabides"
+                      - option "Guia para Varal Empilhável para varal e cabides"
+                      - option "Homer Pikachu Mashup Colecionável"
+                      - option "Imã de Geladeira"
+                      - option "Item Educativo 3D Ajustável para estudo e presente"
+                      - option "Item Educativo 3D de Bancada para estudo e presente"
+                      - option "Item Educativo 3D Minimalista para estudo e presente"
+                      - option "Item Educativo 3D Modular para estudo e presente"
+                      - option "Jarro Decorativo"
+                      - option "Keycap Decorativa Ajustável para teclado e setup"
+                      - option "Keycap Decorativa de Bancada para teclado e setup"
+                      - option "Keycap Decorativa Minimalista para teclado e setup"
+                      - option "Keycap Decorativa Modular para teclado e setup"
+                      - option "Kit Ferramenta Gamer Ahri League of Legends Organizador Utilitário para Mesa, Cabos e Setup"
+                      - option "Kit Ferramenta Gamer AWP CS2 Organizador Utilitário para Mesa, Cabos e Setup"
+                      - option "Kit Ferramenta Gamer Creeper Minecraft Organizador Utilitário para Mesa, Cabos e Setup"
+                      - option "Kit Ferramenta Gamer Darth Vader Star Wars Organizador Utilitário para Mesa, Cabos e Setup"
+                      - option "Kit Ferramenta Gamer Ghost Call of Duty Organizador Utilitário para Mesa, Cabos e Setup"
+                      - option "Kit Ferramenta Gamer Lhama Fortnite Organizador Utilitário para Mesa, Cabos e Setup"
+                      - option "Kit Ferramenta Gamer Los Santos GTA V Organizador Utilitário para Mesa, Cabos e Setup"
+                      - option "Kit Ferramenta Gamer Pikachu Pokémon Organizador Utilitário para Mesa, Cabos e Setup"
+                      - option "Kit Ferramenta Gamer Spider-Man Marvel Organizador Utilitário para Mesa, Cabos e Setup"
+                      - option "Lembrança 3D Ajustável para festa e evento"
+                      - option "Lembrança 3D de Bancada para festa e evento"
+                      - option "Lembrança 3D Minimalista para festa e evento"
+                      - option "Lembrança 3D Modular para festa e evento"
+                      - option "Lembrança de Data Especial com Divisórias para presente temático"
+                      - option "Lembrança de Data Especial de Encaixe para presente temático"
+                      - option "Lembrança de Data Especial Empilhável para presente temático"
+                      - option "Lembrança de Data Especial Leve para presente temático"
+                      - option "Letreiro de Mesa com Divisórias para mesa e evento"
+                      - option "Letreiro de Mesa de Encaixe para mesa e evento"
+                      - option "Letreiro de Mesa Leve para mesa e evento"
+                      - option "Letreiro de Mesa Slim para mesa e evento"
+                      - option "Luminária Decorativa Ahri League of Legends LED para Quarto Gamer, Mesa e Setup Nerd"
+                      - option "Luminária Decorativa AWP CS2 LED para Quarto Gamer, Mesa e Setup Nerd"
+                      - option "Luminária Decorativa Creeper Minecraft LED para Quarto Gamer, Mesa e Setup Nerd"
+                      - option "Luminária Decorativa Darth Vader Star Wars LED para Quarto Gamer, Mesa e Setup Nerd"
+                      - option "Luminária Decorativa Ghost Call of Duty LED para Quarto Gamer, Mesa e Setup Nerd"
+                      - option "Luminária Decorativa Lhama Fortnite LED para Quarto Gamer, Mesa e Setup Nerd"
+                      - option "Luminária Decorativa Los Santos GTA V LED para Quarto Gamer, Mesa e Setup Nerd"
+                      - option "Luminária Decorativa Pikachu Pokémon LED para Quarto Gamer, Mesa e Setup Nerd"
+                      - option "Luminária Decorativa Spider-Man Marvel LED para Quarto Gamer, Mesa e Setup Nerd"
+                      - option "Marcador de Página 3D"
+                      - option "Marcador Personalizável com Divisórias para embalagem especial"
+                      - option "Marcador Personalizável de Encaixe para embalagem especial"
+                      - option "Marcador Personalizável Leve para embalagem especial"
+                      - option "Marcador Personalizável Slim para embalagem especial"
+                      - option "Mensagem em 3D"
+                      - option "Mini Estátua Colecionável Ahri League of Legends Edição Decor para Estante, Mesa e Setup"
+                      - option "Mini Estátua Colecionável AWP CS2 Edição Decor para Estante, Mesa e Setup"
+                      - option "Mini Estátua Colecionável Creeper Minecraft Edição Decor para Estante, Mesa e Setup"
+                      - option "Mini Estátua Colecionável Darth Vader Star Wars Edição Decor para Estante, Mesa e Setup"
+                      - option "Mini Estátua Colecionável Ghost Call of Duty Edição Decor para Estante, Mesa e Setup"
+                      - option "Mini Estátua Colecionável Lhama Fortnite Edição Decor para Estante, Mesa e Setup"
+                      - option "Mini Estátua Colecionável Los Santos GTA V Edição Decor para Estante, Mesa e Setup"
+                      - option "Mini Estátua Colecionável Pikachu Pokémon Edição Decor para Estante, Mesa e Setup"
+                      - option "Mini Estátua Colecionável Spider-Man Marvel Edição Decor para Estante, Mesa e Setup"
+                      - option "Mini Gatinha Kawaii Neon"
+                      - option "Mini Presente Personalizável com Divisórias para kit promocional"
+                      - option "Mini Presente Personalizável de Encaixe para kit promocional"
+                      - option "Mini Presente Personalizável Leve para kit promocional"
+                      - option "Mini Presente Personalizável Slim para kit promocional"
+                      - option "Mini Troféu Personalizado"
+                      - option "Miniatura Geek Ajustável para estante"
+                      - option "Miniatura Geek com Divisórias para estante"
+                      - option "Miniatura Geek com Pegada Prática para estante"
+                      - option "Miniatura Geek de Bancada para estante"
+                      - option "Miniatura Geek Minimalista para estante"
+                      - option "Miniatura Geek para Rotina Organizada para estante"
+                      - option "Miniatura Geek para Uso Diário para estante"
+                      - option "Mousepad Colecionável Alex Minecraft Desk Mat Gamer para Setup Profissional"
+                      - option "Mousepad Colecionável Deadpool Marvel Desk Mat Gamer para Setup Profissional"
+                      - option "Mousepad Colecionável Gengar Pokémon Desk Mat Gamer para Setup Profissional"
+                      - option "Mousepad Colecionável Jinx League of Legends Desk Mat Gamer para Setup Profissional"
+                      - option "Mousepad Colecionável Knife CS2 Desk Mat Gamer para Setup Profissional"
+                      - option "Mousepad Colecionável Mandalorian Star Wars Desk Mat Gamer para Setup Profissional"
+                      - option "Mousepad Colecionável Task Force Call of Duty Desk Mat Gamer para Setup Profissional"
+                      - option "Mousepad Colecionável Trevor GTA V Desk Mat Gamer para Setup Profissional"
+                      - option "Mousepad Colecionável Victory Crown Fortnite Desk Mat Gamer para Setup Profissional"
+                      - option "Ninja Chibi com Katana"
+                      - option "Ninja Stealth Mini"
+                      - option "Nome 3D Personalizado de Bancada para quarto e porta"
+                      - option "Nome 3D Personalizado de Mesa para quarto e porta"
+                      - option "Nome 3D Personalizado Minimalista para quarto e porta"
+                      - option "Nome 3D Personalizado Modular para quarto e porta"
+                      - option "Organizador de Artesanato Ajustável para artesanato"
+                      - option "Organizador de Artesanato de Bancada para artesanato"
+                      - option "Organizador de Artesanato Minimalista para artesanato"
+                      - option "Organizador de Artesanato Modular para artesanato"
+                      - option "Organizador de Banheiro com Divisórias para rotina de higiene"
+                      - option "Organizador de Banheiro de Encaixe para rotina de higiene"
+                      - option "Organizador de Banheiro de Parede para rotina de higiene"
+                      - option "Organizador de Banheiro Leve para rotina de higiene"
+                      - option "Organizador de Bits de Mesa para oficina leve"
+                      - option "Organizador de Bits de Parede para oficina leve"
+                      - option "Organizador de Bits Dobrável para oficina leve"
+                      - option "Organizador de Cabo USB"
+                      - option "Organizador de Cabos"
+                      - option "Organizador de Cabos Ajustável para carregadores"
+                      - option "Organizador de Cabos com Pegada Prática para carregadores"
+                      - option "Organizador de Cabos de Bancada para carregadores"
+                      - option "Organizador de Cabos Minimalista para carregadores"
+                      - option "Organizador de Cabos Modular para carregadores"
+                      - option "Organizador de Cabos para Uso Diário para carregadores"
+                      - option "Organizador de Canetas"
+                      - option "Organizador de Carregador com Clipe para carregadores"
+                      - option "Organizador de Carregador de Bancada para carregadores"
+                      - option "Organizador de Carregador de Mesa para carregadores"
+                      - option "Organizador de Carregador de Mesa para carregadores para kits compactos"
+                      - option "Organizador de Cartões de Encaixe para pequenos eletrônicos"
+                      - option "Organizador de Cartões Leve para pequenos eletrônicos"
+                      - option "Organizador de Cartões Slim para pequenos eletrônicos"
+                      - option "Organizador de Chaves Allen Ajustável para bancada"
+                      - option "Organizador de Chaves Allen de Bancada para bancada"
+                      - option "Organizador de Chaves Allen de Parede para bancada"
+                      - option "Organizador de Chaves Allen Minimalista para bancada"
+                      - option "Organizador de Gaveta com Pegada Prática para talheres e peças pequenas"
+                      - option "Organizador de Gaveta para Uso Diário para talheres e peças pequenas"
+                      - option "Organizador de Lavanderia Ajustável para área de serviço"
+                      - option "Organizador de Lavanderia com Clipe para área de serviço"
+                      - option "Organizador de Lavanderia de Bancada para área de serviço"
+                      - option "Organizador de Lavanderia Modular para área de serviço"
+                      - option "Organizador de Maquiagem"
+                      - option "Organizador de Mesa Modular para estudo"
+                      - option "Organizador de Mesa Multiuso para estudo"
+                      - option "Organizador de Mesa para Rotina Organizada para estudo"
+                      - option "Organizador de Mesa para Uso Diário para estudo"
+                      - option "Organizador de Mouse de Encaixe para produtividade"
+                      - option "Organizador de Mouse Leve para produtividade"
+                      - option "Organizador de Mouse Slim para produtividade"
+                      - option "Organizador de Oficina Leve de Encaixe para impressão 3D e ferramentas"
+                      - option "Organizador de Oficina Leve para impressão 3D e ferramentas"
+                      - option "Organizador de Oficina Leve Slim para impressão 3D e ferramentas"
+                      - option "Organizador de Peças de Jogo com Ímã para hobby criativo"
+                      - option "Organizador de Peças de Jogo de Encaixe para hobby criativo"
+                      - option "Organizador de Peças de Jogo Slim para hobby criativo"
+                      - option "Organizador Infantil Ajustável para estudo"
+                      - option "Organizador Infantil de Mesa para estudo"
+                      - option "Organizador Infantil de Mesa para estudo com frente baixa"
+                      - option "Organizador Infantil de Mesa para estudo com leitura visual limpa"
+                      - option "Organizador Maker de Encaixe para manutenção simples"
+                      - option "Organizador Maker de Mesa para manutenção simples"
+                      - option "Organizador Maker Gridfinity para manutenção simples"
+                      - option "Organizador Maker Slim para manutenção simples"
+                      - option "Organizador Modular Defuse CS2 para Ferramentas Leves, Peças e Acessórios Nerd"
+                      - option "Organizador Modular Eevee Pokémon para Ferramentas Leves, Peças e Acessórios Nerd"
+                      - option "Organizador Modular Enderman Minecraft para Ferramentas Leves, Peças e Acessórios Nerd"
+                      - option "Organizador Modular Grogu Star Wars para Ferramentas Leves, Peças e Acessórios Nerd"
+                      - option "Organizador Modular Groot Marvel para Ferramentas Leves, Peças e Acessórios Nerd"
+                      - option "Organizador Modular Lux League of Legends para Ferramentas Leves, Peças e Acessórios Nerd"
+                      - option "Organizador Modular Michael GTA V para Ferramentas Leves, Peças e Acessórios Nerd"
+                      - option "Organizador Modular Peely Fortnite para Ferramentas Leves, Peças e Acessórios Nerd"
+                      - option "Organizador Modular Warzone Call of Duty para Ferramentas Leves, Peças e Acessórios Nerd"
+                      - option "Organizador Multiuso com Visual Neutro para armário e bancada"
+                      - option "Organizador Multiuso Compacto para armário e bancada"
+                      - option "Organizador Multiuso de Mesa para armário e bancada"
+                      - option "Organizador Multiuso de Mesa para armário e bancada com base estável"
+                      - option "Organizador Multiuso Dobrável para armário e bancada"
+                      - option "Organizador Multiuso Essencial para armário e bancada"
+                      - option "Organizador Multiuso Gridfinity para armário e bancada"
+                      - option "Organizador Multiuso para Pequenos Espaços para armário e bancada"
+                      - option "Organizador Multiuso Versátil para armário e bancada"
+                      - option "Passa-Cabo de Mesa Compacto para mesa de trabalho"
+                      - option "Passa-Cabo de Mesa Dobrável para mesa de trabalho"
+                      - option "Passa-Cabo de Mesa para Rotina Organizada para mesa de trabalho"
+                      - option "Passador de Fio com Clipe para fixação leve"
+                      - option "Passador de Fio com Clipe para fixação leve com frente baixa"
+                      - option "Passador de Fio Mini para fixação leve"
+                      - option "Passador de Fio Mini para fixação leve para venda em lote"
+                      - option "Passador de Fio Multiuso para fixação leve"
+                      - option "Peça Decorativa Gamer de Parede para estante"
+                      - option "Peça Decorativa Gamer Empilhável para estante"
+                      - option "Peça Decorativa Gamer Fácil de Limpar para estante"
+                      - option "Peça Decorativa Gamer Leve para estante"
+                      - option "Peça Decorativa Gamer Mini para estante"
+                      - option "Pingente de Mochila com Divisórias para brinde geek"
+                      - option "Pingente de Mochila de Encaixe para brinde geek"
+                      - option "Pingente de Mochila Fácil de Limpar para brinde geek"
+                      - option "Pingente de Mochila Leve para brinde geek"
+                      - option "Pingente de Mochila Slim para brinde geek"
+                      - option "Pingente Personalizado"
+                      - option "Pingente Personalizado com Divisórias para presente rápido"
+                      - option "Pingente Personalizado de Encaixe para presente rápido"
+                      - option "Pingente Personalizado Leve para presente rápido"
+                      - option "Pingente Personalizado Slim para presente rápido"
+                      - option "Placa de Nome Compacto para presente personalizado"
+                      - option "Placa de Nome de Mesa para presente personalizado"
+                      - option "Placa de Nome Dobrável para presente personalizado"
+                      - option "Placa de Nome Multiuso para presente personalizado"
+                      - option "Placa Decorativa Defuse CS2 Estilo Geek para Porta, Parede e Setup"
+                      - option "Placa Decorativa Eevee Pokémon Estilo Geek para Porta, Parede e Setup"
+                      - option "Placa Decorativa Enderman Minecraft Estilo Geek para Porta, Parede e Setup"
+                      - option "Placa Decorativa Grogu Star Wars Estilo Geek para Porta, Parede e Setup"
+                      - option "Placa Decorativa Groot Marvel Estilo Geek para Porta, Parede e Setup"
+                      - option "Placa Decorativa Lux League of Legends Estilo Geek para Porta, Parede e Setup"
+                      - option "Placa Decorativa Michael GTA V Estilo Geek para Porta, Parede e Setup"
+                      - option "Placa Decorativa Peely Fortnite Estilo Geek para Porta, Parede e Setup"
+                      - option "Placa Decorativa Warzone Call of Duty Estilo Geek para Porta, Parede e Setup"
+                      - option "Placa Retrô Geek Ajustável para quarto e estante"
+                      - option "Placa Retrô Geek de Bancada para quarto e estante"
+                      - option "Placa Retrô Geek Mini para quarto e estante"
+                      - option "Placa Retrô Geek Modular para quarto e estante"
+                      - option "Pokébola"
+                      - option "Polvo Oceano Articulado"
+                      - option "Porta Ferramentas AK-47 CS2 para Mesa Gamer, Oficina Criativa e Home Office"
+                      - option "Porta Ferramentas Battle Royale Fortnite para Mesa Gamer, Oficina Criativa e Home Office"
+                      - option "Porta Ferramentas Charmander Pokémon para Mesa Gamer, Oficina Criativa e Home Office"
+                      - option "Porta Ferramentas Franklin GTA V para Mesa Gamer, Oficina Criativa e Home Office"
+                      - option "Porta Ferramentas Iron Man Marvel para Mesa Gamer, Oficina Criativa e Home Office"
+                      - option "Porta Ferramentas Soap Call of Duty para Mesa Gamer, Oficina Criativa e Home Office"
+                      - option "Porta Ferramentas Steve Minecraft para Mesa Gamer, Oficina Criativa e Home Office"
+                      - option "Porta Ferramentas Stormtrooper Star Wars para Mesa Gamer, Oficina Criativa e Home Office"
+                      - option "Porta Ferramentas Yasuo League of Legends para Mesa Gamer, Oficina Criativa e Home Office"
+                      - option "Porta-Brocas Compacto Gridfinity para gaveta de ferramentas"
+                      - option "Porta-Brocas Compacto Gridfinity para gaveta de ferramentas com base estável"
+                      - option "Porta-Brocas Compacto Leve para gaveta de ferramentas"
+                      - option "Porta-Canetas de Mesa para escritório"
+                      - option "Porta-Canetas de Mesa para escritório com uso intuitivo"
+                      - option "Porta-Canetas de Mesa para escritório para kits compactos"
+                      - option "Porta-Canetas Minimalista para escritório"
+                      - option "Porta-Chaves de Parede com Pegada Prática para chaves e acessórios"
+                      - option "Porta-Chaves de Parede Compacto para chaves e acessórios"
+                      - option "Porta-Chaves de Parede de Produção Rápida para chaves e acessórios"
+                      - option "Porta-Chaves de Parede Multiuso para chaves e acessórios"
+                      - option "Porta-Chaves de Parede para Kit Presente para chaves e acessórios"
+                      - option "Porta-Chaves de Parede para Rotina Organizada para chaves e acessórios"
+                      - option "Porta-Chaves Pequenas Compacto para kit maker"
+                      - option "Porta-Chaves Pequenas Dobrável para kit maker"
+                      - option "Porta-Chaves Pequenas Gridfinity para kit maker"
+                      - option "Porta-Copos Geek"
+                      - option "Porta-Creme Dental Compacto para pia e armário"
+                      - option "Porta-Creme Dental de Parede para pia e armário"
+                      - option "Porta-Creme Dental de Produção Rápida para pia e armário"
+                      - option "Porta-Creme Dental Dobrável para pia e armário"
+                      - option "Porta-Creme Dental Multiuso para pia e armário"
+                      - option "Porta-Escova Ajustável para bancada"
+                      - option "Porta-Escova de Bancada para bancada"
+                      - option "Porta-Escova de Parede para bancada"
+                      - option "Porta-Escova Minimalista para bancada"
+                      - option "Porta-Escova Modular para bancada"
+                      - option "Porta-Ferramentas de Bancada Ajustável para ferramentas leves"
+                      - option "Porta-Ferramentas de Bancada com Acabamento Limpo para ferramentas leves"
+                      - option "Porta-Ferramentas de Bancada Minimalista para ferramentas leves"
+                      - option "Porta-Ferramentas de Bancada Modular para ferramentas leves"
+                      - option "Porta-Ferramentas de Hobby Compacto para pintura e hobby"
+                      - option "Porta-Ferramentas de Hobby de Mesa para pintura e hobby"
+                      - option "Porta-Ferramentas de Hobby Gridfinity para pintura e hobby"
+                      - option "Porta-Lápis de Estudo de Mesa para quarto infantil"
+                      - option "Porta-Lápis de Estudo de Mesa para quarto infantil com acesso rápido"
+                      - option "Porta-Lápis de Estudo Modular para quarto infantil"
+                      - option "Porta-Lápis Modular de Mesa para mesa limpa"
+                      - option "Porta-Lápis Modular de Mesa para mesa limpa com acesso rápido"
+                      - option "Porta-Lápis Modular de Mesa para mesa limpa para gaveta rasa"
+                      - option "Porta-Lápis Modular para Kit Presente para mesa limpa"
+                      - option "Porta-Miudezas com Acabamento Limpo para entrada de casa"
+                      - option "Porta-Miudezas com Divisórias para entrada de casa"
+                      - option "Porta-Miudezas Gridfinity para entrada de casa"
+                      - option "Porta-Miudezas Gridfinity para entrada de casa com perfil discreto"
+                      - option "Porta-Miudezas Leve para entrada de casa"
+                      - option "Porta-Miudezas Slim para entrada de casa"
+                      - option "Porta-Óculos Compacto para acessórios pessoais"
+                      - option "Porta-Óculos de Mesa para acessórios pessoais"
+                      - option "Porta-Óculos Dobrável para acessórios pessoais"
+                      - option "Porta-Retrato 3D Ajustável para presente"
+                      - option "Porta-Retrato 3D de Bancada para presente"
+                      - option "Porta-Retrato 3D Mini para presente"
+                      - option "Porta-Retrato 3D Minimalista para presente"
+                      - option "Porta-Retrato Personalizado"
+                      - option "Porta-Velhas"
+                      - option "Poster Premium Defuse CS2 Colecionável para Parede, Estúdio e Espaço Geek"
+                      - option "Poster Premium Eevee Pokémon Colecionável para Parede, Estúdio e Espaço Geek"
+                      - option "Poster Premium Enderman Minecraft Colecionável para Parede, Estúdio e Espaço Geek"
+                      - option "Poster Premium Grogu Star Wars Colecionável para Parede, Estúdio e Espaço Geek"
+                      - option "Poster Premium Groot Marvel Colecionável para Parede, Estúdio e Espaço Geek"
+                      - option "Poster Premium Lux League of Legends Colecionável para Parede, Estúdio e Espaço Geek"
+                      - option "Poster Premium Michael GTA V Colecionável para Parede, Estúdio e Espaço Geek"
+                      - option "Poster Premium Peely Fortnite Colecionável para Parede, Estúdio e Espaço Geek"
+                      - option "Poster Premium Warzone Call of Duty Colecionável para Parede, Estúdio e Espaço Geek"
+                      - option "Prateleira Flutuante"
+                      - option "Prateleira Suspensa"
+                      - option "Presente Sazonal Compacto para mesa e decoração"
+                      - option "Presente Sazonal de Mesa para mesa e decoração"
+                      - option "Presente Sazonal Dobrável para mesa e decoração"
+                      - option "Presente Sazonal Multiuso para mesa e decoração"
+                      - option "Presilha Impressa com Clipe para fixação leve"
+                      - option "Presilha Impressa de Bancada para fixação leve"
+                      - option "Presilha Impressa Minimalista para fixação leve"
+                      - option "Presilha Impressa Modular para fixação leve"
+                      - option "Presilha Impressa para Uso Diário para fixação leve"
+                      - option "Quadro Decorativo"
+                      - option "Quadro Decorativo AK-47 CS2 Premium para Parede de Quarto Gamer e Home Office"
+                      - option "Quadro Decorativo Battle Royale Fortnite Premium para Parede de Quarto Gamer e Home Office"
+                      - option "Quadro Decorativo Charmander Pokémon Premium para Parede de Quarto Gamer e Home Office"
+                      - option "Quadro Decorativo Franklin GTA V Premium para Parede de Quarto Gamer e Home Office"
+                      - option "Quadro Decorativo Iron Man Marvel Premium para Parede de Quarto Gamer e Home Office"
+                      - option "Quadro Decorativo Soap Call of Duty Premium para Parede de Quarto Gamer e Home Office"
+                      - option "Quadro Decorativo Steve Minecraft Premium para Parede de Quarto Gamer e Home Office"
+                      - option "Quadro Decorativo Stormtrooper Star Wars Premium para Parede de Quarto Gamer e Home Office"
+                      - option "Quadro Decorativo Yasuo League of Legends Premium para Parede de Quarto Gamer e Home Office"
+                      - option "Quebra-Cabeça Lúdico Compacto para atividade criativa"
+                      - option "Quebra-Cabeça Lúdico de Mesa para atividade criativa"
+                      - option "Quebra-Cabeça Lúdico Dobrável para atividade criativa"
+                      - option "Relógio de Parede"
+                      - option "Robô Transformador BOX"
+                      - option "Stand para Relógio de Bancada para mesa e criado"
+                      - option "Stand para Relógio de Parede para mesa e criado"
+                      - option "Stand para Relógio Minimalista para mesa e criado"
+                      - option "Stand para Relógio Modular para mesa e criado"
+                      - option "Stencil Rick and Morty Decorativo"
+                      - option "Suporte de Bancada Compacto para bancada de trabalho"
+                      - option "Suporte de Bancada de Mesa para bancada de trabalho"
+                      - option "Suporte de Bancada Dobrável para bancada de trabalho"
+                      - option "Suporte de Bancada Multiuso para bancada de trabalho"
+                      - option "Suporte de Brocas de Bancada para bancada maker"
+                      - option "Suporte de Brocas Gridfinity para bancada maker"
+                      - option "Suporte de Brocas Minimalista para bancada maker"
+                      - option "Suporte de Brocas Modular para bancada maker"
+                      - option "Suporte de Cozinha com Acabamento Limpo para bancada e armário"
+                      - option "Suporte de Cozinha com Divisórias para bancada e armário"
+                      - option "Suporte de Cozinha de Encaixe para bancada e armário"
+                      - option "Suporte de Cozinha de Mesa para bancada e armário"
+                      - option "Suporte de Cozinha Fácil de Limpar para bancada e armário"
+                      - option "Suporte de Cozinha Slim para bancada e armário"
+                      - option "Suporte de Ferramentas Mini de Encaixe para gaveta técnica"
+                      - option "Suporte de Ferramentas Mini Gridfinity para gaveta técnica"
+                      - option "Suporte de Ferramentas Mini Slim para gaveta técnica"
+                      - option "Suporte de Parede com Divisórias para organização leve"
+                      - option "Suporte de Parede de Encaixe para organização leve"
+                      - option "Suporte de Parede de Produção Rápida para organização leve"
+                      - option "Suporte de Parede Essencial para organização leve"
+                      - option "Suporte de Parede Leve para organização leve"
+                      - option "Suporte de Parede Modular para organização leve"
+                      - option "Suporte de Webcam Ajustável para monitor e mesa"
+                      - option "Suporte de Webcam Compacto para monitor e mesa"
+                      - option "Suporte de Webcam Modular para monitor e mesa"
+                      - option "Suporte Decorativo Retrô Compacto para setup retrô"
+                      - option "Suporte Decorativo Retrô Dobrável para setup retrô"
+                      - option "Suporte Decorativo Retrô Mini para setup retrô"
+                      - option "Suporte Doméstico com Pegada Prática para uso diário"
+                      - option "Suporte Doméstico de Bancada para uso diário"
+                      - option "Suporte Doméstico de Mesa para uso diário"
+                      - option "Suporte Doméstico Mini para uso diário"
+                      - option "Suporte Doméstico Mini para uso diário para kits compactos"
+                      - option "Suporte Doméstico Minimalista para uso diário"
+                      - option "Suporte Doméstico Modular para uso diário"
+                      - option "Suporte Doméstico para Rotina Organizada para uso diário"
+                      - option "Suporte Doméstico Prático para uso diário"
+                      - option "Suporte Maker Compacto de Mesa para bancada compacta"
+                      - option "Suporte Maker Compacto Mini para bancada compacta"
+                      - option "Suporte Maker Compacto para Uso Diário para bancada compacta"
+                      - option "Suporte Multiuso Alex Minecraft para Headset, Controle, Cabos e Acessórios"
+                      - option "Suporte Multiuso Deadpool Marvel para Headset, Controle, Cabos e Acessórios"
+                      - option "Suporte Multiuso Gengar Pokémon para Headset, Controle, Cabos e Acessórios"
+                      - option "Suporte Multiuso Jinx League of Legends para Headset, Controle, Cabos e Acessórios"
+                      - option "Suporte Multiuso Knife CS2 para Headset, Controle, Cabos e Acessórios"
+                      - option "Suporte Multiuso Mandalorian Star Wars para Headset, Controle, Cabos e Acessórios"
+                      - option "Suporte Multiuso Task Force Call of Duty para Headset, Controle, Cabos e Acessórios"
+                      - option "Suporte Multiuso Trevor GTA V para Headset, Controle, Cabos e Acessórios"
+                      - option "Suporte Multiuso Victory Crown Fortnite para Headset, Controle, Cabos e Acessórios"
+                      - option "Suporte para Bicicleta"
+                      - option "Suporte para Celular"
+                      - option "Suporte para Celular Ajustável para mesa"
+                      - option "Suporte para Celular de Bancada para mesa"
+                      - option "Suporte para Celular Mini para mesa"
+                      - option "Suporte para Celular Modular para mesa"
+                      - option "Suporte para Controle Ajustável para setup"
+                      - option "Suporte para Controle de Bancada para setup"
+                      - option "Suporte para Controle Minimalista para setup"
+                      - option "Suporte para Controle Modular para setup"
+                      - option "Suporte para Garrafa"
+                      - option "Suporte para Headset Ajustável para setup gamer"
+                      - option "Suporte para Headset de Bancada para setup gamer"
+                      - option "Suporte para Headset Minimalista para setup gamer"
+                      - option "Suporte para Headset Modular para setup gamer"
+                      - option "Suporte para Livros"
+                      - option "Suporte para Monitor"
+                      - option "Suporte para Mouse"
+                      - option "Suporte para Notebook Ajustável para home office"
+                      - option "Suporte para Notebook de Bancada para home office"
+                      - option "Suporte para Notebook Modular para home office"
+                      - option "Suporte para Plantas"
+                      - option "Suporte para Prendedores de Encaixe para rotina doméstica"
+                      - option "Suporte para Prendedores Leve para rotina doméstica"
+                      - option "Suporte para Prendedores Slim para rotina doméstica"
+                      - option "Suporte para Tablet"
+                      - option "Suporte para Tablet de Bancada para mesa de trabalho"
+                      - option "Suporte para Tablet Dobrável para mesa de trabalho"
+                      - option "Suporte para Tablet Modular para mesa de trabalho"
+                      - option "Suporte para Teclado"
+                      - option "Tag de Presente Compacto para lembrança afetiva"
+                      - option "Tag de Presente de Mesa para lembrança afetiva"
+                      - option "Tag de Presente Dobrável para lembrança afetiva"
+                      - option "Tag de Presente Multiuso para lembrança afetiva"
+                      - option "Tag para Pet Compacto para rotina do pet"
+                      - option "Tag para Pet de Mesa para rotina do pet"
+                      - option "Tag para Pet Dobrável para rotina do pet"
+                      - option "Trava Compacta Compacto para organização técnica"
+                      - option "Trava Compacta de Mesa para organização técnica"
+                      - option "Trava Compacta de Produção Rápida para organização técnica"
+                      - option "Trava Compacta Dobrável para organização técnica"
+                      - option "Trava Compacta Multiuso para organização técnica"
+                      - option "Tubarão Oceano Mini"
+                  - generic [ref=e233]:
+                    - generic [ref=e234]: Quantidade
+                    - spinbutton "Quantidade" [ref=e235]: "1"
+                - generic [ref=e236]:
+                  - button "1 unidade" [ref=e237] [cursor=pointer]
+                  - button "2 unidades" [ref=e238] [cursor=pointer]
+                  - button "5 unidades" [ref=e239] [cursor=pointer]
+                  - button "10 unidades" [ref=e240] [cursor=pointer]
+                - generic [ref=e241]:
+                  - generic [ref=e242]: Objetivo da compra
+                  - generic [ref=e243]:
+                    - button "Uso próprio" [ref=e244] [cursor=pointer]
+                    - button "Presente" [ref=e245] [cursor=pointer]
+                    - button "Lote" [ref=e246] [cursor=pointer]
+                    - button "Revenda" [ref=e247] [cursor=pointer]
+              - generic [ref=e248]:
+                - paragraph [ref=e249]: Contato
+                - generic [ref=e250]:
+                  - generic [ref=e251]:
+                    - generic [ref=e252]: Nome completo
+                    - textbox "Nome completo" [ref=e253]
+                  - generic [ref=e254]:
+                    - generic [ref=e255]: Email
+                    - textbox "Email" [ref=e256]
+                  - generic [ref=e257]:
+                    - generic [ref=e258]: WhatsApp
+                    - textbox "WhatsApp" [ref=e259]
+              - generic [ref=e260]:
+                - generic [ref=e262]:
+                  - paragraph [ref=e263]: Endereço
+                  - paragraph [ref=e264]: Você pode usar um endereço salvo ou preencher um novo agora.
+                - generic [ref=e265]:
+                  - generic [ref=e266]:
+                    - generic [ref=e267]: Apelido do endereço
+                    - textbox "Apelido do endereço" [ref=e268]:
+                      - /placeholder: Casa, Trabalho...
+                      - text: Principal
+                  - generic [ref=e269]:
+                    - generic [ref=e270]: Destinatário
+                    - textbox "Destinatário" [ref=e271]
+                  - generic [ref=e272]:
+                    - generic [ref=e273]: CEP
+                    - textbox "CEP" [ref=e274]:
+                      - /placeholder: 00000-000
+                  - generic [ref=e275]:
+                    - generic [ref=e276]: Telefone do endereço
+                    - textbox "Telefone do endereço" [ref=e277]
+                  - generic [ref=e278]:
+                    - generic [ref=e279]: Rua e número
+                    - textbox "Rua e número" [ref=e280]
+                  - generic [ref=e281]:
+                    - generic [ref=e282]: Complemento
+                    - textbox "Complemento" [ref=e283]:
+                      - /placeholder: Apto, Sala, Bloco...
+                  - generic [ref=e284]:
+                    - generic [ref=e285]: Bairro
+                    - textbox "Bairro" [ref=e286]
+                  - generic [ref=e287]:
+                    - generic [ref=e288]: Cidade
+                    - textbox "Cidade" [ref=e289]: Rio de Janeiro
+                  - generic [ref=e290]:
+                    - generic [ref=e291]: Estado
+                    - textbox "Estado" [ref=e292]: RJ
+                  - generic [ref=e293]:
+                    - generic [ref=e294]: País
+                    - textbox "País" [ref=e295]: BR
+              - generic [ref=e296]:
+                - button "Continuar para envio" [ref=e297] [cursor=pointer]
+                - button "Limpar rascunho" [ref=e298] [cursor=pointer]
+            - generic [ref=e299]:
+              - img [ref=e300]
+              - paragraph [ref=e303]: Seus dados são usados apenas para identificar o pedido, facilitar o pagamento, calcular o envio e permitir o contato sobre produção, entrega e suporte.
+        - generic [ref=e304]:
+          - generic [ref=e305]:
+            - generic [ref=e306]:
+              - img [ref=e307]
+              - paragraph [ref=e312]: Estimativa de entrega
+            - heading "Confira frete local antes de fechar." [level=2] [ref=e313]
+            - paragraph [ref=e314]: O cálculo abaixo continua disponível como apoio rápido, mesmo com a nova etapa de envio dentro do checkout.
+            - generic [ref=e316]:
+              - paragraph [ref=e317]: Calcule seu frete aqui
+              - heading "Entrega local no Rio de Janeiro" [level=2] [ref=e318]
+              - paragraph [ref=e319]: Informe seu CEP para receber uma estimativa inicial de frete normal e prazo. O valor final pode variar se a peça for muito volumosa.
+              - generic [ref=e320]:
+                - 'textbox "Ex: 20081-250" [ref=e321]'
+                - button "Calcular frete" [ref=e322] [cursor=pointer]
+              - generic [ref=e323]:
+                - paragraph [ref=e324]: Dica rápida
+                - paragraph [ref=e325]: Use o CEP do destino para receber a faixa inicial de frete mais estável. Depois, no fechamento, a equipe confirma o valor final conforme volume, bairro e janela de entrega.
+          - generic [ref=e326]:
+            - paragraph [ref=e327]: Boas práticas de fechamento
+            - generic [ref=e328]:
+              - generic [ref=e329]: Se for presente, avise na observação para priorizar acabamento e prazo.
+              - generic [ref=e330]: Se for lote, ajuste a quantidade primeiro e continue no WhatsApp para condição comercial.
+              - generic [ref=e331]: Use um endereço salvo quando já souber o destino final para reduzir atrito nas próximas compras.
+              - generic [ref=e332]: Quando o Pix for a melhor rota, gere o pedido, copie o código e confirme com o código do pedido.
+            - link "Falar com a equipe" [ref=e334] [cursor=pointer]:
+              - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20continuar%20meu%20pedido%20em%20aberto.%0A%0AProduto%3A%20Grinder%203%20Partes%20Premium%0AQuantidade%3A%201%0AObjetivo%3A%20Uso%20pr%C3%B3prio%0ACliente%3A%20n%C3%A3o%20informado%0AWhatsApp%3A%20n%C3%A3o%20informado%0AEmail%3A%20n%C3%A3o%20informado%0AEndere%C3%A7o%3A%20n%C3%A3o%20informado%0ACEP%3A%20n%C3%A3o%20informado%0AEnvio%3A%20n%C3%A3o%20selecionado%0APagamento%20escolhido%3A%20Pix%0ATotal%20no%20Pix%3A%20R%24%C2%A039%2C63%0ATotal%20no%20cart%C3%A3o%3A%20R%24%C2%A044%2C39%0AObserva%C3%A7%C3%B5es%3A%20sem%20observa%C3%A7%C3%B5es
+              - img [ref=e335]
+              - text: Falar com a equipe
+    - contentinfo [ref=e337]:
+      - generic [ref=e339]:
+        - generic [ref=e340]:
+          - img "Logo MDH 3D" [ref=e341]
+          - paragraph [ref=e342]: MDH 3D
+          - heading "Impressão 3D com apresentação profissional, produção local e atendimento direto." [level=2] [ref=e343]
+          - paragraph [ref=e344]: Trabalhamos com presentes personalizados, miniaturas, utilidades e projetos sob medida para clientes do Rio de Janeiro e de outras regiões do Brasil.
+          - generic [ref=e345]:
+            - link "Atendimento no WhatsApp" [ref=e346] [cursor=pointer]:
+              - /url: https://wa.me/5521920137249
+              - img [ref=e347]
+              - text: Atendimento no WhatsApp
+            - link "Ver catálogo" [ref=e349] [cursor=pointer]:
+              - /url: /catalogo
+              - text: Ver catálogo
+              - img [ref=e350]
+          - generic [ref=e353]:
+            - generic [ref=e354]: Portfólio com fotos reais
+            - generic [ref=e355]: Pix visível no checkout
+            - generic [ref=e356]: Produção local no RJ
+        - generic [ref=e357]:
+          - paragraph [ref=e358]: Institucional
+          - generic [ref=e359]:
+            - link "Compra protegida" [ref=e360] [cursor=pointer]:
+              - /url: /compra-protegida
+            - link "Política de privacidade" [ref=e361] [cursor=pointer]:
+              - /url: /politica-de-privacidade
+            - link "Termos de uso" [ref=e362] [cursor=pointer]:
+              - /url: /termos
+            - link "Trocas e devoluções" [ref=e363] [cursor=pointer]:
+              - /url: /trocas-e-devolucoes
+            - link "Frete e prazo" [ref=e364] [cursor=pointer]:
+              - /url: /entregas
+            - link "Perguntas frequentes" [ref=e365] [cursor=pointer]:
+              - /url: /faq
+            - link "Sobre a MDH 3D" [ref=e366] [cursor=pointer]:
+              - /url: /sobre
+            - link "Contato" [ref=e367] [cursor=pointer]:
+              - /url: /contato
+            - link "Portfólio e conteúdo" [ref=e368] [cursor=pointer]:
+              - /url: /divulgacao
+          - generic [ref=e369]:
+            - paragraph [ref=e370]: Atalhos de compra
+            - generic [ref=e371]:
+              - link "Só foto real" [ref=e372] [cursor=pointer]:
+                - /url: /catalogo?mode=real
+              - link "Pronta entrega" [ref=e373] [cursor=pointer]:
+                - /url: /catalogo?status=Pronta%20entrega
+              - link "Presentes criativos" [ref=e374] [cursor=pointer]:
+                - /url: /catalogo?intent=Presente
+        - generic [ref=e375]:
+          - paragraph [ref=e376]: Jornada de compra
+          - generic [ref=e377]:
+            - link "Escolher um produto" [ref=e378] [cursor=pointer]:
+              - /url: /catalogo
+            - link "Buscar no catálogo" [ref=e379] [cursor=pointer]:
+              - /url: /busca
+            - link "Favoritos" [ref=e380] [cursor=pointer]:
+              - /url: /favoritos
+            - link "Presentes 3D" [ref=e381] [cursor=pointer]:
+              - /url: /presentes-3d
+            - link "Setup e organização" [ref=e382] [cursor=pointer]:
+              - /url: /setup-e-organizacao-3d
+            - link "Brindes e lotes" [ref=e383] [cursor=pointer]:
+              - /url: /brindes-personalizados-3d
+            - link "Fechar pedido" [ref=e384] [cursor=pointer]:
+              - /url: /checkout
+            - link "Rastrear pedido" [ref=e385] [cursor=pointer]:
+              - /url: /rastrear
+            - link "Devoluções e trocas" [ref=e386] [cursor=pointer]:
+              - /url: /devolucoes
+            - link "Acompanhar conta e pedidos" [ref=e387] [cursor=pointer]:
+              - /url: /conta
+          - generic [ref=e388]:
+            - paragraph [ref=e389]: Antes de pedir
+            - generic [ref=e390]:
+              - generic [ref=e391]:
+                - paragraph [ref=e392]: Envie tamanho ou uso esperado
+                - paragraph [ref=e393]: Isso ajuda a indicar material, resistência e escala certa antes de produzir.
+              - generic [ref=e394]:
+                - paragraph [ref=e395]: Defina se é presente, coleção ou utilidade
+                - paragraph [ref=e396]: A intenção muda acabamento, embalagem, urgência e sugestão de peça.
+              - generic [ref=e397]:
+                - paragraph [ref=e398]: Escolha se quer rapidez ou acabamento mais refinado
+                - paragraph [ref=e399]: A loja consegue orientar o melhor equilíbrio entre prazo, custo e visual.
+        - generic [ref=e400]:
+          - paragraph [ref=e401]: Contato
+          - generic [ref=e402]:
+            - link "Comprar catálogo" [ref=e403] [cursor=pointer]:
+              - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20fechar%20um%20item%20do%20cat%C3%A1logo%20da%20MDH%203D.
+            - link "Peça personalizada" [ref=e404] [cursor=pointer]:
+              - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20pedir%20uma%20pe%C3%A7a%20personalizada%20na%20MDH%203D.
+            - link "Brindes e lotes" [ref=e405] [cursor=pointer]:
+              - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20or%C3%A7amento%20para%20brindes%20ou%20lote%20personalizado.
+            - link "Tirar dúvidas" [ref=e406] [cursor=pointer]:
+              - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20tirar%20d%C3%BAvidas%20sobre%20material%2C%20prazo%20e%20acabamento.
+          - generic [ref=e407]:
+            - link "Atendimento humano para orçamento, personalização e pós-venda." [ref=e408] [cursor=pointer]:
+              - /url: https://wa.me/5521920137249
+              - img [ref=e409]
+              - generic [ref=e411]: Atendimento humano para orçamento, personalização e pós-venda.
+            - link "mdhatendimento@gmail.com" [ref=e412] [cursor=pointer]:
+              - /url: mailto:mdhatendimento@gmail.com
+              - img [ref=e413]
+              - generic [ref=e416]: mdhatendimento@gmail.com
+            - link "@mdh_impressao3d" [ref=e417] [cursor=pointer]:
+              - /url: https://www.instagram.com/mdh_impressao3d/
+              - img [ref=e418]
+              - generic [ref=e421]: "@mdh_impressao3d"
+            - generic [ref=e422]:
+              - img [ref=e423]
+              - generic [ref=e426]: Produção local no Rio de Janeiro com resposta em horário comercial.
+      - generic [ref=e428]:
+        - generic [ref=e429]: © 2026 MDH 3D. Todos os direitos reservados.
+        - generic [ref=e430]:
+          - generic [ref=e431]: Produção local
+          - generic [ref=e432]: Pix visível
+          - generic [ref=e433]: Catálogo curado
+        - button "Voltar ao topo" [ref=e434] [cursor=pointer]
+    - link "Fale conosco no WhatsApp" [ref=e436] [cursor=pointer]:
+      - /url: https://wa.me/5521920137249?text=Oi!%20Vim%20pelo%20site%20da%20MDH%203D%20e%20quero%20um%20or%C3%A7amento.
+      - img [ref=e438]
+    - dialog "Aviso de uso de cookies" [ref=e440]:
+      - generic [ref=e441]:
+        - img [ref=e442]
+        - paragraph [ref=e444]:
+          - text: Usamos cookies para melhorar sua experiência, lembrar o carrinho e analisar acessos. Ao continuar navegando você concorda com nossa
+          - link "política de privacidade" [ref=e445] [cursor=pointer]:
+            - /url: /politica-de-privacidade
+          - text: .
+      - generic [ref=e446]:
+        - button "Recusar cookies não essenciais" [ref=e447] [cursor=pointer]:
+          - img [ref=e448]
+          - text: Recusar
+        - button "Aceitar cookies e continuar navegando" [ref=e451] [cursor=pointer]: Aceitar cookies
+  - alert [ref=e452]

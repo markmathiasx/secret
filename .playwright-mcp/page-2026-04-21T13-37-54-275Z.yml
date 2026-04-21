@@ -1,0 +1,831 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - link "Pular para conteúdo principal" [ref=e3] [cursor=pointer]:
+      - /url: "#main-content"
+    - banner [ref=e4]:
+      - generic [ref=e6]:
+        - generic [ref=e7]: MDH 3D • Produção local no Rio
+        - generic [ref=e8]: Pix imediato • cartão online • atendimento humano
+        - generic [ref=e9]: Producao local e acabamento sob medida
+        - link "@mdh_impressao3d" [ref=e10] [cursor=pointer]:
+          - /url: https://www.instagram.com/mdh_impressao3d/
+      - generic [ref=e11]:
+        - link "Logo MDH 3D MDH 3D Presentes, utilidades, decoração e projetos sob medida em impressão 3D":
+          - /url: /
+          - img "Logo MDH 3D" [ref=e12] [cursor=pointer]
+          - generic:
+            - paragraph: MDH 3D
+            - paragraph: Presentes, utilidades, decoração e projetos sob medida em impressão 3D
+        - generic [ref=e13]:
+          - img [ref=e14]
+          - searchbox "Busque por presente, miniatura, suporte, chaveiro, decoração..." [ref=e17]
+          - button "Buscar" [ref=e18] [cursor=pointer]
+        - generic [ref=e19]:
+          - button "Busca rápida Ctrl K" [ref=e20] [cursor=pointer]:
+            - img [ref=e21]
+            - text: Busca rápida
+            - generic [ref=e24]: Ctrl K
+          - button "Consultor MDH" [ref=e25] [cursor=pointer]:
+            - img [ref=e26]
+            - text: Consultor MDH
+          - link "Minha conta" [ref=e29] [cursor=pointer]:
+            - /url: /login
+            - img [ref=e30]
+            - text: Minha conta
+          - link "WhatsApp" [ref=e33] [cursor=pointer]:
+            - /url: https://wa.me/5521920137249
+          - link "Fechar pedido" [ref=e34] [cursor=pointer]:
+            - /url: /checkout
+            - img [ref=e35]
+            - text: Fechar pedido
+          - button "Carrinho 0" [ref=e38] [cursor=pointer]:
+            - img [ref=e39]
+            - text: Carrinho
+            - generic [ref=e43]: "0"
+      - navigation [ref=e44]:
+        - link "Início" [ref=e45] [cursor=pointer]:
+          - /url: /
+        - link "Catálogo" [ref=e46] [cursor=pointer]:
+          - /url: /catalogo
+        - link "Presentes" [ref=e47] [cursor=pointer]:
+          - /url: /presentes-3d
+        - link "Personalizados" [ref=e48] [cursor=pointer]:
+          - /url: /imagem-para-impressao-3d
+        - link "Entregas" [ref=e49] [cursor=pointer]:
+          - /url: /entregas
+        - link "FAQ" [ref=e50] [cursor=pointer]:
+          - /url: /faq
+        - link "Instagram" [ref=e51] [cursor=pointer]:
+          - /url: https://www.instagram.com/mdh_impressao3d/
+          - img [ref=e52]
+          - text: Instagram
+      - generic [ref=e56]:
+        - link "Só foto real" [ref=e57] [cursor=pointer]:
+          - /url: /catalogo?mode=real
+          - img [ref=e58]
+          - text: Só foto real
+        - link "Pronta entrega" [ref=e61] [cursor=pointer]:
+          - /url: /catalogo?status=Pronta%20entrega
+          - img [ref=e62]
+          - text: Pronta entrega
+        - link "Ideias de presente" [ref=e67] [cursor=pointer]:
+          - /url: /catalogo?intent=Presente
+          - img [ref=e68]
+          - text: Ideias de presente
+        - link "Enviar STL" [ref=e71] [cursor=pointer]:
+          - /url: /imagem-para-impressao-3d
+          - img [ref=e72]
+          - text: Enviar STL
+    - main [ref=e82]:
+      - generic [ref=e83]:
+        - generic [ref=e84]:
+          - link "Início" [ref=e85] [cursor=pointer]:
+            - /url: /
+          - generic [ref=e86]: /
+          - link "Catálogo" [ref=e87] [cursor=pointer]:
+            - /url: /catalogo
+          - generic [ref=e88]: /
+          - generic [ref=e89]: Grinder 3 Partes Premium
+        - generic [ref=e90]:
+          - link "Voltar ao catálogo" [ref=e91] [cursor=pointer]:
+            - /url: /catalogo
+            - img [ref=e92]
+            - text: Voltar ao catálogo
+          - generic [ref=e94]:
+            - generic [ref=e95]:
+              - img [ref=e96]
+              - text: SKU REAL-0001
+            - generic [ref=e99]:
+              - img [ref=e100]
+              - text: página individual
+        - generic [ref=e106]:
+          - generic [ref=e107]:
+            - generic [ref=e108]:
+              - generic [ref=e109]:
+                - generic [ref=e110]:
+                  - generic [ref=e111]:
+                    - img [ref=e112]
+                    - paragraph [ref=e115]: Compra protegida MDH
+                  - heading "Comprar aqui é ter produção local, suporte humano e troca clara." [level=3] [ref=e116]
+                  - paragraph [ref=e117]: Reputação construída com pedidos reais, suporte direto e política pública de devolução.
+                - generic [ref=e118]:
+                  - generic [ref=e119]: Produção local RJ
+                  - generic [ref=e120]: Troca em 7 dias
+                  - generic [ref=e121]: Suporte humano
+              - generic [ref=e122]:
+                - generic [ref=e123]:
+                  - img [ref=e124]
+                  - paragraph [ref=e127]: Foto real e pedido claro
+                  - paragraph [ref=e128]: Você compra com menos dúvida e mais previsibilidade visual.
+                - generic [ref=e129]:
+                  - img [ref=e130]
+                  - paragraph [ref=e135]: Troca e devolução explícitas
+                  - paragraph [ref=e136]: A política fica visível antes de fechar o pedido.
+                - generic [ref=e137]:
+                  - img [ref=e138]
+                  - paragraph [ref=e143]: Rastreio e acompanhamento
+                  - paragraph [ref=e144]: Acompanhe pedido, status e suporte sem depender de achismo.
+              - generic [ref=e145]:
+                - link "Como funciona" [ref=e146] [cursor=pointer]:
+                  - /url: /compra-protegida
+                - link "Ver trocas e devoluções" [ref=e147] [cursor=pointer]:
+                  - /url: /trocas-e-devolucoes
+                - link "Rastrear pedido" [ref=e148] [cursor=pointer]:
+                  - /url: /rastrear
+            - generic [ref=e149]:
+              - button "Impressão 3D de Grinder 3 Partes Premium - MDH 3D Store Grinder 3 Partes Premium PLA Premium • Fosco Foto real Galeria" [ref=e150] [cursor=pointer]:
+                - img "Impressão 3D de Grinder 3 Partes Premium - MDH 3D Store" [ref=e151]
+                - generic [ref=e152]:
+                  - generic [ref=e153]:
+                    - generic [ref=e154]: Grinder 3 Partes Premium
+                    - generic [ref=e155]: PLA Premium • Fosco
+                  - generic [ref=e156]:
+                    - generic [ref=e157]: Foto real
+                    - img [ref=e158]
+                    - generic [ref=e162]: Galeria
+                    - img [ref=e163]
+              - generic [ref=e168]:
+                - button "Impressão 3D de Grinder 3 Partes Premium - MDH 3D Store (2)" [ref=e169] [cursor=pointer]:
+                  - img "Impressão 3D de Grinder 3 Partes Premium - MDH 3D Store (2)" [ref=e170]
+                - button "Impressão 3D de Grinder 3 Partes Premium - MDH 3D Store (3)" [ref=e171] [cursor=pointer]:
+                  - img "Impressão 3D de Grinder 3 Partes Premium - MDH 3D Store (3)" [ref=e172]
+                - button "Impressão 3D de Grinder 3 Partes Premium - MDH 3D Store (4)" [ref=e173] [cursor=pointer]:
+                  - img "Impressão 3D de Grinder 3 Partes Premium - MDH 3D Store (4)" [ref=e174]
+          - generic [ref=e175]:
+            - generic [ref=e176]:
+              - generic [ref=e177]: Utilidades Reais
+              - generic [ref=e178]: Acessório
+              - generic [ref=e179]: A1 Mini Vendáveis
+              - generic [ref=e180]: Sob encomenda
+              - generic [ref=e181]: Foto real
+            - generic [ref=e183]:
+              - generic [ref=e184]:
+                - img [ref=e185]
+                - text: Avaliações em andamento
+              - generic [ref=e188]:
+                - img [ref=e189]
+                - text: Últimas 3 unidades
+              - link "Compra protegida" [ref=e191] [cursor=pointer]:
+                - /url: /trocas-e-devolucoes
+                - img [ref=e192]
+                - text: Compra protegida
+            - heading "Grinder 3 Partes Premium" [level=1] [ref=e195]
+            - paragraph [ref=e196]: Grinder 3 Partes Premium selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento fosco em PLA Premium. Indicado para uso diario, organizacao leve e presente funcional, mantendo prazo claro e apresentacao pronta para venda online. Grinder 3 Partes Premium faz parte da linha utilidades reais da MDH 3D, com dimensões de 7x7x4cm, consumo estimado de 92g e tempo médio de 3.8h por unidade. é produzido sob encomenda com janela de 2 a 4 dias e utiliza PLA Premium com acabamento fosco, pensado para resolver uso diário com impressão 3D funcional e acabamento limpo. As cores mais recorrentes nessa linha são preto. Aceita ajuste de cor, personalização ou pequenas variações sob consulta.
+            - generic [ref=e197]:
+              - generic [ref=e198]: PLA Premium com acabamento fosco
+              - generic [ref=e199]: Produção em 2 a 4 dias
+              - generic [ref=e200]: Aceita personalização de cor ou ajustes sob consulta
+            - generic [ref=e201]:
+              - generic [ref=e203]:
+                - paragraph [ref=e204]: Preço no Pix
+                - generic [ref=e205]:
+                  - generic [ref=e206]: R$ 68,90
+                  - generic [ref=e207]: R$ 39,63
+                - generic [ref=e208]: Economia no Pix R$ 29,27
+                - paragraph [ref=e209]: 12x de R$ 3,70 no cartão
+                - paragraph [ref=e210]: "Prazo de produção: 3.8h"
+                - generic [ref=e211]:
+                  - generic [ref=e212]: Preco auditado
+                  - generic [ref=e213]: Produção local RJ
+              - generic [ref=e214]:
+                - paragraph [ref=e215]: Prazo
+                - paragraph [ref=e216]: 3.8h
+            - generic [ref=e217]:
+              - generic [ref=e218]:
+                - paragraph [ref=e219]: Produção
+                - paragraph [ref=e220]: Feita sob encomenda
+              - generic [ref=e221]:
+                - paragraph [ref=e222]: Personalização
+                - paragraph [ref=e223]: Aceita ajustes de cor, escala ou briefing
+              - generic [ref=e224]:
+                - paragraph [ref=e225]: Atendimento
+                - paragraph [ref=e226]: Suporte direto no WhatsApp com código do pedido
+            - generic [ref=e227]:
+              - paragraph [ref=e228]: Cores disponíveis
+              - button "Preto" [ref=e230] [cursor=pointer]
+            - paragraph [ref=e232]:
+              - strong [ref=e233]: "Compra com clareza:"
+              - text: se você quiser validar cor, escala, prazo ou acabamento antes de pagar, a equipe confirma tudo pelo WhatsApp.
+            - generic [ref=e234]:
+              - paragraph [ref=e235]: Este item funciona bem quando
+              - generic [ref=e236]:
+                - generic [ref=e237]: boa peça âncora para começar a compra
+                - generic [ref=e238]: aceita ajustes de cor, escala ou briefing
+                - generic [ref=e239]: ajuda mais quem está comprando por função e praticidade
+            - generic [ref=e240]:
+              - paragraph [ref=e241]: Faixa comercial
+              - paragraph [ref=e242]: Preço confirmado para compra direta
+              - paragraph [ref=e243]: Preco Pix calculado em R$ 39.63 com base em material, tempo de producao e acabamento estimados para a peca. Preco auditado • Produção local RJ.
+              - paragraph [ref=e244]: "Faixa observada no mercado para acessório de bolso ou utilidade pessoal: de R$ 29,90 até cerca de R$ 59,90."
+            - generic [ref=e246]:
+              - paragraph [ref=e247]: Como ler esta imagem
+              - paragraph [ref=e248]: Foto real
+              - paragraph [ref=e249]: A imagem mostra uma peça já produzida pela MDH 3D, usada como referência direta de acabamento, escala e presença real.
+              - paragraph [ref=e250]: Foto real já validada no catálogo verificado.
+            - generic [ref=e251]:
+              - generic [ref=e252]:
+                - paragraph [ref=e253]: Material
+                - paragraph [ref=e254]: PLA Premium
+              - generic [ref=e255]:
+                - paragraph [ref=e256]: Acabamento
+                - paragraph [ref=e257]: Fosco
+              - generic [ref=e258]:
+                - paragraph [ref=e259]: Peso PLA
+                - paragraph [ref=e260]: 92g
+              - generic [ref=e261]:
+                - paragraph [ref=e262]: Dimensões
+                - paragraph [ref=e263]: 7x7x4cm
+            - generic [ref=e265]:
+              - generic [ref=e266]:
+                - generic [ref=e267]:
+                  - paragraph [ref=e268]: Ferramenta de compra
+                  - heading "Simule a quantidade antes de fechar." [level=3] [ref=e269]
+                - generic [ref=e270]: SKU REAL-0001
+              - generic [ref=e271]:
+                - button "1 un." [ref=e272] [cursor=pointer]
+                - button "2 un." [ref=e273] [cursor=pointer]
+                - button "5 un." [ref=e274] [cursor=pointer]
+                - button "10 un." [ref=e275] [cursor=pointer]
+              - generic [ref=e276]:
+                - paragraph [ref=e277]: Objetivo desta compra
+                - generic [ref=e278]:
+                  - button "Uso próprio" [ref=e279] [cursor=pointer]
+                  - button "Presente" [ref=e280] [cursor=pointer]
+                  - button "Lote" [ref=e281] [cursor=pointer]
+                  - button "Revenda" [ref=e282] [cursor=pointer]
+              - generic [ref=e283]:
+                - button "Diminuir quantidade" [ref=e284] [cursor=pointer]:
+                  - img [ref=e285]
+                - generic [ref=e286]:
+                  - paragraph [ref=e287]: Quantidade
+                  - paragraph [ref=e288]: "1"
+                - button "Aumentar quantidade" [ref=e289] [cursor=pointer]:
+                  - img [ref=e290]
+              - generic [ref=e291]:
+                - generic [ref=e292]:
+                  - paragraph [ref=e293]: Total no Pix
+                  - paragraph [ref=e294]: R$ 39,63
+                - generic [ref=e295]:
+                  - paragraph [ref=e296]: Total no cartão
+                  - paragraph [ref=e297]: R$ 44,39
+              - generic [ref=e298]:
+                - generic [ref=e299]:
+                  - paragraph [ref=e300]: Prazo de produção
+                  - paragraph [ref=e301]: 2 a 4 dias
+                - generic [ref=e302]:
+                  - paragraph [ref=e303]: Entrega estimada
+                  - paragraph [ref=e304]: Frete e prazo final são calculados no checkout
+              - generic [ref=e306]:
+                - generic [ref=e307]:
+                  - generic [ref=e308]:
+                    - generic [ref=e309]:
+                      - img [ref=e310]
+                      - paragraph [ref=e313]: Compra protegida MDH
+                    - heading "Comprar aqui é ter produção local, suporte humano e troca clara." [level=3] [ref=e314]
+                    - paragraph [ref=e315]: Reputação construída com pedidos reais, suporte direto e política pública de devolução.
+                  - generic [ref=e316]:
+                    - generic [ref=e317]: Produção local RJ
+                    - generic [ref=e318]: Troca em 7 dias
+                    - generic [ref=e319]: Suporte humano
+                - generic [ref=e320]:
+                  - generic [ref=e321]:
+                    - img [ref=e322]
+                    - paragraph [ref=e325]: Foto real e pedido claro
+                    - paragraph [ref=e326]: Você compra com menos dúvida e mais previsibilidade visual.
+                  - generic [ref=e327]:
+                    - img [ref=e328]
+                    - paragraph [ref=e333]: Troca e devolução explícitas
+                    - paragraph [ref=e334]: A política fica visível antes de fechar o pedido.
+                  - generic [ref=e335]:
+                    - img [ref=e336]
+                    - paragraph [ref=e341]: Rastreio e acompanhamento
+                    - paragraph [ref=e342]: Acompanhe pedido, status e suporte sem depender de achismo.
+                - generic [ref=e343]:
+                  - link "Como funciona" [ref=e344] [cursor=pointer]:
+                    - /url: /compra-protegida
+                  - link "Ver trocas e devoluções" [ref=e345] [cursor=pointer]:
+                    - /url: /trocas-e-devolucoes
+                  - link "Rastrear pedido" [ref=e346] [cursor=pointer]:
+                    - /url: /rastrear
+              - generic [ref=e347]:
+                - generic [ref=e348]:
+                  - img [ref=e349]
+                  - generic [ref=e351]: Rota sugerida
+                - paragraph [ref=e352]: Fluxo enxuto para quem já quer sair do produto direto para o checkout.
+              - generic [ref=e353]:
+                - button "Comprar agora (Pix)" [ref=e354] [cursor=pointer]:
+                  - img [ref=e355]
+                  - text: Comprar agora (Pix)
+                - button "Adicionar ao carrinho" [ref=e358] [cursor=pointer]:
+                  - img [ref=e359]
+                  - text: Adicionar ao carrinho
+                - link "Tirar dúvida antes de pagar" [ref=e363] [cursor=pointer]:
+                  - /url: https://wa.me/5521920137249?text=Oi%21+Vim+pelo+site+da+MDH+3D+e+quero+um+or%C3%A7amento.%0A%0ATenho+interesse+em+Grinder+3+Partes+Premium+%28REAL-0001%29.%0AQuantidade+desejada%3A+1%0AObjetivo%3A+Uso+pr%C3%B3prio.
+                - link "Personalizar este item" [ref=e364] [cursor=pointer]:
+                  - /url: https://wa.me/5521920137249?text=Oi!%20Vim%20pelo%20site%20da%20MDH%203D%20e%20quero%20um%20or%C3%A7amento.%0A%0AQuero%20personalizar%20Grinder%203%20Partes%20Premium%20(REAL-0001).
+                - button "Compartilhar item" [ref=e365] [cursor=pointer]:
+                  - img [ref=e366]
+                  - text: Compartilhar item
+                - link "Revisar no checkout" [ref=e372] [cursor=pointer]:
+                  - /url: /checkout?product=real-001&qty=1&purpose=Uso%20pr%C3%B3prio
+            - generic [ref=e374]:
+              - generic [ref=e375]:
+                - img [ref=e377]
+                - generic [ref=e380]:
+                  - paragraph [ref=e381]: Produção local RJ
+                  - paragraph [ref=e382]: Impresso e acabado no Rio de Janeiro. Sem intermediários.
+              - generic [ref=e383]:
+                - img [ref=e385]
+                - generic [ref=e388]:
+                  - paragraph [ref=e389]: Impressão certificada
+                  - paragraph [ref=e390]: Bambu Lab X1C e P1S. Precisão de 0.05mm e filamentos certificados.
+              - generic [ref=e391]:
+                - img [ref=e393]
+                - generic [ref=e398]:
+                  - paragraph [ref=e399]: Troca em 7 dias
+                  - paragraph [ref=e400]: Defeito de impressão ou dano no envio? A gente reavalia, refaz ou devolve.
+              - generic [ref=e401]:
+                - img [ref=e403]
+                - generic [ref=e405]:
+                  - paragraph [ref=e406]: Suporte via WhatsApp
+                  - paragraph [ref=e407]: Atendimento real, com resposta em até 2h em horário comercial.
+            - generic [ref=e408]:
+              - paragraph [ref=e409]: Se este item não for o encaixe ideal
+              - generic [ref=e410]:
+                - link "Ver mais em Utilidades Reais" [ref=e411] [cursor=pointer]:
+                  - /url: /catalogo?category=Utilidades%20Reais&mode=all
+                - link "Explorar coleção A1 Mini Vendáveis" [ref=e412] [cursor=pointer]:
+                  - /url: /catalogo?collection=A1%20Mini%20Vend%C3%A1veis&mode=all
+                - link "Buscar opções mais rápidas" [ref=e413] [cursor=pointer]:
+                  - /url: /catalogo?intent=Compra%20r%C3%A1pida&mode=all
+                - link "Ver personalizáveis" [ref=e414] [cursor=pointer]:
+                  - /url: /catalogo?custom=1&mode=all
+            - generic [ref=e415]:
+              - link "Comprar agora (Pix)" [ref=e416] [cursor=pointer]:
+                - /url: /checkout?product=real-001
+              - link "Solicitar personalização" [ref=e417] [cursor=pointer]:
+                - /url: https://wa.me/5521920137249?text=Oi!%20Vim%20pelo%20site%20da%20MDH%203D%20e%20quero%20um%20or%C3%A7amento.%0A%0AQuero%20personalizar%20Grinder%203%20Partes%20Premium%20(REAL-0001).
+              - button "Tirar dúvida no chat" [ref=e418] [cursor=pointer]:
+                - img [ref=e419]
+                - text: Tirar dúvida no chat
+              - link "Falar no WhatsApp" [ref=e421] [cursor=pointer]:
+                - /url: https://wa.me/5521920137249?text=Oi!%20Vim%20pelo%20site%20da%20MDH%203D%20e%20quero%20um%20or%C3%A7amento.%0A%0ATenho%20interesse%20em%20Grinder%203%20Partes%20Premium%20(REAL-0001).
+                - img [ref=e422]
+                - text: Falar no WhatsApp
+        - generic [ref=e425]:
+          - generic [ref=e426]:
+            - generic [ref=e427]:
+              - paragraph [ref=e428]: Orçamento
+              - heading "Solicite um orçamento com briefing claro" [level=2] [ref=e429]
+              - paragraph [ref=e430]: Receba retorno com validação de material, prazo, frete e acabamento sem bloquear a navegação pública.
+            - link "Falar no WhatsApp" [ref=e431] [cursor=pointer]:
+              - /url: https://wa.me/5521920137249?text=Oi!%20Vim%20pelo%20site%20da%20MDH%203D%20e%20quero%20um%20or%C3%A7amento.
+              - img [ref=e432]
+              - text: Falar no WhatsApp
+          - generic [ref=e434]:
+            - paragraph [ref=e435]: Produto em destaque
+            - generic [ref=e436]:
+              - generic [ref=e437]:
+                - heading "Grinder 3 Partes Premium" [level=3] [ref=e438]
+                - paragraph [ref=e439]: Utilidades Reais • A1 Mini Vendáveis
+              - generic [ref=e440]:
+                - paragraph [ref=e441]: Preço base no Pix
+                - paragraph [ref=e442]: R$ 39,63
+          - generic [ref=e443]:
+            - generic [ref=e444]:
+              - generic [ref=e445]:
+                - generic [ref=e446]: Seu nome
+                - textbox "Seu nome" [ref=e447]
+              - generic [ref=e448]:
+                - generic [ref=e449]: Email
+                - textbox "Email" [ref=e450]
+            - generic [ref=e451]:
+              - generic [ref=e452]:
+                - generic [ref=e453]: WhatsApp
+                - textbox "WhatsApp" [ref=e454]
+              - generic [ref=e455]:
+                - generic [ref=e456]: CEP
+                - textbox "CEP" [ref=e457]
+            - generic [ref=e458]:
+              - generic [ref=e459]:
+                - generic [ref=e460]: Bairro
+                - textbox "Bairro" [ref=e461]
+              - generic [ref=e462]:
+                - generic [ref=e463]: Distância em km
+                - textbox "Distância em km" [ref=e464]
+            - generic [ref=e465]:
+              - generic [ref=e466]:
+                - generic [ref=e467]: Cor desejada
+                - textbox "Cor desejada" [ref=e468]
+              - generic [ref=e469]:
+                - generic [ref=e470]: Pagamento
+                - combobox "Pagamento" [ref=e471]:
+                  - option "Pix" [selected]
+                  - option "Cartão"
+                  - option "Boleto"
+            - generic [ref=e472]:
+              - generic [ref=e473]: Observações
+              - textbox "Observações" [ref=e474]
+            - button "Enviar orçamento" [ref=e476] [cursor=pointer]
+        - generic [ref=e478]:
+          - paragraph [ref=e479]: Calcule seu frete aqui
+          - heading "Entrega local no Rio de Janeiro" [level=2] [ref=e480]
+          - paragraph [ref=e481]: Informe seu CEP para receber uma estimativa inicial de frete normal e prazo. O valor final pode variar se a peça for muito volumosa.
+          - generic [ref=e482]:
+            - 'textbox "Ex: 20081-250" [ref=e483]'
+            - button "Calcular frete" [ref=e484] [cursor=pointer]
+          - generic [ref=e485]:
+            - paragraph [ref=e486]: Dica rápida
+            - paragraph [ref=e487]: Use o CEP do destino para receber a faixa inicial de frete mais estável. Depois, no fechamento, a equipe confirma o valor final conforme volume, bairro e janela de entrega.
+        - generic [ref=e489]:
+          - generic [ref=e490]:
+            - img [ref=e491]
+            - paragraph [ref=e495]: Complete o conjunto
+          - generic [ref=e496]:
+            - generic [ref=e497]:
+              - img "Grinder 3 Partes Premium" [ref=e499]
+              - generic [ref=e500]:
+                - paragraph [ref=e501]: Grinder 3 Partes Premium
+                - paragraph [ref=e502]: R$ 39,63
+              - generic [ref=e503]: Este item
+            - generic [ref=e504]:
+              - img "Porta Creme Dental de Bancada" [ref=e506]
+              - generic [ref=e507]:
+                - paragraph [ref=e508]: Porta Creme Dental de Bancada
+                - paragraph [ref=e509]: R$ 27,92
+            - generic [ref=e510]:
+              - img "Demogorgon Decorativo Premium" [ref=e512]
+              - generic [ref=e513]:
+                - paragraph [ref=e514]: Demogorgon Decorativo Premium
+                - paragraph [ref=e515]: R$ 67,35
+          - generic [ref=e516]:
+            - text: "Total do conjunto:"
+            - generic [ref=e517]: R$ 134,90 no Pix
+          - link "Ver Porta Creme Dental" [ref=e519] [cursor=pointer]:
+            - /url: /catalogo/real-002-porta-creme-dental-de-bancada
+        - generic [ref=e521]:
+          - generic [ref=e522]:
+            - generic [ref=e523]:
+              - heading "Avaliações" [level=2] [ref=e524]
+              - paragraph [ref=e525]: Reviews ficam visíveis após moderação e podem aparecer como compra verificada quando vierem de um pedido real.
+              - paragraph [ref=e526]: Este item ainda está reunindo avaliações reais. Se você já comprou, sua nota ajuda outros clientes.
+            - button "Escrever avaliação" [ref=e527] [cursor=pointer]
+          - paragraph [ref=e529]: Ainda estamos reunindo avaliações reais deste produto.
+        - generic [ref=e530]:
+          - generic [ref=e531]:
+            - generic [ref=e532]:
+              - paragraph [ref=e533]: Venda complementar
+              - heading "Quem olha este item costuma comparar com estas opções." [level=2] [ref=e534]
+              - paragraph [ref=e535]: Use essa prateleira para aumentar ticket, sugerir uma peça parecida ou oferecer uma alternativa mais visual, mais funcional ou mais presenteável.
+            - 'link "Você está vendo: Grinder 3 Partes Premium" [ref=e536] [cursor=pointer]':
+              - /url: /catalogo/real-001-grinder-3-partes-premium
+          - list [ref=e537]:
+            - listitem [ref=e538]:
+              - link "Abrir Case de Isqueiro Caveira" [ref=e539] [cursor=pointer]:
+                - generic [ref=e540]:
+                  - generic [ref=e541]:
+                    - img "Impressão 3D de Case de Isqueiro Caveira - MDH 3D Store" [ref=e544]
+                    - generic:
+                      - generic: Foto real
+                      - generic: Sob encomenda
+                  - generic [ref=e546]:
+                    - generic [ref=e547]:
+                      - paragraph [ref=e548]: PLA Premium • Fosco
+                      - paragraph [ref=e549]: Peça já produzida ou visual fiel do produto final.
+                    - generic [ref=e550]: Foto real
+                - generic [ref=e551]:
+                  - generic [ref=e552]:
+                    - generic [ref=e553]:
+                      - paragraph [ref=e554]: Utilidades Reais
+                      - heading "Case de Isqueiro Caveira" [level=3] [ref=e555]
+                      - paragraph [ref=e556]: Case de Isqueiro Caveira selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento fosco em PLA Premium. Indicado para uso diario, organizacao leve e presente funcional, mantendo prazo claro e apresentacao pronta para venda online.
+                    - button "Favoritar real-008" [ref=e557]:
+                      - img [ref=e558]
+                  - generic [ref=e560]: Foto real
+                  - generic [ref=e561]:
+                    - paragraph [ref=e562]: Compra direta
+                    - paragraph [ref=e563]: Preco Pix calculado em R$ 20.03 com base em material, tempo de producao e acabamento estimados para a peca. Preco auditado • Produção local RJ.
+                  - generic [ref=e564]:
+                    - generic [ref=e565]: PLA Premium
+                    - generic [ref=e566]: Fosco
+                    - generic [ref=e567]: 2 a 4 dias
+                  - generic [ref=e568]:
+                    - generic [ref=e569]:
+                      - paragraph [ref=e570]: Preço no Pix
+                      - generic [ref=e571]:
+                        - generic [ref=e572]: R$ 44,90
+                        - generic [ref=e573]: R$ 20,03
+                      - generic [ref=e574]: Economia no Pix R$ 24,87
+                      - paragraph [ref=e575]: 12x de R$ 1,87 no cartão
+                      - paragraph [ref=e576]: "Prazo de produção: 1.9h"
+                      - generic [ref=e577]:
+                        - generic [ref=e578]: Preco auditado
+                        - generic [ref=e579]: Produção local RJ
+                    - generic [ref=e580]:
+                      - button "Adicionar Case de Isqueiro Caveira ao carrinho" [ref=e581]:
+                        - img [ref=e582]
+                        - text: Comprar
+                      - link "Ver" [ref=e586]:
+                        - /url: /catalogo/real-008-case-de-isqueiro-caveira
+            - listitem [ref=e587]:
+              - link "Abrir Porta Creme Dental de Bancada" [ref=e588] [cursor=pointer]:
+                - generic [ref=e589]:
+                  - generic [ref=e590]:
+                    - img "Impressão 3D de Porta Creme Dental de Bancada - MDH 3D Store" [ref=e591]
+                    - generic:
+                      - generic: Foto real
+                      - generic: Sob encomenda
+                  - generic [ref=e593]:
+                    - generic [ref=e594]:
+                      - paragraph [ref=e595]: PLA Premium • Fosco
+                      - paragraph [ref=e596]: Peça já produzida ou visual fiel do produto final.
+                    - generic [ref=e597]: Foto real
+                - generic [ref=e598]:
+                  - generic [ref=e599]:
+                    - generic [ref=e600]:
+                      - paragraph [ref=e601]: Utilidades Reais
+                      - heading "Porta Creme Dental de Bancada" [level=3] [ref=e602]
+                      - paragraph [ref=e603]: Porta Creme Dental de Bancada selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento fosco em PLA Premium. Indicado para mesa, gaveta, bancada criativa e rotina de trabalho, mantendo prazo claro e apresentacao pronta para venda online.
+                    - button "Favoritar real-002" [ref=e604]:
+                      - img [ref=e605]
+                  - generic [ref=e607]: Foto real
+                  - generic [ref=e608]:
+                    - paragraph [ref=e609]: Compra direta
+                    - paragraph [ref=e610]: Preco Pix calculado em R$ 27.92 com base em material, tempo de producao e acabamento estimados para a peca. Preco auditado • Produção local RJ.
+                  - generic [ref=e611]:
+                    - generic [ref=e612]: PLA Premium
+                    - generic [ref=e613]: Fosco
+                    - generic [ref=e614]: 2 a 4 dias
+                  - generic [ref=e615]:
+                    - generic [ref=e616]:
+                      - paragraph [ref=e617]: Preço no Pix
+                      - generic [ref=e618]:
+                        - generic [ref=e619]: R$ 51,90
+                        - generic [ref=e620]: R$ 27,92
+                      - generic [ref=e621]: Economia no Pix R$ 23,98
+                      - paragraph [ref=e622]: 12x de R$ 2,61 no cartão
+                      - paragraph [ref=e623]: "Prazo de produção: 2.7h"
+                      - generic [ref=e624]:
+                        - generic [ref=e625]: Preco auditado
+                        - generic [ref=e626]: Produção local RJ
+                    - generic [ref=e627]:
+                      - button "Adicionar Porta Creme Dental de Bancada ao carrinho" [ref=e628]:
+                        - img [ref=e629]
+                        - text: Comprar
+                      - link "Ver" [ref=e633]:
+                        - /url: /catalogo/real-002-porta-creme-dental-de-bancada
+            - listitem [ref=e634]:
+              - link "Abrir Divisória de Gaveta Gridfinity para escritório e miudezas" [ref=e635] [cursor=pointer]:
+                - generic [ref=e636]:
+                  - generic [ref=e637]:
+                    - img "Impressão 3D de Divisória de Gaveta Gridfinity para escritório e miudezas - MDH 3D Store" [ref=e640]
+                    - generic:
+                      - generic: Render do produto
+                      - generic: Sob encomenda
+                  - generic [ref=e642]:
+                    - generic [ref=e643]:
+                      - paragraph [ref=e644]: PLA Premium • Texturizado
+                      - paragraph [ref=e645]: Peça já produzida ou visual fiel do produto final.
+                    - generic [ref=e646]: Render fiel
+                - generic [ref=e647]:
+                  - generic [ref=e648]:
+                    - generic [ref=e649]:
+                      - paragraph [ref=e650]: Utilidades Reais
+                      - heading "Divisória de Gaveta Gridfinity para escritório e miudezas" [level=3] [ref=e651]
+                      - paragraph [ref=e652]: Divisória de Gaveta Gridfinity para escritório e miudezas impresso em PLA para resolver organização, apoio ou presente de forma simples, compacta e fácil de entender na primeira olhada.
+                    - button "Favoritar mw-a1-002" [ref=e653]:
+                      - img [ref=e654]
+                  - generic [ref=e656]: Render fiel
+                  - generic [ref=e657]:
+                    - paragraph [ref=e658]: Compra direta
+                    - paragraph [ref=e659]: Preco Pix calculado em R$ 19.90 com base em material, tempo de producao e acabamento estimados para a peca. Preco auditado • Produção local RJ.
+                  - generic [ref=e660]:
+                    - generic [ref=e661]: PLA Premium
+                    - generic [ref=e662]: Texturizado
+                    - generic [ref=e663]: 3 a 5 dias
+                  - generic [ref=e664]:
+                    - generic [ref=e665]:
+                      - paragraph [ref=e666]: Preço no Pix
+                      - generic [ref=e667]:
+                        - generic [ref=e668]: R$ 23,48
+                        - generic [ref=e669]: R$ 19,90
+                      - generic [ref=e670]: Economia no Pix R$ 3,58
+                      - paragraph [ref=e671]: 12x de R$ 1,86 no cartão
+                      - paragraph [ref=e672]: "Prazo de produção: 1.1h"
+                      - generic [ref=e673]:
+                        - generic [ref=e674]: Preco auditado
+                        - generic [ref=e675]: Produção local RJ
+                    - generic [ref=e676]:
+                      - button "Adicionar Divisória de Gaveta Gridfinity para escritório e miudezas ao carrinho" [ref=e677]:
+                        - img [ref=e678]
+                        - text: Comprar
+                      - link "Ver" [ref=e682]:
+                        - /url: /catalogo/mw-a1-002-divisoria-de-gaveta-gridfinity-para-escritorio-e-miudezas
+            - listitem [ref=e683]:
+              - link "Abrir Organizador de Cabo USB" [ref=e684] [cursor=pointer]:
+                - generic [ref=e685]:
+                  - generic [ref=e686]:
+                    - img "Impressão 3D de Organizador de Cabo USB - MDH 3D Store" [ref=e689]
+                    - generic:
+                      - generic: Foto real
+                      - generic: Pronta entrega
+                  - generic [ref=e691]:
+                    - generic [ref=e692]:
+                      - paragraph [ref=e693]: PLA Premium • Premium
+                      - paragraph [ref=e694]: Peça já produzida ou visual fiel do produto final.
+                    - generic [ref=e695]: Foto real
+                - generic [ref=e696]:
+                  - generic [ref=e697]:
+                    - generic [ref=e698]:
+                      - paragraph [ref=e699]: Utilidades Reais
+                      - heading "Organizador de Cabo USB" [level=3] [ref=e700]
+                      - paragraph [ref=e701]: Organizador de Cabo USB selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento premium em PLA Premium. Indicado para mesa, gaveta, bancada criativa e rotina de trabalho, mantendo prazo claro e apresentacao pronta para venda online.
+                    - button "Favoritar mdh-050" [ref=e702]:
+                      - img [ref=e703]
+                  - generic [ref=e705]: Foto real
+                  - generic [ref=e706]:
+                    - paragraph [ref=e707]: Compra direta
+                    - paragraph [ref=e708]: Preco Pix calculado em R$ 20.05 com base em material, tempo de producao e acabamento estimados para a peca. Preco auditado • Produção local RJ.
+                  - generic [ref=e709]:
+                    - generic [ref=e710]: PLA Premium
+                    - generic [ref=e711]: Premium
+                    - generic [ref=e712]: 24h a 48h
+                  - generic [ref=e713]:
+                    - generic [ref=e714]:
+                      - paragraph [ref=e715]: Preço no Pix
+                      - generic [ref=e716]:
+                        - generic [ref=e717]: R$ 32,13
+                        - generic [ref=e718]: R$ 20,05
+                      - generic [ref=e719]: Economia no Pix R$ 12,08
+                      - paragraph [ref=e720]: 12x de R$ 1,87 no cartão
+                      - paragraph [ref=e721]: "Prazo de produção: 24h a 48h"
+                      - generic [ref=e722]:
+                        - generic [ref=e723]: Preco auditado
+                        - generic [ref=e724]: Produção local RJ
+                        - generic [ref=e725]: Pronta entrega
+                    - generic [ref=e726]:
+                      - button "Adicionar Organizador de Cabo USB ao carrinho" [ref=e727]:
+                        - img [ref=e728]
+                        - text: Comprar
+                      - link "Ver" [ref=e732]:
+                        - /url: /catalogo/mdh-050-organizador-de-cabo-usb
+        - generic [ref=e734]:
+          - generic [ref=e735]:
+            - paragraph [ref=e736]: Grinder 3 Partes Premium
+            - paragraph [ref=e737]: R$ 39,63 no Pix
+          - link "Comprar agora" [ref=e738] [cursor=pointer]:
+            - /url: /checkout?product=real-001
+            - img [ref=e739]
+            - text: Comprar agora
+    - contentinfo [ref=e742]:
+      - generic [ref=e744]:
+        - generic [ref=e745]:
+          - img "Logo MDH 3D" [ref=e746]
+          - paragraph [ref=e747]: MDH 3D
+          - heading "Impressão 3D com apresentação profissional, produção local e atendimento direto." [level=2] [ref=e748]
+          - paragraph [ref=e749]: Trabalhamos com presentes personalizados, miniaturas, utilidades e projetos sob medida para clientes do Rio de Janeiro e de outras regiões do Brasil.
+          - generic [ref=e750]:
+            - link "Atendimento no WhatsApp" [ref=e751] [cursor=pointer]:
+              - /url: https://wa.me/5521920137249
+              - img [ref=e752]
+              - text: Atendimento no WhatsApp
+            - link "Ver catálogo" [ref=e754] [cursor=pointer]:
+              - /url: /catalogo
+              - text: Ver catálogo
+              - img [ref=e755]
+          - generic [ref=e758]:
+            - generic [ref=e759]: Portfólio com fotos reais
+            - generic [ref=e760]: Pix visível no checkout
+            - generic [ref=e761]: Produção local no RJ
+        - generic [ref=e762]:
+          - paragraph [ref=e763]: Institucional
+          - generic [ref=e764]:
+            - link "Compra protegida" [ref=e765] [cursor=pointer]:
+              - /url: /compra-protegida
+            - link "Política de privacidade" [ref=e766] [cursor=pointer]:
+              - /url: /politica-de-privacidade
+            - link "Termos de uso" [ref=e767] [cursor=pointer]:
+              - /url: /termos
+            - link "Trocas e devoluções" [ref=e768] [cursor=pointer]:
+              - /url: /trocas-e-devolucoes
+            - link "Frete e prazo" [ref=e769] [cursor=pointer]:
+              - /url: /entregas
+            - link "Perguntas frequentes" [ref=e770] [cursor=pointer]:
+              - /url: /faq
+            - link "Sobre a MDH 3D" [ref=e771] [cursor=pointer]:
+              - /url: /sobre
+            - link "Contato" [ref=e772] [cursor=pointer]:
+              - /url: /contato
+            - link "Portfólio e conteúdo" [ref=e773] [cursor=pointer]:
+              - /url: /divulgacao
+          - generic [ref=e774]:
+            - paragraph [ref=e775]: Atalhos de compra
+            - generic [ref=e776]:
+              - link "Só foto real" [ref=e777] [cursor=pointer]:
+                - /url: /catalogo?mode=real
+              - link "Pronta entrega" [ref=e778] [cursor=pointer]:
+                - /url: /catalogo?status=Pronta%20entrega
+              - link "Presentes criativos" [ref=e779] [cursor=pointer]:
+                - /url: /catalogo?intent=Presente
+        - generic [ref=e780]:
+          - paragraph [ref=e781]: Jornada de compra
+          - generic [ref=e782]:
+            - link "Escolher um produto" [ref=e783] [cursor=pointer]:
+              - /url: /catalogo
+            - link "Buscar no catálogo" [ref=e784] [cursor=pointer]:
+              - /url: /busca
+            - link "Favoritos" [ref=e785] [cursor=pointer]:
+              - /url: /favoritos
+            - link "Presentes 3D" [ref=e786] [cursor=pointer]:
+              - /url: /presentes-3d
+            - link "Setup e organização" [ref=e787] [cursor=pointer]:
+              - /url: /setup-e-organizacao-3d
+            - link "Brindes e lotes" [ref=e788] [cursor=pointer]:
+              - /url: /brindes-personalizados-3d
+            - link "Fechar pedido" [ref=e789] [cursor=pointer]:
+              - /url: /checkout
+            - link "Rastrear pedido" [ref=e790] [cursor=pointer]:
+              - /url: /rastrear
+            - link "Devoluções e trocas" [ref=e791] [cursor=pointer]:
+              - /url: /devolucoes
+            - link "Acompanhar conta e pedidos" [ref=e792] [cursor=pointer]:
+              - /url: /conta
+          - generic [ref=e793]:
+            - paragraph [ref=e794]: Antes de pedir
+            - generic [ref=e795]:
+              - generic [ref=e796]:
+                - paragraph [ref=e797]: Envie tamanho ou uso esperado
+                - paragraph [ref=e798]: Isso ajuda a indicar material, resistência e escala certa antes de produzir.
+              - generic [ref=e799]:
+                - paragraph [ref=e800]: Defina se é presente, coleção ou utilidade
+                - paragraph [ref=e801]: A intenção muda acabamento, embalagem, urgência e sugestão de peça.
+              - generic [ref=e802]:
+                - paragraph [ref=e803]: Escolha se quer rapidez ou acabamento mais refinado
+                - paragraph [ref=e804]: A loja consegue orientar o melhor equilíbrio entre prazo, custo e visual.
+        - generic [ref=e805]:
+          - paragraph [ref=e806]: Contato
+          - generic [ref=e807]:
+            - link "Comprar catálogo" [ref=e808] [cursor=pointer]:
+              - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20fechar%20um%20item%20do%20cat%C3%A1logo%20da%20MDH%203D.
+            - link "Peça personalizada" [ref=e809] [cursor=pointer]:
+              - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20pedir%20uma%20pe%C3%A7a%20personalizada%20na%20MDH%203D.
+            - link "Brindes e lotes" [ref=e810] [cursor=pointer]:
+              - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20or%C3%A7amento%20para%20brindes%20ou%20lote%20personalizado.
+            - link "Tirar dúvidas" [ref=e811] [cursor=pointer]:
+              - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20tirar%20d%C3%BAvidas%20sobre%20material%2C%20prazo%20e%20acabamento.
+          - generic [ref=e812]:
+            - link "Atendimento humano para orçamento, personalização e pós-venda." [ref=e813] [cursor=pointer]:
+              - /url: https://wa.me/5521920137249
+              - img [ref=e814]
+              - generic [ref=e816]: Atendimento humano para orçamento, personalização e pós-venda.
+            - link "mdhatendimento@gmail.com" [ref=e817] [cursor=pointer]:
+              - /url: mailto:mdhatendimento@gmail.com
+              - img [ref=e818]
+              - generic [ref=e821]: mdhatendimento@gmail.com
+            - link "@mdh_impressao3d" [ref=e822] [cursor=pointer]:
+              - /url: https://www.instagram.com/mdh_impressao3d/
+              - img [ref=e823]
+              - generic [ref=e826]: "@mdh_impressao3d"
+            - generic [ref=e827]:
+              - img [ref=e828]
+              - generic [ref=e831]: Produção local no Rio de Janeiro com resposta em horário comercial.
+      - generic [ref=e833]:
+        - generic [ref=e834]: © 2026 MDH 3D. Todos os direitos reservados.
+        - generic [ref=e835]:
+          - generic [ref=e836]: Produção local
+          - generic [ref=e837]: Pix visível
+          - generic [ref=e838]: Catálogo curado
+        - button "Voltar ao topo" [ref=e839] [cursor=pointer]
+    - link "Fale conosco no WhatsApp" [ref=e841] [cursor=pointer]:
+      - /url: https://wa.me/5521920137249?text=Oi!%20Vim%20pelo%20site%20da%20MDH%203D%20e%20quero%20um%20or%C3%A7amento.
+      - img [ref=e843]
+    - button "Abrir chat" [ref=e846] [cursor=pointer]:
+      - img [ref=e849]
+      - generic [ref=e851]:
+        - generic [ref=e852]: Tirar dúvidas agora
+        - generic [ref=e853]: Atendimento pré-venda
+    - generic [ref=e854]:
+      - button "Fechar" [ref=e855] [cursor=pointer]:
+        - img [ref=e856]
+      - generic [ref=e859]:
+        - img [ref=e861]
+        - generic [ref=e863]:
+          - paragraph [ref=e864]: Instalar MDH 3D
+          - paragraph [ref=e865]: Adicione à tela inicial para acesso rápido e experiência nativa
+          - button "Instalar" [ref=e867] [cursor=pointer]:
+            - img [ref=e868]
+            - text: Instalar
+    - dialog "Aviso de uso de cookies" [ref=e871]:
+      - generic [ref=e872]:
+        - img [ref=e873]
+        - paragraph [ref=e875]:
+          - text: Usamos cookies para melhorar sua experiência, lembrar o carrinho e analisar acessos. Ao continuar navegando você concorda com nossa
+          - link "política de privacidade" [ref=e876] [cursor=pointer]:
+            - /url: /politica-de-privacidade
+          - text: .
+      - generic [ref=e877]:
+        - button "Recusar cookies não essenciais" [ref=e878] [cursor=pointer]:
+          - img [ref=e879]
+          - text: Recusar
+        - button "Aceitar cookies e continuar navegando" [ref=e882] [cursor=pointer]: Aceitar cookies
+  - alert [ref=e883]

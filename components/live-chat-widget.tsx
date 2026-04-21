@@ -5,6 +5,8 @@ import { usePathname } from "next/navigation";
 import { LoaderCircle, MessageCircleMore, SendHorizonal, ShieldCheck, Sparkles, X } from "lucide-react";
 import { whatsappNumber } from "@/lib/constants";
 
+const PENDING_SUBJECT_KEY = "mdh-chat-pending-subject";
+
 type ChatMessage = {
   id: string;
   sender_type: "customer" | "ai" | "support_agent";
@@ -115,7 +117,7 @@ export function LiveChatWidget() {
     }
   }, [isOpen]);
 
-  async function startChat(): Promise<string | null> {
+  async function startChat(subjectOverride?: string): Promise<string | null> {
     const id = visitorId || getClientVisitorId();
     if (!id) return null;
 
@@ -123,6 +125,15 @@ export function LiveChatWidget() {
     setError("");
     try {
       setLoading(true);
+      // Consume any pending product-context subject set by a PDP CTA
+      const pendingSubject =
+        subjectOverride ||
+        (typeof window !== "undefined" ? window.localStorage.getItem(PENDING_SUBJECT_KEY) : null) ||
+        null;
+      if (pendingSubject && typeof window !== "undefined") {
+        window.localStorage.removeItem(PENDING_SUBJECT_KEY);
+      }
+      const defaultSubject = pathname ? `Atendimento via ${pathname}` : "Atendimento comercial";
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -130,7 +141,7 @@ export function LiveChatWidget() {
         body: JSON.stringify({
           action: "start",
           visitor_id: id,
-          subject: pathname ? `Atendimento via ${pathname}` : "Atendimento comercial",
+          subject: pendingSubject || defaultSubject,
           priority: "normal",
         }),
       });
@@ -197,7 +208,14 @@ export function LiveChatWidget() {
 
       setTimeout(() => {
         void loadThread(currentThreadId, true);
-      }, 650);
+      }, 1000);
+      // Progressive retries to catch AI replies that arrive after the first poll
+      setTimeout(() => {
+        void loadThread(currentThreadId, true);
+      }, 2600);
+      setTimeout(() => {
+        void loadThread(currentThreadId, true);
+      }, 4400);
       setError("");
     } catch {
       setMessages((current) => current.filter((message) => message.id !== optimistic.id));
@@ -223,6 +241,20 @@ export function LiveChatWidget() {
     }
     void loadSupportStatus();
   }, [loadSupportStatus, loadThread]);
+
+  // Listen for product-context open-chat events dispatched by PDP CTAs
+  useEffect(() => {
+    function handleOpenChat() {
+      setIsOpen(true);
+      setUnreadCount(0);
+      if (!threadId) {
+        void startChat();
+      }
+    }
+    window.addEventListener("mdh:openchat", handleOpenChat);
+    return () => window.removeEventListener("mdh:openchat", handleOpenChat);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [threadId]);
 
   useEffect(() => {
     if (!threadId) return;

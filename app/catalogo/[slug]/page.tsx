@@ -20,6 +20,7 @@ import { StickyPdpCta } from '@/components/sticky-pdp-cta';
 import { ProductBundleSuggestion } from '@/components/product-bundle-suggestion';
 import { RecentlyViewedShelf } from '@/components/recently-viewed-shelf';
 import { PurchaseProtectionBanner } from '@/components/purchase-protection-banner';
+import { ProductChatCTA } from '@/components/product-chat-cta';
 import { formatCurrency } from '@/lib/utils';
 import { whatsappMessage, whatsappNumber } from '@/lib/constants';
 import { Metadata } from 'next';
@@ -424,6 +425,7 @@ export default async function ProductPage({
                 Solicitar personalização
               </a>
             )}
+            <ProductChatCTA productName={product.name} sku={product.sku} />
             <a href={whatsappHref} target="_blank" rel="noreferrer" className="btn-secondary inline-flex items-center gap-2">
               <MessageCircleMore className="h-4 w-4" /> Falar no WhatsApp
             </a>

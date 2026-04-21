@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import type React from "react";
 import { AlertCircle, MessageSquareReply, RefreshCcw, Search, SendHorizonal, Sparkles } from "lucide-react";
 
 type InboxThreadSummary = {
@@ -139,6 +140,16 @@ export function AdminInbox({ initialThreads, initialThreadId }: { initialThreads
       setSending(false);
     }
   }, [loadThread, loadThreads, reply, selectedThreadId]);
+
+  const handleReplyKeyDown = useCallback(
+    (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+      if (event.key === "Enter" && (event.ctrlKey || event.metaKey)) {
+        event.preventDefault();
+        void sendReply();
+      }
+    },
+    [sendReply]
+  );
 
   useEffect(() => {
     if (selectedThreadId) {
@@ -323,7 +334,8 @@ export function AdminInbox({ initialThreads, initialThreadId }: { initialThreads
                     id="admin-reply"
                     value={reply}
                     onChange={(event) => setReply(event.target.value)}
-                    placeholder="Responder ao cliente..."
+                    onKeyDown={handleReplyKeyDown}
+                    placeholder="Responder ao cliente... (Ctrl+Enter para enviar)"
                     className="min-h-[92px] flex-1 rounded-[22px] border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none placeholder:text-white/30"
                   />
                   <button

@@ -1,0 +1,1738 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - link "Pular para conteúdo principal" [ref=e3] [cursor=pointer]:
+      - /url: "#main-content"
+    - banner [ref=e4]:
+      - generic [ref=e6]:
+        - generic [ref=e7]: MDH 3D • Produção local no Rio
+        - generic [ref=e8]: Pix imediato • cartão online • atendimento humano
+        - generic [ref=e9]: Producao local e acabamento sob medida
+        - link "@mdh_impressao3d" [ref=e10] [cursor=pointer]:
+          - /url: https://www.instagram.com/mdh_impressao3d/
+      - generic [ref=e11]:
+        - link "Logo MDH 3D MDH 3D Presentes, utilidades, decoração e projetos sob medida em impressão 3D":
+          - /url: /
+          - img "Logo MDH 3D" [ref=e12] [cursor=pointer]
+          - generic:
+            - paragraph: MDH 3D
+            - paragraph: Presentes, utilidades, decoração e projetos sob medida em impressão 3D
+        - generic [ref=e13]:
+          - img [ref=e14]
+          - searchbox "Busque por presente, miniatura, suporte, chaveiro, decoração..." [ref=e17]
+          - button "Buscar" [ref=e18] [cursor=pointer]
+        - generic [ref=e19]:
+          - button "Busca rápida Ctrl K" [ref=e20] [cursor=pointer]:
+            - img [ref=e21]
+            - text: Busca rápida
+            - generic [ref=e24]: Ctrl K
+          - button "Consultor MDH" [ref=e25] [cursor=pointer]:
+            - img [ref=e26]
+            - text: Consultor MDH
+          - link "Minha conta" [ref=e29] [cursor=pointer]:
+            - /url: /login
+            - img [ref=e30]
+            - text: Minha conta
+          - link "WhatsApp" [ref=e33] [cursor=pointer]:
+            - /url: https://wa.me/5521920137249
+          - link "Fechar pedido" [ref=e34] [cursor=pointer]:
+            - /url: /checkout
+            - img [ref=e35]
+            - text: Fechar pedido
+          - button "Carrinho 0" [ref=e38] [cursor=pointer]:
+            - img [ref=e39]
+            - text: Carrinho
+            - generic [ref=e43]: "0"
+      - navigation [ref=e44]:
+        - link "Início" [ref=e45] [cursor=pointer]:
+          - /url: /
+        - link "Catálogo" [ref=e46] [cursor=pointer]:
+          - /url: /catalogo
+        - link "Presentes" [ref=e47] [cursor=pointer]:
+          - /url: /presentes-3d
+        - link "Personalizados" [ref=e48] [cursor=pointer]:
+          - /url: /imagem-para-impressao-3d
+        - link "Entregas" [ref=e49] [cursor=pointer]:
+          - /url: /entregas
+        - link "FAQ" [ref=e50] [cursor=pointer]:
+          - /url: /faq
+        - link "Instagram" [ref=e51] [cursor=pointer]:
+          - /url: https://www.instagram.com/mdh_impressao3d/
+          - img [ref=e52]
+          - text: Instagram
+      - generic [ref=e56]:
+        - link "Só foto real" [ref=e57] [cursor=pointer]:
+          - /url: /catalogo?mode=real
+          - img [ref=e58]
+          - text: Só foto real
+        - link "Pronta entrega" [ref=e61] [cursor=pointer]:
+          - /url: /catalogo?status=Pronta%20entrega
+          - img [ref=e62]
+          - text: Pronta entrega
+        - link "Ideias de presente" [ref=e67] [cursor=pointer]:
+          - /url: /catalogo?intent=Presente
+          - img [ref=e68]
+          - text: Ideias de presente
+        - link "Enviar STL" [ref=e71] [cursor=pointer]:
+          - /url: /imagem-para-impressao-3d
+          - img [ref=e72]
+          - text: Enviar STL
+    - main [ref=e82]:
+      - generic [ref=e83]:
+        - generic [ref=e85]:
+          - generic [ref=e86]:
+            - paragraph [ref=e87]: Catálogo MDH 3D
+            - heading "Todos os produtos publicados aparecem na vitrine." [level=1] [ref=e88]
+            - paragraph [ref=e89]: Cada item ativo tem uma imagem principal propria no card e na pagina do produto. Os filtros continuam disponiveis para quem quiser ver apenas fotos reais ou renders fieis.
+            - generic [ref=e90]: Catálogo completo
+            - generic [ref=e91]:
+              - link "100 A1 Mini" [ref=e92] [cursor=pointer]:
+                - /url: /catalogo?collection=A1%20Mini%20Vend%C3%A1veis&mode=all
+              - link "Só foto real" [ref=e93] [cursor=pointer]:
+                - /url: /catalogo?mode=real
+              - link "Foto real + render fiel" [ref=e94] [cursor=pointer]:
+                - /url: /catalogo?mode=verified
+              - link "Ver tudo" [ref=e95] [cursor=pointer]:
+                - /url: /catalogo
+          - generic [ref=e96]:
+            - generic [ref=e97]:
+              - paragraph [ref=e98]: Produtos ativos
+              - paragraph [ref=e99]: "0748"
+            - generic [ref=e100]:
+              - paragraph [ref=e101]: A1 Mini
+              - paragraph [ref=e102]: "100"
+            - generic [ref=e103]:
+              - paragraph [ref=e104]: Fotos reais
+              - paragraph [ref=e105]: "34"
+        - generic [ref=e106]:
+          - paragraph [ref=e107]: Leitura comercial
+          - paragraph [ref=e108]: A vitrine publica mostra o catalogo completo, sem esconder produto por tipo de midia. Quando a imagem nao e foto real, o selo visual deixa claro o tipo de referencia antes da compra.
+        - generic [ref=e110]:
+          - generic [ref=e111]:
+            - generic [ref=e112]:
+              - paragraph [ref=e113]: Fotos reais do ateliê
+              - heading "Peças já produzidas para você sentir o nível real de acabamento da MDH 3D." [level=2] [ref=e114]
+              - paragraph [ref=e115]: Essas fotos mostram trabalhos já entregues ou produzidos no ateliê. Elas ajudam a comparar material, acabamento, escala e presença visual antes do seu pedido.
+            - link "Verificar peça parecida" [ref=e116] [cursor=pointer]:
+              - /url: https://wa.me/5521920137249?text=Quero%20validar%20foto%20real%20de%20um%20item%20do%20cat%C3%A1logo.
+          - generic [ref=e117]:
+            - link "Abrir Grinder 3 Partes Premium" [ref=e118] [cursor=pointer]:
+              - /url: /catalogo/real-001-grinder-3-partes-premium
+              - img "Grinder 3 Partes Premium" [ref=e119]
+              - generic [ref=e120]:
+                - text: Foto real
+                - heading "Grinder 3 Partes Premium" [level=3] [ref=e121]
+                - generic [ref=e122]: Pedir algo parecido
+            - link "Abrir Porta Creme Dental de Bancada" [ref=e123] [cursor=pointer]:
+              - /url: /catalogo/real-002-porta-creme-dental-de-bancada
+              - img "Porta Creme Dental de Bancada" [ref=e124]
+              - generic [ref=e125]:
+                - text: Foto real
+                - heading "Porta Creme Dental de Bancada" [level=3] [ref=e126]
+                - generic [ref=e127]: Pedir algo parecido
+            - link "Abrir Demogorgon Decorativo Premium" [ref=e128] [cursor=pointer]:
+              - /url: /catalogo/real-003-demogorgon-decorativo-premium
+              - img "Demogorgon Decorativo Premium" [ref=e129]
+              - generic [ref=e130]:
+                - text: Foto real
+                - heading "Demogorgon Decorativo Premium" [level=3] [ref=e131]
+                - generic [ref=e132]: Pedir algo parecido
+            - link "Abrir Hello Kitty Jedi Colecionável" [ref=e133] [cursor=pointer]:
+              - /url: /catalogo/real-004-hello-kitty-jedi-colecionavel
+              - img "Hello Kitty Jedi Colecionável" [ref=e136]
+              - generic [ref=e137]:
+                - text: Foto real
+                - heading "Hello Kitty Jedi Colecionável" [level=3] [ref=e138]
+                - generic [ref=e139]: Pedir algo parecido
+            - link "Abrir Stencil Rick and Morty Decorativo" [ref=e140] [cursor=pointer]:
+              - /url: /catalogo/real-005-stencil-rick-and-morty-decorativo
+              - img "Stencil Rick and Morty Decorativo" [ref=e143]
+              - generic [ref=e144]:
+                - text: Foto real
+                - heading "Stencil Rick and Morty Decorativo" [level=3] [ref=e145]
+                - generic [ref=e146]: Pedir algo parecido
+            - link "Abrir Família Customizada em Miniatura" [ref=e147] [cursor=pointer]:
+              - /url: /catalogo/real-006-familia-customizada-em-miniatura
+              - img "Família Customizada em Miniatura" [ref=e150]
+              - generic [ref=e151]:
+                - text: Foto real
+                - heading "Família Customizada em Miniatura" [level=3] [ref=e152]
+                - generic [ref=e153]: Pedir algo parecido
+        - generic [ref=e159]:
+          - generic [ref=e160]:
+            - generic [ref=e161]:
+              - generic [ref=e162]:
+                - paragraph [ref=e163]: Explorador comercial
+                - heading "Monte uma vitrine pronta para comprar, compartilhar ou mandar no WhatsApp." [level=2] [ref=e164]
+                - paragraph [ref=e165]: Os filtros refinam a seleção em tempo real e a URL acompanha a curadoria para você salvar ou enviar uma seleção já pronta.
+              - generic [ref=e166]:
+                - button "Copiar vitrine" [ref=e167] [cursor=pointer]:
+                  - img [ref=e168]
+                  - text: Copiar vitrine
+                - button "Salvar recorte" [ref=e171] [cursor=pointer]:
+                  - img [ref=e172]
+                  - text: Salvar recorte
+                - button "Limpar filtros" [ref=e174] [cursor=pointer]:
+                  - img [ref=e175]
+                  - text: Limpar filtros
+            - generic [ref=e177]:
+              - generic [ref=e178]:
+                - paragraph [ref=e179]: Resultados atuais
+                - paragraph [ref=e180]: "748"
+                - paragraph [ref=e181]: com 0 filtros ativos
+              - generic [ref=e182]:
+                - paragraph [ref=e183]: Fotos reais
+                - paragraph [ref=e184]: "34"
+                - paragraph [ref=e185]: 535 com foto ou render fiel
+              - generic [ref=e186]:
+                - paragraph [ref=e187]: Velocidade
+                - paragraph [ref=e188]: 2d
+                - paragraph [ref=e189]: menor prazo base encontrado
+              - generic [ref=e190]:
+                - paragraph [ref=e191]: Ticket médio
+                - paragraph [ref=e192]: R$ 44,00
+                - paragraph [ref=e193]: 286 personalizáveis
+            - generic [ref=e194]:
+              - button "Só foto real" [ref=e195] [cursor=pointer]
+              - button "Foto + render" [ref=e196] [cursor=pointer]
+              - button "Pronta entrega" [ref=e197] [cursor=pointer]
+              - button "Presentes" [ref=e198] [cursor=pointer]
+              - button "Compra rápida" [ref=e199] [cursor=pointer]
+              - button "Personalizáveis" [ref=e200] [cursor=pointer]
+            - generic [ref=e201]:
+              - generic [ref=e202]:
+                - generic [ref=e203]: Buscar
+                - textbox "Buscar" [ref=e204]:
+                  - /placeholder: "Ex: vaso, suporte, anime..."
+              - generic [ref=e205]:
+                - generic [ref=e206]: Categoria
+                - combobox "Categoria" [ref=e207]:
+                  - option "Todas" [selected]
+                  - option "Utilidades Reais"
+                  - option "Geek & Colecionáveis"
+                  - option "Casa & Decoração"
+                  - option "Presentes Criativos"
+                  - option "Setup & Organização"
+              - generic [ref=e208]:
+                - generic [ref=e209]: Coleção
+                - combobox "Coleção" [ref=e210]:
+                  - option "Todas" [selected]
+                  - option "A1 Mini Vendáveis"
+                  - option "Sob encomenda"
+                  - option "Pronta entrega"
+                  - option "Curadoria CSV 160 • Chaveiros"
+                  - option "Curadoria CSV 160 • Decoração"
+                  - option "Curadoria CSV 160 • Utilitários/Ferramentas"
+                  - option "Curadoria CSV 160 • Colecionáveis/Merch"
+                  - option "A1 Mini MakerWorld • Casa, Organização e Dia a Dia"
+                  - option "A1 Mini MakerWorld • Setup, Escritório e Home Office"
+                  - option "A1 Mini MakerWorld • Oficina, Ferramentas e Acessórios"
+                  - option "A1 Mini MakerWorld • Geek, Gamer, Retrô e Decoração"
+                  - option "A1 Mini MakerWorld • Presentes, Personalizados e Brindes"
+                  - option "A1 Mini MakerWorld • Pets, Kids, Hobby e Criativo"
+              - generic [ref=e211]:
+                - generic [ref=e212]: Disponibilidade
+                - combobox "Disponibilidade" [ref=e213]:
+                  - option "Todos" [selected]
+                  - option "Pronta entrega"
+                  - option "Sob encomenda"
+              - generic [ref=e214]:
+                - generic [ref=e215]: Material
+                - combobox "Material" [ref=e216]:
+                  - option "Todos" [selected]
+                  - option "PLA Premium"
+                  - option "PLA Silk"
+                  - option "PLA+ Reforçado"
+              - generic [ref=e217]:
+                - generic [ref=e218]: Intenção
+                - combobox "Intenção" [ref=e219]:
+                  - option "Geral" [selected]
+                  - option "Compra rápida"
+                  - option "Economia"
+                  - option "Presente"
+                  - option "Atacado"
+              - generic [ref=e220]:
+                - generic [ref=e221]: Ordenar
+                - combobox "Ordenar" [ref=e222]:
+                  - option "Mais Recentes" [selected]
+                  - option "Preço"
+                  - option "Nome"
+                  - option "Maior lucro"
+                  - option "Menor prazo"
+            - generic [ref=e223]:
+              - generic [ref=e224]:
+                - generic [ref=e225]: Preço
+                - slider "Preço 140 R$ 10 R$ 140" [ref=e226]: "10"
+                - slider [ref=e227]: "140"
+                - generic [ref=e228]:
+                  - generic [ref=e229]: R$ 10
+                  - generic [ref=e230]: R$ 140
+              - generic [ref=e231]:
+                - generic [ref=e232]: Quantidade
+                - slider "Quantidade 1 un. 0% off" [ref=e233]: "1"
+                - generic [ref=e234]:
+                  - generic [ref=e235]: 1 un.
+                  - generic [ref=e236]: 0% off
+              - generic [ref=e237]:
+                - generic [ref=e238]:
+                  - img [ref=e239]
+                  - generic [ref=e241]: Simulador ativo
+                - paragraph [ref=e242]: A quantidade já recalcula economia estimada e ajuda a separar compra unitária, presente, revenda ou lote.
+            - generic [ref=e243]:
+              - generic [ref=e244]: 748 produtos
+              - generic [ref=e246]: 22 pronta entrega
+              - generic [ref=e248]: 34 foto real
+              - generic [ref=e250]: 535 validados
+              - generic [ref=e252]: Página 1 de 32
+              - generic [ref=e254]: "Busca ativa: tudo"
+          - generic [ref=e255]:
+            - generic [ref=e256]:
+              - generic [ref=e257]:
+                - img [ref=e258]
+                - paragraph [ref=e262]: Sugestões inteligentes da seleção
+              - generic [ref=e263]:
+                - article [ref=e264]:
+                  - generic [ref=e265]:
+                    - generic [ref=e266]:
+                      - paragraph [ref=e267]: entrada
+                      - heading "Melhor porta de entrada" [level=3] [ref=e268]
+                    - img [ref=e269]
+                  - paragraph [ref=e272]: A peça que está mais alinhada com o recorte atual e tende a explicar bem a curadoria.
+                  - generic [ref=e273]:
+                    - paragraph [ref=e274]: Medalha Maçônica Personalizada
+                    - generic [ref=e275]:
+                      - generic [ref=e276]: R$ 23,77
+                      - generic [ref=e277]: •
+                      - generic [ref=e278]: 2 a 5 dias
+                      - generic [ref=e279]: •
+                      - generic [ref=e280]: PLA Premium
+                  - generic [ref=e281]:
+                    - link "Abrir produto" [ref=e282] [cursor=pointer]:
+                      - /url: /catalogo/real-010-medalha-maconica-personalizada
+                    - link "Pedir no WhatsApp" [ref=e283] [cursor=pointer]:
+                      - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20fechar%201x%20Medalha%20Ma%C3%A7%C3%B4nica%20Personalizada%20(REAL-0010).
+                - article [ref=e284]:
+                  - generic [ref=e285]:
+                    - generic [ref=e286]:
+                      - paragraph [ref=e287]: economia
+                      - heading "Menor ticket" [level=3] [ref=e288]
+                    - img [ref=e289]
+                  - paragraph [ref=e292]: Ajuda a iniciar a compra com um valor mais leve e menos barreira de entrada.
+                  - generic [ref=e293]:
+                    - paragraph [ref=e294]: Marcador de Página 3D
+                    - generic [ref=e295]:
+                      - generic [ref=e296]: R$ 10,45
+                      - generic [ref=e297]: •
+                      - generic [ref=e298]: 24h a 48h
+                      - generic [ref=e299]: •
+                      - generic [ref=e300]: PLA Premium
+                  - generic [ref=e301]:
+                    - link "Abrir produto" [ref=e302] [cursor=pointer]:
+                      - /url: /catalogo/mdh-044-marcador-de-pagina-3d
+                    - link "Pedir no WhatsApp" [ref=e303] [cursor=pointer]:
+                      - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20fechar%201x%20Marcador%20de%20P%C3%A1gina%203D%20(MDH-0044).
+            - generic [ref=e304]:
+              - generic [ref=e305]:
+                - img [ref=e306]
+                - paragraph [ref=e308]: Leitura comercial da vitrine
+              - heading "A seleção está pronta para virar atendimento ou checkout." [level=3] [ref=e309]
+              - paragraph [ref=e310]: A seleção mistura 22 itens de pronta entrega, 34 fotos reais e 286 opções com espaço para ajuste.
+              - generic [ref=e311]:
+                - generic [ref=e312]:
+                  - paragraph [ref=e313]: Seleção para WhatsApp
+                  - paragraph [ref=e314]: 6 itens
+                - generic [ref=e315]:
+                  - paragraph [ref=e316]: Simulação
+                  - paragraph [ref=e317]: 1 unidade(s)
+                - generic [ref=e318]:
+                  - paragraph [ref=e319]: Economia em lote
+                  - paragraph [ref=e320]: 0%
+              - generic [ref=e321]:
+                - generic [ref=e322]: Presentes Criativos
+                - generic [ref=e323]: Geek & Colecionáveis
+                - generic [ref=e324]: Utilidades Reais
+                - generic [ref=e325]: Casa & Decoração
+              - generic [ref=e326]:
+                - link "Mandar seleção no WhatsApp" [ref=e327] [cursor=pointer]:
+                  - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20revisar%20esta%20sele%C3%A7%C3%A3o%20da%20MDH%203D%20para%201%20unidade(s)%3A%0A1.%20Medalha%20Ma%C3%A7%C3%B4nica%20Personalizada%20(REAL-0010)%20-%20R%24%C2%A023%2C77%0A2.%20Homer%20Pikachu%20Mashup%20Colecion%C3%A1vel%20(REAL-0009)%20-%20R%24%C2%A043%2C93%0A3.%20Case%20de%20Isqueiro%20Caveira%20(REAL-0008)%20-%20R%24%C2%A020%2C03%0A4.%20Boneca%20Infantil%20Personalizada%20(REAL-0007)%20-%20R%24%C2%A048%2C00%0A5.%20Fam%C3%ADlia%20Customizada%20em%20Miniatura%20(REAL-0006)%20-%20R%24%C2%A081%2C08%0A6.%20Stencil%20Rick%20and%20Morty%20Decorativo%20(REAL-0005)%20-%20R%24%C2%A022%2C77%0APode%20me%20ajudar%20a%20fechar%20a%20melhor%20op%C3%A7%C3%A3o%3F
+                  - img [ref=e328]
+                  - text: Mandar seleção no WhatsApp
+                - generic [ref=e330]:
+                  - button "Copiar seleção" [ref=e331] [cursor=pointer]:
+                    - img [ref=e332]
+                    - text: Copiar seleção
+                  - link "Pedir sob medida" [ref=e335] [cursor=pointer]:
+                    - /url: /imagem-para-impressao-3d
+                    - img [ref=e336]
+                    - text: Pedir sob medida
+          - generic [ref=e338]:
+            - link "Abrir Medalha Maçônica Personalizada" [ref=e339] [cursor=pointer]:
+              - generic [ref=e340]:
+                - generic [ref=e341]:
+                  - img "Impressão 3D de Medalha Maçônica Personalizada - MDH 3D Store" [ref=e342]
+                  - generic:
+                    - generic: Foto real
+                    - generic: Sob encomenda
+                - generic [ref=e344]:
+                  - generic [ref=e345]:
+                    - paragraph [ref=e346]: PLA Premium • Colorido
+                    - paragraph [ref=e347]: Peça já produzida ou visual fiel do produto final.
+                  - generic [ref=e348]: Foto real
+              - generic [ref=e349]:
+                - generic [ref=e350]: Mais vendido
+                - generic [ref=e351]: Produção rápida
+                - generic [ref=e352]: Foto real
+              - generic [ref=e353]:
+                - generic [ref=e354]:
+                  - paragraph [ref=e355]: Presentes Criativos
+                  - heading "Medalha Maçônica Personalizada" [level=3] [ref=e356]
+                  - paragraph [ref=e357]: Medalha Maçônica Personalizada selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento colorido em PLA Premium. Indicado para venda por impulso, lembrancinha, mochila, chaves e kits de presente, mantendo prazo claro e apresentacao pronta para venda online.
+                - generic [ref=e358]: 2 a 5 dias
+              - generic [ref=e359]:
+                - paragraph [ref=e360]: Compra direta
+                - paragraph [ref=e361]: Preco Pix calculado em R$ 23.77 com base em material, tempo de producao e acabamento estimados para a peca. Preco auditado • Produção local RJ.
+                - generic [ref=e363]: "1x: R$ 23,77"
+              - generic [ref=e364]:
+                - generic [ref=e365]:
+                  - generic [ref=e366]:
+                    - paragraph [ref=e367]: Preço no Pix
+                    - generic [ref=e368]:
+                      - generic [ref=e369]: R$ 47,90
+                      - generic [ref=e370]: R$ 23,77
+                    - generic [ref=e371]: Economia no Pix R$ 24,13
+                    - paragraph [ref=e372]: 12x de R$ 2,22 no cartão
+                    - paragraph [ref=e373]: "Prazo de produção: 2.4h"
+                    - generic [ref=e374]:
+                      - generic [ref=e375]: Preco auditado
+                      - generic [ref=e376]: Produção local RJ
+                  - generic [ref=e377]:
+                    - img [ref=e378]
+                    - text: 2 a 5 dias
+                - generic [ref=e381]:
+                  - link "Comprar" [ref=e382]:
+                    - /url: /catalogo/real-010-medalha-maconica-personalizada?from=%2Fcatalogo&focus=real-010
+                  - button "Adicionar" [ref=e383]:
+                    - img [ref=e384]
+                    - text: Adicionar
+                  - link "WhatsApp" [ref=e388]:
+                    - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20fechar%201x%20Medalha%20Ma%C3%A7%C3%B4nica%20Personalizada%20(REAL-0010).
+              - generic [ref=e389]:
+                - button "Favoritar" [ref=e390]
+                - button "Comparar" [ref=e391]
+            - link "Abrir Homer Pikachu Mashup Colecionável" [ref=e392] [cursor=pointer]:
+              - generic [ref=e393]:
+                - generic [ref=e394]:
+                  - img "Impressão 3D de Homer Pikachu Mashup Colecionável - MDH 3D Store" [ref=e395]
+                  - generic:
+                    - generic: Foto real
+                    - generic: Sob encomenda
+                - generic [ref=e397]:
+                  - generic [ref=e398]:
+                    - paragraph [ref=e399]: PLA Premium • Pintado à mão
+                    - paragraph [ref=e400]: Peça já produzida ou visual fiel do produto final.
+                  - generic [ref=e401]: Foto real
+              - generic [ref=e403]: Foto real
+              - generic [ref=e404]:
+                - generic [ref=e405]:
+                  - paragraph [ref=e406]: Geek & Colecionáveis
+                  - heading "Homer Pikachu Mashup Colecionável" [level=3] [ref=e407]
+                  - paragraph [ref=e408]: Homer Pikachu Mashup Colecionável selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento pintado à mão em PLA Premium. Indicado para colecao, estante, nicho, setup gamer e presente tematico, mantendo prazo claro e apresentacao pronta para venda online.
+                - generic [ref=e409]: 4 a 7 dias
+              - generic [ref=e410]:
+                - paragraph [ref=e411]: Compra direta
+                - paragraph [ref=e412]: Preco Pix calculado em R$ 43.93 com base em material, tempo de producao e acabamento estimados para a peca. Preco auditado • Produção local RJ.
+                - generic [ref=e414]: "1x: R$ 43,93"
+              - generic [ref=e415]:
+                - generic [ref=e416]:
+                  - generic [ref=e417]:
+                    - paragraph [ref=e418]: Preço no Pix
+                    - generic [ref=e419]:
+                      - generic [ref=e420]: R$ 104,90
+                      - generic [ref=e421]: R$ 43,93
+                    - generic [ref=e422]: Economia no Pix R$ 60,97
+                    - paragraph [ref=e423]: 12x de R$ 4,10 no cartão
+                    - paragraph [ref=e424]: "Prazo de produção: 4.8h"
+                    - generic [ref=e425]:
+                      - generic [ref=e426]: Preco auditado
+                      - generic [ref=e427]: Produção local RJ
+                  - generic [ref=e428]:
+                    - img [ref=e429]
+                    - text: 4 a 7 dias
+                - generic [ref=e432]:
+                  - link "Comprar" [ref=e433]:
+                    - /url: /catalogo/real-009-homer-pikachu-mashup-colecionavel?from=%2Fcatalogo&focus=real-009
+                  - button "Adicionar" [ref=e434]:
+                    - img [ref=e435]
+                    - text: Adicionar
+                  - link "WhatsApp" [ref=e439]:
+                    - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20fechar%201x%20Homer%20Pikachu%20Mashup%20Colecion%C3%A1vel%20(REAL-0009).
+              - generic [ref=e440]:
+                - button "Favoritar" [ref=e441]
+                - button "Comparar" [ref=e442]
+            - link "Abrir Case de Isqueiro Caveira" [ref=e443] [cursor=pointer]:
+              - generic [ref=e444]:
+                - generic [ref=e445]:
+                  - img "Impressão 3D de Case de Isqueiro Caveira - MDH 3D Store" [ref=e448]
+                  - generic:
+                    - generic: Foto real
+                    - generic: Sob encomenda
+                - generic [ref=e450]:
+                  - generic [ref=e451]:
+                    - paragraph [ref=e452]: PLA Premium • Fosco
+                    - paragraph [ref=e453]: Peça já produzida ou visual fiel do produto final.
+                  - generic [ref=e454]: Foto real
+              - generic [ref=e455]:
+                - generic [ref=e456]: Produção rápida
+                - generic [ref=e457]: Foto real
+              - generic [ref=e458]:
+                - generic [ref=e459]:
+                  - paragraph [ref=e460]: Utilidades Reais
+                  - heading "Case de Isqueiro Caveira" [level=3] [ref=e461]
+                  - paragraph [ref=e462]: Case de Isqueiro Caveira selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento fosco em PLA Premium. Indicado para uso diario, organizacao leve e presente funcional, mantendo prazo claro e apresentacao pronta para venda online.
+                - generic [ref=e463]: 2 a 4 dias
+              - generic [ref=e464]:
+                - paragraph [ref=e465]: Compra direta
+                - paragraph [ref=e466]: Preco Pix calculado em R$ 20.03 com base em material, tempo de producao e acabamento estimados para a peca. Preco auditado • Produção local RJ.
+                - generic [ref=e468]: "1x: R$ 20,03"
+              - generic [ref=e469]:
+                - generic [ref=e470]:
+                  - generic [ref=e471]:
+                    - paragraph [ref=e472]: Preço no Pix
+                    - generic [ref=e473]:
+                      - generic [ref=e474]: R$ 44,90
+                      - generic [ref=e475]: R$ 20,03
+                    - generic [ref=e476]: Economia no Pix R$ 24,87
+                    - paragraph [ref=e477]: 12x de R$ 1,87 no cartão
+                    - paragraph [ref=e478]: "Prazo de produção: 1.9h"
+                    - generic [ref=e479]:
+                      - generic [ref=e480]: Preco auditado
+                      - generic [ref=e481]: Produção local RJ
+                  - generic [ref=e482]:
+                    - img [ref=e483]
+                    - text: 2 a 4 dias
+                - generic [ref=e486]:
+                  - link "Comprar" [ref=e487]:
+                    - /url: /catalogo/real-008-case-de-isqueiro-caveira?from=%2Fcatalogo&focus=real-008
+                  - button "Adicionar" [ref=e488]:
+                    - img [ref=e489]
+                    - text: Adicionar
+                  - link "WhatsApp" [ref=e493]:
+                    - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20fechar%201x%20Case%20de%20Isqueiro%20Caveira%20(REAL-0008).
+              - generic [ref=e494]:
+                - button "Favoritar" [ref=e495]
+                - button "Comparar" [ref=e496]
+            - link "Abrir Boneca Infantil Personalizada" [ref=e497] [cursor=pointer]:
+              - generic [ref=e498]:
+                - generic [ref=e499]:
+                  - img "Impressão 3D de Boneca Infantil Personalizada - MDH 3D Store" [ref=e502]
+                  - generic:
+                    - generic: Foto real
+                    - generic: Sob encomenda
+                - generic [ref=e504]:
+                  - generic [ref=e505]:
+                    - paragraph [ref=e506]: PLA Premium • Pintado à mão
+                    - paragraph [ref=e507]: Peça já produzida ou visual fiel do produto final.
+                  - generic [ref=e508]: Foto real
+              - generic [ref=e510]: Foto real
+              - generic [ref=e511]:
+                - generic [ref=e512]:
+                  - paragraph [ref=e513]: Presentes Criativos
+                  - heading "Boneca Infantil Personalizada" [level=3] [ref=e514]
+                  - paragraph [ref=e515]: Boneca Infantil Personalizada selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento pintado à mão em PLA Premium. Indicado para presente personalizado, lembranca afetiva e encomenda sob medida, mantendo prazo claro e apresentacao pronta para venda online.
+                - generic [ref=e516]: 4 a 7 dias
+              - generic [ref=e517]:
+                - paragraph [ref=e518]: Compra direta
+                - paragraph [ref=e519]: Preco Pix calculado em R$ 48.00 com base em material, tempo de producao e acabamento estimados para a peca. Preco auditado • Produção local RJ.
+                - generic [ref=e521]: "1x: R$ 48,00"
+              - generic [ref=e522]:
+                - generic [ref=e523]:
+                  - generic [ref=e524]:
+                    - paragraph [ref=e525]: Preço no Pix
+                    - generic [ref=e526]:
+                      - generic [ref=e527]: R$ 121,90
+                      - generic [ref=e528]: R$ 48,00
+                    - generic [ref=e529]: Economia no Pix R$ 73,90
+                    - paragraph [ref=e530]: 12x de R$ 4,48 no cartão
+                    - paragraph [ref=e531]: "Prazo de produção: 5.4h"
+                    - generic [ref=e532]:
+                      - generic [ref=e533]: Preco auditado
+                      - generic [ref=e534]: Produção local RJ
+                  - generic [ref=e535]:
+                    - img [ref=e536]
+                    - text: 4 a 7 dias
+                - generic [ref=e539]:
+                  - link "Comprar" [ref=e540]:
+                    - /url: /catalogo/real-007-boneca-infantil-personalizada?from=%2Fcatalogo&focus=real-007
+                  - button "Adicionar" [ref=e541]:
+                    - img [ref=e542]
+                    - text: Adicionar
+                  - link "WhatsApp" [ref=e546]:
+                    - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20fechar%201x%20Boneca%20Infantil%20Personalizada%20(REAL-0007).
+              - generic [ref=e547]:
+                - button "Favoritar" [ref=e548]
+                - button "Comparar" [ref=e549]
+            - link "Abrir Família Customizada em Miniatura" [ref=e550] [cursor=pointer]:
+              - generic [ref=e551]:
+                - generic [ref=e552]:
+                  - img "Impressão 3D de Família Customizada em Miniatura - MDH 3D Store" [ref=e555]
+                  - generic:
+                    - generic: Foto real
+                    - generic: Sob encomenda
+                - generic [ref=e557]:
+                  - generic [ref=e558]:
+                    - paragraph [ref=e559]: PLA Premium • Pintado à mão
+                    - paragraph [ref=e560]: Peça já produzida ou visual fiel do produto final.
+                  - generic [ref=e561]: Foto real
+              - generic [ref=e562]:
+                - generic [ref=e563]: Mais vendido
+                - generic [ref=e564]: Foto real
+              - generic [ref=e565]:
+                - generic [ref=e566]:
+                  - paragraph [ref=e567]: Presentes Criativos
+                  - heading "Família Customizada em Miniatura" [level=3] [ref=e568]
+                  - paragraph [ref=e569]: Família Customizada em Miniatura selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento pintado à mão em PLA Premium. Indicado para colecao, estante, nicho, setup gamer e presente tematico, mantendo prazo claro e apresentacao pronta para venda online.
+                - generic [ref=e570]: 5 a 10 dias
+              - generic [ref=e571]:
+                - paragraph [ref=e572]: Compra direta
+                - paragraph [ref=e573]: Preco Pix calculado em R$ 81.08 com base em material, tempo de producao e acabamento estimados para a peca. Preco auditado • Produção local RJ.
+                - generic [ref=e575]: "1x: R$ 81,08"
+              - generic [ref=e576]:
+                - generic [ref=e577]:
+                  - generic [ref=e578]:
+                    - paragraph [ref=e579]: Preço no Pix
+                    - generic [ref=e580]:
+                      - generic [ref=e581]: R$ 238,90
+                      - generic [ref=e582]: R$ 81,08
+                    - generic [ref=e583]: Economia no Pix R$ 157,82
+                    - paragraph [ref=e584]: 12x de R$ 7,57 no cartão
+                    - paragraph [ref=e585]: "Prazo de produção: 9.5h"
+                    - generic [ref=e586]:
+                      - generic [ref=e587]: Preco auditado
+                      - generic [ref=e588]: Produção local RJ
+                  - generic [ref=e589]:
+                    - img [ref=e590]
+                    - text: 5 a 10 dias
+                - generic [ref=e593]:
+                  - link "Comprar" [ref=e594]:
+                    - /url: /catalogo/real-006-familia-customizada-em-miniatura?from=%2Fcatalogo&focus=real-006
+                  - button "Adicionar" [ref=e595]:
+                    - img [ref=e596]
+                    - text: Adicionar
+                  - link "WhatsApp" [ref=e600]:
+                    - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20fechar%201x%20Fam%C3%ADlia%20Customizada%20em%20Miniatura%20(REAL-0006).
+              - generic [ref=e601]:
+                - button "Favoritar" [ref=e602]
+                - button "Comparar" [ref=e603]
+            - link "Abrir Stencil Rick and Morty Decorativo" [ref=e604] [cursor=pointer]:
+              - generic [ref=e605]:
+                - generic [ref=e606]:
+                  - img "Impressão 3D de Stencil Rick and Morty Decorativo - MDH 3D Store" [ref=e609]
+                  - generic:
+                    - generic: Foto real
+                    - generic: Sob encomenda
+                - generic [ref=e611]:
+                  - generic [ref=e612]:
+                    - paragraph [ref=e613]: PLA Premium • Fosco
+                    - paragraph [ref=e614]: Peça já produzida ou visual fiel do produto final.
+                  - generic [ref=e615]: Foto real
+              - generic [ref=e616]:
+                - generic [ref=e617]: Produção rápida
+                - generic [ref=e618]: Foto real
+              - generic [ref=e619]:
+                - generic [ref=e620]:
+                  - paragraph [ref=e621]: Casa & Decoração
+                  - heading "Stencil Rick and Morty Decorativo" [level=3] [ref=e622]
+                  - paragraph [ref=e623]: Stencil Rick and Morty Decorativo selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento fosco em PLA Premium. Indicado para decoracao de quarto, escritorio, estante e composicao de ambiente, mantendo prazo claro e apresentacao pronta para venda online.
+                - generic [ref=e624]: 2 a 4 dias
+              - generic [ref=e625]:
+                - paragraph [ref=e626]: Compra direta
+                - paragraph [ref=e627]: Preco Pix calculado em R$ 22.77 com base em material, tempo de producao e acabamento estimados para a peca. Preco auditado • Produção local RJ.
+                - generic [ref=e629]: "1x: R$ 22,77"
+              - generic [ref=e630]:
+                - generic [ref=e631]:
+                  - generic [ref=e632]:
+                    - paragraph [ref=e633]: Preço no Pix
+                    - generic [ref=e634]:
+                      - generic [ref=e635]: R$ 54,90
+                      - generic [ref=e636]: R$ 22,77
+                    - generic [ref=e637]: Economia no Pix R$ 32,13
+                    - paragraph [ref=e638]: 12x de R$ 2,13 no cartão
+                    - paragraph [ref=e639]: "Prazo de produção: 2.2h"
+                    - generic [ref=e640]:
+                      - generic [ref=e641]: Preco auditado
+                      - generic [ref=e642]: Produção local RJ
+                  - generic [ref=e643]:
+                    - img [ref=e644]
+                    - text: 2 a 4 dias
+                - generic [ref=e647]:
+                  - link "Comprar" [ref=e648]:
+                    - /url: /catalogo/real-005-stencil-rick-and-morty-decorativo?from=%2Fcatalogo&focus=real-005
+                  - button "Adicionar" [ref=e649]:
+                    - img [ref=e650]
+                    - text: Adicionar
+                  - link "WhatsApp" [ref=e654]:
+                    - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20fechar%201x%20Stencil%20Rick%20and%20Morty%20Decorativo%20(REAL-0005).
+              - generic [ref=e655]:
+                - button "Favoritar" [ref=e656]
+                - button "Comparar" [ref=e657]
+            - link "Abrir Hello Kitty Jedi Colecionável" [ref=e658] [cursor=pointer]:
+              - generic [ref=e659]:
+                - generic [ref=e660]:
+                  - img "Impressão 3D de Hello Kitty Jedi Colecionável - MDH 3D Store" [ref=e663]
+                  - generic:
+                    - generic: Foto real
+                    - generic: Sob encomenda
+                - generic [ref=e665]:
+                  - generic [ref=e666]:
+                    - paragraph [ref=e667]: PLA Premium • Pintado à mão
+                    - paragraph [ref=e668]: Peça já produzida ou visual fiel do produto final.
+                  - generic [ref=e669]: Foto real
+              - generic [ref=e670]:
+                - generic [ref=e671]: Mais vendido
+                - generic [ref=e672]: Foto real
+              - generic [ref=e673]:
+                - generic [ref=e674]:
+                  - paragraph [ref=e675]: Geek & Colecionáveis
+                  - heading "Hello Kitty Jedi Colecionável" [level=3] [ref=e676]
+                  - paragraph [ref=e677]: Hello Kitty Jedi Colecionável selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento pintado à mão em PLA Premium. Indicado para colecao, estante, nicho, setup gamer e presente tematico, mantendo prazo claro e apresentacao pronta para venda online.
+                - generic [ref=e678]: 3 a 6 dias
+              - generic [ref=e679]:
+                - paragraph [ref=e680]: Compra direta
+                - paragraph [ref=e681]: Preco Pix calculado em R$ 38.75 com base em material, tempo de producao e acabamento estimados para a peca. Preco auditado • Produção local RJ.
+                - generic [ref=e683]: "1x: R$ 38,75"
+              - generic [ref=e684]:
+                - generic [ref=e685]:
+                  - generic [ref=e686]:
+                    - paragraph [ref=e687]: Preço no Pix
+                    - generic [ref=e688]:
+                      - generic [ref=e689]: R$ 113,90
+                      - generic [ref=e690]: R$ 38,75
+                    - generic [ref=e691]: Economia no Pix R$ 75,15
+                    - paragraph [ref=e692]: 12x de R$ 3,62 no cartão
+                    - paragraph [ref=e693]: "Prazo de produção: 4.2h"
+                    - generic [ref=e694]:
+                      - generic [ref=e695]: Preco auditado
+                      - generic [ref=e696]: Produção local RJ
+                  - generic [ref=e697]:
+                    - img [ref=e698]
+                    - text: 3 a 6 dias
+                - generic [ref=e701]:
+                  - link "Comprar" [ref=e702]:
+                    - /url: /catalogo/real-004-hello-kitty-jedi-colecionavel?from=%2Fcatalogo&focus=real-004
+                  - button "Adicionar" [ref=e703]:
+                    - img [ref=e704]
+                    - text: Adicionar
+                  - link "WhatsApp" [ref=e708]:
+                    - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20fechar%201x%20Hello%20Kitty%20Jedi%20Colecion%C3%A1vel%20(REAL-0004).
+              - generic [ref=e709]:
+                - button "Favoritar" [ref=e710]
+                - button "Comparar" [ref=e711]
+            - link "Abrir Demogorgon Decorativo Premium" [ref=e712] [cursor=pointer]:
+              - generic [ref=e713]:
+                - generic [ref=e714]:
+                  - img "Impressão 3D de Demogorgon Decorativo Premium - MDH 3D Store" [ref=e715]
+                  - generic:
+                    - generic: Foto real
+                    - generic: Sob encomenda
+                - generic [ref=e717]:
+                  - generic [ref=e718]:
+                    - paragraph [ref=e719]: PLA Premium • Pintado à mão
+                    - paragraph [ref=e720]: Peça já produzida ou visual fiel do produto final.
+                  - generic [ref=e721]: Foto real
+              - generic [ref=e722]:
+                - generic [ref=e723]: Mais vendido
+                - generic [ref=e724]: Foto real
+              - generic [ref=e725]:
+                - generic [ref=e726]:
+                  - paragraph [ref=e727]: Geek & Colecionáveis
+                  - heading "Demogorgon Decorativo Premium" [level=3] [ref=e728]
+                  - paragraph [ref=e729]: Demogorgon Decorativo Premium selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento pintado à mão em PLA Premium. Indicado para colecao, estante, nicho, setup gamer e presente tematico, mantendo prazo claro e apresentacao pronta para venda online.
+                - generic [ref=e730]: 4 a 7 dias
+              - generic [ref=e731]:
+                - paragraph [ref=e732]: Compra direta
+                - paragraph [ref=e733]: Preco Pix calculado em R$ 67.35 com base em material, tempo de producao e acabamento estimados para a peca. Preco auditado • Produção local RJ.
+                - generic [ref=e735]: "1x: R$ 67,35"
+              - generic [ref=e736]:
+                - generic [ref=e737]:
+                  - generic [ref=e738]:
+                    - paragraph [ref=e739]: Preço no Pix
+                    - generic [ref=e740]:
+                      - generic [ref=e741]: R$ 162,90
+                      - generic [ref=e742]: R$ 67,35
+                    - generic [ref=e743]: Economia no Pix R$ 95,55
+                    - paragraph [ref=e744]: 12x de R$ 6,29 no cartão
+                    - paragraph [ref=e745]: "Prazo de produção: 7.4h"
+                    - generic [ref=e746]:
+                      - generic [ref=e747]: Preco auditado
+                      - generic [ref=e748]: Produção local RJ
+                  - generic [ref=e749]:
+                    - img [ref=e750]
+                    - text: 4 a 7 dias
+                - generic [ref=e753]:
+                  - link "Comprar" [ref=e754]:
+                    - /url: /catalogo/real-003-demogorgon-decorativo-premium?from=%2Fcatalogo&focus=real-003
+                  - button "Adicionar" [ref=e755]:
+                    - img [ref=e756]
+                    - text: Adicionar
+                  - link "WhatsApp" [ref=e760]:
+                    - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20fechar%201x%20Demogorgon%20Decorativo%20Premium%20(REAL-0003).
+              - generic [ref=e761]:
+                - button "Favoritar" [ref=e762]
+                - button "Comparar" [ref=e763]
+            - link "Abrir Porta Creme Dental de Bancada" [ref=e764] [cursor=pointer]:
+              - generic [ref=e765]:
+                - generic [ref=e766]:
+                  - img "Impressão 3D de Porta Creme Dental de Bancada - MDH 3D Store" [ref=e767]
+                  - generic:
+                    - generic: Foto real
+                    - generic: Sob encomenda
+                - generic [ref=e769]:
+                  - generic [ref=e770]:
+                    - paragraph [ref=e771]: PLA Premium • Fosco
+                    - paragraph [ref=e772]: Peça já produzida ou visual fiel do produto final.
+                  - generic [ref=e773]: Foto real
+              - generic [ref=e774]:
+                - generic [ref=e775]: Mais vendido
+                - generic [ref=e776]: Produção rápida
+                - generic [ref=e777]: Foto real
+              - generic [ref=e778]:
+                - generic [ref=e779]:
+                  - paragraph [ref=e780]: Utilidades Reais
+                  - heading "Porta Creme Dental de Bancada" [level=3] [ref=e781]
+                  - paragraph [ref=e782]: Porta Creme Dental de Bancada selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento fosco em PLA Premium. Indicado para mesa, gaveta, bancada criativa e rotina de trabalho, mantendo prazo claro e apresentacao pronta para venda online.
+                - generic [ref=e783]: 2 a 4 dias
+              - generic [ref=e784]:
+                - paragraph [ref=e785]: Compra direta
+                - paragraph [ref=e786]: Preco Pix calculado em R$ 27.92 com base em material, tempo de producao e acabamento estimados para a peca. Preco auditado • Produção local RJ.
+                - generic [ref=e788]: "1x: R$ 27,92"
+              - generic [ref=e789]:
+                - generic [ref=e790]:
+                  - generic [ref=e791]:
+                    - paragraph [ref=e792]: Preço no Pix
+                    - generic [ref=e793]:
+                      - generic [ref=e794]: R$ 51,90
+                      - generic [ref=e795]: R$ 27,92
+                    - generic [ref=e796]: Economia no Pix R$ 23,98
+                    - paragraph [ref=e797]: 12x de R$ 2,61 no cartão
+                    - paragraph [ref=e798]: "Prazo de produção: 2.7h"
+                    - generic [ref=e799]:
+                      - generic [ref=e800]: Preco auditado
+                      - generic [ref=e801]: Produção local RJ
+                  - generic [ref=e802]:
+                    - img [ref=e803]
+                    - text: 2 a 4 dias
+                - generic [ref=e806]:
+                  - link "Comprar" [ref=e807]:
+                    - /url: /catalogo/real-002-porta-creme-dental-de-bancada?from=%2Fcatalogo&focus=real-002
+                  - button "Adicionar" [ref=e808]:
+                    - img [ref=e809]
+                    - text: Adicionar
+                  - link "WhatsApp" [ref=e813]:
+                    - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20fechar%201x%20Porta%20Creme%20Dental%20de%20Bancada%20(REAL-0002).
+              - generic [ref=e814]:
+                - button "Favoritar" [ref=e815]
+                - button "Comparar" [ref=e816]
+            - link "Abrir Grinder 3 Partes Premium" [ref=e817] [cursor=pointer]:
+              - generic [ref=e818]:
+                - generic [ref=e819]:
+                  - img "Impressão 3D de Grinder 3 Partes Premium - MDH 3D Store" [ref=e820]
+                  - generic:
+                    - generic: Foto real
+                    - generic: Sob encomenda
+                - generic [ref=e822]:
+                  - generic [ref=e823]:
+                    - paragraph [ref=e824]: PLA Premium • Fosco
+                    - paragraph [ref=e825]: Peça já produzida ou visual fiel do produto final.
+                  - generic [ref=e826]: Foto real
+              - generic [ref=e827]:
+                - generic [ref=e828]: Mais vendido
+                - generic [ref=e829]: Produção rápida
+                - generic [ref=e830]: Foto real
+              - generic [ref=e831]:
+                - generic [ref=e832]:
+                  - paragraph [ref=e833]: Utilidades Reais
+                  - heading "Grinder 3 Partes Premium" [level=3] [ref=e834]
+                  - paragraph [ref=e835]: Grinder 3 Partes Premium selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento fosco em PLA Premium. Indicado para uso diario, organizacao leve e presente funcional, mantendo prazo claro e apresentacao pronta para venda online.
+                - generic [ref=e836]: 2 a 4 dias
+              - generic [ref=e837]:
+                - paragraph [ref=e838]: Compra direta
+                - paragraph [ref=e839]: Preco Pix calculado em R$ 39.63 com base em material, tempo de producao e acabamento estimados para a peca. Preco auditado • Produção local RJ.
+                - generic [ref=e841]: "1x: R$ 39,63"
+              - generic [ref=e842]:
+                - generic [ref=e843]:
+                  - generic [ref=e844]:
+                    - paragraph [ref=e845]: Preço no Pix
+                    - generic [ref=e846]:
+                      - generic [ref=e847]: R$ 68,90
+                      - generic [ref=e848]: R$ 39,63
+                    - generic [ref=e849]: Economia no Pix R$ 29,27
+                    - paragraph [ref=e850]: 12x de R$ 3,70 no cartão
+                    - paragraph [ref=e851]: "Prazo de produção: 3.8h"
+                    - generic [ref=e852]:
+                      - generic [ref=e853]: Preco auditado
+                      - generic [ref=e854]: Produção local RJ
+                  - generic [ref=e855]:
+                    - img [ref=e856]
+                    - text: 2 a 4 dias
+                - generic [ref=e859]:
+                  - link "Comprar" [ref=e860]:
+                    - /url: /catalogo/real-001-grinder-3-partes-premium?from=%2Fcatalogo&focus=real-001
+                  - button "Adicionar" [ref=e861]:
+                    - img [ref=e862]
+                    - text: Adicionar
+                  - link "WhatsApp" [ref=e866]:
+                    - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20fechar%201x%20Grinder%203%20Partes%20Premium%20(REAL-0001).
+              - generic [ref=e867]:
+                - button "Favoritar" [ref=e868]
+                - button "Comparar" [ref=e869]
+            - link "Abrir Item Educativo 3D Minimalista para estudo e presente" [ref=e870] [cursor=pointer]:
+              - generic [ref=e871]:
+                - generic [ref=e872]:
+                  - img "Impressão 3D de Item Educativo 3D Minimalista para estudo e presente - MDH 3D Store" [ref=e875]
+                  - generic:
+                    - generic: Render do produto
+                    - generic: Sob encomenda
+                - generic [ref=e877]:
+                  - generic [ref=e878]:
+                    - paragraph [ref=e879]: PLA Premium • Premium
+                    - paragraph [ref=e880]: Peça já produzida ou visual fiel do produto final.
+                  - generic [ref=e881]: Render fiel
+              - generic [ref=e883]: Render fiel
+              - generic [ref=e884]:
+                - generic [ref=e885]:
+                  - paragraph [ref=e886]: Presentes Criativos
+                  - heading "Item Educativo 3D Minimalista para estudo e presente" [level=3] [ref=e887]
+                  - paragraph [ref=e888]: Item Educativo 3D Minimalista para estudo e presente impresso em PLA para resolver organização, apoio ou presente de forma simples, compacta e fácil de entender na primeira olhada.
+                - generic [ref=e889]: 3 a 5 dias
+              - generic [ref=e890]:
+                - paragraph [ref=e891]: Compra direta
+                - paragraph [ref=e892]: Preco Pix calculado em R$ 17.90 com base em material, tempo de producao e acabamento estimados para a peca. Preco auditado • Produção local RJ.
+                - generic [ref=e894]: "1x: R$ 17,90"
+              - generic [ref=e895]:
+                - generic [ref=e896]:
+                  - generic [ref=e897]:
+                    - paragraph [ref=e898]: Preço no Pix
+                    - generic [ref=e899]:
+                      - generic [ref=e900]: R$ 21,12
+                      - generic [ref=e901]: R$ 17,90
+                    - generic [ref=e902]: Economia no Pix R$ 3,22
+                    - paragraph [ref=e903]: 12x de R$ 1,67 no cartão
+                    - paragraph [ref=e904]: "Prazo de produção: 0.8h"
+                    - generic [ref=e905]:
+                      - generic [ref=e906]: Preco auditado
+                      - generic [ref=e907]: Produção local RJ
+                  - generic [ref=e908]:
+                    - img [ref=e909]
+                    - text: 3 a 5 dias
+                - generic [ref=e912]:
+                  - link "Comprar" [ref=e913]:
+                    - /url: /catalogo/mw-a1-500-item-educativo-3d-minimalista-para-estudo-e-presente?from=%2Fcatalogo&focus=mw-a1-500
+                  - button "Adicionar" [ref=e914]:
+                    - img [ref=e915]
+                    - text: Adicionar
+                  - link "WhatsApp" [ref=e919]:
+                    - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20fechar%201x%20Item%20Educativo%203D%20Minimalista%20para%20estudo%20e%20presente%20(MW-A1-500).
+              - generic [ref=e920]:
+                - button "Favoritar" [ref=e921]
+                - button "Comparar" [ref=e922]
+            - link "Abrir Brinquedo Educativo Compacto Leve para brincadeira guiada" [ref=e923] [cursor=pointer]:
+              - generic [ref=e924]:
+                - generic [ref=e925]:
+                  - img "Impressão 3D de Brinquedo Educativo Compacto Leve para brincadeira guiada - MDH 3D Store" [ref=e928]
+                  - generic:
+                    - generic: Render do produto
+                    - generic: Sob encomenda
+                - generic [ref=e930]:
+                  - generic [ref=e931]:
+                    - paragraph [ref=e932]: PLA Premium • Premium
+                    - paragraph [ref=e933]: Peça já produzida ou visual fiel do produto final.
+                  - generic [ref=e934]: Render fiel
+              - generic [ref=e936]: Render fiel
+              - generic [ref=e937]:
+                - generic [ref=e938]:
+                  - paragraph [ref=e939]: Presentes Criativos
+                  - heading "Brinquedo Educativo Compacto Leve para brincadeira guiada" [level=3] [ref=e940]
+                  - paragraph [ref=e941]: Brinquedo Educativo Compacto Leve para brincadeira guiada impresso em PLA para resolver organização, apoio ou presente de forma simples, compacta e fácil de entender na primeira olhada.
+                - generic [ref=e942]: 3 a 5 dias
+              - generic [ref=e943]:
+                - paragraph [ref=e944]: Compra direta
+                - paragraph [ref=e945]: Preco Pix calculado em R$ 34.90 com base em material, tempo de producao e acabamento estimados para a peca. Preco auditado • Produção local RJ.
+                - generic [ref=e947]: "1x: R$ 34,90"
+              - generic [ref=e948]:
+                - generic [ref=e949]:
+                  - generic [ref=e950]:
+                    - paragraph [ref=e951]: Preço no Pix
+                    - generic [ref=e952]:
+                      - generic [ref=e953]: R$ 41,18
+                      - generic [ref=e954]: R$ 34,90
+                    - generic [ref=e955]: Economia no Pix R$ 6,28
+                    - paragraph [ref=e956]: 12x de R$ 3,26 no cartão
+                    - paragraph [ref=e957]: "Prazo de produção: 2h"
+                    - generic [ref=e958]:
+                      - generic [ref=e959]: Preco auditado
+                      - generic [ref=e960]: Produção local RJ
+                  - generic [ref=e961]:
+                    - img [ref=e962]
+                    - text: 3 a 5 dias
+                - generic [ref=e965]:
+                  - link "Comprar" [ref=e966]:
+                    - /url: /catalogo/mw-a1-499-brinquedo-educativo-compacto-leve-para-brincadeira-guiada?from=%2Fcatalogo&focus=mw-a1-499
+                  - button "Adicionar" [ref=e967]:
+                    - img [ref=e968]
+                    - text: Adicionar
+                  - link "WhatsApp" [ref=e972]:
+                    - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20fechar%201x%20Brinquedo%20Educativo%20Compacto%20Leve%20para%20brincadeira%20guiada%20(MW-A1-499).
+              - generic [ref=e973]:
+                - button "Favoritar" [ref=e974]
+                - button "Comparar" [ref=e975]
+            - link "Abrir Quebra-Cabeça Lúdico de Mesa para atividade criativa" [ref=e976] [cursor=pointer]:
+              - generic [ref=e977]:
+                - generic [ref=e978]:
+                  - img "Impressão 3D de Quebra-Cabeça Lúdico de Mesa para atividade criativa - MDH 3D Store" [ref=e981]
+                  - generic:
+                    - generic: Render do produto
+                    - generic: Sob encomenda
+                - generic [ref=e983]:
+                  - generic [ref=e984]:
+                    - paragraph [ref=e985]: PLA Premium • Premium
+                    - paragraph [ref=e986]: Peça já produzida ou visual fiel do produto final.
+                  - generic [ref=e987]: Render fiel
+              - generic [ref=e989]: Render fiel
+              - generic [ref=e990]:
+                - generic [ref=e991]:
+                  - paragraph [ref=e992]: Presentes Criativos
+                  - heading "Quebra-Cabeça Lúdico de Mesa para atividade criativa" [level=3] [ref=e993]
+                  - paragraph [ref=e994]: Quebra-Cabeça Lúdico de Mesa para atividade criativa impresso em PLA para resolver organização, apoio ou presente de forma simples, compacta e fácil de entender na primeira olhada.
+                - generic [ref=e995]: 3 a 5 dias
+              - generic [ref=e996]:
+                - paragraph [ref=e997]: Compra direta
+                - paragraph [ref=e998]: Preco Pix calculado em R$ 17.90 com base em material, tempo de producao e acabamento estimados para a peca. Preco auditado • Produção local RJ.
+                - generic [ref=e1000]: "1x: R$ 17,90"
+              - generic [ref=e1001]:
+                - generic [ref=e1002]:
+                  - generic [ref=e1003]:
+                    - paragraph [ref=e1004]: Preço no Pix
+                    - generic [ref=e1005]:
+                      - generic [ref=e1006]: R$ 21,12
+                      - generic [ref=e1007]: R$ 17,90
+                    - generic [ref=e1008]: Economia no Pix R$ 3,22
+                    - paragraph [ref=e1009]: 12x de R$ 1,67 no cartão
+                    - paragraph [ref=e1010]: "Prazo de produção: 0.7h"
+                    - generic [ref=e1011]:
+                      - generic [ref=e1012]: Preco auditado
+                      - generic [ref=e1013]: Produção local RJ
+                  - generic [ref=e1014]:
+                    - img [ref=e1015]
+                    - text: 3 a 5 dias
+                - generic [ref=e1018]:
+                  - link "Comprar" [ref=e1019]:
+                    - /url: /catalogo/mw-a1-498-quebra-cabeca-ludico-de-mesa-para-atividade-criativa?from=%2Fcatalogo&focus=mw-a1-498
+                  - button "Adicionar" [ref=e1020]:
+                    - img [ref=e1021]
+                    - text: Adicionar
+                  - link "WhatsApp" [ref=e1025]:
+                    - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20fechar%201x%20Quebra-Cabe%C3%A7a%20L%C3%BAdico%20de%20Mesa%20para%20atividade%20criativa%20(MW-A1-498).
+              - generic [ref=e1026]:
+                - button "Favoritar" [ref=e1027]
+                - button "Comparar" [ref=e1028]
+            - link "Abrir Item Educativo 3D de Bancada para estudo e presente" [ref=e1029] [cursor=pointer]:
+              - generic [ref=e1030]:
+                - generic [ref=e1031]:
+                  - img "Impressão 3D de Item Educativo 3D de Bancada para estudo e presente - MDH 3D Store" [ref=e1034]
+                  - generic:
+                    - generic: Render do produto
+                    - generic: Sob encomenda
+                - generic [ref=e1036]:
+                  - generic [ref=e1037]:
+                    - paragraph [ref=e1038]: PLA Premium • Premium
+                    - paragraph [ref=e1039]: Peça já produzida ou visual fiel do produto final.
+                  - generic [ref=e1040]: Render fiel
+              - generic [ref=e1042]: Render fiel
+              - generic [ref=e1043]:
+                - generic [ref=e1044]:
+                  - paragraph [ref=e1045]: Presentes Criativos
+                  - heading "Item Educativo 3D de Bancada para estudo e presente" [level=3] [ref=e1046]
+                  - paragraph [ref=e1047]: Item Educativo 3D de Bancada para estudo e presente impresso em PLA para resolver organização, apoio ou presente de forma simples, compacta e fácil de entender na primeira olhada.
+                - generic [ref=e1048]: 3 a 5 dias
+              - generic [ref=e1049]:
+                - paragraph [ref=e1050]: Compra direta
+                - paragraph [ref=e1051]: Preco Pix calculado em R$ 22.90 com base em material, tempo de producao e acabamento estimados para a peca. Preco auditado • Produção local RJ.
+                - generic [ref=e1053]: "1x: R$ 22,90"
+              - generic [ref=e1054]:
+                - generic [ref=e1055]:
+                  - generic [ref=e1056]:
+                    - paragraph [ref=e1057]: Preço no Pix
+                    - generic [ref=e1058]:
+                      - generic [ref=e1059]: R$ 27,02
+                      - generic [ref=e1060]: R$ 22,90
+                    - generic [ref=e1061]: Economia no Pix R$ 4,12
+                    - paragraph [ref=e1062]: 12x de R$ 2,14 no cartão
+                    - paragraph [ref=e1063]: "Prazo de produção: 1.2h"
+                    - generic [ref=e1064]:
+                      - generic [ref=e1065]: Preco auditado
+                      - generic [ref=e1066]: Produção local RJ
+                  - generic [ref=e1067]:
+                    - img [ref=e1068]
+                    - text: 3 a 5 dias
+                - generic [ref=e1071]:
+                  - link "Comprar" [ref=e1072]:
+                    - /url: /catalogo/mw-a1-497-item-educativo-3d-de-bancada-para-estudo-e-presente?from=%2Fcatalogo&focus=mw-a1-497
+                  - button "Adicionar" [ref=e1073]:
+                    - img [ref=e1074]
+                    - text: Adicionar
+                  - link "WhatsApp" [ref=e1078]:
+                    - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20fechar%201x%20Item%20Educativo%203D%20de%20Bancada%20para%20estudo%20e%20presente%20(MW-A1-497).
+              - generic [ref=e1079]:
+                - button "Favoritar" [ref=e1080]
+                - button "Comparar" [ref=e1081]
+            - link "Abrir Brinquedo Educativo Compacto de Encaixe para brincadeira guiada" [ref=e1082] [cursor=pointer]:
+              - generic [ref=e1083]:
+                - generic [ref=e1084]:
+                  - img "Impressão 3D de Brinquedo Educativo Compacto de Encaixe para brincadeira guiada - MDH 3D Store" [ref=e1087]
+                  - generic:
+                    - generic: Render do produto
+                    - generic: Sob encomenda
+                - generic [ref=e1089]:
+                  - generic [ref=e1090]:
+                    - paragraph [ref=e1091]: PLA Premium • Premium
+                    - paragraph [ref=e1092]: Peça já produzida ou visual fiel do produto final.
+                  - generic [ref=e1093]: Render fiel
+              - generic [ref=e1095]: Render fiel
+              - generic [ref=e1096]:
+                - generic [ref=e1097]:
+                  - paragraph [ref=e1098]: Presentes Criativos
+                  - heading "Brinquedo Educativo Compacto de Encaixe para brincadeira guiada" [level=3] [ref=e1099]
+                  - paragraph [ref=e1100]: Brinquedo Educativo Compacto de Encaixe para brincadeira guiada impresso em PLA para resolver organização, apoio ou presente de forma simples, compacta e fácil de entender na primeira olhada.
+                - generic [ref=e1101]: 3 a 5 dias
+              - generic [ref=e1102]:
+                - paragraph [ref=e1103]: Compra direta
+                - paragraph [ref=e1104]: Preco Pix calculado em R$ 34.90 com base em material, tempo de producao e acabamento estimados para a peca. Preco auditado • Produção local RJ.
+                - generic [ref=e1106]: "1x: R$ 34,90"
+              - generic [ref=e1107]:
+                - generic [ref=e1108]:
+                  - generic [ref=e1109]:
+                    - paragraph [ref=e1110]: Preço no Pix
+                    - generic [ref=e1111]:
+                      - generic [ref=e1112]: R$ 41,18
+                      - generic [ref=e1113]: R$ 34,90
+                    - generic [ref=e1114]: Economia no Pix R$ 6,28
+                    - paragraph [ref=e1115]: 12x de R$ 3,26 no cartão
+                    - paragraph [ref=e1116]: "Prazo de produção: 2h"
+                    - generic [ref=e1117]:
+                      - generic [ref=e1118]: Preco auditado
+                      - generic [ref=e1119]: Produção local RJ
+                  - generic [ref=e1120]:
+                    - img [ref=e1121]
+                    - text: 3 a 5 dias
+                - generic [ref=e1124]:
+                  - link "Comprar" [ref=e1125]:
+                    - /url: /catalogo/mw-a1-496-brinquedo-educativo-compacto-de-encaixe-para-brincadeira-guiada?from=%2Fcatalogo&focus=mw-a1-496
+                  - button "Adicionar" [ref=e1126]:
+                    - img [ref=e1127]
+                    - text: Adicionar
+                  - link "WhatsApp" [ref=e1131]:
+                    - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20fechar%201x%20Brinquedo%20Educativo%20Compacto%20de%20Encaixe%20para%20brincadeira%20guiada%20(MW-A1-496).
+              - generic [ref=e1132]:
+                - button "Favoritar" [ref=e1133]
+                - button "Comparar" [ref=e1134]
+            - link "Abrir Quebra-Cabeça Lúdico Dobrável para atividade criativa" [ref=e1135] [cursor=pointer]:
+              - generic [ref=e1136]:
+                - generic [ref=e1137]:
+                  - img "Impressão 3D de Quebra-Cabeça Lúdico Dobrável para atividade criativa - MDH 3D Store" [ref=e1140]
+                  - generic:
+                    - generic: Render do produto
+                    - generic: Sob encomenda
+                - generic [ref=e1142]:
+                  - generic [ref=e1143]:
+                    - paragraph [ref=e1144]: PLA Premium • Premium
+                    - paragraph [ref=e1145]: Peça já produzida ou visual fiel do produto final.
+                  - generic [ref=e1146]: Render fiel
+              - generic [ref=e1148]: Render fiel
+              - generic [ref=e1149]:
+                - generic [ref=e1150]:
+                  - paragraph [ref=e1151]: Presentes Criativos
+                  - heading "Quebra-Cabeça Lúdico Dobrável para atividade criativa" [level=3] [ref=e1152]
+                  - paragraph [ref=e1153]: Quebra-Cabeça Lúdico Dobrável para atividade criativa impresso em PLA para resolver organização, apoio ou presente de forma simples, compacta e fácil de entender na primeira olhada.
+                - generic [ref=e1154]: 3 a 5 dias
+              - generic [ref=e1155]:
+                - paragraph [ref=e1156]: Compra direta
+                - paragraph [ref=e1157]: Preco Pix calculado em R$ 29.90 com base em material, tempo de producao e acabamento estimados para a peca. Preco auditado • Produção local RJ.
+                - generic [ref=e1159]: "1x: R$ 29,90"
+              - generic [ref=e1160]:
+                - generic [ref=e1161]:
+                  - generic [ref=e1162]:
+                    - paragraph [ref=e1163]: Preço no Pix
+                    - generic [ref=e1164]:
+                      - generic [ref=e1165]: R$ 35,28
+                      - generic [ref=e1166]: R$ 29,90
+                    - generic [ref=e1167]: Economia no Pix R$ 5,38
+                    - paragraph [ref=e1168]: 12x de R$ 2,79 no cartão
+                    - paragraph [ref=e1169]: "Prazo de produção: 1.9h"
+                    - generic [ref=e1170]:
+                      - generic [ref=e1171]: Preco auditado
+                      - generic [ref=e1172]: Produção local RJ
+                  - generic [ref=e1173]:
+                    - img [ref=e1174]
+                    - text: 3 a 5 dias
+                - generic [ref=e1177]:
+                  - link "Comprar" [ref=e1178]:
+                    - /url: /catalogo/mw-a1-495-quebra-cabeca-ludico-dobravel-para-atividade-criativa?from=%2Fcatalogo&focus=mw-a1-495
+                  - button "Adicionar" [ref=e1179]:
+                    - img [ref=e1180]
+                    - text: Adicionar
+                  - link "WhatsApp" [ref=e1184]:
+                    - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20fechar%201x%20Quebra-Cabe%C3%A7a%20L%C3%BAdico%20Dobr%C3%A1vel%20para%20atividade%20criativa%20(MW-A1-495).
+              - generic [ref=e1185]:
+                - button "Favoritar" [ref=e1186]
+                - button "Comparar" [ref=e1187]
+            - link "Abrir Item Educativo 3D Ajustável para estudo e presente" [ref=e1188] [cursor=pointer]:
+              - generic [ref=e1189]:
+                - generic [ref=e1190]:
+                  - img "Impressão 3D de Item Educativo 3D Ajustável para estudo e presente - MDH 3D Store" [ref=e1193]
+                  - generic:
+                    - generic: Render do produto
+                    - generic: Sob encomenda
+                - generic [ref=e1195]:
+                  - generic [ref=e1196]:
+                    - paragraph [ref=e1197]: PLA Premium • Premium
+                    - paragraph [ref=e1198]: Peça já produzida ou visual fiel do produto final.
+                  - generic [ref=e1199]: Render fiel
+              - generic [ref=e1201]: Render fiel
+              - generic [ref=e1202]:
+                - generic [ref=e1203]:
+                  - paragraph [ref=e1204]: Presentes Criativos
+                  - heading "Item Educativo 3D Ajustável para estudo e presente" [level=3] [ref=e1205]
+                  - paragraph [ref=e1206]: Item Educativo 3D Ajustável para estudo e presente impresso em PLA para resolver organização, apoio ou presente de forma simples, compacta e fácil de entender na primeira olhada.
+                - generic [ref=e1207]: 3 a 5 dias
+              - generic [ref=e1208]:
+                - paragraph [ref=e1209]: Compra direta
+                - paragraph [ref=e1210]: Preco Pix calculado em R$ 39.90 com base em material, tempo de producao e acabamento estimados para a peca. Preco auditado • Produção local RJ.
+                - generic [ref=e1212]: "1x: R$ 39,90"
+              - generic [ref=e1213]:
+                - generic [ref=e1214]:
+                  - generic [ref=e1215]:
+                    - paragraph [ref=e1216]: Preço no Pix
+                    - generic [ref=e1217]:
+                      - generic [ref=e1218]: R$ 47,08
+                      - generic [ref=e1219]: R$ 39,90
+                    - generic [ref=e1220]: Economia no Pix R$ 7,18
+                    - paragraph [ref=e1221]: 12x de R$ 3,72 no cartão
+                    - paragraph [ref=e1222]: "Prazo de produção: 2.3h"
+                    - generic [ref=e1223]:
+                      - generic [ref=e1224]: Preco auditado
+                      - generic [ref=e1225]: Produção local RJ
+                  - generic [ref=e1226]:
+                    - img [ref=e1227]
+                    - text: 3 a 5 dias
+                - generic [ref=e1230]:
+                  - link "Comprar" [ref=e1231]:
+                    - /url: /catalogo/mw-a1-494-item-educativo-3d-ajustavel-para-estudo-e-presente?from=%2Fcatalogo&focus=mw-a1-494
+                  - button "Adicionar" [ref=e1232]:
+                    - img [ref=e1233]
+                    - text: Adicionar
+                  - link "WhatsApp" [ref=e1237]:
+                    - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20fechar%201x%20Item%20Educativo%203D%20Ajust%C3%A1vel%20para%20estudo%20e%20presente%20(MW-A1-494).
+              - generic [ref=e1238]:
+                - button "Favoritar" [ref=e1239]
+                - button "Comparar" [ref=e1240]
+            - link "Abrir Brinquedo Educativo Compacto Slim para brincadeira guiada" [ref=e1241] [cursor=pointer]:
+              - generic [ref=e1242]:
+                - generic [ref=e1243]:
+                  - img "Impressão 3D de Brinquedo Educativo Compacto Slim para brincadeira guiada - MDH 3D Store" [ref=e1246]
+                  - generic:
+                    - generic: Render do produto
+                    - generic: Sob encomenda
+                - generic [ref=e1248]:
+                  - generic [ref=e1249]:
+                    - paragraph [ref=e1250]: PLA Premium • Premium
+                    - paragraph [ref=e1251]: Peça já produzida ou visual fiel do produto final.
+                  - generic [ref=e1252]: Render fiel
+              - generic [ref=e1254]: Render fiel
+              - generic [ref=e1255]:
+                - generic [ref=e1256]:
+                  - paragraph [ref=e1257]: Presentes Criativos
+                  - heading "Brinquedo Educativo Compacto Slim para brincadeira guiada" [level=3] [ref=e1258]
+                  - paragraph [ref=e1259]: Brinquedo Educativo Compacto Slim para brincadeira guiada impresso em PLA para resolver organização, apoio ou presente de forma simples, compacta e fácil de entender na primeira olhada.
+                - generic [ref=e1260]: 3 a 5 dias
+              - generic [ref=e1261]:
+                - paragraph [ref=e1262]: Compra direta
+                - paragraph [ref=e1263]: Preco Pix calculado em R$ 19.90 com base em material, tempo de producao e acabamento estimados para a peca. Preco auditado • Produção local RJ.
+                - generic [ref=e1265]: "1x: R$ 19,90"
+              - generic [ref=e1266]:
+                - generic [ref=e1267]:
+                  - generic [ref=e1268]:
+                    - paragraph [ref=e1269]: Preço no Pix
+                    - generic [ref=e1270]:
+                      - generic [ref=e1271]: R$ 23,48
+                      - generic [ref=e1272]: R$ 19,90
+                    - generic [ref=e1273]: Economia no Pix R$ 3,58
+                    - paragraph [ref=e1274]: 12x de R$ 1,86 no cartão
+                    - paragraph [ref=e1275]: "Prazo de produção: 1h"
+                    - generic [ref=e1276]:
+                      - generic [ref=e1277]: Preco auditado
+                      - generic [ref=e1278]: Produção local RJ
+                  - generic [ref=e1279]:
+                    - img [ref=e1280]
+                    - text: 3 a 5 dias
+                - generic [ref=e1283]:
+                  - link "Comprar" [ref=e1284]:
+                    - /url: /catalogo/mw-a1-493-brinquedo-educativo-compacto-slim-para-brincadeira-guiada?from=%2Fcatalogo&focus=mw-a1-493
+                  - button "Adicionar" [ref=e1285]:
+                    - img [ref=e1286]
+                    - text: Adicionar
+                  - link "WhatsApp" [ref=e1290]:
+                    - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20fechar%201x%20Brinquedo%20Educativo%20Compacto%20Slim%20para%20brincadeira%20guiada%20(MW-A1-493).
+              - generic [ref=e1291]:
+                - button "Favoritar" [ref=e1292]
+                - button "Comparar" [ref=e1293]
+            - link "Abrir Quebra-Cabeça Lúdico Compacto para atividade criativa" [ref=e1294] [cursor=pointer]:
+              - generic [ref=e1295]:
+                - generic [ref=e1296]:
+                  - img "Impressão 3D de Quebra-Cabeça Lúdico Compacto para atividade criativa - MDH 3D Store" [ref=e1299]
+                  - generic:
+                    - generic: Render do produto
+                    - generic: Sob encomenda
+                - generic [ref=e1301]:
+                  - generic [ref=e1302]:
+                    - paragraph [ref=e1303]: PLA Premium • Premium
+                    - paragraph [ref=e1304]: Peça já produzida ou visual fiel do produto final.
+                  - generic [ref=e1305]: Render fiel
+              - generic [ref=e1307]: Render fiel
+              - generic [ref=e1308]:
+                - generic [ref=e1309]:
+                  - paragraph [ref=e1310]: Presentes Criativos
+                  - heading "Quebra-Cabeça Lúdico Compacto para atividade criativa" [level=3] [ref=e1311]
+                  - paragraph [ref=e1312]: Quebra-Cabeça Lúdico Compacto para atividade criativa impresso em PLA para resolver organização, apoio ou presente de forma simples, compacta e fácil de entender na primeira olhada.
+                - generic [ref=e1313]: 3 a 5 dias
+              - generic [ref=e1314]:
+                - paragraph [ref=e1315]: Compra direta
+                - paragraph [ref=e1316]: Preco Pix calculado em R$ 19.90 com base em material, tempo de producao e acabamento estimados para a peca. Preco auditado • Produção local RJ.
+                - generic [ref=e1318]: "1x: R$ 19,90"
+              - generic [ref=e1319]:
+                - generic [ref=e1320]:
+                  - generic [ref=e1321]:
+                    - paragraph [ref=e1322]: Preço no Pix
+                    - generic [ref=e1323]:
+                      - generic [ref=e1324]: R$ 23,48
+                      - generic [ref=e1325]: R$ 19,90
+                    - generic [ref=e1326]: Economia no Pix R$ 3,58
+                    - paragraph [ref=e1327]: 12x de R$ 1,86 no cartão
+                    - paragraph [ref=e1328]: "Prazo de produção: 1.1h"
+                    - generic [ref=e1329]:
+                      - generic [ref=e1330]: Preco auditado
+                      - generic [ref=e1331]: Produção local RJ
+                  - generic [ref=e1332]:
+                    - img [ref=e1333]
+                    - text: 3 a 5 dias
+                - generic [ref=e1336]:
+                  - link "Comprar" [ref=e1337]:
+                    - /url: /catalogo/mw-a1-492-quebra-cabeca-ludico-compacto-para-atividade-criativa?from=%2Fcatalogo&focus=mw-a1-492
+                  - button "Adicionar" [ref=e1338]:
+                    - img [ref=e1339]
+                    - text: Adicionar
+                  - link "WhatsApp" [ref=e1343]:
+                    - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20fechar%201x%20Quebra-Cabe%C3%A7a%20L%C3%BAdico%20Compacto%20para%20atividade%20criativa%20(MW-A1-492).
+              - generic [ref=e1344]:
+                - button "Favoritar" [ref=e1345]
+                - button "Comparar" [ref=e1346]
+            - link "Abrir Item Educativo 3D Modular para estudo e presente" [ref=e1347] [cursor=pointer]:
+              - generic [ref=e1348]:
+                - generic [ref=e1349]:
+                  - img "Impressão 3D de Item Educativo 3D Modular para estudo e presente - MDH 3D Store" [ref=e1352]
+                  - generic:
+                    - generic: Render do produto
+                    - generic: Sob encomenda
+                - generic [ref=e1354]:
+                  - generic [ref=e1355]:
+                    - paragraph [ref=e1356]: PLA Premium • Premium
+                    - paragraph [ref=e1357]: Peça já produzida ou visual fiel do produto final.
+                  - generic [ref=e1358]: Render fiel
+              - generic [ref=e1360]: Render fiel
+              - generic [ref=e1361]:
+                - generic [ref=e1362]:
+                  - paragraph [ref=e1363]: Presentes Criativos
+                  - heading "Item Educativo 3D Modular para estudo e presente" [level=3] [ref=e1364]
+                  - paragraph [ref=e1365]: Item Educativo 3D Modular para estudo e presente impresso em PLA para resolver organização, apoio ou presente de forma simples, compacta e fácil de entender na primeira olhada.
+                - generic [ref=e1366]: 3 a 5 dias
+              - generic [ref=e1367]:
+                - paragraph [ref=e1368]: Compra direta
+                - paragraph [ref=e1369]: Preco Pix calculado em R$ 17.90 com base em material, tempo de producao e acabamento estimados para a peca. Preco auditado • Produção local RJ.
+                - generic [ref=e1371]: "1x: R$ 17,90"
+              - generic [ref=e1372]:
+                - generic [ref=e1373]:
+                  - generic [ref=e1374]:
+                    - paragraph [ref=e1375]: Preço no Pix
+                    - generic [ref=e1376]:
+                      - generic [ref=e1377]: R$ 21,12
+                      - generic [ref=e1378]: R$ 17,90
+                    - generic [ref=e1379]: Economia no Pix R$ 3,22
+                    - paragraph [ref=e1380]: 12x de R$ 1,67 no cartão
+                    - paragraph [ref=e1381]: "Prazo de produção: 0.8h"
+                    - generic [ref=e1382]:
+                      - generic [ref=e1383]: Preco auditado
+                      - generic [ref=e1384]: Produção local RJ
+                  - generic [ref=e1385]:
+                    - img [ref=e1386]
+                    - text: 3 a 5 dias
+                - generic [ref=e1389]:
+                  - link "Comprar" [ref=e1390]:
+                    - /url: /catalogo/mw-a1-491-item-educativo-3d-modular-para-estudo-e-presente?from=%2Fcatalogo&focus=mw-a1-491
+                  - button "Adicionar" [ref=e1391]:
+                    - img [ref=e1392]
+                    - text: Adicionar
+                  - link "WhatsApp" [ref=e1396]:
+                    - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20fechar%201x%20Item%20Educativo%203D%20Modular%20para%20estudo%20e%20presente%20(MW-A1-491).
+              - generic [ref=e1397]:
+                - button "Favoritar" [ref=e1398]
+                - button "Comparar" [ref=e1399]
+            - link "Abrir Organizador de Artesanato Minimalista para artesanato" [ref=e1400] [cursor=pointer]:
+              - generic [ref=e1401]:
+                - generic [ref=e1402]:
+                  - img "Impressão 3D de Organizador de Artesanato Minimalista para artesanato - MDH 3D Store" [ref=e1405]
+                  - generic:
+                    - generic: Render do produto
+                    - generic: Sob encomenda
+                - generic [ref=e1407]:
+                  - generic [ref=e1408]:
+                    - paragraph [ref=e1409]: PLA Premium • Texturizado
+                    - paragraph [ref=e1410]: Peça já produzida ou visual fiel do produto final.
+                  - generic [ref=e1411]: Render fiel
+              - generic [ref=e1413]: Render fiel
+              - generic [ref=e1414]:
+                - generic [ref=e1415]:
+                  - paragraph [ref=e1416]: Utilidades Reais
+                  - heading "Organizador de Artesanato Minimalista para artesanato" [level=3] [ref=e1417]
+                  - paragraph [ref=e1418]: Organizador de Artesanato Minimalista para artesanato impresso em PLA para resolver organização, apoio ou presente de forma simples, compacta e fácil de entender na primeira olhada.
+                - generic [ref=e1419]: 3 a 5 dias
+              - generic [ref=e1420]:
+                - paragraph [ref=e1421]: Compra direta
+                - paragraph [ref=e1422]: Preco Pix calculado em R$ 19.90 com base em material, tempo de producao e acabamento estimados para a peca. Preco auditado • Produção local RJ.
+                - generic [ref=e1424]: "1x: R$ 19,90"
+              - generic [ref=e1425]:
+                - generic [ref=e1426]:
+                  - generic [ref=e1427]:
+                    - paragraph [ref=e1428]: Preço no Pix
+                    - generic [ref=e1429]:
+                      - generic [ref=e1430]: R$ 23,48
+                      - generic [ref=e1431]: R$ 19,90
+                    - generic [ref=e1432]: Economia no Pix R$ 3,58
+                    - paragraph [ref=e1433]: 12x de R$ 1,86 no cartão
+                    - paragraph [ref=e1434]: "Prazo de produção: 0.9h"
+                    - generic [ref=e1435]:
+                      - generic [ref=e1436]: Preco auditado
+                      - generic [ref=e1437]: Produção local RJ
+                  - generic [ref=e1438]:
+                    - img [ref=e1439]
+                    - text: 3 a 5 dias
+                - generic [ref=e1442]:
+                  - link "Comprar" [ref=e1443]:
+                    - /url: /catalogo/mw-a1-490-organizador-de-artesanato-minimalista-para-artesanato?from=%2Fcatalogo&focus=mw-a1-490
+                  - button "Adicionar" [ref=e1444]:
+                    - img [ref=e1445]
+                    - text: Adicionar
+                  - link "WhatsApp" [ref=e1449]:
+                    - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20fechar%201x%20Organizador%20de%20Artesanato%20Minimalista%20para%20artesanato%20(MW-A1-490).
+              - generic [ref=e1450]:
+                - button "Favoritar" [ref=e1451]
+                - button "Comparar" [ref=e1452]
+            - link "Abrir Bandeja Criativa Leve para peças pequenas" [ref=e1453] [cursor=pointer]:
+              - generic [ref=e1454]:
+                - generic [ref=e1455]:
+                  - img "Impressão 3D de Bandeja Criativa Leve para peças pequenas - MDH 3D Store" [ref=e1458]
+                  - generic:
+                    - generic: Render do produto
+                    - generic: Sob encomenda
+                - generic [ref=e1460]:
+                  - generic [ref=e1461]:
+                    - paragraph [ref=e1462]: PLA Premium • Texturizado
+                    - paragraph [ref=e1463]: Peça já produzida ou visual fiel do produto final.
+                  - generic [ref=e1464]: Render fiel
+              - generic [ref=e1466]: Render fiel
+              - generic [ref=e1467]:
+                - generic [ref=e1468]:
+                  - paragraph [ref=e1469]: Utilidades Reais
+                  - heading "Bandeja Criativa Leve para peças pequenas" [level=3] [ref=e1470]
+                  - paragraph [ref=e1471]: Bandeja Criativa Leve para peças pequenas impresso em PLA para resolver organização, apoio ou presente de forma simples, compacta e fácil de entender na primeira olhada.
+                - generic [ref=e1472]: 3 a 5 dias
+              - generic [ref=e1473]:
+                - paragraph [ref=e1474]: Compra direta
+                - paragraph [ref=e1475]: Preco Pix calculado em R$ 39.90 com base em material, tempo de producao e acabamento estimados para a peca. Preco auditado • Produção local RJ.
+                - generic [ref=e1477]: "1x: R$ 39,90"
+              - generic [ref=e1478]:
+                - generic [ref=e1479]:
+                  - generic [ref=e1480]:
+                    - paragraph [ref=e1481]: Preço no Pix
+                    - generic [ref=e1482]:
+                      - generic [ref=e1483]: R$ 47,08
+                      - generic [ref=e1484]: R$ 39,90
+                    - generic [ref=e1485]: Economia no Pix R$ 7,18
+                    - paragraph [ref=e1486]: 12x de R$ 3,72 no cartão
+                    - paragraph [ref=e1487]: "Prazo de produção: 2.4h"
+                    - generic [ref=e1488]:
+                      - generic [ref=e1489]: Preco auditado
+                      - generic [ref=e1490]: Produção local RJ
+                  - generic [ref=e1491]:
+                    - img [ref=e1492]
+                    - text: 3 a 5 dias
+                - generic [ref=e1495]:
+                  - link "Comprar" [ref=e1496]:
+                    - /url: /catalogo/mw-a1-489-bandeja-criativa-leve-para-pecas-pequenas?from=%2Fcatalogo&focus=mw-a1-489
+                  - button "Adicionar" [ref=e1497]:
+                    - img [ref=e1498]
+                    - text: Adicionar
+                  - link "WhatsApp" [ref=e1502]:
+                    - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20fechar%201x%20Bandeja%20Criativa%20Leve%20para%20pe%C3%A7as%20pequenas%20(MW-A1-489).
+              - generic [ref=e1503]:
+                - button "Favoritar" [ref=e1504]
+                - button "Comparar" [ref=e1505]
+            - link "Abrir Porta-Ferramentas de Hobby de Mesa para pintura e hobby" [ref=e1506] [cursor=pointer]:
+              - generic [ref=e1507]:
+                - generic [ref=e1508]:
+                  - img "Impressão 3D de Porta-Ferramentas de Hobby de Mesa para pintura e hobby - MDH 3D Store" [ref=e1511]
+                  - generic:
+                    - generic: Render do produto
+                    - generic: Sob encomenda
+                - generic [ref=e1513]:
+                  - generic [ref=e1514]:
+                    - paragraph [ref=e1515]: PLA Premium • Texturizado
+                    - paragraph [ref=e1516]: Peça já produzida ou visual fiel do produto final.
+                  - generic [ref=e1517]: Render fiel
+              - generic [ref=e1519]: Render fiel
+              - generic [ref=e1520]:
+                - generic [ref=e1521]:
+                  - paragraph [ref=e1522]: Utilidades Reais
+                  - heading "Porta-Ferramentas de Hobby de Mesa para pintura e hobby" [level=3] [ref=e1523]
+                  - paragraph [ref=e1524]: Porta-Ferramentas de Hobby de Mesa para pintura e hobby impresso em PLA para resolver organização, apoio ou presente de forma simples, compacta e fácil de entender na primeira olhada.
+                - generic [ref=e1525]: 3 a 5 dias
+              - generic [ref=e1526]:
+                - paragraph [ref=e1527]: Compra direta
+                - paragraph [ref=e1528]: Preco Pix calculado em R$ 24.90 com base em material, tempo de producao e acabamento estimados para a peca. Preco auditado • Produção local RJ.
+                - generic [ref=e1530]: "1x: R$ 24,90"
+              - generic [ref=e1531]:
+                - generic [ref=e1532]:
+                  - generic [ref=e1533]:
+                    - paragraph [ref=e1534]: Preço no Pix
+                    - generic [ref=e1535]:
+                      - generic [ref=e1536]: R$ 29,38
+                      - generic [ref=e1537]: R$ 24,90
+                    - generic [ref=e1538]: Economia no Pix R$ 4,48
+                    - paragraph [ref=e1539]: 12x de R$ 2,32 no cartão
+                    - paragraph [ref=e1540]: "Prazo de produção: 1.5h"
+                    - generic [ref=e1541]:
+                      - generic [ref=e1542]: Preco auditado
+                      - generic [ref=e1543]: Produção local RJ
+                  - generic [ref=e1544]:
+                    - img [ref=e1545]
+                    - text: 3 a 5 dias
+                - generic [ref=e1548]:
+                  - link "Comprar" [ref=e1549]:
+                    - /url: /catalogo/mw-a1-488-porta-ferramentas-de-hobby-de-mesa-para-pintura-e-hobby?from=%2Fcatalogo&focus=mw-a1-488
+                  - button "Adicionar" [ref=e1550]:
+                    - img [ref=e1551]
+                    - text: Adicionar
+                  - link "WhatsApp" [ref=e1555]:
+                    - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20fechar%201x%20Porta-Ferramentas%20de%20Hobby%20de%20Mesa%20para%20pintura%20e%20hobby%20(MW-A1-488).
+              - generic [ref=e1556]:
+                - button "Favoritar" [ref=e1557]
+                - button "Comparar" [ref=e1558]
+            - link "Abrir Organizador de Artesanato de Bancada para artesanato" [ref=e1559] [cursor=pointer]:
+              - generic [ref=e1560]:
+                - generic [ref=e1561]:
+                  - img "Impressão 3D de Organizador de Artesanato de Bancada para artesanato - MDH 3D Store" [ref=e1564]
+                  - generic:
+                    - generic: Render do produto
+                    - generic: Sob encomenda
+                - generic [ref=e1566]:
+                  - generic [ref=e1567]:
+                    - paragraph [ref=e1568]: PLA Premium • Texturizado
+                    - paragraph [ref=e1569]: Peça já produzida ou visual fiel do produto final.
+                  - generic [ref=e1570]: Render fiel
+              - generic [ref=e1572]: Render fiel
+              - generic [ref=e1573]:
+                - generic [ref=e1574]:
+                  - paragraph [ref=e1575]: Utilidades Reais
+                  - heading "Organizador de Artesanato de Bancada para artesanato" [level=3] [ref=e1576]
+                  - paragraph [ref=e1577]: Organizador de Artesanato de Bancada para artesanato impresso em PLA para resolver organização, apoio ou presente de forma simples, compacta e fácil de entender na primeira olhada.
+                - generic [ref=e1578]: 3 a 5 dias
+              - generic [ref=e1579]:
+                - paragraph [ref=e1580]: Compra direta
+                - paragraph [ref=e1581]: Preco Pix calculado em R$ 34.90 com base em material, tempo de producao e acabamento estimados para a peca. Preco auditado • Produção local RJ.
+                - generic [ref=e1583]: "1x: R$ 34,90"
+              - generic [ref=e1584]:
+                - generic [ref=e1585]:
+                  - generic [ref=e1586]:
+                    - paragraph [ref=e1587]: Preço no Pix
+                    - generic [ref=e1588]:
+                      - generic [ref=e1589]: R$ 41,18
+                      - generic [ref=e1590]: R$ 34,90
+                    - generic [ref=e1591]: Economia no Pix R$ 6,28
+                    - paragraph [ref=e1592]: 12x de R$ 3,26 no cartão
+                    - paragraph [ref=e1593]: "Prazo de produção: 2.2h"
+                    - generic [ref=e1594]:
+                      - generic [ref=e1595]: Preco auditado
+                      - generic [ref=e1596]: Produção local RJ
+                  - generic [ref=e1597]:
+                    - img [ref=e1598]
+                    - text: 3 a 5 dias
+                - generic [ref=e1601]:
+                  - link "Comprar" [ref=e1602]:
+                    - /url: /catalogo/mw-a1-487-organizador-de-artesanato-de-bancada-para-artesanato?from=%2Fcatalogo&focus=mw-a1-487
+                  - button "Adicionar" [ref=e1603]:
+                    - img [ref=e1604]
+                    - text: Adicionar
+                  - link "WhatsApp" [ref=e1608]:
+                    - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20fechar%201x%20Organizador%20de%20Artesanato%20de%20Bancada%20para%20artesanato%20(MW-A1-487).
+              - generic [ref=e1609]:
+                - button "Favoritar" [ref=e1610]
+                - button "Comparar" [ref=e1611]
+          - generic [ref=e1612]:
+            - button "Anterior" [disabled] [ref=e1613]
+            - button "1" [ref=e1614] [cursor=pointer]
+            - button "2" [ref=e1615] [cursor=pointer]
+            - generic [ref=e1616]: ...
+            - button "32" [ref=e1617] [cursor=pointer]
+            - button "Próxima" [ref=e1618] [cursor=pointer]
+            - generic [ref=e1619]:
+              - generic [ref=e1620]: Ir para
+              - spinbutton "Ir para página do catálogo" [ref=e1621]: "1"
+              - button "Abrir" [ref=e1622] [cursor=pointer]
+    - contentinfo [ref=e1623]:
+      - generic [ref=e1625]:
+        - generic [ref=e1626]:
+          - img "Logo MDH 3D" [ref=e1627]
+          - paragraph [ref=e1628]: MDH 3D
+          - heading "Impressão 3D com apresentação profissional, produção local e atendimento direto." [level=2] [ref=e1629]
+          - paragraph [ref=e1630]: Trabalhamos com presentes personalizados, miniaturas, utilidades e projetos sob medida para clientes do Rio de Janeiro e de outras regiões do Brasil.
+          - generic [ref=e1631]:
+            - link "Atendimento no WhatsApp" [ref=e1632] [cursor=pointer]:
+              - /url: https://wa.me/5521920137249
+              - img [ref=e1633]
+              - text: Atendimento no WhatsApp
+            - link "Ver catálogo" [ref=e1635] [cursor=pointer]:
+              - /url: /catalogo
+              - text: Ver catálogo
+              - img [ref=e1636]
+          - generic [ref=e1639]:
+            - generic [ref=e1640]: Portfólio com fotos reais
+            - generic [ref=e1641]: Pix visível no checkout
+            - generic [ref=e1642]: Produção local no RJ
+        - generic [ref=e1643]:
+          - paragraph [ref=e1644]: Institucional
+          - generic [ref=e1645]:
+            - link "Compra protegida" [ref=e1646] [cursor=pointer]:
+              - /url: /compra-protegida
+            - link "Política de privacidade" [ref=e1647] [cursor=pointer]:
+              - /url: /politica-de-privacidade
+            - link "Termos de uso" [ref=e1648] [cursor=pointer]:
+              - /url: /termos
+            - link "Trocas e devoluções" [ref=e1649] [cursor=pointer]:
+              - /url: /trocas-e-devolucoes
+            - link "Frete e prazo" [ref=e1650] [cursor=pointer]:
+              - /url: /entregas
+            - link "Perguntas frequentes" [ref=e1651] [cursor=pointer]:
+              - /url: /faq
+            - link "Sobre a MDH 3D" [ref=e1652] [cursor=pointer]:
+              - /url: /sobre
+            - link "Contato" [ref=e1653] [cursor=pointer]:
+              - /url: /contato
+            - link "Portfólio e conteúdo" [ref=e1654] [cursor=pointer]:
+              - /url: /divulgacao
+          - generic [ref=e1655]:
+            - paragraph [ref=e1656]: Atalhos de compra
+            - generic [ref=e1657]:
+              - link "Só foto real" [ref=e1658] [cursor=pointer]:
+                - /url: /catalogo?mode=real
+              - link "Pronta entrega" [ref=e1659] [cursor=pointer]:
+                - /url: /catalogo?status=Pronta%20entrega
+              - link "Presentes criativos" [ref=e1660] [cursor=pointer]:
+                - /url: /catalogo?intent=Presente
+        - generic [ref=e1661]:
+          - paragraph [ref=e1662]: Jornada de compra
+          - generic [ref=e1663]:
+            - link "Escolher um produto" [ref=e1664] [cursor=pointer]:
+              - /url: /catalogo
+            - link "Buscar no catálogo" [ref=e1665] [cursor=pointer]:
+              - /url: /busca
+            - link "Favoritos" [ref=e1666] [cursor=pointer]:
+              - /url: /favoritos
+            - link "Presentes 3D" [ref=e1667] [cursor=pointer]:
+              - /url: /presentes-3d
+            - link "Setup e organização" [ref=e1668] [cursor=pointer]:
+              - /url: /setup-e-organizacao-3d
+            - link "Brindes e lotes" [ref=e1669] [cursor=pointer]:
+              - /url: /brindes-personalizados-3d
+            - link "Fechar pedido" [ref=e1670] [cursor=pointer]:
+              - /url: /checkout
+            - link "Rastrear pedido" [ref=e1671] [cursor=pointer]:
+              - /url: /rastrear
+            - link "Devoluções e trocas" [ref=e1672] [cursor=pointer]:
+              - /url: /devolucoes
+            - link "Acompanhar conta e pedidos" [ref=e1673] [cursor=pointer]:
+              - /url: /conta
+          - generic [ref=e1674]:
+            - paragraph [ref=e1675]: Antes de pedir
+            - generic [ref=e1676]:
+              - generic [ref=e1677]:
+                - paragraph [ref=e1678]: Envie tamanho ou uso esperado
+                - paragraph [ref=e1679]: Isso ajuda a indicar material, resistência e escala certa antes de produzir.
+              - generic [ref=e1680]:
+                - paragraph [ref=e1681]: Defina se é presente, coleção ou utilidade
+                - paragraph [ref=e1682]: A intenção muda acabamento, embalagem, urgência e sugestão de peça.
+              - generic [ref=e1683]:
+                - paragraph [ref=e1684]: Escolha se quer rapidez ou acabamento mais refinado
+                - paragraph [ref=e1685]: A loja consegue orientar o melhor equilíbrio entre prazo, custo e visual.
+        - generic [ref=e1686]:
+          - paragraph [ref=e1687]: Contato
+          - generic [ref=e1688]:
+            - link "Comprar catálogo" [ref=e1689] [cursor=pointer]:
+              - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20fechar%20um%20item%20do%20cat%C3%A1logo%20da%20MDH%203D.
+            - link "Peça personalizada" [ref=e1690] [cursor=pointer]:
+              - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20pedir%20uma%20pe%C3%A7a%20personalizada%20na%20MDH%203D.
+            - link "Brindes e lotes" [ref=e1691] [cursor=pointer]:
+              - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20or%C3%A7amento%20para%20brindes%20ou%20lote%20personalizado.
+            - link "Tirar dúvidas" [ref=e1692] [cursor=pointer]:
+              - /url: https://wa.me/5521920137249?text=Oi!%20Quero%20tirar%20d%C3%BAvidas%20sobre%20material%2C%20prazo%20e%20acabamento.
+          - generic [ref=e1693]:
+            - link "Atendimento humano para orçamento, personalização e pós-venda." [ref=e1694] [cursor=pointer]:
+              - /url: https://wa.me/5521920137249
+              - img [ref=e1695]
+              - generic [ref=e1697]: Atendimento humano para orçamento, personalização e pós-venda.
+            - link "mdhatendimento@gmail.com" [ref=e1698] [cursor=pointer]:
+              - /url: mailto:mdhatendimento@gmail.com
+              - img [ref=e1699]
+              - generic [ref=e1702]: mdhatendimento@gmail.com
+            - link "@mdh_impressao3d" [ref=e1703] [cursor=pointer]:
+              - /url: https://www.instagram.com/mdh_impressao3d/
+              - img [ref=e1704]
+              - generic [ref=e1707]: "@mdh_impressao3d"
+            - generic [ref=e1708]:
+              - img [ref=e1709]
+              - generic [ref=e1712]: Produção local no Rio de Janeiro com resposta em horário comercial.
+      - generic [ref=e1714]:
+        - generic [ref=e1715]: © 2026 MDH 3D. Todos os direitos reservados.
+        - generic [ref=e1716]:
+          - generic [ref=e1717]: Produção local
+          - generic [ref=e1718]: Pix visível
+          - generic [ref=e1719]: Catálogo curado
+        - button "Voltar ao topo" [ref=e1720] [cursor=pointer]
+    - link "Fale conosco no WhatsApp" [ref=e1722] [cursor=pointer]:
+      - /url: https://wa.me/5521920137249?text=Oi!%20Vim%20pelo%20site%20da%20MDH%203D%20e%20quero%20um%20or%C3%A7amento.
+      - img [ref=e1724]
+    - button "Abrir chat" [ref=e1727] [cursor=pointer]:
+      - img [ref=e1730]
+      - generic [ref=e1732]:
+        - generic [ref=e1733]: Tirar dúvidas agora
+        - generic [ref=e1734]: Atendimento pré-venda
+    - dialog "Aviso de uso de cookies" [ref=e1735]:
+      - generic [ref=e1736]:
+        - img [ref=e1737]
+        - paragraph [ref=e1739]:
+          - text: Usamos cookies para melhorar sua experiência, lembrar o carrinho e analisar acessos. Ao continuar navegando você concorda com nossa
+          - link "política de privacidade" [ref=e1740] [cursor=pointer]:
+            - /url: /politica-de-privacidade
+          - text: .
+      - generic [ref=e1741]:
+        - button "Recusar cookies não essenciais" [ref=e1742] [cursor=pointer]:
+          - img [ref=e1743]
+          - text: Recusar
+        - button "Aceitar cookies e continuar navegando" [ref=e1746] [cursor=pointer]: Aceitar cookies
+  - alert [ref=e1747]

@@ -7,8 +7,10 @@ import { getSiteUrl } from "@/lib/env";
 import { prisma } from "@/lib/prisma";
 
 type Session = { distanceKm?: number; lastProductId?: string; wantsHuman?: boolean };
-const sessions = new Map<string, Session>();
+// Keep the in-memory map as a fast-path cache; DB serves as persistent fallback.
+const sessionsCache = new Map<string, Session>();
 const AI_BOT_ID = "ai-bot";
+const WA_API_VERSION = "v23.0";
 
 async function ensureBotUser() {
   await prisma.user.upsert({
@@ -118,7 +120,7 @@ async function sendText(to: string, body: string) {
     return { ok: false, error: "WHATSAPP_PHONE_NUMBER_ID/WHATSAPP_ACCESS_TOKEN não configurados" };
   }
 
-  const url = `https://graph.facebook.com/v20.0/${phoneNumberId}/messages`;
+  const url = `https://graph.facebook.com/${WA_API_VERSION}/${phoneNumberId}/messages`;
   const res = await fetch(url, {
     method: "POST",
     headers: {
@@ -138,6 +140,58 @@ async function sendText(to: string, body: string) {
     return { ok: false, status: res.status, data };
   }
   return { ok: true };
+}
+
+/** Reconstruct session state from the thread's message history (serverless-safe). */
+async function loadSessionFromDB(threadId: string): Promise<Session> {
+  const messages = await prisma.chatMessage.findMany({
+    where: { threadId },
+    orderBy: { createdAt: "desc" },
+    take: 24,
+    select: { senderId: true, body: true },
+  });
+
+  const session: Session = {};
+
+  for (const msg of messages) {
+    // Parse distance km from any message
+    if (!session.distanceKm) {
+      const km = parseDistanceKm(msg.body);
+      if (km != null) session.distanceKm = km;
+    }
+    if (msg.senderId === AI_BOT_ID) {
+      // Check if bot redirected to human support
+      if (!session.wantsHuman && /atendimento humano|atendente|falar com algu/i.test(msg.body)) {
+        session.wantsHuman = true;
+      }
+      // Infer last product from bot reply header "MDH 3D | ProductName"
+      if (!session.lastProductId) {
+        for (const item of catalog) {
+          if (msg.body.includes(item.name) || msg.body.includes(item.id) || msg.body.includes(item.sku)) {
+            session.lastProductId = item.id;
+            break;
+          }
+        }
+      }
+    }
+    // Once we have enough context, stop scanning
+    if (session.lastProductId && session.distanceKm !== undefined) break;
+  }
+
+  return session;
+}
+
+async function getSession(from: string, threadId: string): Promise<Session> {
+  const cached = sessionsCache.get(from);
+  if (cached) return cached;
+  // Fallback: reconstruct from DB (handles serverless cold starts)
+  const session = await loadSessionFromDB(threadId);
+  sessionsCache.set(from, session);
+  return session;
+}
+
+function saveSession(from: string, session: Session) {
+  sessionsCache.set(from, session);
 }
 
 function scoreItem(item: any, tokens: string[]) {
@@ -215,10 +269,12 @@ export async function POST(request: Request) {
         const text = String(msg?.text?.body || "").trim();
         if (!from || !text) continue;
 
-        const session = sessions.get(from) || {};
         const contact = await ensureWhatsAppUser(from);
         const thread = await ensureWhatsAppThread(contact.id, `WhatsApp ${from}`);
         await storeMessage(thread.id, contact.id, text);
+
+        // Load session from cache or DB (persists across serverless invocations)
+        const session = await getSession(from, thread.id);
 
         if (/^(oi|ol[aá]|menu|in[ií]cio|começar)$/i.test(text)) {
           const reply = menuText();
@@ -233,7 +289,7 @@ export async function POST(request: Request) {
 
         if (wantsHuman(text)) {
           session.wantsHuman = true;
-          sessions.set(from, session);
+          saveSession(from, session);
           const reply = [
             "Perfeito. Vou direcionar para atendimento humano.",
             `WhatsApp principal: +${whatsappNumber}`,
@@ -256,7 +312,7 @@ export async function POST(request: Request) {
         const product = findBestProduct(query) || (session.lastProductId ? catalog.find((p) => p.id === session.lastProductId) : null);
 
         if (!product) {
-          sessions.set(from, session);
+          saveSession(from, session);
           const reply = menuText();
           const result = await sendText(from, reply);
           if (result.ok) {
@@ -268,7 +324,7 @@ export async function POST(request: Request) {
         }
 
         session.lastProductId = product.id;
-        sessions.set(from, session);
+        saveSession(from, session);
 
         const siteUrl = getSiteUrl();
         const link = `${siteUrl}${getProductUrl(product)}`;
