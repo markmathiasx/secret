@@ -132,9 +132,10 @@ async function testLink(context, action) {
 async function runCatalogFlow(page) {
   const evidence = [];
   await page.goto(`${baseUrl}/catalogo`, { waitUntil: "domcontentloaded" });
-  await page.getByText("Explorador comercial").waitFor({ timeout: 15000 });
+  await page.getByText("Explorador comercial").first().waitFor({ timeout: 15000 });
+  const pageJumpForm = page.locator("form").filter({ has: page.getByLabel("Ir para página do catálogo") });
   await page.getByLabel("Ir para página do catálogo").fill("2");
-  await page.getByRole("button", { name: "Abrir" }).last().click();
+  await pageJumpForm.getByRole("button", { name: "Abrir" }).click();
   await page.waitForURL(/page=2/, { timeout: 10000, waitUntil: "domcontentloaded" });
   evidence.push({ step: "catalog_page_jump", ok: page.url().includes("page=2"), url: page.url() });
 
@@ -153,21 +154,22 @@ async function runCatalogFlow(page) {
 async function runCheckoutFlow(page) {
   const evidence = [];
   await page.goto(`${baseUrl}/checkout`, { waitUntil: "domcontentloaded" });
-  await page.getByText("Produto e contexto").waitFor({ timeout: 15000 });
-  evidence.push({ step: "checkout_open", ok: page.url().includes("/checkout") && await page.getByText("Produto e contexto").isVisible() });
+  const checkoutHeading = page.getByText("Produto e contexto").first();
+  await checkoutHeading.waitFor({ timeout: 15000 });
+  evidence.push({ step: "checkout_open", ok: page.url().includes("/checkout") && await checkoutHeading.isVisible() });
 
-  await page.getByLabel("Nome completo").fill("Cliente Teste MDH");
-  await page.getByLabel("Email").fill("cliente.teste+codex@mdh3d.local");
-  await page.getByRole("textbox", { name: "WhatsApp" }).fill("21999999999");
-  await page.getByLabel("Apelido do endereço").fill("Casa");
-  await page.getByLabel("Destinatário").fill("Cliente Teste MDH");
-  await page.getByRole("textbox", { name: "CEP" }).fill("22041001");
-  await page.getByLabel("Telefone do endereço").fill("21999999999");
-  await page.getByLabel("Rua e número").fill("Rua Barata Ribeiro, 100");
-  await page.getByLabel("Complemento").fill("Teste automatizado");
-  await page.getByLabel("Bairro").fill("Copacabana");
-  await page.getByLabel("Cidade").fill("Rio de Janeiro");
-  await page.getByLabel("Estado").fill("RJ");
+  await page.getByLabel("Nome completo").first().fill("Cliente Teste MDH");
+  await page.getByLabel("Email").first().fill("cliente.teste+codex@mdh3d.local");
+  await page.getByRole("textbox", { name: "WhatsApp" }).first().fill("21999999999");
+  await page.getByLabel("Apelido do endereço").first().fill("Casa");
+  await page.getByLabel("Destinatário").first().fill("Cliente Teste MDH");
+  await page.getByRole("textbox", { name: "CEP" }).first().fill("22041001");
+  await page.getByLabel("Telefone do endereço").first().fill("21999999999");
+  await page.getByLabel("Rua e número").first().fill("Rua Barata Ribeiro, 100");
+  await page.getByLabel("Complemento").first().fill("Teste automatizado");
+  await page.getByLabel("Bairro").first().fill("Copacabana");
+  await page.getByLabel("Cidade").first().fill("Rio de Janeiro");
+  await page.getByLabel("Estado").first().fill("RJ");
   await page.getByRole("button", { name: "Continuar para envio" }).click();
   const continuePayment = page.getByRole("button", { name: "Continuar para pagamento" });
   await continuePayment.waitFor({ state: "visible", timeout: 15000 }).catch(() => null);
@@ -182,7 +184,13 @@ async function runCheckoutFlow(page) {
   await page.getByText("Pagamento selecionado").waitFor({ timeout: 10000 }).catch(() => null);
   evidence.push({ step: "checkout_payment", ok: await page.getByText("Pagamento selecionado").isVisible().catch(() => false) });
 
-  await page.getByRole("button", { name: "Continuar para confirmação" }).click();
+  await page.waitForFunction(() => {
+    return [...document.querySelectorAll("button")].some((button) => {
+      const text = button.textContent?.replace(/\s+/g, " ").trim() || "";
+      return text === "Continuar para confirmação" && !button.hasAttribute("disabled");
+    });
+  }, { timeout: 10000 }).catch(() => null);
+  await page.getByRole("button", { name: "Continuar para confirmação" }).first().click();
   await page.getByText("Resumo final").waitFor({ timeout: 10000 }).catch(() => null);
   evidence.push({ step: "checkout_confirm", ok: await page.getByText("Resumo final").isVisible().catch(() => false) });
 
@@ -198,6 +206,13 @@ async function runCheckoutFlow(page) {
 
 async function runViewport(browser, viewportName, viewport) {
   const context = await browser.newContext(viewport);
+  await context.addInitScript(() => {
+    try {
+      window.localStorage.setItem("mdh_cookie_consent", "accepted");
+    } catch {
+      // Ignore environments where storage is unavailable.
+    }
+  });
   const page = await context.newPage();
   const consoleErrors = [];
   const pageErrors = [];
