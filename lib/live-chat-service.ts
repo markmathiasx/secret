@@ -7,8 +7,15 @@
  */
 
 import { prisma } from "./prisma";
-import { getDatabaseUrl, getSiteUrl } from "./env";
+import {
+  getChatwootBaseUrl,
+  getDatabaseUrl,
+  getSiteUrl,
+  isChatwootLiveAvailable,
+  isChatwootWidgetConfigured,
+} from "./env";
 import { whatsappNumber } from "./constants";
+import { buildCommerceFallbackReply } from "./commerce-assistant";
 
 export interface ChatMessage {
   id?: string;
@@ -133,20 +140,27 @@ async function notifySupportOnWhatsApp(input: {
 }
 
 async function getAssistantReply(messages: Array<{ role: "user" | "assistant"; content: string }>) {
-  const response = await fetch(`${getSiteUrl()}/api/assistant/chat`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ messages }),
-  });
+  const latestUserMessage = [...messages].reverse().find((message) => message.role === "user")?.content || "";
 
-  const payload = await response.json().catch(() => ({}));
-  if (!response.ok || !payload?.message) {
-    throw new Error(payload?.error || "assistant_unavailable");
+  try {
+    const response = await fetch(`${getSiteUrl()}/api/assistant/chat`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ messages }),
+    });
+
+    const payload = await response.json().catch(() => ({}));
+    if (!response.ok || !payload?.message) {
+      throw new Error(payload?.error || "assistant_unavailable");
+    }
+
+    return String(payload.message);
+  } catch (error) {
+    console.error("Assistant route unavailable, using deterministic fallback:", error);
+    return buildCommerceFallbackReply(latestUserMessage);
   }
-
-  return String(payload.message);
 }
 
 async function createBotMessage(threadId: string, body: string) {
@@ -396,13 +410,37 @@ export async function getSupportStatus(): Promise<{
   average_wait_time: number;
   active_agents: number;
   queue_length: number;
+  provider: "chatwoot" | "native" | "whatsapp";
+  launchMode: "chatwoot" | "native" | "whatsapp";
+  label: string;
+  handoffUrl: string;
 }> {
+  if (isChatwootWidgetConfigured()) {
+    const liveAvailable = isChatwootLiveAvailable();
+    return {
+      available: liveAvailable,
+      average_wait_time: liveAvailable ? 5 : 15,
+      active_agents: liveAvailable ? 1 : 0,
+      queue_length: 0,
+      provider: "chatwoot",
+      launchMode: "chatwoot",
+      label: liveAvailable
+        ? "Atendimento ao vivo no widget"
+        : "Inbox comercial no widget",
+      handoffUrl: getChatwootBaseUrl() || `https://wa.me/${whatsappNumber}`,
+    };
+  }
+
   if (!getDatabaseUrl()) {
     return {
       available: false,
       average_wait_time: 30,
       active_agents: 0,
       queue_length: 0,
+      provider: "whatsapp",
+      launchMode: "whatsapp",
+      label: "Atendimento humano no WhatsApp",
+      handoffUrl: `https://wa.me/${whatsappNumber}`,
     };
   }
 
@@ -419,6 +457,10 @@ export async function getSupportStatus(): Promise<{
       average_wait_time: activeAgents > 0 ? Math.ceil(activeChats / activeAgents) * 5 : 30,
       active_agents: activeAgents,
       queue_length: activeChats,
+      provider: "native",
+      launchMode: "native",
+      label: activeAgents > 0 ? "Equipe no chat do site" : "Pré-atendimento no site",
+      handoffUrl: `https://wa.me/${whatsappNumber}`,
     };
   } catch (error) {
     console.error("Support status unavailable:", error);
@@ -428,6 +470,10 @@ export async function getSupportStatus(): Promise<{
       average_wait_time: 30,
       active_agents: 0,
       queue_length: 0,
+      provider: "whatsapp",
+      launchMode: "whatsapp",
+      label: "Atendimento humano no WhatsApp",
+      handoffUrl: `https://wa.me/${whatsappNumber}`,
     };
   }
 }

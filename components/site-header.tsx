@@ -55,11 +55,13 @@ export function SiteHeader({
   aiAssistantReady,
   aiAssistantModel,
   aiAssistantProvider,
+  liveChatMode,
 }: {
   cardCheckoutReady: boolean;
   aiAssistantReady: boolean;
   aiAssistantModel: string;
   aiAssistantProvider: "openai" | "groq" | "ollama" | "fallback";
+  liveChatMode: "chatwoot" | "native" | "whatsapp";
 }) {
   const pathname = usePathname();
   const session = useCustomerSession();
@@ -342,6 +344,7 @@ export function SiteHeader({
         aiAssistantReady={aiAssistantReady}
         aiAssistantModel={aiAssistantModel}
         aiAssistantProvider={aiAssistantProvider}
+        liveChatMode={liveChatMode}
       />
     </>
   );

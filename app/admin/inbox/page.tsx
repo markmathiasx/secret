@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { AdminInbox } from "@/components/admin/admin-inbox";
+import { getChatwootAdminUrl, isChatwootWidgetConfigured } from "@/lib/env";
 import { prisma } from "@/lib/prisma";
 import { getServerSessionUser, isAdminSession } from "@/lib/server-session";
 
@@ -14,6 +15,9 @@ export default async function AdminInboxPage({ searchParams }: Props) {
   if (!isAdminSession(user)) {
     redirect("/admin/login");
   }
+
+  const chatwootAdminUrl = getChatwootAdminUrl();
+  const chatwootConfigured = isChatwootWidgetConfigured();
 
   const query = (await Promise.resolve(searchParams ?? {})) as { thread?: string | string[] };
   const initialThreadId = Array.isArray(query.thread) ? query.thread[0] : query.thread || null;
@@ -66,6 +70,30 @@ export default async function AdminInboxPage({ searchParams }: Props) {
           Site e WhatsApp chegam no mesmo fluxo operacional para a equipe assumir conversas sem perder contexto.
         </p>
       </div>
+
+      {chatwootConfigured ? (
+        <div className="mb-8 rounded-[28px] border border-emerald-300/20 bg-emerald-300/10 p-6 text-white/80 shadow-[0_20px_60px_rgba(16,185,129,0.12)]">
+          <p className="text-xs uppercase tracking-[0.2em] text-emerald-100">Chatwoot Community</p>
+          <h2 className="mt-2 text-2xl font-black text-white">Inbox principal do widget ao vivo</h2>
+          <p className="mt-3 max-w-3xl text-sm leading-7 text-white/70">
+            O atendimento ao vivo do site agora pode operar pelo Chatwoot. Esta área continua útil para o fluxo interno e para conversas já salvas no banco, enquanto o widget oficial usa o inbox configurado por ambiente.
+          </p>
+          {chatwootAdminUrl ? (
+            <a
+              href={chatwootAdminUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="btn-secondary mt-4 inline-flex"
+            >
+              Abrir inbox do Chatwoot
+            </a>
+          ) : (
+            <p className="mt-4 text-sm text-amber-100">
+              Configure <span className="font-semibold text-white">CHATWOOT_ADMIN_URL</span> para abrir o inbox do Chatwoot por aqui.
+            </p>
+          )}
+        </div>
+      ) : null}
 
       <AdminInbox initialThreads={initialThreads} initialThreadId={initialThreadId} />
     </section>

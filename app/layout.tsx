@@ -6,6 +6,7 @@ import './globals.css';
 import { AccessibilityProvider, SkipLink } from '@/components/accessibility';
 import { CartDrawer } from '@/components/cart-drawer';
 import { CartSessionBridge } from '@/components/cart-session-bridge';
+import { ChatwootWidget } from '@/components/chatwoot-widget';
 import { CartProvider } from '@/lib/cart-context';
 import { CookieConsent } from '@/components/cookie-consent';
 import { FacebookPixel } from '@/components/facebook-pixel';
@@ -19,7 +20,17 @@ import { ToastProvider } from '@/components/toast';
 import { LiveChatWidget } from '@/components/live-chat-widget';
 import { WhatsAppFloat } from '@/components/whatsapp-float';
 import { brand, socialLinks, supportEmail, whatsappNumber } from '@/lib/constants';
-import { getAiAssistantModel, getAiAssistantProvider, getSiteUrl, isAiAssistantConfigured, isCardCheckoutConfigured } from '@/lib/env';
+import {
+  getAiAssistantModel,
+  getAiAssistantProvider,
+  getChatwootBaseUrl,
+  getChatwootWebsiteToken,
+  getDatabaseUrl,
+  getSiteUrl,
+  isAiAssistantConfigured,
+  isCardCheckoutConfigured,
+  isChatwootWidgetConfigured,
+} from '@/lib/env';
 
 const siteUrl = getSiteUrl();
 const sans = Manrope({ subsets: ['latin'], variable: '--font-sans', display: 'swap', preload: true });
@@ -28,6 +39,10 @@ const cardCheckoutReady = isCardCheckoutConfigured();
 const aiAssistantReady = isAiAssistantConfigured();
 const aiAssistantModel = getAiAssistantModel();
 const aiAssistantProvider = getAiAssistantProvider();
+const chatwootEnabled = isChatwootWidgetConfigured();
+const chatwootBaseUrl = getChatwootBaseUrl();
+const chatwootWebsiteToken = getChatwootWebsiteToken();
+const liveChatMode = chatwootEnabled ? "chatwoot" : getDatabaseUrl() ? "native" : "whatsapp";
 const normalizedPhone = `+${whatsappNumber.replace(/\D/g, '')}`;
 const socialProfiles = [socialLinks.instagram].filter((item) => Boolean(item) && item !== '#');
 const googleVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION?.trim();
@@ -197,6 +212,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               aiAssistantReady={aiAssistantReady}
               aiAssistantModel={aiAssistantModel}
               aiAssistantProvider={aiAssistantProvider}
+              liveChatMode={liveChatMode}
             />
             <main>{children}</main>
             <SiteFooter />
@@ -208,8 +224,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               aiAssistantReady={aiAssistantReady}
               aiAssistantModel={aiAssistantModel}
               aiAssistantProvider={aiAssistantProvider}
+              liveChatMode={liveChatMode}
             />
-            <LiveChatWidget />
+            <ChatwootWidget
+              enabled={chatwootEnabled}
+              baseUrl={chatwootBaseUrl}
+              websiteToken={chatwootWebsiteToken}
+            />
+            <LiveChatWidget defaultMode={liveChatMode} />
             <PwaRegister />
             <CartDrawer />
             <CookieConsent />

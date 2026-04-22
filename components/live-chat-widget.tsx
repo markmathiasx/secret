@@ -19,6 +19,10 @@ type SupportStatus = {
   average_wait_time: number;
   active_agents: number;
   queue_length: number;
+  provider: "chatwoot" | "native" | "whatsapp";
+  launchMode: "chatwoot" | "native" | "whatsapp";
+  label: string;
+  handoffUrl: string;
 };
 
 const VISITOR_STORAGE_KEY = "mdh-chat-visitor-id";
@@ -51,7 +55,11 @@ function formatTimestamp(value: string | Date) {
   }).format(date);
 }
 
-export function LiveChatWidget() {
+export function LiveChatWidget({
+  defaultMode = "native",
+}: {
+  defaultMode?: "chatwoot" | "native" | "whatsapp";
+}) {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [visitorId, setVisitorId] = useState("");
@@ -62,8 +70,11 @@ export function LiveChatWidget() {
   const [supportStatus, setSupportStatus] = useState<SupportStatus | null>(null);
   const [unreadCount, setUnreadCount] = useState(0);
   const [error, setError] = useState("");
+  const [chatwootReady, setChatwootReady] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const lastMessageCountRef = useRef(0);
+  const launchMode = supportStatus?.launchMode || defaultMode;
+  const usesNativeChat = launchMode === "native";
 
   const hiddenOnPath = useMemo(
     () =>
@@ -80,6 +91,25 @@ export function LiveChatWidget() {
     requestAnimationFrame(() => {
       messagesEndRef.current?.scrollIntoView({ block: "end", behavior: "smooth" });
     });
+  }
+
+  function openChatwoot() {
+    window.dispatchEvent(new CustomEvent("mdh:chatwoot-open"));
+  }
+
+  function openWhatsAppSupport() {
+    window.open(`https://wa.me/${whatsappNumber}`, "_blank", "noopener,noreferrer");
+  }
+
+  function launchChatwootFromPanel() {
+    if (!chatwootReady) {
+      setError("O widget ao vivo ainda está carregando. Tente novamente em alguns segundos ou use o WhatsApp.");
+      return;
+    }
+
+    setError("");
+    setIsOpen(false);
+    openChatwoot();
   }
 
   const loadSupportStatus = useCallback(async () => {
@@ -266,28 +296,53 @@ export function LiveChatWidget() {
     void loadSupportStatus();
   }, [loadSupportStatus, restoreCurrentThread]);
 
+  useEffect(() => {
+    function handleReady() {
+      setChatwootReady(true);
+      setError("");
+    }
+
+    function handleError() {
+      setChatwootReady(false);
+      setError("O chat ao vivo ainda está carregando. Se precisar, use o WhatsApp.");
+    }
+
+    window.addEventListener("mdh:chatwoot-ready", handleReady);
+    window.addEventListener("mdh:chatwoot-error", handleError);
+
+    return () => {
+      window.removeEventListener("mdh:chatwoot-ready", handleReady);
+      window.removeEventListener("mdh:chatwoot-error", handleError);
+    };
+  }, []);
+
   // Listen for product-context open-chat events dispatched by PDP CTAs
   useEffect(() => {
     function handleOpenChat() {
+      if (launchMode === "whatsapp") {
+        openWhatsAppSupport();
+        return;
+      }
+
       setIsOpen(true);
       setUnreadCount(0);
-      if (!threadId) {
+      if (usesNativeChat && !threadId) {
         void startChat();
       }
     }
     window.addEventListener("mdh:openchat", handleOpenChat);
     return () => window.removeEventListener("mdh:openchat", handleOpenChat);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [threadId]);
+  }, [launchMode, threadId, usesNativeChat]);
 
   useEffect(() => {
-    if (!threadId) return;
+    if (!threadId || !usesNativeChat) return;
     const timer = window.setInterval(() => {
       void loadThread(threadId, true);
       void loadSupportStatus();
     }, 5000);
     return () => window.clearInterval(timer);
-  }, [threadId, isOpen, loadSupportStatus, loadThread]);
+  }, [threadId, usesNativeChat, isOpen, loadSupportStatus, loadThread]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -301,132 +356,212 @@ export function LiveChatWidget() {
   return (
     <div className="fixed bottom-24 right-4 z-[110] sm:bottom-24 sm:right-6">
       {isOpen ? (
-        <section className="flex h-[min(760px,calc(100vh-1rem))] w-[min(420px,calc(100vw-1rem))] flex-col overflow-hidden rounded-[28px] border border-white/10 bg-slate-950/96 shadow-[0_24px_80px_rgba(2,8,23,0.42)] backdrop-blur-2xl">
-          <header className="flex items-start justify-between gap-3 border-b border-white/10 bg-[linear-gradient(180deg,rgba(8,15,24,0.96),rgba(8,15,24,0.84))] px-4 py-4">
-            <div className="min-w-0">
-              <div className="flex items-center gap-2 text-cyan-100">
-                <Sparkles className="h-4 w-4" />
-                <p className="text-xs font-semibold uppercase tracking-[0.2em]">Atendimento MDH</p>
+        launchMode === "chatwoot" ? (
+          <section className="flex w-[min(400px,calc(100vw-1rem))] flex-col overflow-hidden rounded-[28px] border border-white/10 bg-slate-950/96 shadow-[0_24px_80px_rgba(2,8,23,0.42)] backdrop-blur-2xl">
+            <header className="flex items-start justify-between gap-3 border-b border-white/10 bg-[linear-gradient(180deg,rgba(8,15,24,0.96),rgba(8,15,24,0.84))] px-4 py-4">
+              <div className="min-w-0">
+                <div className="flex items-center gap-2 text-cyan-100">
+                  <Sparkles className="h-4 w-4" />
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em]">Atendimento MDH</p>
+                </div>
+                <p className="mt-2 text-sm font-semibold text-white">Atendimento ao vivo no widget oficial</p>
+                <p className="mt-1 text-xs leading-5 text-white/55">
+                  {supportStatus?.available
+                    ? `Equipe online • tempo médio ${supportStatus.average_wait_time} min`
+                    : "Abra o widget para continuar no inbox comercial da loja"}
+                </p>
               </div>
-              <p className="mt-2 text-sm font-semibold text-white">Tire dúvidas antes de comprar</p>
-              <p className="mt-1 text-xs leading-5 text-white/55">
-                {supportStatus?.available
-                  ? `Equipe online • tempo médio ${supportStatus.average_wait_time} min`
-                  : "Atendimento humano disponível no WhatsApp"}
-              </p>
-            </div>
 
-            <button
-              type="button"
-              onClick={() => setIsOpen(false)}
-              className="rounded-full border border-white/10 bg-white/5 p-2 text-white/70 transition hover:bg-white/10"
-              aria-label="Fechar chat"
-            >
-              <X className="h-4 w-4" />
-            </button>
-          </header>
+              <button
+                type="button"
+                onClick={() => setIsOpen(false)}
+                className="rounded-full border border-white/10 bg-white/5 p-2 text-white/70 transition hover:bg-white/10"
+                aria-label="Fechar chat"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </header>
 
-          <div className="flex min-h-0 flex-1 flex-col">
-            <div className="border-b border-white/10 px-4 py-3 text-xs text-white/55">
-              Responda por aqui ou chame o WhatsApp em +{whatsappNumber}
-            </div>
+            <div className="space-y-4 p-4">
+              <div className="rounded-[24px] border border-white/10 bg-white/5 p-4 text-sm leading-7 text-white/72">
+                Use o widget da MDH para falar com a equipe sem sair do site. O consultor continua ajudando na seleção, e o atendimento humano assume o fechamento quando necessário.
+              </div>
 
-            <div className="min-h-0 flex-1 space-y-3 overflow-y-auto px-4 py-4">
-              {messages.length === 0 ? (
-                <div className="rounded-[24px] border border-white/10 bg-white/5 p-4 text-sm leading-7 text-white/70">
-                  Diga o que você quer comprar, sua faixa de preço ou se prefere foto real, pronta entrega e personalização. Se a equipe não estiver online, o WhatsApp assume sem te fazer recomeçar.
-                </div>
-              ) : null}
-
-              {messages.map((message) => (
-                <div
-                  key={message.id}
-                  className={`flex ${message.sender_type === "customer" ? "justify-end" : "justify-start"}`}
-                >
-                  <div
-                    className={`max-w-[85%] rounded-[22px] px-4 py-3 text-sm leading-7 shadow-[0_12px_28px_rgba(2,8,23,0.18)] ${
-                      message.sender_type === "customer"
-                        ? "border border-cyan-300/20 bg-cyan-400/12 text-cyan-50"
-                        : "border border-white/10 bg-white/5 text-white/78"
-                    }`}
-                  >
-                    <p className="whitespace-pre-wrap">{message.message}</p>
-                    <p className="mt-2 text-[11px] uppercase tracking-[0.16em] text-white/35">
-                      {message.sender_type === "customer" ? "Você" : "MDH 3D"} • {formatTimestamp(message.created_at)}
-                    </p>
-                  </div>
-                </div>
-              ))}
-
-              {loading ? (
-                <div className="flex justify-start">
-                  <div className="inline-flex items-center gap-2 rounded-[22px] border border-white/10 bg-white/5 px-4 py-3 text-sm text-white/65">
-                    <LoaderCircle className="h-4 w-4 animate-spin" />
-                    Processando resposta...
-                  </div>
-                </div>
-              ) : null}
-
-              <div ref={messagesEndRef} />
-            </div>
-
-            <div className="border-t border-white/10 bg-[linear-gradient(180deg,rgba(8,15,24,0.5),rgba(8,15,24,0.95))] p-4">
-              <div className="mb-3 flex flex-wrap gap-2 text-xs">
+              <div className="flex flex-wrap gap-2 text-xs">
                 <span className="inline-flex items-center gap-2 rounded-full border border-emerald-300/20 bg-emerald-300/10 px-3 py-1 text-emerald-100">
                   <ShieldCheck className="h-3.5 w-3.5" />
-                  Fechamento com equipe humana
+                  Inbox Chatwoot integrado
                 </span>
-                <a
-                  href={`https://wa.me/${whatsappNumber}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-white/70 transition hover:border-emerald-300/20 hover:text-white"
-                >
-                  WhatsApp
-                </a>
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-white/70">
+                  {chatwootReady ? "Widget pronto" : "Carregando widget"}
+                </span>
               </div>
 
-              <div className="mb-3 flex flex-wrap gap-2">
+              <div className="grid gap-2">
+                <button
+                  type="button"
+                  onClick={launchChatwootFromPanel}
+                  className="btn-primary w-full justify-center gap-2"
+                >
+                  <MessageCircleMore className="h-4 w-4" />
+                  Abrir atendimento ao vivo
+                </button>
+                <button
+                  type="button"
+                  onClick={openWhatsAppSupport}
+                  className="btn-secondary w-full justify-center gap-2"
+                >
+                  WhatsApp
+                </button>
+              </div>
+
+              <div className="flex flex-wrap gap-2">
                 {CHAT_QUICK_ACTIONS.map((prompt) => (
-                  <button
+                  <span
                     key={prompt}
-                    type="button"
-                    onClick={() => setInput(prompt)}
-                    className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-white/72 transition hover:border-cyan-300/20 hover:text-white"
+                    className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-white/72"
                   >
                     {prompt}
-                  </button>
+                  </span>
                 ))}
               </div>
 
-              <div className="flex gap-2">
-                <textarea
-                  value={input}
-                  onChange={(event) => setInput(event.target.value)}
-                  onKeyDown={onKeyDown}
-                  placeholder="Escreva sua dúvida..."
-                  className="min-h-[56px] max-h-[140px] flex-1 resize-none rounded-[20px] border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none placeholder:text-white/30"
-                />
-                <button
-                  type="button"
-                  onClick={() => void sendMessage()}
-                  disabled={loading || !input.trim()}
-                  className="inline-flex h-[56px] items-center justify-center rounded-[18px] border border-cyan-300/20 bg-cyan-400/15 px-4 text-cyan-50 transition hover:bg-cyan-400/20 disabled:cursor-not-allowed disabled:opacity-50"
-                  aria-label="Enviar mensagem"
-                >
-                  <SendHorizonal className="h-4 w-4" />
-                </button>
-              </div>
-              {error ? <p className="mt-2 text-xs text-amber-200">{error}</p> : null}
+              {error ? <p className="text-xs text-amber-200">{error}</p> : null}
             </div>
-          </div>
-        </section>
+          </section>
+        ) : (
+          <section className="flex h-[min(760px,calc(100vh-1rem))] w-[min(420px,calc(100vw-1rem))] flex-col overflow-hidden rounded-[28px] border border-white/10 bg-slate-950/96 shadow-[0_24px_80px_rgba(2,8,23,0.42)] backdrop-blur-2xl">
+            <header className="flex items-start justify-between gap-3 border-b border-white/10 bg-[linear-gradient(180deg,rgba(8,15,24,0.96),rgba(8,15,24,0.84))] px-4 py-4">
+              <div className="min-w-0">
+                <div className="flex items-center gap-2 text-cyan-100">
+                  <Sparkles className="h-4 w-4" />
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em]">Atendimento MDH</p>
+                </div>
+                <p className="mt-2 text-sm font-semibold text-white">Tire dúvidas antes de comprar</p>
+                <p className="mt-1 text-xs leading-5 text-white/55">
+                  {supportStatus?.available
+                    ? `Equipe online • tempo médio ${supportStatus.average_wait_time} min`
+                    : supportStatus?.label || "Atendimento humano disponível no WhatsApp"}
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setIsOpen(false)}
+                className="rounded-full border border-white/10 bg-white/5 p-2 text-white/70 transition hover:bg-white/10"
+                aria-label="Fechar chat"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </header>
+
+            <div className="flex min-h-0 flex-1 flex-col">
+              <div className="border-b border-white/10 px-4 py-3 text-xs text-white/55">
+                Responda por aqui ou chame o WhatsApp em +{whatsappNumber}
+              </div>
+
+              <div className="min-h-0 flex-1 space-y-3 overflow-y-auto px-4 py-4">
+                {messages.length === 0 ? (
+                  <div className="rounded-[24px] border border-white/10 bg-white/5 p-4 text-sm leading-7 text-white/70">
+                    Diga o que você quer comprar, sua faixa de preço ou se prefere foto real, pronta entrega e personalização. Se a equipe não estiver online, o WhatsApp assume sem te fazer recomeçar.
+                  </div>
+                ) : null}
+
+                {messages.map((message) => (
+                  <div
+                    key={message.id}
+                    className={`flex ${message.sender_type === "customer" ? "justify-end" : "justify-start"}`}
+                  >
+                    <div
+                      className={`max-w-[85%] rounded-[22px] px-4 py-3 text-sm leading-7 shadow-[0_12px_28px_rgba(2,8,23,0.18)] ${
+                        message.sender_type === "customer"
+                          ? "border border-cyan-300/20 bg-cyan-400/12 text-cyan-50"
+                          : "border border-white/10 bg-white/5 text-white/78"
+                      }`}
+                    >
+                      <p className="whitespace-pre-wrap">{message.message}</p>
+                      <p className="mt-2 text-[11px] uppercase tracking-[0.16em] text-white/35">
+                        {message.sender_type === "customer" ? "Você" : "MDH 3D"} • {formatTimestamp(message.created_at)}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+
+                {loading ? (
+                  <div className="flex justify-start">
+                    <div className="inline-flex items-center gap-2 rounded-[22px] border border-white/10 bg-white/5 px-4 py-3 text-sm text-white/65">
+                      <LoaderCircle className="h-4 w-4 animate-spin" />
+                      Processando resposta...
+                    </div>
+                  </div>
+                ) : null}
+
+                <div ref={messagesEndRef} />
+              </div>
+
+              <div className="border-t border-white/10 bg-[linear-gradient(180deg,rgba(8,15,24,0.5),rgba(8,15,24,0.95))] p-4">
+                <div className="mb-3 flex flex-wrap gap-2 text-xs">
+                  <span className="inline-flex items-center gap-2 rounded-full border border-emerald-300/20 bg-emerald-300/10 px-3 py-1 text-emerald-100">
+                    <ShieldCheck className="h-3.5 w-3.5" />
+                    Fechamento com equipe humana
+                  </span>
+                  <a
+                    href={`https://wa.me/${whatsappNumber}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-white/70 transition hover:border-emerald-300/20 hover:text-white"
+                  >
+                    WhatsApp
+                  </a>
+                </div>
+
+                <div className="mb-3 flex flex-wrap gap-2">
+                  {CHAT_QUICK_ACTIONS.map((prompt) => (
+                    <button
+                      key={prompt}
+                      type="button"
+                      onClick={() => setInput(prompt)}
+                      className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-white/72 transition hover:border-cyan-300/20 hover:text-white"
+                    >
+                      {prompt}
+                    </button>
+                  ))}
+                </div>
+
+                <div className="flex gap-2">
+                  <textarea
+                    value={input}
+                    onChange={(event) => setInput(event.target.value)}
+                    onKeyDown={onKeyDown}
+                    placeholder="Escreva sua dúvida..."
+                    className="min-h-[56px] max-h-[140px] flex-1 resize-none rounded-[20px] border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none placeholder:text-white/30"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => void sendMessage()}
+                    disabled={loading || !input.trim()}
+                    className="inline-flex h-[56px] items-center justify-center rounded-[18px] border border-cyan-300/20 bg-cyan-400/15 px-4 text-cyan-50 transition hover:bg-cyan-400/20 disabled:cursor-not-allowed disabled:opacity-50"
+                    aria-label="Enviar mensagem"
+                  >
+                    <SendHorizonal className="h-4 w-4" />
+                  </button>
+                </div>
+                {error ? <p className="mt-2 text-xs text-amber-200">{error}</p> : null}
+              </div>
+            </div>
+          </section>
+        )
       ) : (
         <button
           type="button"
           onClick={() => {
+            if (launchMode === "whatsapp") {
+              openWhatsAppSupport();
+              return;
+            }
+
             setIsOpen(true);
-            if (!threadId && !loading) {
+            if (launchMode === "native" && !threadId && !loading) {
               void startChat();
             }
           }}
@@ -438,9 +573,17 @@ export function LiveChatWidget() {
             <MessageCircleMore className="h-5 w-5" />
           </span>
           <span className="relative text-left">
-            <span className="block text-sm font-semibold">Tirar dúvidas agora</span>
+            <span className="block text-sm font-semibold">
+              {launchMode === "chatwoot" ? "Abrir atendimento ao vivo" : launchMode === "whatsapp" ? "Falar no WhatsApp" : "Tirar dúvidas agora"}
+            </span>
             <span className="block text-[11px] text-white/60">
-              {unreadCount > 0 ? `${unreadCount} nova(s) mensagem(ns)` : "Atendimento pré-venda"}
+              {unreadCount > 0
+                ? `${unreadCount} nova(s) mensagem(ns)`
+                : launchMode === "chatwoot"
+                  ? supportStatus?.label || "Inbox comercial no widget"
+                  : launchMode === "whatsapp"
+                    ? "Resposta humana"
+                    : "Atendimento pré-venda"}
             </span>
           </span>
         </button>

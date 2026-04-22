@@ -15,11 +15,13 @@ export function SiteAssistant({
   aiAssistantReady,
   aiAssistantModel: _aiAssistantModel,
   aiAssistantProvider: _aiAssistantProvider,
+  liveChatMode,
 }: {
   cardCheckoutReady: boolean;
   aiAssistantReady: boolean;
   aiAssistantModel: string;
   aiAssistantProvider: "openai" | "groq" | "ollama" | "fallback";
+  liveChatMode: "chatwoot" | "native" | "whatsapp";
 }) {
   const pathname = usePathname();
   const href = `https://wa.me/${whatsappNumber}`;
@@ -43,7 +45,9 @@ export function SiteAssistant({
           <div>
             <p className="text-sm font-semibold text-white">Atendimento rápido</p>
             <p className="text-xs text-white/50">
-              Respostas no site e fechamento com equipe humana no WhatsApp
+              {liveChatMode === "chatwoot"
+                ? "Consultor no site e atendimento ao vivo no widget oficial"
+                : "Respostas no site e fechamento com equipe humana no WhatsApp"}
             </p>
           </div>
         </div>
@@ -62,6 +66,15 @@ export function SiteAssistant({
           </div>
         </div>
         <div className="mt-4 grid gap-2">
+          {liveChatMode === "chatwoot" ? (
+            <button
+              type="button"
+              onClick={() => window.dispatchEvent(new CustomEvent("mdh:chatwoot-open"))}
+              className="rounded-2xl border border-emerald-300/20 bg-emerald-400/12 px-4 py-3 text-sm font-semibold text-emerald-50 transition hover:border-emerald-300/35 hover:bg-emerald-400/18"
+            >
+              Abrir atendimento ao vivo
+            </button>
+          ) : null}
           {quickQuestions.map((item) => (
             <a key={item} href={`${href}?text=${encodeURIComponent(`Oi! ${item}`)}`} className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white/75 transition hover:border-cyan-300/25 hover:text-white">
               {item}

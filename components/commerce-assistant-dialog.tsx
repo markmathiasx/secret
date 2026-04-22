@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useMemo, useRef, useState, type FormEvent, type KeyboardEvent } from "react";
 import {
   Bot,
@@ -32,6 +33,28 @@ type AssistantApiResponse = {
   provider?: "openai" | "groq" | "ollama" | "fallback";
   model?: string;
 };
+
+function buildClientAssistantFallback(message: string) {
+  const normalized = message.toLowerCase();
+
+  if (/(stl|obj|3mf|personaliz|briefing|referencia|referência)/.test(normalized)) {
+    return "Para projeto personalizado, mande sua referência em /imagem-para-impressao-3d ou siga para o atendimento humano para validar material, prazo e acabamento.";
+  }
+
+  if (/(presente|foto real|lembranc|gift)/.test(normalized)) {
+    return "Se a prioridade é presentear com menos dúvida, eu começaria pelo catálogo com foto real e por itens até a faixa de preço que você tiver em mente. Se quiser, abra o atendimento humano e eu te levo para o fechamento.";
+  }
+
+  if (/(setup|suporte|organiza|mesa|fone|controle)/.test(normalized)) {
+    return "Para setup e utilidade, o melhor caminho é abrir a vitrine de setup no catálogo e cruzar com pronta entrega. Se preferir, chame o atendimento para afinar a indicação com o seu uso.";
+  }
+
+  if (/(pix|cartao|cartão|parcel)/.test(normalized)) {
+    return "Eu consigo te orientar por Pix, cartão e próxima etapa de fechamento. Se quiser resolver isso agora com a equipe, abra o atendimento humano ou siga direto para /checkout.";
+  }
+
+  return `Posso te orientar por objetivo, faixa de preço, foto real, pronta entrega ou personalização. Se preferir atendimento humano imediato, use https://wa.me/${whatsappNumber}.`;
+}
 
 function createWelcomeMessage(
   aiAssistantReady: boolean,
@@ -90,6 +113,7 @@ export function CommerceAssistantDialog({
   aiAssistantReady,
   aiAssistantProvider: _aiAssistantProvider,
   aiAssistantModel: _aiAssistantModel,
+  liveChatMode,
 }: {
   open: boolean;
   onClose: () => void;
@@ -97,6 +121,7 @@ export function CommerceAssistantDialog({
   aiAssistantReady: boolean;
   aiAssistantProvider: "openai" | "groq" | "ollama" | "fallback";
   aiAssistantModel: string;
+  liveChatMode: "chatwoot" | "native" | "whatsapp";
 }) {
   const [messages, setMessages] = useState<ChatMessage[]>(() => [
     createWelcomeMessage(aiAssistantReady, cardCheckoutReady),
@@ -134,6 +159,25 @@ export function CommerceAssistantDialog({
     }
     return "Catálogo + apoio humano";
   }, [aiAssistantReady]);
+
+  const liveSupportLabel = useMemo(() => {
+    return liveChatMode === "chatwoot"
+      ? "Atendimento ao vivo no widget"
+      : "Atendimento humano no WhatsApp";
+  }, [liveChatMode]);
+
+  function openLiveChat() {
+    if (liveChatMode === "chatwoot") {
+      window.dispatchEvent(new CustomEvent("mdh:chatwoot-open"));
+      return;
+    }
+
+    window.open(
+      `https://wa.me/${whatsappNumber}?text=${encodeURIComponent("Quero atendimento humano para fechar meu pedido")}`,
+      "_blank",
+      "noopener,noreferrer"
+    );
+  }
 
   async function sendMessage(content: string) {
     const trimmed = content.trim();
@@ -188,7 +232,7 @@ export function CommerceAssistantDialog({
           id: `assistant-fallback-${Date.now()}`,
           role: "assistant",
           source: "fallback",
-          content: `Posso te direcionar para o WhatsApp agora: https://wa.me/${whatsappNumber}`,
+          content: buildClientAssistantFallback(trimmed),
         },
       ]);
       scrollToLatest();
@@ -228,6 +272,18 @@ export function CommerceAssistantDialog({
             <p className="mt-3 max-w-3xl text-sm leading-7 text-white/68">
               Este consultor responde com base no catálogo, na política comercial da loja e no fluxo real de pagamento, entrega e personalização da MDH 3D.
             </p>
+            <div className="mt-4 flex flex-wrap gap-2 text-xs">
+              <span className="rounded-full border border-emerald-300/20 bg-emerald-300/10 px-3 py-1 font-semibold uppercase tracking-[0.16em] text-emerald-100">
+                {liveSupportLabel}
+              </span>
+              <button
+                type="button"
+                onClick={openLiveChat}
+                className="rounded-full border border-white/10 bg-white/5 px-3 py-1 font-semibold uppercase tracking-[0.16em] text-white/72 transition hover:border-cyan-300/20 hover:text-white"
+              >
+                Abrir atendimento
+              </button>
+            </div>
           </div>
           <button type="button" onClick={onClose} className="rounded-full border border-white/10 bg-white/5 p-3 text-white/70 transition hover:bg-white/10">
             <X className="h-5 w-5" />
@@ -369,6 +425,16 @@ export function CommerceAssistantDialog({
                   O consultor usa o catálogo e as regras da loja; o fechamento final continua no checkout e no atendimento humano.
                 </div>
                 {error ? <p className="text-amber-200">{error}</p> : null}
+              </div>
+              <div className="mt-4 flex flex-wrap gap-2">
+                <button type="button" onClick={openLiveChat} className="btn-secondary gap-2">
+                  <MessageCircleMore className="h-4 w-4" />
+                  {liveChatMode === "chatwoot" ? "Abrir atendimento ao vivo" : "Chamar no WhatsApp"}
+                </button>
+                <Link href="/catalogo" className="btn-glass gap-2">
+                  <PackageCheck className="h-4 w-4" />
+                  Ver catálogo
+                </Link>
               </div>
             </div>
           </section>

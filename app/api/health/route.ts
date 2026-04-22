@@ -1,13 +1,16 @@
 import { NextResponse } from "next/server";
 import { getCatalogDiagnostics, getCatalogSnapshot } from "@/lib/catalog-repository";
 import { applyNoStoreHeaders } from "@/lib/http-cache";
+import { getSupportStatus } from "@/lib/live-chat-service";
 import {
   getAiAssistantModel,
   getAiAssistantProvider,
+  getChatwootAvailabilityMode,
   getSiteUrl,
   getSupabaseEnv,
   isAiAssistantConfigured,
   isCardCheckoutConfigured,
+  isChatwootWidgetConfigured,
 } from "@/lib/env";
 import { isProductVisualVerified } from "@/lib/product-visuals";
 
@@ -16,6 +19,7 @@ export async function GET() {
   const catalogDiagnostics = await getCatalogDiagnostics();
   const products = await getCatalogSnapshot();
   const verifiedVisuals = products.filter((product) => isProductVisualVerified(product)).length;
+  const supportStatus = await getSupportStatus();
 
   return applyNoStoreHeaders(
     NextResponse.json({
@@ -31,6 +35,13 @@ export async function GET() {
       payments: {
         pixReady: true,
         cardCheckoutReady: isCardCheckoutConfigured(),
+      },
+      support: {
+        chatwootConfigured: isChatwootWidgetConfigured(),
+        channel: supportStatus.launchMode,
+        availabilityMode: getChatwootAvailabilityMode(),
+        available: supportStatus.available,
+        label: supportStatus.label,
       },
       catalog: {
         total: catalogDiagnostics.publicCount,

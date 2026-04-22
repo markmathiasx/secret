@@ -40,6 +40,46 @@ export function getSiteUrl() {
   return DEFAULT_DEV_URL;
 }
 
+export function getChatwootBaseUrl() {
+  return normalizeUrl(
+    process.env.NEXT_PUBLIC_CHATWOOT_BASE_URL || process.env.CHATWOOT_BASE_URL,
+    { allowLocal: !PROD }
+  );
+}
+
+export function getChatwootWebsiteToken() {
+  return (
+    process.env.NEXT_PUBLIC_CHATWOOT_WEBSITE_TOKEN ||
+    process.env.CHATWOOT_WEBSITE_TOKEN ||
+    ""
+  ).trim();
+}
+
+export function getChatwootAdminUrl() {
+  return normalizeUrl(
+    process.env.CHATWOOT_ADMIN_URL || process.env.NEXT_PUBLIC_CHATWOOT_ADMIN_URL,
+    { allowLocal: !PROD }
+  );
+}
+
+export function getChatwootHmacToken() {
+  return (process.env.CHATWOOT_HMAC_TOKEN || "").trim();
+}
+
+export function getChatwootAvailabilityMode() {
+  const mode = (process.env.NEXT_PUBLIC_CHATWOOT_AVAILABILITY || "messages").trim().toLowerCase();
+  if (mode === "live") return "live";
+  return "messages";
+}
+
+export function isChatwootWidgetConfigured() {
+  return Boolean(getChatwootBaseUrl() && getChatwootWebsiteToken());
+}
+
+export function isChatwootLiveAvailable() {
+  return isChatwootWidgetConfigured() && getChatwootAvailabilityMode() === "live";
+}
+
 /**
  * Returns true if the resolved site URL still points to a vercel.app domain.
  * Useful for startup guards that should block production with the wrong canonical.
