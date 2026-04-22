@@ -3,6 +3,7 @@
  */
 
 import { getCustomerSessionSecret, createSignedSessionToken, verifySignedSessionToken } from "@/lib/session-token";
+import { isNativeSiteChatEnabled } from "@/lib/env";
 import {
   startChatSession,
   sendChatMessage,
@@ -122,6 +123,13 @@ export async function POST(req: NextRequest) {
     const priorityText = String(priority || "normal").trim();
 
     if (action === 'start') {
+      if (!isNativeSiteChatEnabled()) {
+        return NextResponse.json(
+          { error: "Atendimento pelo site indisponível agora. Continue no WhatsApp." },
+          { status: 503 }
+        );
+      }
+
       if (!actorId) {
         return NextResponse.json(
           { error: 'Missing visitor or user id' },

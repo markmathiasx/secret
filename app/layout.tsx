@@ -25,7 +25,7 @@ import {
   getAiAssistantProvider,
   getChatwootBaseUrl,
   getChatwootWebsiteToken,
-  getDatabaseUrl,
+  getSupportChannelMode,
   getSiteUrl,
   isAiAssistantConfigured,
   isCardCheckoutConfigured,
@@ -42,7 +42,7 @@ const aiAssistantProvider = getAiAssistantProvider();
 const chatwootEnabled = isChatwootWidgetConfigured();
 const chatwootBaseUrl = getChatwootBaseUrl();
 const chatwootWebsiteToken = getChatwootWebsiteToken();
-const liveChatMode = chatwootEnabled ? "chatwoot" : getDatabaseUrl() ? "native" : "whatsapp";
+const liveChatMode = getSupportChannelMode();
 const normalizedPhone = `+${whatsappNumber.replace(/\D/g, '')}`;
 const socialProfiles = [socialLinks.instagram].filter((item) => Boolean(item) && item !== '#');
 const googleVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION?.trim();

@@ -80,6 +80,25 @@ export function isChatwootLiveAvailable() {
   return isChatwootWidgetConfigured() && getChatwootAvailabilityMode() === "live";
 }
 
+export type SupportChannelMode = "chatwoot" | "native" | "whatsapp";
+
+export function getSupportChannelMode(): SupportChannelMode {
+  if (isChatwootWidgetConfigured()) {
+    return "chatwoot";
+  }
+
+  const configured = (process.env.NEXT_PUBLIC_SUPPORT_CHANNEL || process.env.SUPPORT_CHANNEL || "").trim().toLowerCase();
+  if (configured === "native") {
+    return "native";
+  }
+
+  return "whatsapp";
+}
+
+export function isNativeSiteChatEnabled() {
+  return getSupportChannelMode() === "native";
+}
+
 /**
  * Returns true if the resolved site URL still points to a vercel.app domain.
  * Useful for startup guards that should block production with the wrong canonical.

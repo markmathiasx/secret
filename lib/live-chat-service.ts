@@ -11,6 +11,7 @@ import {
   getChatwootBaseUrl,
   getDatabaseUrl,
   getSiteUrl,
+  isNativeSiteChatEnabled,
   isChatwootLiveAvailable,
   isChatwootWidgetConfigured,
 } from "./env";
@@ -431,7 +432,7 @@ export async function getSupportStatus(): Promise<{
     };
   }
 
-  if (!getDatabaseUrl()) {
+  if (!isNativeSiteChatEnabled() || !getDatabaseUrl()) {
     return {
       available: false,
       average_wait_time: 30,
