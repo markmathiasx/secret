@@ -1,6 +1,6 @@
 # ROADMAP MDH 3D
 
-Atualizado em 2026-04-22
+Atualizado em 2026-04-23
 
 ## Norte
 
@@ -17,11 +17,12 @@ Status: concluida neste pacote
 - [x] Rodar auditoria recorrente via script e armazenar snapshot semanal
 
 ### Fase 2 - Corrigir estrutura comercial do site
-Status: em andamento
+Status: pacote comercial principal concluido; refinamentos seguem em aberto
 
 - [x] Refatorar homepage para tres funis principais
 - [x] Reforcar catalogo com faixa inicial e FAQ comercial
 - [x] Reforcar PDP com FAQ e schema mais forte
+- [x] Criar vitrine comercial com produtos compraveis, carrinho global e checkout dedicado
 - [ ] Revisar CTAs e prova nos demais ativos comerciais de topo
 
 ### Fase 3 - Implementar SEO tecnico
@@ -41,7 +42,7 @@ Status: em andamento
 - [ ] Revisar copy individual das landings apos dados reais de Search Console
 
 ### Fase 5 - Criar pipeline de conteudo
-Status: em andamento
+Status: base implementada; persistencia editorial ainda pendente
 
 - [x] Modelar fila de conteudo produto -> Reel -> carrossel -> Story -> blog -> FAQ
 - [x] Criar painel admin em `/admin/content`
@@ -57,7 +58,7 @@ Status: base implementada e validada localmente
 
 ## Ultima validacao local
 
-Executada em 2026-04-22 com o pacote comercial atual.
+Executada em 2026-04-23 com o pacote comercial atual.
 
 - [x] `npm run lint:check`
 - [x] `npm run typecheck`
@@ -66,6 +67,23 @@ Executada em 2026-04-22 com o pacote comercial atual.
 - [x] `npm run test:images`
 - [x] `npm run audit:seo-commercial`
 - [x] `npm run report:weekly-growth`
+
+## Pacote comercial entregue em 2026-04-23
+
+- [x] Curadoria de 12 produtos compraveis + rota de projeto personalizado em `lib/products.ts`
+- [x] Carrinho global com Zustand, persistencia local e pagina dedicada em `/carrinho`
+- [x] Checkout novo em `/checkout` com resumo do pedido, formulario, frete fixo e fallback comercial
+- [x] Preference API do Mercado Pago para Pix/cartao com salvamento de pedido antes do pagamento
+- [x] Paginas de retorno em `/sucesso`, `/pendente` e `/falha`
+- [x] Vitrine da home reforcada com mais vendidos, destaques, prova e CTA de compra direta
+- [x] Remocao do fluxo legado de checkout e componentes mortos sem uso
+- [x] Validacao manual local do fluxo produto -> carrinho -> checkout -> pedido salvo
+
+## Bloqueio externo atual
+
+- O fluxo de pedido no site esta funcional ate a criacao do pedido e a geracao do fallback comercial.
+- O pagamento online local caiu em fallback porque a credencial atual do Mercado Pago retornou `PA_UNAUTHORIZED_RESULT_FROM_POLICIES` durante a tentativa de criar a preference.
+- Enquanto a credencial valida nao for aplicada no ambiente, a operacao segura para fechar hoje continua sendo pedido salvo + CTA de WhatsApp pre-preenchido.
 
 ## Entregaveis cobertos neste pacote
 
@@ -85,6 +103,7 @@ Executada em 2026-04-22 com o pacote comercial atual.
 - CWV via PageSpeed depende de `GOOGLE_PAGESPEED_API_KEY`
 - Falta executar e revisar os relatórios gerados pelos novos jobs depois do deploy
 - Search Console ainda nao estava configurado no ambiente local validado em 2026-04-22, entao o dashboard semanal caiu em modo degradado sem dados organicos
+- Mercado Pago precisa de credencial de teste ou producao realmente autorizada para liberar Pix/cartao sem fallback
 
 ## Gate de conclusao do pacote
 
