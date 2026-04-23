@@ -9,12 +9,12 @@ Transformar o site da MDH 3D em uma maquina web-first de aquisicao e conversao, 
 ## Fases
 
 ### Fase 1 - Auditar e mapear
-Status: em andamento
+Status: concluida neste pacote
 
 - [x] Levantar working tree atual e scripts obrigatorios de validacao
 - [x] Mapear homepage, catalogo, PDP, landings e admin
 - [x] Publicar auditoria tecnica inicial em `docs/AUDITORIA-TECNICA-WEB-FIRST-2026-04-22.md`
-- [ ] Rodar auditoria recorrente via script e armazenar snapshot semanal
+- [x] Rodar auditoria recorrente via script e armazenar snapshot semanal
 
 ### Fase 2 - Corrigir estrutura comercial do site
 Status: em andamento
@@ -31,7 +31,7 @@ Status: em andamento
 - [x] Expandir landings para 20 paginas comerciais/locales
 - [x] Adicionar JSON-LD em landings, categorias e PDP
 - [x] Atualizar `sitemap.ts` para novas rotas comerciais
-- [ ] Rodar auditoria automatica de titles, metas, schema, links, imagens e CWV
+- [x] Rodar auditoria automatica de titles, metas, schema, links, imagens e CWV
 
 ### Fase 4 - Criar paginas programaticas uteis
 Status: em andamento
@@ -48,12 +48,24 @@ Status: em andamento
 - [ ] Persistir status real de aprovacao/publicacao fora de seed estatica
 
 ### Fase 6 - Criar dashboard e jobs recorrentes
-Status: em andamento
+Status: base implementada e validada localmente
 
 - [x] Criar dashboard semanal com Search Console + metricas internas
 - [x] Criar rotas cron para dashboard semanal e auditoria SEO
 - [x] Criar scripts locais para acionar os jobs e salvar artefatos em `reports/`
 - [ ] Validar em producao com `CRON_SECRET`, Search Console e PageSpeed API ativos
+
+## Ultima validacao local
+
+Executada em 2026-04-22 com o pacote comercial atual.
+
+- [x] `npm run lint:check`
+- [x] `npm run typecheck`
+- [x] `npm run build`
+- [x] `npm run validate:assets`
+- [x] `npm run test:images`
+- [x] `npm run audit:seo-commercial`
+- [x] `npm run report:weekly-growth`
 
 ## Entregaveis cobertos neste pacote
 
@@ -72,6 +84,7 @@ Status: em andamento
 - Search Console depende de credenciais de service account com permissao de leitura na propriedade
 - CWV via PageSpeed depende de `GOOGLE_PAGESPEED_API_KEY`
 - Falta executar e revisar os relatórios gerados pelos novos jobs depois do deploy
+- Search Console ainda nao estava configurado no ambiente local validado em 2026-04-22, entao o dashboard semanal caiu em modo degradado sem dados organicos
 
 ## Gate de conclusao do pacote
 
