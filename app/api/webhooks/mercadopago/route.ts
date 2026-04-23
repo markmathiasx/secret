@@ -146,8 +146,17 @@ export async function POST(request: Request) {
   }
 
   const mappedStatus = mapMercadoPagoPaymentStatus(payment.status, payment.status_detail);
+  const normalizedPaymentType = String(payment.payment_type_id || "").toLowerCase();
+  const normalizedPaymentMethod = String(payment.payment_method_id || "").toLowerCase();
+  const mappedPaymentMethod =
+    normalizedPaymentMethod === "pix"
+      ? "pix"
+      : normalizedPaymentType.includes("card") || normalizedPaymentMethod
+        ? "cartao"
+        : undefined;
   const updated = await updateOrderRecord(orderCode, {
     status: mappedStatus,
+    payment_method: mappedPaymentMethod,
     payment_provider: "mercado-pago",
     payment_reference: payment.id ? String(payment.id) : dataId,
     payment_status: payment.status || "unknown",

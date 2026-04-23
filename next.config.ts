@@ -233,11 +233,6 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
-        source: '/carrinho',
-        destination: '/checkout',
-        permanent: true,
-      },
-      {
         source: '/minha-conta',
         destination: '/conta',
         permanent: true,

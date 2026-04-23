@@ -61,6 +61,7 @@ export function HomeResumePanel() {
     [catalogItems, recentIds]
   );
   const lastQuote = quotes[0] || null;
+  const lastQuoteProduct = lastQuote ? catalogItems.find((product) => product.id === lastQuote.productId) || null : null;
 
   if (!favorites.length && !recents.length && !lastQuote) {
     return null;
@@ -81,9 +82,9 @@ export function HomeResumePanel() {
             <Link href="/catalogo" className="btn-secondary">
               Voltar para o catálogo
             </Link>
-            {lastQuote ? (
-              <Link href={`/checkout?product=${lastQuote.productId}`} className="btn-primary">
-                Continuar pedido
+            {lastQuoteProduct ? (
+              <Link href={getProductHref(lastQuoteProduct)} className="btn-primary">
+                Revisar produto
               </Link>
             ) : null}
           </div>
@@ -102,11 +103,13 @@ export function HomeResumePanel() {
                   Código {lastQuote.quoteId} • {formatCurrency(lastQuote.totalPix)} • {lastQuote.paymentMethod}
                 </p>
                 <div className="mt-5 flex flex-wrap gap-2">
-                  <Link href={`/checkout?product=${lastQuote.productId}`} className="btn-primary">
-                    Abrir checkout
-                  </Link>
-                  <Link href="/conta" className="btn-glass">
-                    Ver conta
+                  {lastQuoteProduct ? (
+                    <Link href={getProductHref(lastQuoteProduct)} className="btn-primary">
+                      Abrir produto
+                    </Link>
+                  ) : null}
+                  <Link href="/carrinho" className="btn-glass">
+                    Ver carrinho
                   </Link>
                 </div>
               </>

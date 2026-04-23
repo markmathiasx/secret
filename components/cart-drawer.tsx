@@ -7,9 +7,9 @@ import { useCart } from "@/lib/cart-context";
 import { formatCurrency } from "@/lib/utils";
 
 export function CartDrawer() {
-  const { items, count, subtotalPix, subtotalCard, removeItem, updateQuantity, isDrawerOpen, closeDrawer } = useCart();
+  const { hydrated, items, count, subtotalPix, subtotalCard, removeItem, updateQuantity, isDrawerOpen, closeDrawer } = useCart();
 
-  if (!isDrawerOpen) return null;
+  if (!hydrated || !isDrawerOpen) return null;
 
   return (
     <>
@@ -143,15 +143,15 @@ export function CartDrawer() {
                 <span className="text-white/60">Subtotal Cartão</span>
                 <span className="font-semibold text-white/80">{formatCurrency(subtotalCard)}</span>
               </div>
-              <p className="text-xs text-white/40">+ frete calculado no checkout</p>
+              <p className="text-xs text-white/40">Frete fixo de R$ 15,00 aplicado no carrinho e checkout.</p>
             </div>
 
             <Link
-              href={`/checkout?product=${items[0]?.productId}&qty=${items[0]?.quantity}`}
+              href="/carrinho"
               onClick={closeDrawer}
               className="btn-primary w-full justify-center"
             >
-              Finalizar pedido
+              Ir para o carrinho
             </Link>
             <button
               type="button"

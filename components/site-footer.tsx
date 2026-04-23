@@ -55,7 +55,7 @@ export function SiteFooter() {
               Portfólio com fotos reais
             </span>
             <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold text-white/70">
-              Pix visível no checkout
+              Pix e cartão no checkout
             </span>
             <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold text-white/70">
               Produção local no RJ
@@ -117,8 +117,8 @@ export function SiteFooter() {
             <Link href="/brindes-personalizados-3d" className="transition hover:text-cyan-glow">
               Brindes e lotes
             </Link>
-            <Link href="/checkout" className="transition hover:text-cyan-glow">
-              Fechar pedido
+            <Link href="/carrinho" className="transition hover:text-cyan-glow">
+              Ir para o carrinho
             </Link>
             <Link href="/rastrear" className="transition hover:text-cyan-glow">
               Rastrear pedido
@@ -193,7 +193,7 @@ export function SiteFooter() {
           <span>© 2026 {brand.name}. Todos os direitos reservados.</span>
           <span className="flex items-center gap-2">
             <span className="rounded-full border border-cyan-400/30 bg-cyan-400/14 px-3 py-1 text-xs text-cyan-100">Produção local</span>
-            <span className="rounded-full border border-green-400/30 bg-green-400/14 px-3 py-1 text-xs text-green-100">Pix visível</span>
+            <span className="rounded-full border border-green-400/30 bg-green-400/14 px-3 py-1 text-xs text-green-100">Pix + cartão</span>
             <span className="rounded-full border border-violet-400/30 bg-violet-400/14 px-3 py-1 text-xs text-violet-100">Catálogo curado</span>
           </span>
           <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="btn-ghost-sm">

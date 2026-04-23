@@ -520,7 +520,7 @@ export default async function ProductPage({
           </div>
 
           <div className="mt-8 flex flex-wrap gap-3">
-            <Link href={`/checkout?product=${product.id}`} className="btn-primary">{primaryActionLabel}</Link>
+            <Link href="#pdp-purchase-tools" className="btn-primary">{primaryActionLabel}</Link>
             {product.customizable && (
               <a href={customizationHref} target="_blank" rel="noreferrer" className="btn-secondary">
                 Solicitar personalização
@@ -575,7 +575,7 @@ export default async function ProductPage({
         productId={product.id}
         productName={product.name}
         pricePix={product.pricePix}
-        checkoutHref={`/checkout?product=${product.id}`}
+        checkoutHref="#pdp-purchase-tools"
       />
 
     </section>

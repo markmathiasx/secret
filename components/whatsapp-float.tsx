@@ -9,8 +9,8 @@ export function WhatsAppFloat() {
   const href = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
   const [expanded, setExpanded] = useState(false);
   const quickLinks = [
-    "Quero algo geek para presente",
-    "Quero um item funcional para setup",
+    "Quero fechar um item do catálogo hoje",
+    "Quero pagar no Pix ou cartão",
     "Quero enviar uma referência para orçamento",
   ];
 

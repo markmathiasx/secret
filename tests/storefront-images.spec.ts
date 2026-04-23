@@ -44,8 +44,30 @@ for (const product of realApprovedSkus) {
 }
 
 test("checkout continua carregando sem imagens quebradas", async ({ page }) => {
+  await page.goto(baseUrl, { waitUntil: "domcontentloaded" });
+  await page.evaluate(() => {
+    window.localStorage.setItem(
+      "mdh:cart:v2",
+      JSON.stringify({
+        state: {
+          items: [
+            {
+              productId: "mdh-013",
+              quantity: 1,
+              title: "Suporte para Fone Headphone",
+              pricePix: 69.9,
+              priceCard: 69.9,
+              image: "/products/catalog/mdh-013.webp",
+              updatedAt: new Date().toISOString(),
+            },
+          ],
+        },
+        version: 0,
+      })
+    );
+  });
   await page.goto(`${baseUrl}/checkout`, { waitUntil: "networkidle" });
-  await expect(page.getByText("Produto e contexto")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Venda web-first" })).toBeVisible();
 
   const brokenImages = await page.evaluate(() =>
     [...document.querySelectorAll("img")]

@@ -22,7 +22,6 @@ import {
 } from "lucide-react";
 import { brand, socialLinks, whatsappNumber } from "@/lib/constants";
 import { emitCustomerAuthChange, useCustomerSession } from "@/lib/customer-session-client";
-import { cartChangeEvent, getLocalCartCount, readLocalCart } from "@/lib/cart-store";
 import { useCart } from "@/lib/cart-context";
 import { CommerceAssistantDialog } from "@/components/commerce-assistant-dialog";
 import { HeaderCommandPalette } from "@/components/header-command-palette";
@@ -65,11 +64,10 @@ export function SiteHeader({
 }) {
   const pathname = usePathname();
   const session = useCustomerSession();
-  const { openDrawer } = useCart();
+  const { count: cartCount, openDrawer } = useCart();
   const [assistantOpen, setAssistantOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [cartCount, setCartCount] = useState(0);
-  const [cartHref, setCartHref] = useState("/checkout");
+  const cartHref = "/carrinho";
 
   const userLabel = session.user?.displayName || session.user?.email?.split("@")[0] || "Minha conta";
   const nav = useMemo(
@@ -84,27 +82,6 @@ export function SiteHeader({
   useEffect(() => {
     setMobileOpen(false);
   }, [pathname]);
-
-  useEffect(() => {
-    function refreshCartCount() {
-      const items = readLocalCart();
-      setCartCount(getLocalCartCount());
-      if (items[0]) {
-        setCartHref(`/checkout?product=${encodeURIComponent(items[0].productId)}&qty=${items[0].quantity}`);
-        return;
-      }
-      setCartHref("/checkout");
-    }
-
-    refreshCartCount();
-    window.addEventListener(cartChangeEvent, refreshCartCount);
-    window.addEventListener("storage", refreshCartCount);
-
-    return () => {
-      window.removeEventListener(cartChangeEvent, refreshCartCount);
-      window.removeEventListener("storage", refreshCartCount);
-    };
-  }, []);
 
   async function signOut() {
     await Promise.allSettled([

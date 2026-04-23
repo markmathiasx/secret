@@ -48,8 +48,8 @@ export function ProductPurchaseTools({
   const totalCard = useMemo(() => priceCard * quantity, [priceCard, quantity]);
   const quickQuantities = [1, 2, 5, 10];
   const checkoutHref = useMemo(
-    () => `/checkout?product=${productId}&qty=${quantity}&purpose=${encodeURIComponent(goal)}`,
-    [goal, productId, quantity]
+    () => "/carrinho",
+    []
   );
   const contextualWhatsappHref = useMemo(() => {
     try {
@@ -161,7 +161,7 @@ export function ProductPurchaseTools({
   }
 
   return (
-    <div className="rounded-[24px] border border-cyan-300/20 bg-cyan-300/8 p-5">
+    <div id="pdp-purchase-tools" className="rounded-[24px] border border-cyan-300/20 bg-cyan-300/8 p-5">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <p className="text-xs uppercase tracking-[0.18em] text-cyan-100/75">Ferramenta de compra</p>
