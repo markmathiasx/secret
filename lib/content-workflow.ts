@@ -64,7 +64,7 @@ function buildProductWorkflow() {
     id: `product-${product.id}`,
     title: `Pipeline de ${product.name}`,
     sourceLabel: `Produto ${product.sku}`,
-    stage: (["review", "approved", "scheduled", "brief"] as const)[index] || "brief",
+    stage: (["review", "approved", "scheduled", "published"] as const)[index] || "brief",
     publishWindow: ["terça 11h", "quarta 18h", "quinta 12h", "sexta 10h"][index] || "próxima janela",
     owner: ["Comercial", "Conteúdo", "Conteúdo", "SEO"][index] || "Conteúdo",
     objective:

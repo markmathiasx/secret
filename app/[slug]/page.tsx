@@ -45,5 +45,5 @@ export default async function DynamicSalesLandingPage({
 
   const [landingKey] = entry;
 
-  return <SalesLandingShell landingKey={landingKey} />;
+  return SalesLandingShell({ landingKey });
 }

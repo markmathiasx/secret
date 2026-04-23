@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useCallback, useRef, useState } from "react";
 import { PURPOSE_OPTIONS, type AddressBookItem, type CheckoutAddress, type PurchasePurpose } from "@/lib/checkout-client";
 import { formatCep } from "@/lib/shipping";
@@ -94,7 +95,7 @@ export function CheckoutAddressStep({
           <p className="text-sm font-semibold text-emerald-100">✓ Compre sem criar conta</p>
           <p className="mt-1 text-sm text-emerald-100/75">
             Preencha seus dados abaixo e finalize normalmente — não é preciso se cadastrar.
-            Se preferir, <a href="/login" className="underline hover:text-white transition">entre na sua conta</a> para agilizar próximas compras.
+            Se preferir, <Link href="/login" className="underline transition hover:text-white">entre na sua conta</Link> para agilizar próximas compras.
           </p>
         </div>
       )}

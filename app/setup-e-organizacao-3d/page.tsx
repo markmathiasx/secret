@@ -6,6 +6,6 @@ const config = salesLandings.setup;
 
 export const metadata: Metadata = getSalesLandingMetadata(config);
 
-export default function SetupEOrganizacao3DPage() {
-  return <SalesLandingShell landingKey="setup" />;
+export default async function SetupEOrganizacao3DPage() {
+  return SalesLandingShell({ landingKey: "setup" });
 }
