@@ -30,6 +30,7 @@
     "test:smoke": "playwright test",
     "test:smoke:prod": "SMOKE_BASE_URL=${SMOKE_BASE_URL:-https://mdh-3d-store.vercel.app} playwright test",
     "doctor": "node scripts/doctor.mjs",
+    "audit:seo-commercial": "node scripts/run-seo-commercial-audit.mjs",
     "validate": "npm run build && npm run typecheck && npm run lint:check && npm run doctor",
     "admin:hash": "node scripts/admin-hash.mjs",
     "db:generate": "node scripts/db-generate.mjs",
@@ -52,7 +53,8 @@
     "prisma:validate": "prisma validate",
     "prisma:generate": "prisma generate",
     "validate:assets:fs": "node scripts/validate-assets.mjs --mode=fs --manifest=output/CATALOG_SEMANTIC_AUDIT.json --publicMode=strict",
-    "validate:assets:http": "node scripts/validate-assets.mjs --mode=http --baseUrl=http://127.0.0.1:3000 --manifest=output/CATALOG_SEMANTIC_AUDIT.json --publicMode=strict"
+    "validate:assets:http": "node scripts/validate-assets.mjs --mode=http --baseUrl=http://127.0.0.1:3000 --manifest=output/CATALOG_SEMANTIC_AUDIT.json --publicMode=strict",
+    "report:weekly-growth": "node scripts/run-weekly-growth-report.mjs"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.2",

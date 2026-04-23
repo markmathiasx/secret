@@ -15,6 +15,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           <Link href="/admin/products" className="rounded-full border border-white/10 bg-black/20 px-5 py-2 text-sm font-semibold text-white">Produtos</Link>
           <Link href="/admin/inventory" className="rounded-full border border-white/10 bg-black/20 px-5 py-2 text-sm font-semibold text-white">Estoque</Link>
           <Link href="/admin/inbox" className="rounded-full border border-cyan-300/25 bg-cyan-300/10 px-5 py-2 text-sm font-semibold text-cyan-100">Inbox</Link>
+          <Link href="/admin/content" className="rounded-full border border-white/10 bg-black/20 px-5 py-2 text-sm font-semibold text-white">Conteúdo</Link>
           <Link href="/admin/users" className="rounded-full border border-white/10 bg-black/20 px-5 py-2 text-sm font-semibold text-white">Usuários</Link>
           <Link href="/admin/coupons" className="rounded-full border border-white/10 bg-black/20 px-5 py-2 text-sm font-semibold text-white">Cupons</Link>
           <Link href="/admin/analytics" className="rounded-full border border-white/10 bg-black/20 px-5 py-2 text-sm font-semibold text-white">Analytics</Link>

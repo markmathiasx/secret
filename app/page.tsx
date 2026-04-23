@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Hero } from "@/components/hero-professional";
 import { CatalogGrid } from "@/components/catalog-grid";
+import { CommerceFaq } from "@/components/commerce-faq";
 import { STLUploader } from "@/components/stl-uploader";
 import { TrustSignals } from "@/components/trust-signals";
 import { ProductionProcess } from "@/components/production-process";
@@ -9,6 +10,7 @@ import { PurchaseProtectionBanner } from "@/components/purchase-protection-banne
 import { isProductRealPhoto, summarizeProductVisuals } from "@/lib/product-visuals";
 import { brand, socialLinks, supportEmail, whatsappNumber, whatsappMessage } from "@/lib/constants";
 import { getStoreReputationSummary } from "@/lib/marketplace-signals";
+import { HomeConversionLanes } from "@/components/home-conversion-lanes";
 import { HomeTestimonials } from "@/components/home-testimonials";
 import { HomeCategoriesShowcase } from "@/components/home-categories-showcase";
 import { HomeResumePanel } from "@/components/home-resume-panel";
@@ -25,6 +27,23 @@ export default async function HomePage() {
   const realShowcase = catalog.filter((product) => isProductRealPhoto(product)).slice(0, 4);
   const readyRealCount = catalog.filter((product) => product.readyToShip && isProductRealPhoto(product)).length;
   const customizableRealCount = catalog.filter((product) => product.customizable && isProductRealPhoto(product)).length;
+  const homeFaq = [
+    {
+      question: "Qual e o melhor caminho se eu quero comprar hoje?",
+      answer:
+        "Se o objetivo e decidir rapido, a melhor entrada e o catalogo com preco visivel, prova visual e filtros de pronta entrega, presente, utilidade e foto real.",
+    },
+    {
+      question: "E se eu quiser algo personalizado ou sob medida?",
+      answer:
+        "A home agora leva direto para a rota de projeto sob medida. Voce pode enviar STL, imagem, medida ou briefing sem sair do fluxo comercial da loja.",
+    },
+    {
+      question: "A MDH 3D atende lote e brindes para empresa ou evento?",
+      answer:
+        "Sim. Existe uma rota propria para lote, brindes e pedidos repetiveis, com conversa comercial focada em quantidade, prazo, logo e faixa inicial.",
+    },
+  ];
   const storeSummary = await getStoreReputationSummary();
   const ratingLabel =
     storeSummary?.averageRating !== null && typeof storeSummary?.averageRating === "number"
@@ -72,6 +91,8 @@ export default async function HomePage() {
         ratingLabel={ratingLabel}
         reviewCount={storeSummary?.reviewCount}
       />
+
+      <HomeConversionLanes />
 
       <section className="mx-auto max-w-7xl px-6 py-6">
         <div className="grid gap-4 xl:grid-cols-[1.05fr_0.95fr]">
@@ -207,6 +228,15 @@ export default async function HomePage() {
             </a>
           </div>
         </div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-6 pb-16">
+        <CommerceFaq
+          eyebrow="FAQ da home"
+          title="As tres perguntas que mais travam uma compra web-first na MDH 3D."
+          description="A home agora responde a rota de compra, a rota de briefing e a rota de lote sem esconder essas decisoes em paginas secundarias."
+          items={homeFaq}
+        />
       </section>
     </main>
   );

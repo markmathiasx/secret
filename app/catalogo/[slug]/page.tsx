@@ -13,6 +13,7 @@ import { ProductAnalytics } from '@/components/product-analytics';
 import { ProductCatalogBackLink } from '@/components/product-catalog-back-link';
 import { ProductReviews } from '@/components/product-reviews';
 import { DeliveryCalculator } from '@/components/delivery-calculator';
+import { CommerceFaq } from '@/components/commerce-faq';
 import { QuoteForm } from '@/components/quote-form';
 import { GuaranteeBar } from '@/components/guarantee-bar';
 import { ProductSocialProof } from '@/components/product-social-proof';
@@ -127,6 +128,7 @@ export default async function ProductPage({
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Product',
+    url: productUrl,
     name: product.name,
     description: longDescription,
     image: structuredDataImages,
@@ -140,8 +142,45 @@ export default async function ProductPage({
       url: productUrl,
       price: product.pricePix,
       priceCurrency: 'BRL',
+      priceValidUntil: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30).toISOString().slice(0, 10),
       itemCondition: 'https://schema.org/NewCondition',
       availability: product.stock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+      priceSpecification: {
+        '@type': 'PriceSpecification',
+        price: product.pricePix,
+        priceCurrency: 'BRL',
+        valueAddedTaxIncluded: true,
+      },
+      shippingDetails: {
+        '@type': 'OfferShippingDetails',
+        shippingRate: {
+          '@type': 'MonetaryAmount',
+          value: '0',
+          currency: 'BRL',
+        },
+        deliveryTime: {
+          '@type': 'ShippingDeliveryTime',
+          handlingTime: {
+            '@type': 'QuantitativeValue',
+            minValue: 1,
+            maxValue: product.readyToShip ? 2 : 5,
+            unitCode: 'DAY',
+          },
+          transitTime: {
+            '@type': 'QuantitativeValue',
+            minValue: 1,
+            maxValue: 7,
+            unitCode: 'DAY',
+          },
+        },
+      },
+      hasMerchantReturnPolicy: {
+        '@type': 'MerchantReturnPolicy',
+        applicableCountry: 'BR',
+        returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
+        merchantReturnDays: 7,
+        returnMethod: 'https://schema.org/ReturnByMail',
+      },
       seller: {
         '@type': 'Organization',
         name: 'MDH 3D Store',
@@ -149,6 +188,23 @@ export default async function ProductPage({
     },
     category: product.category,
     material: product.material,
+    additionalProperty: [
+      {
+        '@type': 'PropertyValue',
+        name: 'Acabamento',
+        value: product.finish,
+      },
+      {
+        '@type': 'PropertyValue',
+        name: 'Prazo de produção',
+        value: product.productionWindow,
+      },
+      {
+        '@type': 'PropertyValue',
+        name: 'Personalização',
+        value: product.customizable ? 'Aceita ajustes de cor, escala ou briefing' : 'Modelo fechado com acabamento padronizado',
+      },
+    ],
     ...(productSignals && productSignals.reviewCount > 0 && {
       aggregateRating: {
         '@type': 'AggregateRating',
@@ -182,6 +238,45 @@ export default async function ProductPage({
         item: productUrl,
       },
     ],
+  };
+  const faqItems = [
+    {
+      question: `Como funciona a compra de ${product.name}?`,
+      answer:
+        product.pricingMode === 'faixa-auditada'
+          ? `Esta peça já tem preço confirmado no Pix e pode seguir para checkout direto. Se você quiser validar cor, escala, acabamento ou prazo antes de pagar, a equipe confirma tudo pelo WhatsApp.`
+          : `Esta peça funciona como referência comercial para orçamento inicial. A compra avança com briefing e validação de escala, cor, acabamento e prazo antes do fechamento.`,
+    },
+    {
+      question: 'Qual é o prazo e o tipo de produção?',
+      answer: product.readyToShip
+        ? `Hoje o item aparece como pronta entrega ou produção rápida. A janela comercial informada é ${product.productionWindow}.`
+        : `Hoje o item aparece como sob encomenda. A janela comercial informada é ${product.productionWindow}, ajustada conforme acabamento e personalização.`,
+    },
+    {
+      question: 'Posso pedir alteração de cor, escala ou briefing?',
+      answer: product.customizable
+        ? 'Sim. Este produto aceita ajustes de cor, escala ou briefing e a rota principal para isso é o CTA de personalização na própria página.'
+        : 'Este modelo está configurado como versão fechada. Se você precisa de algo próximo, mas não igual, vale abrir um pedido sob medida em vez de comprar e tentar adaptar depois.',
+    },
+    {
+      question: 'A imagem desta página representa foto real ou referência visual?',
+      answer: mediaIsPublicSafe
+        ? 'As imagens públicas desta página passaram pela validação de mídia da loja e entram no fluxo visível de prova visual do produto.'
+        : 'Quando a galeria pública não é segura o suficiente para prova visual, a página reduz o uso comercial dessas imagens e preserva a leitura honesta da vitrine.',
+    },
+  ];
+  const faqJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqItems.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.answer,
+      },
+    })),
   };
   const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`${whatsappMessage}\n\nTenho interesse em ${product.name} (${product.sku}).`)}`;
   const customizationHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`${whatsappMessage}\n\nQuero personalizar ${product.name} (${product.sku}).`)}`;
@@ -225,6 +320,12 @@ export default async function ProductPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(breadcrumbJsonLd),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(faqJsonLd),
         }}
       />
       <ProductAnalytics
@@ -452,6 +553,15 @@ export default async function ProductPage({
 
       <div className="mt-12">
         <ProductReviews productSlug={slug} productSku={product.sku} />
+      </div>
+
+      <div className="mt-12">
+        <CommerceFaq
+          eyebrow="FAQ do produto"
+          title="As respostas que mais ajudam a tirar a compra do quase."
+          description="Este bloco existe para reduzir a dúvida básica dentro do próprio PDP e manter a conversa comercial na mesma página."
+          items={faqItems}
+        />
       </div>
 
       <ProductRelatedShelf product={product} />

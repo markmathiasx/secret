@@ -56,5 +56,15 @@
       "destination": "/catalogo",
       "permanent": true
     }
+  ],
+  "crons": [
+    {
+      "path": "/api/cron/seo-audit",
+      "schedule": "0 11 * * *"
+    },
+    {
+      "path": "/api/cron/weekly-growth",
+      "schedule": "0 12 * * 1"
+    }
   ]
 }

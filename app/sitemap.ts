@@ -1,23 +1,24 @@
 import type { MetadataRoute } from "next";
 import { getProductUrl } from "@/lib/catalog";
 import { getCatalogSnapshot } from "@/lib/catalog-repository";
+import { categoryPageConfigs } from "@/lib/category-pages";
 import { getSiteUrl } from "@/lib/env";
+import { salesLandings } from "@/lib/sales-landings";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = getSiteUrl();
   const catalog = await getCatalogSnapshot();
 
-  const buildDate = new Date('2026-04-19');
+  const buildDate = new Date();
+  const landingPaths = Object.values(salesLandings).map((landing) => landing.slug);
+  const categoryPaths = categoryPageConfigs.map((config) => `/catalogo/categoria/${config.slug}`);
 
   const staticPages = [
     "",
     "/catalogo",
     "/imagem-para-impressao-3d",
-    "/presentes-3d",
-    "/brindes-personalizados-3d",
-    "/setup-e-organizacao-3d",
-    "/colecionaveis-geek-3d",
-    "/decoracao-3d-para-casa",
+    ...landingPaths,
+    ...categoryPaths,
     "/divulgacao",
     "/politica-de-privacidade",
     "/termos",

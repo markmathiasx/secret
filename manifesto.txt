@@ -1,0 +1,9 @@
+D:\mdh-3d-store\app
+D:\mdh-3d-store\components
+D:\mdh-3d-store\lib
+D:\mdh-3d-store\scripts
+D:\mdh-3d-store\public
+D:\mdh-3d-store\docs
+D:\mdh-3d-store\tests
+D:\mdh-3d-store\prisma
+D:\mdh-3d-store\reports

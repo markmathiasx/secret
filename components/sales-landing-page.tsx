@@ -4,14 +4,24 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { CatalogExplorer } from "@/components/catalog-explorer";
 import { CatalogGrid } from "@/components/catalog-grid";
+import { CommerceFaq } from "@/components/commerce-faq";
 import { SafeProductImage } from "@/components/safe-product-image";
 import { catalog, getProductUrl } from "@/lib/catalog";
-import { type SalesLandingConfig, type SalesLandingKey, getLandingHighlights, getLandingProducts, salesLandings } from "@/lib/sales-landings";
+import {
+  getLandingHighlights,
+  getLandingProducts,
+  type SalesLandingConfig,
+  type SalesLandingKey,
+  salesLandings,
+} from "@/lib/sales-landings";
 import { isProductVisualVerified } from "@/lib/product-visuals";
 import { formatCurrency } from "@/lib/utils";
 
 function shouldIgnoreCardActivation(target: EventTarget | null) {
-  return target instanceof Element && Boolean(target.closest("a, button, input, select, textarea, [role='button'], [data-card-interactive='true']"));
+  return (
+    target instanceof Element &&
+    Boolean(target.closest("a, button, input, select, textarea, [role='button'], [data-card-interactive='true']"))
+  );
 }
 
 const allLandingConfigs = Object.values(salesLandings);
@@ -27,46 +37,20 @@ export function SalesLandingPage({ landingKey }: { landingKey: SalesLandingKey }
   const relatedLandings = allLandingConfigs.filter((item) => item.slug !== config.slug).slice(0, 4);
   const leadVisual = highlights[0] ?? matchingProducts[0];
   const heroCandidates = [config.heroImage, leadVisual?.image, leadVisual?.images?.[0]].filter(Boolean) as string[];
-  const fastest = [...matchingProducts].sort((a, b) => Number(b.readyToShip) - Number(a.readyToShip) || a.pricePix - b.pricePix)[0];
+  const fastest = [...matchingProducts].sort(
+    (a, b) => Number(b.readyToShip) - Number(a.readyToShip) || a.pricePix - b.pricePix
+  )[0];
   const cheapest = [...matchingProducts].sort((a, b) => a.pricePix - b.pricePix)[0];
   const customizable = matchingProducts.find((product) => product.customizable);
   const guidedPicks = [
-    fastest ? { label: "Saída mais rápida", note: "boa porta de entrada para quem quer decidir logo", product: fastest } : null,
+    fastest ? { label: "Saida mais rapida", note: "boa rota para decidir hoje sem travar a conversa", product: fastest } : null,
     cheapest ? { label: "Menor ticket", note: "ajuda a reduzir barreira inicial de compra", product: cheapest } : null,
-    customizable ? { label: "Mais flexível", note: "abre espaço para personalização e briefing", product: customizable } : null,
-  ].filter(Boolean) as { label: string; note: string; product: typeof matchingProducts[number] }[];
-  const useCases = [
-    `Abrir conversa com ${config.kicker.toLowerCase()} sem jogar o cliente direto numa lista genérica.`,
-    `Priorizar ${verifiedCount} itens com visual validado para aumentar confiança antes do pagamento.`,
-    `Aproveitar ${readyCount} opções de pronta entrega quando a jornada pedir mais rapidez.`,
-  ];
-  const quickLinks: Array<{ label: string; href: string; external?: boolean }> = [
-    config.primaryCta,
-    config.secondaryCta,
-    { label: "Só pronta entrega", href: `/catalogo?status=Pronta%20entrega&mode=all` },
-  ];
-  const buyerProfiles = [
-    {
-      title: "Quero decidir rápido",
-      description: "Comece pelos destaques e depois abra pronta entrega para reduzir explicação, prazo e atrito.",
-      href: "/catalogo?intent=Compra%20r%C3%A1pida&mode=all",
-    },
-    {
-      title: "Quero algo mais autoral",
-      description: "Se esta linha estiver perto do que voce imaginou, vale avancar para personalizacao com briefing e ajuste sob medida.",
-      href: "/imagem-para-impressao-3d",
-    },
-    {
-      title: "Quero comparar ticket",
-      description: "Abra o catálogo com ordenação por preço para mapear entrada, meio e premium sem perder a curadoria.",
-      href: "/catalogo?sort=Pre%C3%A7o&mode=all",
-    },
-  ];
-  const objections = [
-    "Se você ainda não sabe o material ideal, use esta página para fechar estilo e proposta antes de entrar no técnico.",
-    "Quando a dúvida for prazo, a rota mais segura é abrir pronta entrega ou seguir para itens com prova visual validada.",
-    "Se a ideia estiver próxima, mas não igual, vale pedir sob medida em vez de abandonar a navegação e recomeçar tudo.",
-  ];
+    customizable ? { label: "Mais flexivel", note: "abre espaco para ajuste de cor, briefing ou escala", product: customizable } : null,
+  ].filter(Boolean) as Array<{
+    label: string;
+    note: string;
+    product: (typeof matchingProducts)[number];
+  }>;
 
   function openProduct(product: (typeof matchingProducts)[number]) {
     router.push(getProductUrl(product));
@@ -74,23 +58,33 @@ export function SalesLandingPage({ landingKey }: { landingKey: SalesLandingKey }
 
   return (
     <section className="mx-auto max-w-7xl px-6 py-16">
-      <div className="overflow-hidden rounded-[40px] border border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(34,211,238,0.22),transparent_32%),radial-gradient(circle_at_bottom_right,rgba(16,185,129,0.18),transparent_26%),linear-gradient(135deg,rgba(255,255,255,0.07),rgba(255,255,255,0.02))] p-8 shadow-[0_24px_80px_rgba(2,8,23,0.32)]">
+      <div className="overflow-hidden rounded-[40px] border border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(34,211,238,0.22),transparent_32%),radial-gradient(circle_at_bottom_right,rgba(16,185,129,0.16),transparent_26%),linear-gradient(135deg,rgba(255,255,255,0.07),rgba(255,255,255,0.02))] p-8 shadow-[0_24px_80px_rgba(2,8,23,0.32)]">
         <div className="grid gap-8 lg:grid-cols-[1.08fr_0.92fr] lg:items-end">
           <div className="max-w-3xl">
             <p className="text-xs uppercase tracking-[0.22em] text-cyan-200">{config.kicker}</p>
             <h1 className="mt-3 text-4xl font-black text-white sm:text-5xl">{config.title}</h1>
             <p className="mt-4 text-lg leading-8 text-white/70">{config.description}</p>
+            <p className="mt-5 max-w-2xl text-sm leading-7 text-white/68">{config.audience}</p>
             <div className="mt-6 flex flex-wrap gap-2">
               {config.proofPoints.map((item) => (
-                <span key={item} className="rounded-full border border-white/10 bg-black/20 px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-white/80">
+                <span
+                  key={item}
+                  className="rounded-full border border-white/10 bg-black/20 px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-white/80"
+                >
                   {item}
                 </span>
               ))}
             </div>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link href={config.primaryCta.href} className="btn-primary px-6 py-3">
-                {config.primaryCta.label}
-              </Link>
+              {config.primaryCta.external ? (
+                <a href={config.primaryCta.href} target="_blank" rel="noreferrer" className="btn-primary px-6 py-3">
+                  {config.primaryCta.label}
+                </a>
+              ) : (
+                <Link href={config.primaryCta.href} className="btn-primary px-6 py-3">
+                  {config.primaryCta.label}
+                </Link>
+              )}
               {config.secondaryCta.external ? (
                 <a href={config.secondaryCta.href} target="_blank" rel="noreferrer" className="btn-secondary px-6 py-3">
                   {config.secondaryCta.label}
@@ -121,7 +115,7 @@ export function SalesLandingPage({ landingKey }: { landingKey: SalesLandingKey }
                   <p className="text-xs uppercase tracking-[0.18em] text-cyan-100/75">{leadVisual?.category || config.kicker}</p>
                   <h2 className="mt-2 text-2xl font-black text-white">{leadVisual?.name || config.kicker}</h2>
                   <p className="mt-2 max-w-md text-sm leading-6 text-white/72">
-                    {leadVisual?.description || "Linha visual pensada para abrir a navegação com mais confiança e mais apelo comercial."}
+                    {leadVisual?.description || "Linha organizada para abrir a conversa comercial com mais clareza."}
                   </p>
                 </div>
               </div>
@@ -129,9 +123,9 @@ export function SalesLandingPage({ landingKey }: { landingKey: SalesLandingKey }
 
             <div className="grid gap-3 sm:grid-cols-3">
               {[
-                { label: "Itens na seleção", value: String(matchingProducts.length).padStart(2, "0") },
+                { label: "Itens na selecao", value: String(matchingProducts.length).padStart(2, "0") },
                 { label: "Visual validado", value: String(verifiedCount).padStart(2, "0") },
-                { label: "Faixa de entrada", value: minPrice ? formatCurrency(minPrice) : "Sob consulta" },
+                { label: "Faixa inicial", value: minPrice ? formatCurrency(minPrice) : "Sob consulta" },
               ].map((item) => (
                 <div key={item.label} className="rounded-[28px] border border-white/10 bg-black/20 p-5">
                   <p className="text-xs uppercase tracking-[0.18em] text-white/45">{item.label}</p>
@@ -145,46 +139,42 @@ export function SalesLandingPage({ landingKey }: { landingKey: SalesLandingKey }
 
       <div className="mt-8 grid gap-4 lg:grid-cols-[0.92fr_1.08fr]">
         <div className="rounded-[28px] border border-emerald-300/15 bg-emerald-300/8 p-5 text-sm leading-7 text-emerald-50/90">
-          <p className="text-xs uppercase tracking-[0.18em] text-emerald-100/80">Leitura comercial</p>
-          <p className="mt-2">
-            Essa página começa com peças mais fáceis de explicar, vender e visualizar. O objetivo é reduzir dúvida do cliente logo no primeiro scroll e empurrar a conversa para compra, orçamento ou lote.
-          </p>
+          <p className="text-xs uppercase tracking-[0.18em] text-emerald-100/80">Faixa comercial</p>
+          <p className="mt-2">{config.budgetLabel}</p>
         </div>
         <div className="rounded-[28px] border border-white/10 bg-white/5 p-5 text-sm leading-7 text-white/68">
-          <p className="text-xs uppercase tracking-[0.18em] text-cyan-100/80">Operação</p>
+          <p className="text-xs uppercase tracking-[0.18em] text-cyan-100/80">Operacao</p>
           <div className="mt-2 flex flex-wrap gap-3">
             <span>{readyCount} itens com pronta entrega</span>
             <span className="h-1 w-1 self-center rounded-full bg-white/30" />
-            <span>{verifiedCount} com foto real ou render do produto</span>
+            <span>{verifiedCount} com foto real ou render fiel</span>
             <span className="h-1 w-1 self-center rounded-full bg-white/30" />
-            <span>Pix em destaque para fechamento mais rápido</span>
+            <span>CTA comercial e rota de briefing no mesmo eixo</span>
           </div>
         </div>
       </div>
 
       <section className="mt-10 grid gap-6 xl:grid-cols-[0.86fr_1.14fr]">
         <div className="glass-panel p-6">
-          <p className="text-xs uppercase tracking-[0.18em] text-cyan-100/75">Como usar esta página</p>
-          <h2 className="mt-3 text-3xl font-black text-white">Uma entrada mais guiada para vender melhor este recorte.</h2>
+          <p className="text-xs uppercase tracking-[0.18em] text-cyan-100/75">Intencao de compra</p>
+          <h2 className="mt-3 text-3xl font-black text-white">Quando esta pagina costuma converter melhor.</h2>
           <div className="mt-5 grid gap-3">
-            {useCases.map((item) => (
+            {config.purchaseTriggers.map((item) => (
               <div key={item} className="rounded-[20px] border border-white/10 bg-black/20 p-4 text-sm leading-7 text-white/68">
                 {item}
               </div>
             ))}
           </div>
           <div className="mt-5 flex flex-wrap gap-2">
-            {quickLinks.map((item) =>
-              item.external ? (
-                <a key={item.label} href={item.href} target="_blank" rel="noreferrer" className="chip-nav">
-                  {item.label}
-                </a>
-              ) : (
-                <Link key={item.label} href={item.href} className="chip-nav">
-                  {item.label}
-                </Link>
-              )
-            )}
+            <Link href="/catalogo" className="chip-nav">
+              Catalogo completo
+            </Link>
+            <Link href="/imagem-para-impressao-3d" className="chip-nav">
+              Projeto sob medida
+            </Link>
+            <Link href="/catalogo?status=Pronta%20entrega&mode=all" className="chip-nav">
+              So pronta entrega
+            </Link>
           </div>
         </div>
 
@@ -232,10 +222,10 @@ export function SalesLandingPage({ landingKey }: { landingKey: SalesLandingKey }
       {highlights.length ? (
         <section className="mt-12">
           <div className="mb-6 max-w-3xl">
-            <p className="text-xs uppercase tracking-[0.2em] text-cyan-100/75">Seleção que ajuda a converter</p>
-            <h2 className="mt-3 text-3xl font-black text-white">Peças para abrir essa linha com mais confiança visual.</h2>
+            <p className="text-xs uppercase tracking-[0.2em] text-cyan-100/75">Selecao que ajuda a converter</p>
+            <h2 className="mt-3 text-3xl font-black text-white">Pecas para abrir essa linha com mais confianca visual.</h2>
             <p className="mt-4 text-sm leading-7 text-white/68">
-              Antes da vitrine completa, entram alguns itens que já representam melhor acabamento, valor percebido e conversa comercial.
+              Antes da vitrine completa, entram alguns itens que ja representam melhor acabamento, valor percebido e conversa comercial.
             </p>
           </div>
           <CatalogGrid products={highlights} />
@@ -244,37 +234,61 @@ export function SalesLandingPage({ landingKey }: { landingKey: SalesLandingKey }
 
       <section className="mt-12 grid gap-6 xl:grid-cols-[0.94fr_1.06fr]">
         <div className="glass-panel p-6">
-          <p className="text-xs uppercase tracking-[0.18em] text-cyan-100/75">Perfis de compra</p>
-          <h2 className="mt-3 text-3xl font-black text-white">Escolha um caminho mais próximo do seu jeito de comprar.</h2>
+          <p className="text-xs uppercase tracking-[0.18em] text-cyan-100/75">Roteiro comercial</p>
+          <h2 className="mt-3 text-3xl font-black text-white">Como esta pagina encurta o caminho ate o fechamento.</h2>
           <div className="mt-5 grid gap-3">
-            {buyerProfiles.map((item) => (
-              <Link key={item.title} href={item.href} className="rounded-[20px] border border-white/10 bg-black/20 p-4 text-sm leading-7 text-white/70 transition hover:border-cyan-300/25 hover:text-white">
-                <p className="font-semibold text-white">{item.title}</p>
-                <p className="mt-2">{item.description}</p>
-              </Link>
+            {config.process.map((item, index) => (
+              <div key={item} className="rounded-[20px] border border-white/10 bg-black/20 p-4 text-sm leading-7 text-white/70">
+                <p className="text-xs uppercase tracking-[0.18em] text-cyan-100/70">Etapa {String(index + 1).padStart(2, "0")}</p>
+                <p className="mt-2">{item}</p>
+              </div>
             ))}
           </div>
         </div>
 
         <div className="glass-panel p-6">
-          <p className="text-xs uppercase tracking-[0.18em] text-cyan-100/75">Quebra de objeção</p>
-          <h2 className="mt-3 text-3xl font-black text-white">Dúvidas comuns antes do próximo clique.</h2>
+          <p className="text-xs uppercase tracking-[0.18em] text-cyan-100/75">Fechamento</p>
+          <h2 className="mt-3 text-3xl font-black text-white">CTA, prova e orcamento no mesmo plano de leitura.</h2>
           <div className="mt-5 grid gap-3">
-            {objections.map((item) => (
-              <div key={item} className="rounded-[20px] border border-white/10 bg-black/20 p-4 text-sm leading-7 text-white/70">
-                {item}
-              </div>
-            ))}
+            <div className="rounded-[20px] border border-white/10 bg-black/20 p-4 text-sm leading-7 text-white/70">
+              Use esta landing para vender por intencao de compra, nao por excesso de filtro.
+            </div>
+            <div className="rounded-[20px] border border-white/10 bg-black/20 p-4 text-sm leading-7 text-white/70">
+              A faixa inicial ajuda a quebrar a inercia sem prometer um valor unico para todo tipo de pedido.
+            </div>
+            <div className="rounded-[20px] border border-white/10 bg-black/20 p-4 text-sm leading-7 text-white/70">
+              Se o cliente estiver pronto, ele avanca. Se ainda estiver em duvida, ele nao sai da rota comercial.
+            </div>
+          </div>
+          <div className="mt-6 flex flex-wrap gap-3">
+            {config.primaryCta.external ? (
+              <a href={config.primaryCta.href} target="_blank" rel="noreferrer" className="btn-primary">
+                {config.primaryCta.label}
+              </a>
+            ) : (
+              <Link href={config.primaryCta.href} className="btn-primary">
+                {config.primaryCta.label}
+              </Link>
+            )}
+            {config.secondaryCta.external ? (
+              <a href={config.secondaryCta.href} target="_blank" rel="noreferrer" className="btn-secondary">
+                {config.secondaryCta.label}
+              </a>
+            ) : (
+              <Link href={config.secondaryCta.href} className="btn-secondary">
+                {config.secondaryCta.label}
+              </Link>
+            )}
           </div>
         </div>
       </section>
 
       <section className="mt-14">
         <div className="mb-6 max-w-3xl">
-          <p className="text-xs uppercase tracking-[0.2em] text-cyan-100/75">Catálogo filtrado</p>
-          <h2 className="mt-3 text-3xl font-black text-white">Navegação pronta para comparar, filtrar e fechar.</h2>
+          <p className="text-xs uppercase tracking-[0.2em] text-cyan-100/75">Catalogo filtrado</p>
+          <h2 className="mt-3 text-3xl font-black text-white">Navegacao pronta para comparar, filtrar e fechar.</h2>
           <p className="mt-4 text-sm leading-7 text-white/68">
-            A vitrine já abre com filtros coerentes para essa entrada. Se quiser ampliar a busca, basta trocar categoria, disponibilidade, coleção ou liberar o catálogo completo.
+            A vitrine ja abre com filtros coerentes para essa entrada. Se quiser ampliar a busca, basta trocar categoria, disponibilidade, colecao ou liberar o catalogo completo.
           </p>
         </div>
 
@@ -287,6 +301,15 @@ export function SalesLandingPage({ landingKey }: { landingKey: SalesLandingKey }
           initialAvailability={config.initialAvailability}
         />
       </section>
+
+      <div className="mt-14">
+        <CommerceFaq
+          eyebrow="FAQ comercial"
+          title="Perguntas que costumam travar a decisao nesta linha."
+          description="A ideia aqui e deixar a duvida comercial visivel na pagina, em vez de empurrar tudo para uma conversa externa."
+          items={config.faq}
+        />
+      </div>
 
       <section className="mt-16">
         <div className="rounded-[32px] border border-white/10 bg-white/5 p-8">
@@ -302,7 +325,11 @@ export function SalesLandingPage({ landingKey }: { landingKey: SalesLandingKey }
 
           <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
             {relatedLandings.map((item) => (
-              <Link key={item.slug} href={item.slug} className="rounded-[24px] border border-white/10 bg-black/20 p-5 transition hover:border-cyan-300/30 hover:bg-black/30">
+              <Link
+                key={item.slug}
+                href={item.slug}
+                className="rounded-[24px] border border-white/10 bg-black/20 p-5 transition hover:border-cyan-300/30 hover:bg-black/30"
+              >
                 <p className="text-xs uppercase tracking-[0.18em] text-cyan-100/75">{item.kicker}</p>
                 <h3 className="mt-3 text-xl font-bold text-white">{item.title}</h3>
                 <p className="mt-3 text-sm leading-7 text-white/65">{item.description}</p>

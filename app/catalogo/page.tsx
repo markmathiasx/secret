@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { CatalogExplorer } from "@/components/catalog-explorer";
+import { CommerceFaq } from "@/components/commerce-faq";
 import { CatalogRealCases } from "@/components/catalog-real-cases";
 import { CatalogBuyingIntents } from "@/components/catalog-buying-intents";
 import { getCatalogSnapshot } from "@/lib/catalog-repository";
@@ -23,6 +24,7 @@ export const dynamic = "force-static";
 export default async function CatalogPage() {
   const catalog = await getCatalogSnapshot();
   const siteUrl = getSiteUrl();
+  const minPrice = Math.min(...catalog.map((product) => product.pricePix));
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -34,6 +36,23 @@ export default async function CatalogPage() {
 
   const visualSummary = summarizeProductVisuals(catalog);
   const a1MiniCount = catalog.filter(isA1MiniCatalogProduct).length;
+  const catalogFaq = [
+    {
+      question: "Como usar o catalogo sem se perder em opcoes demais?",
+      answer:
+        "A melhor forma e entrar por objetivo de compra: pronta entrega, presente, setup, visual validado ou personalizacao. O catalogo foi reorganizado para vender por intencao, nao por excesso de SKU.",
+    },
+    {
+      question: "O catalogo mostra so produtos prontos?",
+      answer:
+        "Nao. Ele mistura itens com preco mais fechado e rotas claras para briefing, para que a pessoa nao precise sair da loja quando percebe que quer algo adaptado.",
+    },
+    {
+      question: "Qual e a faixa inicial para comecar a comprar na MDH 3D?",
+      answer:
+        `Hoje a vitrine publica abre a partir de ${new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(minPrice)} no Pix para itens compactos, com variacao conforme categoria, acabamento e personalizacao.`,
+    },
+  ];
 
   return (
     <section className="catalog-page-shell mx-auto w-full max-w-7xl px-3 pb-14 pt-24 sm:px-4 md:px-6 md:py-16">
@@ -105,6 +124,13 @@ export default async function CatalogPage() {
         </p>
       </div>
 
+      <div className="mt-4 rounded-[28px] border border-white/10 bg-white/5 p-5 text-sm leading-7 text-white/70">
+        <p className="text-xs uppercase tracking-[0.18em] text-cyan-100/80">Faixa inicial</p>
+        <p className="mt-2">
+          O catálogo público abre hoje a partir de {new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(minPrice)} no Pix para itens compactos, e sobe conforme categoria, acabamento e nível de personalização.
+        </p>
+      </div>
+
       <CatalogBuyingIntents products={catalog} />
 
       <div id="catalogo-real" className="mt-12">
@@ -133,6 +159,15 @@ export default async function CatalogPage() {
             />
           </div>
         </div>
+      </div>
+
+      <div className="mt-14">
+        <CommerceFaq
+          eyebrow="FAQ do catalogo"
+          title="As duvidas comerciais que mais aparecem antes do clique no produto."
+          description="O catalogo agora segura contexto de compra e faixa inicial na propria pagina, sem empurrar tudo para atendimento humano."
+          items={catalogFaq}
+        />
       </div>
     </section>
   );

@@ -1,6 +1,14 @@
 import { redirect } from "next/navigation";
 import { getServerSessionUser, isAdminSession } from "@/lib/server-session";
-import { canConnectToDatabase, prisma } from "@/lib/prisma";
+import {
+  buildWeeklyGrowthDashboard,
+  readStoredWeeklyGrowthDashboard,
+} from "@/lib/weekly-growth-dashboard";
+import { formatCurrency } from "@/lib/utils";
+
+function formatPercent(value: number) {
+  return `${(value * 100).toFixed(1)}%`;
+}
 
 export const dynamic = "force-dynamic";
 
@@ -8,98 +16,143 @@ export default async function AdminAnalyticsPage() {
   const user = await getServerSessionUser();
   if (!isAdminSession(user)) redirect("/admin/login");
 
-  const connected = await canConnectToDatabase();
-
-  const [orderCount, userCount, totalRevenue] = connected
-    ? await Promise.all([
-        prisma.order.count(),
-        prisma.user.count(),
-        prisma.order
-          .aggregate({ _sum: { grandTotal: true }, where: { status: { in: ["PAID", "PRINTING", "READY_TO_SHIP", "SHIPPED", "DELIVERED"] } } })
-          .then((r: unknown) => Number((r as { _sum: { grandTotal: unknown } })._sum.grandTotal ?? 0)),
-      ])
-    : [0, 0, 0];
-
-  const recentOrders: { orderNumber: string; status: string; grandTotal: unknown; createdAt: Date; customerName: string | null }[] = connected
-    ? await prisma.order.findMany({
-        take: 10,
-        orderBy: { createdAt: "desc" },
-        select: { orderNumber: true, status: true, grandTotal: true, createdAt: true, customerName: true },
-      })
-    : [];
-
-  const fmt = (n: number) => new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(n);
-
-  const STATUS_LABELS: Record<string, string> = {
-    PENDING_PAYMENT: "Aguardando pagamento",
-    PAID: "Pago",
-    PRINTING: "Em produção",
-    READY_TO_SHIP: "Pronto p/ envio",
-    SHIPPED: "Enviado",
-    DELIVERED: "Entregue",
-    CANCELED: "Cancelado",
-    REFUNDED: "Reembolsado",
-  };
+  const stored = await readStoredWeeklyGrowthDashboard();
+  const dashboard = stored || (await buildWeeklyGrowthDashboard());
 
   return (
-    <section>
-      <div className="mb-6">
-        <p className="section-kicker">Métricas</p>
-        <h2 className="section-title">Analytics</h2>
-        <p className="section-copy">Visão geral dos pedidos e receita.</p>
+    <section className="space-y-8">
+      <div className="rounded-[32px] border border-white/10 bg-[linear-gradient(180deg,rgba(15,23,42,0.94),rgba(15,23,42,0.72))] p-6 shadow-[0_28px_80px_rgba(2,8,23,0.32)]">
+        <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Painel MDH 3D</p>
+        <h1 className="mt-2 text-3xl font-black text-white">Dashboard semanal de aquisição e conversão</h1>
+        <p className="mt-2 max-w-3xl text-sm leading-7 text-white/60">
+          Esta visão junta Search Console e métricas internas para orientar título, CTA, prova visual, páginas comerciais e pipeline de conteúdo em uma única leitura operacional.
+        </p>
+        <p className="mt-4 text-xs uppercase tracking-[0.16em] text-white/45">
+          Janela analisada: {dashboard.window.label} • gerado em{" "}
+          {new Date(dashboard.generatedAt).toLocaleString("pt-BR")}
+        </p>
       </div>
 
-      {!connected && (
-        <div className="mb-4 rounded-[20px] border border-amber-300/20 bg-amber-300/10 p-4 text-sm text-amber-50">
-          Banco de dados indisponível — métricas zeradas.
-        </div>
-      )}
-
-      <div className="mb-6 grid gap-4 sm:grid-cols-3">
-        {[
-          { label: "Total de pedidos", value: String(orderCount), color: "text-cyan-200" },
-          { label: "Usuários cadastrados", value: String(userCount), color: "text-violet-200" },
-          { label: "Receita confirmada", value: fmt(totalRevenue), color: "text-emerald-200" },
-        ].map((stat) => (
-          <div key={stat.label} className="glass-card p-6">
-            <p className="text-xs uppercase tracking-[0.18em] text-white/50">{stat.label}</p>
-            <p className={`mt-2 text-3xl font-black ${stat.color}`}>{stat.value}</p>
+      <section className="grid gap-6 xl:grid-cols-[1.05fr_0.95fr]">
+        <div className="rounded-[30px] border border-white/10 bg-black/20 p-6">
+          <div className="flex items-center justify-between gap-3">
+            <div>
+              <p className="text-xs uppercase tracking-[0.18em] text-cyan-100/75">Search Console</p>
+              <h2 className="mt-2 text-2xl font-black text-white">Saúde orgânica da semana</h2>
+            </div>
+            <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/60">
+              {dashboard.searchConsole.available ? "Conectado" : "Aguardando conexão"}
+            </span>
           </div>
-        ))}
-      </div>
 
-      <div className="glass-card">
-        <p className="mb-4 text-sm font-semibold text-white">Últimos 10 pedidos</p>
-        <div className="overflow-x-auto">
-          <table className="min-w-full text-sm">
-            <thead className="border-b border-white/10">
-              <tr>
-                <th className="pb-2 text-left text-xs font-semibold uppercase tracking-[0.14em] text-white/40">Pedido</th>
-                <th className="pb-2 text-left text-xs font-semibold uppercase tracking-[0.14em] text-white/40">Cliente</th>
-                <th className="pb-2 text-left text-xs font-semibold uppercase tracking-[0.14em] text-white/40">Status</th>
-                <th className="pb-2 text-right text-xs font-semibold uppercase tracking-[0.14em] text-white/40">Total</th>
-                <th className="pb-2 text-left text-xs font-semibold uppercase tracking-[0.14em] text-white/40">Data</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-white/5">
-              {recentOrders.length === 0 && (
-                <tr>
-                  <td colSpan={5} className="py-6 text-center text-white/40">Nenhum pedido.</td>
-                </tr>
-              )}
-              {recentOrders.map((order) => (
-                <tr key={order.orderNumber} className="hover:bg-white/5">
-                  <td className="py-2 font-mono text-xs text-cyan-200">{order.orderNumber}</td>
-                  <td className="py-2 text-white/70">{order.customerName || "—"}</td>
-                  <td className="py-2 text-white/60 text-xs">{STATUS_LABELS[order.status] || order.status}</td>
-                  <td className="py-2 text-right text-emerald-200">{fmt(Number(order.grandTotal))}</td>
-                  <td className="py-2 text-white/40 text-xs">{new Date(order.createdAt).toLocaleDateString("pt-BR")}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          {!dashboard.searchConsole.available ? (
+            <div className="mt-5 rounded-[20px] border border-amber-300/20 bg-amber-300/10 p-4 text-sm leading-7 text-amber-50">
+              {dashboard.searchConsole.note || "Search Console ainda não configurado."}
+            </div>
+          ) : null}
+
+          <div className="mt-5 grid gap-4 sm:grid-cols-4">
+            {[
+              { label: "Cliques", value: String(dashboard.searchConsole.clicks) },
+              { label: "Impressões", value: String(dashboard.searchConsole.impressions) },
+              { label: "CTR", value: formatPercent(dashboard.searchConsole.ctr) },
+              { label: "Posição média", value: dashboard.searchConsole.avgPosition.toFixed(1) },
+            ].map((item) => (
+              <div key={item.label} className="rounded-[22px] border border-white/10 bg-white/5 p-4">
+                <p className="text-xs uppercase tracking-[0.16em] text-white/45">{item.label}</p>
+                <p className="mt-3 text-2xl font-black text-white">{item.value}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-6 grid gap-4 lg:grid-cols-2">
+            <div className="rounded-[22px] border border-white/10 bg-white/5 p-4">
+              <p className="text-xs uppercase tracking-[0.16em] text-cyan-100/75">Top queries</p>
+              <div className="mt-4 grid gap-3">
+                {dashboard.searchConsole.topQueries.length ? (
+                  dashboard.searchConsole.topQueries.map((item) => (
+                    <div key={item.label} className="rounded-[16px] border border-white/10 bg-black/20 p-3">
+                      <p className="text-sm font-semibold text-white">{item.label}</p>
+                      <p className="mt-2 text-xs text-white/55">
+                        {item.clicks} cliques • {item.impressions} impressões • CTR {formatPercent(item.ctr)}
+                      </p>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-sm text-white/45">Sem dados de consultas no período.</p>
+                )}
+              </div>
+            </div>
+
+            <div className="rounded-[22px] border border-white/10 bg-white/5 p-4">
+              <p className="text-xs uppercase tracking-[0.16em] text-cyan-100/75">Top páginas</p>
+              <div className="mt-4 grid gap-3">
+                {dashboard.searchConsole.topPages.length ? (
+                  dashboard.searchConsole.topPages.map((item) => (
+                    <div key={item.label} className="rounded-[16px] border border-white/10 bg-black/20 p-3">
+                      <p className="break-all text-sm font-semibold text-white">{item.label}</p>
+                      <p className="mt-2 text-xs text-white/55">
+                        {item.clicks} cliques • {item.impressions} impressões • posição {item.position.toFixed(1)}
+                      </p>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-sm text-white/45">Sem dados de páginas no período.</p>
+                )}
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
+
+        <div className="rounded-[30px] border border-white/10 bg-black/20 p-6">
+          <p className="text-xs uppercase tracking-[0.18em] text-cyan-100/75">Métricas internas</p>
+          <h2 className="mt-2 text-2xl font-black text-white">O que o site está transformando em ação comercial</h2>
+
+          <div className="mt-5 grid gap-4 sm:grid-cols-2">
+            {[
+              { label: "Pedidos", value: String(dashboard.internal.orders) },
+              { label: "Orçamentos", value: String(dashboard.internal.quotes) },
+              { label: "Pix observado", value: formatCurrency(dashboard.internal.revenuePix) },
+              { label: "Cartão observado", value: formatCurrency(dashboard.internal.revenueCard) },
+              { label: "Views rastreadas", value: String(dashboard.internal.totalViews) },
+              { label: "Visitantes únicos", value: String(dashboard.internal.uniqueVisitors) },
+              { label: "Add to cart rate", value: formatPercent(dashboard.internal.addToCartRate) },
+              { label: "Purchase rate", value: formatPercent(dashboard.internal.purchaseRate) },
+            ].map((item) => (
+              <div key={item.label} className="rounded-[22px] border border-white/10 bg-white/5 p-4">
+                <p className="text-xs uppercase tracking-[0.16em] text-white/45">{item.label}</p>
+                <p className="mt-3 text-2xl font-black text-white">{item.value}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-6 rounded-[22px] border border-white/10 bg-white/5 p-4">
+            <p className="text-xs uppercase tracking-[0.16em] text-cyan-100/75">Pendências comerciais</p>
+            <div className="mt-4 grid gap-3 sm:grid-cols-2">
+              <div className="rounded-[16px] border border-white/10 bg-black/20 p-3">
+                <p className="text-xs uppercase tracking-[0.16em] text-white/45">Briefings em aberto</p>
+                <p className="mt-2 text-xl font-black text-white">{dashboard.internal.openRequests}</p>
+              </div>
+              <div className="rounded-[16px] border border-white/10 bg-black/20 p-3">
+                <p className="text-xs uppercase tracking-[0.16em] text-white/45">Valor médio por sessão</p>
+                <p className="mt-2 text-xl font-black text-white">{formatCurrency(dashboard.internal.averageSessionValue)}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="rounded-[30px] border border-white/10 bg-black/20 p-6">
+        <p className="text-xs uppercase tracking-[0.18em] text-cyan-100/75">Próximas ações</p>
+        <h2 className="mt-2 text-2xl font-black text-white">O que mexer esta semana para aumentar aquisição e conversão</h2>
+        <div className="mt-5 grid gap-3">
+          {dashboard.actions.map((item) => (
+            <div key={item} className="rounded-[20px] border border-white/10 bg-white/5 p-4 text-sm leading-7 text-white/70">
+              {item}
+            </div>
+          ))}
+        </div>
+      </section>
     </section>
   );
 }
