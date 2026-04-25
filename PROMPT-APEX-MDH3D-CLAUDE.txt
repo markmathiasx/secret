@@ -1,0 +1,44 @@
+Use o agent/profile `markbot` e execute UMA RODADA ÚNICA, FINAL e IMPLACÁVEL para forçar o domínio canônico apex `https://mdh3d.com.br` na MDH 3D Store.
+
+OBJETIVO FINAL
+- `https://mdh3d.com.br` deve ser o domínio principal.
+- `https://www.mdh3d.com.br` deve redirecionar permanentemente para `https://mdh3d.com.br`.
+- Nenhuma navegação, canonical, sitemap, robots, metadata, callback, auth URL ou redirect deve cair em `vercel.app` quando o ambiente de produção estiver correto.
+
+REGRAS
+- Trabalhe a partir do working tree atual.
+- Preserve Next.js App Router.
+- Não criar SPA paralela.
+- Não quebrar checkout, conta, admin, inbox, consultor ou integrações Meta já fechadas.
+- Não inventar configuração externa já aplicada; apenas endurecer o código para apex canonical.
+- Não hardcodar segredos.
+- Não responder com plano; implemente.
+
+ITENS OBRIGATÓRIOS
+1. Garantir que `NEXT_PUBLIC_SITE_URL`, `AUTH_URL` e `NEXTAUTH_URL` usem `https://mdh3d.com.br` em exemplos, guards e documentação operacional.
+2. Revisar `lib/env.ts` e qualquer helper de site URL para garantir prioridade do apex canonical em produção.
+3. Revisar `middleware.ts` para garantir redirect host-based para `mdh3d.com.br`, inclusive quando o host vier como `www.mdh3d.com.br`.
+4. Revisar `next.config.ts` e adicionar redirect explícito de `www.mdh3d.com.br` para `mdh3d.com.br` se ainda não estiver sólido.
+5. Revisar metadata/canonical/open graph/sitemap/robots e qualquer referência a `vercel.app`.
+6. Não mexer em funcionalidade externa Meta/WhatsApp se não for necessário para o domínio canônico.
+7. Rodar validação final:
+   - typecheck
+   - build
+   - se houver smoke de URLs/canonical, rodar também
+8. Se houver mudanças reais:
+   - git add .
+   - git commit -m "fix: force apex canonical domain mdh3d.com.br"
+   - git push
+
+FORMATO FINAL OBRIGATÓRIO
+Responder apenas ao final com:
+1. diagnóstico real
+2. arquivos alterados
+3. o que foi ajustado para forçar apex canonical
+4. resultado de typecheck
+5. resultado de build
+6. status do commit
+7. status do push
+8. qualquer pendência externa que ainda reste na Vercel/Hostinger
+
+Comece agora.
