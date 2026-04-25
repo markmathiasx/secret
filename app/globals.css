@@ -524,6 +524,33 @@ p {
   transform: translateY(1px) scale(0.992);
 }
 
+/* ===== ULTRA PRIME CTA - PULSE ANIMATION ===== */
+@keyframes pulse-cta-ultra {
+  0%, 100% { box-shadow: 0 0 18px rgba(3, 233, 244, 0.28), 0 0 8px rgba(3, 233, 244, 0.15); }
+  50%       { box-shadow: 0 0 32px rgba(3, 233, 244, 0.55), 0 0 16px rgba(3, 233, 244, 0.30); }
+}
+
+.btn-cta-ultra {
+  animation: pulse-cta-ultra 2.4s ease-in-out infinite;
+  transform: translateZ(0);
+  will-change: transform;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-cta-ultra:hover {
+  animation: none;
+  transform: scale(1.04) translateZ(0);
+  box-shadow: 0 0 40px rgba(3, 233, 244, 0.6), 0 0 20px rgba(3, 233, 244, 0.35);
+}
+
+.btn-cta-ultra:active {
+  transform: scale(0.98) translateZ(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-cta-ultra { animation: none; }
+}
+
 /* Form Fields */
 .field-base {
   @apply w-full px-4 py-3 bg-white/5 border border-white/20 rounded-[1.05rem] text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-cyan-glow focus:border-cyan-glow transition-all duration-200 backdrop-blur-sm;

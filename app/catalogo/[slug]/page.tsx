@@ -16,7 +16,7 @@ import { DeliveryCalculator } from '@/components/delivery-calculator';
 import { CommerceFaq } from '@/components/commerce-faq';
 import { QuoteForm } from '@/components/quote-form';
 import { GuaranteeBar } from '@/components/guarantee-bar';
-import { ProductSocialProof } from '@/components/product-social-proof';
+import { ProductSocialProof, TrustBadges } from '@/components/product-social-proof';
 import { StickyPdpCta } from '@/components/sticky-pdp-cta';
 import { ProductBundleSuggestion } from '@/components/product-bundle-suggestion';
 import { RecentlyViewedShelf } from '@/components/recently-viewed-shelf';
@@ -374,6 +374,7 @@ export default async function ProductPage({
           </div>
           <div className="mt-4">
             <ProductSocialProof
+              productId={product.id}
               averageRating={productSignals?.averageRating ?? storeSummary?.averageRating ?? null}
               reviewCount={productSignals?.reviewCount ?? storeSummary?.reviewCount ?? 0}
               soldTotal={productSignals?.soldTotal}
@@ -381,6 +382,7 @@ export default async function ProductPage({
               stockLevel={product.stock}
             />
           </div>
+          <TrustBadges />
           <h1 className="mt-5 text-4xl font-black text-white md:text-5xl">{product.name}</h1>
           <p className="mt-4 text-base leading-8 text-white/70">{longDescription}</p>
 

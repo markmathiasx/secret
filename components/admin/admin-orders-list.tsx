@@ -164,9 +164,23 @@ export function AdminOrdersList() {
                 </td>
                 <td className="px-4 py-3 text-sm text-white/70">{new Date(order.createdAt).toLocaleDateString('pt-BR')}</td>
                 <td className="px-4 py-3 text-center">
-                  <Link href={`/admin/orders/${order.id}`} className="btn-glass inline-flex px-3 py-2 text-xs">
-                    Abrir
-                  </Link>
+                  <div className="flex items-center justify-center gap-2">
+                    <Link href={`/admin/orders/${order.id}`} className="btn-glass inline-flex px-3 py-2 text-xs">
+                      Abrir
+                    </Link>
+                    {order.customerEmail && (
+                      <a
+                        href={`https://wa.me/?text=${encodeURIComponent(`Olá ${order.customerName || ""}! Sobre seu pedido #${order.orderNumber} na MDH 3D — `)}`}
+                        target="_blank"
+                        rel="noreferrer noopener"
+                        className="inline-flex items-center gap-1 rounded-xl border border-emerald-400/30 bg-emerald-400/10 px-3 py-2 text-xs font-semibold text-emerald-300 transition hover:border-emerald-400/50 hover:bg-emerald-400/20"
+                        title="Responder via WhatsApp"
+                      >
+                        <MessageCircleMore className="h-3.5 w-3.5" />
+                        WA
+                      </a>
+                    )}
+                  </div>
                 </td>
               </tr>
             ))}

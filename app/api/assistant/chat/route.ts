@@ -114,10 +114,10 @@ function getProviderConfig(): ProviderConfig | null {
   }
 }
 
-function buildResponseRequest(config: ProviderConfig, input: any, previousResponseId?: string | null) {
+function buildResponseRequest(config: ProviderConfig, input: any, previousResponseId?: string | null, now?: Date) {
   return {
     model: config.model,
-    instructions: createCommerceAssistantInstructions("site"),
+    instructions: createCommerceAssistantInstructions("site", now),
     input,
     tools: [...commerceAssistantTools],
     parallel_tool_calls: true,
@@ -151,6 +151,7 @@ export async function POST(request: Request) {
   const messages = sanitizeMessages(payload.messages);
   const previousResponseId = payload.previousResponseId?.trim() || null;
   const latestUserMessage = [...messages].reverse().find((message) => message.role === "user");
+  const requestTime = new Date();
 
   if (!latestUserMessage) {
     return applyNoStoreHeaders(
@@ -185,7 +186,7 @@ export async function POST(request: Request) {
         : toResponseInput(messages);
 
     let response = await client.responses.create(
-      buildResponseRequest(providerConfig, initialInput, previousResponseId)
+      buildResponseRequest(providerConfig, initialInput, previousResponseId, requestTime)
     );
 
     for (let safety = 0; safety < 4; safety += 1) {
@@ -208,7 +209,8 @@ export async function POST(request: Request) {
         buildResponseRequest(
           providerConfig,
           outputs,
-          providerConfig.supportsStatefulResponses ? response.id : null
+          providerConfig.supportsStatefulResponses ? response.id : null,
+          requestTime
         )
       );
     }
