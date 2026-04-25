@@ -128,8 +128,10 @@ function getVisualDefaults(kind: ProductVisualKind) {
         label: "Render do produto",
         badgeClassName: "border-cyan-300/25 bg-cyan-300/10 text-cyan-100",
         panelClassName: "border-cyan-400/20 bg-cyan-400/10 text-cyan-50",
-        description: "A imagem foi gerada a partir do modelo 3D real da peça, preservando a geometria do produto antes da produção.",
-        recommendedNextStep: "Anexar STL, OBJ ou 3MF correspondente para manter a trilha técnica auditável.",
+        description:
+          "A imagem mostra uma referencia visual fiel do produto ou do modelo 3D equivalente, usada para avaliar forma, escala e acabamento antes da compra.",
+        recommendedNextStep:
+          "Anexar STL, OBJ, 3MF ou foto propria da peca produzida para manter a trilha tecnica auditavel.",
         merchantReady: true,
       };
     default:

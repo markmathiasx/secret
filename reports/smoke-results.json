@@ -80,12 +80,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1670,
+                  "duration": 1572,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-04-25T00:07:18.476Z",
+                  "startTime": "2026-04-25T00:48:11.804Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -95,7 +95,7 @@
           ],
           "id": "ba125c80e441cb68a830-57950f4729b5930c4ffc",
           "file": "storefront-images.spec.ts",
-          "line": 17,
+          "line": 91,
           "column": 7
         },
         {
@@ -114,12 +114,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 2126,
+                  "duration": 2045,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-04-25T00:07:20.240Z",
+                  "startTime": "2026-04-25T00:48:13.472Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -129,7 +129,7 @@
           ],
           "id": "ba125c80e441cb68a830-47910420171612f2a95f",
           "file": "storefront-images.spec.ts",
-          "line": 17,
+          "line": 91,
           "column": 7
         },
         {
@@ -148,12 +148,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1727,
+                  "duration": 1614,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-04-25T00:07:22.387Z",
+                  "startTime": "2026-04-25T00:48:15.534Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -163,7 +163,7 @@
           ],
           "id": "ba125c80e441cb68a830-0ef1fcb21c70f29393f9",
           "file": "storefront-images.spec.ts",
-          "line": 17,
+          "line": 91,
           "column": 7
         },
         {
@@ -182,12 +182,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1786,
+                  "duration": 1432,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-04-25T00:07:24.132Z",
+                  "startTime": "2026-04-25T00:48:17.161Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -197,7 +197,7 @@
           ],
           "id": "ba125c80e441cb68a830-dae9c6ef9dd2db0e99b2",
           "file": "storefront-images.spec.ts",
-          "line": 17,
+          "line": 91,
           "column": 7
         },
         {
@@ -216,12 +216,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1853,
+                  "duration": 1495,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-04-25T00:07:25.931Z",
+                  "startTime": "2026-04-25T00:48:18.607Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -231,7 +231,7 @@
           ],
           "id": "ba125c80e441cb68a830-74068d1e1eacebd6feac",
           "file": "storefront-images.spec.ts",
-          "line": 17,
+          "line": 91,
           "column": 7
         },
         {
@@ -250,12 +250,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1878,
+                  "duration": 1410,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-04-25T00:07:27.800Z",
+                  "startTime": "2026-04-25T00:48:20.113Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -265,7 +265,7 @@
           ],
           "id": "ba125c80e441cb68a830-d00fe75d45a34b36fd3c",
           "file": "storefront-images.spec.ts",
-          "line": 17,
+          "line": 91,
           "column": 7
         },
         {
@@ -284,12 +284,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1764,
+                  "duration": 1490,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-04-25T00:07:29.694Z",
+                  "startTime": "2026-04-25T00:48:21.536Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -299,7 +299,7 @@
           ],
           "id": "ba125c80e441cb68a830-8e16f2bf60caef6206a9",
           "file": "storefront-images.spec.ts",
-          "line": 17,
+          "line": 91,
           "column": 7
         },
         {
@@ -318,12 +318,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1619,
+                  "duration": 1385,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-04-25T00:07:31.474Z",
+                  "startTime": "2026-04-25T00:48:23.039Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -333,7 +333,7 @@
           ],
           "id": "ba125c80e441cb68a830-53ceebe1ee84b59fcaad",
           "file": "storefront-images.spec.ts",
-          "line": 17,
+          "line": 91,
           "column": 7
         },
         {
@@ -352,12 +352,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1697,
+                  "duration": 1450,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-04-25T00:07:33.107Z",
+                  "startTime": "2026-04-25T00:48:24.438Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -367,7 +367,7 @@
           ],
           "id": "ba125c80e441cb68a830-19c7c767be33e3b7d584",
           "file": "storefront-images.spec.ts",
-          "line": 17,
+          "line": 91,
           "column": 7
         },
         {
@@ -386,12 +386,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1600,
+                  "duration": 1466,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-04-25T00:07:34.823Z",
+                  "startTime": "2026-04-25T00:48:25.902Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -401,8 +401,76 @@
           ],
           "id": "ba125c80e441cb68a830-3ff7e96896d17031700a",
           "file": "storefront-images.spec.ts",
-          "line": 17,
+          "line": 91,
           "column": 7
+        },
+        {
+          "title": "home usa imagens de produto nos cards principais",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4576,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-04-25T00:48:27.402Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ba125c80e441cb68a830-353dcbddfea26ba02e82",
+          "file": "storefront-images.spec.ts",
+          "line": 120,
+          "column": 5
+        },
+        {
+          "title": "arquivos da vitrine nao sao cards textuais uniformes",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 47,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-04-25T00:48:31.993Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ba125c80e441cb68a830-deedc7386de8aa26d071",
+          "file": "storefront-images.spec.ts",
+          "line": 146,
+          "column": 5
         },
         {
           "title": "checkout continua carregando sem imagens quebradas",
@@ -420,12 +488,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1713,
+                  "duration": 1547,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-04-25T00:07:36.444Z",
+                  "startTime": "2026-04-25T00:48:32.052Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -435,7 +503,7 @@
           ],
           "id": "ba125c80e441cb68a830-94567445342e5492d014",
           "file": "storefront-images.spec.ts",
-          "line": 46,
+          "line": 161,
           "column": 5
         }
       ]
@@ -443,9 +511,9 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-04-25T00:07:17.887Z",
-    "duration": 20421.591,
-    "expected": 11,
+    "startTime": "2026-04-25T00:48:11.132Z",
+    "duration": 22583.487999999998,
+    "expected": 13,
     "skipped": 0,
     "unexpected": 0,
     "flaky": 0
