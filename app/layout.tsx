@@ -52,7 +52,7 @@ const googleVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION?.tri
 const gaMeasurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID?.trim();
 const organizationJsonLd = {
   '@context': 'https://schema.org',
-  '@type': 'Organization',
+  '@type': ['Organization', 'LocalBusiness', 'Store'],
   '@id': `${siteUrl}#organization`,
   name: brand.legalName,
   alternateName: brand.name,
@@ -67,7 +67,28 @@ const organizationJsonLd = {
     '@type': 'PostalAddress',
     addressLocality: brand.city,
     addressRegion: brand.state,
-    addressCountry: 'BR'
+    addressCountry: 'BR',
+    addressRegionCode: 'RJ',
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: '-22.9068',
+    longitude: '-43.1729',
+  },
+  openingHoursSpecification: [
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+      opens: '09:00',
+      closes: '18:00',
+    },
+  ],
+  priceRange: 'R$',
+  currenciesAccepted: 'BRL',
+  paymentAccepted: 'Pix, Cartão de Crédito, Boleto',
+  areaServed: {
+    '@type': 'State',
+    name: 'Rio de Janeiro',
   },
   contactPoint: [
     {
@@ -186,6 +207,14 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="pt-BR" data-scroll-behavior="smooth" className={`${sans.variable} ${display.variable}`}>
+      <head>
+        {/* Critical resource hints — preconnect to third-party origins used above the fold */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://api.mercadopago.com" />
+        <link rel="dns-prefetch" href="https://sdk.mercadopago.com" />
+      </head>
       <body>
         {gaMeasurementId ? (
           <>

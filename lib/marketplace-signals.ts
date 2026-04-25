@@ -153,3 +153,53 @@ export async function getProductMarketplaceSignals(productId: string, productSku
 
   return promise;
 }
+
+export type ProductReviewSnippet = {
+  id: string;
+  authorName: string;
+  rating: number;
+  title: string | null;
+  body: string | null;
+  createdAt: string;
+  verifiedPurchase: boolean;
+};
+
+/**
+ * Returns up to `limit` recent approved reviews for a product SKU.
+ * Used to populate Review[] in structured data (JSON-LD).
+ */
+export async function getProductReviewSnippets(
+  productSku: string,
+  limit = 5
+): Promise<ProductReviewSnippet[]> {
+  if (!(await canConnectToDatabase())) return [];
+
+  try {
+    const rows = await prisma.catalogReview.findMany({
+      where: { catalogSku: productSku, approved: true },
+      orderBy: { createdAt: "desc" },
+      take: limit,
+      select: {
+        id: true,
+        authorName: true,
+        rating: true,
+        title: true,
+        body: true,
+        createdAt: true,
+        verifiedPurchase: true,
+      },
+    });
+
+    return rows.map((r) => ({
+      id: r.id,
+      authorName: r.authorName,
+      rating: r.rating,
+      title: r.title ?? null,
+      body: r.body ?? null,
+      createdAt: r.createdAt.toISOString(),
+      verifiedPurchase: r.verifiedPurchase,
+    }));
+  } catch {
+    return [];
+  }
+}

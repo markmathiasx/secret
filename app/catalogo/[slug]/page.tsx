@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 import { CopyPlus, MessageCircleMore } from 'lucide-react';
+import { BackInStockButton } from '@/components/back-in-stock-button';
 import { ShareButton } from '@/components/share-button';
 import { findCatalogProductBySlug, getCatalogStaticParams } from '@/lib/catalog-repository';
 import { ProductImageGallery } from '@/components/product-image-gallery';
@@ -30,7 +31,7 @@ import { getSiteUrl } from '@/lib/env';
 import { getProductHighlights, getProductLongDescription } from '@/lib/catalog-content';
 import { resolveProductImage } from '@/lib/product-images';
 import { catalog, featuredCatalog } from '@/lib/catalog';
-import { getProductMarketplaceSignals, getStoreReputationSummary } from '@/lib/marketplace-signals';
+import { getProductMarketplaceSignals, getStoreReputationSummary, getProductReviewSnippets } from '@/lib/marketplace-signals';
 import { validateProductMedia, isPublicSafe } from '@/lib/media-validation';
 
 export const revalidate = 300;
@@ -55,9 +56,10 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const resolvedImage = resolveProductImage(product);
   const imageUrl = resolvedImage.startsWith("http") ? resolvedImage : `${siteUrl}${resolvedImage}`;
   const longDescription = getProductLongDescription(product);
-  const [productSignals, storeSummary] = await Promise.all([
+  const [productSignals, storeSummary, reviewSnippets] = await Promise.all([
     getProductMarketplaceSignals(product.id, product.sku),
     getStoreReputationSummary(),
+    getProductReviewSnippets(product.sku, 5),
   ]);
   const metaMediaRecord = validateProductMedia(product);
   const metaMediaSafe = isPublicSafe(metaMediaRecord.status) && metaMediaRecord.gallery.length >= 1;
@@ -117,9 +119,10 @@ export default async function ProductPage({
   );
   const highlights = getProductHighlights(product);
   const longDescription = getProductLongDescription(product);
-  const [productSignals, storeSummary] = await Promise.all([
+  const [productSignals, storeSummary, reviewSnippets] = await Promise.all([
     getProductMarketplaceSignals(product.id, product.sku),
     getStoreReputationSummary(),
+    getProductReviewSnippets(product.sku, 5),
   ]);
   const mediaRecord = validateProductMedia(product);
   const mediaIsPublicSafe = isPublicSafe(mediaRecord.status) && mediaRecord.gallery.length >= 1;
@@ -185,7 +188,14 @@ export default async function ProductPage({
       seller: {
         '@type': 'Organization',
         name: 'MDH 3D Store',
+        url: productUrl.split('/catalogo')[0],
       },
+      acceptedPaymentMethod: [
+        { '@type': 'PaymentMethod', '@id': 'http://purl.org/goodrelations/v1#Cash' },
+        { '@type': 'PaymentMethod', name: 'Pix' },
+        { '@type': 'PaymentMethod', name: 'Cartão de Crédito' },
+        { '@type': 'PaymentMethod', name: 'Boleto Bancário' },
+      ],
     },
     category: product.category,
     material: product.material,
@@ -214,6 +224,21 @@ export default async function ProductPage({
         bestRating: 5,
         worstRating: 1,
       },
+    }),
+    ...(reviewSnippets.length > 0 && {
+      review: reviewSnippets.map((r) => ({
+        '@type': 'Review',
+        author: { '@type': 'Person', name: r.authorName },
+        datePublished: r.createdAt.slice(0, 10),
+        reviewRating: {
+          '@type': 'Rating',
+          ratingValue: r.rating,
+          bestRating: 5,
+          worstRating: 1,
+        },
+        ...(r.title && { name: r.title }),
+        ...(r.body && { reviewBody: r.body }),
+      })),
     }),
   };
   const breadcrumbJsonLd = {
@@ -509,6 +534,11 @@ export default async function ProductPage({
               whatsappHref={whatsappHref}
               customizationHref={customizationHref}
             />
+            {product.stock <= 0 && (
+              <div className="mt-4">
+                <BackInStockButton productId={product.id} productName={product.name} />
+              </div>
+            )}
           </div>
 
           <div className="mt-6">

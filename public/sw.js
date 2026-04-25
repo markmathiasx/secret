@@ -1,4 +1,4 @@
-const CACHE = "mdh-static-v3";
+const CACHE = "mdh-static-v4";
 const LEGACY_PREFIXES = ["mdh3d-", "mdh-static-v", "mdh-static-", "mdh-3d-"];
 const CORE = ["/logo-mdh.jpg", "/icon-192.png", "/icon-512.png", "/apple-touch-icon.png", "/offline.html"];
 const STATIC_ASSET_PATTERN = /\.(?:png|jpe?g|webp|avif|gif|svg|ico|woff2?|ttf|otf)$/i;
@@ -99,5 +99,49 @@ self.addEventListener("fetch", (event) => {
         return new Response("", { status: 503 });
       });
     })()
+  );
+});
+
+// ─── Push Notifications ─────────────────────────────────────────────────────
+
+self.addEventListener("push", (event) => {
+  let data = { title: "MDH 3D", body: "Nova atualização disponível.", url: "/" };
+  try {
+    if (event.data) data = { ...data, ...event.data.json() };
+  } catch {
+    if (event.data) data.body = event.data.text();
+  }
+
+  const options = {
+    body: data.body,
+    icon: "/icon-192.png",
+    badge: "/icon-192.png",
+    data: { url: data.url || "/" },
+    vibrate: [100, 50, 100],
+    actions: [
+      { action: "open", title: "Abrir" },
+      { action: "dismiss", title: "Dispensar" },
+    ],
+  };
+
+  event.waitUntil(self.registration.showNotification(data.title, options));
+});
+
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close();
+
+  if (event.action === "dismiss") return;
+
+  const targetUrl = event.notification.data?.url || "/";
+
+  event.waitUntil(
+    self.clients
+      .matchAll({ type: "window", includeUncontrolled: true })
+      .then((clients) => {
+        // Focus existing window if already open
+        const existing = clients.find((c) => c.url === targetUrl || c.url.includes(targetUrl));
+        if (existing) return existing.focus();
+        return self.clients.openWindow(targetUrl);
+      })
   );
 });

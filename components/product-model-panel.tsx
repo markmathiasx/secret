@@ -1,6 +1,18 @@
+import dynamic from "next/dynamic";
 import type { Product } from "@/lib/catalog";
-import { Product3MFViewer } from "@/components/product-3mf-viewer";
 import { getProductModel3mf, getProductModelPreview } from "@/lib/product-models";
+
+const Product3MFViewer = dynamic(
+  () => import("@/components/product-3mf-viewer").then((m) => m.Product3MFViewer),
+  {
+    loading: () => (
+      <div className="flex h-72 w-full animate-pulse items-center justify-center rounded-[24px] border border-white/10 bg-black/20">
+        <span className="text-xs uppercase tracking-widest text-white/30">Carregando visualizador 3D…</span>
+      </div>
+    ),
+    ssr: false,
+  }
+);
 
 export function ProductModelPanel({ product }: { product: Product }) {
   const modelUrl = getProductModel3mf(product);
