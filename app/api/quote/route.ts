@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { findProduct } from "@/lib/catalog";
 import { quoteSchema } from "@/lib/schemas";
-import { getClientIp, checkRateLimit, validateUploadFile } from "@/lib/security";
+import { getClientIp, validateUploadFile } from "@/lib/security";
+import { rateLimitRequest } from "@/lib/redis";
 import { storeRecord } from "@/lib/storage";
 import { estimateDeliveryFeeKm } from "@/lib/delivery";
 
@@ -14,7 +15,7 @@ export async function POST(request: Request) {
   const contentType = request.headers.get('content-type') || '';
 
   if (contentType.includes('multipart/form-data')) {
-    const rateLimit = checkRateLimit(`quote-upload:${ip}`, 3, 60 * 60 * 1000);
+    const rateLimit = await rateLimitRequest(`quote-upload:${ip}`, 3, 60 * 60 * 1000);
     if (!rateLimit.ok) {
       return NextResponse.json({ message: 'Muitas tentativas. Tente novamente em instantes.' }, { status: 429 });
     }
@@ -74,7 +75,7 @@ export async function POST(request: Request) {
     });
   }
 
-  const rateLimit = checkRateLimit(`quote:${ip}`, 10, 60_000);
+  const rateLimit = await rateLimitRequest(`quote:${ip}`, 10, 60_000);
   if (!rateLimit.ok) {
     return NextResponse.json({ message: 'Muitas tentativas. Tente novamente em instantes.' }, { status: 429 });
   }

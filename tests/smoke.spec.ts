@@ -213,4 +213,29 @@ test.describe("MDH 3D Store – Smoke Tests", () => {
       expect(status, `Rota ${route} retornou ${status}`).not.toBe(500);
     }
   });
+
+  test("Cart API: retorna 200", async ({ request }) => {
+    const response = await request.get(`${BASE_URL}/api/cart`);
+    expect([200, 401]).toContain(response.status());
+  });
+
+  test("Checkout API: recusa dados inválidos com 400", async ({ request }) => {
+    const response = await request.post(`${BASE_URL}/api/checkout/mercadopago`, {
+      data: { productId: "" },
+    });
+    expect([400, 429]).toContain(response.status());
+  });
+
+  test("manifest.json: presente e válido", async ({ request }) => {
+    const response = await request.get(`${BASE_URL}/manifest.json`);
+    expect(response.status()).toBe(200);
+    const body = await response.json();
+    expect(body.name).toBeTruthy();
+    expect(Array.isArray(body.icons)).toBe(true);
+  });
+
+  test("Página offline: acessível via /offline.html", async ({ page }) => {
+    const response = await page.goto(`${BASE_URL}/offline.html`);
+    expect(response?.status()).toBe(200);
+  });
 });

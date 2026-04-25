@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
-import { CopyPlus, MessageCircleMore, Share2 } from 'lucide-react';
+import { CopyPlus, MessageCircleMore } from 'lucide-react';
+import { ShareButton } from '@/components/share-button';
 import { findCatalogProductBySlug, getCatalogStaticParams } from '@/lib/catalog-repository';
 import { ProductImageGallery } from '@/components/product-image-gallery';
 import { ProductModelPanel } from '@/components/product-model-panel';
@@ -353,7 +354,11 @@ export default async function ProductPage({
         </Suspense>
         <div className="flex flex-wrap gap-2">
           <span className="chip-nav"><CopyPlus className="h-4 w-4" /> SKU {product.sku}</span>
-          <span className="chip-nav"><Share2 className="h-4 w-4" /> página individual</span>
+          <ShareButton
+            title={product.name}
+            text={`Confira este produto na MDH 3D Store: ${product.name}`}
+            className="chip-nav inline-flex items-center gap-1.5"
+          />
         </div>
       </div>
 

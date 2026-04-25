@@ -205,6 +205,7 @@ export async function createMercadoPagoPayment(input: {
   paymentData?: unknown;
   notificationUrl?: string | null;
   dateOfExpiration?: string | null;
+  idempotencyKey?: string | null;
 }) {
   const normalized = normalizeMpPaymentFormData(input.paymentData);
   return createMercadoPagoPaymentCore({
@@ -221,6 +222,7 @@ export async function createMercadoPagoPayment(input: {
     identification: normalized.identification,
     notificationUrl: input.notificationUrl,
     dateOfExpiration: input.dateOfExpiration,
+    idempotencyKey: input.idempotencyKey,
     metadata: {
       paymentData: normalized.raw,
     },

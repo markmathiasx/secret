@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { scryptSync, timingSafeEqual } from 'node:crypto';
-import { checkRateLimit, getClientIp } from '@/lib/security';
+import { getClientIp } from '@/lib/security';
+import { rateLimitRequest } from '@/lib/redis';
 import { adminConfig } from '@/lib/constants';
 import { authenticateUser } from '@/lib/auth-store';
 import { createSignedSessionToken, isSessionSecretConfigured } from '@/lib/session-token';
@@ -23,7 +24,7 @@ function verifyStoredPassword(password: string, storedHash: string) {
 
 export async function POST(request: Request) {
   const ip = getClientIp(request.headers);
-  const rateLimit = checkRateLimit(`admin_login:${ip}`, 5, 60_000);
+  const rateLimit = await rateLimitRequest(`admin_login:${ip}`, 5, 60_000);
   if (!rateLimit.ok) {
     logStructured("warn", "admin_login_rate_limited", { ip, requestId: request.headers.get("x-request-id") || null });
     return applyNoStoreHeaders(NextResponse.json({ ok: false, error: 'Muitas tentativas. Tente novamente em instantes.' }, { status: 429 }));

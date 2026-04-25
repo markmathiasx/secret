@@ -30,6 +30,12 @@ export function CartDrawer() {
         onClick={closeDrawer}
         aria-hidden="true"
       />
+      {/* ARIA live region — announces cart changes to screen readers */}
+      <div role="status" aria-live="polite" aria-atomic="true" className="sr-only">
+        {count > 0
+          ? `Carrinho: ${count} ${count === 1 ? "item" : "itens"}, subtotal Pix ${formatCurrency(subtotalPix)}`
+          : "Carrinho vazio"}
+      </div>
       {/* Drawer */}
       <aside
         className="fixed right-0 top-0 z-[140] flex h-full w-full max-w-md flex-col border-l border-white/10 bg-[rgba(9,17,25,0.97)] shadow-[0_0_80px_rgba(2,8,23,0.6)]"

@@ -4,7 +4,8 @@ import { findProduct } from "@/lib/catalog";
 import { createMercadoPagoPayment } from "@/lib/payments";
 import { resolveOrderPaymentContext } from "@/lib/server/payment-order";
 import { updateOrderRecord } from "@/lib/storage";
-import { getClientIp, checkRateLimit } from "@/lib/security";
+import { getClientIp } from "@/lib/security";
+import { rateLimitRequest } from "@/lib/redis";
 import { createStableExternalReference, normalizeMpPaymentFormData } from "@/lib/mercadopago";
 
 const schema = z.object({
@@ -18,7 +19,7 @@ const schema = z.object({
 
 export async function POST(request: Request) {
   const ip = getClientIp(request.headers);
-  const rateLimit = checkRateLimit(`checkout:${ip}`, 8, 60_000);
+  const rateLimit = await rateLimitRequest(`checkout:${ip}`, 8, 60_000);
 
   if (!rateLimit.ok) {
     return NextResponse.json({ message: "Muitas tentativas de checkout." }, { status: 429 });
@@ -47,6 +48,10 @@ export async function POST(request: Request) {
   const normalizedPaymentData = normalizeMpPaymentFormData(parsed.data.paymentData);
   const paymentMethodId = normalizedPaymentData.paymentMethodId || (parsed.data.paymentData?.payment_method_id as string | undefined) || (parsed.data.paymentData?.paymentMethodId as string | undefined) || (parsed.data.paymentData?.type as string | undefined) || (parsed.data.orderCode ? "pix" : "visa");
 
+  // Idempotency key: dedup retries in same 5-min window from same IP + order
+  const idempotencyBucket = Math.floor(Date.now() / (5 * 60_000));
+  const idempotencyKey = `mdh-checkout-${ip}-${parsed.data.productId}-${parsed.data.orderCode ?? "new"}-${idempotencyBucket}`;
+
   const payment = await createMercadoPagoPayment({
     title: paymentContext.title,
     amount: paymentContext.amount,
@@ -55,6 +60,7 @@ export async function POST(request: Request) {
     payerEmail: paymentContext.customerEmail || parsed.data.email,
     payerName: paymentContext.customerName || undefined,
     paymentData: parsed.data.paymentData,
+    idempotencyKey,
   });
 
   if (!payment.ok) {

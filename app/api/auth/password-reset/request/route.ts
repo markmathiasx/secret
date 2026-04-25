@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { requestPasswordReset } from "@/lib/marketplace-auth";
-import { getClientIp, checkRateLimit } from "@/lib/security";
+import { getClientIp } from "@/lib/security";
+import { rateLimitRequest } from "@/lib/redis";
 import { applyNoStoreHeaders } from "@/lib/http-cache";
 import { logStructured } from "@/lib/logger";
 
@@ -11,7 +12,7 @@ const schema = z.object({
 
 export async function POST(request: Request) {
   const ip = getClientIp(request.headers);
-  const rateLimit = checkRateLimit(`pw-reset-request:${ip}`, 3, 60 * 60 * 1000);
+  const rateLimit = await rateLimitRequest(`pw-reset-request:${ip}`, 3, 60 * 60 * 1000);
   if (!rateLimit.ok) {
     // Always return success to prevent email enumeration
     return applyNoStoreHeaders(NextResponse.json({ ok: true }));

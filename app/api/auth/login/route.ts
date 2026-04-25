@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { authenticateCustomerUser } from "@/lib/auth-store";
 import { applyNoStoreHeaders } from "@/lib/http-cache";
-import { checkRateLimit, getClientIp, isValidEmail } from "@/lib/security";
+import { getClientIp, isValidEmail } from "@/lib/security";
+import { rateLimitRequest } from "@/lib/redis";
 import { createSignedSessionToken, customerSessionCookieName, getCustomerSessionSecret } from "@/lib/session-token";
 import { logStructured } from "@/lib/logger";
 
@@ -10,7 +11,7 @@ export const runtime = "nodejs";
 export async function POST(req: Request) {
   try {
     const ip = getClientIp(req.headers);
-    const rateLimit = checkRateLimit(`customer_login:${ip}`, 6, 60_000);
+    const rateLimit = await rateLimitRequest(`customer_login:${ip}`, 6, 60_000);
 
     if (!rateLimit.ok) {
       logStructured("warn", "customer_login_rate_limited", { requestId: req.headers.get("x-request-id") || null, ip });

@@ -19,7 +19,9 @@ import { SiteFooter } from '@/components/site-footer';
 import { SiteHeader } from '@/components/site-header';
 import { ToastProvider } from '@/components/toast';
 import { LiveChatWidget } from '@/components/live-chat-widget';
+import { WebVitals } from '@/components/web-vitals';
 import { WhatsAppFloat } from '@/components/whatsapp-float';
+import { NetworkStatusBanner } from '@/components/network-status-banner';
 import { brand, socialLinks, supportEmail, whatsappNumber } from '@/lib/constants';
 import {
   getAiAssistantModel,
@@ -108,6 +110,7 @@ export const metadata: Metadata = {
   description:
     'Impressão 3D profissional no Rio de Janeiro com presentes personalizados, peças geek, utilidades, setup e projetos sob encomenda.',
   applicationName: 'MDH 3D',
+  manifest: '/manifest.json',
   alternates: { canonical: '/' },
   referrer: 'origin-when-cross-origin',
   robots: {
@@ -239,6 +242,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <CartRecoveryDock />
             <CookieConsent />
             <Suspense fallback={null}><FacebookPixel /></Suspense>
+            <WebVitals />
+            <NetworkStatusBanner />
             </ToastProvider>
           </CartProvider>
         </div>
