@@ -3,6 +3,7 @@ import { getServerSessionUser, isAdminSession } from "@/lib/server-session";
 import { getSandboxAdAccountInfo, listSandboxCampaigns, createSandboxCampaign } from "@/lib/meta/marketing-api";
 import { metaConfig } from "@/lib/meta/config";
 import { logStructured } from "@/lib/logger";
+import { getSiteUrl } from "@/lib/env";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -11,6 +12,11 @@ async function requireAdmin() {
   const user = await getServerSessionUser();
   if (!isAdminSession(user)) return null;
   return user;
+}
+
+function maskId(value?: string | null) {
+  if (!value) return null;
+  return `***${value.slice(-4)}`;
 }
 
 /** GET /api/admin/meta — returns current Meta integration status + sandbox data */
@@ -22,43 +28,51 @@ export async function GET(request: NextRequest) {
   const action = searchParams.get("action");
 
   if (action === "sandbox_campaigns") {
+    if (!metaConfig.enableMarketingApiSandbox) {
+      return NextResponse.json({ ok: false, error: { message: "Marketing API sandbox disabled", type: "config", code: 0 } }, { status: 403 });
+    }
     const result = await listSandboxCampaigns();
     return NextResponse.json(result);
   }
 
   if (action === "sandbox_account") {
+    if (!metaConfig.enableMarketingApiSandbox) {
+      return NextResponse.json({ ok: false, error: { message: "Marketing API sandbox disabled", type: "config", code: 0 } }, { status: 403 });
+    }
     const result = await getSandboxAdAccountInfo();
     return NextResponse.json(result);
   }
 
   // Default: return integration status
+  const siteUrl = getSiteUrl();
   return NextResponse.json({
     ok: true,
     status: {
       whatsapp: {
         configured: Boolean(metaConfig.phoneNumberId && metaConfig.systemUserToken),
-        phoneNumberId: metaConfig.phoneNumberId ? "***" + metaConfig.phoneNumberId.slice(-4) : null,
+        phoneNumberId: maskId(metaConfig.phoneNumberId),
       },
       facebook_page: {
         configured: Boolean(metaConfig.pageId && metaConfig.systemUserToken),
-        pageId: metaConfig.pageId || null,
+        pageId: maskId(metaConfig.pageId),
       },
       instagram: {
         configured: Boolean(metaConfig.igBusinessAccountId && metaConfig.systemUserToken),
-        accountId: metaConfig.igBusinessAccountId || null,
+        accountId: maskId(metaConfig.igBusinessAccountId),
       },
       marketing_sandbox: {
-        enabled: metaConfig.enableMarketingApiSandbox,
-        adAccountId: metaConfig.sandboxAdAccountId,
+        enabled: metaConfig.enableMarketingApiSandbox && Boolean(metaConfig.sandboxAdAccountId && metaConfig.systemUserToken),
+        prepared: Boolean(metaConfig.sandboxAdAccountId),
+        adAccountId: maskId(metaConfig.sandboxAdAccountId),
       },
       business_login: {
-        enabled: metaConfig.enableBusinessLogin,
-        configId: metaConfig.businessLoginConfigId,
+        enabled: metaConfig.enableBusinessLogin && Boolean(metaConfig.appId && metaConfig.appSecret && metaConfig.businessLoginConfigId),
+        configId: maskId(metaConfig.businessLoginConfigId),
       },
       webhook_urls: {
-        whatsapp: "/api/webhooks/whatsapp",
-        meta_messaging: "/api/webhooks/meta-messaging",
-        instagram: "/api/webhooks/instagram",
+        whatsapp: `${siteUrl}/api/webhooks/whatsapp`,
+        meta_messaging: `${siteUrl}/api/webhooks/meta-messaging`,
+        instagram: `${siteUrl}/api/webhooks/instagram`,
       },
     },
   });

@@ -3,6 +3,8 @@ import { isValidMetaSignature, isValidVerifyToken } from "@/lib/meta/signature";
 import { handleFbPageMessage } from "@/lib/meta/facebook-pages";
 import { logStructured } from "@/lib/logger";
 import type { FbPageWebhookPayload } from "@/lib/meta/types";
+import { checkRateLimit, getClientIp } from "@/lib/security";
+import { recordOperationalAlert } from "@/lib/operational-alerts";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -31,6 +33,12 @@ export async function GET(request: NextRequest) {
  * Validates x-hub-signature-256, routes to handler, always responds 200.
  */
 export async function POST(request: NextRequest) {
+  const ip = getClientIp(request.headers);
+  const rate = checkRateLimit(`webhook:meta_messaging:${ip}`, 600, 60_000);
+  if (!rate.ok) {
+    return NextResponse.json({ ok: false }, { status: 429 });
+  }
+
   const rawBody = await request.text();
   const signatureHeader = request.headers.get("x-hub-signature-256");
 
@@ -51,36 +59,39 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ ok: true });
   }
 
-  // Process each messaging event asynchronously (respond immediately to avoid 20s timeout)
-  void (async () => {
-    for (const entry of payload.entry ?? []) {
-      for (const event of entry.messaging ?? []) {
-        // Skip echo messages (from the page itself)
-        if ((event as any).message?.is_echo) continue;
-        // Skip delivery/read receipts
-        if (event.delivery || event.read) continue;
+  const jobs: Array<Promise<void>> = [];
+  for (const entry of payload.entry ?? []) {
+    for (const event of entry.messaging ?? []) {
+      if ((event as any).message?.is_echo) continue;
+      if (event.delivery || event.read) continue;
 
-        const text =
-          event.message?.text ??
-          (event.postback ? `[Postback] ${event.postback.title}` : null);
+      const text =
+        event.message?.text ??
+        (event.postback ? `[Postback] ${event.postback.title}` : null);
 
-        if (!text) continue;
+      if (!text) continue;
 
-        try {
-          await handleFbPageMessage(
-            event.sender.id,
-            text,
-            event.message?.mid
-          );
-        } catch (err) {
+      jobs.push(
+        handleFbPageMessage(event.sender.id, text, event.message?.mid).catch(async (err) => {
           logStructured("error", "meta_messaging_handler_failed", {
-            senderPsid: event.sender.id,
+            eventId: event.message?.mid,
             error: err instanceof Error ? err.message : "unknown",
           });
-        }
-      }
+          await recordOperationalAlert({
+            type: "webhook_error",
+            title: "Erro no webhook Facebook",
+            body: "Um evento de mensagem da página não foi processado.",
+            channel: "facebook_page",
+            severity: "critical",
+            dedupeKey: `facebook_webhook_error:${event.message?.mid ?? entry.id}`,
+            metadata: { eventId: event.message?.mid },
+          });
+        })
+      );
     }
-  })();
+  }
+
+  if (jobs.length) await Promise.allSettled(jobs);
 
   return NextResponse.json({ ok: true });
 }

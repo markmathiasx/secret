@@ -1,6 +1,15 @@
 /** Shared TypeScript types for Meta Cloud API / Graph API integrations. */
 
-export type MetaChannel = "whatsapp" | "facebook_page" | "instagram_dm" | "instagram_comment" | "site";
+export type MetaChannel = "site" | "whatsapp" | "facebook_page" | "instagram_dm" | "instagram_comments";
+export type LegacyMetaChannel = MetaChannel | "instagram_comment";
+
+export function normalizeMetaChannel(channel?: string | null): MetaChannel {
+  if (channel === "instagram_comment" || channel === "instagram_comments") return "instagram_comments";
+  if (channel === "whatsapp") return "whatsapp";
+  if (channel === "facebook_page") return "facebook_page";
+  if (channel === "instagram_dm") return "instagram_dm";
+  return "site";
+}
 
 // ─── WhatsApp Cloud API ───────────────────────────────────────────────────────
 

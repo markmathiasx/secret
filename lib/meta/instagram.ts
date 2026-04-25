@@ -3,6 +3,8 @@ import { sendInstagramDmReply, replyToInstagramComment, getInstagramProfile } fr
 import { isInstagramReady, metaConfig } from "./config";
 import { ensureChannelUser, ensureChannelThread, storeInboundMessage, storeReplyMessage } from "./normalizers";
 import { buildCommerceFallbackReply } from "@/lib/commerce-assistant";
+import { logStructured } from "@/lib/logger";
+import { recordOperationalAlert } from "@/lib/operational-alerts";
 import type { GraphApiResponse } from "./types";
 
 const AI_BOT_ID = "ai-bot";
@@ -23,7 +25,12 @@ export async function handleInstagramDm(
 
   const user = await ensureChannelUser("instagram_dm", senderIgsid, displayName);
   const thread = await ensureChannelThread(user.id, "instagram_dm", `Instagram DM ${senderIgsid}`);
-  await storeInboundMessage(thread.id, user.id, text, { externalMessageId: messageId });
+  const inbound = await storeInboundMessage(thread.id, user.id, text, {
+    externalMessageId: messageId,
+    channel: "instagram_dm",
+    source: "instagram_dm",
+  });
+  if (inbound.duplicate) return;
 
   if (!isInstagramReady()) return;
 
@@ -33,10 +40,26 @@ export async function handleInstagramDm(
     if (result.ok) {
       await storeReplyMessage(thread.id, reply, AI_BOT_ID);
     } else {
-      console.warn("[meta/instagram] DM reply failed", result.error);
+      logStructured("warn", "instagram_dm_reply_failed", {
+        threadId: thread.id,
+        rawStatus: result.rawStatus,
+        errorCode: result.error?.code,
+      });
+      await recordOperationalAlert({
+        type: "send_failure",
+        title: "Falha ao responder Instagram DM",
+        body: "A resposta automática por DM não foi enviada. Verifique token/permissões Meta.",
+        channel: "instagram_dm",
+        threadId: thread.id,
+        severity: "warning",
+        dedupeKey: `instagram_dm_send_failure:${thread.id}`,
+      });
     }
   } catch (err) {
-    console.error("[meta/instagram] DM AI reply error", err);
+    logStructured("error", "instagram_dm_ai_reply_error", {
+      threadId: thread.id,
+      message: err instanceof Error ? err.message : "unknown",
+    });
   }
 }
 
@@ -56,12 +79,15 @@ export async function handleInstagramComment(change: {
   if (!text?.trim()) return;
 
   const displayName = from.username ? `@${from.username}` : undefined;
-  const user = await ensureChannelUser("instagram_comment", from.id, displayName);
+  const user = await ensureChannelUser("instagram_comments", from.id, displayName);
   const subject = `Instagram Comment ${media.id}`;
-  const thread = await ensureChannelThread(user.id, "instagram_comment", subject);
-  await storeInboundMessage(thread.id, user.id, `[Comentário em ${media.id}]: ${text}`, {
+  const thread = await ensureChannelThread(user.id, "instagram_comments", subject);
+  const inbound = await storeInboundMessage(thread.id, user.id, `[Comentário em ${media.id}]: ${text}`, {
     externalMessageId: commentId,
+    channel: "instagram_comments",
+    source: "instagram_comment",
   });
+  if (inbound.duplicate) return;
 
   // Auto-reply only for commercial questions / mentions
   const shouldAutoReply =
@@ -76,10 +102,26 @@ export async function handleInstagramComment(change: {
     if (result.ok) {
       await storeReplyMessage(thread.id, reply, AI_BOT_ID);
     } else {
-      console.warn("[meta/instagram] comment reply failed", result.error);
+      logStructured("warn", "instagram_comment_reply_failed", {
+        threadId: thread.id,
+        rawStatus: result.rawStatus,
+        errorCode: result.error?.code,
+      });
+      await recordOperationalAlert({
+        type: "send_failure",
+        title: "Falha ao responder comentário Instagram",
+        body: "A resposta automática no comentário não foi enviada. Verifique permissões do Instagram.",
+        channel: "instagram_comments",
+        threadId: thread.id,
+        severity: "warning",
+        dedupeKey: `instagram_comment_send_failure:${thread.id}`,
+      });
     }
   } catch (err) {
-    console.error("[meta/instagram] comment auto-reply error", err);
+    logStructured("error", "instagram_comment_auto_reply_error", {
+      threadId: thread.id,
+      message: err instanceof Error ? err.message : "unknown",
+    });
   }
 }
 

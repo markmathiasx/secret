@@ -35,7 +35,7 @@
   ],
   "deployment": {
     "status": "Ready",
-    "production_domain": "https://mdh-3d-store.vercel.app",
+    "production_domain": "https://mdh3d.com.br",
     "branch": "main",
     "url": "https://mdh-3d-store-fbpaftn4u-markmathias.vercel.app",
     "previous": "dpl_AHQyhHdqGxJRd7beaPjrBUwjtxpj",

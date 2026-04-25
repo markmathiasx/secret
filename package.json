@@ -28,7 +28,7 @@
     "test:watch": "playwright test --ui",
     "test:coverage": "playwright test --reporter=html",
     "test:smoke": "playwright test",
-    "test:smoke:prod": "SMOKE_BASE_URL=${SMOKE_BASE_URL:-https://mdh-3d-store.vercel.app} playwright test",
+    "test:smoke:prod": "SMOKE_BASE_URL=${SMOKE_BASE_URL:-https://mdh3d.com.br} playwright test",
     "doctor": "node scripts/doctor.mjs",
     "audit:seo-commercial": "node scripts/run-seo-commercial-audit.mjs",
     "validate": "npm run build && npm run typecheck && npm run lint:check && npm run doctor",

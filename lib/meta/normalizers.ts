@@ -1,6 +1,7 @@
 import "server-only";
 import { prisma } from "@/lib/prisma";
-import type { MetaChannel } from "./types";
+import { recordOperationalAlert } from "@/lib/operational-alerts";
+import { normalizeMetaChannel, type MetaChannel } from "./types";
 
 /**
  * Shared utilities for persisting omnichannel messages into the ChatThread / ChatMessage tables.
@@ -12,7 +13,7 @@ const CHANNEL_EMAIL_PREFIX: Record<MetaChannel, string> = {
   whatsapp: "wa",
   facebook_page: "fb",
   instagram_dm: "ig",
-  instagram_comment: "igc",
+  instagram_comments: "igc",
   site: "site",
 };
 
@@ -47,7 +48,8 @@ export async function ensureChannelUser(
   displayName?: string,
   phone?: string
 ) {
-  const prefix = CHANNEL_EMAIL_PREFIX[channel];
+  const normalizedChannel = normalizeMetaChannel(channel);
+  const prefix = CHANNEL_EMAIL_PREFIX[normalizedChannel];
   const safe = externalId.replace(/\W/g, "").slice(0, 40);
   const email = `${prefix}-${safe}@mdh.local`;
 
@@ -60,7 +62,7 @@ export async function ensureChannelUser(
     },
     create: {
       email,
-      name: displayName ?? `${channel.toUpperCase()} ${safe.slice(-6)}`,
+      name: displayName ?? `${normalizedChannel.toUpperCase()} ${safe.slice(-6)}`,
       role: "BUYER",
       isActive: true,
       ...(phone ? { phone } : {}),
@@ -78,6 +80,7 @@ export async function ensureChannelThread(
   channel: MetaChannel,
   subjectHint: string
 ) {
+  const normalizedChannel = normalizeMetaChannel(channel);
   const existing = await prisma.chatThread.findFirst({
     where: {
       buyerId: userId,
@@ -86,12 +89,27 @@ export async function ensureChannelThread(
     },
     orderBy: { updatedAt: "desc" },
   });
-  if (existing) return existing;
+  if (existing) {
+    if (existing.channel !== normalizedChannel || existing.status === "resolved" || existing.status === "archived") {
+      return prisma.chatThread.update({
+        where: { id: existing.id },
+        data: {
+          channel: normalizedChannel,
+          status: existing.status === "resolved" || existing.status === "archived" ? "open" : existing.status,
+          updatedAt: new Date(),
+        },
+      });
+    }
+    return existing;
+  }
 
   return prisma.chatThread.create({
     data: {
       buyerId: userId,
       type: "SUPPORT",
+      channel: normalizedChannel,
+      status: "open",
+      unread: true,
       subject: subjectHint,
       lastMessageAt: new Date(),
     },
@@ -103,24 +121,60 @@ export async function storeInboundMessage(
   threadId: string,
   senderId: string,
   body: string,
-  meta?: { externalMessageId?: string }
+  meta?: { externalMessageId?: string; channel?: MetaChannel; source?: string; needsHuman?: boolean }
 ) {
   await ensureBotUser();
+  if (meta?.externalMessageId) {
+    const existing = await prisma.chatMessage.findFirst({
+      where: {
+        threadId,
+        attachments: { path: ["externalMessageId"], equals: meta.externalMessageId },
+      },
+      select: { id: true, threadId: true, senderId: true, body: true, attachments: true, readAt: true, createdAt: true, updatedAt: true },
+    });
+    if (existing) {
+      return { message: existing, duplicate: true as const };
+    }
+  }
+
   const msg = await prisma.chatMessage.create({
     data: {
       threadId,
       senderId,
       body,
       ...(meta?.externalMessageId
-        ? { attachments: { externalMessageId: meta.externalMessageId } }
+        ? {
+            attachments: {
+              externalMessageId: meta.externalMessageId,
+              channel: meta.channel,
+              source: meta.source,
+            },
+          }
         : {}),
     },
   });
-  await prisma.chatThread.update({
+  const channel = meta?.channel ? normalizeMetaChannel(meta.channel) : undefined;
+  const updatedThread = await prisma.chatThread.update({
     where: { id: threadId },
-    data: { lastMessageAt: new Date() },
+    data: {
+      lastMessageAt: new Date(),
+      unread: true,
+      ...(channel ? { channel } : {}),
+      ...(meta?.needsHuman ? { status: "needs_human" } : { status: "open" }),
+    },
+    select: { id: true, channel: true, subject: true },
   });
-  return msg;
+
+  await recordOperationalAlert({
+    type: channel === "whatsapp" ? "new_whatsapp_message" : channel && channel !== "site" ? "new_meta_message" : "new_site_lead",
+    title: channel === "whatsapp" ? "Nova mensagem no WhatsApp" : channel && channel !== "site" ? "Nova mensagem Meta" : "Novo lead no site",
+    body: updatedThread.subject || "Nova conversa aguardando atendimento.",
+    channel: channel ?? "site",
+    threadId,
+    dedupeKey: `inbound:${meta?.externalMessageId ?? threadId}`,
+  });
+
+  return { message: msg, duplicate: false as const };
 }
 
 /** Persist a bot/agent reply message. */
@@ -129,7 +183,7 @@ export async function storeReplyMessage(threadId: string, body: string, senderId
   const msg = await prisma.chatMessage.create({ data: { threadId, senderId, body } });
   await prisma.chatThread.update({
     where: { id: threadId },
-    data: { lastMessageAt: new Date() },
+    data: { lastMessageAt: new Date(), unread: false },
   });
   return msg;
 }

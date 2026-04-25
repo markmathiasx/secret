@@ -7,8 +7,8 @@ interface MetaStatus {
   whatsapp: { configured: boolean; phoneNumberId: string | null };
   facebook_page: { configured: boolean; pageId: string | null };
   instagram: { configured: boolean; accountId: string | null };
-  marketing_sandbox: { enabled: boolean; adAccountId: string };
-  business_login: { enabled: boolean; configId: string };
+  marketing_sandbox: { enabled: boolean; prepared?: boolean; adAccountId: string | null };
+  business_login: { enabled: boolean; configId: string | null };
   webhook_urls: { whatsapp: string; meta_messaging: string; instagram: string };
 }
 

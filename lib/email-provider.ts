@@ -68,7 +68,7 @@ async function sendViaResend(options: SendEmailOptions): Promise<EmailProviderRe
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        from: options.from || process.env.EMAIL_FROM || 'noreply@mdh-3d-store.com',
+        from: options.from || process.env.EMAIL_FROM || 'noreply@mdh3d.com.br',
         to: options.to,
         subject: options.subject,
         html: options.html,
@@ -124,7 +124,7 @@ async function sendViaSendGrid(options: SendEmailOptions): Promise<EmailProvider
           subject: options.subject,
         }],
         from: {
-          email: options.from || process.env.EMAIL_FROM || 'noreply@mdh-3d-store.com',
+          email: options.from || process.env.EMAIL_FROM || 'noreply@mdh3d.com.br',
         },
         content: [
           {
@@ -175,7 +175,7 @@ async function sendViaMailgun(options: SendEmailOptions): Promise<EmailProviderR
 
   try {
     const formData = new URLSearchParams();
-    formData.append('from', options.from || process.env.EMAIL_FROM || 'noreply@mdh-3d-store.com');
+    formData.append('from', options.from || process.env.EMAIL_FROM || 'noreply@mdh3d.com.br');
     formData.append('to', options.to);
     formData.append('subject', options.subject);
     formData.append('html', options.html);

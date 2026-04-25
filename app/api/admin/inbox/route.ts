@@ -6,7 +6,11 @@ import {
   sendWhatsAppText,
   sendFbPageReply,
   sendInstagramDmReply,
+  replyToInstagramComment,
 } from "@/lib/meta/graph-api";
+import { normalizeMetaChannel, type MetaChannel } from "@/lib/meta/types";
+import { logStructured } from "@/lib/logger";
+import { recordOperationalAlert } from "@/lib/operational-alerts";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -15,15 +19,15 @@ export const dynamic = "force-dynamic";
 function resolveChannel(
   channel: string | null,
   email: string | null | undefined
-): string {
-  if (channel && channel !== "site") return channel;
+): MetaChannel {
+  if (channel && channel !== "site") return normalizeMetaChannel(channel);
   if (email?.endsWith("@mdh.local")) {
     if (email.startsWith("wa-")) return "whatsapp";
     if (email.startsWith("fb-")) return "facebook_page";
-    if (email.startsWith("igc-")) return "instagram_comment";
+    if (email.startsWith("igc-")) return "instagram_comments";
     if (email.startsWith("ig-")) return "instagram_dm";
   }
-  return channel ?? "site";
+  return normalizeMetaChannel(channel);
 }
 
 async function requireAdmin() {
@@ -62,7 +66,12 @@ export async function GET(request: NextRequest) {
 
   const whereClause: Record<string, unknown> = {};
   if (statusFilter !== "all") whereClause.status = statusFilter;
-  if (channelFilter !== "all") whereClause.channel = channelFilter;
+  if (channelFilter !== "all") {
+    const normalized = normalizeMetaChannel(channelFilter);
+    whereClause.channel = normalized === "instagram_comments"
+      ? { in: ["instagram_comments", "instagram_comment"] }
+      : normalized;
+  }
 
   const threads = await prisma.chatThread.findMany({
     where: whereClause,
@@ -74,6 +83,27 @@ export async function GET(request: NextRequest) {
       messages: { orderBy: { createdAt: "desc" }, take: 1 },
     },
   });
+
+  const slaCutoff = Date.now() - 30 * 60 * 1000;
+  await Promise.allSettled(
+    threads
+      .filter((thread) => {
+        const lastAt = (thread.lastMessageAt || thread.updatedAt).getTime();
+        return thread.unread && thread.status !== "archived" && thread.status !== "resolved" && lastAt < slaCutoff;
+      })
+      .slice(0, 10)
+      .map((thread) =>
+        recordOperationalAlert({
+          type: "thread_sla_risk",
+          title: "Conversa sem resposta há mais de 30 min",
+          body: thread.subject || "Thread aguardando atendimento no inbox.",
+          channel: resolveChannel(thread.channel ?? null, thread.buyer?.email),
+          threadId: thread.id,
+          severity: "warning",
+          dedupeKey: `sla_30m:${thread.id}`,
+        })
+      )
+  );
 
   return NextResponse.json({
     threads: threads.map((thread) => {
@@ -135,28 +165,57 @@ export async function POST(request: NextRequest) {
   try {
     const threadData = await prisma.chatThread.findUnique({
       where: { id: threadId },
-      select: { channel: true, buyer: { select: { email: true, phone: true } } },
+      select: {
+        channel: true,
+        buyerId: true,
+        buyer: { select: { email: true, phone: true } },
+        messages: {
+          orderBy: { createdAt: "desc" },
+          take: 12,
+          select: { senderId: true, attachments: true },
+        },
+      },
     });
     const buyer = threadData?.buyer;
     const channel = resolveChannel(threadData?.channel ?? null, buyer?.email);
 
     if (channel === "whatsapp" && buyer?.phone) {
       const r = await sendWhatsAppText(buyer.phone, message);
-      if (!r.ok) console.warn("[admin-inbox] WA reply failed:", r.error);
+      if (!r.ok) throw new Error(`whatsapp_send_failed:${r.error?.code ?? r.rawStatus ?? "unknown"}`);
     } else if (channel === "facebook_page" && buyer?.email?.startsWith("fb-")) {
       const psid = buyer.email.replace("fb-", "").replace("@mdh.local", "");
       const r = await sendFbPageReply(psid, message);
-      if (!r.ok) console.warn("[admin-inbox] FB reply failed:", r.error);
-    } else if (
-      (channel === "instagram_dm" || channel === "instagram_comment") &&
-      buyer?.email?.startsWith("ig")
-    ) {
+      if (!r.ok) throw new Error(`facebook_send_failed:${r.error?.code ?? r.rawStatus ?? "unknown"}`);
+    } else if (channel === "instagram_dm" && buyer?.email?.startsWith("ig-")) {
       const igsid = buyer.email.replace(/^igc?-/, "").replace("@mdh.local", "");
       const r = await sendInstagramDmReply(igsid, message);
-      if (!r.ok) console.warn("[admin-inbox] IG reply failed:", r.error);
+      if (!r.ok) throw new Error(`instagram_dm_send_failed:${r.error?.code ?? r.rawStatus ?? "unknown"}`);
+    } else if (channel === "instagram_comments") {
+      const lastExternalComment = threadData?.messages.find((entry) => {
+        const attachments = entry.attachments as { externalMessageId?: string; source?: string } | null;
+        return Boolean(attachments?.externalMessageId && attachments.source === "instagram_comment");
+      })?.attachments as { externalMessageId?: string } | undefined;
+
+      if (!lastExternalComment?.externalMessageId) {
+        throw new Error("instagram_comment_id_missing");
+      }
+
+      const r = await replyToInstagramComment(lastExternalComment.externalMessageId, message);
+      if (!r.ok) throw new Error(`instagram_comment_send_failed:${r.error?.code ?? r.rawStatus ?? "unknown"}`);
     }
   } catch (bridgeErr) {
-    console.error("[admin-inbox] channel bridge error:", bridgeErr);
+    logStructured("warn", "admin_inbox_channel_bridge_failed", {
+      threadId,
+      message: bridgeErr instanceof Error ? bridgeErr.message : "unknown",
+    });
+    await recordOperationalAlert({
+      type: "send_failure",
+      title: "Falha ao responder canal externo",
+      body: "A resposta foi salva no inbox, mas o envio para o canal externo falhou.",
+      threadId,
+      severity: "warning",
+      dedupeKey: `admin_bridge_failure:${threadId}`,
+    });
   }
 
   return NextResponse.json({ ok: true, message: reply });

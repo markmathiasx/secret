@@ -35,6 +35,7 @@ type AssistantApiResponse = {
   source?: "ai" | "fallback";
   provider?: "openai" | "groq" | "ollama" | "fallback";
   model?: string;
+  threadId?: string | null;
 };
 
 function buildClientAssistantFallback(message: string) {
@@ -132,6 +133,7 @@ export function CommerceAssistantDialog({
   const [input, setInput] = useState("");
   const [isSending, setIsSending] = useState(false);
   const [responseId, setResponseId] = useState<string | null>(null);
+  const [assistantThreadId, setAssistantThreadId] = useState<string | null>(null);
   const [error, setError] = useState("");
   const conversationRef = useRef<HTMLDivElement | null>(null);
   const conversationEndRef = useRef<HTMLDivElement | null>(null);
@@ -170,6 +172,15 @@ export function CommerceAssistantDialog({
     setResponseId(null);
     setIsSending(false);
   }, [open, aiAssistantReady, cardCheckoutReady]);
+
+  function getVisitorId() {
+    const key = "mdh_assistant_visitor_id";
+    const existing = window.localStorage.getItem(key);
+    if (existing) return existing;
+    const value = `assistant-${crypto.randomUUID()}`;
+    window.localStorage.setItem(key, value);
+    return value;
+  }
 
   const statusLabel = useMemo(() => {
     if (aiAssistantReady) {
@@ -222,6 +233,10 @@ export function CommerceAssistantDialog({
         body: JSON.stringify({
           messages: nextMessages.map(({ role, content }) => ({ role, content })),
           previousResponseId: responseId,
+          threadId: assistantThreadId,
+          visitorId: getVisitorId(),
+          source: "assistant_dialog",
+          channel: "site",
         }),
       });
 
@@ -232,6 +247,7 @@ export function CommerceAssistantDialog({
       }
 
       setResponseId(data.responseId || null);
+      if (data.threadId) setAssistantThreadId(data.threadId);
       setMessages((current) => [
         ...current,
         {

@@ -6,8 +6,8 @@ import {
   AlertCircle, Archive, CheckCircle2, MessageSquareReply,
   RefreshCcw, Search, SendHorizonal, Sparkles, UserCheck, X,
 } from "lucide-react";
+import { normalizeMetaChannel, type MetaChannel } from "@/lib/meta/types";
 
-type MetaChannel = "whatsapp" | "facebook_page" | "instagram_dm" | "instagram_comment" | "site";
 type ThreadStatus = "open" | "needs_human" | "resolved" | "archived";
 
 type InboxThreadSummary = {
@@ -59,7 +59,7 @@ const CHANNEL_LABELS: Record<MetaChannel, string> = {
   whatsapp: "WhatsApp",
   facebook_page: "Facebook",
   instagram_dm: "Instagram DM",
-  instagram_comment: "Instagram",
+  instagram_comments: "Instagram comentários",
   site: "Site",
 };
 
@@ -67,7 +67,7 @@ const CHANNEL_COLORS: Record<MetaChannel, string> = {
   whatsapp: "bg-emerald-400/15 text-emerald-300",
   facebook_page: "bg-blue-400/15 text-blue-300",
   instagram_dm: "bg-fuchsia-400/15 text-fuchsia-300",
-  instagram_comment: "bg-pink-400/15 text-pink-300",
+  instagram_comments: "bg-pink-400/15 text-pink-300",
   site: "bg-cyan-400/12 text-cyan-300",
 };
 
@@ -86,15 +86,16 @@ const STATUS_COLORS: Record<ThreadStatus, string> = {
 };
 
 const ALL_CHANNELS: Array<MetaChannel | "all"> = [
-  "all", "whatsapp", "facebook_page", "instagram_dm", "instagram_comment", "site",
+  "all", "whatsapp", "facebook_page", "instagram_dm", "instagram_comments", "site",
 ];
 
 const ALL_STATUSES: Array<ThreadStatus | "all"> = ["all", "open", "needs_human", "resolved", "archived"];
 
 function ChannelBadge({ channel }: { channel: MetaChannel }) {
+  const normalized = normalizeMetaChannel(channel);
   return (
-    <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.12em] ${CHANNEL_COLORS[channel]}`}>
-      {CHANNEL_LABELS[channel]}
+    <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.12em] ${CHANNEL_COLORS[normalized]}`}>
+      {CHANNEL_LABELS[normalized]}
     </span>
   );
 }

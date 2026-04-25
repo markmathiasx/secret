@@ -1,19 +1,20 @@
 import { redirect } from "next/navigation";
 import { AdminInbox } from "@/components/admin/admin-inbox";
 import { getChatwootAdminUrl, isChatwootWidgetConfigured } from "@/lib/env";
+import { normalizeMetaChannel, type MetaChannel } from "@/lib/meta/types";
 import { prisma } from "@/lib/prisma";
 import { getServerSessionUser, isAdminSession } from "@/lib/server-session";
 
 /** Derive channel from DB field or legacy email prefix. */
 function resolveChannel(channel: string | null | undefined, email: string | null | undefined): string {
-  if (channel && channel !== "site") return channel;
+  if (channel && channel !== "site") return normalizeMetaChannel(channel);
   if (email?.endsWith("@mdh.local")) {
     if (email.startsWith("wa-")) return "whatsapp";
     if (email.startsWith("fb-")) return "facebook_page";
-    if (email.startsWith("igc-")) return "instagram_comment";
+    if (email.startsWith("igc-")) return "instagram_comments";
     if (email.startsWith("ig-")) return "instagram_dm";
   }
-  return channel ?? "site";
+  return normalizeMetaChannel(channel);
 }
 
 type Props = {
@@ -55,10 +56,11 @@ export default async function AdminInboxPage({ searchParams }: Props) {
     lastMessageAt: (thread.lastMessageAt || thread.updatedAt).toISOString(),
     createdAt: thread.createdAt.toISOString(),
     updatedAt: thread.updatedAt.toISOString(),
-    channel: resolveChannel(
-      (thread as { channel?: string | null }).channel,
-      thread.buyer?.email
-    ) as "whatsapp" | "facebook_page" | "instagram_dm" | "instagram_comment" | "site",
+    channel: resolveChannel((thread as { channel?: string | null }).channel, thread.buyer?.email) as MetaChannel,
+    status: thread.status as "open" | "needs_human" | "resolved" | "archived",
+    tags: thread.tags ?? [],
+    notes: thread.notes ?? null,
+    unread: thread.unread,
     isWhatsApp: Boolean(
       thread.buyer?.email?.endsWith("@mdh.local") &&
         (thread.buyer.email.startsWith("wa-") ||
@@ -81,7 +83,7 @@ export default async function AdminInboxPage({ searchParams }: Props) {
         <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Painel MDH 3D</p>
         <h1 className="mt-2 text-3xl font-black text-white">Inbox de atendimento</h1>
         <p className="mt-2 text-sm text-white/60">
-          Site e WhatsApp chegam no mesmo fluxo operacional para a equipe assumir conversas sem perder contexto.
+          Site, WhatsApp, Facebook e Instagram chegam no mesmo fluxo operacional para a equipe assumir conversas sem perder contexto.
         </p>
       </div>
 

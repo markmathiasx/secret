@@ -3,6 +3,8 @@ import { isValidMetaSignature, isValidVerifyToken } from "@/lib/meta/signature";
 import { handleInstagramDm, handleInstagramComment } from "@/lib/meta/instagram";
 import { logStructured } from "@/lib/logger";
 import type { IgWebhookPayload, IgCommentChange } from "@/lib/meta/types";
+import { checkRateLimit, getClientIp } from "@/lib/security";
+import { recordOperationalAlert } from "@/lib/operational-alerts";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -30,6 +32,12 @@ export async function GET(request: NextRequest) {
  * Validates x-hub-signature-256, routes to handlers.
  */
 export async function POST(request: NextRequest) {
+  const ip = getClientIp(request.headers);
+  const rate = checkRateLimit(`webhook:instagram:${ip}`, 600, 60_000);
+  if (!rate.ok) {
+    return NextResponse.json({ ok: false }, { status: 429 });
+  }
+
   const rawBody = await request.text();
   const signatureHeader = request.headers.get("x-hub-signature-256");
 
@@ -49,49 +57,66 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ ok: true });
   }
 
-  void (async () => {
-    for (const entry of payload.entry ?? []) {
-      // ── Direct Messages ──────────────────────────────────────────────────
-      for (const msg of entry.messaging ?? []) {
-        if ((msg as any).message?.is_echo) continue;
-        if ((msg as any).read || (msg as any).delivery) continue;
+  const jobs: Array<Promise<void>> = [];
+  for (const entry of payload.entry ?? []) {
+    for (const msg of entry.messaging ?? []) {
+      if ((msg as any).message?.is_echo) continue;
+      if ((msg as any).read || (msg as any).delivery) continue;
 
-        const text = msg.message?.text;
-        if (!text) continue;
+      const text = msg.message?.text;
+      if (!text) continue;
 
-        try {
-          await handleInstagramDm(msg.sender.id, text, msg.message?.mid);
-        } catch (err) {
+      jobs.push(
+        handleInstagramDm(msg.sender.id, text, msg.message?.mid).catch(async (err) => {
           logStructured("error", "instagram_dm_handler_failed", {
-            sender: msg.sender.id,
+            eventId: msg.message?.mid,
             error: err instanceof Error ? err.message : "unknown",
           });
-        }
-      }
-
-      // ── Comments ─────────────────────────────────────────────────────────
-      for (const change of entry.changes ?? []) {
-        if (change.field !== "comments") continue;
-        const val = change.value as IgCommentChange["value"];
-        if (!val?.text) continue;
-
-        try {
-          await handleInstagramComment({
-            from: val.from,
-            media: val.media,
-            id: val.id,
-            text: val.text,
-            parent_id: val.parent_id,
+          await recordOperationalAlert({
+            type: "webhook_error",
+            title: "Erro no webhook Instagram DM",
+            body: "Um evento de DM do Instagram não foi processado.",
+            channel: "instagram_dm",
+            severity: "critical",
+            dedupeKey: `instagram_dm_webhook_error:${msg.message?.mid ?? entry.id}`,
+            metadata: { eventId: msg.message?.mid },
           });
-        } catch (err) {
+        })
+      );
+    }
+
+    for (const change of entry.changes ?? []) {
+      if (change.field !== "comments") continue;
+      const val = change.value as IgCommentChange["value"];
+      if (!val?.text) continue;
+
+      jobs.push(
+        handleInstagramComment({
+          from: val.from,
+          media: val.media,
+          id: val.id,
+          text: val.text,
+          parent_id: val.parent_id,
+        }).catch(async (err) => {
           logStructured("error", "instagram_comment_handler_failed", {
             commentId: val.id,
             error: err instanceof Error ? err.message : "unknown",
           });
-        }
-      }
+          await recordOperationalAlert({
+            type: "webhook_error",
+            title: "Erro no webhook Instagram comentário",
+            body: "Um comentário do Instagram não foi processado.",
+            channel: "instagram_comments",
+            severity: "critical",
+            dedupeKey: `instagram_comment_webhook_error:${val.id}`,
+            metadata: { eventId: val.id },
+          });
+        })
+      );
     }
-  })();
+  }
+
+  if (jobs.length) await Promise.allSettled(jobs);
 
   return NextResponse.json({ ok: true });
 }

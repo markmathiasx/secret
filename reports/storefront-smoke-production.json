@@ -1,5 +1,5 @@
 {
-  "baseUrl": "https://mdh-3d-store.vercel.app",
+  "baseUrl": "https://mdh3d.com.br",
   "startedAt": "2026-04-17T19:06:15.605Z",
   "finishedAt": "2026-04-17T19:07:46.839Z",
   "checkoutMode": "full",
@@ -202,17 +202,17 @@
       {
         "step": "catalog_page_jump",
         "ok": true,
-        "url": "https://mdh-3d-store.vercel.app/catalogo?page=2"
+        "url": "https://mdh3d.com.br/catalogo?page=2"
       },
       {
         "step": "pdp_open",
         "ok": true,
-        "url": "https://mdh-3d-store.vercel.app/catalogo/mw-a1-486-bandeja-criativa-de-encaixe-para-pecas-pequenas?from=%2Fcatalogo%3Fpage%3D2&focus=mw-a1-486"
+        "url": "https://mdh3d.com.br/catalogo/mw-a1-486-bandeja-criativa-de-encaixe-para-pecas-pequenas?from=%2Fcatalogo%3Fpage%3D2&focus=mw-a1-486"
       },
       {
         "step": "back_to_catalog",
         "ok": true,
-        "url": "https://mdh-3d-store.vercel.app/catalogo?page=2#produto-mw-a1-486"
+        "url": "https://mdh3d.com.br/catalogo?page=2#produto-mw-a1-486"
       }
     ],
     "checkoutFlow": [
@@ -439,17 +439,17 @@
       {
         "step": "catalog_page_jump",
         "ok": true,
-        "url": "https://mdh-3d-store.vercel.app/catalogo?page=2"
+        "url": "https://mdh3d.com.br/catalogo?page=2"
       },
       {
         "step": "pdp_open",
         "ok": true,
-        "url": "https://mdh-3d-store.vercel.app/catalogo/mw-a1-486-bandeja-criativa-de-encaixe-para-pecas-pequenas?from=%2Fcatalogo%3Fpage%3D2&focus=mw-a1-486"
+        "url": "https://mdh3d.com.br/catalogo/mw-a1-486-bandeja-criativa-de-encaixe-para-pecas-pequenas?from=%2Fcatalogo%3Fpage%3D2&focus=mw-a1-486"
       },
       {
         "step": "back_to_catalog",
         "ok": true,
-        "url": "https://mdh-3d-store.vercel.app/catalogo?page=2#produto-mw-a1-486"
+        "url": "https://mdh3d.com.br/catalogo?page=2#produto-mw-a1-486"
       }
     ],
     "checkoutFlow": [

@@ -18,12 +18,22 @@ import {
 } from "@/lib/env";
 import { applyNoStoreHeaders } from "@/lib/http-cache";
 import { checkRateLimit, getClientIp } from "@/lib/security";
+import { prisma } from "@/lib/prisma";
+import { recordOperationalAlert } from "@/lib/operational-alerts";
+import { normalizeMetaChannel } from "@/lib/meta/types";
+import { logStructured } from "@/lib/logger";
+import { storeReplyMessage } from "@/lib/meta/normalizers";
 
 export const runtime = "nodejs";
 
 type AssistantChatPayload = {
   messages?: AssistantChatMessage[];
   previousResponseId?: string | null;
+  threadId?: string | null;
+  channel?: string | null;
+  productId?: string | null;
+  visitorId?: string | null;
+  source?: "assistant_dialog" | "live_chat" | null;
 };
 
 type ProviderConfig = {
@@ -114,6 +124,161 @@ function getProviderConfig(): ProviderConfig | null {
   }
 }
 
+function asksForHuman(text: string) {
+  return /(humano|atendente|pessoa|falar com algu[eé]m|suporte humano)/i.test(text);
+}
+
+function normalizeVisitorId(value: string) {
+  return value
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9_-]+/g, "-")
+    .replace(/-+/g, "-")
+    .slice(0, 48) || "assistant";
+}
+
+async function ensureAssistantDialogThread(payload: AssistantChatPayload, latestText: string) {
+  if (payload.source !== "assistant_dialog") return payload.threadId?.trim() || null;
+
+  const existingThreadId = payload.threadId?.trim();
+  const channel = normalizeMetaChannel(payload.channel);
+  const needsHuman = asksForHuman(latestText);
+
+  if (existingThreadId) {
+    const existingThread = await prisma.chatThread.findUnique({
+      where: { id: existingThreadId },
+      select: { buyerId: true, buyer: { select: { email: true } } },
+    });
+    if (!existingThread?.buyerId || !existingThread.buyer?.email?.endsWith("@guest.mdh.local")) {
+      return null;
+    }
+
+    await prisma.chatThread.update({
+      where: { id: existingThreadId },
+      data: {
+        channel,
+        lastMessageAt: new Date(),
+        unread: true,
+        ...(needsHuman ? { status: "needs_human" } : { status: "open" }),
+        ...(payload.productId ? { productId: payload.productId } : {}),
+      },
+    }).catch(() => null);
+
+    await prisma.chatMessage.create({
+      data: {
+        threadId: existingThreadId,
+        senderId: existingThread.buyerId,
+        body: latestText,
+        attachments: { source: "assistant_dialog" },
+      },
+    }).catch(() => null);
+    return existingThreadId;
+  }
+
+  const visitorId = normalizeVisitorId(payload.visitorId || `assistant-${crypto.randomUUID()}`);
+  const email = `${visitorId}@guest.mdh.local`;
+  const visitor = await prisma.user.upsert({
+    where: { email },
+    update: { name: `Visitante ${visitorId.slice(0, 8).toUpperCase()}`, isActive: true },
+    create: {
+      email,
+      name: `Visitante ${visitorId.slice(0, 8).toUpperCase()}`,
+      role: "BUYER",
+      isActive: true,
+    },
+    select: { id: true },
+  });
+
+  const thread = await prisma.chatThread.create({
+    data: {
+      buyerId: visitor.id,
+      type: "SUPPORT",
+      channel,
+      status: needsHuman ? "needs_human" : "open",
+      unread: true,
+      subject: "Consultor MDH no site",
+      lastMessageAt: new Date(),
+      ...(payload.productId ? { productId: payload.productId } : {}),
+    },
+    select: { id: true },
+  });
+
+  await prisma.chatMessage.create({
+    data: {
+      threadId: thread.id,
+      senderId: visitor.id,
+      body: latestText,
+      attachments: { source: "assistant_dialog" },
+    },
+  });
+
+  await recordOperationalAlert({
+    type: needsHuman ? "handoff_requested" : "new_site_lead",
+    title: needsHuman ? "Consultor MDH pediu atendimento humano" : "Novo lead pelo consultor MDH",
+    body: "Conversa persistida no inbox omnichannel.",
+    channel,
+    threadId: thread.id,
+    severity: needsHuman ? "critical" : "info",
+    dedupeKey: `${needsHuman ? "assistant_handoff" : "assistant_lead"}:${thread.id}`,
+    metadata: { productId: payload.productId ?? undefined },
+  });
+
+  return thread.id;
+}
+
+async function markAssistantHandoff(payload: AssistantChatPayload, latestText: string) {
+  const threadId = payload.threadId?.trim();
+  if (!threadId || !asksForHuman(latestText)) return;
+
+  const channel = normalizeMetaChannel(payload.channel);
+  try {
+    const existingThread = await prisma.chatThread.findUnique({
+      where: { id: threadId },
+      select: { buyer: { select: { email: true } } },
+    });
+    if (!existingThread?.buyer?.email?.endsWith("@guest.mdh.local")) return;
+
+    const thread = await prisma.chatThread.update({
+      where: { id: threadId },
+      data: {
+        status: "needs_human",
+        unread: true,
+        channel,
+        ...(payload.productId ? { productId: payload.productId } : {}),
+      },
+      select: { id: true, subject: true },
+    });
+
+    await recordOperationalAlert({
+      type: "handoff_requested",
+      title: "Consultor MDH pediu atendimento humano",
+      body: thread.subject || "Conversa marcada para atendimento humano.",
+      channel,
+      threadId: thread.id,
+      severity: "critical",
+      dedupeKey: `assistant_handoff:${thread.id}`,
+      metadata: { productId: payload.productId ?? undefined },
+    });
+  } catch (error) {
+    logStructured("warn", "assistant_handoff_mark_failed", {
+      threadId,
+      message: error instanceof Error ? error.message : "unknown",
+    });
+  }
+}
+
+async function persistAssistantReply(threadId: string | null, payload: AssistantChatPayload, message: string) {
+  if (!threadId || payload.source !== "assistant_dialog") return;
+  try {
+    await storeReplyMessage(threadId, message);
+  } catch (error) {
+    logStructured("warn", "assistant_reply_persist_failed", {
+      threadId,
+      message: error instanceof Error ? error.message : "unknown",
+    });
+  }
+}
+
 function buildResponseRequest(config: ProviderConfig, input: any, previousResponseId?: string | null, now?: Date) {
   return {
     model: config.model,
@@ -159,8 +324,22 @@ export async function POST(request: Request) {
     );
   }
 
+  let persistedThreadId: string | null = null;
+  try {
+    persistedThreadId = await ensureAssistantDialogThread(payload, latestUserMessage.content);
+    await markAssistantHandoff({ ...payload, threadId: persistedThreadId ?? payload.threadId }, latestUserMessage.content);
+  } catch (error) {
+    logStructured("warn", "assistant_thread_persist_failed", {
+      source: payload.source,
+      channel: payload.channel,
+      message: error instanceof Error ? error.message : "unknown",
+    });
+  }
+
   const providerConfig = getProviderConfig();
   if (!providerConfig || !isAiAssistantConfigured()) {
+    const fallbackMessage = buildCommerceFallbackReply(latestUserMessage.content);
+    await persistAssistantReply(persistedThreadId, payload, fallbackMessage);
     return applyNoStoreHeaders(
       NextResponse.json({
         ok: true,
@@ -169,7 +348,8 @@ export async function POST(request: Request) {
         provider: "fallback",
         model: getAiAssistantModel(),
         responseId: null,
-        message: buildCommerceFallbackReply(latestUserMessage.content),
+        threadId: persistedThreadId,
+        message: fallbackMessage,
       })
     );
   }
@@ -216,6 +396,7 @@ export async function POST(request: Request) {
     }
 
     const message = getAssistantText(response) || buildCommerceFallbackReply(latestUserMessage.content);
+    await persistAssistantReply(persistedThreadId, payload, message);
 
     return applyNoStoreHeaders(
       NextResponse.json({
@@ -225,12 +406,17 @@ export async function POST(request: Request) {
         provider: providerConfig.provider,
         model: providerConfig.model,
         responseId: providerConfig.supportsStatefulResponses ? response.id || null : null,
+        threadId: persistedThreadId,
         message,
       })
     );
   } catch (error: any) {
     const status = Number(error?.status || error?.cause?.status || 0);
     const rateLimited = status === 429;
+    const fallbackMessage = rateLimited
+      ? `O consultor automático atingiu o limite atual do provedor. Posso continuar em modo guiado ou você pode fechar pelo WhatsApp: https://wa.me/${whatsappNumber}`
+      : buildCommerceFallbackReply(latestUserMessage.content);
+    await persistAssistantReply(persistedThreadId, payload, fallbackMessage);
 
     return applyNoStoreHeaders(
       NextResponse.json({
@@ -240,9 +426,8 @@ export async function POST(request: Request) {
         provider: providerConfig.provider,
         model: providerConfig.model,
         responseId: null,
-        message: rateLimited
-          ? `O consultor automático atingiu o limite atual do provedor. Posso continuar em modo guiado ou você pode fechar pelo WhatsApp: https://wa.me/${whatsappNumber}`
-          : buildCommerceFallbackReply(latestUserMessage.content),
+        threadId: persistedThreadId,
+        message: fallbackMessage,
       })
     );
   }

@@ -62,7 +62,7 @@ export async function middleware(request: NextRequest) {
   requestHeaders.set("x-trace-id", requestId);
 
   // --- Domain canonicalization (production only) ---
-  // Redirect apex → www (or vercel.app → custom domain) when NEXT_PUBLIC_SITE_URL is set
+  // Redirect every production host to the canonical custom domain from NEXT_PUBLIC_SITE_URL.
   const canonicalHost = process.env.NEXT_PUBLIC_SITE_URL
     ? new URL(process.env.NEXT_PUBLIC_SITE_URL).host
     : "";

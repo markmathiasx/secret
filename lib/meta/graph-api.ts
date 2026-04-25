@@ -16,6 +16,10 @@ export async function graphPost<T = unknown>(
   path: string,
   body: unknown
 ): Promise<GraphApiResponse<T>> {
+  if (!metaConfig.systemUserToken) {
+    return { ok: false, error: { message: "META_SYSTEM_USER_TOKEN not set", type: "config", code: 0 } };
+  }
+
   try {
     const res = await fetch(`${GRAPH_BASE}/${path}`, {
       method: "POST",
@@ -44,6 +48,10 @@ export async function graphGet<T = unknown>(
   path: string,
   params?: Record<string, string>
 ): Promise<GraphApiResponse<T>> {
+  if (!metaConfig.systemUserToken) {
+    return { ok: false, error: { message: "META_SYSTEM_USER_TOKEN not set", type: "config", code: 0 } };
+  }
+
   try {
     const url = new URL(`${GRAPH_BASE}/${path}`);
     if (params) {
@@ -74,6 +82,9 @@ export async function sendWhatsAppText(
   phoneNumberId?: string
 ): Promise<GraphApiResponse> {
   const pid = phoneNumberId ?? metaConfig.phoneNumberId;
+  if (!pid) {
+    return { ok: false, error: { message: "META_PHONE_NUMBER_ID not set", type: "config", code: 0 } };
+  }
   return graphPost(`${pid}/messages`, {
     messaging_product: "whatsapp",
     to: to.replace(/\D/g, ""),

@@ -121,7 +121,7 @@ foreach ($target in $envTargets) {
 
         $text = Upsert-Env -Text $text -Key "NEXT_PUBLIC_SITE_URL" -Value "https://mdh3d.com.br" -Overwrite
         $text = Upsert-Env -Text $text -Key "NEXT_PUBLIC_SITE_URL_WWW" -Value "https://www.mdh3d.com.br" -Overwrite
-        $text = Upsert-Env -Text $text -Key "NEXT_PUBLIC_VERCEL_FALLBACK_URL" -Value "https://mdh-3d-store.vercel.app"
+        $text = Upsert-Env -Text $text -Key "NEXT_PUBLIC_VERCEL_FALLBACK_URL" -Value "https://mdh3d.com.br"
 
         $text = Upsert-Env -Text $text -Key "META_APP_ID" -Value "SEU_META_APP_ID"
         $text = Upsert-Env -Text $text -Key "META_APP_SECRET" -Value "SEU_META_APP_SECRET"
@@ -134,14 +134,14 @@ foreach ($target in $envTargets) {
             $text = Upsert-Env -Text $text -Key "META_SYSTEM_USER_TOKEN" -Value "COLE_SEU_TOKEN_APENAS_NO_ENV_LOCAL_OU_VERCEL"
         }
 
-        $text = Upsert-Env -Text $text -Key "META_BUSINESS_ID" -Value "4453608518247627"
+        $text = Upsert-Env -Text $text -Key "META_BUSINESS_ID" -Value "SEU_META_BUSINESS_ID"
         $text = Upsert-Env -Text $text -Key "META_GRAPH_API_VERSION" -Value "v25.0"
-        $text = Upsert-Env -Text $text -Key "META_BUSINESS_LOGIN_CONFIG_ID" -Value "2053538095194681"
+        $text = Upsert-Env -Text $text -Key "META_BUSINESS_LOGIN_CONFIG_ID" -Value "SEU_META_BUSINESS_LOGIN_CONFIG_ID"
         $text = Upsert-Env -Text $text -Key "META_MARKETPLACE_CREATORS_CONFIG_ID" -Value "1852036822135714"
         $text = Upsert-Env -Text $text -Key "META_INSTAGRAM_INTEGRATION_CONFIG_ID" -Value "980413751182322"
         $text = Upsert-Env -Text $text -Key "META_WHATSAPP_MEASUREMENT_PARTNER_CONFIG_ID" -Value "2567965270271995"
         $text = Upsert-Env -Text $text -Key "META_WHATSAPP_EMBEDDED_SIGNUP_CONFIG_ID" -Value "2439354426585589"
-        $text = Upsert-Env -Text $text -Key "META_SANDBOX_AD_ACCOUNT_ID" -Value "26517234214566303"
+        $text = Upsert-Env -Text $text -Key "META_SANDBOX_AD_ACCOUNT_ID" -Value "SEU_META_SANDBOX_AD_ACCOUNT_ID"
         $text = Upsert-Env -Text $text -Key "META_PAGE_ID" -Value "SEU_META_PAGE_ID"
         $text = Upsert-Env -Text $text -Key "META_IG_BUSINESS_ACCOUNT_ID" -Value "SEU_META_IG_BUSINESS_ACCOUNT_ID"
         $text = Upsert-Env -Text $text -Key "META_WABA_ID" -Value "SEU_META_WABA_ID"
@@ -231,12 +231,12 @@ VERDADE INICIAL
 
 CONTEXTO META JÁ DISPONÍVEL
 Considere estes IDs/configurações já existentes e use-os apenas por env/config segura, sem hardcode em frontend sensível:
-- Business Login config id: 2053538095194681
+- Business Login config id: SEU_META_BUSINESS_LOGIN_CONFIG_ID
 - Marketplace e criadores de conteúdo config/contexto: 1852036822135714
 - Integração do Instagram criada: 980413751182322
 - Parceiro de mensuração do WhatsApp criado: 2567965270271995
 - Configuração do cadastro incorporado do WhatsApp com token de 60 dias: 2439354426585589
-- Sandbox ad account id: 26517234214566303
+- Sandbox ad account id: SEU_META_SANDBOX_AD_ACCOUNT_ID
 - Graph API version alvo: v25.0
 
 TRECHOS/CONCEITOS OFICIAIS A CONSIDERAR

@@ -1,7 +1,5 @@
 import { redirect } from "next/navigation";
 import { getServerSessionUser, isAdminSession } from "@/lib/server-session";
-import { buildBusinessLoginUrl } from "@/lib/meta/business-login";
-import { getSiteUrl } from "@/lib/env";
 import MetaIntegrationsPageClient from "./meta-client";
 
 export const dynamic = "force-dynamic";
@@ -20,9 +18,6 @@ export default async function MetaIntegrationsPage({
     fb_name?: string;
   };
 
-  const redirectUri = new URL("/api/auth/business-login/callback", getSiteUrl()).toString();
-  const businessLoginUrl = buildBusinessLoginUrl(redirectUri);
-
   return (
     <section>
       <div className="mb-8">
@@ -33,7 +28,7 @@ export default async function MetaIntegrationsPage({
         </p>
       </div>
       <MetaIntegrationsPageClient
-        businessLoginUrl={businessLoginUrl}
+        businessLoginUrl="/api/auth/business-login/start"
         searchParams={params}
       />
     </section>
