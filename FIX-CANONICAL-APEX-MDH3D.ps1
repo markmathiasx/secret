@@ -105,7 +105,7 @@ foreach ($file in $envFiles) {
         $text = Upsert-Env -Text $text -Key "AUTH_URL" -Value $CanonicalUrl -Overwrite
         $text = Upsert-Env -Text $text -Key "NEXTAUTH_URL" -Value $CanonicalUrl -Overwrite
         $text = Upsert-Env -Text $text -Key "NEXT_PUBLIC_SITE_URL_WWW" -Value "https://www.mdh3d.com.br" -Overwrite
-        $text = Upsert-Env -Text $text -Key "NEXT_PUBLIC_VERCEL_FALLBACK_URL" -Value "https://mdh-3d-store.vercel.app" -Overwrite
+        $text = Upsert-Env -Text $text -Key "NEXT_PUBLIC_VERCEL_FALLBACK_URL" -Value "https://mdh3d.com.br" -Overwrite
         Write-Utf8NoBom -Path $file -Content $text
         Write-Host "Atualizado: $file" -ForegroundColor Green
     }
@@ -257,3 +257,4 @@ Write-Host "npm run build"
 Write-Host "git add ."
 Write-Host 'git commit -m "fix: force apex canonical domain mdh3d.com.br"'
 Write-Host "git push"
+
