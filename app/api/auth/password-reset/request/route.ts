@@ -30,6 +30,12 @@ export async function POST(request: Request) {
     requestedByIp: ip,
     requestedByUserAgent: request.headers.get("user-agent"),
     requestId: request.headers.get("x-request-id"),
+  }).catch((err) => {
+    logStructured("error", "password_reset_request_failed", {
+      requestId: request.headers.get("x-request-id") || null,
+      ip,
+      error: err instanceof Error ? err.message : "unknown",
+    });
   });
 
   logStructured("info", "password_reset_request_api_ok", {

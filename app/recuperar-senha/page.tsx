@@ -38,7 +38,7 @@ export default function PasswordRecoveryPage() {
         return;
       }
 
-      setMessage('Se o e-mail existir na base, você receberá instruções e a equipe operacional também será notificada.');
+      setMessage('Solicitação recebida! Se o e-mail estiver cadastrado, você receberá o link de recuperação em breve. Verifique também a pasta de spam.');
     } catch {
       setError('Falha de rede ao iniciar a recuperação.');
     } finally {
@@ -96,6 +96,7 @@ export default function PasswordRecoveryPage() {
               <label className="block">
                 <span className="mb-2 block text-sm text-white/70">Nova senha</span>
                 <input value={password} onChange={(event) => setPassword(event.target.value)} type="password" minLength={8} className="field-base" required />
+                <span className="mt-1 block text-xs text-white/40">Mínimo 8 caracteres, com maiúscula, minúscula e número.</span>
               </label>
               <label className="block">
                 <span className="mb-2 block text-sm text-white/70">Confirmar senha</span>
