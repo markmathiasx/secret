@@ -99,7 +99,7 @@ export default function CompraProtegidaPage() {
             <Link href="/rastrear" className="btn-glass">
               Rastrear pedido
             </Link>
-            <Link href="/checkout" className="btn-primary">
+              <Link href="/carrinho" className="btn-primary">
               Ir para o checkout
             </Link>
           </div>

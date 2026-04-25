@@ -34,6 +34,8 @@ export type MercadoPagoPaymentInput = {
   notificationUrl?: string | null;
   metadata?: Record<string, unknown> | null;
   dateOfExpiration?: string | null;
+  /** Prevents duplicate charges on network retries — pass a stable unique key per user+order */
+  idempotencyKey?: string | null;
 };
 
 export function maskCredential(value?: string | null) {
@@ -227,7 +229,10 @@ export async function createMercadoPagoPayment(input: MercadoPagoPaymentInput) {
   }
 
   try {
-    const response = await payment.create({ body });
+    const response = await payment.create({
+      body,
+      requestOptions: input.idempotencyKey ? { idempotencyKey: input.idempotencyKey } : undefined,
+    });
     return {
       ok: true as const,
       paymentId: response.id ? String(response.id) : null,

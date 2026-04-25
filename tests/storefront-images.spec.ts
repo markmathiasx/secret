@@ -5,6 +5,80 @@ import { test, expect } from "@playwright/test";
 const baseUrl = process.env.SMOKE_BASE_URL || "http://127.0.0.1:3000";
 const auditPath = path.join(process.cwd(), "output", "CATALOG_SEMANTIC_AUDIT.json");
 const audit = JSON.parse(fs.readFileSync(auditPath, "utf8"));
+const storefrontHomeImages: Record<string, string[]> = {
+  "Suporte para Fone Headphone": [
+    "/products/mdh-013-suporte-para-fone-headphone/01-hero.jpg",
+    "/products/mdh-013-suporte-para-fone-headphone/02-closeup.jpg",
+    "/products/mdh-013-suporte-para-fone-headphone/03-in_use.jpg",
+    "/products/mdh-013-suporte-para-fone-headphone/04-packshot.jpg",
+  ],
+  "Organizador de Cabos": [
+    "/products/mdh-014-organizador-de-cabos/01-hero.jpg",
+    "/products/mdh-014-organizador-de-cabos/02-closeup.jpg",
+    "/products/mdh-014-organizador-de-cabos/03-in_use.jpg",
+    "/products/mdh-014-organizador-de-cabos/04-packshot.jpg",
+  ],
+  "Suporte para Celular": [
+    "/products/mdh-015-suporte-para-celular/01-hero.jpg",
+    "/products/mdh-015-suporte-para-celular/02-closeup.jpg",
+    "/products/mdh-015-suporte-para-celular/03-in_use.jpg",
+    "/products/mdh-015-suporte-para-celular/04-packshot.jpg",
+  ],
+  "Chaveiro Personalizado": [
+    "/products/mdh-016-chaveiro-personalizado/01-hero.jpg",
+    "/products/mdh-016-chaveiro-personalizado/02-closeup.jpg",
+    "/products/mdh-016-chaveiro-personalizado/03-in_use.jpg",
+    "/products/mdh-016-chaveiro-personalizado/04-packshot.jpg",
+  ],
+  "Suporte para Controle PS5": [
+    "/products/mdh-017-suporte-para-controle-ps5/01-hero.jpg",
+    "/products/mdh-017-suporte-para-controle-ps5/02-closeup.jpg",
+    "/products/mdh-017-suporte-para-controle-ps5/03-in_use.jpg",
+    "/products/mdh-017-suporte-para-controle-ps5/04-packshot.jpg",
+  ],
+  "Porta-Copos Geek": [
+    "/products/mdh-019-porta-copos-geek/01-hero.jpg",
+    "/products/mdh-019-porta-copos-geek/02-closeup.jpg",
+    "/products/mdh-019-porta-copos-geek/03-in_use.jpg",
+    "/products/mdh-019-porta-copos-geek/04-packshot.jpg",
+  ],
+  "Organizador de Canetas": [
+    "/products/mdh-022-organizador-de-canetas/01-hero.jpg",
+    "/products/mdh-022-organizador-de-canetas/02-closeup.jpg",
+    "/products/mdh-022-organizador-de-canetas/03-in_use.jpg",
+    "/products/mdh-022-organizador-de-canetas/04-packshot.jpg",
+  ],
+  "Vaso Geométrico": [
+    "/products/mdh-025-vaso-geometrico/01-hero.jpg",
+    "/products/mdh-025-vaso-geometrico/02-closeup.jpg",
+    "/products/mdh-025-vaso-geometrico/03-in_use.jpg",
+    "/products/mdh-025-vaso-geometrico/04-packshot.jpg",
+  ],
+  "Pokébola": [
+    "/products/mdh-026-pokebola/01-hero.jpg",
+    "/products/mdh-026-pokebola/02-closeup.jpg",
+    "/products/mdh-026-pokebola/03-in_use.jpg",
+    "/products/mdh-026-pokebola/04-packshot.jpg",
+  ],
+  "Luminária LED Personalizada": [
+    "/products/mdh-028-luminaria-led-personalizada/01-hero.jpg",
+    "/products/mdh-028-luminaria-led-personalizada/02-closeup.jpg",
+    "/products/mdh-028-luminaria-led-personalizada/03-in_use.jpg",
+    "/products/mdh-028-luminaria-led-personalizada/04-packshot.jpg",
+  ],
+  "Foto Litofania": [
+    "/products/mdh-029-foto-litofania/01-hero.jpg",
+    "/products/mdh-029-foto-litofania/02-closeup.jpg",
+    "/products/mdh-029-foto-litofania/03-in_use.jpg",
+    "/products/mdh-029-foto-litofania/04-packshot.jpg",
+  ],
+  "Quadro Decorativo": [
+    "/products/mdh-030-quadro-decorativo/01-hero.jpg",
+    "/products/mdh-030-quadro-decorativo/02-closeup.jpg",
+    "/products/mdh-030-quadro-decorativo/03-in_use.jpg",
+    "/products/mdh-030-quadro-decorativo/04-packshot.jpg",
+  ],
+};
 
 const realApprovedSkus = Array.isArray(audit.items)
   ? audit.items.filter(
@@ -43,9 +117,72 @@ for (const product of realApprovedSkus) {
   });
 }
 
+test("home usa imagens de produto nos cards principais", async ({ page }) => {
+  await page.goto(baseUrl, { waitUntil: "networkidle" });
+
+  for (const [productName, images] of Object.entries(storefrontHomeImages)) {
+    const card = page.locator("article", { has: page.getByRole("heading", { name: productName }) }).first();
+    await expect(card, productName).toBeVisible();
+    const image = card.locator("img").first();
+    await image.scrollIntoViewIfNeeded();
+    const src = await image.evaluate((img) => (img as HTMLImageElement).currentSrc || img.getAttribute("src") || "");
+
+    expect(src, `${productName} deveria usar ${images[0]}`).toContain(images[0]);
+    expect(src, `${productName} nao pode usar placeholder`).not.toMatch(/catalog-assets|placeholder/i);
+
+    await expect
+      .poll(
+        () =>
+          image.evaluate((img) => {
+            const element = img as HTMLImageElement;
+            return element.complete && element.naturalWidth > 0 && element.naturalHeight > 0;
+          }),
+        { message: `${productName} nao carregou imagem valida` },
+      )
+      .toBeTruthy();
+  }
+});
+
+test("arquivos da vitrine nao sao cards textuais uniformes", () => {
+  for (const [productName, images] of Object.entries(storefrontHomeImages)) {
+    const sizes = images.map((image) => {
+      const imagePath = path.join(process.cwd(), "public", image.replace(/^\//, ""));
+      expect(fs.existsSync(imagePath), `${productName}: ${image}`).toBeTruthy();
+      return fs.statSync(imagePath).size;
+    });
+    const range = Math.max(...sizes) - Math.min(...sizes);
+    const average = sizes.reduce((sum, size) => sum + size, 0) / sizes.length;
+
+    expect(average, `${productName}: tamanho medio suspeito ${sizes.join(", ")}`).toBeGreaterThan(100000);
+    expect(range, `${productName}: imagens uniformes demais ${sizes.join(", ")}`).toBeGreaterThan(15000);
+  }
+});
+
 test("checkout continua carregando sem imagens quebradas", async ({ page }) => {
+  await page.goto(baseUrl, { waitUntil: "domcontentloaded" });
+  await page.evaluate(() => {
+    window.localStorage.setItem(
+      "mdh:cart:v2",
+      JSON.stringify({
+        state: {
+          items: [
+            {
+              productId: "mdh-013",
+              quantity: 1,
+              title: "Suporte para Fone Headphone",
+              pricePix: 69.9,
+              priceCard: 69.9,
+              image: "/products/catalog/mdh-013.webp",
+              updatedAt: new Date().toISOString(),
+            },
+          ],
+        },
+        version: 0,
+      })
+    );
+  });
   await page.goto(`${baseUrl}/checkout`, { waitUntil: "networkidle" });
-  await expect(page.getByText("Produto e contexto")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Venda web-first" })).toBeVisible();
 
   const brokenImages = await page.evaluate(() =>
     [...document.querySelectorAll("img")]

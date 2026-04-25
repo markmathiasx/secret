@@ -9,217 +9,217 @@
     {
       "timestamp": "2026-04-17 19:30:24",
       "ok": true,
-      "url": "https://mdh-3d-store.vercel.app/",
+      "url": "https://mdh3d.com.br/",
       "statusCode": "200",
       "route": "/"
     },
     {
       "timestamp": "2026-04-17 19:30:24",
       "ok": true,
-      "url": "https://mdh-3d-store.vercel.app/catalogo",
+      "url": "https://mdh3d.com.br/catalogo",
       "statusCode": "200",
       "route": "/catalogo"
     },
     {
       "timestamp": "2026-04-17 19:30:26",
       "ok": true,
-      "url": "https://mdh-3d-store.vercel.app/checkout",
+      "url": "https://mdh3d.com.br/checkout",
       "statusCode": "200",
       "route": "/checkout"
     },
     {
       "timestamp": "2026-04-17 19:30:26",
       "ok": true,
-      "url": "https://mdh-3d-store.vercel.app/conta",
+      "url": "https://mdh3d.com.br/conta",
       "statusCode": "200",
       "route": "/conta"
     },
     {
       "timestamp": "2026-04-17 19:30:26",
       "ok": true,
-      "url": "https://mdh-3d-store.vercel.app/presentes-3d",
+      "url": "https://mdh3d.com.br/presentes-3d",
       "statusCode": "200",
       "route": "/presentes-3d"
     },
     {
       "timestamp": "2026-04-17 19:30:26",
       "ok": true,
-      "url": "https://mdh-3d-store.vercel.app/imagem-para-impressao-3d",
+      "url": "https://mdh3d.com.br/imagem-para-impressao-3d",
       "statusCode": "200",
       "route": "/imagem-para-impressao-3d"
     },
     {
       "timestamp": "2026-04-17 19:30:27",
       "ok": true,
-      "url": "https://mdh-3d-store.vercel.app/faq",
+      "url": "https://mdh3d.com.br/faq",
       "statusCode": "200",
       "route": "/faq"
     },
     {
       "timestamp": "2026-04-17 19:30:27",
       "ok": true,
-      "url": "https://mdh-3d-store.vercel.app/entregas",
+      "url": "https://mdh3d.com.br/entregas",
       "statusCode": "200",
       "route": "/entregas"
     },
     {
       "timestamp": "2026-04-17 19:30:27",
       "ok": true,
-      "url": "https://mdh-3d-store.vercel.app/brindes-personalizados-3d",
+      "url": "https://mdh3d.com.br/brindes-personalizados-3d",
       "statusCode": "200",
       "route": "/brindes-personalizados-3d"
     },
     {
       "timestamp": "2026-04-17 19:30:27",
       "ok": true,
-      "url": "https://mdh-3d-store.vercel.app/colecionaveis-geek-3d",
+      "url": "https://mdh3d.com.br/colecionaveis-geek-3d",
       "statusCode": "200",
       "route": "/colecionaveis-geek-3d"
     },
     {
       "timestamp": "2026-04-17 19:30:27",
       "ok": true,
-      "url": "https://mdh-3d-store.vercel.app/decoracao-3d-para-casa",
+      "url": "https://mdh3d.com.br/decoracao-3d-para-casa",
       "statusCode": "200",
       "route": "/decoracao-3d-para-casa"
     },
     {
       "timestamp": "2026-04-17 19:30:28",
       "ok": true,
-      "url": "https://mdh-3d-store.vercel.app/setup-e-organizacao-3d",
+      "url": "https://mdh3d.com.br/setup-e-organizacao-3d",
       "statusCode": "200",
       "route": "/setup-e-organizacao-3d"
     },
     {
       "timestamp": "2026-04-17 19:30:28",
       "ok": true,
-      "url": "https://mdh-3d-store.vercel.app/login",
+      "url": "https://mdh3d.com.br/login",
       "statusCode": "200",
       "route": "/login"
     },
     {
       "timestamp": "2026-04-17 19:30:28",
       "ok": true,
-      "url": "https://mdh-3d-store.vercel.app/recuperar-senha",
+      "url": "https://mdh3d.com.br/recuperar-senha",
       "statusCode": "200",
       "route": "/recuperar-senha"
     },
     {
       "timestamp": "2026-04-17 19:30:28",
       "ok": true,
-      "url": "https://mdh-3d-store.vercel.app/politica-de-privacidade",
+      "url": "https://mdh3d.com.br/politica-de-privacidade",
       "statusCode": "200",
       "route": "/politica-de-privacidade"
     },
     {
       "timestamp": "2026-04-17 19:30:28",
       "ok": true,
-      "url": "https://mdh-3d-store.vercel.app/trocas-e-devolucoes",
+      "url": "https://mdh3d.com.br/trocas-e-devolucoes",
       "statusCode": "200",
       "route": "/trocas-e-devolucoes"
     },
     {
       "timestamp": "2026-04-17 19:30:29",
       "ok": true,
-      "url": "https://mdh-3d-store.vercel.app/catalogo/real-001-grinder-3-partes-premium",
+      "url": "https://mdh3d.com.br/catalogo/real-001-grinder-3-partes-premium",
       "statusCode": "200",
       "route": "/catalogo/real-001-grinder-3-partes-premium"
     },
     {
       "timestamp": "2026-04-17 19:30:29",
       "ok": true,
-      "url": "https://mdh-3d-store.vercel.app/catalogo/real-002-porta-creme-dental-de-bancada",
+      "url": "https://mdh3d.com.br/catalogo/real-002-porta-creme-dental-de-bancada",
       "statusCode": "200",
       "route": "/catalogo/real-002-porta-creme-dental-de-bancada"
     },
     {
       "timestamp": "2026-04-17 19:30:29",
       "ok": true,
-      "url": "https://mdh-3d-store.vercel.app/catalogo/real-003-demogorgon-decorativo-premium",
+      "url": "https://mdh3d.com.br/catalogo/real-003-demogorgon-decorativo-premium",
       "statusCode": "200",
       "route": "/catalogo/real-003-demogorgon-decorativo-premium"
     },
     {
       "timestamp": "2026-04-17 19:30:30",
       "ok": true,
-      "url": "https://mdh-3d-store.vercel.app/catalogo/real-004-pote-decorativo-ondulado",
+      "url": "https://mdh3d.com.br/catalogo/real-004-pote-decorativo-ondulado",
       "statusCode": "200",
       "route": "/catalogo/real-004-pote-decorativo-ondulado"
     },
     {
       "timestamp": "2026-04-17 19:30:31",
       "ok": true,
-      "url": "https://mdh-3d-store.vercel.app/catalogo/real-005-base-fone-premium",
+      "url": "https://mdh3d.com.br/catalogo/real-005-base-fone-premium",
       "statusCode": "200",
       "route": "/catalogo/real-005-base-fone-premium"
     },
     {
       "timestamp": "2026-04-17 19:30:32",
       "ok": true,
-      "url": "https://mdh-3d-store.vercel.app/catalogo/real-006-botao-grande-customizavel",
+      "url": "https://mdh3d.com.br/catalogo/real-006-botao-grande-customizavel",
       "statusCode": "200",
       "route": "/catalogo/real-006-botao-grande-customizavel"
     },
     {
       "timestamp": "2026-04-17 19:30:33",
       "ok": true,
-      "url": "https://mdh-3d-store.vercel.app/catalogo/real-007-dado-multifacetado-gamer",
+      "url": "https://mdh3d.com.br/catalogo/real-007-dado-multifacetado-gamer",
       "statusCode": "200",
       "route": "/catalogo/real-007-dado-multifacetado-gamer"
     },
     {
       "timestamp": "2026-04-17 19:30:34",
       "ok": true,
-      "url": "https://mdh-3d-store.vercel.app/catalogo/real-008-mancala-3d-completo",
+      "url": "https://mdh3d.com.br/catalogo/real-008-mancala-3d-completo",
       "statusCode": "200",
       "route": "/catalogo/real-008-mancala-3d-completo"
     },
     {
       "timestamp": "2026-04-17 19:30:35",
       "ok": true,
-      "url": "https://mdh-3d-store.vercel.app/catalogo/real-009-miniaturas-geek-sortidas",
+      "url": "https://mdh3d.com.br/catalogo/real-009-miniaturas-geek-sortidas",
       "statusCode": "200",
       "route": "/catalogo/real-009-miniaturas-geek-sortidas"
     },
     {
       "timestamp": "2026-04-17 19:30:35",
       "ok": true,
-      "url": "https://mdh-3d-store.vercel.app/catalogo/real-010-suporte-articulado-fone",
+      "url": "https://mdh3d.com.br/catalogo/real-010-suporte-articulado-fone",
       "statusCode": "200",
       "route": "/catalogo/real-010-suporte-articulado-fone"
     },
     {
       "timestamp": "2026-04-17 19:30:35",
       "ok": true,
-      "url": "https://mdh-3d-store.vercel.app/api/health",
+      "url": "https://mdh3d.com.br/api/health",
       "statusCode": "200",
       "route": "/api/health"
     },
     {
       "timestamp": "2026-04-17 19:30:36",
       "ok": true,
-      "url": "https://mdh-3d-store.vercel.app/api/catalog",
+      "url": "https://mdh3d.com.br/api/catalog",
       "statusCode": "200",
       "route": "/api/catalog"
     },
     {
       "timestamp": "2026-04-17 19:30:36",
       "ok": true,
-      "url": "https://mdh-3d-store.vercel.app/api/catalog/health",
+      "url": "https://mdh3d.com.br/api/catalog/health",
       "statusCode": "200",
       "route": "/api/catalog/health"
     },
     {
       "timestamp": "2026-04-17 19:30:37",
       "ok": true,
-      "url": "https://mdh-3d-store.vercel.app/api/catalog/search",
+      "url": "https://mdh3d.com.br/api/catalog/search",
       "statusCode": "200",
       "route": "/api/catalog/search"
     },
     {
       "timestamp": "2026-04-17 19:30:37",
       "ok": true,
-      "url": "https://mdh-3d-store.vercel.app/api/catalog/recommendations",
+      "url": "https://mdh3d.com.br/api/catalog/recommendations",
       "statusCode": "200",
       "route": "/api/catalog/recommendations"
     }

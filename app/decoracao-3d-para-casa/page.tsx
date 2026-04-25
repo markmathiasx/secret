@@ -6,6 +6,6 @@ const config = salesLandings.decoracao;
 
 export const metadata: Metadata = getSalesLandingMetadata(config);
 
-export default function Decoracao3DParaCasaPage() {
-  return <SalesLandingShell landingKey="decoracao" />;
+export default async function Decoracao3DParaCasaPage() {
+  return SalesLandingShell({ landingKey: "decoracao" });
 }

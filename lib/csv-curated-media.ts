@@ -1,6 +1,16 @@
 import csvCuratedMediaMapJson from "@/data/csv-curated-media-map.json";
+import semanticAuditJson from "../output/CATALOG_SEMANTIC_AUDIT.json";
 
 const csvCuratedMediaMap = csvCuratedMediaMapJson as Record<string, string[]>;
+const semanticAudit = semanticAuditJson as {
+  items?: Array<{ id?: string; sku?: string; status?: string; mediaStatus?: string }>;
+};
+const publicAllowedStatuses = new Set(["APPROVED", "FIX_TEXT"]);
+const publicAllowedMediaStatuses = new Set(["verified", "render-verified", "probable"]);
+const semanticAuditById = new Map(
+  (semanticAudit.items || [])
+    .flatMap((item) => [item.id, item.sku].filter(Boolean).map((key) => [String(key), item] as const)),
+);
 
 function normalizeSku(sku: string) {
   return String(sku || "")
@@ -20,6 +30,8 @@ export function hasCsvCuratedLocalMedia(sku: string) {
 }
 
 type MinimalProduct = {
+  id?: string;
+  sku?: string;
   tags?: string[];
 };
 
@@ -28,6 +40,18 @@ export function isCsvPendingMediaProduct(product: MinimalProduct) {
   return tags.includes("csv-curado-160") && tags.includes("midia-pendente-curadoria");
 }
 
+export function isPublicBlockedCatalogItem(product: MinimalProduct) {
+  if (isCsvPendingMediaProduct(product)) return true;
+
+  const audit = semanticAuditById.get(String(product.id || "")) || semanticAuditById.get(String(product.sku || ""));
+  if (!audit) return false;
+
+  if (!publicAllowedStatuses.has(String(audit.status || ""))) return true;
+  if (audit.mediaStatus && !publicAllowedMediaStatuses.has(String(audit.mediaStatus))) return true;
+
+  return false;
+}
+
 export function getSafePublicCatalog<T extends MinimalProduct>(products: T[]) {
-  return products;
+  return products.filter((product) => !isPublicBlockedCatalogItem(product));
 }

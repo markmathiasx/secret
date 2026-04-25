@@ -159,6 +159,23 @@ test.describe("MDH 3D Store – Smoke Tests", () => {
     expect(body).toHaveProperty("session");
   });
 
+  test("Consultor MDH responde sem 500 e suporta handoff em fallback", async ({ request }) => {
+    const response = await request.post(`${BASE_URL}/api/assistant/chat`, {
+      data: {
+        source: "assistant_dialog",
+        visitorId: `smoke-${Date.now()}`,
+        channel: "site",
+        messages: [{ role: "user", content: "Quero falar com um atendente humano sobre uma peça 3D." }],
+      },
+    });
+
+    expect(response.status()).toBe(200);
+    const body = await response.json();
+    expect(body.ok).toBe(true);
+    expect(typeof body.message).toBe("string");
+    expect(body.message.length).toBeGreaterThan(20);
+  });
+
   test("Rotas sensíveis exigem autenticação", async ({ request }) => {
     const adminInbox = await request.get(`${BASE_URL}/api/admin/inbox`);
     expect([401, 403]).toContain(adminInbox.status());
@@ -212,5 +229,30 @@ test.describe("MDH 3D Store – Smoke Tests", () => {
       const status = response?.status() ?? 0;
       expect(status, `Rota ${route} retornou ${status}`).not.toBe(500);
     }
+  });
+
+  test("Cart API: retorna 200", async ({ request }) => {
+    const response = await request.get(`${BASE_URL}/api/cart`);
+    expect([200, 401]).toContain(response.status());
+  });
+
+  test("Checkout API: recusa dados inválidos com 400", async ({ request }) => {
+    const response = await request.post(`${BASE_URL}/api/checkout/mercadopago`, {
+      data: { productId: "" },
+    });
+    expect([400, 429]).toContain(response.status());
+  });
+
+  test("manifest.json: presente e válido", async ({ request }) => {
+    const response = await request.get(`${BASE_URL}/manifest.json`);
+    expect(response.status()).toBe(200);
+    const body = await response.json();
+    expect(body.name).toBeTruthy();
+    expect(Array.isArray(body.icons)).toBe(true);
+  });
+
+  test("Página offline: acessível via /offline.html", async ({ page }) => {
+    const response = await page.goto(`${BASE_URL}/offline.html`);
+    expect(response?.status()).toBe(200);
   });
 });

@@ -14,15 +14,45 @@ function getMercadoPagoConfig() {
 }
 
 export async function createMercadoPagoPreference(input: {
-  title: string;
-  unitPrice: number;
+  title?: string;
+  unitPrice?: number;
   quantity?: number;
+  items?: Array<{
+    id?: string;
+    title: string;
+    quantity?: number;
+    unitPrice: number;
+  }>;
   externalReference: string;
   payerEmail?: string;
+  notificationUrl?: string;
+  backUrls?: {
+    success?: string;
+    pending?: string;
+    failure?: string;
+  };
+  autoReturn?: "approved" | "all";
 }) {
   const siteUrl = getSiteUrl();
-  const quantity = input.quantity || 1;
-  const total = input.unitPrice * quantity;
+  const items =
+    input.items && input.items.length > 0
+      ? input.items.map((item, index) => ({
+          id: item.id || `${input.externalReference}-${index + 1}`,
+          title: item.title,
+          quantity: item.quantity || 1,
+          currency_id: "BRL",
+          unit_price: item.unitPrice,
+        }))
+      : [
+          {
+            id: input.externalReference,
+            title: input.title || "Pedido MDH 3D",
+            quantity: input.quantity || 1,
+            currency_id: "BRL",
+            unit_price: input.unitPrice || 0,
+          },
+        ];
+  const total = items.reduce((sum, item) => sum + item.unit_price * item.quantity, 0);
   const client = getMercadoPagoConfig();
 
   if (!client) {
@@ -36,27 +66,22 @@ export async function createMercadoPagoPreference(input: {
   try {
     const preference = new Preference(client);
     const backQuery = `order=${encodeURIComponent(input.externalReference)}`;
+    const successUrl = input.backUrls?.success || `${siteUrl}/checkout?status=success&${backQuery}`;
+    const pendingUrl = input.backUrls?.pending || `${siteUrl}/checkout?status=pending&${backQuery}`;
+    const failureUrl = input.backUrls?.failure || `${siteUrl}/checkout?status=failure&${backQuery}`;
 
     const response = await preference.create({
       body: {
         external_reference: input.externalReference,
-        items: [
-          {
-            id: input.externalReference,
-            title: input.title,
-            quantity,
-            currency_id: 'BRL',
-            unit_price: input.unitPrice
-          }
-        ],
+        items,
         payer: input.payerEmail ? { email: input.payerEmail } : undefined,
         back_urls: {
-          success: `${siteUrl}/checkout?status=success&${backQuery}`,
-          pending: `${siteUrl}/checkout?status=pending&${backQuery}`,
-          failure: `${siteUrl}/checkout?status=failure&${backQuery}`
+          success: successUrl,
+          pending: pendingUrl,
+          failure: failureUrl
         },
-        auto_return: 'approved',
-        notification_url: `${siteUrl}/api/webhooks/mercadopago`
+        auto_return: input.autoReturn || 'approved',
+        notification_url: input.notificationUrl || `${siteUrl}/api/webhooks/mercadopago`
       }
     });
 
@@ -180,6 +205,7 @@ export async function createMercadoPagoPayment(input: {
   paymentData?: unknown;
   notificationUrl?: string | null;
   dateOfExpiration?: string | null;
+  idempotencyKey?: string | null;
 }) {
   const normalized = normalizeMpPaymentFormData(input.paymentData);
   return createMercadoPagoPaymentCore({
@@ -196,6 +222,7 @@ export async function createMercadoPagoPayment(input: {
     identification: normalized.identification,
     notificationUrl: input.notificationUrl,
     dateOfExpiration: input.dateOfExpiration,
+    idempotencyKey: input.idempotencyKey,
     metadata: {
       paymentData: normalized.raw,
     },

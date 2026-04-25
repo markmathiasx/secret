@@ -209,7 +209,7 @@ export default function AccountPage() {
           <Link href="/imagem-para-impressao-3d" className="btn-secondary">Enviar referência</Link>
           <Link href="/rastrear" className="btn-glass">Rastrear pedido</Link>
           <Link href="/devolucoes" className="btn-glass">Trocas e devoluções</Link>
-          {lastQuote ? <Link href={`/checkout?product=${lastQuote.productId}`} className="btn-primary">Continuar pedido</Link> : null}
+          {lastQuote ? <Link href={resolveProductUrl(lastQuote.productId)} className="btn-primary">Revisar produto</Link> : null}
         </div>
 
         <div className="mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
@@ -244,11 +244,11 @@ export default function AccountPage() {
                 Código {lastQuote.quoteId} • {formatCurrency(lastQuote.totalPix)} • {lastQuote.paymentMethod}
               </p>
               <div className="mt-4 flex flex-wrap gap-2">
-                <Link href={`/checkout?product=${lastQuote.productId}`} className="btn-primary">
-                  Abrir checkout
+                <Link href={resolveProductUrl(lastQuote.productId)} className="btn-primary">
+                  Abrir produto
                 </Link>
-                <Link href="/checkout" className="btn-glass">
-                  Revisar pagamento
+                <Link href="/carrinho" className="btn-glass">
+                  Ver carrinho
                 </Link>
               </div>
             </div>
@@ -260,7 +260,7 @@ export default function AccountPage() {
 
           <div className="mt-5 grid gap-3">
             {[
-              { label: 'Abrir checkout', href: '/checkout', icon: WalletCards },
+              { label: 'Abrir carrinho', href: '/carrinho', icon: WalletCards },
               { label: 'Explorar pronta entrega', href: '/catalogo?status=Pronta%20entrega', icon: Sparkles },
               { label: 'Mandar nova referência', href: '/imagem-para-impressao-3d', icon: ArrowRight },
             ].map((item) => {
@@ -384,11 +384,11 @@ export default function AccountPage() {
               <p className="mt-1 text-white/60">Código {item.quoteId}</p>
               <p className="mt-1 text-white/60">{formatCurrency(item.totalPix)} • {item.paymentMethod}</p>
               <div className="mt-3 flex flex-wrap gap-2">
-                <Link href={`/checkout?product=${item.productId}`} className="btn-secondary px-4 py-2 text-xs">
-                  Continuar
-                </Link>
-                <Link href={resolveProductUrl(item.productId)} className="btn-glass px-4 py-2 text-xs">
+                <Link href={resolveProductUrl(item.productId)} className="btn-secondary px-4 py-2 text-xs">
                   Ver item
+                </Link>
+                <Link href="/carrinho" className="btn-glass px-4 py-2 text-xs">
+                  Abrir carrinho
                 </Link>
               </div>
             </div>

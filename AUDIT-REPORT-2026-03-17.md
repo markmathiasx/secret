@@ -150,7 +150,7 @@
 1. Push to GitHub: `git push origin main`
 2. Vercel auto-deploy from GitHub
 3. Check deployment status: https://vercel.com/dashboard
-4. Monitor at: https://mdh-3d-store.vercel.app
+4. Monitor at: https://mdh3d.com.br
 
 **Environment Variables (Set in Vercel):**
 - `NEXT_PUBLIC_SUPABASE_URL`

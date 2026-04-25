@@ -1,6 +1,6 @@
 # Catalog Semantic Audit Report
 
-**Generated:** 2026-04-20T19:11:21.424Z
+**Generated:** 2026-04-25T00:42:46.943Z
 **Total SKUs:** 248
 
 ## Summary
@@ -8,18 +8,18 @@
 | Metric | Count |
 |--------|-------|
 | Total SKUs | 248 |
-| APPROVED (score >= 0.99) | 35 |
+| APPROVED (score >= 0.99) | 48 |
 | FIX_TEXT (reclassify) | 0 |
 | FIX_IMAGE | 0 |
 | FIX_BOTH | 0 |
-| BLOCKED | 213 |
+| BLOCKED | 200 |
 | With 4 images on disk | 245 |
-| Real product images | 38 |
-| Placeholder text cards | 210 |
+| Real product images | 51 |
+| Placeholder text cards | 197 |
 
 ## Critical Finding: Placeholder Text Cards
 
-**210 out of 248 SKUs (85%)** have placeholder text cards instead of real product images.
+**197 out of 248 SKUs (79%)** have placeholder text cards instead of real product images.
 
 These are JPEG files that render as gradient cards with text like:
 - Product name
@@ -43,7 +43,7 @@ These are NOT product photos and must NOT be used as hero images, in structured 
 
 **Assessment:** All 4 images for mdh-057 are placeholder text cards showing gradient backgrounds with rendered text. None show an actual makeup organizer product.
 
-## Approved Items (35)
+## Approved Items (48)
 
 - **real-001** Grinder 3 Partes Premium — foto-real (score: 1)
 - **real-002** Porta Creme Dental de Bancada — foto-real (score: 1)
@@ -55,6 +55,19 @@ These are NOT product photos and must NOT be used as hero images, in structured 
 - **real-008** Case de Isqueiro Caveira — foto-real (score: 1)
 - **real-009** Homer Pikachu Mashup Colecionável — foto-real (score: 1)
 - **real-010** Medalha Maçônica Personalizada — foto-real (score: 1)
+- **mdh-013** Suporte para Fone Headphone — render-fiel (score: 1)
+- **mdh-014** Organizador de Cabos — render-fiel (score: 1)
+- **mdh-015** Suporte para Celular — render-fiel (score: 1)
+- **mdh-016** Chaveiro Personalizado — foto-real (score: 1)
+- **mdh-017** Suporte para Controle PS5 — render-fiel (score: 1)
+- **mdh-019** Porta-Copos Geek — render-fiel (score: 1)
+- **mdh-022** Organizador de Canetas — render-fiel (score: 1)
+- **mdh-025** Vaso Geométrico — render-fiel (score: 1)
+- **mdh-026** Pokébola — render-fiel (score: 1)
+- **mdh-028** Luminária LED Personalizada — render-fiel (score: 1)
+- **mdh-029** Foto Litofania — render-fiel (score: 1)
+- **mdh-030** Quadro Decorativo — render-fiel (score: 1)
+- **mdh-038** Nome 3D Personalizado — render-fiel (score: 1)
 - **mdh-050** Organizador de Cabo USB — foto-real (score: 1)
 - **mdh-051** Gancho para Chaves — foto-real (score: 1)
 - **mdh-052** Suporte para Livros — foto-real (score: 1)
@@ -85,7 +98,7 @@ These are NOT product photos and must NOT be used as hero images, in structured 
 
 
 
-## Blocked Items (213)
+## Blocked Items (200)
 
 - **mdh-001** Hello Kitty Chibi Premium — All 4 images are placeholder text cards (uniform_size_text_card)
 - **mdh-002** Mascote Kawaii Desk Buddy — All 4 images are placeholder text cards (uniform_size_text_card)
@@ -99,23 +112,23 @@ These are NOT product photos and must NOT be used as hero images, in structured 
 - **mdh-010** Chainsaw Man Pochita — All 4 images are placeholder text cards (uniform_size_text_card)
 - **mdh-011** Minecraft Steve Figurine — All 4 images are placeholder text cards (uniform_size_text_card)
 - **mdh-012** Creeper Minecraft — All 4 images are placeholder text cards (uniform_size_text_card)
-- **mdh-013** Suporte para Fone Headphone — All 4 images are placeholder text cards (uniform_size_text_card)
-- **mdh-014** Organizador de Cabos — All 4 images are placeholder text cards (uniform_size_text_card)
-- **mdh-015** Suporte para Celular — All 4 images are placeholder text cards (uniform_size_text_card)
-- **mdh-016** Chaveiro Personalizado — All 4 images are placeholder text cards (uniform_size_text_card)
-- **mdh-017** Suporte para Controle PS5 — All 4 images are placeholder text cards (uniform_size_text_card)
 - **mdh-018** Suporte para Controle Xbox — All 4 images are placeholder text cards (uniform_size_text_card)
-- **mdh-019** Porta-Copos Geek — All 4 images are placeholder text cards (uniform_size_text_card)
 - **mdh-020** Imã de Geladeira — All 4 images are placeholder text cards (uniform_size_text_card)
 - **mdh-021** Suporte para Mouse — All 4 images are placeholder text cards (uniform_size_text_card)
-- **mdh-022** Organizador de Canetas — All 4 images are placeholder text cards (uniform_size_text_card)
 - **mdh-023** Suporte para Teclado — All 4 images are placeholder text cards (uniform_size_text_card)
 - **mdh-024** Gancho para Parede — All 4 images are placeholder text cards (uniform_size_text_card)
-- **mdh-025** Vaso Geométrico — All 4 images are placeholder text cards (uniform_size_text_card)
-- **mdh-026** Pokébola — All 4 images are placeholder text cards (uniform_size_text_card)
 - **mdh-027** Busto Colecionável Anime — All 4 images are placeholder text cards (uniform_size_text_card)
-- **mdh-028** Luminária LED Personalizada — All 4 images are placeholder text cards (uniform_size_text_card)
-- **mdh-029** Foto Litofania — All 4 images are placeholder text cards (uniform_size_text_card)
-- **mdh-030** Quadro Decorativo — All 4 images are placeholder text cards (uniform_size_text_card)
+- **mdh-031** Escultura Abstrata — All 4 images are placeholder text cards (uniform_size_text_card)
+- **mdh-032** Porta-Velhas — All 4 images are placeholder text cards (uniform_size_text_card)
+- **mdh-033** Relógio de Parede — All 4 images are placeholder text cards (uniform_size_text_card)
+- **mdh-034** Jarro Decorativo — All 4 images are placeholder text cards (uniform_size_text_card)
+- **mdh-035** Prateleira Suspensa — All 4 images are placeholder text cards (uniform_size_text_card)
+- **mdh-036** Espelho Decorativo — All 4 images are placeholder text cards (uniform_size_text_card)
+- **mdh-037** Chaveiro Nome Dupla Face — All 4 images are placeholder text cards (uniform_size_text_card)
+- **mdh-039** Caixa de Música — All 4 images are placeholder text cards (uniform_size_text_card)
+- **mdh-040** Porta-Retrato Personalizado — All 4 images are placeholder text cards (uniform_size_text_card)
+- **mdh-041** Aniversário 3D — All 4 images are placeholder text cards (uniform_size_text_card)
+- **mdh-042** Mensagem em 3D — All 4 images are placeholder text cards (uniform_size_text_card)
+- **mdh-043** Mini Troféu Personalizado — All 4 images are placeholder text cards (uniform_size_text_card)
 
-... and 183 more
+... and 170 more

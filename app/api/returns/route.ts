@@ -2,14 +2,15 @@ import { NextRequest, NextResponse } from "next/server";
 import { applyNoStoreHeaders } from "@/lib/http-cache";
 import { sendMail } from "@/lib/mailer";
 import { supportEmail } from "@/lib/constants";
-import { getClientIp, checkRateLimit, escapeHtml, isValidEmail } from "@/lib/security";
+import { getClientIp, escapeHtml, isValidEmail } from "@/lib/security";
+import { rateLimitRequest } from "@/lib/redis";
 import { logStructured } from "@/lib/logger";
 
 export const dynamic = "force-dynamic";
 
 export async function POST(req: NextRequest) {
   const ip = getClientIp(req.headers);
-  const rate = checkRateLimit(`returns:${ip}`, 5, 60 * 60 * 1000);
+  const rate = await rateLimitRequest(`returns:${ip}`, 5, 60 * 60 * 1000);
   if (!rate.ok) {
     return NextResponse.json({ ok: false, error: "Muitas solicitações. Tente novamente em instantes." }, { status: 429 });
   }

@@ -145,7 +145,7 @@ All text should be clearly visible on dark background.
 ```env
 EMAIL_PROVIDER=resend
 RESEND_API_KEY=re_xxxxxxxxxxxxxxxxxxxx
-EMAIL_FROM=orders@mdh-3d-store.com
+EMAIL_FROM=orders@mdh3d.com.br
 ```
 
 **Steps:**
@@ -159,7 +159,7 @@ EMAIL_FROM=orders@mdh-3d-store.com
 ```env
 EMAIL_PROVIDER=sendgrid
 SENDGRID_API_KEY=SG.xxxxxxxxxxxxxxxxxxxx
-EMAIL_FROM=orders@mdh-3d-store.com
+EMAIL_FROM=orders@mdh3d.com.br
 ```
 
 #### Alternative: Mailgun
@@ -167,8 +167,8 @@ EMAIL_FROM=orders@mdh-3d-store.com
 ```env
 EMAIL_PROVIDER=mailgun
 MAILGUN_API_KEY=key-xxxxxxxxxxxxxxxxxxxx
-MAILGUN_DOMAIN=mail.mdh-3d-store.com
-EMAIL_FROM=orders@mdh-3d-store.com
+MAILGUN_DOMAIN=mail.mdh3d.com.br
+EMAIL_FROM=orders@mdh3d.com.br
 ```
 
 ### 2. Password Recovery Flow
@@ -483,7 +483,7 @@ MERCADOPAGO_WEBHOOK_SECRET=whsec_xxxx
 # Email
 EMAIL_PROVIDER=resend
 RESEND_API_KEY=re_xxxx
-EMAIL_FROM=orders@mdh-3d-store.com
+EMAIL_FROM=orders@mdh3d.com.br
 
 # Monitoring
 SENTRY_DSN=https://xxxx@xxxx.ingest.sentry.io/xxxx
@@ -502,7 +502,7 @@ SUPABASE_SERVICE_ROLE_KEY=eyxx
 
 # Auth
 AUTH_SECRET=use-openssl-rand-hex-32
-NEXTAUTH_URL=https://mdh-3d-store.com
+NEXTAUTH_URL=https://mdh3d.com.br
 
 # Feature Flags
 NEXT_PUBLIC_ENABLE_CARD_CHECKOUT=true

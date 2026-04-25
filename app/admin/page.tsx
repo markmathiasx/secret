@@ -20,7 +20,7 @@ export default async function AdminHome() {
 
   return (
     <section className="mx-auto max-w-[1500px] px-6 py-14">
-      <AdminDashboard initialProducts={catalogSnapshot} commerceSnapshot={{ metrics: snapshot.metrics }} />
+      <AdminDashboard initialProducts={catalogSnapshot} commerceSnapshot={snapshot} />
     </section>
   );
 }

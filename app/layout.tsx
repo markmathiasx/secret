@@ -5,6 +5,7 @@ import { Manrope, Space_Grotesk } from 'next/font/google';
 import './globals.css';
 import { AccessibilityProvider, SkipLink } from '@/components/accessibility';
 import { CartDrawer } from '@/components/cart-drawer';
+import { CartRecoveryDock } from '@/components/cart-recovery-dock';
 import { CartSessionBridge } from '@/components/cart-session-bridge';
 import { ChatwootWidget } from '@/components/chatwoot-widget';
 import { CartProvider } from '@/lib/cart-context';
@@ -18,7 +19,9 @@ import { SiteFooter } from '@/components/site-footer';
 import { SiteHeader } from '@/components/site-header';
 import { ToastProvider } from '@/components/toast';
 import { LiveChatWidget } from '@/components/live-chat-widget';
+import { WebVitals } from '@/components/web-vitals';
 import { WhatsAppFloat } from '@/components/whatsapp-float';
+import { NetworkStatusBanner } from '@/components/network-status-banner';
 import { brand, socialLinks, supportEmail, whatsappNumber } from '@/lib/constants';
 import {
   getAiAssistantModel,
@@ -49,7 +52,7 @@ const googleVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION?.tri
 const gaMeasurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID?.trim();
 const organizationJsonLd = {
   '@context': 'https://schema.org',
-  '@type': 'Organization',
+  '@type': ['Organization', 'LocalBusiness', 'Store'],
   '@id': `${siteUrl}#organization`,
   name: brand.legalName,
   alternateName: brand.name,
@@ -64,7 +67,28 @@ const organizationJsonLd = {
     '@type': 'PostalAddress',
     addressLocality: brand.city,
     addressRegion: brand.state,
-    addressCountry: 'BR'
+    addressCountry: 'BR',
+    addressRegionCode: 'RJ',
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: '-22.9068',
+    longitude: '-43.1729',
+  },
+  openingHoursSpecification: [
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+      opens: '09:00',
+      closes: '18:00',
+    },
+  ],
+  priceRange: 'R$',
+  currenciesAccepted: 'BRL',
+  paymentAccepted: 'Pix, Cartão de Crédito, Boleto',
+  areaServed: {
+    '@type': 'State',
+    name: 'Rio de Janeiro',
   },
   contactPoint: [
     {
@@ -107,6 +131,7 @@ export const metadata: Metadata = {
   description:
     'Impressão 3D profissional no Rio de Janeiro com presentes personalizados, peças geek, utilidades, setup e projetos sob encomenda.',
   applicationName: 'MDH 3D',
+  manifest: '/manifest.json',
   alternates: { canonical: '/' },
   referrer: 'origin-when-cross-origin',
   robots: {
@@ -176,11 +201,20 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   themeColor: '#0d1824',
   colorScheme: 'dark',
+  viewportFit: 'cover',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="pt-BR" data-scroll-behavior="smooth" className={`${sans.variable} ${display.variable}`}>
+      <head>
+        {/* Critical resource hints — preconnect to third-party origins used above the fold */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://api.mercadopago.com" />
+        <link rel="dns-prefetch" href="https://sdk.mercadopago.com" />
+      </head>
       <body>
         {gaMeasurementId ? (
           <>
@@ -234,8 +268,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <LiveChatWidget defaultMode={liveChatMode} />
             <PwaRegister />
             <CartDrawer />
+            <CartRecoveryDock />
             <CookieConsent />
             <Suspense fallback={null}><FacebookPixel /></Suspense>
+            <WebVitals />
+            <NetworkStatusBanner />
             </ToastProvider>
           </CartProvider>
         </div>

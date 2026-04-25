@@ -114,13 +114,16 @@ async function saveInAppNotification(payload: NotificationPayload): Promise<void
  * Send push notification (Web Push API)
  */
 async function sendPushNotification(payload: NotificationPayload): Promise<void> {
-  // In production, use a push service like Firebase Cloud Messaging
-  // For now, this is a placeholder - would need a push subscription model
   try {
-    console.log(`Push notification queued for user ${payload.user_id}: ${payload.title}`);
-    // TODO: Implement push subscription storage and delivery
+    const { sendWebPushToUser } = await import("@/lib/web-push");
+    await sendWebPushToUser(payload.user_id, {
+      title: payload.title,
+      body: payload.message,
+      url: (payload.data?.url as string) ?? "/",
+      tag: payload.type,
+    });
   } catch (error) {
-    console.error('Push send error:', error);
+    console.error("Push send error:", error);
   }
 }
 

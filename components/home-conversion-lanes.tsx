@@ -2,7 +2,20 @@ import Link from "next/link";
 import { Boxes, Gift, Users } from "lucide-react";
 import { whatsappNumber } from "@/lib/constants";
 
-const lanes = [
+type ConversionLane = {
+  id: string;
+  title: string;
+  description: string;
+  proof: string;
+  budget: string;
+  href: string;
+  cta: string;
+  detail: string;
+  icon: typeof Gift;
+  external?: boolean;
+};
+
+const lanes: ConversionLane[] = [
   {
     id: "catalogo",
     title: "Comprar pelo catalogo",

@@ -22,7 +22,6 @@ import {
 } from "lucide-react";
 import { brand, socialLinks, whatsappNumber } from "@/lib/constants";
 import { emitCustomerAuthChange, useCustomerSession } from "@/lib/customer-session-client";
-import { cartChangeEvent, getLocalCartCount, readLocalCart } from "@/lib/cart-store";
 import { useCart } from "@/lib/cart-context";
 import { CommerceAssistantDialog } from "@/components/commerce-assistant-dialog";
 import { HeaderCommandPalette } from "@/components/header-command-palette";
@@ -65,11 +64,10 @@ export function SiteHeader({
 }) {
   const pathname = usePathname();
   const session = useCustomerSession();
-  const { openDrawer } = useCart();
+  const { count: cartCount, openDrawer } = useCart();
   const [assistantOpen, setAssistantOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [cartCount, setCartCount] = useState(0);
-  const [cartHref, setCartHref] = useState("/checkout");
+  const cartHref = "/carrinho";
 
   const userLabel = session.user?.displayName || session.user?.email?.split("@")[0] || "Minha conta";
   const nav = useMemo(
@@ -85,27 +83,6 @@ export function SiteHeader({
     setMobileOpen(false);
   }, [pathname]);
 
-  useEffect(() => {
-    function refreshCartCount() {
-      const items = readLocalCart();
-      setCartCount(getLocalCartCount());
-      if (items[0]) {
-        setCartHref(`/checkout?product=${encodeURIComponent(items[0].productId)}&qty=${items[0].quantity}`);
-        return;
-      }
-      setCartHref("/checkout");
-    }
-
-    refreshCartCount();
-    window.addEventListener(cartChangeEvent, refreshCartCount);
-    window.addEventListener("storage", refreshCartCount);
-
-    return () => {
-      window.removeEventListener(cartChangeEvent, refreshCartCount);
-      window.removeEventListener("storage", refreshCartCount);
-    };
-  }, []);
-
   async function signOut() {
     await Promise.allSettled([
       authSignOut({ redirect: false, callbackUrl: "/" }),
@@ -119,18 +96,19 @@ export function SiteHeader({
     <>
       <header className="sticky top-0 z-50 border-b border-white/10 bg-[linear-gradient(180deg,rgba(9,17,25,0.84),rgba(9,17,25,0.78))] shadow-[0_18px_54px_rgba(2,8,23,0.16)] backdrop-blur-2xl">
         <div className="border-b border-white/10 bg-[linear-gradient(90deg,rgba(3,233,244,0.14),rgba(123,44,191,0.1),rgba(37,211,102,0.12))]">
-          <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-2 text-[11px] uppercase tracking-[0.22em] text-white/72 sm:px-6">
-            <span>MDH 3D • Produção local no Rio</span>
-            <span className="hidden md:inline">
+          <div className="mx-auto flex max-w-7xl items-center justify-between gap-2 overflow-x-hidden px-4 py-2 text-[11px] uppercase tracking-[0.22em] text-white/72 sm:px-6">
+            <span className="shrink-0">MDH 3D • Rio de Janeiro</span>
+            <span className="hidden md:inline shrink-0">
               {cardCheckoutReady
                 ? "Pix imediato • cartão online • atendimento humano"
                 : "Pix imediato • orçamento claro • atendimento humano"}
             </span>
-            <span className="rounded-full border border-emerald-300/25 bg-emerald-300/10 px-3 py-1 text-[10px] font-semibold text-emerald-100">
-              Producao local e acabamento sob medida
+            <span className="hidden sm:inline rounded-full border border-emerald-300/25 bg-emerald-300/10 px-3 py-1 text-[10px] font-semibold text-emerald-100 shrink-0">
+              Produção local e acabamento sob medida
             </span>
-            <a href={socialLinks.instagram} target="_blank" rel="noreferrer" className="text-cyan-100 transition hover:text-cyan-glow">
-              @{brand.instagramHandle}
+            <a href={socialLinks.instagram} target="_blank" rel="noreferrer" className="shrink-0 text-cyan-100 transition hover:text-cyan-glow flex items-center gap-1">
+              <Instagram className="h-3 w-3 sm:hidden" />
+              <span className="hidden sm:inline">@{brand.instagramHandle}</span>
             </a>
           </div>
         </div>
@@ -164,7 +142,8 @@ export function SiteHeader({
               type="search"
               name="q"
               placeholder="Busque por presente, miniatura, suporte, chaveiro, decoração..."
-              className="ml-3 w-full bg-transparent text-sm text-white outline-none placeholder:text-white/35"
+              className="ml-3 w-full bg-transparent text-white outline-none placeholder:text-white/35"
+              style={{ fontSize: '16px' }}
             />
             <button type="submit" className="btn-secondary ml-3 px-4 py-2 text-sm">
               Buscar
@@ -268,7 +247,8 @@ export function SiteHeader({
                   type="search"
                   name="q"
                   placeholder="Buscar no catálogo"
-                  className="ml-3 w-full bg-transparent text-sm text-white outline-none placeholder:text-white/35"
+                  className="ml-3 w-full bg-transparent text-white outline-none placeholder:text-white/35"
+                  style={{ fontSize: '16px' }}
                 />
                 <button type="submit" className="btn-secondary ml-3 px-4 py-2 text-sm">
                   Ir

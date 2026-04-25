@@ -103,7 +103,7 @@
       "time": "15s"
     }
   ],
-  "url-final": "https://mdh-3d-store.vercel.app",
+  "url-final": "https://mdh3d.com.br",
   "errors-found": [
     "Home page had 7 duplicate/repetitive sections",
     "Mobile tap targets below WCAG 2.2 minimum (36px vs 48px required)",

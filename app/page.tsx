@@ -16,6 +16,7 @@ import { HomeCategoriesShowcase } from "@/components/home-categories-showcase";
 import { HomeResumePanel } from "@/components/home-resume-panel";
 import { CatalogBuyingIntents } from "@/components/catalog-buying-intents";
 import { getSiteUrl } from "@/lib/env";
+import { StorefrontSalesShelves } from "@/components/storefront-sales-shelves";
 
 export const revalidate = 300;
 
@@ -80,10 +81,23 @@ export default async function HomePage() {
       },
     ],
   };
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: homeFaq.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer,
+      },
+    })),
+  };
 
   return (
     <main>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
       <Hero
         catalogCount={catalogCount}
         realPhotoCount={visualSummary.fotoReal}
@@ -93,6 +107,8 @@ export default async function HomePage() {
       />
 
       <HomeConversionLanes />
+
+      <StorefrontSalesShelves />
 
       <section className="mx-auto max-w-7xl px-6 py-6">
         <div className="grid gap-4 xl:grid-cols-[1.05fr_0.95fr]">

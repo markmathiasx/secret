@@ -6,7 +6,8 @@ import { findProduct } from "@/lib/catalog";
 import { canConnectToDatabase, prisma } from "@/lib/prisma";
 import { createMercadoPagoPayment } from "@/lib/payments";
 import { createStableExternalReference, mapMercadoPagoPaymentStatus, normalizeMpPaymentFormData } from "@/lib/mercadopago";
-import { getClientIp, checkRateLimit } from "@/lib/security";
+import { getClientIp } from "@/lib/security";
+import { rateLimitRequest } from "@/lib/redis";
 import { createOrderAccessToken, orderAccessCookieName, orderAccessMaxAgeSeconds } from "@/lib/order-access";
 import { getServerSessionUser } from "@/lib/server-session";
 import { buildShippingQuote } from "@/lib/shipping";
@@ -246,7 +247,7 @@ async function maybePersistAddress(input: {
 export async function POST(request: Request) {
   const user = await getServerSessionUser();
   const ip = getClientIp(request.headers);
-  const rateLimit = checkRateLimit(`order:${ip}`, 8, 60_000);
+  const rateLimit = await rateLimitRequest(`order:${ip}`, 8, 60_000);
 
   if (!rateLimit.ok) {
     return NextResponse.json({ ok: false, message: "Muitas tentativas. Tente novamente em instantes." }, { status: 429 });

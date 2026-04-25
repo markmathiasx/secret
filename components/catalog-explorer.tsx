@@ -27,6 +27,7 @@ import { isProductRealPhoto, isProductVisualVerified } from '@/lib/product-visua
 import { formatCurrency } from '@/lib/utils';
 import {
   trackBackToCatalogRestored,
+  trackAddToCart,
   trackCatalogPageChange,
   trackFilterApplied,
   trackSelectItem,
@@ -868,6 +869,26 @@ export function CatalogExplorer({
           </div>
         </div>
 
+        <div className="mt-4 grid gap-4 rounded-[24px] border border-emerald-300/18 bg-[linear-gradient(135deg,rgba(16,185,129,0.12),rgba(34,211,238,0.08))] p-4 lg:grid-cols-[1fr_auto] lg:items-center">
+          <div>
+            <p className="text-xs uppercase tracking-[0.18em] text-emerald-100/78">Fechamento rápido</p>
+            <p className="mt-2 text-sm leading-7 text-white/72">
+              Este recorte tem {readyCount} item(ns) de pronta entrega, {realPhotoCount} com foto real e menor prazo base de {fastestLeadTime ? `${fastestLeadTime} dia(s)` : "consulta"}.
+              Salve a seleção, mande no WhatsApp ou avance para o carrinho sem cadastro.
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-2 lg:justify-end">
+            <a href={selectionWhatsAppUrl} target="_blank" rel="noreferrer" className="btn-whatsapp justify-center gap-2">
+              <MessageCircleMore className="h-4 w-4" />
+              Mandar seleção
+            </a>
+            <Link href="/carrinho" className="btn-primary justify-center gap-2">
+              <ShoppingCart className="h-4 w-4" />
+              Fechar carrinho
+            </Link>
+          </div>
+        </div>
+
         <div className="mt-4 flex flex-wrap gap-2">
           {quickPresets.map((preset) => (
             <button
@@ -1461,6 +1482,7 @@ export function CatalogExplorer({
                           priceCard: product.priceCard,
                           image: product.images?.[0] || product.image,
                         });
+                        trackAddToCart(product, 1);
                       }}
                       className="btn-primary px-4 py-2 text-center text-xs font-semibold"
                     >

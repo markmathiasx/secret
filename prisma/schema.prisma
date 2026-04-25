@@ -187,6 +187,12 @@ model User {
   recommendations   ProductRecommendation[] @relation("recommendations")
   passwordResetRequests PasswordResetRequest[] @relation("PasswordResetRequestUser")
   adminActionLogs   AdminActionLog[] @relation("AdminActionLogActor")
+  pushSubscriptions PushSubscription[]
+  loyaltyPoints     LoyaltyPoint[]
+  referralsGiven    Referral[]       @relation("referrerReferrals")
+  referralsReceived Referral[]       @relation("refereeReferrals")
+  productQuestions  ProductQuestion[]
+  passwordResetOTPs PasswordResetOTP[]
 }
 
 model Account {
@@ -433,6 +439,8 @@ model Product {
   quoteEstimates       QuoteEstimate[]
   analyticsEvents      AnalyticsEvent[] @relation("productAnalytics")
   seoMetadata          SEOMetadata? @relation("seoMetadata")
+  productQuestions     ProductQuestion[]
+  flashSales           FlashSale[]
 
   @@index([categoryId])
   @@index([sellerId])
@@ -770,7 +778,12 @@ model ChatThread {
   orderId       String?
   productId     String?
   type          ChatThreadType @default(SUPPORT)
+  channel       String         @default("site")
+  status        String         @default("open")
   subject       String?
+  tags          String[]       @default([])
+  notes         String?
+  unread        Boolean        @default(true)
   lastMessageAt DateTime?
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
@@ -782,6 +795,9 @@ model ChatThread {
 
   @@index([buyerId, sellerId])
   @@index([orderId])
+  @@index([channel])
+  @@index([status, lastMessageAt])
+  @@index([unread, channel])
 }
 
 model ChatMessage {
@@ -993,4 +1009,119 @@ model QuoteRequest {
   buyer              User?    @relation(fields: [buyerId], references: [id], onDelete: SetNull)
 
   @@index([buyerId, createdAt])
+}
+
+model PushSubscription {
+  id        String   @id @default(cuid())
+  userId    String
+  endpoint  String   @unique
+  p256dh    String
+  auth      String
+  userAgent String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model AbTestAssignment {
+  id        String   @id @default(cuid())
+  testId    String
+  variant   String
+  sessionId String
+  userId    String?
+  converted Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([testId, variant])
+  @@index([sessionId])
+  @@unique([testId, sessionId])
+}
+
+model NpsSurvey {
+  id          String   @id @default(cuid())
+  userId      String?
+  orderId     String?
+  score       Int
+  comment     String?
+  source      String   @default("post_purchase")
+  createdAt   DateTime @default(now())
+
+  @@index([createdAt])
+}
+
+model ProductQuestion {
+  id          String    @id @default(cuid())
+  productId   String
+  userId      String?
+  guestName   String?
+  question    String
+  answer      String?
+  answeredAt  DateTime?
+  approved    Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  product     Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
+  user        User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([productId, approved])
+}
+
+model LoyaltyPoint {
+  id          String   @id @default(cuid())
+  userId      String
+  orderId     String?
+  points      Int
+  type        String   // 'earn' | 'redeem' | 'expire' | 'bonus'
+  description String
+  expiresAt   DateTime?
+  createdAt   DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+}
+
+model Referral {
+  id           String    @id @default(cuid())
+  referrerId   String
+  refereeId    String?
+  code         String    @unique
+  rewardPoints Int       @default(0)
+  usedAt       DateTime?
+  createdAt    DateTime  @default(now())
+  referrer     User      @relation("referrerReferrals", fields: [referrerId], references: [id], onDelete: Cascade)
+  referee      User?     @relation("refereeReferrals", fields: [refereeId], references: [id], onDelete: SetNull)
+
+  @@index([referrerId])
+}
+
+model FlashSale {
+  id          String   @id @default(cuid())
+  productId   String
+  discountPct Int
+  startsAt    DateTime
+  endsAt      DateTime
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  product     Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([productId, active])
+  @@index([endsAt])
+}
+
+model PasswordResetOTP {
+  id        String   @id @default(cuid())
+  userId    String?
+  phone     String
+  codeHash  String
+  expiresAt DateTime
+  used      Boolean  @default(false)
+  attempts  Int      @default(0)
+  createdAt DateTime @default(now())
+  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([phone, used])
+  @@index([expiresAt])
 }

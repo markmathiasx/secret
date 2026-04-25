@@ -1,15 +1,20 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { startTransition, useMemo, useState } from "react";
 import {
+  ArrowRight,
   Boxes,
   ImageUp,
   LoaderCircle,
+  MessageCircleMore,
   PackageCheck,
+  ReceiptText,
   Search,
   ShieldCheck,
   Sparkles,
+  TrendingUp,
   Warehouse,
 } from "lucide-react";
 import type { AdminCatalogProduct } from "@/lib/server/admin-catalog-store";
@@ -25,6 +30,30 @@ type AdminDashboardProps = {
       totalRevenuePix: number;
       totalRevenueCard: number;
     };
+    recentOrders?: Array<{
+      id: string;
+      order_code: string;
+      product_name: string;
+      customer_name: string;
+      email: string;
+      payment_method: string;
+      payment_status: string | null;
+      total_pix: number | null;
+      total_card: number | null;
+      status: string;
+      created_at: string;
+    }>;
+    recentQuoteRequests?: Array<{
+      id: string;
+      quote_id: string | null;
+      request_type: string | null;
+      customer_name: string | null;
+      phone: string | null;
+      email: string | null;
+      source: string | null;
+      status: string | null;
+      created_at: string;
+    }>;
   };
 };
 
@@ -40,6 +69,21 @@ function stageLabel(stage: AdminCatalogProduct["productionStage"]) {
   if (stage === "imprimindo") return "Imprimindo";
   if (stage === "pronto") return "Pronto";
   return "Recebido";
+}
+
+function formatDateTime(value: string) {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "--";
+  return date.toLocaleString("pt-BR", {
+    day: "2-digit",
+    month: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
+
+function normalizeOrderValue(order: NonNullable<AdminDashboardProps["commerceSnapshot"]["recentOrders"]>[number]) {
+  return Number(order.total_pix || order.total_card || 0);
 }
 
 export function AdminDashboard({ initialProducts, commerceSnapshot }: AdminDashboardProps) {
@@ -93,6 +137,16 @@ export function AdminDashboard({ initialProducts, commerceSnapshot }: AdminDashb
     ],
     [products]
   );
+  const recentOrders = commerceSnapshot.recentOrders || [];
+  const recentQuoteRequests = commerceSnapshot.recentQuoteRequests || [];
+  const totalObservedRevenue = commerceSnapshot.metrics.totalRevenuePix + commerceSnapshot.metrics.totalRevenueCard;
+  const pendingOrders = recentOrders.filter((order) => {
+    const status = `${order.status} ${order.payment_status || ""}`.toLowerCase();
+    return !/(paid|delivered|shipped|canceled|refunded)/.test(status);
+  }).length;
+  const averageObservedTicket = recentOrders.length
+    ? recentOrders.reduce((sum, order) => sum + normalizeOrderValue(order), 0) / recentOrders.length
+    : 0;
 
   function updateRow(productId: string, patch: Partial<AdminCatalogProduct>) {
     setProducts((current) =>
@@ -229,6 +283,145 @@ export function AdminDashboard({ initialProducts, commerceSnapshot }: AdminDashb
               </article>
             );
           })}
+        </div>
+      </section>
+
+      <section className="grid gap-6 xl:grid-cols-[1.08fr_0.92fr]">
+        <div className="rounded-[30px] border border-white/10 bg-black/20 p-6">
+          <div className="flex flex-wrap items-start justify-between gap-4">
+            <div>
+              <div className="flex items-center gap-2 text-emerald-100">
+                <TrendingUp className="h-5 w-5" />
+                <p className="text-xs uppercase tracking-[0.18em]">Vendas e dinheiro</p>
+              </div>
+              <h2 className="mt-2 text-2xl font-black text-white">Pedidos recentes, valores e próximos fechamentos</h2>
+              <p className="mt-2 text-sm leading-7 text-white/60">
+                Use este bloco como cockpit diário: confirmar pagamento, abrir pedido, responder cliente e puxar carrinho pendente para fechamento.
+              </p>
+            </div>
+            <Link href="/admin/orders" className="btn-secondary gap-2">
+              Ver todos
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+
+          <div className="mt-5 grid gap-3 md:grid-cols-4">
+            {[
+              { label: "Receita observada", value: formatCurrency(totalObservedRevenue), tone: "text-emerald-100" },
+              { label: "Ticket médio", value: formatCurrency(averageObservedTicket), tone: "text-white" },
+              { label: "Pedidos recentes", value: recentOrders.length, tone: "text-cyan-100" },
+              { label: "Pendentes", value: pendingOrders, tone: "text-amber-100" },
+            ].map((item) => (
+              <div key={item.label} className="rounded-[20px] border border-white/10 bg-white/5 p-4">
+                <p className="text-[11px] uppercase tracking-[0.16em] text-white/45">{item.label}</p>
+                <p className={`mt-2 text-2xl font-black ${item.tone}`}>{item.value}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-5 overflow-hidden rounded-[24px] border border-white/10">
+            <div className="grid grid-cols-[1fr_0.55fr_0.5fr_0.42fr] gap-3 border-b border-white/10 bg-white/5 px-4 py-3 text-[11px] font-semibold uppercase tracking-[0.16em] text-white/45">
+              <span>Pedido</span>
+              <span>Cliente</span>
+              <span className="text-right">Valor</span>
+              <span className="text-right">Ação</span>
+            </div>
+            {recentOrders.slice(0, 6).map((order) => (
+              <div key={order.id} className="grid grid-cols-[1fr_0.55fr_0.5fr_auto] gap-3 border-b border-white/10 px-4 py-4 text-sm last:border-b-0">
+                <div className="min-w-0">
+                  <p className="font-mono font-semibold text-white">{order.order_code}</p>
+                  <p className="mt-1 truncate text-xs text-white/55">{order.product_name}</p>
+                  <p className="mt-1 text-xs text-white/38">{formatDateTime(order.created_at)}</p>
+                </div>
+                <div className="min-w-0">
+                  <p className="truncate font-semibold text-white/84">{order.customer_name}</p>
+                  <p className="mt-1 truncate text-xs text-white/45">{order.email || "sem e-mail"}</p>
+                </div>
+                <div className="text-right">
+                  <p className="font-black text-emerald-100">{formatCurrency(normalizeOrderValue(order))}</p>
+                  <p className="mt-1 text-xs text-white/45">{order.payment_method} • {order.payment_status || order.status}</p>
+                </div>
+                <div className="flex flex-col items-end gap-2">
+                  <Link href={`/admin/orders/${order.id}`} className="btn-glass inline-flex px-3 py-2 text-xs">
+                    Abrir
+                  </Link>
+                  <a
+                    href={`https://wa.me/?text=${encodeURIComponent(`Olá ${order.customer_name || ""}! Sobre seu pedido #${order.order_code} na MDH 3D — `)}`}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    title="Responder via WhatsApp"
+                    className="inline-flex items-center gap-1 rounded-xl border border-emerald-400/30 bg-emerald-400/10 px-3 py-1.5 text-xs font-semibold text-emerald-300 transition hover:border-emerald-400/50 hover:bg-emerald-400/20"
+                  >
+                    <MessageCircleMore className="h-3.5 w-3.5" />
+                    WA
+                  </a>
+                </div>
+              </div>
+            ))}
+            {!recentOrders.length ? (
+              <div className="px-4 py-8 text-center text-sm text-white/45">
+                Nenhum pedido recente encontrado neste ambiente.
+              </div>
+            ) : null}
+          </div>
+        </div>
+
+        <div className="rounded-[30px] border border-white/10 bg-black/20 p-6">
+          <div className="flex flex-wrap items-start justify-between gap-4">
+            <div>
+              <div className="flex items-center gap-2 text-cyan-100">
+                <MessageCircleMore className="h-5 w-5" />
+                <p className="text-xs uppercase tracking-[0.18em]">Atendimento que vira pedido</p>
+              </div>
+              <h2 className="mt-2 text-2xl font-black text-white">Clientes para responder agora</h2>
+              <p className="mt-2 text-sm leading-7 text-white/60">
+                Cotações e mensagens entram no mesmo fluxo do inbox. Responder rápido reduz abandono.
+              </p>
+            </div>
+            <Link href="/admin/inbox" className="btn-secondary gap-2">
+              Abrir inbox
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+
+          <div className="mt-5 grid gap-3">
+            {recentQuoteRequests.slice(0, 6).map((request) => (
+              <article key={request.id} className="rounded-[22px] border border-white/10 bg-white/5 p-4">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <p className="truncate text-sm font-semibold text-white">
+                      {request.customer_name || request.email || request.phone || "Lead sem nome"}
+                    </p>
+                    <p className="mt-1 text-xs uppercase tracking-[0.16em] text-cyan-100/70">
+                      {request.request_type || "pedido comercial"} • {request.status || "recebido"}
+                    </p>
+                    <p className="mt-2 text-xs text-white/45">{formatDateTime(request.created_at)}</p>
+                  </div>
+                  <ReceiptText className="h-5 w-5 shrink-0 text-white/35" />
+                </div>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  <Link href={`/admin/inbox`} className="rounded-full border border-cyan-300/20 bg-cyan-300/10 px-3 py-1.5 text-xs font-semibold text-cyan-100">
+                    Responder
+                  </Link>
+                  {request.phone ? (
+                    <a
+                      href={`https://wa.me/${request.phone.replace(/\D/g, "")}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="rounded-full border border-emerald-300/20 bg-emerald-300/10 px-3 py-1.5 text-xs font-semibold text-emerald-100"
+                    >
+                      WhatsApp
+                    </a>
+                  ) : null}
+                </div>
+              </article>
+            ))}
+            {!recentQuoteRequests.length ? (
+              <div className="rounded-[22px] border border-dashed border-white/10 bg-white/5 p-6 text-sm text-white/45">
+                Nenhuma cotação recente. Use o catálogo, WhatsApp e páginas de lote para puxar leads novos.
+              </div>
+            ) : null}
+          </div>
         </div>
       </section>
 

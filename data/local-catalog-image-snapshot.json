@@ -453,11 +453,11 @@
     "material": "PLA Premium",
     "category": "Setup & Organização",
     "collection": "Mais vendidos",
-    "visualKind": "imagem-conceitual",
-    "semanticStatus": "BLOCKED",
-    "mediaStatus": "placeholder",
-    "semanticScore": 0,
-    "isPlaceholderSet": true
+    "visualKind": "render-fiel",
+    "semanticStatus": "APPROVED",
+    "mediaStatus": "render-verified",
+    "semanticScore": 1,
+    "isPlaceholderSet": false
   },
   {
     "id": "mdh-014",
@@ -473,11 +473,11 @@
     "material": "PLA Premium",
     "category": "Setup & Organização",
     "collection": "Pronta entrega",
-    "visualKind": "imagem-conceitual",
-    "semanticStatus": "BLOCKED",
-    "mediaStatus": "placeholder",
-    "semanticScore": 0,
-    "isPlaceholderSet": true
+    "visualKind": "render-fiel",
+    "semanticStatus": "APPROVED",
+    "mediaStatus": "render-verified",
+    "semanticScore": 1,
+    "isPlaceholderSet": false
   },
   {
     "id": "mdh-015",
@@ -493,11 +493,11 @@
     "material": "PLA Premium",
     "category": "Setup & Organização",
     "collection": "Pronta entrega",
-    "visualKind": "imagem-conceitual",
-    "semanticStatus": "BLOCKED",
-    "mediaStatus": "placeholder",
-    "semanticScore": 0,
-    "isPlaceholderSet": true
+    "visualKind": "render-fiel",
+    "semanticStatus": "APPROVED",
+    "mediaStatus": "render-verified",
+    "semanticScore": 1,
+    "isPlaceholderSet": false
   },
   {
     "id": "mdh-016",
@@ -514,10 +514,10 @@
     "category": "Setup & Organização",
     "collection": "Mais vendidos",
     "visualKind": "foto-real",
-    "semanticStatus": "BLOCKED",
-    "mediaStatus": "placeholder",
-    "semanticScore": 0,
-    "isPlaceholderSet": true
+    "semanticStatus": "APPROVED",
+    "mediaStatus": "verified",
+    "semanticScore": 1,
+    "isPlaceholderSet": false
   },
   {
     "id": "mdh-017",
@@ -533,11 +533,11 @@
     "material": "PLA Premium",
     "category": "Setup & Organização",
     "collection": "Mais vendidos",
-    "visualKind": "imagem-conceitual",
-    "semanticStatus": "BLOCKED",
-    "mediaStatus": "placeholder",
-    "semanticScore": 0,
-    "isPlaceholderSet": true
+    "visualKind": "render-fiel",
+    "semanticStatus": "APPROVED",
+    "mediaStatus": "render-verified",
+    "semanticScore": 1,
+    "isPlaceholderSet": false
   },
   {
     "id": "mdh-018",
@@ -573,11 +573,11 @@
     "material": "PLA Premium",
     "category": "Setup & Organização",
     "collection": "Pronta entrega",
-    "visualKind": "imagem-conceitual",
-    "semanticStatus": "BLOCKED",
-    "mediaStatus": "placeholder",
-    "semanticScore": 0,
-    "isPlaceholderSet": true
+    "visualKind": "render-fiel",
+    "semanticStatus": "APPROVED",
+    "mediaStatus": "render-verified",
+    "semanticScore": 1,
+    "isPlaceholderSet": false
   },
   {
     "id": "mdh-020",
@@ -633,11 +633,11 @@
     "material": "PLA Premium",
     "category": "Setup & Organização",
     "collection": "Pronta entrega",
-    "visualKind": "imagem-conceitual",
-    "semanticStatus": "BLOCKED",
-    "mediaStatus": "placeholder",
-    "semanticScore": 0,
-    "isPlaceholderSet": true
+    "visualKind": "render-fiel",
+    "semanticStatus": "APPROVED",
+    "mediaStatus": "render-verified",
+    "semanticScore": 1,
+    "isPlaceholderSet": false
   },
   {
     "id": "mdh-023",
@@ -693,11 +693,11 @@
     "material": "PLA Premium",
     "category": "Casa & Decoração",
     "collection": "Mais vendidos",
-    "visualKind": "imagem-conceitual",
-    "semanticStatus": "BLOCKED",
-    "mediaStatus": "placeholder",
-    "semanticScore": 0,
-    "isPlaceholderSet": true
+    "visualKind": "render-fiel",
+    "semanticStatus": "APPROVED",
+    "mediaStatus": "render-verified",
+    "semanticScore": 1,
+    "isPlaceholderSet": false
   },
   {
     "id": "mdh-026",
@@ -713,11 +713,11 @@
     "material": "PLA Premium",
     "category": "Casa & Decoração",
     "collection": "Pronta entrega",
-    "visualKind": "imagem-conceitual",
-    "semanticStatus": "BLOCKED",
-    "mediaStatus": "placeholder",
-    "semanticScore": 0,
-    "isPlaceholderSet": true
+    "visualKind": "render-fiel",
+    "semanticStatus": "APPROVED",
+    "mediaStatus": "render-verified",
+    "semanticScore": 1,
+    "isPlaceholderSet": false
   },
   {
     "id": "mdh-027",
@@ -753,11 +753,11 @@
     "material": "PLA Premium",
     "category": "Casa & Decoração",
     "collection": "Sob encomenda",
-    "visualKind": "imagem-conceitual",
-    "semanticStatus": "BLOCKED",
-    "mediaStatus": "placeholder",
-    "semanticScore": 0,
-    "isPlaceholderSet": true
+    "visualKind": "render-fiel",
+    "semanticStatus": "APPROVED",
+    "mediaStatus": "render-verified",
+    "semanticScore": 1,
+    "isPlaceholderSet": false
   },
   {
     "id": "mdh-029",
@@ -773,11 +773,11 @@
     "material": "PLA Premium",
     "category": "Casa & Decoração",
     "collection": "Sob encomenda",
-    "visualKind": "imagem-conceitual",
-    "semanticStatus": "BLOCKED",
-    "mediaStatus": "placeholder",
-    "semanticScore": 0,
-    "isPlaceholderSet": true
+    "visualKind": "render-fiel",
+    "semanticStatus": "APPROVED",
+    "mediaStatus": "render-verified",
+    "semanticScore": 1,
+    "isPlaceholderSet": false
   },
   {
     "id": "mdh-030",
@@ -793,11 +793,11 @@
     "material": "PLA Premium",
     "category": "Casa & Decoração",
     "collection": "Pronta entrega",
-    "visualKind": "imagem-conceitual",
-    "semanticStatus": "BLOCKED",
-    "mediaStatus": "placeholder",
-    "semanticScore": 0,
-    "isPlaceholderSet": true
+    "visualKind": "render-fiel",
+    "semanticStatus": "APPROVED",
+    "mediaStatus": "render-verified",
+    "semanticScore": 1,
+    "isPlaceholderSet": false
   },
   {
     "id": "mdh-031",
@@ -953,11 +953,11 @@
     "material": "PLA Premium",
     "category": "Presentes Criativos",
     "collection": "Mais vendidos",
-    "visualKind": "imagem-conceitual",
-    "semanticStatus": "BLOCKED",
-    "mediaStatus": "placeholder",
-    "semanticScore": 0,
-    "isPlaceholderSet": true
+    "visualKind": "render-fiel",
+    "semanticStatus": "APPROVED",
+    "mediaStatus": "render-verified",
+    "semanticScore": 1,
+    "isPlaceholderSet": false
   },
   {
     "id": "mdh-039",

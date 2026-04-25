@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { Check, Copy, Minus, Plus, Share2, ShoppingCart, Sparkles, Wallet } from "lucide-react";
+import { Check, Copy, MessageCircleMore, Minus, Plus, Share2, ShoppingCart, Sparkles, TimerReset, Wallet } from "lucide-react";
 import { useCustomerSession } from "@/lib/customer-session-client";
 import { addLocalCartItem } from "@/lib/cart-store";
 import { trackAddToCart, trackBeginCheckout, trackWhatsAppClick } from "@/lib/analytics";
@@ -43,13 +43,15 @@ export function ProductPurchaseTools({
   const [copied, setCopied] = useState<"idle" | "sku" | "link">("idle");
   const [cartMessage, setCartMessage] = useState("");
   const [memoryReady, setMemoryReady] = useState(false);
+  const [cutoffClock, setCutoffClock] = useState("00:00:00");
+  const [cutoffLabel, setCutoffLabel] = useState("Próxima triagem");
   const session = useCustomerSession();
   const totalPix = useMemo(() => pricePix * quantity, [pricePix, quantity]);
   const totalCard = useMemo(() => priceCard * quantity, [priceCard, quantity]);
   const quickQuantities = [1, 2, 5, 10];
   const checkoutHref = useMemo(
-    () => `/checkout?product=${productId}&qty=${quantity}&purpose=${encodeURIComponent(goal)}`,
-    [goal, productId, quantity]
+    () => "/checkout",
+    []
   );
   const contextualWhatsappHref = useMemo(() => {
     try {
@@ -93,6 +95,26 @@ export function ProductPurchaseTools({
       JSON.stringify({ quantity, goal })
     );
   }, [goal, memoryReady, productId, quantity]);
+
+  useEffect(() => {
+    const updateCutoff = () => {
+      const now = new Date();
+      const cutoff = new Date(now);
+      cutoff.setHours(18, 0, 0, 0);
+      if (now > cutoff) cutoff.setDate(cutoff.getDate() + 1);
+
+      const diff = Math.max(0, cutoff.getTime() - now.getTime());
+      const hours = Math.floor(diff / 3_600_000);
+      const minutes = Math.floor((diff % 3_600_000) / 60_000);
+      const seconds = Math.floor((diff % 60_000) / 1000);
+      setCutoffClock(`${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`);
+      setCutoffLabel(cutoff.getDate() === now.getDate() ? "Triagem de hoje" : "Próxima triagem");
+    };
+
+    updateCutoff();
+    const timer = window.setInterval(updateCutoff, 1000);
+    return () => window.clearInterval(timer);
+  }, []);
 
   async function copySku() {
     try {
@@ -161,11 +183,33 @@ export function ProductPurchaseTools({
   }
 
   return (
-    <div className="rounded-[24px] border border-cyan-300/20 bg-cyan-300/8 p-5">
+    <div id="pdp-purchase-tools" className="rounded-[24px] border border-cyan-300/20 bg-cyan-300/8 p-5">
+      <div className="mb-5 rounded-[22px] border border-rose-300/20 bg-rose-300/10 p-4">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-start gap-3">
+            <span className="rounded-full border border-rose-300/20 bg-rose-300/10 p-2 text-rose-100">
+              <TimerReset className="h-4 w-4" />
+            </span>
+            <div>
+              <p className="text-sm font-black text-white">Fechamento rápido deste item</p>
+              <p className="mt-1 text-xs leading-6 text-white/70">
+                {readyToShip
+                  ? "Item marcado como pronto para venda. Feche agora para entrar na próxima separação."
+                  : "Pedido sob encomenda. Feche agora para entrar na próxima triagem de produção."}
+              </p>
+            </div>
+          </div>
+          <div className="rounded-[18px] border border-white/10 bg-black/25 px-4 py-3 text-right">
+            <p className="text-[11px] uppercase tracking-[0.16em] text-white/45">{cutoffLabel}</p>
+            <p className="mt-1 font-mono text-lg font-black text-rose-50">{cutoffClock}</p>
+          </div>
+        </div>
+      </div>
+
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <p className="text-xs uppercase tracking-[0.18em] text-cyan-100/75">Ferramenta de compra</p>
-          <h3 className="mt-2 text-xl font-black text-white">Simule a quantidade antes de fechar.</h3>
+          <p className="text-xs uppercase tracking-[0.18em] text-cyan-100/75">Compra direta</p>
+          <h3 className="mt-2 text-xl font-black text-white">Escolha quantidade e feche sem cadastro.</h3>
         </div>
         <div className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-white/65">
           SKU {sku}
@@ -277,14 +321,15 @@ export function ProductPurchaseTools({
       <div className="mt-5 grid gap-3 sm:grid-cols-2">
         <button type="button" onClick={() => void addToCart(true)} className="btn-primary justify-center gap-2">
           <Wallet className="h-4 w-4" />
-          Comprar agora (Pix)
+          Comprar agora
         </button>
         <button type="button" onClick={() => void addToCart(false)} className="btn-secondary justify-center gap-2">
           <ShoppingCart className="h-4 w-4" />
           Adicionar ao carrinho
         </button>
-        <a href={contextualWhatsappHref} target="_blank" rel="noreferrer" onClick={() => trackWhatsAppClick("product_purchase_tools")} className="btn-whatsapp justify-center">
-          Tirar dúvida antes de pagar
+        <a href={contextualWhatsappHref} target="_blank" rel="noreferrer" onClick={() => trackWhatsAppClick("product_purchase_tools")} className="btn-whatsapp justify-center gap-2">
+          <MessageCircleMore className="h-4 w-4" />
+          Fechar no WhatsApp
         </a>
         {customizable ? (
           <a href={customizationHref} target="_blank" rel="noreferrer" onClick={() => trackWhatsAppClick("product_customization")} className="btn-secondary justify-center">
@@ -301,7 +346,7 @@ export function ProductPurchaseTools({
           {copied === "link" ? "Link copiado" : "Compartilhar item"}
         </button>
         <Link href={checkoutHref} onClick={() => trackBeginCheckout({ id: productId, sku, name: productName, pricePix, priceCard }, quantity, totalPix)} className="btn-glass justify-center">
-          Revisar no checkout
+          Ir para checkout
         </Link>
       </div>
     </div>

@@ -6,6 +6,6 @@ const config = salesLandings.presentes;
 
 export const metadata: Metadata = getSalesLandingMetadata(config);
 
-export default function Presentes3DPage() {
-  return <SalesLandingShell landingKey="presentes" />;
+export default async function Presentes3DPage() {
+  return SalesLandingShell({ landingKey: "presentes" });
 }

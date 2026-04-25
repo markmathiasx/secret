@@ -2,13 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { applyNoStoreHeaders } from "@/lib/http-cache";
 import { sendMail } from "@/lib/mailer";
 import { supportEmail } from "@/lib/constants";
-import { getClientIp, checkRateLimit, escapeHtml, isValidEmail } from "@/lib/security";
+import { getClientIp, escapeHtml, isValidEmail } from "@/lib/security";
+import { rateLimitRequest } from "@/lib/redis";
 
 export const dynamic = "force-dynamic";
 
 export async function POST(req: NextRequest) {
   const ip = getClientIp(req.headers);
-  const rate = checkRateLimit(`contact:${ip}`, 3, 60 * 60 * 1000);
+  const rate = await rateLimitRequest(`contact:${ip}`, 3, 60 * 60 * 1000);
   if (!rate.ok) {
     return NextResponse.json({ ok: false, error: "Limite de mensagens atingido. Tente novamente em 1 hora." }, { status: 429 });
   }

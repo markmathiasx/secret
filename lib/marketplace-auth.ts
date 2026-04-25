@@ -306,7 +306,12 @@ export async function requestPasswordReset(email: string, meta?: PasswordResetRe
     },
   });
 
-  await sendPasswordResetEmail(user, token);
+  await sendPasswordResetEmail(user, token).catch((emailErr) => {
+    logStructured("error", "password_reset_email_failed", {
+      requestId: meta?.requestId ?? null,
+      error: emailErr instanceof Error ? emailErr.message : "unknown",
+    });
+  });
 
   try {
     await sendMail({

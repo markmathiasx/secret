@@ -10,6 +10,8 @@ import {
   MessageCircleMore,
   QrCode,
   ShieldCheck,
+  ShoppingBag,
+  TimerReset,
   Upload,
   Zap,
 } from "lucide-react";
@@ -68,6 +70,7 @@ export function Hero({
   const [selectedFile, setSelectedFile] = useState<string | null>(null);
   const [reducedMotion, setReducedMotion] = useState(false);
   const [enableVideo, setEnableVideo] = useState(true);
+  const [closeoutClock, setCloseoutClock] = useState("hoje");
   const featuredRealPieces = verifiedCatalog.slice(0, 3);
 
   useEffect(() => {
@@ -103,6 +106,25 @@ export function Hero({
 
     video.play().catch(() => {});
   }, [enableVideo]);
+
+  useEffect(() => {
+    const syncCloseoutClock = () => {
+      const now = new Date();
+      const endOfDay = new Date(now);
+      endOfDay.setHours(23, 59, 59, 999);
+      const diff = Math.max(0, endOfDay.getTime() - now.getTime());
+      const hours = Math.floor(diff / 3_600_000);
+      const minutes = Math.floor((diff % 3_600_000) / 60_000);
+      const seconds = Math.floor((diff % 60_000) / 1_000);
+      setCloseoutClock(
+        `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`
+      );
+    };
+
+    syncCloseoutClock();
+    const timer = window.setInterval(syncCloseoutClock, 1_000);
+    return () => window.clearInterval(timer);
+  }, []);
 
   function handlePointerMove(event: PointerEvent<HTMLElement>) {
     if (reducedMotion || !sectionRef.current) return;
@@ -243,9 +265,25 @@ export function Hero({
               validar detalhes e fechar no checkout ou no atendimento.
             </p>
 
+            <div className="mt-7 grid max-w-3xl gap-3 rounded-[28px] border border-emerald-300/20 bg-emerald-300/10 p-4 text-sm text-emerald-50 shadow-[0_22px_60px_rgba(16,185,129,0.12)] md:grid-cols-[auto_1fr_auto] md:items-center">
+              <span className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-emerald-300/25 bg-emerald-300/12">
+                <TimerReset className="h-5 w-5" />
+              </span>
+              <div>
+                <p className="font-semibold text-white">Rodada de fechamento de hoje</p>
+                <p className="mt-1 text-emerald-50/75">
+                  Priorize {readyRealCount} pronta entrega e {realPhotoCount} itens com foto real antes de pedir orçamento sob medida.
+                </p>
+              </div>
+              <span className="rounded-full border border-emerald-300/25 bg-black/20 px-4 py-2 font-mono text-sm font-bold text-emerald-100">
+                {closeoutClock}
+              </span>
+            </div>
+
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
-              <Link href="/catalogo" className="btn-primary gap-2">
-                Explorar catálogo
+              <Link href="/catalogo?intent=Compra%20r%C3%A1pida&mode=real" className="btn-primary gap-2">
+                <ShoppingBag className="h-4 w-4" />
+                Comprar agora
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <a

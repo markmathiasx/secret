@@ -1,5 +1,5 @@
 {
-  "baseUrl": "https://mdh-3d-store.vercel.app",
+  "baseUrl": "https://mdh3d.com.br",
   "summary": {
     "pdps": "0/35 passed (0%)",
     "routes": "0/13 passed (0%)",
@@ -21,7 +21,7 @@
         "description": "Impressão 3D profissional no Rio de Janeiro com presentes personalizados, peças geek, utilidades, setup e projetos sob encomenda.",
         "hasProduct": false,
         "status": 200,
-        "canonical": "https://mdh-3d-store.vercel.app",
+        "canonical": "https://mdh3d.com.br",
         "path": "/",
         "robots": "index, follow"
       },
@@ -36,7 +36,7 @@
         "description": "Catalogo MDH 3D com foco em foto real e leitura clara para comparar, escolher e comprar com mais confianca.",
         "hasProduct": false,
         "status": 200,
-        "canonical": "https://mdh-3d-store.vercel.app/catalogo",
+        "canonical": "https://mdh3d.com.br/catalogo",
         "path": "/catalogo",
         "robots": "index, follow"
       },
@@ -51,7 +51,7 @@
         "description": "Impressão 3D profissional no Rio de Janeiro com presentes personalizados, peças geek, utilidades, setup e projetos sob encomenda.",
         "hasProduct": false,
         "status": 200,
-        "canonical": "https://mdh-3d-store.vercel.app",
+        "canonical": "https://mdh3d.com.br",
         "path": "/checkout",
         "robots": "index, follow"
       },
@@ -66,7 +66,7 @@
         "description": "Impressão 3D profissional no Rio de Janeiro com presentes personalizados, peças geek, utilidades, setup e projetos sob encomenda.",
         "hasProduct": false,
         "status": 200,
-        "canonical": "https://mdh-3d-store.vercel.app",
+        "canonical": "https://mdh3d.com.br",
         "path": "/conta",
         "robots": "index, follow"
       },
@@ -81,7 +81,7 @@
         "description": "Perguntas frequentes sobre pagamento, materiais, prazos, entrega e personalização na MDH 3D.",
         "hasProduct": false,
         "status": 200,
-        "canonical": "https://mdh-3d-store.vercel.app",
+        "canonical": "https://mdh3d.com.br",
         "path": "/faq",
         "robots": "index, follow"
       },
@@ -96,7 +96,7 @@
         "description": "Faixas de entrega, prazo base e simulação inicial de frete da MDH 3D para o Rio de Janeiro e arredores.",
         "hasProduct": false,
         "status": 200,
-        "canonical": "https://mdh-3d-store.vercel.app/entregas",
+        "canonical": "https://mdh3d.com.br/entregas",
         "path": "/entregas",
         "robots": "index, follow"
       },
@@ -111,7 +111,7 @@
         "description": "Presentes 3D com foto real, miniaturas afetivas, chaveiros, nomes e peças personalizadas para surpreender com acabamento profissional.",
         "hasProduct": false,
         "status": 200,
-        "canonical": "https://mdh-3d-store.vercel.app/presentes-3d",
+        "canonical": "https://mdh3d.com.br/presentes-3d",
         "path": "/presentes-3d",
         "robots": "index, follow"
       },
@@ -126,7 +126,7 @@
         "description": "Impressão 3D profissional no Rio de Janeiro com presentes personalizados, peças geek, utilidades, setup e projetos sob encomenda.",
         "hasProduct": false,
         "status": 200,
-        "canonical": "https://mdh-3d-store.vercel.app",
+        "canonical": "https://mdh3d.com.br",
         "path": "/imagem-para-impressao-3d",
         "robots": "index, follow"
       },
@@ -141,7 +141,7 @@
         "description": "Catalogo MDH 3D com foco em foto real e leitura clara para comparar, escolher e comprar com mais confianca.",
         "hasProduct": false,
         "status": 200,
-        "canonical": "https://mdh-3d-store.vercel.app/catalogo",
+        "canonical": "https://mdh3d.com.br/catalogo",
         "path": "/catalogo?status=Pronta entrega",
         "robots": "index, follow"
       },
@@ -156,7 +156,7 @@
         "description": "Catalogo MDH 3D com foco em foto real e leitura clara para comparar, escolher e comprar com mais confianca.",
         "hasProduct": false,
         "status": 200,
-        "canonical": "https://mdh-3d-store.vercel.app/catalogo",
+        "canonical": "https://mdh3d.com.br/catalogo",
         "path": "/catalogo?intent=Presente",
         "robots": "index, follow"
       },
@@ -171,7 +171,7 @@
         "description": "Catalogo MDH 3D com foco em foto real e leitura clara para comparar, escolher e comprar com mais confianca.",
         "hasProduct": false,
         "status": 200,
-        "canonical": "https://mdh-3d-store.vercel.app/catalogo",
+        "canonical": "https://mdh3d.com.br/catalogo",
         "path": "/catalogo?mode=real",
         "robots": "index, follow"
       },
@@ -186,7 +186,7 @@
         "description": "Catalogo MDH 3D com foco em foto real e leitura clara para comparar, escolher e comprar com mais confianca.",
         "hasProduct": false,
         "status": 200,
-        "canonical": "https://mdh-3d-store.vercel.app/catalogo",
+        "canonical": "https://mdh3d.com.br/catalogo",
         "path": "/catalogo?page=2",
         "robots": "index, follow"
       },
@@ -201,7 +201,7 @@
         "description": "Catalogo MDH 3D com foco em foto real e leitura clara para comparar, escolher e comprar com mais confianca.",
         "hasProduct": false,
         "status": 200,
-        "canonical": "https://mdh-3d-store.vercel.app/catalogo",
+        "canonical": "https://mdh3d.com.br/catalogo",
         "path": "/catalogo?sort=recent",
         "robots": "index, follow"
       }
@@ -239,7 +239,7 @@
         "description": "Impressão 3D profissional no Rio de Janeiro com presentes personalizados, peças geek, utilidades, setup e projetos sob encomenda.",
         "hasProduct": false,
         "status": 404,
-        "canonical": "https://mdh-3d-store.vercel.app",
+        "canonical": "https://mdh3d.com.br",
         "path": "/produtos/mini-buddha-3d",
         "robots": "noindex"
       },
@@ -254,7 +254,7 @@
         "description": "Impressão 3D profissional no Rio de Janeiro com presentes personalizados, peças geek, utilidades, setup e projetos sob encomenda.",
         "hasProduct": false,
         "status": 404,
-        "canonical": "https://mdh-3d-store.vercel.app",
+        "canonical": "https://mdh3d.com.br",
         "path": "/produtos/dragon-egg-statue",
         "robots": "noindex"
       },
@@ -269,7 +269,7 @@
         "description": "Impressão 3D profissional no Rio de Janeiro com presentes personalizados, peças geek, utilidades, setup e projetos sob encomenda.",
         "hasProduct": false,
         "status": 404,
-        "canonical": "https://mdh-3d-store.vercel.app",
+        "canonical": "https://mdh3d.com.br",
         "path": "/produtos/custom-figure",
         "robots": "noindex"
       },
@@ -284,7 +284,7 @@
         "description": "Impressão 3D profissional no Rio de Janeiro com presentes personalizados, peças geek, utilidades, setup e projetos sob encomenda.",
         "hasProduct": false,
         "status": 404,
-        "canonical": "https://mdh-3d-store.vercel.app",
+        "canonical": "https://mdh3d.com.br",
         "path": "/produtos/plant-pot-hexagon",
         "robots": "noindex"
       },
@@ -299,7 +299,7 @@
         "description": "Impressão 3D profissional no Rio de Janeiro com presentes personalizados, peças geek, utilidades, setup e projetos sob encomenda.",
         "hasProduct": false,
         "status": 404,
-        "canonical": "https://mdh-3d-store.vercel.app",
+        "canonical": "https://mdh3d.com.br",
         "path": "/produtos/geometric-vase",
         "robots": "noindex"
       },
@@ -314,7 +314,7 @@
         "description": "Impressão 3D profissional no Rio de Janeiro com presentes personalizados, peças geek, utilidades, setup e projetos sob encomenda.",
         "hasProduct": false,
         "status": 404,
-        "canonical": "https://mdh-3d-store.vercel.app",
+        "canonical": "https://mdh3d.com.br",
         "path": "/produtos/abstract-sculpture",
         "robots": "noindex"
       },
@@ -329,7 +329,7 @@
         "description": "Impressão 3D profissional no Rio de Janeiro com presentes personalizados, peças geek, utilidades, setup e projetos sob encomenda.",
         "hasProduct": false,
         "status": 404,
-        "canonical": "https://mdh-3d-store.vercel.app",
+        "canonical": "https://mdh3d.com.br",
         "path": "/produtos/miniature-house",
         "robots": "noindex"
       },
@@ -344,7 +344,7 @@
         "description": "Impressão 3D profissional no Rio de Janeiro com presentes personalizados, peças geek, utilidades, setup e projetos sob encomenda.",
         "hasProduct": false,
         "status": 404,
-        "canonical": "https://mdh-3d-store.vercel.app",
+        "canonical": "https://mdh3d.com.br",
         "path": "/produtos/chess-piece-set",
         "robots": "noindex"
       },
@@ -359,7 +359,7 @@
         "description": "Impressão 3D profissional no Rio de Janeiro com presentes personalizados, peças geek, utilidades, setup e projetos sob encomenda.",
         "hasProduct": false,
         "status": 404,
-        "canonical": "https://mdh-3d-store.vercel.app",
+        "canonical": "https://mdh3d.com.br",
         "path": "/produtos/display-stand",
         "robots": "noindex"
       },
@@ -374,7 +374,7 @@
         "description": "Impressão 3D profissional no Rio de Janeiro com presentes personalizados, peças geek, utilidades, setup e projetos sob encomenda.",
         "hasProduct": false,
         "status": 404,
-        "canonical": "https://mdh-3d-store.vercel.app",
+        "canonical": "https://mdh3d.com.br",
         "path": "/produtos/keychain-custom",
         "robots": "noindex"
       },
@@ -389,7 +389,7 @@
         "description": "Impressão 3D profissional no Rio de Janeiro com presentes personalizados, peças geek, utilidades, setup e projetos sob encomenda.",
         "hasProduct": false,
         "status": 404,
-        "canonical": "https://mdh-3d-store.vercel.app",
+        "canonical": "https://mdh3d.com.br",
         "path": "/produtos/decorative-plate",
         "robots": "noindex"
       },
@@ -404,7 +404,7 @@
         "description": "Impressão 3D profissional no Rio de Janeiro com presentes personalizados, peças geek, utilidades, setup e projetos sob encomenda.",
         "hasProduct": false,
         "status": 404,
-        "canonical": "https://mdh-3d-store.vercel.app",
+        "canonical": "https://mdh3d.com.br",
         "path": "/produtos/wall-mount",
         "robots": "noindex"
       },
@@ -419,7 +419,7 @@
         "description": "Impressão 3D profissional no Rio de Janeiro com presentes personalizados, peças geek, utilidades, setup e projetos sob encomenda.",
         "hasProduct": false,
         "status": 404,
-        "canonical": "https://mdh-3d-store.vercel.app",
+        "canonical": "https://mdh3d.com.br",
         "path": "/produtos/fidget-spinner-luxury",
         "robots": "noindex"
       },
@@ -434,7 +434,7 @@
         "description": "Impressão 3D profissional no Rio de Janeiro com presentes personalizados, peças geek, utilidades, setup e projetos sob encomenda.",
         "hasProduct": false,
         "status": 404,
-        "canonical": "https://mdh-3d-store.vercel.app",
+        "canonical": "https://mdh3d.com.br",
         "path": "/produtos/organizer-box",
         "robots": "noindex"
       },
@@ -449,7 +449,7 @@
         "description": "Impressão 3D profissional no Rio de Janeiro com presentes personalizados, peças geek, utilidades, setup e projetos sob encomenda.",
         "hasProduct": false,
         "status": 404,
-        "canonical": "https://mdh-3d-store.vercel.app",
+        "canonical": "https://mdh3d.com.br",
         "path": "/produtos/tablet-stand",
         "robots": "noindex"
       },
@@ -464,7 +464,7 @@
         "description": "Impressão 3D profissional no Rio de Janeiro com presentes personalizados, peças geek, utilidades, setup e projetos sob encomenda.",
         "hasProduct": false,
         "status": 404,
-        "canonical": "https://mdh-3d-store.vercel.app",
+        "canonical": "https://mdh3d.com.br",
         "path": "/produtos/headphone-holder",
         "robots": "noindex"
       },
@@ -479,7 +479,7 @@
         "description": "Impressão 3D profissional no Rio de Janeiro com presentes personalizados, peças geek, utilidades, setup e projetos sob encomenda.",
         "hasProduct": false,
         "status": 404,
-        "canonical": "https://mdh-3d-store.vercel.app",
+        "canonical": "https://mdh3d.com.br",
         "path": "/produtos/business-card-stand",
         "robots": "noindex"
       },
@@ -494,7 +494,7 @@
         "description": "Impressão 3D profissional no Rio de Janeiro com presentes personalizados, peças geek, utilidades, setup e projetos sob encomenda.",
         "hasProduct": false,
         "status": 404,
-        "canonical": "https://mdh-3d-store.vercel.app",
+        "canonical": "https://mdh3d.com.br",
         "path": "/produtos/photo-frame-3d",
         "robots": "noindex"
       },
@@ -509,7 +509,7 @@
         "description": "Impressão 3D profissional no Rio de Janeiro com presentes personalizados, peças geek, utilidades, setup e projetos sob encomenda.",
         "hasProduct": false,
         "status": 404,
-        "canonical": "https://mdh-3d-store.vercel.app",
+        "canonical": "https://mdh3d.com.br",
         "path": "/produtos/name-plate",
         "robots": "noindex"
       },
@@ -524,7 +524,7 @@
         "description": "Impressão 3D profissional no Rio de Janeiro com presentes personalizados, peças geek, utilidades, setup e projetos sob encomenda.",
         "hasProduct": false,
         "status": 404,
-        "canonical": "https://mdh-3d-store.vercel.app",
+        "canonical": "https://mdh3d.com.br",
         "path": "/produtos/desk-organizer",
         "robots": "noindex"
       },
@@ -539,7 +539,7 @@
         "description": "Impressão 3D profissional no Rio de Janeiro com presentes personalizados, peças geek, utilidades, setup e projetos sob encomenda.",
         "hasProduct": false,
         "status": 404,
-        "canonical": "https://mdh-3d-store.vercel.app",
+        "canonical": "https://mdh3d.com.br",
         "path": "/produtos/usb-holder",
         "robots": "noindex"
       },
@@ -554,7 +554,7 @@
         "description": "Impressão 3D profissional no Rio de Janeiro com presentes personalizados, peças geek, utilidades, setup e projetos sob encomenda.",
         "hasProduct": false,
         "status": 404,
-        "canonical": "https://mdh-3d-store.vercel.app",
+        "canonical": "https://mdh3d.com.br",
         "path": "/produtos/pen-holder-geometric",
         "robots": "noindex"
       },
@@ -569,7 +569,7 @@
         "description": "Impressão 3D profissional no Rio de Janeiro com presentes personalizados, peças geek, utilidades, setup e projetos sob encomenda.",
         "hasProduct": false,
         "status": 404,
-        "canonical": "https://mdh-3d-store.vercel.app",
+        "canonical": "https://mdh3d.com.br",
         "path": "/produtos/plant-pot-modern",
         "robots": "noindex"
       },
@@ -584,7 +584,7 @@
         "description": "Impressão 3D profissional no Rio de Janeiro com presentes personalizados, peças geek, utilidades, setup e projetos sob encomenda.",
         "hasProduct": false,
         "status": 404,
-        "canonical": "https://mdh-3d-store.vercel.app",
+        "canonical": "https://mdh3d.com.br",
         "path": "/produtos/candle-holder",
         "robots": "noindex"
       },
@@ -599,7 +599,7 @@
         "description": "Impressão 3D profissional no Rio de Janeiro com presentes personalizados, peças geek, utilidades, setup e projetos sob encomenda.",
         "hasProduct": false,
         "status": 404,
-        "canonical": "https://mdh-3d-store.vercel.app",
+        "canonical": "https://mdh3d.com.br",
         "path": "/produtos/lamp-base-3d",
         "robots": "noindex"
       },
@@ -614,7 +614,7 @@
         "description": "Impressão 3D profissional no Rio de Janeiro com presentes personalizados, peças geek, utilidades, setup e projetos sob encomenda.",
         "hasProduct": false,
         "status": 404,
-        "canonical": "https://mdh-3d-store.vercel.app",
+        "canonical": "https://mdh3d.com.br",
         "path": "/produtos/mirror-frame",
         "robots": "noindex"
       },
@@ -629,7 +629,7 @@
         "description": "Impressão 3D profissional no Rio de Janeiro com presentes personalizados, peças geek, utilidades, setup e projetos sob encomenda.",
         "hasProduct": false,
         "status": 404,
-        "canonical": "https://mdh-3d-store.vercel.app",
+        "canonical": "https://mdh3d.com.br",
         "path": "/produtos/shelf-bracket",
         "robots": "noindex"
       },
@@ -644,7 +644,7 @@
         "description": "Impressão 3D profissional no Rio de Janeiro com presentes personalizados, peças geek, utilidades, setup e projetos sob encomenda.",
         "hasProduct": false,
         "status": 404,
-        "canonical": "https://mdh-3d-store.vercel.app",
+        "canonical": "https://mdh3d.com.br",
         "path": "/produtos/cable-organizer",
         "robots": "noindex"
       },
@@ -659,7 +659,7 @@
         "description": "Impressão 3D profissional no Rio de Janeiro com presentes personalizados, peças geek, utilidades, setup e projetos sob encomenda.",
         "hasProduct": false,
         "status": 404,
-        "canonical": "https://mdh-3d-store.vercel.app",
+        "canonical": "https://mdh3d.com.br",
         "path": "/produtos/phone-stand-adjustable",
         "robots": "noindex"
       },
@@ -674,7 +674,7 @@
         "description": "Impressão 3D profissional no Rio de Janeiro com presentes personalizados, peças geek, utilidades, setup e projetos sob encomenda.",
         "hasProduct": false,
         "status": 404,
-        "canonical": "https://mdh-3d-store.vercel.app",
+        "canonical": "https://mdh3d.com.br",
         "path": "/produtos/earring-holder",
         "robots": "noindex"
       },
@@ -689,7 +689,7 @@
         "description": "Impressão 3D profissional no Rio de Janeiro com presentes personalizados, peças geek, utilidades, setup e projetos sob encomenda.",
         "hasProduct": false,
         "status": 404,
-        "canonical": "https://mdh-3d-store.vercel.app",
+        "canonical": "https://mdh3d.com.br",
         "path": "/produtos/watch-stand",
         "robots": "noindex"
       },
@@ -704,7 +704,7 @@
         "description": "Impressão 3D profissional no Rio de Janeiro com presentes personalizados, peças geek, utilidades, setup e projetos sob encomenda.",
         "hasProduct": false,
         "status": 404,
-        "canonical": "https://mdh-3d-store.vercel.app",
+        "canonical": "https://mdh3d.com.br",
         "path": "/produtos/ring-holder-luxury",
         "robots": "noindex"
       },
@@ -719,7 +719,7 @@
         "description": "Impressão 3D profissional no Rio de Janeiro com presentes personalizados, peças geek, utilidades, setup e projetos sob encomenda.",
         "hasProduct": false,
         "status": 404,
-        "canonical": "https://mdh-3d-store.vercel.app",
+        "canonical": "https://mdh3d.com.br",
         "path": "/produtos/jewelry-box",
         "robots": "noindex"
       },
@@ -734,7 +734,7 @@
         "description": "Impressão 3D profissional no Rio de Janeiro com presentes personalizados, peças geek, utilidades, setup e projetos sob encomenda.",
         "hasProduct": false,
         "status": 404,
-        "canonical": "https://mdh-3d-store.vercel.app",
+        "canonical": "https://mdh3d.com.br",
         "path": "/produtos/cosmetic-organizer",
         "robots": "noindex"
       },
@@ -749,7 +749,7 @@
         "description": "Impressão 3D profissional no Rio de Janeiro com presentes personalizados, peças geek, utilidades, setup e projetos sob encomenda.",
         "hasProduct": false,
         "status": 404,
-        "canonical": "https://mdh-3d-store.vercel.app",
+        "canonical": "https://mdh3d.com.br",
         "path": "/produtos/makeup-brush-holder",
         "robots": "noindex"
       }

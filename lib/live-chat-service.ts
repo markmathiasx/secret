@@ -17,6 +17,10 @@ import {
 } from "./env";
 import { whatsappNumber } from "./constants";
 import { buildCommerceFallbackReply } from "./commerce-assistant";
+import { sendWhatsAppText } from "@/lib/meta/graph-api";
+import { isWhatsAppOutboundReady } from "@/lib/meta/config";
+import { recordOperationalAlert } from "@/lib/operational-alerts";
+import { logStructured } from "@/lib/logger";
 
 export interface ChatMessage {
   id?: string;
@@ -104,10 +108,7 @@ async function notifySupportOnWhatsApp(input: {
   customerLabel: string;
   message: string;
 }) {
-  const phoneNumberId = process.env.WHATSAPP_PHONE_NUMBER_ID;
-  const accessToken = process.env.WHATSAPP_ACCESS_TOKEN;
-
-  if (!phoneNumberId || !accessToken || !whatsappNumber) {
+  if (!isWhatsAppOutboundReady() || !whatsappNumber) {
     return { ok: false, reason: "missing_whatsapp_credentials" } as const;
   }
 
@@ -119,28 +120,12 @@ async function notifySupportOnWhatsApp(input: {
     `Inbox: ${getSiteSupportUrl(input.threadId)}`,
   ].join("\n");
 
-  const response = await fetch(`https://graph.facebook.com/v23.0/${phoneNumberId}/messages`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      messaging_product: "whatsapp",
-      to: whatsappNumber.replace(/\D/g, ""),
-      type: "text",
-      text: { body: payload },
-    }),
-  });
-
-  if (!response.ok) {
-    return { ok: false, reason: await response.text() } as const;
-  }
-
-  return { ok: true, data: await response.json() } as const;
+  const response = await sendWhatsAppText(whatsappNumber, payload);
+  if (!response.ok) return { ok: false, reason: "send_failed" } as const;
+  return { ok: true } as const;
 }
 
-async function getAssistantReply(messages: Array<{ role: "user" | "assistant"; content: string }>) {
+async function getAssistantReply(threadId: string, messages: Array<{ role: "user" | "assistant"; content: string }>) {
   const latestUserMessage = [...messages].reverse().find((message) => message.role === "user")?.content || "";
 
   try {
@@ -149,7 +134,7 @@ async function getAssistantReply(messages: Array<{ role: "user" | "assistant"; c
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ messages }),
+      body: JSON.stringify({ messages, threadId, channel: "site" }),
     });
 
     const payload = await response.json().catch(() => ({}));
@@ -159,23 +144,32 @@ async function getAssistantReply(messages: Array<{ role: "user" | "assistant"; c
 
     return String(payload.message);
   } catch (error) {
-    console.error("Assistant route unavailable, using deterministic fallback:", error);
+    logStructured("warn", "assistant_route_unavailable", {
+      threadId,
+      message: error instanceof Error ? error.message : "unknown",
+    });
     return buildCommerceFallbackReply(latestUserMessage);
   }
 }
 
 async function createBotMessage(threadId: string, body: string) {
   await ensureSupportBotUser();
-  return prisma.chatMessage.create({
+  const message = await prisma.chatMessage.create({
     data: {
       threadId,
       senderId: AI_BOT_ID,
       body,
     },
   });
+  await syncThreadLastMessage(threadId, { unread: false });
+  return message;
 }
 
 async function generateAIResponse(threadId: string, customerMessage: string) {
+  if (/(humano|atendente|pessoa|falar com algu[eé]m|suporte humano)/i.test(customerMessage)) {
+    return;
+  }
+
   const history = await prisma.chatMessage.findMany({
     where: { threadId },
     orderBy: { createdAt: "asc" },
@@ -195,14 +189,14 @@ async function generateAIResponse(threadId: string, customerMessage: string) {
     messages.push({ role: "user", content: customerMessage });
   }
 
-  const reply = await getAssistantReply(messages);
+  const reply = await getAssistantReply(threadId, messages);
   await createBotMessage(threadId, reply);
 }
 
-async function syncThreadLastMessage(threadId: string) {
+async function syncThreadLastMessage(threadId: string, extra: Record<string, unknown> = {}) {
   await prisma.chatThread.update({
     where: { id: threadId },
-    data: { lastMessageAt: new Date() },
+    data: { lastMessageAt: new Date(), ...extra },
   });
 }
 
@@ -212,6 +206,9 @@ export async function startChatSession(visitorId: string, subject: string, prior
     data: {
       buyerId: visitor.id,
       type: "SUPPORT",
+      channel: "site",
+      status: "open",
+      unread: false,
       subject: subject?.trim() || "Atendimento comercial",
       lastMessageAt: new Date(),
     },
@@ -233,7 +230,7 @@ export async function startChatSession(visitorId: string, subject: string, prior
 export async function sendChatMessage(message: ChatMessage): Promise<ChatMessage> {
   const thread = await prisma.chatThread.findUnique({
     where: { id: message.thread_id },
-    select: { id: true, buyerId: true, sellerId: true, subject: true },
+    select: { id: true, buyerId: true, sellerId: true, subject: true, channel: true },
   });
 
   if (!thread) {
@@ -263,7 +260,12 @@ export async function sendChatMessage(message: ChatMessage): Promise<ChatMessage
     },
   });
 
-  await syncThreadLastMessage(message.thread_id);
+  const needsHuman = message.sender_type === "customer" && /(humano|atendente|pessoa|falar com algu[eé]m|suporte humano)/i.test(message.message);
+  await syncThreadLastMessage(message.thread_id, {
+    channel: thread.channel || "site",
+    unread: message.sender_type === "customer",
+    ...(message.sender_type === "customer" ? { status: needsHuman ? "needs_human" : "open" } : {}),
+  });
 
   if (message.sender_type === "customer") {
     const customer = await prisma.user.findUnique({
@@ -271,17 +273,46 @@ export async function sendChatMessage(message: ChatMessage): Promise<ChatMessage
       select: { name: true, email: true },
     });
 
+    await recordOperationalAlert({
+      type: needsHuman ? "handoff_requested" : "new_site_lead",
+      title: needsHuman ? "Cliente pediu humano no site" : "Nova mensagem no chat do site",
+      body: customer?.name || customer?.email || thread.subject || "Visitante",
+      channel: "site",
+      threadId: message.thread_id,
+      severity: needsHuman ? "critical" : "info",
+      dedupeKey: `${needsHuman ? "site_handoff" : "site_message"}:${message.thread_id}:${saved.id}`,
+    });
+
     void notifySupportOnWhatsApp({
       threadId: message.thread_id,
       customerLabel: customer?.name || customer?.email || thread.subject || "Visitante",
       message: message.message,
     }).catch((error) => {
-      console.error("WhatsApp support notification failed:", error);
+      logStructured("warn", "whatsapp_support_notification_failed", {
+        threadId: message.thread_id,
+        message: error instanceof Error ? error.message : "unknown",
+      });
     });
+
+    if (needsHuman) {
+      await createBotMessage(message.thread_id, "Entendi. Marquei esta conversa para atendimento humano no inbox da MDH 3D.");
+      return {
+        id: saved.id,
+        thread_id: saved.threadId,
+        sender_id: saved.senderId,
+        sender_type: message.sender_type,
+        message: saved.body,
+        attachments: message.attachments,
+        created_at: saved.createdAt,
+      };
+    }
 
     setTimeout(() => {
       generateAIResponse(message.thread_id, message.message).catch((error) => {
-        console.error("AI response error:", error);
+        logStructured("warn", "ai_response_error", {
+          threadId: message.thread_id,
+          message: error instanceof Error ? error.message : "unknown",
+        });
       });
     }, 400);
   }
@@ -371,6 +402,8 @@ export async function closeChatSession(threadId: string, rating?: number): Promi
   await prisma.chatThread.update({
     where: { id: threadId },
     data: {
+      status: "resolved",
+      unread: false,
       updatedAt: new Date(),
     },
   });
@@ -395,6 +428,8 @@ export async function assignAgentToChat(threadId: string, agentId: string): Prom
     where: { id: threadId },
     data: {
       sellerId: agentId,
+      status: "open",
+      unread: false,
       updatedAt: new Date(),
     },
   });

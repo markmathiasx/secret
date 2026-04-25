@@ -6,6 +6,6 @@ const config = salesLandings.geek;
 
 export const metadata: Metadata = getSalesLandingMetadata(config);
 
-export default function ColecionaveisGeek3DPage() {
-  return <SalesLandingShell landingKey="geek" />;
+export default async function ColecionaveisGeek3DPage() {
+  return SalesLandingShell({ landingKey: "geek" });
 }

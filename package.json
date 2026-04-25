@@ -24,11 +24,11 @@
     "lint:check": "node scripts/lint.mjs",
     "typecheck": "node scripts/typecheck.mjs",
     "typecheck:watch": "tsc --noEmit --watch",
-    "test": "echo 'Smoke tests: use npm run test:smoke'",
-    "test:watch": "echo 'Tests temporarily disabled for deployment'",
-    "test:coverage": "echo 'Tests temporarily disabled for deployment'",
+    "test": "playwright test",
+    "test:watch": "playwright test --ui",
+    "test:coverage": "playwright test --reporter=html",
     "test:smoke": "playwright test",
-    "test:smoke:prod": "SMOKE_BASE_URL=${SMOKE_BASE_URL:-https://mdh-3d-store.vercel.app} playwright test",
+    "test:smoke:prod": "SMOKE_BASE_URL=${SMOKE_BASE_URL:-https://mdh3d.com.br} playwright test",
     "doctor": "node scripts/doctor.mjs",
     "audit:seo-commercial": "node scripts/run-seo-commercial-audit.mjs",
     "validate": "npm run build && npm run typecheck && npm run lint:check && npm run doctor",
@@ -54,10 +54,12 @@
     "prisma:generate": "prisma generate",
     "validate:assets:fs": "node scripts/validate-assets.mjs --mode=fs --manifest=output/CATALOG_SEMANTIC_AUDIT.json --publicMode=strict",
     "validate:assets:http": "node scripts/validate-assets.mjs --mode=http --baseUrl=http://127.0.0.1:3000 --manifest=output/CATALOG_SEMANTIC_AUDIT.json --publicMode=strict",
-    "report:weekly-growth": "node scripts/run-weekly-growth-report.mjs"
+    "report:weekly-growth": "node scripts/run-weekly-growth-report.mjs",
+    "deploy:check:ultimate": "node scripts/pre-deploy-ultimate-check.mjs"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.2",
+    "@mercadopago/sdk-react": "^1.0.7",
     "@prisma/client": "^6.19.3",
     "@sentry/nextjs": "^10.49.0",
     "@supabase/ssr": "^0.5.2",
@@ -89,7 +91,10 @@
     "sharp": "^0.33.5",
     "tailwind-merge": "^2.5.5",
     "three": "^0.183.2",
-    "zod": "^3.24.1"
+    "web-push": "^3.6.7",
+    "web-vitals": "^5.2.0",
+    "zod": "^3.24.1",
+    "zustand": "^5.0.12"
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^15.5.13",
@@ -100,6 +105,7 @@
     "@types/react": "^19.0.2",
     "@types/react-dom": "^19.0.0",
     "@types/three": "^0.183.1",
+    "@types/web-push": "^3.6.4",
     "autoprefixer": "^10.4.20",
     "eslint": "^9.17.0",
     "eslint-config-next": "^15.5.13",

@@ -6,6 +6,6 @@ const config = salesLandings.brindes;
 
 export const metadata: Metadata = getSalesLandingMetadata(config);
 
-export default function BrindesPersonalizados3DPage() {
-  return <SalesLandingShell landingKey="brindes" />;
+export default async function BrindesPersonalizados3DPage() {
+  return SalesLandingShell({ landingKey: "brindes" });
 }

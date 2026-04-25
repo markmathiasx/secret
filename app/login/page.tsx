@@ -156,7 +156,7 @@ export default function LoginPage() {
               <p className="font-semibold text-white">Continuar vendo o catálogo</p>
               <p className="mt-1 text-white/55">Boa rota se você quer salvar favoritos antes de sair.</p>
             </Link>
-            <Link href="/checkout" className="rounded-[22px] border border-white/10 bg-white/5 px-4 py-4 text-sm text-white/75 transition hover:border-cyan-300/25 hover:text-cyan-100">
+            <Link href="/carrinho" className="rounded-[22px] border border-white/10 bg-white/5 px-4 py-4 text-sm text-white/75 transition hover:border-cyan-300/25 hover:text-cyan-100">
               <p className="font-semibold text-white">Abrir checkout</p>
               <p className="mt-1 text-white/55">Útil para quem já está decidindo pagamento e entrega.</p>
             </Link>

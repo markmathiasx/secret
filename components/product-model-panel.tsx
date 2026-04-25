@@ -1,6 +1,6 @@
 import type { Product } from "@/lib/catalog";
-import { Product3MFViewer } from "@/components/product-3mf-viewer";
 import { getProductModel3mf, getProductModelPreview } from "@/lib/product-models";
+import { Product3MFViewerDynamic } from "@/components/product-3mf-viewer-dynamic";
 
 export function ProductModelPanel({ product }: { product: Product }) {
   const modelUrl = getProductModel3mf(product);
@@ -18,7 +18,7 @@ export function ProductModelPanel({ product }: { product: Product }) {
           pedir essa validação.
         </p>
       </div>
-      <Product3MFViewer modelUrl={modelUrl} productName={product.name} preview={modelPreview} />
+      <Product3MFViewerDynamic modelUrl={modelUrl} productName={product.name} preview={modelPreview} />
     </div>
   );
 }

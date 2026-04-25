@@ -1,5 +1,6 @@
 const PROD = process.env.NODE_ENV === 'production' || process.env.VERCEL_ENV === 'production';
 const DEFAULT_DEV_URL = 'http://localhost:3000';
+const DEFAULT_PROD_URL = 'https://mdh3d.com.br';
 
 function isLocalAddress(hostname: string) {
   const normalized = hostname.trim().toLowerCase();
@@ -27,8 +28,7 @@ export function getSiteUrl() {
   const candidates = PROD
     ? [
         process.env.NEXT_PUBLIC_SITE_URL,
-        process.env.VERCEL_PROJECT_PRODUCTION_URL,
-        process.env.VERCEL_URL,
+        DEFAULT_PROD_URL,
       ]
     : [process.env.NEXT_PUBLIC_SITE_URL, process.env.VERCEL_URL, DEFAULT_DEV_URL];
 
@@ -37,7 +37,7 @@ export function getSiteUrl() {
     if (normalized) return normalized;
   }
 
-  return DEFAULT_DEV_URL;
+  return PROD ? DEFAULT_PROD_URL : DEFAULT_DEV_URL;
 }
 
 export function getChatwootBaseUrl() {

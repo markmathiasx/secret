@@ -59,20 +59,20 @@
   },
   "suites": [
     {
-      "title": "smoke.spec.ts",
-      "file": "smoke.spec.ts",
+      "title": "cart.spec.ts",
+      "file": "cart.spec.ts",
       "column": 0,
       "line": 0,
       "specs": [],
       "suites": [
         {
-          "title": "MDH 3D Store – Smoke Tests",
-          "file": "smoke.spec.ts",
-          "line": 5,
+          "title": "Cart UI",
+          "file": "cart.spec.ts",
+          "line": 10,
           "column": 6,
           "specs": [
             {
-              "title": "Home: carrega com elementos principais",
+              "title": "catálogo lista produtos",
               "ok": true,
               "tags": [],
               "tests": [
@@ -87,12 +87,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 3891,
+                      "duration": 1726,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-04-21T19:11:38.547Z",
+                      "startTime": "2026-04-25T12:35:40.356Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -100,13 +100,13 @@
                   "status": "expected"
                 }
               ],
-              "id": "4219922fea2e2bd3c691-85cf882cad34767aa5b9",
-              "file": "smoke.spec.ts",
-              "line": 6,
+              "id": "1981448f0b79506fb670-6c32c2054e0f69ce2a88",
+              "file": "cart.spec.ts",
+              "line": 11,
               "column": 7
             },
             {
-              "title": "Home: botão Ver catálogo completo navega para /catalogo",
+              "title": "página de produto tem informações essenciais",
               "ok": true,
               "tags": [],
               "tests": [
@@ -121,12 +121,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 2000,
+                      "duration": 2524,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-04-21T19:11:42.560Z",
+                      "startTime": "2026-04-25T12:35:42.176Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -134,47 +134,13 @@
                   "status": "expected"
                 }
               ],
-              "id": "4219922fea2e2bd3c691-3360017f8191b137e6cd",
-              "file": "smoke.spec.ts",
-              "line": 13,
-              "column": 7
-            },
-            {
-              "title": "Catálogo: retorna 200 e mostra produtos",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1653,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-04-21T19:11:44.590Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "4219922fea2e2bd3c691-2972cacafecf1157d8f9",
-              "file": "smoke.spec.ts",
+              "id": "1981448f0b79506fb670-c3e398ab71860bdd3f89",
+              "file": "cart.spec.ts",
               "line": 21,
               "column": 7
             },
             {
-              "title": "Catálogo: filtro mode=real funciona",
+              "title": "botão de WhatsApp está presente",
               "ok": true,
               "tags": [],
               "tests": [
@@ -189,12 +155,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1725,
+                      "duration": 1646,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-04-21T19:11:46.262Z",
+                      "startTime": "2026-04-25T12:35:44.720Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -202,13 +168,13 @@
                   "status": "expected"
                 }
               ],
-              "id": "4219922fea2e2bd3c691-d92450e9de7ed9d6c689",
-              "file": "smoke.spec.ts",
-              "line": 27,
+              "id": "1981448f0b79506fb670-3529e5253ace8d77b038",
+              "file": "cart.spec.ts",
+              "line": 39,
               "column": 7
             },
             {
-              "title": "Catálogo: filtro status=Pronta+entrega funciona",
+              "title": "API de saúde responde com 200",
               "ok": true,
               "tags": [],
               "tests": [
@@ -223,12 +189,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1752,
+                      "duration": 94,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-04-21T19:11:48.006Z",
+                      "startTime": "2026-04-25T12:35:46.378Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -236,13 +202,132 @@
                   "status": "expected"
                 }
               ],
-              "id": "4219922fea2e2bd3c691-e5deb06b414ea384e487",
-              "file": "smoke.spec.ts",
+              "id": "1981448f0b79506fb670-d46e352710a1c66c9c24",
+              "file": "cart.spec.ts",
+              "line": 48,
+              "column": 7
+            },
+            {
+              "title": "sitemap.xml existe e é válido",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 18,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-25T12:35:46.483Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "1981448f0b79506fb670-6a6a0602217c17317087",
+              "file": "cart.spec.ts",
+              "line": 55,
+              "column": 7
+            },
+            {
+              "title": "robots.txt existe",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 8,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-25T12:35:46.509Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "1981448f0b79506fb670-ea5d90f81545d66ea508",
+              "file": "cart.spec.ts",
+              "line": 63,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "checkout.spec.ts",
+      "file": "checkout.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Checkout Flow",
+          "file": "checkout.spec.ts",
+          "line": 32,
+          "column": 6,
+          "specs": [
+            {
+              "title": "adiciona produto ao carrinho e visualiza carrinho",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3201,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-25T12:35:46.529Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "25ab1bfc84c57e3e3a45-0880d0869f3f4f4a88eb",
+              "file": "checkout.spec.ts",
               "line": 33,
               "column": 7
             },
             {
-              "title": "PDP: primeira página de produto retorna 200",
+              "title": "checkout page carrega corretamente",
               "ok": true,
               "tags": [],
               "tests": [
@@ -257,12 +342,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 2670,
+                      "duration": 1308,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-04-21T19:11:49.773Z",
+                      "startTime": "2026-04-25T12:35:49.740Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -270,13 +355,13 @@
                   "status": "expected"
                 }
               ],
-              "id": "4219922fea2e2bd3c691-f43926a316f00792ba0a",
-              "file": "smoke.spec.ts",
-              "line": 38,
+              "id": "25ab1bfc84c57e3e3a45-e57ba343d7814ffec47c",
+              "file": "checkout.spec.ts",
+              "line": 64,
               "column": 7
             },
             {
-              "title": "PDP: JSON-LD de produto presente na página",
+              "title": "página de confirmação exibe pedido confirmado (mock)",
               "ok": true,
               "tags": [],
               "tests": [
@@ -291,12 +376,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 2421,
+                      "duration": 1362,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-04-21T19:11:52.468Z",
+                      "startTime": "2026-04-25T12:35:51.063Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -304,13 +389,55 @@
                   "status": "expected"
                 }
               ],
-              "id": "4219922fea2e2bd3c691-1df3158ae80c8979c086",
-              "file": "smoke.spec.ts",
-              "line": 50,
+              "id": "25ab1bfc84c57e3e3a45-c5e06881ada91e5f1412",
+              "file": "checkout.spec.ts",
+              "line": 77,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "Cart Operations",
+          "file": "checkout.spec.ts",
+          "line": 94,
+          "column": 6,
+          "specs": [
+            {
+              "title": "página do carrinho carrega",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1320,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-04-25T12:35:52.438Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "25ab1bfc84c57e3e3a45-e0e45d67fdda161e451e",
+              "file": "checkout.spec.ts",
+              "line": 95,
               "column": 7
             },
             {
-              "title": "Checkout: retorna 200",
+              "title": "carrinho vazio mostra estado vazio",
               "ok": true,
               "tags": [],
               "tests": [
@@ -325,12 +452,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1666,
+                      "duration": 1282,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-04-21T19:11:54.920Z",
+                      "startTime": "2026-04-25T12:35:53.774Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -338,621 +465,9 @@
                   "status": "expected"
                 }
               ],
-              "id": "4219922fea2e2bd3c691-90ded256e5404aa36277",
-              "file": "smoke.spec.ts",
-              "line": 65,
-              "column": 7
-            },
-            {
-              "title": "Checkout retorno: sucesso/falha/pendente retornam 200",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 3251,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-04-21T19:11:56.607Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "4219922fea2e2bd3c691-edde1e0b71b654aecf82",
-              "file": "smoke.spec.ts",
-              "line": 70,
-              "column": 7
-            },
-            {
-              "title": "Busca, favoritos e páginas institucionais retornam 200",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 3690,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-04-21T19:11:59.878Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "4219922fea2e2bd3c691-2b283c99ee850ef437db",
-              "file": "smoke.spec.ts",
-              "line": 78,
-              "column": 7
-            },
-            {
-              "title": "Login: retorna 200 e mostra formulário",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1343,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-04-21T19:12:03.586Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "4219922fea2e2bd3c691-ff690fa38cc658a4ce10",
-              "file": "smoke.spec.ts",
-              "line": 85,
-              "column": 7
-            },
-            {
-              "title": "FAQ: retorna 200",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1237,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-04-21T19:12:04.947Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "4219922fea2e2bd3c691-09cdea1e2ec8b86ee638",
-              "file": "smoke.spec.ts",
-              "line": 91,
-              "column": 7
-            },
-            {
-              "title": "Política de privacidade: retorna 200 e contém conteúdo LGPD",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1155,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-04-21T19:12:06.203Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "4219922fea2e2bd3c691-a5e520ee0f46b59d41ec",
-              "file": "smoke.spec.ts",
-              "line": 96,
-              "column": 7
-            },
-            {
-              "title": "Health API: retorna 200 e status ok",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 887,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-04-21T19:12:07.377Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "4219922fea2e2bd3c691-9c3195ccb42d23451726",
-              "file": "smoke.spec.ts",
-              "line": 102,
-              "column": 7
-            },
-            {
-              "title": "Mercado Pago status: expõe readiness dos bricks",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 209,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-04-21T19:12:08.281Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "4219922fea2e2bd3c691-f2ec499a7d71bffdb977",
-              "file": "smoke.spec.ts",
-              "line": 109,
-              "column": 7
-            },
-            {
-              "title": "Catálogo API: retorna payload público sem campos internos",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 652,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-04-21T19:12:08.506Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "4219922fea2e2bd3c691-dd6c715df4fe7c70b8e8",
-              "file": "smoke.spec.ts",
-              "line": 118,
-              "column": 7
-            },
-            {
-              "title": "Store product API: entrega detalhes públicos saneados",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 989,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-04-21T19:12:09.171Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "4219922fea2e2bd3c691-3de0550051efebcd13f9",
-              "file": "smoke.spec.ts",
-              "line": 134,
-              "column": 7
-            },
-            {
-              "title": "Chat público responde sem 500 nas leituras básicas",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 439,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-04-21T19:12:10.171Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "4219922fea2e2bd3c691-c3e510b9f579955f2f89",
-              "file": "smoke.spec.ts",
-              "line": 152,
-              "column": 7
-            },
-            {
-              "title": "Rotas sensíveis exigem autenticação",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 591,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-04-21T19:12:10.621Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "4219922fea2e2bd3c691-536f32f6600ce61b12c3",
-              "file": "smoke.spec.ts",
-              "line": 162,
-              "column": 7
-            },
-            {
-              "title": "Sitemap: retorna 200 e contém URL do catálogo",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 480,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-04-21T19:12:11.224Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "4219922fea2e2bd3c691-cb71d6b72dae3de191fb",
-              "file": "smoke.spec.ts",
-              "line": 170,
-              "column": 7
-            },
-            {
-              "title": "Robots.txt: retorna 200 e permite indexação pública",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 368,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-04-21T19:12:11.718Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "4219922fea2e2bd3c691-79330e1bb0c7676a8cd3",
-              "file": "smoke.spec.ts",
-              "line": 177,
-              "column": 7
-            },
-            {
-              "title": "Imagem para impressão 3D: retorna 200",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1206,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-04-21T19:12:12.100Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "4219922fea2e2bd3c691-fcec78d4f86b5eb4b020",
-              "file": "smoke.spec.ts",
-              "line": 184,
-              "column": 7
-            },
-            {
-              "title": "Entregas: retorna 200",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1016,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-04-21T19:12:13.324Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "4219922fea2e2bd3c691-53a315f2758f4eb7d80d",
-              "file": "smoke.spec.ts",
-              "line": 189,
-              "column": 7
-            },
-            {
-              "title": "Presentes 3D: retorna 200",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1197,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-04-21T19:12:14.356Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "4219922fea2e2bd3c691-6a217e05d3c508a953c7",
-              "file": "smoke.spec.ts",
-              "line": 194,
-              "column": 7
-            },
-            {
-              "title": "Admin login: retorna 200 ou redireciona para login",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1626,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-04-21T19:12:15.587Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "4219922fea2e2bd3c691-961850c2c7c635d0f8c6",
-              "file": "smoke.spec.ts",
-              "line": 199,
-              "column": 7
-            },
-            {
-              "title": "Nenhuma rota principal retorna 500",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 3348,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-04-21T19:12:17.230Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "4219922fea2e2bd3c691-064109753ae23239acd1",
-              "file": "smoke.spec.ts",
-              "line": 208,
+              "id": "25ab1bfc84c57e3e3a45-fa5ef657c9a4b045a7ba",
+              "file": "checkout.spec.ts",
+              "line": 104,
               "column": 7
             }
           ]
@@ -962,9 +477,9 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-04-21T19:11:37.732Z",
-    "duration": 43011.803,
-    "expected": 26,
+    "startTime": "2026-04-25T12:35:39.688Z",
+    "duration": 15459.484999999999,
+    "expected": 11,
     "skipped": 0,
     "unexpected": 0,
     "flaky": 0

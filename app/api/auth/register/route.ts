@@ -3,14 +3,15 @@ import { registerBuyerAccount } from "@/lib/marketplace-auth";
 import { applyNoStoreHeaders } from "@/lib/http-cache";
 import { createCustomerAccount } from "@/lib/auth-store";
 import { canConnectToDatabase } from "@/lib/prisma";
-import { checkRateLimit, getClientIp, sanitizeTextInput, isValidEmail } from "@/lib/security";
+import { getClientIp, sanitizeTextInput, isValidEmail } from "@/lib/security";
+import { rateLimitRequest } from "@/lib/redis";
 
 export const runtime = "nodejs";
 
 export async function POST(req: Request) {
   try {
     const ip = getClientIp(req.headers);
-    const rateLimit = checkRateLimit(`customer_register:${ip}`, 5, 60_000);
+    const rateLimit = await rateLimitRequest(`customer_register:${ip}`, 5, 60_000);
 
     if (!rateLimit.ok) {
       return applyNoStoreHeaders(NextResponse.json({ error: "Muitas tentativas. Aguarde um pouco antes de tentar de novo." }, { status: 429 }));

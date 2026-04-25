@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useMemo, useState } from 'react';
+import { MessageCircle } from 'lucide-react';
 
 export default function PasswordRecoveryPage() {
   const searchParams = useSearchParams();
@@ -38,7 +39,7 @@ export default function PasswordRecoveryPage() {
         return;
       }
 
-      setMessage('Se o e-mail existir na base, você receberá instruções e a equipe operacional também será notificada.');
+      setMessage('Solicitação recebida! Se o e-mail estiver cadastrado, você receberá o link de recuperação em breve. Verifique também a pasta de spam.');
     } catch {
       setError('Falha de rede ao iniciar a recuperação.');
     } finally {
@@ -96,6 +97,7 @@ export default function PasswordRecoveryPage() {
               <label className="block">
                 <span className="mb-2 block text-sm text-white/70">Nova senha</span>
                 <input value={password} onChange={(event) => setPassword(event.target.value)} type="password" minLength={8} className="field-base" required />
+                <span className="mt-1 block text-xs text-white/40">Mínimo 8 caracteres, com maiúscula, minúscula e número.</span>
               </label>
               <label className="block">
                 <span className="mb-2 block text-sm text-white/70">Confirmar senha</span>
@@ -116,6 +118,24 @@ export default function PasswordRecoveryPage() {
 
         {message ? <p className="mt-4 text-sm text-emerald-200">{message}</p> : null}
         {error ? <p className="mt-4 text-sm text-rose-200">{error}</p> : null}
+
+        {!isResetMode && (
+          <div className="mt-6 rounded-2xl border border-dashed border-green-400/20 bg-green-400/5 px-5 py-4">
+            <h3 className="flex items-center gap-2 text-sm font-medium text-white/80">
+              <MessageCircle className="h-4 w-4 text-green-400 shrink-0" />
+              Prefere recuperar via WhatsApp?
+            </h3>
+            <p className="mt-1 text-xs text-white/50">
+              Receba um código de 6 dígitos diretamente no seu WhatsApp.
+            </p>
+            <Link
+              href="/recuperar-senha/whatsapp"
+              className="mt-3 inline-flex items-center gap-1 text-sm text-green-300 hover:text-green-200 transition"
+            >
+              Recuperar via WhatsApp →
+            </Link>
+          </div>
+        )}
 
         <div className="mt-6">
           <Link href="/login" className="text-sm font-semibold text-cyan-100 transition hover:text-cyan-50">

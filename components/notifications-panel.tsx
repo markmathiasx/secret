@@ -4,6 +4,7 @@
 
 'use client';
 
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { Bell, X, Check, AlertCircle } from 'lucide-react';
 
@@ -160,9 +161,9 @@ export function NotificationsPanel({ userId }: { userId?: string }) {
 
           {/* Footer */}
           <div className="border-t border-gray-200 p-3 bg-gray-50 text-center">
-            <a href="/conta/notificacoes" className="text-sm text-blue-600 hover:text-blue-700 font-medium">
+            <Link href="/conta/notificacoes" className="text-sm text-blue-600 hover:text-blue-700 font-medium">
               View All Notifications
-            </a>
+            </Link>
           </div>
         </div>
       )}

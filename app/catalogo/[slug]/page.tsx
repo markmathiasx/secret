@@ -1,7 +1,9 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
-import { CopyPlus, MessageCircleMore, Share2 } from 'lucide-react';
+import { CopyPlus, MessageCircleMore } from 'lucide-react';
+import { BackInStockButton } from '@/components/back-in-stock-button';
+import { ShareButton } from '@/components/share-button';
 import { findCatalogProductBySlug, getCatalogStaticParams } from '@/lib/catalog-repository';
 import { ProductImageGallery } from '@/components/product-image-gallery';
 import { ProductModelPanel } from '@/components/product-model-panel';
@@ -16,7 +18,7 @@ import { DeliveryCalculator } from '@/components/delivery-calculator';
 import { CommerceFaq } from '@/components/commerce-faq';
 import { QuoteForm } from '@/components/quote-form';
 import { GuaranteeBar } from '@/components/guarantee-bar';
-import { ProductSocialProof } from '@/components/product-social-proof';
+import { ProductSocialProof, TrustBadges } from '@/components/product-social-proof';
 import { StickyPdpCta } from '@/components/sticky-pdp-cta';
 import { ProductBundleSuggestion } from '@/components/product-bundle-suggestion';
 import { RecentlyViewedShelf } from '@/components/recently-viewed-shelf';
@@ -29,7 +31,7 @@ import { getSiteUrl } from '@/lib/env';
 import { getProductHighlights, getProductLongDescription } from '@/lib/catalog-content';
 import { resolveProductImage } from '@/lib/product-images';
 import { catalog, featuredCatalog } from '@/lib/catalog';
-import { getProductMarketplaceSignals, getStoreReputationSummary } from '@/lib/marketplace-signals';
+import { getProductMarketplaceSignals, getStoreReputationSummary, getProductReviewSnippets } from '@/lib/marketplace-signals';
 import { validateProductMedia, isPublicSafe } from '@/lib/media-validation';
 
 export const revalidate = 300;
@@ -54,9 +56,10 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const resolvedImage = resolveProductImage(product);
   const imageUrl = resolvedImage.startsWith("http") ? resolvedImage : `${siteUrl}${resolvedImage}`;
   const longDescription = getProductLongDescription(product);
-  const [productSignals, storeSummary] = await Promise.all([
+  const [productSignals, storeSummary, reviewSnippets] = await Promise.all([
     getProductMarketplaceSignals(product.id, product.sku),
     getStoreReputationSummary(),
+    getProductReviewSnippets(product.sku, 5),
   ]);
   const metaMediaRecord = validateProductMedia(product);
   const metaMediaSafe = isPublicSafe(metaMediaRecord.status) && metaMediaRecord.gallery.length >= 1;
@@ -116,9 +119,10 @@ export default async function ProductPage({
   );
   const highlights = getProductHighlights(product);
   const longDescription = getProductLongDescription(product);
-  const [productSignals, storeSummary] = await Promise.all([
+  const [productSignals, storeSummary, reviewSnippets] = await Promise.all([
     getProductMarketplaceSignals(product.id, product.sku),
     getStoreReputationSummary(),
+    getProductReviewSnippets(product.sku, 5),
   ]);
   const mediaRecord = validateProductMedia(product);
   const mediaIsPublicSafe = isPublicSafe(mediaRecord.status) && mediaRecord.gallery.length >= 1;
@@ -184,7 +188,14 @@ export default async function ProductPage({
       seller: {
         '@type': 'Organization',
         name: 'MDH 3D Store',
+        url: productUrl.split('/catalogo')[0],
       },
+      acceptedPaymentMethod: [
+        { '@type': 'PaymentMethod', '@id': 'http://purl.org/goodrelations/v1#Cash' },
+        { '@type': 'PaymentMethod', name: 'Pix' },
+        { '@type': 'PaymentMethod', name: 'Cartão de Crédito' },
+        { '@type': 'PaymentMethod', name: 'Boleto Bancário' },
+      ],
     },
     category: product.category,
     material: product.material,
@@ -213,6 +224,21 @@ export default async function ProductPage({
         bestRating: 5,
         worstRating: 1,
       },
+    }),
+    ...(reviewSnippets.length > 0 && {
+      review: reviewSnippets.map((r) => ({
+        '@type': 'Review',
+        author: { '@type': 'Person', name: r.authorName },
+        datePublished: r.createdAt.slice(0, 10),
+        reviewRating: {
+          '@type': 'Rating',
+          ratingValue: r.rating,
+          bestRating: 5,
+          worstRating: 1,
+        },
+        ...(r.title && { name: r.title }),
+        ...(r.body && { reviewBody: r.body }),
+      })),
     }),
   };
   const breadcrumbJsonLd = {
@@ -353,7 +379,11 @@ export default async function ProductPage({
         </Suspense>
         <div className="flex flex-wrap gap-2">
           <span className="chip-nav"><CopyPlus className="h-4 w-4" /> SKU {product.sku}</span>
-          <span className="chip-nav"><Share2 className="h-4 w-4" /> página individual</span>
+          <ShareButton
+            title={product.name}
+            text={`Confira este produto na MDH 3D Store: ${product.name}`}
+            className="chip-nav inline-flex items-center gap-1.5"
+          />
         </div>
       </div>
 
@@ -374,6 +404,7 @@ export default async function ProductPage({
           </div>
           <div className="mt-4">
             <ProductSocialProof
+              productId={product.id}
               averageRating={productSignals?.averageRating ?? storeSummary?.averageRating ?? null}
               reviewCount={productSignals?.reviewCount ?? storeSummary?.reviewCount ?? 0}
               soldTotal={productSignals?.soldTotal}
@@ -381,6 +412,7 @@ export default async function ProductPage({
               stockLevel={product.stock}
             />
           </div>
+          <TrustBadges />
           <h1 className="mt-5 text-4xl font-black text-white md:text-5xl">{product.name}</h1>
           <p className="mt-4 text-base leading-8 text-white/70">{longDescription}</p>
 
@@ -502,6 +534,11 @@ export default async function ProductPage({
               whatsappHref={whatsappHref}
               customizationHref={customizationHref}
             />
+            {product.stock <= 0 && (
+              <div className="mt-4">
+                <BackInStockButton productId={product.id} productName={product.name} />
+              </div>
+            )}
           </div>
 
           <div className="mt-6">
@@ -520,7 +557,7 @@ export default async function ProductPage({
           </div>
 
           <div className="mt-8 flex flex-wrap gap-3">
-            <Link href={`/checkout?product=${product.id}`} className="btn-primary">{primaryActionLabel}</Link>
+            <Link href="#pdp-purchase-tools" className="btn-primary">{primaryActionLabel}</Link>
             {product.customizable && (
               <a href={customizationHref} target="_blank" rel="noreferrer" className="btn-secondary">
                 Solicitar personalização
@@ -575,7 +612,10 @@ export default async function ProductPage({
         productId={product.id}
         productName={product.name}
         pricePix={product.pricePix}
-        checkoutHref={`/checkout?product=${product.id}`}
+        priceCard={product.priceCard}
+        productImage={product.images?.[0]}
+        sku={product.sku}
+        checkoutHref="/checkout"
       />
 
     </section>

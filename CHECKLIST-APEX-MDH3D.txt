@@ -1,0 +1,24 @@
+CHECKLIST EXTERNO OBRIGATÓRIO
+
+1. VERCEL
+   - Domains:
+     - mdh3d.com.br  => Primary
+     - www.mdh3d.com.br => Redirect to mdh3d.com.br
+   - Environment Variables / Production:
+     - NEXT_PUBLIC_SITE_URL=https://mdh3d.com.br
+     - AUTH_URL=https://mdh3d.com.br
+     - NEXTAUTH_URL=https://mdh3d.com.br
+
+2. HOSTINGER DNS
+   - A      @      76.76.21.21
+   - CNAME  www    cname.vercel-dns.com
+
+3. REDEPLOY
+   - Fazer novo deploy de produção
+   - Clicar Refresh em Domains na Vercel
+   - Esperar o aviso “DNS Change Recommended” sumir
+
+4. TESTE
+   - https://mdh3d.com.br deve abrir a loja
+   - https://www.mdh3d.com.br deve redirecionar para https://mdh3d.com.br
+   - nenhum dos dois deve cair no vercel.app

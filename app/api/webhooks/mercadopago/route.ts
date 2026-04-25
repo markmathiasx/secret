@@ -13,6 +13,7 @@ import {
 import { getMercadoPagoPayment } from "@/lib/payments";
 import { logStructured } from "@/lib/logger";
 import { getMercadoPagoWebhookSecret } from "@/lib/env";
+import { withRetry } from "@/lib/retry";
 
 export const runtime = "nodejs";
 
@@ -146,16 +147,31 @@ export async function POST(request: Request) {
   }
 
   const mappedStatus = mapMercadoPagoPaymentStatus(payment.status, payment.status_detail);
-  const updated = await updateOrderRecord(orderCode, {
-    status: mappedStatus,
-    payment_provider: "mercado-pago",
-    payment_reference: payment.id ? String(payment.id) : dataId,
-    payment_status: payment.status || "unknown",
-    payment_status_detail: payment.status_detail || null,
-    payment_approved_at: payment.date_approved || null,
-    payment_payload: payment,
-    updated_at: new Date().toISOString(),
-  });
+  const normalizedPaymentType = String(payment.payment_type_id || "").toLowerCase();
+  const normalizedPaymentMethod = String(payment.payment_method_id || "").toLowerCase();
+  const mappedPaymentMethod =
+    normalizedPaymentMethod === "pix"
+      ? "pix"
+      : normalizedPaymentType.includes("card") || normalizedPaymentMethod
+        ? "cartao"
+        : undefined;
+
+  // Retry order update — transient DB failures must not lose payment confirmations
+  const updated = await withRetry(
+    () =>
+      updateOrderRecord(orderCode, {
+        status: mappedStatus,
+        payment_method: mappedPaymentMethod,
+        payment_provider: "mercado-pago",
+        payment_reference: payment.id ? String(payment.id) : dataId,
+        payment_status: payment.status || "unknown",
+        payment_status_detail: payment.status_detail || null,
+        payment_approved_at: payment.date_approved || null,
+        payment_payload: payment,
+        updated_at: new Date().toISOString(),
+      }),
+    { maxAttempts: 3, baseDelayMs: 400 },
+  );
 
   await markWebhookEventProcessed(orderCode, eventKey, payload as Record<string, unknown>);
 
