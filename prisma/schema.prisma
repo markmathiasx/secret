@@ -778,6 +778,7 @@ model ChatThread {
   orderId       String?
   productId     String?
   type          ChatThreadType @default(SUPPORT)
+  channel       String         @default("site")
   subject       String?
   lastMessageAt DateTime?
   createdAt     DateTime       @default(now())
@@ -790,6 +791,7 @@ model ChatThread {
 
   @@index([buyerId, sellerId])
   @@index([orderId])
+  @@index([channel])
 }
 
 model ChatMessage {

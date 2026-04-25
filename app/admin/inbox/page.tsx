@@ -4,7 +4,17 @@ import { getChatwootAdminUrl, isChatwootWidgetConfigured } from "@/lib/env";
 import { prisma } from "@/lib/prisma";
 import { getServerSessionUser, isAdminSession } from "@/lib/server-session";
 
-export const dynamic = "force-dynamic";
+/** Derive channel from DB field or legacy email prefix. */
+function resolveChannel(channel: string | null | undefined, email: string | null | undefined): string {
+  if (channel && channel !== "site") return channel;
+  if (email?.endsWith("@mdh.local")) {
+    if (email.startsWith("wa-")) return "whatsapp";
+    if (email.startsWith("fb-")) return "facebook_page";
+    if (email.startsWith("igc-")) return "instagram_comment";
+    if (email.startsWith("ig-")) return "instagram_dm";
+  }
+  return channel ?? "site";
+}
 
 type Props = {
   searchParams?: Promise<{ thread?: string | string[] }>;
@@ -45,6 +55,10 @@ export default async function AdminInboxPage({ searchParams }: Props) {
     lastMessageAt: (thread.lastMessageAt || thread.updatedAt).toISOString(),
     createdAt: thread.createdAt.toISOString(),
     updatedAt: thread.updatedAt.toISOString(),
+    channel: resolveChannel(
+      (thread as { channel?: string | null }).channel,
+      thread.buyer?.email
+    ) as "whatsapp" | "facebook_page" | "instagram_dm" | "instagram_comment" | "site",
     isWhatsApp: Boolean(
       thread.buyer?.email?.endsWith("@mdh.local") &&
         (thread.buyer.email.startsWith("wa-") ||

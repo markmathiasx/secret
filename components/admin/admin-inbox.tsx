@@ -4,6 +4,8 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type React from "react";
 import { AlertCircle, MessageSquareReply, RefreshCcw, Search, SendHorizonal, Sparkles } from "lucide-react";
 
+type MetaChannel = "whatsapp" | "facebook_page" | "instagram_dm" | "instagram_comment" | "site";
+
 type InboxThreadSummary = {
   id: string;
   subject: string;
@@ -13,6 +15,7 @@ type InboxThreadSummary = {
   lastMessageAt: string;
   createdAt: string;
   updatedAt: string;
+  channel: MetaChannel;
   isWhatsApp: boolean;
   type: string;
   lastMessage: null | {
@@ -26,6 +29,7 @@ type InboxThreadSummary = {
 type InboxThreadDetail = {
   id: string;
   subject: string;
+  channel?: string;
   buyerId: string | null;
   sellerId: string | null;
   createdAt: string;
@@ -38,6 +42,34 @@ type InboxThreadDetail = {
     createdAt: string;
   }>;
 };
+
+const CHANNEL_LABELS: Record<MetaChannel, string> = {
+  whatsapp: "WhatsApp",
+  facebook_page: "Facebook",
+  instagram_dm: "Instagram DM",
+  instagram_comment: "Instagram",
+  site: "Site",
+};
+
+const CHANNEL_COLORS: Record<MetaChannel, string> = {
+  whatsapp: "bg-emerald-400/15 text-emerald-300",
+  facebook_page: "bg-blue-400/15 text-blue-300",
+  instagram_dm: "bg-fuchsia-400/15 text-fuchsia-300",
+  instagram_comment: "bg-pink-400/15 text-pink-300",
+  site: "bg-cyan-400/12 text-cyan-300",
+};
+
+const ALL_CHANNELS: Array<MetaChannel | "all"> = [
+  "all", "whatsapp", "facebook_page", "instagram_dm", "instagram_comment", "site",
+];
+
+function ChannelBadge({ channel }: { channel: MetaChannel }) {
+  return (
+    <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.12em] ${CHANNEL_COLORS[channel]}`}>
+      {CHANNEL_LABELS[channel]}
+    </span>
+  );
+}
 
 export function AdminInbox({
   initialThreads,
@@ -53,6 +85,7 @@ export function AdminInbox({
   const [thread, setThread] = useState<InboxThreadDetail | null>(null);
   const [reply, setReply] = useState("");
   const [query, setQuery] = useState("");
+  const [channelFilter, setChannelFilter] = useState<MetaChannel | "all">("all");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [sending, setSending] = useState(false);
@@ -63,16 +96,19 @@ export function AdminInbox({
   );
 
   const filteredThreads = useMemo(() => {
+    let result = threads;
+    if (channelFilter !== "all") {
+      result = result.filter((item) => item.channel === channelFilter);
+    }
     const normalized = query.trim().toLowerCase();
-    if (!normalized) return threads;
-
-    return threads.filter((item) =>
+    if (!normalized) return result;
+    return result.filter((item) =>
       [item.subject, item.buyerName, item.buyerEmail, item.lastMessage?.body || ""]
         .join(" ")
         .toLowerCase()
         .includes(normalized)
     );
-  }, [query, threads]);
+  }, [query, channelFilter, threads]);
 
   function scrollToBottom() {
     requestAnimationFrame(() => {
@@ -215,6 +251,24 @@ export function AdminInbox({
           />
         </div>
 
+        {/* Channel filter */}
+        <div className="mt-3 flex flex-wrap gap-1.5">
+          {ALL_CHANNELS.map((ch) => (
+            <button
+              key={ch}
+              type="button"
+              onClick={() => setChannelFilter(ch)}
+              className={`rounded-full border px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] transition ${
+                channelFilter === ch
+                  ? "border-cyan-400/40 bg-cyan-400/15 text-cyan-200"
+                  : "border-white/10 bg-white/5 text-white/40 hover:text-white/70"
+              }`}
+            >
+              {ch === "all" ? "Todos" : CHANNEL_LABELS[ch as MetaChannel]}
+            </button>
+          ))}
+        </div>
+
         {error ? (
           <div className="mt-4 rounded-[18px] border border-amber-300/20 bg-amber-300/10 px-4 py-3 text-sm text-amber-100">
             {error}
@@ -253,15 +307,7 @@ export function AdminInbox({
                   </span>
                 </div>
                 <div className="mt-2 flex items-center gap-2">
-                  <span
-                    className={`rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.12em] ${
-                      item.isWhatsApp
-                        ? "bg-emerald-400/15 text-emerald-300"
-                        : "bg-cyan-400/12 text-cyan-300"
-                    }`}
-                  >
-                    {item.isWhatsApp ? "WhatsApp" : "Site"}
-                  </span>
+                  <ChannelBadge channel={(item.channel ?? (item.isWhatsApp ? "whatsapp" : "site")) as MetaChannel} />
                 </div>
                 <p className="mt-2 max-h-[3.75rem] overflow-hidden text-sm leading-6 text-white/65">
                   {item.lastMessage?.body || "Sem mensagens ainda."}
@@ -287,15 +333,7 @@ export function AdminInbox({
                 <h2 className="mt-2 text-2xl font-black text-white">{thread.buyer?.name || thread.subject}</h2>
                 <p className="mt-2 text-sm text-white/55">{thread.buyer?.email || "Visitante sem e-mail"}</p>
                 <div className="mt-3 flex flex-wrap gap-2 text-xs">
-                  {thread.buyer?.email?.endsWith("@mdh.local") ? (
-                    <span className="rounded-full bg-emerald-400/15 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-emerald-300">
-                      WhatsApp
-                    </span>
-                  ) : (
-                    <span className="rounded-full bg-cyan-400/12 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-cyan-300">
-                      Site
-                    </span>
-                  )}
+                  <ChannelBadge channel={(thread.channel ?? (thread.buyer?.email?.startsWith("wa-") ? "whatsapp" : "site")) as MetaChannel} />
                   <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-white/60">
                     {thread.messages.length} mensagens
                   </span>

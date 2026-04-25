@@ -91,6 +91,7 @@ async function ensureWhatsAppThread(userId: string, subject: string) {
       buyerId: userId,
       type: "SUPPORT",
       subject,
+      channel: "whatsapp",
       lastMessageAt: new Date(),
     },
   });

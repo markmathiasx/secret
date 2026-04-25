@@ -2,55 +2,39 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getServerSessionUser, isAdminSession } from "@/lib/server-session";
 import { sendChatMessage } from "@/lib/live-chat-service";
+import {
+  sendWhatsAppText,
+  sendFbPageReply,
+  sendInstagramDmReply,
+} from "@/lib/meta/graph-api";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-const WA_API_VERSION = "v23.0";
-
-async function sendWhatsAppText(to: string, body: string): Promise<{ ok: boolean; reason?: string }> {
-  const phoneNumberId = process.env.WHATSAPP_PHONE_NUMBER_ID;
-  const accessToken = process.env.WHATSAPP_ACCESS_TOKEN;
-  if (!phoneNumberId || !accessToken) {
-    return { ok: false, reason: "missing_whatsapp_credentials" };
+/** Derive the channel from either the explicit DB field or the legacy email prefix heuristic. */
+function resolveChannel(
+  channel: string | null,
+  email: string | null | undefined
+): string {
+  if (channel && channel !== "site") return channel;
+  if (email?.endsWith("@mdh.local")) {
+    if (email.startsWith("wa-")) return "whatsapp";
+    if (email.startsWith("fb-")) return "facebook_page";
+    if (email.startsWith("igc-")) return "instagram_comment";
+    if (email.startsWith("ig-")) return "instagram_dm";
   }
-  const digits = to.replace(/\D/g, "");
-  if (!digits) return { ok: false, reason: "invalid_phone" };
-
-  const res = await fetch(`https://graph.facebook.com/${WA_API_VERSION}/${phoneNumberId}/messages`, {
-    method: "POST",
-    headers: { Authorization: `Bearer ${accessToken}`, "Content-Type": "application/json" },
-    body: JSON.stringify({ messaging_product: "whatsapp", to: digits, type: "text", text: { body } }),
-  });
-  if (!res.ok) {
-    const data = await res.json().catch(() => ({}));
-    return { ok: false, reason: JSON.stringify(data) };
-  }
-  return { ok: true };
-}
-
-/** Detect if a thread belongs to a WhatsApp user (created by the webhook) */
-function isWhatsAppBuyer(email: string | null | undefined, phone: string | null | undefined) {
-  return Boolean(
-    email?.endsWith("@mdh.local") &&
-      (email.startsWith("wa-") || (phone && phone.replace(/\D/g, "").length >= 11))
-  );
+  return channel ?? "site";
 }
 
 async function requireAdmin() {
   const user = await getServerSessionUser();
-  if (!isAdminSession(user)) {
-    return null;
-  }
-
+  if (!isAdminSession(user)) return null;
   return user;
 }
 
 export async function GET(request: NextRequest) {
   const user = await requireAdmin();
-  if (!user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
-  }
+  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
 
   const { searchParams } = new URL(request.url);
   const threadId = searchParams.get("thread_id");
@@ -61,13 +45,16 @@ export async function GET(request: NextRequest) {
       include: {
         buyer: true,
         seller: true,
-        messages: {
-          orderBy: { createdAt: "asc" },
-        },
+        messages: { orderBy: { createdAt: "asc" } },
       },
     });
+    if (!thread) return NextResponse.json({ thread: null });
 
-    return NextResponse.json({ thread });
+    const ch = resolveChannel(
+      (thread as { channel?: string | null }).channel ?? null,
+      thread.buyer?.email
+    );
+    return NextResponse.json({ thread: { ...thread, channel: ch } });
   }
 
   const threads = await prisma.chatThread.findMany({
@@ -76,18 +63,15 @@ export async function GET(request: NextRequest) {
     include: {
       buyer: true,
       seller: true,
-      messages: {
-        orderBy: { createdAt: "desc" },
-        take: 1,
-      },
+      messages: { orderBy: { createdAt: "desc" }, take: 1 },
     },
   });
 
   return NextResponse.json({
     threads: threads.map((thread) => {
-      const waDetected = isWhatsAppBuyer(
-        thread.buyer?.email,
-        (thread.buyer as { phone?: string | null } | null)?.phone
+      const ch = resolveChannel(
+        (thread as { channel?: string | null }).channel ?? null,
+        thread.buyer?.email
       );
       return {
         id: thread.id,
@@ -98,7 +82,8 @@ export async function GET(request: NextRequest) {
         lastMessageAt: thread.lastMessageAt || thread.updatedAt,
         createdAt: thread.createdAt,
         updatedAt: thread.updatedAt,
-        isWhatsApp: waDetected,
+        channel: ch,
+        isWhatsApp: ch === "whatsapp",
         type: thread.type,
         lastMessage: thread.messages[0]
           ? {
@@ -115,9 +100,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   const user = await requireAdmin();
-  if (!user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
-  }
+  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
 
   const body = await request.json().catch(() => ({}));
   const threadId = String(body.threadId || "").trim();
@@ -129,10 +112,7 @@ export async function POST(request: NextRequest) {
 
   await prisma.chatThread.update({
     where: { id: threadId },
-    data: {
-      sellerId: user.id,
-      lastMessageAt: new Date(),
-    },
+    data: { sellerId: user.id, lastMessageAt: new Date() },
   });
 
   const reply = await sendChatMessage({
@@ -142,21 +122,35 @@ export async function POST(request: NextRequest) {
     message,
   });
 
-  // If the thread belongs to a WhatsApp user, bridge the reply back via Cloud API
+  // Bridge reply back to the originating channel
   try {
     const threadData = await prisma.chatThread.findUnique({
       where: { id: threadId },
-      select: { buyer: { select: { email: true, phone: true } } },
+      select: { channel: true, buyer: { select: { email: true, phone: true } } },
     });
     const buyer = threadData?.buyer;
-    if (buyer && isWhatsAppBuyer(buyer.email, buyer.phone) && buyer.phone) {
-      const waResult = await sendWhatsAppText(buyer.phone, message);
-      if (!waResult.ok) {
-        console.warn("[admin-inbox] WhatsApp reply failed:", waResult.reason);
-      }
+    const channel = resolveChannel(
+      (threadData as { channel?: string | null } | null)?.channel ?? null,
+      buyer?.email
+    );
+
+    if (channel === "whatsapp" && buyer?.phone) {
+      const r = await sendWhatsAppText(buyer.phone, message);
+      if (!r.ok) console.warn("[admin-inbox] WA reply failed:", r.error);
+    } else if (channel === "facebook_page" && buyer?.email?.startsWith("fb-")) {
+      const psid = buyer.email.replace("fb-", "").replace("@mdh.local", "");
+      const r = await sendFbPageReply(psid, message);
+      if (!r.ok) console.warn("[admin-inbox] FB reply failed:", r.error);
+    } else if (
+      (channel === "instagram_dm" || channel === "instagram_comment") &&
+      buyer?.email?.startsWith("ig")
+    ) {
+      const igsid = buyer.email.replace(/^igc?-/, "").replace("@mdh.local", "");
+      const r = await sendInstagramDmReply(igsid, message);
+      if (!r.ok) console.warn("[admin-inbox] IG reply failed:", r.error);
     }
-  } catch (waErr) {
-    console.error("[admin-inbox] WhatsApp bridge error:", waErr);
+  } catch (bridgeErr) {
+    console.error("[admin-inbox] channel bridge error:", bridgeErr);
   }
 
   return NextResponse.json({ ok: true, message: reply });
