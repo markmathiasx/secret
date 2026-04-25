@@ -1557,3 +1557,14 @@ select.field-base {
     background: rgba(8, 20, 30, 0.78);
   }
 }
+
+/* ===== MOBILE: PREVENT IOS AUTO-ZOOM ON INPUTS ===== */
+/* iOS Safari zooms in when an input font-size < 16px */
+@media (max-width: 767px) {
+  input,
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+}
+

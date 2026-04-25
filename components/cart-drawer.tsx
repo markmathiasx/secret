@@ -33,6 +33,7 @@ export function CartDrawer() {
       {/* Drawer */}
       <aside
         className="fixed right-0 top-0 z-[140] flex h-full w-full max-w-md flex-col border-l border-white/10 bg-[rgba(9,17,25,0.97)] shadow-[0_0_80px_rgba(2,8,23,0.6)]"
+        style={{ paddingRight: 'env(safe-area-inset-right, 0)' }}
         role="dialog"
         aria-modal="true"
         aria-label="Carrinho de compras"
@@ -144,7 +145,10 @@ export function CartDrawer() {
 
         {/* Footer with totals and CTA */}
         {items.length > 0 && (
-          <div className="space-y-4 border-t border-white/10 px-6 py-5">
+          <div
+            className="space-y-4 border-t border-white/10 px-6 pt-5"
+            style={{ paddingBottom: 'max(env(safe-area-inset-bottom), 1.25rem)' }}
+          >
             <div className="space-y-2 rounded-[20px] border border-white/10 bg-black/20 p-4">
               <div className="flex items-center justify-between text-sm">
                 <span className="text-white/60">Subtotal Pix</span>

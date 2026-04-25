@@ -78,7 +78,10 @@ export function CartRecoveryDock() {
   }
 
   return (
-    <aside className="fixed bottom-4 left-4 right-4 z-[118] rounded-[24px] border border-emerald-300/20 bg-slate-950/96 p-4 shadow-[0_24px_72px_rgba(2,8,23,0.55)] backdrop-blur-xl md:left-6 md:right-auto md:w-[420px]">
+    <aside
+      className="fixed bottom-4 left-4 right-4 z-[118] rounded-[24px] border border-emerald-300/20 bg-slate-950/96 px-4 pt-4 shadow-[0_24px_72px_rgba(2,8,23,0.55)] backdrop-blur-xl md:left-6 md:right-auto md:w-[420px]"
+      style={{ paddingBottom: 'max(env(safe-area-inset-bottom), 1rem)' }}
+    >
       <div className="flex items-start justify-between gap-3">
         <div className="flex items-start gap-3">
           <span className="rounded-full border border-emerald-300/25 bg-emerald-300/10 p-2 text-emerald-100">
