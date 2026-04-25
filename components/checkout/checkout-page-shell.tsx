@@ -3,13 +3,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { AlertCircle, BadgeCheck, CheckCircle2, Loader2, MessageCircleMore, ShieldCheck, ShoppingBag, Truck, UserRound, Wallet } from "lucide-react";
+import { AlertCircle, BadgeCheck, CheckCircle2, Loader2, MessageCircleMore, ShieldCheck, ShoppingBag, TimerReset, Truck, UserRound, Wallet } from "lucide-react";
 import { MercadoPagoWallet } from "@/components/checkout/mercadopago-wallet";
 import { useCart } from "@/lib/cart-context";
 import { calculateCartTotals } from "@/lib/checkout";
 import { brand, whatsappNumber } from "@/lib/constants";
 import { findStorefrontProductById } from "@/lib/products";
-import { trackEvent } from "@/lib/analytics";
+import { trackEvent, trackWhatsAppClick } from "@/lib/analytics";
 import { formatCurrency } from "@/lib/utils";
 
 type CheckoutFormState = {
@@ -59,6 +59,7 @@ export function CheckoutPageShell({
     paymentFallback?: boolean;
     message?: string | null;
   } | null>(null);
+  const [cutoffClock, setCutoffClock] = useState("00:00:00");
 
   const paymentOnlineReady = Boolean(publicKey.trim());
   const isTestMode = paymentOnlineReady && publicKey.trim().toUpperCase().startsWith("TEST-");
@@ -120,6 +121,25 @@ export function CheckoutPageShell({
     } catch {}
   }, [form, hydrated, items.length]);
 
+  useEffect(() => {
+    const updateCutoff = () => {
+      const now = new Date();
+      const cutoff = new Date(now);
+      cutoff.setHours(18, 0, 0, 0);
+      if (now > cutoff) cutoff.setDate(cutoff.getDate() + 1);
+
+      const diff = Math.max(0, cutoff.getTime() - now.getTime());
+      const hours = Math.floor(diff / 3_600_000);
+      const minutes = Math.floor((diff % 3_600_000) / 60_000);
+      const seconds = Math.floor((diff % 60_000) / 1000);
+      setCutoffClock(`${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`);
+    };
+
+    updateCutoff();
+    const timer = window.setInterval(updateCutoff, 1000);
+    return () => window.clearInterval(timer);
+  }, []);
+
   async function handleGenerateCheckout(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setSubmitting(true);
@@ -170,6 +190,12 @@ export function CheckoutPageShell({
         totalPix: data.totalPix || totals.totalPix,
         paymentFallback: Boolean(data.paymentFallback),
         message: data.message || null,
+      });
+      trackEvent("checkout_order_created", {
+        currency: "BRL",
+        value: data.totalPix || totals.totalPix,
+        item_count: items.reduce((sum, item) => sum + item.quantity, 0),
+        payment_fallback: Boolean(data.paymentFallback),
       });
     } catch {
       setError("Erro de conexão ao gerar o checkout. Tente novamente ou feche pelo WhatsApp.");
@@ -253,6 +279,26 @@ export function CheckoutPageShell({
         <div className="inline-flex items-center gap-2 text-sm font-semibold text-cyan-50">
           <UserRound className="h-4 w-4" />
           Compra como visitante ativa
+        </div>
+      </div>
+
+      <div className="mb-6 rounded-[28px] border border-rose-300/20 bg-rose-300/10 p-5">
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div className="flex items-start gap-3">
+            <span className="rounded-full border border-rose-300/20 bg-rose-300/10 p-2 text-rose-100">
+              <TimerReset className="h-4 w-4" />
+            </span>
+            <div>
+              <p className="text-sm font-black text-white">Último passo para registrar o pedido</p>
+              <p className="mt-1 text-xs leading-6 text-white/70">
+                Preencha os dados e gere o código do pedido. Se o pagamento online não abrir, o WhatsApp já leva o carrinho completo.
+              </p>
+            </div>
+          </div>
+          <div className="rounded-[18px] border border-white/10 bg-black/25 px-4 py-3 text-right">
+            <p className="text-[11px] uppercase tracking-[0.16em] text-white/45">Janela operacional</p>
+            <p className="mt-1 font-mono text-lg font-black text-rose-50">{cutoffClock}</p>
+          </div>
         </div>
       </div>
 
@@ -559,7 +605,7 @@ export function CheckoutPageShell({
                 {submitting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
                 Gerar pedido sem cadastro
               </button>
-              <a href={whatsappHref} target="_blank" rel="noreferrer" className="btn-zap justify-center text-base">
+              <a href={whatsappHref} target="_blank" rel="noreferrer" onClick={() => trackWhatsAppClick("checkout_form")} className="btn-zap justify-center text-base">
                 <MessageCircleMore className="mr-2 h-4 w-4" />
                 Finalizar via WhatsApp
               </a>
@@ -642,7 +688,7 @@ export function CheckoutPageShell({
                       <p className="mt-2 text-sm leading-7 text-white/75">
                         Se o checkout não abrir, envie o pedido já preenchido para o WhatsApp e feche com atendimento humano sem perder os dados.
                       </p>
-                      <a href={whatsappHref} target="_blank" rel="noreferrer" className="btn-zap mt-4 inline-flex text-base">
+                      <a href={whatsappHref} target="_blank" rel="noreferrer" onClick={() => trackWhatsAppClick("checkout_fallback")} className="btn-zap mt-4 inline-flex text-base">
                         <MessageCircleMore className="mr-2 h-4 w-4" />
                         Finalizar via WhatsApp
                       </a>

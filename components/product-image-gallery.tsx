@@ -129,7 +129,14 @@ export function ProductImageGallery({
                 galleryIndex === active ? "border-cyan-300/40 bg-cyan-400/10 shadow-cyan" : "border-white/10 bg-white/5 hover:border-white/20"
               }`}
             >
-              <SafeProductImage candidates={image.candidates} alt={image.alt} className="aspect-square w-full object-cover" sizes={thumbSizes} />
+              <SafeProductImage
+                candidates={image.candidates}
+                alt={image.alt}
+                className="aspect-square w-full object-cover"
+                priority={priority || galleryIndex <= 3}
+                fetchPriority={priority || galleryIndex <= 3 ? "high" : "auto"}
+                sizes={thumbSizes}
+              />
             </button>
             );
           })}

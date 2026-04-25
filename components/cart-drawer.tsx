@@ -2,12 +2,23 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Minus, Plus, ShoppingCart, Trash2, X } from "lucide-react";
+import { useMemo } from "react";
+import { MessageCircleMore, Minus, Plus, ShoppingCart, TimerReset, Trash2, X } from "lucide-react";
 import { useCart } from "@/lib/cart-context";
+import { whatsappNumber } from "@/lib/constants";
+import { trackEvent, trackWhatsAppClick } from "@/lib/analytics";
 import { formatCurrency } from "@/lib/utils";
 
 export function CartDrawer() {
   const { hydrated, items, count, subtotalPix, subtotalCard, removeItem, updateQuantity, isDrawerOpen, closeDrawer } = useCart();
+  const whatsappHref = useMemo(() => {
+    const lines = [
+      "Oi! Quero fechar este carrinho da MDH 3D agora:",
+      ...items.map((item) => `- ${item.quantity}x ${item.title}`),
+      `Subtotal Pix: ${formatCurrency(subtotalPix)}`,
+    ];
+    return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(lines.join("\n"))}`;
+  }, [items, subtotalPix]);
 
   if (!hydrated || !isDrawerOpen) return null;
 
@@ -147,12 +158,26 @@ export function CartDrawer() {
             </div>
 
             <Link
-              href="/carrinho"
+              href="/checkout"
               onClick={closeDrawer}
-              className="btn-primary w-full justify-center"
+              className="btn-primary w-full justify-center gap-2"
             >
-              Ir para o carrinho
+              <TimerReset className="h-4 w-4" />
+              Fechar agora
             </Link>
+            <a
+              href={whatsappHref}
+              target="_blank"
+              rel="noreferrer"
+              onClick={() => {
+                trackWhatsAppClick("cart_drawer");
+                trackEvent("cart_drawer_whatsapp_click", { item_count: count, value: subtotalPix });
+              }}
+              className="btn-zap w-full justify-center gap-2"
+            >
+              <MessageCircleMore className="h-4 w-4" />
+              Fechar pelo WhatsApp
+            </a>
             <button
               type="button"
               onClick={closeDrawer}

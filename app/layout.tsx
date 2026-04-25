@@ -5,6 +5,7 @@ import { Manrope, Space_Grotesk } from 'next/font/google';
 import './globals.css';
 import { AccessibilityProvider, SkipLink } from '@/components/accessibility';
 import { CartDrawer } from '@/components/cart-drawer';
+import { CartRecoveryDock } from '@/components/cart-recovery-dock';
 import { CartSessionBridge } from '@/components/cart-session-bridge';
 import { ChatwootWidget } from '@/components/chatwoot-widget';
 import { CartProvider } from '@/lib/cart-context';
@@ -234,6 +235,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <LiveChatWidget defaultMode={liveChatMode} />
             <PwaRegister />
             <CartDrawer />
+            <CartRecoveryDock />
             <CookieConsent />
             <Suspense fallback={null}><FacebookPixel /></Suspense>
             </ToastProvider>

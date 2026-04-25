@@ -2,16 +2,47 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Minus, Plus, ShieldCheck, ShoppingBag, Trash2, Truck, Wallet } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { MessageCircleMore, Minus, Plus, ShieldCheck, ShoppingBag, TimerReset, Trash2, Truck, Wallet, Zap } from "lucide-react";
 import { QuickAddToCart } from "@/components/quick-add-to-cart";
 import { useCart } from "@/lib/cart-context";
 import { calculateCartTotals } from "@/lib/checkout";
+import { whatsappNumber } from "@/lib/constants";
+import { trackEvent, trackWhatsAppClick } from "@/lib/analytics";
 import { bestsellerStorefrontProducts, resolveStorefrontHref } from "@/lib/products";
 import { formatCurrency } from "@/lib/utils";
 
 export function CartPageShell() {
   const { hydrated, items, removeItem, updateQuantity, clearCart } = useCart();
   const totals = calculateCartTotals(items);
+  const [cutoffClock, setCutoffClock] = useState("00:00:00");
+  const whatsappHref = useMemo(() => {
+    const lines = [
+      "Oi! Quero fechar este carrinho da MDH 3D agora:",
+      ...items.map((item) => `- ${item.quantity}x ${item.title}`),
+      `Total estimado: ${formatCurrency(totals.totalPix)}`,
+    ];
+    return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(lines.join("\n"))}`;
+  }, [items, totals.totalPix]);
+
+  useEffect(() => {
+    const updateCutoff = () => {
+      const now = new Date();
+      const cutoff = new Date(now);
+      cutoff.setHours(18, 0, 0, 0);
+      if (now > cutoff) cutoff.setDate(cutoff.getDate() + 1);
+
+      const diff = Math.max(0, cutoff.getTime() - now.getTime());
+      const hours = Math.floor(diff / 3_600_000);
+      const minutes = Math.floor((diff % 3_600_000) / 60_000);
+      const seconds = Math.floor((diff % 60_000) / 1000);
+      setCutoffClock(`${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`);
+    };
+
+    updateCutoff();
+    const timer = window.setInterval(updateCutoff, 1000);
+    return () => window.clearInterval(timer);
+  }, []);
 
   if (!hydrated) {
     return (
@@ -217,9 +248,43 @@ export function CartPageShell() {
             </div>
 
             <div className="mt-6 grid gap-3">
-              <Link href="/checkout" className="btn-primary justify-center text-base">
+              <div className="rounded-[24px] border border-rose-300/20 bg-rose-300/10 p-4">
+                <div className="flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-3">
+                    <span className="rounded-full border border-rose-300/20 bg-rose-300/10 p-2 text-rose-100">
+                      <TimerReset className="h-4 w-4" />
+                    </span>
+                    <div>
+                      <p className="text-sm font-black text-white">Pronto para checkout</p>
+                      <p className="mt-1 text-xs text-white/62">Janela operacional: {cutoffClock}</p>
+                    </div>
+                  </div>
+                  <Zap className="h-5 w-5 text-rose-100" />
+                </div>
+              </div>
+
+              <Link
+                href="/checkout"
+                onClick={() =>
+                  trackEvent("cart_checkout_click", {
+                    item_count: totals.quantity,
+                    value: totals.totalPix,
+                  })
+                }
+                className="btn-primary justify-center text-base"
+              >
                 Fechar pedido agora
               </Link>
+              <a
+                href={whatsappHref}
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => trackWhatsAppClick("cart_page_summary")}
+                className="btn-zap justify-center"
+              >
+                <MessageCircleMore className="mr-2 h-4 w-4" />
+                Fechar pelo WhatsApp
+              </a>
               <Link href="/catalogo" className="btn-secondary justify-center">
                 Continuar comprando
               </Link>
