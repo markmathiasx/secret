@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
+import { prisma } from "@/lib/prisma";
 import { getServerSessionUser } from "@/lib/server-session";
 import { rateLimitRequest } from "@/lib/redis";
 import { getClientIp } from "@/lib/security";
@@ -17,11 +18,6 @@ const subscriptionSchema = z.object({
   expirationTime: z.number().nullable().optional(),
 });
 
-/**
- * POST /api/notifications/push-subscribe
- * Saves a Web Push subscription for the authenticated user.
- * The subscription is stored in the DB and used when sending push notifications.
- */
 export async function POST(request: NextRequest) {
   const ip = getClientIp(request.headers);
   const rateLimit = await rateLimitRequest(`push-subscribe:${ip}`, 10, 60 * 60 * 1000);
@@ -40,30 +36,23 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ ok: false, message: "Dados de subscrição inválidos." }, { status: 400 });
   }
 
-  const { endpoint, keys, expirationTime } = parsed.data;
+  const { endpoint, keys } = parsed.data;
+  const userAgent = request.headers.get("user-agent") ?? undefined;
+
+  await prisma.pushSubscription.upsert({
+    where: { endpoint },
+    update: { userId: user.id, p256dh: keys.p256dh, auth: keys.auth, userAgent },
+    create: { userId: user.id, endpoint, p256dh: keys.p256dh, auth: keys.auth, userAgent },
+  });
 
   logStructured("info", "push_subscribe", {
     userId: user.id,
-    endpoint: endpoint.slice(0, 64) + "…",
-  });
-
-  // Store subscription in the notifications table as a special record
-  // In a full implementation, you would upsert to a push_subscriptions table.
-  // For now, log the intent — wire to DB when push_subscriptions model is added.
-  logStructured("info", "push_subscription_saved", {
-    userId: user.id,
     endpointDomain: new URL(endpoint).host,
-    hasKeys: Boolean(keys.p256dh && keys.auth),
-    expirationTime: expirationTime ?? null,
   });
 
   return NextResponse.json({ ok: true, message: "Subscrição registrada com sucesso." });
 }
 
-/**
- * DELETE /api/notifications/push-subscribe
- * Removes the push subscription for the authenticated user.
- */
 export async function DELETE(request: NextRequest) {
   const user = await getServerSessionUser();
   if (!user?.id) {
@@ -71,12 +60,18 @@ export async function DELETE(request: NextRequest) {
   }
 
   const raw = await request.json().catch(() => null);
-  const endpoint = raw?.endpoint;
+  const endpoint = typeof raw?.endpoint === "string" ? raw.endpoint : null;
 
-  logStructured("info", "push_unsubscribe", {
-    userId: user.id,
-    endpoint: typeof endpoint === "string" ? endpoint.slice(0, 64) : "unknown",
-  });
+  if (endpoint) {
+    await prisma.pushSubscription
+      .deleteMany({ where: { userId: user.id, endpoint } })
+      .catch(() => {});
+  } else {
+    // Remove all subscriptions for the user
+    await prisma.pushSubscription.deleteMany({ where: { userId: user.id } }).catch(() => {});
+  }
+
+  logStructured("info", "push_unsubscribe", { userId: user.id });
 
   return NextResponse.json({ ok: true, message: "Subscrição removida." });
 }

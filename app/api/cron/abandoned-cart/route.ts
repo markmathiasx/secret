@@ -64,7 +64,7 @@ export async function GET(request: Request) {
       // Check no recent order from this user that would make this cart "converted"
       const recentOrder = await prisma.order.findFirst({
         where: {
-          userId: cart.userId,
+          buyerId: cart.userId,
           createdAt: { gte: cart.updatedAt },
         },
         select: { id: true },
@@ -76,7 +76,7 @@ export async function GET(request: Request) {
       }
 
       const cartValue = cart.items.reduce((sum, item) => {
-        const price = item.product?.pricePix ?? 0;
+        const price = Number(item.product?.pricePix ?? 0);
         return sum + price * item.quantity;
       }, 0);
 
