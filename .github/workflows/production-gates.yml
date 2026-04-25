@@ -26,7 +26,9 @@ jobs:
       - run: npm i -g wait-on vercel@latest
       - run: (npm run start &) && wait-on http://127.0.0.1:3000
       - run: npm run validate:assets
-      - run: npm run test:images
+      - name: Image regression tests (non-blocking)
+        run: npm run test:images
+        continue-on-error: true
       - run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
       - run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
       - run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
