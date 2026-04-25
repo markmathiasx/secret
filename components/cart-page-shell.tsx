@@ -37,7 +37,7 @@ export function CartPageShell() {
           <p className="section-kicker">Carrinho</p>
           <h1 className="section-title">Revise o pedido e feche hoje.</h1>
           <p className="section-copy mt-3 max-w-3xl">
-            Frete fixo de R$ 15,00, checkout com Mercado Pago em modo teste e fallback imediato por WhatsApp.
+            Frete fixo de R$ 15,00, checkout sem cadastro e fallback imediato por WhatsApp se você quiser confirmar com a equipe.
           </p>
         </div>
         {items.length > 0 ? (
@@ -212,7 +212,7 @@ export function CartPageShell() {
                 <span className="text-2xl font-black text-emerald-100">{formatCurrency(totals.totalPix)}</span>
               </div>
               <p className="text-xs leading-6 text-white/45">
-                Checkout Mercado Pago em modo teste com Pix e cartão. Frete temporário fixado em R$ 15,00.
+                Pedido salvo com código antes do pagamento. Frete temporário fixado em R$ 15,00.
               </p>
             </div>
 
@@ -235,7 +235,7 @@ export function CartPageShell() {
                 {
                   icon: Wallet,
                   title: "Pix e cartão",
-                  body: "Checkout online com Mercado Pago em ambiente de testes configurado.",
+                  body: "O checkout abre o pagamento online quando disponível e mantém WhatsApp como fallback comercial.",
                 },
                 {
                   icon: Truck,

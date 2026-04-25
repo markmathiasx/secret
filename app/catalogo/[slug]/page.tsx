@@ -575,7 +575,10 @@ export default async function ProductPage({
         productId={product.id}
         productName={product.name}
         pricePix={product.pricePix}
-        checkoutHref="#pdp-purchase-tools"
+        priceCard={product.priceCard}
+        productImage={product.images?.[0]}
+        sku={product.sku}
+        checkoutHref="/checkout"
       />
 
     </section>

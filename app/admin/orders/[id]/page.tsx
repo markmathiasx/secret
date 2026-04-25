@@ -27,9 +27,11 @@ export default async function AdminOrderPage({ params }: { params: Promise<{ id:
     return <div className="text-center py-20">Pedido não encontrado</div>;
   }
 
+  const serializedOrder = JSON.parse(JSON.stringify(order));
+
   return (
-    <section className="mx-auto max-w-4xl px-6 py-14">
-      <AdminOrderDetail order={order} />
+    <section className="mx-auto max-w-6xl px-6 py-14">
+      <AdminOrderDetail order={serializedOrder} />
     </section>
   );
 }

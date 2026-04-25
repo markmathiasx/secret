@@ -2,13 +2,14 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useMemo, useState } from "react";
-import { AlertCircle, BadgeCheck, Loader2, MessageCircleMore, ShieldCheck, Truck, Wallet } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { AlertCircle, BadgeCheck, CheckCircle2, Loader2, MessageCircleMore, ShieldCheck, ShoppingBag, Truck, UserRound, Wallet } from "lucide-react";
 import { MercadoPagoWallet } from "@/components/checkout/mercadopago-wallet";
 import { useCart } from "@/lib/cart-context";
 import { calculateCartTotals } from "@/lib/checkout";
 import { brand, whatsappNumber } from "@/lib/constants";
 import { findStorefrontProductById } from "@/lib/products";
+import { trackEvent } from "@/lib/analytics";
 import { formatCurrency } from "@/lib/utils";
 
 type CheckoutFormState = {
@@ -37,6 +38,8 @@ const initialFormState: CheckoutFormState = {
   notes: "",
 };
 
+const CHECKOUT_DRAFT_KEY = "mdh:checkout:draft:v1";
+
 export function CheckoutPageShell({
   publicKey,
 }: {
@@ -57,7 +60,14 @@ export function CheckoutPageShell({
     message?: string | null;
   } | null>(null);
 
-  const isTestMode = publicKey.trim().toUpperCase().startsWith("TEST-");
+  const paymentOnlineReady = Boolean(publicKey.trim());
+  const isTestMode = paymentOnlineReady && publicKey.trim().toUpperCase().startsWith("TEST-");
+  const checkoutSteps = [
+    { id: "cart", label: "Carrinho", done: items.length > 0 },
+    { id: "guest", label: "Visitante", done: true },
+    { id: "data", label: "Dados", done: Boolean(form.customerName && form.email && form.phone && form.zipCode) },
+    { id: "payment", label: "Pagamento", done: Boolean(checkoutSession) },
+  ];
   const whatsappHref = useMemo(() => {
     const lines = [
       "Oi! Quero finalizar este pedido da MDH 3D:",
@@ -77,6 +87,38 @@ export function CheckoutPageShell({
 
     return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(lines.join("\n"))}`;
   }, [form, items, personalizationByProductId, totals.totalPix]);
+
+  useEffect(() => {
+    if (!hydrated || items.length === 0) return;
+
+    try {
+      const raw = window.localStorage.getItem(CHECKOUT_DRAFT_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw) as Partial<CheckoutFormState>;
+        setForm((current) => ({ ...current, ...parsed }));
+      }
+    } catch {}
+
+    trackEvent("begin_checkout", {
+      currency: "BRL",
+      value: totals.totalPix,
+      item_count: items.reduce((sum, item) => sum + item.quantity, 0),
+      items: items.map((item) => ({
+        item_id: item.productId,
+        item_name: item.title,
+        price: item.pricePix,
+        quantity: item.quantity,
+      })),
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hydrated, items.length]);
+
+  useEffect(() => {
+    if (!hydrated || items.length === 0) return;
+    try {
+      window.localStorage.setItem(CHECKOUT_DRAFT_KEY, JSON.stringify(form));
+    } catch {}
+  }, [form, hydrated, items.length]);
 
   async function handleGenerateCheckout(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -177,18 +219,40 @@ export function CheckoutPageShell({
       <div className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
         <div>
           <p className="section-kicker">Checkout</p>
-          <h1 className="section-title">Feche no site com Pix ou cartão.</h1>
+          <h1 className="section-title">Checkout sem cadastro para fechar agora.</h1>
           <p className="section-copy mt-3 max-w-3xl">
-            Pedido salvo com código, frete fixo, produção no Rio e fallback de atendimento humano se você quiser acelerar o fechamento.
+            Você informa só os dados necessários para entrega, gera o pedido com código e escolhe Mercado Pago ou atendimento humano se quiser acelerar.
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
           <span className="rounded-full border border-emerald-300/20 bg-emerald-300/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-emerald-100">
-            {isTestMode ? "Mercado Pago em teste" : "Mercado Pago ativo"}
+            {paymentOnlineReady ? (isTestMode ? "Mercado Pago em teste" : "Mercado Pago ativo") : "Pix + atendimento humano"}
           </span>
           <span className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-white/72">
             Frete fixo de R$ 15
           </span>
+        </div>
+      </div>
+
+      <div className="mb-6 grid gap-3 rounded-[28px] border border-cyan-300/16 bg-cyan-300/[0.07] p-4 md:grid-cols-[1fr_auto] md:items-center">
+        <div className="flex flex-wrap gap-2">
+          {checkoutSteps.map((step, index) => (
+            <span
+              key={step.id}
+              className={`inline-flex items-center gap-2 rounded-full border px-3 py-2 text-xs font-semibold uppercase tracking-[0.16em] ${
+                step.done
+                  ? "border-emerald-300/25 bg-emerald-300/10 text-emerald-100"
+                  : "border-white/10 bg-white/5 text-white/55"
+              }`}
+            >
+              {step.done ? <CheckCircle2 className="h-3.5 w-3.5" /> : <span>{index + 1}</span>}
+              {step.label}
+            </span>
+          ))}
+        </div>
+        <div className="inline-flex items-center gap-2 text-sm font-semibold text-cyan-50">
+          <UserRound className="h-4 w-4" />
+          Compra como visitante ativa
         </div>
       </div>
 
@@ -350,8 +414,22 @@ export function CheckoutPageShell({
                 <h2 className="mt-2 text-2xl font-black text-white">Complete o pedido</h2>
               </div>
               <span className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-white/65">
-                1. Dados  2. Mercado Pago
+                Sem login obrigatório
               </span>
+            </div>
+
+            <div className="mt-5 rounded-[22px] border border-emerald-300/20 bg-emerald-300/10 p-4">
+              <div className="flex items-start gap-3">
+                <span className="rounded-full border border-emerald-300/20 bg-emerald-300/10 p-2 text-emerald-100">
+                  <ShoppingBag className="h-4 w-4" />
+                </span>
+                <div>
+                  <p className="text-sm font-semibold text-white">Guest checkout liberado</p>
+                  <p className="mt-1 text-xs leading-6 text-white/68">
+                    Não precisa criar conta antes de pagar. Depois do pedido, você acompanha pelo código, e-mail ou atendimento.
+                  </p>
+                </div>
+              </div>
             </div>
 
             <div className="mt-6 grid gap-4 md:grid-cols-2">
@@ -479,7 +557,7 @@ export function CheckoutPageShell({
                 className="btn-primary justify-center text-base disabled:cursor-not-allowed disabled:opacity-70"
               >
                 {submitting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-                Gerar checkout Mercado Pago
+                Gerar pedido sem cadastro
               </button>
               <a href={whatsappHref} target="_blank" rel="noreferrer" className="btn-zap justify-center text-base">
                 <MessageCircleMore className="mr-2 h-4 w-4" />
@@ -550,7 +628,7 @@ export function CheckoutPageShell({
                   </div>
                 ) : (
                   <div className="rounded-[24px] border border-amber-300/20 bg-amber-300/10 p-5 text-sm leading-7 text-amber-50">
-                    A chave pública do Mercado Pago não está disponível neste ambiente. Use o fallback por WhatsApp até corrigir a configuração local.
+                    O pagamento online não abriu neste momento. O pedido foi salvo e pode ser concluído imediatamente pelo WhatsApp com os mesmos dados.
                   </div>
                 )}
 

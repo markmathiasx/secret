@@ -31,6 +31,15 @@ const child = spawn(process.execPath, [standaloneServer], {
   env: process.env,
 });
 
+function shutdown(signal) {
+  if (!child.killed) {
+    child.kill(signal);
+  }
+}
+
+process.on("SIGINT", shutdown);
+process.on("SIGTERM", shutdown);
+
 child.on("exit", (code) => {
   process.exit(code ?? 0);
 });

@@ -11,7 +11,10 @@ import {
   PackageCheck,
   SendHorizonal,
   ShieldCheck,
+  ShoppingCart,
   Sparkles,
+  Target,
+  TrendingUp,
   X,
 } from "lucide-react";
 import { assistantQuickPrompts } from "@/lib/commerce-assistant";
@@ -132,6 +135,21 @@ export function CommerceAssistantDialog({
   const [error, setError] = useState("");
   const conversationRef = useRef<HTMLDivElement | null>(null);
   const conversationEndRef = useRef<HTMLDivElement | null>(null);
+  const leadScore = useMemo(() => {
+    return Math.min(
+      100,
+      messages.reduce((score, message) => {
+        if (message.role !== "user") return score;
+        const content = message.content.toLowerCase();
+        let next = score + 6;
+        if (/(comprar|fechar|pedido|checkout|carrinho|pix|cart[aã]o|pre[cç]o|valor|frete)/.test(content)) next += 24;
+        if (/(hoje|agora|urgente|pronta entrega|r[aá]pido|presente)/.test(content)) next += 18;
+        if (/(stl|personaliz|sob medida|quantidade|lote|brinde)/.test(content)) next += 12;
+        return next;
+      }, 0)
+    );
+  }, [messages]);
+  const leadStage = leadScore >= 70 ? "Pronto para fechar" : leadScore >= 40 ? "Qualificando compra" : "Descoberta";
 
   function scrollToLatest() {
     requestAnimationFrame(() => {
@@ -267,6 +285,9 @@ export function CommerceAssistantDialog({
               <span className="rounded-full border border-cyan-300/20 bg-cyan-300/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-cyan-100">
                 {statusLabel}
               </span>
+              <span className="rounded-full border border-emerald-300/20 bg-emerald-300/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-emerald-100">
+                {leadStage}
+              </span>
             </div>
             <h2 className="mt-2 text-3xl font-black text-white">Encontre a peça certa e avance para o fechamento.</h2>
             <p className="mt-3 max-w-3xl text-sm leading-7 text-white/68">
@@ -301,6 +322,41 @@ export function CommerceAssistantDialog({
                 <p>Pix visível no checkout e chave ativa em <span className="font-semibold text-white">{pix.key}</span>.</p>
                 <p>{cardCheckoutReady ? "Cartão online disponível em ambiente seguro." : "Parcelamento tratado com apoio da equipe humana."}</p>
                 <p>Projetos personalizados aceitam briefing, imagem, STL, OBJ e 3MF.</p>
+              </div>
+            </div>
+
+            <div className="mt-4 rounded-[28px] border border-emerald-300/20 bg-emerald-300/10 p-5">
+              <div className="flex items-center justify-between gap-3">
+                <div className="flex items-center gap-3 text-emerald-100">
+                  <Target className="h-5 w-5" />
+                  <p className="text-sm font-semibold uppercase tracking-[0.18em]">Intenção de compra</p>
+                </div>
+                <span className="rounded-full border border-emerald-300/25 bg-black/20 px-3 py-1 text-xs font-bold text-emerald-100">
+                  {leadScore}/100
+                </span>
+              </div>
+              <div className="mt-4 h-2 overflow-hidden rounded-full bg-black/25">
+                <div
+                  className="h-full rounded-full bg-gradient-to-r from-emerald-300 via-cyan-300 to-white transition-all duration-500"
+                  style={{ width: `${leadScore}%` }}
+                />
+              </div>
+              <p className="mt-3 text-sm leading-7 text-white/72">
+                {leadScore >= 70
+                  ? "Cliente com sinais fortes de fechamento. Melhor caminho: carrinho, Pix ou atendimento humano."
+                  : leadScore >= 40
+                    ? "Cliente com intenção clara. Faça uma seleção curta e ofereça próximo passo."
+                    : "Cliente ainda explorando. Priorize faixa de preço, uso e prova visual."}
+              </p>
+              <div className="mt-4 grid gap-2">
+                <Link href="/carrinho" onClick={onClose} className="btn-primary justify-center gap-2">
+                  <ShoppingCart className="h-4 w-4" />
+                  Ir para carrinho
+                </Link>
+                <Link href="/catalogo?intent=Compra%20r%C3%A1pida&mode=real" onClick={onClose} className="btn-secondary justify-center gap-2">
+                  <TrendingUp className="h-4 w-4" />
+                  Ver compra rápida
+                </Link>
               </div>
             </div>
 

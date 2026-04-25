@@ -4,6 +4,7 @@ import { useState } from "react";
 import { ShoppingCart, Check } from "lucide-react";
 import { addLocalCartItem } from "@/lib/cart-store";
 import { useToast } from "@/components/toast";
+import { trackAddToCart } from "@/lib/analytics";
 
 export function QuickAddToCart({
   productId,
@@ -34,6 +35,7 @@ export function QuickAddToCart({
       priceCard,
       image,
     });
+    trackAddToCart({ id: productId, name: productName, pricePix, priceCard }, 1);
     setAdded(true);
     addToast(`${productName} adicionado ao carrinho`, "success");
     setTimeout(() => setAdded(false), 2000);
