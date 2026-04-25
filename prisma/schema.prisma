@@ -192,6 +192,7 @@ model User {
   referralsGiven    Referral[]       @relation("referrerReferrals")
   referralsReceived Referral[]       @relation("refereeReferrals")
   productQuestions  ProductQuestion[]
+  passwordResetOTPs PasswordResetOTP[]
 }
 
 model Account {
@@ -1100,4 +1101,19 @@ model FlashSale {
 
   @@index([productId, active])
   @@index([endsAt])
+}
+
+model PasswordResetOTP {
+  id        String   @id @default(cuid())
+  userId    String?
+  phone     String
+  codeHash  String
+  expiresAt DateTime
+  used      Boolean  @default(false)
+  attempts  Int      @default(0)
+  createdAt DateTime @default(now())
+  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([phone, used])
+  @@index([expiresAt])
 }
