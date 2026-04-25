@@ -17,6 +17,8 @@ const imageHosts = new Set([
   "images.ctfassets.net",
   "jimhpbvmvhgkfrtprvfs.supabase.co",
   "mdh-3d-store.vercel.app",
+  "mdh3d.com.br",
+  "www.mdh3d.com.br",
   "picsum.photos",
   "localhost",
   "127.0.0.1"
@@ -187,6 +189,13 @@ const nextConfig: NextConfig = {
   // Redirects
   async redirects() {
     return [
+      // www → non-www canonical redirect
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'www.mdh3d.com.br' }],
+        destination: 'https://mdh3d.com.br/:path*',
+        permanent: true,
+      },
       {
         source: '/home',
         destination: '/',

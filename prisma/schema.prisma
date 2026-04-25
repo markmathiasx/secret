@@ -779,7 +779,11 @@ model ChatThread {
   productId     String?
   type          ChatThreadType @default(SUPPORT)
   channel       String         @default("site")
+  status        String         @default("open")
   subject       String?
+  tags          String[]       @default([])
+  notes         String?
+  unread        Boolean        @default(true)
   lastMessageAt DateTime?
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
@@ -792,6 +796,8 @@ model ChatThread {
   @@index([buyerId, sellerId])
   @@index([orderId])
   @@index([channel])
+  @@index([status, lastMessageAt])
+  @@index([unread, channel])
 }
 
 model ChatMessage {

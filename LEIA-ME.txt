@@ -1,0 +1,9 @@
+1. Extraia o ZIP.
+2. Copie BOOTSTRAP-META-TOTAL-CLAUDE.ps1 para D:\mdh-3d-store\scripts\
+3. Rode no PowerShell 7:
+   cd D:\mdh-3d-store
+   pwsh -ExecutionPolicy Bypass -File .\scripts\BOOTSTRAP-META-TOTAL-CLAUDE.ps1
+4. O script gera:
+   - ops\PROMPT-META-TOTAL-CLAUDE.txt
+   - ops\META-TOTAL-CHECKLIST.txt
+5. Depois cole o prompt no Claude do VS Code.
