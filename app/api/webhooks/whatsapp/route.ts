@@ -293,6 +293,23 @@ export async function POST(request: Request) {
     for (const entry of entries) {
       for (const change of entry?.changes || []) {
         const value = change?.value || {};
+
+        // ── Message status updates (sent / delivered / read / failed) ────────
+        const statuses: Array<{ id: string; status: string; recipient_id?: string; errors?: Array<{ code: number; title: string }> }> =
+          value?.statuses || [];
+        for (const status of statuses) {
+          if (status.status === "failed" && status.errors?.length) {
+            const { code, title } = status.errors[0];
+            console.warn("[whatsapp-webhook] message delivery failed", {
+              messageId: status.id,
+              recipient: status.recipient_id,
+              errorCode: code,
+              errorTitle: title,
+            });
+          }
+          // For OTP delivery we don't need to act on sent/delivered/read
+        }
+
         const messages = value?.messages || [];
 
         for (const msg of messages) {

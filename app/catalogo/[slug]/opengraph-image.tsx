@@ -8,14 +8,14 @@ export const alt = "MDH 3D Store";
 
 export default async function Image({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const product = findCatalogProductBySlug(slug);
+  const product = (await findCatalogProductBySlug(slug)) ?? null;
 
   const name = product?.name ?? "MDH 3D Store";
   const subtitle = product
     ? `R$ ${product.priceCard.toFixed(2).replace(".", ",")} • Impressão 3D no Rio de Janeiro`
     : "Impressão 3D Profissional · Rio de Janeiro";
 
-  const badge = product?.visualLabel ?? "MDH 3D";
+  const badge = product?.category ?? "MDH 3D";
 
   return new ImageResponse(
     (
