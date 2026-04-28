@@ -18,13 +18,13 @@ function explicitGallery(product: Product) {
   if (images && images.length) {
     return images.map((src, index) => ({
       id: `${product.id}-${index + 1}`,
-      candidates: [src, productPlaceholderSrc],
+      candidates: [src],
       alt: buildProductImageAlt(product.name, index + 1),
     }));
   }
   const single = (product as Product & { image?: string }).image;
   if (single) {
-    return [{ id: `${product.id}-1`, candidates: [single, productPlaceholderSrc], alt: buildProductImageAlt(product.name, 1) }];
+    return [{ id: `${product.id}-1`, candidates: [single], alt: buildProductImageAlt(product.name, 1) }];
   }
   return null;
 }

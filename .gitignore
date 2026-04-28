@@ -17,6 +17,8 @@ coverage
 *.sqlite-journal
 tsconfig.tsbuildinfo
 *.log
+*.bak
+*.bak.*
 loja1/
 secret/
 .env*.local

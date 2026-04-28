@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { adminConfig } from "@/lib/constants";
+import { getSiteUrl } from "@/lib/env";
 import { getCustomerSessionSecret, verifySignedSessionToken } from "@/lib/session-token";
 
 const protectedPrefixes = ["/seller", "/admin", "/conta"];
@@ -63,16 +64,16 @@ export async function middleware(request: NextRequest) {
 
   // --- Domain canonicalization (production only) ---
   // Redirect every production host to the canonical custom domain from NEXT_PUBLIC_SITE_URL.
-  const canonicalHost = process.env.NEXT_PUBLIC_SITE_URL
-    ? new URL(process.env.NEXT_PUBLIC_SITE_URL).host
-    : "";
+  const isProductionDeployment =
+    process.env.VERCEL_ENV === "production" || (process.env.NODE_ENV === "production" && !process.env.VERCEL_ENV);
+  const canonicalHost = isProductionDeployment ? new URL(getSiteUrl()).host : "";
 
   if (
     canonicalHost &&
     host !== canonicalHost &&
     !host.includes("localhost") &&
     !host.includes("127.0.0.1") &&
-    process.env.NODE_ENV === "production"
+    isProductionDeployment
   ) {
     const url = request.nextUrl.clone();
     url.host = canonicalHost;

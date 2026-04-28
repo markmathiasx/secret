@@ -584,8 +584,13 @@ const curatedCatalog: Product[] = [
     marketplaceSuggested: 65.13,
     productionWindow: "3 a 5 dias",
     imageHint: "Suporte para Fone Headphone",
-    image: "/catalog-assets/mdh-13.webp",
-    images: ["/catalog-assets/mdh-13.webp", "/products/gallery/mdh-013/2.webp", "/products/gallery/mdh-013/3.webp"],
+    image: "/products/setup/suporte-fone-headphone.webp",
+    images: [
+      "/products/setup/suporte-fone-headphone.webp",
+      "/products/mdh-013-suporte-para-fone-headphone/02-closeup.jpg",
+      "/products/mdh-013-suporte-para-fone-headphone/03-in_use.jpg",
+      "/products/mdh-013-suporte-para-fone-headphone/04-packshot.jpg",
+    ],
     material: "PLA Premium",
     finish: "Premium",
     status: "Sob encomenda",
@@ -614,8 +619,13 @@ const curatedCatalog: Product[] = [
     marketplaceSuggested: 25.13,
     productionWindow: "24h a 48h",
     imageHint: "Organizador de Cabos",
-    image: "/catalog-assets/mdh-14.webp",
-    images: ["/catalog-assets/mdh-14.webp", "/products/gallery/mdh-014/2.webp", "/products/gallery/mdh-014/3.webp"],
+    image: "/products/setup/organizador-cabos.webp",
+    images: [
+      "/products/setup/organizador-cabos.webp",
+      "/products/mdh-014-organizador-de-cabos/02-closeup.jpg",
+      "/products/mdh-014-organizador-de-cabos/03-in_use.jpg",
+      "/products/mdh-014-organizador-de-cabos/04-packshot.jpg",
+    ],
     material: "PLA Premium",
     finish: "Premium",
     status: "Pronta entrega",
@@ -644,8 +654,13 @@ const curatedCatalog: Product[] = [
     marketplaceSuggested: 29.13,
     productionWindow: "24h a 48h",
     imageHint: "Suporte para Celular",
-    image: "/catalog-assets/mdh-15.webp",
-    images: ["/catalog-assets/mdh-15.webp", "/products/gallery/mdh-015/2.webp", "/products/gallery/mdh-015/3.webp"],
+    image: "/products/setup/suporte-celular.webp",
+    images: [
+      "/products/setup/suporte-celular.webp",
+      "/products/mdh-015-suporte-para-celular/02-closeup.jpg",
+      "/products/mdh-015-suporte-para-celular/03-in_use.jpg",
+      "/products/mdh-015-suporte-para-celular/04-packshot.jpg",
+    ],
     material: "PLA Premium",
     finish: "Premium",
     status: "Pronta entrega",
@@ -674,8 +689,13 @@ const curatedCatalog: Product[] = [
     marketplaceSuggested: 18.13,
     productionWindow: "24h a 48h",
     imageHint: "Chaveiro Personalizado",
-    image: "/catalog-assets/mdh-16.webp",
-    images: ["/catalog-assets/mdh-16.webp", "/products/gallery/mdh-016/2.webp", "/products/gallery/mdh-016/3.webp"],
+    image: "/products/setup/chaveiro-personalizado.webp",
+    images: [
+      "/products/setup/chaveiro-personalizado.webp",
+      "/products/mdh-016-chaveiro-personalizado/02-closeup.jpg",
+      "/products/mdh-016-chaveiro-personalizado/03-in_use.jpg",
+      "/products/mdh-016-chaveiro-personalizado/04-packshot.jpg",
+    ],
     material: "PLA Premium",
     finish: "Premium",
     status: "Sob encomenda",
@@ -704,8 +724,13 @@ const curatedCatalog: Product[] = [
     marketplaceSuggested: 55.13,
     productionWindow: "3 a 5 dias",
     imageHint: "Suporte para Controle PS5",
-    image: "/catalog-assets/mdh-17.webp",
-    images: ["/catalog-assets/mdh-17.webp", "/products/gallery/mdh-017/2.webp", "/products/gallery/mdh-017/3.webp"],
+    image: "/products/setup/suporte-controle-ps5.webp",
+    images: [
+      "/products/setup/suporte-controle-ps5.webp",
+      "/products/mdh-017-suporte-para-controle-ps5/02-closeup.jpg",
+      "/products/mdh-017-suporte-para-controle-ps5/03-in_use.jpg",
+      "/products/mdh-017-suporte-para-controle-ps5/04-packshot.jpg",
+    ],
     material: "PLA Premium",
     finish: "Premium",
     status: "Sob encomenda",
@@ -764,8 +789,13 @@ const curatedCatalog: Product[] = [
     marketplaceSuggested: 32.13,
     productionWindow: "24h a 48h",
     imageHint: "Porta-Copos Geek",
-    image: "/catalog-assets/mdh-19.webp",
-    images: ["/catalog-assets/mdh-19.webp", "/products/gallery/mdh-019/2.webp", "/products/gallery/mdh-019/3.webp"],
+    image: "/products/setup/porta-copos-geek.webp",
+    images: [
+      "/products/setup/porta-copos-geek.webp",
+      "/products/mdh-019-porta-copos-geek/02-closeup.jpg",
+      "/products/mdh-019-porta-copos-geek/03-in_use.jpg",
+      "/products/mdh-019-porta-copos-geek/04-packshot.jpg",
+    ],
     material: "PLA Premium",
     finish: "Premium",
     status: "Pronta entrega",
@@ -2700,9 +2730,18 @@ const curatedCatalog: Product[] = [
   },
 ];
 
+const setupCuratedImageProductIds = new Set(["mdh-013", "mdh-014", "mdh-015", "mdh-016", "mdh-017", "mdh-019"]);
+
 const fullCatalog = [
   ...verifiedCatalog.map((product) => applyCatalogMedia(enrichProduct(product), { preserveExisting: true })),
-  ...curatedCatalog.map((product) => applyCatalogMedia(enrichProduct(product), { preserveExisting: false })),
+  ...curatedCatalog.map((product) =>
+    applyCatalogMedia(
+      enrichProduct(product),
+      setupCuratedImageProductIds.has(product.id)
+        ? { preserveExisting: true, preferExistingImages: true }
+        : { preserveExisting: false },
+    )
+  ),
   ...csvCuratedCatalog.map((product) =>
     applyCatalogMedia(enrichProduct(product), {
       preserveExisting: true,

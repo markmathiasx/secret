@@ -529,7 +529,7 @@ export default async function ProductPage({
               priceCard={product.priceCard}
               productionWindow={product.productionWindow}
               readyToShip={product.readyToShip ?? false}
-              productImage={product.images?.[0]}
+              productImage={resolvedImage}
               customizable={product.customizable}
               whatsappHref={whatsappHref}
               customizationHref={customizationHref}
@@ -613,7 +613,7 @@ export default async function ProductPage({
         productName={product.name}
         pricePix={product.pricePix}
         priceCard={product.priceCard}
-        productImage={product.images?.[0]}
+        productImage={resolvedImage}
         sku={product.sku}
         checkoutHref="/checkout"
       />

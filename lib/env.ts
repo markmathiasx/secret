@@ -7,6 +7,10 @@ function isLocalAddress(hostname: string) {
   return normalized === "localhost" || normalized === "127.0.0.1" || normalized === "0.0.0.0";
 }
 
+function isVercelDefaultHost(hostname: string) {
+  return /\.vercel\.app$/i.test(hostname.trim().toLowerCase());
+}
+
 function normalizeUrl(value?: string | null, options?: { allowLocal?: boolean }) {
   const raw = (value || '').trim();
   if (!raw) return null;
@@ -34,6 +38,9 @@ export function getSiteUrl() {
 
   for (const candidate of candidates) {
     const normalized = normalizeUrl(candidate, { allowLocal: !PROD });
+    if (PROD && normalized && isVercelDefaultHost(new URL(normalized).hostname)) {
+      continue;
+    }
     if (normalized) return normalized;
   }
 
@@ -105,7 +112,7 @@ export function isNativeSiteChatEnabled() {
  */
 export function isSiteUrlVercelDefault(): boolean {
   const url = getSiteUrl();
-  return /\.vercel\.app$/i.test(new URL(url).hostname);
+  return isVercelDefaultHost(new URL(url).hostname);
 }
 
 export function getSupabaseUrl() {

@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, BadgeCheck, Sparkles } from "lucide-react";
 import { QuickAddToCart } from "@/components/quick-add-to-cart";
+import { buildProductImageAlt } from "@/lib/catalog-media";
 import { bestsellerStorefrontProducts, highlightStorefrontProducts } from "@/lib/products";
 import { formatCurrency } from "@/lib/utils";
 
@@ -30,7 +31,7 @@ function ProductShelfCard({
         <div className="relative h-56 overflow-hidden rounded-[24px] border border-white/10 bg-black/30">
           <Image
             src={image}
-            alt={title}
+            alt={buildProductImageAlt(title)}
             fill
             className="object-cover transition duration-500 group-hover:scale-105"
             sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 25vw"
@@ -128,7 +129,7 @@ export function StorefrontSalesShelves() {
                   <div className="relative h-52 overflow-hidden rounded-[22px] border border-white/10 bg-black/25">
                     <Image
                       src={product.images[0]}
-                      alt={product.name}
+                      alt={buildProductImageAlt(product.name)}
                       fill
                       className="object-cover"
                       sizes="(max-width: 768px) 100vw, 320px"

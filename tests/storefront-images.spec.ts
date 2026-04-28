@@ -5,79 +5,115 @@ import { test, expect } from "@playwright/test";
 const baseUrl = process.env.SMOKE_BASE_URL || "http://127.0.0.1:3000";
 const auditPath = path.join(process.cwd(), "output", "CATALOG_SEMANTIC_AUDIT.json");
 const audit = JSON.parse(fs.readFileSync(auditPath, "utf8"));
-const storefrontHomeImages: Record<string, string[]> = {
-  "Suporte para Fone Headphone": [
-    "/products/mdh-013-suporte-para-fone-headphone/01-hero.jpg",
-    "/products/mdh-013-suporte-para-fone-headphone/02-closeup.jpg",
-    "/products/mdh-013-suporte-para-fone-headphone/03-in_use.jpg",
-    "/products/mdh-013-suporte-para-fone-headphone/04-packshot.jpg",
-  ],
-  "Organizador de Cabos": [
-    "/products/mdh-014-organizador-de-cabos/01-hero.jpg",
-    "/products/mdh-014-organizador-de-cabos/02-closeup.jpg",
-    "/products/mdh-014-organizador-de-cabos/03-in_use.jpg",
-    "/products/mdh-014-organizador-de-cabos/04-packshot.jpg",
-  ],
-  "Suporte para Celular": [
-    "/products/mdh-015-suporte-para-celular/01-hero.jpg",
-    "/products/mdh-015-suporte-para-celular/02-closeup.jpg",
-    "/products/mdh-015-suporte-para-celular/03-in_use.jpg",
-    "/products/mdh-015-suporte-para-celular/04-packshot.jpg",
-  ],
-  "Chaveiro Personalizado": [
-    "/products/mdh-016-chaveiro-personalizado/01-hero.jpg",
-    "/products/mdh-016-chaveiro-personalizado/02-closeup.jpg",
-    "/products/mdh-016-chaveiro-personalizado/03-in_use.jpg",
-    "/products/mdh-016-chaveiro-personalizado/04-packshot.jpg",
-  ],
-  "Suporte para Controle PS5": [
-    "/products/mdh-017-suporte-para-controle-ps5/01-hero.jpg",
-    "/products/mdh-017-suporte-para-controle-ps5/02-closeup.jpg",
-    "/products/mdh-017-suporte-para-controle-ps5/03-in_use.jpg",
-    "/products/mdh-017-suporte-para-controle-ps5/04-packshot.jpg",
-  ],
-  "Porta-Copos Geek": [
-    "/products/mdh-019-porta-copos-geek/01-hero.jpg",
-    "/products/mdh-019-porta-copos-geek/02-closeup.jpg",
-    "/products/mdh-019-porta-copos-geek/03-in_use.jpg",
-    "/products/mdh-019-porta-copos-geek/04-packshot.jpg",
-  ],
-  "Organizador de Canetas": [
-    "/products/mdh-022-organizador-de-canetas/01-hero.jpg",
-    "/products/mdh-022-organizador-de-canetas/02-closeup.jpg",
-    "/products/mdh-022-organizador-de-canetas/03-in_use.jpg",
-    "/products/mdh-022-organizador-de-canetas/04-packshot.jpg",
-  ],
-  "Vaso Geométrico": [
-    "/products/mdh-025-vaso-geometrico/01-hero.jpg",
-    "/products/mdh-025-vaso-geometrico/02-closeup.jpg",
-    "/products/mdh-025-vaso-geometrico/03-in_use.jpg",
-    "/products/mdh-025-vaso-geometrico/04-packshot.jpg",
-  ],
-  "Pokébola": [
-    "/products/mdh-026-pokebola/01-hero.jpg",
-    "/products/mdh-026-pokebola/02-closeup.jpg",
-    "/products/mdh-026-pokebola/03-in_use.jpg",
-    "/products/mdh-026-pokebola/04-packshot.jpg",
-  ],
-  "Luminária LED Personalizada": [
-    "/products/mdh-028-luminaria-led-personalizada/01-hero.jpg",
-    "/products/mdh-028-luminaria-led-personalizada/02-closeup.jpg",
-    "/products/mdh-028-luminaria-led-personalizada/03-in_use.jpg",
-    "/products/mdh-028-luminaria-led-personalizada/04-packshot.jpg",
-  ],
-  "Foto Litofania": [
-    "/products/mdh-029-foto-litofania/01-hero.jpg",
-    "/products/mdh-029-foto-litofania/02-closeup.jpg",
-    "/products/mdh-029-foto-litofania/03-in_use.jpg",
-    "/products/mdh-029-foto-litofania/04-packshot.jpg",
-  ],
-  "Quadro Decorativo": [
-    "/products/mdh-030-quadro-decorativo/01-hero.jpg",
-    "/products/mdh-030-quadro-decorativo/02-closeup.jpg",
-    "/products/mdh-030-quadro-decorativo/03-in_use.jpg",
-    "/products/mdh-030-quadro-decorativo/04-packshot.jpg",
-  ],
+const storefrontHomeImages: Record<string, { primary: string; evidenceImages: string[] }> = {
+  "Suporte para Fone Headphone": {
+    primary: "/products/setup/suporte-fone-headphone.webp",
+    evidenceImages: [
+      "/products/mdh-013-suporte-para-fone-headphone/01-hero.jpg",
+      "/products/mdh-013-suporte-para-fone-headphone/02-closeup.jpg",
+      "/products/mdh-013-suporte-para-fone-headphone/03-in_use.jpg",
+      "/products/mdh-013-suporte-para-fone-headphone/04-packshot.jpg",
+    ],
+  },
+  "Organizador de Cabos": {
+    primary: "/products/setup/organizador-cabos.webp",
+    evidenceImages: [
+      "/products/mdh-014-organizador-de-cabos/01-hero.jpg",
+      "/products/mdh-014-organizador-de-cabos/02-closeup.jpg",
+      "/products/mdh-014-organizador-de-cabos/03-in_use.jpg",
+      "/products/mdh-014-organizador-de-cabos/04-packshot.jpg",
+    ],
+  },
+  "Suporte para Celular": {
+    primary: "/products/setup/suporte-celular.webp",
+    evidenceImages: [
+      "/products/mdh-015-suporte-para-celular/01-hero.jpg",
+      "/products/mdh-015-suporte-para-celular/02-closeup.jpg",
+      "/products/mdh-015-suporte-para-celular/03-in_use.jpg",
+      "/products/mdh-015-suporte-para-celular/04-packshot.jpg",
+    ],
+  },
+  "Chaveiro Personalizado": {
+    primary: "/products/setup/chaveiro-personalizado.webp",
+    evidenceImages: [
+      "/products/mdh-016-chaveiro-personalizado/01-hero.jpg",
+      "/products/mdh-016-chaveiro-personalizado/02-closeup.jpg",
+      "/products/mdh-016-chaveiro-personalizado/03-in_use.jpg",
+      "/products/mdh-016-chaveiro-personalizado/04-packshot.jpg",
+    ],
+  },
+  "Suporte para Controle PS5": {
+    primary: "/products/setup/suporte-controle-ps5.webp",
+    evidenceImages: [
+      "/products/mdh-017-suporte-para-controle-ps5/01-hero.jpg",
+      "/products/mdh-017-suporte-para-controle-ps5/02-closeup.jpg",
+      "/products/mdh-017-suporte-para-controle-ps5/03-in_use.jpg",
+      "/products/mdh-017-suporte-para-controle-ps5/04-packshot.jpg",
+    ],
+  },
+  "Porta-Copos Geek": {
+    primary: "/products/setup/porta-copos-geek.webp",
+    evidenceImages: [
+      "/products/mdh-019-porta-copos-geek/01-hero.jpg",
+      "/products/mdh-019-porta-copos-geek/02-closeup.jpg",
+      "/products/mdh-019-porta-copos-geek/03-in_use.jpg",
+      "/products/mdh-019-porta-copos-geek/04-packshot.jpg",
+    ],
+  },
+  "Organizador de Canetas": {
+    primary: "/products/mdh-022-organizador-de-canetas/01-hero.jpg",
+    evidenceImages: [
+      "/products/mdh-022-organizador-de-canetas/01-hero.jpg",
+      "/products/mdh-022-organizador-de-canetas/02-closeup.jpg",
+      "/products/mdh-022-organizador-de-canetas/03-in_use.jpg",
+      "/products/mdh-022-organizador-de-canetas/04-packshot.jpg",
+    ],
+  },
+  "Vaso Geométrico": {
+    primary: "/products/mdh-025-vaso-geometrico/01-hero.jpg",
+    evidenceImages: [
+      "/products/mdh-025-vaso-geometrico/01-hero.jpg",
+      "/products/mdh-025-vaso-geometrico/02-closeup.jpg",
+      "/products/mdh-025-vaso-geometrico/03-in_use.jpg",
+      "/products/mdh-025-vaso-geometrico/04-packshot.jpg",
+    ],
+  },
+  "Pokébola": {
+    primary: "/products/mdh-026-pokebola/01-hero.jpg",
+    evidenceImages: [
+      "/products/mdh-026-pokebola/01-hero.jpg",
+      "/products/mdh-026-pokebola/02-closeup.jpg",
+      "/products/mdh-026-pokebola/03-in_use.jpg",
+      "/products/mdh-026-pokebola/04-packshot.jpg",
+    ],
+  },
+  "Luminária LED Personalizada": {
+    primary: "/products/mdh-028-luminaria-led-personalizada/01-hero.jpg",
+    evidenceImages: [
+      "/products/mdh-028-luminaria-led-personalizada/01-hero.jpg",
+      "/products/mdh-028-luminaria-led-personalizada/02-closeup.jpg",
+      "/products/mdh-028-luminaria-led-personalizada/03-in_use.jpg",
+      "/products/mdh-028-luminaria-led-personalizada/04-packshot.jpg",
+    ],
+  },
+  "Foto Litofania": {
+    primary: "/products/mdh-029-foto-litofania/01-hero.jpg",
+    evidenceImages: [
+      "/products/mdh-029-foto-litofania/01-hero.jpg",
+      "/products/mdh-029-foto-litofania/02-closeup.jpg",
+      "/products/mdh-029-foto-litofania/03-in_use.jpg",
+      "/products/mdh-029-foto-litofania/04-packshot.jpg",
+    ],
+  },
+  "Quadro Decorativo": {
+    primary: "/products/mdh-030-quadro-decorativo/01-hero.jpg",
+    evidenceImages: [
+      "/products/mdh-030-quadro-decorativo/01-hero.jpg",
+      "/products/mdh-030-quadro-decorativo/02-closeup.jpg",
+      "/products/mdh-030-quadro-decorativo/03-in_use.jpg",
+      "/products/mdh-030-quadro-decorativo/04-packshot.jpg",
+    ],
+  },
 };
 
 const realApprovedSkus = Array.isArray(audit.items)
@@ -120,14 +156,14 @@ for (const product of realApprovedSkus) {
 test("home usa imagens de produto nos cards principais", async ({ page }) => {
   await page.goto(baseUrl, { waitUntil: "networkidle" });
 
-  for (const [productName, images] of Object.entries(storefrontHomeImages)) {
+  for (const [productName, media] of Object.entries(storefrontHomeImages)) {
     const card = page.locator("article", { has: page.getByRole("heading", { name: productName }) }).first();
     await expect(card, productName).toBeVisible();
     const image = card.locator("img").first();
     await image.scrollIntoViewIfNeeded();
     const src = await image.evaluate((img) => (img as HTMLImageElement).currentSrc || img.getAttribute("src") || "");
 
-    expect(src, `${productName} deveria usar ${images[0]}`).toContain(images[0]);
+    expect(src, `${productName} deveria usar ${media.primary}`).toContain(media.primary);
     expect(src, `${productName} nao pode usar placeholder`).not.toMatch(/catalog-assets|placeholder/i);
 
     await expect
@@ -144,8 +180,12 @@ test("home usa imagens de produto nos cards principais", async ({ page }) => {
 });
 
 test("arquivos da vitrine nao sao cards textuais uniformes", () => {
-  for (const [productName, images] of Object.entries(storefrontHomeImages)) {
-    const sizes = images.map((image) => {
+  for (const [productName, media] of Object.entries(storefrontHomeImages)) {
+    const primaryPath = path.join(process.cwd(), "public", media.primary.replace(/^\//, ""));
+    expect(fs.existsSync(primaryPath), `${productName}: ${media.primary}`).toBeTruthy();
+    expect(fs.statSync(primaryPath).size, `${productName}: imagem principal comprimida demais`).toBeGreaterThan(20000);
+
+    const sizes = media.evidenceImages.map((image) => {
       const imagePath = path.join(process.cwd(), "public", image.replace(/^\//, ""));
       expect(fs.existsSync(imagePath), `${productName}: ${image}`).toBeTruthy();
       return fs.statSync(imagePath).size;
@@ -172,7 +212,7 @@ test("checkout continua carregando sem imagens quebradas", async ({ page }) => {
               title: "Suporte para Fone Headphone",
               pricePix: 69.9,
               priceCard: 69.9,
-              image: "/products/catalog/mdh-013.webp",
+              image: "/products/setup/suporte-fone-headphone.webp",
               updatedAt: new Date().toISOString(),
             },
           ],
