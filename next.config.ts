@@ -189,11 +189,12 @@ const nextConfig: NextConfig = {
   // Redirects
   async redirects() {
     return [
-      // www → non-www canonical redirect
+      // Apex -> www canonical redirect. The external domain already resolves
+      // apex requests toward www, so keep application redirects aligned.
       {
         source: '/:path*',
-        has: [{ type: 'host', value: 'www.mdh3d.com.br' }],
-        destination: 'https://mdh3d.com.br/:path*',
+        has: [{ type: 'host', value: 'mdh3d.com.br' }],
+        destination: 'https://www.mdh3d.com.br/:path*',
         permanent: true,
       },
       {

@@ -15,7 +15,15 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 export function isDatabaseConfigured() {
-  return Boolean(process.env.DATABASE_URL?.trim());
+  const databaseUrl = process.env.DATABASE_URL?.trim();
+  if (!databaseUrl) return false;
+
+  try {
+    const parsed = new URL(databaseUrl);
+    return parsed.protocol === "postgresql:" || parsed.protocol === "postgres:";
+  } catch {
+    return false;
+  }
 }
 
 function isBuildTime() {

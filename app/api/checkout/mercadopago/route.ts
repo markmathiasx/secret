@@ -14,7 +14,7 @@ const schema = z.object({
   email: z.string().email().optional(),
   orderCode: z.string().min(5).max(64).optional(),
   amount: z.number().positive().max(99999).optional(),
-  paymentData: z.record(z.unknown()).optional(),
+  paymentData: z.record(z.string(), z.unknown()).optional(),
 });
 
 export async function POST(request: Request) {

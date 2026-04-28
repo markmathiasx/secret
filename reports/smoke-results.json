@@ -80,12 +80,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1668,
+                  "duration": 5917,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-04-28T02:47:25.095Z",
+                  "startTime": "2026-04-28T12:20:20.231Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -95,7 +95,7 @@
           ],
           "id": "ba125c80e441cb68a830-57950f4729b5930c4ffc",
           "file": "storefront-images.spec.ts",
-          "line": 127,
+          "line": 145,
           "column": 7
         },
         {
@@ -114,12 +114,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1507,
+                  "duration": 1965,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-04-28T02:47:26.850Z",
+                  "startTime": "2026-04-28T12:20:26.638Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -129,7 +129,7 @@
           ],
           "id": "ba125c80e441cb68a830-47910420171612f2a95f",
           "file": "storefront-images.spec.ts",
-          "line": 127,
+          "line": 145,
           "column": 7
         },
         {
@@ -148,12 +148,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1395,
+                  "duration": 1603,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-04-28T02:47:28.375Z",
+                  "startTime": "2026-04-28T12:20:28.630Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -163,7 +163,7 @@
           ],
           "id": "ba125c80e441cb68a830-0ef1fcb21c70f29393f9",
           "file": "storefront-images.spec.ts",
-          "line": 127,
+          "line": 145,
           "column": 7
         },
         {
@@ -182,12 +182,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1394,
+                  "duration": 1696,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-04-28T02:47:29.786Z",
+                  "startTime": "2026-04-28T12:20:30.256Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -197,7 +197,7 @@
           ],
           "id": "ba125c80e441cb68a830-dae9c6ef9dd2db0e99b2",
           "file": "storefront-images.spec.ts",
-          "line": 127,
+          "line": 145,
           "column": 7
         },
         {
@@ -216,12 +216,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1375,
+                  "duration": 1503,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-04-28T02:47:31.193Z",
+                  "startTime": "2026-04-28T12:20:31.973Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -231,7 +231,7 @@
           ],
           "id": "ba125c80e441cb68a830-74068d1e1eacebd6feac",
           "file": "storefront-images.spec.ts",
-          "line": 127,
+          "line": 145,
           "column": 7
         },
         {
@@ -250,12 +250,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1377,
+                  "duration": 1409,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-04-28T02:47:32.579Z",
+                  "startTime": "2026-04-28T12:20:33.487Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -265,7 +265,7 @@
           ],
           "id": "ba125c80e441cb68a830-d00fe75d45a34b36fd3c",
           "file": "storefront-images.spec.ts",
-          "line": 127,
+          "line": 145,
           "column": 7
         },
         {
@@ -284,12 +284,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1397,
+                  "duration": 1422,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-04-28T02:47:33.983Z",
+                  "startTime": "2026-04-28T12:20:34.909Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -299,7 +299,7 @@
           ],
           "id": "ba125c80e441cb68a830-8e16f2bf60caef6206a9",
           "file": "storefront-images.spec.ts",
-          "line": 127,
+          "line": 145,
           "column": 7
         },
         {
@@ -318,12 +318,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1374,
+                  "duration": 1358,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-04-28T02:47:35.393Z",
+                  "startTime": "2026-04-28T12:20:36.355Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -333,7 +333,7 @@
           ],
           "id": "ba125c80e441cb68a830-53ceebe1ee84b59fcaad",
           "file": "storefront-images.spec.ts",
-          "line": 127,
+          "line": 145,
           "column": 7
         },
         {
@@ -352,12 +352,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1356,
+                  "duration": 1447,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-04-28T02:47:36.780Z",
+                  "startTime": "2026-04-28T12:20:37.727Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -367,7 +367,7 @@
           ],
           "id": "ba125c80e441cb68a830-19c7c767be33e3b7d584",
           "file": "storefront-images.spec.ts",
-          "line": 127,
+          "line": 145,
           "column": 7
         },
         {
@@ -386,12 +386,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1340,
+                  "duration": 1453,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-04-28T02:47:38.150Z",
+                  "startTime": "2026-04-28T12:20:39.188Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -401,7 +401,7 @@
           ],
           "id": "ba125c80e441cb68a830-3ff7e96896d17031700a",
           "file": "storefront-images.spec.ts",
-          "line": 127,
+          "line": 145,
           "column": 7
         },
         {
@@ -420,12 +420,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 3076,
+                  "duration": 2996,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-04-28T02:47:39.514Z",
+                  "startTime": "2026-04-28T12:20:40.653Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -435,7 +435,7 @@
           ],
           "id": "ba125c80e441cb68a830-353dcbddfea26ba02e82",
           "file": "storefront-images.spec.ts",
-          "line": 156,
+          "line": 174,
           "column": 5
         },
         {
@@ -454,12 +454,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 91,
+                  "duration": 79,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-04-28T02:47:42.602Z",
+                  "startTime": "2026-04-28T12:20:43.661Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -469,7 +469,75 @@
           ],
           "id": "ba125c80e441cb68a830-deedc7386de8aa26d071",
           "file": "storefront-images.spec.ts",
-          "line": 182,
+          "line": 200,
+          "column": 5
+        },
+        {
+          "title": "itens Valorant usam imagens curadas e nao placeholders de SKU",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 90,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-04-28T12:20:43.754Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ba125c80e441cb68a830-3adfc48d0a7f9fc14859",
+          "file": "storefront-images.spec.ts",
+          "line": 219,
+          "column": 5
+        },
+        {
+          "title": "PDP Valorant curado e publico usa imagem conceitual local",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1582,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-04-28T12:20:43.852Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ba125c80e441cb68a830-4693bc38cbf552ed34c3",
+          "file": "storefront-images.spec.ts",
+          "line": 251,
           "column": 5
         },
         {
@@ -488,12 +556,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1646,
+                  "duration": 1648,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-04-28T02:47:42.703Z",
+                  "startTime": "2026-04-28T12:20:45.445Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -503,7 +571,7 @@
           ],
           "id": "ba125c80e441cb68a830-94567445342e5492d014",
           "file": "storefront-images.spec.ts",
-          "line": 201,
+          "line": 268,
           "column": 5
         }
       ]
@@ -511,9 +579,9 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-04-28T02:47:24.499Z",
-    "duration": 19950.728,
-    "expected": 13,
+    "startTime": "2026-04-28T12:20:19.421Z",
+    "duration": 27758.115,
+    "expected": 15,
     "skipped": 0,
     "unexpected": 0,
     "flaky": 0

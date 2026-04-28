@@ -1,6 +1,6 @@
 const PROD = process.env.NODE_ENV === 'production' || process.env.VERCEL_ENV === 'production';
 const DEFAULT_DEV_URL = 'http://localhost:3000';
-const DEFAULT_PROD_URL = 'https://mdh3d.com.br';
+const DEFAULT_PROD_URL = 'https://www.mdh3d.com.br';
 
 function isLocalAddress(hostname: string) {
   const normalized = hostname.trim().toLowerCase();
@@ -21,6 +21,9 @@ function normalizeUrl(value?: string | null, options?: { allowLocal?: boolean })
     const parsed = new URL(withProtocol);
     if (!options?.allowLocal && isLocalAddress(parsed.hostname)) {
       return null;
+    }
+    if (PROD && parsed.hostname === "mdh3d.com.br") {
+      parsed.hostname = "www.mdh3d.com.br";
     }
     return parsed.toString().replace(/\/$/, '');
   } catch {

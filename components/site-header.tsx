@@ -10,7 +10,6 @@ import {
   BadgeCheck,
   Bot,
   Boxes,
-  Instagram,
   LogOut,
   Menu,
   PackageCheck,
@@ -41,6 +40,26 @@ const commerceShortcuts = [
   { href: "/catalogo?intent=Presente", label: "Ideias de presente", icon: ShoppingBag },
   { href: "/imagem-para-impressao-3d", label: "Enviar STL", icon: Boxes },
 ] as const;
+
+function InstagramIcon({ className }: { className: string }) {
+  return (
+    <svg
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.5" cy="6.5" r="1.5" />
+    </svg>
+  );
+}
 
 function isLinkActive(pathname: string, href: string) {
   if (href === "/") {
@@ -107,7 +126,7 @@ export function SiteHeader({
               Produção local e acabamento sob medida
             </span>
             <a href={socialLinks.instagram} target="_blank" rel="noreferrer" className="shrink-0 text-cyan-100 transition hover:text-cyan-glow flex items-center gap-1">
-              <Instagram className="h-3 w-3 sm:hidden" />
+              <InstagramIcon className="h-3 w-3 sm:hidden" />
               <span className="hidden sm:inline">@{brand.instagramHandle}</span>
             </a>
           </div>
@@ -216,27 +235,9 @@ export function SiteHeader({
             </Link>
           ))}
           <a href={socialLinks.instagram} target="_blank" rel="noreferrer" className="chip-nav ml-auto">
-            <Instagram className="h-4 w-4" /> Instagram
+            <InstagramIcon className="h-4 w-4" /> Instagram
           </a>
         </nav>
-
-        <div className="border-t border-white/10">
-          <div className="mx-auto flex max-w-7xl gap-2 overflow-x-auto px-4 py-3 pb-4 sm:px-6 lg:justify-end">
-              {commerceShortcuts.map((shortcut) => {
-                const Icon = shortcut.icon;
-                return (
-                  <Link
-                    key={shortcut.href}
-                    href={shortcut.href}
-                    className="chip-nav whitespace-nowrap text-[12px]"
-                  >
-                    <Icon className="h-4 w-4" />
-                    {shortcut.label}
-                  </Link>
-                );
-              })}
-          </div>
-        </div>
 
         {mobileOpen ? (
           <div id="mdh-mobile-menu" className="border-t border-white/10 px-4 pb-4 sm:px-6 md:hidden">

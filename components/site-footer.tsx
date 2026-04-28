@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowUpRight, Instagram, Mail, MapPin, MessageCircleMore } from "lucide-react";
+import { ArrowUpRight, Mail, MapPin, MessageCircleMore } from "lucide-react";
 import {
   brand,
   catalogShortcutLinks,
@@ -19,6 +19,30 @@ const quickWhatsAppLinks = [
   { label: "Brindes e lotes", text: "Oi! Quero orçamento para brindes ou lote personalizado." },
   { label: "Tirar dúvidas", text: "Oi! Quero tirar dúvidas sobre material, prazo e acabamento." },
 ];
+
+const footerCatalogShortcutLinks = catalogShortcutLinks
+  .filter((item) => item.label !== "Só foto real")
+  .slice(0, 3);
+
+function InstagramIcon({ className }: { className: string }) {
+  return (
+    <svg
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.5" cy="6.5" r="1.5" />
+    </svg>
+  );
+}
 
 export function SiteFooter() {
   return (
@@ -87,7 +111,7 @@ export function SiteFooter() {
           <div className="mt-6 rounded-[22px] border border-white/10 bg-white/5 p-4">
             <p className="text-[11px] uppercase tracking-[0.18em] text-cyan-100/80">Atalhos de compra</p>
             <div className="mt-3 grid gap-2">
-              {catalogShortcutLinks.slice(0, 3).map((item) => (
+              {footerCatalogShortcutLinks.map((item) => (
                 <Link key={item.href} href={item.href} className="rounded-full border border-white/10 bg-black/20 px-3 py-2 text-xs text-white/75 transition hover:border-cyan-300/30 hover:text-cyan-100">
                   {item.label}
                 </Link>
@@ -177,7 +201,7 @@ export function SiteFooter() {
               rel="noreferrer"
               className="flex items-start gap-3 rounded-[20px] border border-white/10 bg-white/5 p-4 transition hover:border-pink-300/30"
             >
-              <Instagram className="mt-0.5 h-4 w-4 text-pink-200" />
+              <InstagramIcon className="mt-0.5 h-4 w-4 text-pink-200" />
               <span>@{brand.instagramHandle}</span>
             </a>
             <div className="flex items-start gap-3 rounded-[20px] border border-white/10 bg-white/5 p-4">

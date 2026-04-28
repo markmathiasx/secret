@@ -142,6 +142,37 @@ const _semanticBlocklist: Set<string> = new Set(
     .map((i) => i.id),
 );
 
+const curatedValorantProductIds = new Set([
+  "csv-cha-001",
+  "csv-cha-002",
+  "csv-cha-003",
+  "csv-cha-004",
+  "csv-dec-001",
+  "csv-dec-002",
+  "csv-dec-003",
+  "csv-dec-004",
+  "csv-uti-001",
+  "csv-uti-002",
+  "csv-uti-003",
+  "csv-uti-004",
+  "csv-col-001",
+  "csv-col-002",
+  "csv-col-003",
+  "csv-col-004",
+]);
+
+function hasCuratedValorantMedia(product: Product) {
+  const productId = product.id.toLowerCase();
+  if (!curatedValorantProductIds.has(productId)) return false;
+
+  const sku = productId.replace(/^csv-/, "");
+  const images = product.images || [];
+  return (
+    images.length >= 3 &&
+    images.every((url) => url.startsWith(`/products/valorant/${sku}/`) && !/placeholder|catalog-assets/i.test(url))
+  );
+}
+
 export function deriveMediaStatus(
   product: Product,
   photoKind: CatalogPhotoKind | undefined,
@@ -158,6 +189,11 @@ export function deriveMediaStatus(
 
   // HARD BLOCK: items whose image sets are placeholder text cards (conceptual only)
   if (_semanticBlocklist.has(product.id)) return "placeholder";
+
+  // Valorant items were manually curated into local concept-image folders after
+  // removing SKU placeholder text cards. They are public as illustrative media,
+  // but must not be classified as foto-real or render-fiel.
+  if (photoKind === "imagem-conceitual" && hasCuratedValorantMedia(product)) return "probable";
 
   // imagem-conceitual with near-perfect semantic match → probable
   if (photoKind === "imagem-conceitual" && semanticScore >= 99) return "probable";
@@ -234,6 +270,7 @@ function inferSourceType(url: string, photoKind?: CatalogPhotoKind): ProductImag
   if (url.includes("/products/render-")) return "render-3d";
   if (url.includes("/products/a1-mini-expansion/")) return "render-3d";
   if (url.includes("/products/csv-curated/")) return "external-sourced";
+  if (url.includes("/products/valorant/")) return "external-sourced";
   if (url.includes("/catalog-assets/product-placeholder")) return "placeholder";
   if (photoKind === "foto-real") return "internal-photo";
   if (photoKind === "render-fiel") return "render-3d";

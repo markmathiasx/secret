@@ -23,12 +23,12 @@ const customOrderUrl = `${siteUrl}/imagem-para-impressao-3d`;
 const whatsappUrl = `https://wa.me/${whatsappNumber}`;
 
 export const assistantQuickPrompts = [
-  "Que horas são? Que dia é hoje?",
-  "Quero um presente com foto real até R$ 100",
-  "Me mostre os mais vendidos",
-  "Preciso de um suporte para setup",
-  "Como funciona projeto personalizado com STL?",
-  "Quanto tempo demora a entrega?",
+  { label: "Hora e dia", prompt: "Que horas são? Que dia é hoje?" },
+  { label: "Presente até R$ 100", prompt: "Quero um presente com foto real até R$ 100" },
+  { label: "Mais vendidos", prompt: "Me mostre os mais vendidos" },
+  { label: "Suporte setup", prompt: "Preciso de um suporte para setup" },
+  { label: "Projeto STL", prompt: "Como funciona projeto personalizado com STL?" },
+  { label: "Prazo", prompt: "Quanto tempo demora a entrega?" },
 ];
 
 const authenticityGuide = {
@@ -57,6 +57,23 @@ function extractBudget(value: string) {
   if (!match) return null;
   const amount = Number(match[1]);
   return Number.isFinite(amount) ? amount : null;
+}
+
+function formatBrazilDateTime(now = new Date()) {
+  const date = now.toLocaleDateString("pt-BR", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    timeZone: "America/Sao_Paulo",
+  });
+  const time = now.toLocaleTimeString("pt-BR", {
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: "America/Sao_Paulo",
+  });
+
+  return { date, time };
 }
 
 function detectVisualIntent(query: string): AssistantVisualIntent {
@@ -433,6 +450,18 @@ export function buildCommerceFallbackReply(message: string) {
     return [
       `O Pix da MDH 3D está ativo na chave ${pix.key}.`,
       `Você pode fechar pelo checkout em ${checkoutUrl} e confirmar o pedido pelo WhatsApp.`,
+    ].join(" ");
+  }
+
+  if (/(que horas|hora atual|horario|horário|que dia|data de hoje|dia de hoje)/.test(normalized)) {
+    const { date, time } = formatBrazilDateTime();
+    return `Agora são ${time}, horário de Brasília. Hoje é ${date}. Posso também te ajudar a escolher produto, prazo, pagamento, entrega ou personalização no site da MDH 3D.`;
+  }
+
+  if (/(site|loja|mdh|catalogo|catálogo|checkout|conta|login|como funciona|pagina|página)/.test(normalized)) {
+    return [
+      `Posso conversar sobre o catálogo ${catalogUrl}, checkout ${checkoutUrl}, projetos personalizados ${customOrderUrl}, entrega, Pix, cartão, login e atendimento humano.`,
+      `Pergunte como no ChatGPT, por exemplo: "qual presente até R$ 100?", "qual prazo?", "como envio STL?" ou "qual item tem foto real?".`,
     ].join(" ");
   }
 

@@ -18,7 +18,7 @@ import {
 } from "@/lib/env";
 import { applyNoStoreHeaders } from "@/lib/http-cache";
 import { checkRateLimit, getClientIp } from "@/lib/security";
-import { prisma } from "@/lib/prisma";
+import { canConnectToDatabase, prisma } from "@/lib/prisma";
 import { recordOperationalAlert } from "@/lib/operational-alerts";
 import { normalizeMetaChannel } from "@/lib/meta/types";
 import { logStructured } from "@/lib/logger";
@@ -139,6 +139,7 @@ function normalizeVisitorId(value: string) {
 
 async function ensureAssistantDialogThread(payload: AssistantChatPayload, latestText: string) {
   if (payload.source !== "assistant_dialog") return payload.threadId?.trim() || null;
+  if (!(await canConnectToDatabase())) return payload.threadId?.trim() || null;
 
   const existingThreadId = payload.threadId?.trim();
   const channel = normalizeMetaChannel(payload.channel);
@@ -229,6 +230,7 @@ async function ensureAssistantDialogThread(payload: AssistantChatPayload, latest
 async function markAssistantHandoff(payload: AssistantChatPayload, latestText: string) {
   const threadId = payload.threadId?.trim();
   if (!threadId || !asksForHuman(latestText)) return;
+  if (!(await canConnectToDatabase())) return;
 
   const channel = normalizeMetaChannel(payload.channel);
   try {
@@ -269,6 +271,7 @@ async function markAssistantHandoff(payload: AssistantChatPayload, latestText: s
 
 async function persistAssistantReply(threadId: string | null, payload: AssistantChatPayload, message: string) {
   if (!threadId || payload.source !== "assistant_dialog") return;
+  if (!(await canConnectToDatabase())) return;
   try {
     await storeReplyMessage(threadId, message);
   } catch (error) {

@@ -41,6 +41,27 @@ type AssistantApiResponse = {
 function buildClientAssistantFallback(message: string) {
   const normalized = message.toLowerCase();
 
+  if (/(que horas|hora atual|hor[aá]rio|que dia|data de hoje|dia de hoje)/.test(normalized)) {
+    const date = new Date().toLocaleDateString("pt-BR", {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      timeZone: "America/Sao_Paulo",
+    });
+    const time = new Date().toLocaleTimeString("pt-BR", {
+      hour: "2-digit",
+      minute: "2-digit",
+      timeZone: "America/Sao_Paulo",
+    });
+
+    return `Agora são ${time}, horário de Brasília. Hoje é ${date}. Também posso conversar sobre produtos, entrega, pagamento, STL, carrinho, login e páginas do site.`;
+  }
+
+  if (/(site|loja|mdh|cat[aá]logo|checkout|conta|login|como funciona|p[aá]gina)/.test(normalized)) {
+    return "Posso responder sobre o catálogo, páginas do site, checkout, Pix, cartão, entrega, personalização, STL e atendimento humano. Pergunte como no ChatGPT: produto, prazo, preço, foto real, pedido ou suporte.";
+  }
+
   if (/(stl|obj|3mf|personaliz|briefing|referencia|referência)/.test(normalized)) {
     return "Para projeto personalizado, mande sua referência em /imagem-para-impressao-3d ou siga para o atendimento humano para validar material, prazo e acabamento.";
   }
@@ -291,7 +312,7 @@ export function CommerceAssistantDialog({
   return (
     <div className="fixed inset-0 z-[120] bg-slate-950/72 p-4 backdrop-blur-sm" onClick={onClose}>
       <div
-        className="mx-auto flex h-[min(92vh,860px)] w-full max-w-6xl flex-col overflow-hidden rounded-[36px] border border-white/10 bg-[#07111a] shadow-[0_30px_120px_rgba(0,0,0,0.45)]"
+        className="mx-auto flex h-[min(94vh,900px)] w-full max-w-7xl flex-col overflow-hidden rounded-[28px] border border-white/10 bg-[#07111a] shadow-[0_30px_120px_rgba(0,0,0,0.45)]"
         onClick={(event) => event.stopPropagation()}
       >
         <div className="shrink-0 flex items-start justify-between gap-4 border-b border-white/10 px-6 py-5">
@@ -327,7 +348,7 @@ export function CommerceAssistantDialog({
           </button>
         </div>
 
-        <div className="grid min-h-0 flex-1 gap-0 overflow-hidden lg:grid-cols-[0.9fr_1.1fr]">
+        <div className="grid min-h-0 flex-1 gap-0 overflow-hidden lg:grid-cols-[0.78fr_1.22fr]">
           <aside className="hidden overflow-y-auto border-b border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(34,211,238,0.16),transparent_34%),linear-gradient(180deg,rgba(255,255,255,0.03),rgba(255,255,255,0.015))] p-6 lg:block lg:border-b-0 lg:border-r">
             <div className="rounded-[28px] border border-white/10 bg-black/20 p-5">
               <div className="flex items-center gap-3 text-cyan-100">
@@ -422,9 +443,9 @@ export function CommerceAssistantDialog({
                   <Bot className="h-5 w-5" />
                 </span>
                 <div>
-                  <p className="text-sm font-semibold text-white">Conversa de compra</p>
+                  <p className="text-sm font-semibold text-white">Conversa com o consultor</p>
                   <p className="text-xs text-white/50">
-                    Pergunte por objetivo, faixa de preço, foto real, pronta entrega, pagamento ou personalização.
+                    Converse sobre produtos, páginas do site, dia/hora, pagamento, entrega, foto real, pronta entrega ou personalização.
                   </p>
                 </div>
               </div>
@@ -434,7 +455,7 @@ export function CommerceAssistantDialog({
               {messages.map((message) => (
                 <div key={message.id} className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}>
                   <div
-                    className={`max-w-[85%] rounded-[24px] px-4 py-3 text-sm leading-7 shadow-[0_12px_30px_rgba(2,8,23,0.18)] ${
+                    className={`max-w-[92%] rounded-[24px] px-5 py-4 text-[15px] leading-7 shadow-[0_12px_30px_rgba(2,8,23,0.18)] ${
                       message.role === "user"
                         ? "border border-cyan-300/25 bg-cyan-400/15 text-cyan-50"
                         : "border border-white/10 bg-white/5 text-white/78"
@@ -457,16 +478,17 @@ export function CommerceAssistantDialog({
             </div>
 
             <div className="border-t border-white/10 bg-black/20 px-6 py-4">
-              <div className="mb-4 flex flex-wrap gap-2">
+              <div className="mb-3 flex flex-wrap items-center gap-2">
+                <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/45">Sugestões</span>
                 {assistantQuickPrompts.map((prompt) => (
                   <button
-                    key={prompt}
+                    key={prompt.label}
                     type="button"
-                    onClick={() => void sendMessage(prompt)}
-                    className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-white/72 transition hover:border-cyan-300/20 hover:text-white"
+                    onClick={() => void sendMessage(prompt.prompt)}
+                    className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/72 transition hover:border-cyan-300/20 hover:text-white"
                     disabled={isSending}
                   >
-                    {prompt}
+                    {prompt.label}
                   </button>
                 ))}
               </div>
@@ -481,8 +503,8 @@ export function CommerceAssistantDialog({
                     value={input}
                     onChange={(event) => setInput(event.target.value)}
                     onKeyDown={handleComposerKeyDown}
-                    placeholder="Ex.: quero um presente com foto real até R$ 100, preciso de um suporte para setup ou quero enviar STL..."
-                    className="min-h-[104px] max-h-[220px] flex-1 resize-none rounded-[24px] border border-white/10 bg-white/5 px-4 py-4 text-sm text-white outline-none placeholder:text-white/30"
+                    placeholder="Pergunte como no chat: produto, prazo, Pix, STL, data, site..."
+                    className="min-h-[76px] max-h-[180px] flex-1 resize-none rounded-[24px] border border-white/10 bg-white/5 px-4 py-4 text-sm text-white outline-none placeholder:text-white/30"
                     disabled={isSending}
                   />
                   <button type="submit" className="btn-primary self-end px-5 py-4" disabled={isSending || !input.trim()}>

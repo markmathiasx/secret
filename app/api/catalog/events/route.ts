@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { CatalogEventType } from "@prisma/client";
+import { CatalogEventType, Prisma } from "@prisma/client";
 import { z } from "zod";
 import { canConnectToDatabase, prisma } from "@/lib/prisma";
 
@@ -8,7 +8,7 @@ const schema = z.object({
   productId: z.string().optional(),
   sessionToken: z.string().optional(),
   query: z.string().optional(),
-  metadata: z.record(z.any()).optional(),
+  metadata: z.record(z.string(), z.unknown()).optional(),
 });
 
 export async function POST(request: Request) {
@@ -26,7 +26,7 @@ export async function POST(request: Request) {
         productId: parsed.data.productId,
         sessionToken: parsed.data.sessionToken,
         query: parsed.data.query,
-        metadata: parsed.data.metadata,
+        ...(parsed.data.metadata ? { metadata: parsed.data.metadata as Prisma.InputJsonValue } : {}),
       },
     });
   }

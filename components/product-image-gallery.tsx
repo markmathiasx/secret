@@ -6,7 +6,7 @@ import { getProductGallery } from "@/lib/product-images";
 import { SafeProductImage } from "@/components/safe-product-image";
 import { ProductVisualBadge } from "@/components/product-visual-authenticity";
 import { getProductVisual } from "@/lib/product-visuals";
-import { validateProductMedia, isPublicSafe } from "@/lib/media-validation";
+import { validateProductMedia } from "@/lib/media-validation";
 
 const compactCardSizes =
   "(min-width: 1536px) 23vw, (min-width: 1280px) 31vw, (min-width: 640px) 48vw, 96vw";
@@ -26,7 +26,7 @@ export function ProductImageGallery({
   const gallery = useMemo(() => getProductGallery(product), [product]);
   const visual = useMemo(() => getProductVisual(product), [product]);
   const mediaRecord = useMemo(() => validateProductMedia(product), [product]);
-  const isConceptual = !isPublicSafe(mediaRecord.status);
+  const isConceptual = visual.kind === "imagem-conceitual";
   const [active, setActive] = useState(0);
   const [expanded, setExpanded] = useState(false);
   const current = gallery[active] || gallery[0];

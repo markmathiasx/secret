@@ -25,7 +25,7 @@ const orderSchema = z.object({
   notes: z.string().max(600).optional().default(""),
   purpose: z.string().trim().max(40).optional().default("Uso próprio"),
   paymentMethod: z.enum(["pix", "cartao", "boleto"]),
-  mpPaymentData: z.record(z.unknown()).optional(),
+  mpPaymentData: z.record(z.string(), z.unknown()).optional(),
   saveAddress: z.boolean().optional().default(false),
   addressId: z.string().optional(),
   shippingOptionId: z.enum(["standard", "express"]).default("standard"),

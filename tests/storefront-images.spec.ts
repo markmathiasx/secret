@@ -5,6 +5,24 @@ import { test, expect } from "@playwright/test";
 const baseUrl = process.env.SMOKE_BASE_URL || "http://127.0.0.1:3000";
 const auditPath = path.join(process.cwd(), "output", "CATALOG_SEMANTIC_AUDIT.json");
 const audit = JSON.parse(fs.readFileSync(auditPath, "utf8"));
+const valorantCuratedSkus = [
+  "cha-001",
+  "cha-002",
+  "cha-003",
+  "cha-004",
+  "dec-001",
+  "dec-002",
+  "dec-003",
+  "dec-004",
+  "uti-001",
+  "uti-002",
+  "uti-003",
+  "uti-004",
+  "col-001",
+  "col-002",
+  "col-003",
+  "col-004",
+] as const;
 const storefrontHomeImages: Record<string, { primary: string; evidenceImages: string[] }> = {
   "Suporte para Fone Headphone": {
     primary: "/products/setup/suporte-fone-headphone.webp",
@@ -196,6 +214,55 @@ test("arquivos da vitrine nao sao cards textuais uniformes", () => {
     expect(average, `${productName}: tamanho medio suspeito ${sizes.join(", ")}`).toBeGreaterThan(100000);
     expect(range, `${productName}: imagens uniformes demais ${sizes.join(", ")}`).toBeGreaterThan(15000);
   }
+});
+
+test("itens Valorant usam imagens curadas e nao placeholders de SKU", () => {
+  const productImageMap = JSON.parse(fs.readFileSync(path.join(process.cwd(), "product-image-map.json"), "utf8"));
+  const productGalleryMap = JSON.parse(fs.readFileSync(path.join(process.cwd(), "data", "product-gallery-map.json"), "utf8"));
+  const auditById = new Map(
+    Array.isArray(audit.items)
+      ? audit.items.map((item: { id?: string }) => [String(item.id || ""), item])
+      : []
+  );
+
+  for (const sku of valorantCuratedSkus) {
+    const productId = `csv-${sku}`;
+    const expectedGallery = [
+      `/products/valorant/${sku}/cover.webp`,
+      `/products/valorant/${sku}/2.webp`,
+      `/products/valorant/${sku}/3.webp`,
+    ];
+
+    expect(productImageMap[productId], `${productId}: imagem principal`).toBe(expectedGallery[0]);
+    expect(productGalleryMap[productId], `${productId}: galeria`).toEqual(expectedGallery);
+
+    for (const image of expectedGallery) {
+      const imagePath = path.join(process.cwd(), "public", image.replace(/^\//, ""));
+      expect(fs.existsSync(imagePath), `${productId}: ${image}`).toBeTruthy();
+      expect(fs.statSync(imagePath).size, `${productId}: ${image} comprimida demais`).toBeGreaterThan(10000);
+    }
+
+    const auditItem = auditById.get(productId) as { status?: string; mediaStatus?: string } | undefined;
+    expect(auditItem?.status, `${productId}: status publico`).not.toBe("BLOCKED");
+    expect(auditItem?.mediaStatus, `${productId}: mediaStatus`).not.toBe("placeholder");
+  }
+});
+
+test("PDP Valorant curado e publico usa imagem conceitual local", async ({ page }) => {
+  await page.goto(`${baseUrl}/catalogo/csv-dec-004-placa-decorativa-omen-valorant-estilo-geek-para-porta-parede-e-setup`, {
+    waitUntil: "networkidle",
+  });
+
+  await expect(page.locator("h1")).toContainText("Placa Decorativa Omen Valorant");
+  await expect(page.getByText("Imagem conceitual").first()).toBeVisible();
+
+  const gallery = page.locator('[data-testid="product-image-gallery"]');
+  const firstImage = gallery.locator("img").first();
+  await expect(firstImage).toBeVisible();
+  const src = await firstImage.evaluate((img) => decodeURIComponent((img as HTMLImageElement).currentSrc || img.getAttribute("src") || ""));
+
+  expect(src).toContain("/products/valorant/dec-004/cover.webp");
+  expect(src).not.toMatch(/placeholder|catalog-assets/i);
 });
 
 test("checkout continua carregando sem imagens quebradas", async ({ page }) => {
