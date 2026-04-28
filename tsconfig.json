@@ -26,7 +26,10 @@
       "@/*": [
         "./*"
       ]
-    }
+    },
+    "noUncheckedSideEffectImports": false,
+    "types": ["node"],
+    "noImplicitAny": false
   },
   "include": [
     "auth.ts",

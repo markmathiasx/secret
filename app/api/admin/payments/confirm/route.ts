@@ -3,6 +3,8 @@ import { prisma } from '@/lib/prisma';
 import { logStructured } from '@/lib/logger';
 import { getServerSessionUser, isAdminSession } from '@/lib/server-session';
 
+export const dynamic = 'force-dynamic';
+
 const ALLOWED_PAYMENT_STATUSES = ['PENDING', 'PAID', 'FAILED', 'CANCELLED', 'REFUNDED'] as const;
 type PaymentStatus = typeof ALLOWED_PAYMENT_STATUSES[number];
 
