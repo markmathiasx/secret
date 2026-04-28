@@ -65,9 +65,8 @@ const nextConfig: NextConfig = {
   },
 
   // Experimental Features (2026)
-  experimental: {
-    optimizePackageImports: ['lucide-react', '@supabase/supabase-js'],
-  },
+  // Note: optimizePackageImports disabled locally - known to hang on Windows
+  experimental: {},
 
   // Turbopack
   turbopack: {

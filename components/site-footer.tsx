@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowUpRight, Instagram, Mail, MapPin, MessageCircleMore } from "lucide-react";
+import { ArrowUpRight, Mail, MapPin, MessageCircleMore } from "lucide-react";
 import {
   brand,
   catalogShortcutLinks,
@@ -177,7 +177,7 @@ export function SiteFooter() {
               rel="noreferrer"
               className="flex items-start gap-3 rounded-[20px] border border-white/10 bg-white/5 p-4 transition hover:border-pink-300/30"
             >
-              <Instagram className="mt-0.5 h-4 w-4 text-pink-200" />
+              <svg className="mt-0.5 h-4 w-4 text-pink-200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.5"/></svg>
               <span>@{brand.instagramHandle}</span>
             </a>
             <div className="flex items-start gap-3 rounded-[20px] border border-white/10 bg-white/5 p-4">
