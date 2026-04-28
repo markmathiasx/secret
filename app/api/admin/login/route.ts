@@ -3,7 +3,7 @@ import { scryptSync, timingSafeEqual } from 'node:crypto';
 import { getClientIp } from '@/lib/security';
 import { rateLimitRequest } from '@/lib/redis';
 import { adminConfig } from '@/lib/constants';
-import { authenticateUser } from '@/lib/auth-store';
+import { authenticateUser, type AuthUser } from '@/lib/auth-store';
 import { createSignedSessionToken, isSessionSecretConfigured } from '@/lib/session-token';
 import { applyNoStoreHeaders } from '@/lib/http-cache';
 import { logStructured } from '@/lib/logger';
@@ -43,7 +43,7 @@ export async function POST(request: Request) {
     return applyNoStoreHeaders(NextResponse.json({ ok: false, error: 'Configure ADMIN_SESSION_SECRET nas variáveis do projeto.' }, { status: 500 }));
   }
 
-  let user = null;
+  let user: AuthUser | null = null;
 
   if (email === adminConfig.email.toLowerCase()) {
     const adminPasswordHash = process.env.ADMIN_PASSWORD_HASH || '';

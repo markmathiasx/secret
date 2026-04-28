@@ -99,6 +99,7 @@
   "devDependencies": {
     "@next/bundle-analyzer": "^16.2.4",
     "@playwright/test": "^1.59.1",
+    "@tailwindcss/postcss": "^4.2.4",
     "@types/node": "^25.6.0",
     "@types/nodemailer": "^8.0.0",
     "@types/qrcode": "^1.5.6",

@@ -139,7 +139,7 @@ export async function readSecureBlobJson<T>(pathname: string) {
 }
 
 async function listJsonBlobs(prefix: string, limit: number) {
-  const blobs = [];
+  const blobs: Awaited<ReturnType<typeof list>>['blobs'][number][] = [];
   let cursor: string | undefined;
 
   do {

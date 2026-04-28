@@ -104,7 +104,7 @@ export function DatePicker({
     const daysInMonth = lastDay.getDate();
     const startingDayOfWeek = firstDay.getDay();
 
-    const days = [];
+    const days: (Date | null)[] = [];
 
     // Add empty cells for days before the first day of the month
     for (let i = 0; i < startingDayOfWeek; i++) {
@@ -166,7 +166,7 @@ export function DatePicker({
   };
 
   const generateTimeOptions = () => {
-    const options = [];
+    const options: string[] = [];
     const totalMinutes = 24 * 60;
     for (let minutes = 0; minutes < totalMinutes; minutes += timeInterval) {
       const hours = Math.floor(minutes / 60);
