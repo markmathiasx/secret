@@ -17,7 +17,7 @@ import {
   TrendingUp,
   X,
 } from "lucide-react";
-import { assistantQuickPrompts } from "@/lib/commerce-assistant";
+import { assistantQuickPrompts } from "@/lib/assistant-prompts";
 import { pix, whatsappNumber } from "@/lib/constants";
 
 type ChatMessage = {
@@ -33,7 +33,7 @@ type AssistantApiResponse = {
   responseId?: string | null;
   aiReady?: boolean;
   source?: "ai" | "fallback";
-  provider?: "openai" | "groq" | "ollama" | "fallback";
+  provider?: "openai" | "groq" | "ollama" | "ai_gateway" | "fallback";
   model?: string;
   threadId?: string | null;
 };
@@ -144,7 +144,7 @@ export function CommerceAssistantDialog({
   onClose: () => void;
   cardCheckoutReady: boolean;
   aiAssistantReady: boolean;
-  aiAssistantProvider: "openai" | "groq" | "ollama" | "fallback";
+  aiAssistantProvider: "openai" | "groq" | "ollama" | "ai_gateway" | "fallback";
   aiAssistantModel: string;
   liveChatMode: "chatwoot" | "native" | "whatsapp";
 }) {
@@ -356,7 +356,11 @@ export function CommerceAssistantDialog({
                 <p className="text-sm font-semibold uppercase tracking-[0.18em]">Base para fechar</p>
               </div>
               <div className="mt-4 grid gap-3 text-sm leading-7 text-white/72">
-                <p>Pix visível no checkout e chave ativa em <span className="font-semibold text-white">{pix.key}</span>.</p>
+                <p>
+                  {pix.key
+                    ? <>Pix visível no checkout e chave ativa em <span className="font-semibold text-white">{pix.key}</span>.</>
+                    : "Pix visível no checkout quando a chave estiver configurada no servidor."}
+                </p>
                 <p>{cardCheckoutReady ? "Cartão online disponível em ambiente seguro." : "Parcelamento tratado com apoio da equipe humana."}</p>
                 <p>Projetos personalizados aceitam briefing, imagem, STL, OBJ e 3MF.</p>
               </div>

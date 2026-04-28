@@ -26,15 +26,10 @@ export const whatsappContacts = [
 export const whatsappNumber = whatsappContacts[0]?.number || "5521974137662";
 export const whatsappMessage =
   process.env.NEXT_PUBLIC_WHATSAPP_MESSAGE || "Oi! Vim pelo site da MDH 3D e quero um orçamento.";
-export const supportEmail = process.env.STAFF_NOTIFY_EMAIL || "mdhatendimento@gmail.com";
+export const supportEmail = process.env.NEXT_PUBLIC_SUPPORT_EMAIL || "mdhatendimento@gmail.com";
 
 export const pix = {
-  key: (
-    process.env.NEXT_PUBLIC_PIX_KEY ||
-    process.env.PIX_KEY ||
-    process.env.NEXT_PUBLIC_DEFAULT_PIX_KEY ||
-    "21974137662"
-  ).trim(),
+  key: (process.env.NEXT_PUBLIC_PIX_KEY || "").trim(),
   provider: process.env.NEXT_PUBLIC_PIX_PROVIDER || "PicPay",
 };
 
@@ -43,37 +38,6 @@ export const socialLinks = {
     process.env.NEXT_PUBLIC_INSTAGRAM_URL || `https://www.instagram.com/${brand.instagramHandle}`,
   tiktok: process.env.NEXT_PUBLIC_TIKTOK_URL || "#",
   facebook: process.env.NEXT_PUBLIC_FACEBOOK_URL || "#",
-};
-
-const fallbackSessionToken =
-  process.env.ADMIN_SESSION_TOKEN ||
-  process.env.ADMIN_SESSION_SECRET ||
-  "";
-
-export const adminConfig = {
-  email: process.env.ADMIN_EMAIL || "markmathias02@gmail.com",
-  hiddenPath: process.env.ADMIN_HIDDEN_PATH || "/admin",
-  sessionCookieName: "mdh_admin",
-  legacySessionToken: process.env.ADMIN_SESSION_TOKEN || "",
-  sessionSecret:
-    process.env.ADMIN_SESSION_SECRET || process.env.ADMIN_SESSION_TOKEN || "",
-  sessionToken: fallbackSessionToken,
-  passwordHash: process.env.ADMIN_PASSWORD_HASH || "",
-};
-
-const num = (value: string | undefined, fallback: number) => {
-  const parsed = Number(value);
-  return Number.isFinite(parsed) ? parsed : fallback;
-};
-
-export const deliveryKm = {
-  originLabel: process.env.DELIVERY_ORIGIN_LABEL || "Rio de Janeiro - RJ",
-  gasPriceBrl: num(process.env.GAS_PRICE_BRL, 6),
-  bikeKmPerLiter: num(process.env.BIKE_KM_PER_LITER, 35),
-  baseFee: num(process.env.DELIVERY_BASE_FEE, 8),
-  feePerKm: num(process.env.DELIVERY_FEE_PER_KM, 0.6),
-  capFee: num(process.env.DELIVERY_FEE_CAP, 35),
-  expressMultiplier: num(process.env.DELIVERY_EXPRESS_MULTIPLIER, 2),
 };
 
 export const deliveryZones = [

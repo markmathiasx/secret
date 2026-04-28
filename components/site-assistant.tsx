@@ -20,7 +20,7 @@ export function SiteAssistant({
   cardCheckoutReady: boolean;
   aiAssistantReady: boolean;
   aiAssistantModel: string;
-  aiAssistantProvider: "openai" | "groq" | "ollama" | "fallback";
+  aiAssistantProvider: "openai" | "groq" | "ollama" | "ai_gateway" | "fallback";
   liveChatMode: "chatwoot" | "native" | "whatsapp";
 }) {
   const pathname = usePathname();
@@ -58,7 +58,7 @@ export function SiteAssistant({
           </div>
           <div className="flex items-center gap-2">
             <QrCode className="h-4 w-4 text-emerald-200" />
-            <span>Pix direto na chave {pix.key}</span>
+            <span>{pix.key ? `Pix direto na chave ${pix.key}` : "Pix direto configurado no checkout"}</span>
           </div>
           <div className="flex items-center gap-2">
             <CreditCard className="h-4 w-4 text-cyan-100" />

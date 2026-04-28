@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { scryptSync, timingSafeEqual } from 'node:crypto';
 import { getClientIp } from '@/lib/security';
 import { rateLimitRequest } from '@/lib/redis';
-import { adminConfig } from '@/lib/constants';
+import { adminConfig } from '@/lib/server-config';
 import { authenticateUser } from '@/lib/auth-store';
 import { createSignedSessionToken, isSessionSecretConfigured } from '@/lib/session-token';
 import { applyNoStoreHeaders } from '@/lib/http-cache';
@@ -47,6 +47,15 @@ export async function POST(request: Request) {
 
   if (email === adminConfig.email.toLowerCase()) {
     const adminPasswordHash = process.env.ADMIN_PASSWORD_HASH || '';
+    if (!adminPasswordHash) {
+      return applyNoStoreHeaders(
+        NextResponse.json(
+          { ok: false, error: 'Configure ADMIN_PASSWORD_HASH nas variáveis do projeto para login admin por env.' },
+          { status: 500 }
+        )
+      );
+    }
+
     const passwordOk = adminPasswordHash ? verifyStoredPassword(password, adminPasswordHash) : false;
 
     if (passwordOk) {

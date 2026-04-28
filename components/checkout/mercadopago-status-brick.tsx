@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { AlertTriangle, Loader2 } from "lucide-react";
-import { getMercadoPagoPublicKey } from "@/lib/env";
 import { logStructured } from "@/lib/logger";
 
 type MercadoPagoWindow = Window & {
@@ -62,7 +61,7 @@ export function MercadoPagoStatusBrick({
   const controller = useRef<{ unmount?: () => void } | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const publicKey = getMercadoPagoPublicKey();
+  const publicKey = process.env.NEXT_PUBLIC_MP_PUBLIC_KEY || process.env.NEXT_PUBLIC_MERCADOPAGO_PUBLIC_KEY || "";
 
   useEffect(() => {
     let cancelled = false;

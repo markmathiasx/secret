@@ -12,7 +12,7 @@ import {
 } from "@/lib/mercadopago";
 import { getMercadoPagoPayment } from "@/lib/payments";
 import { logStructured } from "@/lib/logger";
-import { getMercadoPagoWebhookSecret } from "@/lib/env";
+import { getMercadoPagoAccessToken, getMercadoPagoWebhookSecret } from "@/lib/env";
 import { withRetry } from "@/lib/retry";
 
 export const runtime = "nodejs";
@@ -72,6 +72,26 @@ async function markWebhookEventProcessed(orderCode: string, eventKey: string, pa
 
 export async function POST(request: Request) {
   const secret = getMercadoPagoWebhookSecret();
+  if (!secret) {
+    return NextResponse.json(
+      {
+        ok: false,
+        message: "MERCADOPAGO_WEBHOOK_SECRET não configurado. Configure o secret antes de receber webhooks.",
+      },
+      { status: 503 }
+    );
+  }
+
+  if (!getMercadoPagoAccessToken()) {
+    return NextResponse.json(
+      {
+        ok: false,
+        message: "MERCADOPAGO_ACCESS_TOKEN não configurado. O webhook precisa consultar o pagamento no Mercado Pago.",
+      },
+      { status: 503 }
+    );
+  }
+
   const signature = readWebhookSignature(request);
   const requestId = request.headers.get("x-request-id") || request.headers.get("x-mercadopago-request-id") || "";
   const url = new URL(request.url);
@@ -81,21 +101,19 @@ export async function POST(request: Request) {
     url.searchParams.get("id") ||
     String((payload as { data?: { id?: string | number } })?.data?.id || "");
 
-  if (secret) {
-    if (!signature) {
-      return NextResponse.json({ ok: false, message: "Webhook sem assinatura." }, { status: 401 });
-    }
+  if (!signature) {
+    return NextResponse.json({ ok: false, message: "Webhook sem assinatura." }, { status: 401 });
+  }
 
-    const validSignature = verifyMercadoPagoSignature({
-      secret,
-      signature,
-      requestId,
-      dataId,
-    });
+  const validSignature = verifyMercadoPagoSignature({
+    secret,
+    signature,
+    requestId,
+    dataId,
+  });
 
-    if (!validSignature) {
-      return NextResponse.json({ ok: false, message: "Assinatura inválida." }, { status: 401 });
-    }
+  if (!validSignature) {
+    return NextResponse.json({ ok: false, message: "Assinatura inválida." }, { status: 401 });
   }
 
   const topic = String(

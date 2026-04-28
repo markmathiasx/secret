@@ -11,6 +11,9 @@ import { whatsappNumber } from "@/lib/constants";
 import {
   getAiAssistantModel,
   getAiAssistantProvider,
+  getAiAssistantConfigurationError,
+  getAiGatewayApiKey,
+  getAiGatewayBaseUrl,
   getGroqApiKey,
   getOllamaBaseUrl,
   getOpenAiApiKey,
@@ -37,7 +40,7 @@ type AssistantChatPayload = {
 };
 
 type ProviderConfig = {
-  provider: "openai" | "groq" | "ollama";
+  provider: "openai" | "groq" | "ollama" | "ai_gateway";
   model: string;
   apiKey: string;
   baseURL?: string;
@@ -90,6 +93,16 @@ function getProviderConfig(): ProviderConfig | null {
   const model = getAiAssistantModel();
 
   switch (provider) {
+    case "ai_gateway":
+      return {
+        provider,
+        model,
+        apiKey: getAiGatewayApiKey(),
+        baseURL: getAiGatewayBaseUrl(),
+        supportsStatefulResponses: true,
+        supportsStore: true,
+        supportsReasoningField: true,
+      };
     case "openai":
       return {
         provider,
@@ -340,6 +353,7 @@ export async function POST(request: Request) {
   }
 
   const providerConfig = getProviderConfig();
+  const configurationError = getAiAssistantConfigurationError();
   if (!providerConfig || !isAiAssistantConfigured()) {
     const fallbackMessage = buildCommerceFallbackReply(latestUserMessage.content);
     await persistAssistantReply(persistedThreadId, payload, fallbackMessage);
@@ -350,6 +364,7 @@ export async function POST(request: Request) {
         source: "fallback",
         provider: "fallback",
         model: getAiAssistantModel(),
+        configurationError,
         responseId: null,
         threadId: persistedThreadId,
         message: fallbackMessage,

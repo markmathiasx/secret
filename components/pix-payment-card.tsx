@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import QRCode from "qrcode";
-import { Copy, QrCode, ShieldCheck } from "lucide-react";
+import { AlertTriangle, Copy, QrCode, ShieldCheck } from "lucide-react";
 import { pix } from "@/lib/constants";
 import { formatCurrency } from "@/lib/utils";
 
@@ -24,6 +24,7 @@ export function PixPaymentCard({
 }) {
   const [payload, setPayload] = useState(initialPayload || "");
   const [qr, setQr] = useState(qrCodeBase64 || "");
+  const [error, setError] = useState("");
   const [copied, setCopied] = useState(false);
   const expirationLabel = useMemo(() => {
     if (!expiresAt) return null;
@@ -49,8 +50,19 @@ export function PixPaymentCard({
       body: JSON.stringify({ title, amount })
     })
       .then((res) => res.json())
-      .then((json) => setPayload(json?.payload || ""))
-      .catch(() => setPayload(""));
+      .then((json) => {
+        if (!json?.ok || !json?.payload) {
+          setError(json?.error || "Pix indisponível no momento.");
+          setPayload("");
+          return;
+        }
+        setError("");
+        setPayload(json.payload);
+      })
+      .catch(() => {
+        setError("Pix indisponível no momento.");
+        setPayload("");
+      });
   }, [amount, initialPayload, title]);
 
   useEffect(() => {
@@ -89,7 +101,7 @@ export function PixPaymentCard({
 
       <div className="mt-5 grid gap-5 lg:grid-cols-[0.95fr_1.05fr]">
         <div className="rounded-[24px] border border-white/10 bg-black/25 p-4">
-          {qr ? <Image src={qr} alt={`QR Code Pix de ${title}`} width={260} height={260} className="mx-auto w-full max-w-[260px] rounded-[20px] bg-white p-3" /> : <div className="flex h-[260px] items-center justify-center rounded-[20px] border border-dashed border-white/15 text-sm text-white/60">Gerando QR Code…</div>}
+          {qr ? <Image src={qr} alt={`QR Code Pix de ${title}`} width={260} height={260} className="mx-auto w-full max-w-[260px] rounded-[20px] bg-white p-3" /> : <div className="flex h-[260px] items-center justify-center rounded-[20px] border border-dashed border-white/15 text-sm text-white/60">{error ? "Pix indisponível" : "Gerando QR Code..."}</div>}
         </div>
         <div className="space-y-4">
           <div className="rounded-[24px] border border-white/10 bg-black/25 p-4">
@@ -101,17 +113,25 @@ export function PixPaymentCard({
           </div>
           <div className="rounded-[24px] border border-white/10 bg-black/25 p-4">
             <p className="text-sm text-white/55">Copia e cola Pix</p>
+            {error ? (
+              <div className="mt-3 flex items-start gap-3 rounded-2xl border border-amber-300/20 bg-amber-300/10 p-3 text-sm leading-6 text-amber-50">
+                <AlertTriangle className="mt-0.5 h-4 w-4 flex-shrink-0" />
+                <p>{error}</p>
+              </div>
+            ) : null}
             <textarea readOnly value={payload} className="mt-2 h-28 w-full rounded-2xl border border-white/10 bg-black/35 p-3 text-xs text-white/80 outline-none" />
-            <button onClick={onCopy} className="mt-3 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white">
+            <button onClick={onCopy} disabled={!payload} className="mt-3 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-45">
               <Copy className="h-4 w-4" />
               {copied ? "Copiado" : "Copiar código Pix"}
             </button>
           </div>
-          <div className="rounded-[24px] border border-emerald-400/20 bg-emerald-400/10 p-4">
-            <p className="text-sm text-white/55">Chave Pix direta</p>
-            <p className="mt-2 text-lg font-black tracking-[0.14em] text-white">{pix.key}</p>
-            <p className="mt-2 text-sm text-white/60">O cliente pode pagar pelo QR Code, pelo código copia e cola ou informando essa chave no app do banco.</p>
-          </div>
+          {pix.key ? (
+            <div className="rounded-[24px] border border-emerald-400/20 bg-emerald-400/10 p-4">
+              <p className="text-sm text-white/55">Chave Pix direta</p>
+              <p className="mt-2 text-lg font-black tracking-[0.14em] text-white">{pix.key}</p>
+              <p className="mt-2 text-sm text-white/60">O cliente pode pagar pelo QR Code, pelo código copia e cola ou informando essa chave no app do banco.</p>
+            </div>
+          ) : null}
           <div className="flex items-start gap-3 rounded-[24px] border border-white/10 bg-black/20 p-4 text-sm text-white/68">
             <ShieldCheck className="mt-0.5 h-5 w-5 text-emerald-200" />
             <p>Mostre a chave, o QR Code e o copia e cola no checkout. Isso reduz atrito, melhora confiança e acelera a aprovação do pagamento.</p>

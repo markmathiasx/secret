@@ -78,7 +78,7 @@ export function SiteHeader({
   cardCheckoutReady: boolean;
   aiAssistantReady: boolean;
   aiAssistantModel: string;
-  aiAssistantProvider: "openai" | "groq" | "ollama" | "fallback";
+  aiAssistantProvider: "openai" | "groq" | "ollama" | "ai_gateway" | "fallback";
   liveChatMode: "chatwoot" | "native" | "whatsapp";
 }) {
   const pathname = usePathname();

@@ -8,6 +8,7 @@ import {
   getChatwootAvailabilityMode,
   getSiteUrl,
   getSupabaseEnv,
+  getPixKey,
   isAiAssistantConfigured,
   isCardCheckoutConfigured,
   isChatwootWidgetConfigured,
@@ -33,7 +34,7 @@ export async function GET() {
         model: getAiAssistantModel(),
       },
       payments: {
-        pixReady: true,
+        pixReady: Boolean(getPixKey()),
         cardCheckoutReady: isCardCheckoutConfigured(),
       },
       support: {

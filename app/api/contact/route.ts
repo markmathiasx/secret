@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { applyNoStoreHeaders } from "@/lib/http-cache";
 import { sendMail } from "@/lib/mailer";
-import { supportEmail } from "@/lib/constants";
+import { getStaffNotifyEmail } from "@/lib/server-config";
 import { getClientIp, escapeHtml, isValidEmail } from "@/lib/security";
 import { rateLimitRequest } from "@/lib/redis";
 
@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
   `;
 
   try {
-    await sendMail({ to: supportEmail, subject: `[Contato] ${subject || name} — MDH 3D`, html: adminHtml });
+    await sendMail({ to: getStaffNotifyEmail(), subject: `[Contato] ${subject || name} — MDH 3D`, html: adminHtml });
     await sendMail({ to: email, subject: "Mensagem recebida — MDH 3D", html: userHtml });
   } catch {
     console.error("[contact] Falha ao enviar e-mail");

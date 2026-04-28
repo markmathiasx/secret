@@ -1,6 +1,21 @@
 const PROD = process.env.NODE_ENV === 'production' || process.env.VERCEL_ENV === 'production';
 const DEFAULT_DEV_URL = 'http://localhost:3000';
 const DEFAULT_PROD_URL = 'https://www.mdh3d.com.br';
+const AI_GATEWAY_BASE_URL = "https://ai-gateway.vercel.sh/v1";
+
+const PLACEHOLDER_MARKERS = [
+  "your_",
+  "your-",
+  "change-me",
+  "changeme",
+  "example",
+  "placeholder",
+  "password",
+  "username",
+  "user:pass",
+  "<",
+  ">",
+];
 
 function isLocalAddress(hostname: string) {
   const normalized = hostname.trim().toLowerCase();
@@ -152,6 +167,54 @@ export function getDatabaseUrl() {
   return (process.env.DATABASE_URL || "").trim();
 }
 
+export type DatabaseUrlStatus =
+  | { ok: true; value: string }
+  | { ok: false; reason: "missing" | "placeholder" | "invalid_url" | "invalid_protocol"; message: string };
+
+export function hasPlaceholderValue(value?: string | null) {
+  const normalized = (value || "").trim().toLowerCase();
+  if (!normalized) return false;
+  return PLACEHOLDER_MARKERS.some((marker) => normalized.includes(marker));
+}
+
+export function getDatabaseUrlStatus(): DatabaseUrlStatus {
+  const value = getDatabaseUrl();
+  if (!value) {
+    return {
+      ok: false,
+      reason: "missing",
+      message: "DATABASE_URL não configurada. Configure a variável no ambiente antes de usar recursos com banco.",
+    };
+  }
+
+  if (hasPlaceholderValue(value)) {
+    return {
+      ok: false,
+      reason: "placeholder",
+      message: "DATABASE_URL contém placeholder. Configure uma URL PostgreSQL real no ambiente.",
+    };
+  }
+
+  try {
+    const parsed = new URL(value);
+    if (parsed.protocol !== "postgresql:" && parsed.protocol !== "postgres:") {
+      return {
+        ok: false,
+        reason: "invalid_protocol",
+        message: "DATABASE_URL deve usar protocolo postgres:// ou postgresql://.",
+      };
+    }
+  } catch {
+    return {
+      ok: false,
+      reason: "invalid_url",
+      message: "DATABASE_URL inválida. Configure uma URL PostgreSQL válida.",
+    };
+  }
+
+  return { ok: true, value };
+}
+
 export function getDirectDatabaseUrl() {
   return (process.env.DIRECT_URL || "").trim();
 }
@@ -230,6 +293,10 @@ export function getMercadoPagoTimeoutMs() {
   return Number.isFinite(parsed) && parsed > 0 ? parsed : 15_000;
 }
 
+export function getPixKey() {
+  return String(process.env.PIX_KEY || process.env.NEXT_PUBLIC_PIX_KEY || "").trim();
+}
+
 export function isMercadoPagoConfigured() {
   return Boolean(getMercadoPagoAccessToken());
 }
@@ -276,6 +343,25 @@ export function isOpenAiConfigured() {
   return Boolean(getOpenAiApiKey());
 }
 
+export function getAiGatewayApiKey() {
+  return (process.env.AI_GATEWAY_API_KEY || process.env.VERCEL_OIDC_TOKEN || "").trim();
+}
+
+export function getAiGatewayBaseUrl() {
+  return AI_GATEWAY_BASE_URL;
+}
+
+export function getAiGatewayModel() {
+  const configured = (process.env.AI_GATEWAY_MODEL || "").trim();
+  if (configured) return configured;
+  const openAiModel = getOpenAiAssistantModel();
+  return openAiModel.includes("/") ? openAiModel : `openai/${openAiModel}`;
+}
+
+export function isAiGatewayConfigured() {
+  return Boolean(getAiGatewayApiKey());
+}
+
 export function getGroqApiKey() {
   return (process.env.GROQ_API_KEY || "").trim();
 }
@@ -296,18 +382,44 @@ export function getOllamaAssistantModel() {
   return (process.env.OLLAMA_MODEL || "qwen3:4b-q4_K_M").trim();
 }
 
-export type AiAssistantProvider = "openai" | "groq" | "ollama" | "fallback";
+export type AiAssistantProvider = "openai" | "groq" | "ollama" | "ai_gateway" | "fallback";
+
+function normalizeAiProvider(value?: string | null): AiAssistantProvider | "" {
+  const normalized = (value || "").trim().toLowerCase().replace(/-/g, "_");
+  if (normalized === "gateway" || normalized === "vercel_ai_gateway") return "ai_gateway";
+  if (normalized === "ai_gateway" || normalized === "openai" || normalized === "groq" || normalized === "ollama") {
+    return normalized;
+  }
+  return "";
+}
 
 export function getAiAssistantProvider() {
-  const forced = (process.env.AI_PROVIDER || "").trim().toLowerCase();
+  const forced = normalizeAiProvider(process.env.AI_PROVIDER);
 
+  if (forced === "ai_gateway") return isAiGatewayConfigured() ? "ai_gateway" : "fallback";
   if (forced === "openai") return isOpenAiConfigured() ? "openai" : "fallback";
   if (forced === "groq") return isGroqConfigured() ? "groq" : "fallback";
   if (forced === "ollama") return "ollama";
 
+  if (isAiGatewayConfigured()) return "ai_gateway";
   if (isGroqConfigured()) return "groq";
   if (isOpenAiConfigured()) return "openai";
   return "fallback";
+}
+
+export function getAiAssistantConfigurationError() {
+  const forced = normalizeAiProvider(process.env.AI_PROVIDER);
+
+  if (forced === "ai_gateway" && !isAiGatewayConfigured()) {
+    return "AI_GATEWAY_API_KEY não configurada para AI_PROVIDER=ai_gateway.";
+  }
+  if (forced === "openai" && !isOpenAiConfigured()) {
+    return "OPENAI_API_KEY não configurada para AI_PROVIDER=openai.";
+  }
+  if (forced === "groq" && !isGroqConfigured()) {
+    return "GROQ_API_KEY não configurada para AI_PROVIDER=groq.";
+  }
+  return null;
 }
 
 export function getAiAssistantProviderLabel(provider: AiAssistantProvider = getAiAssistantProvider()) {
@@ -318,6 +430,8 @@ export function getAiAssistantProviderLabel(provider: AiAssistantProvider = getA
       return "Ollama local";
     case "openai":
       return "OpenAI";
+    case "ai_gateway":
+      return "Vercel AI Gateway";
     default:
       return "Modo guiado";
   }
@@ -325,6 +439,8 @@ export function getAiAssistantProviderLabel(provider: AiAssistantProvider = getA
 
 export function getAiAssistantModel() {
   switch (getAiAssistantProvider()) {
+    case "ai_gateway":
+      return getAiGatewayModel();
     case "groq":
       return getGroqAssistantModel();
     case "ollama":

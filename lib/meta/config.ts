@@ -70,6 +70,10 @@ export function isWhatsAppOutboundReady(): boolean {
   );
 }
 
+export function isMetaVerifyTokenConfigured(): boolean {
+  return Boolean(metaConfig.verifyToken);
+}
+
 /** Returns true if Page messaging is ready (token + page ID). */
 export function isFacebookPageReady(): boolean {
   return Boolean(metaConfig.systemUserToken && metaConfig.pageId);

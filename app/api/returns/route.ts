@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { applyNoStoreHeaders } from "@/lib/http-cache";
 import { sendMail } from "@/lib/mailer";
-import { supportEmail } from "@/lib/constants";
+import { getStaffNotifyEmail } from "@/lib/server-config";
 import { getClientIp, escapeHtml, isValidEmail } from "@/lib/security";
 import { rateLimitRequest } from "@/lib/redis";
 import { logStructured } from "@/lib/logger";
@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
   `;
 
   try {
-    await sendMail({ to: supportEmail, subject: `[Devolução] Pedido ${safeOrder} — ${safeName}`, html });
+    await sendMail({ to: getStaffNotifyEmail(), subject: `[Devolução] Pedido ${safeOrder} — ${safeName}`, html });
     await sendMail({
       to: email,
       subject: "Recebemos sua solicitação de devolução — MDH 3D",

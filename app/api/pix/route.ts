@@ -68,10 +68,22 @@ export async function POST(request: Request) {
     });
   }
 
-  const payload = makePixPayload({
-    description: paymentContext.title || "Pagamento MDH 3D",
-    amount: paymentContext.amount,
-  });
+  let payload: string;
+  try {
+    payload = makePixPayload({
+      description: paymentContext.title || "Pagamento MDH 3D",
+      amount: paymentContext.amount,
+    });
+  } catch {
+    return NextResponse.json(
+      {
+        ok: false,
+        error: "PIX_KEY não configurada. Configure PIX_KEY no ambiente para gerar Pix manual.",
+        fallbackMessage: pixPayment?.fallbackMessage,
+      },
+      { status: 503 }
+    );
+  }
 
   if (paymentContext.orderCode) {
     await updateOrderRecord(paymentContext.orderCode, {

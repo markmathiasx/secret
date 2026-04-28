@@ -10,7 +10,7 @@
  */
 
 import 'server-only';
-import { getMercadoPagoPublicKey, getMercadoPagoAccessToken, getDatabaseUrl, getSmtpConfig, getSiteUrl, isSiteUrlVercelDefault, getAuthSecret } from '@/lib/env';
+import { getMercadoPagoPublicKey, getMercadoPagoAccessToken, getDatabaseUrlStatus, getSmtpConfig, getSiteUrl, isSiteUrlVercelDefault, getAuthSecret } from '@/lib/env';
 import { verifyEmailProvider, type EmailProvider } from '@/lib/email-provider';
 
 interface StartupGuardResult {
@@ -77,10 +77,10 @@ function validateMercadoPago(): StartupGuardResult {
 function validateDatabase(): StartupGuardResult {
   const errors: string[] = [];
   const warnings: string[] = [];
-  const dbUrl = getDatabaseUrl();
+  const dbUrl = getDatabaseUrlStatus();
 
-  if (!dbUrl) {
-    warnings.push('⚠️ DATABASE_URL is not set. Database operations will fail gracefully.');
+  if (!dbUrl.ok) {
+    warnings.push(`DATABASE_URL: ${dbUrl.message}`);
   }
 
   return {

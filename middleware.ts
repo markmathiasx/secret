@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { adminConfig } from "@/lib/constants";
+import { adminConfig } from "@/lib/admin-config";
 import { getSiteUrl } from "@/lib/env";
 import { getCustomerSessionSecret, verifySignedSessionToken } from "@/lib/session-token";
 

@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { getDatabaseUrlStatus } from "@/lib/env";
 
 declare global {
   var __mdhPrisma: PrismaClient | undefined;
@@ -15,15 +16,11 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 export function isDatabaseConfigured() {
-  const databaseUrl = process.env.DATABASE_URL?.trim();
-  if (!databaseUrl) return false;
+  return getDatabaseUrlStatus().ok;
+}
 
-  try {
-    const parsed = new URL(databaseUrl);
-    return parsed.protocol === "postgresql:" || parsed.protocol === "postgres:";
-  } catch {
-    return false;
-  }
+export function getDatabaseConfigurationStatus() {
+  return getDatabaseUrlStatus();
 }
 
 function isBuildTime() {

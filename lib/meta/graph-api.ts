@@ -17,7 +17,7 @@ export async function graphPost<T = unknown>(
   body: unknown
 ): Promise<GraphApiResponse<T>> {
   if (!metaConfig.systemUserToken) {
-    return { ok: false, error: { message: "META_SYSTEM_USER_TOKEN not set", type: "config", code: 0 } };
+    return { ok: false, error: { message: "META_SYSTEM_USER_TOKEN/WHATSAPP_ACCESS_TOKEN not set", type: "config", code: 0 } };
   }
 
   try {
@@ -49,7 +49,7 @@ export async function graphGet<T = unknown>(
   params?: Record<string, string>
 ): Promise<GraphApiResponse<T>> {
   if (!metaConfig.systemUserToken) {
-    return { ok: false, error: { message: "META_SYSTEM_USER_TOKEN not set", type: "config", code: 0 } };
+    return { ok: false, error: { message: "META_SYSTEM_USER_TOKEN/WHATSAPP_ACCESS_TOKEN not set", type: "config", code: 0 } };
   }
 
   try {

@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import { auth } from "@/auth";
-import { adminConfig } from "@/lib/constants";
+import { adminConfig } from "@/lib/server-config";
 import { canConnectToDatabase, prisma } from "@/lib/prisma";
 import {
   customerSessionCookieName,

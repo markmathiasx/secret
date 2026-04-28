@@ -4,11 +4,15 @@ import Link from 'next/link';
 import { BadgeCheck, CreditCard, MessageCircleMore, PackageCheck, QrCode, ShieldCheck, Truck } from 'lucide-react';
 import { pix } from '@/lib/constants';
 
+const pixDescription = pix.key
+  ? `A chave ${pix.key} aparece no checkout com QR Code e código copia e cola para facilitar o pagamento.`
+  : 'O Pix aparece no checkout com QR Code e código copia e cola quando a chave estiver configurada no servidor.';
+
 const pillars = [
   {
     icon: QrCode,
     title: 'Pix direto e visível',
-    description: `A chave ${pix.key} aparece no checkout com QR Code e código copia e cola para facilitar o pagamento.`
+    description: pixDescription
   },
   {
     icon: CreditCard,

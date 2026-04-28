@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { canConnectToDatabase } from "@/lib/prisma";
+import { canConnectToDatabase, getDatabaseConfigurationStatus } from "@/lib/prisma";
 import { getMercadoPagoAccessToken, getMercadoPagoPublicKey, getMercadoPagoWebhookSecret } from "@/lib/env";
 import { isRedisConfigured } from "@/lib/redis";
 import { logStructured } from "@/lib/logger";
@@ -7,8 +7,13 @@ import { logStructured } from "@/lib/logger";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-async function checkDatabase(): Promise<{ ok: boolean; latencyMs?: number }> {
+async function checkDatabase(): Promise<{ ok: boolean; latencyMs?: number; reason?: string; message?: string }> {
   const start = Date.now();
+  const status = getDatabaseConfigurationStatus();
+  if (!status.ok) {
+    return { ok: false, latencyMs: Date.now() - start, reason: status.reason, message: status.message };
+  }
+
   try {
     const ok = await canConnectToDatabase();
     return { ok, latencyMs: Date.now() - start };
@@ -26,7 +31,7 @@ function checkPayments() {
     accessToken: hasAccessToken,
     publicKey: hasPublicKey,
     webhookSecret: hasWebhookSecret,
-    warning: !hasWebhookSecret ? "MERCADOPAGO_WEBHOOK_SECRET not set — webhook calls are unauthenticated" : undefined,
+    warning: !hasWebhookSecret ? "MERCADOPAGO_WEBHOOK_SECRET not set. Mercado Pago webhook route will return 503." : undefined,
   };
 }
 

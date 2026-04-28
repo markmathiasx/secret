@@ -73,7 +73,6 @@ export function getMercadoPagoClient() {
 export function getMercadoPagoPublicSettings() {
   return {
     publicKey: getMercadoPagoPublicKey(),
-    accessToken: getMercadoPagoAccessToken(),
     appId: getMercadoPagoAppId(),
     statementDescriptor: getMercadoPagoStatementDescriptor(),
   };

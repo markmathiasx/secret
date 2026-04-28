@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { catalog, getProductUrl } from "@/lib/catalog";
 import { estimateDeliveryFeeKm } from "@/lib/delivery";
 import { getSiteUrl } from "@/lib/env";
-import { isWhatsAppOutboundReady } from "@/lib/meta/config";
+import { isMetaVerifyTokenConfigured, isWhatsAppOutboundReady } from "@/lib/meta/config";
 import { sendWhatsAppText, markWaMessageRead } from "@/lib/meta/graph-api";
 import { isValidMetaSignature, isValidVerifyToken } from "@/lib/meta/signature";
 import { ensureChannelThread, ensureChannelUser, loadThreadHistory, storeInboundMessage, storeReplyMessage } from "@/lib/meta/normalizers";
@@ -10,7 +10,8 @@ import type { WaMessage, WaStatus, WaWebhookPayload } from "@/lib/meta/types";
 import { recordOperationalAlert } from "@/lib/operational-alerts";
 import { checkRateLimit, getClientIp } from "@/lib/security";
 import { formatCurrency } from "@/lib/utils";
-import { supportEmail, whatsappNumber } from "@/lib/constants";
+import { whatsappNumber } from "@/lib/constants";
+import { getStaffNotifyEmail } from "@/lib/server-config";
 import { prisma } from "@/lib/prisma";
 import { logStructured } from "@/lib/logger";
 
@@ -27,6 +28,13 @@ export async function GET(request: NextRequest) {
   const mode = searchParams.get("hub.mode");
   const token = searchParams.get("hub.verify_token");
   const challenge = searchParams.get("hub.challenge");
+
+  if (!isMetaVerifyTokenConfigured()) {
+    return NextResponse.json(
+      { ok: false, error: "WHATSAPP_VERIFY_TOKEN ou META_VERIFY_TOKEN não configurado." },
+      { status: 503 }
+    );
+  }
 
   if (mode === "subscribe" && isValidVerifyToken(token) && challenge) {
     logStructured("info", "whatsapp_webhook_verified", {});
@@ -262,7 +270,7 @@ async function handleInboundMessage(message: WaMessage) {
       [
         "Perfeito. Vou direcionar para atendimento humano.",
         `WhatsApp principal: +${whatsappNumber}`,
-        `E-mail de apoio: ${supportEmail}`,
+        `E-mail de apoio: ${getStaffNotifyEmail()}`,
         "Se quiser agilizar, já me mande: item, cor, bairro/CEP e prazo desejado.",
       ].join("\n")
     );

@@ -1,4 +1,14 @@
-import { deliveryKm } from "@/lib/constants";
+const num = (value: string | undefined, fallback: number) => {
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : fallback;
+};
+
+const deliveryKm = {
+  baseFee: num(process.env.DELIVERY_BASE_FEE, 8),
+  feePerKm: num(process.env.DELIVERY_FEE_PER_KM, 0.6),
+  capFee: num(process.env.DELIVERY_FEE_CAP, 35),
+  expressMultiplier: num(process.env.DELIVERY_EXPRESS_MULTIPLIER, 2),
+};
 
 export function estimateDeliveryFeeKm(distanceKm: number) {
   const km = Math.max(0, Number(distanceKm || 0));
