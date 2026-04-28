@@ -15,7 +15,7 @@
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "incremental": true,
     "plugins": [
       {
@@ -26,7 +26,10 @@
       "@/*": [
         "./*"
       ]
-    }
+    },
+    "noUncheckedSideEffectImports": false,
+    "types": ["node"],
+    "noImplicitAny": false
   },
   "include": [
     "auth.ts",
@@ -39,7 +42,8 @@
     "next-env.d.ts",
     "prisma/**/*.ts",
     "types/**/*.ts",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"

@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
   const raw = await request.json().catch(() => null);
   const parsed = schema.safeParse(raw);
   if (!parsed.success) {
-    const firstError = parsed.error.errors[0]?.message ?? "Dados inválidos.";
+    const firstError = parsed.error.issues[0]?.message ?? "Dados inválidos.";
     return NextResponse.json({ ok: false, message: firstError }, { status: 400 });
   }
 

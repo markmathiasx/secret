@@ -10,7 +10,6 @@ import {
   BadgeCheck,
   Bot,
   Boxes,
-  Instagram,
   LogOut,
   Menu,
   PackageCheck,
@@ -107,7 +106,7 @@ export function SiteHeader({
               Produção local e acabamento sob medida
             </span>
             <a href={socialLinks.instagram} target="_blank" rel="noreferrer" className="shrink-0 text-cyan-100 transition hover:text-cyan-glow flex items-center gap-1">
-              <Instagram className="h-3 w-3 sm:hidden" />
+              <svg className="h-3 w-3 sm:hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.5"/></svg>
               <span className="hidden sm:inline">@{brand.instagramHandle}</span>
             </a>
           </div>
@@ -216,7 +215,7 @@ export function SiteHeader({
             </Link>
           ))}
           <a href={socialLinks.instagram} target="_blank" rel="noreferrer" className="chip-nav ml-auto">
-            <Instagram className="h-4 w-4" /> Instagram
+            <svg className="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.5"/></svg> Instagram
           </a>
         </nav>
 

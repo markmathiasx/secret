@@ -19,7 +19,7 @@ export async function POST(request: Request) {
   const parsed = schema.safeParse(body);
 
   if (!parsed.success) {
-    const firstError = parsed.error.errors[0]?.message ?? "Dados inválidos para redefinir a senha.";
+    const firstError = parsed.error.issues[0]?.message ?? "Dados inválidos para redefinir a senha.";
     return applyNoStoreHeaders(NextResponse.json({ ok: false, error: firstError }, { status: 400 }));
   }
 

@@ -1,0 +1,1 @@
+[[{"Pattern":"z\\.record\\(z\\.any\\(\\)\\)","Replacement":"z.record(z.string(), z.any())"},{"Pattern":"z\\.record\\(z\\.unknown\\(\\)\\)","Replacement":"z.record(z.string(), z.unknown())"},{"Pattern":"parsed\\.error\\.errors","Replacement":"parsed.error.issues"}]]

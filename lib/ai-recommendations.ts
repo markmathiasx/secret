@@ -223,7 +223,7 @@ async function getTrendingRecommendations(limit: number): Promise<Recommendation
  * Get personalized home page products
  */
 export async function getPersonalizedHomepage(userId?: string, limit: number = 20) {
-  const sections = [];
+  const sections: { title: string; products: RecommendationResult[]; type: string }[] = [];
 
   // Section 1: Trending
   const trending = await getTrendingRecommendations(6);

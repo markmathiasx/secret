@@ -72,7 +72,7 @@ export function FormProvider({
 
     const value = values[name];
     const rule = field.validation;
-    let error = null;
+    let error: string | null = null;
 
     if (rule.required && (!value || value.toString().trim() === '')) {
       error = rule.message || 'Este campo é obrigatório';

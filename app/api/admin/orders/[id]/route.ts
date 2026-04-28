@@ -3,6 +3,8 @@ import { prisma } from '@/lib/prisma';
 import { sendMail } from '@/lib/mailer';
 import { orderShippedHtml } from '@/lib/email-templates';
 import { recordAdminAction } from '@/lib/admin-audit';
+
+export const dynamic = 'force-dynamic';
 import { getServerSessionUser, isAdminSession } from '@/lib/server-session';
 
 export async function GET(_req: NextRequest, context: { params: Promise<{ id: string }> }) {

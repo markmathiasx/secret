@@ -3,6 +3,8 @@ import { prisma } from '@/lib/prisma';
 import { makePixPayload } from '@/lib/pix';
 import QRCode from 'qrcode';
 
+export const dynamic = 'force-dynamic';
+
 export async function POST(req: NextRequest, context: { params: Promise<{ id: string }> }) {
   const { id } = await context.params;
   const orderId = id;

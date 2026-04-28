@@ -8,11 +8,26 @@ function createPrismaClient() {
   return new PrismaClient();
 }
 
-export const prisma = global.__mdhPrisma ?? createPrismaClient();
+// Lazy singleton — defers construction until first property access.
+// This prevents PrismaClientInitializationError during `next build` when
+// DATABASE_URL is a placeholder or not set in the build environment.
+let _prismaInstance: PrismaClient | null = null;
 
-if (process.env.NODE_ENV !== "production") {
-  global.__mdhPrisma = prisma;
+function getPrismaInstance(): PrismaClient {
+  if (!_prismaInstance) {
+    _prismaInstance = global.__mdhPrisma ?? createPrismaClient();
+    if (process.env.NODE_ENV !== "production") {
+      global.__mdhPrisma = _prismaInstance;
+    }
+  }
+  return _prismaInstance;
 }
+
+export const prisma = new Proxy({} as PrismaClient, {
+  get(_: PrismaClient, prop: string | symbol) {
+    return (getPrismaInstance() as unknown as Record<string | symbol, unknown>)[prop];
+  },
+});
 
 export function isDatabaseConfigured() {
   return Boolean(process.env.DATABASE_URL?.trim());
