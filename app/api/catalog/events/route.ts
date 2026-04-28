@@ -8,7 +8,7 @@ const schema = z.object({
   productId: z.string().optional(),
   sessionToken: z.string().optional(),
   query: z.string().optional(),
-  metadata: z.record(z.any()).optional(),
+  metadata: z.record(z.string(), z.any()).optional(),
 });
 
 export async function POST(request: Request) {
