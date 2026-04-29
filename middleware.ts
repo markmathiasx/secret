@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { adminConfig } from "@/lib/admin-config";
 import { getSiteUrl } from "@/lib/env";
+import { AUTH_RATE_LIMIT, checkRateLimit, PAYMENT_RATE_LIMIT, RateLimitConfig } from "@/lib/rate-limit";
 import { getCustomerSessionSecret, verifySignedSessionToken } from "@/lib/session-token";
 
 const protectedPrefixes = ["/seller", "/admin", "/conta"];
@@ -61,6 +62,42 @@ export async function middleware(request: NextRequest) {
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set("x-request-id", requestId);
   requestHeaders.set("x-trace-id", requestId);
+
+  // --- Rate limiting ---
+  const RATE_LIMITED_ROUTES: { pattern: string; config: RateLimitConfig }[] = [
+    { pattern: "/api/admin/login", config: AUTH_RATE_LIMIT },
+    { pattern: "/api/auth/", config: AUTH_RATE_LIMIT },
+    { pattern: "/api/pix", config: PAYMENT_RATE_LIMIT },
+    { pattern: "/api/checkout", config: PAYMENT_RATE_LIMIT },
+  ];
+
+  const clientIp =
+    request.headers.get("x-forwarded-for")?.split(",")[0].trim() ??
+    request.headers.get("x-real-ip") ??
+    "unknown";
+
+  for (const { pattern, config } of RATE_LIMITED_ROUTES) {
+    const normalised = pattern.replace(/\/$/, "");
+    if (pathname === normalised || pathname.startsWith(normalised + "/")) {
+      const result = checkRateLimit(`${clientIp}:${normalised}`, config);
+      if (!result.success) {
+        return NextResponse.json(
+          { error: "Too many requests", retryAfterMs: result.retryAfterMs },
+          {
+            status: 429,
+            headers: {
+              "Retry-After": String(Math.ceil((result.retryAfterMs ?? 60000) / 1000)),
+              "X-RateLimit-Limit": String(config.maxRequests),
+              "X-RateLimit-Remaining": String(result.remaining),
+              "X-RateLimit-Reset": String(result.resetAt),
+              "x-request-id": requestId,
+            },
+          }
+        );
+      }
+      break;
+    }
+  }
 
   // --- Domain canonicalization (production only) ---
   // Redirect every production host to the canonical custom domain from NEXT_PUBLIC_SITE_URL.

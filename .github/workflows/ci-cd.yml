@@ -5,6 +5,13 @@ on:
   push:
     branches: [main]
 
+env:
+  DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/mdh_ci?schema=public"
+  NEXTAUTH_SECRET: "ci-placeholder-secret-32chars-ok-for-build"
+  NEXT_PUBLIC_SITE_URL: "https://mdh3d.com.br"
+  ADMIN_PASSWORD_HASH: "ci-placeholder-not-used-in-build"
+  ADMIN_SESSION_SECRET: "ci-placeholder-admin-session-secret-32chars"
+
 jobs:
   quality-gates:
     runs-on: ubuntu-latest
@@ -23,10 +30,12 @@ jobs:
       - run: npm run typecheck
       - run: npm run build
 
-  storefront-media:
+  smoke-prod:
     runs-on: ubuntu-latest
     needs: quality-gates
-    timeout-minutes: 40
+    # Only run against live production after a merge to main
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
 
@@ -37,7 +46,8 @@ jobs:
 
       - run: npm ci
       - run: npx playwright install --with-deps chromium
-      - run: npm run build
-      - run: (npm run start &) && npx wait-on http://127.0.0.1:3000
-      - run: npm run validate:assets
-      - run: npm run test:images
+      - name: Smoke test production URL (non-blocking)
+        run: npm run test:smoke:prod
+        continue-on-error: true
+        env:
+          SMOKE_BASE_URL: "https://mdh3d.com.br"

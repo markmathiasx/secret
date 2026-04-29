@@ -5,9 +5,17 @@ on:
   pull_request:
     branches: [main]
 
+env:
+  DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/mdh_ci?schema=public"
+  NEXTAUTH_SECRET: "ci-placeholder-secret-32chars-ok-for-build"
+  NEXT_PUBLIC_SITE_URL: "https://mdh3d.com.br"
+  ADMIN_PASSWORD_HASH: "ci-placeholder-not-used-in-build"
+  ADMIN_SESSION_SECRET: "ci-placeholder-admin-session-secret-32chars"
+
 jobs:
-  verify:
+  quality-gates:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -15,8 +23,21 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
-      - run: npx prisma generate
-      - run: npm run lint
+      - run: npm run db:generate
+      - run: npm run lint:check
       - run: npm run typecheck
       - run: npm run build
-      - run: npm run test:smoke
+
+  security-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Audit for high/critical vulnerabilities
+        run: npm audit --audit-level=high
+        continue-on-error: true

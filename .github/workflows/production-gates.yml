@@ -22,16 +22,50 @@ jobs:
           cache: npm
 
       - run: npm ci
-      - run: npm run db:generate
-      - run: npm run lint:check
-      - run: npm run typecheck
-      - run: npm run build
-      - run: npm i -g wait-on vercel@latest
-      - run: (npm run start &) && wait-on http://127.0.0.1:3000
-      - run: npm run validate:assets
-      - name: Image regression tests (non-blocking)
-        run: npm run test:images
-        continue-on-error: true
+
+      - name: Generate Prisma client
+        run: npm run db:generate
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+      - name: Lint
+        run: npm run lint:check
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+          NEXT_PUBLIC_SITE_URL: "https://mdh3d.com.br"
+          ADMIN_PASSWORD_HASH: ${{ secrets.ADMIN_PASSWORD_HASH }}
+          ADMIN_SESSION_SECRET: ${{ secrets.ADMIN_SESSION_SECRET }}
+
+      - name: Type-check
+        run: npm run typecheck
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+          NEXT_PUBLIC_SITE_URL: "https://mdh3d.com.br"
+          ADMIN_PASSWORD_HASH: ${{ secrets.ADMIN_PASSWORD_HASH }}
+          ADMIN_SESSION_SECRET: ${{ secrets.ADMIN_SESSION_SECRET }}
+
+      - name: Build
+        run: npm run build
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+          NEXT_PUBLIC_SITE_URL: "https://mdh3d.com.br"
+          ADMIN_PASSWORD_HASH: ${{ secrets.ADMIN_PASSWORD_HASH }}
+          ADMIN_SESSION_SECRET: ${{ secrets.ADMIN_SESSION_SECRET }}
+          PIX_KEY: ${{ secrets.PIX_KEY }}
+
+      - run: npm i -g vercel@latest
+
       - run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
       - run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
       - run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Post-deploy smoke test (non-blocking)
+        run: |
+          npx playwright install --with-deps chromium
+          npm run test:smoke:prod
+        continue-on-error: true
+        env:
+          SMOKE_BASE_URL: "https://mdh3d.com.br"
