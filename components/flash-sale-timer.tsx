@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Zap } from "lucide-react";
 
 interface FlashSaleTimerProps {
@@ -24,7 +24,7 @@ function timeLeft(endsAt: Date) {
  * Hides itself when the sale expires.
  */
 export function FlashSaleTimer({ endsAt, discountPct, label, onExpire }: FlashSaleTimerProps) {
-  const end = endsAt instanceof Date ? endsAt : new Date(endsAt);
+  const end = useMemo(() => (endsAt instanceof Date ? endsAt : new Date(endsAt)), [endsAt]);
   const [time, setTime] = useState(() => timeLeft(end));
 
   useEffect(() => {
