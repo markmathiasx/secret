@@ -81,14 +81,12 @@ export function CatalogGrid({ products }: { products: Product[] }) {
                     </span>
                   ) : null}
                 </div>
-                <div className="mt-4 rounded-[22px] border border-white/10 bg-black/20 p-3 text-xs leading-6 text-white/62">
-                  <p className="font-semibold text-white/82">
-                    {product.pricingMode === "faixa-auditada" ? "Compra direta" : "Projeto sob medida"}
-                  </p>
-                  <p className="mt-1">
+                <div className="mt-4 flex items-center gap-2 rounded-[16px] border border-white/10 bg-black/20 px-3 py-2">
+                  <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${product.pricingMode === "faixa-auditada" ? "bg-emerald-400" : "bg-cyan-400"}`} />
+                  <p className="text-xs text-white/62">
                     {product.pricingMode === "faixa-auditada"
-                      ? "Preço claro no site para comparar, ir ao checkout ou fechar pelo WhatsApp."
-                      : "Envie sua referência para validar material, prazo e acabamento antes de produzir."}
+                      ? "Preço visível · checkout direto ou WhatsApp"
+                      : "Projeto sob medida · envie referência para orçar"}
                   </p>
                 </div>
                 <div className="mt-5 flex items-end justify-between gap-2">
@@ -98,7 +96,7 @@ export function CatalogGrid({ products }: { products: Product[] }) {
                       <QuickAddToCart productId={product.id} productName={product.name} pricePix={product.pricePix} priceCard={product.priceCard} />
                     ) : null}
                     <Link href={getProductUrl(product)} className="btn-primary rounded-full px-4 py-2 text-sm font-semibold">
-                      {product.pricingMode === "faixa-auditada" ? "Ver" : "Orçar"}
+                      {product.pricingMode === "faixa-auditada" ? "Ver peça" : "Orçar"}
                     </Link>
                   </div>
                 </div>

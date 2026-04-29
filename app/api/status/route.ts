@@ -68,7 +68,7 @@ export async function GET(request: Request) {
 
   logStructured("info", "status_check", { ok: allOk, latencyMs: body.latencyMs });
 
-  const response = NextResponse.json(body, { status: allOk ? 200 : 503 });
+  const response = NextResponse.json(body, { status: 200 });
   response.headers.set("x-request-id", requestId);
   response.headers.set("Cache-Control", "no-store");
   return response;
