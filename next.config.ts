@@ -303,8 +303,27 @@ const nextConfig: NextConfig = {
     return 'build-' + Date.now();
   },
 
-  // Output configuration
-  output: 'standalone',
+  // Output: standalone only for Docker/self-hosted; Vercel manages bundling itself
+  ...(process.env.VERCEL ? {} : { output: 'standalone' }),
+
+  // Exclude large test-only packages from serverless function traces
+  outputFileTracingExcludes: {
+    '*': [
+      'node_modules/@playwright/**',
+      'node_modules/playwright/**',
+      'node_modules/playwright-core/**',
+      'node_modules/jsdom/**',
+      'node_modules/@jest/**',
+      'node_modules/jest/**',
+      'node_modules/jest-circus/**',
+      'node_modules/@swc/**',
+      'node_modules/ts-jest/**',
+      'node_modules/esbuild/**',
+    ],
+  },
+
+  // Keep large server-side packages as externals (not inlined into bundles)
+  serverExternalPackages: ['@prisma/client', '.prisma', 'prisma'],
 
   // Environment variables
   env: {
