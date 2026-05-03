@@ -212,6 +212,47 @@ export function SiteFooter() {
         </div>
       </div>
 
+      {/* Payment methods row */}
+      <div className="border-t border-white/[0.06] px-6 py-4">
+        <div className="flex flex-wrap items-center justify-center gap-3">
+          <span className="text-xs text-white/35">Pagamentos aceitos:</span>
+          {/* Pix */}
+          <span className="flex items-center gap-1.5 rounded-lg border border-emerald-400/25 bg-emerald-400/10 px-3 py-1.5">
+            <svg width="16" height="16" viewBox="0 0 32 32" fill="none" aria-label="Pix">
+              <path d="M16 2L8 10h4v4H8l-6 6 6 6h4v4l8-8 8 8v-4h4l6-6-6-6h-4v-4h4L16 2z" fill="#32BCAD"/>
+            </svg>
+            <span className="text-xs font-semibold text-emerald-100">Pix</span>
+          </span>
+          {/* Visa */}
+          <span className="flex items-center gap-1.5 rounded-lg border border-white/15 bg-white/5 px-3 py-1.5">
+            <svg width="30" height="10" viewBox="0 0 30 10" fill="none" aria-label="Visa">
+              <text x="0" y="9" fontFamily="Arial" fontWeight="bold" fontSize="11" fill="#1A1F71">VISA</text>
+            </svg>
+          </span>
+          {/* Mastercard */}
+          <span className="flex items-center gap-1.5 rounded-lg border border-white/15 bg-white/5 px-3 py-1.5">
+            <svg width="28" height="18" viewBox="0 0 28 18" aria-label="Mastercard">
+              <circle cx="10" cy="9" r="9" fill="#EB001B"/>
+              <circle cx="18" cy="9" r="9" fill="#F79E1B"/>
+              <path d="M14 3.1a9 9 0 0 1 0 11.8A9 9 0 0 1 14 3.1z" fill="#FF5F00"/>
+            </svg>
+            <span className="text-xs font-semibold text-white/70">Mastercard</span>
+          </span>
+          {/* Boleto */}
+          <span className="flex items-center gap-1.5 rounded-lg border border-white/15 bg-white/5 px-3 py-1.5">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-label="Boleto">
+              <rect x="2" y="4" width="2" height="16" fill="currentColor" className="text-white/60"/>
+              <rect x="6" y="4" width="1" height="16" fill="currentColor" className="text-white/60"/>
+              <rect x="9" y="4" width="2" height="16" fill="currentColor" className="text-white/60"/>
+              <rect x="13" y="4" width="1" height="16" fill="currentColor" className="text-white/60"/>
+              <rect x="16" y="4" width="2" height="16" fill="currentColor" className="text-white/60"/>
+              <rect x="20" y="4" width="2" height="16" fill="currentColor" className="text-white/60"/>
+            </svg>
+            <span className="text-xs font-semibold text-white/60">Boleto</span>
+          </span>
+        </div>
+      </div>
+
       <div className="relative border-t border-white/10 px-6 py-5 text-center text-sm text-white/45">
         <div className="flex flex-col items-center justify-between gap-3 md:flex-row">
           <span>© 2026 {brand.name}. Todos os direitos reservados.</span>

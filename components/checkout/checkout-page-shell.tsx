@@ -498,18 +498,18 @@ export function CheckoutPageShell({
               {[
                 {
                   icon: ShieldCheck,
-                  title: "Checkout protegido",
-                  body: "Pedido fica salvo com código antes do pagamento e pode ser retomado.",
+                  title: "🔒 Seu pedido está seguro",
+                  body: "Pedido fica salvo com código antes do pagamento e pode ser retomado a qualquer momento.",
                 },
                 {
                   icon: Wallet,
-                  title: "Pix + cartão",
-                  body: "Você escolhe o método dentro do checkout do Mercado Pago.",
+                  title: "Pix + cartão disponíveis",
+                  body: "Você escolhe o método dentro do checkout protegido do Mercado Pago.",
                 },
                 {
                   icon: Truck,
-                  title: "Produção local",
-                  body: `${brand.name} produz no Rio de Janeiro com atendimento humano.`,
+                  title: "Produção local — Rio de Janeiro",
+                  body: `${brand.name} produz com atendimento humano e envia para todo o Brasil.`,
                 },
               ].map((item) => {
                 const Icon = item.icon;
@@ -536,7 +536,9 @@ export function CheckoutPageShell({
             <div className="flex items-start justify-between gap-4">
               <div>
                 <p className="text-xs uppercase tracking-[0.2em] text-cyan-100/72">Dados para fechar</p>
-                <h2 className="mt-2 text-2xl font-black text-white">Complete o pedido</h2>
+                <h2 className="mt-2 text-2xl font-black text-white">
+                  {checkoutSession ? "Quase lá! ✨" : "Complete o pedido"}
+                </h2>
               </div>
               <span className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-white/65">
                 Sem login obrigatório

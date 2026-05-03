@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
-import { CopyPlus, MessageCircleMore } from 'lucide-react';
+import { CopyPlus, MessageCircleMore, ShieldCheck, Clock, Star, MessageCircle } from 'lucide-react';
 import { BackInStockButton } from '@/components/back-in-stock-button';
 import { ShareButton } from '@/components/share-button';
 import { findCatalogProductBySlug, getCatalogStaticParams } from '@/lib/catalog-repository';
@@ -572,6 +572,27 @@ export default async function ProductPage({
               <MessageCircleMore className="h-4 w-4" /> Falar no WhatsApp
             </a>
           </div>
+        </div>
+      </div>
+
+      {/* Trust Section — Por que comprar na MDH3D? */}
+      <div className="mt-10">
+        <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-white/45">Por que comprar na MDH3D?</p>
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {([
+            { icon: ShieldCheck, title: "Garantia no produto", body: "Peça com defeito de impressão? Reenviamos sem custo." },
+            { icon: Clock, title: "Produção local RJ", body: "Impresso e enviado direto do nosso estúdio no Rio de Janeiro." },
+            { icon: Star, title: "Fotos reais do item", body: "Todas as imagens são do produto real, sem render ou IA." },
+            { icon: MessageCircle, title: "Suporte humano", body: "Atendimento via WhatsApp em horário comercial." },
+          ] as const).map(({ icon: Icon, title, body }) => (
+            <div key={title} className="rounded-[20px] border border-white/10 bg-white/[0.04] p-4">
+              <span className="inline-flex rounded-full border border-indigo-300/20 bg-indigo-300/10 p-2 text-indigo-200">
+                <Icon className="h-4 w-4" />
+              </span>
+              <p className="mt-3 text-sm font-semibold text-white">{title}</p>
+              <p className="mt-1 text-xs leading-5 text-white/55">{body}</p>
+            </div>
+          ))}
         </div>
       </div>
 
