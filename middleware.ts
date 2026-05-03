@@ -67,9 +67,11 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const host = request.headers.get("host") || "";
   const requestId = request.headers.get("x-request-id") || crypto.randomUUID();
+  const nonce = Buffer.from(crypto.randomUUID()).toString('base64');
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set("x-request-id", requestId);
   requestHeaders.set("x-trace-id", requestId);
+  requestHeaders.set("x-nonce", nonce);
 
   if (request.headers.has("x-middleware-subrequest")) {
     return NextResponse.json(
@@ -169,12 +171,12 @@ export async function middleware(request: NextRequest) {
 
   const cspRules = [
     "default-src 'self'",
-    "script-src 'self' 'unsafe-inline' https://sdk.mercadopago.com https://http2.mlstatic.com https://secure-fields.mercadopago.com https://api-static.mercadopago.com https://maps.googleapis.com https://www.googletagmanager.com",
+    `script-src 'self' 'nonce-${nonce}' https://sdk.mercadopago.com https://http2.mlstatic.com https://secure-fields.mercadopago.com https://api-static.mercadopago.com https://maps.googleapis.com https://www.googletagmanager.com`,
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
     "img-src 'self' data: https: https://secure-fields.mercadopago.com https://api-static.mercadopago.com",
     "media-src 'self' https: blob:",
     "font-src 'self' data: https://fonts.gstatic.com https://secure-fields.mercadopago.com https://api-static.mercadopago.com",
-    "connect-src 'self' https://api.mercadopago.com https://api-static.mercadopago.com https://secure-fields.mercadopago.com https://api.mercadolibre.com https://*.mercadolibre.com https://*.mercadolivre.com https://http2.mlstatic.com https://graph.facebook.com https://viacep.com.br https://*.supabase.co wss://*.supabase.co https://*.supabase.in wss://*.supabase.in https://maps.googleapis.com https://maps.gstatic.com https://www.google-analytics.com https://region1.google-analytics.com https://*.sentry.io https://ingest.sentry.io https://*.upstash.io",
+    "connect-src 'self' https://api.mercadopago.com https://api-static.mercadopago.com https://secure-fields.mercadopago.com https://api.mercadolibre.com https://*.mercadolibre.com https://*.mercadolivre.com https://http2.mlstatic.com https://graph.facebook.com https://viacep.com.br https://www.melhorenvio.com.br https://sandbox.melhorenvio.com.br https://*.supabase.co wss://*.supabase.co https://*.supabase.in wss://*.supabase.in https://maps.googleapis.com https://maps.gstatic.com https://www.google-analytics.com https://region1.google-analytics.com https://*.sentry.io https://ingest.sentry.io https://*.upstash.io",
     "frame-src https://www.mercadopago.com.br https://www.mercadopago.com https://secure-fields.mercadopago.com https://api-static.mercadopago.com https://www.mercadolibre.com https://www.mercadolibre.com.br https://www.mercadolivre.com https://www.mercadolivre.com.br",
     "object-src 'none'",
     "base-uri 'self'",

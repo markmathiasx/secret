@@ -55,11 +55,11 @@
     "validate:assets:fs": "node scripts/validate-assets.mjs --mode=fs --manifest=output/CATALOG_SEMANTIC_AUDIT.json --publicMode=strict",
     "validate:assets:http": "node scripts/validate-assets.mjs --mode=http --baseUrl=http://127.0.0.1:3000 --manifest=output/CATALOG_SEMANTIC_AUDIT.json --publicMode=strict",
     "report:weekly-growth": "node scripts/run-weekly-growth-report.mjs",
-    "deploy:check:ultimate": "node scripts/pre-deploy-ultimate-check.mjs"
+    "ci:check": "npm run lint:check && npm run typecheck && npm run build && npm run test:images && npm run test:e2e"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.2",
-    "@mercadopago/sdk-react": "^1.0.7",
+    "undici": "^6.19.8",
     "@prisma/client": "^6.19.3",
     "@sentry/nextjs": "^10.49.0",
     "@supabase/ssr": "^0.5.2",

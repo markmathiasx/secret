@@ -82,8 +82,8 @@ export const SESSION_RATE_LIMIT: RateLimitConfig = {
   maxRequests: 300,
 };
 
-/** 1200 requests per minute — global request safety net per IP */
+/** 100 requests per minute — global request safety net per IP */
 export const GLOBAL_RATE_LIMIT: RateLimitConfig = {
   windowMs: 60 * 1000,
-  maxRequests: 1200,
+  maxRequests: 100,
 };
