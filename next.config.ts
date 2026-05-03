@@ -306,9 +306,10 @@ const nextConfig: NextConfig = {
   // Output: standalone only for Docker/self-hosted; Vercel manages bundling itself
   ...(process.env.VERCEL ? {} : { output: 'standalone' }),
 
-  // Exclude large test-only packages from serverless function traces
+  // Exclude large packages not needed at runtime from serverless function traces
   outputFileTracingExcludes: {
     '*': [
+      // Test/dev tooling — never needed at runtime
       'node_modules/@playwright/**',
       'node_modules/playwright/**',
       'node_modules/playwright-core/**',
@@ -319,11 +320,30 @@ const nextConfig: NextConfig = {
       'node_modules/@swc/**',
       'node_modules/ts-jest/**',
       'node_modules/esbuild/**',
+      // Prisma CLI & migration engines (~148 MB) — only @prisma/client needed at runtime
+      'node_modules/prisma/**',
+      'node_modules/@prisma/engines/**',
+      'node_modules/@prisma/migrate/**',
+      'node_modules/@prisma/studio/**',
+      'node_modules/@prisma/schema-files-loader/**',
+      'node_modules/@prisma/generator-helper/**',
+      'node_modules/@prisma/get-platform/**',
+      'node_modules/@prisma/debug/**',
+      'node_modules/@prisma/fetch-engine/**',
+      'node_modules/@prisma/config/**',
+      // Prisma Windows binary — Vercel runs Linux
+      'node_modules/.prisma/client/query_engine-windows.dll.node',
+      // Supabase CLI (~92 MB) — not needed at runtime, only used in dev
+      'node_modules/supabase/**',
+      // TypeScript compiler — not needed at runtime
+      'node_modules/typescript/**',
+      // @types — type definitions, never needed at runtime
+      'node_modules/@types/**',
     ],
   },
 
-  // Keep large server-side packages as externals (not inlined into bundles)
-  serverExternalPackages: ['@prisma/client', '.prisma', 'prisma'],
+  // Keep large server-side packages as externals (not inlined into webpack bundles)
+  serverExternalPackages: ['@prisma/client', '.prisma'],
 
   // Environment variables
   env: {
