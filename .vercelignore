@@ -4,7 +4,6 @@ test-results/
 assets/
 prompts_txt/
 SEU_PROJETO/
-output/
 .tmp-*
 live-*.png
 *.bak
