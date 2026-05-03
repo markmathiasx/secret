@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import dynamic from "next/dynamic";
-import { ConversionHero } from "@/components/hero/ConversionHero";
+import { PremiumHero } from "@/components/hero/PremiumHero";
 import { CommerceFaq } from "@/components/commerce-faq";
 import { TrustSignals } from "@/components/trust-signals";
 import { ProductionProcess } from "@/components/production-process";
@@ -152,7 +152,7 @@ export default async function HomePage() {
     <main>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
-      <ConversionHero
+      <PremiumHero
         catalogCount={catalogCount}
         realPhotoCount={visualSummary.fotoReal}
         readyRealCount={readyRealCount}

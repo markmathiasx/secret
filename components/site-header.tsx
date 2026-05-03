@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { signOut as authSignOut } from "next-auth/react";
+import { motion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
 import {
   ArrowRight,
@@ -26,11 +27,9 @@ import { CommerceAssistantDialog } from "@/components/commerce-assistant-dialog"
 import { HeaderCommandPalette } from "@/components/header-command-palette";
 
 const navLinks = [
-  { href: "/", label: "Início" },
   { href: "/catalogo", label: "Catálogo" },
   { href: "/presentes-3d", label: "Presentes" },
   { href: "/imagem-para-impressao-3d", label: "Personalizados" },
-  { href: "/entregas", label: "Entregas" },
   { href: "/faq", label: "FAQ" },
 ];
 
@@ -87,6 +86,15 @@ export function SiteHeader({
   const [assistantOpen, setAssistantOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const cartHref = "/carrinho";
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    function onScroll() {
+      setScrolled(window.scrollY > 20);
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const userLabel = session.user?.displayName || session.user?.email?.split("@")[0] || "Minha conta";
   const nav = useMemo(
@@ -113,7 +121,7 @@ export function SiteHeader({
 
   return (
     <>
-      <header className="sticky top-0 z-50 border-b border-white/10 bg-[linear-gradient(180deg,rgba(9,17,25,0.84),rgba(9,17,25,0.78))] shadow-[0_18px_54px_rgba(2,8,23,0.16)] backdrop-blur-2xl">
+      <header className={`sticky top-0 z-50 border-b border-white/10 bg-[linear-gradient(180deg,rgba(9,17,25,0.84),rgba(9,17,25,0.78))] shadow-[0_18px_54px_rgba(2,8,23,0.16)] backdrop-blur-2xl transition-all duration-300 ${scrolled ? "py-0" : ""}`}>
         <div className="border-b border-white/10 bg-[linear-gradient(90deg,rgba(3,233,244,0.14),rgba(123,44,191,0.1),rgba(37,211,102,0.12))]">
           <div className="mx-auto flex max-w-7xl items-center justify-between gap-2 overflow-x-hidden px-4 py-2 text-[11px] uppercase tracking-[0.22em] text-white/72 sm:px-6">
             <span className="shrink-0">MDH 3D • Rio de Janeiro</span>
@@ -205,9 +213,17 @@ export function SiteHeader({
             <button type="button" onClick={openDrawer} className="btn-glass gap-2 px-4 py-3 whitespace-nowrap">
               <ShoppingCart className="h-4 w-4 shrink-0" />
               Carrinho
-              <span aria-live="polite" className="rounded-full border border-white/10 bg-black/25 px-2 py-0.5 text-[11px] text-white/80">
+              <motion.span
+                key={cartCount}
+                initial={{ scale: 1.5, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                aria-live="polite"
+                aria-atomic="true"
+                className="rounded-full border border-white/10 bg-black/25 px-2 py-0.5 text-[11px] text-white/80"
+              >
                 {cartCount}
-              </span>
+              </motion.span>
             </button>
           </div>
 
