@@ -15,7 +15,7 @@ import { HomeTestimonials } from "@/components/home-testimonials";
 import { HomeCategoriesShowcase } from "@/components/home-categories-showcase";
 import { DeferredHomeResumePanel } from "@/components/deferred-home-resume-panel";
 import { CatalogBuyingIntents } from "@/components/catalog-buying-intents";
-import { getSiteUrl } from "@/lib/env";
+import { getSiteUrl, isCardCheckoutConfigured } from "@/lib/env";
 import { StorefrontSalesShelves } from "@/components/storefront-sales-shelves";
 import type { Product } from "@/lib/catalog";
 import { getProductUrl } from "@/lib/catalog";
@@ -33,10 +33,14 @@ const STLUploader = dynamic(() => import("@/components/stl-uploader").then((modu
 });
 
 function FeaturedProductCards({ products }: { products: Product[] }) {
+  const visibleProducts = products.filter((product) => product.image || product.images[0]);
+
   return (
     <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4" role="list">
-      {products.map((product, index) => {
-        const image = product.image || product.images[0] || "/catalog-assets/product-placeholder.webp";
+      {visibleProducts.map((product, index) => {
+        const image = product.image || product.images[0];
+        if (!image) return null;
+
         return (
           <li key={product.id}>
             <Link
@@ -77,6 +81,7 @@ function FeaturedProductCards({ products }: { products: Product[] }) {
 export default async function HomePage() {
   const catalog = await getCatalogSnapshot();
   const siteUrl = getSiteUrl();
+  const cardCheckoutReady = isCardCheckoutConfigured();
   const catalogCount = catalog.length;
   const visualSummary = summarizeProductVisuals(catalog);
   const realShowcase = catalog.filter((product) => isProductRealPhoto(product)).slice(0, 4);
@@ -162,7 +167,7 @@ export default async function HomePage() {
 
       <HomeConversionLanes />
 
-      <StorefrontSalesShelves />
+      <StorefrontSalesShelves cardCheckoutReady={cardCheckoutReady} />
 
       <section className="mx-auto max-w-7xl px-6 py-6">
         <div className="grid gap-4 xl:grid-cols-[1.05fr_0.95fr]">

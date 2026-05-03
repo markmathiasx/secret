@@ -38,7 +38,7 @@ type AssistantApiResponse = {
   threadId?: string | null;
 };
 
-function buildClientAssistantFallback(message: string) {
+function buildClientAssistantFallback(message: string, cardCheckoutReady: boolean) {
   const normalized = message.toLowerCase();
 
   if (/(que horas|hora atual|hor[aá]rio|que dia|data de hoje|dia de hoje)/.test(normalized)) {
@@ -59,7 +59,9 @@ function buildClientAssistantFallback(message: string) {
   }
 
   if (/(site|loja|mdh|cat[aá]logo|checkout|conta|login|como funciona|p[aá]gina)/.test(normalized)) {
-    return "Posso responder sobre o catálogo, páginas do site, checkout, Pix, cartão, entrega, personalização, STL e atendimento humano. Pergunte como no ChatGPT: produto, prazo, preço, foto real, pedido ou suporte.";
+    return cardCheckoutReady
+      ? "Posso responder sobre o catálogo, páginas do site, checkout, Pix, cartão online, entrega, personalização, STL e atendimento humano. Pergunte como no ChatGPT: produto, prazo, preço, foto real, pedido ou suporte."
+      : "Posso responder sobre o catálogo, páginas do site, checkout, Pix, entrega, personalização, STL e atendimento humano. Pergunte como no ChatGPT: produto, prazo, preço, foto real, pedido ou suporte.";
   }
 
   if (/(stl|obj|3mf|personaliz|briefing|referencia|referência)/.test(normalized)) {
@@ -75,7 +77,9 @@ function buildClientAssistantFallback(message: string) {
   }
 
   if (/(pix|cartao|cartão|parcel)/.test(normalized)) {
-    return "Eu consigo te orientar por Pix, cartão e próxima etapa de fechamento. Se quiser resolver isso agora com a equipe, abra o atendimento humano ou siga direto para /checkout.";
+    return cardCheckoutReady
+      ? "Eu consigo te orientar por Pix, cartão online e próxima etapa de fechamento. Se quiser resolver isso agora com a equipe, abra o atendimento humano ou siga direto para /checkout."
+      : "Eu consigo te orientar por Pix e fechamento assistido. Se quiser resolver isso agora com a equipe, abra o atendimento humano ou siga direto para /checkout.";
   }
 
   return `Posso te orientar por objetivo, faixa de preço, foto real, pronta entrega ou personalização. Se preferir atendimento humano imediato, use https://wa.me/${whatsappNumber}.`;
@@ -287,7 +291,7 @@ export function CommerceAssistantDialog({
           id: `assistant-fallback-${Date.now()}`,
           role: "assistant",
           source: "fallback",
-          content: buildClientAssistantFallback(trimmed),
+          content: buildClientAssistantFallback(trimmed, cardCheckoutReady),
         },
       ]);
       scrollToLatest();

@@ -71,7 +71,7 @@ const organizationJsonLd = {
   ],
   priceRange: 'R$',
   currenciesAccepted: 'BRL',
-  paymentAccepted: 'Pix, Cartão de Crédito, Boleto',
+  paymentAccepted: cardCheckoutReady ? 'Pix, Cartão de Crédito, Boleto' : 'Pix',
   areaServed: {
     '@type': 'State',
     name: 'Rio de Janeiro',
@@ -235,7 +235,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               liveChatMode={liveChatMode}
             />
             <main>{children}</main>
-            <SiteFooter />
+            <SiteFooter cardCheckoutReady={cardCheckoutReady} />
             <DeferredLayoutWidgets
               cardCheckoutReady={cardCheckoutReady}
               aiAssistantReady={aiAssistantReady}

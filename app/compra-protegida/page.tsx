@@ -4,6 +4,7 @@ import { BadgeCheck, Clock3, MessageCircleMore, PackageCheck, ShieldCheck, Truck
 import { PurchaseProtectionBanner } from "@/components/purchase-protection-banner";
 import { PostPurchaseHub } from "@/components/post-purchase-hub";
 import { whatsappNumber } from "@/lib/constants";
+import { isCardCheckoutConfigured } from "@/lib/env";
 
 export const metadata: Metadata = {
   title: "Compra protegida",
@@ -13,7 +14,8 @@ export const metadata: Metadata = {
   },
 };
 
-const steps = [
+function getSteps(cardCheckoutReady: boolean) {
+  return [
   {
     icon: PackageCheck,
     title: "Pedido claro",
@@ -27,14 +29,17 @@ const steps = [
   {
     icon: ShieldCheck,
     title: "Pagamento seguro",
-    body: "Pix e cartão aparecem com comunicação objetiva e sem esconder o caminho do pagamento.",
+    body: cardCheckoutReady
+      ? "Pix e cartão aparecem com comunicação objetiva dentro do checkout online."
+      : "Pix aparece como rota direta, e cartão segue com orientação humana quando necessário.",
   },
   {
     icon: Truck,
     title: "Pós-venda resolutivo",
     body: "Rastreio, troca e devolução têm caminhos diretos para você não ficar preso no WhatsApp.",
   },
-];
+  ];
+}
 
 const expectations = [
   "Quando o pedido entra, ele recebe código e fica pronto para acompanhamento.",
@@ -44,6 +49,8 @@ const expectations = [
 ];
 
 export default function CompraProtegidaPage() {
+  const steps = getSteps(isCardCheckoutConfigured());
+
   return (
     <section className="mx-auto max-w-6xl px-6 py-16">
       <div className="glass-panel p-8 md:p-10">

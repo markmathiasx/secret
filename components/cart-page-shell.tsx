@@ -12,7 +12,7 @@ import { trackEvent, trackWhatsAppClick } from "@/lib/analytics";
 import { bestsellerStorefrontProducts, resolveStorefrontHref } from "@/lib/products";
 import { formatCurrency } from "@/lib/utils";
 
-export function CartPageShell() {
+export function CartPageShell({ cardCheckoutReady = false }: { cardCheckoutReady?: boolean }) {
   const { hydrated, items, removeItem, updateQuantity, clearCart } = useCart();
   const totals = calculateCartTotals(items);
   const [cutoffClock, setCutoffClock] = useState("00:00:00");
@@ -299,8 +299,10 @@ export function CartPageShell() {
                 },
                 {
                   icon: Wallet,
-                  title: "Pix e cartão",
-                  body: "O checkout abre o pagamento online quando disponível e mantém WhatsApp como fallback comercial.",
+                  title: cardCheckoutReady ? "Pix e cartão online" : "Pix e atendimento assistido",
+                  body: cardCheckoutReady
+                    ? "O checkout abre o pagamento online e mantém WhatsApp como fallback comercial."
+                    : "O checkout registra o pedido com Pix e leva cartão para orientação humana quando necessário.",
                 },
                 {
                   icon: Truck,

@@ -3,13 +3,13 @@
 import Link from "next/link";
 import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
-import { ShoppingCart, Star, Package, BadgeCheck } from "lucide-react";
+import { Eye, ShoppingCart, Package, BadgeCheck } from "lucide-react";
 import type { Product } from "@/lib/catalog";
 import { getProductUrl } from "@/lib/catalog";
 import { formatCurrency } from "@/lib/utils";
 import { useCart } from "@/lib/cart-context";
 import { validateProductMedia, isPublicSafe, isHeroEligible } from "@/lib/media-validation";
-import { cardHover, fadeInUp } from "@/lib/animations";
+import { fadeInUp } from "@/lib/animations";
 
 interface PremiumCardProps {
   product: Product;
@@ -29,6 +29,12 @@ export function PremiumCard({ product, index = 0 }: PremiumCardProps) {
   const firstImageUrl: string | null =
     mediaRecord.gallery[0]?.url ?? product.images?.[0] ?? product.image ?? null;
   const productUrl = getProductUrl(product);
+  const visualLabel =
+    mediaRecord.status === "verified"
+      ? "Foto real"
+      : mediaRecord.status === "render-verified"
+        ? "Render fiel"
+        : "Imagem sinalizada";
 
   function handleAddToCart(e: React.MouseEvent) {
     e.preventDefault();
@@ -70,7 +76,7 @@ export function PremiumCard({ product, index = 0 }: PremiumCardProps) {
       {firstImageUrl ? (
           <Image
             src={firstImageUrl}
-            alt={product.name}
+            alt={mediaRecord.gallery[0]?.alt || product.imageAlt || product.name}
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
             className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -87,7 +93,12 @@ export function PremiumCard({ product, index = 0 }: PremiumCardProps) {
           {heroEligible && (
             <span className="flex items-center gap-1 rounded-full border border-emerald-400/30 bg-emerald-900/70 px-2.5 py-1 text-[10px] font-semibold text-emerald-200 backdrop-blur-sm">
               <BadgeCheck className="h-3 w-3" aria-hidden="true" />
-              Foto real
+              {visualLabel}
+            </span>
+          )}
+          {product.featured && (
+            <span className="rounded-full border border-cyan-400/30 bg-cyan-900/70 px-2.5 py-1 text-[10px] font-semibold text-cyan-100 backdrop-blur-sm">
+              Destaque
             </span>
           )}
           {product.readyToShip && (
@@ -117,22 +128,15 @@ export function PremiumCard({ product, index = 0 }: PremiumCardProps) {
           )}
         </div>
 
-        {/* Rating */}
-        <div className="flex items-center gap-1" aria-label="Avaliação: 4.9 estrelas">
-          {Array.from({ length: 5 }).map((_, i) => (
-            <Star
-              key={i}
-              className="h-3 w-3 fill-amber-400 text-amber-400"
-              aria-hidden="true"
-            />
-          ))}
-          <span className="ml-1 text-[11px] text-white/50">4.9</span>
+        <div className="flex items-center gap-2 rounded-[16px] border border-white/10 bg-black/20 px-3 py-2 text-xs text-white/62">
+          <Eye className="h-3.5 w-3.5 text-cyan-100" aria-hidden="true" />
+          <span>Prova visual: {visualLabel.toLowerCase()}</span>
         </div>
 
         {/* Price */}
         <div className="mt-auto">
           <p className="text-xs text-white/45">
-            {formatCurrency(product.priceCard)} no cartão
+            Referência assistida {formatCurrency(product.priceCard)}
           </p>
           <p className="text-lg font-bold text-emerald-400">
             {formatCurrency(product.pricePix)}{" "}
@@ -141,16 +145,25 @@ export function PremiumCard({ product, index = 0 }: PremiumCardProps) {
         </div>
 
         {/* CTA */}
-        <motion.button
-          type="button"
-          onClick={handleAddToCart}
-          whileTap={shouldReduce ? undefined : { scale: 0.96 }}
-          className="mt-1 flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-500 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-emerald-500/25 transition hover:bg-emerald-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 active:scale-95"
-          aria-label={`Adicionar ${product.name} ao carrinho`}
-        >
-          <ShoppingCart className="h-4 w-4" aria-hidden="true" />
-          Adicionar
-        </motion.button>
+        <div className="mt-1 grid gap-2 sm:grid-cols-[1fr_auto]">
+          <Link
+            href={productUrl}
+            className="flex min-h-11 items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm font-semibold text-white/76 transition hover:border-cyan-300/30 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
+          >
+            <Eye className="h-4 w-4" aria-hidden="true" />
+            Ver visual
+          </Link>
+          <motion.button
+            type="button"
+            onClick={handleAddToCart}
+            whileTap={shouldReduce ? undefined : { scale: 0.96 }}
+            className="flex min-h-11 items-center justify-center gap-2 rounded-xl bg-emerald-500 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-emerald-500/25 transition hover:bg-emerald-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 active:scale-95"
+            aria-label={`Adicionar ${product.name} ao carrinho`}
+          >
+            <ShoppingCart className="h-4 w-4" aria-hidden="true" />
+            Adicionar
+          </motion.button>
+        </div>
       </div>
     </motion.article>
   );

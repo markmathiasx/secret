@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import { CartPageShell } from "@/components/cart-page-shell";
-import { getSiteUrl } from "@/lib/env";
+import { getSiteUrl, isCardCheckoutConfigured } from "@/lib/env";
 
 const siteUrl = getSiteUrl();
 
 export const metadata: Metadata = {
   title: "Carrinho",
-  description: "Revise o pedido da MDH 3D, confirme subtotal, frete fixo e siga para checkout com Pix ou cartão.",
+  description: "Revise o pedido da MDH 3D, confirme subtotal, frete e siga para checkout com Pix ou atendimento assistido.",
   alternates: {
     canonical: `${siteUrl}/carrinho`,
   },
@@ -22,5 +22,5 @@ export const metadata: Metadata = {
 };
 
 export default function CartPage() {
-  return <CartPageShell />;
+  return <CartPageShell cardCheckoutReady={isCardCheckoutConfigured()} />;
 }

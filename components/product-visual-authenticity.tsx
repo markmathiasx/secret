@@ -5,7 +5,6 @@ import { getProductVisual } from "@/lib/product-visuals";
 import { validateProductMedia, isPublicSafe, isHeroEligible } from "@/lib/media-validation";
 
 export function ProductVisualBadge({ product, className = "" }: { product: Product; className?: string }) {
-  const visual = getProductVisual(product);
   const mediaRecord = validateProductMedia(product);
   const heroEligible = isHeroEligible(mediaRecord.status, mediaRecord.gallery.length);
 

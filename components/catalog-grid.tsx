@@ -1,110 +1,16 @@
 "use client";
 
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 import type { Product } from "@/lib/catalog";
-import { getProductUrl } from "@/lib/catalog";
-import { FavoriteButton } from "@/components/favorite-button";
-import { ProductVisualBadge } from "@/components/product-visual-authenticity";
-import { ProductImageGallery } from "@/components/product-image-gallery";
-import { ProductPriceStack } from "@/components/product-price-stack";
-import { QuickAddToCart } from "@/components/quick-add-to-cart";
-import { validateProductMedia, isHeroEligible, isPublicSafe } from "@/lib/media-validation";
-
-function shouldIgnoreCardActivation(target: EventTarget | null) {
-  return target instanceof Element && Boolean(target.closest("a, button, input, select, textarea, [role='button'], [data-card-interactive='true']"));
-}
+import { PremiumCard } from "@/components/product/PremiumCard";
 
 export function CatalogGrid({ products }: { products: Product[] }) {
-  const router = useRouter();
-
-  function openProduct(product: Product) {
-    router.push(getProductUrl(product));
-  }
-
   return (
     <ul className="grid gap-5 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4" role="list">
-      {products.map((product) => {
-        const mediaRecord = validateProductMedia(product);
-        const heroEligible = isHeroEligible(mediaRecord.status, mediaRecord.gallery.length);
-        const publicSafe = isPublicSafe(mediaRecord.status);
-        return (
-          <li key={product.id}>
-            <article
-              className={`catalog-product-card group cursor-pointer rounded-[30px] border p-5 transition ${
-                heroEligible
-                  ? "border-emerald-300/15 bg-[linear-gradient(180deg,rgba(16,185,129,0.06),rgba(255,255,255,0.02))] hover:border-emerald-300/30 hover:shadow-lg hover:shadow-emerald-400/10"
-                  : publicSafe
-                    ? "border-white/10 bg-card hover:border-cyan-300/30 hover:shadow-lg hover:shadow-cyan-400/10"
-                    : "border-amber-300/15 bg-[linear-gradient(180deg,rgba(245,158,11,0.06),rgba(255,255,255,0.02))] hover:border-amber-300/30"
-              }`}
-              role="link"
-              tabIndex={0}
-              aria-label={`Abrir ${product.name}`}
-              onClick={(event) => {
-                if (shouldIgnoreCardActivation(event.target)) return;
-                openProduct(product);
-              }}
-              onKeyDown={(event) => {
-                if (shouldIgnoreCardActivation(event.target)) return;
-                if (event.key === "Enter" || event.key === " ") {
-                  event.preventDefault();
-                  openProduct(product);
-                }
-              }}
-            >
-              <ProductImageGallery product={product} compact />
-              <div className="mt-4 flex flex-1 flex-col">
-                <div className="flex items-start justify-between gap-3">
-                  <div className="min-w-0">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <ProductVisualBadge product={product} />
-                      {product.readyToShip ? (
-                        <span className="rounded-full border border-emerald-300/20 bg-emerald-300/10 px-2.5 py-1 text-[11px] font-semibold text-emerald-100">
-                          Pronta entrega
-                        </span>
-                      ) : null}
-                    </div>
-                    <p className="text-xs uppercase tracking-[0.2em] text-cyan-200/80">{product.category}</p>
-                    <h3 className="mt-2 text-lg font-semibold text-white">{product.name}</h3>
-                    <p className="mt-2 line-clamp-2 text-sm leading-6 text-white/62">{product.description}</p>
-                  </div>
-                  <FavoriteButton productId={product.id} className="shrink-0" />
-                </div>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  <span className="rounded-full border border-white/10 px-2.5 py-1 text-xs text-white/55">{product.material}</span>
-                  <span className="rounded-full border border-white/10 px-2.5 py-1 text-xs text-white/55">{product.finish}</span>
-                  <span className="rounded-full border border-white/10 px-2.5 py-1 text-xs text-white/55">{product.productionWindow}</span>
-                  {product.customizable ? (
-                    <span className="rounded-full border border-cyan-300/20 bg-cyan-300/10 px-2.5 py-1 text-xs text-cyan-100">
-                      Personalizável
-                    </span>
-                  ) : null}
-                </div>
-                <div className="mt-4 flex items-center gap-2 rounded-[16px] border border-white/10 bg-black/20 px-3 py-2">
-                  <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${product.pricingMode === "faixa-auditada" ? "bg-emerald-400" : "bg-cyan-400"}`} />
-                  <p className="text-xs text-white/62">
-                    {product.pricingMode === "faixa-auditada"
-                      ? "Preço visível · checkout direto ou WhatsApp"
-                      : "Projeto sob medida · envie referência para orçar"}
-                  </p>
-                </div>
-                <div className="mt-5 flex items-end justify-between gap-2">
-                  <ProductPriceStack product={product} compact />
-                  <div className="flex items-center gap-2">
-                    {product.pricingMode === "faixa-auditada" ? (
-                      <QuickAddToCart productId={product.id} productName={product.name} pricePix={product.pricePix} priceCard={product.priceCard} />
-                    ) : null}
-                    <Link href={getProductUrl(product)} className="btn-primary rounded-full px-4 py-2 text-sm font-semibold">
-                      {product.pricingMode === "faixa-auditada" ? "Ver peça" : "Orçar"}
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </article>
-          </li>
-        );
-      })}
+      {products.map((product, index) => (
+        <li key={product.id} className="min-w-0">
+          <PremiumCard product={product} index={index} />
+        </li>
+      ))}
     </ul>
   );
 }

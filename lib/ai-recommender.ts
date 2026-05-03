@@ -351,7 +351,7 @@ export function useRecommendations(
     getHybridRecommendations(productId, fullContext, 4)
       .then(setRecommendations)
       .finally(() => setLoading(false));
-  }, [productId]);
+  }, [productId, context]);
   
   return { recommendations, loading };
 }

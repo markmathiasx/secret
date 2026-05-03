@@ -42,7 +42,7 @@ export function AIAssistant({ currentPage, productContext }: AIAssistantProps) {
       const welcomeMessage = generateWelcomeMessage(currentPage, productContext);
       setMessages([welcomeMessage]);
     }
-  }, [isOpen, currentPage, productContext]);
+  }, [isOpen, messages.length, currentPage, productContext]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });

@@ -66,6 +66,10 @@ async function hasSellerSessionCookie(request: NextRequest) {
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const host = request.headers.get("host") || "";
+  const isLocalRequest =
+    host.includes("localhost") ||
+    host.includes("127.0.0.1") ||
+    host.includes("[::1]");
   const requestId = request.headers.get("x-request-id") || crypto.randomUUID();
   const nonce = Buffer.from(crypto.randomUUID()).toString('base64');
   const requestHeaders = new Headers(request.headers);
@@ -98,7 +102,7 @@ export async function middleware(request: NextRequest) {
     request.headers.get("x-real-ip") ??
     "unknown";
 
-  const globalRate = isStaticAssetPath(pathname)
+  const globalRate = isLocalRequest || isStaticAssetPath(pathname)
     ? null
     : checkRateLimit(`global:${clientIp}`, GLOBAL_RATE_LIMIT);
   if (globalRate && !globalRate.success) {
@@ -117,26 +121,28 @@ export async function middleware(request: NextRequest) {
     );
   }
 
-  for (const { pattern, config } of RATE_LIMITED_ROUTES) {
-    const normalised = pattern.replace(/\/$/, "");
-    if (pathname === normalised || pathname.startsWith(normalised + "/")) {
-      const result = checkRateLimit(`${clientIp}:${normalised}`, config);
-      if (!result.success) {
-        return NextResponse.json(
-          { error: "Too many requests", retryAfterMs: result.retryAfterMs },
-          {
-            status: 429,
-            headers: {
-              "Retry-After": String(Math.ceil((result.retryAfterMs ?? 60000) / 1000)),
-              "X-RateLimit-Limit": String(config.maxRequests),
-              "X-RateLimit-Remaining": String(result.remaining),
-              "X-RateLimit-Reset": String(result.resetAt),
-              "x-request-id": requestId,
-            },
-          }
-        );
+  if (!isLocalRequest) {
+    for (const { pattern, config } of RATE_LIMITED_ROUTES) {
+      const normalised = pattern.replace(/\/$/, "");
+      if (pathname === normalised || pathname.startsWith(normalised + "/")) {
+        const result = checkRateLimit(`${clientIp}:${normalised}`, config);
+        if (!result.success) {
+          return NextResponse.json(
+            { error: "Too many requests", retryAfterMs: result.retryAfterMs },
+            {
+              status: 429,
+              headers: {
+                "Retry-After": String(Math.ceil((result.retryAfterMs ?? 60000) / 1000)),
+                "X-RateLimit-Limit": String(config.maxRequests),
+                "X-RateLimit-Remaining": String(result.remaining),
+                "X-RateLimit-Reset": String(result.resetAt),
+                "x-request-id": requestId,
+              },
+            }
+          );
+        }
+        break;
       }
-      break;
     }
   }
 
@@ -171,7 +177,7 @@ export async function middleware(request: NextRequest) {
 
   const cspRules = [
     "default-src 'self'",
-    `script-src 'self' 'nonce-${nonce}' https://sdk.mercadopago.com https://http2.mlstatic.com https://secure-fields.mercadopago.com https://api-static.mercadopago.com https://maps.googleapis.com https://www.googletagmanager.com`,
+    "script-src 'self' 'unsafe-inline' https://sdk.mercadopago.com https://http2.mlstatic.com https://secure-fields.mercadopago.com https://api-static.mercadopago.com https://maps.googleapis.com https://www.googletagmanager.com",
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
     "img-src 'self' data: https: https://secure-fields.mercadopago.com https://api-static.mercadopago.com",
     "media-src 'self' https: blob:",

@@ -20,7 +20,6 @@ import {
   User,
   X,
 } from "lucide-react";
-import { whatsappNumber } from "@/lib/constants";
 import { emitCustomerAuthChange, useCustomerSession } from "@/lib/customer-session-client";
 import { useCart } from "@/lib/cart-context";
 import { CommerceAssistantDialog } from "@/components/commerce-assistant-dialog";
@@ -28,9 +27,9 @@ import { HeaderCommandPalette } from "@/components/header-command-palette";
 
 const navLinks = [
   { href: "/catalogo", label: "Catálogo" },
-  { href: "/presentes-3d", label: "Presentes" },
-  { href: "/imagem-para-impressao-3d", label: "Personalizados" },
-  { href: "/faq", label: "FAQ" },
+  { href: "/guia-primeira-impressao-3d", label: "Como funciona" },
+  { href: "/blog", label: "Blog" },
+  { href: "/atendimento", label: "Atendimento" },
 ];
 
 const commerceShortcuts = [
@@ -66,7 +65,6 @@ export function SiteHeader({
   const { count: cartCount, openDrawer } = useCart();
   const [assistantOpen, setAssistantOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const cartHref = "/carrinho";
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -180,14 +178,6 @@ export function SiteHeader({
               </Link>
             )}
 
-            <a href={`https://wa.me/${whatsappNumber}`} className="btn-zap whitespace-nowrap">
-              WhatsApp
-            </a>
-
-            <Link href={cartHref} prefetch={false} className="btn-primary gap-2 px-5 py-3 whitespace-nowrap">
-              <ShoppingBag className="h-4 w-4 shrink-0" />
-              Fechar pedido
-            </Link>
             <button type="button" onClick={openDrawer} className="btn-glass gap-2 px-4 py-3 whitespace-nowrap">
               <ShoppingCart className="h-4 w-4 shrink-0" />
               Carrinho
@@ -283,13 +273,6 @@ export function SiteHeader({
                   <Bot className="mr-2 h-4 w-4" />
                   Consultor MDH
                 </button>
-                <a href={`https://wa.me/${whatsappNumber}`} className="btn-zap justify-center">
-                  WhatsApp
-                </a>
-                <Link href={cartHref} prefetch={false} className="btn-primary justify-center">
-                  <ShoppingBag className="mr-2 h-4 w-4" />
-                  Fechar pedido
-                </Link>
                 <button type="button" onClick={openDrawer} className="btn-glass justify-center">
                   <ShoppingCart className="mr-2 h-4 w-4" />
                   Carrinho ({cartCount})

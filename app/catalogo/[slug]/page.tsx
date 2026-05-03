@@ -26,12 +26,13 @@ import { PurchaseProtectionBanner } from '@/components/purchase-protection-banne
 import { formatCurrency } from '@/lib/utils';
 import { whatsappMessage, whatsappNumber } from '@/lib/constants';
 import { Metadata } from 'next';
-import { getSiteUrl } from '@/lib/env';
+import { getSiteUrl, isCardCheckoutConfigured } from '@/lib/env';
 import { getProductHighlights, getProductLongDescription } from '@/lib/catalog-content';
 import { resolveProductImage } from '@/lib/product-images';
 import { catalog, featuredCatalog, getProductUrl } from '@/lib/catalog';
 import { getProductMarketplaceSignals, getStoreReputationSummary, getProductReviewSnippets } from '@/lib/marketplace-signals';
 import { validateProductMedia, isPublicSafe } from '@/lib/media-validation';
+import { getProductVisual } from '@/lib/product-visuals';
 
 export const revalidate = 300;
 export const dynamic = 'force-static';
@@ -56,6 +57,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const resolvedImage = resolveProductImage(product);
   const imageUrl = resolvedImage.startsWith("http") ? resolvedImage : `${siteUrl}${resolvedImage}`;
   const longDescription = getProductLongDescription(product);
+  const visual = getProductVisual(product);
   const [productSignals, storeSummary, reviewSnippets] = await Promise.all([
     getProductMarketplaceSignals(product.id, product.sku),
     getStoreReputationSummary(),
@@ -68,7 +70,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
   return {
     title: `${product.name} - Impressão 3D Premium | MDH 3D Rio`,
-    description: `Compre ${product.name} em ${product.material || "PLA Premium"} com foto real, produção local no RJ e entrega em 24-48h. Personalize com seu STL.`,
+    description: `Compre ${product.name} em ${product.material || "PLA Premium"} com imagem classificada como ${visual.label.toLowerCase()}, produção local no RJ e atendimento humano para validar cor, escala e prazo.`,
     alternates: {
       canonical: productPath,
     },
@@ -108,6 +110,7 @@ export default async function ProductPage({
   }
 
   const siteUrl = getSiteUrl();
+  const cardCheckoutReady = isCardCheckoutConfigured();
   const productPath = getProductUrl(product);
   const productUrl = `${siteUrl}${productPath}`;
   const resolvedImage = resolveProductImage(product);
@@ -127,8 +130,24 @@ export default async function ProductPage({
   ]);
   const mediaRecord = validateProductMedia(product);
   const mediaIsPublicSafe = isPublicSafe(mediaRecord.status) && mediaRecord.gallery.length >= 1;
-  // Only include images in structured data if they are verified/probable
-  const structuredDataImages = mediaIsPublicSafe ? resolvedImages : [];
+  const mediaIsVerifiedForSchema =
+    (mediaRecord.status === 'verified' || mediaRecord.status === 'render-verified') && mediaRecord.gallery.length >= 1;
+  const visualTrustCopy =
+    mediaRecord.status === 'verified'
+      ? {
+          title: 'Foto real sinalizada',
+          body: 'A galeria está classificada como foto real de peça física, com leitura clara antes da compra.',
+        }
+      : mediaRecord.status === 'render-verified'
+        ? {
+            title: 'Render fiel sinalizado',
+            body: 'A galeria está classificada como render fiel derivado do modelo, separada de foto real.',
+          }
+        : {
+            title: 'Imagem sinalizada',
+            body: 'A página separa mídia conceitual de foto real e render fiel para não vender referência como prova física.',
+          };
+  const structuredDataImages = mediaIsVerifiedForSchema ? resolvedImages : [];
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -194,8 +213,7 @@ export default async function ProductPage({
       acceptedPaymentMethod: [
         { '@type': 'PaymentMethod', '@id': 'http://purl.org/goodrelations/v1#Cash' },
         { '@type': 'PaymentMethod', name: 'Pix' },
-        { '@type': 'PaymentMethod', name: 'Cartão de Crédito' },
-        { '@type': 'PaymentMethod', name: 'Boleto Bancário' },
+        ...(cardCheckoutReady ? [{ '@type': 'PaymentMethod', name: 'Cartão de Crédito' }] : []),
       ],
     },
     category: product.category,
@@ -427,7 +445,7 @@ export default async function ProductPage({
 
           <div className="mt-6 grid gap-4 sm:grid-cols-[1.45fr_0.8fr]">
             <div className="rounded-[24px] border border-emerald-400/20 bg-emerald-400/10 p-4">
-              <ProductPriceStack product={product} label={priceLabel} />
+              <ProductPriceStack product={product} label={priceLabel} showInstallments={cardCheckoutReady} />
             </div>
             <div className="rounded-[24px] border border-white/10 bg-white/5 p-4">
               <p className="text-sm text-white/55">Prazo</p>
@@ -536,6 +554,7 @@ export default async function ProductPage({
               customizable={product.customizable}
               whatsappHref={whatsappHref}
               customizationHref={customizationHref}
+              cardCheckoutReady={cardCheckoutReady}
             />
             {product.stock <= 0 && (
               <div className="mt-4">
@@ -581,7 +600,7 @@ export default async function ProductPage({
           {([
             { icon: ShieldCheck, title: "Garantia no produto", body: "Peça com defeito de impressão? Reenviamos sem custo." },
             { icon: Clock, title: "Produção local RJ", body: "Impresso e enviado direto do nosso estúdio no Rio de Janeiro." },
-            { icon: Star, title: "Fotos reais do item", body: "Todas as imagens são do produto real, sem render ou IA." },
+            { icon: Star, title: visualTrustCopy.title, body: visualTrustCopy.body },
             { icon: MessageCircle, title: "Suporte humano", body: "Atendimento via WhatsApp em horário comercial." },
           ] as const).map(({ icon: Icon, title, body }) => (
             <div key={title} className="rounded-[20px] border border-white/10 bg-white/[0.04] p-4">

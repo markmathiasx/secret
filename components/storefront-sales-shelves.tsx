@@ -67,7 +67,7 @@ function ProductShelfCard({
   );
 }
 
-export function StorefrontSalesShelves() {
+export function StorefrontSalesShelves({ cardCheckoutReady = false }: { cardCheckoutReady?: boolean }) {
   return (
     <>
       <section className="mx-auto max-w-7xl px-6 py-10">
@@ -87,7 +87,7 @@ export function StorefrontSalesShelves() {
               Carrinho global
             </span>
             <span className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-white/72">
-              Pix e cartão
+              {cardCheckoutReady ? "Pix e cartão" : "Pix e atendimento"}
             </span>
           </div>
         </div>

@@ -304,7 +304,7 @@ export function CheckoutPageShell({
           <p className="section-kicker">Checkout</p>
           <h1 className="section-title">Seu checkout começa no carrinho.</h1>
           <p className="section-copy mx-auto mt-4 max-w-2xl">
-            Adicione pelo menos um produto para liberar Pix, cartão e fallback por WhatsApp.
+            Adicione pelo menos um produto para liberar {paymentOnlineReady ? "Pix, cartão e atendimento por WhatsApp." : "Pix e atendimento por WhatsApp."}
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
             <Link href="/carrinho" className="btn-primary">
@@ -326,7 +326,7 @@ export function CheckoutPageShell({
           <p className="section-kicker">Checkout</p>
           <h1 className="section-title">Checkout sem cadastro para fechar agora.</h1>
           <p className="section-copy mt-3 max-w-3xl">
-            Você informa só os dados necessários para entrega, gera o pedido com código e escolhe Mercado Pago ou atendimento humano se quiser acelerar.
+            Você informa só os dados necessários para entrega, gera o pedido com código e escolhe {paymentOnlineReady ? "Mercado Pago ou atendimento humano" : "Pix com atendimento humano"} se quiser acelerar.
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
@@ -503,8 +503,10 @@ export function CheckoutPageShell({
                 },
                 {
                   icon: Wallet,
-                  title: "Pix + cartão disponíveis",
-                  body: "Você escolhe o método dentro do checkout protegido do Mercado Pago.",
+                  title: paymentOnlineReady ? "Pix + cartão online" : "Pix + atendimento assistido",
+                  body: paymentOnlineReady
+                    ? "Você escolhe o método dentro do checkout protegido do Mercado Pago."
+                    : "O pedido fica registrado e a equipe orienta o fechamento quando cartão online não estiver habilitado.",
                 },
                 {
                   icon: Truck,
@@ -743,15 +745,23 @@ export function CheckoutPageShell({
                   {checkoutSession
                     ? checkoutSession.paymentFallback
                       ? "Pedido registrado. Feche pelo WhatsApp."
-                      : "Pix e cartão liberados"
-                    : "Gere o checkout para liberar o pagamento"}
+                      : paymentOnlineReady
+                        ? "Pix e cartão liberados"
+                        : "Pedido registrado para fechamento assistido"
+                    : paymentOnlineReady
+                      ? "Gere o checkout para liberar o pagamento"
+                      : "Registre o pedido para fechar pelo atendimento"}
                 </h2>
                 <p className="mt-3 max-w-2xl text-sm leading-7 text-white/65">
                   {checkoutSession
                     ? checkoutSession.paymentFallback
                       ? checkoutSession.message || `Pedido ${checkoutSession.orderCode} criado. Use o fallback comercial abaixo para concluir agora.`
-                      : `Pedido ${checkoutSession.orderCode} criado. Agora escolha Pix ou cartão no Mercado Pago.`
-                    : "Preencha os dados acima para criar o pedido e abrir o checkout real do Mercado Pago."}
+                      : paymentOnlineReady
+                        ? `Pedido ${checkoutSession.orderCode} criado. Agora escolha Pix ou cartão no Mercado Pago.`
+                        : `Pedido ${checkoutSession.orderCode} criado. A equipe confirma o pagamento e a produção pelo atendimento.`
+                    : paymentOnlineReady
+                      ? "Preencha os dados acima para criar o pedido e abrir o checkout real do Mercado Pago."
+                      : "Preencha os dados acima para registrar o pedido e fechar com atendimento humano."}
                 </p>
               </div>
               {checkoutSession ? (
@@ -775,12 +785,20 @@ export function CheckoutPageShell({
                       <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold text-white/72">
                         Pix
                       </span>
-                      <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold text-white/72">
-                        Cartão
-                      </span>
-                      <span className="rounded-full border border-cyan-300/20 bg-cyan-300/10 px-3 py-1 text-xs font-semibold text-cyan-100">
-                        Mercado Pago
-                      </span>
+                      {paymentOnlineReady ? (
+                        <>
+                          <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold text-white/72">
+                            Cartão
+                          </span>
+                          <span className="rounded-full border border-cyan-300/20 bg-cyan-300/10 px-3 py-1 text-xs font-semibold text-cyan-100">
+                            Mercado Pago
+                          </span>
+                        </>
+                      ) : (
+                        <span className="rounded-full border border-cyan-300/20 bg-cyan-300/10 px-3 py-1 text-xs font-semibold text-cyan-100">
+                          Atendimento humano
+                        </span>
+                      )}
                     </div>
                   </div>
                 </div>

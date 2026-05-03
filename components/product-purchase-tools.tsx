@@ -26,6 +26,7 @@ export function ProductPurchaseTools({
   customizable,
   whatsappHref,
   customizationHref,
+  cardCheckoutReady,
 }: {
   productId: string;
   productName: string;
@@ -40,6 +41,7 @@ export function ProductPurchaseTools({
   customizable: boolean;
   whatsappHref: string;
   customizationHref: string;
+  cardCheckoutReady: boolean;
 }) {
   const [quantity, setQuantity] = useState(1);
   const [goal, setGoal] = useState<PurchaseGoal>("Uso próprio");
@@ -375,7 +377,9 @@ export function ProductPurchaseTools({
           <p className="mt-2 text-2xl font-black text-white">{formatCurrency(totalPix)}</p>
         </div>
         <div className="rounded-[20px] border border-white/10 bg-white/5 p-4">
-          <p className="text-xs uppercase tracking-[0.16em] text-white/50">Total no cartão</p>
+          <p className="text-xs uppercase tracking-[0.16em] text-white/50">
+            {cardCheckoutReady ? "Total no cartão" : "Referência assistida"}
+          </p>
           <p className="mt-2 text-2xl font-black text-white">{formatCurrency(totalCard)}</p>
         </div>
       </div>

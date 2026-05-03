@@ -10,7 +10,7 @@ export function WhatsAppFloat() {
   const [expanded, setExpanded] = useState(false);
   const quickLinks = [
     "Quero fechar um item do catálogo hoje",
-    "Quero pagar no Pix ou cartão",
+    "Quero pagar no Pix ou fechar com atendimento",
     "Quero enviar uma referência para orçamento",
   ];
 

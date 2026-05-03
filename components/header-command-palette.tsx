@@ -52,7 +52,7 @@ const primaryRoutes: PaletteEntry[] = [
     id: "route-checkout",
     label: "Ir para checkout",
     href: "/checkout",
-    note: "fechar pedido com pix ou cartão",
+    note: "fechar pedido com pix e atendimento",
     group: "Atalhos",
     icon: "route",
   },

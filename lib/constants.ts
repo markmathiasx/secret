@@ -223,7 +223,7 @@ export const catalogShortcutLinks = [
 export const faqItems: any[] = [
   {
     question: "Como funciona o pedido?",
-    answer: "Você escolhe o produto, confirma endereço e prazo, escolhe Pix ou cartão e recebe um código para acompanhar tudo depois.",
+    answer: "Você escolhe o produto, confirma endereço e prazo, fecha no Pix ou no atendimento assistido e recebe um código para acompanhar tudo depois.",
   },
   {
     question: "Vocês fazem peças sob encomenda?",

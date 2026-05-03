@@ -10,6 +10,8 @@ const staticSource = join(root, ".next", "static");
 const staticTarget = join(standaloneDir, ".next", "static");
 const publicSource = join(root, "public");
 const publicTarget = join(standaloneDir, "public");
+const prismaClientSource = join(root, "node_modules", ".prisma", "client");
+const prismaClientTarget = join(standaloneDir, "node_modules", ".prisma", "client");
 
 if (!existsSync(standaloneServer)) {
   console.error("Standalone build não encontrada. Rode `npm run build` antes de `npm run start`.");
@@ -23,6 +25,11 @@ if (existsSync(staticSource)) {
 
 if (existsSync(publicSource)) {
   cpSync(publicSource, publicTarget, { recursive: true, force: true });
+}
+
+if (existsSync(prismaClientSource)) {
+  mkdirSync(dirname(prismaClientTarget), { recursive: true });
+  cpSync(prismaClientSource, prismaClientTarget, { recursive: true, force: true });
 }
 
 const child = spawn(process.execPath, [standaloneServer], {

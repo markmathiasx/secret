@@ -17,7 +17,6 @@ const ScrollToTop = dynamic(() => import("@/components/scroll-to-top").then((mod
 const SiteAssistant = dynamic(() => import("@/components/site-assistant").then((module) => module.SiteAssistant), { ssr: false });
 const TikTokPixel = dynamic(() => import("@/components/tiktok-pixel").then((module) => module.TikTokPixel), { ssr: false });
 const WebVitals = dynamic(() => import("@/components/web-vitals").then((module) => module.WebVitals), { ssr: false });
-const WhatsAppFloat = dynamic(() => import("@/components/whatsapp-float").then((module) => module.WhatsAppFloat), { ssr: false });
 
 type DeferredLayoutWidgetsProps = {
   cardCheckoutReady: boolean;
@@ -69,7 +68,6 @@ export function DeferredLayoutWidgets({
     <>
       <CartSessionBridge />
       <RouteActionDock />
-      <WhatsAppFloat />
       <ScrollToTop />
       <SiteAssistant
         cardCheckoutReady={cardCheckoutReady}

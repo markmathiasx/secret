@@ -25,7 +25,7 @@ const imageHosts = new Set([
 
 const contentSecurityPolicy = [
   "default-src 'self'",
-  "script-src 'self' 'nonce-${nonce}' https://sdk.mercadopago.com https://http2.mlstatic.com https://secure-fields.mercadopago.com https://api-static.mercadopago.com https://maps.googleapis.com https://www.googletagmanager.com https://connect.facebook.net https://analytics.tiktok.com",
+  "script-src 'self' 'unsafe-inline' https://sdk.mercadopago.com https://http2.mlstatic.com https://secure-fields.mercadopago.com https://api-static.mercadopago.com https://maps.googleapis.com https://www.googletagmanager.com https://connect.facebook.net https://analytics.tiktok.com",
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "img-src 'self' data: https:",
   "media-src 'self' https: blob:",
@@ -85,7 +85,7 @@ const nextConfig: NextConfig = {
     ],
     formats: ['image/webp', 'image/avif'],
     qualities: [75, 85],
-    unoptimized: false,
+    unoptimized: true,
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     minimumCacheTTL: 31536000,

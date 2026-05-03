@@ -443,7 +443,7 @@ export function Hero({
         <div className="mt-10 grid gap-3 md:grid-cols-4">
           {[
             "Foto real, render fiel e imagem conceitual aparecem com selo claro na vitrine.",
-            "Pix, cartão e acompanhamento seguem no mesmo fluxo de compra.",
+            "Pix, acompanhamento e atendimento assistido seguem no mesmo fluxo de compra.",
             "Consultor e WhatsApp ajudam a escolher sem tirar o cliente do caminho de compra.",
             "Projetos sob medida aceitam STL, imagem e briefing com análise humana.",
           ].map((item) => (

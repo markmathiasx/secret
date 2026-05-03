@@ -44,7 +44,9 @@ function InstagramIcon({ className }: { className: string }) {
   );
 }
 
-export function SiteFooter() {
+export function SiteFooter({ cardCheckoutReady = false }: { cardCheckoutReady?: boolean }) {
+  const checkoutPaymentLabel = cardCheckoutReady ? "Pix e cartão no checkout" : "Pix no checkout e cartão via atendimento";
+
   return (
     <footer className="footer-ambient border-t border-white/10 bg-slate-950/90">
       <div className="divider-glow" />
@@ -79,7 +81,7 @@ export function SiteFooter() {
               Portfólio com fotos reais
             </span>
             <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold text-white/70">
-              Pix e cartão no checkout
+              {checkoutPaymentLabel}
             </span>
             <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold text-white/70">
               Produção local no RJ
@@ -223,33 +225,38 @@ export function SiteFooter() {
             </svg>
             <span className="text-xs font-semibold text-emerald-100">Pix</span>
           </span>
-          {/* Visa */}
-          <span className="flex items-center gap-1.5 rounded-lg border border-white/15 bg-white/5 px-3 py-1.5">
-            <svg width="30" height="10" viewBox="0 0 30 10" fill="none" aria-label="Visa">
-              <text x="0" y="9" fontFamily="Arial" fontWeight="bold" fontSize="11" fill="#1A1F71">VISA</text>
-            </svg>
-          </span>
-          {/* Mastercard */}
-          <span className="flex items-center gap-1.5 rounded-lg border border-white/15 bg-white/5 px-3 py-1.5">
-            <svg width="28" height="18" viewBox="0 0 28 18" aria-label="Mastercard">
-              <circle cx="10" cy="9" r="9" fill="#EB001B"/>
-              <circle cx="18" cy="9" r="9" fill="#F79E1B"/>
-              <path d="M14 3.1a9 9 0 0 1 0 11.8A9 9 0 0 1 14 3.1z" fill="#FF5F00"/>
-            </svg>
-            <span className="text-xs font-semibold text-white/70">Mastercard</span>
-          </span>
-          {/* Boleto */}
-          <span className="flex items-center gap-1.5 rounded-lg border border-white/15 bg-white/5 px-3 py-1.5">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-label="Boleto">
-              <rect x="2" y="4" width="2" height="16" fill="currentColor" className="text-white/60"/>
-              <rect x="6" y="4" width="1" height="16" fill="currentColor" className="text-white/60"/>
-              <rect x="9" y="4" width="2" height="16" fill="currentColor" className="text-white/60"/>
-              <rect x="13" y="4" width="1" height="16" fill="currentColor" className="text-white/60"/>
-              <rect x="16" y="4" width="2" height="16" fill="currentColor" className="text-white/60"/>
-              <rect x="20" y="4" width="2" height="16" fill="currentColor" className="text-white/60"/>
-            </svg>
-            <span className="text-xs font-semibold text-white/60">Boleto</span>
-          </span>
+          {cardCheckoutReady ? (
+            <>
+              <span className="flex items-center gap-1.5 rounded-lg border border-white/15 bg-white/5 px-3 py-1.5">
+                <svg width="30" height="10" viewBox="0 0 30 10" fill="none" aria-label="Visa">
+                  <text x="0" y="9" fontFamily="Arial" fontWeight="bold" fontSize="11" fill="#1A1F71">VISA</text>
+                </svg>
+              </span>
+              <span className="flex items-center gap-1.5 rounded-lg border border-white/15 bg-white/5 px-3 py-1.5">
+                <svg width="28" height="18" viewBox="0 0 28 18" aria-label="Mastercard">
+                  <circle cx="10" cy="9" r="9" fill="#EB001B"/>
+                  <circle cx="18" cy="9" r="9" fill="#F79E1B"/>
+                  <path d="M14 3.1a9 9 0 0 1 0 11.8A9 9 0 0 1 14 3.1z" fill="#FF5F00"/>
+                </svg>
+                <span className="text-xs font-semibold text-white/70">Mastercard</span>
+              </span>
+              <span className="flex items-center gap-1.5 rounded-lg border border-white/15 bg-white/5 px-3 py-1.5">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-label="Boleto">
+                  <rect x="2" y="4" width="2" height="16" fill="currentColor" className="text-white/60"/>
+                  <rect x="6" y="4" width="1" height="16" fill="currentColor" className="text-white/60"/>
+                  <rect x="9" y="4" width="2" height="16" fill="currentColor" className="text-white/60"/>
+                  <rect x="13" y="4" width="1" height="16" fill="currentColor" className="text-white/60"/>
+                  <rect x="16" y="4" width="2" height="16" fill="currentColor" className="text-white/60"/>
+                  <rect x="20" y="4" width="2" height="16" fill="currentColor" className="text-white/60"/>
+                </svg>
+                <span className="text-xs font-semibold text-white/60">Boleto</span>
+              </span>
+            </>
+          ) : (
+            <span className="flex items-center gap-1.5 rounded-lg border border-white/15 bg-white/5 px-3 py-1.5">
+              <span className="text-xs font-semibold text-white/60">Cartão via atendimento</span>
+            </span>
+          )}
         </div>
       </div>
 
@@ -258,7 +265,9 @@ export function SiteFooter() {
           <span>© 2026 {brand.name}. Todos os direitos reservados.</span>
           <span className="flex items-center gap-2">
             <span className="rounded-full border border-cyan-400/30 bg-cyan-400/14 px-3 py-1 text-xs text-cyan-100">Produção local</span>
-            <span className="rounded-full border border-green-400/30 bg-green-400/14 px-3 py-1 text-xs text-green-100">Pix + cartão</span>
+            <span className="rounded-full border border-green-400/30 bg-green-400/14 px-3 py-1 text-xs text-green-100">
+              {cardCheckoutReady ? "Pix + cartão online" : "Pix + atendimento"}
+            </span>
             <span className="rounded-full border border-violet-400/30 bg-violet-400/14 px-3 py-1 text-xs text-violet-100">Catálogo curado</span>
           </span>
           <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="btn-ghost-sm">
