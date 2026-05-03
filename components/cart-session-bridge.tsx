@@ -47,15 +47,14 @@ export function CartSessionBridge() {
   const syncingRef = useRef(false);
 
   useEffect(() => {
-    if (!session.ready || !session.loggedIn || !session.user?.id || syncingRef.current) {
+    if (!session.ready || syncingRef.current) {
       return;
     }
 
     let active = true;
 
     async function syncCart() {
-      const userId = session.user?.id;
-      if (!userId) return;
+      const userId = session.user?.id || "guest";
 
       syncingRef.current = true;
 
@@ -109,7 +108,7 @@ export function CartSessionBridge() {
     return () => {
       active = false;
     };
-  }, [session.loggedIn, session.ready, session.user?.id]);
+  }, [session.ready, session.user?.id]);
 
   return null;
 }

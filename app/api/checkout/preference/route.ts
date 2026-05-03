@@ -13,6 +13,7 @@ import { orderConfirmationHtml } from "@/lib/email-templates";
 import { getSiteUrl } from "@/lib/env";
 import { findStorefrontProductById } from "@/lib/products";
 import { findProduct } from "@/lib/catalog";
+import { quoteBestShipping } from "@/lib/melhor-envio";
 import { storeRecord } from "@/lib/storage";
 
 const preferenceSchema = z.object({
@@ -40,6 +41,8 @@ type ResolvedOrderItem = CartItemInput & {
   sourceProductId: string | null;
   productionWindow: string;
   material: string;
+  grams: number;
+  dimensions: string;
 };
 
 function toDecimal(value: number) {
@@ -92,6 +95,7 @@ function resolveOrderItems(items: z.infer<typeof preferenceSchema>["items"]) {
   return items.map<ResolvedOrderItem>((item) => {
     const storefrontProduct = findStorefrontProductById(item.productId);
     if (storefrontProduct) {
+      const catalogProduct = storefrontProduct.sourceId ? findProduct(storefrontProduct.sourceId) : findProduct(item.productId);
       return {
         productId: item.productId,
         quantity: item.quantity,
@@ -104,6 +108,8 @@ function resolveOrderItems(items: z.infer<typeof preferenceSchema>["items"]) {
         sourceProductId: storefrontProduct.sourceId,
         productionWindow: storefrontProduct.productionWindow,
         material: storefrontProduct.material,
+        grams: catalogProduct?.grams || 120,
+        dimensions: catalogProduct?.dimensions || "16x12x8cm",
       };
     }
 
@@ -124,6 +130,8 @@ function resolveOrderItems(items: z.infer<typeof preferenceSchema>["items"]) {
       sourceProductId: catalogProduct.id,
       productionWindow: catalogProduct.productionWindow,
       material: catalogProduct.material,
+      grams: catalogProduct.grams,
+      dimensions: catalogProduct.dimensions,
     };
   });
 }
@@ -154,9 +162,23 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, message: "Um ou mais produtos não estão disponíveis." }, { status: 404 });
   }
 
-  const totals = calculateCartTotals(orderItems);
   const orderCode = createOrderCode();
   const address = normalizeAddressInput(parsed.data.address);
+  const shippingQuote = await quoteBestShipping({
+    cep: address.zipCode,
+    products: orderItems.map((item) => ({
+      id: item.sku,
+      name: item.title,
+      quantity: item.quantity,
+      unitPrice: item.pricePix,
+      weightGrams: item.grams,
+      dimensions: item.dimensions,
+    })),
+  });
+  const selectedShipping =
+    shippingQuote.quote.options.find((option) => option.id === shippingQuote.quote.recommendedOptionId) ||
+    shippingQuote.quote.options[0];
+  const totals = calculateCartTotals(orderItems, selectedShipping?.price ?? undefined);
   const orderHeadline = getOrderHeadline(orderItems);
   const productionWindow = getProductionWindowLabel(orderItems);
   const itemSummary = summarizeCartItems(orderItems);
@@ -228,15 +250,19 @@ export async function POST(request: Request) {
           shipment: {
             create: {
               status: ShipmentStatus.DRAFT,
-              carrier: "MDH Local",
-              serviceLevel: "frete-fixo",
+              carrier: selectedShipping?.company || (selectedShipping?.provider === "melhor-envio" ? "Melhor Envio" : "MDH Local"),
+              serviceLevel: selectedShipping?.title || "frete-fixo",
               quotedPrice: toDecimal(totals.shipping),
               addressSnapshot: {
                 ...address,
                 phone: parsed.data.phone,
               },
               metadata: {
-                type: "fixed_shipping",
+                type: shippingQuote.source,
+                provider: selectedShipping?.provider,
+                serviceId: selectedShipping?.serviceId,
+                company: selectedShipping?.company,
+                eta: selectedShipping?.eta,
                 price: totals.shipping,
               },
             },
@@ -267,6 +293,8 @@ export async function POST(request: Request) {
       state: address.state,
       country: address.country,
       shipping_price: totals.shipping,
+      shipping_provider: selectedShipping?.provider,
+      shipping_service: selectedShipping?.title,
       payment_method: "pix",
       payment_provider: "mercado-pago",
       payment_status: "pending",
@@ -293,7 +321,18 @@ export async function POST(request: Request) {
       title: item.title,
       quantity: item.quantity,
       unitPrice: item.pricePix,
-    })),
+    })).concat(
+      totals.shipping > 0
+        ? [
+            {
+              id: "frete",
+              title: selectedShipping?.title || "Frete",
+              quantity: 1,
+              unitPrice: totals.shipping,
+            },
+          ]
+        : []
+    ),
     externalReference: orderCode,
     payerEmail: parsed.data.email.trim().toLowerCase(),
     notificationUrl: `${siteUrl}/api/webhooks/mercadopago`,

@@ -4,6 +4,7 @@ import { getServerSessionUser, isAdminSession } from "@/lib/server-session";
 import { canConnectToDatabase, prisma } from "@/lib/prisma";
 import { updateAdminCatalogProduct } from "@/lib/server/admin-catalog-store";
 import { recordAdminAction } from "@/lib/admin-audit";
+import { invalidateCatalogCache } from "@/lib/runtime-cache";
 
 export const dynamic = "force-dynamic";
 
@@ -62,6 +63,7 @@ export async function PUT(req: NextRequest, context: RouteContext) {
         ipAddress: req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip"),
         userAgent: req.headers.get("user-agent"),
       });
+      await invalidateCatalogCache();
 
       return applyNoStoreHeaders(NextResponse.json({ ok: true, inventory }));
     } catch (err) {
@@ -73,6 +75,7 @@ export async function PUT(req: NextRequest, context: RouteContext) {
   if (body.quantity !== undefined) {
     await updateAdminCatalogProduct(id, { stock: Number(body.quantity) });
   }
+  await invalidateCatalogCache();
   await recordAdminAction({
     actorId: user?.id,
     actorEmail: user?.email,

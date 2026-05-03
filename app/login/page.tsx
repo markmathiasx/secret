@@ -39,6 +39,7 @@ export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
   const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
   const redirectTo = searchParams.get('redirect') || '';
   const verificationStatus = searchParams.get('verified') || '';
@@ -76,6 +77,11 @@ export default function LoginPage() {
 
     if (mode === 'register' && password !== confirmPassword) {
       setMessage('A confirmação da senha não confere.');
+      return;
+    }
+
+    if (mode === 'register' && !acceptedTerms) {
+      setMessage('Aceite os termos e a política de privacidade para criar a conta.');
       return;
     }
 
@@ -271,6 +277,22 @@ export default function LoginPage() {
               </label>
             ) : null}
 
+            {mode === 'register' ? (
+              <label className="flex items-start gap-3 rounded-[20px] border border-white/10 bg-black/20 p-4 text-sm leading-6 text-white/70">
+                <input
+                  type="checkbox"
+                  checked={acceptedTerms}
+                  onChange={(event) => setAcceptedTerms(event.target.checked)}
+                  className="mt-1 h-4 w-4 rounded border-white/20 bg-black/30"
+                  required
+                />
+                <span>
+                  Li e aceito os <Link href="/termos" className="font-semibold text-cyan-100">termos de uso</Link> e a{" "}
+                  <Link href="/politica-de-privacidade" className="font-semibold text-cyan-100">política de privacidade</Link>.
+                </span>
+              </label>
+            ) : null}
+
             <HoneypotField />
 
             <div className="rounded-[24px] border border-cyan-300/20 bg-cyan-300/10 p-4">
@@ -285,7 +307,7 @@ export default function LoginPage() {
               </div>
             </div>
 
-            <button type="submit" disabled={loading} className="btn-primary w-full justify-center disabled:opacity-70">
+            <button type="submit" disabled={loading || (mode === 'register' && !acceptedTerms)} className="btn-primary w-full justify-center disabled:opacity-70">
               {loading ? 'Processando...' : mode === 'register' ? 'Criar minha conta' : 'Entrar na minha conta'}
             </button>
             <Link href="/recuperar-senha" className="block text-center text-sm text-cyan-100 transition hover:text-cyan-50">

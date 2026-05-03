@@ -4,6 +4,7 @@ import { getServerSessionUser, isAdminSession } from "@/lib/server-session";
 import { updateAdminCatalogProduct } from "@/lib/server/admin-catalog-store";
 import { canConnectToDatabase, prisma } from "@/lib/prisma";
 import { recordAdminAction } from "@/lib/admin-audit";
+import { invalidateCatalogCache } from "@/lib/runtime-cache";
 
 export const dynamic = "force-dynamic";
 
@@ -57,6 +58,7 @@ export async function PUT(req: NextRequest, context: RouteContext) {
         ipAddress: req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip"),
         userAgent: req.headers.get("user-agent"),
       });
+      await invalidateCatalogCache();
       return applyNoStoreHeaders(NextResponse.json({ ok: true, product: updated }));
     } catch {
       // Fall through to catalog override
@@ -65,6 +67,7 @@ export async function PUT(req: NextRequest, context: RouteContext) {
 
   // Fallback: update via catalog overrides file
   const updated = await updateAdminCatalogProduct(id, body);
+  await invalidateCatalogCache();
   await recordAdminAction({
     actorId: user?.id,
     actorEmail: user?.email,
@@ -94,6 +97,7 @@ export async function DELETE(_req: NextRequest, context: RouteContext) {
         where: { id },
         data: { visibility: "PRIVATE", updatedAt: new Date() },
       });
+      await invalidateCatalogCache();
       await recordAdminAction({
         actorId: user?.id,
         actorEmail: user?.email,
@@ -112,6 +116,7 @@ export async function DELETE(_req: NextRequest, context: RouteContext) {
   }
 
   await updateAdminCatalogProduct(id, { status: "Sob encomenda" });
+  await invalidateCatalogCache();
   await recordAdminAction({
     actorId: user?.id,
     actorEmail: user?.email,

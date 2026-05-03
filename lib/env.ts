@@ -1,3 +1,5 @@
+import { z } from "zod";
+
 const PROD = process.env.NODE_ENV === 'production' || process.env.VERCEL_ENV === 'production';
 const DEFAULT_DEV_URL = 'http://localhost:3000';
 const DEFAULT_PROD_URL = 'https://www.mdh3d.com.br';
@@ -16,6 +18,153 @@ const PLACEHOLDER_MARKERS = [
   "<",
   ">",
 ];
+
+const emptyToUndefined = (value: unknown) => (typeof value === "string" && value.trim() === "" ? undefined : value);
+const optionalTrimmedString = z.preprocess(emptyToUndefined, z.string().trim().optional());
+const optionalUrl = z.preprocess(emptyToUndefined, z.string().trim().url().optional());
+const optionalBooleanString = z.preprocess(
+  emptyToUndefined,
+  z.enum(["true", "false"]).optional(),
+);
+const optionalNumberString = z.preprocess(
+  emptyToUndefined,
+  z.string().trim().regex(/^\d+$/).optional(),
+);
+
+export const envSchema = z.object({
+  NODE_ENV: z.enum(["development", "test", "production"]).optional(),
+  VERCEL_ENV: z.enum(["development", "preview", "production"]).optional(),
+  NEXT_PUBLIC_SITE_URL: optionalUrl,
+  VERCEL_URL: optionalTrimmedString,
+  DATABASE_URL: optionalTrimmedString,
+  DIRECT_URL: optionalTrimmedString,
+  AUTH_SECRET: optionalTrimmedString,
+  NEXTAUTH_SECRET: optionalTrimmedString,
+  AUTH_URL: optionalUrl,
+  NEXTAUTH_URL: optionalUrl,
+  ADMIN_EMAIL: optionalTrimmedString,
+  ADMIN_PASSWORD_HASH: optionalTrimmedString,
+  ADMIN_SESSION_SECRET: optionalTrimmedString,
+  AUTH_CUSTOMER_SESSION_SECRET: optionalTrimmedString,
+  SMTP_HOST: optionalTrimmedString,
+  SMTP_PORT: optionalNumberString,
+  SMTP_SECURE: optionalBooleanString,
+  SMTP_USER: optionalTrimmedString,
+  SMTP_PASS: optionalTrimmedString,
+  EMAIL_FROM: optionalTrimmedString,
+  PIX_KEY: optionalTrimmedString,
+  WHATSAPP_MODE: optionalTrimmedString,
+  WHATSAPP_ACCESS_TOKEN: optionalTrimmedString,
+  WHATSAPP_PHONE_NUMBER_ID: optionalTrimmedString,
+  WHATSAPP_APP_SECRET: optionalTrimmedString,
+  WHATSAPP_VERIFY_TOKEN: optionalTrimmedString,
+  WHATSAPP_TEMPLATE_NAME: optionalTrimmedString,
+  WHATSAPP_OTP_TEMPLATE_NAME: optionalTrimmedString,
+  WHATSAPP_OTP_TEMPLATE_LOCALE: optionalTrimmedString,
+  WHATSAPP_OTP_TEMPLATE_HAS_COPY_BUTTON: optionalBooleanString,
+  MERCADOPAGO_ACCESS_TOKEN: optionalTrimmedString,
+  MERCADOPAGO_WEBHOOK_SECRET: optionalTrimmedString,
+  MERCADOPAGO_APP_ID: optionalTrimmedString,
+  NEXT_PUBLIC_MP_PUBLIC_KEY: optionalTrimmedString,
+  NEXT_PUBLIC_MERCADOPAGO_PUBLIC_KEY: optionalTrimmedString,
+  NEXT_PUBLIC_GA4_ID: optionalTrimmedString,
+  NEXT_PUBLIC_GA_MEASUREMENT_ID: optionalTrimmedString,
+  NEXT_PUBLIC_FB_PIXEL_ID: optionalTrimmedString,
+  NEXT_PUBLIC_TIKTOK_PIXEL_ID: optionalTrimmedString,
+  MP_STATEMENT_DESCRIPTOR: optionalTrimmedString,
+  MP_TIMEOUT_MS: optionalNumberString,
+  MELHOR_ENVIO_TOKEN: optionalTrimmedString,
+  MELHOR_ENVIO_BASE_URL: optionalUrl,
+  MELHOR_ENVIO_FROM_POSTAL_CODE: optionalTrimmedString,
+  MELHOR_ENVIO_USER_AGENT: optionalTrimmedString,
+  OPENAI_API_KEY: optionalTrimmedString,
+  OPENAI_MODEL: optionalTrimmedString,
+  AI_GATEWAY_API_KEY: optionalTrimmedString,
+  AI_GATEWAY_MODEL: optionalTrimmedString,
+  AI_PROVIDER: optionalTrimmedString,
+  GROQ_API_KEY: optionalTrimmedString,
+  GROQ_MODEL: optionalTrimmedString,
+  OLLAMA_BASE_URL: optionalUrl,
+  OLLAMA_MODEL: optionalTrimmedString,
+  SUPABASE_URL: optionalUrl,
+  NEXT_PUBLIC_SUPABASE_URL: optionalUrl,
+  SUPABASE_ANON_KEY: optionalTrimmedString,
+  NEXT_PUBLIC_SUPABASE_ANON_KEY: optionalTrimmedString,
+  SUPABASE_PUBLISHABLE_KEY: optionalTrimmedString,
+  NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: optionalTrimmedString,
+  SUPABASE_SERVICE_ROLE_KEY: optionalTrimmedString,
+  SUPABASE_SECRET_KEY: optionalTrimmedString,
+  NEXT_PUBLIC_SUPABASE_CATALOG_BUCKET_URL: optionalUrl,
+  CHATWOOT_BASE_URL: optionalUrl,
+  NEXT_PUBLIC_CHATWOOT_BASE_URL: optionalUrl,
+  CHATWOOT_WEBSITE_TOKEN: optionalTrimmedString,
+  NEXT_PUBLIC_CHATWOOT_WEBSITE_TOKEN: optionalTrimmedString,
+  CHATWOOT_ADMIN_URL: optionalUrl,
+  NEXT_PUBLIC_CHATWOOT_ADMIN_URL: optionalUrl,
+  CHATWOOT_HMAC_TOKEN: optionalTrimmedString,
+  NEXT_PUBLIC_CHATWOOT_AVAILABILITY: optionalTrimmedString,
+  NEXT_PUBLIC_SUPPORT_CHANNEL: optionalTrimmedString,
+  SUPPORT_CHANNEL: optionalTrimmedString,
+  NEXT_PUBLIC_VERCEL_PLAN: optionalTrimmedString,
+  VERCEL_PLAN: optionalTrimmedString,
+  META_APP_ID: optionalTrimmedString,
+  META_APP_SECRET: optionalTrimmedString,
+  META_VERIFY_TOKEN: optionalTrimmedString,
+  META_SYSTEM_USER_TOKEN: optionalTrimmedString,
+  META_BUSINESS_ID: optionalTrimmedString,
+  META_GRAPH_API_VERSION: optionalTrimmedString,
+  META_PAGE_ID: optionalTrimmedString,
+  META_IG_BUSINESS_ACCOUNT_ID: optionalTrimmedString,
+  META_WABA_ID: optionalTrimmedString,
+  META_PHONE_NUMBER_ID: optionalTrimmedString,
+  META_BUSINESS_LOGIN_CONFIG_ID: optionalTrimmedString,
+  META_MARKETPLACE_CREATORS_CONFIG_ID: optionalTrimmedString,
+  META_INSTAGRAM_INTEGRATION_CONFIG_ID: optionalTrimmedString,
+  META_WHATSAPP_MEASUREMENT_PARTNER_CONFIG_ID: optionalTrimmedString,
+  META_WHATSAPP_EMBEDDED_SIGNUP_CONFIG_ID: optionalTrimmedString,
+  META_SANDBOX_AD_ACCOUNT_ID: optionalTrimmedString,
+  META_ENABLE_FACEBOOK_SDK: optionalBooleanString,
+  META_ENABLE_BUSINESS_LOGIN: optionalBooleanString,
+  META_ENABLE_INSTAGRAM_PUBLISH: optionalBooleanString,
+  META_ENABLE_FACEBOOK_POSTING: optionalBooleanString,
+  META_ENABLE_WHATSAPP_OUTBOUND: optionalBooleanString,
+  META_ENABLE_MARKETING_API_SANDBOX: optionalBooleanString,
+  UPSTASH_REDIS_REST_URL: optionalUrl,
+  UPSTASH_REDIS_REST_TOKEN: optionalTrimmedString,
+  REDIS_URL: optionalTrimmedString,
+  R2_ACCOUNT_ID: optionalTrimmedString,
+  R2_ACCESS_KEY_ID: optionalTrimmedString,
+  R2_SECRET_ACCESS_KEY: optionalTrimmedString,
+  R2_BUCKET: optionalTrimmedString,
+  R2_ENDPOINT: optionalUrl,
+  R2_PUBLIC_BASE_URL: optionalUrl,
+  UPLOADS_DIR: optionalTrimmedString,
+  PRODUCT_MEDIA_DIR: optionalTrimmedString,
+  MODEL_UPLOADS_DIR: optionalTrimmedString,
+  SENTRY_DSN: optionalUrl,
+  NEXT_PUBLIC_SENTRY_DSN: optionalUrl,
+  SENTRY_ORG: optionalTrimmedString,
+  SENTRY_PROJECT: optionalTrimmedString,
+});
+
+type EnvValidationResult = ReturnType<typeof envSchema.safeParse>;
+let envValidationResult: EnvValidationResult | null = null;
+
+export function validateEnv() {
+  if (!envValidationResult) {
+    envValidationResult = envSchema.safeParse(process.env);
+  }
+  return envValidationResult;
+}
+
+export function getEnvIssues() {
+  const result = validateEnv();
+  if (result.success) return [];
+  return result.error.issues.map((issue) => ({
+    path: issue.path.join("."),
+    message: issue.message,
+  }));
+}
 
 function isLocalAddress(hostname: string) {
   const normalized = hostname.trim().toLowerCase();
@@ -294,7 +443,50 @@ export function getMercadoPagoTimeoutMs() {
 }
 
 export function getPixKey() {
-  return String(process.env.PIX_KEY || process.env.NEXT_PUBLIC_PIX_KEY || "").trim();
+  return String(process.env.PIX_KEY || "").trim();
+}
+
+export function getMelhorEnvioConfig() {
+  const production = process.env.NODE_ENV === "production" || process.env.VERCEL_ENV === "production";
+  return {
+    token: (process.env.MELHOR_ENVIO_TOKEN || "").trim(),
+    baseUrl: normalizeUrl(
+      process.env.MELHOR_ENVIO_BASE_URL ||
+        (production ? "https://www.melhorenvio.com.br" : "https://sandbox.melhorenvio.com.br"),
+      { allowLocal: false }
+    ),
+    fromPostalCode: (process.env.MELHOR_ENVIO_FROM_POSTAL_CODE || "").replace(/\D/g, "").slice(0, 8),
+    userAgent: (
+      process.env.MELHOR_ENVIO_USER_AGENT ||
+      `MDH 3D Store (${process.env.EMAIL_FROM || "suporte@mdh3d.com.br"})`
+    ).trim(),
+  };
+}
+
+export function isMelhorEnvioConfigured() {
+  const config = getMelhorEnvioConfig();
+  return Boolean(config.token && config.baseUrl && config.fromPostalCode.length === 8);
+}
+
+export function getR2Config() {
+  const accountId = (process.env.R2_ACCOUNT_ID || "").trim();
+  const endpoint = normalizeUrl(
+    process.env.R2_ENDPOINT || (accountId ? `https://${accountId}.r2.cloudflarestorage.com` : ""),
+    { allowLocal: false }
+  );
+
+  return {
+    endpoint,
+    accessKeyId: (process.env.R2_ACCESS_KEY_ID || "").trim(),
+    secretAccessKey: (process.env.R2_SECRET_ACCESS_KEY || "").trim(),
+    bucket: (process.env.R2_BUCKET || "").trim(),
+    publicBaseUrl: normalizeUrl(process.env.R2_PUBLIC_BASE_URL, { allowLocal: false }),
+  };
+}
+
+export function isR2Configured() {
+  const config = getR2Config();
+  return Boolean(config.endpoint && config.accessKeyId && config.secretAccessKey && config.bucket);
 }
 
 export function isMercadoPagoConfigured() {

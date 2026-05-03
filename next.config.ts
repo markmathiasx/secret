@@ -23,6 +23,33 @@ const imageHosts = new Set([
   "127.0.0.1"
 ]);
 
+const contentSecurityPolicy = [
+  "default-src 'self'",
+  "script-src 'self' 'unsafe-inline' https://sdk.mercadopago.com https://http2.mlstatic.com https://secure-fields.mercadopago.com https://api-static.mercadopago.com https://maps.googleapis.com https://www.googletagmanager.com https://connect.facebook.net https://analytics.tiktok.com",
+  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+  "img-src 'self' data: https:",
+  "media-src 'self' https: blob:",
+  "font-src 'self' data: https://fonts.gstatic.com https://secure-fields.mercadopago.com https://api-static.mercadopago.com",
+  "connect-src 'self' https://api.mercadopago.com https://api-static.mercadopago.com https://secure-fields.mercadopago.com https://api.mercadolibre.com https://*.mercadolibre.com https://*.mercadolivre.com https://http2.mlstatic.com https://graph.facebook.com https://viacep.com.br https://www.melhorenvio.com.br https://sandbox.melhorenvio.com.br https://*.supabase.co wss://*.supabase.co https://*.supabase.in wss://*.supabase.in https://maps.googleapis.com https://maps.gstatic.com https://www.google-analytics.com https://region1.google-analytics.com https://connect.facebook.net https://analytics.tiktok.com https://*.sentry.io https://ingest.sentry.io https://*.upstash.io",
+  "frame-src https://www.mercadopago.com.br https://www.mercadopago.com https://secure-fields.mercadopago.com https://api-static.mercadopago.com https://www.mercadolibre.com https://www.mercadolibre.com.br https://www.mercadolivre.com https://www.mercadolivre.com.br",
+  "object-src 'none'",
+  "base-uri 'self'",
+  "form-action 'self' https://www.mercadopago.com.br https://www.mercadopago.com https://www.mercadolibre.com https://www.mercadolibre.com.br https://www.mercadolivre.com https://www.mercadolivre.com.br",
+  "frame-ancestors 'none'",
+  ...(process.env.NODE_ENV === "production" ? ["upgrade-insecure-requests"] : []),
+].join("; ");
+
+const securityHeaders = [
+  { key: "Content-Security-Policy", value: contentSecurityPolicy },
+  { key: "X-Frame-Options", value: "DENY" },
+  { key: "X-Content-Type-Options", value: "nosniff" },
+  { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+  { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
+  { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
+  { key: "Cross-Origin-Resource-Policy", value: "same-site" },
+  { key: "X-DNS-Prefetch-Control", value: "off" },
+];
+
 // Add the custom domain from NEXT_PUBLIC_SITE_URL to allowed image hosts
 try {
   const siteUrlHost = process.env.NEXT_PUBLIC_SITE_URL && new URL(process.env.NEXT_PUBLIC_SITE_URL).hostname;
@@ -85,26 +112,7 @@ const nextConfig: NextConfig = {
       {
         source: '/(.*)',
         headers: [
-          {
-            key: 'X-Frame-Options',
-            value: 'DENY'
-          },
-          {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff'
-          },
-          {
-            key: 'Referrer-Policy',
-            value: 'strict-origin-when-cross-origin'
-          },
-          {
-            key: 'Permissions-Policy',
-            value: 'camera=(), microphone=(), geolocation=()'
-          },
-          {
-            key: 'X-DNS-Prefetch-Control',
-            value: 'on'
-          },
+          ...securityHeaders,
           {
             key: 'Cache-Control',
             value: 'public, max-age=0, s-maxage=300, stale-while-revalidate=60'
@@ -208,18 +216,13 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
-        source: '/loja/:path*',
-        destination: '/catalogo',
-        permanent: true,
-      },
-      {
         source: '/produtos',
         destination: '/catalogo',
         permanent: true,
       },
       {
         source: '/produto/:slug*',
-        destination: '/catalogo/:slug*',
+        destination: '/loja/produto/:slug*',
         permanent: true,
       },
       {

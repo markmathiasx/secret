@@ -30,7 +30,7 @@ import { Metadata } from 'next';
 import { getSiteUrl } from '@/lib/env';
 import { getProductHighlights, getProductLongDescription } from '@/lib/catalog-content';
 import { resolveProductImage } from '@/lib/product-images';
-import { catalog, featuredCatalog } from '@/lib/catalog';
+import { catalog, featuredCatalog, getProductUrl } from '@/lib/catalog';
 import { getProductMarketplaceSignals, getStoreReputationSummary, getProductReviewSnippets } from '@/lib/marketplace-signals';
 import { validateProductMedia, isPublicSafe } from '@/lib/media-validation';
 
@@ -52,7 +52,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   }
 
   const siteUrl = getSiteUrl();
-  const productUrl = `${siteUrl}/catalogo/${slug}`;
+  const productPath = getProductUrl(product);
+  const productUrl = `${siteUrl}${productPath}`;
   const resolvedImage = resolveProductImage(product);
   const imageUrl = resolvedImage.startsWith("http") ? resolvedImage : `${siteUrl}${resolvedImage}`;
   const longDescription = getProductLongDescription(product);
@@ -67,10 +68,10 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const ogImageUrl = metaMediaSafe ? imageUrl : `${siteUrl}/logo-mdh-3d.webp`;
 
   return {
-    title: product.name,
-    description: longDescription,
+    title: `${product.name} - Impressão 3D Premium | MDH 3D Rio`,
+    description: `Compre ${product.name} em ${product.material || "PLA Premium"} com foto real, produção local no RJ e entrega em 24-48h. Personalize com seu STL.`,
     alternates: {
-      canonical: `/catalogo/${slug}`,
+      canonical: productPath,
     },
     keywords: [...product.tags, 'impressão 3D', 'PLA', 'Bambu Lab', 'personalizado'].join(', '),
     openGraph: {
@@ -108,7 +109,8 @@ export default async function ProductPage({
   }
 
   const siteUrl = getSiteUrl();
-  const productUrl = `${siteUrl}/catalogo/${slug}`;
+  const productPath = getProductUrl(product);
+  const productUrl = `${siteUrl}${productPath}`;
   const resolvedImage = resolveProductImage(product);
   const imageUrl = resolvedImage.startsWith("http") ? resolvedImage : `${siteUrl}${resolvedImage}`;
   const resolvedImages = Array.from(
@@ -188,7 +190,7 @@ export default async function ProductPage({
       seller: {
         '@type': 'Organization',
         name: 'MDH 3D Store',
-        url: productUrl.split('/catalogo')[0],
+        url: siteUrl,
       },
       acceptedPaymentMethod: [
         { '@type': 'PaymentMethod', '@id': 'http://purl.org/goodrelations/v1#Cash' },
@@ -530,6 +532,8 @@ export default async function ProductPage({
               productionWindow={product.productionWindow}
               readyToShip={product.readyToShip ?? false}
               productImage={resolvedImage}
+              material={product.material}
+              colors={product.colors}
               customizable={product.customizable}
               whatsappHref={whatsappHref}
               customizationHref={customizationHref}

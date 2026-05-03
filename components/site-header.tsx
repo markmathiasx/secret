@@ -178,7 +178,7 @@ export function SiteHeader({
 
             {session.loggedIn ? (
               <>
-                <Link href="/conta" className="btn-glass whitespace-nowrap">
+                <Link href="/conta" prefetch={false} className="btn-glass whitespace-nowrap">
                   <User className="mr-2 h-4 w-4 shrink-0" />
                   {userLabel}
                 </Link>
@@ -188,7 +188,7 @@ export function SiteHeader({
                 </button>
               </>
             ) : (
-              <Link href="/login" className="btn-glass whitespace-nowrap">
+              <Link href="/login" prefetch={false} className="btn-glass whitespace-nowrap">
                 <User className="mr-2 h-4 w-4 shrink-0" />
                 Minha conta
               </Link>
@@ -198,7 +198,7 @@ export function SiteHeader({
               WhatsApp
             </a>
 
-            <Link href={cartHref} className="btn-primary gap-2 px-5 py-3 whitespace-nowrap">
+            <Link href={cartHref} prefetch={false} className="btn-primary gap-2 px-5 py-3 whitespace-nowrap">
               <ShoppingBag className="h-4 w-4 shrink-0" />
               Fechar pedido
             </Link>
@@ -212,7 +212,7 @@ export function SiteHeader({
           </div>
 
           <div className="flex items-center gap-2 lg:hidden">
-            <Link href="/catalogo" className="btn-glass px-3 py-3" aria-label="Buscar no catálogo">
+            <Link href="/catalogo" prefetch={false} className="btn-glass px-3 py-3" aria-label="Buscar no catálogo">
               <Search className="h-4 w-4" />
             </Link>
             <button
@@ -230,7 +230,7 @@ export function SiteHeader({
 
         <nav className="mx-auto hidden max-w-7xl items-center gap-2 overflow-x-auto px-4 pb-4 sm:px-6 md:flex">
           {nav.map((link) => (
-            <Link key={link.href} href={link.href} className={`chip-nav whitespace-nowrap ${link.active ? "chip-nav-active" : ""}`}>
+            <Link key={link.href} href={link.href} prefetch={false} className={`chip-nav whitespace-nowrap ${link.active ? "chip-nav-active" : ""}`}>
               {link.label}
             </Link>
           ))}
@@ -261,6 +261,7 @@ export function SiteHeader({
                   <Link
                     key={link.href}
                     href={link.href}
+                    prefetch={false}
                     className={`chip-nav justify-between ${link.active ? "chip-nav-active" : ""}`}
                   >
                     <span>{link.label}</span>
@@ -273,7 +274,7 @@ export function SiteHeader({
                 {commerceShortcuts.map((shortcut) => {
                   const Icon = shortcut.icon;
                   return (
-                    <Link key={shortcut.href} href={shortcut.href} className="chip-nav justify-between">
+                    <Link key={shortcut.href} href={shortcut.href} prefetch={false} className="chip-nav justify-between">
                       <span className="flex items-center gap-2">
                         <Icon className="h-4 w-4" />
                         {shortcut.label}
@@ -293,7 +294,7 @@ export function SiteHeader({
                 <a href={`https://wa.me/${whatsappNumber}`} className="btn-zap justify-center">
                   WhatsApp
                 </a>
-                <Link href={cartHref} className="btn-primary justify-center">
+                <Link href={cartHref} prefetch={false} className="btn-primary justify-center">
                   <ShoppingBag className="mr-2 h-4 w-4" />
                   Fechar pedido
                 </Link>
@@ -307,7 +308,7 @@ export function SiteHeader({
                     Sair
                   </button>
                 ) : (
-                  <Link href="/login" className="btn-glass justify-center">
+                  <Link href="/login" prefetch={false} className="btn-glass justify-center">
                     <User className="mr-2 h-4 w-4" />
                     Minha conta
                   </Link>

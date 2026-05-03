@@ -112,10 +112,25 @@ export function STLUploader() {
       });
     }, 200);
 
-    // Prepare WhatsApp message
-    const message = `🚀 *ORÇAMENTO MDH 3D*\n\n📁 *Arquivo:* ${file.name}\n📏 *Tamanho:* ${(file.size / (1024 * 1024)).toFixed(2)} MB\n\n📋 *Detalhes do Projeto:*\n🏷️ *Nome:* ${formData.projectName}\n🔢 *Quantidade:* ${formData.quantity}\n🎯 *Qualidade:* ${formData.quality}\n🧱 *Material:* ${formData.material}\n🎨 *Cor:* ${formData.color}\n${formData.notes ? `📝 *Observações:* ${formData.notes}\n` : ''}\n💰 *Solicito análise de viabilidade e orçamento personalizado.*\n\n⚡ *Peço retorno assim que possível em horário comercial.*`;
+    try {
+      const payload = new FormData();
+      payload.set("name", formData.projectName);
+      payload.set("whatsapp", "");
+      payload.set("email", "");
+      payload.set("description", formData.notes || formData.projectName);
+      payload.set("quantity", String(formData.quantity));
+      payload.set("material", formData.material);
+      payload.set("color", formData.color);
+      payload.set("modelFile", file);
 
-    // Complete upload
+      await fetch("/api/quote", {
+        method: "POST",
+        body: payload,
+      });
+    } catch {}
+
+    const message = `ORÇAMENTO MDH 3D\n\nArquivo: ${file.name}\nTamanho: ${(file.size / (1024 * 1024)).toFixed(2)} MB\n\nDetalhes do Projeto:\nNome: ${formData.projectName}\nQuantidade: ${formData.quantity}\nQualidade: ${formData.quality}\nMaterial: ${formData.material}\nCor: ${formData.color}\n${formData.notes ? `Observações: ${formData.notes}\n` : ''}\nSolicito análise de viabilidade e orçamento personalizado.\n\nPeço retorno assim que possível em horário comercial.`;
+
     setTimeout(() => {
       setUploadProgress(100);
       setTimeout(() => {
@@ -163,13 +178,14 @@ export function STLUploader() {
                   : 'border-cyan-glow/40 hover:border-cyan-glow/70 hover:bg-cyan-glow/5'
               }`}
             >
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept={acceptedTypes.join(',')}
-                onChange={handleFileSelect}
-                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-              />
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept={acceptedTypes.join(',')}
+                  onChange={handleFileSelect}
+                  aria-label="Selecionar arquivo 3D para orçamento"
+                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                />
 
               <div className="space-y-4">
                 <div className={`inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-glow/20 to-cyan-glow/10 ${isDragOver ? 'animate-cyber-pulse' : ''}`}>

@@ -70,8 +70,20 @@ export const PAYMENT_RATE_LIMIT: RateLimitConfig = {
   maxRequests: 5,
 };
 
-/** 60 requests per minute — general public API routes */
+/** 240 requests per minute — general public API routes */
 export const API_RATE_LIMIT: RateLimitConfig = {
   windowMs: 60 * 1000,
-  maxRequests: 60,
+  maxRequests: 240,
+};
+
+/** 300 reads per minute — session polling should not share the login brute-force bucket */
+export const SESSION_RATE_LIMIT: RateLimitConfig = {
+  windowMs: 60 * 1000,
+  maxRequests: 300,
+};
+
+/** 1200 requests per minute — global request safety net per IP */
+export const GLOBAL_RATE_LIMIT: RateLimitConfig = {
+  windowMs: 60 * 1000,
+  maxRequests: 1200,
 };

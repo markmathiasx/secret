@@ -6,6 +6,7 @@ import { catalog as staticCatalog, findProductBySlug as findStaticProductBySlug,
 import { logStructured } from "@/lib/logger";
 import { canConnectToDatabase, prisma } from "@/lib/prisma";
 import { filterPublicCatalogProducts, isPublicCatalogProduct } from "@/lib/public-catalog";
+import { getCachedJson, setCachedJson } from "@/lib/runtime-cache";
 
 type CatalogSource = "static" | "database";
 
@@ -175,15 +176,23 @@ async function getDatabaseCatalogSnapshot(): Promise<Product[]> {
 }
 
 export async function getCatalogSnapshot(): Promise<Product[]> {
+  const cached = await getCachedJson<Product[]>("catalog:products");
+  if (cached?.length) return cached;
+
   const configuredSource = getConfiguredCatalogSource();
+  let result: Product[];
 
   if (configuredSource === "static") {
-    return filterPublicCatalogProducts(staticCatalog);
+    result = filterPublicCatalogProducts(staticCatalog);
+    await setCachedJson("catalog:products", result, 300);
+    return result;
   }
 
   if (!(await canConnectToDatabase())) {
     logStructured("error", "catalog_database_unavailable", { configuredSource });
-    return filterPublicCatalogProducts(staticCatalog);
+    result = filterPublicCatalogProducts(staticCatalog);
+    await setCachedJson("catalog:products", result, 300);
+    return result;
   }
 
   try {
@@ -191,15 +200,20 @@ export async function getCatalogSnapshot(): Promise<Product[]> {
 
     if (!products.length) {
       logStructured("error", "catalog_database_empty", { configuredSource });
-      return filterPublicCatalogProducts(staticCatalog);
+      result = filterPublicCatalogProducts(staticCatalog);
+      await setCachedJson("catalog:products", result, 300);
+      return result;
     }
 
+    await setCachedJson("catalog:products", products, 300);
     return products;
   } catch (error) {
     logStructured("error", "catalog_database_failed", {
       message: error instanceof Error ? error.message : "unknown",
     });
-    return filterPublicCatalogProducts(staticCatalog);
+    result = filterPublicCatalogProducts(staticCatalog);
+    await setCachedJson("catalog:products", result, 300);
+    return result;
   }
 }
 
@@ -209,8 +223,12 @@ export async function getCatalogCollections(): Promise<string[]> {
 }
 
 export async function getCatalogCategories(): Promise<string[]> {
+  const cached = await getCachedJson<string[]>("catalog:categories");
+  if (cached?.length) return cached;
   const products = await getCatalogSnapshot();
-  return Array.from(new Set(products.map((item) => item.category)));
+  const categories = Array.from(new Set(products.map((item) => item.category)));
+  await setCachedJson("catalog:categories", categories, 3600);
+  return categories;
 }
 
 export async function getCatalogStaticParams(): Promise<Array<{ slug: string }>> {

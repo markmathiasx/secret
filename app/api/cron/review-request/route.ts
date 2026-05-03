@@ -5,14 +5,22 @@ import { sendNotification } from "@/lib/notifications-service";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
+function isAuthorized(request: NextRequest) {
+  const expected = (process.env.CRON_SECRET || "").trim();
+  if (!expected) return true;
+  const queryToken = request.nextUrl.searchParams.get("token");
+  const headerToken = request.headers.get("x-cron-secret");
+  const authHeader = request.headers.get("authorization");
+  return queryToken === expected || headerToken === expected || authHeader === `Bearer ${expected}`;
+}
+
 /**
- * POST /api/cron/review-request
+ * GET /api/cron/review-request
  * Sends review request emails 7 days after delivery.
  * Protected by CRON_SECRET header.
  */
-export async function POST(request: NextRequest) {
-  const secret = request.headers.get("x-cron-secret");
-  if (!secret || secret !== process.env.CRON_SECRET) {
+export async function GET(request: NextRequest) {
+  if (!isAuthorized(request)) {
     return NextResponse.json({ ok: false }, { status: 401 });
   }
 
@@ -68,3 +76,5 @@ export async function POST(request: NextRequest) {
 
   return NextResponse.json({ ok: true, sent, errors });
 }
+
+export const POST = GET;

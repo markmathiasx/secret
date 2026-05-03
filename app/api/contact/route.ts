@@ -1,11 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
 import { applyNoStoreHeaders } from "@/lib/http-cache";
 import { sendMail } from "@/lib/mailer";
 import { getStaffNotifyEmail } from "@/lib/server-config";
 import { getClientIp, escapeHtml, isValidEmail } from "@/lib/security";
 import { rateLimitRequest } from "@/lib/redis";
+import { sanitizeEmail, sanitizeMultilineText, sanitizePlainText } from "@/lib/sanitize";
 
 export const dynamic = "force-dynamic";
+
+const contactSchema = z.object({
+  name: z.string().min(2).max(200).transform((value) => sanitizePlainText(value, 200)),
+  email: z.string().max(320).transform((value) => sanitizeEmail(value)),
+  subject: z.string().max(300).optional().transform((value) => sanitizePlainText(value || "(sem assunto)", 300)),
+  message: z.string().min(3).max(5000).transform((value) => sanitizeMultilineText(value, 5000)),
+});
 
 export async function POST(req: NextRequest) {
   const ip = getClientIp(req.headers);
@@ -19,19 +28,17 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: false, error: "Body inválido." }, { status: 400 });
   }
 
-  const { name, email, subject, message } = body;
-  if (!name || !email || !message) {
-    return NextResponse.json({ ok: false, error: "name, email e message são obrigatórios." }, { status: 400 });
-  }
+  const parsed = contactSchema.safeParse(body);
 
-  if (!isValidEmail(String(email))) {
+  if (!parsed.success || !isValidEmail(parsed.data.email)) {
     return NextResponse.json({ ok: false, error: "E-mail inválido." }, { status: 400 });
   }
 
-  const safeName = escapeHtml(String(name).slice(0, 200));
-  const safeEmail = escapeHtml(String(email).slice(0, 320));
-  const safeSubject = escapeHtml(String(subject || "(sem assunto)").slice(0, 300));
-  const safeMessage = escapeHtml(String(message).slice(0, 5000)).replace(/\n/g, "<br>");
+  const { name, email, subject, message } = parsed.data;
+  const safeName = escapeHtml(name);
+  const safeEmail = escapeHtml(email);
+  const safeSubject = escapeHtml(subject);
+  const safeMessage = escapeHtml(message).replace(/\n/g, "<br>");
 
   const adminHtml = `
     <h2>Nova mensagem de contato</h2>

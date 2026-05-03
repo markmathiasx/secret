@@ -3,6 +3,7 @@ import { applyNoStoreHeaders } from "@/lib/http-cache";
 import { getServerSessionUser, isAdminSession } from "@/lib/server-session";
 import { canConnectToDatabase, prisma } from "@/lib/prisma";
 import { catalog } from "@/lib/catalog";
+import { invalidateCatalogCache } from "@/lib/runtime-cache";
 
 export const dynamic = "force-dynamic";
 
@@ -91,6 +92,7 @@ export async function POST(req: NextRequest) {
       categoryId: body.categoryId ? String(body.categoryId) : null,
     },
   });
+  await invalidateCatalogCache();
 
   return NextResponse.json({ ok: true, product });
 }

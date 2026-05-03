@@ -25,6 +25,16 @@ type CheckoutFormState = {
   notes: string;
 };
 
+type CheckoutShippingOption = {
+  id: string;
+  title: string;
+  eta: string;
+  price: number;
+  provider: "mdh-local" | "melhor-envio";
+  company?: string;
+  recommended?: boolean;
+};
+
 const initialFormState: CheckoutFormState = {
   customerName: "",
   email: "",
@@ -46,8 +56,11 @@ export function CheckoutPageShell({
   publicKey: string;
 }) {
   const { hydrated, items, updateQuantity, removeItem } = useCart();
-  const totals = calculateCartTotals(items);
   const [form, setForm] = useState<CheckoutFormState>(initialFormState);
+  const [shippingOptions, setShippingOptions] = useState<CheckoutShippingOption[]>([]);
+  const [selectedShippingId, setSelectedShippingId] = useState<string | null>(null);
+  const [shippingStatus, setShippingStatus] = useState<"idle" | "loading" | "done" | "error">("idle");
+  const [shippingMessage, setShippingMessage] = useState("");
   const [personalizationByProductId, setPersonalizationByProductId] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -60,6 +73,11 @@ export function CheckoutPageShell({
     message?: string | null;
   } | null>(null);
   const [cutoffClock, setCutoffClock] = useState("00:00:00");
+  const selectedShipping =
+    shippingOptions.find((option) => option.id === selectedShippingId) ||
+    shippingOptions.find((option) => option.recommended) ||
+    shippingOptions[0];
+  const totals = calculateCartTotals(items, selectedShipping?.price);
 
   const paymentOnlineReady = Boolean(publicKey.trim());
   const isTestMode = paymentOnlineReady && publicKey.trim().toUpperCase().startsWith("TEST-");
@@ -120,6 +138,67 @@ export function CheckoutPageShell({
       window.localStorage.setItem(CHECKOUT_DRAFT_KEY, JSON.stringify(form));
     } catch {}
   }, [form, hydrated, items.length]);
+
+  useEffect(() => {
+    if (!hydrated || items.length === 0) return;
+    const cep = form.zipCode.replace(/\D/g, "").slice(0, 8);
+    if (cep.length !== 8) {
+      setShippingOptions([]);
+      setSelectedShippingId(null);
+      setShippingStatus("idle");
+      setShippingMessage("");
+      return;
+    }
+
+    let active = true;
+    const timer = window.setTimeout(async () => {
+      try {
+        setShippingStatus("loading");
+        const response = await fetch("/api/shipping/quote", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            cep,
+            items: items.map((item) => ({
+              productId: item.productId,
+              quantity: item.quantity,
+            })),
+          }),
+        });
+        const data = (await response.json().catch(() => ({}))) as {
+          ok?: boolean;
+          quote?: { recommendedOptionId?: string; options?: CheckoutShippingOption[] };
+          source?: string;
+          error?: string;
+        };
+
+        if (!active) return;
+        if (!response.ok || !data.ok || !Array.isArray(data.quote?.options)) {
+          throw new Error(data.error || "Não foi possível calcular o frete.");
+        }
+
+        setShippingOptions(data.quote.options);
+        setSelectedShippingId(data.quote.recommendedOptionId || data.quote.options[0]?.id || null);
+        setShippingStatus("done");
+        setShippingMessage(
+          data.source === "melhor-envio"
+            ? "Cotação Melhor Envio aplicada em tempo real."
+            : "Cotação local aplicada como fallback operacional."
+        );
+      } catch (err) {
+        if (!active) return;
+        setShippingStatus("error");
+        setShippingMessage(err instanceof Error ? err.message : "Não foi possível calcular o frete.");
+      }
+    }, 450);
+
+    return () => {
+      active = false;
+      window.clearTimeout(timer);
+    };
+  }, [form.zipCode, hydrated, items]);
 
   useEffect(() => {
     const updateCutoff = () => {
@@ -255,7 +334,7 @@ export function CheckoutPageShell({
             {paymentOnlineReady ? (isTestMode ? "Mercado Pago em teste" : "Mercado Pago ativo") : "Pix + atendimento humano"}
           </span>
           <span className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-white/72">
-            Frete fixo de R$ 15
+            {selectedShipping ? selectedShipping.title : "Frete em tempo real"}
           </span>
         </div>
       </div>
@@ -404,7 +483,7 @@ export function CheckoutPageShell({
               </div>
               <div className="mt-3 flex items-center justify-between text-sm text-white/72">
                 <span>Frete</span>
-                <span>{formatCurrency(totals.shipping)}</span>
+                <span>{selectedShipping ? `${formatCurrency(totals.shipping)} • ${selectedShipping.eta}` : formatCurrency(totals.shipping)}</span>
               </div>
               <div className="mt-3 h-px bg-white/10" />
               <div className="mt-3 flex items-center justify-between">
@@ -576,6 +655,48 @@ export function CheckoutPageShell({
                   placeholder="RJ"
                 />
               </label>
+            </div>
+
+            <div className="mt-4 rounded-[22px] border border-cyan-300/15 bg-cyan-300/[0.07] p-4">
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-cyan-100/72">Frete calculado</p>
+                  <p className="mt-1 text-sm text-white/65">
+                    {shippingStatus === "loading"
+                      ? "Consultando opções de envio..."
+                      : shippingMessage || "Digite o CEP para liberar Melhor Envio ou rota local."}
+                  </p>
+                </div>
+                {selectedShipping ? (
+                  <span className="rounded-full border border-emerald-300/20 bg-emerald-300/10 px-3 py-1 text-xs font-semibold text-emerald-100">
+                    {formatCurrency(selectedShipping.price)}
+                  </span>
+                ) : null}
+              </div>
+              {shippingOptions.length > 0 ? (
+                <div className="mt-3 grid gap-2">
+                  {shippingOptions.map((option) => (
+                    <button
+                      key={option.id}
+                      type="button"
+                      onClick={() => setSelectedShippingId(option.id)}
+                      className={`flex items-center justify-between gap-3 rounded-[18px] border px-4 py-3 text-left transition ${
+                        selectedShipping?.id === option.id
+                          ? "border-cyan-300/35 bg-cyan-300/12 text-cyan-50"
+                          : "border-white/10 bg-black/20 text-white/72 hover:border-white/20"
+                      }`}
+                    >
+                      <span>
+                        <span className="block text-sm font-semibold">{option.title}</span>
+                        <span className="mt-1 block text-xs opacity-75">
+                          {option.company || (option.provider === "melhor-envio" ? "Melhor Envio" : "MDH Local")} • {option.eta}
+                        </span>
+                      </span>
+                      <span className="shrink-0 text-sm font-black">{formatCurrency(option.price)}</span>
+                    </button>
+                  ))}
+                </div>
+              ) : null}
             </div>
 
             <label className="mt-4 grid gap-2">

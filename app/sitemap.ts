@@ -4,6 +4,7 @@ import { getCatalogSnapshot } from "@/lib/catalog-repository";
 import { categoryPageConfigs } from "@/lib/category-pages";
 import { getSiteUrl } from "@/lib/env";
 import { salesLandings } from "@/lib/sales-landings";
+import { blogPosts } from "@/lib/blog";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = getSiteUrl();
@@ -25,6 +26,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/trocas-e-devolucoes",
     "/entregas",
     "/faq",
+    "/indicacao",
+    "/guia-primeira-impressao-3d",
+    "/merchant/products.xml",
   ].map((path) => ({
     url: `${base}${path}`,
     lastModified: buildDate,
@@ -38,6 +42,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     changeFrequency: "weekly" as const,
     priority: 0.6
   }));
+  const blogPages = blogPosts.map((post) => ({
+    url: `${base}/blog/${post.slug}`,
+    lastModified: new Date(post.updatedAt),
+    changeFrequency: "monthly" as const,
+    priority: 0.65,
+  }));
 
-  return [...staticPages, ...productPages];
+  return [...staticPages, ...productPages, ...blogPages];
 }

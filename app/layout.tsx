@@ -1,27 +1,13 @@
 import type { Metadata, Viewport } from 'next';
 import Script from 'next/script';
-import { Suspense } from 'react';
 import { Manrope, Space_Grotesk } from 'next/font/google';
 import './globals.css';
 import { AccessibilityProvider, SkipLink } from '@/components/accessibility';
-import { CartDrawer } from '@/components/cart-drawer';
-import { CartRecoveryDock } from '@/components/cart-recovery-dock';
-import { CartSessionBridge } from '@/components/cart-session-bridge';
-import { ChatwootWidget } from '@/components/chatwoot-widget';
 import { CartProvider } from '@/lib/cart-context';
-import { CookieConsent } from '@/components/cookie-consent';
-import { FacebookPixel } from '@/components/facebook-pixel';
-import { PwaRegister } from '@/components/pwa-register';
-import { RouteActionDock } from '@/components/route-action-dock';
-import { ScrollToTop } from '@/components/scroll-to-top';
-import { SiteAssistant } from '@/components/site-assistant';
+import { DeferredLayoutWidgets } from '@/components/deferred-layout-widgets';
 import { SiteFooter } from '@/components/site-footer';
 import { SiteHeader } from '@/components/site-header';
 import { ToastProvider } from '@/components/toast';
-import { LiveChatWidget } from '@/components/live-chat-widget';
-import { WebVitals } from '@/components/web-vitals';
-import { WhatsAppFloat } from '@/components/whatsapp-float';
-import { NetworkStatusBanner } from '@/components/network-status-banner';
 import { brand, socialLinks, supportEmail, whatsappNumber } from '@/lib/constants';
 import {
   getAiAssistantModel,
@@ -49,7 +35,7 @@ const liveChatMode = getSupportChannelMode();
 const normalizedPhone = `+${whatsappNumber.replace(/\D/g, '')}`;
 const socialProfiles = [socialLinks.instagram].filter((item) => Boolean(item) && item !== '#');
 const googleVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION?.trim();
-const gaMeasurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID?.trim();
+const gaMeasurementId = (process.env.NEXT_PUBLIC_GA4_ID || process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || '').trim();
 const organizationJsonLd = {
   '@context': 'https://schema.org',
   '@type': ['Organization', 'LocalBusiness', 'Store'],
@@ -212,6 +198,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://analytics.tiktok.com" />
         <link rel="dns-prefetch" href="https://api.mercadopago.com" />
         <link rel="dns-prefetch" href="https://sdk.mercadopago.com" />
       </head>
@@ -240,7 +227,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <ToastProvider>
             <SkipLink />
             <AccessibilityProvider />
-            <CartSessionBridge />
             <SiteHeader
               cardCheckoutReady={cardCheckoutReady}
               aiAssistantReady={aiAssistantReady}
@@ -250,29 +236,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             />
             <main>{children}</main>
             <SiteFooter />
-            <RouteActionDock />
-            <WhatsAppFloat />
-            <ScrollToTop />
-            <SiteAssistant
+            <DeferredLayoutWidgets
               cardCheckoutReady={cardCheckoutReady}
               aiAssistantReady={aiAssistantReady}
               aiAssistantModel={aiAssistantModel}
               aiAssistantProvider={aiAssistantProvider}
+              chatwootEnabled={chatwootEnabled}
+              chatwootBaseUrl={chatwootBaseUrl}
+              chatwootWebsiteToken={chatwootWebsiteToken}
               liveChatMode={liveChatMode}
             />
-            <ChatwootWidget
-              enabled={chatwootEnabled}
-              baseUrl={chatwootBaseUrl}
-              websiteToken={chatwootWebsiteToken}
-            />
-            <LiveChatWidget defaultMode={liveChatMode} />
-            <PwaRegister />
-            <CartDrawer />
-            <CartRecoveryDock />
-            <CookieConsent />
-            <Suspense fallback={null}><FacebookPixel /></Suspense>
-            <WebVitals />
-            <NetworkStatusBanner />
             </ToastProvider>
           </CartProvider>
         </div>

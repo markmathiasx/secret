@@ -1,17 +1,6 @@
-import MercadoPagoConfig, { Payment, Preference } from 'mercadopago';
-import { getSiteUrl } from '@/lib/env';
-import { createMercadoPagoPayment as createMercadoPagoPaymentCore, normalizeMpPaymentFormData } from "@/lib/mercadopago";
+import { getMercadoPagoAccessToken, getSiteUrl } from '@/lib/env';
+import { createMercadoPagoPayment as createMercadoPagoPaymentCore, mercadoPagoRequest, normalizeMpPaymentFormData } from "@/lib/mercadopago";
 import { formatCurrency } from '@/lib/utils';
-
-function getMercadoPagoConfig() {
-  const accessToken = process.env.MERCADOPAGO_ACCESS_TOKEN?.trim();
-
-  if (!accessToken) {
-    return null;
-  }
-
-  return new MercadoPagoConfig({ accessToken });
-}
 
 export async function createMercadoPagoPreference(input: {
   title?: string;
@@ -53,9 +42,8 @@ export async function createMercadoPagoPreference(input: {
           },
         ];
   const total = items.reduce((sum, item) => sum + item.unit_price * item.quantity, 0);
-  const client = getMercadoPagoConfig();
 
-  if (!client) {
+  if (!getMercadoPagoAccessToken()) {
     return {
       ok: false,
       reason: 'missing_access_token',
@@ -64,14 +52,14 @@ export async function createMercadoPagoPreference(input: {
   }
 
   try {
-    const preference = new Preference(client);
     const backQuery = `order=${encodeURIComponent(input.externalReference)}`;
     const successUrl = input.backUrls?.success || `${siteUrl}/checkout?status=success&${backQuery}`;
     const pendingUrl = input.backUrls?.pending || `${siteUrl}/checkout?status=pending&${backQuery}`;
     const failureUrl = input.backUrls?.failure || `${siteUrl}/checkout?status=failure&${backQuery}`;
 
-    const response = await preference.create({
-      body: {
+    const response = await mercadoPagoRequest<Record<string, any>>("/checkout/preferences", {
+      method: "POST",
+      body: JSON.stringify({
         external_reference: input.externalReference,
         items,
         payer: input.payerEmail ? { email: input.payerEmail } : undefined,
@@ -82,7 +70,7 @@ export async function createMercadoPagoPreference(input: {
         },
         auto_return: input.autoReturn || 'approved',
         notification_url: input.notificationUrl || `${siteUrl}/api/webhooks/mercadopago`
-      }
+      }),
     });
 
     return {
@@ -109,9 +97,8 @@ export async function createMercadoPagoPixPayment(input: {
   customerName?: string | null;
 }) {
   const siteUrl = getSiteUrl();
-  const client = getMercadoPagoConfig();
 
-  if (!client) {
+  if (!getMercadoPagoAccessToken()) {
     return {
       ok: false,
       reason: "missing_access_token",
@@ -125,9 +112,9 @@ export async function createMercadoPagoPixPayment(input: {
   const lastName = restName.join(" ") || undefined;
 
   try {
-    const payment = new Payment(client);
-    const response = await payment.create({
-      body: {
+    const response = await mercadoPagoRequest<Record<string, any>>("/v1/payments", {
+      method: "POST",
+      body: JSON.stringify({
         transaction_amount: Number(input.amount.toFixed(2)),
         description: input.title,
         external_reference: input.externalReference,
@@ -144,7 +131,7 @@ export async function createMercadoPagoPixPayment(input: {
           orderCode: input.externalReference,
           paymentKind: "pix",
         },
-      },
+      }),
     });
 
     return {
@@ -169,9 +156,7 @@ export async function createMercadoPagoPixPayment(input: {
 }
 
 export async function getMercadoPagoPayment(paymentId: string | number) {
-  const client = getMercadoPagoConfig();
-
-  if (!client) {
+  if (!getMercadoPagoAccessToken()) {
     return {
       ok: false,
       reason: 'missing_access_token'
@@ -179,8 +164,9 @@ export async function getMercadoPagoPayment(paymentId: string | number) {
   }
 
   try {
-    const payment = new Payment(client);
-    const response = await payment.get({ id: paymentId });
+    const response = await mercadoPagoRequest<Record<string, any>>(`/v1/payments/${encodeURIComponent(String(paymentId))}`, {
+      method: "GET",
+    });
 
     return {
       ok: true,

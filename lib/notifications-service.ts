@@ -7,6 +7,8 @@ import 'server-only';
 import { prisma } from './prisma';
 import nodemailer from 'nodemailer';
 import { getSiteUrl } from '@/lib/env';
+import { sendWhatsAppText } from "@/lib/meta/whatsapp";
+import { formatCurrency } from "@/lib/utils";
 
 export type NotificationChannel = 'EMAIL' | 'IN_APP' | 'PUSH' | 'SMS' | 'WHATSAPP';
 export type NotificationType = 'order_confirmed' | 'shipment_update' | 'product_available' | 'price_drop' | 'review_request' | 'abandoned_cart' | 'promotion' | 'message';
@@ -153,8 +155,10 @@ async function sendWhatsAppNotification(payload: NotificationPayload): Promise<v
 
   if (!user?.phone) return;
 
-  // WhatsApp integration via Twilio or Meta Business would go here
-  console.log(`WhatsApp to ${user.phone}: ${payload.message}`);
+  const response = await sendWhatsAppText(user.phone, payload.message);
+  if (!response.ok) {
+    throw new Error(response.error?.message || "whatsapp_send_failed");
+  }
 }
 
 /**
@@ -222,7 +226,7 @@ export async function updateNotificationPreferences(
 export async function sendAbandonedCartNotification(userId: string, cartValue: number): Promise<boolean> {
   const user = await prisma.user.findUnique({
     where: { id: userId },
-    select: { email: true, name: true }
+    select: { email: true, name: true, phone: true }
   });
 
   if (!user) return false;
@@ -230,11 +234,27 @@ export async function sendAbandonedCartNotification(userId: string, cartValue: n
   return sendNotification({
     type: 'abandoned_cart',
     user_id: userId,
-    title: '🛒 Your cart is waiting!',
-    message: `Complete your purchase of $${cartValue.toFixed(2)} and get 10% off`,
-    channels: ['EMAIL', 'IN_APP'],
-    data: { cart_value: cartValue, discount_code: 'COMEBACK10' },
+    title: 'Seu carrinho MDH 3D está salvo',
+    message: `Seu carrinho de ${formatCurrency(cartValue)} ainda está disponível. Finalize com Pix, cartão ou atendimento humano: ${getSiteUrl()}/checkout`,
+    channels: user.phone ? ['WHATSAPP', 'EMAIL', 'IN_APP'] : ['EMAIL', 'IN_APP'],
+    data: { cart_value: cartValue, discount_code: 'MDH5', url: `${getSiteUrl()}/checkout` },
     urgency: 'normal'
+  });
+}
+
+export async function sendAbandonedCartEmail(userId: string, cartValue: number, stage: "24h" | "72h"): Promise<boolean> {
+  const discount = stage === "24h" ? "MDH5" : "MDHCLIENTE";
+  return sendNotification({
+    type: "abandoned_cart",
+    user_id: userId,
+    title: stage === "24h" ? "Finalize seu carrinho com 5% off" : "Ainda pensando na sua peça 3D?",
+    message:
+      stage === "24h"
+        ? `Seu carrinho de ${formatCurrency(cartValue)} pode ser retomado com o cupom ${discount}.`
+        : `Clientes que validam cor, prazo e foto real antes de comprar costumam fechar com menos dúvida. Seu carrinho de ${formatCurrency(cartValue)} está salvo.`,
+    channels: ["EMAIL", "IN_APP"],
+    data: { cart_value: cartValue, discount_code: discount, stage, url: `${getSiteUrl()}/checkout` },
+    urgency: "normal",
   });
 }
 

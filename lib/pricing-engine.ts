@@ -9,7 +9,7 @@ type PricingInput = {
   marketplaceSuggested?: number;
 };
 
-export const TARGET_LIQUID_MARGIN = 0.4;
+export const TARGET_LIQUID_MARGIN = 0.5;
 export const PIX_PRICE_DIVISOR = 1 - TARGET_LIQUID_MARGIN;
 export const CARD_MULTIPLIER = 1.12;
 export const BOLETO_MULTIPLIER = 1.08;
@@ -17,8 +17,9 @@ export const MARKETPLACE_PRICE_MULTIPLIER = 1.15;
 export const REFERENCE_PRICE_MULTIPLIER = 1.18;
 export const FIXED_MARGIN_BADGE_LABEL = "Preco auditado";
 export const LOCAL_PRODUCTION_BADGE_LABEL = "Produção local RJ";
+export const MIN_SITE_PRICE_PIX = 39.9;
 
-const filamentCostPerGram = 0.11;
+const filamentCostPerGram = 0.15;
 
 export function roundCurrency(value: number) {
   return Number(value.toFixed(2));
@@ -26,8 +27,8 @@ export function roundCurrency(value: number) {
 
 export function calculateBaseCost(grams = 0, hours = 0, complexity = 1) {
   const material = Math.max(0, grams) * filamentCostPerGram;
-  const machine = Math.max(2, Math.max(0, hours) * 2.75);
-  const finishing = Math.max(1.5, Math.max(1, complexity) * 2.2);
+  const machine = Math.max(5, Math.max(0, hours) * 6.9);
+  const finishing = Math.max(4.5, Math.max(1, complexity) * 4.8);
   return roundCurrency(material + machine + finishing);
 }
 
@@ -49,7 +50,7 @@ export function resolveBaseCost(input: PricingInput) {
 
 export function calculateFinalPrice(input: PricingInput) {
   const costBase = resolveBaseCost(input);
-  const pricePix = roundCurrency(costBase / PIX_PRICE_DIVISOR);
+  const pricePix = roundCurrency(Math.max(MIN_SITE_PRICE_PIX, costBase / PIX_PRICE_DIVISOR));
   const priceCard = roundCurrency(pricePix * CARD_MULTIPLIER);
   const referencePrice = roundCurrency(
     Math.max(

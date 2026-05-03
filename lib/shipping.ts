@@ -1,6 +1,6 @@
 import { deliveryZones } from "@/lib/constants";
 
-export type ShippingOptionId = "standard" | "express";
+export type ShippingOptionId = string;
 
 export type ShippingOption = {
   id: ShippingOptionId;
@@ -9,9 +9,11 @@ export type ShippingOption = {
   eta: string;
   price: number;
   region: string;
-  provider: "mdh-local";
+  provider: "mdh-local" | "melhor-envio";
   recommended: boolean;
   freeShipping: boolean;
+  serviceId?: string;
+  company?: string;
 };
 
 export type ShippingQuote = {
@@ -77,12 +79,13 @@ export function buildShippingQuote(input: {
   subtotal: number;
   quantity?: number;
   weightGrams?: number;
-}) {
+  totalWeightGrams?: number;
+}): ShippingQuote {
   const normalizedCep = onlyDigits(input.cep);
   const zone = inferDeliveryZone(normalizedCep);
   const quantity = Math.max(1, input.quantity || 1);
-  const weightGrams = Math.max(0, input.weightGrams || 0);
-  const base = zone.fee + getWeightSurcharge(weightGrams * quantity) + getQuantitySurcharge(quantity);
+  const weightGrams = Math.max(0, input.totalWeightGrams ?? (input.weightGrams || 0) * quantity);
+  const base = zone.fee + getWeightSurcharge(weightGrams) + getQuantitySurcharge(quantity);
   const freeShippingThreshold = getFreeShippingThreshold();
   const freeShipping = input.subtotal >= freeShippingThreshold;
   const standardPrice = freeShipping ? 0 : roundMoney(base);

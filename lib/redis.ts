@@ -6,6 +6,7 @@
  */
 
 type PipelineResult = { result: unknown; error?: string };
+type MemoryValue = { value: unknown; expiresAt: number };
 
 async function upstashPipeline(commands: (string | number)[][]): Promise<PipelineResult[] | null> {
   const url = process.env.UPSTASH_REDIS_REST_URL?.trim();
@@ -30,9 +31,34 @@ async function upstashPipeline(commands: (string | number)[][]): Promise<Pipelin
   }
 }
 
+async function upstashCommand<T>(command: (string | number)[]): Promise<T | null> {
+  const url = process.env.UPSTASH_REDIS_REST_URL?.trim();
+  const token = process.env.UPSTASH_REDIS_REST_TOKEN?.trim();
+  if (!url || !token) return null;
+
+  try {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(command),
+      signal: AbortSignal.timeout(700),
+    });
+
+    if (!res.ok) return null;
+    const json = (await res.json()) as { result?: T };
+    return json.result ?? null;
+  } catch {
+    return null;
+  }
+}
+
 // ── In-memory fallback ────────────────────────────────────────────────────────
 type Window = { count: number; expiresAt: number };
 const memStore = new Map<string, Window>();
+const jsonStore = new Map<string, MemoryValue>();
 
 function memRateLimit(
   key: string,
@@ -98,4 +124,42 @@ export function isRedisConfigured(): boolean {
     process.env.UPSTASH_REDIS_REST_URL?.trim() &&
       process.env.UPSTASH_REDIS_REST_TOKEN?.trim(),
   );
+}
+
+export async function redisGetJson<T>(key: string): Promise<T | null> {
+  const result = await upstashCommand<string>(["GET", key]);
+  if (typeof result === "string") {
+    try {
+      return JSON.parse(result) as T;
+    } catch {
+      return null;
+    }
+  }
+
+  const current = jsonStore.get(key);
+  if (!current || current.expiresAt < Date.now()) {
+    jsonStore.delete(key);
+    return null;
+  }
+
+  return current.value as T;
+}
+
+export async function redisSetJson(key: string, value: unknown, ttlSeconds: number): Promise<boolean> {
+  const payload = JSON.stringify(value);
+  const result = await upstashCommand<"OK">(["SET", key, payload, "EX", Math.max(1, ttlSeconds)]);
+
+  if (result === "OK") return true;
+
+  jsonStore.set(key, {
+    value,
+    expiresAt: Date.now() + Math.max(1, ttlSeconds) * 1000,
+  });
+  return false;
+}
+
+export async function redisDelete(key: string): Promise<boolean> {
+  const result = await upstashCommand<number>(["DEL", key]);
+  jsonStore.delete(key);
+  return typeof result === "number" ? result > 0 : false;
 }

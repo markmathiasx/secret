@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { canConnectToDatabase, prisma } from "@/lib/prisma";
-import { sendAbandonedCartNotification } from "@/lib/notifications-service";
+import { sendAbandonedCartEmail, sendAbandonedCartNotification } from "@/lib/notifications-service";
 import { logStructured } from "@/lib/logger";
 
 export const runtime = "nodejs";
@@ -19,8 +19,7 @@ function isAuthorized(request: Request) {
 
 /**
  * GET /api/cron/abandoned-cart
- * Finds carts that were active 1–24 hours ago and haven't converted to an order.
- * Sends a recovery notification to each user (max 50 per run to stay within execution limits).
+ * Finds carts abandoned for the 1h/24h/72h recovery ladder.
  * Schedule: every 2 hours via Vercel Cron / external cron service.
  */
 export async function GET(request: Request) {
@@ -33,79 +32,90 @@ export async function GET(request: Request) {
   }
 
   const now = new Date();
-  const windowStart = new Date(now.getTime() - 24 * 60 * 60 * 1000); // 24h ago
-  const windowEnd = new Date(now.getTime() - 60 * 60 * 1000);        // 1h ago (min idle time)
+  const windows = [
+    { stage: "1h" as const, start: new Date(now.getTime() - 3 * 60 * 60 * 1000), end: new Date(now.getTime() - 60 * 60 * 1000) },
+    { stage: "24h" as const, start: new Date(now.getTime() - 30 * 60 * 60 * 1000), end: new Date(now.getTime() - 24 * 60 * 60 * 1000) },
+    { stage: "72h" as const, start: new Date(now.getTime() - 78 * 60 * 60 * 1000), end: new Date(now.getTime() - 72 * 60 * 60 * 1000) },
+  ];
 
   try {
-    const abandonedCarts = await prisma.cart.findMany({
-      where: {
-        status: "ACTIVE",
-        updatedAt: { gte: windowStart, lte: windowEnd },
-        userId: { not: null },
-        items: { some: {} }, // has at least one item
-      },
-      include: {
-        items: { select: { quantity: true, product: { select: { pricePix: true } } } },
-        user: { select: { id: true, name: true } },
-      },
-      take: 50,
-      orderBy: { updatedAt: "desc" },
-    });
-
     let notified = 0;
     let skipped = 0;
+    let totalFound = 0;
 
-    for (const cart of abandonedCarts) {
-      if (!cart.userId || !cart.user) {
-        skipped++;
-        continue;
-      }
-
-      // Check no recent order from this user that would make this cart "converted"
-      const recentOrder = await prisma.order.findFirst({
+    for (const window of windows) {
+      const abandonedCarts = await prisma.cart.findMany({
         where: {
-          buyerId: cart.userId,
-          createdAt: { gte: cart.updatedAt },
+          status: "ACTIVE",
+          updatedAt: { gte: window.start, lte: window.end },
+          userId: { not: null },
+          items: { some: {} },
         },
-        select: { id: true },
+        include: {
+          items: { select: { quantity: true, product: { select: { pricePix: true } } } },
+          user: { select: { id: true, name: true } },
+        },
+        take: 50,
+        orderBy: { updatedAt: "desc" },
       });
 
-      if (recentOrder) {
-        skipped++;
-        continue;
-      }
+      totalFound += abandonedCarts.length;
 
-      const cartValue = cart.items.reduce((sum, item) => {
-        const price = Number(item.product?.pricePix ?? 0);
-        return sum + price * item.quantity;
-      }, 0);
+      for (const cart of abandonedCarts) {
+        if (!cart.userId || !cart.user) {
+          skipped++;
+          continue;
+        }
 
-      if (cartValue <= 0) {
-        skipped++;
-        continue;
-      }
-
-      try {
-        const sent = await sendAbandonedCartNotification(cart.userId, cartValue);
-        if (sent) notified++;
-        else skipped++;
-      } catch (err) {
-        logStructured("warn", "abandoned_cart_notify_failed", {
-          userId: cart.userId,
-          cartId: cart.id,
-          message: err instanceof Error ? err.message : "unknown",
+        const recentOrder = await prisma.order.findFirst({
+          where: {
+            buyerId: cart.userId,
+            createdAt: { gte: cart.updatedAt },
+          },
+          select: { id: true },
         });
-        skipped++;
+
+        if (recentOrder) {
+          skipped++;
+          continue;
+        }
+
+        const cartValue = cart.items.reduce((sum, item) => {
+          const price = Number(item.product?.pricePix ?? 0);
+          return sum + price * item.quantity;
+        }, 0);
+
+        if (cartValue <= 0) {
+          skipped++;
+          continue;
+        }
+
+        try {
+          const sent =
+            window.stage === "1h"
+              ? await sendAbandonedCartNotification(cart.userId, cartValue)
+              : await sendAbandonedCartEmail(cart.userId, cartValue, window.stage);
+          if (sent) notified++;
+          else skipped++;
+        } catch (err) {
+          logStructured("warn", "abandoned_cart_notify_failed", {
+            userId: cart.userId,
+            cartId: cart.id,
+            stage: window.stage,
+            message: err instanceof Error ? err.message : "unknown",
+          });
+          skipped++;
+        }
       }
     }
 
     logStructured("info", "abandoned_cart_cron", {
-      totalFound: abandonedCarts.length,
+      totalFound,
       notified,
       skipped,
     });
 
-    return NextResponse.json({ ok: true, totalFound: abandonedCarts.length, notified, skipped });
+    return NextResponse.json({ ok: true, totalFound, notified, skipped });
   } catch (error) {
     logStructured("error", "abandoned_cart_cron_failed", {
       message: error instanceof Error ? error.message : "unknown",

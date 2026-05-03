@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { adminConfig } from "@/lib/admin-config";
 import { getSiteUrl } from "@/lib/env";
-import { AUTH_RATE_LIMIT, checkRateLimit, PAYMENT_RATE_LIMIT, RateLimitConfig } from "@/lib/rate-limit";
+import { API_RATE_LIMIT, AUTH_RATE_LIMIT, checkRateLimit, GLOBAL_RATE_LIMIT, PAYMENT_RATE_LIMIT, RateLimitConfig, SESSION_RATE_LIMIT } from "@/lib/rate-limit";
 import { getCustomerSessionSecret, verifySignedSessionToken } from "@/lib/session-token";
 
 const protectedPrefixes = ["/seller", "/admin", "/conta"];
@@ -13,6 +13,14 @@ function isProtectedPath(pathname: string) {
   }
 
   return protectedPrefixes.some((prefix) => pathname === prefix || pathname.startsWith(prefix + "/"));
+}
+
+function isStaticAssetPath(pathname: string) {
+  return (
+    pathname.startsWith("/products/") ||
+    pathname.startsWith("/catalog-assets/") ||
+    /\.(?:avif|css|gif|ico|jpeg|jpg|js|json|map|png|svg|txt|webmanifest|webp|woff|woff2|xml)$/i.test(pathname)
+  );
 }
 
 function hasSharedAuthCookie(request: NextRequest) {
@@ -63,18 +71,49 @@ export async function middleware(request: NextRequest) {
   requestHeaders.set("x-request-id", requestId);
   requestHeaders.set("x-trace-id", requestId);
 
+  if (request.headers.has("x-middleware-subrequest")) {
+    return NextResponse.json(
+      { error: "Forbidden" },
+      {
+        status: 403,
+        headers: { "x-request-id": requestId, "x-trace-id": requestId },
+      },
+    );
+  }
+
   // --- Rate limiting ---
   const RATE_LIMITED_ROUTES: { pattern: string; config: RateLimitConfig }[] = [
     { pattern: "/api/admin/login", config: AUTH_RATE_LIMIT },
+    { pattern: "/api/auth/session", config: SESSION_RATE_LIMIT },
     { pattern: "/api/auth/", config: AUTH_RATE_LIMIT },
     { pattern: "/api/pix", config: PAYMENT_RATE_LIMIT },
     { pattern: "/api/checkout", config: PAYMENT_RATE_LIMIT },
+    { pattern: "/api/", config: API_RATE_LIMIT },
   ];
 
   const clientIp =
     request.headers.get("x-forwarded-for")?.split(",")[0].trim() ??
     request.headers.get("x-real-ip") ??
     "unknown";
+
+  const globalRate = isStaticAssetPath(pathname)
+    ? null
+    : checkRateLimit(`global:${clientIp}`, GLOBAL_RATE_LIMIT);
+  if (globalRate && !globalRate.success) {
+    return NextResponse.json(
+      { error: "Too many requests", retryAfterMs: globalRate.retryAfterMs },
+      {
+        status: 429,
+        headers: {
+          "Retry-After": String(Math.ceil((globalRate.retryAfterMs ?? 60000) / 1000)),
+          "X-RateLimit-Limit": String(GLOBAL_RATE_LIMIT.maxRequests),
+          "X-RateLimit-Remaining": String(globalRate.remaining),
+          "X-RateLimit-Reset": String(globalRate.resetAt),
+          "x-request-id": requestId,
+        },
+      },
+    );
+  }
 
   for (const { pattern, config } of RATE_LIMITED_ROUTES) {
     const normalised = pattern.replace(/\/$/, "");

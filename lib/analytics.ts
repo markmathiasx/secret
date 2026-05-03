@@ -30,8 +30,33 @@ declare global {
     dataLayer?: unknown[];
     gtag?: (...args: unknown[]) => void;
     fbq?: (...args: unknown[]) => void;
+    ttq?: {
+      track?: (event: string, params?: Record<string, unknown>) => void;
+    };
   }
 }
+
+const metaEventMap: Record<string, string> = {
+  view_item: "ViewContent",
+  add_to_cart: "AddToCart",
+  begin_checkout: "InitiateCheckout",
+  add_payment_info: "AddPaymentInfo",
+  purchase: "Purchase",
+  contact_whatsapp: "Contact",
+  request_quote: "Lead",
+  upload_stl: "Lead",
+};
+
+const tiktokEventMap: Record<string, string> = {
+  view_item: "ViewContent",
+  add_to_cart: "AddToCart",
+  begin_checkout: "InitiateCheckout",
+  add_payment_info: "AddPaymentInfo",
+  purchase: "CompletePayment",
+  contact_whatsapp: "Contact",
+  request_quote: "SubmitForm",
+  upload_stl: "SubmitForm",
+};
 
 function sanitizeProperties(properties?: Record<string, unknown>) {
   if (!properties) return undefined;
@@ -72,8 +97,14 @@ export const trackEvent = (event: string, properties?: Record<string, unknown>) 
       window.dataLayer.push({ event, ...safeProperties });
     }
 
-    if (window.fbq && event === "whatsapp_click") {
-      window.fbq('track', 'Contact', safeProperties);
+    const metaEvent = metaEventMap[event] || (event === "whatsapp_click" ? "Contact" : null);
+    if (window.fbq && metaEvent) {
+      window.fbq('track', metaEvent, safeProperties);
+    }
+
+    const tiktokEvent = tiktokEventMap[event] || (event === "whatsapp_click" ? "Contact" : null);
+    if (window.ttq?.track && tiktokEvent) {
+      window.ttq.track(tiktokEvent, safeProperties);
     }
   }
 };
@@ -149,17 +180,24 @@ export const trackReviewRequest = (productSlug: string, productSku: string) => {
 };
 
 export const trackSupportRequest = (source: string, channel: string = "whatsapp") => {
-  trackEvent('support_request', {
+  trackEvent(channel === "whatsapp" ? 'contact_whatsapp' : 'support_request', {
     source,
     channel,
   });
 };
 
 export const trackFileUpload = (source: string, fileType?: string, fileSize?: number) => {
-  trackEvent('file_upload', {
+  trackEvent('upload_stl', {
     source,
     file_type: fileType,
     file_size_bytes: fileSize,
+  });
+};
+
+export const trackRequestQuote = (source: string, quoteType?: string) => {
+  trackEvent("request_quote", {
+    source,
+    quote_type: quoteType,
   });
 };
 
@@ -184,7 +222,7 @@ export const trackPurchase = (order: {
 };
 
 export const trackWhatsAppClick = (source: string) => {
-  trackEvent('whatsapp_click', { source });
+  trackEvent('contact_whatsapp', { source });
 };
 
 export const trackFilterApplied = (filterName: string, filterValue: string, results: number) => {

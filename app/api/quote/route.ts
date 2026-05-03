@@ -5,6 +5,9 @@ import { getClientIp, validateUploadFile } from "@/lib/security";
 import { rateLimitRequest } from "@/lib/redis";
 import { storeRecord } from "@/lib/storage";
 import { estimateDeliveryFeeKm } from "@/lib/delivery";
+import { sanitizeEmail, sanitizeMetadataRecord, sanitizePlainText } from "@/lib/sanitize";
+import { enqueueStlProcessingJob } from "@/lib/async-stl-processing";
+import { storeUploadFile } from "@/lib/upload-storage";
 
 function buildRequestId(prefix = 'MDH') {
   return `${prefix}-${Date.now().toString().slice(-8)}`;
@@ -34,25 +37,65 @@ export async function POST(request: Request) {
     }
 
     const quoteId = buildRequestId();
-    const payload = {
+    const referenceUpload =
+      image instanceof File && imageValidation?.ok
+        ? await storeUploadFile({
+            file: image,
+            quoteId,
+            kind: "reference",
+            safeName: imageValidation.safeName,
+          }).catch(() => null)
+        : null;
+    const modelUpload =
+      model instanceof File && modelValidation?.ok
+        ? await storeUploadFile({
+            file: model,
+            quoteId,
+            kind: "model",
+            safeName: modelValidation.safeName,
+          }).catch(() => null)
+        : null;
+
+    if (modelUpload) {
+      await enqueueStlProcessingJob({
+        id: `${quoteId}:model`,
+        fileName: modelValidation?.ok ? modelValidation.safeName : "model",
+        fileSize: modelValidation?.ok ? modelValidation.size : 0,
+        contentType: modelValidation?.ok ? modelValidation.contentType : null,
+        quoteId,
+        storageUrl: modelUpload.url,
+        createdAt: new Date().toISOString(),
+        status: "queued",
+      });
+    }
+
+    const payload = sanitizeMetadataRecord({
       quote_id: quoteId,
       request_type: 'image-to-3d',
-      customer_name: String(form.get('name') || ''),
-      phone: String(form.get('whatsapp') || ''),
-      email: String(form.get('email') || ''),
-      project_description: String(form.get('description') || ''),
-      project_size: String(form.get('size') || ''),
-      preferred_material: String(form.get('material') || ''),
-      preferred_color: String(form.get('color') || ''),
-      desired_deadline: String(form.get('deadline') || ''),
-      quantity: Number(form.get('quantity') || '1'),
+      customer_name: sanitizePlainText(form.get('name'), 200),
+      phone: sanitizePlainText(form.get('whatsapp'), 40),
+      email: sanitizeEmail(form.get('email')),
+      project_description: sanitizePlainText(form.get('description'), 2000),
+      project_size: sanitizePlainText(form.get('size'), 120),
+      preferred_material: sanitizePlainText(form.get('material'), 80),
+      preferred_color: sanitizePlainText(form.get('color'), 80),
+      desired_deadline: sanitizePlainText(form.get('deadline'), 80),
+      quantity: Math.max(1, Math.min(999, Number(form.get('quantity') || '1') || 1)),
+      material: sanitizePlainText(form.get('material'), 80),
+      color: sanitizePlainText(form.get('color'), 80),
       reference_image_name: imageValidation?.ok ? imageValidation.safeName : '',
       reference_image_size: imageValidation?.ok ? imageValidation.size : 0,
+      reference_image_storage: referenceUpload?.storage || null,
+      reference_image_url: referenceUpload?.url || null,
+      reference_image_sha256: referenceUpload?.sha256 || null,
       model_file_name: modelValidation?.ok ? modelValidation.safeName : '',
       model_file_size: modelValidation?.ok ? modelValidation.size : 0,
+      model_file_storage: modelUpload?.storage || null,
+      model_file_url: modelUpload?.url || null,
+      model_file_sha256: modelUpload?.sha256 || null,
       created_at: new Date().toISOString(),
       source: 'site',
-      storage_mode: 'metadata-only',
+      storage_mode: modelUpload || referenceUpload ? 'blob-async' : 'metadata-only',
       details: {
         has_reference_image: image instanceof File,
         has_model_file: model instanceof File,
@@ -60,7 +103,7 @@ export async function POST(request: Request) {
         model_file_content_type: modelValidation?.ok ? modelValidation.contentType : null
       },
       status: 'recebido'
-    };
+    });
 
     const stored = await storeRecord('quoteRequests', payload as Record<string, unknown>);
     if (!stored.ok) {

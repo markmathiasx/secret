@@ -31,7 +31,7 @@ export function ReferralCard({ code, referralUrl, rewardPoints, usedCount }: Ref
         <div>
           <p className="text-sm font-semibold text-white">Indique e ganhe</p>
           <p className="text-xs text-white/50">
-            Você e seu amigo ganham {rewardPoints} pontos de bônus
+            Você ganha 15% off e {rewardPoints} pontos de bônus
           </p>
         </div>
       </div>

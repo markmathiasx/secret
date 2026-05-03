@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { Check, Copy, MessageCircleMore, Minus, Plus, Share2, ShoppingCart, Sparkles, TimerReset, Wallet } from "lucide-react";
-import { useCustomerSession } from "@/lib/customer-session-client";
 import { addLocalCartItem } from "@/lib/cart-store";
 import { trackAddToCart, trackBeginCheckout, trackWhatsAppClick } from "@/lib/analytics";
 import { formatCurrency } from "@/lib/utils";
@@ -22,6 +21,8 @@ export function ProductPurchaseTools({
   productionWindow,
   readyToShip,
   productImage,
+  material,
+  colors,
   customizable,
   whatsappHref,
   customizationHref,
@@ -34,21 +35,36 @@ export function ProductPurchaseTools({
   productionWindow: string;
   readyToShip: boolean;
   productImage?: string;
+  material?: string;
+  colors?: string[];
   customizable: boolean;
   whatsappHref: string;
   customizationHref: string;
 }) {
   const [quantity, setQuantity] = useState(1);
   const [goal, setGoal] = useState<PurchaseGoal>("Uso próprio");
+  const [selectedMaterial, setSelectedMaterial] = useState(material || "PLA Premium");
+  const [selectedColor, setSelectedColor] = useState(colors?.[0] || "Branco");
+  const [selectedPrazo, setSelectedPrazo] = useState<"normal" | "prioritario" | "express">("normal");
+  const [configuredPrice, setConfiguredPrice] = useState<{
+    unitPix: number;
+    unitCard: number;
+    totalPix: number;
+    totalCard: number;
+    productionWindow: string;
+  } | null>(null);
   const [copied, setCopied] = useState<"idle" | "sku" | "link">("idle");
   const [cartMessage, setCartMessage] = useState("");
   const [memoryReady, setMemoryReady] = useState(false);
   const [cutoffClock, setCutoffClock] = useState("00:00:00");
   const [cutoffLabel, setCutoffLabel] = useState("Próxima triagem");
-  const session = useCustomerSession();
-  const totalPix = useMemo(() => pricePix * quantity, [pricePix, quantity]);
-  const totalCard = useMemo(() => priceCard * quantity, [priceCard, quantity]);
+  const unitPix = configuredPrice?.unitPix ?? pricePix;
+  const unitCard = configuredPrice?.unitCard ?? priceCard;
+  const totalPix = useMemo(() => unitPix * quantity, [quantity, unitPix]);
+  const totalCard = useMemo(() => unitCard * quantity, [quantity, unitCard]);
   const quickQuantities = [1, 2, 5, 10];
+  const materialOptions = Array.from(new Set([material || "PLA Premium", "PLA Silk", "PETG", "ABS"].filter(Boolean)));
+  const colorOptions = Array.from(new Set([...(colors?.length ? colors : ["Branco", "Preto", "Cinza"]), "Preto", "Branco"].filter(Boolean)));
   const checkoutHref = useMemo(
     () => "/checkout",
     []
@@ -95,6 +111,42 @@ export function ProductPurchaseTools({
       JSON.stringify({ quantity, goal })
     );
   }, [goal, memoryReady, productId, quantity]);
+
+  useEffect(() => {
+    let active = true;
+    const timer = window.setTimeout(async () => {
+      try {
+        const response = await fetch(`/api/products/${encodeURIComponent(productId)}/price`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            material: selectedMaterial,
+            color: selectedColor,
+            prazo: selectedPrazo,
+            quantity,
+          }),
+        });
+        const data = await response.json().catch(() => null);
+        if (!active || !response.ok || !data?.ok) return;
+        setConfiguredPrice({
+          unitPix: data.unitPix,
+          unitCard: data.unitCard,
+          totalPix: data.totalPix,
+          totalCard: data.totalCard,
+          productionWindow: data.productionWindow,
+        });
+      } catch {
+        if (active) setConfiguredPrice(null);
+      }
+    }, 250);
+
+    return () => {
+      active = false;
+      window.clearTimeout(timer);
+    };
+  }, [productId, quantity, selectedColor, selectedMaterial, selectedPrazo]);
 
   useEffect(() => {
     const updateCutoff = () => {
@@ -146,8 +198,8 @@ export function ProductPurchaseTools({
       id: productId,
       sku,
       name: productName,
-      pricePix,
-      priceCard,
+      pricePix: unitPix,
+      priceCard: unitCard,
     };
     trackAddToCart(analyticsProduct, quantity);
 
@@ -155,23 +207,22 @@ export function ProductPurchaseTools({
       productId,
       quantity,
       title: productName,
-      pricePix,
-      priceCard,
+      pricePix: unitPix,
+      priceCard: unitCard,
       image: productImage,
+      personalizationText: `Material: ${selectedMaterial}; Cor: ${selectedColor}; Prazo: ${selectedPrazo}`,
     });
 
-    if (session.loggedIn) {
-      await fetch("/api/cart", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          productId,
-          quantity,
-        }),
-      }).catch(() => null);
-    }
+    await fetch("/api/cart", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        productId,
+        quantity,
+      }),
+    }).catch(() => null);
 
     setCartMessage(`${quantity} unidade(s) adicionadas ao carrinho.`);
     window.setTimeout(() => setCartMessage(""), 2000);
@@ -234,6 +285,48 @@ export function ProductPurchaseTools({
       </div>
 
       <div className="mt-4">
+        <p className="text-xs uppercase tracking-[0.16em] text-white/45">Configuração</p>
+        <div className="mt-2 grid gap-3 sm:grid-cols-3">
+          <label className="grid gap-2">
+            <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-white/45">Material</span>
+            <select
+              value={selectedMaterial}
+              onChange={(event) => setSelectedMaterial(event.target.value)}
+              className="rounded-[16px] border border-white/10 bg-black/25 px-3 py-3 text-sm text-white outline-none"
+            >
+              {materialOptions.map((item) => (
+                <option key={item} value={item}>{item}</option>
+              ))}
+            </select>
+          </label>
+          <label className="grid gap-2">
+            <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-white/45">Cor</span>
+            <select
+              value={selectedColor}
+              onChange={(event) => setSelectedColor(event.target.value)}
+              className="rounded-[16px] border border-white/10 bg-black/25 px-3 py-3 text-sm text-white outline-none"
+            >
+              {colorOptions.map((item) => (
+                <option key={item} value={item}>{item}</option>
+              ))}
+            </select>
+          </label>
+          <label className="grid gap-2">
+            <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-white/45">Prazo</span>
+            <select
+              value={selectedPrazo}
+              onChange={(event) => setSelectedPrazo(event.target.value as "normal" | "prioritario" | "express")}
+              className="rounded-[16px] border border-white/10 bg-black/25 px-3 py-3 text-sm text-white outline-none"
+            >
+              <option value="normal">Normal</option>
+              <option value="prioritario">Prioritário</option>
+              <option value="express">Express</option>
+            </select>
+          </label>
+        </div>
+      </div>
+
+      <div className="mt-4">
         <p className="text-xs uppercase tracking-[0.16em] text-white/45">Objetivo desta compra</p>
         <div className="mt-2 flex flex-wrap gap-2">
           {GOAL_OPTIONS.map((item) => (
@@ -290,7 +383,7 @@ export function ProductPurchaseTools({
       <div className="mt-4 grid gap-3 sm:grid-cols-2">
         <div className="rounded-[20px] border border-white/10 bg-black/20 p-4 text-sm text-white/72">
           <p className="text-xs uppercase tracking-[0.16em] text-white/45">Prazo de produção</p>
-          <p className="mt-2 font-semibold text-white">{productionWindow}</p>
+          <p className="mt-2 font-semibold text-white">{configuredPrice?.productionWindow || productionWindow}</p>
         </div>
         <div className="rounded-[20px] border border-white/10 bg-black/20 p-4 text-sm text-white/72">
           <p className="text-xs uppercase tracking-[0.16em] text-white/45">Entrega estimada</p>
@@ -345,7 +438,7 @@ export function ProductPurchaseTools({
           {copied === "link" ? <Check className="h-4 w-4" /> : <Share2 className="h-4 w-4" />}
           {copied === "link" ? "Link copiado" : "Compartilhar item"}
         </button>
-        <Link href={checkoutHref} onClick={() => trackBeginCheckout({ id: productId, sku, name: productName, pricePix, priceCard }, quantity, totalPix)} className="btn-glass justify-center">
+        <Link href={checkoutHref} onClick={() => trackBeginCheckout({ id: productId, sku, name: productName, pricePix: unitPix, priceCard: unitCard }, quantity, totalPix)} className="btn-glass justify-center">
           Ir para checkout
         </Link>
       </div>

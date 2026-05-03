@@ -1,5 +1,4 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
-import MercadoPagoConfig, { Payment } from "mercadopago";
 import { getMercadoPagoAccessToken, getMercadoPagoAppId, getMercadoPagoPublicKey, getMercadoPagoStatementDescriptor, getMercadoPagoTimeoutMs, getMercadoPagoWebhookSecret, getSiteUrl } from "@/lib/env";
 import { formatCurrency } from "@/lib/utils";
 
@@ -62,12 +61,44 @@ export function normalizeMercadoPagoError(error: unknown) {
 export function getMercadoPagoClient() {
   const accessToken = getMercadoPagoAccessToken();
   if (!accessToken) return null;
-  return new MercadoPagoConfig({
-    accessToken,
-    options: {
-      timeout: getMercadoPagoTimeoutMs(),
-    },
+  return { accessToken, timeout: getMercadoPagoTimeoutMs() };
+}
+
+export async function mercadoPagoRequest<T>(
+  path: string,
+  init: RequestInit & { idempotencyKey?: string | null } = {}
+): Promise<T> {
+  const accessToken = getMercadoPagoAccessToken();
+  if (!accessToken) {
+    throw new Error("missing_access_token");
+  }
+
+  const headers = new Headers(init.headers);
+  headers.set("Authorization", `Bearer ${accessToken}`);
+  headers.set("Content-Type", headers.get("Content-Type") || "application/json");
+  headers.set("Accept", headers.get("Accept") || "application/json");
+  if (init.idempotencyKey) {
+    headers.set("X-Idempotency-Key", init.idempotencyKey);
+  }
+
+  const response = await fetch(`https://api.mercadopago.com${path}`, {
+    ...init,
+    headers,
+    signal: init.signal || AbortSignal.timeout(getMercadoPagoTimeoutMs()),
   });
+  const payload = await response.json().catch(() => ({}));
+
+  if (!response.ok) {
+    const message =
+      typeof payload?.message === "string"
+        ? payload.message
+        : typeof payload?.error === "string"
+          ? payload.error
+          : `mercadopago_http_${response.status}`;
+    throw new Error(message);
+  }
+
+  return payload as T;
 }
 
 export function getMercadoPagoPublicSettings() {
@@ -171,8 +202,7 @@ export function normalizeMpPaymentFormData(value: unknown) {
 }
 
 export async function createMercadoPagoPayment(input: MercadoPagoPaymentInput) {
-  const client = getMercadoPagoClient();
-  if (!client) {
+  if (!getMercadoPagoAccessToken()) {
     return {
       ok: false,
       reason: "missing_access_token" as const,
@@ -180,7 +210,6 @@ export async function createMercadoPagoPayment(input: MercadoPagoPaymentInput) {
     };
   }
 
-  const payment = new Payment(client);
   const body: Record<string, unknown> = {
     transaction_amount: Number(input.amount.toFixed(2)),
     description: input.title,
@@ -228,9 +257,10 @@ export async function createMercadoPagoPayment(input: MercadoPagoPaymentInput) {
   }
 
   try {
-    const response = await payment.create({
-      body,
-      requestOptions: input.idempotencyKey ? { idempotencyKey: input.idempotencyKey } : undefined,
+    const response = await mercadoPagoRequest<Record<string, any>>("/v1/payments", {
+      method: "POST",
+      body: JSON.stringify(body),
+      idempotencyKey: input.idempotencyKey,
     });
     return {
       ok: true as const,

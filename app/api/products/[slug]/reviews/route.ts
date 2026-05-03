@@ -6,13 +6,14 @@ import { applyNoStoreHeaders } from "@/lib/http-cache";
 import { canConnectToDatabase, prisma } from "@/lib/prisma";
 import { checkRateLimit, getClientIp } from "@/lib/security";
 import { logStructured } from "@/lib/logger";
+import { sanitizeEmail, sanitizeMultilineText, sanitizePlainText } from "@/lib/sanitize";
 
 const postSchema = z.object({
-  authorName: z.string().min(2).max(80),
-  authorEmail: z.string().email().optional(),
+  authorName: z.string().min(2).max(80).transform((value) => sanitizePlainText(value, 80)),
+  authorEmail: z.string().email().max(320).optional().transform((value) => (value ? sanitizeEmail(value) : undefined)),
   rating: z.number().int().min(1).max(5),
-  title: z.string().max(120).optional(),
-  body: z.string().max(2000).optional(),
+  title: z.string().max(120).optional().transform((value) => (value ? sanitizePlainText(value, 120) : undefined)),
+  body: z.string().max(2000).optional().transform((value) => (value ? sanitizeMultilineText(value, 2000) : undefined)),
 });
 
 type Params = { params: Promise<{ slug: string }> };

@@ -1,13 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
+import { randomBytes } from "node:crypto";
 import { prisma } from "@/lib/prisma";
 import { getServerSessionUser } from "@/lib/server-session";
 import { awardBonusPoints } from "@/lib/loyalty";
-import { customAlphabet } from "nanoid";
+import { getSiteUrl } from "@/lib/env";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-const nanoid = customAlphabet("ABCDEFGHJKLMNPQRSTUVWXYZ23456789", 8);
+const alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+
+function createReferralCode() {
+  const bytes = randomBytes(8);
+  return Array.from(bytes, (byte) => alphabet[byte % alphabet.length]).join("");
+}
 
 /** GET /api/referral — get or create the user's referral code */
 export async function GET() {
@@ -26,20 +32,21 @@ export async function GET() {
   });
 
   if (!referral) {
-    const code = nanoid();
+    const code = createReferralCode();
     await prisma.referral.create({
-      data: { referrerId: user.id, code, rewardPoints: 100 },
+      data: { referrerId: user.id, code, rewardPoints: 150 },
     });
-    referral = { code, rewardPoints: 100 };
+    referral = { code, rewardPoints: 150 };
   }
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://mdh3d.com.br";
+  const siteUrl = getSiteUrl();
 
   return NextResponse.json({
     ok: true,
     code: referral.code,
-    referralUrl: `${siteUrl}/?ref=${referral.code}`,
+    referralUrl: `${siteUrl}/indicacao?ref=${referral.code}`,
     rewardPoints: referral.rewardPoints,
+    rewardDiscountPercent: 15,
     usedCount,
   });
 }
@@ -80,5 +87,5 @@ export async function POST(request: NextRequest) {
     awardBonusPoints(user.id, Math.floor(referral.rewardPoints / 2), "Bônus de boas-vindas por indicação"),
   ]);
 
-  return NextResponse.json({ ok: true, pointsEarned: Math.floor(referral.rewardPoints / 2) });
+  return NextResponse.json({ ok: true, pointsEarned: Math.floor(referral.rewardPoints / 2), discountPercent: 15 });
 }

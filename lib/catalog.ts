@@ -2761,7 +2761,7 @@ export const categories = Array.from(new Set(catalog.map((item) => item.category
 export const collections = Array.from(new Set(catalog.map((item) => item.collection)));
 
 export function getProductUrl(product: Product) {
-  return `/catalogo/${product.id}-${product.slug || slugify(product.name)}`;
+  return `/loja/${slugify(product.category)}/${product.id}-${product.slug || slugify(product.name)}`;
 }
 
 export function findProduct(id: string) {
