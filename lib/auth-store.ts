@@ -32,9 +32,7 @@ type AuthStoreRuntime = typeof globalThis & {
   __mdhAuthStoreMemory?: UserStore;
 };
 
-const STORE_DIR =
-  (process.env.AUTH_STORE_DIR || "").trim() ||
-  (process.env.VERCEL ? path.join("/tmp", "mdh-auth-store") : path.join(process.cwd(), "secret"));
+const STORE_DIR = (process.env.AUTH_STORE_DIR || "").trim() || path.join("/tmp", "mdh-auth-store");
 const STORE_FILE = path.join(STORE_DIR, "auth-users.json");
 const STORE_BLOB_PATH = "auth/auth-users.json";
 const DEFAULT_STORE: UserStore = { version: 1, users: [] };

@@ -50,6 +50,49 @@ const securityHeaders = [
   { key: "X-DNS-Prefetch-Control", value: "off" },
 ];
 
+const outputTraceExcludes = [
+  // Public assets are served statically by Vercel and must not inflate API function bundles.
+  "./public/products/**/*",
+  "./public/catalog-assets/**/*",
+  "./public/media/**/*",
+  "./reports/**/*",
+  "./assets/**/*",
+  "./prompts_txt/**/*",
+  "./SEU_PROJETO/**/*",
+  "./test-results/**/*",
+  "./.playwright-mcp/**/*",
+  "./live-*.png",
+  "./.tmp-*",
+  "./estrutura.txt",
+  // Test/dev tooling: never needed at runtime.
+  "./node_modules/@playwright/**",
+  "./node_modules/playwright/**",
+  "./node_modules/playwright-core/**",
+  "./node_modules/jsdom/**",
+  "./node_modules/@jest/**",
+  "./node_modules/jest/**",
+  "./node_modules/jest-circus/**",
+  "./node_modules/@swc/**",
+  "./node_modules/ts-jest/**",
+  "./node_modules/esbuild/**",
+  // Prisma CLI & migration engines are build/dev tooling; @prisma/client remains runtime.
+  "./node_modules/prisma/**",
+  "./node_modules/@prisma/engines/**",
+  "./node_modules/@prisma/migrate/**",
+  "./node_modules/@prisma/studio/**",
+  "./node_modules/@prisma/schema-files-loader/**",
+  "./node_modules/@prisma/generator-helper/**",
+  "./node_modules/@prisma/get-platform/**",
+  "./node_modules/@prisma/debug/**",
+  "./node_modules/@prisma/fetch-engine/**",
+  "./node_modules/@prisma/config/**",
+  "./node_modules/.prisma/client/query_engine-windows.dll.node",
+  // Supabase CLI and type/dev packages are not runtime dependencies.
+  "./node_modules/supabase/**",
+  "./node_modules/typescript/**",
+  "./node_modules/@types/**",
+];
+
 // Add the custom domain from NEXT_PUBLIC_SITE_URL to allowed image hosts
 try {
   const siteUrlHost = process.env.NEXT_PUBLIC_SITE_URL && new URL(process.env.NEXT_PUBLIC_SITE_URL).hostname;
@@ -67,19 +110,8 @@ const nextConfig: NextConfig = {
   compress: true,
   reactStrictMode: true,
   outputFileTracingExcludes: {
-    "/**/*": [
-      "./public/**/*",
-      "./reports/**/*",
-      "./assets/**/*",
-      "./prompts_txt/**/*",
-      "./SEU_PROJETO/**/*",
-      "./output/**/*",
-      "./test-results/**/*",
-      "./.playwright-mcp/**/*",
-      "./live-*.png",
-      "./.tmp-*",
-      "./estrutura.txt",
-    ],
+    "/*": outputTraceExcludes,
+    "/api/**/*": outputTraceExcludes,
   },
 
   // Images
@@ -320,42 +352,6 @@ const nextConfig: NextConfig = {
 
   // Output: standalone only for Docker/self-hosted; Vercel manages bundling itself
   ...(process.env.VERCEL ? {} : { output: 'standalone' }),
-
-  // Exclude large packages not needed at runtime from serverless function traces
-  outputFileTracingExcludes: {
-    '*': [
-      // Test/dev tooling — never needed at runtime
-      'node_modules/@playwright/**',
-      'node_modules/playwright/**',
-      'node_modules/playwright-core/**',
-      'node_modules/jsdom/**',
-      'node_modules/@jest/**',
-      'node_modules/jest/**',
-      'node_modules/jest-circus/**',
-      'node_modules/@swc/**',
-      'node_modules/ts-jest/**',
-      'node_modules/esbuild/**',
-      // Prisma CLI & migration engines (~148 MB) — only @prisma/client needed at runtime
-      'node_modules/prisma/**',
-      'node_modules/@prisma/engines/**',
-      'node_modules/@prisma/migrate/**',
-      'node_modules/@prisma/studio/**',
-      'node_modules/@prisma/schema-files-loader/**',
-      'node_modules/@prisma/generator-helper/**',
-      'node_modules/@prisma/get-platform/**',
-      'node_modules/@prisma/debug/**',
-      'node_modules/@prisma/fetch-engine/**',
-      'node_modules/@prisma/config/**',
-      // Prisma Windows binary — Vercel runs Linux
-      'node_modules/.prisma/client/query_engine-windows.dll.node',
-      // Supabase CLI (~92 MB) — not needed at runtime, only used in dev
-      'node_modules/supabase/**',
-      // TypeScript compiler — not needed at runtime
-      'node_modules/typescript/**',
-      // @types — type definitions, never needed at runtime
-      'node_modules/@types/**',
-    ],
-  },
 
   // Keep large server-side packages as externals (not inlined into webpack bundles)
   serverExternalPackages: ['@prisma/client', '.prisma'],
