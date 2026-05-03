@@ -67,7 +67,7 @@ const nextConfig: NextConfig = {
   compress: true,
   reactStrictMode: true,
   outputFileTracingExcludes: {
-    "*": [
+    "/**/*": [
       "./public/**/*",
       "./reports/**/*",
       "./assets/**/*",
