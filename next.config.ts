@@ -66,6 +66,21 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   compress: true,
   reactStrictMode: true,
+  outputFileTracingExcludes: {
+    "*": [
+      "./public/**/*",
+      "./reports/**/*",
+      "./assets/**/*",
+      "./prompts_txt/**/*",
+      "./SEU_PROJETO/**/*",
+      "./output/**/*",
+      "./test-results/**/*",
+      "./.playwright-mcp/**/*",
+      "./live-*.png",
+      "./.tmp-*",
+      "./estrutura.txt",
+    ],
+  },
 
   // Images
   images: {
