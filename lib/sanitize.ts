@@ -1,28 +1,30 @@
-import DOMPurify from "isomorphic-dompurify";
-
-const EMPTY_HTML_CONFIG = {
-  ALLOWED_TAGS: [],
-  ALLOWED_ATTR: [],
-};
-
 function coerceString(value: unknown) {
   return typeof value === "string" ? value : "";
 }
 
+function stripHtml(value: string) {
+  return value
+    .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, " ")
+    .replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, " ")
+    .replace(/<[^>]+>/g, " ");
+}
+
+function stripControlChars(value: string) {
+  return value.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, "");
+}
+
 export function sanitizeHtml(input: unknown, maxLength = 10_000) {
-  return DOMPurify.sanitize(coerceString(input).slice(0, maxLength), {
-    USE_PROFILES: { html: true },
-  }).trim();
+  return stripControlChars(coerceString(input).slice(0, maxLength)).trim();
 }
 
 export function sanitizePlainText(input: unknown, maxLength = 500) {
-  return DOMPurify.sanitize(coerceString(input).slice(0, maxLength), EMPTY_HTML_CONFIG)
+  return stripControlChars(stripHtml(coerceString(input).slice(0, maxLength)))
     .replace(/\s+/g, " ")
     .trim();
 }
 
 export function sanitizeMultilineText(input: unknown, maxLength = 5000) {
-  return DOMPurify.sanitize(coerceString(input).slice(0, maxLength), EMPTY_HTML_CONFIG)
+  return stripControlChars(stripHtml(coerceString(input).slice(0, maxLength)))
     .replace(/\r\n?/g, "\n")
     .replace(/[ \t]+\n/g, "\n")
     .replace(/\n{4,}/g, "\n\n\n")
@@ -30,7 +32,7 @@ export function sanitizeMultilineText(input: unknown, maxLength = 5000) {
 }
 
 export function sanitizeEmail(input: unknown) {
-  return sanitizePlainText(input, 320).toLowerCase();
+  return sanitizePlainText(input, 320).replace(/\s/g, "").toLowerCase();
 }
 
 export function sanitizeMetadataRecord(
