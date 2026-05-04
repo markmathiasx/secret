@@ -68,7 +68,6 @@ const outputTraceExcludes = [
   "./node_modules/@playwright/**",
   "./node_modules/playwright/**",
   "./node_modules/playwright-core/**",
-  "./node_modules/jsdom/**",
   "./node_modules/@jest/**",
   "./node_modules/jest/**",
   "./node_modules/jest-circus/**",
