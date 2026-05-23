@@ -31,7 +31,7 @@ export function MediaStrip() {
               </div>
               <div className="absolute bottom-4 left-4 z-10 inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/35 px-3 py-1 text-xs text-white/80">
                 {item.type === 'video' ? <PlayCircle className="h-4 w-4" /> : <Sparkles className="h-4 w-4" />}
-                {item.type === 'video' ? 'Vídeo real' : 'Foto real'}
+                {item.type === 'video' ? 'Vídeo licenciado' : 'Visual de processo'}
               </div>
             </div>
             <div className="relative z-10 p-5">

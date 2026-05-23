@@ -724,6 +724,38 @@ input.field-base {
   animation: scanDrift 14s linear infinite;
 }
 
+.mdh-cad-fallback {
+  background:
+    linear-gradient(135deg, rgba(34, 211, 238, 0.12), transparent 32%),
+    linear-gradient(315deg, rgba(16, 185, 129, 0.12), transparent 34%),
+    linear-gradient(180deg, #05070a 0%, #101820 52%, #07150f 100%);
+}
+
+.mdh-cad-fallback::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.2));
+}
+
+.mdh-cad-fallback-lines {
+  opacity: 0.55;
+  background:
+    linear-gradient(105deg, transparent 0 18%, rgba(34, 211, 238, 0.28) 18.2%, transparent 18.8% 100%),
+    linear-gradient(165deg, transparent 0 54%, rgba(16, 185, 129, 0.24) 54.2%, transparent 54.8% 100%);
+  animation: scanDrift 18s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mdh-cad-fallback-lines {
+    animation: none;
+  }
+}
+
 .surface-stat {
   position: relative;
   overflow: hidden;

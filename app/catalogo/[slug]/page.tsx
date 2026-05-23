@@ -23,6 +23,7 @@ import { StickyPdpCta } from '@/components/sticky-pdp-cta';
 import { ProductBundleSuggestion } from '@/components/product-bundle-suggestion';
 import { RecentlyViewedShelf } from '@/components/recently-viewed-shelf';
 import { PurchaseProtectionBanner } from '@/components/purchase-protection-banner';
+import { SafeBackgroundVideo } from '@/components/safe-background-video';
 import { formatCurrency } from '@/lib/utils';
 import { whatsappMessage, whatsappNumber } from '@/lib/constants';
 import { Metadata } from 'next';
@@ -33,6 +34,7 @@ import { catalog, featuredCatalog, getProductUrl } from '@/lib/catalog';
 import { getProductMarketplaceSignals, getStoreReputationSummary, getProductReviewSnippets } from '@/lib/marketplace-signals';
 import { validateProductMedia, isPublicSafe } from '@/lib/media-validation';
 import { getProductVisual } from '@/lib/product-visuals';
+import { getLicensedVideoAsset } from '@/lib/video-assets';
 
 export const revalidate = 300;
 export const dynamic = 'force-static';
@@ -123,6 +125,7 @@ export default async function ProductPage({
   );
   const highlights = getProductHighlights(product);
   const longDescription = getProductLongDescription(product);
+  const productProcessVideo = getLicensedVideoAsset("filament-detail-loop");
   const [productSignals, storeSummary, reviewSnippets] = await Promise.all([
     getProductMarketplaceSignals(product.id, product.sku),
     getStoreReputationSummary(),
@@ -613,6 +616,28 @@ export default async function ProductPage({
           ))}
         </div>
       </div>
+
+      <section className="relative isolate mt-10 overflow-hidden rounded-[8px] border border-white/12 bg-slate-950 p-6 shadow-[0_24px_70px_rgba(2,8,23,0.22)] md:p-8">
+        <SafeBackgroundVideo
+          src={productProcessVideo.src}
+          poster={productProcessVideo.poster}
+          overlayClassName="bg-[linear-gradient(90deg,rgba(2,6,23,0.92),rgba(2,6,23,0.76)_48%,rgba(2,6,23,0.50)),linear-gradient(180deg,rgba(2,6,23,0.35),rgba(2,6,23,0.88))]"
+        />
+        <div className="relative z-10 max-w-3xl">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-100/75">Como é produzido</p>
+          <h2 className="mt-3 text-3xl font-black text-white">Do filamento ao acabamento, este pedido segue uma rotina visível.</h2>
+          <p className="mt-4 text-sm leading-7 text-white/72 md:text-base md:leading-8">
+            Antes de embalar, a equipe revisa primeira camada, aderência, acabamento e leitura visual. Quando o item pede ajuste de cor, escala ou briefing, a validação acontece pelo atendimento antes do fechamento.
+          </p>
+          <div className="mt-5 grid gap-3 sm:grid-cols-3">
+            {["Primeira camada", "Acabamento", "Embalagem"].map((item) => (
+              <span key={item} className="rounded-[8px] border border-white/12 bg-white/[0.06] px-4 py-3 text-sm font-semibold text-white/82 backdrop-blur">
+                {item}
+              </span>
+            ))}
+          </div>
+        </div>
+      </section>
 
       <div className="mt-12">
         <QuoteForm product={product} />

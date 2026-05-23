@@ -21,6 +21,7 @@ import type { Product } from "@/lib/catalog";
 import { getProductUrl } from "@/lib/catalog";
 import { buildProductImageAlt } from "@/lib/catalog-media";
 import { formatCurrency } from "@/lib/utils";
+import { getLicensedVideoAsset } from "@/lib/video-assets";
 
 export const revalidate = 300;
 
@@ -87,6 +88,7 @@ export default async function HomePage() {
   const realShowcase = catalog.filter((product) => isProductRealPhoto(product)).slice(0, 4);
   const readyRealCount = catalog.filter((product) => product.readyToShip && isProductRealPhoto(product)).length;
   const customizableRealCount = catalog.filter((product) => product.customizable && isProductRealPhoto(product)).length;
+  const heroVideo = getLicensedVideoAsset("hero-printer-loop");
   const homeFaq = [
     {
       question: "Qual e o melhor caminho se eu quero comprar hoje?",
@@ -163,6 +165,8 @@ export default async function HomePage() {
         readyRealCount={readyRealCount}
         ratingLabel={ratingLabel}
         reviewCount={storeSummary?.reviewCount}
+        backgroundVideoSrc={heroVideo.src}
+        backgroundPosterSrc={heroVideo.poster}
       />
 
       <HomeConversionLanes />

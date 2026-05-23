@@ -1,4 +1,6 @@
 import { CheckCircle2, Cpu, Layers, ScanLine } from "lucide-react";
+import { SafeBackgroundVideo } from "@/components/safe-background-video";
+import { getLicensedVideoAsset } from "@/lib/video-assets";
 
 const STEPS = [
   {
@@ -18,8 +20,8 @@ const STEPS = [
   {
     icon: Cpu,
     step: "03",
-    title: "Impressão Bambu Lab",
-    body: "Impressoras X1C e P1S com multi-material opcional. Precisão de 0.05mm. Cada lote monitorado em tempo real.",
+    title: "Impressão monitorada",
+    body: "Impressoras FDM calibradas para PLA+ e PETG, com revisão de primeira camada, temperatura e acabamento durante o lote.",
     color: "text-emerald-100",
   },
   {
@@ -32,6 +34,24 @@ const STEPS = [
 ];
 
 export function ProductionProcess() {
+  const processMedia = [
+    {
+      title: "Filamento e extrusão",
+      detail: "Camadas limpas, leitura de cor e fluxo estável antes da peça final.",
+      asset: getLicensedVideoAsset("filament-detail-loop"),
+    },
+    {
+      title: "Impressão em progresso",
+      detail: "Movimento de mesa e bico tratado como prova de processo, não distração.",
+      asset: getLicensedVideoAsset("process-printer-loop"),
+    },
+    {
+      title: "Ritmo de produção",
+      detail: "Timelapse discreto para mostrar volume sem pesar a navegação.",
+      asset: getLicensedVideoAsset("timelapse-print-loop"),
+    },
+  ];
+
   return (
     <section className="mx-auto max-w-7xl px-6 py-16">
       <div className="mb-10 text-center">
@@ -40,6 +60,28 @@ export function ProductionProcess() {
         <p className="section-copy mx-auto mt-4 max-w-2xl">
           Não é fábrica anônima na China. É produção local no Rio de Janeiro, com equipamento de ponta e rastreabilidade de cada pedido.
         </p>
+      </div>
+
+      <div className="mb-6 grid gap-4 lg:grid-cols-3">
+        {processMedia.map((item, index) => (
+          <article
+            key={item.title}
+            className="relative isolate min-h-[260px] overflow-hidden rounded-[8px] border border-white/12 bg-slate-950 shadow-[0_24px_70px_rgba(2,8,23,0.25)]"
+          >
+            <SafeBackgroundVideo
+              src={item.asset.src}
+              poster={item.asset.poster}
+              overlayClassName="bg-[linear-gradient(180deg,rgba(2,6,23,0.20),rgba(2,6,23,0.78)_72%,rgba(2,6,23,0.92))]"
+            />
+            <div className="relative z-10 flex min-h-[260px] flex-col justify-end p-5">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-cyan-100/70">
+                Processo {String(index + 1).padStart(2, "0")}
+              </p>
+              <h3 className="mt-2 text-xl font-black text-white">{item.title}</h3>
+              <p className="mt-2 text-sm leading-6 text-white/68">{item.detail}</p>
+            </div>
+          </article>
+        ))}
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">

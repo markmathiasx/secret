@@ -55,6 +55,8 @@
     "validate:assets:fs": "node scripts/validate-assets.mjs --mode=fs --manifest=output/CATALOG_SEMANTIC_AUDIT.json --publicMode=strict",
     "validate:assets:http": "node scripts/validate-assets.mjs --mode=http --baseUrl=http://127.0.0.1:3000 --manifest=output/CATALOG_SEMANTIC_AUDIT.json --publicMode=strict",
     "report:weekly-growth": "node scripts/run-weekly-growth-report.mjs",
+    "media:fetch": "node scripts/media/fetch-3d-printer-videos.mjs",
+    "media:validate": "node scripts/media/validate-video-assets.mjs",
     "ci:check": "npm run lint:check && npm run typecheck && npm run build && npm run test:images && npm run test:e2e"
   },
   "dependencies": {

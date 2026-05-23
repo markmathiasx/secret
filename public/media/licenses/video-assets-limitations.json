@@ -1,0 +1,21 @@
+{
+  "checkedAt": "2026-05-23T21:33:14.428Z",
+  "pexelsApiKeyAvailable": false,
+  "pixabayApiKeyAvailable": false,
+  "ffmpegAvailable": false,
+  "downloadedCount": 0,
+  "fallbackGenerated": true,
+  "limitation": "No stock video was downloaded. Public Pexels/Pixabay pages were not used for automated download because no clear direct file URL was available without a browser challenge or official API key.",
+  "searchTerms": [
+    "3d printer working close up",
+    "3d printing machine working",
+    "3d printing timelapse",
+    "3d printer filament close up",
+    "3d printer creating object",
+    "3d printing prototype",
+    "desktop 3d printer working",
+    "3d printing workshop",
+    "3d printer nozzle close up",
+    "3d printer printing object"
+  ]
+}

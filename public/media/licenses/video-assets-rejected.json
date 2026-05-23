@@ -1,0 +1,32 @@
+[
+  {
+    "source": "Pexels API",
+    "sourceUrl": "https://www.pexels.com/api/",
+    "reason": "PEXELS_API_KEY is not set; official API search/download was skipped."
+  },
+  {
+    "source": "Pexels",
+    "sourceUrl": "https://www.pexels.com/video/close-up-shot-of-3d-printer-4485455/",
+    "reason": "Rejected: public page returned browser challenge; no bypass attempted."
+  },
+  {
+    "source": "Pexels",
+    "sourceUrl": "https://www.pexels.com/video/close-up-of-printer-11945995/",
+    "reason": "Rejected: public page returned browser challenge; no bypass attempted."
+  },
+  {
+    "source": "Pexels",
+    "sourceUrl": "https://www.pexels.com/video/3d-printing-24861303/",
+    "reason": "Rejected: public page returned browser challenge; no bypass attempted."
+  },
+  {
+    "source": "Pixabay",
+    "sourceUrl": "https://pixabay.com/videos/printer-3d-printing-print-164476/",
+    "reason": "Rejected: public page returned browser challenge; no bypass attempted."
+  },
+  {
+    "source": "Pixabay API",
+    "sourceUrl": "https://pixabay.com/api/docs/",
+    "reason": "PIXABAY_API_KEY is not set; official Pixabay API search/download was skipped."
+  }
+]

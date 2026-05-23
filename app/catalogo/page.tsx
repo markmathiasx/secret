@@ -8,6 +8,8 @@ import { getCatalogSnapshot } from "@/lib/catalog-repository";
 import { A1_MINI_COLLECTION, isA1MiniCatalogProduct } from "@/lib/a1-mini-catalog";
 import { summarizeProductVisuals } from "@/lib/product-visuals";
 import { getSiteUrl } from "@/lib/env";
+import { SafeBackgroundVideo } from "@/components/safe-background-video";
+import { getLicensedVideoAsset } from "@/lib/video-assets";
 
 export const metadata: Metadata = {
   title: "Catálogo",
@@ -35,6 +37,7 @@ export default async function CatalogPage() {
   };
   const visualSummary = summarizeProductVisuals(catalog);
   const a1MiniCount = catalog.filter(isA1MiniCatalogProduct).length;
+  const catalogVideo = getLicensedVideoAsset("process-printer-loop");
   const catalogFaq = [
     {
       question: "Como usar o catalogo sem se perder em opcoes demais?",
@@ -150,18 +153,12 @@ export default async function CatalogPage() {
       </div>
 
       <div id="catalogo-vitrine" className="catalog-video-shell relative isolate mt-8 overflow-hidden rounded-[28px] border border-white/14 shadow-[0_28px_72px_rgba(2,8,23,0.16)] md:mt-10 md:rounded-[36px]">
-        <video
-          className="absolute inset-0 h-full w-full object-cover opacity-[0.24]"
-          src="/assets/videos/hero-bg.mp4"
-          poster="/assets/videos/hero-poster.jpg"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="none"
-          aria-hidden
+        <SafeBackgroundVideo
+          src={catalogVideo.src}
+          poster={catalogVideo.poster}
+          videoClassName="opacity-[0.32]"
+          overlayClassName="bg-[linear-gradient(90deg,rgba(34,211,238,0.08),transparent_34%,rgba(16,185,129,0.07)),linear-gradient(180deg,rgba(2,6,23,0.30),rgba(2,6,23,0.58)_40%,rgba(2,6,23,0.74)_100%)]"
         />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_14%_20%,rgba(34,211,238,0.06),transparent_34%),radial-gradient(circle_at_86%_16%,rgba(16,185,129,0.05),transparent_34%),linear-gradient(180deg,rgba(2,6,23,0.30),rgba(2,6,23,0.58)_40%,rgba(2,6,23,0.74)_100%)]" />
         <div className="pointer-events-none absolute inset-0 rounded-[28px] ring-1 ring-inset ring-white/40 md:rounded-[36px]" />
 
         <div className="catalog-video-content relative p-2.5 md:p-4 lg:p-5">

@@ -21,8 +21,8 @@ import { verifiedCatalog } from "@/lib/verified-catalog";
 import { SafeProductImage } from "@/components/safe-product-image";
 
 const HERO_VIDEO = {
-  src: "/assets/videos/hero-bg.mp4",
-  poster: "/assets/videos/hero-poster.jpg",
+  src: null as string | null,
+  poster: "/media/posters/hero-printer-poster.webp",
 };
 
 const HERO_SIGNALS = [
@@ -199,7 +199,7 @@ export function Hero({
       className="relative isolate overflow-hidden px-6 pb-20 pt-8 md:pb-24 md:pt-10"
     >
       <div className="absolute inset-0 -z-30">
-        {enableVideo ? (
+        {enableVideo && HERO_VIDEO.src ? (
           <video
             ref={videoRef}
             className="hero-video-layer h-full w-full object-cover"
@@ -233,8 +233,6 @@ export function Hero({
       />
       <div className="pointer-events-none absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(255,255,255,0.035)_1px,transparent_1px),linear-gradient(180deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:88px_88px] opacity-[0.22]" />
       <div className="hero-scanlines -z-10" />
-      <div className="pointer-events-none absolute left-[-4rem] top-24 h-56 w-56 rounded-full bg-cyan-300/12 blur-3xl" />
-      <div className="pointer-events-none absolute bottom-4 right-[-3rem] h-72 w-72 rounded-full bg-violet-500/12 blur-3xl" />
 
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-10 lg:grid-cols-[1.06fr_0.94fr] lg:items-center">
