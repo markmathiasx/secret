@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
 import { ChevronRight, CheckCircle } from "lucide-react";
 import { PurchaseProtectionBanner } from "@/components/purchase-protection-banner";
 import { PostPurchaseHub } from "@/components/post-purchase-hub";
@@ -18,7 +17,6 @@ const RETURN_REASONS = [
 type Step = 0 | 1 | 2;
 
 export default function DevolucoesPage() {
-  const searchParams = useSearchParams();
   const [step, setStep] = useState<Step>(0);
   const [form, setForm] = useState({
     orderCode: "",
@@ -31,10 +29,12 @@ export default function DevolucoesPage() {
   const [error, setError] = useState("");
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
+    const searchParams = new URLSearchParams(window.location.search);
     const orderCode = searchParams.get("order") || searchParams.get("code") || "";
     if (!orderCode) return;
     setForm((current) => (current.orderCode ? current : { ...current, orderCode }));
-  }, [searchParams]);
+  }, []);
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -62,7 +62,7 @@ export default function DevolucoesPage() {
   }
 
   return (
-    <main className="mx-auto max-w-2xl px-4 py-10">
+    <section className="mx-auto max-w-2xl px-4 py-10">
       <div className="mb-8">
         <p className="section-kicker">Pós-venda</p>
         <h1 className="section-title">Devoluções e trocas</h1>
@@ -166,6 +166,6 @@ export default function DevolucoesPage() {
         <p className="font-semibold text-white/80">Política de devolução</p>
         <p className="mt-2">Aceitamos devoluções dentro de 7 dias corridos após o recebimento. O produto deve estar em sua embalagem original. Entraremos em contato para orientar o processo de envio e a próxima etapa.</p>
       </div>
-    </main>
+    </section>
   );
 }

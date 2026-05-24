@@ -1,6 +1,6 @@
 "use client";
 
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
 declare global {
@@ -43,7 +43,6 @@ export function fbqEvent(event: string, params?: Record<string, unknown>) {
 
 export function FacebookPixel() {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
 
   useEffect(() => {
     if (!PIXEL_ID) return;
@@ -53,7 +52,7 @@ export function FacebookPixel() {
   useEffect(() => {
     if (!PIXEL_ID || typeof window === "undefined" || !window.fbq) return;
     window.fbq("track", "PageView");
-  }, [pathname, searchParams]);
+  }, [pathname]);
 
   if (!PIXEL_ID) return null;
 

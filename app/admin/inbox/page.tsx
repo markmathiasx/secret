@@ -1,3 +1,4 @@
+import type { Prisma } from "@prisma/client";
 import { redirect } from "next/navigation";
 import { AdminInbox } from "@/components/admin/admin-inbox";
 import { getChatwootAdminUrl, isChatwootWidgetConfigured } from "@/lib/env";
@@ -6,7 +7,7 @@ import { prisma } from "@/lib/prisma";
 import { getServerSessionUser, isAdminSession } from "@/lib/server-session";
 
 /** Derive channel from DB field or legacy email prefix. */
-function resolveChannel(channel: string | null | undefined, email: string | null | undefined): string {
+function resolveChannel(channel: string | null | undefined, email: string | null | undefined): MetaChannel {
   if (channel && channel !== "site") return normalizeMetaChannel(channel);
   if (email?.endsWith("@mdh.local")) {
     if (email.startsWith("wa-")) return "whatsapp";
@@ -21,6 +22,17 @@ type Props = {
   searchParams?: Promise<{ thread?: string | string[] }>;
 };
 
+const inboxThreadInclude = {
+  buyer: true,
+  seller: true,
+  messages: {
+    orderBy: { createdAt: "desc" },
+    take: 1,
+  },
+} satisfies Prisma.ChatThreadInclude;
+
+type InboxThreadRecord = Prisma.ChatThreadGetPayload<{ include: typeof inboxThreadInclude }>;
+
 export default async function AdminInboxPage({ searchParams }: Props) {
   const user = await getServerSessionUser();
   if (!isAdminSession(user)) {
@@ -32,18 +44,11 @@ export default async function AdminInboxPage({ searchParams }: Props) {
 
   const query = (await Promise.resolve(searchParams ?? {})) as { thread?: string | string[] };
   const initialThreadId = Array.isArray(query.thread) ? query.thread[0] : query.thread || null;
-  const [threads] = await Promise.all([
+  const [threads]: [InboxThreadRecord[]] = await Promise.all([
     prisma.chatThread.findMany({
       orderBy: [{ lastMessageAt: "desc" }, { updatedAt: "desc" }],
       take: 50,
-      include: {
-        buyer: true,
-        seller: true,
-        messages: {
-          orderBy: { createdAt: "desc" },
-          take: 1,
-        },
-      },
+      include: inboxThreadInclude,
     }),
   ]);
 
@@ -56,7 +61,7 @@ export default async function AdminInboxPage({ searchParams }: Props) {
     lastMessageAt: (thread.lastMessageAt || thread.updatedAt).toISOString(),
     createdAt: thread.createdAt.toISOString(),
     updatedAt: thread.updatedAt.toISOString(),
-    channel: resolveChannel((thread as { channel?: string | null }).channel, thread.buyer?.email) as MetaChannel,
+    channel: resolveChannel(thread.channel, thread.buyer?.email),
     status: thread.status as "open" | "needs_human" | "resolved" | "archived",
     tags: thread.tags ?? [],
     notes: thread.notes ?? null,
@@ -64,7 +69,7 @@ export default async function AdminInboxPage({ searchParams }: Props) {
     isWhatsApp: Boolean(
       thread.buyer?.email?.endsWith("@mdh.local") &&
         (thread.buyer.email.startsWith("wa-") ||
-          ((thread.buyer as { phone?: string | null }).phone?.replace(/\D/g, "").length ?? 0) >= 11)
+          (thread.buyer.phone?.replace(/\D/g, "").length ?? 0) >= 11)
     ),
     type: thread.type as string,
     lastMessage: thread.messages[0]

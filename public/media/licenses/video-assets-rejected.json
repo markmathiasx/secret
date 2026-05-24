@@ -1,0 +1,7 @@
+[
+  {
+    "source": "Pixabay API",
+    "sourceUrl": "https://pixabay.com/api/docs/",
+    "reason": "PIXABAY_API_KEY is not set; official Pixabay API search/download was skipped."
+  }
+]

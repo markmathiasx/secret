@@ -234,7 +234,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               aiAssistantProvider={aiAssistantProvider}
               liveChatMode={liveChatMode}
             />
-            <main>{children}</main>
+            <main id="main-content" tabIndex={-1}>{children}</main>
             <SiteFooter cardCheckoutReady={cardCheckoutReady} />
             <DeferredLayoutWidgets
               cardCheckoutReady={cardCheckoutReady}

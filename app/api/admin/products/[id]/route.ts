@@ -1,14 +1,273 @@
 import { NextRequest, NextResponse } from "next/server";
+import { ProductStatus, ProductVisibility } from "@prisma/client";
 import { applyNoStoreHeaders } from "@/lib/http-cache";
 import { getServerSessionUser, isAdminSession } from "@/lib/server-session";
 import { updateAdminCatalogProduct } from "@/lib/server/admin-catalog-store";
 import { canConnectToDatabase, prisma } from "@/lib/prisma";
 import { recordAdminAction } from "@/lib/admin-audit";
 import { invalidateCatalogCache } from "@/lib/runtime-cache";
+import { slugify } from "@/lib/utils";
+import { calculateProductionCostRecommendation, roundCurrency } from "@/lib/pricing-engine";
+import type { AdminProductOverride, ProfitMode } from "@/types/admin-catalog";
 
 export const dynamic = "force-dynamic";
 
 type RouteContext = { params: Promise<{ id: string }> };
+
+type NormalizedProductPatch = Partial<AdminProductOverride> & {
+  visibility?: ProductVisibility;
+};
+
+const NUMERIC_LIMITS: Record<string, { min: number; max: number; integer?: boolean }> = {
+  pricePix: { min: 0, max: 99999 },
+  priceCard: { min: 0, max: 99999 },
+  stock: { min: 0, max: 999999, integer: true },
+  costBase: { min: 0, max: 99999 },
+  estimatedGrams: { min: 0, max: 100000 },
+  estimatedHours: { min: 0, max: 10000 },
+  complexity: { min: 0.1, max: 10 },
+  spoolPricePerKg: { min: 0, max: 99999 },
+  machineHourlyRate: { min: 0, max: 9999 },
+  postProcessMinutes: { min: 0, max: 100000, integer: true },
+  laborHourlyRate: { min: 0, max: 9999 },
+  packagingCost: { min: 0, max: 99999 },
+  overheadPercent: { min: 0, max: 300 },
+  profitTargetPercent: { min: 0, max: 500 },
+  estimatedProfitAmount: { min: -99999, max: 99999 },
+  estimatedProfitPercent: { min: -999, max: 999 },
+};
+
+function readJson(req: NextRequest) {
+  return req.json().catch(() => null) as Promise<Record<string, unknown> | null>;
+}
+
+function cleanString(value: unknown, max = 1500) {
+  if (typeof value !== "string") return undefined;
+  const trimmed = value.trim();
+  return trimmed ? trimmed.slice(0, max) : "";
+}
+
+function readNumber(body: Record<string, unknown>, key: keyof NormalizedProductPatch) {
+  if (!(key in body)) return undefined;
+  const raw = body[key as string];
+  if (raw === null || raw === "") return null;
+  const numberValue = typeof raw === "number" ? raw : Number(String(raw).replace(",", "."));
+  const limits = NUMERIC_LIMITS[key as string];
+  if (!Number.isFinite(numberValue) || !limits) {
+    throw new Error(`Campo numérico inválido: ${String(key)}.`);
+  }
+  if (numberValue < limits.min || numberValue > limits.max) {
+    throw new Error(`Campo ${String(key)} fora do intervalo permitido.`);
+  }
+  return limits.integer ? Math.round(numberValue) : roundCurrency(numberValue);
+}
+
+function readBoolean(body: Record<string, unknown>, key: keyof NormalizedProductPatch) {
+  if (!(key in body)) return undefined;
+  return Boolean(body[key as string]);
+}
+
+function normalizeStatus(value: unknown, customizable?: boolean): ProductStatus | undefined {
+  if (value === undefined) return undefined;
+  const normalized = String(value).trim();
+  if (normalized === ProductStatus.READY_TO_SHIP || normalized === "Pronta entrega") return ProductStatus.READY_TO_SHIP;
+  if (normalized === ProductStatus.CUSTOMIZABLE) return ProductStatus.CUSTOMIZABLE;
+  if (normalized === ProductStatus.DRAFT) return ProductStatus.DRAFT;
+  if (normalized === ProductStatus.ARCHIVED) return ProductStatus.ARCHIVED;
+  if (normalized === "Sob encomenda" || normalized === ProductStatus.MADE_TO_ORDER) {
+    return customizable ? ProductStatus.CUSTOMIZABLE : ProductStatus.MADE_TO_ORDER;
+  }
+  throw new Error("Status inválido.");
+}
+
+function normalizeLegacyStatus(value: unknown): AdminProductOverride["status"] | undefined {
+  if (value === undefined) return undefined;
+  const normalized = String(value).trim();
+  if (normalized === "Pronta entrega" || normalized === ProductStatus.READY_TO_SHIP) return "Pronta entrega";
+  if (
+    normalized === "Sob encomenda" ||
+    normalized === ProductStatus.MADE_TO_ORDER ||
+    normalized === ProductStatus.CUSTOMIZABLE ||
+    normalized === ProductStatus.DRAFT ||
+    normalized === ProductStatus.ARCHIVED
+  ) {
+    return "Sob encomenda";
+  }
+  throw new Error("Status inválido.");
+}
+
+function normalizeVisibility(value: unknown): ProductVisibility | undefined {
+  if (value === undefined) return undefined;
+  const normalized = String(value).trim();
+  if (normalized in ProductVisibility) return normalized as ProductVisibility;
+  throw new Error("Visibilidade inválida.");
+}
+
+function normalizeProfitMode(value: unknown): ProfitMode | undefined {
+  if (value === undefined) return undefined;
+  if (value === "margin" || value === "markup") return value;
+  throw new Error("Modo de lucro inválido.");
+}
+
+function normalizeBody(body: Record<string, unknown>): NormalizedProductPatch {
+  const patch: NormalizedProductPatch = {};
+  const strings: Array<[keyof NormalizedProductPatch, number]> = [
+    ["title", 160],
+    ["description", 5000],
+    ["category", 120],
+    ["collection", 120],
+    ["material", 120],
+    ["finish", 120],
+  ];
+
+  for (const [key, max] of strings) {
+    if (key in body) patch[key] = cleanString(body[key], max) as never;
+  }
+
+  for (const key of Object.keys(NUMERIC_LIMITS) as Array<keyof NormalizedProductPatch>) {
+    const value = readNumber(body, key);
+    if (value !== undefined && value !== null) patch[key] = value as never;
+  }
+
+  for (const key of ["readyToShip", "customizable", "featured"] as Array<keyof NormalizedProductPatch>) {
+    const value = readBoolean(body, key);
+    if (value !== undefined) patch[key] = value as never;
+  }
+
+  patch.status = normalizeLegacyStatus(body.status);
+  patch.visibility = normalizeVisibility(body.visibility);
+  patch.profitMode = normalizeProfitMode(body.profitMode);
+
+  if ("costingUpdatedAt" in body) {
+    const raw = body.costingUpdatedAt;
+    if (typeof raw === "string" && raw.trim()) patch.costingUpdatedAt = new Date(raw).toISOString();
+  }
+
+  return patch;
+}
+
+async function applyDatabaseUpdate(id: string, patch: NormalizedProductPatch) {
+  return prisma.$transaction(async (tx) => {
+    const current = await tx.product.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        title: true,
+        pricePix: true,
+        priceCard: true,
+        marketplaceSuggested: true,
+        grams: true,
+        hours: true,
+        complexity: true,
+        estimatedGrams: true,
+        estimatedHours: true,
+        spoolPricePerKg: true,
+        machineHourlyRate: true,
+        postProcessMinutes: true,
+        laborHourlyRate: true,
+        packagingCost: true,
+        overheadPercent: true,
+        profitMode: true,
+        profitTargetPercent: true,
+      },
+    });
+
+    if (!current) throw new Error("Produto não encontrado no banco.");
+
+    let categoryId: string | undefined;
+    if (patch.category !== undefined) {
+      const categoryName = String(patch.category || "Catálogo").trim() || "Catálogo";
+      const category = await tx.category.upsert({
+        where: { slug: slugify(categoryName) },
+        update: { name: categoryName },
+        create: { name: categoryName, slug: slugify(categoryName) },
+        select: { id: true },
+      });
+      categoryId = category.id;
+    }
+
+    const effectivePricePix = patch.pricePix ?? Number(current.pricePix);
+    const effectivePriceCard = patch.priceCard ?? Number(current.priceCard);
+    const recommendation = calculateProductionCostRecommendation({
+      estimatedGrams: patch.estimatedGrams ?? Number(current.estimatedGrams ?? current.grams),
+      estimatedHours: patch.estimatedHours ?? Number(current.estimatedHours ?? current.hours),
+      complexity: patch.complexity ?? current.complexity,
+      spoolPricePerKg: patch.spoolPricePerKg ?? Number(current.spoolPricePerKg ?? 150),
+      machineHourlyRate: patch.machineHourlyRate ?? Number(current.machineHourlyRate ?? 6.9),
+      postProcessMinutes: patch.postProcessMinutes ?? current.postProcessMinutes ?? 15,
+      laborHourlyRate: patch.laborHourlyRate ?? Number(current.laborHourlyRate ?? 18),
+      packagingCost: patch.packagingCost ?? Number(current.packagingCost ?? 2.5),
+      overheadPercent: patch.overheadPercent ?? Number(current.overheadPercent ?? 12),
+      profitMode: patch.profitMode ?? (current.profitMode === "markup" ? "markup" : "margin"),
+      profitTargetPercent: patch.profitTargetPercent ?? Number(current.profitTargetPercent ?? 50),
+      pricePix: effectivePricePix,
+      priceCard: effectivePriceCard,
+      marketplaceSuggested: Number(current.marketplaceSuggested),
+    });
+    const estimatedProfitAmount = patch.estimatedProfitAmount ?? roundCurrency(effectivePricePix - recommendation.totalCost);
+    const estimatedProfitPercent =
+      patch.estimatedProfitPercent ?? (effectivePricePix > 0 ? roundCurrency((estimatedProfitAmount / effectivePricePix) * 100) : 0);
+
+    const updated = await tx.product.update({
+      where: { id },
+      data: {
+        ...(patch.title !== undefined && { title: patch.title }),
+        ...(patch.description !== undefined && { description: patch.description }),
+        ...(patch.pricePix !== undefined && { pricePix: patch.pricePix }),
+        ...(patch.priceCard !== undefined && { priceCard: patch.priceCard }),
+        ...(patch.stock !== undefined && { stock: patch.stock }),
+        ...(patch.material !== undefined && { material: patch.material }),
+        ...(patch.finish !== undefined && { finish: patch.finish }),
+        ...(patch.status !== undefined && { status: normalizeStatus(patch.status, patch.customizable) }),
+        ...(patch.visibility !== undefined && { visibility: patch.visibility }),
+        ...(patch.readyToShip !== undefined && { readyToShip: patch.readyToShip }),
+        ...(patch.customizable !== undefined && { customizable: patch.customizable }),
+        ...(patch.featured !== undefined && { featured: patch.featured }),
+        ...(categoryId && { categoryId }),
+        ...(patch.estimatedGrams !== undefined && { estimatedGrams: patch.estimatedGrams }),
+        ...(patch.estimatedHours !== undefined && { estimatedHours: patch.estimatedHours }),
+        ...(patch.complexity !== undefined && { complexity: patch.complexity }),
+        ...(patch.spoolPricePerKg !== undefined && { spoolPricePerKg: patch.spoolPricePerKg }),
+        ...(patch.machineHourlyRate !== undefined && { machineHourlyRate: patch.machineHourlyRate }),
+        ...(patch.postProcessMinutes !== undefined && { postProcessMinutes: patch.postProcessMinutes }),
+        ...(patch.laborHourlyRate !== undefined && { laborHourlyRate: patch.laborHourlyRate }),
+        ...(patch.packagingCost !== undefined && { packagingCost: patch.packagingCost }),
+        ...(patch.overheadPercent !== undefined && { overheadPercent: patch.overheadPercent }),
+        ...(patch.profitMode !== undefined && { profitMode: patch.profitMode }),
+        ...(patch.profitTargetPercent !== undefined && { profitTargetPercent: patch.profitTargetPercent }),
+        estimatedUnitCost: recommendation.totalCost,
+        estimatedUnitProfit: estimatedProfitAmount,
+        estimatedProfitAmount,
+        estimatedProfitPercent,
+        costingUpdatedAt: new Date(),
+        updatedAt: new Date(),
+      },
+    });
+
+    if (patch.collection !== undefined) {
+      await tx.productCollection.deleteMany({ where: { productId: id } });
+      const collectionName = String(patch.collection || "").trim();
+      if (collectionName) {
+        const collection = await tx.collection.upsert({
+          where: { slug: slugify(collectionName) },
+          update: { name: collectionName },
+          create: { name: collectionName, slug: slugify(collectionName) },
+          select: { id: true },
+        });
+        await tx.productCollection.create({
+          data: { productId: id, collectionId: collection.id },
+        });
+      }
+    }
+
+    return updated;
+  });
+}
+
+function fallbackPatchForOverrides(patch: NormalizedProductPatch): Partial<AdminProductOverride> {
+  const { visibility: _visibility, ...overridePatch } = patch;
+  return overridePatch;
+}
 
 export async function PUT(req: NextRequest, context: RouteContext) {
   const user = await getServerSessionUser();
@@ -17,31 +276,24 @@ export async function PUT(req: NextRequest, context: RouteContext) {
   }
 
   const { id } = await context.params;
-  const body = await req.json().catch(() => null);
-  if (!body) {
-    return NextResponse.json({ ok: false, error: "Body inválido." }, { status: 400 });
+  const body = await readJson(req);
+  if (!body || typeof body !== "object") {
+    return NextResponse.json({ ok: false, error: "Body inválido. Envie JSON com os campos do produto." }, { status: 400 });
+  }
+
+  let patch: NormalizedProductPatch;
+  try {
+    patch = normalizeBody(body);
+  } catch (error) {
+    return NextResponse.json(
+      { ok: false, error: error instanceof Error ? error.message : "Campos inválidos no produto." },
+      { status: 400 }
+    );
   }
 
   if (await canConnectToDatabase()) {
     try {
-      const updated = await prisma.product.update({
-        where: { id },
-        data: {
-          ...(body.title !== undefined && { title: String(body.title) }),
-          ...(body.description !== undefined && { description: String(body.description) }),
-          ...(body.pricePix !== undefined && { pricePix: Number(body.pricePix) }),
-          ...(body.priceCard !== undefined && { priceCard: Number(body.priceCard) }),
-          ...(body.stock !== undefined && { stock: Number(body.stock) }),
-          ...(body.material !== undefined && { material: String(body.material) }),
-          ...(body.finish !== undefined && { finish: String(body.finish) }),
-          ...(body.status !== undefined && { status: body.status }),
-          ...(body.visibility !== undefined && { visibility: body.visibility }),
-          ...(body.readyToShip !== undefined && { readyToShip: Boolean(body.readyToShip) }),
-          ...(body.customizable !== undefined && { customizable: Boolean(body.customizable) }),
-          ...(body.featured !== undefined && { featured: Boolean(body.featured) }),
-          updatedAt: new Date(),
-        },
-      });
+      const updated = await applyDatabaseUpdate(id, patch);
       await recordAdminAction({
         actorId: user?.id,
         actorEmail: user?.email,
@@ -53,6 +305,7 @@ export async function PUT(req: NextRequest, context: RouteContext) {
           status: updated.status,
           visibility: updated.visibility,
           stock: updated.stock,
+          costingUpdatedAt: updated.costingUpdatedAt?.toISOString(),
         },
         requestId: req.headers.get("x-request-id"),
         ipAddress: req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip"),
@@ -61,26 +314,36 @@ export async function PUT(req: NextRequest, context: RouteContext) {
       await invalidateCatalogCache();
       return applyNoStoreHeaders(NextResponse.json({ ok: true, product: updated }));
     } catch {
-      // Fall through to catalog override
+      // Fall through to catalog override for static/local products not present in the database.
     }
   }
 
-  // Fallback: update via catalog overrides file
-  const updated = await updateAdminCatalogProduct(id, body);
-  await invalidateCatalogCache();
-  await recordAdminAction({
-    actorId: user?.id,
-    actorEmail: user?.email,
-    action: "admin.product.update_fallback",
-    entityType: "Product",
-    entityId: id,
-    summary: `Atualizou produto via fallback ${id}`,
-    metadata: body as Record<string, unknown>,
-    requestId: req.headers.get("x-request-id"),
-    ipAddress: req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip"),
-    userAgent: req.headers.get("user-agent"),
-  });
-  return applyNoStoreHeaders(NextResponse.json({ ok: true, product: updated }));
+  try {
+    const fallbackPatch = {
+      ...fallbackPatchForOverrides(patch),
+      costingUpdatedAt: new Date().toISOString(),
+    };
+    const updated = await updateAdminCatalogProduct(id, fallbackPatch);
+    await invalidateCatalogCache();
+    await recordAdminAction({
+      actorId: user?.id,
+      actorEmail: user?.email,
+      action: "admin.product.update_fallback",
+      entityType: "Product",
+      entityId: id,
+      summary: `Atualizou produto via fallback ${id}`,
+      metadata: fallbackPatch as Record<string, unknown>,
+      requestId: req.headers.get("x-request-id"),
+      ipAddress: req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip"),
+      userAgent: req.headers.get("user-agent"),
+    });
+    return applyNoStoreHeaders(NextResponse.json({ ok: true, product: updated }));
+  } catch (error) {
+    return NextResponse.json(
+      { ok: false, error: error instanceof Error ? error.message : "Não foi possível salvar o produto." },
+      { status: 400 }
+    );
+  }
 }
 
 export async function DELETE(_req: NextRequest, context: RouteContext) {

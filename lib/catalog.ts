@@ -10,7 +10,7 @@ import { a1MiniExpansionCatalog } from "@/lib/a1-mini-expansion-catalog";
 import { getSafePublicCatalog } from "@/lib/csv-curated-media";
 import { applyA1MiniProfile } from "@/lib/a1-mini-catalog";
 import adminProductOverridesJson from "@/data/admin-product-overrides.json";
-import type { AdminProductOverride, ProductionStage } from "@/types/admin-catalog";
+import type { AdminProductOverride, ProductionStage, ProfitMode } from "@/types/admin-catalog";
 import {
   buildFixedMarginNarrative,
   calculateBaseCost as calculateBaseCostFromEngine,
@@ -62,6 +62,19 @@ export type Product = {
   baseCost?: number;
   estimatedUnitCost?: number;
   estimatedUnitProfit?: number;
+  estimatedHours?: number;
+  spoolPricePerKg?: number;
+  machineHourlyRate?: number;
+  postProcessMinutes?: number;
+  laborHourlyRate?: number;
+  packagingCost?: number;
+  overheadPercent?: number;
+  profitMode?: ProfitMode;
+  profitTargetPercent?: number;
+  estimatedProfitAmount?: number;
+  estimatedProfitPercent?: number;
+  costingUpdatedAt?: string;
+  manualPriceOverride?: boolean;
   pricingMode?: "faixa-auditada" | "referencia-de-encomenda";
   pricingNarrative?: string;
   marketBenchmark?: MarketBenchmark;
@@ -110,6 +123,7 @@ function applyAdminOverride(product: Product): Product {
         ? Number((override.pricePix * 0.6).toFixed(2))
         : product.baseCost;
   const nextStatus = override.status ?? product.status;
+  const manualPriceOverride = override.pricePix !== undefined || override.priceCard !== undefined;
 
   return {
     ...product,
@@ -125,6 +139,25 @@ function applyAdminOverride(product: Product): Product {
     customizable: override.customizable ?? product.customizable,
     featured: override.featured ?? product.featured,
     baseCost: derivedBaseCost,
+    pricePix: override.pricePix ?? product.pricePix,
+    priceCard: override.priceCard ?? product.priceCard,
+    grams: Math.round(override.estimatedGrams ?? product.grams),
+    hours: override.estimatedHours ?? product.hours,
+    complexity: override.complexity ?? product.complexity,
+    estimatedGrams: override.estimatedGrams ?? product.estimatedGrams,
+    estimatedHours: override.estimatedHours ?? product.estimatedHours,
+    spoolPricePerKg: override.spoolPricePerKg ?? product.spoolPricePerKg,
+    machineHourlyRate: override.machineHourlyRate ?? product.machineHourlyRate,
+    postProcessMinutes: override.postProcessMinutes ?? product.postProcessMinutes,
+    laborHourlyRate: override.laborHourlyRate ?? product.laborHourlyRate,
+    packagingCost: override.packagingCost ?? product.packagingCost,
+    overheadPercent: override.overheadPercent ?? product.overheadPercent,
+    profitMode: override.profitMode ?? product.profitMode,
+    profitTargetPercent: override.profitTargetPercent ?? product.profitTargetPercent,
+    estimatedProfitAmount: override.estimatedProfitAmount ?? product.estimatedProfitAmount,
+    estimatedProfitPercent: override.estimatedProfitPercent ?? product.estimatedProfitPercent,
+    costingUpdatedAt: override.costingUpdatedAt ?? product.costingUpdatedAt,
+    manualPriceOverride,
     productionStage: override.productionStage ?? product.productionStage,
   };
 }
@@ -147,19 +180,32 @@ function enrichProduct(product: Product): Product {
     ...normalized,
     baseCost: normalized.baseCost,
     estimatedUnitCost: normalized.estimatedUnitCost,
+    estimatedGrams: normalized.estimatedGrams,
+    estimatedHours: normalized.estimatedHours,
+    spoolPricePerKg: normalized.spoolPricePerKg,
+    machineHourlyRate: normalized.machineHourlyRate,
+    postProcessMinutes: normalized.postProcessMinutes,
+    laborHourlyRate: normalized.laborHourlyRate,
+    packagingCost: normalized.packagingCost,
+    overheadPercent: normalized.overheadPercent,
+    profitMode: normalized.profitMode,
+    profitTargetPercent: normalized.profitTargetPercent,
   });
+  const pricePix = normalized.manualPriceOverride ? normalized.pricePix : pricing.pricePix;
+  const priceCard = normalized.manualPriceOverride ? normalized.priceCard : pricing.priceCard;
+  const profitAmount = Number((pricePix - pricing.costBase).toFixed(2));
 
   return {
     ...normalized,
-    price: pricing.pricePix,
+    price: pricePix,
     baseCost: pricing.costBase,
-    pricePix: pricing.pricePix,
-    priceCard: pricing.priceCard,
+    pricePix,
+    priceCard,
     marketplaceSuggested: pricing.referencePrice,
     estimatedUnitCost: pricing.costBase,
-    estimatedUnitProfit: pricing.profitAmount,
+    estimatedUnitProfit: profitAmount,
     pricingMode: "faixa-auditada",
-    pricingNarrative: `${buildFixedMarginNarrative(pricing.costBase, pricing.pricePix)} ${FIXED_MARGIN_BADGE_LABEL} • ${LOCAL_PRODUCTION_BADGE_LABEL}.`,
+    pricingNarrative: `${buildFixedMarginNarrative(pricing.costBase, pricePix)} ${FIXED_MARGIN_BADGE_LABEL} • ${LOCAL_PRODUCTION_BADGE_LABEL}.`,
     marketBenchmark: marketPricing.benchmark,
   };
 }

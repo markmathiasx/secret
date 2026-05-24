@@ -1,13 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { MessageCircle } from 'lucide-react';
 
 export default function PasswordRecoveryPage() {
-  const searchParams = useSearchParams();
-  const token = searchParams.get('token') || '';
+  const [token, setToken] = useState('');
   const isResetMode = token.length > 0;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -19,6 +17,11 @@ export default function PasswordRecoveryPage() {
     () => (isResetMode ? 'Defina sua nova senha' : 'Recuperar acesso à sua conta'),
     [isResetMode]
   );
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    setToken(new URLSearchParams(window.location.search).get('token') || '');
+  }, []);
 
   async function handleRequestReset(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();

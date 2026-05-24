@@ -29,6 +29,11 @@ enum ProductVisibility {
   DRAFT
 }
 
+enum ProfitMode {
+  margin
+  markup
+}
+
 enum MediaType {
   IMAGE
   VIDEO
@@ -410,6 +415,19 @@ model Product {
   marketplaceSuggested Decimal           @db.Decimal(10, 2)
   estimatedUnitCost    Decimal?          @db.Decimal(10, 2)
   estimatedUnitProfit  Decimal?          @db.Decimal(10, 2)
+  estimatedGrams       Decimal?          @db.Decimal(10, 2)
+  estimatedHours       Decimal?          @db.Decimal(8, 2)
+  spoolPricePerKg      Decimal?          @db.Decimal(10, 2)
+  machineHourlyRate    Decimal?          @db.Decimal(10, 2)
+  postProcessMinutes   Int?
+  laborHourlyRate      Decimal?          @db.Decimal(10, 2)
+  packagingCost        Decimal?          @db.Decimal(10, 2)
+  overheadPercent      Decimal?          @db.Decimal(6, 2)
+  profitMode           ProfitMode?
+  profitTargetPercent  Decimal?          @db.Decimal(6, 2)
+  estimatedProfitAmount Decimal?         @db.Decimal(10, 2)
+  estimatedProfitPercent Decimal?        @db.Decimal(6, 2)
+  costingUpdatedAt     DateTime?
   ratingAverage        Float             @default(0)
   ratingCount          Int               @default(0)
   printMinutes         Int?
@@ -443,6 +461,7 @@ model Product {
   flashSales           FlashSale[]
 
   @@index([categoryId])
+  @@index([costingUpdatedAt])
   @@index([sellerId])
   @@index([visibility, status])
   @@index([featured, readyToShip])

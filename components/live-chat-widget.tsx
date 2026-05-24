@@ -2,10 +2,11 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState, type KeyboardEvent } from "react";
 import { usePathname } from "next/navigation";
-import { LoaderCircle, MessageCircleMore, SendHorizonal, ShieldCheck, Sparkles, X } from "lucide-react";
+import { FileText, LoaderCircle, MessageCircleMore, SendHorizonal, ShieldCheck, Sparkles, UserCheck, X } from "lucide-react";
 import { whatsappNumber } from "@/lib/constants";
 
 const PENDING_SUBJECT_KEY = "mdh-chat-pending-subject";
+const HUMAN_REQUEST_PATTERN = /(humano|atendente|pessoa|falar com algu[eé]m|suporte humano)/i;
 
 type ChatMessage = {
   id: string;
@@ -13,6 +14,8 @@ type ChatMessage = {
   message: string;
   created_at: string | Date;
 };
+
+type PublicChatStatus = "active" | "waiting" | "resolved" | "closed" | "needs_human";
 
 type SupportStatus = {
   available: boolean;
@@ -55,6 +58,21 @@ function formatTimestamp(value: string | Date) {
   }).format(date);
 }
 
+function buildWhatsAppTranscript(messages: ChatMessage[], threadId: string | null, pathname: string | null) {
+  const transcript = messages.slice(-8).map((message) => {
+    const sender = message.sender_type === "customer" ? "Cliente" : message.sender_type === "support_agent" ? "Equipe MDH" : "Assistente MDH";
+    return `${sender}: ${message.message}`;
+  });
+
+  return [
+    "Oi! Quero continuar este atendimento da MDH 3D no WhatsApp.",
+    threadId ? `Conversa do site: ${threadId}` : null,
+    pathname ? `Página: ${pathname}` : null,
+    transcript.length ? "Resumo recente:" : null,
+    ...transcript,
+  ].filter(Boolean).join("\n");
+}
+
 export function LiveChatWidget({
   defaultMode = "native",
 }: {
@@ -65,6 +83,7 @@ export function LiveChatWidget({
   const [visitorId, setVisitorId] = useState("");
   const [threadId, setThreadId] = useState<string | null>(null);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [threadStatus, setThreadStatus] = useState<PublicChatStatus>("active");
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [supportStatus, setSupportStatus] = useState<SupportStatus | null>(null);
@@ -75,6 +94,18 @@ export function LiveChatWidget({
   const lastMessageCountRef = useRef(0);
   const launchMode = supportStatus?.launchMode || defaultMode;
   const usesNativeChat = launchMode === "native";
+  const handoffRequested = useMemo(
+    () =>
+      threadStatus === "needs_human" ||
+      messages.some((message) => message.sender_type === "customer" && HUMAN_REQUEST_PATTERN.test(message.message)) ||
+      messages.some((message) => /atendimento humano|atendente humano assumiu/i.test(message.message)),
+    [messages, threadStatus]
+  );
+  const whatsappTranscriptText = useMemo(
+    () => buildWhatsAppTranscript(messages, threadId, pathname),
+    [messages, pathname, threadId]
+  );
+  const whatsappTranscriptHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappTranscriptText)}`;
 
   const hiddenOnPath = useMemo(
     () =>
@@ -97,8 +128,9 @@ export function LiveChatWidget({
     window.dispatchEvent(new CustomEvent("mdh:chatwoot-open"));
   }
 
-  function openWhatsAppSupport() {
-    window.open(`https://wa.me/${whatsappNumber}`, "_blank", "noopener,noreferrer");
+  function openWhatsAppSupport(message?: string) {
+    const query = message ? `?text=${encodeURIComponent(message)}` : "";
+    window.open(`https://wa.me/${whatsappNumber}${query}`, "_blank", "noopener,noreferrer");
   }
 
   function launchChatwootFromPanel() {
@@ -134,6 +166,7 @@ export function LiveChatWidget({
 
       if (response.ok && session?.messages) {
         const nextMessages = session.messages as ChatMessage[];
+        setThreadStatus((session.status as PublicChatStatus | undefined) || "active");
         const previousCount = lastMessageCountRef.current;
         lastMessageCountRef.current = nextMessages.length;
         setMessages(nextMessages);
@@ -148,6 +181,7 @@ export function LiveChatWidget({
       } else if (response.status === 403) {
         setThreadId(null);
         setMessages([]);
+        setThreadStatus("active");
         lastMessageCountRef.current = 0;
       }
     } finally {
@@ -164,15 +198,18 @@ export function LiveChatWidget({
       if (response.ok && session?.id && Array.isArray(session.messages)) {
         setThreadId(session.id as string);
         setMessages(session.messages as ChatMessage[]);
+        setThreadStatus((session.status as PublicChatStatus | undefined) || "active");
         lastMessageCountRef.current = session.messages.length;
       } else {
         setThreadId(null);
         setMessages([]);
+        setThreadStatus("active");
         lastMessageCountRef.current = 0;
       }
     } catch {
       setThreadId(null);
       setMessages([]);
+      setThreadStatus("active");
       lastMessageCountRef.current = 0;
     }
   }, []);
@@ -212,6 +249,7 @@ export function LiveChatWidget({
       }
 
       setThreadId(session.id);
+      setThreadStatus((session.status as PublicChatStatus | undefined) || "active");
       lastMessageCountRef.current = 0;
       setMessages([]);
       setUnreadCount(0);
@@ -244,6 +282,9 @@ export function LiveChatWidget({
     };
 
     setMessages((current) => [...current, optimistic]);
+    if (HUMAN_REQUEST_PATTERN.test(trimmed)) {
+      setThreadStatus("needs_human");
+    }
     setInput("");
     setLoading(true);
 
@@ -320,7 +361,7 @@ export function LiveChatWidget({
   useEffect(() => {
     function handleOpenChat() {
       if (launchMode === "whatsapp") {
-        openWhatsAppSupport();
+        openWhatsAppSupport(whatsappTranscriptText);
         return;
       }
 
@@ -333,7 +374,7 @@ export function LiveChatWidget({
     window.addEventListener("mdh:openchat", handleOpenChat);
     return () => window.removeEventListener("mdh:openchat", handleOpenChat);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [launchMode, threadId, usesNativeChat]);
+  }, [launchMode, threadId, usesNativeChat, whatsappTranscriptText]);
 
   useEffect(() => {
     if (!threadId || !usesNativeChat) return;
@@ -408,7 +449,7 @@ export function LiveChatWidget({
                 </button>
                 <button
                   type="button"
-                  onClick={openWhatsAppSupport}
+                  onClick={() => openWhatsAppSupport()}
                   className="btn-secondary w-full justify-center gap-2"
                 >
                   WhatsApp
@@ -437,9 +478,13 @@ export function LiveChatWidget({
                   <Sparkles className="h-4 w-4" />
                   <p className="text-xs font-semibold uppercase tracking-[0.2em]">Atendimento MDH</p>
                 </div>
-                <p className="mt-2 text-sm font-semibold text-white">Tire dúvidas antes de comprar</p>
+                <p className="mt-2 text-sm font-semibold text-white">
+                  {handoffRequested ? "Atendimento humano solicitado" : "Tire dúvidas antes de comprar"}
+                </p>
                 <p className="mt-1 text-xs leading-5 text-white/55">
-                  {supportStatus?.available
+                  {handoffRequested
+                    ? "A conversa foi marcada para a equipe assumir o fechamento."
+                    : supportStatus?.available
                     ? `Equipe online • tempo médio ${supportStatus.average_wait_time} min`
                     : supportStatus?.label || "Atendimento humano disponível no WhatsApp"}
                 </p>
@@ -456,14 +501,27 @@ export function LiveChatWidget({
             </header>
 
             <div className="flex min-h-0 flex-1 flex-col">
-              <div className="border-b border-white/10 px-4 py-3 text-xs text-white/55">
-                Responda por aqui ou chame o WhatsApp em +{whatsappNumber}
+              <div className={`border-b px-4 py-3 text-xs ${handoffRequested ? "border-amber-300/18 bg-amber-300/8 text-amber-100" : "border-white/10 text-white/55"}`}>
+                {handoffRequested ? (
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <span className="inline-flex items-center gap-2">
+                      <UserCheck className="h-4 w-4" />
+                      Atendimento humano solicitado no inbox da MDH.
+                    </span>
+                    <a href={whatsappTranscriptHref} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 font-semibold text-emerald-100 hover:text-white">
+                      <FileText className="h-3.5 w-3.5" />
+                      Levar histórico ao WhatsApp
+                    </a>
+                  </div>
+                ) : (
+                  `Responda por aqui ou chame o WhatsApp em +${whatsappNumber}`
+                )}
               </div>
 
               <div className="min-h-0 flex-1 space-y-3 overflow-y-auto px-4 py-4">
                 {messages.length === 0 ? (
                   <div className="rounded-[24px] border border-white/10 bg-white/5 p-4 text-sm leading-7 text-white/70">
-                    Diga o que você quer comprar, sua faixa de preço ou se prefere foto real, pronta entrega e personalização. Se a equipe não estiver online, o WhatsApp assume sem te fazer recomeçar.
+                    Diga o que você quer comprar, sua faixa de preço ou se prefere foto real, pronta entrega e personalização. Para chamar uma pessoa, peça atendimento humano e a conversa fica marcada para a equipe.
                   </div>
                 ) : null}
 
@@ -501,17 +559,21 @@ export function LiveChatWidget({
 
               <div className="border-t border-white/10 bg-[linear-gradient(180deg,rgba(8,15,24,0.5),rgba(8,15,24,0.95))] p-4">
                 <div className="mb-3 flex flex-wrap gap-2 text-xs">
-                  <span className="inline-flex items-center gap-2 rounded-full border border-emerald-300/20 bg-emerald-300/10 px-3 py-1 text-emerald-100">
-                    <ShieldCheck className="h-3.5 w-3.5" />
-                    Fechamento com equipe humana
+                  <span className={`inline-flex items-center gap-2 rounded-full border px-3 py-1 ${
+                    handoffRequested
+                      ? "border-amber-300/25 bg-amber-300/10 text-amber-100"
+                      : "border-emerald-300/20 bg-emerald-300/10 text-emerald-100"
+                  }`}>
+                    {handoffRequested ? <UserCheck className="h-3.5 w-3.5" /> : <ShieldCheck className="h-3.5 w-3.5" />}
+                    {handoffRequested ? "Humano solicitado" : "Fechamento com equipe humana"}
                   </span>
                   <a
-                    href={`https://wa.me/${whatsappNumber}`}
+                    href={messages.length ? whatsappTranscriptHref : `https://wa.me/${whatsappNumber}`}
                     target="_blank"
                     rel="noreferrer"
                     className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-white/70 transition hover:border-emerald-300/20 hover:text-white"
                   >
-                    WhatsApp
+                    {messages.length ? "WhatsApp com histórico" : "WhatsApp"}
                   </a>
                 </div>
 
@@ -556,7 +618,7 @@ export function LiveChatWidget({
           type="button"
           onClick={() => {
             if (launchMode === "whatsapp") {
-              openWhatsAppSupport();
+              openWhatsAppSupport(whatsappTranscriptText);
               return;
             }
 
@@ -583,7 +645,9 @@ export function LiveChatWidget({
                   ? supportStatus?.label || "Inbox comercial no widget"
                   : launchMode === "whatsapp"
                     ? "Resposta humana"
-                    : "Atendimento pré-venda"}
+                    : handoffRequested
+                      ? "Humano solicitado"
+                      : "Atendimento pré-venda"}
             </span>
           </span>
         </button>

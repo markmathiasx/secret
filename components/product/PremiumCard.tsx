@@ -59,17 +59,17 @@ export function PremiumCard({ product, index = 0 }: PremiumCardProps) {
       viewport={{ once: true, margin: "-40px" }}
       transition={{ delay }}
       whileHover={shouldReduce ? undefined : { scale: 1.02 }}
-      className={`group relative flex flex-col overflow-hidden rounded-2xl border bg-white/5 backdrop-blur-sm transition-colors duration-300 ${
+      className={`mdh-product-card-2026 group relative flex flex-col overflow-hidden rounded-[8px] border backdrop-blur-sm ${
         heroEligible
-          ? "border-emerald-400/20 hover:border-emerald-400/40 hover:bg-emerald-400/5"
-          : "border-white/10 hover:border-indigo-400/30 hover:bg-indigo-400/5"
+          ? "border-emerald-400/24 bg-[linear-gradient(180deg,rgba(16,185,129,0.10),rgba(3,7,13,0.86))]"
+          : "border-cyan-300/16 bg-[linear-gradient(180deg,rgba(34,211,238,0.08),rgba(3,7,13,0.86))]"
       }`}
       aria-label={`Produto: ${product.name}`}
     >
       {/* Image */}
       <Link
         href={productUrl}
-        className="relative block aspect-square w-full overflow-hidden bg-black/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
+        className="relative block aspect-square w-full overflow-hidden rounded-[8px] bg-black/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
         tabIndex={0}
         aria-label={`Ver ${product.name}`}
       >
@@ -117,7 +117,7 @@ export function PremiumCard({ product, index = 0 }: PremiumCardProps) {
           </p>
           <Link
             href={productUrl}
-            className="mt-1 block text-sm font-semibold leading-snug text-white hover:text-indigo-300 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-400"
+            className="mt-1 block text-base font-black leading-snug text-white hover:text-cyan-100 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-400"
           >
             {product.name}
           </Link>
@@ -128,7 +128,7 @@ export function PremiumCard({ product, index = 0 }: PremiumCardProps) {
           )}
         </div>
 
-        <div className="flex items-center gap-2 rounded-[16px] border border-white/10 bg-black/20 px-3 py-2 text-xs text-white/62">
+        <div className="flex items-center gap-2 rounded-[8px] border border-white/10 bg-black/20 px-3 py-2 text-xs text-white/62">
           <Eye className="h-3.5 w-3.5 text-cyan-100" aria-hidden="true" />
           <span>Prova visual: {visualLabel.toLowerCase()}</span>
         </div>
@@ -148,7 +148,7 @@ export function PremiumCard({ product, index = 0 }: PremiumCardProps) {
         <div className="mt-1 grid gap-2 sm:grid-cols-[1fr_auto]">
           <Link
             href={productUrl}
-            className="flex min-h-11 items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm font-semibold text-white/76 transition hover:border-cyan-300/30 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
+            className="btn-secondary min-h-11 gap-2 rounded-[8px] px-4 py-2.5 text-sm"
           >
             <Eye className="h-4 w-4" aria-hidden="true" />
             Ver visual
@@ -157,7 +157,7 @@ export function PremiumCard({ product, index = 0 }: PremiumCardProps) {
             type="button"
             onClick={handleAddToCart}
             whileTap={shouldReduce ? undefined : { scale: 0.96 }}
-            className="flex min-h-11 items-center justify-center gap-2 rounded-xl bg-emerald-500 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-emerald-500/25 transition hover:bg-emerald-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 active:scale-95"
+            className="btn-primary min-h-11 gap-2 rounded-[8px] px-4 py-2.5 text-sm"
             aria-label={`Adicionar ${product.name} ao carrinho`}
           >
             <ShoppingCart className="h-4 w-4" aria-hidden="true" />

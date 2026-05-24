@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ArrowRight, Boxes, Building2, Gift, Layers3, MonitorCog, Palette, Sparkles } from "lucide-react";
 import type { Product } from "@/lib/catalog";
 import { getProductUrl } from "@/lib/catalog";
 import { SafeProductImage } from "@/components/safe-product-image";
@@ -12,91 +13,146 @@ type BuyingIntent = {
   description: string;
   href: string;
   cta: string;
+  icon: typeof Gift;
+  tone: string;
   match: (product: Product) => boolean;
 };
 
 const intents: BuyingIntent[] = [
   {
-    id: "presentes",
-    title: "Presentes até R$ 80",
-    description: "Itens com boa percepção de presente, entrada mais rápida e valor mais leve para fechar no mesmo dia.",
-    href: "/presentes-3d",
-    cta: "Ver presentes",
-    match: (product) =>
-      product.pricePix <= 80 &&
-      /(presente|geek|colecion|chibi|lembranc|utilidade)/i.test([product.category, product.subcategory, product.theme, product.name, ...product.tags].join(" ")),
+    id: "presentear",
+    title: "Quero presentear",
+    description: "Itens com impacto visual rápido, ticket acessível e boa leitura sem precisar explicar demais.",
+    href: "/catalogo?intent=Presente&mode=verified",
+    cta: "Filtrar presentes",
+    icon: Gift,
+    tone: "from-cyan-300/18",
+    match: (product) => /(presente|geek|colecion|chibi|lembranc|utilidade)/i.test([product.category, product.subcategory, product.theme, product.name, ...product.tags].join(" ")),
   },
   {
-    id: "setup",
-    title: "Setup e utilidades",
-    description: "Peças funcionais para mesa, bancada, banheiro, controle, headphone e uso diário.",
-    href: "/setup-e-organizacao-3d",
-    cta: "Ver utilidades",
-    match: (product) =>
-      /(utilidade|setup|suporte|organizador|bancada|controle|headphone|fone|banheiro)/i.test(
-        [product.category, product.subcategory, product.theme, product.name, ...product.tags].join(" ")
-      ),
+    id: "organizar",
+    title: "Quero organizar",
+    description: "Suportes, organizadores e peças funcionais para mesa, banheiro, cabos, controles e rotina.",
+    href: "/catalogo?category=Setup%20%26%20Organiza%C3%A7%C3%A3o",
+    cta: "Filtrar organização",
+    icon: MonitorCog,
+    tone: "from-lime-300/16",
+    match: (product) => /(utilidade|setup|suporte|organizador|bancada|controle|headphone|fone|banheiro)/i.test([product.category, product.subcategory, product.theme, product.name, ...product.tags].join(" ")),
   },
   {
-    id: "foto-real",
-    title: "Geek com foto real",
-    description: "Peças já fotografadas no ateliê para reduzir dúvida visual e ajudar a vender pelo impacto da peça pronta.",
-    href: "/colecionaveis-geek-3d",
-    cta: "Ver peças reais",
-    match: (product) => isProductRealPhoto(product) && /(geek|colecion|anime|miniatura|chibi)/i.test([product.category, product.subcategory, product.theme, product.name].join(" ")),
+    id: "decorar",
+    title: "Quero decorar",
+    description: "Peças para prateleira, mesa, parede e ambientes que precisam de presença física.",
+    href: "/catalogo?intent=Presente&category=Decora%C3%A7%C3%A3o",
+    cta: "Ver decoração",
+    icon: Sparkles,
+    tone: "from-violet-300/18",
+    match: (product) => /(decor|vaso|parede|prateleira|lumin|miniatura)/i.test([product.category, product.subcategory, product.theme, product.name, ...product.tags].join(" ")),
   },
   {
-    id: "premium",
-    title: "Personalizados premium",
-    description: "Miniaturas afetivas, peças pintadas e projetos sob medida com ticket mais alto e maior valor percebido.",
-    href: "/brindes-personalizados-3d",
-    cta: "Ver premium",
-    match: (product) => product.customizable && product.pricePix >= 150,
+    id: "colecionar",
+    title: "Quero colecionar",
+    description: "Geek, anime, miniaturas e objetos de setup com prova visual mais forte quando disponível.",
+    href: "/catalogo?collection=Anime%20%26%20Geek&mode=verified",
+    cta: "Filtrar coleção",
+    icon: Layers3,
+    tone: "from-fuchsia-300/16",
+    match: (product) => /(geek|colecion|anime|miniatura|chibi|jogo|gamer)/i.test([product.category, product.subcategory, product.theme, product.name, ...product.tags].join(" ")),
+  },
+  {
+    id: "tecnica",
+    title: "Quero peça técnica",
+    description: "Modelos funcionais, reposição, suporte e solução sob medida com foco em encaixe.",
+    href: "/catalogo?custom=1&intent=Compra%20r%C3%A1pida",
+    cta: "Ver soluções",
+    icon: Boxes,
+    tone: "from-emerald-300/16",
+    match: (product) => product.customizable || /(encaixe|suporte|adaptador|peça|peca|técnic|tecnic)/i.test([product.category, product.subcategory, product.theme, product.name, ...product.tags].join(" ")),
+  },
+  {
+    id: "lote",
+    title: "Quero comprar em lote",
+    description: "Itens repetíveis para evento, brinde, kit, lembrança ou revenda assistida.",
+    href: "/catalogo?intent=Atacado&custom=1",
+    cta: "Ver para lote",
+    icon: Building2,
+    tone: "from-amber-300/18",
+    match: (product) => product.customizable || product.category === "Utilidades Reais" || product.category === "Setup & Organização",
+  },
+  {
+    id: "personalizar",
+    title: "Quero personalizar",
+    description: "Cores, escala, nome, tema ou briefing próprio com validação antes da produção.",
+    href: "/imagem-para-impressao-3d",
+    cta: "Enviar briefing",
+    icon: Palette,
+    tone: "from-cyan-300/12",
+    match: (product) => product.customizable,
   },
 ];
 
 export function CatalogBuyingIntents({ products }: { products: Product[] }) {
   return (
     <section className="mt-10">
-      <div className="mb-6 max-w-3xl">
-        <p className="text-xs uppercase tracking-[0.2em] text-cyan-100/75">Comprar por objetivo</p>
-        <h2 className="mt-3 text-3xl font-black text-white">Comece pelo motivo da compra, não pelo excesso de opções.</h2>
-        <p className="mt-4 text-sm leading-7 text-white/68">
-          Em vez de varrer a vitrine inteira, entre por presente, utilidade, peça com foto real ou projeto premium e avance mais rápido.
-        </p>
+      <div className="mb-7 flex flex-col justify-between gap-4 lg:flex-row lg:items-end">
+        <div className="max-w-3xl">
+          <h2 className="mdh-section-title max-w-4xl">Compra por intenção, com filtro real.</h2>
+          <p className="mt-4 text-base leading-8 text-white/66">
+            Escolha o motivo da compra e entre em uma seleção que já reduz ruído de preço, prazo, material e prova visual.
+          </p>
+        </div>
+        <Link href="/catalogo?mode=real" className="btn-secondary w-fit gap-2">
+          Peças com foto real
+          <ArrowRight className="h-4 w-4" />
+        </Link>
       </div>
 
-      <div className="grid gap-5 lg:grid-cols-2 xl:grid-cols-4">
+      <div className="grid gap-4 lg:grid-cols-6">
         {intents.map((intent, index) => {
-          const matches = products.filter(intent.match).sort((a, b) => Number(isProductVisualVerified(b)) - Number(isProductVisualVerified(a)) || a.pricePix - b.pricePix);
-          const lead = matches[0];
+          const matches = products
+            .filter(intent.match)
+            .sort((a, b) => Number(isProductVisualVerified(b)) - Number(isProductVisualVerified(a)) || a.pricePix - b.pricePix);
+          const lead = matches.find(isProductRealPhoto) || matches[0];
           const fromPrice = matches.length ? Math.min(...matches.map((item) => item.pricePix)) : null;
+          const Icon = intent.icon;
 
           return (
-            <article key={intent.id} className="catalog-real-card overflow-hidden rounded-[28px] border border-white/10 bg-black/20 transition-all duration-300 hover:-translate-y-1">
-              {lead ? (
-                <Link href={getProductUrl(lead)} className="block">
-                  <SafeProductImage
-                    candidates={[resolveProductImage(lead)]}
-                    alt={lead.name}
-                    className="aspect-[4/3] w-full object-cover"
-                  />
-                </Link>
-              ) : (
-                <div className="aspect-[4/3] w-full bg-white/5" />
-              )}
-              <div className="space-y-3 p-5">
-                <p className="text-xs uppercase tracking-[0.18em] text-cyan-100/75">{matches.length} itens relacionados</p>
-                <h3 className="text-2xl font-black text-white">{intent.title}</h3>
-                <p className="text-sm leading-7 text-white/68">{intent.description}</p>
-                <div className="rounded-[20px] border border-white/10 bg-white/5 p-4">
-                  <p className="text-xs uppercase tracking-[0.16em] text-white/45">Faixa de entrada</p>
-                  <p className="mt-2 text-2xl font-black text-white">{fromPrice ? formatCurrency(fromPrice) : "Sob consulta"}</p>
-                  <p className="mt-2 text-xs text-white/55">{lead ? lead.name : "Seleção em curadoria"}</p>
+            <article key={intent.id} className={`mdh-intent-card ${index < 2 ? "lg:col-span-3" : "lg:col-span-2"}`}>
+              <div className={`absolute inset-0 bg-gradient-to-br ${intent.tone} via-transparent to-transparent`} />
+              <div className="mdh-cad-grid absolute inset-0 opacity-30" />
+              <div className="relative grid min-h-full gap-5">
+                {lead ? (
+                  <Link href={getProductUrl(lead)} className="group relative block overflow-hidden rounded-[8px] border border-white/10 bg-black/35">
+                    <SafeProductImage
+                      candidates={[resolveProductImage(lead)]}
+                      alt={lead.name}
+                      className="aspect-[16/10] w-full object-cover transition duration-700 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent,rgba(0,0,0,0.72))]" />
+                    <div className="absolute bottom-3 left-3 right-3">
+                      <p className="line-clamp-1 text-sm font-bold text-white">{lead.name}</p>
+                      <p className="mt-1 text-xs text-white/60">{lead.productionWindow}</p>
+                    </div>
+                  </Link>
+                ) : (
+                  <div className="aspect-[16/10] rounded-[8px] border border-white/10 bg-white/5" />
+                )}
+                <div>
+                  <span className="inline-flex rounded-2xl border border-cyan-300/20 bg-cyan-300/10 p-3 text-cyan-100">
+                    <Icon className="h-5 w-5" />
+                  </span>
+                  <h3 className="mt-4 text-2xl font-black leading-tight text-white">{intent.title}</h3>
+                  <p className="mt-3 text-sm leading-7 text-white/64">{intent.description}</p>
                 </div>
-                <Link href={intent.href} className="btn-secondary">
-                  {intent.cta}
-                </Link>
+                <div className="mt-auto flex items-end justify-between gap-4">
+                  <div>
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/42">{matches.length} opções</p>
+                    <p className="mt-1 text-xl font-black text-emerald-200">{fromPrice ? `desde ${formatCurrency(fromPrice)}` : "sob consulta"}</p>
+                  </div>
+                  <Link href={intent.href} className="btn-glass px-4 py-2 text-sm">
+                    {intent.cta}
+                  </Link>
+                </div>
               </div>
             </article>
           );

@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import { ArrowRight, LockKeyhole, Mail, MessageCircleMore, ShieldCheck, User } from 'lucide-react';
 import { emitCustomerAuthChange } from '@/lib/customer-session-client';
@@ -30,7 +29,7 @@ function getPasswordStrength(password: string) {
 }
 
 export default function LoginPage() {
-  const searchParams = useSearchParams();
+  const [queryState, setQueryState] = useState({ redirectTo: '', verificationStatus: '' });
   const [mode, setMode] = useState<'register' | 'login'>('register');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
@@ -41,8 +40,7 @@ export default function LoginPage() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
-  const redirectTo = searchParams.get('redirect') || '';
-  const verificationStatus = searchParams.get('verified') || '';
+  const { redirectTo, verificationStatus } = queryState;
   const passwordStrength = useMemo(() => getPasswordStrength(password), [password]);
   const loginContext = useMemo(() => {
     if (redirectTo.includes('/checkout')) return 'Entre para continuar o checkout com seus dados e pedidos salvos.';
@@ -50,6 +48,15 @@ export default function LoginPage() {
     if (redirectTo.includes('/catalogo')) return 'Entre para salvar itens e voltar depois sem perder sua curadoria.';
     return 'Entre para acelerar sua jornada de compra e manter tudo organizado.';
   }, [redirectTo]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const params = new URLSearchParams(window.location.search);
+    setQueryState({
+      redirectTo: params.get('redirect') || '',
+      verificationStatus: params.get('verified') || '',
+    });
+  }, []);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
