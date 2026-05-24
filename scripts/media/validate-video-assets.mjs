@@ -10,6 +10,7 @@ const bannedSources = [/youtube\.com/i, /youtu\.be/i, /tiktok\.com/i, /instagram
 const codeRoots = ["app", "components", "lib"].map((item) => path.join(rootDir, item));
 
 const errors = [];
+const manifestFiles = new Set();
 
 if (!fs.existsSync(manifestPath)) {
   errors.push("Missing public/media/licenses/video-assets.json");
@@ -18,7 +19,7 @@ if (!fs.existsSync(manifestPath)) {
   if (!Array.isArray(manifest)) {
     errors.push("video-assets.json must be an array.");
   } else {
-    for (const entry of manifest) validateManifestEntry(entry);
+    for (const entry of manifest) validateManifestEntry(entry, manifestFiles);
   }
 }
 
@@ -26,12 +27,13 @@ for (const file of listCodeFiles(codeRoots)) {
   const text = fs.readFileSync(file, "utf8");
   const localVideoRefs = relative(file) === "lib/video-assets.ts"
     ? []
-    : [...text.matchAll(/["'`]((?:\/media\/videos\/)[^"'`]+\.mp4)["'`]/g)].map((match) => match[1]);
+    : [...text.matchAll(/["'`]((?:\/media\/videos\/)[^"'`]+\.(?:mp4|webm|mov))["'`]/g)].map((match) => match[1]);
   const remoteVideoRefs = [...text.matchAll(/https?:\/\/[^"'`\s]+\.(?:mp4|webm|mov)(?:\?[^"'`\s]+)?/gi)].map((match) => match[0]);
 
   for (const ref of localVideoRefs) {
     const diskPath = path.join(publicDir, ref.replace(/^\//, ""));
     if (!fs.existsSync(diskPath)) errors.push(`${relative(file)} references missing local video asset ${ref}`);
+    if (!manifestFiles.has(ref)) errors.push(`${relative(file)} references ${ref} without a manifest record`);
   }
 
   for (const ref of remoteVideoRefs) {
@@ -47,19 +49,24 @@ if (errors.length) {
 
 console.log("[media:validate] ok");
 
-function validateManifestEntry(entry) {
+function validateManifestEntry(entry, knownFiles) {
   const label = entry?.id ?? "(missing id)";
   for (const key of ["id", "source", "sourceUrl", "creator", "license", "licenseUrl", "downloadedAt"]) {
     if (!entry?.[key]) errors.push(`${label}: missing ${key}`);
   }
 
   if (entry?.commercialUseAllowed !== true) errors.push(`${label}: commercialUseAllowed must be true`);
+  if (entry?.attributionRequired !== false) errors.push(`${label}: attributionRequired must be false`);
   if (entry?.brandLogoVisible !== false) errors.push(`${label}: brandLogoVisible must be false`);
 
   for (const key of ["sourceUrl", "licenseUrl"]) {
     if (entry?.[key] && bannedSources.some((pattern) => pattern.test(entry[key]))) {
       errors.push(`${label}: banned source in ${key}`);
     }
+  }
+
+  for (const key of ["optimizedFile", "posterFile"]) {
+    if (!entry?.[key]) errors.push(`${label}: missing ${key}`);
   }
 
   for (const key of ["originalFile", "optimizedFile", "posterFile"]) {
@@ -71,6 +78,7 @@ function validateManifestEntry(entry) {
     }
     const diskPath = path.join(publicDir, value.replace(/^\//, ""));
     if (!fs.existsSync(diskPath)) errors.push(`${label}: missing ${key} ${value}`);
+    if (key === "optimizedFile") knownFiles.add(value);
   }
 }
 

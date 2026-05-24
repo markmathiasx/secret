@@ -73,6 +73,12 @@ function decimalToNumber(value: Prisma.Decimal | number | null | undefined) {
   return Number(value);
 }
 
+function decimalToOptionalNumber(value: Prisma.Decimal | number | null | undefined) {
+  if (value === null || value === undefined) return undefined;
+  const numberValue = decimalToNumber(value);
+  return Number.isFinite(numberValue) ? numberValue : undefined;
+}
+
 function mapStatusToLegacy(status: ProductStatus): Product["status"] {
   return status === ProductStatus.READY_TO_SHIP ? "Pronta entrega" : "Sob encomenda";
 }
@@ -123,8 +129,21 @@ function mapPrismaProduct(record: PrismaProductRecord): Product {
     stock: record.inventory?.quantity ?? record.stock,
     customizable: record.customizable,
     readyToShip: record.readyToShip,
-    estimatedUnitCost: decimalToNumber(record.estimatedUnitCost),
-    estimatedUnitProfit: decimalToNumber(record.estimatedUnitProfit),
+    estimatedUnitCost: decimalToOptionalNumber(record.estimatedUnitCost),
+    estimatedUnitProfit: decimalToOptionalNumber(record.estimatedUnitProfit),
+    estimatedGrams: decimalToOptionalNumber(record.estimatedGrams),
+    estimatedHours: decimalToOptionalNumber(record.estimatedHours),
+    spoolPricePerKg: decimalToOptionalNumber(record.spoolPricePerKg),
+    machineHourlyRate: decimalToOptionalNumber(record.machineHourlyRate),
+    postProcessMinutes: record.postProcessMinutes ?? undefined,
+    laborHourlyRate: decimalToOptionalNumber(record.laborHourlyRate),
+    packagingCost: decimalToOptionalNumber(record.packagingCost),
+    overheadPercent: decimalToOptionalNumber(record.overheadPercent),
+    profitMode: record.profitMode === "markup" || record.profitMode === "margin" ? record.profitMode : undefined,
+    profitTargetPercent: decimalToOptionalNumber(record.profitTargetPercent),
+    estimatedProfitAmount: decimalToOptionalNumber(record.estimatedProfitAmount),
+    estimatedProfitPercent: decimalToOptionalNumber(record.estimatedProfitPercent),
+    costingUpdatedAt: record.costingUpdatedAt?.toISOString(),
     pricingMode: "faixa-auditada",
     pricingNarrative: getProductLongDescription({
       ...staticCatalog[0],

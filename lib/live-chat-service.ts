@@ -39,7 +39,7 @@ export interface ChatSession {
   customer_id: string;
   visitor_id?: string;
   subject: string;
-  status: "active" | "waiting" | "resolved" | "closed";
+  status: "active" | "waiting" | "resolved" | "closed" | "needs_human";
   priority: "low" | "normal" | "high" | "urgent";
   assigned_agent_id?: string;
   messages: ChatMessage[];
@@ -53,6 +53,12 @@ const VISITOR_EMAIL_DOMAIN = "guest.mdh.local";
 
 function normalizeVisitorId(value: string) {
   return value.trim().toLowerCase().replace(/[^a-z0-9_-]+/g, "-").replace(/-+/g, "-").slice(0, 48) || "visitor";
+}
+
+function normalizePublicThreadStatus(value?: string | null): ChatSession["status"] {
+  if (value === "needs_human") return "needs_human";
+  if (value === "waiting" || value === "resolved" || value === "closed") return value;
+  return "active";
 }
 
 function getSiteSupportUrl(threadId: string) {
@@ -349,7 +355,7 @@ export async function getChatSession(threadId: string): Promise<ChatSession | nu
       ? thread.buyer.email.slice(0, thread.buyer.email.indexOf("@"))
       : undefined,
     subject: thread.subject || "",
-    status: "active",
+    status: normalizePublicThreadStatus(thread.status),
     priority: "normal",
     assigned_agent_id: thread.sellerId || undefined,
     messages: thread.messages.map((entry) => ({
@@ -389,7 +395,7 @@ export async function getActiveChats(customerId: string): Promise<ChatSession[]>
     customer_id: thread.buyerId || "",
     visitor_id: thread.buyerId || undefined,
     subject: thread.subject || "",
-    status: "active",
+    status: normalizePublicThreadStatus(thread.status),
     priority: "normal",
     assigned_agent_id: thread.sellerId || undefined,
     messages: [],

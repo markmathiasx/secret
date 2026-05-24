@@ -6,7 +6,7 @@ import { PremiumHero } from "@/components/hero/PremiumHero";
 import { CommerceFaq } from "@/components/commerce-faq";
 import { ProductionProcess } from "@/components/production-process";
 import { PurchaseProtectionBanner } from "@/components/purchase-protection-banner";
-import { SafeBackgroundVideo } from "@/components/safe-background-video";
+import { SafeBackgroundVideo } from "@/components/SafeBackgroundVideo";
 import { getCatalogSnapshot } from "@/lib/catalog-repository";
 import type { Product } from "@/lib/catalog";
 import { getProductUrl } from "@/lib/catalog";

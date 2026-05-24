@@ -1441,6 +1441,28 @@ input.field-base {
   min-height: 220px;
 }
 
+.mdh-catalog-mode-rail,
+.mdh-quick-compare,
+.mdh-real-photo-stream {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 780px;
+}
+
+.mdh-editorial-product[data-product-intent='gifts']::after,
+.mdh-editorial-product[data-product-intent='setup']::after,
+.mdh-editorial-product[data-product-intent='batch']::after,
+.mdh-editorial-product[data-product-intent='custom']::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.78), rgba(132, 204, 22, 0.52), transparent);
+}
+
+.mdh-editorial-product[data-product-intent='batch']::after {
+  background: linear-gradient(90deg, transparent, rgba(245, 158, 11, 0.72), rgba(34, 211, 238, 0.42), transparent);
+}
+
 .pdp-visual-shell {
   background:
     radial-gradient(circle at 6% 12%, rgba(34, 211, 238, 0.08), transparent 24%),

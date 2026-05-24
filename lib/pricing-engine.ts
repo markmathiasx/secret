@@ -4,9 +4,38 @@ export type PricingInput = {
   complexity?: number;
   baseCost?: number;
   estimatedUnitCost?: number;
+  estimatedGrams?: number;
+  estimatedHours?: number;
+  spoolPricePerKg?: number;
+  machineHourlyRate?: number;
+  postProcessMinutes?: number;
+  laborHourlyRate?: number;
+  packagingCost?: number;
+  overheadPercent?: number;
+  profitMode?: ProfitMode;
+  profitTargetPercent?: number;
+  estimatedProfitAmount?: number;
+  estimatedProfitPercent?: number;
+  cardMultiplier?: number;
   pricePix?: number;
   priceCard?: number;
   marketplaceSuggested?: number;
+};
+
+export type ProfitMode = "margin" | "markup";
+
+export type ProductionCostRecommendation = {
+  costFilament: number;
+  costMachine: number;
+  costLabor: number;
+  costPackaging: number;
+  costOverhead: number;
+  totalCost: number;
+  recommendedPricePix: number;
+  recommendedPriceCard: number;
+  profitAmount: number;
+  profitPercent: number;
+  referencePrice: number;
 };
 
 export const TARGET_LIQUID_MARGIN = 0.5;
@@ -18,6 +47,11 @@ export const REFERENCE_PRICE_MULTIPLIER = 1.18;
 export const FIXED_MARGIN_BADGE_LABEL = "Preco auditado";
 export const LOCAL_PRODUCTION_BADGE_LABEL = "Produção local RJ";
 export const MIN_SITE_PRICE_PIX = 39.9;
+export const DEFAULT_SPOOL_PRICE_PER_KG = 150;
+export const DEFAULT_MACHINE_HOURLY_RATE = 6.9;
+export const DEFAULT_LABOR_HOURLY_RATE = 18;
+export const DEFAULT_PACKAGING_COST = 0;
+export const DEFAULT_OVERHEAD_PERCENT = 0;
 
 const filamentCostPerGram = 0.15;
 
@@ -25,11 +59,97 @@ export function roundCurrency(value: number) {
   return Number(value.toFixed(2));
 }
 
+function finiteNumber(value: unknown, fallback = 0) {
+  return typeof value === "number" && Number.isFinite(value) ? value : fallback;
+}
+
+function nonNegativeNumber(value: unknown, fallback = 0) {
+  return Math.max(0, finiteNumber(value, fallback));
+}
+
+function positiveNumber(value: unknown, fallback: number) {
+  const resolved = finiteNumber(value, fallback);
+  return resolved > 0 ? resolved : fallback;
+}
+
+function clamp(value: number, min: number, max: number) {
+  return Math.min(max, Math.max(min, value));
+}
+
+function hasProductionCostConfig(input: PricingInput) {
+  if (input.profitMode === "margin" || input.profitMode === "markup") return true;
+
+  return [
+    input.spoolPricePerKg,
+    input.machineHourlyRate,
+    input.postProcessMinutes,
+    input.laborHourlyRate,
+    input.packagingCost,
+    input.overheadPercent,
+    input.profitTargetPercent,
+  ].some((value) => typeof value === "number" && Number.isFinite(value));
+}
+
 export function calculateBaseCost(grams = 0, hours = 0, complexity = 1) {
   const material = Math.max(0, grams) * filamentCostPerGram;
   const machine = Math.max(5, Math.max(0, hours) * 6.9);
   const finishing = Math.max(4.5, Math.max(1, complexity) * 4.8);
   return roundCurrency(material + machine + finishing);
+}
+
+export function calculateProductionCostRecommendation(input: PricingInput): ProductionCostRecommendation {
+  const grams = nonNegativeNumber(input.estimatedGrams ?? input.grams);
+  const hours = nonNegativeNumber(input.estimatedHours ?? input.hours);
+  const spoolPricePerKg = positiveNumber(input.spoolPricePerKg, DEFAULT_SPOOL_PRICE_PER_KG);
+  const machineHourlyRate = positiveNumber(input.machineHourlyRate, DEFAULT_MACHINE_HOURLY_RATE);
+  const postProcessMinutes = nonNegativeNumber(input.postProcessMinutes);
+  const laborHourlyRate = positiveNumber(input.laborHourlyRate, DEFAULT_LABOR_HOURLY_RATE);
+  const packagingCost = nonNegativeNumber(input.packagingCost, DEFAULT_PACKAGING_COST);
+  const overheadPercent = clamp(nonNegativeNumber(input.overheadPercent, DEFAULT_OVERHEAD_PERCENT), 0, 300);
+  const profitMode: ProfitMode = input.profitMode === "markup" ? "markup" : "margin";
+  const targetPercent = clamp(
+    nonNegativeNumber(input.profitTargetPercent, TARGET_LIQUID_MARGIN * 100),
+    0,
+    profitMode === "margin" ? 95 : 500
+  );
+
+  const costFilament = roundCurrency(grams * (spoolPricePerKg / 1000));
+  const costMachine = roundCurrency(hours * machineHourlyRate);
+  const costLabor = roundCurrency((postProcessMinutes / 60) * laborHourlyRate);
+  const costPackaging = roundCurrency(packagingCost);
+  const subtotal = costFilament + costMachine + costLabor + costPackaging;
+  const costOverhead = roundCurrency(subtotal * (overheadPercent / 100));
+  const totalCost = roundCurrency(subtotal + costOverhead);
+  const rawPix =
+    profitMode === "margin"
+      ? totalCost / (1 - targetPercent / 100)
+      : totalCost * (1 + targetPercent / 100);
+  const recommendedPricePix = roundCurrency(Math.max(MIN_SITE_PRICE_PIX, rawPix));
+  const recommendedPriceCard = roundCurrency(recommendedPricePix * positiveNumber(input.cardMultiplier, CARD_MULTIPLIER));
+  const profitAmount = roundCurrency(recommendedPricePix - totalCost);
+  const profitPercent = recommendedPricePix > 0 ? roundCurrency((profitAmount / recommendedPricePix) * 100) : 0;
+  const referencePrice = roundCurrency(
+    Math.max(
+      input.marketplaceSuggested || 0,
+      input.priceCard || 0,
+      input.pricePix || 0,
+      recommendedPricePix * REFERENCE_PRICE_MULTIPLIER
+    )
+  );
+
+  return {
+    costFilament,
+    costMachine,
+    costLabor,
+    costPackaging,
+    costOverhead,
+    totalCost,
+    recommendedPricePix,
+    recommendedPriceCard,
+    profitAmount,
+    profitPercent,
+    referencePrice,
+  };
 }
 
 export function resolveBaseCost(input: PricingInput) {
@@ -49,6 +169,18 @@ export function resolveBaseCost(input: PricingInput) {
 }
 
 export function calculateFinalPrice(input: PricingInput) {
+  if (hasProductionCostConfig(input)) {
+    const recommendation = calculateProductionCostRecommendation(input);
+    return {
+      costBase: recommendation.totalCost,
+      pricePix: recommendation.recommendedPricePix,
+      priceCard: recommendation.recommendedPriceCard,
+      referencePrice: recommendation.referencePrice,
+      profitAmount: recommendation.profitAmount,
+      marginPercent: recommendation.profitPercent / 100,
+    };
+  }
+
   const costBase = resolveBaseCost(input);
   const pricePix = roundCurrency(Math.max(MIN_SITE_PRICE_PIX, costBase / PIX_PRICE_DIVISOR));
   const priceCard = roundCurrency(pricePix * CARD_MULTIPLIER);

@@ -23,7 +23,7 @@ import { StickyPdpCta } from '@/components/sticky-pdp-cta';
 import { ProductBundleSuggestion } from '@/components/product-bundle-suggestion';
 import { RecentlyViewedShelf } from '@/components/recently-viewed-shelf';
 import { PurchaseProtectionBanner } from '@/components/purchase-protection-banner';
-import { SafeBackgroundVideo } from '@/components/safe-background-video';
+import { SafeBackgroundVideo } from '@/components/SafeBackgroundVideo';
 import { formatCurrency } from '@/lib/utils';
 import { whatsappMessage, whatsappNumber } from '@/lib/constants';
 import { Metadata } from 'next';

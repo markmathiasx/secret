@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { ArrowRight, BadgeCheck, Box, CreditCard, Factory, MessageCircleMore, UploadCloud } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
-import { SafeBackgroundVideo } from "@/components/safe-background-video";
+import { SafeBackgroundVideo } from "@/components/SafeBackgroundVideo";
 import { whatsappMessage, whatsappNumber } from "@/lib/constants";
 
 interface PremiumHeroProps {

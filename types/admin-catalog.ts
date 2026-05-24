@@ -1,4 +1,5 @@
 export type ProductionStage = "recebido" | "imprimindo" | "pronto";
+export type ProfitMode = "margin" | "markup";
 
 export type AdminProductOverride = {
   id: string;
@@ -15,6 +16,21 @@ export type AdminProductOverride = {
   featured?: boolean;
   costBase?: number;
   pricePix?: number;
+  priceCard?: number;
+  estimatedGrams?: number;
+  estimatedHours?: number;
+  complexity?: number;
+  spoolPricePerKg?: number;
+  machineHourlyRate?: number;
+  postProcessMinutes?: number;
+  laborHourlyRate?: number;
+  packagingCost?: number;
+  overheadPercent?: number;
+  profitMode?: ProfitMode;
+  profitTargetPercent?: number;
+  estimatedProfitAmount?: number;
+  estimatedProfitPercent?: number;
+  costingUpdatedAt?: string;
   productionStage?: ProductionStage;
   updatedAt?: string;
 };

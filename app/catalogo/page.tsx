@@ -1,16 +1,20 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { ArrowRight, BadgeCheck, MessageCircleMore, Search, SlidersHorizontal, UploadCloud } from "lucide-react";
+import { ArrowRight, BadgeCheck, Layers3, MessageCircleMore, PackageCheck, Search, SlidersHorizontal, Timer, UploadCloud } from "lucide-react";
 import { CatalogExplorer } from "@/components/catalog-explorer";
 import { CommerceFaq } from "@/components/commerce-faq";
 import { CatalogRealCases } from "@/components/catalog-real-cases";
 import { CatalogBuyingIntents } from "@/components/catalog-buying-intents";
-import { SafeBackgroundVideo } from "@/components/safe-background-video";
+import { SafeBackgroundVideo } from "@/components/SafeBackgroundVideo";
+import { SafeProductImage } from "@/components/safe-product-image";
+import { ProductVisualBadge } from "@/components/product-visual-authenticity";
+import { getProductUrl, type Product } from "@/lib/catalog";
 import { getCatalogSnapshot } from "@/lib/catalog-repository";
-import { summarizeProductVisuals } from "@/lib/product-visuals";
+import { getProductVisual, isProductRealPhoto, summarizeProductVisuals } from "@/lib/product-visuals";
 import { getSiteUrl } from "@/lib/env";
 import { whatsappNumber } from "@/lib/constants";
 import { getLicensedVideoAsset } from "@/lib/video-assets";
+import { formatCurrency } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Catálogo",
@@ -31,6 +35,9 @@ export default async function CatalogPage() {
   const visualSummary = summarizeProductVisuals(catalog);
   const catalogVideo = getLicensedVideoAsset("process-printer-loop");
   const heroVideo = getLicensedVideoAsset("timelapse-print-loop");
+  const editorialCollections = buildEditorialCollections(catalog);
+  const compareProducts = buildQuickCompareProducts(catalog);
+  const realPhotoProducts = catalog.filter((product) => isProductRealPhoto(product)).slice(0, 8);
   const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent("Oi! Quero ajuda para escolher no catálogo da MDH 3D.")}`;
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
@@ -150,6 +157,12 @@ export default async function CatalogPage() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <CatalogBuyingIntents products={catalog} />
 
+        <CatalogPresentationModes
+          editorialCollections={editorialCollections}
+          compareProducts={compareProducts}
+          realPhotoProducts={realPhotoProducts}
+        />
+
         <div id="catalogo-real" className="mt-12">
           <CatalogRealCases />
         </div>
@@ -176,6 +189,218 @@ export default async function CatalogPage() {
           />
         </div>
       </div>
+    </section>
+  );
+}
+
+function buildEditorialCollections(products: Product[]) {
+  const sections = [
+    {
+      id: "presentes",
+      intent: "gifts" as const,
+      title: "Presentes personalizados sem aparência genérica.",
+      copy: "Peças com nome, tema, cor e escala pensadas para entregar algo com presença física e acabamento de produto final.",
+      href: "/catalogo?intent=Presente",
+      accent: "from-emerald-300/14",
+      products: pickProducts(products, (product) => product.customizable || /presente|chaveiro|familia|medalha|personal/i.test(productSearchText(product)), 3),
+    },
+    {
+      id: "setup",
+      intent: "setup" as const,
+      title: "Setup, mesa e home office com utilidade clara.",
+      copy: "Organizadores, suportes e peças para rotina que precisam caber no espaço real, não só ficar bonitas na vitrine.",
+      href: "/catalogo?q=setup",
+      accent: "from-cyan-300/14",
+      products: pickProducts(products, (product) => /setup|gamer|mesa|home office|suporte|organizador|cabo/i.test(productSearchText(product)), 3),
+    },
+    {
+      id: "lotes",
+      intent: "batch" as const,
+      title: "Lotes pequenos e brindes com custo controlado.",
+      copy: "Itens repetíveis para evento, equipe e ação comercial, com leitura de prazo, material e preço antes da conversa no WhatsApp.",
+      href: "/catalogo?intent=Atacado",
+      accent: "from-amber-300/14",
+      products: pickProducts(products, (product) => /lote|brinde|corporativo|atacado|chaveiro|tag|porta/i.test(productSearchText(product)), 3),
+    },
+  ];
+
+  return sections.map((section) => ({
+    ...section,
+    products: section.products.length ? section.products : products.slice(0, 3),
+  }));
+}
+
+function buildQuickCompareProducts(products: Product[]) {
+  const ready = products.filter((product) => product.readyToShip || product.status === "Pronta entrega");
+  const source = ready.length >= 5 ? ready : products;
+  return [...source]
+    .sort((a, b) => {
+      const aReal = isProductRealPhoto(a) ? -1 : 0;
+      const bReal = isProductRealPhoto(b) ? -1 : 0;
+      return aReal - bReal || a.pricePix - b.pricePix;
+    })
+    .slice(0, 6);
+}
+
+function pickProducts(products: Product[], predicate: (product: Product) => boolean, count: number) {
+  const selected = products.filter(predicate).slice(0, count);
+  if (selected.length >= count) return selected;
+
+  const used = new Set(selected.map((product) => product.id));
+  for (const product of products) {
+    if (used.has(product.id)) continue;
+    selected.push(product);
+    used.add(product.id);
+    if (selected.length >= count) break;
+  }
+  return selected;
+}
+
+function productSearchText(product: Product) {
+  return [
+    product.name,
+    product.category,
+    product.subcategory,
+    product.collection,
+    product.theme,
+    product.description,
+    product.material,
+    product.tags?.join(" "),
+  ]
+    .filter(Boolean)
+    .join(" ");
+}
+
+function CatalogPresentationModes({
+  editorialCollections,
+  compareProducts,
+  realPhotoProducts,
+}: {
+  editorialCollections: ReturnType<typeof buildEditorialCollections>;
+  compareProducts: Product[];
+  realPhotoProducts: Product[];
+}) {
+  return (
+    <section className="mdh-catalog-mode-rail mt-14 space-y-10">
+      <div className="grid gap-4 lg:grid-cols-3">
+        {editorialCollections.map((collection) => {
+          const lead = collection.products[0];
+          return (
+            <Link
+              key={collection.id}
+              href={collection.href}
+              className={`mdh-editorial-product group min-h-[420px] bg-[linear-gradient(145deg,var(--tw-gradient-stops))] ${collection.accent} via-white/[0.055] to-black/40 p-4`}
+              data-product-intent={collection.intent}
+            >
+              <div className="mdh-cad-grid pointer-events-none absolute inset-0 opacity-35" />
+              {lead ? (
+                <div className="relative aspect-[4/3] overflow-hidden rounded-[8px] border border-white/10 bg-black/30">
+                  <SafeProductImage
+                    product={lead}
+                    alt={lead.name}
+                    className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]"
+                    sizes="(max-width: 1024px) 100vw, 33vw"
+                  />
+                  <div className="absolute left-3 top-3">
+                    <ProductVisualBadge product={lead} />
+                  </div>
+                </div>
+              ) : null}
+              <div className="relative mt-5">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-cyan-100/62">Showcase editorial</p>
+                <h2 className="mt-3 text-2xl font-black leading-tight text-white">{collection.title}</h2>
+                <p className="mt-3 text-sm leading-7 text-white/66">{collection.copy}</p>
+                <div className="mt-5 flex flex-wrap gap-2">
+                  {collection.products.map((product) => (
+                    <span key={product.id} className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold text-white/68">
+                      {product.name}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </Link>
+          );
+        })}
+      </div>
+
+      <div className="mdh-quick-compare rounded-[8px] border border-white/12 bg-white/[0.045] p-4">
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <div className="max-w-2xl">
+            <p className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-cyan-100/66">
+              <Layers3 className="h-4 w-4" />
+              Comparação rápida
+            </p>
+            <h2 className="mt-3 text-3xl font-black leading-tight text-white">Menos rolagem, mais decisão.</h2>
+            <p className="mt-3 text-sm leading-7 text-white/65">
+              Uma leitura compacta de preço, prazo e prova visual antes de abrir o explorer completo.
+            </p>
+          </div>
+          <Link href="#catalogo-vitrine" className="btn-secondary gap-2">
+            Abrir filtros avançados
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+
+        <div className="mt-5 grid gap-2">
+          {compareProducts.map((product) => {
+            const visual = getProductVisual(product);
+            return (
+              <Link
+                key={product.id}
+                href={getProductUrl(product)}
+                className="grid gap-3 rounded-[8px] border border-white/10 bg-black/24 p-3 transition hover:border-cyan-300/28 sm:grid-cols-[88px_minmax(0,1fr)_minmax(120px,0.26fr)_minmax(120px,0.22fr)] sm:items-center"
+              >
+                <SafeProductImage product={product} alt={product.name} className="aspect-square w-full rounded-[8px] object-cover" sizes="88px" />
+                <div className="min-w-0">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/38">{product.category}</p>
+                  <h3 className="mt-1 line-clamp-1 text-base font-black text-white">{product.name}</h3>
+                  <p className="mt-1 line-clamp-1 text-xs text-white/55">{product.material} / {product.finish}</p>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-white/70">
+                  <PackageCheck className="h-4 w-4 text-emerald-200" />
+                  <span>{visual.label}</span>
+                </div>
+                <div className="flex items-center justify-between gap-3 sm:block sm:text-right">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-emerald-100/58">Pix</p>
+                  <p className="text-lg font-black text-white">{formatCurrency(product.pricePix)}</p>
+                  <p className="mt-1 flex items-center gap-1 text-xs text-white/45 sm:justify-end">
+                    <Timer className="h-3.5 w-3.5" />
+                    {product.productionWindow}
+                  </p>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+      </div>
+
+      {realPhotoProducts.length ? (
+        <div className="mdh-real-photo-stream overflow-hidden rounded-[8px] border border-emerald-300/14 bg-[linear-gradient(120deg,rgba(16,185,129,0.10),rgba(3,7,13,0.78))] p-4">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <div className="max-w-2xl">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-emerald-100/70">Stream de foto real</p>
+              <h2 className="mt-3 text-3xl font-black leading-tight text-white">Prova visual antes do clique.</h2>
+              <p className="mt-3 text-sm leading-7 text-white/65">
+                Peças já fotografadas aparecem como trilha de confiança para diferenciar foto real, render fiel e ideia visual.
+              </p>
+            </div>
+            <Link href="/catalogo?mode=real" className="btn-glass">
+              Ver só fotos reais
+            </Link>
+          </div>
+          <div className="mt-5 flex gap-3 overflow-x-auto pb-2">
+            {realPhotoProducts.map((product) => (
+              <Link key={product.id} href={getProductUrl(product)} className="min-w-[210px] overflow-hidden rounded-[8px] border border-white/10 bg-black/26">
+                <SafeProductImage product={product} alt={product.name} className="aspect-[4/5] w-full object-cover" sizes="220px" />
+                <div className="p-3">
+                  <ProductVisualBadge product={product} />
+                  <p className="mt-3 line-clamp-2 min-h-[2.5rem] text-sm font-bold leading-5 text-white">{product.name}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      ) : null}
     </section>
   );
 }

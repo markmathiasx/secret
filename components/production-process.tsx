@@ -1,5 +1,5 @@
 import { CheckCircle2, Cpu, Layers, ScanLine } from "lucide-react";
-import { SafeBackgroundVideo } from "@/components/safe-background-video";
+import { SafeBackgroundVideo } from "@/components/SafeBackgroundVideo";
 import { getLicensedVideoAsset } from "@/lib/video-assets";
 
 const STEPS = [
