@@ -36,8 +36,8 @@ export default function ReferralLandingPage() {
               <Gift className="h-4 w-4" />
               Entrar e pegar meu link
             </Link>
-            <Link href="/catalogo?mode=real" className="btn-secondary justify-center">
-              Ver peças com foto real
+            <Link href="/catalogo?mode=verified" className="btn-secondary justify-center">
+              Ver peças com imagem validada
             </Link>
           </div>
         </div>

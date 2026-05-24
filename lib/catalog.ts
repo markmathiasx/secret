@@ -3,6 +3,14 @@ import { slugify } from "@/lib/utils";
 import { buildProductSearchText, getProductCardDescription, getProductSearchScore, normalizeProductCategory } from "@/lib/catalog-content";
 import { suggestPixPrice, type MarketBenchmark } from "@/lib/market-pricing";
 import { applyCatalogMedia } from "@/lib/catalog-media";
+import {
+  applyCatalogTaxonomy,
+  normalizePublicTaxonomyText,
+  type BuyingIntent,
+  type CatalogPrimaryCategory,
+  type ProductObjectType,
+  type TaxonomyConfidence,
+} from "@/lib/catalog-taxonomy";
 import { getProductVisual } from "@/lib/product-visuals";
 import { verifiedCatalog } from "@/lib/verified-catalog";
 import { csvCuratedCatalog } from "@/lib/catalog-csv-curated";
@@ -29,6 +37,15 @@ export type Product = {
   name: string;
   category: string;
   subcategory: string;
+  primaryCategory?: CatalogPrimaryCategory;
+  productTypePath?: string;
+  buyingIntents?: BuyingIntent[];
+  objectType?: ProductObjectType;
+  useCaseTags?: string[];
+  seoKeywords?: string[];
+  confidence?: TaxonomyConfidence;
+  classificationReason?: string;
+  taxonomyReviewRequested?: boolean;
   theme: string;
   collection: string;
   colors: string[];
@@ -128,9 +145,20 @@ function applyAdminOverride(product: Product): Product {
   return {
     ...product,
     name: override.title ?? product.name,
-    description: override.description ?? product.description,
+    description: normalizePublicTaxonomyText(override.description ?? product.description),
     category: override.category ?? product.category,
+    subcategory: override.subcategory ?? product.subcategory,
+    primaryCategory: (override.primaryCategory as CatalogPrimaryCategory | undefined) ?? product.primaryCategory,
+    productTypePath: override.productTypePath ?? product.productTypePath,
+    buyingIntents: (override.buyingIntents as BuyingIntent[] | undefined) ?? product.buyingIntents,
+    objectType: (override.objectType as ProductObjectType | undefined) ?? product.objectType,
+    useCaseTags: override.useCaseTags ?? product.useCaseTags,
+    seoKeywords: override.seoKeywords ?? product.seoKeywords,
+    confidence: override.confidence ?? product.confidence,
+    classificationReason: override.classificationReason ?? product.classificationReason,
+    taxonomyReviewRequested: override.taxonomyReviewRequested ?? product.taxonomyReviewRequested,
     collection: override.collection ?? product.collection,
+    tags: override.tags ?? product.tags,
     material: override.material ?? product.material,
     finish: override.finish ?? product.finish,
     status: nextStatus,
@@ -167,36 +195,37 @@ function enrichProduct(product: Product): Product {
   const normalized = {
     ...overridden,
     category: normalizeProductCategory(overridden),
-    description: getProductCardDescription(overridden),
+    description: normalizePublicTaxonomyText(getProductCardDescription(overridden)),
   };
+  const taxonomized = applyCatalogTaxonomy(normalized);
 
-  const visual = getProductVisual(normalized);
+  const visual = getProductVisual(taxonomized);
   const marketPricing = suggestPixPrice(
-    normalized,
-    calculateBaseCostFromEngine(normalized.grams, normalized.hours, normalized.complexity),
+    taxonomized,
+    calculateBaseCostFromEngine(taxonomized.grams, taxonomized.hours, taxonomized.complexity),
     visual.kind
   );
   const pricing = calculateFinalPrice({
-    ...normalized,
-    baseCost: normalized.baseCost,
-    estimatedUnitCost: normalized.estimatedUnitCost,
-    estimatedGrams: normalized.estimatedGrams,
-    estimatedHours: normalized.estimatedHours,
-    spoolPricePerKg: normalized.spoolPricePerKg,
-    machineHourlyRate: normalized.machineHourlyRate,
-    postProcessMinutes: normalized.postProcessMinutes,
-    laborHourlyRate: normalized.laborHourlyRate,
-    packagingCost: normalized.packagingCost,
-    overheadPercent: normalized.overheadPercent,
-    profitMode: normalized.profitMode,
-    profitTargetPercent: normalized.profitTargetPercent,
+    ...taxonomized,
+    baseCost: taxonomized.baseCost,
+    estimatedUnitCost: taxonomized.estimatedUnitCost,
+    estimatedGrams: taxonomized.estimatedGrams,
+    estimatedHours: taxonomized.estimatedHours,
+    spoolPricePerKg: taxonomized.spoolPricePerKg,
+    machineHourlyRate: taxonomized.machineHourlyRate,
+    postProcessMinutes: taxonomized.postProcessMinutes,
+    laborHourlyRate: taxonomized.laborHourlyRate,
+    packagingCost: taxonomized.packagingCost,
+    overheadPercent: taxonomized.overheadPercent,
+    profitMode: taxonomized.profitMode,
+    profitTargetPercent: taxonomized.profitTargetPercent,
   });
-  const pricePix = normalized.manualPriceOverride ? normalized.pricePix : pricing.pricePix;
-  const priceCard = normalized.manualPriceOverride ? normalized.priceCard : pricing.priceCard;
+  const pricePix = taxonomized.manualPriceOverride ? taxonomized.pricePix : pricing.pricePix;
+  const priceCard = taxonomized.manualPriceOverride ? taxonomized.priceCard : pricing.priceCard;
   const profitAmount = Number((pricePix - pricing.costBase).toFixed(2));
 
   return {
-    ...normalized,
+    ...taxonomized,
     price: pricePix,
     baseCost: pricing.costBase,
     pricePix,
@@ -1976,7 +2005,7 @@ const curatedCatalog: Product[] = [
     hours: 3.0,
     complexity: 1.35,
     featured: false,
-    description: "Organizador compacto com divisórias para pincéis, batons e produtos de maquiagem. Impresso em PLA Premium nas cores Rosa e Branco, com compartimentos ergonômicos para bancada ou penteadeira. Aguardando foto real do produto — imagem atual é ilustrativa.",
+    description: "Organizador compacto com divisórias para pincéis, batons e produtos de maquiagem. Impresso em PLA Premium nas cores Rosa e Branco, com compartimentos ergonômicos para bancada ou penteadeira. Imagem do catálogo em validação para publicação comercial.",
     tags: ["organizador", "maquiagem", "beleza", "bancada", "penteadeira"],
     pricePix: 52.9,
     priceCard: 57.9,
@@ -2791,7 +2820,6 @@ const fullCatalog = [
   ...csvCuratedCatalog.map((product) =>
     applyCatalogMedia(enrichProduct(product), {
       preserveExisting: true,
-      preferExistingImages: true,
     })
   ),
   ...a1MiniExpansionCatalog.map((product) =>

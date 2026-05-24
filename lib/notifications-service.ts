@@ -251,7 +251,7 @@ export async function sendAbandonedCartEmail(userId: string, cartValue: number, 
     message:
       stage === "24h"
         ? `Seu carrinho de ${formatCurrency(cartValue)} pode ser retomado com o cupom ${discount}.`
-        : `Clientes que validam cor, prazo e foto real antes de comprar costumam fechar com menos dúvida. Seu carrinho de ${formatCurrency(cartValue)} está salvo.`,
+        : `Clientes que validam cor, prazo e imagem do produto antes de comprar costumam fechar com menos dúvida. Seu carrinho de ${formatCurrency(cartValue)} está salvo.`,
     channels: ["EMAIL", "IN_APP"],
     data: { cart_value: cartValue, discount_code: discount, stage, url: `${getSiteUrl()}/checkout` },
     urgency: "normal",

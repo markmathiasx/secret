@@ -23,7 +23,8 @@ import { getProductSearchScore } from '@/lib/catalog-content';
 import { ProductImageGallery } from '@/components/product-image-gallery';
 import { ProductPriceStack } from '@/components/product-price-stack';
 import { ProductVisualBadge } from '@/components/product-visual-authenticity';
-import { isProductRealPhoto, isProductVisualVerified } from '@/lib/product-visuals';
+import { isProductPrimaryMediaValidated, isProductVisualVerified } from '@/lib/product-visuals';
+import { BUYING_INTENTS, type BuyingIntent } from '@/lib/catalog-taxonomy';
 import { formatCurrency } from '@/lib/utils';
 import {
   trackBackToCatalogRestored,
@@ -42,10 +43,31 @@ const RECENT_SEARCHES_KEY = 'mdh_catalog_recent_searches';
 const SAVED_VIEWS_KEY = 'mdh_catalog_saved_views';
 const RETURN_STATE_KEY = 'mdh_catalog_return_state';
 const ORDER_OPTIONS = ['Mais Recentes', 'Preço', 'Nome', 'Destaques', 'Menor prazo'] as const;
-const PURCHASE_INTENTS = ['Geral', 'Compra rápida', 'Economia', 'Presente', 'Atacado'] as const;
+const PURCHASE_INTENTS = ['Geral', ...BUYING_INTENTS] as const;
+const PURCHASE_INTENT_LABELS: Record<PurchaseIntent, string> = {
+  Geral: 'Geral',
+  presentear: 'Presentear',
+  organizar: 'Organizar',
+  decorar: 'Decorar',
+  colecionar: 'Colecionar',
+  personalizar: 'Personalizar',
+  setup: 'Setup',
+  comprar_em_lote: 'Comprar em lote',
+  peça_tecnica: 'Peça técnica',
+  pronta_entrega: 'Pronta entrega',
+  sob_encomenda: 'Sob encomenda',
+  infantil: 'Infantil',
+  corporativo: 'Corporativo',
+};
+const LEGACY_INTENT_MAP: Record<string, PurchaseIntent> = {
+  Presente: 'presentear',
+  Atacado: 'comprar_em_lote',
+  'Compra rápida': 'pronta_entrega',
+  Economia: 'Geral',
+};
 
 type CatalogAvailability = 'Todos' | Product['status'];
-type PurchaseIntent = (typeof PURCHASE_INTENTS)[number];
+type PurchaseIntent = 'Geral' | BuyingIntent;
 type CatalogOrder = (typeof ORDER_OPTIONS)[number];
 type VisualMode = 'all' | 'verified' | 'real';
 type SavedCatalogView = {
@@ -68,6 +90,7 @@ function sanitizeVisualMode(value: string | undefined): VisualMode {
 }
 
 function sanitizePurchaseIntent(value: string | undefined): PurchaseIntent {
+  if (value && LEGACY_INTENT_MAP[value]) return LEGACY_INTENT_MAP[value];
   return PURCHASE_INTENTS.includes(value as PurchaseIntent) ? (value as PurchaseIntent) : 'Geral';
 }
 
@@ -258,12 +281,6 @@ export function CatalogExplorer({
   const categoryOptions = useMemo(() => ['Todas', ...new Set(products.map((item) => item.category))], [products]);
   const collectionOptions = useMemo(() => ['Todas', ...new Set(products.map((item) => item.collection))], [products]);
 
-  const economyThreshold = useMemo(() => {
-    const sorted = [...products].sort((a, b) => a.pricePix - b.pricePix);
-    const index = Math.max(0, Math.floor(sorted.length * 0.35) - 1);
-    return sorted[index]?.pricePix ?? priceLimits.max;
-  }, [priceLimits.max, products]);
-
   const materialOptions = useMemo(() => ['Todos', ...new Set(products.map((item) => item.material))], [products]);
 
   const [query, setQuery] = useState(initialQuery);
@@ -379,19 +396,17 @@ export function CatalogExplorer({
       const matchAvailability = availability === 'Todos' || item.status === availability;
       const matchPrice = item.pricePix >= priceRange[0] && item.pricePix <= priceRange[1];
       const matchVisual =
-        visualMode === 'all' ? true : visualMode === 'real' ? isProductRealPhoto(item) : isProductVisualVerified(item);
+        visualMode === 'all' ? true : visualMode === 'real' ? isProductPrimaryMediaValidated(item) : isProductVisualVerified(item);
       const matchMaterial = selectedMaterial === 'Todos' || item.material === selectedMaterial;
       const matchCustomizable = !customizableOnly || item.customizable;
 
       let matchIntent = true;
-      if (purchaseIntent === 'Compra rápida') {
-        matchIntent = item.readyToShip || parseMinProductionDays(item.productionWindow) <= 2;
-      } else if (purchaseIntent === 'Economia') {
-        matchIntent = item.pricePix <= economyThreshold;
-      } else if (purchaseIntent === 'Presente') {
-        matchIntent = item.category === 'Presentes Criativos' || item.tags.some((tag) => tag.toLowerCase().includes('presente'));
-      } else if (purchaseIntent === 'Atacado') {
-        matchIntent = item.customizable || item.category === 'Utilidades Reais' || item.category === 'Setup & Organização';
+      if (purchaseIntent === 'pronta_entrega') {
+        matchIntent = item.readyToShip || item.status === 'Pronta entrega' || parseMinProductionDays(item.productionWindow) <= 2;
+      } else if (purchaseIntent === 'sob_encomenda') {
+        matchIntent = item.status === 'Sob encomenda';
+      } else if (purchaseIntent !== 'Geral') {
+        matchIntent = Boolean(item.buyingIntents?.includes(purchaseIntent));
       }
 
       return matchQuery && matchCategory && matchCollection && matchAvailability && matchPrice && matchVisual && matchMaterial && matchCustomizable && matchIntent;
@@ -405,13 +420,13 @@ export function CatalogExplorer({
     });
 
     return items.map(({ item }) => item);
-  }, [products, deferredQuery, category, collection, availability, priceRange, visualMode, selectedMaterial, customizableOnly, purchaseIntent, economyThreshold, order]);
+  }, [products, deferredQuery, category, collection, availability, priceRange, visualMode, selectedMaterial, customizableOnly, purchaseIntent, order]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
   const currentPage = Math.min(page, totalPages);
   const visibleItems = filtered.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
   const readyCount = filtered.filter((item) => item.status === 'Pronta entrega').length;
-  const realPhotoCount = filtered.filter((item) => isProductRealPhoto(item)).length;
+  const validatedPrimaryMediaCount = filtered.filter((item) => isProductPrimaryMediaValidated(item)).length;
   const verifiedCount = filtered.filter((item) => isProductVisualVerified(item)).length;
   const customizableCount = filtered.filter((item) => item.customizable).length;
   const bundleDiscount = getQuantityDiscount(quantity);
@@ -429,26 +444,23 @@ export function CatalogExplorer({
     if (!filtered.length) {
       return 'A combinação atual ficou apertada. Vale abrir preço, material ou disponibilidade para recuperar opções mais próximas.';
     }
-    if (purchaseIntent === 'Presente') {
+    if (purchaseIntent === 'presentear') {
       return 'A seleção está puxando itens com leitura mais rápida e bom apelo visual para presentear sem precisar explicar demais.';
     }
-    if (purchaseIntent === 'Compra rápida') {
+    if (purchaseIntent === 'pronta_entrega') {
       return 'O recorte atual prioriza itens com saída mais curta para encurtar a conversa e acelerar o fechamento.';
     }
-    if (purchaseIntent === 'Economia') {
-      return 'A vitrine está inclinada para ticket mais enxuto, sem perder referências com potencial de conversão.';
-    }
-    if (purchaseIntent === 'Atacado') {
+    if (purchaseIntent === 'comprar_em_lote' || purchaseIntent === 'corporativo') {
       return 'O foco atual é em itens que conseguem conversar melhor com lote, personalização e repetição de pedido.';
     }
     if (visualMode === 'real') {
-      return 'A curadoria está filtrando apenas itens com foto real do objeto físico para reduzir qualquer ambiguidade visual antes da compra.';
+      return 'A curadoria está filtrando itens com mídia principal validada do objeto para reduzir ambiguidade antes da compra.';
     }
     if (visualMode === 'verified') {
-      return 'A curadoria está filtrando por foto real e render fiel para manter prova visual forte sem misturar referência conceitual.';
+      return 'A curadoria está filtrando por mídia validada para manter uma leitura visual consistente do produto.';
     }
-    return `A seleção mistura ${readyCount} itens de pronta entrega, ${realPhotoCount} fotos reais e ${customizableCount} opções com espaço para ajuste.`;
-  }, [customizableCount, filtered.length, purchaseIntent, readyCount, realPhotoCount, visualMode]);
+    return `A seleção mistura ${readyCount} itens de pronta entrega, ${validatedPrimaryMediaCount} imagens principais validadas e ${customizableCount} opções com espaço para ajuste.`;
+  }, [customizableCount, filtered.length, purchaseIntent, readyCount, validatedPrimaryMediaCount, visualMode]);
   const activeFilterChips = [
     query.trim()
       ? {
@@ -503,7 +515,7 @@ export function CatalogExplorer({
     purchaseIntent !== 'Geral'
       ? {
           id: 'intent',
-          label: purchaseIntent,
+          label: PURCHASE_INTENT_LABELS[purchaseIntent],
           clear: () => {
             setPurchaseIntent('Geral');
             safeSetPage(1);
@@ -513,7 +525,7 @@ export function CatalogExplorer({
     visualMode === 'real'
       ? {
           id: 'visual-real',
-          label: 'Só foto real',
+          label: 'Mídia principal validada',
           clear: () => {
             setVisualMode('all');
             safeSetPage(1);
@@ -522,7 +534,7 @@ export function CatalogExplorer({
       : visualMode === 'verified'
       ? {
           id: 'visual-verified',
-          label: 'Foto + render',
+          label: 'Mídia validada',
           clear: () => {
             setVisualMode('all');
             safeSetPage(1);
@@ -769,8 +781,8 @@ export function CatalogExplorer({
       query.trim() || null,
       category !== 'Todas' ? category : null,
       availability !== 'Todos' ? availability : null,
-      purchaseIntent !== 'Geral' ? purchaseIntent : null,
-      visualMode === 'real' ? 'só foto real' : visualMode === 'verified' ? 'foto + render' : null,
+      purchaseIntent !== 'Geral' ? PURCHASE_INTENT_LABELS[purchaseIntent] : null,
+      visualMode === 'real' ? 'mídia principal validada' : visualMode === 'verified' ? 'mídia validada' : null,
     ].filter(Boolean);
 
     if (!parts.length) return 'Vitrine geral';
@@ -789,11 +801,11 @@ export function CatalogExplorer({
   }
 
   const quickPresets = [
-    { id: 'real', label: 'Só foto real', active: visualMode === 'real', onClick: () => { setVisualMode((value) => value === 'real' ? 'all' : 'real'); safeSetPage(1); } },
-    { id: 'verified', label: 'Foto + render', active: visualMode === 'verified', onClick: () => { setVisualMode((value) => value === 'verified' ? 'all' : 'verified'); safeSetPage(1); } },
+    { id: 'real', label: 'Mídia principal', active: visualMode === 'real', onClick: () => { setVisualMode((value) => value === 'real' ? 'all' : 'real'); safeSetPage(1); } },
+    { id: 'verified', label: 'Mídia validada', active: visualMode === 'verified', onClick: () => { setVisualMode((value) => value === 'verified' ? 'all' : 'verified'); safeSetPage(1); } },
     { id: 'ready', label: 'Pronta entrega', active: availability === 'Pronta entrega', onClick: () => { setAvailability((value) => value === 'Pronta entrega' ? 'Todos' : 'Pronta entrega'); safeSetPage(1); } },
-    { id: 'gift', label: 'Presentes', active: purchaseIntent === 'Presente', onClick: () => { setPurchaseIntent((value) => value === 'Presente' ? 'Geral' : 'Presente'); safeSetPage(1); } },
-    { id: 'fast', label: 'Compra rápida', active: purchaseIntent === 'Compra rápida', onClick: () => { setPurchaseIntent((value) => value === 'Compra rápida' ? 'Geral' : 'Compra rápida'); safeSetPage(1); } },
+    { id: 'gift', label: 'Presentes', active: purchaseIntent === 'presentear', onClick: () => { setPurchaseIntent((value) => value === 'presentear' ? 'Geral' : 'presentear'); safeSetPage(1); } },
+    { id: 'fast', label: 'Pronta entrega', active: purchaseIntent === 'pronta_entrega', onClick: () => { setPurchaseIntent((value) => value === 'pronta_entrega' ? 'Geral' : 'pronta_entrega'); safeSetPage(1); } },
     { id: 'custom', label: 'Personalizáveis', active: customizableOnly, onClick: () => { setCustomizableOnly((value) => !value); safeSetPage(1); } },
   ];
   const editorialBreaks = [
@@ -817,7 +829,7 @@ export function CatalogExplorer({
   ] as const;
   const rescueActions = [
     visualMode === 'real'
-      ? { id: 'relax-real', label: 'Aceitar render fiel', onClick: () => { setVisualMode('verified'); safeSetPage(1); } }
+      ? { id: 'relax-real', label: 'Aceitar mídia validada', onClick: () => { setVisualMode('verified'); safeSetPage(1); } }
       : visualMode === 'verified'
       ? { id: 'relax-verified', label: 'Ver imagens conceituais', onClick: () => { setVisualMode('all'); safeSetPage(1); } }
       : null,
@@ -842,7 +854,7 @@ export function CatalogExplorer({
           <div className="max-w-2xl">
             <p className="text-xs uppercase tracking-[0.2em] text-cyan-100/75">Mesa de curadoria</p>
             <h2 className="mt-2 text-2xl font-black text-white md:text-4xl">
-              Filtre como um comprador real: intenção, prova visual, prazo e faixa.
+              Filtre como comprador: categoria real, intenção, mídia, prazo e faixa.
             </h2>
             <p className="mt-3 text-sm leading-7 text-white/68">
               A grade abaixo muda de ritmo com blocos editoriais, produtos com hierarquia maior e CTAs diretos para carrinho, WhatsApp ou sob medida.
@@ -872,9 +884,9 @@ export function CatalogExplorer({
             <p className="mt-1 text-xs text-white/60">com {activeFilterCount} filtros ativos</p>
           </div>
           <div className="surface-stat rounded-[22px] px-4 py-4">
-            <p className="text-[11px] uppercase tracking-[0.18em] text-white/50">Fotos reais</p>
-            <p className="mt-3 text-2xl font-black text-white">{realPhotoCount}</p>
-            <p className="mt-1 text-xs text-white/60">{verifiedCount} com foto ou render fiel</p>
+            <p className="text-[11px] uppercase tracking-[0.18em] text-white/50">Mídia validada</p>
+            <p className="mt-3 text-2xl font-black text-white">{verifiedCount}</p>
+            <p className="mt-1 text-xs text-white/60">{validatedPrimaryMediaCount} com mídia principal</p>
           </div>
           <div className="surface-stat rounded-[22px] px-4 py-4">
             <p className="text-[11px] uppercase tracking-[0.18em] text-white/50">Velocidade</p>
@@ -892,7 +904,7 @@ export function CatalogExplorer({
           <div>
             <p className="text-xs uppercase tracking-[0.18em] text-emerald-100/78">Fechamento rápido</p>
             <p className="mt-2 text-sm leading-7 text-white/72">
-              Este recorte tem {readyCount} item(ns) de pronta entrega, {realPhotoCount} com foto real e menor prazo base de {fastestLeadTime ? `${fastestLeadTime} dia(s)` : "consulta"}.
+              Este recorte tem {readyCount} item(ns) de pronta entrega, {validatedPrimaryMediaCount} com mídia principal validada e menor prazo base de {fastestLeadTime ? `${fastestLeadTime} dia(s)` : "consulta"}.
               Salve a seleção, mande no WhatsApp ou avance para o carrinho sem cadastro.
             </p>
           </div>
@@ -1077,7 +1089,9 @@ export function CatalogExplorer({
               className="field-base"
             >
               {PURCHASE_INTENTS.map((option) => (
-                <option key={option}>{option}</option>
+                <option key={option} value={option}>
+                  {PURCHASE_INTENT_LABELS[option as PurchaseIntent]}
+                </option>
               ))}
             </select>
           </label>
@@ -1156,7 +1170,7 @@ export function CatalogExplorer({
           <span className="h-1 w-1 rounded-full bg-white/30" />
           <span>{readyCount} pronta entrega</span>
           <span className="h-1 w-1 rounded-full bg-white/30" />
-          <span>{realPhotoCount} foto real</span>
+          <span>{validatedPrimaryMediaCount} mídia principal</span>
           <span className="h-1 w-1 rounded-full bg-white/30" />
           <span>{verifiedCount} validados</span>
           <span className="h-1 w-1 rounded-full bg-white/30" />
@@ -1224,7 +1238,7 @@ export function CatalogExplorer({
               <p className="text-sm font-semibold text-emerald-100">Leitura comercial da vitrine</p>
             </div>
             <h3 className="mt-4 text-2xl font-black text-white">
-              {purchaseIntent === 'Geral' ? 'A seleção está pronta para virar atendimento ou checkout.' : `Foco atual: ${purchaseIntent}.`}
+              {purchaseIntent === 'Geral' ? 'A seleção está pronta para virar atendimento ou checkout.' : `Foco atual: ${PURCHASE_INTENT_LABELS[purchaseIntent]}.`}
             </h3>
             <p className="mt-4 text-sm leading-7 text-white/68">{selectionNarrative}</p>
 
@@ -1377,7 +1391,7 @@ export function CatalogExplorer({
           const savings = subtotal - total;
           const editorial = editorialBreaks.find((item) => item.afterIndex === index);
           const variant =
-            product.readyToShip && isProductRealPhoto(product)
+            product.readyToShip && isProductPrimaryMediaValidated(product)
               ? 'readyToShip'
               : product.customizable
               ? 'customProject'
@@ -1386,7 +1400,7 @@ export function CatalogExplorer({
               : product.pricingMode !== 'faixa-auditada'
               ? 'lote'
               : index % 5 === 0
-              ? 'realPhoto'
+              ? 'validatedMedia'
               : 'compact';
           const cardSize = index % 9 === 0 ? 'xl:col-span-2' : '';
 
@@ -1396,7 +1410,7 @@ export function CatalogExplorer({
                 id={`produto-${product.id}`}
                 data-card-variant={variant}
                 className={`catalog-product-card mdh-product-card-2026 group relative overflow-hidden rounded-[8px] border p-3 transition-all duration-500 md:p-4 ${cardSize} ${
-                  isProductRealPhoto(product)
+                  isProductPrimaryMediaValidated(product)
                     ? 'border-emerald-300/24 bg-[linear-gradient(180deg,rgba(16,185,129,0.11),rgba(3,7,13,0.84))]'
                     : isProductVisualVerified(product)
                     ? 'border-cyan-300/18 bg-[linear-gradient(180deg,rgba(34,211,238,0.09),rgba(3,7,13,0.84))]'

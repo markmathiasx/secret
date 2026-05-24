@@ -10,16 +10,16 @@ import { useState, useEffect } from "react";
 
 type ConversionHeroProps = {
   catalogCount: number;
-  realPhotoCount: number;
-  readyRealCount: number;
+  validatedMediaCount: number;
+  readyValidatedMediaCount: number;
   ratingLabel: string;
   reviewCount?: number;
 };
 
 export function ConversionHero({
   catalogCount,
-  realPhotoCount,
-  readyRealCount,
+  validatedMediaCount,
+  readyValidatedMediaCount,
   ratingLabel,
   reviewCount,
 }: ConversionHeroProps) {
@@ -58,7 +58,7 @@ export function ConversionHero({
           </div>
 
           <h1 className="mt-4 max-w-4xl font-sans text-3xl font-black leading-[1.02] text-white sm:text-4xl md:text-5xl lg:text-6xl">
-            Impressão 3D premium no Rio com foto real antes de comprar.
+            Impressão 3D premium no Rio com imagem validada antes de comprar.
           </h1>
 
           <p className="mt-3 max-w-2xl text-sm leading-7 text-white/80 sm:mt-4 sm:text-base sm:leading-8 md:text-lg">
@@ -66,14 +66,14 @@ export function ConversionHero({
           </p>
 
           <div className="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:items-center sm:gap-4">
-            <Link 
-              href="/catalogo?mode=real" 
+            <Link
+              href="/catalogo?mode=verified"
               prefetch={false}
               className="btn-primary min-h-12 justify-center gap-2 px-6 text-base font-semibold sm:min-h-12 sm:px-7 sm:text-base"
               style={{ minHeight: '48px', minWidth: '48px' }}
             >
               <Camera className="h-5 w-5" />
-              <span className="hidden xs:inline">Ver Ofertas com Foto Real</span>
+              <span className="hidden xs:inline">Ver Ofertas com Mídia Validada</span>
               <span className="xs:hidden">Ver Ofertas</span>
               <ArrowRight className="h-4 w-4" />
             </Link>
@@ -87,8 +87,8 @@ export function ConversionHero({
           <div className="mt-6 grid grid-cols-2 gap-2 sm:mt-8 sm:gap-3 sm:grid-cols-4">
             {[
               { label: "Catálogo", value: catalogCount.toLocaleString("pt-BR"), icon: BadgeCheck },
-              { label: "Foto real", value: String(realPhotoCount).padStart(2, "0"), icon: Camera },
-              { label: "Pronta entrega", value: String(readyRealCount).padStart(2, "0"), icon: Clock3 },
+              { label: "Mídia validada", value: String(validatedMediaCount).padStart(2, "0"), icon: Camera },
+              { label: "Pronta entrega", value: String(readyValidatedMediaCount).padStart(2, "0"), icon: Clock3 },
               { label: reviewCount ? `${reviewCount} reviews` : "Prova social", value: ratingLabel, icon: Star },
             ].map((item) => {
               const Icon = item.icon;
@@ -130,7 +130,7 @@ export function ConversionHero({
                 </div>
                 <div className="p-2.5 sm:p-3">
                   <p className="line-clamp-2 text-xs font-semibold text-white sm:text-sm">{product.name}</p>
-                  <p className="mt-1 text-xs text-emerald-100">Foto real validada</p>
+                  <p className="mt-1 text-xs text-emerald-100">Imagem validada</p>
                 </div>
               </Link>
             ))}

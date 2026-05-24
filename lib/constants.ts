@@ -189,9 +189,9 @@ export const orderPrepChecklist = [
 
 export const catalogShortcutLinks = [
   {
-    label: "Só foto real",
-    href: "/catalogo?mode=real",
-    note: "peças com objeto físico fotografado",
+    label: "Mídia validada",
+    href: "/catalogo?mode=verified",
+    note: "produtos com imagem do catálogo validada",
   },
   {
     label: "Pronta entrega",
@@ -200,7 +200,7 @@ export const catalogShortcutLinks = [
   },
   {
     label: "Presentes criativos",
-    href: "/catalogo?intent=Presente",
+    href: "/catalogo?intent=presentear",
     note: "vitrine pronta para presentear",
   },
   {
@@ -210,12 +210,12 @@ export const catalogShortcutLinks = [
   },
   {
     label: "Compra econômica",
-    href: "/catalogo?intent=Economia",
+    href: "/catalogo?sort=Pre%C3%A7o",
     note: "seleção para ticket mais enxuto",
   },
   {
     label: "Lotes e brindes",
-    href: "/catalogo?intent=Atacado",
+    href: "/catalogo?intent=comprar_em_lote",
     note: "curadoria para evento e marca",
   },
 ] as const;

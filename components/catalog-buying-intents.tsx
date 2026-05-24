@@ -5,7 +5,7 @@ import { getProductUrl } from "@/lib/catalog";
 import { SafeProductImage } from "@/components/safe-product-image";
 import { resolveProductImage } from "@/lib/product-images";
 import { formatCurrency } from "@/lib/utils";
-import { isProductRealPhoto, isProductVisualVerified } from "@/lib/product-visuals";
+import { isProductPrimaryMediaValidated, isProductVisualVerified } from "@/lib/product-visuals";
 
 type BuyingIntent = {
   id: string;
@@ -23,61 +23,61 @@ const intents: BuyingIntent[] = [
     id: "presentear",
     title: "Quero presentear",
     description: "Itens com impacto visual rápido, ticket acessível e boa leitura sem precisar explicar demais.",
-    href: "/catalogo?intent=Presente&mode=verified",
+    href: "/catalogo?intent=presentear&mode=verified",
     cta: "Filtrar presentes",
     icon: Gift,
     tone: "from-cyan-300/18",
-    match: (product) => /(presente|geek|colecion|chibi|lembranc|utilidade)/i.test([product.category, product.subcategory, product.theme, product.name, ...product.tags].join(" ")),
+    match: (product) => product.buyingIntents?.includes("presentear") ?? false,
   },
   {
     id: "organizar",
     title: "Quero organizar",
     description: "Suportes, organizadores e peças funcionais para mesa, banheiro, cabos, controles e rotina.",
-    href: "/catalogo?category=Setup%20%26%20Organiza%C3%A7%C3%A3o",
+    href: "/catalogo?intent=organizar",
     cta: "Filtrar organização",
     icon: MonitorCog,
     tone: "from-lime-300/16",
-    match: (product) => /(utilidade|setup|suporte|organizador|bancada|controle|headphone|fone|banheiro)/i.test([product.category, product.subcategory, product.theme, product.name, ...product.tags].join(" ")),
+    match: (product) => product.buyingIntents?.includes("organizar") ?? false,
   },
   {
     id: "decorar",
     title: "Quero decorar",
     description: "Peças para prateleira, mesa, parede e ambientes que precisam de presença física.",
-    href: "/catalogo?intent=Presente&category=Decora%C3%A7%C3%A3o",
+    href: "/catalogo?intent=decorar",
     cta: "Ver decoração",
     icon: Sparkles,
     tone: "from-violet-300/18",
-    match: (product) => /(decor|vaso|parede|prateleira|lumin|miniatura)/i.test([product.category, product.subcategory, product.theme, product.name, ...product.tags].join(" ")),
+    match: (product) => product.buyingIntents?.includes("decorar") ?? false,
   },
   {
     id: "colecionar",
     title: "Quero colecionar",
-    description: "Geek, anime, miniaturas e objetos de setup com prova visual mais forte quando disponível.",
-    href: "/catalogo?collection=Anime%20%26%20Geek&mode=verified",
+    description: "Geek, anime, miniaturas e objetos de setup com mídia do catálogo bem sinalizada.",
+    href: "/catalogo?intent=colecionar&category=Geek%20%26%20Colecion%C3%A1veis",
     cta: "Filtrar coleção",
     icon: Layers3,
     tone: "from-fuchsia-300/16",
-    match: (product) => /(geek|colecion|anime|miniatura|chibi|jogo|gamer)/i.test([product.category, product.subcategory, product.theme, product.name, ...product.tags].join(" ")),
+    match: (product) => product.buyingIntents?.includes("colecionar") ?? false,
   },
   {
     id: "tecnica",
     title: "Quero peça técnica",
     description: "Modelos funcionais, reposição, suporte e solução sob medida com foco em encaixe.",
-    href: "/catalogo?custom=1&intent=Compra%20r%C3%A1pida",
+    href: "/catalogo?intent=pe%C3%A7a_tecnica",
     cta: "Ver soluções",
     icon: Boxes,
     tone: "from-emerald-300/16",
-    match: (product) => product.customizable || /(encaixe|suporte|adaptador|peça|peca|técnic|tecnic)/i.test([product.category, product.subcategory, product.theme, product.name, ...product.tags].join(" ")),
+    match: (product) => product.buyingIntents?.includes("peça_tecnica") ?? false,
   },
   {
     id: "lote",
     title: "Quero comprar em lote",
     description: "Itens repetíveis para evento, brinde, kit, lembrança ou revenda assistida.",
-    href: "/catalogo?intent=Atacado&custom=1",
+    href: "/catalogo?intent=comprar_em_lote",
     cta: "Ver para lote",
     icon: Building2,
     tone: "from-amber-300/18",
-    match: (product) => product.customizable || product.category === "Utilidades Reais" || product.category === "Setup & Organização",
+    match: (product) => Boolean(product.buyingIntents?.includes("comprar_em_lote") || product.buyingIntents?.includes("corporativo")),
   },
   {
     id: "personalizar",
@@ -98,11 +98,11 @@ export function CatalogBuyingIntents({ products }: { products: Product[] }) {
         <div className="max-w-3xl">
           <h2 className="mdh-section-title max-w-4xl">Compra por intenção, com filtro real.</h2>
           <p className="mt-4 text-base leading-8 text-white/66">
-            Escolha o motivo da compra e entre em uma seleção que já reduz ruído de preço, prazo, material e prova visual.
+            Escolha o motivo da compra e entre em uma seleção que já reduz ruído de preço, prazo, material e categoria real.
           </p>
         </div>
-        <Link href="/catalogo?mode=real" className="btn-secondary w-fit gap-2">
-          Peças com foto real
+        <Link href="/catalogo?mode=verified" className="btn-secondary w-fit gap-2">
+          Imagens validadas
           <ArrowRight className="h-4 w-4" />
         </Link>
       </div>
@@ -112,7 +112,7 @@ export function CatalogBuyingIntents({ products }: { products: Product[] }) {
           const matches = products
             .filter(intent.match)
             .sort((a, b) => Number(isProductVisualVerified(b)) - Number(isProductVisualVerified(a)) || a.pricePix - b.pricePix);
-          const lead = matches.find(isProductRealPhoto) || matches[0];
+          const lead = matches.find(isProductPrimaryMediaValidated) || matches[0];
           const fromPrice = matches.length ? Math.min(...matches.map((item) => item.pricePix)) : null;
           const Icon = intent.icon;
 

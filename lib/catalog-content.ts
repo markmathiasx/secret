@@ -13,36 +13,40 @@ const CATEGORY_MAP = new Map<string, string>([
   ["colecionável", "Geek & Colecionáveis"],
   ["articulado", "Geek & Colecionáveis"],
   ["miniatura", "Geek & Colecionáveis"],
-  ["acessório", "Geek & Colecionáveis"],
+  ["acessório", "Chaveiros e Acessórios"],
   ["geek & colecionáveis", "Geek & Colecionáveis"],
-  ["setup & organização", "Setup & Organização"],
-  ["suporte", "Setup & Organização"],
-  ["organizador", "Setup & Organização"],
-  ["casa & decoração", "Casa & Decoração"],
-  ["vaso", "Casa & Decoração"],
-  ["busto", "Casa & Decoração"],
-  ["luminária", "Casa & Decoração"],
-  ["foto", "Casa & Decoração"],
-  ["quadro", "Casa & Decoração"],
-  ["escultura", "Casa & Decoração"],
-  ["relógio", "Casa & Decoração"],
-  ["jarro", "Casa & Decoração"],
-  ["prateleira", "Casa & Decoração"],
-  ["espelho", "Casa & Decoração"],
-  ["presentes criativos", "Presentes Criativos"],
-  ["chaveiro", "Presentes Criativos"],
-  ["nome", "Presentes Criativos"],
-  ["caixa", "Presentes Criativos"],
-  ["porta-retrato", "Presentes Criativos"],
-  ["aniversário", "Presentes Criativos"],
-  ["mensagem", "Presentes Criativos"],
-  ["troféu", "Presentes Criativos"],
-  ["marcador", "Presentes Criativos"],
-  ["pingente", "Presentes Criativos"],
-  ["calendário", "Presentes Criativos"],
-  ["copo", "Presentes Criativos"],
-  ["utilidades reais", "Utilidades Reais"],
-  ["gancho", "Utilidades Reais"],
+  ["setup & organização", "Setup Gamer e Home Office"],
+  ["setup gamer e home office", "Setup Gamer e Home Office"],
+  ["suporte", "Casa e Organização"],
+  ["organizador", "Casa e Organização"],
+  ["casa & decoração", "Decoração"],
+  ["casa e organização", "Casa e Organização"],
+  ["vaso", "Decoração"],
+  ["busto", "Decoração"],
+  ["luminária", "Decoração"],
+  ["quadro", "Decoração"],
+  ["escultura", "Decoração"],
+  ["relógio", "Decoração"],
+  ["jarro", "Decoração"],
+  ["prateleira", "Decoração"],
+  ["espelho", "Decoração"],
+  ["presentes criativos", "Presentes Personalizados"],
+  ["presentes personalizados", "Presentes Personalizados"],
+  ["chaveiro", "Chaveiros e Acessórios"],
+  ["nome", "Presentes Personalizados"],
+  ["caixa", "Casa e Organização"],
+  ["porta-retrato", "Decoração"],
+  ["aniversário", "Presentes Personalizados"],
+  ["mensagem", "Presentes Personalizados"],
+  ["troféu", "Presentes Personalizados"],
+  ["marcador", "Chaveiros e Acessórios"],
+  ["pingente", "Chaveiros e Acessórios"],
+  ["calendário", "Decoração"],
+  ["copo", "Utilidades Especiais"],
+  ["utilidades reais", "Casa e Organização"],
+  ["gancho", "Casa e Organização"],
+  ["peças técnicas e sob medida", "Peças Técnicas e Sob Medida"],
+  ["lotes e brindes corporativos", "Lotes e Brindes Corporativos"],
 ]);
 
 function normalizeKey(value: string) {
@@ -75,10 +79,15 @@ function dedupe(values: string[]) {
 
 const SEARCH_SYNONYMS = new Map<string, string[]>([
   ["geek & colecionáveis", ["geek", "colecionavel", "colecionaveis", "miniatura", "personagem", "fandom"]],
-  ["setup & organização", ["setup", "organizacao", "organizador", "suporte", "mesa", "bancada", "home office"]],
-  ["casa & decoração", ["casa", "decoracao", "decor", "estante", "nicho", "ambiente"]],
-  ["presentes criativos", ["presente", "lembranca", "lembrancinha", "personalizado", "criativo", "brinde"]],
-  ["utilidades reais", ["utilidade", "funcional", "uso diario", "pratico", "rotina"]],
+  ["chaveiros e acessórios", ["chaveiro", "tag", "pingente", "identificador", "acessorio"]],
+  ["setup gamer e home office", ["setup", "organizacao", "organizador", "suporte", "mesa", "bancada", "home office"]],
+  ["casa e organização", ["casa", "organizacao", "organizador", "banheiro", "cozinha", "gaveta", "rotina"]],
+  ["decoração", ["decoracao", "decor", "estante", "nicho", "ambiente"]],
+  ["presentes personalizados", ["presente", "lembranca", "lembrancinha", "personalizado", "criativo"]],
+  ["peças técnicas e sob medida", ["peca tecnica", "sob medida", "stl", "adaptador", "prototipo", "reposicao"]],
+  ["lotes e brindes corporativos", ["brinde", "lote", "corporativo", "evento", "kit", "quantidade"]],
+  ["infantil e educativo", ["infantil", "crianca", "educativo", "brinquedo", "ludico"]],
+  ["utilidades especiais", ["utilidade", "funcional", "uso diario", "pratico", "rotina"]],
   ["anime", ["anime", "otaku", "manga", "personagem"]],
   ["game", ["game", "gamer", "videogame", "jogo"]],
   ["gaming", ["gaming", "gamer", "setup gamer", "console"]],
@@ -112,6 +121,9 @@ function collectSearchAliases(product: Product) {
     normalizedCategory,
     product.category,
     product.subcategory,
+    product.primaryCategory,
+    product.productTypePath,
+    product.objectType,
     product.theme,
     product.collection,
     product.material,
@@ -119,7 +131,10 @@ function collectSearchAliases(product: Product) {
     product.readyToShip ? "Pronta entrega" : "Sob encomenda",
     product.customizable ? "Personalizado" : "",
     ...product.tags,
-  ]).filter(Boolean);
+    ...(product.buyingIntents || []),
+    ...(product.useCaseTags || []),
+    ...(product.seoKeywords || []),
+  ].filter((term): term is string => Boolean(term)));
 
   const aliasSet = new Set<string>();
 
@@ -136,7 +151,7 @@ function collectSearchAliases(product: Product) {
     aliasSet.add("mini colecionavel");
   }
 
-  if (normalizedCategory === "Setup & Organização") {
+  if (normalizedCategory === "Setup Gamer e Home Office") {
     aliasSet.add("organizacao de mesa");
     aliasSet.add("utilidade para setup");
   }
@@ -164,13 +179,21 @@ function getUseCase(product: Product, normalizedCategory: string) {
   switch (normalizedCategory) {
     case "Geek & Colecionáveis":
       return `colecionar, decorar setup ou presentear fãs de ${product.theme || product.subcategory || "cultura pop"}`;
-    case "Setup & Organização":
+    case "Setup Gamer e Home Office":
       return "organizar mesa, home office, bancada gamer ou acessórios do dia a dia";
-    case "Casa & Decoração":
+    case "Casa e Organização":
+      return "organizar banheiro, cozinha, mesa, gaveta ou rotina doméstica";
+    case "Decoração":
       return "compor nichos, estantes, aparadores e presentes com apelo visual";
-    case "Presentes Criativos":
+    case "Presentes Personalizados":
       return "datas especiais, kits comemorativos e lembranças personalizadas";
-    case "Utilidades Reais":
+    case "Peças Técnicas e Sob Medida":
+      return "resolver encaixes, reposições e projetos funcionais sob medida";
+    case "Lotes e Brindes Corporativos":
+      return "ações comerciais, eventos, kits e pedidos repetidos com consistência";
+    case "Infantil e Educativo":
+      return "brincar, presentear ou apoiar atividades lúdicas com produção local";
+    case "Utilidades Especiais":
       return "resolver uso diário com impressão 3D funcional e acabamento limpo";
     default:
       return "presentear, decorar ou organizar com produção local em 3D";
@@ -202,13 +225,15 @@ export function getProductCardDescription(product: Product) {
   switch (normalizedCategory) {
     case "Geek & Colecionáveis":
       return `${product.name} em ${product.material} com acabamento ${product.finish.toLowerCase()} para ${useCase}.`;
-    case "Setup & Organização":
+    case "Setup Gamer e Home Office":
       return `${product.name} pensado para ${useCase}, com estrutura em ${product.material} e visual limpo para uso constante.`;
-    case "Casa & Decoração":
+    case "Casa e Organização":
+      return `${product.name} feito em ${product.material} para ${useCase}, priorizando resistência, encaixe e rotina prática.`;
+    case "Decoração":
       return `${product.name} com impressão em ${product.material} e acabamento ${product.finish.toLowerCase()} para ${useCase}.`;
-    case "Presentes Criativos":
+    case "Presentes Personalizados":
       return `${product.name} criado para ${useCase}, com produção local em ${product.material} e foco em apresentação premium.`;
-    case "Utilidades Reais":
+    case "Utilidades Especiais":
       return `${product.name} feito em ${product.material} para ${useCase}, priorizando resistência, encaixe e rotina prática.`;
     default:
       return `${product.name} produzido em ${product.material} para presentear, organizar ou decorar com acabamento ${product.finish.toLowerCase()}.`;
@@ -239,6 +264,9 @@ export function buildProductSearchText(product: Product) {
     normalizeProductCategory(product),
     product.category,
     product.subcategory,
+    product.primaryCategory,
+    product.productTypePath,
+    product.objectType,
     product.theme,
     product.collection,
     getProductCardDescription(product),
@@ -248,6 +276,9 @@ export function buildProductSearchText(product: Product) {
     product.sku,
     ...product.colors,
     ...product.tags,
+    ...(product.buyingIntents || []),
+    ...(product.useCaseTags || []),
+    ...(product.seoKeywords || []),
     ...collectSearchAliases(product),
   ]
     .join(" ")

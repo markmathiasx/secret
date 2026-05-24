@@ -10,7 +10,7 @@ import { SafeProductImage } from "@/components/safe-product-image";
 import { ProductVisualBadge } from "@/components/product-visual-authenticity";
 import { getProductUrl, type Product } from "@/lib/catalog";
 import { getCatalogSnapshot } from "@/lib/catalog-repository";
-import { getProductVisual, isProductRealPhoto, summarizeProductVisuals } from "@/lib/product-visuals";
+import { getProductVisual, isProductPrimaryMediaValidated, summarizeProductVisuals } from "@/lib/product-visuals";
 import { getSiteUrl } from "@/lib/env";
 import { whatsappNumber } from "@/lib/constants";
 import { getLicensedVideoAsset } from "@/lib/video-assets";
@@ -37,7 +37,7 @@ export default async function CatalogPage() {
   const heroVideo = getLicensedVideoAsset("timelapse-print-loop");
   const editorialCollections = buildEditorialCollections(catalog);
   const compareProducts = buildQuickCompareProducts(catalog);
-  const realPhotoProducts = catalog.filter((product) => isProductRealPhoto(product)).slice(0, 8);
+  const validatedMediaProducts = catalog.filter((product) => isProductPrimaryMediaValidated(product)).slice(0, 8);
   const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent("Oi! Quero ajuda para escolher no catálogo da MDH 3D.")}`;
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
@@ -51,7 +51,7 @@ export default async function CatalogPage() {
     {
       question: "Como usar o catálogo sem se perder em opções demais?",
       answer:
-        "Comece por intenção de compra: presentear, organizar, decorar, colecionar, comprar em lote ou personalizar. Depois refine por foto real, disponibilidade, material e preço.",
+        "Comece por intenção de compra: presentear, organizar, decorar, colecionar, comprar em lote ou personalizar. Depois refine por categoria real, disponibilidade, material e preço.",
     },
     {
       question: "O catálogo mostra só produtos prontos?",
@@ -90,7 +90,7 @@ export default async function CatalogPage() {
         <div className="relative mx-auto grid max-w-7xl gap-10 lg:grid-cols-[minmax(0,0.98fr)_minmax(340px,0.72fr)] lg:items-end">
           <div>
             <h1 className="max-w-5xl text-balance text-[clamp(3rem,7.4vw,6.7rem)] font-black leading-[0.88] text-white">
-              Catálogo por intenção, prova visual e fechamento rápido.
+              Catálogo por intenção, categoria real e fechamento rápido.
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-white/72">
               Busque por produto, filtre por objetivo e avance para compra, WhatsApp ou sob medida sem cair em uma grade repetitiva.
@@ -115,9 +115,9 @@ export default async function CatalogPage() {
               </button>
             </form>
             <div className="mt-5 flex flex-wrap gap-2">
-              <Link href="/catalogo?mode=real" className="btn-glass gap-2 px-4 py-2 text-sm">
+              <Link href="/catalogo?mode=verified" className="btn-glass gap-2 px-4 py-2 text-sm">
                 <BadgeCheck className="h-4 w-4" />
-                Peças com foto real
+                Imagens validadas
               </Link>
               <Link href="/catalogo?custom=1" className="btn-glass gap-2 px-4 py-2 text-sm">
                 <SlidersHorizontal className="h-4 w-4" />
@@ -137,7 +137,7 @@ export default async function CatalogPage() {
           <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
             {[
               { label: "Produtos ativos", value: catalog.length.toLocaleString("pt-BR"), body: "itens públicos seguros" },
-              { label: "Fotos reais", value: visualSummary.fotoReal.toLocaleString("pt-BR"), body: "mídia honesta sinalizada" },
+              { label: "Mídia validada", value: visualSummary.merchantReady.toLocaleString("pt-BR"), body: "imagens do catálogo sinalizadas" },
               {
                 label: "Faixa inicial",
                 value: new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(minPrice),
@@ -160,7 +160,7 @@ export default async function CatalogPage() {
         <CatalogPresentationModes
           editorialCollections={editorialCollections}
           compareProducts={compareProducts}
-          realPhotoProducts={realPhotoProducts}
+          validatedMediaProducts={validatedMediaProducts}
         />
 
         <div id="catalogo-real" className="mt-12">
@@ -184,7 +184,7 @@ export default async function CatalogPage() {
           <CommerceFaq
             eyebrow="FAQ do catálogo"
             title="Dúvidas que aparecem antes de clicar no produto."
-            description="O catálogo mantém contexto de compra, prova visual e faixa inicial na própria página."
+            description="O catálogo mantém contexto de compra, categoria real e faixa inicial na própria página."
             items={catalogFaq}
           />
         </div>
@@ -200,9 +200,9 @@ function buildEditorialCollections(products: Product[]) {
       intent: "gifts" as const,
       title: "Presentes personalizados sem aparência genérica.",
       copy: "Peças com nome, tema, cor e escala pensadas para entregar algo com presença física e acabamento de produto final.",
-      href: "/catalogo?intent=Presente",
+      href: "/catalogo?category=Presentes%20Personalizados&intent=presentear",
       accent: "from-emerald-300/14",
-      products: pickProducts(products, (product) => product.customizable || /presente|chaveiro|familia|medalha|personal/i.test(productSearchText(product)), 3),
+      products: pickProducts(products, (product) => product.category === "Presentes Personalizados" || Boolean(product.buyingIntents?.includes("presentear") && product.customizable), 3),
     },
     {
       id: "setup",
@@ -211,16 +211,16 @@ function buildEditorialCollections(products: Product[]) {
       copy: "Organizadores, suportes e peças para rotina que precisam caber no espaço real, não só ficar bonitas na vitrine.",
       href: "/catalogo?q=setup",
       accent: "from-cyan-300/14",
-      products: pickProducts(products, (product) => /setup|gamer|mesa|home office|suporte|organizador|cabo/i.test(productSearchText(product)), 3),
+      products: pickProducts(products, (product) => product.category === "Setup Gamer e Home Office" || Boolean(product.buyingIntents?.includes("setup")), 3),
     },
     {
       id: "lotes",
       intent: "batch" as const,
       title: "Lotes pequenos e brindes com custo controlado.",
       copy: "Itens repetíveis para evento, equipe e ação comercial, com leitura de prazo, material e preço antes da conversa no WhatsApp.",
-      href: "/catalogo?intent=Atacado",
+      href: "/catalogo?intent=comprar_em_lote",
       accent: "from-amber-300/14",
-      products: pickProducts(products, (product) => /lote|brinde|corporativo|atacado|chaveiro|tag|porta/i.test(productSearchText(product)), 3),
+      products: pickProducts(products, (product) => product.category === "Lotes e Brindes Corporativos" || Boolean(product.buyingIntents?.includes("comprar_em_lote") || product.buyingIntents?.includes("corporativo")), 3),
     },
   ];
 
@@ -235,8 +235,8 @@ function buildQuickCompareProducts(products: Product[]) {
   const source = ready.length >= 5 ? ready : products;
   return [...source]
     .sort((a, b) => {
-      const aReal = isProductRealPhoto(a) ? -1 : 0;
-      const bReal = isProductRealPhoto(b) ? -1 : 0;
+      const aReal = isProductPrimaryMediaValidated(a) ? -1 : 0;
+      const bReal = isProductPrimaryMediaValidated(b) ? -1 : 0;
       return aReal - bReal || a.pricePix - b.pricePix;
     })
     .slice(0, 6);
@@ -256,29 +256,14 @@ function pickProducts(products: Product[], predicate: (product: Product) => bool
   return selected;
 }
 
-function productSearchText(product: Product) {
-  return [
-    product.name,
-    product.category,
-    product.subcategory,
-    product.collection,
-    product.theme,
-    product.description,
-    product.material,
-    product.tags?.join(" "),
-  ]
-    .filter(Boolean)
-    .join(" ");
-}
-
 function CatalogPresentationModes({
   editorialCollections,
   compareProducts,
-  realPhotoProducts,
+  validatedMediaProducts,
 }: {
   editorialCollections: ReturnType<typeof buildEditorialCollections>;
   compareProducts: Product[];
-  realPhotoProducts: Product[];
+  validatedMediaProducts: Product[];
 }) {
   return (
     <section className="mdh-catalog-mode-rail mt-14 space-y-10">
@@ -332,7 +317,7 @@ function CatalogPresentationModes({
             </p>
             <h2 className="mt-3 text-3xl font-black leading-tight text-white">Menos rolagem, mais decisão.</h2>
             <p className="mt-3 text-sm leading-7 text-white/65">
-              Uma leitura compacta de preço, prazo e prova visual antes de abrir o explorer completo.
+              Uma leitura compacta de preço, prazo e mídia do produto antes de abrir o explorer completo.
             </p>
           </div>
           <Link href="#catalogo-vitrine" className="btn-secondary gap-2">
@@ -374,22 +359,22 @@ function CatalogPresentationModes({
         </div>
       </div>
 
-      {realPhotoProducts.length ? (
-        <div className="mdh-real-photo-stream overflow-hidden rounded-[8px] border border-emerald-300/14 bg-[linear-gradient(120deg,rgba(16,185,129,0.10),rgba(3,7,13,0.78))] p-4">
+      {validatedMediaProducts.length ? (
+        <div className="mdh-trust-media-stream overflow-hidden rounded-[8px] border border-emerald-300/14 bg-[linear-gradient(120deg,rgba(16,185,129,0.10),rgba(3,7,13,0.78))] p-4">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div className="max-w-2xl">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-emerald-100/70">Stream de foto real</p>
-              <h2 className="mt-3 text-3xl font-black leading-tight text-white">Prova visual antes do clique.</h2>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-emerald-100/70">Stream de mídia validada</p>
+              <h2 className="mt-3 text-3xl font-black leading-tight text-white">Imagem do produto antes do clique.</h2>
               <p className="mt-3 text-sm leading-7 text-white/65">
-                Peças já fotografadas aparecem como trilha de confiança para diferenciar foto real, render fiel e ideia visual.
+                Produtos com mídia validada aparecem como trilha de confiança para comparar acabamento, escala e uso.
               </p>
             </div>
-            <Link href="/catalogo?mode=real" className="btn-glass">
-              Ver só fotos reais
+            <Link href="/catalogo?mode=verified" className="btn-glass">
+              Ver mídia validada
             </Link>
           </div>
           <div className="mt-5 flex gap-3 overflow-x-auto pb-2">
-            {realPhotoProducts.map((product) => (
+            {validatedMediaProducts.map((product) => (
               <Link key={product.id} href={getProductUrl(product)} className="min-w-[210px] overflow-hidden rounded-[8px] border border-white/10 bg-black/26">
                 <SafeProductImage product={product} alt={product.name} className="aspect-[4/5] w-full object-cover" sizes="220px" />
                 <div className="p-3">

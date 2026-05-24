@@ -67,7 +67,7 @@ const messages: Record<Locale, Translations> = {
 
     // Meta
     'meta.title': 'MDH 3D | Impressão 3D Profissional no Rio de Janeiro',
-    'meta.description': 'Produção local de peças 3D premium com foto real antes da compra. Catálogo com 500+ produtos, entrega em 24-48h no Rio.',
+    'meta.description': 'Produção local de peças 3D premium com imagem validada antes da compra. Catálogo com 500+ produtos, entrega em 24-48h no Rio.',
   },
   'en-US': {
     'common.welcome': 'Welcome',
@@ -173,7 +173,7 @@ const messages: Record<Locale, Translations> = {
     'footer.followUs': 'Síguenos',
 
     'meta.title': 'MDH 3D | Impresión 3D Profesional en Río de Janeiro',
-    'meta.description': 'Producción local de piezas 3D premium con foto real antes de comprar. Catálogo con 500+ productos, entrega en 24-48h en Río.',
+    'meta.description': 'Producción local de piezas 3D premium con imagen validada antes de comprar. Catálogo con 500+ productos, entrega en 24-48h en Río.',
   },
 };
 

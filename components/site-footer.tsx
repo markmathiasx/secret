@@ -21,7 +21,7 @@ const quickWhatsAppLinks = [
 ];
 
 const footerCatalogShortcutLinks = catalogShortcutLinks
-  .filter((item) => item.label !== "Só foto real")
+  .filter((item) => item.label !== "Mídia validada")
   .slice(0, 3);
 
 function InstagramIcon({ className }: { className: string }) {
@@ -79,7 +79,7 @@ export function SiteFooter({ cardCheckoutReady = false }: { cardCheckoutReady?: 
           </div>
           <div className="mt-6 flex flex-wrap gap-2">
             <span className="rounded-full border border-emerald-300/25 bg-emerald-300/10 px-3 py-1 text-xs font-semibold text-emerald-100">
-              Portfólio com fotos reais
+              Portfólio com mídia validada
             </span>
             <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold text-white/70">
               {checkoutPaymentLabel}

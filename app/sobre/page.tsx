@@ -37,7 +37,7 @@ export default function SobrePage() {
       <div className="mt-12 grid gap-6 sm:grid-cols-3">
         {[
           { title: "Produção local", desc: "Tudo produzido no Rio de Janeiro com equipamentos modernos.", icon: "🖨️" },
-          { title: "Catálogo curado", desc: "Seleção de produtos com fotos reais e preços transparentes.", icon: "📦" },
+          { title: "Catálogo curado", desc: "Seleção de produtos com imagens validadas e preços transparentes.", icon: "📦" },
           { title: "Atendimento direto", desc: "Sem intermediários — fale com a equipe no WhatsApp ou e-mail.", icon: "💬" },
         ].map((item) => (
           <div key={item.title} className="glass-card text-center">

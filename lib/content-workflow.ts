@@ -114,7 +114,7 @@ function buildProductWorkflow() {
       },
     ],
     checklist: [
-      "Validar honestidade visual: nada de tratar placeholder como foto real.",
+      "Validar honestidade visual: nada de tratar placeholder como imagem validada.",
       "Conferir CTA principal, prova social e faixa inicial ou orçamento.",
       "Garantir reaproveitamento: produto -> Reel -> carrossel -> Story -> blog -> FAQ.",
     ],

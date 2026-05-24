@@ -3,8 +3,15 @@
 import type { ChangeEvent, FormEvent } from "react";
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Calculator, Sparkles } from "lucide-react";
+import { Calculator, Flag, RefreshCw, Sparkles } from "lucide-react";
 import type { AdminCatalogProduct } from "@/lib/server/admin-catalog-store";
+import {
+  BUYING_INTENTS,
+  CATALOG_PRIMARY_CATEGORIES,
+  PRODUCT_OBJECT_TYPES,
+  applyCatalogTaxonomy,
+  type BuyingIntent,
+} from "@/lib/catalog-taxonomy";
 
 type EstimateResponse = {
   ok?: boolean;
@@ -35,6 +42,17 @@ function numberText(value: number | null | undefined, fallback = "") {
 function parseNumber(value: string, fallback = 0) {
   const parsed = Number(value.replace(",", "."));
   return Number.isFinite(parsed) ? parsed : fallback;
+}
+
+function parseList(value: string) {
+  return value
+    .split(",")
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+
+function listText(value: string[] | null | undefined) {
+  return Array.isArray(value) ? value.join(", ") : "";
 }
 
 function roundCurrency(value: number) {
@@ -102,6 +120,17 @@ export function AdminProductEditForm({ product }: { product: AdminCatalogProduct
     title: product.title,
     description: product.description,
     category: product.category,
+    subcategory: product.subcategory,
+    primaryCategory: product.primaryCategory,
+    productTypePath: product.productTypePath,
+    buyingIntents: listText(product.buyingIntents),
+    objectType: product.objectType,
+    useCaseTags: listText(product.useCaseTags),
+    seoKeywords: listText(product.seoKeywords),
+    tags: listText(product.tags),
+    confidence: product.confidence,
+    classificationReason: product.classificationReason,
+    taxonomyReviewRequested: product.taxonomyReviewRequested,
     collection: product.collection,
     material: product.material,
     finish: product.finish,
@@ -139,7 +168,12 @@ export function AdminProductEditForm({ product }: { product: AdminCatalogProduct
   function handleChange(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
     const target = e.target;
     const value = target.type === "checkbox" ? (target as HTMLInputElement).checked : target.value;
-    setForm((prev) => ({ ...prev, [target.name]: value }));
+    setForm((prev) => {
+      if (target.name === "category" && typeof value === "string") {
+        return { ...prev, category: value, primaryCategory: value };
+      }
+      return { ...prev, [target.name]: value };
+    });
   }
 
   function applyPrices(source: ReturnType<typeof calculateRecommendation>) {
@@ -190,6 +224,48 @@ export function AdminProductEditForm({ product }: { product: AdminCatalogProduct
     }));
   }
 
+  function reclassifyProduct() {
+    const classification = applyCatalogTaxonomy({
+      id: product.id,
+      sku: product.id,
+      name: String(form.title),
+      description: String(form.description),
+      category: String(form.category),
+      subcategory: String(form.subcategory),
+      collection: String(form.collection),
+      material: String(form.material),
+      finish: String(form.finish),
+      status: String(form.status),
+      tags: parseList(String(form.tags)),
+      customizable: Boolean(form.customizable),
+      readyToShip: Boolean(form.readyToShip),
+    });
+
+    setForm((prev) => ({
+      ...prev,
+      category: classification.primaryCategory,
+      primaryCategory: classification.primaryCategory,
+      subcategory: classification.subcategory,
+      productTypePath: classification.productTypePath,
+      buyingIntents: classification.buyingIntents.join(", "),
+      objectType: classification.objectType,
+      useCaseTags: classification.useCaseTags.join(", "),
+      seoKeywords: classification.seoKeywords.join(", "),
+      confidence: classification.confidence,
+      classificationReason: classification.classificationReason,
+      taxonomyReviewRequested: false,
+    }));
+  }
+
+  function markForTaxonomyReview() {
+    setForm((prev) => ({
+      ...prev,
+      confidence: "low",
+      taxonomyReviewRequested: true,
+      classificationReason: `${String(prev.classificationReason || "").trim()} Revisão manual solicitada no admin.`.trim(),
+    }));
+  }
+
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     setLoading(true);
@@ -205,6 +281,19 @@ export function AdminProductEditForm({ product }: { product: AdminCatalogProduct
           pricePix: parseNumber(String(form.pricePix)),
           priceCard: parseNumber(String(form.priceCard)),
           stock: parseNumber(String(form.stock)),
+          subcategory: String(form.subcategory),
+          primaryCategory: String(form.category),
+          productTypePath: String(form.productTypePath),
+          buyingIntents: parseList(String(form.buyingIntents)).filter((intent): intent is BuyingIntent =>
+            (BUYING_INTENTS as readonly string[]).includes(intent)
+          ),
+          objectType: String(form.objectType),
+          useCaseTags: parseList(String(form.useCaseTags)),
+          seoKeywords: parseList(String(form.seoKeywords)),
+          tags: parseList(String(form.tags)),
+          confidence: String(form.confidence),
+          classificationReason: String(form.classificationReason),
+          taxonomyReviewRequested: Boolean(form.taxonomyReviewRequested),
           estimatedGrams: parseNumber(String(form.estimatedGrams)),
           estimatedHours: parseNumber(String(form.estimatedHours)),
           complexity: parseNumber(String(form.complexity), 1),
@@ -263,12 +352,103 @@ export function AdminProductEditForm({ product }: { product: AdminCatalogProduct
 
         <div className="grid gap-4 sm:grid-cols-2">
           <label className="block">
-            <span className="mb-1 block text-sm text-white/70">Categoria</span>
-            <input name="category" value={String(form.category)} onChange={handleChange} className="field-base" />
+            <span className="mb-1 block text-sm text-white/70">Categoria principal</span>
+            <select name="category" value={String(form.category)} onChange={handleChange} className="field-base">
+              {CATALOG_PRIMARY_CATEGORIES.map((category) => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              ))}
+            </select>
           </label>
           <label className="block">
             <span className="mb-1 block text-sm text-white/70">Coleção</span>
             <input name="collection" value={String(form.collection)} onChange={handleChange} className="field-base" />
+          </label>
+        </div>
+
+        <div className="rounded-[8px] border border-cyan-300/14 bg-cyan-300/8 p-4">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-cyan-100/70">Taxonomia pública</p>
+              <p className="mt-1 text-sm text-white/60">
+                Categoria diz o que o item é; intenções dizem por que alguém compra.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <button type="button" onClick={reclassifyProduct} className="btn-secondary gap-2 text-sm">
+                <RefreshCw className="h-4 w-4" />
+                Reclassificar produto
+              </button>
+              <button type="button" onClick={markForTaxonomyReview} className="btn-glass gap-2 text-sm">
+                <Flag className="h-4 w-4" />
+                Marcar para revisão
+              </button>
+            </div>
+          </div>
+
+          <div className="mt-4 grid gap-4 sm:grid-cols-2">
+            <label className="block">
+              <span className="mb-1 block text-sm text-white/70">Subcategoria</span>
+              <input name="subcategory" value={String(form.subcategory)} onChange={handleChange} className="field-base" />
+            </label>
+            <label className="block">
+              <span className="mb-1 block text-sm text-white/70">Tipo de objeto</span>
+              <select name="objectType" value={String(form.objectType)} onChange={handleChange} className="field-base">
+                {PRODUCT_OBJECT_TYPES.map((objectType) => (
+                  <option key={objectType} value={objectType}>
+                    {objectType}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+
+          <div className="mt-4 grid gap-4">
+            <label className="block">
+              <span className="mb-1 block text-sm text-white/70">Caminho SEO</span>
+              <input name="productTypePath" value={String(form.productTypePath)} onChange={handleChange} className="field-base" />
+            </label>
+            <label className="block">
+              <span className="mb-1 block text-sm text-white/70">Intenções de compra</span>
+              <input name="buyingIntents" value={String(form.buyingIntents)} onChange={handleChange} className="field-base" />
+            </label>
+          </div>
+
+          <div className="mt-4 grid gap-4 md:grid-cols-2">
+            <label className="block">
+              <span className="mb-1 block text-sm text-white/70">Tags de uso</span>
+              <textarea name="useCaseTags" value={String(form.useCaseTags)} onChange={handleChange} rows={2} className="field-base resize-y" />
+            </label>
+            <label className="block">
+              <span className="mb-1 block text-sm text-white/70">SEO keywords</span>
+              <textarea name="seoKeywords" value={String(form.seoKeywords)} onChange={handleChange} rows={2} className="field-base resize-y" />
+            </label>
+          </div>
+
+          <label className="mt-4 block">
+            <span className="mb-1 block text-sm text-white/70">Tags públicas</span>
+            <textarea name="tags" value={String(form.tags)} onChange={handleChange} rows={2} className="field-base resize-y" />
+          </label>
+
+          <div className="mt-4 grid gap-4 md:grid-cols-[0.5fr_1fr]">
+            <label className="block">
+              <span className="mb-1 block text-sm text-white/70">Confiança</span>
+              <select name="confidence" value={String(form.confidence)} onChange={handleChange} className="field-base">
+                <option value="high">high</option>
+                <option value="medium">medium</option>
+                <option value="low">low</option>
+              </select>
+            </label>
+            <label className="block">
+              <span className="mb-1 block text-sm text-white/70">Razão da classificação</span>
+              <input name="classificationReason" value={String(form.classificationReason)} onChange={handleChange} className="field-base" />
+            </label>
+          </div>
+
+          <label className="mt-4 flex items-center gap-2 text-sm text-white/70">
+            <input type="checkbox" name="taxonomyReviewRequested" checked={Boolean(form.taxonomyReviewRequested)} onChange={handleChange} />
+            Revisão de taxonomia pendente
           </label>
         </div>
 

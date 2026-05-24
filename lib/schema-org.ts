@@ -295,7 +295,7 @@ export function generateOrganizationSchema(): SchemaOrganization {
     name: 'MDH 3D',
     url: 'https://mdh3d.com.br',
     logo: 'https://mdh3d.com.br/logo.png',
-    description: 'Impressão 3D premium no Rio de Janeiro com foto real antes da compra.',
+    description: 'Impressão 3D premium no Rio de Janeiro com imagem validada antes da compra.',
     sameAs: [
       'https://www.instagram.com/mdh3d',
       'https://www.facebook.com/mdh3d',

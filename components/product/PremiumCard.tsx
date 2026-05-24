@@ -31,9 +31,9 @@ export function PremiumCard({ product, index = 0 }: PremiumCardProps) {
   const productUrl = getProductUrl(product);
   const visualLabel =
     mediaRecord.status === "verified"
-      ? "Foto real"
+      ? "Imagem validada"
       : mediaRecord.status === "render-verified"
-        ? "Render fiel"
+        ? "Visual validado"
         : "Imagem sinalizada";
 
   function handleAddToCart(e: React.MouseEvent) {
@@ -130,7 +130,7 @@ export function PremiumCard({ product, index = 0 }: PremiumCardProps) {
 
         <div className="flex items-center gap-2 rounded-[8px] border border-white/10 bg-black/20 px-3 py-2 text-xs text-white/62">
           <Eye className="h-3.5 w-3.5 text-cyan-100" aria-hidden="true" />
-          <span>Prova visual: {visualLabel.toLowerCase()}</span>
+          <span>Mídia do produto: {visualLabel.toLowerCase()}</span>
         </div>
 
         {/* Price */}

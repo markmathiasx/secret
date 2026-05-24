@@ -2,6 +2,7 @@ import type { Prisma } from "@prisma/client";
 import { MediaType, ProductStatus, ProductVisibility } from "@prisma/client";
 import { getProductLongDescription, buildProductSearchText } from "@/lib/catalog-content";
 import { applyCatalogMedia, buildProductImageAlt } from "@/lib/catalog-media";
+import { applyCatalogTaxonomy } from "@/lib/catalog-taxonomy";
 import { catalog as staticCatalog, findProductBySlug as findStaticProductBySlug, type Product } from "@/lib/catalog";
 import { logStructured } from "@/lib/logger";
 import { canConnectToDatabase, prisma } from "@/lib/prisma";
@@ -164,7 +165,7 @@ function mapPrismaProduct(record: PrismaProductRecord): Product {
     } as Product),
   };
 
-  return applyCatalogMedia(baseProduct, { preserveExisting: true });
+  return applyCatalogMedia(applyCatalogTaxonomy(baseProduct), { preserveExisting: true });
 }
 export type CatalogQuery = {
   q?: string;

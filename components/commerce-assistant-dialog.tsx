@@ -60,16 +60,16 @@ function buildClientAssistantFallback(message: string, cardCheckoutReady: boolea
 
   if (/(site|loja|mdh|cat[aá]logo|checkout|conta|login|como funciona|p[aá]gina)/.test(normalized)) {
     return cardCheckoutReady
-      ? "Posso responder sobre o catálogo, páginas do site, checkout, Pix, cartão online, entrega, personalização, STL e atendimento humano. Pergunte como no ChatGPT: produto, prazo, preço, foto real, pedido ou suporte."
-      : "Posso responder sobre o catálogo, páginas do site, checkout, Pix, entrega, personalização, STL e atendimento humano. Pergunte como no ChatGPT: produto, prazo, preço, foto real, pedido ou suporte.";
+      ? "Posso responder sobre o catálogo, páginas do site, checkout, Pix, cartão online, entrega, personalização, STL e atendimento humano. Pergunte como no ChatGPT: produto, prazo, preço, imagem validada, pedido ou suporte."
+      : "Posso responder sobre o catálogo, páginas do site, checkout, Pix, entrega, personalização, STL e atendimento humano. Pergunte como no ChatGPT: produto, prazo, preço, imagem validada, pedido ou suporte.";
   }
 
   if (/(stl|obj|3mf|personaliz|briefing|referencia|referência)/.test(normalized)) {
     return "Para projeto personalizado, mande sua referência em /imagem-para-impressao-3d ou siga para o atendimento humano para validar material, prazo e acabamento.";
   }
 
-  if (/(presente|foto real|lembranc|gift)/.test(normalized)) {
-    return "Se a prioridade é presentear com menos dúvida, eu começaria pelo catálogo com foto real e por itens até a faixa de preço que você tiver em mente. Se quiser, abra o atendimento humano e eu te levo para o fechamento.";
+  if (/(presente|imagem validada|lembranc|gift)/.test(normalized)) {
+    return "Se a prioridade é presentear com menos dúvida, eu começaria pelo catálogo com mídia validada e por itens até a faixa de preço que você tiver em mente. Se quiser, abra o atendimento humano e eu te levo para o fechamento.";
   }
 
   if (/(setup|suporte|organiza|mesa|fone|controle)/.test(normalized)) {
@@ -82,7 +82,7 @@ function buildClientAssistantFallback(message: string, cardCheckoutReady: boolea
       : "Eu consigo te orientar por Pix e fechamento assistido. Se quiser resolver isso agora com a equipe, abra o atendimento humano ou siga direto para /checkout.";
   }
 
-  return `Posso te orientar por objetivo, faixa de preço, foto real, pronta entrega ou personalização. Se preferir atendimento humano imediato, use https://wa.me/${whatsappNumber}.`;
+  return `Posso te orientar por objetivo, faixa de preço, imagem validada, pronta entrega ou personalização. Se preferir atendimento humano imediato, use https://wa.me/${whatsappNumber}.`;
 }
 
 function createWelcomeMessage(
@@ -96,7 +96,7 @@ function createWelcomeMessage(
     content: aiAssistantReady
       ? [
           "Sou o consultor de compra da MDH 3D.",
-          "Posso separar produtos por faixa de preço, foto real, pronta entrega, setup, presente ou personalização.",
+          "Posso separar produtos por faixa de preço, imagem validada, pronta entrega, setup, presente ou personalização.",
           cardCheckoutReady
             ? "Se você já souber o objetivo da compra, eu encurto a seleção e te levo para o fechamento."
             : "Se você já souber o objetivo da compra, eu encurto a seleção e te levo para Pix ou atendimento humano.",
@@ -111,11 +111,11 @@ function createWelcomeMessage(
 const infoCards = [
   {
     id: "gift",
-    title: "Presentes com foto real",
+    title: "Presentes com mídia validada",
     icon: Sparkles,
     description: "Comece por itens com impacto visual forte e caminho curto até o fechamento.",
     actionLabel: "Ver presentes",
-    actionHref: "/catalogo?intent=Presente&mode=real",
+    actionHref: "/catalogo?intent=presentear&mode=verified",
   },
   {
     id: "setup",
@@ -123,7 +123,7 @@ const infoCards = [
     icon: PackageCheck,
     description: "Peças funcionais para mesa, bancada e organização com leitura rápida de valor.",
     actionLabel: "Ver setup",
-    actionHref: "/catalogo?category=Setup%20%26%20Organiza%C3%A7%C3%A3o&status=Pronta%20entrega",
+    actionHref: "/catalogo?category=Setup%20Gamer%20e%20Home%20Office&status=Pronta%20entrega",
   },
   {
     id: "custom",
@@ -453,7 +453,7 @@ export function CommerceAssistantDialog({
                 <div>
                   <p className="text-sm font-semibold text-white">Conversa com o consultor</p>
                   <p className="text-xs text-white/50">
-                    Converse sobre produtos, páginas do site, dia/hora, pagamento, entrega, foto real, pronta entrega ou personalização.
+                    Converse sobre produtos, páginas do site, dia/hora, pagamento, entrega, imagem validada, pronta entrega ou personalização.
                   </p>
                 </div>
               </div>

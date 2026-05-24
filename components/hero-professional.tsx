@@ -26,7 +26,7 @@ const HERO_VIDEO = {
 };
 
 const HERO_SIGNALS = [
-  "Foto real e render fiel separados",
+  "Mídia do catálogo sinalizada",
   "Produção local no Rio",
   "Personalização com STL, imagem e briefing",
 ];
@@ -35,7 +35,7 @@ const HERO_STEPS = [
   {
     value: "01",
     title: "Ache a peça certa",
-    body: "Comece por presente, utilidade, pronta entrega ou foto real sem navegar uma vitrine confusa.",
+    body: "Comece por presente, utilidade, pronta entrega ou mídia validada sem navegar uma vitrine confusa.",
   },
   {
     value: "02",
@@ -51,16 +51,16 @@ const HERO_STEPS = [
 
 type HeroProps = {
   catalogCount: number;
-  realPhotoCount: number;
-  readyRealCount: number;
+  validatedMediaCount: number;
+  readyValidatedMediaCount: number;
   ratingLabel: string;
   reviewCount?: number;
 };
 
 export function Hero({
   catalogCount,
-  realPhotoCount,
-  readyRealCount,
+  validatedMediaCount,
+  readyValidatedMediaCount,
   ratingLabel,
   reviewCount,
 }: HeroProps) {
@@ -175,15 +175,15 @@ export function Hero({
       accent: "text-cyan-100",
     },
     {
-      label: "Fotos reais",
-      value: String(realPhotoCount).padStart(2, "0"),
-      helper: "prova visual mais forte para decidir",
+      label: "Mídia validada",
+      value: String(validatedMediaCount).padStart(2, "0"),
+      helper: "imagem do produto para decidir",
       icon: ShieldCheck,
       accent: "text-emerald-100",
     },
     {
       label: "Pronta entrega",
-      value: String(readyRealCount).padStart(2, "0"),
+      value: String(readyValidatedMediaCount).padStart(2, "0"),
       helper: "itens com resposta comercial mais rápida",
       icon: Clock3,
       accent: "text-violet-100",
@@ -255,7 +255,7 @@ export function Hero({
 
             <h1 className="mt-6 max-w-5xl text-5xl font-black leading-[0.92] text-white md:text-7xl">
               Impressão 3D premium com{" "}
-              <span className="text-gradient-brand">foto real</span>, produção local e acabamento de vitrine.
+              <span className="text-gradient-brand">imagem validada</span>, produção local e acabamento de vitrine.
             </h1>
 
             <p className="mt-6 max-w-2xl text-base leading-8 text-white/82 md:text-lg">
@@ -270,7 +270,7 @@ export function Hero({
               <div>
                 <p className="font-semibold text-white">Rodada de fechamento de hoje</p>
                 <p className="mt-1 text-emerald-50/75">
-                  Priorize {readyRealCount} pronta entrega e {realPhotoCount} itens com foto real antes de pedir orçamento sob medida.
+                  Priorize {readyValidatedMediaCount} pronta entrega e {validatedMediaCount} itens com mídia validada antes de pedir orçamento sob medida.
                 </p>
               </div>
               <span className="rounded-full border border-emerald-300/25 bg-black/20 px-4 py-2 font-mono text-sm font-bold text-emerald-100">
@@ -279,7 +279,7 @@ export function Hero({
             </div>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
-              <Link href="/catalogo?intent=Compra%20r%C3%A1pida&mode=real" className="btn-primary gap-2">
+              <Link href="/catalogo?intent=pronta_entrega&mode=verified" className="btn-primary gap-2">
                 <ShoppingBag className="h-4 w-4" />
                 Comprar agora
                 <ArrowRight className="h-4 w-4" />
@@ -312,7 +312,7 @@ export function Hero({
             </div>
 
             <p className="mt-4 text-sm leading-7 text-white/58">
-              Foto real, render fiel e projeto personalizado aparecem com sinalização clara antes de qualquer pagamento.
+              Imagem do produto, visual validado e projeto personalizado aparecem com sinalização clara antes de qualquer pagamento.
             </p>
 
             {selectedFile ? (
@@ -348,7 +348,7 @@ export function Hero({
                 Escolha com menos dúvida e feche com mais segurança.
               </h2>
               <p className="mt-3 text-sm leading-7 text-white/62">
-                A entrada do site já separa foto real, pronta entrega, personalizados e pagamento para encurtar o caminho entre descobrir, validar e comprar.
+                A entrada do site já separa mídia validada, pronta entrega, personalizados e pagamento para encurtar o caminho entre descobrir, validar e comprar.
               </p>
             </div>
 
@@ -419,7 +419,7 @@ export function Hero({
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className="text-xs uppercase tracking-[0.18em] text-emerald-100/70">
-                      Foto real
+                      Imagem validada
                     </p>
                     <p className="mt-0.5 line-clamp-2 text-sm font-semibold text-white">
                       {item.name}
@@ -440,7 +440,7 @@ export function Hero({
 
         <div className="mt-10 grid gap-3 md:grid-cols-4">
           {[
-            "Foto real, render fiel e imagem conceitual aparecem com selo claro na vitrine.",
+            "Imagem do produto, visual validado e mídia do catálogo aparecem com selo claro na vitrine.",
             "Pix, acompanhamento e atendimento assistido seguem no mesmo fluxo de compra.",
             "Consultor e WhatsApp ajudam a escolher sem tirar o cliente do caminho de compra.",
             "Projetos sob medida aceitam STL, imagem e briefing com análise humana.",

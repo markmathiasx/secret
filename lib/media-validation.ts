@@ -142,6 +142,21 @@ const _semanticBlocklist: Set<string> = new Set(
     .map((i) => i.id),
 );
 
+const _semanticPublicStatusById: Map<string, MediaVerificationStatus> = new Map(
+  (
+    semanticAuditData as {
+      items: Array<{ id: string; status: string; mediaStatus?: string; isPlaceholderSet: boolean }>;
+    }
+  ).items
+    .filter((i) => i.status === "APPROVED" || i.status === "FIX_TEXT")
+    .flatMap((i): Array<[string, MediaVerificationStatus]> => {
+      if (i.mediaStatus === "verified") return [[i.id, "verified"]];
+      if (i.mediaStatus === "render-verified") return [[i.id, "render-verified"]];
+      if (i.mediaStatus === "probable") return [[i.id, "probable"]];
+      return [];
+    }),
+);
+
 const curatedValorantProductIds = new Set([
   "csv-cha-001",
   "csv-cha-002",
@@ -186,6 +201,9 @@ export function deriveMediaStatus(
 
   // render from real 3D model → render-verified (also precedes blocklist)
   if (photoKind === "render-fiel") return "render-verified";
+
+  const auditedPublicStatus = _semanticPublicStatusById.get(product.id);
+  if (auditedPublicStatus) return auditedPublicStatus;
 
   // HARD BLOCK: items whose image sets are placeholder text cards (conceptual only)
   if (_semanticBlocklist.has(product.id)) return "placeholder";

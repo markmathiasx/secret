@@ -9,6 +9,14 @@ export type PublicProductPayload = {
   name: string;
   category: string;
   subcategory: string;
+  primaryCategory?: string;
+  productTypePath?: string;
+  buyingIntents?: string[];
+  objectType?: string;
+  useCaseTags?: string[];
+  seoKeywords?: string[];
+  confidence?: string;
+  classificationReason?: string;
   theme: string;
   collection: string;
   colors: string[];
@@ -58,6 +66,14 @@ export function serializePublicProduct(product: Product): PublicProductPayload {
     name: product.name,
     category: product.category,
     subcategory: product.subcategory,
+    primaryCategory: product.primaryCategory,
+    productTypePath: product.productTypePath,
+    buyingIntents: product.buyingIntents,
+    objectType: product.objectType,
+    useCaseTags: product.useCaseTags,
+    seoKeywords: product.seoKeywords,
+    confidence: product.confidence,
+    classificationReason: product.classificationReason,
     theme: product.theme,
     collection: product.collection,
     colors: product.colors,

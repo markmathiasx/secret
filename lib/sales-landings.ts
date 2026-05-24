@@ -99,7 +99,7 @@ function createLanding(config: Omit<SalesLandingConfig, "heroImageLabel"> & { he
     ...config,
     heroImageLabel:
       config.heroImageLabel ??
-      (config.heroImage && config.heroImage.includes("/products/foto") ? "Foto real do atelie" : "Hero IA com referencia real"),
+      (config.heroImage && config.heroImage.includes("/products/foto") ? "Imagem validada do atelie" : "Mídia de referência validada"),
   };
 }
 
@@ -146,7 +146,7 @@ export const salesLandings = {
     budgetLabel: "Faixa inicial a partir de R$ 37 no Pix para itens compactos e sob consulta para presentes mais afetivos.",
     heroImage: "/landing-assets/presentes-hero-v2.webp",
     heroImageAlt: "Miniatura personalizada e presentes 3D em cena comercial",
-    proofPoints: ["Faixa de entrada enxuta", "Pecas com foto real no topo", "Atendimento humano para personalizar"],
+    proofPoints: ["Faixa de entrada enxuta", "Peças com imagem validada no topo", "Atendimento humano para personalizar"],
     purchaseTriggers: [
       "Quando a compra precisa parecer presente de verdade e nao improviso.",
       "Quando faz sentido escolher algo com prova visual antes de entrar no checkout.",
@@ -195,7 +195,7 @@ export const salesLandings = {
     audience: "Para empresa, escola, evento, igreja, acao promocional e lembranca repetivel com identidade visual.",
     budgetLabel: "Faixa inicial enxuta para chaveiros e medalhas; lotes maiores dependem de quantidade, acabamento e prazo.",
     heroImage: "/products/foto-011-chaveiro-maconaria.webp",
-    heroImageAlt: "Chaveiro e medalha personalizados em foto real",
+    heroImageAlt: "Chaveiro e medalha personalizados com imagem validada",
     proofPoints: ["Chaveiros, medalhas e nomes 3D", "Fluxo claro para lote", "WhatsApp comercial direto"],
     purchaseTriggers: [
       "Quando voce precisa alinhar quantidade e prazo antes do desenho final.",
@@ -289,7 +289,7 @@ export const salesLandings = {
   geek: createLanding({
     key: "geek",
     slug: "/colecionaveis-geek-3d",
-    seoTitle: "Colecionaveis geek 3D com foto real e pecas premium",
+    seoTitle: "Colecionaveis geek 3D com imagem validada e pecas premium",
     seoDescription:
       "Colecionaveis geek 3D, miniaturas e pecas inspiradas em cultura pop com curadoria visual, acabamento premium e producao local.",
     kicker: "Geek e colecionaveis",
@@ -451,7 +451,7 @@ export const salesLandings = {
     audience: "Para presente afetivo, criativo ou tematico com atendimento local no Rio de Janeiro.",
     budgetLabel: "Comeca com tickets compactos para nomes e chaveiros e sobe quando o presente pede pintura, miniatura ou briefing mais detalhado.",
     heroImage: "/products/foto-008-boneca-crianca.webp",
-    heroImageAlt: "Presente personalizado 3D em foto real",
+    heroImageAlt: "Presente personalizado 3D com imagem validada",
     proofPoints: ["Presente com nome, tema ou historia", "Atendimento local no RJ", "Briefing simples antes do fechamento"],
     purchaseTriggers: [
       "Quando o valor percebido vem mais da personalizacao do que do tamanho da peca.",
@@ -499,7 +499,7 @@ export const salesLandings = {
     audience: "Para RH, marketing, vendas, eventos corporativos e acao promocional com prazo definido.",
     budgetLabel: "A faixa varia por volume, acabamento e personalizacao de marca; itens repetiveis costumam ser a melhor porta de entrada.",
     heroImage: "/products/foto-011-chaveiro-maconaria.webp",
-    heroImageAlt: "Brinde empresarial em foto real",
+    heroImageAlt: "Brinde empresarial com imagem validada",
     proofPoints: ["Lote corporativo", "Marca e identidade visual", "Atendimento comercial direto"],
     purchaseTriggers: [
       "Quando o pedido envolve marca, logo, equipe ou evento corporativo.",
@@ -549,7 +549,7 @@ export const salesLandings = {
     audience: "Para miniatura afetiva, personagem autoral, mashup ou presente com forte identidade visual.",
     budgetLabel: "A entrada varia com tamanho e nivel de detalhe; projetos afetivos e cenograficos pedem faixa acima de itens simples.",
     heroImage: "/products/foto-005-hello-kitty-jedi.webp",
-    heroImageAlt: "Miniatura personalizada em foto real",
+    heroImageAlt: "Miniatura personalizada com imagem validada",
     proofPoints: ["Miniatura afetiva e fandom", "Briefing com referencia visual", "Escala e acabamento validados antes da producao"],
     purchaseTriggers: [
       "Quando o cliente quer ver um personagem, mashup ou pessoa virar objeto de presente.",
@@ -843,7 +843,7 @@ export const salesLandings = {
     audience: "Para projeto que depende de briefing, referencia, medida ou problema especifico.",
     budgetLabel: "A faixa inicial varia conforme complexidade, escala, tempo de modelagem e necessidade de ajuste funcional ou estetico.",
     heroImage: "/products/foto-007-familia-custom.webp",
-    heroImageAlt: "Projeto 3D sob medida em foto real",
+    heroImageAlt: "Projeto 3D sob medida com imagem validada",
     proofPoints: ["Aceita imagem, STL e briefing", "Validacao humana antes da producao", "Fluxo comercial para projeto novo"],
     purchaseTriggers: [
       "Quando nao existe peca pronta que resolva exatamente o pedido.",
@@ -940,7 +940,7 @@ export const salesLandings = {
     audience: "Para setup gamer, estante geek, nicho, mesa criativa e presente de ambientacao.",
     budgetLabel: "A faixa varia com tamanho da peca e acabamento, mas o recorte privilegia objetos de ambiente com forte valor percebido.",
     heroImage: "/products/foto-004-demogorgon.webp",
-    heroImageAlt: "Decoracao geek em foto real",
+    heroImageAlt: "Decoracao geek com imagem validada",
     proofPoints: ["Fandom + ambiente", "Boa para nicho e estante", "Curadoria visual mais forte"],
     purchaseTriggers: [
       "Quando o cliente quer montar ambiente, nao apenas comprar uma miniatura solta.",
@@ -988,7 +988,7 @@ export const salesLandings = {
     audience: "Para mesa, bancada, banheiro, home office, setup e rotina de uso recorrente.",
     budgetLabel: "Faixa inicial leve para itens compactos e progressao natural para suportes maiores e adaptados por medida.",
     heroImage: "/products/foto-003-porta-creme-dental.webp",
-    heroImageAlt: "Organizador funcional em foto real",
+    heroImageAlt: "Organizador funcional com imagem validada",
     proofPoints: ["Uso diario", "Boa recompra", "Ajuste de medida quando precisar"],
     purchaseTriggers: [
       "Quando a compra e util e o cliente quer entender o uso rapido.",

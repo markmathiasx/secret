@@ -169,7 +169,7 @@ export default async function CategoryLandingPage({
           <div className="mt-2 flex flex-wrap gap-3">
             <span>{readyCount} itens de pronta entrega</span>
             <span className="h-1 w-1 self-center rounded-full bg-white/30" />
-            <span>{verifiedCount} com foto real ou render fiel</span>
+            <span>{verifiedCount} com mídia validada</span>
             <span className="h-1 w-1 self-center rounded-full bg-white/30" />
             <span>CTA de compra e CTA de briefing na mesma categoria</span>
           </div>
@@ -181,7 +181,7 @@ export default async function CategoryLandingPage({
           <p className="text-xs uppercase tracking-[0.2em] text-cyan-100/75">Selecao da categoria</p>
           <h2 className="mt-3 text-3xl font-black text-white">Pecas que representam melhor este recorte comercial.</h2>
           <p className="mt-4 text-sm leading-7 text-white/68">
-            A categoria abre com itens que ajudam a explicar melhor preco, prova visual e valor percebido para este tipo de compra.
+            A categoria abre com itens que ajudam a explicar melhor preco, mídia do produto e valor percebido para este tipo de compra.
           </p>
         </div>
         <CatalogGrid products={showcase} />

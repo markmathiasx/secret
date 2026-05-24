@@ -8,6 +8,7 @@ import { recordAdminAction } from "@/lib/admin-audit";
 import { invalidateCatalogCache } from "@/lib/runtime-cache";
 import { slugify } from "@/lib/utils";
 import { calculateProductionCostRecommendation, roundCurrency } from "@/lib/pricing-engine";
+import { BUYING_INTENTS, CATALOG_PRIMARY_CATEGORIES, PRODUCT_OBJECT_TYPES } from "@/lib/catalog-taxonomy";
 import type { AdminProductOverride, ProfitMode } from "@/types/admin-catalog";
 
 export const dynamic = "force-dynamic";
@@ -45,6 +46,30 @@ function cleanString(value: unknown, max = 1500) {
   if (typeof value !== "string") return undefined;
   const trimmed = value.trim();
   return trimmed ? trimmed.slice(0, max) : "";
+}
+
+function cleanStringList(value: unknown, allowed?: readonly string[], maxItems = 60) {
+  const raw = Array.isArray(value)
+    ? value
+    : typeof value === "string"
+      ? value.split(",")
+      : [];
+  const allowedSet = allowed ? new Set(allowed) : null;
+  const seen = new Set<string>();
+  const items: string[] = [];
+
+  for (const entry of raw) {
+    const text = cleanString(entry, 120);
+    if (text === undefined || !text) continue;
+    if (allowedSet && !allowedSet.has(text)) continue;
+    const key = text.toLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+    items.push(text);
+    if (items.length >= maxItems) break;
+  }
+
+  return items;
 }
 
 function readNumber(body: Record<string, unknown>, key: keyof NormalizedProductPatch) {
@@ -109,12 +134,23 @@ function normalizeProfitMode(value: unknown): ProfitMode | undefined {
   throw new Error("Modo de lucro inválido.");
 }
 
+function normalizeConfidence(value: unknown): AdminProductOverride["confidence"] | undefined {
+  if (value === undefined) return undefined;
+  if (value === "high" || value === "medium" || value === "low") return value;
+  throw new Error("Confiança da classificação inválida.");
+}
+
 function normalizeBody(body: Record<string, unknown>): NormalizedProductPatch {
   const patch: NormalizedProductPatch = {};
   const strings: Array<[keyof NormalizedProductPatch, number]> = [
     ["title", 160],
     ["description", 5000],
     ["category", 120],
+    ["subcategory", 120],
+    ["primaryCategory", 120],
+    ["productTypePath", 220],
+    ["objectType", 80],
+    ["classificationReason", 800],
     ["collection", 120],
     ["material", 120],
     ["finish", 120],
@@ -123,6 +159,18 @@ function normalizeBody(body: Record<string, unknown>): NormalizedProductPatch {
   for (const [key, max] of strings) {
     if (key in body) patch[key] = cleanString(body[key], max) as never;
   }
+
+  if (patch.primaryCategory && !(CATALOG_PRIMARY_CATEGORIES as readonly string[]).includes(patch.primaryCategory)) {
+    throw new Error("Categoria principal inválida.");
+  }
+  if (patch.objectType && !(PRODUCT_OBJECT_TYPES as readonly string[]).includes(patch.objectType)) {
+    throw new Error("Tipo de produto inválido.");
+  }
+
+  if ("tags" in body) patch.tags = cleanStringList(body.tags, undefined, 90);
+  if ("buyingIntents" in body) patch.buyingIntents = cleanStringList(body.buyingIntents, BUYING_INTENTS, 16);
+  if ("useCaseTags" in body) patch.useCaseTags = cleanStringList(body.useCaseTags, undefined, 24);
+  if ("seoKeywords" in body) patch.seoKeywords = cleanStringList(body.seoKeywords, undefined, 24);
 
   for (const key of Object.keys(NUMERIC_LIMITS) as Array<keyof NormalizedProductPatch>) {
     const value = readNumber(body, key);
@@ -137,6 +185,8 @@ function normalizeBody(body: Record<string, unknown>): NormalizedProductPatch {
   patch.status = normalizeLegacyStatus(body.status);
   patch.visibility = normalizeVisibility(body.visibility);
   patch.profitMode = normalizeProfitMode(body.profitMode);
+  patch.confidence = normalizeConfidence(body.confidence);
+  if ("taxonomyReviewRequested" in body) patch.taxonomyReviewRequested = Boolean(body.taxonomyReviewRequested);
 
   if ("costingUpdatedAt" in body) {
     const raw = body.costingUpdatedAt;
@@ -213,6 +263,7 @@ async function applyDatabaseUpdate(id: string, patch: NormalizedProductPatch) {
       data: {
         ...(patch.title !== undefined && { title: patch.title }),
         ...(patch.description !== undefined && { description: patch.description }),
+        ...(patch.subcategory !== undefined && { subcategory: patch.subcategory }),
         ...(patch.pricePix !== undefined && { pricePix: patch.pricePix }),
         ...(patch.priceCard !== undefined && { priceCard: patch.priceCard }),
         ...(patch.stock !== undefined && { stock: patch.stock }),
@@ -223,6 +274,7 @@ async function applyDatabaseUpdate(id: string, patch: NormalizedProductPatch) {
         ...(patch.readyToShip !== undefined && { readyToShip: patch.readyToShip }),
         ...(patch.customizable !== undefined && { customizable: patch.customizable }),
         ...(patch.featured !== undefined && { featured: patch.featured }),
+        ...(patch.tags !== undefined && { tags: patch.tags }),
         ...(categoryId && { categoryId }),
         ...(patch.estimatedGrams !== undefined && { estimatedGrams: patch.estimatedGrams }),
         ...(patch.estimatedHours !== undefined && { estimatedHours: patch.estimatedHours }),

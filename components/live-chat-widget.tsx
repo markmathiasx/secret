@@ -30,7 +30,7 @@ type SupportStatus = {
 
 const VISITOR_STORAGE_KEY = "mdh-chat-visitor-id";
 const CHAT_QUICK_ACTIONS = [
-  "Quero um presente com foto real até R$ 100",
+  "Quero um presente com imagem validada até R$ 100",
   "Preciso de uma peça para setup",
   "Como funciona um projeto com STL?",
 ] as const;
@@ -521,7 +521,7 @@ export function LiveChatWidget({
               <div className="min-h-0 flex-1 space-y-3 overflow-y-auto px-4 py-4">
                 {messages.length === 0 ? (
                   <div className="rounded-[24px] border border-white/10 bg-white/5 p-4 text-sm leading-7 text-white/70">
-                    Diga o que você quer comprar, sua faixa de preço ou se prefere foto real, pronta entrega e personalização. Para chamar uma pessoa, peça atendimento humano e a conversa fica marcada para a equipe.
+                    Diga o que você quer comprar, sua faixa de preço ou se prefere imagem validada, pronta entrega e personalização. Para chamar uma pessoa, peça atendimento humano e a conversa fica marcada para a equipe.
                   </div>
                 ) : null}
 

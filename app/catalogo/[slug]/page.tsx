@@ -67,16 +67,16 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   ]);
   const metaMediaRecord = validateProductMedia(product);
   const metaMediaSafe = isPublicSafe(metaMediaRecord.status) && metaMediaRecord.gallery.length >= 1;
-  // Only use real/verified images in OG/Twitter; fallback to brand logo
+  // Use only validated catalog media in OG/Twitter; fallback to brand logo.
   const ogImageUrl = metaMediaSafe ? imageUrl : `${siteUrl}/logo-mdh-3d.webp`;
 
   return {
     title: `${product.name} - Impressão 3D Premium | MDH 3D Rio`,
-    description: `Compre ${product.name} em ${product.material || "PLA Premium"} com imagem classificada como ${visual.label.toLowerCase()}, produção local no RJ e atendimento humano para validar cor, escala e prazo.`,
+    description: `Compre ${product.name} em ${product.material || "PLA Premium"} com mídia do catálogo classificada como ${visual.label.toLowerCase()}, produção local no RJ e atendimento humano para validar cor, escala e prazo.`,
     alternates: {
       canonical: productPath,
     },
-    keywords: [...product.tags, 'impressão 3D', 'PLA', 'Bambu Lab', 'personalizado'].join(', '),
+    keywords: [...(product.seoKeywords || []), ...product.tags, 'impressão 3D', 'PLA', 'personalizado'].join(', '),
     openGraph: {
       title: `${product.name} - Impressão 3D`,
       description: longDescription,
@@ -138,17 +138,17 @@ export default async function ProductPage({
   const visualTrustCopy =
     mediaRecord.status === 'verified'
       ? {
-          title: 'Foto real sinalizada',
-          body: 'A galeria está classificada como foto real de peça física, com leitura clara antes da compra.',
+          title: 'Imagem do produto sinalizada',
+          body: 'A galeria está classificada como mídia do produto, com leitura clara antes da compra.',
         }
       : mediaRecord.status === 'render-verified'
         ? {
-            title: 'Render fiel sinalizado',
-            body: 'A galeria está classificada como render fiel derivado do modelo, separada de foto real.',
+            title: 'Visual validado sinalizado',
+            body: 'A galeria está classificada como visual validado derivado do modelo ou da mídia do catálogo.',
           }
         : {
             title: 'Imagem sinalizada',
-            body: 'A página separa mídia conceitual de foto real e render fiel para não vender referência como prova física.',
+            body: 'A página sinaliza a mídia do catálogo para não vender referência solta como prova física.',
           };
   const structuredDataImages = mediaIsVerifiedForSchema ? resolvedImages : [];
 
@@ -219,13 +219,34 @@ export default async function ProductPage({
         ...(cardCheckoutReady ? [{ '@type': 'PaymentMethod', name: 'Cartão de Crédito' }] : []),
       ],
     },
-    category: product.category,
+    category: product.productTypePath || product.primaryCategory || product.category,
+    keywords: product.seoKeywords,
     material: product.material,
     additionalProperty: [
       {
         '@type': 'PropertyValue',
         name: 'Acabamento',
         value: product.finish,
+      },
+      {
+        '@type': 'PropertyValue',
+        name: 'Material',
+        value: product.material,
+      },
+      {
+        '@type': 'PropertyValue',
+        name: 'Categoria',
+        value: product.primaryCategory || product.category,
+      },
+      {
+        '@type': 'PropertyValue',
+        name: 'Tipo de produto',
+        value: product.objectType || product.subcategory,
+      },
+      {
+        '@type': 'PropertyValue',
+        name: 'Intenção principal',
+        value: product.buyingIntents?.[0] || 'sob_encomenda',
       },
       {
         '@type': 'PropertyValue',
@@ -282,6 +303,18 @@ export default async function ProductPage({
       {
         '@type': 'ListItem',
         position: 3,
+        name: product.primaryCategory || product.category,
+        item: `${siteUrl}/catalogo?category=${encodeURIComponent(product.primaryCategory || product.category)}`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: product.subcategory,
+        item: `${siteUrl}/catalogo?category=${encodeURIComponent(product.primaryCategory || product.category)}&q=${encodeURIComponent(product.subcategory)}`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 5,
         name: product.name,
         item: productUrl,
       },
@@ -308,10 +341,10 @@ export default async function ProductPage({
         : 'Este modelo está configurado como versão fechada. Se você precisa de algo próximo, mas não igual, vale abrir um pedido sob medida em vez de comprar e tentar adaptar depois.',
     },
     {
-      question: 'A imagem desta página representa foto real ou referência visual?',
+      question: 'A imagem desta página representa o produto catalogado?',
       answer: mediaIsPublicSafe
-        ? 'As imagens públicas desta página passaram pela validação de mídia da loja e entram no fluxo visível de prova visual do produto.'
-        : 'Quando a galeria pública não é segura o suficiente para prova visual, a página reduz o uso comercial dessas imagens e preserva a leitura honesta da vitrine.',
+        ? 'As imagens públicas desta página passaram pela validação de mídia da loja e entram no fluxo visível de mídia do produto.'
+        : 'Quando a galeria pública não é segura o suficiente para publicação comercial, a página reduz o uso dessas imagens e preserva a leitura honesta da vitrine.',
     },
   ];
   const faqJsonLd = {
@@ -337,7 +370,7 @@ export default async function ProductPage({
         product.readyToShip ? 'funciona bem quando o cliente quer mais rapidez' : null,
         product.customizable ? 'aceita ajustes de cor, escala ou briefing' : null,
         product.category.includes('Geek') || product.theme.toLowerCase().includes('anime')
-          ? 'combina com presente, coleção e decoração de setup'
+      ? 'combina com presente, coleção e decoração de setup'
           : null,
         product.category.includes('Setup') || product.category.includes('Utilidade')
           ? 'ajuda mais quem está comprando por função e praticidade'
@@ -622,8 +655,8 @@ export default async function ProductPage({
 
       <section className="mt-10 grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
         <div className="mdh-instrument-panel p-6">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-100/70">Foto real x render fiel</p>
-          <h2 className="mt-3 text-3xl font-black leading-tight text-white">A página não vende referência como se fosse prova física.</h2>
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-100/70">Mídia do catálogo</p>
+          <h2 className="mt-3 text-3xl font-black leading-tight text-white">A página sinaliza a mídia antes da compra.</h2>
           <p className="mt-4 text-sm leading-7 text-white/65">{visualTrustCopy.body}</p>
         </div>
         <div className="grid gap-3 sm:grid-cols-3">

@@ -11,7 +11,7 @@ import { getCatalogSnapshot } from "@/lib/catalog-repository";
 import type { Product } from "@/lib/catalog";
 import { getProductUrl } from "@/lib/catalog";
 import { resolveProductImage } from "@/lib/product-images";
-import { isProductRealPhoto, isProductVisualVerified, summarizeProductVisuals } from "@/lib/product-visuals";
+import { isProductPrimaryMediaValidated, isProductVisualVerified, summarizeProductVisuals } from "@/lib/product-visuals";
 import { brand, socialLinks, supportEmail, whatsappMessage, whatsappNumber } from "@/lib/constants";
 import { getStoreReputationSummary } from "@/lib/marketplace-signals";
 import { getSiteUrl } from "@/lib/env";
@@ -38,22 +38,22 @@ const bentoBlocks = [
   },
   {
     title: "Geek e colecionáveis",
-    body: "Miniaturas, cultura pop e objetos de setup com mídia classificada para separar foto real, render fiel e referência.",
-    href: "/catalogo?collection=Anime%20%26%20Geek&mode=verified",
+    body: "Miniaturas, cultura pop, colecionáveis e decoração geek organizados por tema, uso e intenção de compra para encontrar rápido o produto certo.",
+    href: "/catalogo?category=Geek%20%26%20Colecion%C3%A1veis&intent=colecionar",
     cta: "Ver colecionáveis",
     accent: "from-violet-300/18",
   },
   {
     title: "Setup gamer e home office",
     body: "Suportes, organizadores e peças funcionais para bancada, cabos, controles, fones e objetos de uso diário.",
-    href: "/catalogo?category=Setup%20%26%20Organiza%C3%A7%C3%A3o",
+    href: "/catalogo?category=Setup%20Gamer%20e%20Home%20Office",
     cta: "Organizar setup",
     accent: "from-lime-300/16",
   },
   {
     title: "Casa e organização",
     body: "Utilidades compactas para banheiro, cozinha, mesa e prateleira com produção sob demanda no RJ.",
-    href: "/catalogo?category=Utilidades%20Reais",
+    href: "/catalogo?category=Casa%20e%20Organiza%C3%A7%C3%A3o",
     cta: "Ver utilidades",
     accent: "from-emerald-300/16",
   },
@@ -73,14 +73,14 @@ const bentoBlocks = [
   },
 ] as const;
 
-function TrustStrip({ catalogCount, realPhotoCount }: { catalogCount: number; realPhotoCount: number }) {
+function TrustStrip({ catalogCount, validatedMediaCount }: { catalogCount: number; validatedMediaCount: number }) {
   const items = [
     { icon: Factory, label: "Produção local RJ", value: "ateliê próprio" },
     { icon: MessageCircleMore, label: "Atendimento humano", value: "WhatsApp direto" },
     { icon: CreditCard, label: "Pix e cartão", value: "fechamento claro" },
     { icon: PackageCheck, label: "Prazo visível", value: "sem surpresa" },
     { icon: BadgeCheck, label: "Catálogo validado", value: `${catalogCount.toLocaleString("pt-BR")} itens` },
-    { icon: Sparkles, label: "Prova visual", value: `${realPhotoCount.toLocaleString("pt-BR")} fotos reais` },
+    { icon: Sparkles, label: "Mídia validada", value: `${validatedMediaCount.toLocaleString("pt-BR")} itens` },
   ];
 
   return (
@@ -147,7 +147,7 @@ function CommercialBento() {
 
 function ProductShowcase({ products }: { products: Product[] }) {
   const showcase = products
-    .filter((product) => isProductRealPhoto(product) || isProductVisualVerified(product))
+    .filter((product) => isProductPrimaryMediaValidated(product) || isProductVisualVerified(product))
     .slice(0, 6);
 
   return (
@@ -157,7 +157,7 @@ function ProductShowcase({ products }: { products: Product[] }) {
           <h2 className="mdh-section-title">Showcase editorial de peças que vendem no detalhe.</h2>
         </div>
         <p className="max-w-3xl text-base leading-8 text-white/66">
-          A vitrine principal puxa produtos com prova visual mais forte e compõe cards maiores, com preço, mídia honesta e CTA sem parecer lista repetida.
+          A vitrine principal puxa produtos com mídia bem sinalizada e compõe cards maiores, com preço, categoria real e CTA sem parecer lista repetida.
         </p>
       </div>
       <div className="grid gap-4 lg:grid-cols-12">
@@ -284,7 +284,7 @@ export default async function HomePage() {
   const siteUrl = getSiteUrl();
   const catalogCount = catalog.length;
   const visualSummary = summarizeProductVisuals(catalog);
-  const readyRealCount = catalog.filter((product) => product.readyToShip && isProductRealPhoto(product)).length;
+  const readyValidatedMediaCount = catalog.filter((product) => product.readyToShip && isProductPrimaryMediaValidated(product)).length;
   const heroVideo = getLicensedVideoAsset("hero-printer-loop");
   const processVideo = getLicensedVideoAsset("process-printer-loop");
   const storeSummary = await getStoreReputationSummary();
@@ -296,7 +296,7 @@ export default async function HomePage() {
     {
       question: "Qual é o melhor caminho se eu quero comprar hoje?",
       answer:
-        "Use o catálogo por intenção: presente, organização, foto real, pronta entrega ou sob medida. A vitrine mostra preço Pix, prazo e prova visual antes do clique.",
+        "Use o catálogo por intenção: presente, organização, categoria real, pronta entrega ou sob medida. A vitrine mostra preço Pix, prazo e mídia do produto antes do clique.",
     },
     {
       question: "E se eu quiser algo personalizado ou sob medida?",
@@ -345,14 +345,14 @@ export default async function HomePage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
       <PremiumHero
         catalogCount={catalogCount}
-        realPhotoCount={visualSummary.fotoReal}
-        readyRealCount={readyRealCount}
+        validatedMediaCount={visualSummary.merchantReady}
+        readyValidatedMediaCount={readyValidatedMediaCount}
         ratingLabel={ratingLabel}
         reviewCount={storeSummary?.reviewCount}
         backgroundVideoSrc={heroVideo.src}
         backgroundPosterSrc={heroVideo.poster}
       />
-      <TrustStrip catalogCount={catalogCount} realPhotoCount={visualSummary.fotoReal} />
+      <TrustStrip catalogCount={catalogCount} validatedMediaCount={visualSummary.merchantReady} />
       <CommercialBento />
       <ProductShowcase products={catalog} />
       <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6">

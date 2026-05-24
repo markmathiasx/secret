@@ -35,9 +35,9 @@ const navLinks = [
 ];
 
 const commerceShortcuts = [
-  { href: "/catalogo?mode=real", label: "Só foto real", icon: BadgeCheck },
+  { href: "/catalogo?mode=verified", label: "Mídia validada", icon: BadgeCheck },
   { href: "/catalogo?status=Pronta%20entrega", label: "Pronta entrega", icon: PackageCheck },
-  { href: "/catalogo?intent=Presente", label: "Ideias de presente", icon: ShoppingBag },
+  { href: "/catalogo?intent=presentear", label: "Ideias de presente", icon: ShoppingBag },
   { href: "/imagem-para-impressao-3d", label: "Enviar STL", icon: Boxes },
 ] as const;
 

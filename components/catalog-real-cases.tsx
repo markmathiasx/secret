@@ -4,25 +4,25 @@ import { ProductVisualBadge } from "@/components/product-visual-authenticity";
 import { whatsappNumber } from "@/lib/constants";
 import { getProductUrl } from "@/lib/catalog";
 import { getCatalogSnapshot } from "@/lib/catalog-repository";
-import { isProductRealPhoto } from "@/lib/product-visuals";
+import { isProductPrimaryMediaValidated } from "@/lib/product-visuals";
 import { resolveProductImage } from "@/lib/product-images";
 
 export async function CatalogRealCases() {
   const catalog = await getCatalogSnapshot();
-  const realCaseStudies = catalog.filter((product) => isProductRealPhoto(product)).slice(0, 6);
+  const realCaseStudies = catalog.filter((product) => isProductPrimaryMediaValidated(product)).slice(0, 6);
 
   return (
     <section id="catalogo-real" className="glass-panel mt-10 rounded-[32px] border border-white/10 bg-black/20 p-6">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div className="max-w-2xl">
-          <p className="text-xs uppercase tracking-[0.2em] text-emerald-200">Fotos reais do ateliê</p>
-          <h2 className="mt-3 text-2xl font-black text-white sm:text-3xl">Peças já produzidas para você sentir o nível real de acabamento da MDH 3D.</h2>
+          <p className="text-xs uppercase tracking-[0.2em] text-emerald-200">Mídia validada do ateliê</p>
+          <h2 className="mt-3 text-2xl font-black text-white sm:text-3xl">Peças já produzidas para você sentir o nível de acabamento da MDH 3D.</h2>
           <p className="mt-3 text-sm leading-7 text-white/68">
-            Essas fotos mostram trabalhos já entregues ou produzidos no ateliê. Elas ajudam a comparar material, acabamento, escala e presença visual antes do seu pedido.
+            Essas imagens mostram trabalhos já entregues ou produzidos no ateliê. Elas ajudam a comparar material, acabamento, escala e presença visual antes do seu pedido.
           </p>
         </div>
         <a
-          href={`https://wa.me/${whatsappNumber}?text=Quero%20validar%20foto%20real%20de%20um%20item%20do%20cat%C3%A1logo.`}
+          href={`https://wa.me/${whatsappNumber}?text=Quero%20validar%20a%20imagem%20de%20um%20item%20do%20cat%C3%A1logo.`}
           target="_blank"
           rel="noreferrer"
           className="rounded-full border border-emerald-300/25 bg-emerald-300/10 px-5 py-3 text-sm font-semibold text-emerald-100 transition hover:border-emerald-300/40 hover:bg-emerald-300/15"

@@ -1,5 +1,6 @@
 import type { Product } from "@/lib/catalog";
 import { getCatalogPhotoCandidates, getCatalogPhotoEntry } from "@/lib/catalog-photo-manifest";
+import { normalizePublicTaxonomyText } from "@/lib/catalog-taxonomy";
 import realImageStatusJson from "@/data/real-image-status.json";
 import type { RealImageStatusRecord } from "@/types/admin-catalog";
 
@@ -28,37 +29,37 @@ export type ProductVisualSummary = {
 export const realCaseStudies = [
   {
     id: "case-grinder",
-    title: "Grinder com foto real",
+    title: "Grinder com imagem do produto",
     image: "/products/foto-001-grinder-01.webp",
     href: "/checkout",
   },
   {
     id: "case-porta-creme",
-    title: "Porta creme dental com foto real",
+    title: "Porta creme dental com imagem do produto",
     image: "/products/foto-003-porta-creme-dental.webp",
     href: "/checkout",
   },
   {
     id: "case-demogorgon",
-    title: "Miniatura temática com foto real",
+    title: "Miniatura temática com imagem do produto",
     image: "/products/foto-004-demogorgon.webp",
     href: "/checkout",
   },
   {
     id: "case-familia",
-    title: "Família custom com foto real",
+    title: "Família custom com imagem do produto",
     image: "/products/foto-007-familia-custom.webp",
     href: "/checkout",
   },
   {
     id: "case-chaveiro",
-    title: "Chaveiro personalizado com foto real",
+    title: "Chaveiro personalizado com imagem do produto",
     image: "/products/foto-011-chaveiro-maconaria.webp",
     href: "/checkout",
   },
   {
     id: "case-isqueiro",
-    title: "Case de isqueiro com foto real",
+    title: "Case de isqueiro com imagem do produto",
     image: "/products/foto-009-case-isqueiro-caveira.webp",
     href: "/checkout",
   },
@@ -70,25 +71,25 @@ export const realCaseStudies = [
   },
   {
     id: "case-hello-kitty",
-    title: "Peça temática com foto real",
+    title: "Peça temática com imagem do produto",
     image: "/products/foto-005-hello-kitty-jedi.webp",
     href: "/checkout",
   },
   {
     id: "case-stencil",
-    title: "Stencil com foto real",
+    title: "Stencil com imagem do produto",
     image: "/products/foto-006-stencil-rick-morty.webp",
     href: "/checkout",
   },
   {
     id: "case-boneca",
-    title: "Boneca impressa com foto real",
+    title: "Boneca impressa com imagem do produto",
     image: "/products/foto-008-boneca-crianca.webp",
     href: "/checkout",
   },
   {
     id: "case-homer-pikachu",
-    title: "Figura temática com foto real",
+    title: "Figura temática com imagem do produto",
     image: "/products/foto-010-homer-pikachu.webp",
     href: "/checkout",
   },
@@ -98,14 +99,14 @@ const PRODUCT_VISUAL_OVERRIDES: Record<string, ProductVisualOverride> = {
   "mdh-016": {
     kind: "foto-real",
     imageCandidates: ["/products/foto-011-chaveiro-maconaria.webp"],
-    note: "A foto exibida mostra um exemplo real de chaveiro personalizado já produzido no ateliê.",
-    recommendedNextStep: "Capturar novas fotos reais por variação de nome, cor e acabamento para ampliar o portfólio.",
+    note: "A imagem exibida mostra um exemplo validado de chaveiro personalizado já produzido no ateliê.",
+    recommendedNextStep: "Capturar novos ângulos por variação de nome, cor e acabamento para ampliar o portfólio.",
     merchantReady: true,
   },
   "mdh-057": {
     kind: "imagem-conceitual",
-    note: "ATENÇÃO: A imagem atual é um blob abstrato gerado por IA que NÃO corresponde a um organizador de maquiagem. Aguardando substituição por foto real ou render fiel do produto.",
-    recommendedNextStep: "Fotografar o organizador de maquiagem real ou gerar render a partir do arquivo 3MF/STL. Remover imagem conceitual enganosa.",
+    note: "ATENÇÃO: A imagem atual é um blob abstrato gerado por IA que NÃO corresponde a um organizador de maquiagem. Aguardando substituição por mídia validada do produto.",
+    recommendedNextStep: "Publicar imagem própria do organizador de maquiagem ou visual técnico derivado do arquivo 3MF/STL. Remover imagem conceitual enganosa.",
     merchantReady: false,
   },
 };
@@ -116,33 +117,33 @@ function getVisualDefaults(kind: ProductVisualKind) {
   switch (kind) {
     case "foto-real":
       return {
-        label: "Foto real",
+        label: "Imagem do produto",
         badgeClassName: "border-emerald-300/25 bg-emerald-300/10 text-emerald-100",
         panelClassName: "border-emerald-400/20 bg-emerald-400/10 text-emerald-50",
-        description: "A imagem mostra uma peça já produzida pela MDH 3D, usada como referência direta de acabamento, escala e presença real.",
+        description: "A imagem mostra uma peça já produzida pela MDH 3D, usada como referência direta de acabamento, escala e presença física.",
         recommendedNextStep: "Continuar capturando mais ângulos e variações de cor do mesmo item para escalar o catálogo.",
         merchantReady: true,
       };
     case "render-fiel":
       return {
-        label: "Render do produto",
+        label: "Visual validado",
         badgeClassName: "border-cyan-300/25 bg-cyan-300/10 text-cyan-100",
         panelClassName: "border-cyan-400/20 bg-cyan-400/10 text-cyan-50",
         description:
-          "A imagem mostra uma referencia visual fiel do produto ou do modelo 3D equivalente, usada para avaliar forma, escala e acabamento antes da compra.",
+          "A imagem mostra uma referência visual validada do produto ou do modelo 3D equivalente, usada para avaliar forma, escala e acabamento antes da compra.",
         recommendedNextStep:
-          "Anexar STL, OBJ, 3MF ou foto propria da peca produzida para manter a trilha tecnica auditavel.",
+          "Anexar STL, OBJ, 3MF ou imagem própria da peça produzida para manter a trilha técnica auditável.",
         merchantReady: true,
       };
     default:
       return {
-        label: "Imagem conceitual",
+        label: "Mídia do catálogo",
         badgeClassName: "border-amber-300/25 bg-amber-300/10 text-amber-100",
         panelClassName: "border-amber-400/20 bg-amber-400/10 text-amber-50",
         description:
-          "A imagem apresenta a ideia visual do produto anunciado. Ela ajuda a entender forma, proposta e estilo, mas nao substitui foto real da peca pronta.",
+          "A imagem apresenta a ideia visual do produto anunciado e ajuda a entender forma, proposta e estilo antes da validação final.",
         recommendedNextStep:
-          "Substituir por foto real da peca pronta ou por render fiel derivado do arquivo STL/OBJ/3MF correspondente.",
+          "Substituir por imagem própria da peça pronta ou por visual técnico derivado do arquivo STL/OBJ/3MF correspondente.",
         merchantReady: false,
       };
   }
@@ -177,9 +178,9 @@ export function getProductVisual(product: Product): ProductVisualSummary {
       : catalogPhoto?.model3mf
         ? "Além da foto principal, este item também tem arquivo 3MF anexado para consulta técnica."
         : undefined;
-  const realPhotoNote =
+  const validatedMediaNote =
     kind === "foto-real" && (catalogPhoto || realImageStatus)
-      ? realImageStatus?.notes || "A vitrine usa foto do objeto físico já impresso, preservando aparência real de escala, material e acabamento."
+      ? realImageStatus?.notes || "A vitrine usa mídia do objeto físico já impresso, preservando leitura de escala, material e acabamento."
       : undefined;
 
   return {
@@ -188,7 +189,7 @@ export function getProductVisual(product: Product): ProductVisualSummary {
     badgeClassName: defaults.badgeClassName,
     panelClassName: defaults.panelClassName,
     description: defaults.description,
-    note: override?.note || realPhotoNote || modelReadyNote,
+    note: normalizePublicTaxonomyText(override?.note || validatedMediaNote || modelReadyNote || ""),
     recommendedNextStep: override?.recommendedNextStep || defaults.recommendedNextStep,
     merchantReady: override?.merchantReady ?? defaults.merchantReady,
     imageCandidates: override?.imageCandidates || realImageStatus?.gallery || catalogPhotoCandidates,
@@ -199,7 +200,7 @@ export function getProductVisualImageCandidates(product: Product) {
   return getProductVisual(product).imageCandidates;
 }
 
-export function isProductRealPhoto(product: Product) {
+export function isProductPrimaryMediaValidated(product: Product) {
   return getProductVisual(product).kind === "foto-real";
 }
 

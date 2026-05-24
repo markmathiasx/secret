@@ -31,10 +31,10 @@ function createCategoryConfig(config: CategoryPageConfig): CategoryPageConfig {
 export const categoryPageConfigs = [
   createCategoryConfig({
     slug: "presentes-criativos",
-    category: "Presentes Criativos",
+    category: "Presentes Personalizados",
     seoTitle: "Presentes criativos 3D com SEO comercial forte",
     seoDescription:
-      "Categoria de presentes criativos 3D com CTA claro, prova visual, FAQ, faixa inicial e navegação pensada para intenção de compra.",
+      "Categoria de presentes personalizados 3D com CTA claro, mídia do produto, FAQ, faixa inicial e navegação pensada para intenção de compra.",
     eyebrow: "Categoria comercial",
     title: "Presentes criativos organizados para vender mais rapido pela web.",
     description:
@@ -45,7 +45,7 @@ export const categoryPageConfigs = [
       {
         question: "Esta categoria funciona melhor para que tipo de compra?",
         answer:
-          "Ela foi pensada para presente, surpresa, lembranca personalizada e compra por ocasiao. O foco e reduzir atrito entre ideia, prova visual e CTA.",
+          "Ela foi pensada para presente, surpresa, lembranca personalizada e compra por ocasiao. O foco e reduzir atrito entre ideia, mídia do produto e CTA.",
       },
       {
         question: "Tem item pronto e item sob medida no mesmo lugar?",
@@ -55,7 +55,7 @@ export const categoryPageConfigs = [
       {
         question: "Qual e a melhor forma de acelerar a compra?",
         answer:
-          "Comece pelos itens com prova visual ou pela faixa de entrada. Se a ideia for mais afetiva, use o CTA de projeto sob medida sem abandonar a categoria.",
+          "Comece pelos itens com mídia validada ou pela faixa de entrada. Se a ideia for mais afetiva, use o CTA de projeto sob medida sem abandonar a categoria.",
       },
     ],
     primaryCta: {
@@ -72,7 +72,7 @@ export const categoryPageConfigs = [
     category: "Geek & Colecionáveis",
     seoTitle: "Colecionáveis geek 3D com categoria preparada para SEO",
     seoDescription:
-      "Categoria geek da MDH 3D com miniaturas, displays e peças de fandom com CTA, prova visual, FAQ e faixa inicial comercial.",
+          "Categoria geek da MDH 3D com miniaturas, displays e peças de fandom com CTA, mídia do produto, FAQ e faixa inicial comercial.",
     eyebrow: "Categoria comercial",
     title: "Geek e colecionaveis em uma categoria que vende pela ideia de fandom, nao por bagunca de vitrine.",
     description:
@@ -83,7 +83,7 @@ export const categoryPageConfigs = [
       {
         question: "O que diferencia esta categoria da vitrine geral?",
         answer:
-          "Ela concentra itens com maior apelo de fandom, melhor prova visual e contexto de compra mais emocional, sem misturar demais com utilidades ou decoracao de casa.",
+          "Ela concentra itens com maior apelo de fandom, melhor mídia do produto e contexto de compra mais emocional, sem misturar demais com utilidades ou decoracao de casa.",
       },
       {
         question: "Posso usar esta categoria como base para um personagem sob medida?",
@@ -107,10 +107,10 @@ export const categoryPageConfigs = [
   }),
   createCategoryConfig({
     slug: "setup-organizacao",
-    category: "Setup & Organização",
+    category: "Setup Gamer e Home Office",
     seoTitle: "Setup e organização 3D com categoria otimizada para conversão",
     seoDescription:
-      "Categoria de setup e organização 3D com suportes, organizadores e utilidades para mesa, bancada e rotina, com FAQ, prova e faixa inicial.",
+      "Categoria de setup e organização 3D com suportes, organizadores e utilidades para mesa, bancada e rotina, com FAQ, mídia e faixa inicial.",
     eyebrow: "Categoria comercial",
     title: "Setup e organizacao como categoria de compra racional, clara e objetiva.",
     description:
@@ -145,21 +145,21 @@ export const categoryPageConfigs = [
   }),
   createCategoryConfig({
     slug: "utilidades-reais",
-    category: "Utilidades Reais",
-    seoTitle: "Utilidades reais em impressão 3D com prova visual",
+    category: "Casa e Organização",
+    seoTitle: "Casa e organização em impressão 3D com mídia validada",
     seoDescription:
-      "Categoria de utilidades reais da MDH 3D com foto real, prova de uso, faixa inicial, FAQ e CTA para compra ou adaptação funcional.",
+      "Categoria de casa e organização da MDH 3D com mídia validada, uso claro, faixa inicial, FAQ e CTA para compra ou adaptação funcional.",
     eyebrow: "Categoria comercial",
-    title: "Utilidades reais para quem quer resolver uso concreto com prova visual mais honesta.",
+    title: "Casa e organização para quem quer resolver uso concreto com mídia bem sinalizada.",
     description:
       "Essa categoria concentra projetos reais, itens funcionais e pecas com leitura de uso mais forte. Ela serve para converter melhor quem precisa confiar no objeto antes de comprar ou adaptar.",
     budgetLabel: "Faixa inicial varia com material, reforco estrutural e necessidade de ajuste funcional.",
-    proofPoints: ["Foto real e uso concreto", "Boa ponte para peca funcional", "Menos promessa vaga, mais contexto real"],
+    proofPoints: ["Imagem validada e uso concreto", "Boa ponte para peca funcional", "Menos promessa vaga, mais contexto real"],
     faq: [
       {
         question: "Por que esta categoria e importante para a MDH 3D?",
         answer:
-          "Ela comprova que a operacao nao vive apenas de render ou inspiracao. Os produtos aqui ajudam a construir confianca para pedidos de uso real e adaptacao funcional.",
+          "Ela comprova que a operacao nao vive apenas de inspiração solta. Os produtos aqui ajudam a construir confianca para pedidos de uso real e adaptacao funcional.",
       },
       {
         question: "Posso usar um item desta categoria como base para adaptar medida?",
@@ -183,10 +183,10 @@ export const categoryPageConfigs = [
   }),
   createCategoryConfig({
     slug: "casa-decoracao",
-    category: "Casa & Decoração",
+    category: "Decoração",
     seoTitle: "Casa e decoração 3D com categoria comercial SEO-first",
     seoDescription:
-      "Categoria de casa e decoração 3D com peças para ambiente, presente e nicho, pensada para SEO, prova, FAQ, CTA e faixa inicial.",
+      "Categoria de decoração 3D com peças para ambiente, presente e nicho, pensada para SEO, mídia do produto, FAQ, CTA e faixa inicial.",
     eyebrow: "Categoria comercial",
     title: "Casa e decoracao tratadas como categoria de ambiente, nao como lista generica de objeto solto.",
     description:
@@ -202,7 +202,7 @@ export const categoryPageConfigs = [
       {
         question: "Como a categoria ajuda a vender melhor?",
         answer:
-          "Ela evita que o cliente entre por filtros frios e passa a vender por contexto de uso, prova, CTA e faixa inicial, o que aproxima mais a jornada de compra real.",
+          "Ela evita que o cliente entre por filtros frios e passa a vender por contexto de uso, mídia, CTA e faixa inicial, o que aproxima mais a jornada de compra real.",
       },
       {
         question: "Se eu quiser algo para um ambiente especifico, como fazer?",

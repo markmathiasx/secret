@@ -1,14 +1,26 @@
 export type ProductionStage = "recebido" | "imprimindo" | "pronto";
 export type ProfitMode = "margin" | "markup";
+export type TaxonomyConfidence = "high" | "medium" | "low";
 
 export type AdminProductOverride = {
   id: string;
   title?: string;
   description?: string;
   category?: string;
+  subcategory?: string;
   collection?: string;
   material?: string;
   finish?: string;
+  tags?: string[];
+  primaryCategory?: string;
+  productTypePath?: string;
+  buyingIntents?: string[];
+  objectType?: string;
+  useCaseTags?: string[];
+  seoKeywords?: string[];
+  confidence?: TaxonomyConfidence;
+  classificationReason?: string;
+  taxonomyReviewRequested?: boolean;
   status?: "Pronta entrega" | "Sob encomenda";
   stock?: number;
   readyToShip?: boolean;

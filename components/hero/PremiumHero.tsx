@@ -8,8 +8,8 @@ import { whatsappMessage, whatsappNumber } from "@/lib/constants";
 
 interface PremiumHeroProps {
   catalogCount?: number;
-  realPhotoCount?: number;
-  readyRealCount?: number;
+  validatedMediaCount?: number;
+  readyValidatedMediaCount?: number;
   ratingLabel?: string;
   reviewCount?: number;
   backgroundVideoSrc?: string | null;
@@ -19,14 +19,14 @@ interface PremiumHeroProps {
 const FLOATING_CARDS = [
   { icon: CreditCard, title: "Pix e cartão", body: "fechamento claro" },
   { icon: Factory, title: "Produção no RJ", body: "operação local" },
-  { icon: BadgeCheck, title: "Mídia honesta", body: "foto real ou render fiel" },
+  { icon: BadgeCheck, title: "Mídia validada", body: "produto catalogado" },
   { icon: Box, title: "Sob demanda", body: "peças e lotes" },
 ] as const;
 
 export function PremiumHero({
   catalogCount = 0,
-  realPhotoCount = 0,
-  readyRealCount = 0,
+  validatedMediaCount = 0,
+  readyValidatedMediaCount = 0,
   ratingLabel = "avaliações reais",
   reviewCount,
   backgroundVideoSrc,
@@ -36,8 +36,8 @@ export function PremiumHero({
   const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
   const stats = [
     { label: "Produtos públicos", value: catalogCount ? catalogCount.toLocaleString("pt-BR") : "500+" },
-    { label: "Fotos reais", value: realPhotoCount ? realPhotoCount.toLocaleString("pt-BR") : "curadoria" },
-    { label: "Pronta entrega", value: readyRealCount ? readyRealCount.toLocaleString("pt-BR") : "sob consulta" },
+    { label: "Mídia validada", value: validatedMediaCount ? validatedMediaCount.toLocaleString("pt-BR") : "curadoria" },
+    { label: "Pronta entrega", value: readyValidatedMediaCount ? readyValidatedMediaCount.toLocaleString("pt-BR") : "sob consulta" },
   ];
 
   return (

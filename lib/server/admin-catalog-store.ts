@@ -14,6 +14,7 @@ import {
   roundCurrency,
 } from "@/lib/pricing-engine";
 import { canConnectToDatabase, prisma } from "@/lib/prisma";
+import { applyCatalogTaxonomy } from "@/lib/catalog-taxonomy";
 import { slugify } from "@/lib/utils";
 import type { AdminProductOverride, ProductionStage, RealImageStatusRecord, ProfitMode } from "@/types/admin-catalog";
 
@@ -26,6 +27,17 @@ export type AdminCatalogProduct = {
   title: string;
   description: string;
   category: string;
+  subcategory: string;
+  primaryCategory: string;
+  productTypePath: string;
+  buyingIntents: string[];
+  objectType: string;
+  useCaseTags: string[];
+  seoKeywords: string[];
+  tags: string[];
+  confidence: string;
+  classificationReason: string;
+  taxonomyReviewRequested: boolean;
   collection: string;
   material: string;
   finish: string;
@@ -121,7 +133,7 @@ function mapPrismaProduct(record: AdminPrismaProduct): Product {
   const category = record.category?.name || "Catálogo";
   const collection = record.collections[0]?.collection.name || "Marketplace";
 
-  return {
+  return applyCatalogTaxonomy({
     id: record.id,
     slug: record.slug,
     sku: record.sku,
@@ -173,7 +185,7 @@ function mapPrismaProduct(record: AdminPrismaProduct): Product {
     estimatedProfitAmount: decimalToOptionalNumber(record.estimatedProfitAmount),
     estimatedProfitPercent: decimalToOptionalNumber(record.estimatedProfitPercent),
     costingUpdatedAt: record.costingUpdatedAt?.toISOString(),
-  };
+  });
 }
 
 function buildAdminCatalogProduct(
@@ -226,6 +238,17 @@ function buildAdminCatalogProduct(
     title,
     description,
     category: override?.category ?? product.category,
+    subcategory: override?.subcategory ?? product.subcategory,
+    primaryCategory: override?.primaryCategory ?? product.primaryCategory ?? product.category,
+    productTypePath: override?.productTypePath ?? product.productTypePath ?? `Catálogo > ${product.category} > ${product.subcategory}`,
+    buyingIntents: override?.buyingIntents ?? product.buyingIntents ?? [],
+    objectType: override?.objectType ?? product.objectType ?? "outro",
+    useCaseTags: override?.useCaseTags ?? product.useCaseTags ?? [],
+    seoKeywords: override?.seoKeywords ?? product.seoKeywords ?? [],
+    tags: override?.tags ?? product.tags ?? [],
+    confidence: override?.confidence ?? product.confidence ?? "low",
+    classificationReason: override?.classificationReason ?? product.classificationReason ?? "Sem classificação registrada.",
+    taxonomyReviewRequested: override?.taxonomyReviewRequested ?? product.taxonomyReviewRequested ?? false,
     collection: override?.collection ?? product.collection,
     material: override?.material ?? product.material,
     finish: override?.finish ?? product.finish,
