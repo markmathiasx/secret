@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
 
 function getSafeCatalogBackHref(from?: string | null, focus?: string | null) {
@@ -12,8 +12,12 @@ function getSafeCatalogBackHref(from?: string | null, focus?: string | null) {
 }
 
 export function ProductCatalogBackLink({ className }: { className?: string }) {
-  const searchParams = useSearchParams();
-  const href = getSafeCatalogBackHref(searchParams.get('from'), searchParams.get('focus'));
+  const [href, setHref] = useState('/catalogo');
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search);
+    setHref(getSafeCatalogBackHref(searchParams.get('from'), searchParams.get('focus')));
+  }, []);
 
   return (
     <Link href={href} className={className}>

@@ -48,7 +48,8 @@ export function SiteFooter({ cardCheckoutReady = false }: { cardCheckoutReady?: 
   const checkoutPaymentLabel = cardCheckoutReady ? "Pix e cartão no checkout" : "Pix no checkout e cartão via atendimento";
 
   return (
-    <footer className="footer-ambient border-t border-white/10 bg-slate-950/90">
+    <footer className="footer-ambient relative isolate overflow-hidden border-t border-white/10 bg-slate-950/90">
+      <div className="mdh-cad-grid pointer-events-none absolute inset-0 -z-10 opacity-25" />
       <div className="divider-glow" />
       <div className="relative mx-auto grid max-w-7xl gap-10 px-6 py-14 lg:grid-cols-[1.2fr_0.8fr_0.8fr_1fr]">
         <div>
@@ -57,9 +58,9 @@ export function SiteFooter({ cardCheckoutReady = false }: { cardCheckoutReady?: 
             alt="Logo MDH 3D"
             width={64}
             height={64}
-            className="mb-4 rounded-2xl border border-white/10 object-cover shadow-[0_0_24px_rgba(103,232,249,0.15)]"
+            className="mb-4 rounded-[8px] border border-cyan-300/20 object-cover shadow-[0_0_28px_rgba(103,232,249,0.18)]"
           />
-          <p className="section-kicker">{brand.name}</p>
+          <p className="section-kicker">{brand.name} Lab</p>
           <h2 className="mt-3 text-2xl font-bold text-white">
             Impressão 3D com apresentação profissional, produção local e atendimento direto.
           </h2>

@@ -386,7 +386,8 @@ export default async function ProductPage({
           pricePix: product.pricePix,
         }}
       />
-      <section className="mx-auto max-w-7xl px-6 py-16">
+      <section className="pdp-visual-shell relative mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:py-16">
+      <div className="mdh-cad-grid pointer-events-none absolute inset-x-4 top-0 -z-10 h-[520px] rounded-[8px] opacity-30" />
       <div className="mb-6 flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.18em] text-white/50">
         <Link href="/" className="transition hover:text-cyan-100">Início</Link>
         <span>/</span>
@@ -409,14 +410,16 @@ export default async function ProductPage({
         </div>
       </div>
 
-      <div className="grid gap-8 lg:grid-cols-[1fr_0.95fr]">
+      <div className="grid gap-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(360px,0.78fr)]">
         <div className="space-y-6">
+          <div className="mdh-pdp-gallery-shell p-3 md:p-4">
+            <ProductImageGallery product={product} />
+          </div>
           <PurchaseProtectionBanner summary={storeSummary} />
-          <ProductImageGallery product={product} />
           <ProductModelPanel product={product} />
         </div>
 
-        <div className="glass-panel p-6 md:p-7">
+        <div className="mdh-pdp-buybox p-5 md:p-7 lg:sticky lg:top-32 lg:self-start">
           <div className="flex flex-wrap gap-2">
             <span className="glass-chip">{product.category}</span>
             <span className="chip-nav">{product.subcategory}</span>
@@ -435,7 +438,7 @@ export default async function ProductPage({
             />
           </div>
           <TrustBadges />
-          <h1 className="mt-5 text-4xl font-black text-white md:text-5xl">{product.name}</h1>
+          <h1 className="mt-5 text-balance text-4xl font-black leading-[0.98] text-white md:text-6xl">{product.name}</h1>
           <p className="mt-4 text-base leading-8 text-white/70">{longDescription}</p>
 
           <div className="mt-6 grid gap-3 sm:grid-cols-3">
@@ -447,25 +450,25 @@ export default async function ProductPage({
           </div>
 
           <div className="mt-6 grid gap-4 sm:grid-cols-[1.45fr_0.8fr]">
-            <div className="rounded-[24px] border border-emerald-400/20 bg-emerald-400/10 p-4">
+            <div className="rounded-[8px] border border-emerald-400/24 bg-[linear-gradient(135deg,rgba(16,185,129,0.18),rgba(2,6,23,0.56))] p-5 shadow-[0_24px_70px_rgba(16,185,129,0.10)]">
               <ProductPriceStack product={product} label={priceLabel} showInstallments={cardCheckoutReady} />
             </div>
-            <div className="rounded-[24px] border border-white/10 bg-white/5 p-4">
+            <div className="rounded-[8px] border border-white/12 bg-white/[0.055] p-5">
               <p className="text-sm text-white/55">Prazo</p>
               <p className="mt-2 text-lg font-bold text-white">{product.printTime ?? product.productionWindow}</p>
             </div>
           </div>
 
           <div className="mt-6 grid gap-3 sm:grid-cols-3">
-            <div className="rounded-[24px] border border-white/10 bg-black/20 p-4 text-sm text-white/68">
+            <div className="rounded-[8px] border border-white/10 bg-black/20 p-4 text-sm text-white/68">
               <p className="text-xs uppercase tracking-[0.18em] text-white/45">Produção</p>
               <p className="mt-2 font-semibold text-white">{product.readyToShip ? 'Pronta para produção rápida' : 'Feita sob encomenda'}</p>
             </div>
-            <div className="rounded-[24px] border border-white/10 bg-black/20 p-4 text-sm text-white/68">
+            <div className="rounded-[8px] border border-white/10 bg-black/20 p-4 text-sm text-white/68">
               <p className="text-xs uppercase tracking-[0.18em] text-white/45">Personalização</p>
               <p className="mt-2 font-semibold text-white">{product.customizable ? 'Aceita ajustes de cor, escala ou briefing' : 'Modelo fechado com acabamento padronizado'}</p>
             </div>
-            <div className="rounded-[24px] border border-white/10 bg-black/20 p-4 text-sm text-white/68">
+            <div className="rounded-[8px] border border-white/10 bg-black/20 p-4 text-sm text-white/68">
               <p className="text-xs uppercase tracking-[0.18em] text-white/45">Atendimento</p>
               <p className="mt-2 font-semibold text-white">Suporte direto no WhatsApp com código do pedido</p>
             </div>
@@ -492,18 +495,18 @@ export default async function ProductPage({
             </div>
           )}
 
-          <div className="mt-6 rounded-[24px] border border-cyan-300/20 bg-cyan-300/10 p-4">
+          <div className="mt-6 rounded-[8px] border border-cyan-300/20 bg-cyan-300/10 p-4">
             <p className="text-sm text-cyan-50">
               <strong>Compra com clareza:</strong> se você quiser validar cor, escala, prazo ou acabamento antes de pagar, a equipe confirma tudo pelo WhatsApp.
             </p>
           </div>
 
           {idealFor.length > 0 ? (
-            <div className="mt-6 rounded-[24px] border border-white/10 bg-black/20 p-4 text-sm leading-7 text-white/70">
+            <div className="mt-6 rounded-[8px] border border-white/10 bg-black/20 p-4 text-sm leading-7 text-white/70">
               <p className="text-xs uppercase tracking-[0.18em] text-white/45">Este item funciona bem quando</p>
               <div className="mt-3 grid gap-3">
                 {idealFor.map((item) => (
-                  <div key={item} className="rounded-[18px] border border-white/10 bg-white/5 px-4 py-3">
+                  <div key={item} className="rounded-[8px] border border-white/10 bg-white/5 px-4 py-3">
                     {item}
                   </div>
                 ))}
@@ -511,7 +514,7 @@ export default async function ProductPage({
             </div>
           ) : null}
 
-          <div className="mt-6 rounded-[24px] border border-white/10 bg-black/20 p-4 text-sm leading-7 text-white/70">
+          <div className="mt-6 rounded-[8px] border border-white/10 bg-black/20 p-4 text-sm leading-7 text-white/70">
             <p className="text-xs uppercase tracking-[0.18em] text-white/45">Faixa comercial</p>
             <p className="mt-2 font-semibold text-white">
               {product.pricingMode === 'faixa-auditada' ? 'Preço confirmado para compra direta' : 'Estimativa inicial para produção sob medida'}
@@ -535,7 +538,7 @@ export default async function ProductPage({
               ['Peso PLA', product.plaWeight ?? `${product.grams} g`],
               ['Dimensões', product.dimensions]
             ].map(([label, value]) => (
-              <div key={label} className="rounded-[24px] border border-white/10 bg-black/20 p-4 text-sm text-white/68">
+              <div key={label} className="rounded-[8px] border border-white/10 bg-black/20 p-4 text-sm text-white/68">
                 <p className="text-xs uppercase tracking-[0.18em] text-white/45">{label}</p>
                 <p className="mt-2 font-semibold text-white">{value}</p>
               </div>
@@ -570,7 +573,7 @@ export default async function ProductPage({
             <GuaranteeBar />
           </div>
 
-          <div className="mt-6 rounded-[24px] border border-white/10 bg-black/20 p-4">
+          <div className="mt-6 rounded-[8px] border border-white/10 bg-black/20 p-4">
             <p className="text-xs uppercase tracking-[0.18em] text-white/45">Se este item não for o encaixe ideal</p>
             <div className="mt-3 flex flex-wrap gap-2">
               {decisionRoutes.map((item) => (
@@ -616,6 +619,26 @@ export default async function ProductPage({
           ))}
         </div>
       </div>
+
+      <section className="mt-10 grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
+        <div className="mdh-instrument-panel p-6">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-100/70">Foto real x render fiel</p>
+          <h2 className="mt-3 text-3xl font-black leading-tight text-white">A página não vende referência como se fosse prova física.</h2>
+          <p className="mt-4 text-sm leading-7 text-white/65">{visualTrustCopy.body}</p>
+        </div>
+        <div className="grid gap-3 sm:grid-cols-3">
+          {[
+            ["Mídia", visualTrustCopy.title],
+            ["Material", product.material],
+            ["Acabamento", product.finish],
+          ].map(([label, value]) => (
+            <div key={label} className="rounded-[8px] border border-white/10 bg-white/[0.045] p-5">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/42">{label}</p>
+              <p className="mt-2 text-lg font-black text-white">{value}</p>
+            </div>
+          ))}
+        </div>
+      </section>
 
       <section className="relative isolate mt-10 overflow-hidden rounded-[8px] border border-white/12 bg-slate-950 p-6 shadow-[0_24px_70px_rgba(2,8,23,0.22)] md:p-8">
         <SafeBackgroundVideo

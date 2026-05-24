@@ -1249,6 +1249,223 @@ input.field-base {
   }
 }
 
+/* ===== MDH 2026 VISUAL REDESIGN ===== */
+.mdh-site-header {
+  background:
+    linear-gradient(180deg, rgba(3, 7, 13, 0.9), rgba(3, 7, 13, 0.78)),
+    radial-gradient(circle at 12% 0%, rgba(34, 211, 238, 0.12), transparent 28%);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  box-shadow: 0 18px 58px rgba(0, 0, 0, 0.26), inset 0 -1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.mdh-site-header.is-scrolled {
+  box-shadow: 0 22px 76px rgba(0, 0, 0, 0.38), 0 0 30px rgba(34, 211, 238, 0.08);
+}
+
+.mdh-header-search {
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.035)),
+    rgba(2, 6, 23, 0.52);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 14px 40px rgba(0, 0, 0, 0.18);
+}
+
+.mdh-hero-cinematic {
+  background:
+    radial-gradient(circle at 18% 14%, rgba(34, 211, 238, 0.12), transparent 26%),
+    radial-gradient(circle at 84% 20%, rgba(168, 85, 247, 0.12), transparent 22%),
+    #020509;
+}
+
+.mdh-cad-grid {
+  background-image:
+    linear-gradient(rgba(34, 211, 238, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34, 211, 238, 0.08) 1px, transparent 1px),
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 96px 96px, 96px 96px, 24px 24px, 24px 24px;
+  mask-image: linear-gradient(180deg, transparent, black 12%, black 84%, transparent);
+}
+
+.mdh-section-title {
+  color: #fff;
+  font-family: var(--font-display), var(--font-sans), sans-serif;
+  font-size: clamp(2.25rem, 5vw, 5.1rem);
+  font-weight: 900;
+  line-height: 0.94;
+  text-wrap: balance;
+}
+
+.mdh-instrument-panel,
+.mdh-filter-command,
+.mdh-pdp-buybox,
+.mdh-pdp-gallery-shell {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.105), rgba(255, 255, 255, 0.035)),
+    rgba(3, 7, 13, 0.72);
+  box-shadow:
+    0 28px 86px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.mdh-instrument-panel::before,
+.mdh-filter-command::before,
+.mdh-pdp-buybox::before,
+.mdh-pdp-gallery-shell::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    linear-gradient(130deg, rgba(34, 211, 238, 0.14), transparent 28%, rgba(168, 85, 247, 0.10) 72%, transparent),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.055), transparent 35%);
+  z-index: -1;
+}
+
+.mdh-trust-rail {
+  position: relative;
+}
+
+.mdh-orbit-frame {
+  position: relative;
+  border-radius: 8px;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(34, 211, 238, 0.5), rgba(168, 85, 247, 0.32), rgba(132, 204, 22, 0.24));
+  box-shadow: 0 44px 120px rgba(0, 0, 0, 0.42), 0 0 70px rgba(34, 211, 238, 0.12);
+}
+
+.mdh-orbit-frame__inner {
+  min-height: 540px;
+  border-radius: 8px;
+  background:
+    radial-gradient(circle at 80% 18%, rgba(34, 211, 238, 0.16), transparent 28%),
+    radial-gradient(circle at 15% 82%, rgba(168, 85, 247, 0.13), transparent 24%),
+    linear-gradient(180deg, rgba(8, 17, 28, 0.94), rgba(2, 6, 23, 0.94));
+  padding: 2rem;
+}
+
+.mdh-floating-proof {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.055);
+  padding: 0.95rem;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.mdh-bento-card,
+.mdh-intent-card,
+.mdh-editorial-product,
+.mdh-catalog-breakout,
+.mdh-product-card-2026 {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  background: rgba(3, 7, 13, 0.72);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  transition:
+    transform 260ms ease,
+    border-color 260ms ease,
+    box-shadow 260ms ease,
+    filter 260ms ease;
+}
+
+.mdh-bento-card,
+.mdh-intent-card {
+  min-height: 100%;
+  padding: 1.25rem;
+}
+
+.mdh-bento-card:hover,
+.mdh-bento-card:focus-visible,
+.mdh-intent-card:hover,
+.mdh-intent-card:focus-within,
+.mdh-editorial-product:hover,
+.mdh-editorial-product:focus-visible,
+.mdh-product-card-2026:hover,
+.mdh-product-card-2026:focus-within {
+  transform: translateY(-8px);
+  border-color: rgba(34, 211, 238, 0.36);
+  box-shadow:
+    0 34px 98px rgba(0, 0, 0, 0.38),
+    0 0 34px rgba(34, 211, 238, 0.16),
+    0 0 44px rgba(168, 85, 247, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.09);
+  filter: saturate(1.04) brightness(1.02);
+}
+
+.mdh-bento-card::after,
+.mdh-intent-card::after,
+.mdh-product-card-2026::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.7), rgba(168, 85, 247, 0.45), transparent);
+  opacity: 0.8;
+}
+
+.mdh-editorial-product {
+  display: block;
+}
+
+.mdh-product-card-2026[data-card-variant='readyToShip'] {
+  box-shadow: 0 26px 86px rgba(0, 0, 0, 0.32), 0 0 28px rgba(16, 185, 129, 0.10);
+}
+
+.mdh-product-card-2026[data-card-variant='premium'] {
+  border-color: rgba(245, 158, 11, 0.25);
+}
+
+.mdh-product-card-2026[data-card-variant='customProject'] {
+  border-color: rgba(34, 211, 238, 0.28);
+}
+
+.mdh-product-card-2026 .group\/gallery {
+  border-radius: 8px;
+}
+
+.mdh-catalog-breakout {
+  min-height: 220px;
+}
+
+.pdp-visual-shell {
+  background:
+    radial-gradient(circle at 6% 12%, rgba(34, 211, 238, 0.08), transparent 24%),
+    radial-gradient(circle at 86% 18%, rgba(168, 85, 247, 0.08), transparent 22%);
+}
+
+.mdh-pdp-buybox {
+  border-color: rgba(34, 211, 238, 0.20);
+  box-shadow:
+    0 34px 110px rgba(0, 0, 0, 0.34),
+    0 0 46px rgba(34, 211, 238, 0.10),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mdh-bento-card,
+  .mdh-intent-card,
+  .mdh-editorial-product,
+  .mdh-product-card-2026,
+  .mdh-floating-proof,
+  .mdh-instrument-panel {
+    transform: none !important;
+  }
+}
+
 /* ===== SCROLLBAR ===== */
 ::-webkit-scrollbar {
   width: 8px;

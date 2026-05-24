@@ -67,7 +67,7 @@ export function SkipLink() {
   return (
     <a
       href="#main-content"
-      className="skip-link fixed left-4 top-4 z-[100] -translate-y-full transform rounded-lg bg-cyan-glow px-4 py-2 text-black transition-transform focus:translate-y-0 focus:outline-none focus:ring-2 focus:ring-cyan-glow focus:ring-offset-2 focus:ring-offset-black"
+      className="skip-link fixed -top-16 left-4 z-[100] rounded-lg bg-cyan-glow px-4 py-2 text-black transition-[top] focus:top-4 focus:outline-none focus:ring-2 focus:ring-cyan-glow focus:ring-offset-2 focus:ring-offset-black"
     >
       Pular para conteúdo principal
     </a>

@@ -1,20 +1,21 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { ArrowRight, BadgeCheck, MessageCircleMore, Search, SlidersHorizontal, UploadCloud } from "lucide-react";
 import { CatalogExplorer } from "@/components/catalog-explorer";
 import { CommerceFaq } from "@/components/commerce-faq";
 import { CatalogRealCases } from "@/components/catalog-real-cases";
 import { CatalogBuyingIntents } from "@/components/catalog-buying-intents";
+import { SafeBackgroundVideo } from "@/components/safe-background-video";
 import { getCatalogSnapshot } from "@/lib/catalog-repository";
-import { A1_MINI_COLLECTION, isA1MiniCatalogProduct } from "@/lib/a1-mini-catalog";
 import { summarizeProductVisuals } from "@/lib/product-visuals";
 import { getSiteUrl } from "@/lib/env";
-import { SafeBackgroundVideo } from "@/components/safe-background-video";
+import { whatsappNumber } from "@/lib/constants";
 import { getLicensedVideoAsset } from "@/lib/video-assets";
 
 export const metadata: Metadata = {
   title: "Catálogo",
   description:
-    "Catálogo MDH 3D com foco em foto real e leitura clara para comparar, escolher e comprar com mais confiança.",
+    "Catálogo MDH 3D com produtos reais, filtros por intenção, preço Pix, prazo e prova visual para comprar ou pedir sob medida.",
   alternates: {
     canonical: "/catalogo",
   },
@@ -27,6 +28,10 @@ export default async function CatalogPage() {
   const catalog = await getCatalogSnapshot();
   const siteUrl = getSiteUrl();
   const minPrice = Math.min(...catalog.map((product) => product.pricePix));
+  const visualSummary = summarizeProductVisuals(catalog);
+  const catalogVideo = getLicensedVideoAsset("process-printer-loop");
+  const heroVideo = getLicensedVideoAsset("timelapse-print-loop");
+  const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent("Oi! Quero ajuda para escolher no catálogo da MDH 3D.")}`;
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -35,24 +40,21 @@ export default async function CatalogPage() {
       { "@type": "ListItem", position: 2, name: "Catálogo", item: `${siteUrl}/catalogo` },
     ],
   };
-  const visualSummary = summarizeProductVisuals(catalog);
-  const a1MiniCount = catalog.filter(isA1MiniCatalogProduct).length;
-  const catalogVideo = getLicensedVideoAsset("process-printer-loop");
   const catalogFaq = [
     {
-      question: "Como usar o catalogo sem se perder em opcoes demais?",
+      question: "Como usar o catálogo sem se perder em opções demais?",
       answer:
-        "A melhor forma e entrar por objetivo de compra: pronta entrega, presente, setup, visual validado ou personalizacao. O catalogo foi reorganizado para vender por intencao, nao por excesso de SKU.",
+        "Comece por intenção de compra: presentear, organizar, decorar, colecionar, comprar em lote ou personalizar. Depois refine por foto real, disponibilidade, material e preço.",
     },
     {
-      question: "O catalogo mostra so produtos prontos?",
+      question: "O catálogo mostra só produtos prontos?",
       answer:
-        "Nao. Ele mistura itens com preco mais fechado e rotas claras para briefing, para que a pessoa nao precise sair da loja quando percebe que quer algo adaptado.",
+        "Não. O catálogo mistura itens com compra direta, pronta entrega, sob encomenda e referências para orçamento. Os selos indicam a leitura visual e o caminho comercial correto.",
     },
     {
-      question: "Qual e a faixa inicial para comecar a comprar na MDH 3D?",
+      question: "Qual é a faixa inicial para comprar na MDH 3D?",
       answer:
-        `Hoje a vitrine publica abre a partir de ${new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(minPrice)} no Pix para itens compactos, com variacao conforme categoria, acabamento e personalizacao.`,
+        `A vitrine pública abre a partir de ${new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(minPrice)} no Pix para itens compactos, variando conforme material, acabamento e personalização.`,
     },
   ];
   const faqJsonLd = {
@@ -61,122 +63,118 @@ export default async function CatalogPage() {
     mainEntity: catalogFaq.map((item) => ({
       "@type": "Question",
       name: item.question,
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: item.answer,
-      },
+      acceptedAnswer: { "@type": "Answer", text: item.answer },
     })),
   };
 
   return (
-    <section className="catalog-page-shell mx-auto w-full max-w-7xl px-3 pb-14 pt-24 sm:px-4 md:px-6 md:py-16">
+    <section className="catalog-page-shell w-full pb-16 pt-0">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
-      <div className="catalog-hero-shell overflow-hidden rounded-[28px] border border-white/12 bg-[radial-gradient(circle_at_top_left,rgba(34,211,238,0.10),transparent_26%),radial-gradient(circle_at_bottom_right,rgba(16,185,129,0.08),transparent_24%),linear-gradient(135deg,rgba(255,255,255,0.05),rgba(255,255,255,0.02))] p-4 shadow-[0_24px_60px_rgba(2,8,23,0.24)] sm:p-6 md:rounded-[40px] md:p-8">
-        <div className="grid gap-6 md:gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
-          <div className="max-w-3xl">
-            <p className="text-xs uppercase tracking-[0.22em] text-cyan-200">Catálogo MDH 3D</p>
-            <h1 className="catalog-hero-title mt-3 break-words text-3xl font-black leading-[1.06] text-white sm:text-4xl md:text-5xl">
-              Foto real, render fiel e filtros para decidir rápido.
+
+      <div className="relative isolate overflow-hidden border-b border-white/10 bg-black px-4 pb-12 pt-24 sm:px-6 lg:pt-28">
+        <SafeBackgroundVideo
+          src={heroVideo.src}
+          poster={heroVideo.poster}
+          videoClassName="opacity-55 saturate-[1.12]"
+          overlayClassName="bg-[linear-gradient(90deg,rgba(1,5,10,0.94),rgba(1,5,10,0.58)_48%,rgba(1,5,10,0.88)),linear-gradient(180deg,rgba(1,5,10,0.16),rgba(1,5,10,0.90))]"
+        />
+        <div className="mdh-cad-grid absolute inset-0 opacity-65" />
+        <div className="relative mx-auto grid max-w-7xl gap-10 lg:grid-cols-[minmax(0,0.98fr)_minmax(340px,0.72fr)] lg:items-end">
+          <div>
+            <h1 className="max-w-5xl text-balance text-[clamp(3rem,7.4vw,6.7rem)] font-black leading-[0.88] text-white">
+              Catálogo por intenção, prova visual e fechamento rápido.
             </h1>
-            <p className="mt-4 text-base leading-7 text-white/72 md:text-lg md:leading-8">
-              Comece por pronta entrega, presente, setup, foto real ou personalização sem perder tempo em uma vitrine confusa.
+            <p className="mt-6 max-w-2xl text-lg leading-8 text-white/72">
+              Busque por produto, filtre por objetivo e avance para compra, WhatsApp ou sob medida sem cair em uma grade repetitiva.
             </p>
-
-            <div className="catalog-active-lens mt-5 inline-flex max-w-full rounded-full border border-cyan-300/25 bg-cyan-300/10 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-cyan-100 md:text-xs md:tracking-[0.18em]">
-              Compra por objetivo, não por excesso de informação
-            </div>
-
-            <div className="mt-6 flex flex-wrap gap-2.5 md:gap-3">
-              <Link
-                href={`/catalogo?collection=${encodeURIComponent(A1_MINI_COLLECTION)}&mode=all`}
-                className="rounded-full border border-emerald-300/25 bg-emerald-300/10 px-4 py-2.5 text-xs font-semibold text-emerald-100 transition hover:border-emerald-300/40 hover:bg-emerald-300/15 md:px-5 md:py-3 md:text-sm"
-              >
-                100 A1 Mini
+            <form action="/catalogo" className="mt-8 flex max-w-3xl flex-col gap-3 rounded-[8px] border border-white/14 bg-white/[0.08] p-2 backdrop-blur-md sm:flex-row">
+              <label htmlFor="catalog-hero-search" className="sr-only">
+                Buscar no catálogo
+              </label>
+              <div className="flex min-h-[58px] flex-1 items-center gap-3 rounded-[8px] bg-black/40 px-4">
+                <Search className="h-5 w-5 text-cyan-100" />
+                <input
+                  id="catalog-hero-search"
+                  type="search"
+                  name="q"
+                  placeholder="Busque por presente, suporte, miniatura, organizador..."
+                  className="w-full bg-transparent text-base text-white outline-none placeholder:text-white/38"
+                />
+              </div>
+              <button type="submit" className="btn-primary min-h-[58px] gap-2 px-6">
+                Buscar
+                <ArrowRight className="h-4 w-4" />
+              </button>
+            </form>
+            <div className="mt-5 flex flex-wrap gap-2">
+              <Link href="/catalogo?mode=real" className="btn-glass gap-2 px-4 py-2 text-sm">
+                <BadgeCheck className="h-4 w-4" />
+                Peças com foto real
               </Link>
-              <Link
-                href="/catalogo?mode=real"
-                className="rounded-full border border-cyan-300/25 bg-cyan-300/10 px-4 py-2.5 text-xs font-semibold text-cyan-100 transition hover:border-cyan-300/40 hover:bg-cyan-300/15 md:px-5 md:py-3 md:text-sm"
-              >
-                Só foto real
+              <Link href="/catalogo?custom=1" className="btn-glass gap-2 px-4 py-2 text-sm">
+                <SlidersHorizontal className="h-4 w-4" />
+                Personalizáveis
               </Link>
-              <Link
-                href="/catalogo?mode=verified"
-                className="rounded-full border border-violet-300/20 bg-violet-300/10 px-4 py-2.5 text-xs font-semibold text-violet-100 transition hover:border-violet-300/40 hover:bg-violet-300/15 md:px-5 md:py-3 md:text-sm"
-              >
-                Foto real + render fiel
+              <Link href="/imagem-para-impressao-3d" className="btn-glass gap-2 px-4 py-2 text-sm">
+                <UploadCloud className="h-4 w-4" />
+                Pedir sob medida
               </Link>
-              <Link
-                href="/catalogo"
-                className="rounded-full border border-white/10 bg-white/5 px-4 py-2.5 text-xs font-semibold text-white/80 transition hover:border-white/20 hover:text-white md:px-5 md:py-3 md:text-sm"
-              >
-                Ver tudo
-              </Link>
+              <a href={whatsappHref} className="btn-whatsapp gap-2 px-4 py-2 text-sm">
+                <MessageCircleMore className="h-4 w-4" />
+                Ajuda no WhatsApp
+              </a>
             </div>
           </div>
 
-          <div className="grid gap-3 sm:grid-cols-3">
+          <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
             {[
-              { label: "Produtos ativos", value: String(catalog.length).padStart(4, "0") },
-              { label: "A1 Mini", value: String(a1MiniCount).padStart(3, "0") },
-              { label: "Fotos reais", value: String(visualSummary.fotoReal).padStart(2, "0") },
+              { label: "Produtos ativos", value: catalog.length.toLocaleString("pt-BR"), body: "itens públicos seguros" },
+              { label: "Fotos reais", value: visualSummary.fotoReal.toLocaleString("pt-BR"), body: "mídia honesta sinalizada" },
+              {
+                label: "Faixa inicial",
+                value: new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(minPrice),
+                body: "preço Pix de entrada",
+              },
             ].map((item) => (
-              <div key={item.label} className="min-w-0 rounded-[22px] border border-white/12 bg-black/20 p-4 md:rounded-[28px] md:p-5">
-                <p className="text-[10px] uppercase tracking-[0.14em] text-white/55 md:text-xs md:tracking-[0.18em]">
-                  {item.label}
-                </p>
-                <p className="mt-2 break-words text-2xl font-black text-white md:mt-3 md:text-3xl">{item.value}</p>
+              <div key={item.label} className="mdh-instrument-panel p-5">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/45">{item.label}</p>
+                <p className="mt-2 text-3xl font-black text-white">{item.value}</p>
+                <p className="mt-2 text-sm text-white/58">{item.body}</p>
               </div>
             ))}
           </div>
         </div>
       </div>
 
-      <div className="glass-panel mt-8 rounded-[28px] border border-emerald-300/15 bg-emerald-300/8 p-5 text-sm leading-7 text-emerald-50/90">
-        <p className="text-xs uppercase tracking-[0.18em] text-emerald-100/80">Leitura comercial</p>
-        <p className="mt-2">
-          Use os filtros para separar compra rápida, foto real, pronta entrega e personalizados. Os selos seguem deixando claro quando a referência é foto real ou render fiel.
-        </p>
-      </div>
+      <div className="mx-auto max-w-7xl px-4 sm:px-6">
+        <CatalogBuyingIntents products={catalog} />
 
-      <div className="mt-4 rounded-[28px] border border-white/10 bg-white/5 p-5 text-sm leading-7 text-white/70">
-        <p className="text-xs uppercase tracking-[0.18em] text-cyan-100/80">Faixa inicial</p>
-        <p className="mt-2">
-          O catálogo público abre hoje a partir de {new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(minPrice)} no Pix para itens compactos, e sobe conforme categoria, acabamento e nível de personalização.
-        </p>
-      </div>
+        <div id="catalogo-real" className="mt-12">
+          <CatalogRealCases />
+        </div>
 
-      <CatalogBuyingIntents products={catalog} />
-
-      <div id="catalogo-real" className="mt-12">
-        <CatalogRealCases />
-      </div>
-
-      <div id="catalogo-vitrine" className="catalog-video-shell relative isolate mt-8 overflow-hidden rounded-[28px] border border-white/14 shadow-[0_28px_72px_rgba(2,8,23,0.16)] md:mt-10 md:rounded-[36px]">
-        <SafeBackgroundVideo
-          src={catalogVideo.src}
-          poster={catalogVideo.poster}
-          videoClassName="opacity-[0.32]"
-          overlayClassName="bg-[linear-gradient(90deg,rgba(34,211,238,0.08),transparent_34%,rgba(16,185,129,0.07)),linear-gradient(180deg,rgba(2,6,23,0.30),rgba(2,6,23,0.58)_40%,rgba(2,6,23,0.74)_100%)]"
-        />
-        <div className="pointer-events-none absolute inset-0 rounded-[28px] ring-1 ring-inset ring-white/40 md:rounded-[36px]" />
-
-        <div className="catalog-video-content relative p-2.5 md:p-4 lg:p-5">
-          <div className="catalog-video-inner rounded-[24px] border border-white/16 bg-slate-950/72 p-1.5 backdrop-blur-md md:rounded-[30px] md:p-3">
-            <CatalogExplorer
-              products={catalog}
-            />
+        <div id="catalogo-vitrine" className="relative isolate mt-12 overflow-hidden rounded-[8px] border border-white/14 bg-[#03070d] shadow-[0_36px_110px_rgba(0,0,0,0.32)]">
+          <SafeBackgroundVideo
+            src={catalogVideo.src}
+            poster={catalogVideo.poster}
+            videoClassName="opacity-[0.26]"
+            overlayClassName="bg-[linear-gradient(180deg,rgba(2,6,23,0.50),rgba(2,6,23,0.86)),linear-gradient(90deg,rgba(34,211,238,0.07),transparent_44%,rgba(132,204,22,0.06))]"
+          />
+          <div className="mdh-cad-grid absolute inset-0 opacity-45" />
+          <div className="relative p-3 md:p-5 lg:p-6">
+            <CatalogExplorer products={catalog} />
           </div>
         </div>
-      </div>
 
-      <div className="mt-14">
-        <CommerceFaq
-          eyebrow="FAQ do catalogo"
-          title="As duvidas comerciais que mais aparecem antes do clique no produto."
-          description="O catalogo agora segura contexto de compra e faixa inicial na propria pagina, sem empurrar tudo para atendimento humano."
-          items={catalogFaq}
-        />
+        <div className="mt-14">
+          <CommerceFaq
+            eyebrow="FAQ do catálogo"
+            title="Dúvidas que aparecem antes de clicar no produto."
+            description="O catálogo mantém contexto de compra, prova visual e faixa inicial na própria página."
+            items={catalogFaq}
+          />
+        </div>
       </div>
     </section>
   );

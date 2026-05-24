@@ -1,10 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, ShieldCheck, Star, Truck } from "lucide-react";
+import { ArrowRight, BadgeCheck, Box, CreditCard, Factory, MessageCircleMore, UploadCloud } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
-import { fadeInUp, staggerContainer, ctaPulse } from "@/lib/animations";
 import { SafeBackgroundVideo } from "@/components/safe-background-video";
+import { whatsappMessage, whatsappNumber } from "@/lib/constants";
 
 interface PremiumHeroProps {
   catalogCount?: number;
@@ -16,174 +16,144 @@ interface PremiumHeroProps {
   backgroundPosterSrc?: string | null;
 }
 
+const FLOATING_CARDS = [
+  { icon: CreditCard, title: "Pix e cartão", body: "fechamento claro" },
+  { icon: Factory, title: "Produção no RJ", body: "operação local" },
+  { icon: BadgeCheck, title: "Mídia honesta", body: "foto real ou render fiel" },
+  { icon: Box, title: "Sob demanda", body: "peças e lotes" },
+] as const;
+
 export function PremiumHero({
   catalogCount = 0,
   realPhotoCount = 0,
   readyRealCount = 0,
-  ratingLabel = "4.9",
+  ratingLabel = "avaliações reais",
   reviewCount,
   backgroundVideoSrc,
   backgroundPosterSrc,
 }: PremiumHeroProps) {
   const shouldReduce = useReducedMotion();
-  const heroStats = [
-    { label: "catalogo", value: catalogCount ? catalogCount.toLocaleString("pt-BR") : "500+" },
-    { label: "foto real", value: String(realPhotoCount || "curada") },
-    { label: "pronta entrega", value: String(readyRealCount || "sob consulta") },
+  const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+  const stats = [
+    { label: "Produtos públicos", value: catalogCount ? catalogCount.toLocaleString("pt-BR") : "500+" },
+    { label: "Fotos reais", value: realPhotoCount ? realPhotoCount.toLocaleString("pt-BR") : "curadoria" },
+    { label: "Pronta entrega", value: readyRealCount ? readyRealCount.toLocaleString("pt-BR") : "sob consulta" },
   ];
 
   return (
-    <section
-      aria-label="Hero MDH3D"
-      className="relative isolate min-h-[calc(100svh-72px)] overflow-hidden bg-[#05070a] px-4 pb-24 pt-24 sm:px-6 sm:pb-28 sm:pt-32 lg:pb-32 lg:pt-36"
-    >
+    <section className="mdh-hero-cinematic relative isolate min-h-[calc(100svh-76px)] overflow-hidden px-4 pb-16 pt-12 sm:px-6 lg:pb-20 lg:pt-14">
       <SafeBackgroundVideo
         src={backgroundVideoSrc}
         poster={backgroundPosterSrc}
-        videoClassName="hero-video-layer"
-        overlayClassName="bg-[linear-gradient(90deg,rgba(2,6,23,0.92),rgba(2,6,23,0.58)_48%,rgba(2,6,23,0.82)),linear-gradient(180deg,rgba(2,6,23,0.34),rgba(2,6,23,0.84)_82%,#05070a)]"
+        videoClassName="opacity-[0.72] saturate-[1.18] contrast-[1.08]"
+        overlayClassName="bg-[linear-gradient(90deg,rgba(1,5,10,0.94),rgba(1,5,10,0.58)_45%,rgba(1,5,10,0.88)),linear-gradient(180deg,rgba(1,5,10,0.30),rgba(1,5,10,0.86)_76%,#020509)]"
       />
-      <div className="hero-scanlines -z-10" />
+      <div className="mdh-cad-grid absolute inset-0 -z-10 opacity-80" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-48 bg-[linear-gradient(180deg,transparent,#020509)]" />
+      <div className="pointer-events-none absolute left-1/2 top-20 -z-10 h-px w-[82vw] -translate-x-1/2 bg-[linear-gradient(90deg,transparent,rgba(34,211,238,0.55),rgba(167,139,250,0.4),transparent)]" />
 
-      {/* Animated background glow */}
-      {!shouldReduce && (
+      {!shouldReduce ? (
         <motion.div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0"
-          animate={{ opacity: [0.3, 0.6, 0.3] }}
-          transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
+          className="pointer-events-none absolute inset-0 -z-10"
+          animate={{ opacity: [0.35, 0.62, 0.35], y: [0, -8, 0] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
         >
-          <div className="absolute left-[-8%] top-1/3 h-40 w-[120%] -rotate-6 bg-[linear-gradient(90deg,transparent,rgba(34,211,238,0.12),rgba(16,185,129,0.10),transparent)] blur-2xl" />
+          <div className="absolute right-[-12%] top-24 h-44 w-[58vw] rotate-[-9deg] bg-[linear-gradient(90deg,transparent,rgba(34,211,238,0.18),rgba(132,204,22,0.10),transparent)] blur-2xl" />
+          <div className="absolute bottom-24 left-[-10%] h-40 w-[42vw] rotate-[7deg] bg-[linear-gradient(90deg,transparent,rgba(168,85,247,0.17),rgba(245,158,11,0.10),transparent)] blur-2xl" />
         </motion.div>
-      )}
+      ) : null}
 
-      <div className="relative mx-auto max-w-5xl text-center">
-        {/* Trust badge */}
-        <motion.div
-          {...(shouldReduce ? {} : fadeInUp)}
-          initial={shouldReduce ? undefined : "hidden"}
-          animate={shouldReduce ? undefined : "visible"}
-          className="mb-6 inline-flex items-center gap-2 rounded-full border border-indigo-500/30 bg-indigo-500/10 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-indigo-300"
-        >
-          <ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" />
-          Produção RJ · Frete p/ todo Brasil
-        </motion.div>
-
-        {/* H1 */}
-        <motion.h1
-          variants={staggerContainer}
-          initial={shouldReduce ? undefined : "hidden"}
-          animate={shouldReduce ? undefined : "visible"}
-          className="mt-2 font-sans text-4xl font-black leading-tight tracking-tight text-white sm:text-5xl lg:text-6xl xl:text-7xl"
-        >
-          <motion.span variants={fadeInUp} className="block">
-            Transforme sua ideia
-          </motion.span>
-          <motion.span
-            variants={fadeInUp}
-            className="block bg-gradient-to-r from-cyan-200 via-white to-emerald-200 bg-clip-text text-transparent"
-          >
-            em objeto real
-          </motion.span>
-        </motion.h1>
-
-        {/* Subtitle */}
-        <motion.p
-          {...(shouldReduce ? {} : { ...fadeInUp, initial: "hidden", animate: "visible" })}
-          className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-slate-200 sm:text-xl"
-        >
-          Arquivo STL → Objeto físico em{" "}
-          <strong className="text-white">24–48h</strong> ·{" "}
-          <strong className="text-white">Foto real</strong> do seu produto antes
-          de comprar
-        </motion.p>
-
-        <motion.div
-          {...(shouldReduce ? {} : { ...fadeInUp, initial: "hidden", animate: "visible" })}
-          className="mx-auto mt-8 grid max-w-3xl gap-3 sm:grid-cols-3"
-        >
-          {heroStats.map((item) => (
-            <div key={item.label} className="rounded-[8px] border border-white/12 bg-white/[0.06] px-4 py-3 backdrop-blur-md">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-cyan-100/70">{item.label}</p>
-              <p className="mt-1 text-lg font-black text-white">{item.value}</p>
-            </div>
-          ))}
-        </motion.div>
-
-        {/* CTAs */}
-        <motion.div
-          {...(shouldReduce ? {} : { ...fadeInUp, initial: "hidden", animate: "visible" })}
-          className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center"
-        >
+      <div className="relative mx-auto grid min-h-[calc(100svh-150px)] max-w-7xl items-center gap-10 lg:grid-cols-[minmax(0,1.02fr)_minmax(360px,0.78fr)]">
+        <div className="max-w-4xl">
           <motion.div
-            variants={ctaPulse}
-            initial="rest"
-            animate={shouldReduce ? "rest" : "pulse"}
+            initial={shouldReduce ? undefined : { opacity: 0, y: 18 }}
+            animate={shouldReduce ? undefined : { opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
           >
-            <Link
-              href="/catalogo"
-              className="group inline-flex min-h-[56px] items-center gap-2 rounded-[8px] bg-emerald-400 px-8 py-4 text-base font-bold text-slate-950 shadow-lg shadow-emerald-500/25 transition hover:bg-emerald-300 hover:shadow-emerald-500/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
-              aria-label="Começar agora — ver catálogo de produtos"
-            >
-              Começar agora
-              <ArrowRight
-                className="h-5 w-5 transition-transform group-hover:translate-x-1"
-                aria-hidden="true"
-              />
+            <h1 className="max-w-5xl text-balance font-display text-[clamp(2.6rem,5.45vw,5.9rem)] font-black leading-[0.92] text-white">
+              Impressão 3D sob demanda com acabamento de produto final.
+            </h1>
+            <p className="mt-7 max-w-2xl text-pretty text-lg leading-8 text-white/76 md:text-xl md:leading-9">
+              Presentes, utilidades, colecionáveis, peças personalizadas e lotes produzidos no RJ com atendimento direto.
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={shouldReduce ? undefined : { opacity: 0, y: 16 }}
+            animate={shouldReduce ? undefined : { opacity: 1, y: 0 }}
+            transition={{ delay: 0.12, duration: 0.58, ease: "easeOut" }}
+            className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap"
+          >
+            <Link href="/catalogo" className="btn-primary min-h-[58px] gap-2 px-7 py-4 text-base">
+              Explorar catálogo
+              <ArrowRight className="h-5 w-5" />
+            </Link>
+            <a href={whatsappHref} className="btn-whatsapp min-h-[58px] gap-2 px-7 py-4 text-base">
+              <MessageCircleMore className="h-5 w-5" />
+              Pedir orçamento no WhatsApp
+            </a>
+            <Link href="/imagem-para-impressao-3d" className="btn-secondary min-h-[58px] gap-2 px-7 py-4 text-base">
+              <UploadCloud className="h-5 w-5" />
+              Enviar arquivo 3D
             </Link>
           </motion.div>
 
-          <Link
-            href="/catalogo"
-            className="inline-flex min-h-[56px] items-center gap-2 rounded-[8px] border border-white/20 bg-white/[0.04] px-8 py-4 text-base font-semibold text-white backdrop-blur-sm transition hover:border-cyan-200/40 hover:bg-white/8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
-          >
-            Ver catálogo
-          </Link>
-        </motion.div>
-
-        {/* Trust bar */}
-        <motion.div
-          {...(shouldReduce ? {} : { ...fadeInUp, initial: "hidden", animate: "visible" })}
-          className="mt-12 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm text-slate-400"
-          role="list"
-          aria-label="Garantias e diferenciais"
-        >
-          <span role="listitem" className="flex items-center gap-1.5">
-            <Star
-              className="h-4 w-4 fill-amber-400 text-amber-400"
-              aria-hidden="true"
-            />
-            <strong className="text-white">{ratingLabel ?? "4.9"}</strong>
-            {reviewCount ? `/${reviewCount} avaliações` : "/5"}
-          </span>
-          <span aria-hidden="true" className="hidden sm:block">·</span>
-          <span role="listitem" className="flex items-center gap-1.5">
-            <Truck className="h-4 w-4 text-emerald-400" aria-hidden="true" />
-            Entrega RJ/SP em 24h
-          </span>
-          <span aria-hidden="true" className="hidden sm:block">·</span>
-          <span role="listitem" className="flex items-center gap-1.5">
-            <ShieldCheck
-              className="h-4 w-4 text-indigo-400"
-              aria-hidden="true"
-            />
-            Compra segura
-          </span>
-        </motion.div>
-
-        {/* Scroll indicator */}
-        {!shouldReduce && (
           <motion.div
-            aria-hidden="true"
-            className="mt-16 flex justify-center"
-            animate={{ y: [0, 8, 0] }}
-            transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+            initial={shouldReduce ? undefined : { opacity: 0, y: 16 }}
+            animate={shouldReduce ? undefined : { opacity: 1, y: 0 }}
+            transition={{ delay: 0.22, duration: 0.58, ease: "easeOut" }}
+            className="mt-10 grid max-w-3xl gap-3 sm:grid-cols-3"
           >
-            <div className="flex h-8 w-5 items-start justify-center rounded-full border-2 border-white/20 p-1">
-              <div className="h-1.5 w-0.5 animate-pulse rounded-full bg-white/40" />
-            </div>
+            {stats.map((item) => (
+              <div key={item.label} className="mdh-instrument-panel px-4 py-4">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/45">{item.label}</p>
+                <p className="mt-2 text-2xl font-black text-white">{item.value}</p>
+              </div>
+            ))}
           </motion.div>
-        )}
+        </div>
+
+        <motion.div
+          initial={shouldReduce ? undefined : { opacity: 0, x: 24 }}
+          animate={shouldReduce ? undefined : { opacity: 1, x: 0 }}
+          transition={{ delay: 0.18, duration: 0.65, ease: "easeOut" }}
+          className="relative hidden lg:block"
+        >
+          <div className="mdh-orbit-frame">
+            <div className="mdh-orbit-frame__inner">
+              <p className="text-xs uppercase tracking-[0.24em] text-cyan-100/70">Laboratório digital</p>
+              <h2 className="mt-4 text-4xl font-black leading-none text-white">Modelo, impressão, acabamento e venda no mesmo fluxo.</h2>
+              <div className="mt-8 grid gap-3">
+                {FLOATING_CARDS.map((card, index) => {
+                  const Icon = card.icon;
+                  return (
+                    <motion.div
+                      key={card.title}
+                      className="mdh-floating-proof"
+                      animate={shouldReduce ? undefined : { y: [0, index % 2 ? -6 : 6, 0] }}
+                      transition={{ duration: 4 + index * 0.4, repeat: Infinity, ease: "easeInOut" }}
+                    >
+                      <span className="rounded-2xl border border-cyan-300/20 bg-cyan-300/10 p-3 text-cyan-100">
+                        <Icon className="h-5 w-5" />
+                      </span>
+                      <span>
+                        <strong className="block text-sm text-white">{card.title}</strong>
+                        <span className="text-xs text-white/58">{card.body}</span>
+                      </span>
+                    </motion.div>
+                  );
+                })}
+              </div>
+              <div className="mt-8 rounded-[8px] border border-amber-300/20 bg-amber-300/10 p-4">
+                <p className="text-sm font-semibold text-amber-100">
+                  {ratingLabel}
+                  {reviewCount ? ` · ${reviewCount} avaliações` : ""} · atendimento humano para validar cor, escala e prazo.
+                </p>
+              </div>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );

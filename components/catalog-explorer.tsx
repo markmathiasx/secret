@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { startTransition, useDeferredValue, useEffect, useMemo, useState } from 'react';
+import { Fragment, startTransition, useDeferredValue, useEffect, useMemo, useState } from 'react';
 import {
   BadgeCheck,
   ChevronRight,
@@ -35,7 +35,7 @@ import {
   trackWhatsAppClick,
 } from '@/lib/analytics';
 
-const PAGE_SIZE = 24;
+const PAGE_SIZE = 18;
 const FAVORITES_KEY = 'mdh_catalog_favorites';
 const RECENT_KEY = 'mdh_catalog_recent';
 const RECENT_SEARCHES_KEY = 'mdh_catalog_recent_searches';
@@ -796,6 +796,25 @@ export function CatalogExplorer({
     { id: 'fast', label: 'Compra rápida', active: purchaseIntent === 'Compra rápida', onClick: () => { setPurchaseIntent((value) => value === 'Compra rápida' ? 'Geral' : 'Compra rápida'); safeSetPage(1); } },
     { id: 'custom', label: 'Personalizáveis', active: customizableOnly, onClick: () => { setCustomizableOnly((value) => !value); safeSetPage(1); } },
   ];
+  const editorialBreaks = [
+    {
+      afterIndex: 4,
+      title: 'Não encontrou o encaixe exato?',
+      body: 'Mande foto, STL, medida ou referência. A equipe valida material, escala e acabamento antes de prometer prazo.',
+      href: '/imagem-para-impressao-3d',
+      cta: 'Enviar projeto',
+      tone: 'border-cyan-300/25 bg-[linear-gradient(135deg,rgba(34,211,238,0.16),rgba(124,58,237,0.10),rgba(2,6,23,0.72))]',
+    },
+    {
+      afterIndex: 11,
+      title: 'Comprando para evento, empresa ou kit?',
+      body: 'Separe uma seleção e mande no WhatsApp. O atendimento revisa quantidade, acabamento e melhor faixa de fechamento.',
+      href: selectionWhatsAppUrl,
+      cta: 'Mandar seleção',
+      tone: 'border-emerald-300/25 bg-[linear-gradient(135deg,rgba(16,185,129,0.16),rgba(245,158,11,0.10),rgba(2,6,23,0.72))]',
+      external: true,
+    },
+  ] as const;
   const rescueActions = [
     visualMode === 'real'
       ? { id: 'relax-real', label: 'Aceitar render fiel', onClick: () => { setVisualMode('verified'); safeSetPage(1); } }
@@ -818,15 +837,15 @@ export function CatalogExplorer({
 
   return (
     <div className="catalog-explorer-root space-y-6">
-      <div className="catalog-filter-shell glass-panel p-3 sm:p-4 md:p-5">
+      <div className="catalog-filter-shell mdh-filter-command p-3 sm:p-4 md:p-5">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
           <div className="max-w-2xl">
-            <p className="text-xs uppercase tracking-[0.2em] text-cyan-100/75">Explorador comercial</p>
-            <h2 className="mt-2 text-2xl font-black text-white md:text-3xl">
-              Monte uma vitrine pronta para comprar, compartilhar ou mandar no WhatsApp.
+            <p className="text-xs uppercase tracking-[0.2em] text-cyan-100/75">Mesa de curadoria</p>
+            <h2 className="mt-2 text-2xl font-black text-white md:text-4xl">
+              Filtre como um comprador real: intenção, prova visual, prazo e faixa.
             </h2>
             <p className="mt-3 text-sm leading-7 text-white/68">
-              Os filtros refinam a seleção em tempo real e a URL acompanha a curadoria para você salvar ou enviar uma seleção já pronta.
+              A grade abaixo muda de ritmo com blocos editoriais, produtos com hierarquia maior e CTAs diretos para carrinho, WhatsApp ou sob medida.
             </p>
           </div>
 
@@ -1348,7 +1367,7 @@ export function CatalogExplorer({
         </div>
       ) : null}
 
-      <div className="catalog-products-grid grid gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+      <div className="catalog-products-grid grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
         {visibleItems.map((product, index) => {
           const isFavorite = favoriteIds.includes(product.id);
           const isCompared = compareIds.includes(product.id);
@@ -1356,108 +1375,109 @@ export function CatalogExplorer({
           const subtotal = product.pricePix * quantity;
           const total = subtotal * (1 - bundleDiscount);
           const savings = subtotal - total;
+          const editorial = editorialBreaks.find((item) => item.afterIndex === index);
+          const variant =
+            product.readyToShip && isProductRealPhoto(product)
+              ? 'readyToShip'
+              : product.customizable
+              ? 'customProject'
+              : product.pricePix >= 150
+              ? 'premium'
+              : product.pricingMode !== 'faixa-auditada'
+              ? 'lote'
+              : index % 5 === 0
+              ? 'realPhoto'
+              : 'compact';
+          const cardSize = index % 9 === 0 ? 'xl:col-span-2' : '';
 
           return (
-            <article
-              key={product.id}
-              id={`produto-${product.id}`}
-              className={`catalog-product-card group relative overflow-hidden rounded-[28px] border p-5 transition-all duration-500 ${
-                isProductRealPhoto(product)
-                  ? 'border-emerald-300/18 bg-card hover:border-emerald-200/45'
-                  : isProductVisualVerified(product)
-                  ? 'border-white/10 bg-card hover:border-cyan-200/45'
-                  : 'border-amber-300/20 bg-[linear-gradient(180deg,rgba(245,158,11,0.10),rgba(255,255,255,0.03))] hover:border-amber-300/40'
-              }`}
-              role="link"
-              tabIndex={0}
-              aria-label={`Abrir ${product.name}`}
-              onClick={(event) => {
-                if (shouldIgnoreCardActivation(event.target)) return;
-                openProduct(product);
-              }}
-              onKeyDown={(event) => {
-                if (shouldIgnoreCardActivation(event.target)) return;
-                if (event.key === 'Enter' || event.key === ' ') {
-                  event.preventDefault();
+            <Fragment key={product.id}>
+              <article
+                id={`produto-${product.id}`}
+                data-card-variant={variant}
+                className={`catalog-product-card mdh-product-card-2026 group relative overflow-hidden rounded-[8px] border p-3 transition-all duration-500 md:p-4 ${cardSize} ${
+                  isProductRealPhoto(product)
+                    ? 'border-emerald-300/24 bg-[linear-gradient(180deg,rgba(16,185,129,0.11),rgba(3,7,13,0.84))]'
+                    : isProductVisualVerified(product)
+                    ? 'border-cyan-300/18 bg-[linear-gradient(180deg,rgba(34,211,238,0.09),rgba(3,7,13,0.84))]'
+                    : 'border-amber-300/22 bg-[linear-gradient(180deg,rgba(245,158,11,0.10),rgba(3,7,13,0.84))]'
+                }`}
+                role="link"
+                tabIndex={0}
+                aria-label={`Abrir ${product.name}`}
+                onClick={(event) => {
+                  if (shouldIgnoreCardActivation(event.target)) return;
                   openProduct(product);
-                }
-              }}
-            >
-              <div className="pointer-events-none absolute inset-0 rounded-[28px] border border-cyan-200/0 transition-colors duration-500 group-hover:border-cyan-200/25" />
-              <ProductImageGallery product={product} compact priority={index < 2} />
+                }}
+                onKeyDown={(event) => {
+                  if (shouldIgnoreCardActivation(event.target)) return;
+                  if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    openProduct(product);
+                  }
+                }}
+              >
+                <div className="mdh-cad-grid pointer-events-none absolute inset-0 opacity-20" />
+                <ProductImageGallery product={product} compact priority={index < 3} />
 
-              <div className="mt-2 flex flex-wrap gap-2">
-                {product.featured ? (
-                  <span className="rounded-full border border-amber-300/25 bg-amber-300/10 px-3 py-1 text-[11px] font-semibold text-amber-100">
-                    Mais vendido
-                  </span>
-                ) : null}
-                {urgency ? (
-                  <span className="rounded-full border border-rose-300/25 bg-rose-300/10 px-3 py-1 text-[11px] font-semibold text-rose-100">
-                    {urgency}
-                  </span>
-                ) : null}
-                <ProductVisualBadge product={product} />
-                {product.readyToShip ? (
-                  <span className="rounded-full border border-emerald-300/25 bg-emerald-300/10 px-3 py-1 text-[11px] font-semibold text-emerald-100">
-                    Pronta entrega
-                  </span>
-                ) : null}
-              </div>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  <ProductVisualBadge product={product} />
+                  {product.featured ? (
+                    <span className="rounded-full border border-amber-300/25 bg-amber-300/10 px-3 py-1 text-[11px] font-semibold text-amber-100">
+                      Destaque
+                    </span>
+                  ) : null}
+                  {urgency ? (
+                    <span className="rounded-full border border-rose-300/25 bg-rose-300/10 px-3 py-1 text-[11px] font-semibold text-rose-100">
+                      {urgency}
+                    </span>
+                  ) : null}
+                  {product.readyToShip ? (
+                    <span className="rounded-full border border-emerald-300/25 bg-emerald-300/10 px-3 py-1 text-[11px] font-semibold text-emerald-100">
+                      Pronta entrega
+                    </span>
+                  ) : null}
+                </div>
 
-              <div className="mt-4">
-                <div className="min-w-0">
-                  <p className="text-xs uppercase tracking-[0.18em] text-cyan-200/80">{product.category}</p>
-                  <h3 className="mt-2 line-clamp-2 break-words text-base font-semibold text-white sm:text-lg">
+                <div className="mt-4 min-w-0">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-cyan-100/66">{product.category}</p>
+                  <h3 className="mt-2 line-clamp-2 break-words text-xl font-black leading-tight text-white">
                     {product.name}
                   </h3>
-                  <p className="mt-2 line-clamp-2 text-sm leading-6 text-white/62">
+                  <p className="mt-3 line-clamp-2 text-sm leading-6 text-white/62">
                     {product.description}
                   </p>
                 </div>
-              </div>
 
-              <div className="mt-4 flex flex-wrap gap-2">
-                <span className="rounded-full border border-white/10 px-3 py-1 text-xs text-white/60">
-                  {product.material}
-                </span>
-                <span className="rounded-full border border-white/10 px-3 py-1 text-xs text-white/60">
-                  {product.finish}
-                </span>
-                <span className="rounded-full border border-white/10 px-3 py-1 text-xs text-white/60">
-                  {product.productionWindow}
-                </span>
-                {product.customizable ? (
-                  <span className="rounded-full border border-cyan-300/20 bg-cyan-300/10 px-3 py-1 text-xs text-cyan-100">
-                    Personalizável
-                  </span>
-                ) : null}
-              </div>
-
-              <div className="mt-4 rounded-[18px] border border-white/10 bg-black/20 p-3 text-xs text-white/65">
-                <p className="font-semibold text-white/85">
-                  {product.pricingMode === 'faixa-auditada' ? 'Fechamento rápido' : 'Pedido sob medida'}
-                </p>
-                <p className="mt-1">
-                  {product.pricingMode === 'faixa-auditada'
-                    ? 'Preço claro no site para comparar, adicionar ao carrinho e seguir para checkout ou WhatsApp.'
-                    : 'Envie a referência para validar material, prazo e acabamento antes de fechar a produção.'}
-                </p>
-                <div className="mt-2 flex flex-wrap items-center gap-3">
-                  <span className="text-emerald-200">{quantity}x: {formatCurrency(total)}</span>
-                  {bundleDiscount > 0 ? <span>Economia {formatCurrency(savings)}</span> : <span>Simulação ativa</span>}
+                <div className="mt-4 grid grid-cols-3 gap-2">
+                  {[
+                    ['Material', product.material],
+                    ['Acab.', product.finish],
+                    ['Prazo', product.productionWindow],
+                  ].map(([label, value]) => (
+                    <div key={label} className="rounded-[8px] border border-white/10 bg-white/[0.045] p-2">
+                      <p className="text-[9px] font-semibold uppercase tracking-[0.16em] text-white/38">{label}</p>
+                      <p className="mt-1 line-clamp-1 text-xs font-semibold text-white/74">{value}</p>
+                    </div>
+                  ))}
                 </div>
-              </div>
 
-              <div className="mt-5 flex flex-wrap items-end justify-between gap-3">
-                <div className="min-w-[220px]">
-                  <ProductPriceStack product={product} compact />
-                  <div className="mt-2 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.16em] text-white/48">
-                    <Clock3 className="h-3.5 w-3.5" />
-                    {product.productionWindow}
+                <div className="mt-4 rounded-[8px] border border-white/10 bg-black/28 p-3">
+                  <div className="flex flex-wrap items-end justify-between gap-3">
+                    <div>
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-emerald-100/60">
+                        {product.pricingMode === 'faixa-auditada' ? 'Pix no site' : 'Orçamento inicial'}
+                      </p>
+                      <ProductPriceStack product={product} compact />
+                    </div>
+                    <div className="text-right text-xs text-white/56">
+                      <p>{quantity}x {formatCurrency(total)}</p>
+                      <p>{bundleDiscount > 0 ? `Economia ${formatCurrency(savings)}` : product.customizable ? 'aceita briefing' : 'pronto para decidir'}</p>
+                    </div>
                   </div>
                 </div>
-                <div className="flex flex-wrap justify-end gap-2">
+
+                <div className="mt-4 grid gap-2 sm:grid-cols-3">
                   <Link
                     href={buildProductHref(product)}
                     onClick={() => {
@@ -1465,11 +1485,11 @@ export function CatalogExplorer({
                       saveCatalogReturnState(product.id);
                       trackSelectItem(product, 'Catalogo', (currentPage - 1) * PAGE_SIZE + index);
                     }}
-                    className="btn-secondary px-4 py-2 text-center text-sm font-semibold text-cyan-100"
+                    className="btn-secondary px-3 py-2 text-center text-sm font-semibold text-cyan-100"
                   >
                     {product.pricingMode === 'faixa-auditada' ? 'Comprar' : 'Orçar'}
                   </Link>
-                  {product.pricingMode === 'faixa-auditada' && (
+                  {product.pricingMode === 'faixa-auditada' ? (
                     <button
                       type="button"
                       onClick={(e) => {
@@ -1484,45 +1504,77 @@ export function CatalogExplorer({
                         });
                         trackAddToCart(product, 1);
                       }}
-                      className="btn-primary px-4 py-2 text-center text-xs font-semibold"
+                      className="btn-primary px-3 py-2 text-center text-xs font-semibold"
                     >
                       <ShoppingCart className="mr-1.5 inline h-3.5 w-3.5" />
-                      Adicionar
+                      Carrinho
                     </button>
+                  ) : (
+                    <Link href="/imagem-para-impressao-3d" className="btn-primary px-3 py-2 text-center text-xs font-semibold">
+                      Briefing
+                    </Link>
                   )}
                   <a
                     href={buildWhatsAppQuote(product, quantity)}
                     target="_blank"
                     rel="noreferrer"
                     onClick={() => trackWhatsAppClick('catalog_card')}
-                    className="btn-glass px-4 py-2 text-center text-xs font-semibold text-emerald-100"
+                    className="btn-glass px-3 py-2 text-center text-xs font-semibold text-emerald-100"
                   >
                     WhatsApp
                   </a>
                 </div>
-              </div>
 
-              <div className="mt-4 flex flex-wrap gap-2">
-                <button
-                  type="button"
-                  onClick={() => toggleFavorite(product.id)}
-                  className={`rounded-full border px-3 py-1 text-xs font-semibold ${
-                    isFavorite ? 'border-amber-300/30 bg-amber-300/12 text-amber-100' : 'border-white/10 bg-white/5 text-white/70'
-                  }`}
-                >
-                  {isFavorite ? 'Favoritado' : 'Favoritar'}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => toggleCompare(product.id)}
-                  className={`rounded-full border px-3 py-1 text-xs font-semibold ${
-                    isCompared ? 'border-cyan-300/30 bg-cyan-300/12 text-cyan-100' : 'border-white/10 bg-white/5 text-white/70'
-                  }`}
-                >
-                  {isCompared ? 'No comparador' : 'Comparar'}
-                </button>
-              </div>
-            </article>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  <button
+                    type="button"
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      toggleFavorite(product.id);
+                    }}
+                    className={`rounded-full border px-3 py-1 text-xs font-semibold ${
+                      isFavorite ? 'border-amber-300/30 bg-amber-300/12 text-amber-100' : 'border-white/10 bg-white/5 text-white/70'
+                    }`}
+                  >
+                    {isFavorite ? 'Favoritado' : 'Favoritar'}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      toggleCompare(product.id);
+                    }}
+                    className={`rounded-full border px-3 py-1 text-xs font-semibold ${
+                      isCompared ? 'border-cyan-300/30 bg-cyan-300/12 text-cyan-100' : 'border-white/10 bg-white/5 text-white/70'
+                    }`}
+                  >
+                    {isCompared ? 'No comparador' : 'Comparar'}
+                  </button>
+                </div>
+              </article>
+
+              {editorial ? (
+                <div className={`mdh-catalog-breakout relative overflow-hidden rounded-[8px] border p-5 sm:col-span-2 xl:col-span-3 ${editorial.tone}`}>
+                  <div className="mdh-cad-grid absolute inset-0 opacity-35" />
+                  <div className="relative flex flex-col justify-between gap-5 md:flex-row md:items-end">
+                    <div className="max-w-2xl">
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-cyan-100/70">Atalho comercial</p>
+                      <h3 className="mt-3 text-3xl font-black leading-tight text-white">{editorial.title}</h3>
+                      <p className="mt-3 text-sm leading-7 text-white/68">{editorial.body}</p>
+                    </div>
+                    {'external' in editorial && editorial.external ? (
+                      <a href={editorial.href} target="_blank" rel="noreferrer" className="btn-whatsapp whitespace-nowrap">
+                        {editorial.cta}
+                      </a>
+                    ) : (
+                      <Link href={editorial.href} className="btn-secondary whitespace-nowrap">
+                        {editorial.cta}
+                      </Link>
+                    )}
+                  </div>
+                </div>
+              ) : null}
+            </Fragment>
           );
         })}
       </div>

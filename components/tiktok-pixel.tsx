@@ -1,6 +1,6 @@
 "use client";
 
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
 type TikTokQueue = {
@@ -42,7 +42,6 @@ function load(pixelId: string) {
 
 export function TikTokPixel() {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
 
   useEffect(() => {
     if (!PIXEL_ID) return;
@@ -53,7 +52,7 @@ export function TikTokPixel() {
     const win = typeof window !== "undefined" ? (window as Window & { ttq?: TikTokQueue }) : null;
     if (!PIXEL_ID || !win?.ttq?.page) return;
     win.ttq.page();
-  }, [pathname, searchParams]);
+  }, [pathname]);
 
   return null;
 }
