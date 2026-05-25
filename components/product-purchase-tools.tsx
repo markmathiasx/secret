@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { Check, Copy, MessageCircleMore, Minus, Plus, Share2, ShoppingCart, Sparkles, TimerReset, Wallet } from "lucide-react";
+import { Check, Copy, MessageCircleMore, Minus, Plus, Share2, ShoppingCart, Sparkles, Wallet } from "lucide-react";
 import { addLocalCartItem } from "@/lib/cart-store";
 import { trackAddToCart, trackBeginCheckout, trackWhatsAppClick } from "@/lib/analytics";
+import { calculateCardPrice } from "@/lib/payment-pricing";
 import { formatCurrency } from "@/lib/utils";
 import { PurchaseProtectionBanner } from "@/components/purchase-protection-banner";
 
@@ -17,7 +18,6 @@ export function ProductPurchaseTools({
   productName,
   sku,
   pricePix,
-  priceCard,
   productionWindow,
   readyToShip,
   productImage,
@@ -26,7 +26,6 @@ export function ProductPurchaseTools({
   customizable,
   whatsappHref,
   customizationHref,
-  cardCheckoutReady,
 }: {
   productId: string;
   productName: string;
@@ -58,10 +57,8 @@ export function ProductPurchaseTools({
   const [copied, setCopied] = useState<"idle" | "sku" | "link">("idle");
   const [cartMessage, setCartMessage] = useState("");
   const [memoryReady, setMemoryReady] = useState(false);
-  const [cutoffClock, setCutoffClock] = useState("00:00:00");
-  const [cutoffLabel, setCutoffLabel] = useState("Próxima triagem");
   const unitPix = configuredPrice?.unitPix ?? pricePix;
-  const unitCard = configuredPrice?.unitCard ?? priceCard;
+  const unitCard = configuredPrice?.unitCard ?? calculateCardPrice(pricePix);
   const totalPix = useMemo(() => unitPix * quantity, [quantity, unitPix]);
   const totalCard = useMemo(() => unitCard * quantity, [quantity, unitCard]);
   const quickQuantities = [1, 2, 5, 10];
@@ -75,13 +72,13 @@ export function ProductPurchaseTools({
     try {
       const url = new URL(whatsappHref);
       const current = url.searchParams.get("text") || "";
-      const nextMessage = `${current}\nQuantidade desejada: ${quantity}\nObjetivo: ${goal}.`.trim();
+      const nextMessage = `${current}\nQuantidade desejada: ${quantity}\nPix: ${formatCurrency(unitPix)}\nCartão: ${formatCurrency(unitCard)}\nObjetivo: ${goal}.`.trim();
       url.searchParams.set("text", nextMessage);
       return url.toString();
     } catch {
       return whatsappHref;
     }
-  }, [goal, quantity, whatsappHref]);
+  }, [goal, quantity, unitCard, unitPix, whatsappHref]);
   const goalNote = useMemo(() => {
     if (goal === "Presente") return "Boa rota para quem quer validar acabamento, prazo e apresentação antes de fechar.";
     if (goal === "Lote") return "Vale subir quantidade e seguir no WhatsApp para condição comercial e repetição do pedido.";
@@ -150,26 +147,6 @@ export function ProductPurchaseTools({
     };
   }, [productId, quantity, selectedColor, selectedMaterial, selectedPrazo]);
 
-  useEffect(() => {
-    const updateCutoff = () => {
-      const now = new Date();
-      const cutoff = new Date(now);
-      cutoff.setHours(18, 0, 0, 0);
-      if (now > cutoff) cutoff.setDate(cutoff.getDate() + 1);
-
-      const diff = Math.max(0, cutoff.getTime() - now.getTime());
-      const hours = Math.floor(diff / 3_600_000);
-      const minutes = Math.floor((diff % 3_600_000) / 60_000);
-      const seconds = Math.floor((diff % 60_000) / 1000);
-      setCutoffClock(`${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`);
-      setCutoffLabel(cutoff.getDate() === now.getDate() ? "Triagem de hoje" : "Próxima triagem");
-    };
-
-    updateCutoff();
-    const timer = window.setInterval(updateCutoff, 1000);
-    return () => window.clearInterval(timer);
-  }, []);
-
   async function copySku() {
     try {
       await navigator.clipboard.writeText(sku);
@@ -237,32 +214,10 @@ export function ProductPurchaseTools({
 
   return (
     <div id="pdp-purchase-tools" className="rounded-[24px] border border-cyan-300/20 bg-cyan-300/8 p-5">
-      <div className="mb-5 rounded-[22px] border border-rose-300/20 bg-rose-300/10 p-4">
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex items-start gap-3">
-            <span className="rounded-full border border-rose-300/20 bg-rose-300/10 p-2 text-rose-100">
-              <TimerReset className="h-4 w-4" />
-            </span>
-            <div>
-              <p className="text-sm font-black text-white">Fechamento rápido deste item</p>
-              <p className="mt-1 text-xs leading-6 text-white/70">
-                {readyToShip
-                  ? "Item marcado como pronto para venda. Feche agora para entrar na próxima separação."
-                  : "Pedido sob encomenda. Feche agora para entrar na próxima triagem de produção."}
-              </p>
-            </div>
-          </div>
-          <div className="rounded-[18px] border border-white/10 bg-black/25 px-4 py-3 text-right">
-            <p className="text-[11px] uppercase tracking-[0.16em] text-white/45">{cutoffLabel}</p>
-            <p className="mt-1 font-mono text-lg font-black text-rose-50">{cutoffClock}</p>
-          </div>
-        </div>
-      </div>
-
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <p className="text-xs uppercase tracking-[0.18em] text-cyan-100/75">Compra direta</p>
-          <h3 className="mt-2 text-xl font-black text-white">Escolha quantidade e feche sem cadastro.</h3>
+          <h3 className="mt-2 text-xl font-black text-white">Escolha quantidade, prazo e forma de pagamento.</h3>
         </div>
         <div className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-white/65">
           SKU {sku}
@@ -377,10 +332,9 @@ export function ProductPurchaseTools({
           <p className="mt-2 text-2xl font-black text-white">{formatCurrency(totalPix)}</p>
         </div>
         <div className="rounded-[20px] border border-white/10 bg-white/5 p-4">
-          <p className="text-xs uppercase tracking-[0.16em] text-white/50">
-            {cardCheckoutReady ? "Total no cartão" : "Referência assistida"}
-          </p>
+          <p className="text-xs uppercase tracking-[0.16em] text-white/50">Total no cartão</p>
           <p className="mt-2 text-2xl font-black text-white">{formatCurrency(totalCard)}</p>
+          <p className="mt-1 text-xs text-white/55">Cada produto fica R$ 3,00 acima do Pix.</p>
         </div>
       </div>
 

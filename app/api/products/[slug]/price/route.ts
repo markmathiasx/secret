@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { findProduct, findProductBySlug } from "@/lib/catalog";
+import { calculateCardPrice, roundToCents } from "@/lib/payment-pricing";
 
 const priceSchema = z.object({
   material: z.string().trim().max(40).default("PLA Premium"),
@@ -30,7 +31,7 @@ function normalizeMaterial(value: string) {
 }
 
 function roundMoney(value: number) {
-  return Number(value.toFixed(2));
+  return roundToCents(value);
 }
 
 export async function POST(request: Request, { params }: { params: Promise<{ slug: string }> }) {
@@ -53,7 +54,7 @@ export async function POST(request: Request, { params }: { params: Promise<{ slu
   const prazoMultiplier = prazoMultipliers[parsed.data.prazo];
   const colorMultiplier = /silk|metal|transparente|glitter/i.test(parsed.data.color) ? 1.04 : 1;
   const unitPix = roundMoney(product.pricePix * materialMultiplier * prazoMultiplier * colorMultiplier);
-  const unitCard = roundMoney(product.priceCard * materialMultiplier * prazoMultiplier * colorMultiplier);
+  const unitCard = calculateCardPrice(unitPix);
 
   return NextResponse.json({
     ok: true,

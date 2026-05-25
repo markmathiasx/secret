@@ -28,7 +28,7 @@ const sections = [
   {
     title: "3. Preços e pagamento",
     body: [
-      "Os valores exibidos no site podem representar preço auditado para compra direta ou faixa inicial para encomenda. O atendimento pode confirmar ou ajustar o valor final conforme complexidade, escala, material e quantidade.",
+      "Os valores exibidos no site podem representar preço de compra direta ou faixa inicial para encomenda. O atendimento pode confirmar ou ajustar o valor final conforme complexidade, escala, material e quantidade.",
       "O fechamento do pedido depende da confirmação de pagamento pelos meios oferecidos pela operação no momento da compra.",
     ],
   },

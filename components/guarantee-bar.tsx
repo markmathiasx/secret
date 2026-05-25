@@ -3,8 +3,8 @@ import { BadgeCheck, MapPin, RefreshCw, Shield } from "lucide-react";
 const GUARANTEES = [
   {
     icon: MapPin,
-    title: "Produção local RJ",
-    body: "Impresso e acabado no Rio de Janeiro. Sem intermediários.",
+    title: "Atendimento direto",
+    body: "Pedido acompanhado pela equipe da MDH 3D do orçamento ao envio.",
     color: "text-cyan-100",
     border: "border-cyan-300/15",
     bg: "bg-cyan-300/[0.08]",

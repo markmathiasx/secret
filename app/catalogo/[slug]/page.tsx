@@ -25,7 +25,7 @@ import { RecentlyViewedShelf } from '@/components/recently-viewed-shelf';
 import { PurchaseProtectionBanner } from '@/components/purchase-protection-banner';
 import { SafeBackgroundVideo } from '@/components/SafeBackgroundVideo';
 import { formatCurrency } from '@/lib/utils';
-import { whatsappMessage, whatsappNumber } from '@/lib/constants';
+import { whatsappNumber } from '@/lib/constants';
 import { Metadata } from 'next';
 import { getSiteUrl, isCardCheckoutConfigured } from '@/lib/env';
 import { getProductHighlights, getProductLongDescription } from '@/lib/catalog-content';
@@ -33,7 +33,7 @@ import { resolveProductImage } from '@/lib/product-images';
 import { catalog, featuredCatalog, getProductUrl } from '@/lib/catalog';
 import { getProductMarketplaceSignals, getStoreReputationSummary, getProductReviewSnippets } from '@/lib/marketplace-signals';
 import { validateProductMedia, isPublicSafe } from '@/lib/media-validation';
-import { getProductVisual } from '@/lib/product-visuals';
+import { calculateCardPrice } from '@/lib/payment-pricing';
 import { getLicensedVideoAsset } from '@/lib/video-assets';
 
 export const revalidate = 300;
@@ -59,7 +59,6 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const resolvedImage = resolveProductImage(product);
   const imageUrl = resolvedImage.startsWith("http") ? resolvedImage : `${siteUrl}${resolvedImage}`;
   const longDescription = getProductLongDescription(product);
-  const visual = getProductVisual(product);
   const [productSignals, storeSummary, reviewSnippets] = await Promise.all([
     getProductMarketplaceSignals(product.id, product.sku),
     getStoreReputationSummary(),
@@ -72,7 +71,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
   return {
     title: `${product.name} - Impressão 3D Premium | MDH 3D Rio`,
-    description: `Compre ${product.name} em ${product.material || "PLA Premium"} com mídia do catálogo classificada como ${visual.label.toLowerCase()}, produção local no RJ e atendimento humano para validar cor, escala e prazo.`,
+    description: `Compre ${product.name} em ${product.material || "PLA Premium"} com Pix, cartão e atendimento direto para validar cor, escala e prazo.`,
     alternates: {
       canonical: productPath,
     },
@@ -115,6 +114,7 @@ export default async function ProductPage({
   const cardCheckoutReady = isCardCheckoutConfigured();
   const productPath = getProductUrl(product);
   const productUrl = `${siteUrl}${productPath}`;
+  const productCardPrice = calculateCardPrice(product.pricePix);
   const resolvedImage = resolveProductImage(product);
   const imageUrl = resolvedImage.startsWith("http") ? resolvedImage : `${siteUrl}${resolvedImage}`;
   const resolvedImages = Array.from(
@@ -359,8 +359,8 @@ export default async function ProductPage({
       },
     })),
   };
-  const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`${whatsappMessage}\n\nTenho interesse em ${product.name} (${product.sku}).`)}`;
-  const customizationHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`${whatsappMessage}\n\nQuero personalizar ${product.name} (${product.sku}).`)}`;
+  const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Quero comprar ${product.name}. Quantidade: 1. Pix: ${formatCurrency(product.pricePix)}. Cartão: ${formatCurrency(productCardPrice)}. Categoria: ${product.category}. Intenção: compra pela página do produto. Link: ${productUrl}`)}`;
+  const customizationHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Quero personalizar ${product.name}. Quantidade: 1. Pix: ${formatCurrency(product.pricePix)}. Cartão: ${formatCurrency(productCardPrice)}. Categoria: ${product.category}. Intenção: personalização. Link: ${productUrl}`)}`;
   const primaryActionLabel = product.pricingMode === 'faixa-auditada' ? 'Comprar agora (Pix)' : 'Pedir orçamento';
   const priceLabel = product.pricingMode === 'faixa-auditada' ? 'Preço no Pix' : 'Estimativa inicial no Pix';
   const idealFor = Array.from(
@@ -552,7 +552,7 @@ export default async function ProductPage({
             <p className="mt-2 font-semibold text-white">
               {product.pricingMode === 'faixa-auditada' ? 'Preço confirmado para compra direta' : 'Estimativa inicial para produção sob medida'}
             </p>
-            <p className="mt-2">{product.pricingNarrative}</p>
+            <p className="mt-2">Pix {formatCurrency(product.pricePix)}. Cartão {formatCurrency(productCardPrice)}.</p>
             {product.marketBenchmark ? (
               <p className="mt-2 text-white/60">
                 Faixa observada no mercado para {product.marketBenchmark.label.toLowerCase()}: de {formatCurrency(product.marketBenchmark.min)} até cerca de {formatCurrency(product.marketBenchmark.premium)}.
@@ -584,7 +584,7 @@ export default async function ProductPage({
               productName={product.name}
               sku={product.sku}
               pricePix={product.pricePix}
-              priceCard={product.priceCard}
+              priceCard={productCardPrice}
               productionWindow={product.productionWindow}
               readyToShip={product.readyToShip ?? false}
               productImage={resolvedImage}
@@ -638,7 +638,7 @@ export default async function ProductPage({
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {([
             { icon: ShieldCheck, title: "Garantia no produto", body: "Peça com defeito de impressão? Reenviamos sem custo." },
-            { icon: Clock, title: "Produção local RJ", body: "Impresso e enviado direto do nosso estúdio no Rio de Janeiro." },
+            { icon: Clock, title: "Produção sob demanda", body: "Impresso, revisado e embalado conforme o pedido." },
             { icon: Star, title: visualTrustCopy.title, body: visualTrustCopy.body },
             { icon: MessageCircle, title: "Suporte humano", body: "Atendimento via WhatsApp em horário comercial." },
           ] as const).map(({ icon: Icon, title, body }) => (
@@ -736,10 +736,11 @@ export default async function ProductPage({
         productId={product.id}
         productName={product.name}
         pricePix={product.pricePix}
-        priceCard={product.priceCard}
+        priceCard={productCardPrice}
         productImage={resolvedImage}
         sku={product.sku}
         checkoutHref="/checkout"
+        whatsappHref={whatsappHref}
       />
 
     </section>

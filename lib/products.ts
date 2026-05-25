@@ -1,4 +1,5 @@
 import { findProduct, getProductUrl, type Product as CatalogProduct } from "@/lib/catalog";
+import { calculateCardPrice } from "@/lib/payment-pricing";
 import { slugify } from "@/lib/utils";
 
 type ProductCopy = {
@@ -147,6 +148,8 @@ function assertProduct(productId: string) {
 
 function buildStorefrontProduct(product: CatalogProduct, copy: ProductCopy, overrides?: Partial<StorefrontProduct>): StorefrontProduct {
   const slug = overrides?.slug || product.slug || slugify(product.name);
+  const pricePix = overrides?.pricePix ?? product.pricePix;
+
   return {
     id: overrides?.id || product.id,
     sourceId: overrides?.sourceId ?? product.id,
@@ -160,10 +163,10 @@ function buildStorefrontProduct(product: CatalogProduct, copy: ProductCopy, over
     images: overrides?.images || product.images || [product.image || ""].filter(Boolean),
     stock: overrides?.stock ?? Math.max(1, product.stock),
     tags: overrides?.tags || product.tags,
-    price: overrides?.price ?? product.pricePix,
-    pricePix: overrides?.pricePix ?? product.pricePix,
-    priceCard: overrides?.priceCard ?? product.priceCard,
-    priceFromLabel: overrides?.priceFromLabel || `A partir de R$ ${product.pricePix.toFixed(2).replace(".", ",")}`,
+    price: overrides?.price ?? pricePix,
+    pricePix,
+    priceCard: calculateCardPrice(pricePix),
+    priceFromLabel: overrides?.priceFromLabel || `A partir de R$ ${pricePix.toFixed(2).replace(".", ",")}`,
     material: overrides?.material || product.material,
     finish: overrides?.finish || product.finish,
     productionWindow: overrides?.productionWindow || product.productionWindow,
@@ -196,7 +199,7 @@ export const storefrontProducts: StorefrontProduct[] = [
     stock: 99,
     price: 89.9,
     pricePix: 89.9,
-    priceCard: 89.9,
+    priceCard: calculateCardPrice(89.9),
     priceFromLabel: "Projetos a partir de R$ 89,90",
     material: "PLA Premium ou sob análise",
     finish: "Sob medida",

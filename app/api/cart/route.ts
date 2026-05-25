@@ -6,6 +6,7 @@ import { findProduct } from "@/lib/catalog";
 import { canConnectToDatabase, prisma } from "@/lib/prisma";
 import { getServerSessionUser } from "@/lib/server-session";
 import { redisGetJson, redisSetJson } from "@/lib/redis";
+import { calculateCardPrice } from "@/lib/payment-pricing";
 
 const cartItemSchema = z.object({
   productId: z.string().min(1),
@@ -73,7 +74,7 @@ function mapCart(cart: Awaited<ReturnType<typeof getActiveCart>>) {
         quantity: item.quantity,
         title: item.product.title,
         pricePix: toNumber(item.product.pricePix),
-        priceCard: toNumber(item.product.priceCard),
+        priceCard: calculateCardPrice(toNumber(item.product.pricePix)),
         image: catalogProduct?.images?.[0] || catalogProduct?.image || null,
         updatedAt: item.updatedAt.toISOString(),
       };

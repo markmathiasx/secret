@@ -3,11 +3,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { AlertCircle, BadgeCheck, CheckCircle2, Loader2, MessageCircleMore, ShieldCheck, ShoppingBag, TimerReset, Truck, UserRound, Wallet } from "lucide-react";
+import { AlertCircle, BadgeCheck, CheckCircle2, Loader2, MessageCircleMore, ShieldCheck, ShoppingBag, Truck, UserRound, Wallet } from "lucide-react";
 import { MercadoPagoWallet } from "@/components/checkout/mercadopago-wallet";
 import { useCart } from "@/lib/cart-context";
 import { calculateCartTotals } from "@/lib/checkout";
 import { brand, whatsappNumber } from "@/lib/constants";
+import { calculateCardPrice } from "@/lib/payment-pricing";
 import { findStorefrontProductById } from "@/lib/products";
 import { trackEvent, trackWhatsAppClick } from "@/lib/analytics";
 import { formatCurrency } from "@/lib/utils";
@@ -69,10 +70,10 @@ export function CheckoutPageShell({
     preferenceId: string | null;
     initPoint: string | null;
     totalPix: number;
+    totalCard: number;
     paymentFallback?: boolean;
     message?: string | null;
   } | null>(null);
-  const [cutoffClock, setCutoffClock] = useState("00:00:00");
   const selectedShipping =
     shippingOptions.find((option) => option.id === selectedShippingId) ||
     shippingOptions.find((option) => option.recommended) ||
@@ -89,12 +90,14 @@ export function CheckoutPageShell({
   ];
   const whatsappHref = useMemo(() => {
     const lines = [
-      "Oi! Quero finalizar este pedido da MDH 3D:",
+      "Quero finalizar este pedido da MDH 3D:",
       ...items.map((item) => {
         const details = personalizationByProductId[item.productId] || item.personalizationText;
-        return `- ${item.quantity}x ${item.title}${details ? ` | personalização: ${details}` : ""}`;
+        return `- ${item.quantity}x ${item.title}. Pix: ${formatCurrency(item.pricePix)}. Cartão: ${formatCurrency(calculateCardPrice(item.pricePix))}${details ? ` | personalização: ${details}` : ""}`;
       }),
-      `Total estimado no site: ${formatCurrency(totals.totalPix)}`,
+      `Total Pix: ${formatCurrency(totals.totalPix)}`,
+      `Total Cartão: ${formatCurrency(totals.totalCard)}`,
+      "Intenção: finalizar checkout.",
       form.customerName ? `Nome: ${form.customerName}` : "",
       form.phone ? `WhatsApp: ${form.phone}` : "",
       form.zipCode ? `CEP: ${form.zipCode}` : "",
@@ -105,7 +108,7 @@ export function CheckoutPageShell({
     ].filter(Boolean);
 
     return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(lines.join("\n"))}`;
-  }, [form, items, personalizationByProductId, totals.totalPix]);
+  }, [form, items, personalizationByProductId, totals.totalCard, totals.totalPix]);
 
   useEffect(() => {
     if (!hydrated || items.length === 0) return;
@@ -200,25 +203,6 @@ export function CheckoutPageShell({
     };
   }, [form.zipCode, hydrated, items]);
 
-  useEffect(() => {
-    const updateCutoff = () => {
-      const now = new Date();
-      const cutoff = new Date(now);
-      cutoff.setHours(18, 0, 0, 0);
-      if (now > cutoff) cutoff.setDate(cutoff.getDate() + 1);
-
-      const diff = Math.max(0, cutoff.getTime() - now.getTime());
-      const hours = Math.floor(diff / 3_600_000);
-      const minutes = Math.floor((diff % 3_600_000) / 60_000);
-      const seconds = Math.floor((diff % 60_000) / 1000);
-      setCutoffClock(`${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`);
-    };
-
-    updateCutoff();
-    const timer = window.setInterval(updateCutoff, 1000);
-    return () => window.clearInterval(timer);
-  }, []);
-
   async function handleGenerateCheckout(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setSubmitting(true);
@@ -267,6 +251,7 @@ export function CheckoutPageShell({
         preferenceId: data.preferenceId || null,
         initPoint: data.initPoint || data.sandboxInitPoint || null,
         totalPix: data.totalPix || totals.totalPix,
+        totalCard: data.totalCard || totals.totalCard,
         paymentFallback: Boolean(data.paymentFallback),
         message: data.message || null,
       });
@@ -324,7 +309,7 @@ export function CheckoutPageShell({
       <div className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
         <div>
           <p className="section-kicker">Checkout</p>
-          <h1 className="section-title">Checkout sem cadastro para fechar agora.</h1>
+          <h1 className="section-title">Checkout sem cadastro com Pix e cartão claros.</h1>
           <p className="section-copy mt-3 max-w-3xl">
             Você informa só os dados necessários para entrega, gera o pedido com código e escolhe {paymentOnlineReady ? "Mercado Pago ou atendimento humano" : "Pix com atendimento humano"} se quiser acelerar.
           </p>
@@ -361,22 +346,22 @@ export function CheckoutPageShell({
         </div>
       </div>
 
-      <div className="mb-6 rounded-[28px] border border-rose-300/20 bg-rose-300/10 p-5">
+      <div className="mb-6 rounded-[28px] border border-emerald-300/20 bg-emerald-300/10 p-5">
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div className="flex items-start gap-3">
-            <span className="rounded-full border border-rose-300/20 bg-rose-300/10 p-2 text-rose-100">
-              <TimerReset className="h-4 w-4" />
+            <span className="rounded-full border border-emerald-300/20 bg-emerald-300/10 p-2 text-emerald-100">
+              <Wallet className="h-4 w-4" />
             </span>
             <div>
-              <p className="text-sm font-black text-white">Último passo para registrar o pedido</p>
+              <p className="text-sm font-black text-white">Pix como principal, cartão Pix + R$ 3,00</p>
               <p className="mt-1 text-xs leading-6 text-white/70">
-                Preencha os dados e gere o código do pedido. Se o pagamento online não abrir, o WhatsApp já leva o carrinho completo.
+                No cartão, cada produto fica R$ 3,00 acima do Pix. O WhatsApp já leva o carrinho completo.
               </p>
             </div>
           </div>
           <div className="rounded-[18px] border border-white/10 bg-black/25 px-4 py-3 text-right">
-            <p className="text-[11px] uppercase tracking-[0.16em] text-white/45">Janela operacional</p>
-            <p className="mt-1 font-mono text-lg font-black text-rose-50">{cutoffClock}</p>
+            <p className="text-[11px] uppercase tracking-[0.16em] text-white/45">Total cartão</p>
+            <p className="mt-1 text-lg font-black text-white">{formatCurrency(totals.totalCard)}</p>
           </div>
         </div>
       </div>
@@ -418,7 +403,8 @@ export function CheckoutPageShell({
                         <div className="flex flex-wrap items-start justify-between gap-3">
                           <div className="min-w-0">
                             <p className="line-clamp-2 text-sm font-semibold text-white">{item.title}</p>
-                            <p className="mt-2 text-xs text-emerald-100">{formatCurrency(item.pricePix)} cada</p>
+                            <p className="mt-2 text-xs text-emerald-100">Pix {formatCurrency(item.pricePix)} cada</p>
+                            <p className="mt-1 text-xs text-white/50">Cartão {formatCurrency(calculateCardPrice(item.pricePix))} cada</p>
                           </div>
                           <button
                             type="button"
@@ -447,7 +433,12 @@ export function CheckoutPageShell({
                               +
                             </button>
                           </div>
-                          <p className="text-sm font-black text-white">{formatCurrency(item.pricePix * item.quantity)}</p>
+                          <div className="text-right">
+                            <p className="text-sm font-black text-white">Pix {formatCurrency(item.pricePix * item.quantity)}</p>
+                            <p className="mt-0.5 text-[11px] font-semibold text-white/50">
+                              Cartão {formatCurrency(calculateCardPrice(item.pricePix) * item.quantity)}
+                            </p>
+                          </div>
                         </div>
 
                         {personalizationEnabled ? (
@@ -478,8 +469,12 @@ export function CheckoutPageShell({
 
             <div className="mt-6 rounded-[24px] border border-white/10 bg-white/5 p-5">
               <div className="flex items-center justify-between text-sm text-white/72">
-                <span>Subtotal</span>
+                <span>Subtotal Pix</span>
                 <span>{formatCurrency(totals.subtotalPix)}</span>
+              </div>
+              <div className="mt-3 flex items-center justify-between text-sm text-white/72">
+                <span>Subtotal Cartão</span>
+                <span>{formatCurrency(totals.subtotalCard)}</span>
               </div>
               <div className="mt-3 flex items-center justify-between text-sm text-white/72">
                 <span>Frete</span>
@@ -487,9 +482,16 @@ export function CheckoutPageShell({
               </div>
               <div className="mt-3 h-px bg-white/10" />
               <div className="mt-3 flex items-center justify-between">
-                <span className="text-sm font-semibold text-white">Total do site</span>
+                <span className="text-sm font-semibold text-white">Total Pix</span>
                 <span className="text-2xl font-black text-emerald-100">{formatCurrency(totals.totalPix)}</span>
               </div>
+              <div className="mt-2 flex items-center justify-between">
+                <span className="text-sm font-semibold text-white">Total Cartão</span>
+                <span className="text-lg font-black text-white">{formatCurrency(totals.totalCard)}</span>
+              </div>
+              <p className="mt-3 text-xs leading-6 text-white/48">
+                No cartão, cada produto fica R$ 3,00 acima do Pix. Frete não recebe acréscimo.
+              </p>
             </div>
           </div>
 
@@ -757,7 +759,7 @@ export function CheckoutPageShell({
                     ? checkoutSession.paymentFallback
                       ? checkoutSession.message || `Pedido ${checkoutSession.orderCode} criado. Use o fallback comercial abaixo para concluir agora.`
                       : paymentOnlineReady
-                        ? `Pedido ${checkoutSession.orderCode} criado. Agora escolha Pix ou cartão no Mercado Pago.`
+                        ? `Pedido ${checkoutSession.orderCode} criado. Pix e cartão aparecem com valores claros no fechamento.`
                         : `Pedido ${checkoutSession.orderCode} criado. A equipe confirma o pagamento e a produção pelo atendimento.`
                     : paymentOnlineReady
                       ? "Preencha os dados acima para criar o pedido e abrir o checkout real do Mercado Pago."
@@ -776,9 +778,12 @@ export function CheckoutPageShell({
                 <div className="rounded-[24px] border border-white/10 bg-black/20 p-5">
                   <div className="flex flex-wrap items-center justify-between gap-3">
                     <div>
-                      <p className="text-xs uppercase tracking-[0.18em] text-white/45">Total liberado</p>
+                      <p className="text-xs uppercase tracking-[0.18em] text-white/45">Total Pix liberado</p>
                       <p className="mt-2 text-3xl font-black text-emerald-100">
                         {formatCurrency(checkoutSession.totalPix)}
+                      </p>
+                      <p className="mt-2 text-sm font-semibold text-white/70">
+                        Cartão {formatCurrency(checkoutSession.totalCard)}
                       </p>
                     </div>
                     <div className="flex flex-wrap gap-2">

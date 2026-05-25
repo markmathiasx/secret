@@ -1,19 +1,20 @@
 "use client";
-import { ShoppingBag, Wallet } from "lucide-react";
+import { MessageCircleMore, ShoppingBag, Wallet } from "lucide-react";
 import { useEffect, useState } from "react";
 import { addLocalCartItem } from "@/lib/cart-store";
 import { trackAddToCart, trackBeginCheckout } from "@/lib/analytics";
+import { calculateCardPrice } from "@/lib/payment-pricing";
 import { formatCurrency } from "@/lib/utils";
 
 export function StickyPdpCta({
   productId,
   productName,
   pricePix,
-  priceCard,
   productImage,
   sku,
   quantity = 1,
   checkoutHref,
+  whatsappHref,
 }: {
   productId: string;
   productName: string;
@@ -23,8 +24,10 @@ export function StickyPdpCta({
   sku?: string;
   quantity?: number;
   checkoutHref: string;
+  whatsappHref?: string;
 }) {
   const [visible, setVisible] = useState(false);
+  const normalizedPriceCard = calculateCardPrice(pricePix);
 
   useEffect(() => {
     const hero = document.getElementById("pdp-purchase-tools");
@@ -40,7 +43,7 @@ export function StickyPdpCta({
   if (!visible) return null;
 
   function buyNow() {
-    const product = { id: productId, sku, name: productName, pricePix, priceCard };
+    const product = { id: productId, sku, name: productName, pricePix, priceCard: normalizedPriceCard };
     trackAddToCart(product, quantity);
     trackBeginCheckout(product, quantity, pricePix * quantity);
     addLocalCartItem({
@@ -48,7 +51,7 @@ export function StickyPdpCta({
       quantity,
       title: productName,
       pricePix,
-      priceCard,
+      priceCard: normalizedPriceCard,
       image: productImage,
     });
     window.location.href = checkoutHref;
@@ -62,9 +65,21 @@ export function StickyPdpCta({
       <div className="mx-auto flex max-w-2xl flex-wrap items-center justify-between gap-3">
         <div className="min-w-0 flex-1">
           <p className="truncate text-sm font-semibold text-white">{productName}</p>
-          <p className="text-xs font-black text-emerald-100">{formatCurrency(pricePix * quantity)} no Pix</p>
+          <p className="text-xs font-black text-emerald-100">{formatCurrency(pricePix * quantity)} Pix</p>
+          <p className="text-[11px] text-white/55">Cartão {formatCurrency(normalizedPriceCard * quantity)}</p>
         </div>
         <div className="flex flex-shrink-0 items-center gap-2">
+          {whatsappHref ? (
+            <a
+              href={whatsappHref}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex rounded-full border border-emerald-300/30 bg-emerald-300/10 p-3 text-emerald-50 transition hover:bg-emerald-300/16"
+              aria-label="Comprar pelo WhatsApp"
+            >
+              <MessageCircleMore className="h-4 w-4" />
+            </a>
+          ) : null}
           <button type="button" onClick={buyNow} className="btn-primary gap-2 py-2.5">
             <Wallet className="h-4 w-4" />
             Comprar agora

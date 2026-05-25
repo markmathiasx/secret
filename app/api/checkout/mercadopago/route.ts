@@ -7,6 +7,7 @@ import { updateOrderRecord } from "@/lib/storage";
 import { getClientIp } from "@/lib/security";
 import { rateLimitRequest } from "@/lib/redis";
 import { createStableExternalReference, normalizeMpPaymentFormData } from "@/lib/mercadopago";
+import { calculateCardPrice } from "@/lib/payment-pricing";
 
 const schema = z.object({
   productId: z.string().min(1),
@@ -41,7 +42,7 @@ export async function POST(request: Request) {
   const paymentContext = await resolveOrderPaymentContext({
     orderCode: parsed.data.orderCode,
     fallbackTitle: `${product.name} - MDH 3D`,
-    fallbackAmount: parsed.data.amount || product.priceCard * parsed.data.quantity,
+    fallbackAmount: parsed.data.amount || calculateCardPrice(product.pricePix) * parsed.data.quantity,
     fallbackEmail: parsed.data.email,
   });
 

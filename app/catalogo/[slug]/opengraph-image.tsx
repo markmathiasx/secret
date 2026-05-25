@@ -1,5 +1,6 @@
 import { ImageResponse } from "next/og";
 import { findCatalogProductBySlug } from "@/lib/catalog-repository";
+import { calculateCardPrice } from "@/lib/payment-pricing";
 
 export const runtime = "nodejs";
 export const contentType = "image/png";
@@ -12,7 +13,7 @@ export default async function Image({ params }: { params: Promise<{ slug: string
 
   const name = product?.name ?? "MDH 3D Store";
   const subtitle = product
-    ? `R$ ${product.priceCard.toFixed(2).replace(".", ",")} • Impressão 3D no Rio de Janeiro`
+    ? `Pix R$ ${product.pricePix.toFixed(2).replace(".", ",")} | Cartão R$ ${calculateCardPrice(product.pricePix).toFixed(2).replace(".", ",")}`
     : "Impressão 3D Profissional · Rio de Janeiro";
 
   const badge = product?.category ?? "MDH 3D";

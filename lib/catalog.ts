@@ -24,9 +24,9 @@ import {
   calculateBaseCost as calculateBaseCostFromEngine,
   calculateFinalPrice,
   calculateSalePrice as calculateSalePriceFromEngine,
-  FIXED_MARGIN_BADGE_LABEL,
-  LOCAL_PRODUCTION_BADGE_LABEL,
 } from "@/lib/pricing-engine";
+import { calculateCardPrice } from "@/lib/payment-pricing";
+import { getRecommendedPixPrice } from "@/lib/catalog-pricing-policy";
 
 export type PaymentMethod = "pix" | "cartao" | "boleto";
 export type SalesChannel = "site" | "mercadolivre" | "shopee" | "whatsapp";
@@ -140,7 +140,8 @@ function applyAdminOverride(product: Product): Product {
         ? Number((override.pricePix * 0.6).toFixed(2))
         : product.baseCost;
   const nextStatus = override.status ?? product.status;
-  const manualPriceOverride = override.pricePix !== undefined || override.priceCard !== undefined;
+  const manualPriceOverride = override.pricePix !== undefined;
+  const overridePricePix = override.pricePix ?? product.pricePix;
 
   return {
     ...product,
@@ -167,8 +168,8 @@ function applyAdminOverride(product: Product): Product {
     customizable: override.customizable ?? product.customizable,
     featured: override.featured ?? product.featured,
     baseCost: derivedBaseCost,
-    pricePix: override.pricePix ?? product.pricePix,
-    priceCard: override.priceCard ?? product.priceCard,
+    pricePix: overridePricePix,
+    priceCard: calculateCardPrice(overridePricePix),
     grams: Math.round(override.estimatedGrams ?? product.grams),
     hours: override.estimatedHours ?? product.hours,
     complexity: override.complexity ?? product.complexity,
@@ -220,8 +221,13 @@ function enrichProduct(product: Product): Product {
     profitMode: taxonomized.profitMode,
     profitTargetPercent: taxonomized.profitTargetPercent,
   });
-  const pricePix = taxonomized.manualPriceOverride ? taxonomized.pricePix : pricing.pricePix;
-  const priceCard = taxonomized.manualPriceOverride ? taxonomized.priceCard : pricing.priceCard;
+  const policyPricePix = getRecommendedPixPrice({
+    ...taxonomized,
+    baseCost: pricing.costBase,
+    estimatedUnitCost: pricing.costBase,
+  });
+  const pricePix = taxonomized.manualPriceOverride ? taxonomized.pricePix : policyPricePix;
+  const priceCard = calculateCardPrice(pricePix);
   const profitAmount = Number((pricePix - pricing.costBase).toFixed(2));
 
   return {
@@ -234,7 +240,7 @@ function enrichProduct(product: Product): Product {
     estimatedUnitCost: pricing.costBase,
     estimatedUnitProfit: profitAmount,
     pricingMode: "faixa-auditada",
-    pricingNarrative: `${buildFixedMarginNarrative(pricing.costBase, pricePix)} ${FIXED_MARGIN_BADGE_LABEL} • ${LOCAL_PRODUCTION_BADGE_LABEL}.`,
+    pricingNarrative: buildFixedMarginNarrative(pricing.costBase, pricePix),
     marketBenchmark: marketPricing.benchmark,
   };
 }

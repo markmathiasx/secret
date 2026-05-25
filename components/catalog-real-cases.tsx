@@ -16,7 +16,7 @@ export async function CatalogRealCases() {
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div className="max-w-2xl">
           <p className="text-xs uppercase tracking-[0.2em] text-emerald-200">Mídia validada do ateliê</p>
-          <h2 className="mt-3 text-2xl font-black text-white sm:text-3xl">Peças já produzidas para você sentir o nível de acabamento da MDH 3D.</h2>
+          <h2 className="mt-3 text-2xl font-black text-white sm:text-3xl">Produtos catalogados para avaliar acabamento, escala e estilo da MDH 3D.</h2>
           <p className="mt-3 text-sm leading-7 text-white/68">
             Essas imagens mostram trabalhos já entregues ou produzidos no ateliê. Elas ajudam a comparar material, acabamento, escala e presença visual antes do seu pedido.
           </p>

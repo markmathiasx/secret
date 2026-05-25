@@ -99,7 +99,7 @@ const PRODUCT_VISUAL_OVERRIDES: Record<string, ProductVisualOverride> = {
   "mdh-016": {
     kind: "foto-real",
     imageCandidates: ["/products/foto-011-chaveiro-maconaria.webp"],
-    note: "A imagem exibida mostra um exemplo validado de chaveiro personalizado já produzido no ateliê.",
+    note: "A imagem exibida mostra um exemplo validado de chaveiro personalizado do catálogo.",
     recommendedNextStep: "Capturar novos ângulos por variação de nome, cor e acabamento para ampliar o portfólio.",
     merchantReady: true,
   },
@@ -120,7 +120,7 @@ function getVisualDefaults(kind: ProductVisualKind) {
         label: "Imagem do produto",
         badgeClassName: "border-emerald-300/25 bg-emerald-300/10 text-emerald-100",
         panelClassName: "border-emerald-400/20 bg-emerald-400/10 text-emerald-50",
-        description: "A imagem mostra uma peça já produzida pela MDH 3D, usada como referência direta de acabamento, escala e presença física.",
+        description: "A imagem do catálogo ajuda a avaliar acabamento, escala e presença física do produto.",
         recommendedNextStep: "Continuar capturando mais ângulos e variações de cor do mesmo item para escalar o catálogo.",
         merchantReady: true,
       };
@@ -130,9 +130,9 @@ function getVisualDefaults(kind: ProductVisualKind) {
         badgeClassName: "border-cyan-300/25 bg-cyan-300/10 text-cyan-100",
         panelClassName: "border-cyan-400/20 bg-cyan-400/10 text-cyan-50",
         description:
-          "A imagem mostra uma referência visual validada do produto ou do modelo 3D equivalente, usada para avaliar forma, escala e acabamento antes da compra.",
+          "A imagem mostra uma referência visual validada do produto, usada para avaliar forma, escala e acabamento antes da compra.",
         recommendedNextStep:
-          "Anexar STL, OBJ, 3MF ou imagem própria da peça produzida para manter a trilha técnica auditável.",
+          "Anexar STL, OBJ, 3MF ou mídia própria do produto para manter a trilha técnica auditável.",
         merchantReady: true,
       };
     default:
@@ -143,7 +143,7 @@ function getVisualDefaults(kind: ProductVisualKind) {
         description:
           "A imagem apresenta a ideia visual do produto anunciado e ajuda a entender forma, proposta e estilo antes da validação final.",
         recommendedNextStep:
-          "Substituir por imagem própria da peça pronta ou por visual técnico derivado do arquivo STL/OBJ/3MF correspondente.",
+          "Substituir por mídia própria do produto ou por visual técnico derivado do arquivo STL/OBJ/3MF correspondente.",
         merchantReady: false,
       };
   }
@@ -176,11 +176,11 @@ export function getProductVisual(product: Product): ProductVisualSummary {
     catalogPhoto?.model3mf && kind !== "foto-real"
       ? "Este item também tem arquivo 3MF anexado para inspecionar a geometria do projeto antes de produzir."
       : catalogPhoto?.model3mf
-        ? "Além da foto principal, este item também tem arquivo 3MF anexado para consulta técnica."
+        ? "Além da mídia principal, este item também tem arquivo 3MF anexado para consulta técnica."
         : undefined;
   const validatedMediaNote =
     kind === "foto-real" && (catalogPhoto || realImageStatus)
-      ? realImageStatus?.notes || "A vitrine usa mídia do objeto físico já impresso, preservando leitura de escala, material e acabamento."
+      ? "Mídia do catálogo validada para publicação, com leitura clara de escala, material e acabamento."
       : undefined;
 
   return {

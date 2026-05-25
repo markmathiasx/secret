@@ -8,6 +8,16 @@ import { getSiteUrl } from "@/lib/env";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
+const SANDBOX_OBJECTIVES = [
+  "OUTCOME_AWARENESS",
+  "OUTCOME_TRAFFIC",
+  "OUTCOME_ENGAGEMENT",
+  "OUTCOME_LEADS",
+  "OUTCOME_SALES",
+] as const;
+
+type SandboxObjective = (typeof SANDBOX_OBJECTIVES)[number];
+
 async function requireAdmin() {
   const user = await getServerSessionUser();
   if (!isAdminSession(user)) return null;
@@ -83,16 +93,24 @@ export async function POST(request: NextRequest) {
   const user = await requireAdmin();
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
 
-  const body = await request.json().catch(() => ({}));
-  const action = String(body.action ?? "");
+  const body = await request.json().catch(() => null);
+  if (!body || typeof body !== "object") {
+    return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+  }
+
+  const action = String(body.action ?? "").trim();
 
   if (action === "create_sandbox_campaign") {
     if (!metaConfig.enableMarketingApiSandbox) {
       return NextResponse.json({ error: "Marketing API sandbox not enabled" }, { status: 403 });
     }
+    const requestedObjective = String(body.objective ?? "OUTCOME_AWARENESS").trim().slice(0, 80);
+    const objective: SandboxObjective = SANDBOX_OBJECTIVES.includes(requestedObjective as SandboxObjective)
+      ? requestedObjective as SandboxObjective
+      : "OUTCOME_AWARENESS";
     const result = await createSandboxCampaign({
-      name: String(body.name ?? "MDH 3D Draft"),
-      objective: body.objective ?? "OUTCOME_AWARENESS",
+      name: String(body.name ?? "MDH 3D Draft").trim().slice(0, 120) || "MDH 3D Draft",
+      objective,
     });
     logStructured("info", "sandbox_campaign_created", { adminId: user.id, result: result.ok });
     return NextResponse.json(result);

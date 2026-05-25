@@ -593,7 +593,7 @@ function buildPromptSet(product: ProductRecord, promptRecord?: Record<string, un
   const packArrangement = inferPackshotArrangement(product);
   const dimensionsText = product.dimensions ? `dimensões proporcionais e realistas (${product.dimensions})` : "proporções realistas";
   const statusText = product.status ? `status comercial ${product.status.toLowerCase()}` : "";
-  const baseRules = "professional product photography, studio lighting, white background, highly detailed, 8k, real 3D print texture, foto realista de produto, sem aparência de IA óbvia, sem render 3D, sem texto, sem embalagem, sem marca d'água";
+  const baseRules = "professional product photography, studio lighting, white background, highly detailed, 8k, real 3D print texture, fotografia realista de produto, sem aparência de IA óbvia, sem render 3D, sem texto, sem embalagem, sem marca d'água";
 
   return {
     hero: [

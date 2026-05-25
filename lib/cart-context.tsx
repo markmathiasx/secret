@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import type { LocalCartItem } from "@/lib/cart-store";
 import { useCartStore } from "@/lib/cart-store";
+import { calculateCardPrice } from "@/lib/payment-pricing";
 
 type CartContextValue = {
   hydrated: boolean;
@@ -45,7 +46,7 @@ export function useCart(): CartContextValue {
     items,
     count: items.reduce((sum, item) => sum + item.quantity, 0),
     subtotalPix: items.reduce((sum, item) => sum + item.pricePix * item.quantity, 0),
-    subtotalCard: items.reduce((sum, item) => sum + item.priceCard * item.quantity, 0),
+    subtotalCard: items.reduce((sum, item) => sum + calculateCardPrice(item.pricePix) * item.quantity, 0),
     addItem,
     removeItem,
     updateQuantity,

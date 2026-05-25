@@ -3,6 +3,7 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import type { CartItemInput } from "@/lib/cart-types";
+import { calculateCardPrice, normalizeMoney } from "@/lib/payment-pricing";
 
 export type LocalCartItem = CartItemInput & {
   updatedAt: string;
@@ -46,11 +47,16 @@ function sanitizeQuantity(quantity: number) {
 function sanitizeItems(items: LocalCartItem[]) {
   return items
     .filter((item) => item.productId && Number.isFinite(item.quantity) && item.quantity > 0)
-    .map((item) => ({
-      ...item,
-      quantity: sanitizeQuantity(item.quantity),
-      updatedAt: item.updatedAt || new Date().toISOString(),
-    }));
+    .map((item) => {
+      const pricePix = normalizeMoney(item.pricePix);
+      return {
+        ...item,
+        pricePix,
+        priceCard: calculateCardPrice(pricePix),
+        quantity: sanitizeQuantity(item.quantity),
+        updatedAt: item.updatedAt || new Date().toISOString(),
+      };
+    });
 }
 
 export const useCartStore = create<CartStoreState>()(
@@ -65,14 +71,15 @@ export const useCartStore = create<CartStoreState>()(
         const existing = current.find((entry) => entry.productId === item.productId);
 
         if (existing) {
+          const pricePix = normalizeMoney(item.pricePix);
           const nextItems = current.map((entry) =>
             entry.productId === item.productId
               ? {
                   ...entry,
                   quantity: sanitizeQuantity(entry.quantity + item.quantity),
                   title: item.title,
-                  pricePix: item.pricePix,
-                  priceCard: item.priceCard,
+                  pricePix,
+                  priceCard: calculateCardPrice(pricePix),
                   image: item.image,
                   personalizationText: item.personalizationText,
                   updatedAt: new Date().toISOString(),
@@ -88,6 +95,8 @@ export const useCartStore = create<CartStoreState>()(
           items: [
             {
               ...item,
+              pricePix: normalizeMoney(item.pricePix),
+              priceCard: calculateCardPrice(item.pricePix),
               quantity: sanitizeQuantity(item.quantity),
               updatedAt: new Date().toISOString(),
             },

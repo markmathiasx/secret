@@ -5,12 +5,12 @@ import { ShoppingCart, Check } from "lucide-react";
 import { addLocalCartItem } from "@/lib/cart-store";
 import { useToast } from "@/components/toast";
 import { trackAddToCart } from "@/lib/analytics";
+import { calculateCardPrice } from "@/lib/payment-pricing";
 
 export function QuickAddToCart({
   productId,
   productName,
   pricePix = 0,
-  priceCard = 0,
   image,
   className = "",
 }: {
@@ -23,6 +23,7 @@ export function QuickAddToCart({
 }) {
   const [added, setAdded] = useState(false);
   const { addToast } = useToast();
+  const normalizedPriceCard = calculateCardPrice(pricePix);
 
   function handleAdd(e: React.MouseEvent) {
     e.stopPropagation();
@@ -32,10 +33,10 @@ export function QuickAddToCart({
       quantity: 1,
       title: productName,
       pricePix,
-      priceCard,
+      priceCard: normalizedPriceCard,
       image,
     });
-    trackAddToCart({ id: productId, name: productName, pricePix, priceCard }, 1);
+    trackAddToCart({ id: productId, name: productName, pricePix, priceCard: normalizedPriceCard }, 1);
     setAdded(true);
     addToast(`${productName} adicionado ao carrinho`, "success");
     setTimeout(() => setAdded(false), 2000);

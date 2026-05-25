@@ -15,6 +15,7 @@ import { storeRecord, updateOrderRecord } from "@/lib/storage";
 import { logStructured } from "@/lib/logger";
 import { sendMail } from "@/lib/mailer";
 import { orderConfirmationHtml } from "@/lib/email-templates";
+import { calculateCardPrice } from "@/lib/payment-pricing";
 
 const orderSchema = z.object({
   productId: z.string().min(1),
@@ -276,7 +277,8 @@ export async function POST(request: Request) {
 
   const orderCode = createOrderCode();
   const subtotalPix = Number((product.pricePix * parsed.data.quantity).toFixed(2));
-  const subtotalCard = Number((product.priceCard * parsed.data.quantity).toFixed(2));
+  const unitCard = calculateCardPrice(product.pricePix);
+  const subtotalCard = Number((unitCard * parsed.data.quantity).toFixed(2));
   const totalPix = Number((subtotalPix + shippingOption.price).toFixed(2));
   const totalCard = Number((subtotalCard + shippingOption.price).toFixed(2));
   const createdAt = new Date().toISOString();
@@ -307,7 +309,7 @@ export async function POST(request: Request) {
       }
 
       const paymentMethod = mapPaymentMethod(parsed.data.paymentMethod);
-      const unitPrice = parsed.data.paymentMethod === "cartao" ? product.priceCard : product.pricePix;
+      const unitPrice = parsed.data.paymentMethod === "cartao" ? unitCard : product.pricePix;
       const grandTotal = parsed.data.paymentMethod === "cartao" ? totalCard : totalPix;
 
       const order = await prisma.$transaction(async (tx) => {

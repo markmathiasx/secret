@@ -38,7 +38,7 @@ export type SalesLandingConfig = {
   initialQuery?: string;
   initialCategory?: string;
   initialCollection?: string;
-  initialVisualMode?: "all" | "verified" | "real";
+  initialVisualMode?: "all" | "verified";
   initialAvailability?: "Todos" | Product["status"];
   match: (product: Product) => boolean;
   highlightMatch?: (product: Product) => boolean;

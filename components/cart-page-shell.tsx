@@ -2,11 +2,12 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
-import { MessageCircleMore, Minus, Plus, ShieldCheck, ShoppingBag, TimerReset, Trash2, Truck, Wallet, Zap } from "lucide-react";
+import { useMemo } from "react";
+import { MessageCircleMore, Minus, Plus, ShieldCheck, ShoppingBag, Trash2, Truck, Wallet } from "lucide-react";
 import { QuickAddToCart } from "@/components/quick-add-to-cart";
 import { useCart } from "@/lib/cart-context";
 import { calculateCartTotals } from "@/lib/checkout";
+import { calculateCardPrice } from "@/lib/payment-pricing";
 import { whatsappNumber } from "@/lib/constants";
 import { trackEvent, trackWhatsAppClick } from "@/lib/analytics";
 import { bestsellerStorefrontProducts, resolveStorefrontHref } from "@/lib/products";
@@ -15,34 +16,18 @@ import { formatCurrency } from "@/lib/utils";
 export function CartPageShell({ cardCheckoutReady = false }: { cardCheckoutReady?: boolean }) {
   const { hydrated, items, removeItem, updateQuantity, clearCart } = useCart();
   const totals = calculateCartTotals(items);
-  const [cutoffClock, setCutoffClock] = useState("00:00:00");
   const whatsappHref = useMemo(() => {
     const lines = [
-      "Oi! Quero fechar este carrinho da MDH 3D agora:",
-      ...items.map((item) => `- ${item.quantity}x ${item.title}`),
-      `Total estimado: ${formatCurrency(totals.totalPix)}`,
+      "Quero fechar este carrinho da MDH 3D:",
+      ...items.map((item) => `- ${item.quantity}x ${item.title}. Pix: ${formatCurrency(item.pricePix)}. Cartão: ${formatCurrency(calculateCardPrice(item.pricePix))}.`),
+      `Subtotal Pix: ${formatCurrency(totals.subtotalPix)}`,
+      `Subtotal Cartão: ${formatCurrency(totals.subtotalCard)}`,
+      `Total Pix: ${formatCurrency(totals.totalPix)}`,
+      `Total Cartão: ${formatCurrency(totals.totalCard)}`,
+      "Intenção: finalizar compra pelo carrinho.",
     ];
     return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(lines.join("\n"))}`;
-  }, [items, totals.totalPix]);
-
-  useEffect(() => {
-    const updateCutoff = () => {
-      const now = new Date();
-      const cutoff = new Date(now);
-      cutoff.setHours(18, 0, 0, 0);
-      if (now > cutoff) cutoff.setDate(cutoff.getDate() + 1);
-
-      const diff = Math.max(0, cutoff.getTime() - now.getTime());
-      const hours = Math.floor(diff / 3_600_000);
-      const minutes = Math.floor((diff % 3_600_000) / 60_000);
-      const seconds = Math.floor((diff % 60_000) / 1000);
-      setCutoffClock(`${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`);
-    };
-
-    updateCutoff();
-    const timer = window.setInterval(updateCutoff, 1000);
-    return () => window.clearInterval(timer);
-  }, []);
+  }, [items, totals.subtotalCard, totals.subtotalPix, totals.totalCard, totals.totalPix]);
 
   if (!hydrated) {
     return (
@@ -66,7 +51,7 @@ export function CartPageShell({ cardCheckoutReady = false }: { cardCheckoutReady
       <div className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
         <div>
           <p className="section-kicker">Carrinho</p>
-          <h1 className="section-title">Revise o pedido e feche hoje.</h1>
+          <h1 className="section-title">Revise o pedido e escolha Pix ou cartão.</h1>
           <p className="section-copy mt-3 max-w-3xl">
             Frete fixo de R$ 15,00, checkout sem cadastro e fallback imediato por WhatsApp se você quiser confirmar com a equipe.
           </p>
@@ -183,7 +168,8 @@ export function CartPageShell({ cardCheckoutReady = false }: { cardCheckoutReady
                     <div className="mt-5 grid gap-4 md:grid-cols-[auto_auto_1fr] md:items-end">
                       <div>
                         <p className="text-xs uppercase tracking-[0.18em] text-white/45">Preço unitário</p>
-                        <p className="mt-2 text-lg font-black text-emerald-100">{formatCurrency(item.pricePix)}</p>
+                        <p className="mt-2 text-lg font-black text-emerald-100">Pix {formatCurrency(item.pricePix)}</p>
+                        <p className="mt-1 text-xs font-semibold text-white/60">Cartão {formatCurrency(calculateCardPrice(item.pricePix))}</p>
                       </div>
                       <div>
                         <p className="text-xs uppercase tracking-[0.18em] text-white/45">Quantidade</p>
@@ -208,9 +194,12 @@ export function CartPageShell({ cardCheckoutReady = false }: { cardCheckoutReady
                         </div>
                       </div>
                       <div className="md:text-right">
-                        <p className="text-xs uppercase tracking-[0.18em] text-white/45">Subtotal do item</p>
+                        <p className="text-xs uppercase tracking-[0.18em] text-white/45">Subtotal Pix</p>
                         <p className="mt-2 text-xl font-black text-white">
                           {formatCurrency(item.pricePix * item.quantity)}
+                        </p>
+                        <p className="mt-1 text-xs font-semibold text-white/60">
+                          Cartão {formatCurrency(calculateCardPrice(item.pricePix) * item.quantity)}
                         </p>
                       </div>
                     </div>
@@ -230,8 +219,12 @@ export function CartPageShell({ cardCheckoutReady = false }: { cardCheckoutReady
                 <span>{totals.quantity}</span>
               </div>
               <div className="flex items-center justify-between text-sm text-white/70">
-                <span>Subtotal</span>
+                <span>Subtotal Pix</span>
                 <span>{formatCurrency(totals.subtotalPix)}</span>
+              </div>
+              <div className="flex items-center justify-between text-sm text-white/70">
+                <span>Subtotal Cartão</span>
+                <span>{formatCurrency(totals.subtotalCard)}</span>
               </div>
               <div className="flex items-center justify-between text-sm text-white/70">
                 <span>Frete fixo</span>
@@ -239,11 +232,15 @@ export function CartPageShell({ cardCheckoutReady = false }: { cardCheckoutReady
               </div>
               <div className="h-px bg-white/10" />
               <div className="flex items-center justify-between">
-                <span className="text-sm font-semibold text-white">Total</span>
+                <span className="text-sm font-semibold text-white">Total Pix</span>
                 <span className="text-2xl font-black text-emerald-100">{formatCurrency(totals.totalPix)}</span>
               </div>
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-semibold text-white">Total Cartão</span>
+                <span className="text-xl font-black text-white">{formatCurrency(totals.totalCard)}</span>
+              </div>
               <p className="text-xs leading-6 text-white/45">
-                Pedido salvo com código antes do pagamento. Frete temporário fixado em R$ 15,00.
+                No cartão, cada produto fica R$ 3,00 acima do Pix. Frete fixo de R$ 15,00.
               </p>
             </div>
 
@@ -251,15 +248,14 @@ export function CartPageShell({ cardCheckoutReady = false }: { cardCheckoutReady
               <div className="rounded-[24px] border border-rose-300/20 bg-rose-300/10 p-4">
                 <div className="flex items-center justify-between gap-3">
                   <div className="flex items-center gap-3">
-                    <span className="rounded-full border border-rose-300/20 bg-rose-300/10 p-2 text-rose-100">
-                      <TimerReset className="h-4 w-4" />
+                    <span className="rounded-full border border-emerald-300/20 bg-emerald-300/10 p-2 text-emerald-100">
+                      <Wallet className="h-4 w-4" />
                     </span>
                     <div>
-                      <p className="text-sm font-black text-white">Pronto para checkout</p>
-                      <p className="mt-1 text-xs text-white/62">Janela operacional: {cutoffClock}</p>
+                      <p className="text-sm font-black text-white">Pix e cartão no carrinho</p>
+                      <p className="mt-1 text-xs text-white/62">Pix e cartão aparecem antes de finalizar.</p>
                     </div>
                   </div>
-                  <Zap className="h-5 w-5 text-rose-100" />
                 </div>
               </div>
 

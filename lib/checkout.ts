@@ -1,11 +1,12 @@
 import type { CartItemInput } from "@/lib/cart-types";
+import { calculateCardPrice } from "@/lib/payment-pricing";
 
 export const FIXED_SHIPPING_BRL = 15;
 
 export function calculateCartTotals(items: CartItemInput[], shippingOverride?: number) {
   const quantity = items.reduce((sum, item) => sum + item.quantity, 0);
   const subtotalPix = items.reduce((sum, item) => sum + item.pricePix * item.quantity, 0);
-  const subtotalCard = items.reduce((sum, item) => sum + item.priceCard * item.quantity, 0);
+  const subtotalCard = items.reduce((sum, item) => sum + calculateCardPrice(item.pricePix) * item.quantity, 0);
   const shipping = Number((shippingOverride ?? FIXED_SHIPPING_BRL).toFixed(2));
 
   return {

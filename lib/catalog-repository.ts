@@ -8,6 +8,7 @@ import { logStructured } from "@/lib/logger";
 import { canConnectToDatabase, prisma } from "@/lib/prisma";
 import { filterPublicCatalogProducts, isPublicCatalogProduct } from "@/lib/public-catalog";
 import { getCachedJson, setCachedJson } from "@/lib/runtime-cache";
+import { calculateCardPrice } from "@/lib/payment-pricing";
 
 type CatalogSource = "static" | "database";
 
@@ -119,7 +120,7 @@ function mapPrismaProduct(record: PrismaProductRecord): Product {
       available: variant.available,
     })),
     pricePix: decimalToNumber(record.pricePix),
-    priceCard: decimalToNumber(record.priceCard),
+    priceCard: calculateCardPrice(decimalToNumber(record.pricePix)),
     marketplaceSuggested: decimalToNumber(record.marketplaceSuggested),
     productionWindow: record.productionWindow,
     imageHint: record.imageHint || record.title,
@@ -155,7 +156,7 @@ function mapPrismaProduct(record: PrismaProductRecord): Product {
       material: record.material,
       finish: record.finish,
       pricePix: decimalToNumber(record.pricePix),
-      priceCard: decimalToNumber(record.priceCard),
+      priceCard: calculateCardPrice(decimalToNumber(record.pricePix)),
       productionWindow: record.productionWindow,
       tags: record.tags,
       grams: record.grams,

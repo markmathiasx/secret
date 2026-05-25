@@ -23,7 +23,7 @@ export function PurchaseProtectionBanner({
             <p className="text-xs uppercase tracking-[0.2em]">Compra protegida MDH</p>
           </div>
           <h3 className={`mt-3 font-black text-white ${compact ? "text-xl" : "text-2xl"}`}>
-            Comprar aqui é ter produção local, suporte humano e troca clara.
+            Comprar aqui é ter suporte humano, pedido rastreável e troca clara.
           </h3>
           <p className="mt-3 text-sm leading-7 text-white/72">
             {rating !== null && reviewCount > 0
@@ -33,7 +33,7 @@ export function PurchaseProtectionBanner({
         </div>
 
         <div className="flex flex-wrap gap-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-white/75">
-          <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">Produção local RJ</span>
+          <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">Pedido rastreável</span>
           <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">Troca em 7 dias</span>
           <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">Suporte humano</span>
         </div>

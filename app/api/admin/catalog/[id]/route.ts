@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { updateAdminCatalogProduct } from "@/lib/server/admin-catalog-store";
 import { getServerSessionUser, isAdminSession } from "@/lib/server-session";
+import { calculateCardPrice } from "@/lib/payment-pricing";
 
 const patchSchema = z.object({
   title: z.string().min(3).max(160).optional(),
@@ -54,7 +55,13 @@ export async function PATCH(request: Request, context: { params: Promise<{ id: s
   }
 
   try {
-    const product = await updateAdminCatalogProduct(id, parsed.data);
+    const cleanPatch = { ...parsed.data };
+    delete cleanPatch.priceCard;
+    const patch = {
+      ...cleanPatch,
+      ...(parsed.data.pricePix !== undefined ? { priceCard: calculateCardPrice(parsed.data.pricePix) } : {}),
+    };
+    const product = await updateAdminCatalogProduct(id, patch);
     return NextResponse.json({ ok: true, product });
   } catch (error) {
     return NextResponse.json(

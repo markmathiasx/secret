@@ -12,6 +12,7 @@ import {
   applyCatalogTaxonomy,
   type BuyingIntent,
 } from "@/lib/catalog-taxonomy";
+import { calculateCardPrice } from "@/lib/payment-pricing";
 
 type EstimateResponse = {
   ok?: boolean;
@@ -28,8 +29,7 @@ type EstimateResponse = {
   error?: string;
 };
 
-const CARD_MULTIPLIER = 1.12;
-const MIN_SITE_PRICE_PIX = 39.9;
+const MIN_SITE_PRICE_PIX = 19.9;
 
 function formatCurrency(value: number) {
   return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(Number.isFinite(value) ? value : 0);
@@ -62,12 +62,12 @@ function roundCurrency(value: number) {
 function calculateRecommendation(form: Record<string, string | boolean>, profitMode: "margin" | "markup") {
   const grams = Math.max(0, parseNumber(String(form.estimatedGrams)));
   const hours = Math.max(0, parseNumber(String(form.estimatedHours)));
-  const spoolPricePerKg = Math.max(0, parseNumber(String(form.spoolPricePerKg), 150));
-  const machineHourlyRate = Math.max(0, parseNumber(String(form.machineHourlyRate), 6.9));
+  const spoolPricePerKg = Math.max(0, parseNumber(String(form.spoolPricePerKg), 100));
+  const machineHourlyRate = Math.max(0, parseNumber(String(form.machineHourlyRate), 4.5));
   const postProcessMinutes = Math.max(0, parseNumber(String(form.postProcessMinutes), 15));
-  const laborHourlyRate = Math.max(0, parseNumber(String(form.laborHourlyRate), 18));
-  const packagingCost = Math.max(0, parseNumber(String(form.packagingCost), 2.5));
-  const overheadPercent = Math.min(300, Math.max(0, parseNumber(String(form.overheadPercent), 12)));
+  const laborHourlyRate = Math.max(0, parseNumber(String(form.laborHourlyRate), 15));
+  const packagingCost = Math.max(0, parseNumber(String(form.packagingCost), 1.5));
+  const overheadPercent = Math.min(300, Math.max(0, parseNumber(String(form.overheadPercent), 8)));
   const target = Math.max(0, parseNumber(String(form.profitTargetPercent), 50));
   const costFilament = roundCurrency(grams * (spoolPricePerKg / 1000));
   const costMachine = roundCurrency(hours * machineHourlyRate);
@@ -81,7 +81,7 @@ function calculateRecommendation(form: Record<string, string | boolean>, profitM
       ? totalCost / (1 - Math.min(target, 95) / 100)
       : totalCost * (1 + Math.min(target, 500) / 100);
   const recommendedPricePix = roundCurrency(Math.max(MIN_SITE_PRICE_PIX, rawPix));
-  const recommendedPriceCard = roundCurrency(recommendedPricePix * CARD_MULTIPLIER);
+  const recommendedPriceCard = calculateCardPrice(recommendedPricePix);
   const profitAmount = roundCurrency(recommendedPricePix - totalCost);
   const profitPercent = recommendedPricePix > 0 ? roundCurrency((profitAmount / recommendedPricePix) * 100) : 0;
 
@@ -144,12 +144,12 @@ export function AdminProductEditForm({ product }: { product: AdminCatalogProduct
     estimatedGrams: numberText(product.estimatedGrams, String(product.costBase ? Math.max(1, Math.round(product.costBase / 0.15)) : 0)),
     estimatedHours: numberText(product.estimatedHours, "1"),
     complexity: numberText(product.complexity, "1"),
-    spoolPricePerKg: numberText(product.spoolPricePerKg, "150"),
-    machineHourlyRate: numberText(product.machineHourlyRate, "6.9"),
+    spoolPricePerKg: numberText(product.spoolPricePerKg, "100"),
+    machineHourlyRate: numberText(product.machineHourlyRate, "4.5"),
     postProcessMinutes: numberText(product.postProcessMinutes, "15"),
-    laborHourlyRate: numberText(product.laborHourlyRate, "18"),
-    packagingCost: numberText(product.packagingCost, "2.5"),
-    overheadPercent: numberText(product.overheadPercent, "12"),
+    laborHourlyRate: numberText(product.laborHourlyRate, "15"),
+    packagingCost: numberText(product.packagingCost, "1.5"),
+    overheadPercent: numberText(product.overheadPercent, "8"),
     profitMode: product.profitMode,
     profitTargetPercent: numberText(product.profitTargetPercent, "50"),
   });
@@ -169,6 +169,9 @@ export function AdminProductEditForm({ product }: { product: AdminCatalogProduct
     const target = e.target;
     const value = target.type === "checkbox" ? (target as HTMLInputElement).checked : target.value;
     setForm((prev) => {
+      if (target.name === "pricePix" && typeof value === "string") {
+        return { ...prev, pricePix: value, priceCard: String(calculateCardPrice(parseNumber(value))) };
+      }
       if (target.name === "category" && typeof value === "string") {
         return { ...prev, category: value, primaryCategory: value };
       }
@@ -182,6 +185,13 @@ export function AdminProductEditForm({ product }: { product: AdminCatalogProduct
       pricePix: String(source.recommendedPricePix),
       priceCard: String(source.recommendedPriceCard),
       profitMode: source === marginRecommendation ? "margin" : "markup",
+    }));
+  }
+
+  function recalculateCardPrice() {
+    setForm((prev) => ({
+      ...prev,
+      priceCard: String(calculateCardPrice(parseNumber(String(prev.pricePix)))),
     }));
   }
 
@@ -469,8 +479,13 @@ export function AdminProductEditForm({ product }: { product: AdminCatalogProduct
             <input name="pricePix" type="number" step={0.01} min={0} value={String(form.pricePix)} onChange={handleChange} className="field-base" />
           </label>
           <label className="block">
-            <span className="mb-1 block text-sm text-white/70">Preço Cartão (R$)</span>
-            <input name="priceCard" type="number" step={0.01} min={0} value={String(form.priceCard)} onChange={handleChange} className="field-base" />
+            <span className="mb-1 block text-sm text-white/70">Preço Cartão (Pix + R$ 3,00)</span>
+            <div className="flex gap-2">
+              <input name="priceCard" type="number" step={0.01} min={0} value={String(form.priceCard)} readOnly className="field-base" />
+              <button type="button" onClick={recalculateCardPrice} className="btn-secondary shrink-0 px-4 text-xs">
+                Recalcular
+              </button>
+            </div>
           </label>
           <label className="block">
             <span className="mb-1 block text-sm text-white/70">Estoque</span>

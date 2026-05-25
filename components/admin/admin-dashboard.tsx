@@ -430,7 +430,7 @@ export function AdminDashboard({ initialProducts, commerceSnapshot }: AdminDashb
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
               <p className="text-xs uppercase tracking-[0.18em] text-cyan-100/78">Importação em massa</p>
-              <h2 className="mt-2 text-2xl font-black text-white">Substituir placeholders por fotos reais locais</h2>
+              <h2 className="mt-2 text-2xl font-black text-white">Substituir placeholders por mídias locais do produto</h2>
             </div>
             <span className="rounded-full border border-emerald-300/20 bg-emerald-300/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-emerald-100">
               Pipeline local
@@ -464,7 +464,7 @@ export function AdminDashboard({ initialProducts, commerceSnapshot }: AdminDashb
               Importar lote real
             </button>
             <p className="text-sm text-white/55">
-              Sem preencher nada, o painel reaproveita automaticamente todas as fotos reais já existentes no repositório.
+              Sem preencher nada, o painel reaproveita automaticamente todas as mídias locais já existentes no repositório.
             </p>
           </div>
 
@@ -528,7 +528,7 @@ export function AdminDashboard({ initialProducts, commerceSnapshot }: AdminDashb
               40% lucro garantido
             </span>
             <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-white/70">
-              Produção local RJ
+              Operação local
             </span>
           </div>
         </div>
@@ -592,7 +592,7 @@ export function AdminDashboard({ initialProducts, commerceSnapshot }: AdminDashb
                           {product.id}
                         </span>
                         <span className={`rounded-full border px-3 py-1 text-[11px] uppercase tracking-[0.16em] ${product.imagePending ? "border-amber-300/25 bg-amber-300/12 text-amber-100" : "border-emerald-300/25 bg-emerald-300/12 text-emerald-100"}`}>
-                          {product.imagePending ? "Imagem pendente" : "Galeria real local"}
+                          {product.imagePending ? "Imagem pendente" : "Galeria validada"}
                         </span>
                         <span className="rounded-full border border-cyan-300/25 bg-cyan-300/10 px-3 py-1 text-[11px] uppercase tracking-[0.16em] text-cyan-100">
                           {stageLabel(product.productionStage)}
@@ -630,14 +630,14 @@ export function AdminDashboard({ initialProducts, commerceSnapshot }: AdminDashb
                       <div>
                         <p className="text-xs uppercase tracking-[0.16em] text-emerald-100/75">Preço Pix final</p>
                         <p className="mt-1 text-2xl font-black text-white">{formatCurrency(product.pricePix)}</p>
-                        <p className="text-xs text-white/55">12x de {formatCurrency(product.priceCard / 12)}</p>
+                        <p className="text-xs text-white/55">Cartão {formatCurrency(product.priceCard)}</p>
                       </div>
                       <div className="flex flex-wrap gap-2">
                         <span className="rounded-full border border-emerald-300/20 bg-emerald-300/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-emerald-100">
                           40% lucro garantido
                         </span>
                         <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-white/70">
-                          Produção local RJ
+                          Operação local
                         </span>
                       </div>
                     </div>

@@ -261,11 +261,11 @@ export function validateProductMedia(product: Product): ProductMediaRecord {
     heroImage: heroEligible ? (primaryImage ?? null) : null,
     gallery,
     reviewNote: status === "needs_review"
-      ? `Semantic score ${semanticScore}% — image may not match "${product.name}". Manual review required.`
+      ? `A mídia precisa de revisão antes de destaque. Produto: "${product.name}".`
       : status === "placeholder"
-        ? `Image is a generic placeholder/AI-generated conceptual. Does not represent the actual product.`
+        ? "A mídia atual é genérica e deve ser substituída antes de receber destaque."
         : hasVerifiedHeroStatus && !galleryReady
-          ? `Gallery has ${gallery.length}/4 images. Add more verified photos to reach 4-image target.`
+          ? `Galeria com ${gallery.length}/4 mídias. Adicione mais ângulos para melhorar a página.`
           : undefined,
     lastAuditedAt: new Date().toISOString(),
   };

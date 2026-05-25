@@ -9,6 +9,7 @@ import { invalidateCatalogCache } from "@/lib/runtime-cache";
 import { slugify } from "@/lib/utils";
 import { calculateProductionCostRecommendation, roundCurrency } from "@/lib/pricing-engine";
 import { BUYING_INTENTS, CATALOG_PRIMARY_CATEGORIES, PRODUCT_OBJECT_TYPES } from "@/lib/catalog-taxonomy";
+import { calculateCardPrice } from "@/lib/payment-pricing";
 import type { AdminProductOverride, ProfitMode } from "@/types/admin-catalog";
 
 export const dynamic = "force-dynamic";
@@ -177,6 +178,12 @@ function normalizeBody(body: Record<string, unknown>): NormalizedProductPatch {
     if (value !== undefined && value !== null) patch[key] = value as never;
   }
 
+  if (patch.pricePix !== undefined) {
+    patch.priceCard = calculateCardPrice(patch.pricePix);
+  } else if (patch.priceCard !== undefined) {
+    delete patch.priceCard;
+  }
+
   for (const key of ["readyToShip", "customizable", "featured"] as Array<keyof NormalizedProductPatch>) {
     const value = readBoolean(body, key);
     if (value !== undefined) patch[key] = value as never;
@@ -237,7 +244,7 @@ async function applyDatabaseUpdate(id: string, patch: NormalizedProductPatch) {
     }
 
     const effectivePricePix = patch.pricePix ?? Number(current.pricePix);
-    const effectivePriceCard = patch.priceCard ?? Number(current.priceCard);
+    const effectivePriceCard = calculateCardPrice(effectivePricePix);
     const recommendation = calculateProductionCostRecommendation({
       estimatedGrams: patch.estimatedGrams ?? Number(current.estimatedGrams ?? current.grams),
       estimatedHours: patch.estimatedHours ?? Number(current.estimatedHours ?? current.hours),
@@ -265,7 +272,7 @@ async function applyDatabaseUpdate(id: string, patch: NormalizedProductPatch) {
         ...(patch.description !== undefined && { description: patch.description }),
         ...(patch.subcategory !== undefined && { subcategory: patch.subcategory }),
         ...(patch.pricePix !== undefined && { pricePix: patch.pricePix }),
-        ...(patch.priceCard !== undefined && { priceCard: patch.priceCard }),
+        priceCard: effectivePriceCard,
         ...(patch.stock !== undefined && { stock: patch.stock }),
         ...(patch.material !== undefined && { material: patch.material }),
         ...(patch.finish !== undefined && { finish: patch.finish }),

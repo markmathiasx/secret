@@ -6,6 +6,7 @@ import { useMemo } from "react";
 import { MessageCircleMore, Minus, Plus, ShoppingCart, TimerReset, Trash2, X } from "lucide-react";
 import { useCart } from "@/lib/cart-context";
 import { whatsappNumber } from "@/lib/constants";
+import { calculateCardPrice } from "@/lib/payment-pricing";
 import { trackEvent, trackWhatsAppClick } from "@/lib/analytics";
 import { formatCurrency } from "@/lib/utils";
 
@@ -13,12 +14,14 @@ export function CartDrawer() {
   const { hydrated, items, count, subtotalPix, subtotalCard, removeItem, updateQuantity, isDrawerOpen, closeDrawer } = useCart();
   const whatsappHref = useMemo(() => {
     const lines = [
-      "Oi! Quero fechar este carrinho da MDH 3D agora:",
-      ...items.map((item) => `- ${item.quantity}x ${item.title}`),
+      "Quero fechar este carrinho da MDH 3D:",
+      ...items.map((item) => `- ${item.quantity}x ${item.title}. Pix: ${formatCurrency(item.pricePix)}. Cartão: ${formatCurrency(calculateCardPrice(item.pricePix))}.`),
       `Subtotal Pix: ${formatCurrency(subtotalPix)}`,
+      `Subtotal Cartão: ${formatCurrency(subtotalCard)}`,
+      "Intenção: finalizar compra pelo carrinho.",
     ];
     return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(lines.join("\n"))}`;
-  }, [items, subtotalPix]);
+  }, [items, subtotalCard, subtotalPix]);
 
   if (!hydrated || !isDrawerOpen) return null;
 
@@ -103,7 +106,10 @@ export function CartDrawer() {
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-sm font-semibold text-white">{item.title}</p>
                     <p className="mt-0.5 text-xs text-white/50">
-                      {formatCurrency(item.pricePix)} / un. • Pix
+                      Pix {formatCurrency(item.pricePix)} / un.
+                    </p>
+                    <p className="mt-0.5 text-xs text-white/45">
+                      Cartão {formatCurrency(calculateCardPrice(item.pricePix))} / un.
                     </p>
                     <div className="mt-2 flex items-center gap-2">
                       <button
@@ -133,6 +139,9 @@ export function CartDrawer() {
                   <div className="flex flex-col items-end justify-between">
                     <p className="text-sm font-black text-white">
                       {formatCurrency(item.pricePix * item.quantity)}
+                    </p>
+                    <p className="text-[11px] font-semibold text-white/50">
+                      Cartão {formatCurrency(calculateCardPrice(item.pricePix) * item.quantity)}
                     </p>
                     <button
                       type="button"

@@ -15,6 +15,7 @@ import { findStorefrontProductById } from "@/lib/products";
 import { findProduct } from "@/lib/catalog";
 import { quoteBestShipping } from "@/lib/melhor-envio";
 import { storeRecord } from "@/lib/storage";
+import { calculateCardPrice } from "@/lib/payment-pricing";
 
 const preferenceSchema = z.object({
   items: z
@@ -101,7 +102,7 @@ function resolveOrderItems(items: z.infer<typeof preferenceSchema>["items"]) {
         quantity: item.quantity,
         title: storefrontProduct.name,
         pricePix: storefrontProduct.pricePix,
-        priceCard: storefrontProduct.priceCard,
+        priceCard: calculateCardPrice(storefrontProduct.pricePix),
         image: storefrontProduct.images[0],
         personalizationText: item.personalizationText || undefined,
         sku: storefrontProduct.sku,
@@ -123,7 +124,7 @@ function resolveOrderItems(items: z.infer<typeof preferenceSchema>["items"]) {
       quantity: item.quantity,
       title: catalogProduct.name,
       pricePix: catalogProduct.pricePix,
-      priceCard: catalogProduct.priceCard,
+      priceCard: calculateCardPrice(catalogProduct.pricePix),
       image: catalogProduct.images?.[0] || catalogProduct.image,
       personalizationText: item.personalizationText || undefined,
       sku: catalogProduct.sku,

@@ -1,5 +1,6 @@
 import expansionRows from "@/data/a1-mini-expansion-500.json";
 import type { Product } from "@/lib/catalog";
+import { calculateCardPrice } from "@/lib/payment-pricing";
 
 type ExpansionRow = {
   id: string;
@@ -39,7 +40,7 @@ function money(value: number) {
 
 function buildExpansionProduct(row: ExpansionRow, index: number): Product {
   const baseCost = money(row.finalPriceBrl * 0.6);
-  const priceCard = money(row.finalPriceBrl * 1.12);
+  const priceCard = calculateCardPrice(row.finalPriceBrl);
   const marketplaceSuggested = money(row.finalPriceBrl * 1.18);
 
   return {

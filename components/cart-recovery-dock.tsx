@@ -37,11 +37,12 @@ export function CartRecoveryDock() {
   const whatsappHref = useMemo(() => {
     const lines = [
       "Oi! Quero fechar este carrinho da MDH 3D agora:",
-      ...items.map((item) => `- ${item.quantity}x ${item.title}`),
-      `Total estimado: ${formatCurrency(totals.totalPix)}`,
+      ...items.map((item) => `- ${item.quantity}x ${item.title}. Pix: ${formatCurrency(item.pricePix)}. Cartão: ${formatCurrency(item.priceCard)}.`),
+      `Total Pix: ${formatCurrency(totals.totalPix)}`,
+      `Total Cartão: ${formatCurrency(totals.totalCard)}`,
     ];
     return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(lines.join("\n"))}`;
-  }, [items, totals.totalPix]);
+  }, [items, totals.totalCard, totals.totalPix]);
 
   useEffect(() => {
     if (!hydrated || !items.length || shouldHideByRoute) {
@@ -90,7 +91,7 @@ export function CartRecoveryDock() {
           <div>
             <p className="text-sm font-black text-white">Carrinho pronto para fechar</p>
             <p className="mt-1 text-xs leading-6 text-white/62">
-              {totals.quantity} item(ns), {formatCurrency(totals.totalPix)} no Pix. Salvo às {formatSavedAt(lastUpdatedAt)}.
+              {totals.quantity} item(ns), Pix {formatCurrency(totals.totalPix)}. Cartão {formatCurrency(totals.totalCard)}. Salvo às {formatSavedAt(lastUpdatedAt)}.
             </p>
           </div>
         </div>

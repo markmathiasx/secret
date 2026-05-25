@@ -186,13 +186,11 @@ const CATEGORY_SLUG_KEYWORDS: Record<CatalogPrimaryCategory, string[]> = {
   "Utilidades Especiais": ["utilidade especial", "funcional", "acessorio"],
 };
 
-const PUBLIC_TEXT_BANNED_TERMS = [
-  "foto real",
-  "fotos reais",
-  "render fiel",
-  "foto real x render fiel",
-  "peças com foto real",
-  "pecas com foto real",
+const PUBLIC_TEXT_BANNED_PATTERNS = [
+  /fotos?\s+rea(?:l|is)/i,
+  /render\s+fiel/i,
+  /foto\s+rea(?:l|is)\s+x\s+render\s+fiel/i,
+  /pe[cç]as\s+com\s+foto\s+rea(?:l|is)/i,
 ];
 
 function normalizeText(value: unknown) {
@@ -734,7 +732,7 @@ export function applyCatalogTaxonomy<T extends TaxonomyProductInput>(product: T)
   };
   const cleanedTags = normalizeStringList(product.tags, 80).filter((tag) => {
     const normalized = normalizeText(tag);
-    return !PUBLIC_TEXT_BANNED_TERMS.some((term) => normalized.includes(normalizeText(term)));
+    return !PUBLIC_TEXT_BANNED_PATTERNS.some((pattern) => pattern.test(normalized));
   });
 
   return {

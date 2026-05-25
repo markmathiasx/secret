@@ -1,12 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { Fragment, startTransition, useDeferredValue, useEffect, useMemo, useState } from 'react';
 import {
   BadgeCheck,
   ChevronRight,
-  Clock3,
   Copy,
   Filter,
   Heart,
@@ -17,18 +15,15 @@ import {
   Sparkles,
   Target,
 } from 'lucide-react';
-import { useCart } from '@/lib/cart-context';
 import { getProductUrl, type Product } from '@/lib/catalog';
 import { getProductSearchScore } from '@/lib/catalog-content';
-import { ProductImageGallery } from '@/components/product-image-gallery';
-import { ProductPriceStack } from '@/components/product-price-stack';
-import { ProductVisualBadge } from '@/components/product-visual-authenticity';
+import { PremiumCard } from '@/components/product/PremiumCard';
 import { isProductPrimaryMediaValidated, isProductVisualVerified } from '@/lib/product-visuals';
 import { BUYING_INTENTS, type BuyingIntent } from '@/lib/catalog-taxonomy';
+import { calculateCardPrice } from '@/lib/payment-pricing';
 import { formatCurrency } from '@/lib/utils';
 import {
   trackBackToCatalogRestored,
-  trackAddToCart,
   trackCatalogPageChange,
   trackFilterApplied,
   trackSelectItem,
@@ -42,7 +37,7 @@ const RECENT_KEY = 'mdh_catalog_recent';
 const RECENT_SEARCHES_KEY = 'mdh_catalog_recent_searches';
 const SAVED_VIEWS_KEY = 'mdh_catalog_saved_views';
 const RETURN_STATE_KEY = 'mdh_catalog_return_state';
-const ORDER_OPTIONS = ['Mais Recentes', 'Preço', 'Nome', 'Destaques', 'Menor prazo'] as const;
+const ORDER_OPTIONS = ['Menor preço', 'Mais vendidos', 'Pronta entrega', 'Personalizados', 'Lançamentos'] as const;
 const PURCHASE_INTENTS = ['Geral', ...BUYING_INTENTS] as const;
 const PURCHASE_INTENT_LABELS: Record<PurchaseIntent, string> = {
   Geral: 'Geral',
@@ -69,7 +64,7 @@ const LEGACY_INTENT_MAP: Record<string, PurchaseIntent> = {
 type CatalogAvailability = 'Todos' | Product['status'];
 type PurchaseIntent = 'Geral' | BuyingIntent;
 type CatalogOrder = (typeof ORDER_OPTIONS)[number];
-type VisualMode = 'all' | 'verified' | 'real';
+type VisualMode = 'all' | 'verified';
 type SavedCatalogView = {
   id: string;
   label: string;
@@ -86,7 +81,7 @@ function sanitizeAvailability(value: CatalogAvailability | undefined): CatalogAv
 }
 
 function sanitizeVisualMode(value: string | undefined): VisualMode {
-  return value === 'verified' || value === 'real' ? value : 'all';
+  return value === 'verified' ? value : 'all';
 }
 
 function sanitizePurchaseIntent(value: string | undefined): PurchaseIntent {
@@ -95,7 +90,7 @@ function sanitizePurchaseIntent(value: string | undefined): PurchaseIntent {
 }
 
 function sanitizeOrder(value: string | undefined): CatalogOrder {
-  return ORDER_OPTIONS.includes(value as CatalogOrder) ? (value as CatalogOrder) : 'Mais Recentes';
+  return ORDER_OPTIONS.includes(value as CatalogOrder) ? (value as CatalogOrder) : 'Menor preço';
 }
 
 function sanitizeMaterial(value: string | undefined, materialOptions: string[]) {
@@ -112,49 +107,32 @@ function parseMinProductionDays(windowLabel: string) {
   return values.length ? Math.min(...values) : 7;
 }
 
-function getQuantityDiscount(quantity: number) {
-  if (quantity >= 20) return 0.15;
-  if (quantity >= 10) return 0.1;
-  if (quantity >= 5) return 0.05;
-  return 0;
-}
-
-function getStockUrgency(product: Product) {
-  if (product.readyToShip && product.stock <= 2) return 'Últimas unidades';
-  if (product.readyToShip && product.stock <= 5) return 'Estoque enxuto';
-  if (!product.readyToShip && parseMinProductionDays(product.productionWindow) <= 2) return 'Produção rápida';
-  return '';
-}
-
 function buildWhatsAppQuote(product: Product, quantity: number) {
-  const message = `Oi! Quero fechar ${quantity}x ${product.name} (${product.sku}).`;
+  const priceCard = calculateCardPrice(product.pricePix);
+  const message = `Quero comprar ${product.name}. Quantidade: ${quantity}. Pix: ${formatCurrency(product.pricePix)}. Cartão: ${formatCurrency(priceCard)}. Categoria: ${product.category}. Intenção: compra pelo catálogo. Link: https://www.mdh3d.com.br${getProductUrl(product)}`;
   return `https://wa.me/5521920137249?text=${encodeURIComponent(message)}`;
 }
 
 function buildSelectionWhatsApp(items: Product[], quantity: number) {
   const shortlist = items.slice(0, 6);
-  const lines = shortlist.map((item, index) => `${index + 1}. ${item.name} (${item.sku}) - ${formatCurrency(item.pricePix)}`);
+  const lines = shortlist.map((item, index) => `${index + 1}. ${item.name} (${item.sku}) - Pix ${formatCurrency(item.pricePix)} - Cartão ${formatCurrency(calculateCardPrice(item.pricePix))}`);
   const message = [
-    `Oi! Quero revisar esta seleção da MDH 3D para ${quantity} unidade(s):`,
+    `Quero revisar esta seleção da MDH 3D para ${quantity} unidade(s):`,
     ...lines,
-    'Pode me ajudar a fechar a melhor opção?',
+    'Intenção: escolher produtos do catálogo e confirmar compra.',
   ].join('\n');
   return `https://wa.me/5521920137249?text=${encodeURIComponent(message)}`;
 }
 
 function buildFavoritesWhatsApp(items: Product[]) {
   const shortlist = items.slice(0, 8);
-  const lines = shortlist.map((item, index) => `${index + 1}. ${item.name} (${item.sku})`);
+  const lines = shortlist.map((item, index) => `${index + 1}. ${item.name} (${item.sku}) - Pix ${formatCurrency(item.pricePix)} - Cartão ${formatCurrency(calculateCardPrice(item.pricePix))}`);
   const message = [
-    'Oi! Quero revisar meus favoritos da MDH 3D:',
+    'Quero revisar meus favoritos da MDH 3D:',
     ...lines,
-    'Pode me orientar sobre prazo, material e melhor fechamento?',
+    'Intenção: confirmar prazo, material e compra.',
   ].join('\n');
   return `https://wa.me/5521920137249?text=${encodeURIComponent(message)}`;
-}
-
-function shouldIgnoreCardActivation(target: EventTarget | null) {
-  return target instanceof Element && Boolean(target.closest("a, button, input, select, textarea, [role='button'], [data-card-interactive='true']"));
 }
 
 function getVisiblePagination(currentPage: number, totalPages: number) {
@@ -232,7 +210,7 @@ export function CatalogExplorer({
   initialAvailability = 'Todos',
   initialMaterial = 'Todos',
   initialIntent = 'Geral',
-  initialOrder = 'Mais Recentes',
+  initialOrder = 'Menor preço',
   initialCustomizableOnly = false,
   initialPriceMin,
   initialPriceMax,
@@ -252,23 +230,13 @@ export function CatalogExplorer({
   initialPriceMax?: number;
   initialPage?: number;
 }) {
-  const router = useRouter();
-  const { addItem: addToCart } = useCart();
-
-  function openProduct(product: Product) {
-    addRecent(product.id);
-    trackSelectItem(product, 'Catalogo', (currentPage - 1) * PAGE_SIZE + visibleItems.findIndex((item) => item.id === product.id));
-    saveCatalogReturnState(product.id);
-    router.push(buildProductHref(product));
-  }
-
   function compareBySelectedOrder(a: Product, b: Product, selectedOrder: CatalogOrder) {
-    if (selectedOrder === 'Preço') return a.pricePix - b.pricePix;
-    if (selectedOrder === 'Nome') return a.name.localeCompare(b.name);
-    if (selectedOrder === 'Destaques') {
+    if (selectedOrder === 'Menor preço') return a.pricePix - b.pricePix;
+    if (selectedOrder === 'Mais vendidos') {
       return Number(b.featured) - Number(a.featured) || Number(isProductVisualVerified(b)) - Number(isProductVisualVerified(a)) || a.pricePix - b.pricePix;
     }
-    if (selectedOrder === 'Menor prazo') return parseMinProductionDays(a.productionWindow) - parseMinProductionDays(b.productionWindow);
+    if (selectedOrder === 'Pronta entrega') return Number(Boolean(b.readyToShip)) - Number(Boolean(a.readyToShip)) || a.pricePix - b.pricePix;
+    if (selectedOrder === 'Personalizados') return Number(Boolean(b.customizable)) - Number(Boolean(a.customizable)) || a.pricePix - b.pricePix;
     return b.id.localeCompare(a.id);
   }
 
@@ -291,7 +259,7 @@ export function CatalogExplorer({
   const [selectedMaterial, setSelectedMaterial] = useState('Todos');
   const [purchaseIntent, setPurchaseIntent] = useState<PurchaseIntent>('Geral');
   const [customizableOnly, setCustomizableOnly] = useState(initialCustomizableOnly);
-  const [order, setOrder] = useState<CatalogOrder>('Mais Recentes');
+  const [order, setOrder] = useState<CatalogOrder>('Menor preço');
   const [priceRange, setPriceRange] = useState<[number, number]>([priceLimits.min, priceLimits.max]);
   const [quantity, setQuantity] = useState(1);
   const [page, setPage] = useState(sanitizePage(initialPage));
@@ -395,8 +363,7 @@ export function CatalogExplorer({
       const matchCollection = collection === 'Todas' || item.collection === collection;
       const matchAvailability = availability === 'Todos' || item.status === availability;
       const matchPrice = item.pricePix >= priceRange[0] && item.pricePix <= priceRange[1];
-      const matchVisual =
-        visualMode === 'all' ? true : visualMode === 'real' ? isProductPrimaryMediaValidated(item) : isProductVisualVerified(item);
+      const matchVisual = visualMode === 'all' ? true : isProductVisualVerified(item);
       const matchMaterial = selectedMaterial === 'Todos' || item.material === selectedMaterial;
       const matchCustomizable = !customizableOnly || item.customizable;
 
@@ -429,10 +396,9 @@ export function CatalogExplorer({
   const validatedPrimaryMediaCount = filtered.filter((item) => isProductPrimaryMediaValidated(item)).length;
   const verifiedCount = filtered.filter((item) => isProductVisualVerified(item)).length;
   const customizableCount = filtered.filter((item) => item.customizable).length;
-  const bundleDiscount = getQuantityDiscount(quantity);
   const fastestLeadTime = filtered.length ? Math.min(...filtered.map((item) => parseMinProductionDays(item.productionWindow))) : null;
   const averageTicket = filtered.length ? Math.round(filtered.reduce((sum, item) => sum + item.pricePix, 0) / filtered.length) : null;
-  const activeFilterCount = [query.trim(), category !== 'Todas', collection !== 'Todas', availability !== 'Todos', visualMode !== 'all', selectedMaterial !== 'Todos', purchaseIntent !== 'Geral', customizableOnly, priceRange[0] !== priceLimits.min, priceRange[1] !== priceLimits.max, order !== 'Mais Recentes'].filter(Boolean).length;
+  const activeFilterCount = [query.trim(), category !== 'Todas', collection !== 'Todas', availability !== 'Todos', visualMode !== 'all', selectedMaterial !== 'Todos', purchaseIntent !== 'Geral', customizableOnly, priceRange[0] !== priceLimits.min, priceRange[1] !== priceLimits.max, order !== 'Menor preço'].filter(Boolean).length;
 
   const compareProducts = useMemo(() => compareIds.map((id) => products.find((item) => item.id === id)).filter(Boolean) as Product[], [compareIds, products]);
   const favoriteProducts = useMemo(() => favoriteIds.map((id) => products.find((item) => item.id === id)).filter(Boolean) as Product[], [favoriteIds, products]);
@@ -452,9 +418,6 @@ export function CatalogExplorer({
     }
     if (purchaseIntent === 'comprar_em_lote' || purchaseIntent === 'corporativo') {
       return 'O foco atual é em itens que conseguem conversar melhor com lote, personalização e repetição de pedido.';
-    }
-    if (visualMode === 'real') {
-      return 'A curadoria está filtrando itens com mídia principal validada do objeto para reduzir ambiguidade antes da compra.';
     }
     if (visualMode === 'verified') {
       return 'A curadoria está filtrando por mídia validada para manter uma leitura visual consistente do produto.';
@@ -522,16 +485,7 @@ export function CatalogExplorer({
           },
         }
       : null,
-    visualMode === 'real'
-      ? {
-          id: 'visual-real',
-          label: 'Mídia principal validada',
-          clear: () => {
-            setVisualMode('all');
-            safeSetPage(1);
-          },
-        }
-      : visualMode === 'verified'
+    visualMode === 'verified'
       ? {
           id: 'visual-verified',
           label: 'Mídia validada',
@@ -647,7 +601,7 @@ export function CatalogExplorer({
     if (selectedMaterial !== 'Todos') params.set('material', selectedMaterial);
     if (purchaseIntent !== 'Geral') params.set('intent', purchaseIntent);
     if (customizableOnly) params.set('custom', '1');
-    if (order !== 'Mais Recentes') params.set('sort', order);
+    if (order !== 'Menor preço') params.set('sort', order);
     if (priceRange[0] !== priceLimits.min) params.set('min', String(priceRange[0]));
     if (priceRange[1] !== priceLimits.max) params.set('max', String(priceRange[1]));
     if (currentPage > 1) params.set('page', String(currentPage));
@@ -748,20 +702,8 @@ export function CatalogExplorer({
     trackFilterApplied(filterName, filterValue, filtered.length);
   }
 
-  function toggleFavorite(productId: string) {
-    setFavoriteIds((previous) => previous.includes(productId) ? previous.filter((id) => id !== productId) : [productId, ...previous].slice(0, 20));
-  }
-
   function addRecent(productId: string) {
     setRecentIds((previous) => [productId, ...previous.filter((id) => id !== productId)].slice(0, 12));
-  }
-
-  function toggleCompare(productId: string) {
-    setCompareIds((previous) => {
-      if (previous.includes(productId)) return previous.filter((id) => id !== productId);
-      if (previous.length >= 3) return [...previous.slice(1), productId];
-      return [...previous, productId];
-    });
   }
 
   async function copyShareLink() {
@@ -782,7 +724,7 @@ export function CatalogExplorer({
       category !== 'Todas' ? category : null,
       availability !== 'Todos' ? availability : null,
       purchaseIntent !== 'Geral' ? PURCHASE_INTENT_LABELS[purchaseIntent] : null,
-      visualMode === 'real' ? 'mídia principal validada' : visualMode === 'verified' ? 'mídia validada' : null,
+      visualMode === 'verified' ? 'mídia validada' : null,
     ].filter(Boolean);
 
     if (!parts.length) return 'Vitrine geral';
@@ -801,7 +743,6 @@ export function CatalogExplorer({
   }
 
   const quickPresets = [
-    { id: 'real', label: 'Mídia principal', active: visualMode === 'real', onClick: () => { setVisualMode((value) => value === 'real' ? 'all' : 'real'); safeSetPage(1); } },
     { id: 'verified', label: 'Mídia validada', active: visualMode === 'verified', onClick: () => { setVisualMode((value) => value === 'verified' ? 'all' : 'verified'); safeSetPage(1); } },
     { id: 'ready', label: 'Pronta entrega', active: availability === 'Pronta entrega', onClick: () => { setAvailability((value) => value === 'Pronta entrega' ? 'Todos' : 'Pronta entrega'); safeSetPage(1); } },
     { id: 'gift', label: 'Presentes', active: purchaseIntent === 'presentear', onClick: () => { setPurchaseIntent((value) => value === 'presentear' ? 'Geral' : 'presentear'); safeSetPage(1); } },
@@ -828,9 +769,7 @@ export function CatalogExplorer({
     },
   ] as const;
   const rescueActions = [
-    visualMode === 'real'
-      ? { id: 'relax-real', label: 'Aceitar mídia validada', onClick: () => { setVisualMode('verified'); safeSetPage(1); } }
-      : visualMode === 'verified'
+    visualMode === 'verified'
       ? { id: 'relax-verified', label: 'Ver imagens conceituais', onClick: () => { setVisualMode('all'); safeSetPage(1); } }
       : null,
     availability !== 'Todos'
@@ -902,10 +841,10 @@ export function CatalogExplorer({
 
         <div className="mt-4 grid gap-4 rounded-[24px] border border-emerald-300/18 bg-[linear-gradient(135deg,rgba(16,185,129,0.12),rgba(34,211,238,0.08))] p-4 lg:grid-cols-[1fr_auto] lg:items-center">
           <div>
-            <p className="text-xs uppercase tracking-[0.18em] text-emerald-100/78">Fechamento rápido</p>
+            <p className="text-xs uppercase tracking-[0.18em] text-emerald-100/78">Compra rápida</p>
             <p className="mt-2 text-sm leading-7 text-white/72">
               Este recorte tem {readyCount} item(ns) de pronta entrega, {validatedPrimaryMediaCount} com mídia principal validada e menor prazo base de {fastestLeadTime ? `${fastestLeadTime} dia(s)` : "consulta"}.
-              Salve a seleção, mande no WhatsApp ou avance para o carrinho sem cadastro.
+              Mande a seleção no WhatsApp ou avance para o carrinho sem cadastro.
             </p>
           </div>
           <div className="flex flex-wrap gap-2 lg:justify-end">
@@ -1150,17 +1089,17 @@ export function CatalogExplorer({
             />
             <div className="mt-1 flex justify-between text-xs text-white/60">
               <span>{quantity} un.</span>
-              <span>{Math.round(bundleDiscount * 100)}% off</span>
+              <span>lotes sob consulta</span>
             </div>
           </label>
 
           <div className="surface-stat rounded-[20px] px-4 py-4 text-xs text-emerald-100">
             <div className="flex items-center gap-2">
               <Sparkles className="h-4 w-4" />
-              <span className="font-semibold uppercase tracking-[0.18em]">Simulador ativo</span>
+              <span className="font-semibold uppercase tracking-[0.18em]">Resumo da seleção</span>
             </div>
             <p className="mt-3 leading-6 text-white/72">
-              A quantidade já recalcula economia estimada e ajuda a separar compra unitária, presente, revenda ou lote.
+              Use a quantidade para montar a mensagem de WhatsApp com Pix, cartão e intenção de compra.
             </p>
           </div>
         </div>
@@ -1235,7 +1174,7 @@ export function CatalogExplorer({
           <div className="glass-panel rounded-[24px] border border-white/10 bg-black/20 p-4">
             <div className="flex items-center gap-2">
               <Sparkles className="h-4 w-4 text-emerald-100" />
-              <p className="text-sm font-semibold text-emerald-100">Leitura comercial da vitrine</p>
+              <p className="text-sm font-semibold text-emerald-100">Atalhos da seleção</p>
             </div>
             <h3 className="mt-4 text-2xl font-black text-white">
               {purchaseIntent === 'Geral' ? 'A seleção está pronta para virar atendimento ou checkout.' : `Foco atual: ${PURCHASE_INTENT_LABELS[purchaseIntent]}.`}
@@ -1248,12 +1187,12 @@ export function CatalogExplorer({
                 <p className="mt-2 text-lg font-black text-white">{Math.min(filtered.length, 6)} itens</p>
               </div>
               <div className="surface-stat rounded-[18px] px-4 py-4">
-                <p className="text-[11px] uppercase tracking-[0.16em] text-white/50">Simulação</p>
+                <p className="text-[11px] uppercase tracking-[0.16em] text-white/50">Quantidade</p>
                 <p className="mt-2 text-lg font-black text-white">{quantity} unidade(s)</p>
               </div>
               <div className="surface-stat rounded-[18px] px-4 py-4">
-                <p className="text-[11px] uppercase tracking-[0.16em] text-white/50">Economia em lote</p>
-                <p className="mt-2 text-lg font-black text-white">{Math.round(bundleDiscount * 100)}%</p>
+                <p className="text-[11px] uppercase tracking-[0.16em] text-white/50">Cartão</p>
+                <p className="mt-2 text-lg font-black text-white">Pix + R$ 3</p>
               </div>
             </div>
 
@@ -1381,199 +1320,29 @@ export function CatalogExplorer({
         </div>
       ) : null}
 
-      <div className="catalog-products-grid grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+      <div className="catalog-products-grid grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-4">
         {visibleItems.map((product, index) => {
-          const isFavorite = favoriteIds.includes(product.id);
-          const isCompared = compareIds.includes(product.id);
-          const urgency = getStockUrgency(product);
-          const subtotal = product.pricePix * quantity;
-          const total = subtotal * (1 - bundleDiscount);
-          const savings = subtotal - total;
           const editorial = editorialBreaks.find((item) => item.afterIndex === index);
-          const variant =
-            product.readyToShip && isProductPrimaryMediaValidated(product)
-              ? 'readyToShip'
-              : product.customizable
-              ? 'customProject'
-              : product.pricePix >= 150
-              ? 'premium'
-              : product.pricingMode !== 'faixa-auditada'
-              ? 'lote'
-              : index % 5 === 0
-              ? 'validatedMedia'
-              : 'compact';
-          const cardSize = index % 9 === 0 ? 'xl:col-span-2' : '';
 
           return (
             <Fragment key={product.id}>
-              <article
+              <div
                 id={`produto-${product.id}`}
-                data-card-variant={variant}
-                className={`catalog-product-card mdh-product-card-2026 group relative overflow-hidden rounded-[8px] border p-3 transition-all duration-500 md:p-4 ${cardSize} ${
-                  isProductPrimaryMediaValidated(product)
-                    ? 'border-emerald-300/24 bg-[linear-gradient(180deg,rgba(16,185,129,0.11),rgba(3,7,13,0.84))]'
-                    : isProductVisualVerified(product)
-                    ? 'border-cyan-300/18 bg-[linear-gradient(180deg,rgba(34,211,238,0.09),rgba(3,7,13,0.84))]'
-                    : 'border-amber-300/22 bg-[linear-gradient(180deg,rgba(245,158,11,0.10),rgba(3,7,13,0.84))]'
-                }`}
-                role="link"
-                tabIndex={0}
-                aria-label={`Abrir ${product.name}`}
-                onClick={(event) => {
-                  if (shouldIgnoreCardActivation(event.target)) return;
-                  openProduct(product);
-                }}
-                onKeyDown={(event) => {
-                  if (shouldIgnoreCardActivation(event.target)) return;
-                  if (event.key === 'Enter' || event.key === ' ') {
-                    event.preventDefault();
-                    openProduct(product);
-                  }
+                onClick={() => {
+                  addRecent(product.id);
+                  saveCatalogReturnState(product.id);
+                  trackSelectItem(product, 'Catalogo', (currentPage - 1) * PAGE_SIZE + index);
                 }}
               >
-                <div className="mdh-cad-grid pointer-events-none absolute inset-0 opacity-20" />
-                <ProductImageGallery product={product} compact priority={index < 3} />
-
-                <div className="mt-3 flex flex-wrap gap-2">
-                  <ProductVisualBadge product={product} />
-                  {product.featured ? (
-                    <span className="rounded-full border border-amber-300/25 bg-amber-300/10 px-3 py-1 text-[11px] font-semibold text-amber-100">
-                      Destaque
-                    </span>
-                  ) : null}
-                  {urgency ? (
-                    <span className="rounded-full border border-rose-300/25 bg-rose-300/10 px-3 py-1 text-[11px] font-semibold text-rose-100">
-                      {urgency}
-                    </span>
-                  ) : null}
-                  {product.readyToShip ? (
-                    <span className="rounded-full border border-emerald-300/25 bg-emerald-300/10 px-3 py-1 text-[11px] font-semibold text-emerald-100">
-                      Pronta entrega
-                    </span>
-                  ) : null}
-                </div>
-
-                <div className="mt-4 min-w-0">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-cyan-100/66">{product.category}</p>
-                  <h3 className="mt-2 line-clamp-2 break-words text-xl font-black leading-tight text-white">
-                    {product.name}
-                  </h3>
-                  <p className="mt-3 line-clamp-2 text-sm leading-6 text-white/62">
-                    {product.description}
-                  </p>
-                </div>
-
-                <div className="mt-4 grid grid-cols-3 gap-2">
-                  {[
-                    ['Material', product.material],
-                    ['Acab.', product.finish],
-                    ['Prazo', product.productionWindow],
-                  ].map(([label, value]) => (
-                    <div key={label} className="rounded-[8px] border border-white/10 bg-white/[0.045] p-2">
-                      <p className="text-[9px] font-semibold uppercase tracking-[0.16em] text-white/38">{label}</p>
-                      <p className="mt-1 line-clamp-1 text-xs font-semibold text-white/74">{value}</p>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="mt-4 rounded-[8px] border border-white/10 bg-black/28 p-3">
-                  <div className="flex flex-wrap items-end justify-between gap-3">
-                    <div>
-                      <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-emerald-100/60">
-                        {product.pricingMode === 'faixa-auditada' ? 'Pix no site' : 'Orçamento inicial'}
-                      </p>
-                      <ProductPriceStack product={product} compact />
-                    </div>
-                    <div className="text-right text-xs text-white/56">
-                      <p>{quantity}x {formatCurrency(total)}</p>
-                      <p>{bundleDiscount > 0 ? `Economia ${formatCurrency(savings)}` : product.customizable ? 'aceita briefing' : 'pronto para decidir'}</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mt-4 grid gap-2 sm:grid-cols-3">
-                  <Link
-                    href={buildProductHref(product)}
-                    onClick={() => {
-                      addRecent(product.id);
-                      saveCatalogReturnState(product.id);
-                      trackSelectItem(product, 'Catalogo', (currentPage - 1) * PAGE_SIZE + index);
-                    }}
-                    className="btn-secondary px-3 py-2 text-center text-sm font-semibold text-cyan-100"
-                  >
-                    {product.pricingMode === 'faixa-auditada' ? 'Comprar' : 'Orçar'}
-                  </Link>
-                  {product.pricingMode === 'faixa-auditada' ? (
-                    <button
-                      type="button"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        addToCart({
-                          productId: product.id,
-                          quantity: 1,
-                          title: product.name,
-                          pricePix: product.pricePix,
-                          priceCard: product.priceCard,
-                          image: product.images?.[0] || product.image,
-                        });
-                        trackAddToCart(product, 1);
-                      }}
-                      className="btn-primary px-3 py-2 text-center text-xs font-semibold"
-                    >
-                      <ShoppingCart className="mr-1.5 inline h-3.5 w-3.5" />
-                      Carrinho
-                    </button>
-                  ) : (
-                    <Link href="/imagem-para-impressao-3d" className="btn-primary px-3 py-2 text-center text-xs font-semibold">
-                      Briefing
-                    </Link>
-                  )}
-                  <a
-                    href={buildWhatsAppQuote(product, quantity)}
-                    target="_blank"
-                    rel="noreferrer"
-                    onClick={() => trackWhatsAppClick('catalog_card')}
-                    className="btn-glass px-3 py-2 text-center text-xs font-semibold text-emerald-100"
-                  >
-                    WhatsApp
-                  </a>
-                </div>
-
-                <div className="mt-4 flex flex-wrap gap-2">
-                  <button
-                    type="button"
-                    onClick={(event) => {
-                      event.stopPropagation();
-                      toggleFavorite(product.id);
-                    }}
-                    className={`rounded-full border px-3 py-1 text-xs font-semibold ${
-                      isFavorite ? 'border-amber-300/30 bg-amber-300/12 text-amber-100' : 'border-white/10 bg-white/5 text-white/70'
-                    }`}
-                  >
-                    {isFavorite ? 'Favoritado' : 'Favoritar'}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={(event) => {
-                      event.stopPropagation();
-                      toggleCompare(product.id);
-                    }}
-                    className={`rounded-full border px-3 py-1 text-xs font-semibold ${
-                      isCompared ? 'border-cyan-300/30 bg-cyan-300/12 text-cyan-100' : 'border-white/10 bg-white/5 text-white/70'
-                    }`}
-                  >
-                    {isCompared ? 'No comparador' : 'Comparar'}
-                  </button>
-                </div>
-              </article>
+                <PremiumCard product={product} index={index} />
+              </div>
 
               {editorial ? (
-                <div className={`mdh-catalog-breakout relative overflow-hidden rounded-[8px] border p-5 sm:col-span-2 xl:col-span-3 ${editorial.tone}`}>
-                  <div className="mdh-cad-grid absolute inset-0 opacity-35" />
+                <div className={`relative overflow-hidden rounded-[8px] border p-5 sm:col-span-2 xl:col-span-4 ${editorial.tone}`}>
                   <div className="relative flex flex-col justify-between gap-5 md:flex-row md:items-end">
                     <div className="max-w-2xl">
-                      <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-cyan-100/70">Atalho comercial</p>
-                      <h3 className="mt-3 text-3xl font-black leading-tight text-white">{editorial.title}</h3>
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-cyan-100/70">Atalho</p>
+                      <h3 className="mt-3 text-2xl font-black leading-tight text-white">{editorial.title}</h3>
                       <p className="mt-3 text-sm leading-7 text-white/68">{editorial.body}</p>
                     </div>
                     {'external' in editorial && editorial.external ? (

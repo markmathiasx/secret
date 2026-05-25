@@ -8,9 +8,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
 import { useCart } from "@/hooks/use-cart";
+import { calculateCardPrice } from "@/lib/payment-pricing";
 import { formatCurrency } from "@/lib/utils";
 import { sanitizePlainText, sanitizeEmail } from "@/lib/sanitize";
-import { getCachedData, cacheTtl } from "@/lib/cache";
 
 type CheckoutStep = "cart" | "shipping" | "payment" | "confirmation";
 
@@ -30,7 +30,7 @@ type CustomerData = {
   phone: string;
 };
 
-type PaymentMethod = "pix" | "card" | "boleto";
+type PaymentMethod = "pix" | "card";
 
 export function GuestCheckout() {
   const router = useRouter();
@@ -58,6 +58,11 @@ export function GuestCheckout() {
   const [shippingOptions, setShippingOptions] = useState<any[]>([]);
   const [selectedShipping, setSelectedShipping] = useState<any>(null);
   const [orderData, setOrderData] = useState<any>(null);
+  const subtotalPix = getTotalPrice();
+  const subtotalCard = items.reduce((sum, item) => sum + calculateCardPrice(item.price) * item.quantity, 0);
+  const shippingPrice = selectedShipping?.price || 0;
+  const totalPix = subtotalPix + shippingPrice;
+  const totalCard = subtotalCard + shippingPrice;
 
   // Redirect to cart if empty
   useEffect(() => {
@@ -176,9 +181,11 @@ export function GuestCheckout() {
         shippingOption: selectedShipping,
         paymentMethod,
         total: {
-          subtotal: getTotalPrice(),
+          subtotalPix,
+          subtotalCard,
           shipping: selectedShipping.price,
-          total: getTotalPrice() + selectedShipping.price,
+          totalPix,
+          totalCard,
         },
       };
 
@@ -227,6 +234,7 @@ export function GuestCheckout() {
                       <div className="flex-1">
                         <h3 className="font-semibold text-white">{item.name}</h3>
                         <p className="text-sm text-white/60">Qtd: {item.quantity}</p>
+                        <p className="text-sm text-white/60">Cartão: {formatCurrency(calculateCardPrice(item.price) * item.quantity)}</p>
                         <p className="text-lg font-bold text-cyan-100 mt-1">
                           {formatCurrency(item.price * item.quantity)}
                         </p>
@@ -439,10 +447,10 @@ export function GuestCheckout() {
                   <div className="flex justify-between items-center">
                     <div>
                       <p className="font-semibold text-white">PIX</p>
-                      <p className="text-sm text-white/60">Pagamento instantâneo com 10% de desconto</p>
+                      <p className="text-sm text-white/60">Pagamento instantâneo com valor principal do catálogo</p>
                     </div>
                     <p className="font-bold text-cyan-100">
-                      {formatCurrency((getTotalPrice() + (selectedShipping?.price || 0)) * 0.9)}
+                      {formatCurrency(totalPix)}
                     </p>
                   </div>
                 </CardContent>
@@ -460,31 +468,10 @@ export function GuestCheckout() {
                   <div className="flex justify-between items-center">
                     <div>
                       <p className="font-semibold text-white">Cartão de Crédito</p>
-                      <p className="text-sm text-white/60">Até 12x sem juros</p>
+                      <p className="text-sm text-white/60">Cada produto fica R$ 3,00 acima do Pix</p>
                     </div>
                     <p className="font-bold text-cyan-100">
-                      {formatCurrency(getTotalPrice() + (selectedShipping?.price || 0))}
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card
-                className={`cursor-pointer transition-colors ${
-                  paymentMethod === "boleto"
-                    ? "bg-cyan-300/20 border-cyan-300"
-                    : "bg-white/[0.05] border-white/10"
-                }`}
-                onClick={() => setPaymentMethod("boleto")}
-              >
-                <CardContent className="p-4">
-                  <div className="flex justify-between items-center">
-                    <div>
-                      <p className="font-semibold text-white">Boleto</p>
-                      <p className="text-sm text-white/60">Pagamento em até 3 dias</p>
-                    </div>
-                    <p className="font-bold text-cyan-100">
-                      {formatCurrency(getTotalPrice() + (selectedShipping?.price || 0))}
+                      {formatCurrency(totalCard)}
                     </p>
                   </div>
                 </CardContent>
@@ -496,26 +483,24 @@ export function GuestCheckout() {
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
                   <span className="text-white/60">Subtotal</span>
-                  <span className="text-white">{formatCurrency(getTotalPrice())}</span>
+                  <span className="text-white">{formatCurrency(paymentMethod === "pix" ? subtotalPix : subtotalCard)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-white/60">Frete</span>
                   <span className="text-white">{formatCurrency(selectedShipping?.price || 0)}</span>
                 </div>
-                {paymentMethod === "pix" && (
-                  <div className="flex justify-between text-cyan-100">
-                    <span>Desconto PIX</span>
-                    <span>-{formatCurrency((getTotalPrice() + (selectedShipping?.price || 0)) * 0.1)}</span>
-                  </div>
-                )}
+                <div className="flex justify-between text-white/60">
+                  <span>Pix</span>
+                  <span>{formatCurrency(totalPix)}</span>
+                </div>
+                <div className="flex justify-between text-white/60">
+                  <span>Cartão</span>
+                  <span>{formatCurrency(totalCard)}</span>
+                </div>
                 <div className="border-t border-white/20 pt-2 flex justify-between font-bold text-white">
                   <span>Total</span>
                   <span className="text-cyan-100">
-                    {formatCurrency(
-                      paymentMethod === "pix"
-                        ? (getTotalPrice() + (selectedShipping?.price || 0)) * 0.9
-                        : getTotalPrice() + (selectedShipping?.price || 0)
-                    )}
+                    {formatCurrency(paymentMethod === "pix" ? totalPix : totalCard)}
                   </span>
                 </div>
               </div>

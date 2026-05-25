@@ -175,7 +175,7 @@ export function FaqWorkbench({ items }: { items: FaqItem[] }) {
           </div>
 
           <div className="glass-panel p-6 text-sm leading-7 text-white/68">
-            <p className="text-xs uppercase tracking-[0.18em] text-cyan-100/75">Leitura comercial</p>
+            <p className="text-xs uppercase tracking-[0.18em] text-cyan-100/75">Resumo do produto</p>
             <p className="mt-3">
               Esta FAQ foi organizada para reduzir fricção antes do checkout. Se a pessoa ainda hesita, o ideal é não deixá-la
               voltar para uma navegação solta: escolha uma rota com intenção clara.

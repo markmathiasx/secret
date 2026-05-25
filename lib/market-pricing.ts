@@ -1,5 +1,6 @@
 import type { Product } from "@/lib/catalog";
 import type { ProductVisualKind } from "@/lib/product-visuals";
+import { calculateCardPrice } from "@/lib/payment-pricing";
 
 export type MarketSegment =
   | "personalized-keychain"
@@ -298,7 +299,7 @@ export function suggestPixPrice(
   const marketReference = benchmark.anchor * sizeFactor * valueFactor;
   const profitabilityFloor = baseCost * TARGET_PRICE_MULTIPLE_ON_COST;
   const pricePix = toPriceEnding(Math.max(benchmark.min, profitabilityFloor, marketReference));
-  const priceCard = toPriceEnding(pricePix * 1.12);
+  const priceCard = calculateCardPrice(pricePix);
   const marketplaceSuggested = toPriceEnding(pricePix * 1.18);
   const estimatedProfit = Number((pricePix - baseCost).toFixed(2));
 
