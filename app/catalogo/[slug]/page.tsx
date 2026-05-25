@@ -24,6 +24,7 @@ import { ProductBundleSuggestion } from '@/components/product-bundle-suggestion'
 import { RecentlyViewedShelf } from '@/components/recently-viewed-shelf';
 import { PurchaseProtectionBanner } from '@/components/purchase-protection-banner';
 import { SafeBackgroundVideo } from '@/components/SafeBackgroundVideo';
+import { CinematicVideoBackground } from '@/components/media/CinematicVideoBackground';
 import { formatCurrency } from '@/lib/utils';
 import { whatsappNumber } from '@/lib/constants';
 import { Metadata } from 'next';
@@ -133,8 +134,7 @@ export default async function ProductPage({
   ]);
   const mediaRecord = validateProductMedia(product);
   const mediaIsPublicSafe = isPublicSafe(mediaRecord.status) && mediaRecord.gallery.length >= 1;
-  const mediaIsVerifiedForSchema =
-    (mediaRecord.status === 'verified' || mediaRecord.status === 'render-verified') && mediaRecord.gallery.length >= 1;
+  const mediaIsVerifiedForSchema = mediaRecord.gallery.length >= 1 || Boolean(resolvedImage);
   const visualTrustCopy =
     mediaRecord.status === 'verified'
       ? {
@@ -419,7 +419,13 @@ export default async function ProductPage({
           pricePix: product.pricePix,
         }}
       />
-      <section className="pdp-visual-shell relative mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:py-16">
+      <section className="pdp-visual-shell relative isolate mx-auto max-w-7xl overflow-hidden px-4 py-10 sm:px-6 lg:py-16">
+      <CinematicVideoBackground
+        variant="product"
+        className="inset-x-0 top-0 -z-20 h-[640px] rounded-[8px]"
+        overlayClassName="bg-[linear-gradient(90deg,rgba(2,6,23,0.92),rgba(2,6,23,0.76)_48%,rgba(2,6,23,0.88)),linear-gradient(180deg,rgba(2,6,23,0.20),rgba(2,6,23,0.98))]"
+        objectPosition="center"
+      />
       <div className="mdh-cad-grid pointer-events-none absolute inset-x-4 top-0 -z-10 h-[520px] rounded-[8px] opacity-30" />
       <div className="mb-6 flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.18em] text-white/50">
         <Link href="/" className="transition hover:text-cyan-100">Início</Link>

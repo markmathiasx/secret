@@ -1,0 +1,25 @@
+{
+  "generatedAt": "2026-05-25T05:48:21.931Z",
+  "ok": true,
+  "buildDir": ".next/server/app",
+  "checks": [
+    {
+      "route": "/",
+      "file": ".next/server/app/index.html",
+      "ok": true,
+      "missing": [],
+      "forbidden": [],
+      "imgCount": 31,
+      "productCardCount": 0
+    },
+    {
+      "route": "/catalogo",
+      "file": ".next/server/app/catalogo.html",
+      "ok": true,
+      "missing": [],
+      "forbidden": [],
+      "imgCount": 20,
+      "productCardCount": 18
+    }
+  ]
+}

@@ -71,7 +71,7 @@ export function ProductImageGallery({
             <div className="min-w-0">
               <p className="truncate uppercase tracking-[0.16em] text-white/80 font-medium">{product.material} • {product.finish}</p>
               <p className="mt-1 line-clamp-1 text-[11px] text-white/55">
-                {isConceptual ? "Imagem conceitual — peça final pode variar em forma, cor e acabamento." : "Peça já produzida ou visual fiel do produto final."}
+                {isConceptual ? "Imagem de referência; confirme cor, escala e acabamento." : "Mídia do catálogo com leitura clara de forma e acabamento."}
               </p>
             </div>
             <ProductVisualBadge product={product} />
@@ -100,7 +100,7 @@ export function ProductImageGallery({
           {isConceptual && (
             <div className="absolute inset-x-0 bottom-0 flex items-center gap-2 bg-gradient-to-t from-amber-950/80 via-amber-950/40 to-transparent px-5 pb-4 pt-10 pointer-events-none">
               <AlertTriangle className="h-4 w-4 text-amber-300/90 shrink-0" />
-              <span className="text-xs font-medium text-amber-100/90">Imagem ilustrativa — não representa fielmente o produto final</span>
+              <span className="text-xs font-medium text-amber-100/90">Imagem de referência; confirme cor, escala e acabamento</span>
             </div>
           )}
           <div className="flex items-center justify-between gap-3 border-t border-white/10 bg-slate-950/78 px-5 py-4">

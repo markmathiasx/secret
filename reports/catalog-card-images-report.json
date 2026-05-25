@@ -1,0 +1,284 @@
+{
+  "generatedAt": "2026-05-25T05:46:26.884Z",
+  "ok": true,
+  "placeholder": {
+    "src": "/placeholders/product-card.svg",
+    "exists": true,
+    "path": "public/placeholders/product-card.svg"
+  },
+  "cardFallback": {
+    "hasCentralResolver": true,
+    "hasPlaceholderImport": true,
+    "hasOnErrorFallback": true,
+    "noMediaValidationGate": true,
+    "noNullReturn": true,
+    "hasNativeImage": true
+  },
+  "totalPublicProducts": 564,
+  "totalWithOwnImage": 564,
+  "totalUsingPlaceholder": 0,
+  "possibleCardWithoutImage": 0,
+  "examplesWithImage": [
+    {
+      "id": "real-001",
+      "sku": "REAL-0001",
+      "name": "Grinder 3 Partes Premium",
+      "category": "Casa e Organização",
+      "src": "/products/foto-001-grinder-01.webp",
+      "source": "images[0]",
+      "usedPlaceholder": false,
+      "ownCandidateCount": 1,
+      "ownCandidates": [
+        "/products/foto-001-grinder-01.webp"
+      ]
+    },
+    {
+      "id": "real-002",
+      "sku": "REAL-0002",
+      "name": "Porta Creme Dental de Bancada",
+      "category": "Casa e Organização",
+      "src": "/products/foto-003-porta-creme-dental.webp",
+      "source": "images[0]",
+      "usedPlaceholder": false,
+      "ownCandidateCount": 1,
+      "ownCandidates": [
+        "/products/foto-003-porta-creme-dental.webp"
+      ]
+    },
+    {
+      "id": "real-003",
+      "sku": "REAL-0003",
+      "name": "Demogorgon Decorativo Premium",
+      "category": "Geek & Colecionáveis",
+      "src": "/products/foto-004-demogorgon.webp",
+      "source": "images[0]",
+      "usedPlaceholder": false,
+      "ownCandidateCount": 1,
+      "ownCandidates": [
+        "/products/foto-004-demogorgon.webp"
+      ]
+    },
+    {
+      "id": "real-004",
+      "sku": "REAL-0004",
+      "name": "Hello Kitty Jedi Colecionável",
+      "category": "Geek & Colecionáveis",
+      "src": "/products/foto-005-hello-kitty-jedi.webp",
+      "source": "images[0]",
+      "usedPlaceholder": false,
+      "ownCandidateCount": 1,
+      "ownCandidates": [
+        "/products/foto-005-hello-kitty-jedi.webp"
+      ]
+    },
+    {
+      "id": "real-005",
+      "sku": "REAL-0005",
+      "name": "Stencil Rick and Morty Decorativo",
+      "category": "Geek & Colecionáveis",
+      "src": "/products/foto-006-stencil-rick-morty.webp",
+      "source": "images[0]",
+      "usedPlaceholder": false,
+      "ownCandidateCount": 1,
+      "ownCandidates": [
+        "/products/foto-006-stencil-rick-morty.webp"
+      ]
+    },
+    {
+      "id": "real-006",
+      "sku": "REAL-0006",
+      "name": "Família Customizada em Miniatura",
+      "category": "Presentes Personalizados",
+      "src": "/products/foto-007-familia-custom.webp",
+      "source": "images[0]",
+      "usedPlaceholder": false,
+      "ownCandidateCount": 1,
+      "ownCandidates": [
+        "/products/foto-007-familia-custom.webp"
+      ]
+    },
+    {
+      "id": "real-007",
+      "sku": "REAL-0007",
+      "name": "Boneca Infantil Personalizada",
+      "category": "Presentes Personalizados",
+      "src": "/products/foto-008-boneca-crianca.webp",
+      "source": "images[0]",
+      "usedPlaceholder": false,
+      "ownCandidateCount": 1,
+      "ownCandidates": [
+        "/products/foto-008-boneca-crianca.webp"
+      ]
+    },
+    {
+      "id": "real-008",
+      "sku": "REAL-0008",
+      "name": "Case de Isqueiro Caveira",
+      "category": "Casa e Organização",
+      "src": "/products/foto-009-case-isqueiro-caveira.webp",
+      "source": "images[0]",
+      "usedPlaceholder": false,
+      "ownCandidateCount": 1,
+      "ownCandidates": [
+        "/products/foto-009-case-isqueiro-caveira.webp"
+      ]
+    },
+    {
+      "id": "real-009",
+      "sku": "REAL-0009",
+      "name": "Homer Pikachu Mashup Colecionável",
+      "category": "Geek & Colecionáveis",
+      "src": "/products/foto-010-homer-pikachu.webp",
+      "source": "images[0]",
+      "usedPlaceholder": false,
+      "ownCandidateCount": 1,
+      "ownCandidates": [
+        "/products/foto-010-homer-pikachu.webp"
+      ]
+    },
+    {
+      "id": "real-010",
+      "sku": "REAL-0010",
+      "name": "Medalha Maçônica Personalizada",
+      "category": "Presentes Personalizados",
+      "src": "/products/foto-011-chaveiro-maconaria.webp",
+      "source": "images[0]",
+      "usedPlaceholder": false,
+      "ownCandidateCount": 1,
+      "ownCandidates": [
+        "/products/foto-011-chaveiro-maconaria.webp"
+      ]
+    },
+    {
+      "id": "mdh-013",
+      "sku": "MDH-0013",
+      "name": "Suporte para Fone Headphone",
+      "category": "Setup Gamer e Home Office",
+      "src": "/products/setup/suporte-fone-headphone.webp",
+      "source": "images[0]",
+      "usedPlaceholder": false,
+      "ownCandidateCount": 1,
+      "ownCandidates": [
+        "/products/setup/suporte-fone-headphone.webp"
+      ]
+    },
+    {
+      "id": "mdh-014",
+      "sku": "MDH-0014",
+      "name": "Organizador de Cabos",
+      "category": "Setup Gamer e Home Office",
+      "src": "/products/setup/organizador-cabos.webp",
+      "source": "images[0]",
+      "usedPlaceholder": false,
+      "ownCandidateCount": 1,
+      "ownCandidates": [
+        "/products/setup/organizador-cabos.webp"
+      ]
+    },
+    {
+      "id": "mdh-015",
+      "sku": "MDH-0015",
+      "name": "Suporte para Celular",
+      "category": "Setup Gamer e Home Office",
+      "src": "/products/setup/suporte-celular.webp",
+      "source": "images[0]",
+      "usedPlaceholder": false,
+      "ownCandidateCount": 1,
+      "ownCandidates": [
+        "/products/setup/suporte-celular.webp"
+      ]
+    },
+    {
+      "id": "mdh-016",
+      "sku": "MDH-0016",
+      "name": "Chaveiro Personalizado",
+      "category": "Chaveiros e Acessórios",
+      "src": "/products/setup/chaveiro-personalizado.webp",
+      "source": "images[0]",
+      "usedPlaceholder": false,
+      "ownCandidateCount": 1,
+      "ownCandidates": [
+        "/products/setup/chaveiro-personalizado.webp"
+      ]
+    },
+    {
+      "id": "mdh-017",
+      "sku": "MDH-0017",
+      "name": "Suporte para Controle PS5",
+      "category": "Setup Gamer e Home Office",
+      "src": "/products/setup/suporte-controle-ps5.webp",
+      "source": "images[0]",
+      "usedPlaceholder": false,
+      "ownCandidateCount": 1,
+      "ownCandidates": [
+        "/products/setup/suporte-controle-ps5.webp"
+      ]
+    },
+    {
+      "id": "mdh-019",
+      "sku": "MDH-0019",
+      "name": "Porta-Copos Geek",
+      "category": "Setup Gamer e Home Office",
+      "src": "/products/setup/porta-copos-geek.webp",
+      "source": "images[0]",
+      "usedPlaceholder": false,
+      "ownCandidateCount": 1,
+      "ownCandidates": [
+        "/products/setup/porta-copos-geek.webp"
+      ]
+    },
+    {
+      "id": "mdh-022",
+      "sku": "MDH-0022",
+      "name": "Organizador de Canetas",
+      "category": "Setup Gamer e Home Office",
+      "src": "/products/mdh-022-organizador-de-canetas/01-hero.jpg",
+      "source": "images[0]",
+      "usedPlaceholder": false,
+      "ownCandidateCount": 1,
+      "ownCandidates": [
+        "/products/mdh-022-organizador-de-canetas/01-hero.jpg"
+      ]
+    },
+    {
+      "id": "mdh-025",
+      "sku": "MDH-0025",
+      "name": "Vaso Geométrico",
+      "category": "Decoração",
+      "src": "/products/mdh-025-vaso-geometrico/01-hero.jpg",
+      "source": "images[0]",
+      "usedPlaceholder": false,
+      "ownCandidateCount": 1,
+      "ownCandidates": [
+        "/products/mdh-025-vaso-geometrico/01-hero.jpg"
+      ]
+    },
+    {
+      "id": "mdh-026",
+      "sku": "MDH-0026",
+      "name": "Pokébola",
+      "category": "Decoração",
+      "src": "/products/mdh-026-pokebola/01-hero.jpg",
+      "source": "images[0]",
+      "usedPlaceholder": false,
+      "ownCandidateCount": 1,
+      "ownCandidates": [
+        "/products/mdh-026-pokebola/01-hero.jpg"
+      ]
+    },
+    {
+      "id": "mdh-028",
+      "sku": "MDH-0028",
+      "name": "Luminária LED Personalizada",
+      "category": "Decoração",
+      "src": "/products/mdh-028-luminaria-led-personalizada/01-hero.jpg",
+      "source": "images[0]",
+      "usedPlaceholder": false,
+      "ownCandidateCount": 1,
+      "ownCandidates": [
+        "/products/mdh-028-luminaria-led-personalizada/01-hero.jpg"
+      ]
+    }
+  ],
+  "examplesUsingPlaceholder": []
+}

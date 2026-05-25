@@ -1,0 +1,84 @@
+{
+  "generatedAt": "2026-05-25T05:46:29.040Z",
+  "provider": "Pexels",
+  "status": "synced-with-licensed-video-pipeline",
+  "rules": [
+    "No YouTube, TikTok, Instagram or watermarked video.",
+    "No visible brand or logo endorsement.",
+    "Only local optimized video files are referenced by the storefront.",
+    "Decorative video uses autoplay muted loop playsInline preload=metadata and poster fallback."
+  ],
+  "queries": [
+    "3d printer working",
+    "3d printing machine",
+    "3d printer close up",
+    "3d printing timelapse",
+    "filament 3d printer",
+    "desktop 3d printer",
+    "3d printer nozzle"
+  ],
+  "variants": {
+    "home": "/media/videos/hero-printer-loop.mp4",
+    "catalog": "/media/videos/process-printer-loop.mp4",
+    "product": "/media/videos/filament-detail-loop.mp4"
+  },
+  "posters": {
+    "home": "/media/posters/hero-printer-poster.webp",
+    "catalog": "/media/posters/process-printer-poster.webp",
+    "product": "/media/posters/filament-detail-poster.webp"
+  },
+  "licensedAssets": [
+    {
+      "id": "hero-printer-loop",
+      "source": "Pexels",
+      "sourceUrl": "https://www.pexels.com/video/3d-printer-step-motor-25048111/",
+      "creator": "Jakub Zerdzicki",
+      "license": "Pexels License",
+      "licenseUrl": "https://www.pexels.com/license/",
+      "optimizedFile": "/media/videos/hero-printer-loop.mp4",
+      "posterFile": "/media/posters/hero-printer-poster.webp",
+      "commercialUseAllowed": true,
+      "attributionRequired": false,
+      "brandLogoVisible": false
+    },
+    {
+      "id": "filament-detail-loop",
+      "source": "Pexels",
+      "sourceUrl": "https://www.pexels.com/video/vibrant-3d-printer-in-action-with-neon-lighting-30318835/",
+      "creator": "Jakub Zerdzicki",
+      "license": "Pexels License",
+      "licenseUrl": "https://www.pexels.com/license/",
+      "optimizedFile": "/media/videos/filament-detail-loop.mp4",
+      "posterFile": "/media/posters/filament-detail-poster.webp",
+      "commercialUseAllowed": true,
+      "attributionRequired": false,
+      "brandLogoVisible": false
+    },
+    {
+      "id": "timelapse-print-loop",
+      "source": "Pexels",
+      "sourceUrl": "https://www.pexels.com/video/3d-printer-24816306/",
+      "creator": "Jakub Zerdzicki",
+      "license": "Pexels License",
+      "licenseUrl": "https://www.pexels.com/license/",
+      "optimizedFile": "/media/videos/timelapse-print-loop.mp4",
+      "posterFile": "/media/posters/timelapse-print-poster.webp",
+      "commercialUseAllowed": true,
+      "attributionRequired": false,
+      "brandLogoVisible": false
+    },
+    {
+      "id": "process-printer-loop",
+      "source": "Pexels",
+      "sourceUrl": "https://www.pexels.com/video/time-lapse-of-3d-printing-4437652/",
+      "creator": "Edo's Photos",
+      "license": "Pexels License",
+      "licenseUrl": "https://www.pexels.com/license/",
+      "optimizedFile": "/media/videos/process-printer-loop.mp4",
+      "posterFile": "/media/posters/process-printer-poster.webp",
+      "commercialUseAllowed": true,
+      "attributionRequired": false,
+      "brandLogoVisible": false
+    }
+  ]
+}

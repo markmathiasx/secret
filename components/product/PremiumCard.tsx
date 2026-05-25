@@ -1,16 +1,17 @@
 "use client";
+/* eslint-disable @next/next/no-img-element -- Catalog cards use a native img so onError can always swap to the local placeholder in production. */
 
 import Link from "next/link";
-import Image from "next/image";
+import { useEffect, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import { MessageCircleMore, Package, ShoppingCart } from "lucide-react";
+import { MessageCircleMore, ShoppingCart } from "lucide-react";
 import type { Product } from "@/lib/catalog";
 import { getProductUrl } from "@/lib/catalog";
 import { whatsappNumber } from "@/lib/constants";
 import { calculateCardPrice } from "@/lib/payment-pricing";
+import { getProductCardImage, PRODUCT_CARD_PLACEHOLDER } from "@/lib/product-card-image";
 import { formatCurrency } from "@/lib/utils";
 import { useCart } from "@/lib/cart-context";
-import { validateProductMedia, isPublicSafe } from "@/lib/media-validation";
 import { fadeInUp } from "@/lib/animations";
 
 interface PremiumCardProps {
@@ -36,11 +37,8 @@ function badgesFor(product: Product) {
 export function PremiumCard({ product, index = 0 }: PremiumCardProps) {
   const shouldReduce = useReducedMotion();
   const { addItem } = useCart();
-  const mediaRecord = validateProductMedia(product);
-
-  if (!isPublicSafe(mediaRecord.status)) return null;
-
-  const firstImageUrl = mediaRecord.gallery[0]?.url ?? product.images?.[0] ?? product.image ?? null;
+  const cardImage = getProductCardImage(product);
+  const [imageSrc, setImageSrc] = useState(cardImage.src);
   const productUrl = getProductUrl(product);
   const priceCard = calculateCardPrice(product.pricePix);
   const badges = badgesFor(product);
@@ -48,6 +46,10 @@ export function PremiumCard({ product, index = 0 }: PremiumCardProps) {
   const publicUrl = `https://www.mdh3d.com.br${productUrl}`;
   const whatsappMessage = `Quero comprar ${product.name}. Quantidade: 1. Pix: ${formatCurrency(product.pricePix)}. Cartão: ${formatCurrency(priceCard)}. Categoria: ${product.category}. Intenção: compra pelo catálogo. Link: ${publicUrl}`;
   const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+
+  useEffect(() => {
+    setImageSrc(cardImage.src);
+  }, [cardImage.src]);
 
   function handleAddToCart(e: React.MouseEvent) {
     e.preventDefault();
@@ -58,7 +60,7 @@ export function PremiumCard({ product, index = 0 }: PremiumCardProps) {
       title: product.name,
       pricePix: product.pricePix,
       priceCard,
-      image: firstImageUrl ?? undefined,
+      image: imageSrc || cardImage.src,
     });
   }
 
@@ -71,26 +73,27 @@ export function PremiumCard({ product, index = 0 }: PremiumCardProps) {
       transition={{ delay: index * 0.04 }}
       className="group flex h-full flex-col overflow-hidden rounded-[8px] border border-white/10 bg-white/[0.045] shadow-[0_18px_60px_rgba(0,0,0,0.22)]"
       aria-label={`Produto: ${product.name}`}
+      data-product-card={product.id}
+      data-card-image-source={cardImage.source}
+      data-card-image-placeholder={cardImage.usedPlaceholder ? "true" : "false"}
     >
       <Link
         href={productUrl}
-        className="relative block aspect-square w-full overflow-hidden bg-slate-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300"
+        className="relative block aspect-square w-full overflow-hidden bg-[radial-gradient(circle_at_30%_20%,rgba(52,211,153,0.18),transparent_34%),linear-gradient(135deg,#111827,#020617)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300"
         aria-label={`Abrir ${product.name}`}
       >
-        {firstImageUrl ? (
-          <Image
-            src={firstImageUrl}
-            alt={product.imageAlt || product.name}
-            fill
-            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
-            loading="lazy"
-          />
-        ) : (
-          <div className="flex h-full w-full items-center justify-center">
-            <Package className="h-10 w-10 text-white/25" aria-hidden="true" />
-          </div>
-        )}
+        <img
+          src={imageSrc}
+          alt={cardImage.alt}
+          loading={index < 4 ? "eager" : "lazy"}
+          decoding="async"
+          fetchPriority={index < 4 ? "high" : "auto"}
+          onError={() => {
+            if (imageSrc !== PRODUCT_CARD_PLACEHOLDER) setImageSrc(PRODUCT_CARD_PLACEHOLDER);
+          }}
+          className="h-full w-full object-cover opacity-100 transition-transform duration-500 group-hover:scale-105"
+        />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/18 via-transparent to-white/4" />
         <div className="absolute left-2 top-2 flex flex-wrap gap-1.5">
           {badges.map((badge) => (
             <span key={badge} className="rounded-full border border-black/10 bg-white/90 px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.08em] text-slate-950 shadow-sm">

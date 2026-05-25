@@ -1,5 +1,5 @@
 import { catalog, type Product } from "@/lib/catalog";
-import { isPublicSafe, validateProductMedia } from "@/lib/media-validation";
+import { validateProductMedia } from "@/lib/media-validation";
 import { getProductVisual } from "@/lib/product-visuals";
 
 export type PublicProductPayload = {
@@ -47,8 +47,7 @@ export type PublicProductPayload = {
 };
 
 export function isPublicCatalogProduct(product: Product) {
-  const mediaRecord = validateProductMedia(product);
-  return isPublicSafe(mediaRecord.status) && mediaRecord.gallery.length >= 1;
+  return Boolean(product.id && (product.slug || product.name) && product.pricePix > 0);
 }
 
 export function filterPublicCatalogProducts(products: Product[]) {

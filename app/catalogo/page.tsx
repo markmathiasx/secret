@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { ArrowRight, MessageCircleMore, Search, ShoppingBag, SlidersHorizontal, UploadCloud } from "lucide-react";
 import { CatalogExplorer } from "@/components/catalog-explorer";
+import { CinematicVideoBackground } from "@/components/media/CinematicVideoBackground";
 import { getCatalogSnapshot } from "@/lib/catalog-repository";
 import { getSiteUrl } from "@/lib/env";
 import { whatsappNumber } from "@/lib/constants";
@@ -59,8 +60,13 @@ export default async function CatalogPage() {
     <main className="min-h-screen bg-[#071016] pb-14 text-white">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
 
-      <section className="border-b border-white/10 bg-[radial-gradient(circle_at_18%_0%,rgba(16,185,129,0.18),transparent_30%),linear-gradient(135deg,#071016,#0e1720_54%,#111827)] px-4 pb-9 pt-10 sm:px-6 lg:pt-14">
-        <div className="mx-auto max-w-7xl">
+      <section className="relative isolate overflow-hidden border-b border-white/10 bg-[#071016] px-4 pb-9 pt-10 sm:px-6 lg:pt-14">
+        <CinematicVideoBackground
+          variant="catalog"
+          overlayClassName="bg-[linear-gradient(90deg,rgba(2,6,23,0.94),rgba(2,6,23,0.70)_48%,rgba(2,6,23,0.86)),linear-gradient(180deg,rgba(2,6,23,0.12),rgba(2,6,23,0.96))]"
+          objectPosition="center"
+        />
+        <div className="relative z-10 mx-auto max-w-7xl">
           <div className="grid gap-8 lg:grid-cols-[1fr_0.72fr] lg:items-end">
             <div>
               <p className="section-kicker">Loja online</p>

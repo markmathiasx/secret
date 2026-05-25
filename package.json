@@ -48,6 +48,8 @@
     "catalog:fix-card-prices": "node scripts/catalog/fix-card-prices.mjs",
     "catalog:validate-card-prices": "node scripts/catalog/validate-card-prices.mjs",
     "catalog:validate-pricing": "node scripts/catalog/validate-pricing.mjs",
+    "catalog:validate-card-images": "node scripts/catalog/validate-card-images.mjs",
+    "catalog:validate-public-copy": "node scripts/catalog/validate-public-copy.mjs",
     "security:audit": "node scripts/security/audit-security.mjs",
     "sd:reference": "python scripts/generate_product_reference_sd.py",
     "analyze": "ANALYZE=true npm run build",
@@ -65,7 +67,9 @@
     "validate:assets:http": "node scripts/validate-assets.mjs --mode=http --baseUrl=http://127.0.0.1:3000 --manifest=output/CATALOG_SEMANTIC_AUDIT.json --publicMode=strict",
     "report:weekly-growth": "node scripts/run-weekly-growth-report.mjs",
     "media:fetch": "node scripts/media/fetch-licensed-videos.mjs",
+    "media:fetch-cinematic": "node scripts/media/fetch-cinematic-pexels-videos.mjs",
     "media:validate": "node scripts/media/validate-video-assets.mjs",
+    "validate:public-html": "node scripts/validate-public-html.mjs",
     "ci:check": "npm run lint:check && npm run typecheck && npm run build && npm run test:images && npm run test:e2e"
   },
   "dependencies": {

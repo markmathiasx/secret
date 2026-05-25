@@ -2,12 +2,14 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { ArrowRight, MessageCircleMore, Search, ShoppingBag, Sparkles, UploadCloud } from "lucide-react";
+import { CinematicVideoBackground } from "@/components/media/CinematicVideoBackground";
 import { getCatalogSnapshot } from "@/lib/catalog-repository";
 import type { Product } from "@/lib/catalog";
 import { getProductUrl } from "@/lib/catalog";
 import { whatsappNumber } from "@/lib/constants";
 import { getSiteUrl } from "@/lib/env";
 import { calculateCardPrice } from "@/lib/payment-pricing";
+import { getProductCardImage } from "@/lib/product-card-image";
 import { formatCurrency } from "@/lib/utils";
 
 export const revalidate = 300;
@@ -31,7 +33,7 @@ function whatsappHref(message: string) {
 }
 
 function productImage(product?: Product) {
-  return product?.images?.[0] || product?.image || "/placeholders/product-card.svg";
+  return getProductCardImage(product).src;
 }
 
 function shortText(product: Product) {
@@ -130,8 +132,13 @@ export default async function HomePage() {
 
   return (
     <main className="min-h-screen bg-[#071016] text-white">
-      <section className="relative overflow-hidden border-b border-white/10 bg-[radial-gradient(circle_at_20%_10%,rgba(16,185,129,0.20),transparent_28%),linear-gradient(135deg,#071016_0%,#0d1720_52%,#111827_100%)]">
-        <div className="mx-auto grid max-w-7xl gap-8 px-4 pb-10 pt-8 sm:px-6 lg:grid-cols-[1.02fr_0.98fr] lg:items-center lg:pb-14 lg:pt-12">
+      <section className="relative isolate overflow-hidden border-b border-white/10 bg-[#071016]">
+        <CinematicVideoBackground
+          variant="home"
+          overlayClassName="bg-[linear-gradient(90deg,rgba(2,6,23,0.94),rgba(2,6,23,0.66)_48%,rgba(2,6,23,0.86)),linear-gradient(180deg,rgba(2,6,23,0.08),rgba(2,6,23,0.95))]"
+          objectPosition="center"
+        />
+        <div className="relative z-10 mx-auto grid max-w-7xl gap-8 px-4 pb-10 pt-8 sm:px-6 lg:grid-cols-[1.02fr_0.98fr] lg:items-center lg:pb-14 lg:pt-12">
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 rounded-full border border-emerald-300/20 bg-emerald-300/10 px-3 py-1 text-xs font-black uppercase tracking-[0.12em] text-emerald-50">
               <Sparkles className="h-3.5 w-3.5" />
