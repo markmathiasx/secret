@@ -1,10 +1,13 @@
+export const OFFICIAL_INSTAGRAM_HANDLE = "mdh_3d.com.br";
+export const OFFICIAL_INSTAGRAM_URL = "https://www.instagram.com/mdh_3d.com.br/";
+
 export const brand = {
   name: "MDH 3D",
   legalName: "MDH 3D Store",
   city: "Rio de Janeiro",
   state: "RJ",
   slogan: "Impressão 3D premium para presentes criativos, setup, decoração e peças sob encomenda",
-  instagramHandle: process.env.NEXT_PUBLIC_BRAND_INSTAGRAM_HANDLE || "mdh_3d.com.br",
+  instagramHandle: OFFICIAL_INSTAGRAM_HANDLE,
 };
 
 function parseList(value?: string) {
@@ -34,8 +37,7 @@ export const pix = {
 };
 
 export const socialLinks = {
-  instagram:
-    process.env.NEXT_PUBLIC_INSTAGRAM_URL || "https://www.instagram.com/mdh_3d.com.br/",
+  instagram: OFFICIAL_INSTAGRAM_URL,
   tiktok: process.env.NEXT_PUBLIC_TIKTOK_URL || "#",
   facebook: process.env.NEXT_PUBLIC_FACEBOOK_URL || "#",
 };
