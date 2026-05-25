@@ -9,6 +9,7 @@ import { canConnectToDatabase, prisma } from "@/lib/prisma";
 import { filterPublicCatalogProducts, isPublicCatalogProduct } from "@/lib/public-catalog";
 import { getCachedJson, setCachedJson } from "@/lib/runtime-cache";
 import { calculateCardPrice } from "@/lib/payment-pricing";
+import { sanitizePublicCatalogProducts, sanitizePublicProduct } from "@/lib/public-product-copy";
 
 type CatalogSource = "static" | "database";
 
@@ -193,7 +194,7 @@ async function getDatabaseCatalogSnapshot(): Promise<Product[]> {
     ],
   });
 
-  return filterPublicCatalogProducts(products.map(mapPrismaProduct));
+  return sanitizePublicCatalogProducts(filterPublicCatalogProducts(products.map(mapPrismaProduct)));
 }
 
 export async function getCatalogSnapshot(): Promise<Product[]> {
@@ -211,7 +212,7 @@ export async function getCatalogSnapshot(): Promise<Product[]> {
 
   if (!(await canConnectToDatabase())) {
     logStructured("error", "catalog_database_unavailable", { configuredSource });
-    result = filterPublicCatalogProducts(staticCatalog);
+        result = filterPublicCatalogProducts(staticCatalog);
     await setCachedJson("catalog:products", result, 300);
     return result;
   }
@@ -262,7 +263,7 @@ export async function getCatalogStaticParams(): Promise<Array<{ slug: string }>>
 export async function findCatalogProductBySlug(slug: string): Promise<Product | undefined> {
   if (getConfiguredCatalogSource() === "static" || !(await canConnectToDatabase())) {
     const product = findStaticProductBySlug(slug);
-    return product && isPublicCatalogProduct(product) ? product : undefined;
+    return product && isPublicCatalogProduct(product) ? sanitizePublicProduct(product) : undefined;
   }
 
   const normalized = slug.includes("-") ? slug.substring(slug.indexOf("-") + 1) : slug;
@@ -282,14 +283,14 @@ export async function findCatalogProductBySlug(slug: string): Promise<Product | 
 
     if (!record) {
       const fallback = findStaticProductBySlug(slug);
-      return fallback && isPublicCatalogProduct(fallback) ? fallback : undefined;
+      return fallback && isPublicCatalogProduct(fallback) ? sanitizePublicProduct(fallback) : undefined;
     }
 
     const product = mapPrismaProduct(record);
-    return isPublicCatalogProduct(product) ? product : undefined;
+    return isPublicCatalogProduct(product) ? sanitizePublicProduct(product) : undefined;
   } catch {
     const fallback = findStaticProductBySlug(slug);
-    return fallback && isPublicCatalogProduct(fallback) ? fallback : undefined;
+    return fallback && isPublicCatalogProduct(fallback) ? sanitizePublicProduct(fallback) : undefined;
   }
 }
 

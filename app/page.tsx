@@ -1,15 +1,16 @@
-import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
-import { ArrowRight, MessageCircleMore, Search, ShoppingBag, Sparkles, UploadCloud } from "lucide-react";
+import { ArrowRight, Gamepad2, Instagram, MessageCircleMore, Search, ShoppingBag, Sparkles, UploadCloud } from "lucide-react";
+import { RotatingProductHero, type RotatingHeroProduct } from "@/components/home/RotatingProductHero";
 import { CinematicVideoBackground } from "@/components/media/CinematicVideoBackground";
+import { SafeProductImage } from "@/components/safe-product-image";
 import { getCatalogSnapshot } from "@/lib/catalog-repository";
 import type { Product } from "@/lib/catalog";
 import { getProductUrl } from "@/lib/catalog";
-import { whatsappNumber } from "@/lib/constants";
+import { brand, socialLinks, whatsappNumber } from "@/lib/constants";
 import { getSiteUrl } from "@/lib/env";
 import { calculateCardPrice } from "@/lib/payment-pricing";
-import { getProductCardImage } from "@/lib/product-card-image";
+import { getPrimaryProductImage, getProductImageAlt } from "@/lib/product-images";
 import { formatCurrency } from "@/lib/utils";
 
 export const revalidate = 300;
@@ -33,7 +34,7 @@ function whatsappHref(message: string) {
 }
 
 function productImage(product?: Product) {
-  return getProductCardImage(product).src;
+  return product ? getPrimaryProductImage(product) : "/placeholders/product-card.svg";
 }
 
 function shortText(product: Product) {
@@ -45,18 +46,17 @@ function HomeProductCard({ product, siteUrl }: { product: Product; siteUrl: stri
   const href = getProductUrl(product);
   const cardPrice = calculateCardPrice(product.pricePix);
   const productUrl = `${siteUrl}${href}`;
-  const message = `Quero comprar ${product.name}. Quantidade: 1. Pix: ${formatCurrency(product.pricePix)}. Cartão: ${formatCurrency(cardPrice)}. Categoria: ${product.category}. Intenção: compra pela home. Link: ${productUrl}`;
+  const message = `Quero comprar ${product.name}. Quantidade: 1. Pix: ${formatCurrency(product.pricePix)}. Cartão + R$ 3: ${formatCurrency(cardPrice)}. Categoria: ${product.category}. Intenção: compra pela home. Link: ${productUrl}`;
 
   return (
     <article className="group overflow-hidden rounded-[8px] border border-white/10 bg-white/[0.045] transition hover:border-emerald-300/30">
       <Link href={href} className="block">
         <div className="relative aspect-square overflow-hidden bg-black/25">
-          <Image
-            src={productImage(product)}
-            alt={product.imageAlt || product.name}
-            fill
+          <SafeProductImage
+            candidates={[productImage(product), "/placeholders/product-card.svg"]}
+            alt={getProductImageAlt(product)}
             sizes="(max-width: 768px) 50vw, (max-width: 1280px) 25vw, 280px"
-            className="object-cover transition duration-500 group-hover:scale-105"
+            className="aspect-square w-full object-cover transition duration-500 group-hover:scale-105"
           />
         </div>
       </Link>
@@ -71,7 +71,7 @@ function HomeProductCard({ product, siteUrl }: { product: Product; siteUrl: stri
         <div className="mt-3">
           <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-white/42">Pix</p>
           <p className="text-xl font-black text-emerald-100">{formatCurrency(product.pricePix)}</p>
-          <p className="mt-0.5 text-xs font-semibold text-white/58">Cartão {formatCurrency(cardPrice)}</p>
+          <p className="mt-0.5 text-xs font-semibold text-white/58">Cartão + R$ 3 {formatCurrency(cardPrice)}</p>
         </div>
         <div className="mt-3 grid grid-cols-[1fr_auto] gap-2">
           <Link href={href} className="btn-primary justify-center px-3 py-2 text-xs">
@@ -120,10 +120,23 @@ export default async function HomePage() {
   const siteUrl = getSiteUrl();
   const available = catalog.filter((product) => product.pricePix > 0);
   const cheapest = [...available].sort((left, right) => left.pricePix - right.pricePix);
-  const heroProduct = cheapest.find((product) => product.images?.length || product.image) || cheapest[0];
   const minPix = cheapest[0]?.pricePix ?? 19.9;
-  const heroUrl = heroProduct ? getProductUrl(heroProduct) : "/catalogo";
   const heroWhatsapp = whatsappHref("Quero comprar pela MDH 3D. Vim pela home e quero ver produtos, Pix e cartão.");
+  const heroProducts: RotatingHeroProduct[] = [...available]
+    .sort((left, right) => Number(right.featured) - Number(left.featured) || left.pricePix - right.pricePix)
+    .slice(0, Math.max(12, Math.min(16, available.length)))
+    .map((product) => ({
+      id: product.id,
+      sku: product.sku,
+      name: product.name,
+      category: product.category,
+      pricePix: product.pricePix,
+      image: productImage(product),
+      imageAlt: getProductImageAlt(product),
+      href: getProductUrl(product),
+      productionWindow: product.productionWindow,
+      material: product.material,
+    }));
 
   const entryProducts = cheapest.filter((product) => product.pricePix <= 29.9);
   const homeSetup = available.filter((product) => /casa|organiza|setup|office|suporte|organizador/i.test(`${product.category} ${product.name}`));
@@ -148,7 +161,7 @@ export default async function HomePage() {
               Impressão 3D sob demanda para presentes, utilidades e peças personalizadas.
             </h1>
             <p className="mt-5 max-w-2xl text-base leading-7 text-white/72 sm:text-lg">
-              Escolha no catálogo, peça pelo WhatsApp ou envie sua ideia. Produção local com Pix, cartão e atendimento direto.
+              Escolha no catálogo, compre pelo WhatsApp ou envie sua ideia. Produção local com Pix, cartão e atendimento direto.
             </p>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <Link href="/catalogo" className="btn-primary justify-center gap-2 px-5 py-3">
@@ -163,9 +176,13 @@ export default async function HomePage() {
                 <UploadCloud className="h-4 w-4" />
                 Pedir peça personalizada
               </Link>
+              <Link href="/jogue" className="btn-secondary justify-center gap-2 px-5 py-3">
+                <Gamepad2 className="h-4 w-4" />
+                Jogue no site
+              </Link>
             </div>
 
-            <div className="mt-7 grid grid-cols-2 gap-2 sm:grid-cols-4">
+            <div className="mt-7 grid grid-cols-2 gap-2 sm:grid-cols-5">
               <div className="rounded-[8px] border border-white/10 bg-white/[0.045] p-3">
                 <p className="text-[11px] uppercase tracking-[0.12em] text-white/48">A partir de</p>
                 <p className="mt-1 text-xl font-black text-emerald-100">{formatCurrency(minPix)}</p>
@@ -182,26 +199,14 @@ export default async function HomePage() {
                 <p className="text-[11px] uppercase tracking-[0.12em] text-white/48">Cartão</p>
                 <p className="mt-1 text-xl font-black text-white">+ R$ 3</p>
               </div>
+              <div className="rounded-[8px] border border-white/10 bg-white/[0.045] p-3">
+                <p className="text-[11px] uppercase tracking-[0.12em] text-white/48">Atendimento</p>
+                <p className="mt-1 text-xl font-black text-white">humano</p>
+              </div>
             </div>
           </div>
 
-          <Link href={heroUrl} className="group relative aspect-[4/3] overflow-hidden rounded-[8px] border border-white/10 bg-white/[0.04] shadow-2xl">
-            <Image
-              src={productImage(heroProduct)}
-              alt={heroProduct?.imageAlt || heroProduct?.name || "Imagem do produto MDH 3D"}
-              fill
-              priority
-              sizes="(max-width: 1024px) 100vw, 48vw"
-              className="object-cover transition-transform duration-700 group-hover:scale-105"
-            />
-            {heroProduct ? (
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-4">
-                <p className="text-xs font-black uppercase tracking-[0.12em] text-emerald-100">Produto em destaque</p>
-                <p className="mt-1 line-clamp-1 text-lg font-black text-white">{heroProduct.name}</p>
-                <p className="mt-1 text-sm text-white/75">Pix {formatCurrency(heroProduct.pricePix)} • Cartão {formatCurrency(calculateCardPrice(heroProduct.pricePix))}</p>
-              </div>
-            ) : null}
-          </Link>
+          <RotatingProductHero products={heroProducts} />
         </div>
       </section>
 
@@ -213,6 +218,23 @@ export default async function HomePage() {
               <ArrowRight className="h-4 w-4 text-emerald-100" />
             </Link>
           ))}
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-4 py-4 sm:px-6">
+        <div className="grid gap-3 lg:grid-cols-[1fr_auto_auto] lg:items-center rounded-[8px] border border-white/10 bg-[linear-gradient(135deg,rgba(236,72,153,0.12),rgba(34,211,238,0.08))] p-4">
+          <div>
+            <p className="section-kicker">Bastidores da impressão</p>
+            <h2 className="mt-1 text-xl font-black text-white">Produtos prontos, testes e novidades no @{brand.instagramHandle}</h2>
+          </div>
+          <a href={socialLinks.instagram} target="_blank" rel="noreferrer" className="btn-secondary justify-center gap-2">
+            <Instagram className="h-4 w-4" />
+            Ver bastidores no Instagram
+          </a>
+          <Link href="/jogue" className="btn-primary justify-center gap-2">
+            <Gamepad2 className="h-4 w-4" />
+            Jogue no site: Print Quest
+          </Link>
         </div>
       </section>
 

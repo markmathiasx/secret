@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-25T00:13:28.649Z",
+  "generatedAt": "2026-05-25T12:20:09.246Z",
   "mode": "apply",
   "rule": "priceCard = pricePix + 3.00",
   "productsChecked": 564,
@@ -80,7 +80,7 @@
     {
       "id": "real-004",
       "sku": "REAL-0004",
-      "name": "Hello Kitty Jedi Colecionável",
+      "name": "mascote temática Jedi Colecionável",
       "category": "Geek & Colecionáveis",
       "productType": "setup-pequeno",
       "band": {
@@ -102,7 +102,7 @@
     {
       "id": "real-005",
       "sku": "REAL-0005",
-      "name": "Stencil Rick and Morty Decorativo",
+      "name": "Stencil dupla sci-fi Decorativo",
       "category": "Geek & Colecionáveis",
       "productType": "geek-premium",
       "band": {
@@ -190,7 +190,7 @@
     {
       "id": "real-009",
       "sku": "REAL-0009",
-      "name": "Homer Pikachu Mashup Colecionável",
+      "name": "personagem de humor mascote elétrico Mashup Colecionável",
       "category": "Geek & Colecionáveis",
       "productType": "setup-pequeno",
       "band": {
@@ -410,7 +410,7 @@
     {
       "id": "mdh-026",
       "sku": "MDH-0026",
-      "name": "Pokébola",
+      "name": "esfera colecionável",
       "category": "Decoração",
       "productType": "setup-pequeno",
       "band": {
@@ -762,7 +762,7 @@
     {
       "id": "mdh-067",
       "sku": "MDH-0067",
-      "name": "Pikachu Pokémon Chibi",
+      "name": "mascote elétrico criatura colecionável Chibi",
       "category": "Geek & Colecionáveis",
       "productType": "setup-pequeno",
       "band": {
@@ -784,7 +784,7 @@
     {
       "id": "mdh-068",
       "sku": "MDH-0068",
-      "name": "Kirby Nintendo Chibi",
+      "name": "mascote retrô console retrô Chibi",
       "category": "Geek & Colecionáveis",
       "productType": "setup-pequeno",
       "band": {
@@ -806,7 +806,7 @@
     {
       "id": "mdh-069",
       "sku": "MDH-0069",
-      "name": "Mario Nintendo Chibi",
+      "name": "herói retrô console retrô Chibi",
       "category": "Geek & Colecionáveis",
       "productType": "setup-pequeno",
       "band": {
@@ -1312,7 +1312,7 @@
     {
       "id": "csv-uti-040",
       "sku": "UTI-040",
-      "name": "Organizador Modular Eevee Pokémon para Ferramentas Leves, Peças e Acessórios Nerd",
+      "name": "Organizador Modular mascote evolutivo criatura colecionável para Ferramentas Leves, Peças e Acessórios Nerd",
       "category": "Setup Gamer e Home Office",
       "productType": "setup-pequeno",
       "band": {

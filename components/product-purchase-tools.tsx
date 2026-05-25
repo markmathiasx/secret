@@ -72,7 +72,7 @@ export function ProductPurchaseTools({
     try {
       const url = new URL(whatsappHref);
       const current = url.searchParams.get("text") || "";
-      const nextMessage = `${current}\nQuantidade desejada: ${quantity}\nPix: ${formatCurrency(unitPix)}\nCartão: ${formatCurrency(unitCard)}\nObjetivo: ${goal}.`.trim();
+      const nextMessage = `${current}\nQuantidade desejada: ${quantity}\nPix: ${formatCurrency(unitPix)}\nCartão + R$ 3: ${formatCurrency(unitCard)}\nObjetivo: ${goal}.`.trim();
       url.searchParams.set("text", nextMessage);
       return url.toString();
     } catch {

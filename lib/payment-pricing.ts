@@ -26,6 +26,20 @@ export function calculateCardPrice(pricePix: unknown) {
   return roundToCents(normalizeMoney(pricePix) + CARD_PRICE_FLAT_FEE);
 }
 
+export function formatPixPrice(value: unknown) {
+  return new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  }).format(normalizeMoney(value));
+}
+
+export function formatCardPrice(value: unknown) {
+  return new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  }).format(calculateCardPrice(value));
+}
+
 export function ensureCardIsPixPlus3<T extends { pricePix?: unknown; priceCard?: unknown; price?: unknown }>(product: T) {
   const pricePix = normalizeMoney(product.pricePix ?? product.price ?? 0);
   return {

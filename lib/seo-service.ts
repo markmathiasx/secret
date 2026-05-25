@@ -125,7 +125,7 @@ export function generateOrganizationSchema(): string {
     },
     sameAs: [
       'https://www.facebook.com/mdh3d',
-      'https://www.instagram.com/mdh3d',
+      'https://www.instagram.com/mdh_3d.com.br/',
       'https://www.youtube.com/mdh3d'
     ]
   };

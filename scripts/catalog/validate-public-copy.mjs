@@ -19,6 +19,12 @@ const forbiddenTerms = [
   "12x de",
   "Peça já produzida",
   "visual fiel do produto final",
+  "mdh_impressao3d",
+  "Pokémon",
+  "Pokemon",
+  "Fire Red",
+  "Nintendo",
+  "Game Boy",
 ];
 
 const roots = [

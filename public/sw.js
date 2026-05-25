@@ -1,6 +1,6 @@
-const CACHE = "mdh-static-v4";
+const CACHE = "mdh-static-v5";
 const LEGACY_PREFIXES = ["mdh3d-", "mdh-static-v", "mdh-static-", "mdh-3d-"];
-const CORE = ["/logo-mdh.jpg", "/icon-192.png", "/icon-512.png", "/apple-touch-icon.png", "/offline.html"];
+const CORE = ["/logo-mdh.jpg", "/icon-192.png", "/icon-512.png", "/apple-touch-icon.png", "/offline.html", "/placeholders/product-card.svg"];
 const STATIC_ASSET_PATTERN = /\.(?:png|jpe?g|webp|avif|gif|svg|ico|woff2?|ttf|otf)$/i;
 const SAFE_DESTINATIONS = new Set(["image", "font"]);
 
@@ -12,6 +12,7 @@ function shouldHandleStatic(request) {
   if (url.origin !== self.location.origin) return false;
   if (url.pathname.startsWith("/api/")) return false;
   if (url.pathname.startsWith("/_next/")) return false;
+  if (url.pathname.startsWith("/admin") || url.pathname.startsWith("/checkout")) return false;
 
   return SAFE_DESTINATIONS.has(request.destination) || STATIC_ASSET_PATTERN.test(url.pathname);
 }

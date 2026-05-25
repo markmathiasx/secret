@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-25T05:46:54.134Z",
+  "generatedAt": "2026-05-25T12:19:49.992Z",
   "ok": true,
   "productsChecked": 564,
   "issues": [],
@@ -43,7 +43,7 @@
     },
     {
       "id": "real-004",
-      "name": "Hello Kitty Jedi Colecionável",
+      "name": "mascote temática Jedi Colecionável",
       "category": "Geek & Colecionáveis",
       "band": "setup-pequeno",
       "pricePix": 59.9,
@@ -54,7 +54,7 @@
     },
     {
       "id": "real-005",
-      "name": "Stencil Rick and Morty Decorativo",
+      "name": "Stencil dupla sci-fi Decorativo",
       "category": "Geek & Colecionáveis",
       "band": "geek-premium",
       "pricePix": 99.9,
@@ -98,7 +98,7 @@
     },
     {
       "id": "real-009",
-      "name": "Homer Pikachu Mashup Colecionável",
+      "name": "personagem de humor mascote elétrico Mashup Colecionável",
       "category": "Geek & Colecionáveis",
       "band": "setup-pequeno",
       "pricePix": 59.9,
@@ -208,7 +208,7 @@
     },
     {
       "id": "mdh-026",
-      "name": "Pokébola",
+      "name": "esfera colecionável",
       "category": "Decoração",
       "band": "setup-pequeno",
       "pricePix": 29.9,
@@ -384,7 +384,7 @@
     },
     {
       "id": "mdh-067",
-      "name": "Pikachu Pokémon Chibi",
+      "name": "mascote elétrico criatura colecionável Chibi",
       "category": "Geek & Colecionáveis",
       "band": "setup-pequeno",
       "pricePix": 29.9,
@@ -395,7 +395,7 @@
     },
     {
       "id": "mdh-068",
-      "name": "Kirby Nintendo Chibi",
+      "name": "mascote retrô console retrô Chibi",
       "category": "Geek & Colecionáveis",
       "band": "setup-pequeno",
       "pricePix": 29.9,
@@ -406,7 +406,7 @@
     },
     {
       "id": "mdh-069",
-      "name": "Mario Nintendo Chibi",
+      "name": "herói retrô console retrô Chibi",
       "category": "Geek & Colecionáveis",
       "band": "setup-pequeno",
       "pricePix": 34.9,
@@ -659,7 +659,7 @@
     },
     {
       "id": "csv-uti-040",
-      "name": "Organizador Modular Eevee Pokémon para Ferramentas Leves, Peças e Acessórios Nerd",
+      "name": "Organizador Modular mascote evolutivo criatura colecionável para Ferramentas Leves, Peças e Acessórios Nerd",
       "category": "Setup Gamer e Home Office",
       "band": "setup-pequeno",
       "pricePix": 119.9,

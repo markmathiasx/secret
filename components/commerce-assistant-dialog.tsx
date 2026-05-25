@@ -365,7 +365,7 @@ export function CommerceAssistantDialog({
                     ? <>Pix visível no checkout e chave ativa em <span className="font-semibold text-white">{pix.key}</span>.</>
                     : "Pix visível no checkout quando a chave estiver configurada no servidor."}
                 </p>
-                <p>{cardCheckoutReady ? "Cartão online disponível em ambiente seguro." : "Parcelamento tratado com apoio da equipe humana."}</p>
+                <p>{cardCheckoutReady ? "Cartão online disponível em ambiente seguro." : "Cartão tratado com apoio da equipe humana."}</p>
                 <p>Projetos personalizados aceitam briefing, imagem, STL, OBJ e 3MF.</p>
               </div>
             </div>

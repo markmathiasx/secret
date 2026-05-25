@@ -1,0 +1,113 @@
+{
+  "generatedAt": "2026-05-25T12:19:26.431Z",
+  "productionBase": null,
+  "ok": true,
+  "forbiddenTerms": [
+    "Foto real",
+    "Fotos reais",
+    "foto real",
+    "fotos reais",
+    "render fiel",
+    "Render fiel",
+    "Só foto real",
+    "Foto + render",
+    "Ver peças reais",
+    "Fechamento rápido",
+    "Preço claro",
+    "12x de",
+    "12x no cartão",
+    "mdh_impressao3d",
+    "Pokémon",
+    "Pokemon",
+    "Fire Red",
+    "Nintendo",
+    "Game Boy"
+  ],
+  "localChecks": [
+    {
+      "scope": "local",
+      "route": "/",
+      "source": ".next/server/app/index.html",
+      "ok": true,
+      "missing": [],
+      "forbidden": [],
+      "imgCount": 31,
+      "productCardCount": 0
+    },
+    {
+      "scope": "local",
+      "route": "/catalogo",
+      "source": ".next/server/app/catalogo.html",
+      "ok": true,
+      "missing": [],
+      "forbidden": [],
+      "imgCount": 20,
+      "productCardCount": 18
+    },
+    {
+      "scope": "local",
+      "route": "/jogue",
+      "source": ".next/server/app/jogue.html",
+      "ok": true,
+      "missing": [],
+      "forbidden": [],
+      "imgCount": 2,
+      "productCardCount": 0
+    },
+    {
+      "scope": "local",
+      "route": "/loja/casa-e-organizacao/real-001-grinder-3-partes-premium",
+      "source": ".next/server/app/loja/casa-e-organizacao/real-001-grinder-3-partes-premium.html",
+      "ok": true,
+      "missing": [],
+      "forbidden": [],
+      "imgCount": 13,
+      "productCardCount": 4
+    },
+    {
+      "scope": "local",
+      "route": "/loja/casa-e-organizacao/real-002-porta-creme-dental-de-bancada",
+      "source": ".next/server/app/loja/casa-e-organizacao/real-002-porta-creme-dental-de-bancada.html",
+      "ok": true,
+      "missing": [],
+      "forbidden": [],
+      "imgCount": 13,
+      "productCardCount": 4
+    },
+    {
+      "scope": "local",
+      "route": "/loja/geek-colecionaveis/real-003-demogorgon-decorativo-premium",
+      "source": ".next/server/app/loja/geek-colecionaveis/real-003-demogorgon-decorativo-premium.html",
+      "ok": true,
+      "missing": [],
+      "forbidden": [],
+      "imgCount": 13,
+      "productCardCount": 4
+    },
+    {
+      "scope": "local",
+      "route": "/carrinho",
+      "source": ".next/server/app/carrinho.html",
+      "ok": true,
+      "missing": [],
+      "forbidden": [],
+      "imgCount": 2,
+      "productCardCount": 0
+    },
+    {
+      "scope": "local",
+      "route": "/checkout",
+      "ok": true,
+      "skipped": true,
+      "reason": "dynamic/protected route validated after deploy"
+    },
+    {
+      "scope": "local",
+      "route": "/admin/products/real-002/edit",
+      "ok": true,
+      "skipped": true,
+      "reason": "dynamic/protected route validated after deploy"
+    }
+  ],
+  "productionChecks": []
+}

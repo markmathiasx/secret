@@ -66,7 +66,7 @@ export function StickyPdpCta({
         <div className="min-w-0 flex-1">
           <p className="truncate text-sm font-semibold text-white">{productName}</p>
           <p className="text-xs font-black text-emerald-100">{formatCurrency(pricePix * quantity)} Pix</p>
-          <p className="text-[11px] text-white/55">Cartão {formatCurrency(normalizedPriceCard * quantity)}</p>
+          <p className="text-[11px] text-white/55">Cartão + R$ 3 {formatCurrency(normalizedPriceCard * quantity)}</p>
         </div>
         <div className="flex flex-shrink-0 items-center gap-2">
           {whatsappHref ? (

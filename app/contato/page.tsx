@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Send } from "lucide-react";
-import { whatsappNumber, supportEmail } from "@/lib/constants";
+import { Instagram, Send } from "lucide-react";
+import { brand, socialLinks, supportEmail, whatsappNumber } from "@/lib/constants";
 
 export default function ContatoPage() {
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
@@ -65,6 +65,14 @@ export default function ContatoPage() {
             <a href={`mailto:${supportEmail}`} className="mt-2 block text-cyan-200 hover:underline">
               {supportEmail}
             </a>
+          </div>
+          <div className="glass-card">
+            <p className="text-sm font-semibold text-white/70">Instagram</p>
+            <a href={socialLinks.instagram} target="_blank" rel="noreferrer" className="mt-2 inline-flex items-center gap-2 text-pink-100 hover:underline">
+              <Instagram className="h-4 w-4" />
+              @{brand.instagramHandle}
+            </a>
+            <p className="mt-1 text-xs text-white/40">Produtos prontos, testes e novidades</p>
           </div>
           <div className="glass-card">
             <p className="text-sm font-semibold text-white/70">Localização</p>

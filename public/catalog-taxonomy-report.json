@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-25T05:46:53.946Z",
+  "generatedAt": "2026-05-25T12:19:47.604Z",
   "total": 564,
   "categories": {
     "Chaveiros e Acessórios": 42,
@@ -174,7 +174,7 @@
       "sku": "REAL-0004",
       "slug": "hello-kitty-jedi-colecionavel",
       "url": "/loja/geek-colecionaveis/real-004-hello-kitty-jedi-colecionavel",
-      "name": "Hello Kitty Jedi Colecionável",
+      "name": "mascote temática Jedi Colecionável",
       "collection": "A1 Mini Vendáveis",
       "material": "PLA Premium",
       "status": "Sob encomenda",
@@ -205,7 +205,7 @@
         "personalizável"
       ],
       "seoKeywords": [
-        "Hello Kitty Jedi Colecionável",
+        "mascote temática Jedi Colecionável",
         "hello",
         "kitty",
         "jedi",
@@ -230,7 +230,7 @@
       "sku": "REAL-0005",
       "slug": "stencil-rick-and-morty-decorativo",
       "url": "/loja/geek-colecionaveis/real-005-stencil-rick-and-morty-decorativo",
-      "name": "Stencil Rick and Morty Decorativo",
+      "name": "Stencil dupla sci-fi Decorativo",
       "collection": "A1 Mini Vendáveis",
       "material": "PLA Premium",
       "status": "Sob encomenda",
@@ -259,7 +259,7 @@
         "personalizável"
       ],
       "seoKeywords": [
-        "Stencil Rick and Morty Decorativo",
+        "Stencil dupla sci-fi Decorativo",
         "stencil",
         "rick",
         "and",
@@ -432,9 +432,9 @@
     {
       "id": "real-009",
       "sku": "REAL-0009",
-      "slug": "homer-pikachu-mashup-colecionavel",
-      "url": "/loja/geek-colecionaveis/real-009-homer-pikachu-mashup-colecionavel",
-      "name": "Homer Pikachu Mashup Colecionável",
+      "slug": "personagem-de-humor-mascote-eletrico-mashup-colecionavel",
+      "url": "/loja/geek-colecionaveis/real-009-personagem-de-humor-mascote-eletrico-mashup-colecionavel",
+      "name": "personagem de humor mascote elétrico Mashup Colecionável",
       "collection": "A1 Mini Vendáveis",
       "material": "PLA Premium",
       "status": "Sob encomenda",
@@ -465,9 +465,9 @@
         "personalizável"
       ],
       "seoKeywords": [
-        "Homer Pikachu Mashup Colecionável",
-        "homer",
-        "pikachu",
+        "personagem de humor mascote elétrico Mashup Colecionável",
+        "personagem de humor",
+        "mascote elétrico",
         "mashup",
         "colecionavel",
         "Geek & Colecionáveis",
@@ -919,9 +919,9 @@
     {
       "id": "mdh-026",
       "sku": "MDH-0026",
-      "slug": "pokebola",
-      "url": "/loja/decoracao/mdh-026-pokebola",
-      "name": "Pokébola",
+      "slug": "esfera-colecionavel",
+      "url": "/loja/decoracao/mdh-026-esfera-colecionavel",
+      "name": "esfera colecionável",
       "collection": "A1 Mini Vendáveis",
       "material": "PLA Premium",
       "status": "Pronta entrega",
@@ -949,7 +949,7 @@
         "Premium"
       ],
       "seoKeywords": [
-        "Pokébola",
+        "esfera colecionável",
         "Decoração",
         "decoração de estante",
         "miniatura",
@@ -1689,9 +1689,9 @@
     {
       "id": "mdh-067",
       "sku": "MDH-0067",
-      "slug": "pikachu-pokemon-chibi",
-      "url": "/loja/geek-colecionaveis/mdh-067-pikachu-pokemon-chibi",
-      "name": "Pikachu Pokémon Chibi",
+      "slug": "mascote-eletrico-criatura-colecionavel-chibi",
+      "url": "/loja/geek-colecionaveis/mdh-067-mascote-eletrico-criatura-colecionavel-chibi",
+      "name": "mascote elétrico criatura colecionável Chibi",
       "collection": "A1 Mini Vendáveis",
       "material": "PLA Premium",
       "status": "Sob encomenda",
@@ -1721,9 +1721,9 @@
         "Premium"
       ],
       "seoKeywords": [
-        "Pikachu Pokémon Chibi",
-        "pikachu",
-        "pokemon",
+        "mascote elétrico criatura colecionável Chibi",
+        "mascote elétrico",
+        "criatura colecionável",
         "chibi",
         "Geek & Colecionáveis",
         "anime",
@@ -1744,9 +1744,9 @@
     {
       "id": "mdh-068",
       "sku": "MDH-0068",
-      "slug": "kirby-nintendo-chibi",
-      "url": "/loja/geek-colecionaveis/mdh-068-kirby-nintendo-chibi",
-      "name": "Kirby Nintendo Chibi",
+      "slug": "mascote-retro-console-retro-chibi",
+      "url": "/loja/geek-colecionaveis/mdh-068-mascote-retro-console-retro-chibi",
+      "name": "mascote retrô console retrô Chibi",
       "collection": "A1 Mini Vendáveis",
       "material": "PLA Premium",
       "status": "Sob encomenda",
@@ -1776,9 +1776,9 @@
         "Premium"
       ],
       "seoKeywords": [
-        "Kirby Nintendo Chibi",
-        "kirby",
-        "nintendo",
+        "mascote retrô console retrô Chibi",
+        "mascote retrô",
+        "console retrô",
         "chibi",
         "Geek & Colecionáveis",
         "anime",
@@ -1799,9 +1799,9 @@
     {
       "id": "mdh-069",
       "sku": "MDH-0069",
-      "slug": "mario-nintendo-chibi",
-      "url": "/loja/geek-colecionaveis/mdh-069-mario-nintendo-chibi",
-      "name": "Mario Nintendo Chibi",
+      "slug": "heroi-retro-console-retro-chibi",
+      "url": "/loja/geek-colecionaveis/mdh-069-heroi-retro-console-retro-chibi",
+      "name": "herói retrô console retrô Chibi",
       "collection": "A1 Mini Vendáveis",
       "material": "PLA Premium",
       "status": "Sob encomenda",
@@ -1831,9 +1831,9 @@
         "Premium"
       ],
       "seoKeywords": [
-        "Mario Nintendo Chibi",
-        "mario",
-        "nintendo",
+        "herói retrô console retrô Chibi",
+        "herói retrô",
+        "console retrô",
         "chibi",
         "Geek & Colecionáveis",
         "anime",
@@ -3000,9 +3000,9 @@
     {
       "id": "csv-uti-040",
       "sku": "UTI-040",
-      "slug": "organizador-modular-eevee-pokemon-para-ferramentas-leves-pecas-e-acessorios-nerd",
-      "url": "/loja/setup-gamer-e-home-office/csv-uti-040-organizador-modular-eevee-pokemon-para-ferramentas-leves-pecas-e-acessorios-nerd",
-      "name": "Organizador Modular Eevee Pokémon para Ferramentas Leves, Peças e Acessórios Nerd",
+      "slug": "organizador-modular-mascote-evolutivo-criatura-colecionavel-para-ferramentas-leves-pecas-e-acessorios-nerd",
+      "url": "/loja/setup-gamer-e-home-office/csv-uti-040-organizador-modular-mascote-evolutivo-criatura-colecionavel-para-ferramentas-leves-pecas-e-acessorios-nerd",
+      "name": "Organizador Modular mascote evolutivo criatura colecionável para Ferramentas Leves, Peças e Acessórios Nerd",
       "collection": "Curadoria CSV 160 • Utilitários/Ferramentas",
       "material": "PLA+ Reforçado",
       "status": "Sob encomenda",
@@ -3031,11 +3031,11 @@
         "personalizável"
       ],
       "seoKeywords": [
-        "Organizador Modular Eevee Pokémon para Ferramentas Leves, Peças e Acessórios Nerd",
+        "Organizador Modular mascote evolutivo criatura colecionável para Ferramentas Leves, Peças e Acessórios Nerd",
         "organizador",
         "modular",
-        "eevee",
-        "pokemon",
+        "mascote evolutivo",
+        "criatura colecionável",
         "ferramentas",
         "Setup Gamer e Home Office",
         "base de mesa",

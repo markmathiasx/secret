@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowUpRight, Mail, MapPin, MessageCircleMore } from "lucide-react";
+import { ArrowUpRight, Gamepad2, Mail, MapPin, MessageCircleMore } from "lucide-react";
 import {
   brand,
   catalogShortcutLinks,
@@ -76,6 +76,10 @@ export function SiteFooter({ cardCheckoutReady = false }: { cardCheckoutReady?: 
               Ver catálogo
               <ArrowUpRight className="h-4 w-4" />
             </Link>
+            <Link href="/jogue" className="btn-secondary gap-2">
+              <Gamepad2 className="h-4 w-4" />
+              Jogue no site
+            </Link>
           </div>
           <div className="mt-6 flex flex-wrap gap-2">
             <span className="rounded-full border border-emerald-300/25 bg-emerald-300/10 px-3 py-1 text-xs font-semibold text-emerald-100">
@@ -137,6 +141,9 @@ export function SiteFooter({ cardCheckoutReady = false }: { cardCheckoutReady?: 
             </Link>
             <Link href="/presentes-3d" className="transition hover:text-cyan-glow">
               Presentes 3D
+            </Link>
+            <Link href="/jogue" className="transition hover:text-cyan-glow">
+              Jogue no site
             </Link>
             <Link href="/setup-e-organizacao-3d" className="transition hover:text-cyan-glow">
               Setup e organização

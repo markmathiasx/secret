@@ -1,10 +1,17 @@
 import type { Product } from "@/lib/catalog";
+import {
+  PRODUCT_IMAGE_PLACEHOLDER,
+  getPrimaryImageFieldCandidates,
+  getProductImageAlt,
+  isPublicSafeImageSource,
+} from "@/lib/product-images";
 
-export const PRODUCT_CARD_PLACEHOLDER = "/placeholders/product-card.svg";
+export const PRODUCT_CARD_PLACEHOLDER = PRODUCT_IMAGE_PLACEHOLDER;
 
 type FlexibleProduct = Partial<Product> & {
   imageGallery?: unknown;
   gallery?: unknown;
+  media?: unknown;
   imageUrl?: unknown;
   primaryImage?: unknown;
   thumbnail?: unknown;
@@ -15,6 +22,8 @@ export type ProductCardImageSource =
   | "imageGallery[0].src"
   | "gallery[0].url"
   | "gallery[0].src"
+  | "media[0].url"
+  | "media[0].src"
   | "images[0]"
   | "image"
   | "imageUrl"
@@ -38,7 +47,7 @@ function readArrayEntry(value: unknown) {
   return Array.isArray(value) && value.length ? value[0] : null;
 }
 
-function readMediaField(product: FlexibleProduct | null | undefined, key: "imageGallery" | "gallery", field: "url" | "src") {
+function readMediaField(product: FlexibleProduct | null | undefined, key: "imageGallery" | "gallery" | "media", field: "url" | "src") {
   const entry = readArrayEntry(product?.[key]);
   if (!entry) return null;
   if (typeof entry === "string") return field === "url" ? asCleanString(entry) : null;
@@ -62,6 +71,8 @@ export function getProductCardImage(product: FlexibleProduct | null | undefined)
     { source: "imageGallery[0].src", src: readMediaField(product, "imageGallery", "src") },
     { source: "gallery[0].url", src: readMediaField(product, "gallery", "url") },
     { source: "gallery[0].src", src: readMediaField(product, "gallery", "src") },
+    { source: "media[0].url", src: readMediaField(product, "media", "url") },
+    { source: "media[0].src", src: readMediaField(product, "media", "src") },
     { source: "images[0]", src: readImagesFirst(product) },
     { source: "image", src: asCleanString(product?.image) },
     { source: "imageUrl", src: asCleanString(product?.imageUrl) },
@@ -69,13 +80,15 @@ export function getProductCardImage(product: FlexibleProduct | null | undefined)
     { source: "thumbnail", src: asCleanString(product?.thumbnail) },
   ];
 
-  const selected = candidates.find((candidate) => candidate.src);
-  const ownCandidates = Array.from(new Set(candidates.map((candidate) => candidate.src).filter(Boolean) as string[]));
+  const selected = candidates.find((candidate) => candidate.src && isPublicSafeImageSource(candidate.src));
+  const ownCandidates = Array.from(
+    new Set(getPrimaryImageFieldCandidates(product).filter((src) => src !== PRODUCT_CARD_PLACEHOLDER && isPublicSafeImageSource(src)))
+  );
   const src = selected?.src || PRODUCT_CARD_PLACEHOLDER;
 
   return {
     src,
-    alt: asCleanString(product?.imageAlt) || asCleanString(product?.name) || "Imagem do produto MDH 3D",
+    alt: getProductImageAlt(product),
     source: selected?.source || "placeholder",
     usedPlaceholder: !selected,
     candidates: [...ownCandidates, PRODUCT_CARD_PLACEHOLDER],

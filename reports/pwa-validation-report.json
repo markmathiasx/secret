@@ -1,0 +1,65 @@
+{
+  "generatedAt": "2026-05-25T12:20:00.905Z",
+  "ok": true,
+  "shortcuts": [
+    "/catalogo",
+    "/orcamento",
+    "/atendimento?canal=whatsapp",
+    "/jogue",
+    "/carrinho"
+  ],
+  "checks": [
+    {
+      "name": "manifest app route",
+      "ok": true
+    },
+    {
+      "name": "manifest public json",
+      "ok": true
+    },
+    {
+      "name": "service worker",
+      "ok": true
+    },
+    {
+      "name": "offline fallback",
+      "ok": true
+    },
+    {
+      "name": "icon 192",
+      "ok": true
+    },
+    {
+      "name": "icon 512",
+      "ok": true
+    },
+    {
+      "name": "shortcut catalogo",
+      "ok": true
+    },
+    {
+      "name": "shortcut whatsapp",
+      "ok": true
+    },
+    {
+      "name": "shortcut jogue",
+      "ok": true
+    },
+    {
+      "name": "shortcut carrinho",
+      "ok": true
+    },
+    {
+      "name": "static asset cache only",
+      "ok": true
+    },
+    {
+      "name": "admin not cached",
+      "ok": true
+    },
+    {
+      "name": "checkout not cached",
+      "ok": true
+    }
+  ]
+}

@@ -4,7 +4,7 @@ export const brand = {
   city: "Rio de Janeiro",
   state: "RJ",
   slogan: "Impressão 3D premium para presentes criativos, setup, decoração e peças sob encomenda",
-  instagramHandle: process.env.NEXT_PUBLIC_BRAND_INSTAGRAM_HANDLE || "mdh_impressao3d",
+  instagramHandle: process.env.NEXT_PUBLIC_BRAND_INSTAGRAM_HANDLE || "mdh_3d.com.br",
 };
 
 function parseList(value?: string) {
@@ -35,7 +35,7 @@ export const pix = {
 
 export const socialLinks = {
   instagram:
-    process.env.NEXT_PUBLIC_INSTAGRAM_URL || `https://www.instagram.com/${brand.instagramHandle}`,
+    process.env.NEXT_PUBLIC_INSTAGRAM_URL || "https://www.instagram.com/mdh_3d.com.br/",
   tiktok: process.env.NEXT_PUBLIC_TIKTOK_URL || "#",
   facebook: process.env.NEXT_PUBLIC_FACEBOOK_URL || "#",
 };

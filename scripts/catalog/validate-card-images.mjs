@@ -38,7 +38,7 @@ const rows = publicProducts.map((product) => {
   };
 });
 
-const withOwnImage = rows.filter((row) => row.ownCandidateCount > 0);
+const withOwnImage = rows.filter((row) => !row.usedPlaceholder);
 const usingPlaceholder = rows.filter((row) => row.usedPlaceholder);
 const possibleCardWithoutImage = rows.filter((row) => !row.src);
 const cardFallbackOk = Object.values(cardFallback).every(Boolean);

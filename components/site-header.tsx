@@ -11,6 +11,8 @@ import {
   BadgeCheck,
   Bot,
   Boxes,
+  Gamepad2,
+  Instagram,
   LogOut,
   Menu,
   MessageCircleMore,
@@ -25,10 +27,11 @@ import { emitCustomerAuthChange, useCustomerSession } from "@/lib/customer-sessi
 import { useCart } from "@/lib/cart-context";
 import { CommerceAssistantDialog } from "@/components/commerce-assistant-dialog";
 import { HeaderCommandPalette } from "@/components/header-command-palette";
-import { whatsappNumber } from "@/lib/constants";
+import { brand, socialLinks, whatsappNumber } from "@/lib/constants";
 
 const navLinks = [
   { href: "/catalogo", label: "Catálogo" },
+  { href: "/jogue", label: "Jogue" },
   { href: "/guia-primeira-impressao-3d", label: "Como funciona" },
   { href: "/blog", label: "Blog" },
   { href: "/atendimento", label: "Atendimento" },
@@ -39,6 +42,7 @@ const commerceShortcuts = [
   { href: "/catalogo?status=Pronta%20entrega", label: "Pronta entrega", icon: PackageCheck },
   { href: "/catalogo?intent=presentear", label: "Ideias de presente", icon: ShoppingBag },
   { href: "/imagem-para-impressao-3d", label: "Enviar STL", icon: Boxes },
+  { href: "/jogue", label: "Print Quest", icon: Gamepad2 },
 ] as const;
 
 
@@ -114,6 +118,15 @@ export function SiteHeader({
             <span className="hidden sm:inline rounded-full border border-emerald-300/25 bg-emerald-300/10 px-3 py-1 text-[10px] font-semibold text-emerald-100 shrink-0">
               Produção local e acabamento sob medida
             </span>
+            <a
+              href={socialLinks.instagram}
+              target="_blank"
+              rel="noreferrer"
+              className="hidden items-center gap-1.5 rounded-full border border-pink-300/20 bg-pink-300/10 px-3 py-1 text-[10px] font-semibold text-pink-50 transition hover:bg-pink-300/16 xl:inline-flex"
+            >
+              <Instagram className="h-3.5 w-3.5" />
+              @{brand.instagramHandle}
+            </a>
 
           </div>
         </div>
@@ -168,6 +181,14 @@ export function SiteHeader({
             <a href={`https://wa.me/${whatsappNumber}`} className="btn-whatsapp whitespace-nowrap">
               <MessageCircleMore className="mr-2 h-4 w-4 shrink-0" />
               WhatsApp
+            </a>
+            <Link href="/jogue" prefetch={false} className="btn-glass whitespace-nowrap">
+              <Gamepad2 className="mr-2 h-4 w-4 shrink-0" />
+              Jogue
+            </Link>
+            <a href={socialLinks.instagram} target="_blank" rel="noreferrer" className="btn-glass whitespace-nowrap">
+              <Instagram className="mr-2 h-4 w-4 shrink-0" />
+              Instagram
             </a>
 
             {session.loggedIn ? (
@@ -283,6 +304,10 @@ export function SiteHeader({
                   <Bot className="mr-2 h-4 w-4" />
                   Consultor MDH
                 </button>
+                <a href={socialLinks.instagram} target="_blank" rel="noreferrer" className="btn-glass justify-center">
+                  <Instagram className="mr-2 h-4 w-4" />
+                  @{brand.instagramHandle}
+                </a>
                 <button type="button" onClick={openDrawer} className="btn-glass justify-center">
                   <ShoppingCart className="mr-2 h-4 w-4" />
                   Carrinho ({cartCount})

@@ -51,6 +51,9 @@
     "catalog:validate-card-images": "node scripts/catalog/validate-card-images.mjs",
     "catalog:validate-public-copy": "node scripts/catalog/validate-public-copy.mjs",
     "security:audit": "node scripts/security/audit-security.mjs",
+    "seo:validate": "node scripts/seo/validate-seo.mjs",
+    "pwa:validate": "node scripts/pwa/validate-pwa.mjs",
+    "ux:validate": "node scripts/ux/validate-ux.mjs",
     "sd:reference": "python scripts/generate_product_reference_sd.py",
     "analyze": "ANALYZE=true npm run build",
     "preview": "npm run build && npm run start",
@@ -69,7 +72,8 @@
     "media:fetch": "node scripts/media/fetch-licensed-videos.mjs",
     "media:fetch-cinematic": "node scripts/media/fetch-cinematic-pexels-videos.mjs",
     "media:validate": "node scripts/media/validate-video-assets.mjs",
-    "validate:public-html": "node scripts/validate-public-html.mjs",
+    "validate:public-html": "node scripts/validate-local-vs-production.mjs",
+    "public:validate-html": "node scripts/validate-local-vs-production.mjs",
     "ci:check": "npm run lint:check && npm run typecheck && npm run build && npm run test:images && npm run test:e2e"
   },
   "dependencies": {

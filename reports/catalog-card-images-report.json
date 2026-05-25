@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-25T05:46:26.884Z",
+  "generatedAt": "2026-05-25T12:18:10.887Z",
   "ok": true,
   "placeholder": {
     "src": "/placeholders/product-card.svg",
@@ -61,27 +61,27 @@
     {
       "id": "real-004",
       "sku": "REAL-0004",
-      "name": "Hello Kitty Jedi Colecionável",
+      "name": "mascote temática Jedi Colecionável",
       "category": "Geek & Colecionáveis",
-      "src": "/products/foto-005-hello-kitty-jedi.webp",
+      "src": "/products/gallery/real-004/3.webp",
       "source": "images[0]",
       "usedPlaceholder": false,
       "ownCandidateCount": 1,
       "ownCandidates": [
-        "/products/foto-005-hello-kitty-jedi.webp"
+        "/products/gallery/real-004/3.webp"
       ]
     },
     {
       "id": "real-005",
       "sku": "REAL-0005",
-      "name": "Stencil Rick and Morty Decorativo",
+      "name": "Stencil dupla sci-fi Decorativo",
       "category": "Geek & Colecionáveis",
-      "src": "/products/foto-006-stencil-rick-morty.webp",
+      "src": "/products/render-real-005-stencil.webp",
       "source": "images[0]",
       "usedPlaceholder": false,
       "ownCandidateCount": 1,
       "ownCandidates": [
-        "/products/foto-006-stencil-rick-morty.webp"
+        "/products/render-real-005-stencil.webp"
       ]
     },
     {
@@ -126,14 +126,14 @@
     {
       "id": "real-009",
       "sku": "REAL-0009",
-      "name": "Homer Pikachu Mashup Colecionável",
+      "name": "personagem de humor mascote elétrico Mashup Colecionável",
       "category": "Geek & Colecionáveis",
-      "src": "/products/foto-010-homer-pikachu.webp",
+      "src": "/products/gallery/real-009/3.webp",
       "source": "images[0]",
       "usedPlaceholder": false,
       "ownCandidateCount": 1,
       "ownCandidates": [
-        "/products/foto-010-homer-pikachu.webp"
+        "/products/gallery/real-009/3.webp"
       ]
     },
     {
@@ -256,7 +256,7 @@
     {
       "id": "mdh-026",
       "sku": "MDH-0026",
-      "name": "Pokébola",
+      "name": "esfera colecionável",
       "category": "Decoração",
       "src": "/products/mdh-026-pokebola/01-hero.jpg",
       "source": "images[0]",

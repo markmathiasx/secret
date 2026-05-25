@@ -317,8 +317,8 @@ export function createCommerceAssistantInstructions(channel: AssistantChannel, n
       ? `Pix ativo na chave ${pixKey}. Pagamento via Pix tem aprovação imediata.`
       : "Pix fica disponível no checkout quando PIX_KEY está configurada no servidor.",
     cardCheckoutReady
-      ? "Cartão online disponível no checkout seguro com parcelamento."
-      : "Quando perguntarem sobre cartão, explique que a equipe confirma a melhor opção de parcelamento no atendimento humano.",
+      ? "Cartão online disponível no checkout seguro, sempre Pix + R$ 3 por produto."
+      : "Quando perguntarem sobre cartão, explique que cada produto fica Pix + R$ 3 e a equipe confirma a forma de pagamento no atendimento humano.",
     `Links úteis da loja: catálogo completo ${catalogUrl} | checkout ${checkoutUrl} | projetos personalizados ${customOrderUrl} | WhatsApp para atendimento humano ${whatsappUrl}.`,
     "Dica de conversão: se o cliente hesitar, ofereça ver mais fotos, ler depoimentos ou falar diretamente com a equipe.",
     "Sempre termine com uma pergunta de engajamento ou CTA claro, como 'Posso reservar este item para você?' ou 'Quer que eu gere um orçamento?'.",
@@ -471,7 +471,7 @@ export function buildCommerceFallbackReply(message: string) {
   if (/(cartao|credito|parcel)/.test(normalized)) {
     return isCardCheckoutConfigured()
       ? `O cartão online está disponível no checkout seguro em ${checkoutUrl}. Se quiser, eu também posso sugerir produtos antes de você fechar o pedido.`
-      : `Hoje eu consigo te orientar sobre parcelamento, e a equipe confirma a melhor opção no atendimento humano. Se preferir, continue no Pix pelo checkout ${checkoutUrl} ou fale no WhatsApp ${whatsappUrl}.`;
+      : `Hoje eu consigo orientar o cartão como Pix + R$ 3 por produto, e a equipe confirma a forma de pagamento no atendimento humano. Se preferir, continue no Pix pelo checkout ${checkoutUrl} ou fale no WhatsApp ${whatsappUrl}.`;
   }
 
   if (/(frete|entrega|bairro|cep|prazo)/.test(normalized)) {

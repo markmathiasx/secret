@@ -117,7 +117,7 @@ export const metadata: Metadata = {
   description:
     'Impressão 3D profissional no Rio de Janeiro com presentes personalizados, peças geek, utilidades, setup e projetos sob encomenda.',
   applicationName: 'MDH 3D',
-  manifest: '/manifest.json',
+  manifest: '/manifest.webmanifest',
   alternates: { canonical: '/' },
   referrer: 'origin-when-cross-origin',
   robots: {

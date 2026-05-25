@@ -4,7 +4,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import { MessageCircleMore, ShoppingCart } from "lucide-react";
+import { Eye, MessageCircleMore, ShoppingCart } from "lucide-react";
 import type { Product } from "@/lib/catalog";
 import { getProductUrl } from "@/lib/catalog";
 import { whatsappNumber } from "@/lib/constants";
@@ -44,7 +44,7 @@ export function PremiumCard({ product, index = 0 }: PremiumCardProps) {
   const badges = badgesFor(product);
   const description = shortText(product.description || "Produto em impressão 3D para uso, presente ou decoração.");
   const publicUrl = `https://www.mdh3d.com.br${productUrl}`;
-  const whatsappMessage = `Quero comprar ${product.name}. Quantidade: 1. Pix: ${formatCurrency(product.pricePix)}. Cartão: ${formatCurrency(priceCard)}. Categoria: ${product.category}. Intenção: compra pelo catálogo. Link: ${publicUrl}`;
+  const whatsappMessage = `Quero comprar ${product.name}. Quantidade: 1. Pix: ${formatCurrency(product.pricePix)}. Cartão + R$ 3: ${formatCurrency(priceCard)}. Categoria: ${product.category}. Intenção: compra pelo catálogo. Link: ${publicUrl}`;
   const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
 
   useEffect(() => {
@@ -115,7 +115,7 @@ export function PremiumCard({ product, index = 0 }: PremiumCardProps) {
         <div className="mt-auto rounded-[8px] border border-white/10 bg-black/20 p-3">
           <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-emerald-100/70">Pix</p>
           <p className="mt-1 text-2xl font-black leading-none text-white">{formatCurrency(product.pricePix)}</p>
-          <p className="mt-1 text-xs font-semibold text-white/60">Cartão {formatCurrency(priceCard)}</p>
+          <p className="mt-1 text-xs font-semibold text-white/60">Cartão + R$ 3 {formatCurrency(priceCard)}</p>
         </div>
 
         <div className="grid grid-cols-2 gap-2 text-[11px] text-white/60">
@@ -143,6 +143,14 @@ export function PremiumCard({ product, index = 0 }: PremiumCardProps) {
             <MessageCircleMore className="h-3.5 w-3.5" aria-hidden="true" />
             WhatsApp
           </a>
+          <Link
+            href={productUrl}
+            className="col-span-2 inline-flex min-h-10 items-center justify-center gap-2 rounded-[8px] border border-white/10 bg-white/[0.055] px-3 py-2 text-xs font-black text-white/82 transition hover:border-white/20 hover:bg-white/[0.08] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30"
+            aria-label={`Ver produto ${product.name}`}
+          >
+            <Eye className="h-3.5 w-3.5" aria-hidden="true" />
+            Ver produto
+          </Link>
         </div>
       </div>
     </motion.article>

@@ -359,8 +359,8 @@ export default async function ProductPage({
       },
     })),
   };
-  const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Quero comprar ${product.name}. Quantidade: 1. Pix: ${formatCurrency(product.pricePix)}. Cartão: ${formatCurrency(productCardPrice)}. Categoria: ${product.category}. Intenção: compra pela página do produto. Link: ${productUrl}`)}`;
-  const customizationHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Quero personalizar ${product.name}. Quantidade: 1. Pix: ${formatCurrency(product.pricePix)}. Cartão: ${formatCurrency(productCardPrice)}. Categoria: ${product.category}. Intenção: personalização. Link: ${productUrl}`)}`;
+  const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Quero comprar ${product.name}. Quantidade: 1. Pix: ${formatCurrency(product.pricePix)}. Cartão + R$ 3: ${formatCurrency(productCardPrice)}. Categoria: ${product.category}. Intenção: compra pela página do produto. Link: ${productUrl}`)}`;
+  const customizationHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Quero personalizar ${product.name}. Quantidade: 1. Pix: ${formatCurrency(product.pricePix)}. Cartão + R$ 3: ${formatCurrency(productCardPrice)}. Categoria: ${product.category}. Intenção: personalização. Link: ${productUrl}`)}`;
   const primaryActionLabel = product.pricingMode === 'faixa-auditada' ? 'Comprar agora (Pix)' : 'Pedir orçamento';
   const priceLabel = product.pricingMode === 'faixa-auditada' ? 'Preço no Pix' : 'Estimativa inicial no Pix';
   const idealFor = Array.from(
@@ -558,7 +558,7 @@ export default async function ProductPage({
             <p className="mt-2 font-semibold text-white">
               {product.pricingMode === 'faixa-auditada' ? 'Preço confirmado para compra direta' : 'Estimativa inicial para produção sob medida'}
             </p>
-            <p className="mt-2">Pix {formatCurrency(product.pricePix)}. Cartão {formatCurrency(productCardPrice)}.</p>
+            <p className="mt-2">Pix {formatCurrency(product.pricePix)}. Cartão + R$ 3 {formatCurrency(productCardPrice)}.</p>
             {product.marketBenchmark ? (
               <p className="mt-2 text-white/60">
                 Faixa observada no mercado para {product.marketBenchmark.label.toLowerCase()}: de {formatCurrency(product.marketBenchmark.min)} até cerca de {formatCurrency(product.marketBenchmark.premium)}.

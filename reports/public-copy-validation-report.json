@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-25T05:46:26.031Z",
+  "generatedAt": "2026-05-25T12:18:14.550Z",
   "ok": true,
-  "scannedFiles": 323,
+  "scannedFiles": 326,
   "forbiddenTerms": [
     "Foto real",
     "Fotos reais",
@@ -18,7 +18,13 @@
     "Simulação ativa",
     "12x de",
     "Peça já produzida",
-    "visual fiel do produto final"
+    "visual fiel do produto final",
+    "mdh_impressao3d",
+    "Pokémon",
+    "Pokemon",
+    "Fire Red",
+    "Nintendo",
+    "Game Boy"
   ],
   "matches": []
 }

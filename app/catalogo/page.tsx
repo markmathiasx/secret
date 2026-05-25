@@ -1,11 +1,11 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { ArrowRight, MessageCircleMore, Search, ShoppingBag, SlidersHorizontal, UploadCloud } from "lucide-react";
+import { ArrowRight, Gamepad2, Instagram, MessageCircleMore, Search, ShoppingBag, SlidersHorizontal, UploadCloud } from "lucide-react";
 import { CatalogExplorer } from "@/components/catalog-explorer";
 import { CinematicVideoBackground } from "@/components/media/CinematicVideoBackground";
 import { getCatalogSnapshot } from "@/lib/catalog-repository";
 import { getSiteUrl } from "@/lib/env";
-import { whatsappNumber } from "@/lib/constants";
+import { brand, socialLinks, whatsappNumber } from "@/lib/constants";
 import { formatCurrency } from "@/lib/utils";
 
 export const metadata: Metadata = {
@@ -82,7 +82,7 @@ export default async function CatalogPage() {
                     id="catalog-search"
                     type="search"
                     name="q"
-                    placeholder="Busque por chaveiro, suporte, organizador, miniatura..."
+                    placeholder="Busque por chaveiro, suporte, organizador, miniatura... Ctrl+K"
                     className="w-full bg-transparent text-base text-white outline-none placeholder:text-white/42"
                   />
                 </div>
@@ -100,6 +100,12 @@ export default async function CatalogPage() {
                 <Link href="/imagem-para-impressao-3d" className="btn-secondary gap-2 px-4 py-2 text-sm">
                   <UploadCloud className="h-4 w-4" /> Peça personalizada
                 </Link>
+                <Link href="/jogue" className="btn-secondary gap-2 px-4 py-2 text-sm">
+                  <Gamepad2 className="h-4 w-4" /> Jogue no site
+                </Link>
+                <a href={socialLinks.instagram} target="_blank" rel="noreferrer" className="btn-secondary gap-2 px-4 py-2 text-sm">
+                  <Instagram className="h-4 w-4" /> @{brand.instagramHandle}
+                </a>
               </div>
             </div>
 

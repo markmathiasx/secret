@@ -27,6 +27,7 @@ import {
 } from "@/lib/pricing-engine";
 import { calculateCardPrice } from "@/lib/payment-pricing";
 import { getRecommendedPixPrice } from "@/lib/catalog-pricing-policy";
+import { sanitizePublicCatalogProducts } from "@/lib/public-product-copy";
 
 export type PaymentMethod = "pix" | "cartao" | "boleto";
 export type SalesChannel = "site" | "mercadolivre" | "shopee" | "whatsapp";
@@ -2835,7 +2836,7 @@ const fullCatalog = [
     })
   ),
 ];
-export const catalog = getSafePublicCatalog(fullCatalog);
+export const catalog = sanitizePublicCatalogProducts(getSafePublicCatalog(fullCatalog));
 export const featuredCatalog = catalog.filter((item) => item.featured).slice(0, 12);
 export const categories = Array.from(new Set(catalog.map((item) => item.category)));
 export const collections = Array.from(new Set(catalog.map((item) => item.collection)));
@@ -2849,7 +2850,7 @@ export function findProduct(id: string) {
 }
 
 export function findProductBySlug(slug: string) {
-  return catalog.find((item) => slug === item.slug || getProductUrl(item).endsWith(slug));
+  return catalog.find((item) => slug === item.slug || slug.startsWith(`${item.id}-`) || getProductUrl(item).endsWith(slug));
 }
 
 export function searchCatalog(query: string) {

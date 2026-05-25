@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import { ArrowUp, Check, Copy, Package, Share2, ShoppingBag, Upload } from "lucide-react";
+import { ArrowUp, Check, Gamepad2, Package, Share2, ShoppingBag, Upload } from "lucide-react";
 
 export function RouteActionDock() {
   const pathname = usePathname();
@@ -24,17 +24,20 @@ export function RouteActionDock() {
     if (pathname.startsWith("/checkout")) {
       return [
         { id: "catalog", href: "/catalogo", label: "Catálogo", icon: Package },
+        { id: "game", href: "/jogue", label: "Jogue", icon: Gamepad2 },
         { id: "upload", href: "/imagem-para-impressao-3d", label: "Sob medida", icon: Upload },
       ];
     }
     if (pathname.startsWith("/catalogo")) {
       return [
         { id: "home", href: "/", label: "Início", icon: ShoppingBag },
+        { id: "game", href: "/jogue", label: "Jogue", icon: Gamepad2 },
         { id: "checkout", href: "/checkout", label: "Checkout", icon: Package },
       ];
     }
     return [
       { id: "catalog", href: "/catalogo", label: "Catálogo", icon: Package },
+      { id: "game", href: "/jogue", label: "Jogue", icon: Gamepad2 },
       { id: "upload", href: "/imagem-para-impressao-3d", label: "Enviar STL", icon: Upload },
     ];
   }, [pathname]);

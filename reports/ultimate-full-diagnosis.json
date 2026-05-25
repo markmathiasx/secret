@@ -1,0 +1,169 @@
+{
+  "generatedAt": "2026-05-25T00:00:00.000-03:00",
+  "baseBranchUsed": "fix/final-image-catalog-cinematic-conversion",
+  "finalBranch": "fix/mdh3d-ultimate-full-conversion-delivery",
+  "homeFiles": [
+    "app/page.tsx",
+    "components/home/RotatingProductHero.tsx",
+    "components/media/CinematicVideoBackground.tsx"
+  ],
+  "catalogFiles": [
+    "app/catalogo/page.tsx",
+    "components/catalog-explorer.tsx",
+    "components/product/PremiumCard.tsx"
+  ],
+  "productCardComponents": [
+    "components/product/PremiumCard.tsx",
+    "components/home/RotatingProductHero.tsx",
+    "components/product-related-shelf.tsx",
+    "components/storefront-sales-shelves.tsx"
+  ],
+  "pdpComponents": [
+    "app/catalogo/[slug]/page.tsx",
+    "app/loja/[categoria]/[slug]/page.tsx",
+    "components/product-image-gallery.tsx",
+    "components/product-price-stack.tsx",
+    "components/product-purchase-tools.tsx",
+    "components/sticky-pdp-cta.tsx"
+  ],
+  "realProductSources": [
+    "lib/catalog.ts",
+    "lib/verified-catalog.ts",
+    "lib/catalog-csv-curated.ts",
+    "lib/a1-mini-expansion-catalog.ts",
+    "data/admin-product-overrides.json",
+    "database via lib/catalog-repository.ts when CATALOG_SOURCE=database"
+  ],
+  "imageFieldsFound": [
+    "imageGallery[].url",
+    "imageGallery[].src",
+    "gallery[].url",
+    "gallery[].src",
+    "media[].url",
+    "media[].src",
+    "images[]",
+    "image",
+    "imageUrl",
+    "primaryImage",
+    "thumbnail"
+  ],
+  "homeImageRootCause": "A home dependia de um produto fixo e de Next/Image sem fallback local visível no próprio card; agora usa RotatingProductHero com imagem resolvida e placeholder.",
+  "catalogCardImageRootCause": "A entrega anterior escondia cards quando validateProductMedia não classificava a mídia como pública. O card agora nunca retorna null por mídia e usa fallback local.",
+  "instagramOldOccurrences": [
+    "lib/constants.ts default antigo",
+    "public/assets/js/config.js",
+    "lib/seo-service.ts sameAs",
+    "lib/schema-org.ts sameAs"
+  ],
+  "blockedPublicCopyTerms": [
+    "foto real",
+    "fotos reais",
+    "render fiel",
+    "12x",
+    "mdh_impressao3d",
+    "Pokemon/Pokémon",
+    "Fire Red",
+    "Nintendo",
+    "Game Boy"
+  ],
+  "priceCardCalculation": [
+    "lib/payment-pricing.ts",
+    "lib/catalog-pricing-policy.ts",
+    "lib/pricing-engine.ts",
+    "scripts/catalog/fix-card-prices.mjs",
+    "scripts/catalog/validate-card-prices.mjs"
+  ],
+  "whatsappMessageSources": [
+    "components/product/PremiumCard.tsx",
+    "components/catalog-explorer.tsx",
+    "components/home/RotatingProductHero.tsx",
+    "components/cart-drawer.tsx",
+    "components/cart-page-shell.tsx",
+    "components/checkout/checkout-page-shell.tsx",
+    "components/product-purchase-tools.tsx",
+    "components/game/PrintQuestGame.tsx"
+  ],
+  "cartTotals": [
+    "lib/cart-context.tsx",
+    "lib/cart-store.ts",
+    "components/cart-drawer.tsx",
+    "components/cart-page-shell.tsx"
+  ],
+  "checkoutTotals": [
+    "lib/checkout.ts",
+    "components/checkout/checkout-page-shell.tsx",
+    "app/api/checkout/preference/route.ts"
+  ],
+  "adminProductSave": [
+    "components/admin/admin-product-edit-form.tsx",
+    "app/api/admin/products/[id]/route.ts",
+    "app/api/admin/catalog/[id]/route.ts"
+  ],
+  "productApiRoutes": [
+    "app/api/admin/products/route.ts",
+    "app/api/admin/products/[id]/route.ts",
+    "app/api/admin/products/[id]/cost-estimate/route.ts",
+    "app/api/products/[slug]/price/route.ts"
+  ],
+  "productUpdateReturnsJson": true,
+  "pwaStatus": "PWA exists and was expanded with manifest shortcuts, service worker safeguards and validation script.",
+  "seoJsonLdStatus": "Organization, WebSite SearchAction, BreadcrumbList, Product and FAQPage are present and validated by script.",
+  "securityHeadersStatus": "Security headers and CSP are audited by scripts/security/audit-security.mjs.",
+  "uploadSecurityStatus": "Upload validation is covered by existing security audit checks.",
+  "existingNpmScripts": [
+    "catalog:validate-card-images",
+    "catalog:validate-public-copy",
+    "catalog:fix-card-prices",
+    "catalog:validate-card-prices",
+    "catalog:classify",
+    "catalog:validate-taxonomy",
+    "catalog:validate-pricing",
+    "media:validate",
+    "doctor",
+    "security:audit"
+  ],
+  "createdOrUpdatedScripts": [
+    "seo:validate",
+    "pwa:validate",
+    "ux:validate",
+    "public:validate-html"
+  ],
+  "validationsPlanned": [
+    "npm install",
+    "catalog:validate-card-images",
+    "catalog:validate-public-copy",
+    "catalog:fix-card-prices",
+    "catalog:validate-card-prices",
+    "catalog:classify",
+    "catalog:validate-taxonomy",
+    "catalog:validate-pricing",
+    "typecheck",
+    "lint:check",
+    "build",
+    "media:validate",
+    "doctor",
+    "security:audit",
+    "seo:validate",
+    "pwa:validate",
+    "ux:validate",
+    "public:validate-html"
+  ],
+  "filesPlannedForChange": [
+    "lib/product-images.ts",
+    "lib/product-card-image.ts",
+    "lib/public-product-copy.ts",
+    "lib/catalog.ts",
+    "lib/catalog-repository.ts",
+    "app/page.tsx",
+    "app/catalogo/page.tsx",
+    "app/catalogo/[slug]/page.tsx",
+    "components/product/PremiumCard.tsx",
+    "components/home/RotatingProductHero.tsx",
+    "components/game/PrintQuestGame.tsx",
+    "app/jogue/page.tsx",
+    "app/manifest.ts",
+    "public/manifest.json",
+    "public/sw.js",
+    "scripts/validate-local-vs-production.mjs"
+  ]
+}
