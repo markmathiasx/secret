@@ -1,16 +1,16 @@
 # Próximos passos práticos
 
-1. Faça commit do estado local que realmente está melhor do que o GitHub público.
-2. Remova do catálogo os 1000 itens sintéticos e troque por um catálogo de 48 SKUs reais.
-3. Troque o painel legado `/painel-mdh-85` por um admin consistente.
-4. Atualize:
+1. [CONCLUÍDO] Faça commit do estado local que realmente está melhor do que o GitHub público.
+2. [CONCLUÍDO] Remova do catálogo os 1000 itens sintéticos e troque por um catálogo de 48 SKUs reais.
+3. [EM ANDAMENTO] Troque o painel legado `/painel-mdh-85` por um admin consistente (Estrutura /admin já ativa).
+4. [CONCLUÍDO] Atualize:
    - README.md
    - package.json
    - .env.example
-   - src/app/layout.tsx
+   - app/layout.tsx
    - middleware.ts
-   - src/lib/constants.ts
-5. Só depois suba as imagens definitivas.
+   - lib/constants.ts
+5. [PRÓXIMO] Só depois suba as imagens definitivas.
 
 ## Antes do push
 - npm run typecheck
