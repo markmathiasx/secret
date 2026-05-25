@@ -8,6 +8,7 @@ import { DeferredLayoutWidgets } from '@/components/deferred-layout-widgets';
 import { SiteFooter } from '@/components/site-footer';
 import { SiteHeader } from '@/components/site-header';
 import { ToastProvider } from '@/components/toast';
+import { MDHChatBotWidget } from '@/components/support/MDHChatBotWidget';
 import { brand, socialLinks, supportEmail, whatsappNumber } from '@/lib/constants';
 import {
   getAiAssistantModel,
@@ -36,6 +37,7 @@ const normalizedPhone = `+${whatsappNumber.replace(/\D/g, '')}`;
 const socialProfiles = [socialLinks.instagram].filter((item) => Boolean(item) && item !== '#');
 const googleVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION?.trim();
 const gaMeasurementId = (process.env.NEXT_PUBLIC_GA4_ID || process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || '').trim();
+
 const organizationJsonLd = {
   '@context': 'https://schema.org',
   '@type': ['Organization', 'LocalBusiness', 'Store'],
@@ -94,6 +96,7 @@ const organizationJsonLd = {
     merchantReturnLink: `${siteUrl}/trocas-e-devolucoes`
   }
 };
+
 const websiteJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
@@ -194,7 +197,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="pt-BR" data-scroll-behavior="smooth" className={`${sans.variable} ${display.variable}`}>
       <head>
-        {/* Critical resource hints — preconnect to third-party origins used above the fold */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
@@ -202,7 +204,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="dns-prefetch" href="https://api.mercadopago.com" />
         <link rel="dns-prefetch" href="https://sdk.mercadopago.com" />
       </head>
-      <body>
+      <body data-instagram-handle={`@${brand.instagramHandle}`}>
         {gaMeasurementId ? (
           <>
             <Script
@@ -225,27 +227,28 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <div className="site-shell">
           <CartProvider>
             <ToastProvider>
-            <SkipLink />
-            <AccessibilityProvider />
-            <SiteHeader
-              cardCheckoutReady={cardCheckoutReady}
-              aiAssistantReady={aiAssistantReady}
-              aiAssistantModel={aiAssistantModel}
-              aiAssistantProvider={aiAssistantProvider}
-              liveChatMode={liveChatMode}
-            />
-            <main id="main-content" tabIndex={-1}>{children}</main>
-            <SiteFooter cardCheckoutReady={cardCheckoutReady} />
-            <DeferredLayoutWidgets
-              cardCheckoutReady={cardCheckoutReady}
-              aiAssistantReady={aiAssistantReady}
-              aiAssistantModel={aiAssistantModel}
-              aiAssistantProvider={aiAssistantProvider}
-              chatwootEnabled={chatwootEnabled}
-              chatwootBaseUrl={chatwootBaseUrl}
-              chatwootWebsiteToken={chatwootWebsiteToken}
-              liveChatMode={liveChatMode}
-            />
+              <SkipLink />
+              <AccessibilityProvider />
+              <SiteHeader
+                cardCheckoutReady={cardCheckoutReady}
+                aiAssistantReady={aiAssistantReady}
+                aiAssistantModel={aiAssistantModel}
+                aiAssistantProvider={aiAssistantProvider}
+                liveChatMode={liveChatMode}
+              />
+              <main id="main-content" tabIndex={-1}>{children}</main>
+              <SiteFooter cardCheckoutReady={cardCheckoutReady} />
+              <DeferredLayoutWidgets
+                cardCheckoutReady={cardCheckoutReady}
+                aiAssistantReady={aiAssistantReady}
+                aiAssistantModel={aiAssistantModel}
+                aiAssistantProvider={aiAssistantProvider}
+                chatwootEnabled={chatwootEnabled}
+                chatwootBaseUrl={chatwootBaseUrl}
+                chatwootWebsiteToken={chatwootWebsiteToken}
+                liveChatMode={liveChatMode}
+              />
+              <MDHChatBotWidget />
             </ToastProvider>
           </CartProvider>
         </div>

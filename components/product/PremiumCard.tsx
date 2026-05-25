@@ -47,10 +47,6 @@ export function PremiumCard({ product, index = 0 }: PremiumCardProps) {
   const whatsappMessage = `Quero comprar ${product.name}. Quantidade: 1. Pix: ${formatCurrency(product.pricePix)}. Cartão + R$ 3: ${formatCurrency(priceCard)}. Categoria: ${product.category}. Intenção: compra pelo catálogo. Link: ${publicUrl}`;
   const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
 
-  useEffect(() => {
-    setImageSrc(cardImage.src);
-  }, [cardImage.src]);
-
   function handleAddToCart(e: React.MouseEvent) {
     e.preventDefault();
     e.stopPropagation();
@@ -60,7 +56,7 @@ export function PremiumCard({ product, index = 0 }: PremiumCardProps) {
       title: product.name,
       pricePix: product.pricePix,
       priceCard,
-      image: imageSrc || cardImage.src,
+      image: imageSrc,
     });
   }
 
@@ -74,8 +70,6 @@ export function PremiumCard({ product, index = 0 }: PremiumCardProps) {
       className="group flex h-full flex-col overflow-hidden rounded-[8px] border border-white/10 bg-white/[0.045] shadow-[0_18px_60px_rgba(0,0,0,0.22)]"
       aria-label={`Produto: ${product.name}`}
       data-product-card={product.id}
-      data-card-image-source={cardImage.source}
-      data-card-image-placeholder={cardImage.usedPlaceholder ? "true" : "false"}
     >
       <Link
         href={productUrl}
@@ -84,7 +78,7 @@ export function PremiumCard({ product, index = 0 }: PremiumCardProps) {
       >
         <img
           src={imageSrc}
-          alt={cardImage.alt}
+          alt={product.name}
           loading={index < 4 ? "eager" : "lazy"}
           decoding="async"
           fetchPriority={index < 4 ? "high" : "auto"}

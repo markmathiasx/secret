@@ -324,7 +324,7 @@ export function AdminProductEditForm({ product }: { product: AdminCatalogProduct
       if (!res.ok) {
         throw new Error(String(data?.error || `Erro ao salvar. Status HTTP ${res.status}.`));
       }
-      setSuccess(String(data?.error || "Produto atualizado com sucesso!"));
+      setSuccess(String(data?.message || "Produto atualizado com sucesso!"));
       router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Erro ao salvar produto.");

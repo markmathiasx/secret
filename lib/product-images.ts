@@ -1,222 +1,116 @@
 import type { Product } from "@/lib/catalog";
-import { buildProductImageAlt } from "@/lib/catalog-media";
-import { slugify } from "@/lib/utils";
-import { getCatalogPhotoCandidates, hasExplicitCatalogGallery } from "@/lib/catalog-photo-manifest";
-import { getProductVisualImageCandidates } from "@/lib/product-visuals";
 
 export const PRODUCT_IMAGE_PLACEHOLDER = "/placeholders/product-card.svg";
 export const productPlaceholderSrc = PRODUCT_IMAGE_PLACEHOLDER;
-const productExts = ["jpg", "webp", "png", "svg"] as const;
 
-type FlexibleImageProduct = Partial<Product> & {
-  imageGallery?: unknown;
-  gallery?: unknown;
-  media?: unknown;
-  imageUrl?: unknown;
-  primaryImage?: unknown;
-  thumbnail?: unknown;
+type ProductLike = Partial<Product> & Record<string, unknown>;
+
+export type ProductGalleryImage = {
+  id: string;
+  src: string;
+  alt: string;
+  candidates: string[];
 };
 
-export function getProductSlug(product: Product) {
-  return `${product.id}-${slugify(product.name)}`;
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null;
 }
 
-function explicitGallery(product: Product) {
-  const images = Array.isArray((product as Product & { images?: string[] }).images)
-    ? (product as Product & { images?: string[] }).images?.filter(Boolean)
-    : [];
-  if (images && images.length) {
-    return images.map((src, index) => ({
-      id: `${product.id}-${index + 1}`,
-      candidates: [src],
-      alt: buildProductImageAlt(product.name, index + 1),
-    }));
-  }
-  const single = (product as Product & { image?: string }).image;
-  if (single) {
-    return [{ id: `${product.id}-1`, candidates: [single], alt: buildProductImageAlt(product.name, 1) }];
-  }
+function readString(value: unknown): string | null {
+  if (typeof value !== "string") return null;
+  const trimmed = value.trim();
+  return trimmed.length > 0 ? trimmed : null;
+}
+
+function readIndexedSource(value: unknown, key: "url" | "src"): string | null {
+  if (!Array.isArray(value) || value.length === 0) return null;
+  const first = value[0];
+  if (typeof first === "string" && key === "src") return readString(first);
+  if (isRecord(first)) return readString(first[key]);
   return null;
 }
 
-function getProductShotCandidates(product: Product, shot: 1 | 2 | 3) {
-  const slug = getProductSlug(product);
-  const explicit = `/products/${slug}/${shot}`;
-  return productExts.map((ext) => `${explicit}.${ext}`);
+function readArraySources(value: unknown): string[] {
+  if (!Array.isArray(value)) return [];
+  return value
+    .map((entry) => {
+      if (typeof entry === "string") return readString(entry);
+      if (isRecord(entry)) return readString(entry.url) || readString(entry.src);
+      return null;
+    })
+    .filter((entry): entry is string => Boolean(entry));
 }
 
-function normalizeProductId(id: string) {
-  // Some product IDs use padded zeros (e.g., mdh-005) while the file
-  // names are written without padding (mdh-5). This normalizes both.
-  return id.replace(/-(0+)(\d+)$/, (_match, _zeros, number) => `-${Number(number)}`);
+export function isPublicSafeImageSource(src: unknown): boolean {
+  const value = readString(src);
+  if (!value) return false;
+  if (/^data:/i.test(value)) return false;
+  if (/example\.com/i.test(value)) return false;
+  return true;
 }
 
-function cleanString(value: unknown) {
-  return typeof value === "string" && value.trim() ? value.trim() : null;
+export function getProductImageAlt(product: Partial<Product> | null | undefined): string {
+  if (!product) return "Imagem do produto MDH 3D";
+  return product.imageAlt || product.name || "Imagem do produto MDH 3D";
 }
 
-function firstArrayEntry(value: unknown) {
-  return Array.isArray(value) && value.length ? value[0] : null;
-}
-
-function readCollectionField(product: FlexibleImageProduct, key: "imageGallery" | "gallery" | "media", field: "url" | "src") {
-  const entry = firstArrayEntry(product[key]);
-  if (!entry) return null;
-  if (typeof entry === "string") return field === "url" ? cleanString(entry) : null;
-  if (typeof entry === "object") return cleanString((entry as Record<string, unknown>)[field]);
-  return null;
-}
-
-function readFirstImage(product: FlexibleImageProduct) {
-  const entry = firstArrayEntry(product.images);
-  if (!entry) return null;
-  if (typeof entry === "string") return cleanString(entry);
-  if (typeof entry === "object") {
-    return cleanString((entry as Record<string, unknown>).url) || cleanString((entry as Record<string, unknown>).src);
-  }
-  return null;
-}
-
-export function isPublicSafeImageSource(src: string) {
-  const normalized = src.toLowerCase();
-  const blocked = [
-    "pokemon",
-    "pokémon",
-    "pikachu",
-    "nintendo",
-    "game-boy",
-    "gameboy",
-    "fire-red",
-    "fire_red",
-    "fire%20red",
-    "hello-kitty",
-    "rick-morty",
-    "homer",
-  ];
-  return !blocked.some((term) => normalized.includes(term));
-}
-
-export function getPrimaryImageFieldCandidates(product: FlexibleImageProduct | null | undefined) {
+export function getPrimaryImageFieldCandidates(product: Partial<Product> | null | undefined): string[] {
   if (!product) return [PRODUCT_IMAGE_PLACEHOLDER];
-  return [
-    readCollectionField(product, "imageGallery", "url"),
-    readCollectionField(product, "imageGallery", "src"),
-    readCollectionField(product, "gallery", "url"),
-    readCollectionField(product, "gallery", "src"),
-    readCollectionField(product, "media", "url"),
-    readCollectionField(product, "media", "src"),
-    readFirstImage(product),
-    cleanString(product.image),
-    cleanString(product.imageUrl),
-    cleanString(product.primaryImage),
-    cleanString(product.thumbnail),
-    PRODUCT_IMAGE_PLACEHOLDER,
-  ].filter(Boolean) as string[];
+  const item = product as ProductLike;
+
+  const candidates = [
+    readIndexedSource(item.imageGallery, "url"),
+    readIndexedSource(item.imageGallery, "src"),
+    readIndexedSource(item.gallery, "url"),
+    readIndexedSource(item.gallery, "src"),
+    readIndexedSource(item.media, "url"),
+    readIndexedSource(item.media, "src"),
+    Array.isArray(product.images) ? readString(product.images[0]) : null,
+    readString(product.image),
+    readString(item.imageUrl),
+    readString(item.primaryImage),
+    readString(item.thumbnail),
+  ].filter((entry): entry is string => Boolean(entry));
+
+  return candidates.length > 0 ? candidates : [PRODUCT_IMAGE_PLACEHOLDER];
 }
 
-function uniqueSafeCandidates(candidates: string[]) {
-  const unique = Array.from(new Set(candidates.filter(Boolean)));
-  const safe = unique.filter((src) => src === PRODUCT_IMAGE_PLACEHOLDER || isPublicSafeImageSource(src));
-  return safe.includes(PRODUCT_IMAGE_PLACEHOLDER) ? safe : [...safe, PRODUCT_IMAGE_PLACEHOLDER];
+export function getProductImageCandidates(product: Partial<Product> | null | undefined): string[] {
+  const ordered = [
+    ...getPrimaryImageFieldCandidates(product),
+    ...readArraySources((product as ProductLike | null | undefined)?.imageGallery),
+    ...readArraySources((product as ProductLike | null | undefined)?.gallery),
+    ...readArraySources((product as ProductLike | null | undefined)?.media),
+    ...(Array.isArray(product?.images) ? product.images : []),
+  ];
+
+  const deduped = Array.from(new Set(ordered.filter(isPublicSafeImageSource)));
+  return deduped.length > 0 ? deduped : [PRODUCT_IMAGE_PLACEHOLDER];
 }
 
-export function getProductImageCandidates(product: Product) {
-  const directCandidates = getPrimaryImageFieldCandidates(product);
-  const explicit = explicitGallery(product);
-  const visualCandidates = getProductVisualImageCandidates(product);
-  const catalogPhotoCandidates = getCatalogPhotoCandidates(product.id);
-  if (explicit?.length) {
-    return uniqueSafeCandidates([
-      ...directCandidates,
-      ...(explicit[0]?.candidates || []),
-      ...visualCandidates,
-      ...catalogPhotoCandidates,
-      productPlaceholderSrc,
-    ]);
-  }
-
-  const normalizedId = normalizeProductId(product.id);
-
-  // Priorizar catalog-assets WebP (mais otimizado)
-  const catalogWebp = `/catalog-assets/${product.id}.webp`;
-  const catalogWebpNormalized = `/catalog-assets/${normalizedId}.webp`;
-  const catalogJpg = `/catalog-assets/${product.id}.jpg`;
-  const catalogJpgNormalized = `/catalog-assets/${normalizedId}.jpg`;
-
-  // Fallback para assets/images/products (legado)
-  const legacyJpg = `/assets/images/products/product-${product.id.split('-')[1]}.jpg`;
-
-  return uniqueSafeCandidates([
-    ...directCandidates,
-    ...catalogPhotoCandidates,
-    ...visualCandidates,
-    catalogWebp,
-    catalogWebpNormalized,
-    catalogJpg,
-    catalogJpgNormalized,
-    legacyJpg,
-    productPlaceholderSrc,
-  ]);
-}
-
-export function resolveProductImage(product: Product) {
-  return getProductImageCandidates(product)[0] || productPlaceholderSrc;
-}
-
-export function getPrimaryProductImage(product: Product | null | undefined) {
-  if (!product) return PRODUCT_IMAGE_PLACEHOLDER;
+export function getPrimaryProductImage(product: Partial<Product> | null | undefined): string {
   return getProductImageCandidates(product)[0] || PRODUCT_IMAGE_PLACEHOLDER;
 }
 
-export function getProductImageAlt(product: FlexibleImageProduct | null | undefined) {
-  return cleanString(product?.imageAlt) || cleanString(product?.name) || "Imagem do produto MDH 3D";
-}
-
-export function hasUsableProductImage(product: Product | null | undefined) {
-  if (!product) return false;
+export function hasUsableProductImage(product: Partial<Product> | null | undefined): boolean {
   return getProductImageCandidates(product).some((src) => src !== PRODUCT_IMAGE_PLACEHOLDER);
 }
 
-export function getProductGallery(product: Product) {
-  const explicit = explicitGallery(product);
-  const visualCandidates = getProductVisualImageCandidates(product);
-  const catalogPhotoCandidates = getCatalogPhotoCandidates(product.id);
-  if (explicit?.length) {
-      return explicit.map((item) => ({
-      ...item,
-      candidates: uniqueSafeCandidates([...item.candidates, ...visualCandidates, ...catalogPhotoCandidates, productPlaceholderSrc]),
-    }));
-  }
-  if (catalogPhotoCandidates.length) {
-    if (hasExplicitCatalogGallery(product.id)) {
-      return catalogPhotoCandidates.map((src, index) => ({
-        id: `${product.id}-catalog-${index + 1}`,
-        candidates: uniqueSafeCandidates([src, productPlaceholderSrc]),
-        alt: `${product.name} - catálogo ${index + 1}`,
-      }));
-    }
-    return [
-      {
-        id: `${product.id}-catalog-1`,
-        candidates: uniqueSafeCandidates([...catalogPhotoCandidates, ...visualCandidates, productPlaceholderSrc]),
-        alt: `${product.name} - catálogo principal`,
-      },
-    ];
-  }
+export function getAllProductImages(product: Partial<Product> | null | undefined): string[] {
+  return getProductImageCandidates(product);
+}
 
-  // Usar apenas catalog-assets para galeria (WebP otimizado)
-  const normalizedId = normalizeProductId(product.id);
-
-  return ([1, 2, 3] as const).map((shot) => ({
-    id: `${product.id}-${shot}`,
-    candidates: [
-      ...visualCandidates,
-      `/catalog-assets/${product.id}.webp`,
-      `/catalog-assets/${normalizedId}.webp`,
-      `/catalog-assets/${product.id}.jpg`,
-      `/catalog-assets/${normalizedId}.jpg`,
-      productPlaceholderSrc,
-    ].filter((src) => isPublicSafeImageSource(src) || src === productPlaceholderSrc),
-    alt: buildProductImageAlt(product.name, shot),
+export function getProductGallery(product: Partial<Product> | null | undefined): ProductGalleryImage[] {
+  const candidates = getProductImageCandidates(product);
+  const alt = getProductImageAlt(product);
+  return candidates.map((src, index) => ({
+    id: `${readString(product?.id) || "product"}-${index}`,
+    src,
+    alt: index === 0 ? alt : `${alt} ${index + 1}`,
+    candidates: [src, PRODUCT_IMAGE_PLACEHOLDER],
   }));
+}
+
+export function resolveProductImage(product: Partial<Product> | null | undefined): string {
+  return getPrimaryProductImage(product);
 }

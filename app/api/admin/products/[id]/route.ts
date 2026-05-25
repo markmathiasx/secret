@@ -328,6 +328,8 @@ function fallbackPatchForOverrides(patch: NormalizedProductPatch): Partial<Admin
   return overridePatch;
 }
 
+import { revalidatePath } from "next/cache";
+
 export async function PUT(req: NextRequest, context: RouteContext) {
   const user = await getServerSessionUser();
   if (!isAdminSession(user)) {
@@ -371,10 +373,36 @@ export async function PUT(req: NextRequest, context: RouteContext) {
         userAgent: req.headers.get("user-agent"),
       });
       await invalidateCatalogCache();
-      return applyNoStoreHeaders(NextResponse.json({ ok: true, product: updated }));
+      revalidatePath("/catalogo");
+      revalidatePath("/admin/products");
+      revalidatePath("/");
+      return applyNoStoreHeaders(
+        NextResponse.json({
+          ok: true,
+          persisted: true,
+          source: "database",
+          message: "Produto atualizado no banco.",
+          product: updated,
+        })
+      );
     } catch {
       // Fall through to catalog override for static/local products not present in the database.
     }
+  }
+
+  if (process.env.VERCEL === "1") {
+    return applyNoStoreHeaders(
+      NextResponse.json(
+        {
+          ok: false,
+          code: "DATABASE_PERSISTENCE_REQUIRED",
+          error:
+            "Este ambiente não permite persistência segura em arquivo. Configure o banco de produção para salvar preço e descrição.",
+          details: { productId: id, source: "vercel" },
+        },
+        { status: 503 }
+      )
+    );
   }
 
   try {
@@ -384,6 +412,9 @@ export async function PUT(req: NextRequest, context: RouteContext) {
     };
     const updated = await updateAdminCatalogProduct(id, fallbackPatch);
     await invalidateCatalogCache();
+    revalidatePath("/catalogo");
+    revalidatePath("/admin/products");
+    revalidatePath("/");
     await recordAdminAction({
       actorId: user?.id,
       actorEmail: user?.email,
@@ -396,12 +427,24 @@ export async function PUT(req: NextRequest, context: RouteContext) {
       ipAddress: req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip"),
       userAgent: req.headers.get("user-agent"),
     });
-    return applyNoStoreHeaders(NextResponse.json({ ok: true, product: updated }));
-  } catch (error) {
-    return NextResponse.json(
-      { ok: false, error: error instanceof Error ? error.message : "Não foi possível salvar o produto." },
-      { status: 400 }
+    return applyNoStoreHeaders(
+      NextResponse.json({
+        ok: true,
+        persisted: true,
+        source: "safe-fallback",
+        message: "Produto atualizado no fallback local.",
+        product: updated,
+      })
     );
+  } catch (error) {
+    return applyNoStoreHeaders(NextResponse.json(
+      {
+        ok: false,
+        code: "PRODUCT_UPDATE_FAILED",
+        error: error instanceof Error ? error.message : "Não foi possível salvar o produto.",
+      },
+      { status: 400 }
+    ));
   }
 }
 

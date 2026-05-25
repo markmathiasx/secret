@@ -74,6 +74,7 @@
     "media:validate": "node scripts/media/validate-video-assets.mjs",
     "validate:public-html": "node scripts/validate-local-vs-production.mjs",
     "public:validate-html": "node scripts/validate-local-vs-production.mjs",
+    "validate:local-vs-production": "node scripts/validate-local-vs-production.mjs",
     "ci:check": "npm run lint:check && npm run typecheck && npm run build && npm run test:images && npm run test:e2e"
   },
   "dependencies": {

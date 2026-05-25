@@ -358,7 +358,7 @@ function inferSubcategory(blob: string, category: CatalogPrimaryCategory, object
       if (hasAny(blob, ["mini acessorio", "acessorio"])) return "mini acessório";
       return "chaveiro";
     case "Geek & Colecionáveis":
-      if (hasAny(blob, ["anime", "otaku", "manga", "hello kitty", "jedi", "pokemon", "pikachu"])) return "anime";
+      if (hasAny(blob, ["anime", "otaku", "manga", "hello kitty", "jedi"])) return "anime";
       if (hasAny(blob, ["game", "gamer", "valorant", "league of legends", "minecraft", "nintendo"])) return "games";
       if (hasAny(blob, ["filme", "serie", "demogorgon", "rick", "morty", "star wars", "marvel"])) return "filmes e séries";
       if (hasAny(blob, ["dragao", "cavaleiro", "medieval", "fantasia", "criatura"])) return "fantasia/medieval";
@@ -509,8 +509,6 @@ function inferCategory(product: TaxonomyProductInput, blob: string) {
 
   const geekTerms = [
     "homer",
-    "pikachu",
-    "pokemon",
     "demogorgon",
     "dragao",
     "cavaleiro",

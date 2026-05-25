@@ -1,6 +1,6 @@
-# MDH 3D Store — Professional Fullstack (v2.1.0)
+# MDH 3D Store — Professional Fullstack
 
-Marketplace de alto desempenho para impressão 3D no Rio de Janeiro. Esta versão foi consolidada com foco em conversão real, catálogo curado de 48 SKUs validados e infraestrutura profissional.
+Marketplace de alto desempenho para impressão 3D no Rio de Janeiro, com catálogo público preservado, vitrine de conversão, checkout, admin e atendimento integrados.
 
 ## Stack Profissional
 
@@ -11,9 +11,11 @@ Marketplace de alto desempenho para impressão 3D no Rio de Janeiro. Esta versã
 - **Payment:** Integração Mercado Pago (Pix/Cartão)
 - **Infrastructure:** Docker Ready, standalone build, CI/CD validado
 
-## Catálogo Real (48 SKUs)
+## Catálogo Público
 
-Diferente das versões anteriores com 1000 itens sintéticos, este repositório utiliza agora o **Catálogo Profissional MDH 3D**, composto por 48 produtos reais divididos em:
+O catálogo público é preservado a partir das fontes reais do projeto e não deve ser substituído por uma amostra reduzida. Curadorias menores podem existir como coleção ou destaque, mas sem apagar IDs existentes usados por PDP, carrinho, checkout, admin e SEO.
+
+Categorias principais:
 - Setup & Organização
 - Casa & Decoração
 - Utilidades Reais
@@ -53,10 +55,13 @@ O antigo `/painel-mdh-85` foi substituído por uma estrutura de `/admin` protegi
 - `npm run validate`: Pipeline completo de sanidade (Build + Typecheck + Lint).
 - `npm run seo:validate`: Auditoria técnica de SEO e Schemas.
 
-## Contas de Acesso (Ambiente Local)
+## Contas de Acesso
 
-- **Admin:** `admin@mdh3d.com.br` / `admin123456`
-- **Comprador:** `cliente@exemplo.com.br` / `cliente123456`
+Use variáveis locais para criar contas de seed. Somente desenvolvimento local; nunca usar em produção.
+
+- **Admin:** `ADMIN_EMAIL=<admin-email>` e `ADMIN_PASSWORD_HASH=<scrypt-password-hash>`
+- **Vendedor seed:** `SEED_SELLER_EMAIL=<seed-seller-email>` e `SEED_SELLER_PASSWORD=<seed-seller-password>`
+- **Comprador seed:** `SEED_BUYER_EMAIL=<seed-buyer-email>` e `SEED_BUYER_PASSWORD=<seed-buyer-password>`
 
 ---
 *MDH 3D Store — Produção Local, Excelência Global.*

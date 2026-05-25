@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-25T12:27:42.163Z",
+  "generatedAt": "2026-05-25T19:04:34.330Z",
   "productionBase": null,
   "ok": true,
   "forbiddenTerms": [
@@ -14,6 +14,8 @@
     "Ver peças reais",
     "Fechamento rápido",
     "Preço claro",
+    "Preço auditado",
+    "Simulação ativa",
     "12x de",
     "12x no cartão",
     "mdh_impressao3d",
@@ -21,7 +23,8 @@
     "Pokemon",
     "Fire Red",
     "Nintendo",
-    "Game Boy"
+    "Game Boy",
+    "Subway Surfers"
   ],
   "localChecks": [
     {

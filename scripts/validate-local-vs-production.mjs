@@ -23,6 +23,8 @@ const forbiddenTerms = [
   "Ver peças reais",
   "Fechamento rápido",
   "Preço claro",
+  "Preço auditado",
+  "Simulação ativa",
   "12x de",
   "12x no cartão",
   "mdh_impressao3d",
@@ -31,13 +33,14 @@ const forbiddenTerms = [
   "Fire Red",
   "Nintendo",
   "Game Boy",
+  "Subway Surfers",
 ];
 
 const productRoutes = catalog.slice(0, 3).map((product) => getProductUrl(product));
 const routes = [
   { route: "/", signals: ["mdh_3d.com.br", "Jogue no site", "Comprar", "WhatsApp", "Pix", "Cartão", "Cartão + R$ 3", "data-rotating-product-hero"] },
   { route: "/catalogo", signals: ["<img", "src", "data-product-card", "Comprar", "WhatsApp", "Pix", "Cartão", "Cartão + R$ 3"] },
-  { route: "/jogue", signals: ["Print Quest", "Jogar", "WhatsApp", "data-print-quest-game"] },
+  { route: "/jogue", signals: ["Print Runner", "Filament Catcher", "Jogar", "WhatsApp"] },
   ...productRoutes.map((route) => ({ route, signals: ["<img", "Pix", "Cartão", "Cartão + R$ 3", "WhatsApp", "Comprar"] })),
   { route: "/carrinho", signals: ["Carrinho"] },
   { route: "/checkout", signals: ["Checkout"] },
