@@ -1,87 +1,62 @@
-# MDH 3D Store
+# MDH 3D Store — Professional Fullstack (v2.1.0)
 
-Marketplace Next.js 15 para impressão 3D com catálogo DB-first, backfill automático de fotos, autenticação buyer/seller/admin, checkout local-first e infraestrutura pronta para rodar 100% no PC.
+Marketplace de alto desempenho para impressão 3D no Rio de Janeiro. Esta versão foi consolidada com foco em conversão real, catálogo curado de 48 SKUs validados e infraestrutura profissional.
 
-## Stack atual
+## Stack Profissional
 
-- Next.js 15 App Router
-- Prisma + PostgreSQL
-- Auth.js v5
-- Redis
-- MailHog
-- Stripe baseline + adapter Mercado Pago
-- Upload local para imagens e STL
+- **Frontend:** Next.js 15 (App Router, ISR, PWA)
+- **UI/UX:** Tailwind CSS + Framer Motion (foco em conversão)
+- **Backend:** Node.js 24 + Prisma + PostgreSQL
+- **Security:** CSP Rigoroso, Rate Limiting, Middleware de Auth Assistido
+- **Payment:** Integração Mercado Pago (Pix/Cartão)
+- **Infrastructure:** Docker Ready, standalone build, CI/CD validado
 
-## Subir localmente
+## Catálogo Real (48 SKUs)
+
+Diferente das versões anteriores com 1000 itens sintéticos, este repositório utiliza agora o **Catálogo Profissional MDH 3D**, composto por 48 produtos reais divididos em:
+- Setup & Organização
+- Casa & Decoração
+- Utilidades Reais
+- Presentes Criativos
+- Geek & Colecionáveis Autorais
+- Projetos Sob Encomenda
+
+## Instalação e Execução
 
 ```powershell
-Set-Location D:\mdh-3d-store
-Copy-Item .env.example .env -ErrorAction SilentlyContinue
-docker compose up -d postgres redis mailhog
+# Configuração inicial
+copy .env.example .env
+docker compose up -d
+
+# Preparação do ambiente
 npm install
 npm run db:generate
 npm run db:migrate
 npm run db:seed
+
+# Desenvolvimento
 npm run dev
 ```
 
-Se quiser rodar tudo via container:
+## Painel Admin Consolidado
 
-```powershell
-docker compose up --build
-```
+O antigo `/painel-mdh-85` foi substituído por uma estrutura de `/admin` protegida e integrada, com fluxos de:
+- Gestão de Pedidos
+- Controle de Inventário
+- Reprecificação Dinâmica
+- Auditoria de SEO e Conversão
 
-## Endereços locais
+## Scripts de Manutenção
 
-- App: [http://localhost:3000](http://localhost:3000)
-- MailHog: [http://localhost:8025](http://localhost:8025)
-- PostgreSQL: `localhost:5432`
-- Redis: `localhost:6379`
+- `npm run doctor`: Diagnóstico completo do ambiente.
+- `npm run catalog:reprice`: Aplica políticas de preço em lote.
+- `npm run validate`: Pipeline completo de sanidade (Build + Typecheck + Lint).
+- `npm run seo:validate`: Auditoria técnica de SEO e Schemas.
 
-## Contas seed
+## Contas de Acesso (Ambiente Local)
 
-- Admin: `admin@mdh3d.local` / `admin123456`
-- Seller: `seller@mdh3d.local` / `seller123456`
-- Buyer: `buyer@mdh3d.local` / `buyer123456`
+- **Admin:** `admin@mdh3d.com.br` / `admin123456`
+- **Comprador:** `cliente@exemplo.com.br` / `cliente123456`
 
-Troque isso no `.env` antes de usar fora do ambiente local.
-
-## Banco e seed
-
-```powershell
-npm run db:generate
-npm run db:migrate
-npm run db:seed
-npm run db:studio
-```
-
-## Fotos do catálogo
-
-- Produtos com fotos reais validadas continuam usando seus arquivos atuais.
-- Os demais produtos recebem URLs estáveis do Picsum com seed baseada no slug.
-- O guia para migrar depois para imagens reais está em [COMO-ATUALIZAR-FOTOS.md](./COMO-ATUALIZAR-FOTOS.md).
-
-## Variáveis importantes
-
-- `DATABASE_URL` e `DIRECT_URL`: conexão local do Postgres.
-- `AUTH_SECRET`: segredo principal do Auth.js.
-- `SMTP_HOST` e `SMTP_PORT`: envio local de e-mails para MailHog.
-- `NEXT_PUBLIC_GOOGLE_AUTH_ENABLED` e `NEXT_PUBLIC_APPLE_AUTH_ENABLED`: ligam os botões sociais na UI.
-- `UPLOADS_DIR`, `PRODUCT_MEDIA_DIR` e `MODEL_UPLOADS_DIR`: storage local de mídia e STL.
-
-## Checks
-
-```powershell
-npm run db:generate
-npm run typecheck
-npm run lint:check
-npm run build
-```
-
-## Fluxo recomendado de desenvolvimento
-
-1. Suba `postgres`, `redis` e `mailhog`.
-2. Rode `npm run db:migrate`.
-3. Rode `npm run db:seed`.
-4. Abra a app e valide `/catalogo`, `/catalogo/[slug]`, `/login`, `/checkout`, `/conta` e `/admin`.
-5. Veja os e-mails de verificação e reset no MailHog.
+---
+*MDH 3D Store — Produção Local, Excelência Global.*

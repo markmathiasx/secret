@@ -39,102 +39,101 @@ export type StorefrontProduct = {
 };
 
 const curatedSourceIds = [
-  "mdh-013",
-  "mdh-014",
-  "mdh-015",
-  "mdh-016",
-  "mdh-017",
-  "mdh-019",
-  "mdh-022",
-  "mdh-025",
-  "mdh-026",
-  "mdh-028",
-  "mdh-029",
-  "mdh-030",
+  "mdh-a1-001",
+  "mdh-a1-002",
+  "mdh-a1-003",
+  "mdh-a1-008",
+  "mdh-a1-009",
+  "mdh-a1-017",
+  "mdh-a1-019",
+  "mdh-a1-023",
+  "mdh-a1-026",
+  "mdh-a1-031",
+  "mdh-a1-040",
+  "mdh-a1-048",
 ] as const;
 
-const copyBySourceId: Record<(typeof curatedSourceIds)[number] | "mdh-038", ProductCopy> = {
-  "mdh-013": {
-    shortDescription: "Suporte 3D para headphone com acabamento limpo, base firme e visual profissional para setup.",
+const copyBySourceId: Record<(typeof curatedSourceIds)[number], ProductCopy> = {
+  "mdh-a1-001": {
+    shortDescription: "Suporte 3D para headset com design Arc, base firme e visual profissional.",
     longDescription:
-      "Peça pensada para quem quer organizar a bancada sem perder estética. Funciona bem em home office, setup gamer e presente útil, com produção local no Rio e prazo curto para fechamento.",
+      "Peça pensada para organizar seu setup sem perder a estética. Funciona bem em home office ou quarto gamer, com produção local no Rio.",
     featured: true,
   },
-  "mdh-014": {
-    shortDescription: "Organizador de cabos para mesa, rack ou bancada com instalação simples e visual discreto.",
+  "mdh-a1-002": {
+    shortDescription: "Dock para controle Solo, compatível com PS5, Xbox e Switch.",
     longDescription:
-      "Ideal para eliminar fios soltos no setup, no escritório ou em estações de atendimento. É um item de ticket acessível, recorrente em reposição e bom para compra rápida pela web.",
+      "Base estável e minimalista para manter seu controle sempre à mão e seu setup organizado.",
     featured: true,
   },
-  "mdh-015": {
-    shortDescription: "Suporte para celular com boa estabilidade para videochamada, estudos, cozinha ou mesa de trabalho.",
+  "mdh-a1-003": {
+    shortDescription: "Suporte para celular Tilt com ângulo otimizado para videochamadas.",
     longDescription:
-      "Resolve uso diário com uma peça compacta, leve e fácil de presentear. Funciona bem para clientes que querem utilidade imediata, preço claro e fechamento sem briefing longo.",
+      "Compacto e funcional, ideal para deixar na mesa de trabalho ou cabeceira.",
     featured: true,
   },
-  "mdh-016": {
-    shortDescription: "Chaveiro 3D personalizável para nome, frase curta, logo ou ação promocional.",
+  "mdh-a1-008": {
+    shortDescription: "Suporte para notebook Lift, par robusto para melhor ergonomia.",
     longDescription:
-      "Ótimo para brinde, lembrança, evento e venda em lote. A personalização simples ajuda a converter rápido, especialmente para pedidos corporativos ou presentes de baixo ticket.",
+      "Eleva seu notebook para uma melhor postura e resfriamento, feito em PETG resistente.",
     featured: true,
-    acceptsPersonalizationText: true,
-    personalizationLabel: "Nome, frase ou referência do chaveiro",
-    personalizationPlaceholder: "Ex.: Ana Clara, Team RJ 2026 ou logo circular em preto",
   },
-  "mdh-017": {
-    shortDescription: "Suporte para controle PS5 com leitura premium, base segura e cara de produto acabado.",
+  "mdh-a1-009": {
+    shortDescription: "Vaso geométrico Geo Mini com acabamento Silk luxuoso.",
     longDescription:
-      "Peça com apelo forte para setup gamer, presente geek e organização da bancada. Entra bem em campanhas de conversão porque combina desejo visual com utilidade clara.",
+      "Peça decorativa marcante para suculentas ou para compor prateleiras e mesas.",
+    featured: true,
   },
-  "mdh-019": {
-    shortDescription: "Porta-copos geek em impressão 3D para mesa gamer, home office ou presente temático.",
+  "mdh-a1-017": {
+    shortDescription: "Seu nome ou palavra em 3D com design exclusivo Desk.",
     longDescription:
-      "É um item simples de explicar, fácil de comprar por impulso e ótimo para kits. Pode ser vendido sozinho, em pares ou em combos com outras utilidades do setup.",
-  },
-  "mdh-022": {
-    shortDescription: "Organizador de canetas e acessórios de mesa para escritório, estudo ou bancada criativa.",
-    longDescription:
-      "Ajuda a organizar materiais do dia a dia com visual limpo e fabricação local. Funciona bem para clientes que buscam utilidade e boa apresentação sem depender de customização complexa.",
-  },
-  "mdh-025": {
-    shortDescription: "Vaso geométrico decorativo para mesa, estante, aparador ou presente de casa nova.",
-    longDescription:
-      "Produto de decoração com boa percepção de valor e compra direta. É indicado para clientes que querem presentear ou compor ambientes com uma peça leve e marcante.",
-  },
-  "mdh-026": {
-    shortDescription: "Pokébola impressa em 3D para coleção, presente geek ou decoração de setup.",
-    longDescription:
-      "Item de fandom com apelo visual imediato, boa taxa de clique e alta intenção de compra para público geek. Fecha bem em campanhas sazonais e kits com outros colecionáveis.",
-  },
-  "mdh-028": {
-    shortDescription: "Luminária LED personalizada para nome, frase, logo ou peça decorativa com alto impacto visual.",
-    longDescription:
-      "Excelente produto para presente, quarto gamer, mesa de trabalho e ações promocionais. Tem potencial alto de compartilhamento em conteúdo e boa conversão com prova visual e CTA direto.",
-    acceptsPersonalizationText: true,
-    personalizationLabel: "Texto da luminária",
-    personalizationPlaceholder: "Ex.: Studio MDH, Pedro, Setup Zone ou frase curta",
-  },
-  "mdh-029": {
-    shortDescription: "Foto litofania em 3D para presente afetivo, decoração com iluminação e lembrança personalizada.",
-    longDescription:
-      "Converte bem para datas comemorativas porque transforma foto em peça física com valor emocional alto. É um produto comercial forte para intenção de presente e orçamento claro.",
-    acceptsPersonalizationText: true,
-    personalizationLabel: "Texto ou contexto da foto",
-    personalizationPlaceholder: "Ex.: foto de casal, homenagem para mãe ou aniversário de 15 anos",
-  },
-  "mdh-030": {
-    shortDescription: "Quadro decorativo 3D para parede, setup, recepção ou presente com identidade visual forte.",
-    longDescription:
-      "Peça indicada para decorar ambientes e destacar temas geek, minimalistas ou personalizados. É um bom produto para tráfego comercial por unir prova visual, ticket claro e compra rápida.",
-  },
-  "mdh-038": {
-    shortDescription: "Projeto 3D personalizado para nome, frase, presente, peça decorativa ou pedido sob medida.",
-    longDescription:
-      "Entrada comercial para quem ainda não encontrou a peça certa no catálogo. O cliente pode enviar texto, referência, logo, uso esperado ou briefing curto para receber uma proposta clara e seguir para produção.",
+      "Personalize sua mesa com seu nome em relevo e acabamento de alta qualidade.",
     featured: true,
     acceptsPersonalizationText: true,
-    personalizationLabel: "Descreva o que você quer personalizado",
-    personalizationPlaceholder: "Ex.: nome em 3D para mesa, topo de bolo, peça com logotipo ou referência de presente",
+    personalizationLabel: "Nome ou palavra",
+    personalizationPlaceholder: "Ex.: Marina, Gamer, Studio",
+  },
+  "mdh-a1-019": {
+    shortDescription: "Placa Pix Premium para balcão ou recepção.",
+    longDescription:
+      "Expositor profissional para seu QR Code do Pix, facilitando as vendas do seu negócio.",
+    featured: true,
+    acceptsPersonalizationText: true,
+    personalizationLabel: "Chave Pix (opcional para o QR)",
+    personalizationPlaceholder: "Ex.: seu-email@site.com",
+  },
+  "mdh-a1-023": {
+    shortDescription: "Colecionável autoral Guardião Chibi com acabamento Matte.",
+    longDescription:
+      "Peça exclusiva MDH 3D, com design expressivo para colecionadores.",
+    featured: true,
+  },
+  "mdh-a1-026": {
+    shortDescription: "Máscara Samurai em suporte, peça premium de colecionador.",
+    longDescription:
+      "Destaque absoluto para qualquer estante geek ou setup temático oriental.",
+    featured: true,
+  },
+  "mdh-a1-031": {
+    shortDescription: "Placa Gamer Neon Frame com visual moderno e vibrante.",
+    longDescription:
+      "Ideal para dar aquele clima de stream ou quarto gamer com design inspirado em neon.",
+    featured: true,
+  },
+  "mdh-a1-040": {
+    shortDescription: "Luminária Orb Mini para iluminação decorativa e difusa.",
+    longDescription:
+      "Cria um ambiente aconchegante com design esférico minimalista.",
+    featured: true,
+  },
+  "mdh-a1-048": {
+    shortDescription: "Projeto 3D personalizado sob medida para suas necessidades.",
+    longDescription:
+      "Modelagem e impressão para projetos especiais que não estão no catálogo.",
+    featured: true,
+    acceptsPersonalizationText: true,
+    personalizationLabel: "Descreva sua ideia",
+    personalizationPlaceholder: "Ex.: Peça técnica, topo de bolo específico, etc.",
   },
 };
 
@@ -184,54 +183,18 @@ const curatedProducts = curatedSourceIds.map((sourceId) =>
   buildStorefrontProduct(assertProduct(sourceId), copyBySourceId[sourceId])
 );
 
-const customBase = assertProduct("mdh-038");
-
 export const storefrontProducts: StorefrontProduct[] = [
   ...curatedProducts,
-  buildStorefrontProduct(customBase, copyBySourceId["mdh-038"], {
-    id: "mdh-custom",
-    sourceId: null,
-    sku: "MDH-CUSTOM",
-    slug: "projeto-3d-personalizado",
-    href: "/checkout",
-    name: "Projeto 3D Personalizado",
-    category: "Sob medida",
-    stock: 99,
-    price: 89.9,
-    pricePix: 89.9,
-    priceCard: calculateCardPrice(89.9),
-    priceFromLabel: "Projetos a partir de R$ 89,90",
-    material: "PLA Premium ou sob análise",
-    finish: "Sob medida",
-    productionWindow: "3 a 7 dias úteis",
-    featured: true,
-    customizable: true,
-    acceptsPersonalizationText: true,
-  }),
 ];
 
-export const featuredStorefrontProducts = storefrontProducts.filter((product) => product.featured);
-export const bestsellerStorefrontProducts = storefrontProducts.slice(0, 6);
-export const highlightStorefrontProducts = storefrontProducts.slice(6, 12);
+export const bestsellerStorefrontProducts = storefrontProducts.filter(p => p.featured).slice(0, 4);
+export const highlightStorefrontProducts = storefrontProducts.filter(p => p.featured).slice(4, 8);
 
-export function findStorefrontProductById(productId: string) {
-  return storefrontProducts.find((product) => product.id === productId || product.sourceId === productId) || null;
+export function findStorefrontProductById(id: string) {
+  return storefrontProducts.find((p) => p.id === id) || null;
 }
 
-export function findStorefrontProductBySlug(slug: string) {
-  return storefrontProducts.find((product) => product.slug === slug) || null;
-}
-
-export function resolveStorefrontHref(productId: string) {
-  const storefrontProduct = findStorefrontProductById(productId);
-  if (storefrontProduct) {
-    return storefrontProduct.href;
-  }
-
-  const catalogProduct = findProduct(productId);
-  if (catalogProduct) {
-    return getProductUrl(catalogProduct);
-  }
-
-  return "/catalogo";
+export function resolveStorefrontHref(id: string) {
+  const p = findStorefrontProductById(id);
+  return p ? p.href : "/catalogo";
 }
