@@ -72,6 +72,7 @@
     "media:fetch": "node scripts/media/fetch-licensed-videos.mjs",
     "media:fetch-cinematic": "node scripts/media/fetch-cinematic-pexels-videos.mjs",
     "media:validate": "node scripts/media/validate-video-assets.mjs",
+    "meta:validate-feed": "node scripts/meta/validate-commerce-feed.mjs",
     "validate:public-html": "node scripts/validate-local-vs-production.mjs",
     "public:validate-html": "node scripts/validate-local-vs-production.mjs",
     "validate:local-vs-production": "node scripts/validate-local-vs-production.mjs",
