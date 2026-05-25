@@ -1,8 +1,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { loadEnvFiles } from './load-env-files.mjs';
 
 const cwd = process.cwd();
-const envPath = path.join(cwd, '.env.local');
 const packageJson = JSON.parse(fs.readFileSync(path.join(cwd, 'package.json'), 'utf8'));
 const sourceRoots = ['app', 'components', 'lib', 'scripts'];
 const textExtensions = new Set([
@@ -34,22 +34,8 @@ const optional = [
   'MERCADOPAGO_ACCESS_TOKEN'
 ];
 
-const env = fs.existsSync(envPath)
-  ? Object.fromEntries(
-      fs
-        .readFileSync(envPath, 'utf8')
-        .split(/\r?\n/)
-        .filter((line) => /^[A-Za-z_][A-Za-z0-9_]*=/.test(line))
-        .map((line) => {
-          const idx = line.indexOf('=');
-          const value = line
-            .slice(idx + 1)
-            .trim()
-            .replace(/^['"]|['"]$/g, '');
-          return [line.slice(0, idx), value];
-        })
-    )
-  : {};
+loadEnvFiles(cwd);
+const env = process.env;
 
 console.log('MDH 3D doctor');
 console.log('----------------');

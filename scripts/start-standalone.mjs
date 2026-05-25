@@ -2,8 +2,11 @@ import { spawn } from "node:child_process";
 import { cpSync, existsSync, mkdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import process from "node:process";
+import { loadEnvFiles } from "./load-env-files.mjs";
 
 const root = process.cwd();
+loadEnvFiles(root);
+
 const standaloneDir = join(root, ".next", "standalone");
 const standaloneServer = join(standaloneDir, "server.js");
 const staticSource = join(root, ".next", "static");

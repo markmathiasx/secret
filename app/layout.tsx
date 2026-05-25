@@ -71,7 +71,7 @@ const organizationJsonLd = {
   ],
   priceRange: 'R$',
   currenciesAccepted: 'BRL',
-  paymentAccepted: cardCheckoutReady ? 'Pix, Cartão de Crédito, Boleto' : 'Pix',
+  paymentAccepted: 'Pix, Cartão de Crédito',
   areaServed: {
     '@type': 'State',
     name: 'Rio de Janeiro',
