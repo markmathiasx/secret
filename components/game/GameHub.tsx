@@ -1,36 +1,38 @@
 "use client";
 
-import { useState } from "react";
-import { Gamepad2, Rocket, Zap, Trophy, Play, Info } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Zap, Trophy, Play, Info } from "lucide-react";
+import { MiniGame, miniGameCatalog, type MiniGameId } from "./MiniGames";
 import { PrintRunner } from "./PrintRunner";
 
-type GameId = "hub" | "print-runner";
-
-const upcomingGames = [
-  { id: "catcher", title: "Filament Catcher", desc: "Pegue bobinas antes que toquem o chão.", status: "Em breve", icon: Rocket },
-  { id: "stack", title: "Layer Stack", desc: "Empilhe camadas no timing certo.", status: "Em breve", icon: Trophy },
-  { id: "dodge", title: "Nozzle Dodge", desc: "Desvie de falhas e mantenha a extrusão limpa.", status: "Em breve", icon: Zap },
-  { id: "bed-level", title: "Bed Level Master", desc: "Calibre a mesa sem perder aderência.", status: "Em breve", icon: Gamepad2 },
-  { id: "support", title: "Support Breaker", desc: "Remova suportes sem quebrar a peça.", status: "Em breve", icon: Rocket },
-  { id: "color", title: "Color Swap", desc: "Troque cores no ponto exato da camada.", status: "Em breve", icon: Zap },
-  { id: "delivery", title: "Delivery Dash 3D", desc: "Entregue pedidos antes do prazo acabar.", status: "Em breve", icon: Gamepad2 },
-  { id: "stl", title: "STL Puzzle", desc: "Monte a peça certa a partir de pistas.", status: "Em breve", icon: Trophy },
-  { id: "tycoon", title: "Print Tycoon Mini", desc: "Gerencie pedidos e impressoras por 60s.", status: "Em breve", icon: Rocket },
-] as const;
+type GameId = "hub" | "print-runner" | MiniGameId;
 
 export function GameHub() {
   const [activeGame, setActiveGame] = useState<GameId>("hub");
 
-  if (activeGame === "print-runner") {
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }, [activeGame]);
+
+  if (activeGame !== "hub") {
+    const gameTitle =
+      activeGame === "print-runner"
+        ? "Print Runner 3D"
+        : miniGameCatalog.find((game) => game.id === activeGame)?.title ?? "Mini-game";
+
     return (
-      <div className="relative min-h-[600px] w-full overflow-hidden rounded-[32px] bg-slate-950 border border-white/10 shadow-2xl">
+      <div
+        data-active-game={activeGame}
+        className="relative min-h-[600px] w-full overflow-hidden rounded-[32px] bg-slate-950 border border-white/10 shadow-2xl"
+      >
         <button
           onClick={() => setActiveGame("hub")}
           className="absolute top-4 left-4 z-50 btn-glass px-4 py-2 text-xs font-bold"
+          aria-label={`Voltar ao arcade a partir de ${gameTitle}`}
         >
-          ← Sair do jogo
+          ← Voltar ao arcade
         </button>
-        <PrintRunner />
+        {activeGame === "print-runner" ? <PrintRunner /> : <MiniGame gameId={activeGame} />}
       </div>
     );
   }
@@ -82,17 +84,26 @@ export function GameHub() {
         </div>
 
         <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-4">
-          {upcomingGames.map((game) => (
-            <div key={game.id} className="glass-panel p-6 border-white/5 opacity-60 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-300">
+          {miniGameCatalog.map((game) => (
+            <button
+              key={game.id}
+              data-game-card={game.id}
+              onClick={() => setActiveGame(game.id)}
+              className="glass-panel group p-6 border-white/5 text-left transition-all duration-300 hover:-translate-y-1 hover:border-cyan-300/30 hover:bg-cyan-300/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/70"
+            >
               <div className="flex justify-between items-start">
-                <div className="p-3 rounded-xl bg-white/5 border border-white/10">
-                  <game.icon className="h-5 w-5 text-white/40" />
+                <div className="p-3 rounded-xl bg-white/5 border border-white/10 transition-colors group-hover:border-cyan-300/30 group-hover:bg-cyan-300/15">
+                  <game.icon className="h-5 w-5 text-white/50 transition-colors group-hover:text-cyan-100" />
                 </div>
-                <span className="text-[10px] font-black uppercase tracking-widest text-white/30">{game.status}</span>
+                <span className="inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-widest text-emerald-200">
+                  <Play className="h-3 w-3 fill-emerald-200" />
+                  Jogar
+                </span>
               </div>
               <h3 className="mt-4 text-xl font-black text-white">{game.title}</h3>
               <p className="mt-2 text-sm text-white/40">{game.desc}</p>
-            </div>
+              <p className="mt-4 text-[10px] font-black uppercase tracking-widest text-cyan-200/70">{game.difficulty}</p>
+            </button>
           ))}
         </div>
       </div>
