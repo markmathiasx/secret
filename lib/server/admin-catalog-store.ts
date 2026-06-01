@@ -98,7 +98,7 @@ function normalizeProductionStage(value: string | undefined, readyToShip: boolea
 
 function deriveBaseCost(product: Product, override?: AdminProductOverride) {
   if (typeof override?.costBase === "number") return override.costBase;
-  if (typeof override?.pricePix === "number") return Number((override.pricePix * 0.6).toFixed(2));
+  if (typeof override?.pricePix === "number") return Number(override.pricePix.toFixed(2));
   if (typeof product.baseCost === "number") return product.baseCost;
   if (typeof product.estimatedUnitCost === "number") return product.estimatedUnitCost;
   return 0;
@@ -118,7 +118,7 @@ function decimalToOptionalNumber(value: Prisma.Decimal | number | null | undefin
 }
 
 function normalizeProfitMode(value: unknown): ProfitMode {
-  return value === "markup" ? "markup" : "margin";
+  return value === "margin" ? "margin" : "markup";
 }
 
 function mapStatusToLegacy(status: ProductStatus): Product["status"] {

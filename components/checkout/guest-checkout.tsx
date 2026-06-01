@@ -234,7 +234,7 @@ export function GuestCheckout() {
                       <div className="flex-1">
                         <h3 className="font-semibold text-white">{item.name}</h3>
                         <p className="text-sm text-white/60">Qtd: {item.quantity}</p>
-                        <p className="text-sm text-white/60">Cartão + R$ 3: {formatCurrency(calculateCardPrice(item.price) * item.quantity)}</p>
+                        <p className="text-sm text-white/60">Cartão + R$ 1: {formatCurrency(calculateCardPrice(item.price) * item.quantity)}</p>
                         <p className="text-lg font-bold text-cyan-100 mt-1">
                           {formatCurrency(item.price * item.quantity)}
                         </p>
@@ -468,7 +468,7 @@ export function GuestCheckout() {
                   <div className="flex justify-between items-center">
                     <div>
                       <p className="font-semibold text-white">Cartão de Crédito</p>
-                      <p className="text-sm text-white/60">Cada produto fica R$ 3,00 acima do Pix</p>
+                      <p className="text-sm text-white/60">Cada produto fica R$ 1,00 acima do Pix</p>
                     </div>
                     <p className="font-bold text-cyan-100">
                       {formatCurrency(totalCard)}

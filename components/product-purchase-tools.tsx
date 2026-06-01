@@ -72,7 +72,7 @@ export function ProductPurchaseTools({
     try {
       const url = new URL(whatsappHref);
       const current = url.searchParams.get("text") || "";
-      const nextMessage = `${current}\nQuantidade desejada: ${quantity}\nPix: ${formatCurrency(unitPix)}\nCartão + R$ 3: ${formatCurrency(unitCard)}\nObjetivo: ${goal}.`.trim();
+      const nextMessage = `${current}\nQuantidade desejada: ${quantity}\nPix: ${formatCurrency(unitPix)}\nCartão + R$ 1: ${formatCurrency(unitCard)}\nObjetivo: ${goal}.`.trim();
       url.searchParams.set("text", nextMessage);
       return url.toString();
     } catch {
@@ -334,7 +334,7 @@ export function ProductPurchaseTools({
         <div className="rounded-[20px] border border-white/10 bg-white/5 p-4">
           <p className="text-xs uppercase tracking-[0.16em] text-white/50">Total no cartão</p>
           <p className="mt-2 text-2xl font-black text-white">{formatCurrency(totalCard)}</p>
-          <p className="mt-1 text-xs text-white/55">Cada produto fica R$ 3,00 acima do Pix.</p>
+          <p className="mt-1 text-xs text-white/55">Cada produto fica R$ 1,00 acima do Pix.</p>
         </div>
       </div>
 

@@ -1,0 +1,156 @@
+{
+  "generatedAt": "2026-06-01T14:09:43.650Z",
+  "rule": "Pix = valor base/custo da peca; Cartao = Pix + 1.00",
+  "adminOverridesTouched": 812,
+  "legacyProductsTouched": 220,
+  "a1ExpansionTouched": 500,
+  "assetProductsTouched": 60,
+  "samples": {
+    "overrides": [
+      {
+        "id": "csv-cha-001-chaveiro-acrilico-premium-jett-valorant-dupla-face-para-mochila-chaves-e-setup-gamer",
+        "beforePix": 9.01,
+        "afterPix": 7.51,
+        "afterCard": 8.51
+      },
+      {
+        "id": "csv-cha-002-chaveiro-emborrachado-reyna-valorant-estilo-gamer-resistente-para-chaves-e-mochila",
+        "beforePix": 8.57,
+        "afterPix": 7.14,
+        "afterCard": 8.14
+      },
+      {
+        "id": "csv-cha-003-chaveiro-metalizado-sage-valorant-edicao-nerd-para-colecao-e-presente-criativo",
+        "beforePix": 10.34,
+        "afterPix": 8.62,
+        "afterCard": 9.62
+      },
+      {
+        "id": "csv-cha-004-chaveiro-3d-omen-valorant-mini-pingente-decorativo-para-mochila-e-setup",
+        "beforePix": 5.93,
+        "afterPix": 4.94,
+        "afterCard": 5.94
+      },
+      {
+        "id": "csv-cha-005-chaveiro-acrilico-premium-ahri-league-of-legends-dupla-face-para-mochila-chaves-e-setup-gamer",
+        "beforePix": 9.01,
+        "afterPix": 7.51,
+        "afterCard": 8.51
+      },
+      {
+        "id": "csv-cha-006-chaveiro-emborrachado-yasuo-league-of-legends-estilo-gamer-resistente-para-chaves-e-mochila",
+        "beforePix": 8.57,
+        "afterPix": 7.14,
+        "afterCard": 8.14
+      },
+      {
+        "id": "csv-cha-007-chaveiro-metalizado-jinx-league-of-legends-edicao-nerd-para-colecao-e-presente-criativo",
+        "beforePix": 10.34,
+        "afterPix": 8.62,
+        "afterCard": 9.62
+      },
+      {
+        "id": "csv-cha-008-chaveiro-3d-lux-league-of-legends-mini-pingente-decorativo-para-mochila-e-setup",
+        "beforePix": 5.93,
+        "afterPix": 4.94,
+        "afterCard": 5.94
+      }
+    ],
+    "legacy": [
+      {
+        "id": "makeworld-001",
+        "beforePix": 19.84,
+        "afterPix": 16.53,
+        "afterCard": 17.53
+      },
+      {
+        "id": "makeworld-002",
+        "beforePix": 36.37,
+        "afterPix": 30.31,
+        "afterCard": 31.31
+      },
+      {
+        "id": "makeworld-003",
+        "beforePix": 22.04,
+        "afterPix": 18.37,
+        "afterCard": 19.37
+      },
+      {
+        "id": "makeworld-004",
+        "beforePix": 3.75,
+        "afterPix": 3.13,
+        "afterCard": 4.13
+      },
+      {
+        "id": "makeworld-005",
+        "beforePix": 30.42,
+        "afterPix": 25.35,
+        "afterCard": 26.35
+      }
+    ],
+    "a1": [
+      {
+        "id": "mw-a1-001",
+        "beforePix": 9.9,
+        "afterPix": 8.25,
+        "afterCard": 9.25
+      },
+      {
+        "id": "mw-a1-002",
+        "beforePix": 4.39,
+        "afterPix": 3.66,
+        "afterCard": 4.66
+      },
+      {
+        "id": "mw-a1-003",
+        "beforePix": 6.15,
+        "afterPix": 5.13,
+        "afterCard": 6.13
+      },
+      {
+        "id": "mw-a1-004",
+        "beforePix": 7.69,
+        "afterPix": 6.41,
+        "afterCard": 7.41
+      },
+      {
+        "id": "mw-a1-005",
+        "beforePix": 6.15,
+        "afterPix": 5.13,
+        "afterCard": 6.13
+      }
+    ],
+    "assets": [
+      {
+        "id": "mdh-001",
+        "beforePix": 9.01,
+        "afterPix": 7.51,
+        "afterCard": 8.51
+      },
+      {
+        "id": "mdh-002",
+        "beforePix": 12.74,
+        "afterPix": 10.62,
+        "afterCard": 11.62
+      },
+      {
+        "id": "mdh-003",
+        "beforePix": 9.92,
+        "afterPix": 8.27,
+        "afterCard": 9.27
+      },
+      {
+        "id": "mdh-004",
+        "beforePix": 13.64,
+        "afterPix": 11.37,
+        "afterCard": 12.37
+      },
+      {
+        "id": "mdh-005",
+        "beforePix": 17.37,
+        "afterPix": 14.48,
+        "afterCard": 15.48
+      }
+    ]
+  }
+}

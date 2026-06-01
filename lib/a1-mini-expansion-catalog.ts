@@ -39,7 +39,7 @@ function money(value: number) {
 }
 
 function buildExpansionProduct(row: ExpansionRow, index: number): Product {
-  const baseCost = money(row.finalPriceBrl * 0.6);
+  const baseCost = money(row.finalPriceBrl);
   const priceCard = calculateCardPrice(row.finalPriceBrl);
   const marketplaceSuggested = money(row.finalPriceBrl * 1.18);
 

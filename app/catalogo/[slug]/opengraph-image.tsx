@@ -13,7 +13,7 @@ export default async function Image({ params }: { params: Promise<{ slug: string
 
   const name = product?.name ?? "MDH 3D Store";
   const subtitle = product
-    ? `Pix R$ ${product.pricePix.toFixed(2).replace(".", ",")} | Cartão + R$ 3 R$ ${calculateCardPrice(product.pricePix).toFixed(2).replace(".", ",")}`
+    ? `Pix R$ ${product.pricePix.toFixed(2).replace(".", ",")} | Cartão + R$ 1 R$ ${calculateCardPrice(product.pricePix).toFixed(2).replace(".", ",")}`
     : "Impressão 3D Profissional · Rio de Janeiro";
 
   const badge = product?.category ?? "MDH 3D";

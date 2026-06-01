@@ -22,7 +22,7 @@ export const metadata: Metadata = {
 };
 
 const quickBlocks = [
-  { label: "Produtos a partir de R$ 19,90", href: "/catalogo?maxPrice=29.90" },
+  { label: "Produtos de menor preço", href: "/catalogo?maxPrice=29.90" },
   { label: "Chaveiros e presentes rápidos", href: "/catalogo?category=Chaveiros%20e%20Acess%C3%B3rios" },
   { label: "Utilidades para casa e setup", href: "/catalogo?category=Casa%20e%20Organiza%C3%A7%C3%A3o" },
   { label: "Geek e colecionáveis", href: "/catalogo?category=Geek%20%26%20Colecion%C3%A1veis" },
@@ -46,7 +46,7 @@ function HomeProductCard({ product, siteUrl }: { product: Product; siteUrl: stri
   const href = getProductUrl(product);
   const cardPrice = calculateCardPrice(product.pricePix);
   const productUrl = `${siteUrl}${href}`;
-  const message = `Quero comprar ${product.name}. Quantidade: 1. Pix: ${formatCurrency(product.pricePix)}. Cartão + R$ 3: ${formatCurrency(cardPrice)}. Categoria: ${product.category}. Intenção: compra pela home. Link: ${productUrl}`;
+  const message = `Quero comprar ${product.name}. Quantidade: 1. Pix: ${formatCurrency(product.pricePix)}. Cartão + R$ 1: ${formatCurrency(cardPrice)}. Categoria: ${product.category}. Intenção: compra pela home. Link: ${productUrl}`;
 
   return (
     <article className="group overflow-hidden rounded-[8px] border border-white/10 bg-white/[0.045] transition hover:border-emerald-300/30">
@@ -71,7 +71,7 @@ function HomeProductCard({ product, siteUrl }: { product: Product; siteUrl: stri
         <div className="mt-3">
           <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-white/42">Pix</p>
           <p className="text-xl font-black text-emerald-100">{formatCurrency(product.pricePix)}</p>
-          <p className="mt-0.5 text-xs font-semibold text-white/58">Cartão + R$ 3 {formatCurrency(cardPrice)}</p>
+          <p className="mt-0.5 text-xs font-semibold text-white/58">Cartão + R$ 1 {formatCurrency(cardPrice)}</p>
         </div>
         <div className="mt-3 grid grid-cols-[1fr_auto] gap-2">
           <Link href={href} className="btn-primary justify-center px-3 py-2 text-xs">
@@ -155,7 +155,7 @@ export default async function HomePage() {
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 rounded-full border border-emerald-300/20 bg-emerald-300/10 px-3 py-1 text-xs font-black uppercase tracking-[0.12em] text-emerald-50">
               <Sparkles className="h-3.5 w-3.5" />
-              Pix claro, cartão Pix + R$ 3,00
+              Pix claro, cartão Pix + R$ 1,00
             </div>
             <h1 className="mt-5 text-4xl font-black leading-[1.02] text-white sm:text-5xl lg:text-6xl">
               Impressão 3D sob demanda para presentes, utilidades e peças personalizadas.
@@ -197,7 +197,7 @@ export default async function HomePage() {
               </div>
               <div className="rounded-[8px] border border-white/10 bg-white/[0.045] p-3">
                 <p className="text-[11px] uppercase tracking-[0.12em] text-white/48">Cartão</p>
-                <p className="mt-1 text-xl font-black text-white">+ R$ 3</p>
+                <p className="mt-1 text-xl font-black text-white">+ R$ 1</p>
               </div>
               <div className="rounded-[8px] border border-white/10 bg-white/[0.045] p-3">
                 <p className="text-[11px] uppercase tracking-[0.12em] text-white/48">Atendimento</p>

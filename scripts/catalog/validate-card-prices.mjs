@@ -25,7 +25,7 @@ const cards = prices.map((value) => calculateCardPrice(value));
 
 const report = {
   generatedAt: new Date().toISOString(),
-  rule: "priceCard = pricePix + 3.00",
+  rule: "priceCard = pricePix + 1.00",
   ok: mismatches.length === 0,
   productsChecked: catalog.length,
   mismatches,
@@ -33,11 +33,11 @@ const report = {
   minCard: cards.length ? Math.min(...cards) : 0,
 };
 
-writeJson("reports/card-price-plus-3-report.json", report);
+writeJson("reports/card-price-plus-1-report.json", report);
 
 if (mismatches.length) {
-  console.error(`Falha: ${mismatches.length} produtos com cartao diferente de Pix + R$ 3,00.`);
+  console.error(`Falha: ${mismatches.length} produtos com cartao diferente de Pix + R$ 1,00.`);
   process.exit(1);
 }
 
-console.log(`OK: ${catalog.length} produtos com cartao = Pix + R$ 3,00.`);
+console.log(`OK: ${catalog.length} produtos com cartao = Pix + R$ 1,00.`);

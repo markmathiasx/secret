@@ -29,7 +29,7 @@ type EstimateResponse = {
   error?: string;
 };
 
-const MIN_SITE_PRICE_PIX = 19.9;
+const MIN_SITE_PRICE_PIX = 0.01;
 
 function formatCurrency(value: number) {
   return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(Number.isFinite(value) ? value : 0);
@@ -68,7 +68,7 @@ function calculateRecommendation(form: Record<string, string | boolean>, profitM
   const laborHourlyRate = Math.max(0, parseNumber(String(form.laborHourlyRate), 15));
   const packagingCost = Math.max(0, parseNumber(String(form.packagingCost), 1.5));
   const overheadPercent = Math.min(300, Math.max(0, parseNumber(String(form.overheadPercent), 8)));
-  const target = Math.max(0, parseNumber(String(form.profitTargetPercent), 50));
+  const target = Math.max(0, parseNumber(String(form.profitTargetPercent), 0));
   const costFilament = roundCurrency(grams * (spoolPricePerKg / 1000));
   const costMachine = roundCurrency(hours * machineHourlyRate);
   const costLabor = roundCurrency((postProcessMinutes / 60) * laborHourlyRate);
@@ -151,7 +151,7 @@ export function AdminProductEditForm({ product }: { product: AdminCatalogProduct
     packagingCost: numberText(product.packagingCost, "1.5"),
     overheadPercent: numberText(product.overheadPercent, "8"),
     profitMode: product.profitMode,
-    profitTargetPercent: numberText(product.profitTargetPercent, "50"),
+    profitTargetPercent: numberText(product.profitTargetPercent, "0"),
   });
   const [loading, setLoading] = useState(false);
   const [estimating, setEstimating] = useState(false);
@@ -314,7 +314,7 @@ export function AdminProductEditForm({ product }: { product: AdminCatalogProduct
           packagingCost: parseNumber(String(form.packagingCost), 2.5),
           overheadPercent: parseNumber(String(form.overheadPercent), 12),
           profitMode: form.profitMode,
-          profitTargetPercent: parseNumber(String(form.profitTargetPercent), 50),
+          profitTargetPercent: parseNumber(String(form.profitTargetPercent), 0),
           estimatedProfitAmount: currentProfitAmount,
           estimatedProfitPercent: currentProfitPercent,
           costingUpdatedAt: new Date().toISOString(),
@@ -479,7 +479,7 @@ export function AdminProductEditForm({ product }: { product: AdminCatalogProduct
             <input name="pricePix" type="number" step={0.01} min={0} value={String(form.pricePix)} onChange={handleChange} className="field-base" />
           </label>
           <label className="block">
-            <span className="mb-1 block text-sm text-white/70">Preço Cartão (Pix + R$ 3,00)</span>
+            <span className="mb-1 block text-sm text-white/70">Preço Cartão (Pix + R$ 1,00)</span>
             <div className="flex gap-2">
               <input name="priceCard" type="number" step={0.01} min={0} value={String(form.priceCard)} readOnly className="field-base" />
               <button type="button" onClick={recalculateCardPrice} className="btn-secondary shrink-0 px-4 text-xs">
@@ -502,7 +502,7 @@ export function AdminProductEditForm({ product }: { product: AdminCatalogProduct
             </select>
           </label>
           <label className="block">
-            <span className="mb-1 block text-sm text-white/70">Lucro alvo (%)</span>
+            <span className="mb-1 block text-sm text-white/70">Ajuste sobre custo (%)</span>
             <input name="profitTargetPercent" type="number" step={0.1} min={0} value={String(form.profitTargetPercent)} onChange={handleChange} className="field-base" />
           </label>
         </div>

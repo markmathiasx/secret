@@ -33,7 +33,7 @@ for (const product of catalog) {
       priceCard: expectedCard,
       listPrice: expectedCard,
       listPriceBrl: expectedCard,
-      pricingSource: "pix-plus-3-policy",
+      pricingSource: "pix-plus-1-policy",
     };
     corrections.push({
       id: product.id,
@@ -50,13 +50,13 @@ writeOverrides(overrides);
 
 const report = {
   generatedAt: new Date().toISOString(),
-  rule: "priceCard = pricePix + 3.00",
+  rule: "priceCard = pricePix + 1.00",
   productsChecked: catalog.length,
   overrideEntriesTouched: corrections.length,
   mismatchedCardsCorrected: corrections.filter((item) => item.corrected).length,
   corrections,
 };
 
-writeJson("reports/card-price-plus-3-report.json", report);
-console.log(`Cartao Pix + R$ 3,00 verificado em ${catalog.length} produtos.`);
+writeJson("reports/card-price-plus-1-report.json", report);
+console.log(`Cartao Pix + R$ 1,00 verificado em ${catalog.length} produtos.`);
 console.log(`${report.mismatchedCardsCorrected} valores de cartao corrigidos.`);

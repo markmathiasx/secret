@@ -478,7 +478,7 @@ async function getPrismaAdminFinanceSnapshot() {
   const recentOrders: FinanceOrderRow[] = orders.map((order) => {
     const payment = order.payments[0];
     const estimatedCost = order.items.reduce((sum, item) => {
-      const productCost = item.product?.estimatedUnitCost ? Number(item.product.estimatedUnitCost) : Number(item.unitPrice) * 0.6;
+      const productCost = item.product?.estimatedUnitCost ? Number(item.product.estimatedUnitCost) : Number(item.unitPrice);
       return sum + productCost * item.quantity;
     }, 0);
     const total = Number(order.grandTotal);
@@ -528,7 +528,7 @@ export async function getAdminFinanceSnapshot() {
   const snapshot = await getAdminDashboardSnapshot();
   const recentOrders: FinanceOrderRow[] = snapshot.recentOrders.map((order) => {
     const total = Number(order.payment_method === "card" ? order.total_card || order.total_pix || 0 : order.total_pix || order.total_card || 0);
-    const estimatedCost = Number((total * 0.6).toFixed(2));
+    const estimatedCost = Number(total.toFixed(2));
     return {
       id: order.id,
       order_code: order.order_code,

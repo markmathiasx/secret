@@ -38,18 +38,24 @@ export function RotatingProductHero({ products }: { products: RotatingHeroProduc
   const [paused, setPaused] = useState(false);
   const active = items[clampIndex(activeIndex, items.length)];
   const [imageSrc, setImageSrc] = useState(active?.image || PRODUCT_IMAGE_PLACEHOLDER);
+  const [motionReady, setMotionReady] = useState(false);
+  const enableMotion = motionReady && !shouldReduceMotion;
+
+  useEffect(() => {
+    setMotionReady(true);
+  }, []);
 
   useEffect(() => {
     setImageSrc(active?.image || PRODUCT_IMAGE_PLACEHOLDER);
   }, [active?.image]);
 
   useEffect(() => {
-    if (!items.length || shouldReduceMotion || paused) return undefined;
+    if (!items.length || !enableMotion || paused) return undefined;
     const timer = window.setInterval(() => {
       setActiveIndex((value) => clampIndex(value + 1, items.length));
     }, ROTATION_MS);
     return () => window.clearInterval(timer);
-  }, [items.length, paused, shouldReduceMotion]);
+  }, [enableMotion, items.length, paused]);
 
   if (!active) {
     return null;
@@ -57,7 +63,7 @@ export function RotatingProductHero({ products }: { products: RotatingHeroProduc
 
   const priceCard = calculateCardPrice(active.pricePix);
   const productUrl = `https://www.mdh3d.com.br${active.href}`;
-  const whatsappMessage = `Quero comprar ${active.name}. Quantidade: 1. Pix: ${formatCurrency(active.pricePix)}. Cartão + R$ 3: ${formatCurrency(priceCard)}. Categoria: ${active.category}. Intenção: vitrine rotativa da home. Link: ${productUrl}`;
+  const whatsappMessage = `Quero comprar ${active.name}. Quantidade: 1. Pix: ${formatCurrency(active.pricePix)}. Cartão + R$ 1: ${formatCurrency(priceCard)}. Categoria: ${active.category}. Intenção: vitrine rotativa da home. Link: ${productUrl}`;
   const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
 
   function goTo(delta: number) {
@@ -101,8 +107,8 @@ export function RotatingProductHero({ products }: { products: RotatingHeroProduc
             onError={() => {
               if (imageSrc !== PRODUCT_IMAGE_PLACEHOLDER) setImageSrc(PRODUCT_IMAGE_PLACEHOLDER);
             }}
-            initial={shouldReduceMotion ? false : { scale: 1.04, opacity: 0.45 }}
-            animate={shouldReduceMotion ? undefined : { scale: 1, opacity: 1 }}
+            initial={enableMotion ? { scale: 1.04, opacity: 0.45 } : false}
+            animate={enableMotion ? { scale: 1, opacity: 1 } : undefined}
             transition={{ duration: 0.45, ease: "easeOut" }}
             className="h-full w-full object-cover opacity-100"
           />
@@ -122,7 +128,7 @@ export function RotatingProductHero({ products }: { products: RotatingHeroProduc
                 <p className="mt-1 text-4xl font-black leading-none text-white">{formatCurrency(active.pricePix)}</p>
               </div>
               <div className="rounded-[8px] border border-white/10 bg-white/[0.055] p-4">
-                <p className="text-[11px] font-black uppercase tracking-[0.14em] text-white/48">Cartão + R$ 3</p>
+                <p className="text-[11px] font-black uppercase tracking-[0.14em] text-white/48">Cartão + R$ 1</p>
                 <p className="mt-1 text-2xl font-black leading-none text-white">{formatCurrency(priceCard)}</p>
               </div>
             </div>

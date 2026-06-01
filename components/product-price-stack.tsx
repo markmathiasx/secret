@@ -35,7 +35,7 @@ export function ProductPriceStack({
         <p className={compact ? "mt-1 text-2xl font-black leading-none text-white" : "mt-1 text-4xl font-black leading-none text-white"}>
           {formatCurrency(product.pricePix)}
         </p>
-        <p className="mt-1 text-sm font-semibold text-white/66">Cartão + R$ 3 {formatCurrency(priceCard)}</p>
+        <p className="mt-1 text-sm font-semibold text-white/66">Cartão + R$ 1 {formatCurrency(priceCard)}</p>
       </div>
 
       <div className="grid gap-2 text-xs text-white/62 sm:grid-cols-2">

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Gamepad2, Instagram, MessageCircleMore, ShoppingBag } from "lucide-react";
+import { GameKeyboardGuard } from "@/components/game/GameKeyboardGuard";
 import { GameHub } from "@/components/game/GameHub";
 import { CinematicVideoBackground } from "@/components/media/CinematicVideoBackground";
 import { whatsappNumber } from "@/lib/constants";
@@ -13,6 +14,7 @@ export const metadata: Metadata = {
 export default function JoguePage() {
   return (
     <main className="relative min-h-screen bg-slate-950">
+      <GameKeyboardGuard />
       <CinematicVideoBackground
         variant="catalog"
         overlayClassName="bg-[linear-gradient(90deg,rgba(2,6,23,0.95),rgba(2,6,23,0.75)_50%,rgba(2,6,23,0.92)),linear-gradient(180deg,rgba(2,6,23,0.15),rgba(2,6,23,0.96))]"

@@ -44,7 +44,7 @@ export function PremiumCard({ product, index = 0 }: PremiumCardProps) {
   const badges = badgesFor(product);
   const description = shortText(product.description || "Produto em impressão 3D para uso, presente ou decoração.");
   const publicUrl = `https://www.mdh3d.com.br${productUrl}`;
-  const whatsappMessage = `Quero comprar ${product.name}. Quantidade: 1. Pix: ${formatCurrency(product.pricePix)}. Cartão + R$ 3: ${formatCurrency(priceCard)}. Categoria: ${product.category}. Intenção: compra pelo catálogo. Link: ${publicUrl}`;
+  const whatsappMessage = `Quero comprar ${product.name}. Quantidade: 1. Pix: ${formatCurrency(product.pricePix)}. Cartão + R$ 1: ${formatCurrency(priceCard)}. Categoria: ${product.category}. Intenção: compra pelo catálogo. Link: ${publicUrl}`;
   const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
 
   function handleAddToCart(e: React.MouseEvent) {
@@ -109,7 +109,7 @@ export function PremiumCard({ product, index = 0 }: PremiumCardProps) {
         <div className="mt-auto rounded-[8px] border border-white/10 bg-black/20 p-3">
           <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-emerald-100/70">Pix</p>
           <p className="mt-1 text-2xl font-black leading-none text-white">{formatCurrency(product.pricePix)}</p>
-          <p className="mt-1 text-xs font-semibold text-white/60">Cartão + R$ 3 {formatCurrency(priceCard)}</p>
+          <p className="mt-1 text-xs font-semibold text-white/60">Cartão + R$ 1 {formatCurrency(priceCard)}</p>
         </div>
 
         <div className="grid grid-cols-2 gap-2 text-[11px] text-white/60">

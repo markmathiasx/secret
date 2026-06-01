@@ -109,13 +109,13 @@ function parseMinProductionDays(windowLabel: string) {
 
 function buildWhatsAppQuote(product: Product, quantity: number) {
   const priceCard = calculateCardPrice(product.pricePix);
-  const message = `Quero comprar ${product.name}. Quantidade: ${quantity}. Pix: ${formatCurrency(product.pricePix)}. Cartão + R$ 3: ${formatCurrency(priceCard)}. Categoria: ${product.category}. Intenção: compra pelo catálogo. Link: https://www.mdh3d.com.br${getProductUrl(product)}`;
+  const message = `Quero comprar ${product.name}. Quantidade: ${quantity}. Pix: ${formatCurrency(product.pricePix)}. Cartão + R$ 1: ${formatCurrency(priceCard)}. Categoria: ${product.category}. Intenção: compra pelo catálogo. Link: https://www.mdh3d.com.br${getProductUrl(product)}`;
   return `https://wa.me/5521920137249?text=${encodeURIComponent(message)}`;
 }
 
 function buildSelectionWhatsApp(items: Product[], quantity: number) {
   const shortlist = items.slice(0, 6);
-  const lines = shortlist.map((item, index) => `${index + 1}. ${item.name} (${item.sku}) - Pix ${formatCurrency(item.pricePix)} - Cartão + R$ 3 ${formatCurrency(calculateCardPrice(item.pricePix))}`);
+  const lines = shortlist.map((item, index) => `${index + 1}. ${item.name} (${item.sku}) - Pix ${formatCurrency(item.pricePix)} - Cartão + R$ 1 ${formatCurrency(calculateCardPrice(item.pricePix))}`);
   const message = [
     `Quero revisar esta seleção da MDH 3D para ${quantity} unidade(s):`,
     ...lines,
@@ -126,7 +126,7 @@ function buildSelectionWhatsApp(items: Product[], quantity: number) {
 
 function buildFavoritesWhatsApp(items: Product[]) {
   const shortlist = items.slice(0, 8);
-  const lines = shortlist.map((item, index) => `${index + 1}. ${item.name} (${item.sku}) - Pix ${formatCurrency(item.pricePix)} - Cartão + R$ 3 ${formatCurrency(calculateCardPrice(item.pricePix))}`);
+  const lines = shortlist.map((item, index) => `${index + 1}. ${item.name} (${item.sku}) - Pix ${formatCurrency(item.pricePix)} - Cartão + R$ 1 ${formatCurrency(calculateCardPrice(item.pricePix))}`);
   const message = [
     'Quero revisar meus favoritos da MDH 3D:',
     ...lines,
@@ -1192,7 +1192,7 @@ export function CatalogExplorer({
               </div>
               <div className="surface-stat rounded-[18px] px-4 py-4">
                 <p className="text-[11px] uppercase tracking-[0.16em] text-white/50">Cartão</p>
-                <p className="mt-2 text-lg font-black text-white">Pix + R$ 3</p>
+                <p className="mt-2 text-lg font-black text-white">Pix + R$ 1</p>
               </div>
             </div>
 

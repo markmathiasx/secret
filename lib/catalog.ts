@@ -138,7 +138,7 @@ function applyAdminOverride(product: Product): Product {
     typeof override.costBase === "number"
       ? override.costBase
       : typeof override.pricePix === "number"
-        ? Number((override.pricePix * 0.6).toFixed(2))
+        ? Number(override.pricePix.toFixed(2))
         : product.baseCost;
   const nextStatus = override.status ?? product.status;
   const manualPriceOverride = override.pricePix !== undefined;
@@ -229,19 +229,23 @@ function enrichProduct(product: Product): Product {
   });
   const pricePix = taxonomized.manualPriceOverride ? taxonomized.pricePix : policyPricePix;
   const priceCard = calculateCardPrice(pricePix);
-  const profitAmount = Number((pricePix - pricing.costBase).toFixed(2));
+  const costBase =
+    taxonomized.manualPriceOverride && typeof taxonomized.baseCost === "number"
+      ? taxonomized.baseCost
+      : pricing.costBase;
+  const profitAmount = Number((pricePix - costBase).toFixed(2));
 
   return {
     ...taxonomized,
     price: pricePix,
-    baseCost: pricing.costBase,
+    baseCost: costBase,
     pricePix,
     priceCard,
     marketplaceSuggested: pricing.referencePrice,
-    estimatedUnitCost: pricing.costBase,
+    estimatedUnitCost: costBase,
     estimatedUnitProfit: profitAmount,
     pricingMode: "faixa-auditada",
-    pricingNarrative: buildFixedMarginNarrative(pricing.costBase, pricePix),
+    pricingNarrative: buildFixedMarginNarrative(costBase, pricePix),
     marketBenchmark: marketPricing.benchmark,
   };
 }

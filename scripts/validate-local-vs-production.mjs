@@ -38,10 +38,10 @@ const forbiddenTerms = [
 
 const productRoutes = catalog.slice(0, 3).map((product) => getProductUrl(product));
 const routes = [
-  { route: "/", signals: ["mdh_3d.com.br", "Jogue no site", "Comprar", "WhatsApp", "Pix", "Cartão", "Cartão + R$ 3", "data-rotating-product-hero"] },
-  { route: "/catalogo", signals: ["<img", "src", "data-product-card", "Comprar", "WhatsApp", "Pix", "Cartão", "Cartão + R$ 3"] },
+  { route: "/", signals: ["mdh_3d.com.br", "Jogue no site", "Comprar", "WhatsApp", "Pix", "Cartão", "Cartão + R$ 1", "data-rotating-product-hero"] },
+  { route: "/catalogo", signals: ["<img", "src", "data-product-card", "Comprar", "WhatsApp", "Pix", "Cartão", "Cartão + R$ 1"] },
   { route: "/jogue", signals: ["Print Runner", "Filament Catcher", "Jogar", "WhatsApp"] },
-  ...productRoutes.map((route) => ({ route, signals: ["<img", "Pix", "Cartão", "Cartão + R$ 3", "WhatsApp", "Comprar"] })),
+  ...productRoutes.map((route) => ({ route, signals: ["<img", "Pix", "Cartão", "Cartão + R$ 1", "WhatsApp", "Comprar"] })),
   { route: "/carrinho", signals: ["Carrinho"] },
   { route: "/checkout", signals: ["Checkout"] },
   { route: "/admin/products/real-002/edit", signals: ["<html"] },

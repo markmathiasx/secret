@@ -1,4 +1,4 @@
-export const CARD_PRICE_FLAT_FEE = 3;
+export const CARD_PRICE_FLAT_FEE = 1;
 
 export function normalizeMoney(value: unknown) {
   if (typeof value === "number") {
@@ -40,7 +40,7 @@ export function formatCardPrice(value: unknown) {
   }).format(calculateCardPrice(value));
 }
 
-export function ensureCardIsPixPlus3<T extends { pricePix?: unknown; priceCard?: unknown; price?: unknown }>(product: T) {
+export function ensureCardIsPixPlus1<T extends { pricePix?: unknown; priceCard?: unknown; price?: unknown }>(product: T) {
   const pricePix = normalizeMoney(product.pricePix ?? product.price ?? 0);
   return {
     ...product,
@@ -49,3 +49,5 @@ export function ensureCardIsPixPlus3<T extends { pricePix?: unknown; priceCard?:
     priceCard: calculateCardPrice(pricePix),
   };
 }
+
+export const ensureCardIsPixPlus3 = ensureCardIsPixPlus1;

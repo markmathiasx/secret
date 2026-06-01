@@ -111,7 +111,7 @@ export function SiteHeader({
           <div className="mx-auto flex max-w-7xl items-center justify-between gap-2 overflow-x-hidden px-4 py-2 text-[11px] uppercase tracking-[0.22em] text-white/72 sm:px-6">
             <span className="shrink-0">MDH 3D Lab • Rio de Janeiro</span>
             <span className="hidden md:inline shrink-0">
-              Pix imediato • cartão + R$ 3 • atendimento humano
+              Pix imediato • cartão + R$ 1 • atendimento humano
             </span>
             <span className="hidden sm:inline rounded-full border border-emerald-300/25 bg-emerald-300/10 px-3 py-1 text-[10px] font-semibold text-emerald-100 shrink-0">
               Produção local e acabamento sob medida

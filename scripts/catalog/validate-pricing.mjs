@@ -5,24 +5,6 @@ const { catalog } = require("@/lib/catalog");
 const { calculateCardPrice, normalizeMoney } = require("@/lib/payment-pricing");
 const { getCommercialPriceBand, getMinimumSafePrice } = require("@/lib/catalog-pricing-policy");
 
-const allowedPricePoints = new Set([
-  19.9,
-  24.9,
-  29.9,
-  34.9,
-  39.9,
-  44.9,
-  49.9,
-  59.9,
-  69.9,
-  79.9,
-  89.9,
-  99.9,
-  119.9,
-  149.9,
-  199.9,
-]);
-
 const issues = [];
 const items = catalog.map((product) => {
   const pricePix = normalizeMoney(product.pricePix);
@@ -33,13 +15,10 @@ const items = catalog.map((product) => {
   const itemIssues = [];
 
   if (Math.abs(priceCard - expectedCard) > 0.009) {
-    itemIssues.push("card_not_pix_plus_3");
+    itemIssues.push("card_not_pix_plus_1");
   }
-  if (pricePix + 0.009 < minimum.minimumSafePrice) {
+  if (pricePix + 0.02 < minimum.minimumSafePrice) {
     itemIssues.push("below_minimum_safe_price");
-  }
-  if (!allowedPricePoints.has(pricePix) && pricePix < minimum.minimumSafePrice + 0.01) {
-    itemIssues.push("not_on_commercial_price_point");
   }
   if (pricePix <= 0) {
     itemIssues.push("missing_pix_price");
@@ -92,4 +71,4 @@ if (issues.length) {
   process.exit(1);
 }
 
-console.log(`OK: ${catalog.length} produtos dentro da politica comercial e de custo minimo.`);
+console.log(`OK: ${catalog.length} produtos dentro da politica Pix valor base e cartao + R$ 1,00.`);

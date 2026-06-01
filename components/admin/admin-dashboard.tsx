@@ -194,7 +194,7 @@ export function AdminDashboard({ initialProducts, commerceSnapshot }: AdminDashb
       }
 
       setProducts((current) => current.map((item) => (item.id === product.id ? data.product : item)));
-      setStatusMessage(`Produto ${product.id} atualizado com margem de 40% preservada.`);
+      setStatusMessage(`Produto ${product.id} atualizado com Pix pelo valor base e cartão + R$ 1.`);
     } catch (error) {
       setStatusMessage(error instanceof Error ? error.message : "Não foi possível salvar o produto.");
     } finally {
@@ -243,7 +243,7 @@ export function AdminDashboard({ initialProducts, commerceSnapshot }: AdminDashb
             <p className="text-xs uppercase tracking-[0.22em] text-cyan-100/80">Seller Central MDH 3D</p>
             <h1 className="mt-3 text-4xl font-black text-white">Operação de catálogo, preço e produção em um só painel.</h1>
             <p className="mt-4 text-sm leading-7 text-white/68">
-              A lista abaixo já usa custo base com margem fixa de 40%, status de produção e triagem de imagens pendentes para o time fechar o catálogo sem sair do fluxo.
+              A lista abaixo usa Pix pelo valor base da peça, cartão com acréscimo fixo de R$ 1, status de produção e triagem de imagens pendentes para o time fechar o catálogo sem sair do fluxo.
             </p>
           </div>
 
@@ -521,11 +521,11 @@ export function AdminDashboard({ initialProducts, commerceSnapshot }: AdminDashb
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
             <p className="text-xs uppercase tracking-[0.18em] text-cyan-100/78">Catálogo operacional</p>
-            <h2 className="mt-2 text-2xl font-black text-white">248 SKUs com preço fechado em Pix, margem travada e edição rápida</h2>
+            <h2 className="mt-2 text-2xl font-black text-white">SKUs com preço Pix base, cartão + R$ 1 e edição rápida</h2>
           </div>
           <div className="flex flex-wrap gap-2">
             <span className="rounded-full border border-emerald-300/20 bg-emerald-300/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-emerald-100">
-              40% lucro garantido
+              Pix valor base
             </span>
             <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-white/70">
               Operação local
@@ -634,7 +634,7 @@ export function AdminDashboard({ initialProducts, commerceSnapshot }: AdminDashb
                       </div>
                       <div className="flex flex-wrap gap-2">
                         <span className="rounded-full border border-emerald-300/20 bg-emerald-300/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-emerald-100">
-                          40% lucro garantido
+                          Cartão + R$ 1
                         </span>
                         <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-white/70">
                           Operação local

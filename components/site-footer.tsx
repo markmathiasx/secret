@@ -235,7 +235,7 @@ export function SiteFooter({ cardCheckoutReady: _cardCheckoutReady = false }: { 
             <span className="text-xs font-semibold text-emerald-100">Pix</span>
           </span>
           <span className="flex items-center gap-1.5 rounded-lg border border-white/15 bg-white/5 px-3 py-1.5">
-            <span className="text-xs font-semibold text-white/70">Cartão + R$ 3</span>
+            <span className="text-xs font-semibold text-white/70">Cartão + R$ 1</span>
           </span>
         </div>
       </div>
@@ -246,7 +246,7 @@ export function SiteFooter({ cardCheckoutReady: _cardCheckoutReady = false }: { 
           <span className="flex items-center gap-2">
             <span className="rounded-full border border-cyan-400/30 bg-cyan-400/14 px-3 py-1 text-xs text-cyan-100">Produção local</span>
             <span className="rounded-full border border-green-400/30 bg-green-400/14 px-3 py-1 text-xs text-green-100">
-              Pix + cartão + R$ 3
+              Pix + cartão + R$ 1
             </span>
             <span className="rounded-full border border-violet-400/30 bg-violet-400/14 px-3 py-1 text-xs text-violet-100">Catálogo curado</span>
           </span>

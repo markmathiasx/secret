@@ -143,7 +143,7 @@ export const salesLandings = {
     description:
       "Essa pagina foi organizada para quem quer presentear sem perder tempo. Primeiro entram pecas com melhor percepcao de valor, depois a selecao completa de presentes, lembrancas e personalizados.",
     audience: "Para aniversario, data especial, surpresa personalizada ou presente geek com cara de produto serio.",
-    budgetLabel: "Faixa inicial a partir de R$ 37 no Pix para itens compactos e sob consulta para presentes mais afetivos.",
+    budgetLabel: "Faixa inicial a partir de R$ 17 no Pix para itens compactos e sob consulta para presentes mais afetivos.",
     heroImage: "/landing-assets/presentes-hero-v2.webp",
     heroImageAlt: "Miniatura personalizada e presentes 3D em cena comercial",
     proofPoints: ["Faixa de entrada enxuta", "Peças com imagem validada no topo", "Atendimento humano para personalizar"],
@@ -160,7 +160,7 @@ export const salesLandings = {
     faq: buildFaq({
       focus: "presente 3D personalizado",
       budget:
-        "Itens menores e lembrancas entram a partir de cerca de R$ 37 no Pix. Miniaturas afetivas, kits e presentes mais elaborados sobem conforme tamanho, pintura e briefing.",
+        "Itens menores e lembrancas entram a partir de cerca de R$ 17 no Pix. Miniaturas afetivas, kits e presentes mais elaborados sobem conforme tamanho, pintura e briefing.",
       inputs:
         "Foto, referencia visual, nome da pessoa, data do presente e tamanho desejado encurtam a conversa e ajudam a fechar a proposta sem retrabalho.",
       deadline:
@@ -297,7 +297,7 @@ export const salesLandings = {
     description:
       "A ideia aqui e reduzir a sensacao de catalogo generico. Entram primeiro as pecas com visual validado e depois a selecao mais ampla de colecionaveis, chibis e miniaturas do acervo.",
     audience: "Para fandom, presente geek, decoracao de nicho e colecao com melhor valor percebido.",
-    budgetLabel: "Entrada a partir de cerca de R$ 30 no Pix para miniaturas menores e acima disso para pecas pintadas ou mais cenograficas.",
+    budgetLabel: "Entrada a partir de cerca de R$ 10 no Pix para miniaturas menores e acima disso para pecas pintadas ou mais cenograficas.",
     heroImage: "/landing-assets/geek-hero.webp",
     heroImageAlt: "Colecionavel geek 3D em cenario premium",
     proofPoints: ["Pecas reais no topo", "Foco em fandom e presente geek", "Separacao clara entre visual validado e sob encomenda"],

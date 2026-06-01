@@ -105,7 +105,7 @@ export function TrustSignals() {
             </div>
             <div className="glass-panel p-6 md:col-span-2">
               <p className="text-xs uppercase tracking-[0.18em] text-cyan-100/75">Pagamento</p>
-              <h4 className="mt-3 text-2xl font-black text-white">Pix para rapidez. Cartão sempre Pix + R$ 3.</h4>
+              <h4 className="mt-3 text-2xl font-black text-white">Pix para rapidez. Cartão sempre Pix + R$ 1.</h4>
               <p className="mt-4 text-sm leading-7 text-white/68">
                 A operação foi desenhada para facilitar o fechamento do pedido com clareza: Pix para aprovação rápida e cartão em ambiente seguro quando o checkout online estiver disponível.
               </p>

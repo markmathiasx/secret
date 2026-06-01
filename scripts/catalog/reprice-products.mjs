@@ -62,7 +62,7 @@ const reportItems = catalog.map((product) => {
     minimumSafePrice: minimum.minimumSafePrice,
     totalCost: minimum.totalCost,
     minimumMargin: minimum.minimumMargin,
-    premiumPreserved: productType.includes("premium") || recommendedPix >= 99.9,
+    premiumPreserved: productType.includes("premium"),
     changed,
   };
 });
@@ -74,7 +74,7 @@ const cards = reportItems.map((item) => item.recommendedCard).filter((value) => 
 const report = {
   generatedAt: new Date().toISOString(),
   mode: dryRun ? "dry-run" : "apply",
-  rule: "priceCard = pricePix + 3.00",
+  rule: "pricePix = valor base/custo da peca; priceCard = pricePix + 1.00",
   productsChecked: reportItems.length,
   productsChanged: reportItems.filter((item) => item.changed).length,
   minPix: afterPrices.length ? Math.min(...afterPrices) : 0,
@@ -101,9 +101,15 @@ if (apply) {
       pixPriceBrl: item.recommendedPix,
       listPrice: item.recommendedCard,
       listPriceBrl: item.recommendedCard,
-      pricingSource: "catalog-commercial-policy-2026",
+      pricingSource: "base-piece-value-plus-1-card-2026-06-01",
       pricingPolicyBand: item.productType,
       minimumSafePrice: item.minimumSafePrice,
+      costBase: item.totalCost,
+      profitMode: "markup",
+      profitTargetPercent: 0,
+      estimatedProfitAmount: 0,
+      estimatedProfitPercent: 0,
+      cardPricingPolicy: "pix-plus-1",
       costingUpdatedAt: new Date().toISOString(),
     };
   }

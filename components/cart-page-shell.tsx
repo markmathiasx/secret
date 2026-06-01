@@ -19,11 +19,11 @@ export function CartPageShell({ cardCheckoutReady = false }: { cardCheckoutReady
   const whatsappHref = useMemo(() => {
     const lines = [
       "Quero fechar este carrinho da MDH 3D:",
-      ...items.map((item) => `- ${item.quantity}x ${item.title}. Pix: ${formatCurrency(item.pricePix)}. Cartão + R$ 3: ${formatCurrency(calculateCardPrice(item.pricePix))}.`),
+      ...items.map((item) => `- ${item.quantity}x ${item.title}. Pix: ${formatCurrency(item.pricePix)}. Cartão + R$ 1: ${formatCurrency(calculateCardPrice(item.pricePix))}.`),
       `Subtotal Pix: ${formatCurrency(totals.subtotalPix)}`,
-      `Subtotal Cartão + R$ 3: ${formatCurrency(totals.subtotalCard)}`,
+      `Subtotal Cartão + R$ 1: ${formatCurrency(totals.subtotalCard)}`,
       `Total Pix: ${formatCurrency(totals.totalPix)}`,
-      `Total Cartão + R$ 3: ${formatCurrency(totals.totalCard)}`,
+      `Total Cartão + R$ 1: ${formatCurrency(totals.totalCard)}`,
       "Intenção: finalizar compra pelo carrinho.",
     ];
     return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(lines.join("\n"))}`;
@@ -169,7 +169,7 @@ export function CartPageShell({ cardCheckoutReady = false }: { cardCheckoutReady
                       <div>
                         <p className="text-xs uppercase tracking-[0.18em] text-white/45">Preço unitário</p>
                         <p className="mt-2 text-lg font-black text-emerald-100">Pix {formatCurrency(item.pricePix)}</p>
-                        <p className="mt-1 text-xs font-semibold text-white/60">Cartão + R$ 3 {formatCurrency(calculateCardPrice(item.pricePix))}</p>
+                        <p className="mt-1 text-xs font-semibold text-white/60">Cartão + R$ 1 {formatCurrency(calculateCardPrice(item.pricePix))}</p>
                       </div>
                       <div>
                         <p className="text-xs uppercase tracking-[0.18em] text-white/45">Quantidade</p>
@@ -199,7 +199,7 @@ export function CartPageShell({ cardCheckoutReady = false }: { cardCheckoutReady
                           {formatCurrency(item.pricePix * item.quantity)}
                         </p>
                         <p className="mt-1 text-xs font-semibold text-white/60">
-                          Cartão + R$ 3 {formatCurrency(calculateCardPrice(item.pricePix) * item.quantity)}
+                          Cartão + R$ 1 {formatCurrency(calculateCardPrice(item.pricePix) * item.quantity)}
                         </p>
                       </div>
                     </div>
@@ -240,7 +240,7 @@ export function CartPageShell({ cardCheckoutReady = false }: { cardCheckoutReady
                 <span className="text-xl font-black text-white">{formatCurrency(totals.totalCard)}</span>
               </div>
               <p className="text-xs leading-6 text-white/45">
-                No cartão, cada produto fica R$ 3,00 acima do Pix. Frete fixo de R$ 15,00.
+                No cartão, cada produto fica R$ 1,00 acima do Pix. Frete fixo de R$ 15,00.
               </p>
             </div>
 

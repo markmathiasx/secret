@@ -108,7 +108,7 @@ export default function AdminNewProductPage() {
             <input name="pricePix" type="number" step={0.01} min={0} required value={form.pricePix} onChange={handleChange} className="field-base" />
           </label>
           <label className="block">
-            <span className="mb-1 block text-sm text-white/70">Preço Cartão (Pix + R$ 3,00)</span>
+            <span className="mb-1 block text-sm text-white/70">Preço Cartão (Pix + R$ 1,00)</span>
             <input name="priceCard" type="number" step={0.01} min={0} value={form.priceCard} readOnly className="field-base" />
           </label>
           <label className="block">

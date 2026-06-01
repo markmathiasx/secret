@@ -40,15 +40,16 @@ export type ProductionCostRecommendation = {
   referencePrice: number;
 };
 
-export const TARGET_LIQUID_MARGIN = 0.5;
-export const PIX_PRICE_DIVISOR = 1 - TARGET_LIQUID_MARGIN;
+export const TARGET_PROFIT_MARKUP = 0;
+export const TARGET_LIQUID_MARGIN = TARGET_PROFIT_MARKUP;
+export const PIX_PRICE_DIVISOR = 1 / (1 + TARGET_PROFIT_MARKUP);
 export const CARD_MULTIPLIER = 1;
 export const BOLETO_MULTIPLIER = 1.08;
 export const MARKETPLACE_PRICE_MULTIPLIER = 1.15;
 export const REFERENCE_PRICE_MULTIPLIER = 1.18;
 export const FIXED_MARGIN_BADGE_LABEL = "Preço calculado";
 export const LOCAL_PRODUCTION_BADGE_LABEL = "Atendimento direto";
-export const MIN_SITE_PRICE_PIX = 19.9;
+export const MIN_SITE_PRICE_PIX = 0.01;
 export const DEFAULT_SPOOL_PRICE_PER_KG = 100;
 export const DEFAULT_MACHINE_HOURLY_RATE = 4.5;
 export const DEFAULT_LABOR_HOURLY_RATE = 15;
@@ -108,7 +109,7 @@ export function calculateProductionCostRecommendation(input: PricingInput): Prod
   const laborHourlyRate = positiveNumber(input.laborHourlyRate, DEFAULT_LABOR_HOURLY_RATE);
   const packagingCost = nonNegativeNumber(input.packagingCost, DEFAULT_PACKAGING_COST);
   const overheadPercent = clamp(nonNegativeNumber(input.overheadPercent, DEFAULT_OVERHEAD_PERCENT), 0, 300);
-  const profitMode: ProfitMode = input.profitMode === "markup" ? "markup" : "margin";
+  const profitMode: ProfitMode = input.profitMode === "margin" ? "margin" : "markup";
   const targetPercent = clamp(
     nonNegativeNumber(input.profitTargetPercent, TARGET_LIQUID_MARGIN * 100),
     0,

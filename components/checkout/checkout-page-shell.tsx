@@ -93,10 +93,10 @@ export function CheckoutPageShell({
       "Quero finalizar este pedido da MDH 3D:",
       ...items.map((item) => {
         const details = personalizationByProductId[item.productId] || item.personalizationText;
-        return `- ${item.quantity}x ${item.title}. Pix: ${formatCurrency(item.pricePix)}. Cartão + R$ 3: ${formatCurrency(calculateCardPrice(item.pricePix))}${details ? ` | personalização: ${details}` : ""}`;
+        return `- ${item.quantity}x ${item.title}. Pix: ${formatCurrency(item.pricePix)}. Cartão + R$ 1: ${formatCurrency(calculateCardPrice(item.pricePix))}${details ? ` | personalização: ${details}` : ""}`;
       }),
       `Total Pix: ${formatCurrency(totals.totalPix)}`,
-      `Total Cartão + R$ 3: ${formatCurrency(totals.totalCard)}`,
+      `Total Cartão + R$ 1: ${formatCurrency(totals.totalCard)}`,
       "Intenção: finalizar checkout.",
       form.customerName ? `Nome: ${form.customerName}` : "",
       form.phone ? `WhatsApp: ${form.phone}` : "",
@@ -353,9 +353,9 @@ export function CheckoutPageShell({
               <Wallet className="h-4 w-4" />
             </span>
             <div>
-              <p className="text-sm font-black text-white">Pix como principal, cartão Pix + R$ 3,00</p>
+              <p className="text-sm font-black text-white">Pix como principal, cartão Pix + R$ 1,00</p>
               <p className="mt-1 text-xs leading-6 text-white/70">
-                No cartão, cada produto fica R$ 3,00 acima do Pix. O WhatsApp já leva o carrinho completo.
+                No cartão, cada produto fica R$ 1,00 acima do Pix. O WhatsApp já leva o carrinho completo.
               </p>
             </div>
           </div>
@@ -404,7 +404,7 @@ export function CheckoutPageShell({
                           <div className="min-w-0">
                             <p className="line-clamp-2 text-sm font-semibold text-white">{item.title}</p>
                             <p className="mt-2 text-xs text-emerald-100">Pix {formatCurrency(item.pricePix)} cada</p>
-                            <p className="mt-1 text-xs text-white/50">Cartão + R$ 3 {formatCurrency(calculateCardPrice(item.pricePix))} cada</p>
+                            <p className="mt-1 text-xs text-white/50">Cartão + R$ 1 {formatCurrency(calculateCardPrice(item.pricePix))} cada</p>
                           </div>
                           <button
                             type="button"
@@ -436,7 +436,7 @@ export function CheckoutPageShell({
                           <div className="text-right">
                             <p className="text-sm font-black text-white">Pix {formatCurrency(item.pricePix * item.quantity)}</p>
                             <p className="mt-0.5 text-[11px] font-semibold text-white/50">
-                              Cartão + R$ 3 {formatCurrency(calculateCardPrice(item.pricePix) * item.quantity)}
+                              Cartão + R$ 1 {formatCurrency(calculateCardPrice(item.pricePix) * item.quantity)}
                             </p>
                           </div>
                         </div>
@@ -490,7 +490,7 @@ export function CheckoutPageShell({
                 <span className="text-lg font-black text-white">{formatCurrency(totals.totalCard)}</span>
               </div>
               <p className="mt-3 text-xs leading-6 text-white/48">
-                No cartão, cada produto fica R$ 3,00 acima do Pix. Frete não recebe acréscimo.
+                No cartão, cada produto fica R$ 1,00 acima do Pix. Frete não recebe acréscimo.
               </p>
             </div>
           </div>
@@ -783,7 +783,7 @@ export function CheckoutPageShell({
                         {formatCurrency(checkoutSession.totalPix)}
                       </p>
                       <p className="mt-2 text-sm font-semibold text-white/70">
-                        Cartão + R$ 3 {formatCurrency(checkoutSession.totalCard)}
+                        Cartão + R$ 1 {formatCurrency(checkoutSession.totalCard)}
                       </p>
                     </div>
                     <div className="flex flex-wrap gap-2">

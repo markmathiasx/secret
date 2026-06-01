@@ -60,15 +60,27 @@ export function PrintQuestGame() {
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
-      if (event.key === " ") {
+      if (event.code === "Space" || event.key === " ") {
         event.preventDefault();
         setState((value) => (value === "running" ? "paused" : value === "paused" ? "running" : value));
         return;
       }
-      if (event.key === "ArrowUp" || event.key.toLowerCase() === "w") move(0, -1);
-      if (event.key === "ArrowDown" || event.key.toLowerCase() === "s") move(0, 1);
-      if (event.key === "ArrowLeft" || event.key.toLowerCase() === "a") move(-1, 0);
-      if (event.key === "ArrowRight" || event.key.toLowerCase() === "d") move(1, 0);
+      if (event.key === "ArrowUp" || event.key.toLowerCase() === "w") {
+        event.preventDefault();
+        move(0, -1);
+      }
+      if (event.key === "ArrowDown" || event.key.toLowerCase() === "s") {
+        event.preventDefault();
+        move(0, 1);
+      }
+      if (event.key === "ArrowLeft" || event.key.toLowerCase() === "a") {
+        event.preventDefault();
+        move(-1, 0);
+      }
+      if (event.key === "ArrowRight" || event.key.toLowerCase() === "d") {
+        event.preventDefault();
+        move(1, 0);
+      }
     }
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);

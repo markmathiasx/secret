@@ -159,7 +159,7 @@
     const sort = byId('sortFilter'); const minPrice = byId('minPrice'); const maxPrice = byId('maxPrice');
     const priceText = byId('priceText'); const countEl = byId('resultCount'); const pagination = byId('pagination'); const skeleton = byId('catalogSkeleton');
     const perPage = 25;
-    let state = { page: 1, query:'', category:'Todas', collection:'Todas', sort:'recentes', min:20, max:500 };
+    let state = { page: 1, query:'', category:'Todas', collection:'Todas', sort:'recentes', min:1, max:60 };
 
     const hydrateProducts = products.map((item, idx)=> ({ ...item, idx }));
     function filterProducts(){

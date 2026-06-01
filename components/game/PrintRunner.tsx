@@ -154,7 +154,10 @@ export function PrintRunner() {
       }
     };
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.code === "Space") jump();
+      if (event.code === "Space" || event.key === " ") {
+        event.preventDefault();
+        jump();
+      }
     };
     const handleTouchStart = (event: TouchEvent) => {
       event.preventDefault();

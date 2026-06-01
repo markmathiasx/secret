@@ -58,16 +58,16 @@ export async function processChatbotResponse(
     const foundProducts = searchProducts(lastMessage);
     if (foundProducts.length > 0) {
       const productList = foundProducts.slice(0, 3).map(p =>
-        `- ${p.name}: Pix ${formatCurrency(p.pricePix)} | Cartão + R$ 3: ${formatCurrency(calculateCardPrice(p.pricePix))}`
+        `- ${p.name}: Pix ${formatCurrency(p.pricePix)} | Cartão + R$ 1: ${formatCurrency(calculateCardPrice(p.pricePix))}`
       ).join("\n");
       return {
-        content: `Encontrei esses itens no catálogo:\n\n${productList}\n\nLembrando que no cartão o valor é sempre o do Pix + R$ 3,00 por item. Deseja ver mais detalhes de algum deles?`,
+        content: `Encontrei esses itens no catálogo:\n\n${productList}\n\nLembrando que no cartão o valor é sempre o do Pix + R$ 1,00 por item. Deseja ver mais detalhes de algum deles?`,
         intent: "buy_product",
         suggestions: ["Ver catálogo", "Frete e prazo", "Falar com humano"]
       };
     }
     return {
-      content: "Nossos preços variam conforme o modelo e material. O valor base é sempre o preço via Pix, e no cartão adicionamos apenas R$ 3,00 por peça. Qual tipo de produto você procura?",
+      content: "Nossos preços variam conforme o modelo e material. O valor base é sempre o preço via Pix, e no cartão adicionamos apenas R$ 1,00 por peça. Qual tipo de produto você procura?",
       intent: "general_info",
       suggestions: ["Organização", "Geek", "Decoração", "Ver catálogo"]
     };
