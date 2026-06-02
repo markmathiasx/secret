@@ -33,6 +33,7 @@ const patchSchema = z.object({
   customizable: z.boolean().optional(),
   featured: z.boolean().optional(),
   productionStage: z.enum(["recebido", "imprimindo", "pronto"]).optional(),
+  pricingSource: z.literal("mdh-fixed-card-plus-one-2026").optional(),
 });
 
 function unauthorized() {

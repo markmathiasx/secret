@@ -5,12 +5,14 @@ import { MediaType, ProductStatus } from "@prisma/client";
 import overridesJson from "@/data/admin-product-overrides.json";
 import { catalog, type Product } from "@/lib/catalog";
 import {
-  CARD_MULTIPLIER,
+  DEFAULT_PROFIT_TARGET_PERCENT,
   DEFAULT_LABOR_HOURLY_RATE,
   DEFAULT_MACHINE_HOURLY_RATE,
   DEFAULT_SPOOL_PRICE_PER_KG,
-  TARGET_LIQUID_MARGIN,
+  FIXED_CARD_PRICING_SOURCE,
+  calculateCardPrice,
   calculateProductionCostRecommendation,
+  normalizeLegacyPixPrice,
   roundCurrency,
 } from "@/lib/pricing-engine";
 import { canConnectToDatabase, prisma } from "@/lib/prisma";
@@ -86,7 +88,10 @@ function normalizeProductionStage(value: string | undefined, readyToShip: boolea
 
 function deriveBaseCost(product: Product, override?: AdminProductOverride) {
   if (typeof override?.costBase === "number") return override.costBase;
-  if (typeof override?.pricePix === "number") return Number((override.pricePix * 0.6).toFixed(2));
+  if (typeof override?.pricePix === "number") {
+    const pricePix = override.pricingSource === FIXED_CARD_PRICING_SOURCE ? override.pricePix : normalizeLegacyPixPrice(override.pricePix);
+    return Number((pricePix * 0.6).toFixed(2));
+  }
   if (typeof product.baseCost === "number") return product.baseCost;
   if (typeof product.estimatedUnitCost === "number") return product.estimatedUnitCost;
   return 0;
@@ -120,6 +125,8 @@ function mapPrismaProduct(record: AdminPrismaProduct): Product {
 
   const category = record.category?.name || "Catálogo";
   const collection = record.collections[0]?.collection.name || "Marketplace";
+  const pricePix = normalizeLegacyPixPrice(decimalToNumber(record.pricePix));
+  const priceCard = calculateCardPrice(pricePix);
 
   return {
     id: record.id,
@@ -137,16 +144,16 @@ function mapPrismaProduct(record: AdminPrismaProduct): Product {
     featured: record.featured,
     description: record.description,
     tags: record.tags,
-    price: decimalToNumber(record.pricePix),
+    price: pricePix,
     printTime: record.printTimeLabel || `${decimalToNumber(record.hours)}h`,
     plaWeight: record.plaWeightLabel || `${record.grams}g`,
     dimensions: record.dimensions || "",
     images,
     licenseType: record.licenseType === "commercial" ? "commercial" : "personal",
     variants: [],
-    pricePix: decimalToNumber(record.pricePix),
-    priceCard: decimalToNumber(record.priceCard),
-    marketplaceSuggested: decimalToNumber(record.marketplaceSuggested),
+    pricePix,
+    priceCard,
+    marketplaceSuggested: normalizeLegacyPixPrice(decimalToNumber(record.marketplaceSuggested)),
     productionWindow: record.productionWindow,
     imageHint: record.imageHint || record.title,
     image: images[0],
@@ -195,9 +202,13 @@ function buildAdminCatalogProduct(
   const packagingCost = override?.packagingCost ?? product.packagingCost ?? 2.5;
   const overheadPercent = override?.overheadPercent ?? product.overheadPercent ?? 12;
   const profitMode = normalizeProfitMode(override?.profitMode ?? product.profitMode);
-  const profitTargetPercent = override?.profitTargetPercent ?? product.profitTargetPercent ?? TARGET_LIQUID_MARGIN * 100;
-  const pricePix = override?.pricePix ?? product.pricePix;
-  const priceCard = override?.priceCard ?? product.priceCard ?? roundCurrency(pricePix * CARD_MULTIPLIER);
+  const profitTargetPercent = override?.profitTargetPercent ?? product.profitTargetPercent ?? DEFAULT_PROFIT_TARGET_PERCENT;
+  const pricePix = override?.pricePix !== undefined
+    ? override.pricingSource === FIXED_CARD_PRICING_SOURCE
+      ? override.pricePix
+      : normalizeLegacyPixPrice(override.pricePix)
+    : product.pricePix;
+  const priceCard = calculateCardPrice(pricePix);
   const recommendation = calculateProductionCostRecommendation({
     estimatedGrams,
     estimatedHours,
@@ -325,10 +336,19 @@ export async function updateAdminCatalogProduct(productId: string, patch: Partia
 
   const overrides = await readOverridesFile();
   const current = overrides[productId] || { id: productId };
+  const pricePix = patch.pricePix !== undefined
+    ? normalizeLegacyPixPrice(patch.pricePix)
+    : current.pricePix !== undefined && current.pricingSource === FIXED_CARD_PRICING_SOURCE
+      ? current.pricePix
+      : product.pricePix;
   const next: AdminProductOverride = {
     ...current,
     ...patch,
     id: productId,
+    pricePix,
+    priceCard: calculateCardPrice(pricePix),
+    profitTargetPercent: patch.profitTargetPercent ?? current.profitTargetPercent ?? DEFAULT_PROFIT_TARGET_PERCENT,
+    pricingSource: FIXED_CARD_PRICING_SOURCE,
     updatedAt: new Date().toISOString(),
   };
 

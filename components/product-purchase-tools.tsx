@@ -378,7 +378,7 @@ export function ProductPurchaseTools({
         </div>
         <div className="rounded-[20px] border border-white/10 bg-white/5 p-4">
           <p className="text-xs uppercase tracking-[0.16em] text-white/50">
-            {cardCheckoutReady ? "Total no cartão" : "Referência assistida"}
+            {cardCheckoutReady ? "Total no cartão + R$ 1" : "Cartão + R$ 1"}
           </p>
           <p className="mt-2 text-2xl font-black text-white">{formatCurrency(totalCard)}</p>
         </div>

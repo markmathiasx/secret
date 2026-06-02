@@ -194,7 +194,7 @@ export function AdminDashboard({ initialProducts, commerceSnapshot }: AdminDashb
       }
 
       setProducts((current) => current.map((item) => (item.id === product.id ? data.product : item)));
-      setStatusMessage(`Produto ${product.id} atualizado com margem de 40% preservada.`);
+      setStatusMessage(`Produto ${product.id} atualizado com regra de 20% e cartão + R$ 1 preservada.`);
     } catch (error) {
       setStatusMessage(error instanceof Error ? error.message : "Não foi possível salvar o produto.");
     } finally {
@@ -525,7 +525,7 @@ export function AdminDashboard({ initialProducts, commerceSnapshot }: AdminDashb
           </div>
           <div className="flex flex-wrap gap-2">
             <span className="rounded-full border border-emerald-300/20 bg-emerald-300/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-emerald-100">
-              40% lucro garantido
+              20% lucro alvo
             </span>
             <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-white/70">
               Produção local RJ
@@ -630,11 +630,11 @@ export function AdminDashboard({ initialProducts, commerceSnapshot }: AdminDashb
                       <div>
                         <p className="text-xs uppercase tracking-[0.16em] text-emerald-100/75">Preço Pix final</p>
                         <p className="mt-1 text-2xl font-black text-white">{formatCurrency(product.pricePix)}</p>
-                        <p className="text-xs text-white/55">12x de {formatCurrency(product.priceCard / 12)}</p>
+                        <p className="text-xs text-white/55">Cartão + R$ 1: {formatCurrency(product.priceCard)}</p>
                       </div>
                       <div className="flex flex-wrap gap-2">
                         <span className="rounded-full border border-emerald-300/20 bg-emerald-300/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-emerald-100">
-                          40% lucro garantido
+                          20% lucro alvo
                         </span>
                         <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-white/70">
                           Produção local RJ

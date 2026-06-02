@@ -1,5 +1,6 @@
 import expansionRows from "@/data/a1-mini-expansion-500.json";
 import type { Product } from "@/lib/catalog";
+import { calculateCardPrice } from "@/lib/pricing-engine";
 
 type ExpansionRow = {
   id: string;
@@ -38,8 +39,9 @@ function money(value: number) {
 }
 
 function buildExpansionProduct(row: ExpansionRow, index: number): Product {
-  const baseCost = money(row.finalPriceBrl * 0.6);
-  const priceCard = money(row.finalPriceBrl * 1.12);
+  const pricePix = row.finalPriceBrl;
+  const baseCost = money(pricePix * 0.6);
+  const priceCard = calculateCardPrice(pricePix);
   const marketplaceSuggested = money(row.finalPriceBrl * 1.18);
 
   return {
@@ -58,7 +60,7 @@ function buildExpansionProduct(row: ExpansionRow, index: number): Product {
     featured: index < 12,
     description: row.shortDescription,
     tags: row.tags,
-    price: row.finalPriceBrl,
+    price: pricePix,
     printTime: `${row.hours}h`,
     plaWeight: `${row.estimatedGrams}g`,
     dimensions: row.dimensions,
@@ -70,7 +72,7 @@ function buildExpansionProduct(row: ExpansionRow, index: number): Product {
       { color: "Cinza", available: true },
       { color: "Sob consulta", available: true },
     ],
-    pricePix: row.finalPriceBrl,
+    pricePix,
     priceCard,
     marketplaceSuggested,
     productionWindow: row.productionWindow,
@@ -85,13 +87,13 @@ function buildExpansionProduct(row: ExpansionRow, index: number): Product {
     readyToShip: false,
     baseCost,
     estimatedUnitCost: baseCost,
-    estimatedUnitProfit: money(row.finalPriceBrl - baseCost),
+    estimatedUnitProfit: money(pricePix - baseCost),
     pricingMode: "faixa-auditada",
     pricingNarrative: `Preço calculado por peso estimado: ${row.estimatedGrams}g de PLA, custo de filamento em R$ ${row.filamentCostBrl.toFixed(2)} e piso mínimo em R$ ${row.minimumSalePriceBrl.toFixed(2)} antes do arredondamento comercial.`,
     estimatedGrams: row.estimatedGrams,
     filamentCostBrl: row.filamentCostBrl,
     minimumSalePriceBrl: row.minimumSalePriceBrl,
-    finalPriceBrl: row.finalPriceBrl,
+    finalPriceBrl: pricePix,
     makerWorldMeta: {
       niche: row.niche,
       nicheKey: row.nicheKey,

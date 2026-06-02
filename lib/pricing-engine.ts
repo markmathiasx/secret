@@ -38,15 +38,21 @@ export type ProductionCostRecommendation = {
   referencePrice: number;
 };
 
-export const TARGET_LIQUID_MARGIN = 0.5;
+export const DEFAULT_PROFIT_TARGET_PERCENT = 20;
+export const TARGET_LIQUID_MARGIN = DEFAULT_PROFIT_TARGET_PERCENT / 100;
 export const PIX_PRICE_DIVISOR = 1 - TARGET_LIQUID_MARGIN;
-export const CARD_MULTIPLIER = 1.12;
+export const CARD_FIXED_SURCHARGE = 1;
+export const CARD_MULTIPLIER = 1;
+export const LEGACY_PRICE_REFERENCE_PIX = 24.5;
+export const LEGACY_PRICE_TARGET_PIX = 4.5;
+export const LEGACY_PRICE_REDUCTION_FACTOR = LEGACY_PRICE_TARGET_PIX / LEGACY_PRICE_REFERENCE_PIX;
+export const FIXED_CARD_PRICING_SOURCE = "mdh-fixed-card-plus-one-2026";
 export const BOLETO_MULTIPLIER = 1.08;
 export const MARKETPLACE_PRICE_MULTIPLIER = 1.15;
 export const REFERENCE_PRICE_MULTIPLIER = 1.18;
 export const FIXED_MARGIN_BADGE_LABEL = "Preco auditado";
 export const LOCAL_PRODUCTION_BADGE_LABEL = "Produção local RJ";
-export const MIN_SITE_PRICE_PIX = 39.9;
+export const MIN_SITE_PRICE_PIX = 4.5;
 export const DEFAULT_SPOOL_PRICE_PER_KG = 150;
 export const DEFAULT_MACHINE_HOURLY_RATE = 6.9;
 export const DEFAULT_LABOR_HOURLY_RATE = 18;
@@ -57,6 +63,17 @@ const filamentCostPerGram = 0.15;
 
 export function roundCurrency(value: number) {
   return Number(value.toFixed(2));
+}
+
+export function calculateCardPrice(pricePix: number) {
+  return roundCurrency(Math.max(0, finiteNumber(pricePix)) + CARD_FIXED_SURCHARGE);
+}
+
+export function normalizeLegacyPixPrice(pricePix: number) {
+  const value = roundCurrency(nonNegativeNumber(pricePix));
+  if (value <= 0) return 0;
+  if (value <= 10) return value;
+  return roundCurrency(Math.max(MIN_SITE_PRICE_PIX, value * LEGACY_PRICE_REDUCTION_FACTOR));
 }
 
 function finiteNumber(value: unknown, fallback = 0) {
@@ -108,7 +125,7 @@ export function calculateProductionCostRecommendation(input: PricingInput): Prod
   const overheadPercent = clamp(nonNegativeNumber(input.overheadPercent, DEFAULT_OVERHEAD_PERCENT), 0, 300);
   const profitMode: ProfitMode = input.profitMode === "markup" ? "markup" : "margin";
   const targetPercent = clamp(
-    nonNegativeNumber(input.profitTargetPercent, TARGET_LIQUID_MARGIN * 100),
+    nonNegativeNumber(input.profitTargetPercent, DEFAULT_PROFIT_TARGET_PERCENT),
     0,
     profitMode === "margin" ? 95 : 500
   );
@@ -125,13 +142,12 @@ export function calculateProductionCostRecommendation(input: PricingInput): Prod
       ? totalCost / (1 - targetPercent / 100)
       : totalCost * (1 + targetPercent / 100);
   const recommendedPricePix = roundCurrency(Math.max(MIN_SITE_PRICE_PIX, rawPix));
-  const recommendedPriceCard = roundCurrency(recommendedPricePix * positiveNumber(input.cardMultiplier, CARD_MULTIPLIER));
+  const recommendedPriceCard = calculateCardPrice(recommendedPricePix);
   const profitAmount = roundCurrency(recommendedPricePix - totalCost);
   const profitPercent = recommendedPricePix > 0 ? roundCurrency((profitAmount / recommendedPricePix) * 100) : 0;
   const referencePrice = roundCurrency(
     Math.max(
       input.marketplaceSuggested || 0,
-      input.priceCard || 0,
       input.pricePix || 0,
       recommendedPricePix * REFERENCE_PRICE_MULTIPLIER
     )
@@ -183,11 +199,10 @@ export function calculateFinalPrice(input: PricingInput) {
 
   const costBase = resolveBaseCost(input);
   const pricePix = roundCurrency(Math.max(MIN_SITE_PRICE_PIX, costBase / PIX_PRICE_DIVISOR));
-  const priceCard = roundCurrency(pricePix * CARD_MULTIPLIER);
+  const priceCard = calculateCardPrice(pricePix);
   const referencePrice = roundCurrency(
     Math.max(
       input.marketplaceSuggested || 0,
-      input.priceCard || 0,
       input.pricePix || 0,
       pricePix * REFERENCE_PRICE_MULTIPLIER
     )
@@ -213,7 +228,7 @@ export function calculateSalePrice(
 ) {
   const base = calculateFinalPrice({ grams, hours, complexity }).pricePix;
   let price = base;
-  if (paymentMethod === "cartao") price *= CARD_MULTIPLIER;
+  if (paymentMethod === "cartao") price = calculateCardPrice(base);
   if (paymentMethod === "boleto") price *= BOLETO_MULTIPLIER;
   if (channel === "mercadolivre") price *= MARKETPLACE_PRICE_MULTIPLIER;
   if (channel === "shopee") price *= 1.12;
@@ -330,7 +345,7 @@ export function calculateDynamicPricing(input: ProductPricingInput) {
   else if (options.quantity >= 3) quantityDiscount = 0.95;
   
   const finalPricePix = roundCurrency(pricing.pricePix * quantityDiscount);
-  const finalPriceCard = roundCurrency(pricing.priceCard * quantityDiscount);
+  const finalPriceCard = calculateCardPrice(finalPricePix);
   
   return {
     ...pricing,

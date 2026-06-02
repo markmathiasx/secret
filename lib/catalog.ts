@@ -14,10 +14,13 @@ import type { AdminProductOverride, ProductionStage, ProfitMode } from "@/types/
 import {
   buildFixedMarginNarrative,
   calculateBaseCost as calculateBaseCostFromEngine,
+  calculateCardPrice,
   calculateFinalPrice,
   calculateSalePrice as calculateSalePriceFromEngine,
+  FIXED_CARD_PRICING_SOURCE,
   FIXED_MARGIN_BADGE_LABEL,
   LOCAL_PRODUCTION_BADGE_LABEL,
+  normalizeLegacyPixPrice,
 } from "@/lib/pricing-engine";
 
 export type PaymentMethod = "pix" | "cartao" | "boleto";
@@ -112,6 +115,10 @@ export type Product = {
 
 const adminProductOverrides = adminProductOverridesJson as unknown as Record<string, AdminProductOverride>;
 
+function isFixedCardPricingSource(override: AdminProductOverride) {
+  return override.pricingSource === FIXED_CARD_PRICING_SOURCE;
+}
+
 function applyAdminOverride(product: Product): Product {
   const override = adminProductOverrides[product.id];
   if (!override) return product;
@@ -120,10 +127,15 @@ function applyAdminOverride(product: Product): Product {
     typeof override.costBase === "number"
       ? override.costBase
       : typeof override.pricePix === "number"
-        ? Number((override.pricePix * 0.6).toFixed(2))
+        ? Number(((isFixedCardPricingSource(override) ? override.pricePix : normalizeLegacyPixPrice(override.pricePix)) * 0.6).toFixed(2))
         : product.baseCost;
   const nextStatus = override.status ?? product.status;
-  const manualPriceOverride = override.pricePix !== undefined || override.priceCard !== undefined;
+  const manualPriceOverride = override.pricePix !== undefined;
+  const overridePricePix = override.pricePix !== undefined
+    ? isFixedCardPricingSource(override)
+      ? override.pricePix
+      : normalizeLegacyPixPrice(override.pricePix)
+    : product.pricePix;
 
   return {
     ...product,
@@ -139,8 +151,8 @@ function applyAdminOverride(product: Product): Product {
     customizable: override.customizable ?? product.customizable,
     featured: override.featured ?? product.featured,
     baseCost: derivedBaseCost,
-    pricePix: override.pricePix ?? product.pricePix,
-    priceCard: override.priceCard ?? product.priceCard,
+    pricePix: overridePricePix,
+    priceCard: calculateCardPrice(overridePricePix),
     grams: Math.round(override.estimatedGrams ?? product.grams),
     hours: override.estimatedHours ?? product.hours,
     complexity: override.complexity ?? product.complexity,
@@ -191,8 +203,9 @@ function enrichProduct(product: Product): Product {
     profitMode: normalized.profitMode,
     profitTargetPercent: normalized.profitTargetPercent,
   });
-  const pricePix = normalized.manualPriceOverride ? normalized.pricePix : pricing.pricePix;
-  const priceCard = normalized.manualPriceOverride ? normalized.priceCard : pricing.priceCard;
+  const sourcePricePix = normalized.pricePix > 0 ? normalized.pricePix : pricing.pricePix;
+  const pricePix = normalized.manualPriceOverride ? sourcePricePix : normalizeLegacyPixPrice(sourcePricePix);
+  const priceCard = calculateCardPrice(pricePix);
   const profitAmount = Number((pricePix - pricing.costBase).toFixed(2));
 
   return {
@@ -201,7 +214,7 @@ function enrichProduct(product: Product): Product {
     baseCost: pricing.costBase,
     pricePix,
     priceCard,
-    marketplaceSuggested: pricing.referencePrice,
+    marketplaceSuggested: normalizeLegacyPixPrice(pricing.referencePrice),
     estimatedUnitCost: pricing.costBase,
     estimatedUnitProfit: profitAmount,
     pricingMode: "faixa-auditada",

@@ -1,6 +1,7 @@
 import type { Product } from "@/lib/catalog";
 import curatedCsvRows from "@/data/catalogo_curado_160_itens_ptbr.json";
 import { getCsvCuratedLocalImages, hasCsvCuratedLocalMedia } from "@/lib/csv-curated-media";
+import { calculateCardPrice } from "@/lib/pricing-engine";
 
 type CsvRow = {
   sku: string;
@@ -143,7 +144,7 @@ function buildCsvProduct(row: CsvRow, featured: boolean): Product {
     licenseType: "personal",
     variants: [{ color: "Sob consulta", available: true }],
     pricePix: priceMedian,
-    priceCard: Number((priceMedian * 1.12).toFixed(2)),
+    priceCard: calculateCardPrice(priceMedian),
     marketplaceSuggested: priceHigh,
     productionWindow: "3 a 7 dias",
     imageHint: row.title_pt.trim(),
