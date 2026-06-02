@@ -7,14 +7,7 @@ import { canConnectToDatabase, prisma } from "@/lib/prisma";
 import { recordAdminAction } from "@/lib/admin-audit";
 import { invalidateCatalogCache } from "@/lib/runtime-cache";
 import { slugify } from "@/lib/utils";
-import {
-  DEFAULT_PROFIT_TARGET_PERCENT,
-  FIXED_CARD_PRICING_SOURCE,
-  calculateCardPrice,
-  calculateProductionCostRecommendation,
-  normalizeLegacyPixPrice,
-  roundCurrency,
-} from "@/lib/pricing-engine";
+import { calculateCardPrice, calculateProductionCostRecommendation, roundCurrency } from "@/lib/pricing-engine";
 import type { AdminProductOverride, ProfitMode } from "@/types/admin-catalog";
 
 export const dynamic = "force-dynamic";
@@ -144,7 +137,6 @@ function normalizeBody(body: Record<string, unknown>): NormalizedProductPatch {
   patch.status = normalizeLegacyStatus(body.status);
   patch.visibility = normalizeVisibility(body.visibility);
   patch.profitMode = normalizeProfitMode(body.profitMode);
-  if (body.pricingSource === FIXED_CARD_PRICING_SOURCE) patch.pricingSource = FIXED_CARD_PRICING_SOURCE;
 
   if ("costingUpdatedAt" in body) {
     const raw = body.costingUpdatedAt;
@@ -194,9 +186,7 @@ async function applyDatabaseUpdate(id: string, patch: NormalizedProductPatch) {
       categoryId = category.id;
     }
 
-    const rawEffectivePricePix = patch.pricePix ?? Number(current.pricePix);
-    const effectivePricePix =
-      patch.pricingSource === FIXED_CARD_PRICING_SOURCE ? roundCurrency(rawEffectivePricePix) : normalizeLegacyPixPrice(rawEffectivePricePix);
+    const effectivePricePix = patch.pricePix ?? Number(current.pricePix);
     const effectivePriceCard = calculateCardPrice(effectivePricePix);
     const recommendation = calculateProductionCostRecommendation({
       estimatedGrams: patch.estimatedGrams ?? Number(current.estimatedGrams ?? current.grams),
@@ -209,7 +199,7 @@ async function applyDatabaseUpdate(id: string, patch: NormalizedProductPatch) {
       packagingCost: patch.packagingCost ?? Number(current.packagingCost ?? 2.5),
       overheadPercent: patch.overheadPercent ?? Number(current.overheadPercent ?? 12),
       profitMode: patch.profitMode ?? (current.profitMode === "markup" ? "markup" : "margin"),
-      profitTargetPercent: patch.profitTargetPercent ?? Number(current.profitTargetPercent ?? DEFAULT_PROFIT_TARGET_PERCENT),
+      profitTargetPercent: patch.profitTargetPercent ?? Number(current.profitTargetPercent ?? 50),
       pricePix: effectivePricePix,
       priceCard: effectivePriceCard,
       marketplaceSuggested: Number(current.marketplaceSuggested),
@@ -223,7 +213,7 @@ async function applyDatabaseUpdate(id: string, patch: NormalizedProductPatch) {
       data: {
         ...(patch.title !== undefined && { title: patch.title }),
         ...(patch.description !== undefined && { description: patch.description }),
-        pricePix: effectivePricePix,
+        ...(patch.pricePix !== undefined && { pricePix: patch.pricePix }),
         priceCard: effectivePriceCard,
         ...(patch.stock !== undefined && { stock: patch.stock }),
         ...(patch.material !== undefined && { material: patch.material }),

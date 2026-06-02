@@ -32,7 +32,6 @@ export type AdminProductOverride = {
   estimatedProfitPercent?: number;
   costingUpdatedAt?: string;
   productionStage?: ProductionStage;
-  pricingSource?: string;
   updatedAt?: string;
 };
 

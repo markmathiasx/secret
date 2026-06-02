@@ -1,5 +1,5 @@
 import { findProduct, getProductUrl, type Product as CatalogProduct } from "@/lib/catalog";
-import { calculateCardPrice, normalizeLegacyPixPrice } from "@/lib/pricing-engine";
+import { calculateCardPrice } from "@/lib/pricing-engine";
 import { slugify } from "@/lib/utils";
 
 type ProductCopy = {
@@ -183,7 +183,6 @@ const curatedProducts = curatedSourceIds.map((sourceId) =>
 );
 
 const customBase = assertProduct("mdh-038");
-const customProjectPix = normalizeLegacyPixPrice(89.9);
 
 export const storefrontProducts: StorefrontProduct[] = [
   ...curatedProducts,
@@ -196,10 +195,10 @@ export const storefrontProducts: StorefrontProduct[] = [
     name: "Projeto 3D Personalizado",
     category: "Sob medida",
     stock: 99,
-    price: customProjectPix,
-    pricePix: customProjectPix,
-    priceCard: calculateCardPrice(customProjectPix),
-    priceFromLabel: `Projetos a partir de R$ ${customProjectPix.toFixed(2).replace(".", ",")}`,
+    price: 89.9,
+    pricePix: 89.9,
+    priceCard: calculateCardPrice(89.9),
+    priceFromLabel: "Projetos a partir de R$ 89,90",
     material: "PLA Premium ou sob análise",
     finish: "Sob medida",
     productionWindow: "3 a 7 dias úteis",

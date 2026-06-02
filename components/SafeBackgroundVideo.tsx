@@ -1,7 +1,6 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 type SafeBackgroundVideoProps = {
@@ -29,24 +28,29 @@ export function SafeBackgroundVideo({
   fallbackClassName,
   objectPosition = "center",
 }: SafeBackgroundVideoProps) {
-  const shouldReduceMotion = useReducedMotion();
   const localSrc = src && !/^https?:\/\//i.test(src) ? src : null;
-  const showVideo = Boolean(localSrc) && !shouldReduceMotion;
-  const showPosterFallback = Boolean(poster) && (!shouldReduceMotion || reducedMotionBehavior === "poster");
-  const showCustomFallback = !showVideo && Boolean(fallbackVisual) && (!shouldReduceMotion || reducedMotionBehavior === "fallback" || !poster);
+  const showVideo = Boolean(localSrc);
+  const showPosterFallback = Boolean(poster);
+  const showCustomFallback = Boolean(fallbackVisual) && (!showVideo || reducedMotionBehavior === "fallback" || !poster);
   const showGeneratedFallback = !showVideo && !showPosterFallback && !showCustomFallback && reducedMotionBehavior !== "none";
+  const hideVideoForReducedMotion = reducedMotionBehavior === "poster" || reducedMotionBehavior === "fallback";
 
   return (
     <div className={cn("pointer-events-none absolute inset-0 overflow-hidden", className)} aria-hidden="true">
       {showPosterFallback ? (
         <div
-          className={cn("absolute inset-0 bg-cover bg-center", showVideo ? "opacity-0" : "opacity-100", fallbackClassName)}
+          className={cn(
+            "absolute inset-0 bg-cover bg-center",
+            showVideo ? "opacity-0 motion-reduce:opacity-100" : "opacity-100",
+            reducedMotionBehavior === "none" && showVideo ? "motion-reduce:opacity-0" : null,
+            fallbackClassName
+          )}
           style={{ backgroundImage: `url("${poster}")`, backgroundPosition: objectPosition }}
         />
       ) : null}
 
       {showCustomFallback ? (
-        <div className={cn("absolute inset-0", fallbackClassName)}>{fallbackVisual}</div>
+        <div className={cn("absolute inset-0", showVideo ? "opacity-0 motion-reduce:opacity-100" : "opacity-100", fallbackClassName)}>{fallbackVisual}</div>
       ) : null}
 
       {showGeneratedFallback ? (
@@ -57,7 +61,7 @@ export function SafeBackgroundVideo({
 
       {showVideo ? (
         <video
-          className={cn("absolute inset-0 h-full w-full object-cover", videoClassName)}
+          className={cn("absolute inset-0 h-full w-full object-cover", hideVideoForReducedMotion ? "motion-reduce:hidden" : null, videoClassName)}
           src={localSrc ?? undefined}
           poster={poster ?? undefined}
           muted

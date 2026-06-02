@@ -30,18 +30,11 @@ function hashBasedPrice(seed) {
   return base;
 }
 
-function normalizeLegacyPixPrice(pricePix) {
-  const value = Number(pricePix);
-  if (!Number.isFinite(value) || value <= 0) return 0;
-  if (value <= 10) return Number(value.toFixed(2));
-  return Number(Math.max(4.5, value * (4.5 / 24.5)).toFixed(2));
-}
-
 const products = files.map((file) => {
   const id = path.basename(file, path.extname(file));
   const title = toTitleCase(id);
-  const precoPix = normalizeLegacyPixPrice(Math.round(hashBasedPrice(id)));
-  const precoParcelado = Number((precoPix + 1).toFixed(2));
+  const precoPix = Math.round(hashBasedPrice(id));
+  const precoParcelado = Math.round((precoPix + 3) * 100) / 100;
   const category = title.includes('Kitty') ? 'Colecionáveis' : 'Home Decor';
   const material = title.includes('Kitty') ? 'PLA' : 'PLA Silk';
   const tags = [category, material, 'Pronta entrega'];

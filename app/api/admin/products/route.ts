@@ -4,6 +4,7 @@ import { getServerSessionUser, isAdminSession } from "@/lib/server-session";
 import { canConnectToDatabase, prisma } from "@/lib/prisma";
 import { catalog } from "@/lib/catalog";
 import { invalidateCatalogCache } from "@/lib/runtime-cache";
+import { calculateCardPrice } from "@/lib/pricing-engine";
 
 export const dynamic = "force-dynamic";
 
@@ -69,6 +70,9 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: false, error: "title e sku são obrigatórios." }, { status: 400 });
   }
 
+  const pricePix = Number(body.pricePix || 0);
+  const priceCard = calculateCardPrice(pricePix);
+
   const product = await prisma.product.create({
     data: {
       id: `mdh-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
@@ -81,9 +85,9 @@ export async function POST(req: NextRequest) {
       finish: String(body.finish || "Padrão"),
       grams: Number(body.grams || 0),
       hours: Number(body.hours || 0),
-      pricePix: Number(body.pricePix || 0),
-      priceCard: Number(body.priceCard || 0),
-      marketplaceSuggested: Number(body.marketplaceSuggested || body.priceCard || 0),
+      pricePix,
+      priceCard,
+      marketplaceSuggested: Number(body.marketplaceSuggested || priceCard || 0),
       productionWindow: String(body.productionWindow || "5–10 dias úteis"),
       stock: Number(body.stock || 0),
       readyToShip: Boolean(body.readyToShip),

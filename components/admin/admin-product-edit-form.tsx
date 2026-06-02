@@ -21,10 +21,8 @@ type EstimateResponse = {
   error?: string;
 };
 
-const CARD_FIXED_SURCHARGE = 1;
-const DEFAULT_PROFIT_TARGET_PERCENT = 20;
-const FIXED_CARD_PRICING_SOURCE = "mdh-fixed-card-plus-one-2026";
-const MIN_SITE_PRICE_PIX = 4.5;
+const CARD_FIXED_SURCHARGE = 3;
+const MIN_SITE_PRICE_PIX = 39.9;
 
 function formatCurrency(value: number) {
   return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(Number.isFinite(value) ? value : 0);
@@ -56,7 +54,7 @@ function calculateRecommendation(form: Record<string, string | boolean>, profitM
   const laborHourlyRate = Math.max(0, parseNumber(String(form.laborHourlyRate), 18));
   const packagingCost = Math.max(0, parseNumber(String(form.packagingCost), 2.5));
   const overheadPercent = Math.min(300, Math.max(0, parseNumber(String(form.overheadPercent), 12)));
-  const target = Math.max(0, parseNumber(String(form.profitTargetPercent), DEFAULT_PROFIT_TARGET_PERCENT));
+  const target = Math.max(0, parseNumber(String(form.profitTargetPercent), 50));
   const costFilament = roundCurrency(grams * (spoolPricePerKg / 1000));
   const costMachine = roundCurrency(hours * machineHourlyRate);
   const costLabor = roundCurrency((postProcessMinutes / 60) * laborHourlyRate);
@@ -128,7 +126,7 @@ export function AdminProductEditForm({ product }: { product: AdminCatalogProduct
     packagingCost: numberText(product.packagingCost, "2.5"),
     overheadPercent: numberText(product.overheadPercent, "12"),
     profitMode: product.profitMode,
-    profitTargetPercent: numberText(product.profitTargetPercent, String(DEFAULT_PROFIT_TARGET_PERCENT)),
+    profitTargetPercent: numberText(product.profitTargetPercent, "50"),
   });
   const [loading, setLoading] = useState(false);
   const [estimating, setEstimating] = useState(false);
@@ -146,10 +144,11 @@ export function AdminProductEditForm({ product }: { product: AdminCatalogProduct
     const target = e.target;
     const value = target.type === "checkbox" ? (target as HTMLInputElement).checked : target.value;
     setForm((prev) => {
+      const next = { ...prev, [target.name]: value };
       if (target.name === "pricePix") {
-        return { ...prev, pricePix: value, priceCard: String(calculateCardPrice(parseNumber(String(value)))) };
+        next.priceCard = String(calculateCardPrice(parseNumber(String(value))));
       }
-      return { ...prev, [target.name]: value };
+      return next;
     });
   }
 
@@ -215,7 +214,6 @@ export function AdminProductEditForm({ product }: { product: AdminCatalogProduct
           ...form,
           pricePix: parseNumber(String(form.pricePix)),
           priceCard: calculateCardPrice(parseNumber(String(form.pricePix))),
-          pricingSource: FIXED_CARD_PRICING_SOURCE,
           stock: parseNumber(String(form.stock)),
           estimatedGrams: parseNumber(String(form.estimatedGrams)),
           estimatedHours: parseNumber(String(form.estimatedHours)),
@@ -227,7 +225,7 @@ export function AdminProductEditForm({ product }: { product: AdminCatalogProduct
           packagingCost: parseNumber(String(form.packagingCost), 2.5),
           overheadPercent: parseNumber(String(form.overheadPercent), 12),
           profitMode: form.profitMode,
-          profitTargetPercent: parseNumber(String(form.profitTargetPercent), DEFAULT_PROFIT_TARGET_PERCENT),
+          profitTargetPercent: parseNumber(String(form.profitTargetPercent), 50),
           estimatedProfitAmount: currentProfitAmount,
           estimatedProfitPercent: currentProfitPercent,
           costingUpdatedAt: new Date().toISOString(),
@@ -301,7 +299,7 @@ export function AdminProductEditForm({ product }: { product: AdminCatalogProduct
             <input name="pricePix" type="number" step={0.01} min={0} value={String(form.pricePix)} onChange={handleChange} className="field-base" />
           </label>
           <label className="block">
-            <span className="mb-1 block text-sm text-white/70">Preço Cartão (Pix + R$ 1)</span>
+            <span className="mb-1 block text-sm text-white/70">Preço Cartão (Pix + R$ 3)</span>
             <input name="priceCard" type="number" step={0.01} min={0} value={String(form.priceCard)} readOnly className="field-base" />
           </label>
           <label className="block">
@@ -405,7 +403,7 @@ export function AdminProductEditForm({ product }: { product: AdminCatalogProduct
                 <div key={String(label)} className="rounded-[8px] border border-white/10 bg-white/[0.04] p-4">
                   <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-white/45">{String(label)}</p>
                   <p className="mt-2 text-2xl font-black text-white">{formatCurrency(item.recommendedPricePix)}</p>
-                  <p className="mt-1 text-sm text-white/55">Cartão + R$ 1: {formatCurrency(item.recommendedPriceCard)}</p>
+                  <p className="mt-1 text-sm text-white/55">Cartão + R$ 3: {formatCurrency(item.recommendedPriceCard)}</p>
                   <p className="mt-2 text-xs text-emerald-100">Lucro estimado: {formatCurrency(item.profitAmount)} ({item.profitPercent.toFixed(1)}%)</p>
                   <button type="button" onClick={() => applyPrices(item)} className="btn-secondary mt-3 w-full justify-center text-sm">
                     Aplicar Pix/Card

@@ -136,6 +136,7 @@ export const useCartStore = create<CartStoreState>()(
     {
       name: CART_STORAGE_KEY,
       storage: createJSONStorage(() => safeWindow()?.localStorage ?? memoryStorage),
+      skipHydration: true,
       partialize: (state) => ({ items: state.items }),
       onRehydrateStorage: () => (state) => {
         state?.setHydrated(true);

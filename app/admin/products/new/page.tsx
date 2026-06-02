@@ -25,7 +25,14 @@ export default function AdminNewProductPage() {
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
     const target = e.target;
     const value = target.type === "checkbox" ? (target as HTMLInputElement).checked : target.value;
-    setForm((prev) => ({ ...prev, [target.name]: value }));
+    setForm((prev) => {
+      const next = { ...prev, [target.name]: value };
+      if (target.name === "pricePix") {
+        const pix = Number(String(value).replace(",", "."));
+        next.priceCard = Number.isFinite(pix) ? String(Number((Math.max(0, pix) + 3).toFixed(2))) : "";
+      }
+      return next;
+    });
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -40,7 +47,7 @@ export default function AdminNewProductPage() {
         body: JSON.stringify({
           ...form,
           pricePix: Number(form.pricePix),
-          priceCard: Number(form.priceCard),
+          priceCard: Number((Math.max(0, Number(form.pricePix)) + 3).toFixed(2)),
           stock: Number(form.stock),
         }),
       });
@@ -97,8 +104,8 @@ export default function AdminNewProductPage() {
             <input name="pricePix" type="number" step={0.01} min={0} required value={form.pricePix} onChange={handleChange} className="field-base" />
           </label>
           <label className="block">
-            <span className="mb-1 block text-sm text-white/70">Preço Cartão (R$)</span>
-            <input name="priceCard" type="number" step={0.01} min={0} value={form.priceCard} onChange={handleChange} className="field-base" />
+            <span className="mb-1 block text-sm text-white/70">Preço Cartão (Pix + R$ 3)</span>
+            <input name="priceCard" type="number" step={0.01} min={0} value={form.priceCard} readOnly className="field-base" />
           </label>
           <label className="block">
             <span className="mb-1 block text-sm text-white/70">Estoque</span>

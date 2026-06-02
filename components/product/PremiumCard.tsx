@@ -136,7 +136,7 @@ export function PremiumCard({ product, index = 0 }: PremiumCardProps) {
         {/* Price */}
         <div className="mt-auto">
           <p className="text-xs text-white/45">
-            Cartão + R$ 1: {formatCurrency(product.priceCard)}
+            Cartão + R$ 3 {formatCurrency(product.priceCard)}
           </p>
           <p className="text-lg font-bold text-emerald-400">
             {formatCurrency(product.pricePix)}{" "}

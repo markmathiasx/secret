@@ -84,6 +84,26 @@ export function ArcadeHub() {
     window.scrollTo({ top: 0, behavior: "auto" });
   }, [activeGame]);
 
+  useEffect(() => {
+    if (activeGame === "hub") return;
+
+    const html = document.documentElement;
+    const body = document.body;
+    const previousHtmlOverflow = html.style.overflow;
+    const previousBodyOverflow = body.style.overflow;
+    const previousBodyOverscroll = body.style.overscrollBehavior;
+
+    html.style.overflow = "hidden";
+    body.style.overflow = "hidden";
+    body.style.overscrollBehavior = "none";
+
+    return () => {
+      html.style.overflow = previousHtmlOverflow;
+      body.style.overflow = previousBodyOverflow;
+      body.style.overscrollBehavior = previousBodyOverscroll;
+    };
+  }, [activeGame]);
+
   if (activeGame !== "hub") {
     const gameTitle = allGames.find((game) => game.id === activeGame)?.title ?? "Arcade MDH 3D";
 

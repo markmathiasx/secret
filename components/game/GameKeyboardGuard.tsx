@@ -24,6 +24,16 @@ function isGameNavigationKey(event: KeyboardEvent) {
   );
 }
 
+function keepViewportPinned() {
+  window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  window.requestAnimationFrame(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  });
+  window.setTimeout(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, 0);
+}
+
 export function GameKeyboardGuard() {
   useEffect(() => {
     const guardedTargets = [
@@ -37,6 +47,7 @@ export function GameKeyboardGuard() {
       if (!(event instanceof KeyboardEvent)) return;
       if (!isGameNavigationKey(event) || isEditableTarget(event.target)) return;
       event.preventDefault();
+      keepViewportPinned();
     }
 
     for (const target of guardedTargets) {

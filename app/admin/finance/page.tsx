@@ -59,7 +59,7 @@ export default async function FinancePage() {
           </div>
 
           <div className="rounded-[24px] border border-emerald-300/20 bg-emerald-300/10 px-5 py-4">
-            <p className="text-xs uppercase tracking-[0.18em] text-emerald-100/75">20% lucro alvo</p>
+            <p className="text-xs uppercase tracking-[0.18em] text-emerald-100/75">40% lucro garantido</p>
             <p className="mt-2 text-lg font-black text-white">Produção local RJ</p>
           </div>
         </div>

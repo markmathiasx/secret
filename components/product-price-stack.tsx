@@ -4,11 +4,16 @@ import type { Product } from "@/lib/catalog";
 import {
   FIXED_MARGIN_BADGE_LABEL,
   LOCAL_PRODUCTION_BADGE_LABEL,
+  calculateFinalPrice,
 } from "@/lib/pricing-engine";
 import { formatCurrency } from "@/lib/utils";
 
 function getReferencePrice(product: Product) {
-  return Math.max(product.marketplaceSuggested || 0, product.priceCard, product.pricePix);
+  return calculateFinalPrice({
+    ...product,
+    baseCost: product.baseCost,
+    estimatedUnitCost: product.estimatedUnitCost,
+  }).referencePrice;
 }
 
 export function ProductPriceStack({
@@ -43,7 +48,7 @@ export function ProductPriceStack({
         </div>
       ) : null}
       {showInstallments ? (
-        <p className="text-xs text-white/55">Cartão + R$ 1: {formatCurrency(product.priceCard)}</p>
+        <p className="text-xs text-white/55">Cartão + R$ 3: {formatCurrency(product.priceCard)}</p>
       ) : null}
       <p className="text-xs text-white/55">Prazo de produção: {productionLeadTime}</p>
       <div className="flex flex-wrap gap-2">

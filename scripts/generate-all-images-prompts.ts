@@ -142,10 +142,6 @@ function toNumber(value: string, fallback: number) {
   return Number.isFinite(parsed) ? parsed : fallback;
 }
 
-function calculateCardPrice(pricePix: number) {
-  return Number((Math.max(0, pricePix) + 1).toFixed(2));
-}
-
 function listFilesRecursive(relativeDir: string) {
   const targetDir = path.join(ROOT, relativeDir);
   const entries: string[] = [];
@@ -359,7 +355,7 @@ function buildCsvProduct(row: Record<string, string>, featured: boolean): Produc
     licenseType: "personal",
     variants: [{ color: "Sob consulta", available: true }],
     pricePix: priceMedian,
-    priceCard: calculateCardPrice(priceMedian),
+    priceCard: Number((priceMedian + 3).toFixed(2)),
     marketplaceSuggested: priceHigh,
     productionWindow: "3 a 7 dias",
     imageHint: String(row.title_pt || "").trim(),
