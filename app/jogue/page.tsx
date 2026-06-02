@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
-import { PinballStar } from "@/components/games/PinballStar";
+import { ArcadeHub } from "@/components/games/ArcadeHub";
 
 export const metadata: Metadata = {
-  title: "Pinball Star — Arcade MDH 3D",
+  title: "Arcade MDH 3D — Pinball Star e mini-games",
   description:
-    "Jogue Pinball Star, um mini-game arcade em Canvas 2D com flippers, bumpers, targets, score, high score e visual neon.",
+    "Jogue Pinball Star e mini-games originais da MDH 3D com runner, puzzle, gestão, entrega e desafios de impressão 3D.",
   alternates: {
     canonical: "/jogue",
   },
 };
 
 export default function JoguePage() {
-  return <PinballStar />;
+  return <ArcadeHub />;
 }
