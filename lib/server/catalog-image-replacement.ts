@@ -132,7 +132,7 @@ async function collectBuiltInSources() {
       productId: product.id,
       sources,
       sourceType: "catalog-photo-manifest",
-      notes: "Fotos reais copiadas do acervo local da MDH 3D.",
+      notes: "Mídias validadas copiadas do acervo local da MDH 3D.",
     });
   }
 
@@ -145,7 +145,7 @@ async function collectBuiltInSources() {
       productId: product.id,
       sources: [absolute],
       sourceType: "verified-real-manifest",
-      notes: "Foto real já validada no catálogo verificado.",
+      notes: "Mídia validada já validada no catálogo verificado.",
     });
   }
 
@@ -173,7 +173,7 @@ async function collectManifestSources(manifestPath?: string) {
         productId: product.id,
         sources,
         sourceType: "external-manifest",
-        notes: "Fotos reais importadas a partir de manifest externo.",
+        notes: "Mídias validadas importadas a partir de manifest externo.",
       });
     }
     return sourceMap;
@@ -190,7 +190,7 @@ async function collectManifestSources(manifestPath?: string) {
       productId: product.id,
       sources,
       sourceType: "external-manifest",
-      notes: "Fotos reais importadas a partir de manifest externo.",
+      notes: "Mídias validadas importadas a partir de manifest externo.",
     });
   }
 
@@ -250,7 +250,7 @@ async function collectDirectorySources(sourceDir?: string) {
       productId: product.id,
       sources: unique(resolvedSources),
       sourceType: "source-directory",
-      notes: "Fotos reais importadas de lote local.",
+      notes: "Mídias validadas importadas de lote local.",
     });
   }
 

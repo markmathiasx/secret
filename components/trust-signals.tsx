@@ -33,7 +33,7 @@ const pillars = [
 
 const commitments = [
   'Produção local no Rio de Janeiro com comunicação direta sobre material, prazo e acabamento.',
-  'Portfólio com separação clara entre foto real, render fiel e imagem conceitual.',
+  'Portfólio com separação clara entre mídia validada, prévia técnica e imagem conceitual.',
   'Fluxo de pagamento simples: Pix para rapidez e cartão via parceiro seguro quando disponível.',
   'Conta do cliente protegida para voltar ao site, acompanhar pedidos e organizar favoritos.'
 ];

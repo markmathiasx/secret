@@ -1,10 +1,13 @@
+export const OFFICIAL_INSTAGRAM_HANDLE = "mdh_3d.com.br";
+export const OFFICIAL_INSTAGRAM_URL = "https://www.instagram.com/mdh_3d.com.br/";
+
 export const brand = {
   name: "MDH 3D",
   legalName: "MDH 3D Store",
   city: "Rio de Janeiro",
   state: "RJ",
   slogan: "Impressão 3D premium para presentes criativos, setup, decoração e peças sob encomenda",
-  instagramHandle: process.env.NEXT_PUBLIC_BRAND_INSTAGRAM_HANDLE || "mdh_impressao3d",
+  instagramHandle: OFFICIAL_INSTAGRAM_HANDLE,
 };
 
 function parseList(value?: string) {
@@ -34,8 +37,7 @@ export const pix = {
 };
 
 export const socialLinks = {
-  instagram:
-    process.env.NEXT_PUBLIC_INSTAGRAM_URL || `https://www.instagram.com/${brand.instagramHandle}`,
+  instagram: OFFICIAL_INSTAGRAM_URL,
   tiktok: process.env.NEXT_PUBLIC_TIKTOK_URL || "#",
   facebook: process.env.NEXT_PUBLIC_FACEBOOK_URL || "#",
 };
@@ -189,9 +191,9 @@ export const orderPrepChecklist = [
 
 export const catalogShortcutLinks = [
   {
-    label: "Só foto real",
-    href: "/catalogo?mode=real",
-    note: "peças com objeto físico fotografado",
+    label: "Mídia validada",
+    href: "/catalogo?mode=verified",
+    note: "produtos com imagem do catálogo validada",
   },
   {
     label: "Pronta entrega",
@@ -200,7 +202,7 @@ export const catalogShortcutLinks = [
   },
   {
     label: "Presentes criativos",
-    href: "/catalogo?intent=Presente",
+    href: "/catalogo?intent=presentear",
     note: "vitrine pronta para presentear",
   },
   {
@@ -210,12 +212,12 @@ export const catalogShortcutLinks = [
   },
   {
     label: "Compra econômica",
-    href: "/catalogo?intent=Economia",
+    href: "/catalogo?sort=Pre%C3%A7o",
     note: "seleção para ticket mais enxuto",
   },
   {
     label: "Lotes e brindes",
-    href: "/catalogo?intent=Atacado",
+    href: "/catalogo?intent=comprar_em_lote",
     note: "curadoria para evento e marca",
   },
 ] as const;

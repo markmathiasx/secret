@@ -89,18 +89,24 @@ export function ArcadeHub() {
 
     const html = document.documentElement;
     const body = document.body;
-    const previousHtmlOverflow = html.style.overflow;
-    const previousBodyOverflow = body.style.overflow;
-    const previousBodyOverscroll = body.style.overscrollBehavior;
+    const previous = {
+      htmlOverflow: html.style.overflow,
+      bodyOverflow: body.style.overflow,
+      bodyOverscrollBehavior: body.style.overscrollBehavior,
+      bodyHeight: body.style.height,
+    };
 
     html.style.overflow = "hidden";
     body.style.overflow = "hidden";
     body.style.overscrollBehavior = "none";
+    body.style.height = "100vh";
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
 
     return () => {
-      html.style.overflow = previousHtmlOverflow;
-      body.style.overflow = previousBodyOverflow;
-      body.style.overscrollBehavior = previousBodyOverscroll;
+      html.style.overflow = previous.htmlOverflow;
+      body.style.overflow = previous.bodyOverflow;
+      body.style.overscrollBehavior = previous.bodyOverscrollBehavior;
+      body.style.height = previous.bodyHeight;
     };
   }, [activeGame]);
 

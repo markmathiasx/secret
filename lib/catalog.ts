@@ -3,6 +3,14 @@ import { slugify } from "@/lib/utils";
 import { buildProductSearchText, getProductCardDescription, getProductSearchScore, normalizeProductCategory } from "@/lib/catalog-content";
 import { suggestPixPrice, type MarketBenchmark } from "@/lib/market-pricing";
 import { applyCatalogMedia } from "@/lib/catalog-media";
+import {
+  applyCatalogTaxonomy,
+  normalizePublicTaxonomyText,
+  type BuyingIntent,
+  type CatalogPrimaryCategory,
+  type ProductObjectType,
+  type TaxonomyConfidence,
+} from "@/lib/catalog-taxonomy";
 import { getProductVisual } from "@/lib/product-visuals";
 import { verifiedCatalog } from "@/lib/verified-catalog";
 import { csvCuratedCatalog } from "@/lib/catalog-csv-curated";
@@ -14,12 +22,12 @@ import type { AdminProductOverride, ProductionStage, ProfitMode } from "@/types/
 import {
   buildFixedMarginNarrative,
   calculateBaseCost as calculateBaseCostFromEngine,
-  calculateCardPrice,
   calculateFinalPrice,
   calculateSalePrice as calculateSalePriceFromEngine,
-  FIXED_MARGIN_BADGE_LABEL,
-  LOCAL_PRODUCTION_BADGE_LABEL,
 } from "@/lib/pricing-engine";
+import { calculateCardPrice } from "@/lib/payment-pricing";
+import { getRecommendedPixPrice } from "@/lib/catalog-pricing-policy";
+import { sanitizePublicCatalogProducts } from "@/lib/public-product-copy";
 
 export type PaymentMethod = "pix" | "cartao" | "boleto";
 export type SalesChannel = "site" | "mercadolivre" | "shopee" | "whatsapp";
@@ -30,6 +38,15 @@ export type Product = {
   name: string;
   category: string;
   subcategory: string;
+  primaryCategory?: CatalogPrimaryCategory;
+  productTypePath?: string;
+  buyingIntents?: BuyingIntent[];
+  objectType?: ProductObjectType;
+  useCaseTags?: string[];
+  seoKeywords?: string[];
+  confidence?: TaxonomyConfidence;
+  classificationReason?: string;
+  taxonomyReviewRequested?: boolean;
   theme: string;
   collection: string;
   colors: string[];
@@ -121,17 +138,29 @@ function applyAdminOverride(product: Product): Product {
     typeof override.costBase === "number"
       ? override.costBase
       : typeof override.pricePix === "number"
-        ? Number((override.pricePix * 0.6).toFixed(2))
+        ? Number(override.pricePix.toFixed(2))
         : product.baseCost;
   const nextStatus = override.status ?? product.status;
-  const manualPriceOverride = override.pricePix !== undefined || override.priceCard !== undefined;
+  const manualPriceOverride = override.pricePix !== undefined;
+  const overridePricePix = override.pricePix ?? product.pricePix;
 
   return {
     ...product,
     name: override.title ?? product.name,
-    description: override.description ?? product.description,
+    description: normalizePublicTaxonomyText(override.description ?? product.description),
     category: override.category ?? product.category,
+    subcategory: override.subcategory ?? product.subcategory,
+    primaryCategory: (override.primaryCategory as CatalogPrimaryCategory | undefined) ?? product.primaryCategory,
+    productTypePath: override.productTypePath ?? product.productTypePath,
+    buyingIntents: (override.buyingIntents as BuyingIntent[] | undefined) ?? product.buyingIntents,
+    objectType: (override.objectType as ProductObjectType | undefined) ?? product.objectType,
+    useCaseTags: override.useCaseTags ?? product.useCaseTags,
+    seoKeywords: override.seoKeywords ?? product.seoKeywords,
+    confidence: override.confidence ?? product.confidence,
+    classificationReason: override.classificationReason ?? product.classificationReason,
+    taxonomyReviewRequested: override.taxonomyReviewRequested ?? product.taxonomyReviewRequested,
     collection: override.collection ?? product.collection,
+    tags: override.tags ?? product.tags,
     material: override.material ?? product.material,
     finish: override.finish ?? product.finish,
     status: nextStatus,
@@ -140,8 +169,8 @@ function applyAdminOverride(product: Product): Product {
     customizable: override.customizable ?? product.customizable,
     featured: override.featured ?? product.featured,
     baseCost: derivedBaseCost,
-    pricePix: override.pricePix ?? product.pricePix,
-    priceCard: override.priceCard ?? product.priceCard,
+    pricePix: overridePricePix,
+    priceCard: calculateCardPrice(overridePricePix),
     grams: Math.round(override.estimatedGrams ?? product.grams),
     hours: override.estimatedHours ?? product.hours,
     complexity: override.complexity ?? product.complexity,
@@ -168,45 +197,55 @@ function enrichProduct(product: Product): Product {
   const normalized = {
     ...overridden,
     category: normalizeProductCategory(overridden),
-    description: getProductCardDescription(overridden),
+    description: normalizePublicTaxonomyText(getProductCardDescription(overridden)),
   };
+  const taxonomized = applyCatalogTaxonomy(normalized);
 
-  const visual = getProductVisual(normalized);
+  const visual = getProductVisual(taxonomized);
   const marketPricing = suggestPixPrice(
-    normalized,
-    calculateBaseCostFromEngine(normalized.grams, normalized.hours, normalized.complexity),
+    taxonomized,
+    calculateBaseCostFromEngine(taxonomized.grams, taxonomized.hours, taxonomized.complexity),
     visual.kind
   );
   const pricing = calculateFinalPrice({
-    ...normalized,
-    baseCost: normalized.baseCost,
-    estimatedUnitCost: normalized.estimatedUnitCost,
-    estimatedGrams: normalized.estimatedGrams,
-    estimatedHours: normalized.estimatedHours,
-    spoolPricePerKg: normalized.spoolPricePerKg,
-    machineHourlyRate: normalized.machineHourlyRate,
-    postProcessMinutes: normalized.postProcessMinutes,
-    laborHourlyRate: normalized.laborHourlyRate,
-    packagingCost: normalized.packagingCost,
-    overheadPercent: normalized.overheadPercent,
-    profitMode: normalized.profitMode,
-    profitTargetPercent: normalized.profitTargetPercent,
+    ...taxonomized,
+    baseCost: taxonomized.baseCost,
+    estimatedUnitCost: taxonomized.estimatedUnitCost,
+    estimatedGrams: taxonomized.estimatedGrams,
+    estimatedHours: taxonomized.estimatedHours,
+    spoolPricePerKg: taxonomized.spoolPricePerKg,
+    machineHourlyRate: taxonomized.machineHourlyRate,
+    postProcessMinutes: taxonomized.postProcessMinutes,
+    laborHourlyRate: taxonomized.laborHourlyRate,
+    packagingCost: taxonomized.packagingCost,
+    overheadPercent: taxonomized.overheadPercent,
+    profitMode: taxonomized.profitMode,
+    profitTargetPercent: taxonomized.profitTargetPercent,
   });
-  const pricePix = normalized.manualPriceOverride ? normalized.pricePix : pricing.pricePix;
+  const policyPricePix = getRecommendedPixPrice({
+    ...taxonomized,
+    baseCost: pricing.costBase,
+    estimatedUnitCost: pricing.costBase,
+  });
+  const pricePix = taxonomized.manualPriceOverride ? taxonomized.pricePix : policyPricePix;
   const priceCard = calculateCardPrice(pricePix);
-  const profitAmount = Number((pricePix - pricing.costBase).toFixed(2));
+  const costBase =
+    taxonomized.manualPriceOverride && typeof taxonomized.baseCost === "number"
+      ? taxonomized.baseCost
+      : pricing.costBase;
+  const profitAmount = Number((pricePix - costBase).toFixed(2));
 
   return {
-    ...normalized,
+    ...taxonomized,
     price: pricePix,
-    baseCost: pricing.costBase,
+    baseCost: costBase,
     pricePix,
     priceCard,
     marketplaceSuggested: pricing.referencePrice,
-    estimatedUnitCost: pricing.costBase,
+    estimatedUnitCost: costBase,
     estimatedUnitProfit: profitAmount,
     pricingMode: "faixa-auditada",
-    pricingNarrative: `${buildFixedMarginNarrative(pricing.costBase, pricePix)} ${FIXED_MARGIN_BADGE_LABEL} • ${LOCAL_PRODUCTION_BADGE_LABEL}.`,
+    pricingNarrative: buildFixedMarginNarrative(costBase, pricePix),
     marketBenchmark: marketPricing.benchmark,
   };
 }
@@ -1045,7 +1084,7 @@ const curatedCatalog: Product[] = [
     hours: 1.8,
     complexity: 1.25,
     featured: false,
-    description: "Pokébola decorativa para fãs de Pokémon.",
+    description: "Pokébola decorativa para fãs de tema geek.",
     tags: ["pokébola", "pokemon", "decoração"],
     pricePix: 22.9,
     priceCard: 26.9,
@@ -1977,7 +2016,7 @@ const curatedCatalog: Product[] = [
     hours: 3.0,
     complexity: 1.35,
     featured: false,
-    description: "Organizador compacto com divisórias para pincéis, batons e produtos de maquiagem. Impresso em PLA Premium nas cores Rosa e Branco, com compartimentos ergonômicos para bancada ou penteadeira. Aguardando foto real do produto — imagem atual é ilustrativa.",
+    description: "Organizador compacto com divisórias para pincéis, batons e produtos de maquiagem. Impresso em PLA Premium nas cores Rosa e Branco, com compartimentos ergonômicos para bancada ou penteadeira. Imagem do catálogo em validação para publicação comercial.",
     tags: ["organizador", "maquiagem", "beleza", "bancada", "penteadeira"],
     pricePix: 52.9,
     priceCard: 57.9,
@@ -2316,7 +2355,7 @@ const curatedCatalog: Product[] = [
   {
     id: "mdh-067",
     sku: "MDH-0067",
-    name: "Pikachu Pokémon Chibi",
+    name: "Pikachu tema geek Chibi",
     category: "anime",
     subcategory: "Chibi",
     theme: "Anime",
@@ -2326,7 +2365,7 @@ const curatedCatalog: Product[] = [
     hours: 1.8,
     complexity: 1.25,
     featured: true,
-    description: "Pikachu de Pokémon em versão chibi, clássico e adorável.",
+    description: "Pikachu de tema geek em versão chibi, clássico e adorável.",
     tags: ["pikachu", "pokemon", "anime"],
     price: 29.9,
     printTime: "1.8h",
@@ -2342,7 +2381,7 @@ const curatedCatalog: Product[] = [
     priceCard: 34.9,
     marketplaceSuggested: 39.13,
     productionWindow: "24h a 48h",
-    imageHint: "Pikachu Pokémon Chibi",
+    imageHint: "Pikachu tema geek Chibi",
     image: '/catalog-assets/mdh-67.webp',
     material: "PLA Premium",
     finish: "Premium",
@@ -2354,7 +2393,7 @@ const curatedCatalog: Product[] = [
   {
     id: "mdh-068",
     sku: "MDH-0068",
-    name: "Kirby Nintendo Chibi",
+    name: "Kirby tema clássico Chibi",
     category: "anime",
     subcategory: "Chibi",
     theme: "Anime",
@@ -2364,7 +2403,7 @@ const curatedCatalog: Product[] = [
     hours: 1.6,
     complexity: 1.22,
     featured: true,
-    description: "Kirby de Nintendo em versão chibi, fofinho e colorido.",
+    description: "Kirby de tema clássico em versão chibi, fofinho e colorido.",
     tags: ["kirby", "nintendo", "anime"],
     price: 26.9,
     printTime: "1.6h",
@@ -2380,7 +2419,7 @@ const curatedCatalog: Product[] = [
     priceCard: 31.9,
     marketplaceSuggested: 36.13,
     productionWindow: "24h a 48h",
-    imageHint: "Kirby Nintendo Chibi",
+    imageHint: "Kirby tema clássico Chibi",
     image: '/catalog-assets/mdh-68.webp',
     material: "PLA Premium",
     finish: "Premium",
@@ -2392,7 +2431,7 @@ const curatedCatalog: Product[] = [
   {
     id: "mdh-069",
     sku: "MDH-0069",
-    name: "Mario Nintendo Chibi",
+    name: "Mario tema clássico Chibi",
     category: "anime",
     subcategory: "Chibi",
     theme: "Anime",
@@ -2402,7 +2441,7 @@ const curatedCatalog: Product[] = [
     hours: 2.1,
     complexity: 1.28,
     featured: true,
-    description: "Mario de Nintendo em versão chibi, clássico e divertido.",
+    description: "Mario de tema clássico em versão chibi, clássico e divertido.",
     tags: ["mario", "nintendo", "anime"],
     price: 32.9,
     printTime: "2.1h",
@@ -2418,7 +2457,7 @@ const curatedCatalog: Product[] = [
     priceCard: 37.9,
     marketplaceSuggested: 42.13,
     productionWindow: "24h a 48h",
-    imageHint: "Mario Nintendo Chibi",
+    imageHint: "Mario tema clássico Chibi",
     image: '/catalog-assets/mdh-69.webp',
     material: "PLA Premium",
     finish: "Premium",
@@ -2792,7 +2831,6 @@ const fullCatalog = [
   ...csvCuratedCatalog.map((product) =>
     applyCatalogMedia(enrichProduct(product), {
       preserveExisting: true,
-      preferExistingImages: true,
     })
   ),
   ...a1MiniExpansionCatalog.map((product) =>
@@ -2802,7 +2840,7 @@ const fullCatalog = [
     })
   ),
 ];
-export const catalog = getSafePublicCatalog(fullCatalog);
+export const catalog = sanitizePublicCatalogProducts(getSafePublicCatalog(fullCatalog));
 export const featuredCatalog = catalog.filter((item) => item.featured).slice(0, 12);
 export const categories = Array.from(new Set(catalog.map((item) => item.category)));
 export const collections = Array.from(new Set(catalog.map((item) => item.collection)));
@@ -2816,7 +2854,7 @@ export function findProduct(id: string) {
 }
 
 export function findProductBySlug(slug: string) {
-  return catalog.find((item) => slug === item.slug || getProductUrl(item).endsWith(slug));
+  return catalog.find((item) => slug === item.slug || slug.startsWith(`${item.id}-`) || getProductUrl(item).endsWith(slug));
 }
 
 export function searchCatalog(query: string) {
@@ -2841,4 +2879,3 @@ export const defaultPricingExamples = [
 }));
 
 export const deliverySummary = [...deliveryZones];
-

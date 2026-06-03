@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { adminConfig } from "@/lib/server-config";
+import { applyNoStoreHeaders } from "@/lib/http-cache";
 
 export async function POST() {
   const response = NextResponse.json({ ok: true });
@@ -27,5 +28,5 @@ export async function POST() {
     });
   }
 
-  return response;
+  return applyNoStoreHeaders(response, { varyCookie: true });
 }

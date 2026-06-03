@@ -1,11 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { adminConfig } from "@/lib/admin-config";
 import { getSiteUrl } from "@/lib/env";
+import { applyNoStoreHeaders } from "@/lib/http-cache";
 import { API_RATE_LIMIT, AUTH_RATE_LIMIT, checkRateLimit, GLOBAL_RATE_LIMIT, PAYMENT_RATE_LIMIT, RateLimitConfig, SESSION_RATE_LIMIT } from "@/lib/rate-limit";
 import { getCustomerSessionSecret, verifySignedSessionToken } from "@/lib/session-token";
 
 const protectedPrefixes = ["/seller", "/admin", "/conta"];
 const adminLoginPath = "/admin/login";
+const privateResponsePrefixes = ["/admin", "/api/admin", "/conta", "/api/account"];
+const csrfProtectedPrefixes = ["/admin", "/api/admin", "/conta", "/api/account"];
 
 function isProtectedPath(pathname: string) {
   if (pathname === adminLoginPath || pathname.startsWith(`${adminLoginPath}/`)) {
@@ -32,6 +35,36 @@ function hasSharedAuthCookie(request: NextRequest) {
   );
 }
 
+function matchesPrefix(pathname: string, prefixes: string[]) {
+  return prefixes.some((prefix) => pathname === prefix || pathname.startsWith(prefix + "/"));
+}
+
+function isPrivateResponsePath(pathname: string) {
+  return matchesPrefix(pathname, privateResponsePrefixes);
+}
+
+function isCsrfProtectedPath(pathname: string) {
+  return matchesPrefix(pathname, csrfProtectedPrefixes);
+}
+
+function isUnsafeMethod(method: string) {
+  return method !== "GET" && method !== "HEAD" && method !== "OPTIONS";
+}
+
+function isSameOriginMutation(request: NextRequest) {
+  const origin = request.headers.get("origin");
+  if (origin) {
+    try {
+      return new URL(origin).origin === request.nextUrl.origin;
+    } catch {
+      return false;
+    }
+  }
+
+  const fetchSite = request.headers.get("sec-fetch-site");
+  return fetchSite !== "cross-site";
+}
+
 function hasMarketplaceSessionCookie(request: NextRequest) {
   return Boolean(request.cookies.get("mdh_customer")?.value || hasSharedAuthCookie(request));
 }
@@ -48,7 +81,7 @@ async function hasAdminSessionCookie(request: NextRequest) {
     return true;
   }
 
-  return hasSharedAuthCookie(request);
+  return false;
 }
 
 async function hasSellerSessionCookie(request: NextRequest) {
@@ -84,6 +117,19 @@ export async function middleware(request: NextRequest) {
         status: 403,
         headers: { "x-request-id": requestId, "x-trace-id": requestId },
       },
+    );
+  }
+
+  if (isUnsafeMethod(request.method) && isCsrfProtectedPath(pathname) && !isSameOriginMutation(request)) {
+    return applyNoStoreHeaders(
+      NextResponse.json(
+        { error: "Forbidden" },
+        {
+          status: 403,
+          headers: { "x-request-id": requestId, "x-trace-id": requestId },
+        },
+      ),
+      { varyCookie: true },
     );
   }
 
@@ -203,6 +249,10 @@ export async function middleware(request: NextRequest) {
   response.headers.set("Cross-Origin-Resource-Policy", "same-site");
   response.headers.set("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
 
+  if (isPrivateResponsePath(pathname)) {
+    applyNoStoreHeaders(response, { varyCookie: true });
+  }
+
   if (process.env.NODE_ENV === "production") {
     response.headers.set("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload");
   }
@@ -229,6 +279,9 @@ export async function middleware(request: NextRequest) {
   const loginUrl = new URL(pathname === "/admin" || pathname.startsWith("/admin/") ? adminLoginPath : "/login", request.url);
   loginUrl.searchParams.set("redirect", pathname);
   const redirectResponse = NextResponse.redirect(loginUrl);
+  if (isPrivateResponsePath(pathname)) {
+    applyNoStoreHeaders(redirectResponse, { varyCookie: true });
+  }
   redirectResponse.headers.set("x-request-id", requestId);
   redirectResponse.headers.set("x-trace-id", requestId);
   return redirectResponse;

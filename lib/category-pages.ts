@@ -148,13 +148,13 @@ export const categoryPageConfigs = [
     category: "Utilidades Reais",
     seoTitle: "Utilidades reais em impressão 3D com prova visual",
     seoDescription:
-      "Categoria de utilidades reais da MDH 3D com foto real, prova de uso, faixa inicial, FAQ e CTA para compra ou adaptação funcional.",
+      "Categoria de utilidades reais da MDH 3D com mídia validada, prova de uso, faixa inicial, FAQ e CTA para compra ou adaptação funcional.",
     eyebrow: "Categoria comercial",
     title: "Utilidades reais para quem quer resolver uso concreto com prova visual mais honesta.",
     description:
       "Essa categoria concentra projetos reais, itens funcionais e pecas com leitura de uso mais forte. Ela serve para converter melhor quem precisa confiar no objeto antes de comprar ou adaptar.",
     budgetLabel: "Faixa inicial varia com material, reforco estrutural e necessidade de ajuste funcional.",
-    proofPoints: ["Foto real e uso concreto", "Boa ponte para peca funcional", "Menos promessa vaga, mais contexto real"],
+    proofPoints: ["Mídia validada e uso concreto", "Boa ponte para peca funcional", "Menos promessa vaga, mais contexto real"],
     faq: [
       {
         question: "Por que esta categoria e importante para a MDH 3D?",

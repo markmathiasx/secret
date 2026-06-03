@@ -138,17 +138,17 @@ export default async function ProductPage({
   const visualTrustCopy =
     mediaRecord.status === 'verified'
       ? {
-          title: 'Foto real sinalizada',
-          body: 'A galeria está classificada como foto real de peça física, com leitura clara antes da compra.',
+          title: 'Mídia validada sinalizada',
+          body: 'A galeria está classificada como mídia validada de peça física, com leitura clara antes da compra.',
         }
       : mediaRecord.status === 'render-verified'
         ? {
-            title: 'Render fiel sinalizado',
-            body: 'A galeria está classificada como render fiel derivado do modelo, separada de foto real.',
+            title: 'Prévia técnica sinalizado',
+            body: 'A galeria está classificada como prévia técnica derivado do modelo, separada de mídia validada.',
           }
         : {
             title: 'Imagem sinalizada',
-            body: 'A página separa mídia conceitual de foto real e render fiel para não vender referência como prova física.',
+            body: 'A página separa mídia conceitual de mídia validada e prévia técnica para não vender referência como prova física.',
           };
   const structuredDataImages = mediaIsVerifiedForSchema ? resolvedImages : [];
 
@@ -308,7 +308,7 @@ export default async function ProductPage({
         : 'Este modelo está configurado como versão fechada. Se você precisa de algo próximo, mas não igual, vale abrir um pedido sob medida em vez de comprar e tentar adaptar depois.',
     },
     {
-      question: 'A imagem desta página representa foto real ou referência visual?',
+      question: 'A imagem desta página representa mídia validada ou referência visual?',
       answer: mediaIsPublicSafe
         ? 'As imagens públicas desta página passaram pela validação de mídia da loja e entram no fluxo visível de prova visual do produto.'
         : 'Quando a galeria pública não é segura o suficiente para prova visual, a página reduz o uso comercial dessas imagens e preserva a leitura honesta da vitrine.',
@@ -622,7 +622,7 @@ export default async function ProductPage({
 
       <section className="mt-10 grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
         <div className="mdh-instrument-panel p-6">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-100/70">Foto real x render fiel</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-100/70">Mídia validada x prévia técnica</p>
           <h2 className="mt-3 text-3xl font-black leading-tight text-white">A página não vende referência como se fosse prova física.</h2>
           <p className="mt-4 text-sm leading-7 text-white/65">{visualTrustCopy.body}</p>
         </div>

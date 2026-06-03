@@ -442,12 +442,12 @@ export function CatalogExplorer({
       return 'O foco atual é em itens que conseguem conversar melhor com lote, personalização e repetição de pedido.';
     }
     if (visualMode === 'real') {
-      return 'A curadoria está filtrando apenas itens com foto real do objeto físico para reduzir qualquer ambiguidade visual antes da compra.';
+      return 'A curadoria está filtrando apenas itens com mídia validada do objeto físico para reduzir qualquer ambiguidade visual antes da compra.';
     }
     if (visualMode === 'verified') {
-      return 'A curadoria está filtrando por foto real e render fiel para manter prova visual forte sem misturar referência conceitual.';
+      return 'A curadoria está filtrando por mídia validada e prévia técnica para manter prova visual forte sem misturar referência conceitual.';
     }
-    return `A seleção mistura ${readyCount} itens de pronta entrega, ${realPhotoCount} fotos reais e ${customizableCount} opções com espaço para ajuste.`;
+    return `A seleção mistura ${readyCount} itens de pronta entrega, ${realPhotoCount} mídias validadas e ${customizableCount} opções com espaço para ajuste.`;
   }, [customizableCount, filtered.length, purchaseIntent, readyCount, realPhotoCount, visualMode]);
   const activeFilterChips = [
     query.trim()
@@ -513,7 +513,7 @@ export function CatalogExplorer({
     visualMode === 'real'
       ? {
           id: 'visual-real',
-          label: 'Só foto real',
+          label: 'Só mídia validada',
           clear: () => {
             setVisualMode('all');
             safeSetPage(1);
@@ -522,7 +522,7 @@ export function CatalogExplorer({
       : visualMode === 'verified'
       ? {
           id: 'visual-verified',
-          label: 'Foto + render',
+          label: 'Mídia validada',
           clear: () => {
             setVisualMode('all');
             safeSetPage(1);
@@ -770,7 +770,7 @@ export function CatalogExplorer({
       category !== 'Todas' ? category : null,
       availability !== 'Todos' ? availability : null,
       purchaseIntent !== 'Geral' ? purchaseIntent : null,
-      visualMode === 'real' ? 'só foto real' : visualMode === 'verified' ? 'foto + render' : null,
+      visualMode === 'real' ? 'só mídia validada' : visualMode === 'verified' ? 'foto + render' : null,
     ].filter(Boolean);
 
     if (!parts.length) return 'Vitrine geral';
@@ -789,8 +789,8 @@ export function CatalogExplorer({
   }
 
   const quickPresets = [
-    { id: 'real', label: 'Só foto real', active: visualMode === 'real', onClick: () => { setVisualMode((value) => value === 'real' ? 'all' : 'real'); safeSetPage(1); } },
-    { id: 'verified', label: 'Foto + render', active: visualMode === 'verified', onClick: () => { setVisualMode((value) => value === 'verified' ? 'all' : 'verified'); safeSetPage(1); } },
+    { id: 'real', label: 'Só mídia validada', active: visualMode === 'real', onClick: () => { setVisualMode((value) => value === 'real' ? 'all' : 'real'); safeSetPage(1); } },
+    { id: 'verified', label: 'Mídia validada', active: visualMode === 'verified', onClick: () => { setVisualMode((value) => value === 'verified' ? 'all' : 'verified'); safeSetPage(1); } },
     { id: 'ready', label: 'Pronta entrega', active: availability === 'Pronta entrega', onClick: () => { setAvailability((value) => value === 'Pronta entrega' ? 'Todos' : 'Pronta entrega'); safeSetPage(1); } },
     { id: 'gift', label: 'Presentes', active: purchaseIntent === 'Presente', onClick: () => { setPurchaseIntent((value) => value === 'Presente' ? 'Geral' : 'Presente'); safeSetPage(1); } },
     { id: 'fast', label: 'Compra rápida', active: purchaseIntent === 'Compra rápida', onClick: () => { setPurchaseIntent((value) => value === 'Compra rápida' ? 'Geral' : 'Compra rápida'); safeSetPage(1); } },
@@ -817,7 +817,7 @@ export function CatalogExplorer({
   ] as const;
   const rescueActions = [
     visualMode === 'real'
-      ? { id: 'relax-real', label: 'Aceitar render fiel', onClick: () => { setVisualMode('verified'); safeSetPage(1); } }
+      ? { id: 'relax-real', label: 'Aceitar prévia técnica', onClick: () => { setVisualMode('verified'); safeSetPage(1); } }
       : visualMode === 'verified'
       ? { id: 'relax-verified', label: 'Ver imagens conceituais', onClick: () => { setVisualMode('all'); safeSetPage(1); } }
       : null,
@@ -872,9 +872,9 @@ export function CatalogExplorer({
             <p className="mt-1 text-xs text-white/60">com {activeFilterCount} filtros ativos</p>
           </div>
           <div className="surface-stat rounded-[22px] px-4 py-4">
-            <p className="text-[11px] uppercase tracking-[0.18em] text-white/50">Fotos reais</p>
+            <p className="text-[11px] uppercase tracking-[0.18em] text-white/50">Mídias validadas</p>
             <p className="mt-3 text-2xl font-black text-white">{realPhotoCount}</p>
-            <p className="mt-1 text-xs text-white/60">{verifiedCount} com foto ou render fiel</p>
+            <p className="mt-1 text-xs text-white/60">{verifiedCount} com foto ou prévia técnica</p>
           </div>
           <div className="surface-stat rounded-[22px] px-4 py-4">
             <p className="text-[11px] uppercase tracking-[0.18em] text-white/50">Velocidade</p>
@@ -890,9 +890,9 @@ export function CatalogExplorer({
 
         <div className="mt-4 grid gap-4 rounded-[24px] border border-emerald-300/18 bg-[linear-gradient(135deg,rgba(16,185,129,0.12),rgba(34,211,238,0.08))] p-4 lg:grid-cols-[1fr_auto] lg:items-center">
           <div>
-            <p className="text-xs uppercase tracking-[0.18em] text-emerald-100/78">Fechamento rápido</p>
+            <p className="text-xs uppercase tracking-[0.18em] text-emerald-100/78">Compra assistida</p>
             <p className="mt-2 text-sm leading-7 text-white/72">
-              Este recorte tem {readyCount} item(ns) de pronta entrega, {realPhotoCount} com foto real e menor prazo base de {fastestLeadTime ? `${fastestLeadTime} dia(s)` : "consulta"}.
+              Este recorte tem {readyCount} item(ns) de pronta entrega, {realPhotoCount} com mídia validada e menor prazo base de {fastestLeadTime ? `${fastestLeadTime} dia(s)` : "consulta"}.
               Salve a seleção, mande no WhatsApp ou avance para o carrinho sem cadastro.
             </p>
           </div>
@@ -1156,7 +1156,7 @@ export function CatalogExplorer({
           <span className="h-1 w-1 rounded-full bg-white/30" />
           <span>{readyCount} pronta entrega</span>
           <span className="h-1 w-1 rounded-full bg-white/30" />
-          <span>{realPhotoCount} foto real</span>
+          <span>{realPhotoCount} mídia validada</span>
           <span className="h-1 w-1 rounded-full bg-white/30" />
           <span>{verifiedCount} validados</span>
           <span className="h-1 w-1 rounded-full bg-white/30" />
@@ -1394,6 +1394,7 @@ export function CatalogExplorer({
             <Fragment key={product.id}>
               <article
                 id={`produto-${product.id}`}
+                data-product-card={product.id}
                 data-card-variant={variant}
                 className={`catalog-product-card mdh-product-card-2026 group relative overflow-hidden rounded-[8px] border p-3 transition-all duration-500 md:p-4 ${cardSize} ${
                   isProductRealPhoto(product)

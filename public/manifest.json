@@ -44,6 +44,27 @@
       "description": "Solicite um orçamento personalizado",
       "url": "/orcamento",
       "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "WhatsApp",
+      "short_name": "WhatsApp",
+      "description": "Abra o atendimento rápido",
+      "url": "/atendimento?canal=whatsapp",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Jogue",
+      "short_name": "Jogue",
+      "description": "Abra o Print Quest",
+      "url": "/jogue",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Carrinho",
+      "short_name": "Carrinho",
+      "description": "Abra o carrinho",
+      "url": "/carrinho",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
     }
   ],
   "screenshots": [

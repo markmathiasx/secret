@@ -7,7 +7,9 @@ import { canConnectToDatabase, prisma } from "@/lib/prisma";
 import { recordAdminAction } from "@/lib/admin-audit";
 import { invalidateCatalogCache } from "@/lib/runtime-cache";
 import { slugify } from "@/lib/utils";
-import { calculateCardPrice, calculateProductionCostRecommendation, roundCurrency } from "@/lib/pricing-engine";
+import { calculateProductionCostRecommendation, roundCurrency } from "@/lib/pricing-engine";
+import { BUYING_INTENTS, CATALOG_PRIMARY_CATEGORIES, PRODUCT_OBJECT_TYPES } from "@/lib/catalog-taxonomy";
+import { calculateCardPrice } from "@/lib/payment-pricing";
 import type { AdminProductOverride, ProfitMode } from "@/types/admin-catalog";
 
 export const dynamic = "force-dynamic";
@@ -45,6 +47,30 @@ function cleanString(value: unknown, max = 1500) {
   if (typeof value !== "string") return undefined;
   const trimmed = value.trim();
   return trimmed ? trimmed.slice(0, max) : "";
+}
+
+function cleanStringList(value: unknown, allowed?: readonly string[], maxItems = 60) {
+  const raw = Array.isArray(value)
+    ? value
+    : typeof value === "string"
+      ? value.split(",")
+      : [];
+  const allowedSet = allowed ? new Set(allowed) : null;
+  const seen = new Set<string>();
+  const items: string[] = [];
+
+  for (const entry of raw) {
+    const text = cleanString(entry, 120);
+    if (text === undefined || !text) continue;
+    if (allowedSet && !allowedSet.has(text)) continue;
+    const key = text.toLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+    items.push(text);
+    if (items.length >= maxItems) break;
+  }
+
+  return items;
 }
 
 function readNumber(body: Record<string, unknown>, key: keyof NormalizedProductPatch) {
@@ -109,12 +135,23 @@ function normalizeProfitMode(value: unknown): ProfitMode | undefined {
   throw new Error("Modo de lucro inválido.");
 }
 
+function normalizeConfidence(value: unknown): AdminProductOverride["confidence"] | undefined {
+  if (value === undefined) return undefined;
+  if (value === "high" || value === "medium" || value === "low") return value;
+  throw new Error("Confiança da classificação inválida.");
+}
+
 function normalizeBody(body: Record<string, unknown>): NormalizedProductPatch {
   const patch: NormalizedProductPatch = {};
   const strings: Array<[keyof NormalizedProductPatch, number]> = [
     ["title", 160],
     ["description", 5000],
     ["category", 120],
+    ["subcategory", 120],
+    ["primaryCategory", 120],
+    ["productTypePath", 220],
+    ["objectType", 80],
+    ["classificationReason", 800],
     ["collection", 120],
     ["material", 120],
     ["finish", 120],
@@ -124,9 +161,27 @@ function normalizeBody(body: Record<string, unknown>): NormalizedProductPatch {
     if (key in body) patch[key] = cleanString(body[key], max) as never;
   }
 
+  if (patch.primaryCategory && !(CATALOG_PRIMARY_CATEGORIES as readonly string[]).includes(patch.primaryCategory)) {
+    throw new Error("Categoria principal inválida.");
+  }
+  if (patch.objectType && !(PRODUCT_OBJECT_TYPES as readonly string[]).includes(patch.objectType)) {
+    throw new Error("Tipo de produto inválido.");
+  }
+
+  if ("tags" in body) patch.tags = cleanStringList(body.tags, undefined, 90);
+  if ("buyingIntents" in body) patch.buyingIntents = cleanStringList(body.buyingIntents, BUYING_INTENTS, 16);
+  if ("useCaseTags" in body) patch.useCaseTags = cleanStringList(body.useCaseTags, undefined, 24);
+  if ("seoKeywords" in body) patch.seoKeywords = cleanStringList(body.seoKeywords, undefined, 24);
+
   for (const key of Object.keys(NUMERIC_LIMITS) as Array<keyof NormalizedProductPatch>) {
     const value = readNumber(body, key);
     if (value !== undefined && value !== null) patch[key] = value as never;
+  }
+
+  if (patch.pricePix !== undefined) {
+    patch.priceCard = calculateCardPrice(patch.pricePix);
+  } else if (patch.priceCard !== undefined) {
+    delete patch.priceCard;
   }
 
   for (const key of ["readyToShip", "customizable", "featured"] as Array<keyof NormalizedProductPatch>) {
@@ -137,6 +192,8 @@ function normalizeBody(body: Record<string, unknown>): NormalizedProductPatch {
   patch.status = normalizeLegacyStatus(body.status);
   patch.visibility = normalizeVisibility(body.visibility);
   patch.profitMode = normalizeProfitMode(body.profitMode);
+  patch.confidence = normalizeConfidence(body.confidence);
+  if ("taxonomyReviewRequested" in body) patch.taxonomyReviewRequested = Boolean(body.taxonomyReviewRequested);
 
   if ("costingUpdatedAt" in body) {
     const raw = body.costingUpdatedAt;
@@ -198,8 +255,8 @@ async function applyDatabaseUpdate(id: string, patch: NormalizedProductPatch) {
       laborHourlyRate: patch.laborHourlyRate ?? Number(current.laborHourlyRate ?? 18),
       packagingCost: patch.packagingCost ?? Number(current.packagingCost ?? 2.5),
       overheadPercent: patch.overheadPercent ?? Number(current.overheadPercent ?? 12),
-      profitMode: patch.profitMode ?? (current.profitMode === "markup" ? "markup" : "margin"),
-      profitTargetPercent: patch.profitTargetPercent ?? Number(current.profitTargetPercent ?? 50),
+      profitMode: patch.profitMode ?? (current.profitMode === "margin" ? "margin" : "markup"),
+      profitTargetPercent: patch.profitTargetPercent ?? Number(current.profitTargetPercent ?? 0),
       pricePix: effectivePricePix,
       priceCard: effectivePriceCard,
       marketplaceSuggested: Number(current.marketplaceSuggested),
@@ -213,6 +270,7 @@ async function applyDatabaseUpdate(id: string, patch: NormalizedProductPatch) {
       data: {
         ...(patch.title !== undefined && { title: patch.title }),
         ...(patch.description !== undefined && { description: patch.description }),
+        ...(patch.subcategory !== undefined && { subcategory: patch.subcategory }),
         ...(patch.pricePix !== undefined && { pricePix: patch.pricePix }),
         priceCard: effectivePriceCard,
         ...(patch.stock !== undefined && { stock: patch.stock }),
@@ -223,6 +281,7 @@ async function applyDatabaseUpdate(id: string, patch: NormalizedProductPatch) {
         ...(patch.readyToShip !== undefined && { readyToShip: patch.readyToShip }),
         ...(patch.customizable !== undefined && { customizable: patch.customizable }),
         ...(patch.featured !== undefined && { featured: patch.featured }),
+        ...(patch.tags !== undefined && { tags: patch.tags }),
         ...(categoryId && { categoryId }),
         ...(patch.estimatedGrams !== undefined && { estimatedGrams: patch.estimatedGrams }),
         ...(patch.estimatedHours !== undefined && { estimatedHours: patch.estimatedHours }),
@@ -269,6 +328,8 @@ function fallbackPatchForOverrides(patch: NormalizedProductPatch): Partial<Admin
   return overridePatch;
 }
 
+import { revalidatePath } from "next/cache";
+
 export async function PUT(req: NextRequest, context: RouteContext) {
   const user = await getServerSessionUser();
   if (!isAdminSession(user)) {
@@ -312,10 +373,36 @@ export async function PUT(req: NextRequest, context: RouteContext) {
         userAgent: req.headers.get("user-agent"),
       });
       await invalidateCatalogCache();
-      return applyNoStoreHeaders(NextResponse.json({ ok: true, product: updated }));
+      revalidatePath("/catalogo");
+      revalidatePath("/admin/products");
+      revalidatePath("/");
+      return applyNoStoreHeaders(
+        NextResponse.json({
+          ok: true,
+          persisted: true,
+          source: "database",
+          message: "Produto atualizado no banco.",
+          product: updated,
+        })
+      );
     } catch {
       // Fall through to catalog override for static/local products not present in the database.
     }
+  }
+
+  if (process.env.VERCEL === "1") {
+    return applyNoStoreHeaders(
+      NextResponse.json(
+        {
+          ok: false,
+          code: "DATABASE_PERSISTENCE_REQUIRED",
+          error:
+            "Este ambiente não permite persistência segura em arquivo. Configure o banco de produção para salvar preço e descrição.",
+          details: { productId: id, source: "vercel" },
+        },
+        { status: 503 }
+      )
+    );
   }
 
   try {
@@ -325,6 +412,9 @@ export async function PUT(req: NextRequest, context: RouteContext) {
     };
     const updated = await updateAdminCatalogProduct(id, fallbackPatch);
     await invalidateCatalogCache();
+    revalidatePath("/catalogo");
+    revalidatePath("/admin/products");
+    revalidatePath("/");
     await recordAdminAction({
       actorId: user?.id,
       actorEmail: user?.email,
@@ -337,12 +427,24 @@ export async function PUT(req: NextRequest, context: RouteContext) {
       ipAddress: req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip"),
       userAgent: req.headers.get("user-agent"),
     });
-    return applyNoStoreHeaders(NextResponse.json({ ok: true, product: updated }));
-  } catch (error) {
-    return NextResponse.json(
-      { ok: false, error: error instanceof Error ? error.message : "Não foi possível salvar o produto." },
-      { status: 400 }
+    return applyNoStoreHeaders(
+      NextResponse.json({
+        ok: true,
+        persisted: true,
+        source: "safe-fallback",
+        message: "Produto atualizado no fallback local.",
+        product: updated,
+      })
     );
+  } catch (error) {
+    return applyNoStoreHeaders(NextResponse.json(
+      {
+        ok: false,
+        code: "PRODUCT_UPDATE_FAILED",
+        error: error instanceof Error ? error.message : "Não foi possível salvar o produto.",
+      },
+      { status: 400 }
+    ));
   }
 }
 

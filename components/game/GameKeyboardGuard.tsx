@@ -24,14 +24,14 @@ function isGameNavigationKey(event: KeyboardEvent) {
   );
 }
 
+function isKeyboardEventLike(event: Event): event is KeyboardEvent {
+  return "code" in event && "key" in event;
+}
+
 function keepViewportPinned() {
   window.scrollTo({ top: 0, left: 0, behavior: "auto" });
-  window.requestAnimationFrame(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
-  });
-  window.setTimeout(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
-  }, 0);
+  window.requestAnimationFrame(() => window.scrollTo({ top: 0, left: 0, behavior: "auto" }));
+  window.setTimeout(() => window.scrollTo({ top: 0, left: 0, behavior: "auto" }), 0);
 }
 
 export function GameKeyboardGuard() {
@@ -44,7 +44,7 @@ export function GameKeyboardGuard() {
     ].filter(Boolean) as EventTarget[];
 
     function preventPageScroll(event: Event) {
-      if (!(event instanceof KeyboardEvent)) return;
+      if (!isKeyboardEventLike(event)) return;
       if (!isGameNavigationKey(event) || isEditableTarget(event.target)) return;
       event.preventDefault();
       keepViewportPinned();

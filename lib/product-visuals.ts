@@ -28,37 +28,37 @@ export type ProductVisualSummary = {
 export const realCaseStudies = [
   {
     id: "case-grinder",
-    title: "Grinder com foto real",
+    title: "Grinder com mídia validada",
     image: "/products/foto-001-grinder-01.webp",
     href: "/checkout",
   },
   {
     id: "case-porta-creme",
-    title: "Porta creme dental com foto real",
+    title: "Porta creme dental com mídia validada",
     image: "/products/foto-003-porta-creme-dental.webp",
     href: "/checkout",
   },
   {
     id: "case-demogorgon",
-    title: "Miniatura temática com foto real",
+    title: "Miniatura temática com mídia validada",
     image: "/products/foto-004-demogorgon.webp",
     href: "/checkout",
   },
   {
     id: "case-familia",
-    title: "Família custom com foto real",
+    title: "Família custom com mídia validada",
     image: "/products/foto-007-familia-custom.webp",
     href: "/checkout",
   },
   {
     id: "case-chaveiro",
-    title: "Chaveiro personalizado com foto real",
+    title: "Chaveiro personalizado com mídia validada",
     image: "/products/foto-011-chaveiro-maconaria.webp",
     href: "/checkout",
   },
   {
     id: "case-isqueiro",
-    title: "Case de isqueiro com foto real",
+    title: "Case de isqueiro com mídia validada",
     image: "/products/foto-009-case-isqueiro-caveira.webp",
     href: "/checkout",
   },
@@ -70,25 +70,25 @@ export const realCaseStudies = [
   },
   {
     id: "case-hello-kitty",
-    title: "Peça temática com foto real",
+    title: "Peça temática com mídia validada",
     image: "/products/foto-005-hello-kitty-jedi.webp",
     href: "/checkout",
   },
   {
     id: "case-stencil",
-    title: "Stencil com foto real",
+    title: "Stencil com mídia validada",
     image: "/products/foto-006-stencil-rick-morty.webp",
     href: "/checkout",
   },
   {
     id: "case-boneca",
-    title: "Boneca impressa com foto real",
+    title: "Boneca impressa com mídia validada",
     image: "/products/foto-008-boneca-crianca.webp",
     href: "/checkout",
   },
   {
     id: "case-homer-pikachu",
-    title: "Figura temática com foto real",
+    title: "Figura temática com mídia validada",
     image: "/products/foto-010-homer-pikachu.webp",
     href: "/checkout",
   },
@@ -99,12 +99,12 @@ const PRODUCT_VISUAL_OVERRIDES: Record<string, ProductVisualOverride> = {
     kind: "foto-real",
     imageCandidates: ["/products/foto-011-chaveiro-maconaria.webp"],
     note: "A foto exibida mostra um exemplo real de chaveiro personalizado já produzido no ateliê.",
-    recommendedNextStep: "Capturar novas fotos reais por variação de nome, cor e acabamento para ampliar o portfólio.",
+    recommendedNextStep: "Capturar novas mídias validadas por variação de nome, cor e acabamento para ampliar o portfólio.",
     merchantReady: true,
   },
   "mdh-057": {
     kind: "imagem-conceitual",
-    note: "ATENÇÃO: A imagem atual é um blob abstrato gerado por IA que NÃO corresponde a um organizador de maquiagem. Aguardando substituição por foto real ou render fiel do produto.",
+    note: "ATENÇÃO: A imagem atual é um blob abstrato gerado por IA que NÃO corresponde a um organizador de maquiagem. Aguardando substituição por mídia validada ou prévia técnica do produto.",
     recommendedNextStep: "Fotografar o organizador de maquiagem real ou gerar render a partir do arquivo 3MF/STL. Remover imagem conceitual enganosa.",
     merchantReady: false,
   },
@@ -116,7 +116,7 @@ function getVisualDefaults(kind: ProductVisualKind) {
   switch (kind) {
     case "foto-real":
       return {
-        label: "Foto real",
+        label: "Mídia validada",
         badgeClassName: "border-emerald-300/25 bg-emerald-300/10 text-emerald-100",
         panelClassName: "border-emerald-400/20 bg-emerald-400/10 text-emerald-50",
         description: "A imagem mostra uma peça já produzida pela MDH 3D, usada como referência direta de acabamento, escala e presença real.",
@@ -129,7 +129,7 @@ function getVisualDefaults(kind: ProductVisualKind) {
         badgeClassName: "border-cyan-300/25 bg-cyan-300/10 text-cyan-100",
         panelClassName: "border-cyan-400/20 bg-cyan-400/10 text-cyan-50",
         description:
-          "A imagem mostra uma referencia visual fiel do produto ou do modelo 3D equivalente, usada para avaliar forma, escala e acabamento antes da compra.",
+          "A imagem mostra uma referencia prévia técnica do produto ou do modelo 3D equivalente, usada para avaliar forma, escala e acabamento antes da compra.",
         recommendedNextStep:
           "Anexar STL, OBJ, 3MF ou foto propria da peca produzida para manter a trilha tecnica auditavel.",
         merchantReady: true,
@@ -140,9 +140,9 @@ function getVisualDefaults(kind: ProductVisualKind) {
         badgeClassName: "border-amber-300/25 bg-amber-300/10 text-amber-100",
         panelClassName: "border-amber-400/20 bg-amber-400/10 text-amber-50",
         description:
-          "A imagem apresenta a ideia visual do produto anunciado. Ela ajuda a entender forma, proposta e estilo, mas nao substitui foto real da peca pronta.",
+          "A imagem apresenta a ideia visual do produto anunciado. Ela ajuda a entender forma, proposta e estilo, mas nao substitui mídia validada da peca pronta.",
         recommendedNextStep:
-          "Substituir por foto real da peca pronta ou por render fiel derivado do arquivo STL/OBJ/3MF correspondente.",
+          "Substituir por mídia validada da peca pronta ou por prévia técnica derivado do arquivo STL/OBJ/3MF correspondente.",
         merchantReady: false,
       };
   }
@@ -179,7 +179,7 @@ export function getProductVisual(product: Product): ProductVisualSummary {
         : undefined;
   const realPhotoNote =
     kind === "foto-real" && (catalogPhoto || realImageStatus)
-      ? realImageStatus?.notes || "A vitrine usa foto do objeto físico já impresso, preservando aparência real de escala, material e acabamento."
+      ? "A vitrine usa mídia validada do objeto físico, preservando aparência, escala, material e acabamento."
       : undefined;
 
   return {

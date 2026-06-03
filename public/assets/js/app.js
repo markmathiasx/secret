@@ -143,7 +143,7 @@
               <div class="price-main">${currency(product.precoPix)}</div>
               <div class="price-sub">PIX à vista</div>
             </div>
-            <div class="price-sub">Cartão + R$ 3: ${currency(product.precoParcelado)}</div>
+            <div class="price-sub">Cartão + R$ 1: ${currency(product.precoParcelado)}</div>
           </div>
           <div class="card-actions">
             <a class="button button-secondary" href="${cfg.whatsappLink}?text=${safeMsg(prompt)}">Ver Produto</a>

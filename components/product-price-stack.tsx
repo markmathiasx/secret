@@ -1,68 +1,54 @@
 "use client";
 
 import type { Product } from "@/lib/catalog";
-import {
-  FIXED_MARGIN_BADGE_LABEL,
-  LOCAL_PRODUCTION_BADGE_LABEL,
-  calculateFinalPrice,
-} from "@/lib/pricing-engine";
+import { calculateCardPrice } from "@/lib/payment-pricing";
 import { formatCurrency } from "@/lib/utils";
 
-function getReferencePrice(product: Product) {
-  return calculateFinalPrice({
-    ...product,
-    baseCost: product.baseCost,
-    estimatedUnitCost: product.estimatedUnitCost,
-  }).referencePrice;
+function getProductBadges(product: Product) {
+  const badges: string[] = [];
+  if (product.pricePix <= 29.9) badges.push("Oferta de entrada");
+  if (product.customizable) badges.push("Personalizável");
+  if (product.readyToShip) badges.push("Pronta entrega");
+  if (product.pricePix >= 99.9) badges.push("Premium");
+  if (!badges.length) badges.push(product.status === "Pronta entrega" ? "Pronta entrega" : "Sob encomenda");
+  return badges.slice(0, 2);
 }
 
 export function ProductPriceStack({
   product,
-  label = "Preço no Pix",
+  label = "Pix",
   compact = false,
-  showInstallments = true,
 }: {
   product: Product;
   label?: string;
   compact?: boolean;
   showInstallments?: boolean;
 }) {
-  const referencePrice = getReferencePrice(product);
-  const savings = Math.max(0, referencePrice - product.pricePix);
   const productionLeadTime = product.printTime || product.productionWindow || "sob consulta";
+  const priceCard = calculateCardPrice(product.pricePix);
+  const badges = getProductBadges(product);
 
   return (
-    <div className="space-y-2">
-      <p className="text-xs uppercase tracking-[0.16em] text-white/45">{label}</p>
-      <div className="flex flex-wrap items-end gap-3">
-        <span className="text-sm font-medium text-white/30 line-through">
-          {formatCurrency(referencePrice)}
-        </span>
-        <span className={compact ? "text-[1.55rem] font-black leading-none text-white" : "text-3xl font-black leading-none text-white"}>
+    <div className="space-y-3">
+      <div>
+        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-emerald-100/70">{label}</p>
+        <p className={compact ? "mt-1 text-2xl font-black leading-none text-white" : "mt-1 text-4xl font-black leading-none text-white"}>
           {formatCurrency(product.pricePix)}
-        </span>
+        </p>
+        <p className="mt-1 text-sm font-semibold text-white/66">Cartão + R$ 1 {formatCurrency(priceCard)}</p>
       </div>
-      {savings > 0 ? (
-        <div className="inline-flex items-center gap-2 rounded-full border border-emerald-300/20 bg-emerald-300/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-emerald-100">
-          Economia no Pix {formatCurrency(savings)}
-        </div>
-      ) : null}
-      {showInstallments ? (
-        <p className="text-xs text-white/55">Cartão + R$ 3: {formatCurrency(product.priceCard)}</p>
-      ) : null}
-      <p className="text-xs text-white/55">Prazo de produção: {productionLeadTime}</p>
+
+      <div className="grid gap-2 text-xs text-white/62 sm:grid-cols-2">
+        <span className="rounded-[8px] border border-white/10 bg-white/[0.04] px-3 py-2">Prazo: {productionLeadTime}</span>
+        <span className="rounded-[8px] border border-white/10 bg-white/[0.04] px-3 py-2">Material: {product.material}</span>
+      </div>
+
       <div className="flex flex-wrap gap-2">
-        <span className="rounded-full border border-emerald-300/25 bg-emerald-300/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-emerald-100">
-          {FIXED_MARGIN_BADGE_LABEL}
-        </span>
-        <span className="rounded-full border border-cyan-300/25 bg-cyan-300/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-cyan-100">
-          {LOCAL_PRODUCTION_BADGE_LABEL}
-        </span>
-        {product.readyToShip ? (
-          <span className="rounded-full border border-amber-300/25 bg-amber-300/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-amber-100">
-            Pronta entrega
+        {badges.map((badge) => (
+          <span key={badge} className="rounded-full border border-emerald-300/20 bg-emerald-300/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-emerald-50">
+            {badge}
           </span>
-        ) : null}
+        ))}
       </div>
     </div>
   );

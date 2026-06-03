@@ -42,7 +42,7 @@ export function PurchaseProtectionBanner({
       <div className="mt-4 grid gap-3 sm:grid-cols-3">
         <div className="rounded-[20px] border border-white/10 bg-black/20 p-4">
           <BadgeCheck className="h-5 w-5 text-cyan-100" />
-          <p className="mt-3 text-sm font-semibold text-white">Foto real e pedido claro</p>
+          <p className="mt-3 text-sm font-semibold text-white">Mídia validada e pedido claro</p>
           <p className="mt-1 text-sm leading-6 text-white/62">Você compra com menos dúvida e mais previsibilidade visual.</p>
         </div>
         <div className="rounded-[20px] border border-white/10 bg-black/20 p-4">

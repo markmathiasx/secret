@@ -102,7 +102,7 @@ export function CatalogBuyingIntents({ products }: { products: Product[] }) {
           </p>
         </div>
         <Link href="/catalogo?mode=real" className="btn-secondary w-fit gap-2">
-          Peças com foto real
+          Peças com mídia validada
           <ArrowRight className="h-4 w-4" />
         </Link>
       </div>

@@ -58,7 +58,7 @@ export function ConversionHero({
           </div>
 
           <h1 className="mt-4 max-w-4xl font-sans text-3xl font-black leading-[1.02] text-white sm:text-4xl md:text-5xl lg:text-6xl">
-            Impressão 3D premium no Rio com foto real antes de comprar.
+            Impressão 3D premium no Rio com mídia validada antes de comprar.
           </h1>
 
           <p className="mt-3 max-w-2xl text-sm leading-7 text-white/80 sm:mt-4 sm:text-base sm:leading-8 md:text-lg">
@@ -87,7 +87,7 @@ export function ConversionHero({
           <div className="mt-6 grid grid-cols-2 gap-2 sm:mt-8 sm:gap-3 sm:grid-cols-4">
             {[
               { label: "Catálogo", value: catalogCount.toLocaleString("pt-BR"), icon: BadgeCheck },
-              { label: "Foto real", value: String(realPhotoCount).padStart(2, "0"), icon: Camera },
+              { label: "Mídia validada", value: String(realPhotoCount).padStart(2, "0"), icon: Camera },
               { label: "Pronta entrega", value: String(readyRealCount).padStart(2, "0"), icon: Clock3 },
               { label: reviewCount ? `${reviewCount} reviews` : "Prova social", value: ratingLabel, icon: Star },
             ].map((item) => {
@@ -130,7 +130,7 @@ export function ConversionHero({
                 </div>
                 <div className="p-2.5 sm:p-3">
                   <p className="line-clamp-2 text-xs font-semibold text-white sm:text-sm">{product.name}</p>
-                  <p className="mt-1 text-xs text-emerald-100">Foto real validada</p>
+                  <p className="mt-1 text-xs text-emerald-100">Mídia validada validada</p>
                 </div>
               </Link>
             ))}

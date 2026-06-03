@@ -11,11 +11,11 @@ export function ProductVisualBadge({ product, className = "" }: { product: Produ
   // Use media validation status for more nuanced badge
   const badgeLabel = mediaRecord.status === "verified"
     ? heroEligible
-      ? "Foto real"
+      ? "Mídia validada"
       : "Verificada"
     : mediaRecord.status === "render-verified"
       ? heroEligible
-        ? "Render fiel"
+        ? "Prévia técnica"
         : "Render validado"
       : mediaRecord.status === "probable"
         ? "Imagem provável"

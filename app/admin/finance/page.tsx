@@ -59,8 +59,8 @@ export default async function FinancePage() {
           </div>
 
           <div className="rounded-[24px] border border-emerald-300/20 bg-emerald-300/10 px-5 py-4">
-            <p className="text-xs uppercase tracking-[0.18em] text-emerald-100/75">40% lucro garantido</p>
-            <p className="mt-2 text-lg font-black text-white">Produção local RJ</p>
+            <p className="text-xs uppercase tracking-[0.18em] text-emerald-100/75">Pix valor base</p>
+            <p className="mt-2 text-lg font-black text-white">Operação local</p>
           </div>
         </div>
 
@@ -144,7 +144,7 @@ export default async function FinancePage() {
             {[
               "O faturamento aprovado reflete pedidos já liberados pelo pagamento ou etapas posteriores da produção.",
               "O recebível pendente mostra quanto ainda está em espera de Pix, cartão em análise ou confirmação manual.",
-              "O lucro estimado usa custo técnico do catálogo quando disponível; se faltar esse dado, assume a regra-base de 40%.",
+              "O lucro estimado usa custo técnico do catálogo quando disponível; se faltar esse dado, assume o total do pedido como custo base.",
             ].map((item) => (
               <div key={item} className="rounded-[20px] border border-white/10 bg-white/5 px-4 py-4 text-sm leading-7 text-white/72">
                 {item}

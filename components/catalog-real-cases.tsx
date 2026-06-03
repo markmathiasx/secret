@@ -15,7 +15,7 @@ export async function CatalogRealCases() {
     <section id="catalogo-real" className="glass-panel mt-10 rounded-[32px] border border-white/10 bg-black/20 p-6">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div className="max-w-2xl">
-          <p className="text-xs uppercase tracking-[0.2em] text-emerald-200">Fotos reais do ateliê</p>
+          <p className="text-xs uppercase tracking-[0.2em] text-emerald-200">Mídias validadas do ateliê</p>
           <h2 className="mt-3 text-2xl font-black text-white sm:text-3xl">Peças já produzidas para você sentir o nível real de acabamento da MDH 3D.</h2>
           <p className="mt-3 text-sm leading-7 text-white/68">
             Essas fotos mostram trabalhos já entregues ou produzidos no ateliê. Elas ajudam a comparar material, acabamento, escala e presença visual antes do seu pedido.

@@ -22,6 +22,8 @@ export type PricingInput = {
   marketplaceSuggested?: number;
 };
 
+import { calculateCardPrice, roundToCents } from "@/lib/payment-pricing";
+
 export type ProfitMode = "margin" | "markup";
 
 export type ProductionCostRecommendation = {
@@ -38,34 +40,30 @@ export type ProductionCostRecommendation = {
   referencePrice: number;
 };
 
-export const TARGET_LIQUID_MARGIN = 0.5;
-export const PIX_PRICE_DIVISOR = 1 - TARGET_LIQUID_MARGIN;
+export const TARGET_PROFIT_MARKUP = 0;
+export const TARGET_LIQUID_MARGIN = TARGET_PROFIT_MARKUP;
+export const PIX_PRICE_DIVISOR = 1 / (1 + TARGET_PROFIT_MARKUP);
 export const CARD_MULTIPLIER = 1;
-export const CARD_FIXED_SURCHARGE = 3;
 export const BOLETO_MULTIPLIER = 1.08;
 export const MARKETPLACE_PRICE_MULTIPLIER = 1.15;
 export const REFERENCE_PRICE_MULTIPLIER = 1.18;
-export const FIXED_MARGIN_BADGE_LABEL = "Preco auditado";
-export const LOCAL_PRODUCTION_BADGE_LABEL = "Produção local RJ";
-export const MIN_SITE_PRICE_PIX = 39.9;
-export const DEFAULT_SPOOL_PRICE_PER_KG = 150;
-export const DEFAULT_MACHINE_HOURLY_RATE = 6.9;
-export const DEFAULT_LABOR_HOURLY_RATE = 18;
-export const DEFAULT_PACKAGING_COST = 0;
-export const DEFAULT_OVERHEAD_PERCENT = 0;
+export const FIXED_MARGIN_BADGE_LABEL = "Preço calculado";
+export const LOCAL_PRODUCTION_BADGE_LABEL = "Atendimento direto";
+export const MIN_SITE_PRICE_PIX = 0.01;
+export const DEFAULT_SPOOL_PRICE_PER_KG = 100;
+export const DEFAULT_MACHINE_HOURLY_RATE = 4.5;
+export const DEFAULT_LABOR_HOURLY_RATE = 15;
+export const DEFAULT_PACKAGING_COST = 1.5;
+export const DEFAULT_OVERHEAD_PERCENT = 8;
 
 const filamentCostPerGram = 0.15;
 
 export function roundCurrency(value: number) {
-  return Number(value.toFixed(2));
+  return roundToCents(value);
 }
 
 function finiteNumber(value: unknown, fallback = 0) {
   return typeof value === "number" && Number.isFinite(value) ? value : fallback;
-}
-
-export function calculateCardPrice(pricePix: number) {
-  return roundCurrency(Math.max(0, finiteNumber(pricePix)) + CARD_FIXED_SURCHARGE);
 }
 
 function nonNegativeNumber(value: unknown, fallback = 0) {
@@ -111,7 +109,7 @@ export function calculateProductionCostRecommendation(input: PricingInput): Prod
   const laborHourlyRate = positiveNumber(input.laborHourlyRate, DEFAULT_LABOR_HOURLY_RATE);
   const packagingCost = nonNegativeNumber(input.packagingCost, DEFAULT_PACKAGING_COST);
   const overheadPercent = clamp(nonNegativeNumber(input.overheadPercent, DEFAULT_OVERHEAD_PERCENT), 0, 300);
-  const profitMode: ProfitMode = input.profitMode === "markup" ? "markup" : "margin";
+  const profitMode: ProfitMode = input.profitMode === "margin" ? "margin" : "markup";
   const targetPercent = clamp(
     nonNegativeNumber(input.profitTargetPercent, TARGET_LIQUID_MARGIN * 100),
     0,
@@ -342,7 +340,7 @@ export function calculateDynamicPricing(input: ProductPricingInput) {
     pricePix: finalPricePix,
     priceCard: finalPriceCard,
     originalPricePix: pricing.pricePix,
-    originalPriceCard: pricing.priceCard,
+    originalPriceCard: calculateCardPrice(pricing.pricePix),
     quantityDiscount: 1 - quantityDiscount,
     appliedMultipliers: {
       material: materialMultiplier,
@@ -392,5 +390,5 @@ export function generatePricingCacheKey(slug: string, options: DynamicPricingOpt
 }
 
 export function buildFixedMarginNarrative(_costBase: number, pricePix: number) {
-  return `Preco Pix calculado em R$ ${pricePix.toFixed(2)} com base em material, tempo de producao e acabamento estimados para a peca.`;
+  return `Pix ${pricePix.toFixed(2).replace(".", ",")} calculado com material, tempo de producao e acabamento estimados.`;
 }

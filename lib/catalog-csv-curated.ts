@@ -1,7 +1,7 @@
 import type { Product } from "@/lib/catalog";
+import { calculateCardPrice } from "@/lib/payment-pricing";
 import curatedCsvRows from "@/data/catalogo_curado_160_itens_ptbr.json";
 import { getCsvCuratedLocalImages, hasCsvCuratedLocalMedia } from "@/lib/csv-curated-media";
-import { calculateCardPrice } from "@/lib/pricing-engine";
 
 type CsvRow = {
   sku: string;
@@ -56,7 +56,7 @@ function inferTheme(title: string, tags: string[]) {
   if (blob.includes("marvel")) return "Marvel";
   if (blob.includes("star wars")) return "Star Wars";
   if (blob.includes("anime")) return "Anime";
-  if (blob.includes("pokémon") || blob.includes("pokemon")) return "Pokémon";
+  if (blob.includes("pokémon") || blob.includes("pokemon")) return "tema geek";
   return "Nerd/Gamer";
 }
 

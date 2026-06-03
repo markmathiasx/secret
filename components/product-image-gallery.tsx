@@ -71,7 +71,7 @@ export function ProductImageGallery({
             <div className="min-w-0">
               <p className="truncate uppercase tracking-[0.16em] text-white/80 font-medium">{product.material} • {product.finish}</p>
               <p className="mt-1 line-clamp-1 text-[11px] text-white/55">
-                {isConceptual ? "Imagem conceitual — peça final pode variar em forma, cor e acabamento." : "Peça já produzida ou visual fiel do produto final."}
+                {isConceptual ? "Imagem conceitual — peça final pode variar em forma, cor e acabamento." : "Mídia validada ou prévia técnica do produto."}
               </p>
             </div>
             <ProductVisualBadge product={product} />

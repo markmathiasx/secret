@@ -2,6 +2,12 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { calculateCardPrice } from "@/lib/payment-pricing";
+
+function parseNumber(value: string) {
+  const parsed = Number(String(value).replace(",", "."));
+  return Number.isFinite(parsed) ? parsed : 0;
+}
 
 export default function AdminNewProductPage() {
   const router = useRouter();
@@ -26,12 +32,10 @@ export default function AdminNewProductPage() {
     const target = e.target;
     const value = target.type === "checkbox" ? (target as HTMLInputElement).checked : target.value;
     setForm((prev) => {
-      const next = { ...prev, [target.name]: value };
-      if (target.name === "pricePix") {
-        const pix = Number(String(value).replace(",", "."));
-        next.priceCard = Number.isFinite(pix) ? String(Number((Math.max(0, pix) + 3).toFixed(2))) : "";
+      if (target.name === "pricePix" && typeof value === "string") {
+        return { ...prev, pricePix: value, priceCard: String(calculateCardPrice(parseNumber(value))) };
       }
-      return next;
+      return { ...prev, [target.name]: value };
     });
   }
 
@@ -46,8 +50,8 @@ export default function AdminNewProductPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...form,
-          pricePix: Number(form.pricePix),
-          priceCard: Number((Math.max(0, Number(form.pricePix)) + 3).toFixed(2)),
+          pricePix: parseNumber(form.pricePix),
+          priceCard: calculateCardPrice(parseNumber(form.pricePix)),
           stock: Number(form.stock),
         }),
       });
@@ -104,7 +108,7 @@ export default function AdminNewProductPage() {
             <input name="pricePix" type="number" step={0.01} min={0} required value={form.pricePix} onChange={handleChange} className="field-base" />
           </label>
           <label className="block">
-            <span className="mb-1 block text-sm text-white/70">Preço Cartão (Pix + R$ 3)</span>
+            <span className="mb-1 block text-sm text-white/70">Preço Cartão (Pix + R$ 1,00)</span>
             <input name="priceCard" type="number" step={0.01} min={0} value={form.priceCard} readOnly className="field-base" />
           </label>
           <label className="block">

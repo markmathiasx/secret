@@ -19,7 +19,7 @@ interface PremiumHeroProps {
 const FLOATING_CARDS = [
   { icon: CreditCard, title: "Pix e cartão", body: "fechamento claro" },
   { icon: Factory, title: "Produção no RJ", body: "operação local" },
-  { icon: BadgeCheck, title: "Mídia honesta", body: "foto real ou render fiel" },
+  { icon: BadgeCheck, title: "Mídia honesta", body: "mídia validada ou prévia técnica" },
   { icon: Box, title: "Sob demanda", body: "peças e lotes" },
 ] as const;
 
@@ -36,7 +36,7 @@ export function PremiumHero({
   const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
   const stats = [
     { label: "Produtos públicos", value: catalogCount ? catalogCount.toLocaleString("pt-BR") : "500+" },
-    { label: "Fotos reais", value: realPhotoCount ? realPhotoCount.toLocaleString("pt-BR") : "curadoria" },
+    { label: "Mídias validadas", value: realPhotoCount ? realPhotoCount.toLocaleString("pt-BR") : "curadoria" },
     { label: "Pronta entrega", value: readyRealCount ? readyRealCount.toLocaleString("pt-BR") : "sob consulta" },
   ];
 

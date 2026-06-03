@@ -141,9 +141,12 @@ export async function POST(request: NextRequest) {
   const user = await requireAdmin();
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
 
-  const body = await request.json().catch(() => ({}));
+  const body = await request.json().catch(() => null);
+  if (!body || typeof body !== "object") {
+    return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+  }
   const threadId = String(body.threadId || "").trim();
-  const message = String(body.message || "").trim();
+  const message = String(body.message || "").trim().slice(0, 4000);
 
   if (!threadId || !message) {
     return NextResponse.json({ error: "threadId and message are required" }, { status: 400 });
@@ -229,7 +232,10 @@ export async function PATCH(request: NextRequest) {
   const user = await requireAdmin();
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
 
-  const body = await request.json().catch(() => ({}));
+  const body = await request.json().catch(() => null);
+  if (!body || typeof body !== "object") {
+    return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+  }
   const threadId = String(body.threadId || "").trim();
   const action = String(body.action || "").trim();
 

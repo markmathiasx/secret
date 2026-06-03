@@ -4,7 +4,7 @@ import { getServerSessionUser, isAdminSession } from "@/lib/server-session";
 import { canConnectToDatabase, prisma } from "@/lib/prisma";
 import { catalog } from "@/lib/catalog";
 import { invalidateCatalogCache } from "@/lib/runtime-cache";
-import { calculateCardPrice } from "@/lib/pricing-engine";
+import { calculateCardPrice } from "@/lib/payment-pricing";
 
 export const dynamic = "force-dynamic";
 
@@ -87,7 +87,7 @@ export async function POST(req: NextRequest) {
       hours: Number(body.hours || 0),
       pricePix,
       priceCard,
-      marketplaceSuggested: Number(body.marketplaceSuggested || priceCard || 0),
+      marketplaceSuggested: Number(body.marketplaceSuggested || priceCard),
       productionWindow: String(body.productionWindow || "5–10 dias úteis"),
       stock: Number(body.stock || 0),
       readyToShip: Boolean(body.readyToShip),

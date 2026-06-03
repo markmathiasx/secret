@@ -1,6 +1,6 @@
 import type { Product } from "@/lib/catalog";
 import type { ProductVisualKind } from "@/lib/product-visuals";
-import { calculateCardPrice } from "@/lib/pricing-engine";
+import { calculateCardPrice } from "@/lib/payment-pricing";
 
 export type MarketSegment =
   | "personalized-keychain"

@@ -43,13 +43,23 @@ export async function PATCH(req: NextRequest, context: { params: Promise<{ id: s
     where: { id },
     select: { status: true, notes: true, orderNumber: true },
   });
-  const { status, notes } = await req.json();
+  const body = await req.json().catch(() => null);
+  if (!body || typeof body !== "object") {
+    return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+  }
+
+  const status = typeof body.status === "string" ? body.status.trim().toUpperCase().slice(0, 40) : undefined;
+  const notes = typeof body.notes === "string" ? body.notes.trim().slice(0, 5000) : undefined;
+
+  if (!status && notes === undefined) {
+    return NextResponse.json({ error: "status or notes required" }, { status: 400 });
+  }
 
   const updated = await prisma.order.update({
     where: { id },
     data: {
       ...(status && { status }),
-      ...(notes && { notes }),
+      ...(notes !== undefined && { notes: notes || null }),
       updatedAt: new Date(),
     },
     include: { items: { include: { product: true } }, payments: true, invoice: true },

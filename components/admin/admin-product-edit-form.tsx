@@ -3,8 +3,16 @@
 import type { ChangeEvent, FormEvent } from "react";
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Calculator, Sparkles } from "lucide-react";
+import { Calculator, Flag, RefreshCw, Sparkles } from "lucide-react";
 import type { AdminCatalogProduct } from "@/lib/server/admin-catalog-store";
+import {
+  BUYING_INTENTS,
+  CATALOG_PRIMARY_CATEGORIES,
+  PRODUCT_OBJECT_TYPES,
+  applyCatalogTaxonomy,
+  type BuyingIntent,
+} from "@/lib/catalog-taxonomy";
+import { calculateCardPrice } from "@/lib/payment-pricing";
 
 type EstimateResponse = {
   ok?: boolean;
@@ -21,8 +29,7 @@ type EstimateResponse = {
   error?: string;
 };
 
-const CARD_FIXED_SURCHARGE = 3;
-const MIN_SITE_PRICE_PIX = 39.9;
+const MIN_SITE_PRICE_PIX = 0.01;
 
 function formatCurrency(value: number) {
   return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(Number.isFinite(value) ? value : 0);
@@ -37,24 +44,31 @@ function parseNumber(value: string, fallback = 0) {
   return Number.isFinite(parsed) ? parsed : fallback;
 }
 
-function roundCurrency(value: number) {
-  return Number(value.toFixed(2));
+function parseList(value: string) {
+  return value
+    .split(",")
+    .map((item) => item.trim())
+    .filter(Boolean);
 }
 
-function calculateCardPrice(pricePix: number) {
-  return roundCurrency(Math.max(0, pricePix) + CARD_FIXED_SURCHARGE);
+function listText(value: string[] | null | undefined) {
+  return Array.isArray(value) ? value.join(", ") : "";
+}
+
+function roundCurrency(value: number) {
+  return Number(value.toFixed(2));
 }
 
 function calculateRecommendation(form: Record<string, string | boolean>, profitMode: "margin" | "markup") {
   const grams = Math.max(0, parseNumber(String(form.estimatedGrams)));
   const hours = Math.max(0, parseNumber(String(form.estimatedHours)));
-  const spoolPricePerKg = Math.max(0, parseNumber(String(form.spoolPricePerKg), 150));
-  const machineHourlyRate = Math.max(0, parseNumber(String(form.machineHourlyRate), 6.9));
+  const spoolPricePerKg = Math.max(0, parseNumber(String(form.spoolPricePerKg), 100));
+  const machineHourlyRate = Math.max(0, parseNumber(String(form.machineHourlyRate), 4.5));
   const postProcessMinutes = Math.max(0, parseNumber(String(form.postProcessMinutes), 15));
-  const laborHourlyRate = Math.max(0, parseNumber(String(form.laborHourlyRate), 18));
-  const packagingCost = Math.max(0, parseNumber(String(form.packagingCost), 2.5));
-  const overheadPercent = Math.min(300, Math.max(0, parseNumber(String(form.overheadPercent), 12)));
-  const target = Math.max(0, parseNumber(String(form.profitTargetPercent), 50));
+  const laborHourlyRate = Math.max(0, parseNumber(String(form.laborHourlyRate), 15));
+  const packagingCost = Math.max(0, parseNumber(String(form.packagingCost), 1.5));
+  const overheadPercent = Math.min(300, Math.max(0, parseNumber(String(form.overheadPercent), 8)));
+  const target = Math.max(0, parseNumber(String(form.profitTargetPercent), 0));
   const costFilament = roundCurrency(grams * (spoolPricePerKg / 1000));
   const costMachine = roundCurrency(hours * machineHourlyRate);
   const costLabor = roundCurrency((postProcessMinutes / 60) * laborHourlyRate);
@@ -106,6 +120,17 @@ export function AdminProductEditForm({ product }: { product: AdminCatalogProduct
     title: product.title,
     description: product.description,
     category: product.category,
+    subcategory: product.subcategory,
+    primaryCategory: product.primaryCategory,
+    productTypePath: product.productTypePath,
+    buyingIntents: listText(product.buyingIntents),
+    objectType: product.objectType,
+    useCaseTags: listText(product.useCaseTags),
+    seoKeywords: listText(product.seoKeywords),
+    tags: listText(product.tags),
+    confidence: product.confidence,
+    classificationReason: product.classificationReason,
+    taxonomyReviewRequested: product.taxonomyReviewRequested,
     collection: product.collection,
     material: product.material,
     finish: product.finish,
@@ -119,14 +144,14 @@ export function AdminProductEditForm({ product }: { product: AdminCatalogProduct
     estimatedGrams: numberText(product.estimatedGrams, String(product.costBase ? Math.max(1, Math.round(product.costBase / 0.15)) : 0)),
     estimatedHours: numberText(product.estimatedHours, "1"),
     complexity: numberText(product.complexity, "1"),
-    spoolPricePerKg: numberText(product.spoolPricePerKg, "150"),
-    machineHourlyRate: numberText(product.machineHourlyRate, "6.9"),
+    spoolPricePerKg: numberText(product.spoolPricePerKg, "100"),
+    machineHourlyRate: numberText(product.machineHourlyRate, "4.5"),
     postProcessMinutes: numberText(product.postProcessMinutes, "15"),
-    laborHourlyRate: numberText(product.laborHourlyRate, "18"),
-    packagingCost: numberText(product.packagingCost, "2.5"),
-    overheadPercent: numberText(product.overheadPercent, "12"),
+    laborHourlyRate: numberText(product.laborHourlyRate, "15"),
+    packagingCost: numberText(product.packagingCost, "1.5"),
+    overheadPercent: numberText(product.overheadPercent, "8"),
     profitMode: product.profitMode,
-    profitTargetPercent: numberText(product.profitTargetPercent, "50"),
+    profitTargetPercent: numberText(product.profitTargetPercent, "0"),
   });
   const [loading, setLoading] = useState(false);
   const [estimating, setEstimating] = useState(false);
@@ -144,11 +169,13 @@ export function AdminProductEditForm({ product }: { product: AdminCatalogProduct
     const target = e.target;
     const value = target.type === "checkbox" ? (target as HTMLInputElement).checked : target.value;
     setForm((prev) => {
-      const next = { ...prev, [target.name]: value };
-      if (target.name === "pricePix") {
-        next.priceCard = String(calculateCardPrice(parseNumber(String(value))));
+      if (target.name === "pricePix" && typeof value === "string") {
+        return { ...prev, pricePix: value, priceCard: String(calculateCardPrice(parseNumber(value))) };
       }
-      return next;
+      if (target.name === "category" && typeof value === "string") {
+        return { ...prev, category: value, primaryCategory: value };
+      }
+      return { ...prev, [target.name]: value };
     });
   }
 
@@ -158,6 +185,13 @@ export function AdminProductEditForm({ product }: { product: AdminCatalogProduct
       pricePix: String(source.recommendedPricePix),
       priceCard: String(source.recommendedPriceCard),
       profitMode: source === marginRecommendation ? "margin" : "markup",
+    }));
+  }
+
+  function recalculateCardPrice() {
+    setForm((prev) => ({
+      ...prev,
+      priceCard: String(calculateCardPrice(parseNumber(String(prev.pricePix)))),
     }));
   }
 
@@ -200,6 +234,48 @@ export function AdminProductEditForm({ product }: { product: AdminCatalogProduct
     }));
   }
 
+  function reclassifyProduct() {
+    const classification = applyCatalogTaxonomy({
+      id: product.id,
+      sku: product.id,
+      name: String(form.title),
+      description: String(form.description),
+      category: String(form.category),
+      subcategory: String(form.subcategory),
+      collection: String(form.collection),
+      material: String(form.material),
+      finish: String(form.finish),
+      status: String(form.status),
+      tags: parseList(String(form.tags)),
+      customizable: Boolean(form.customizable),
+      readyToShip: Boolean(form.readyToShip),
+    });
+
+    setForm((prev) => ({
+      ...prev,
+      category: classification.primaryCategory,
+      primaryCategory: classification.primaryCategory,
+      subcategory: classification.subcategory,
+      productTypePath: classification.productTypePath,
+      buyingIntents: classification.buyingIntents.join(", "),
+      objectType: classification.objectType,
+      useCaseTags: classification.useCaseTags.join(", "),
+      seoKeywords: classification.seoKeywords.join(", "),
+      confidence: classification.confidence,
+      classificationReason: classification.classificationReason,
+      taxonomyReviewRequested: false,
+    }));
+  }
+
+  function markForTaxonomyReview() {
+    setForm((prev) => ({
+      ...prev,
+      confidence: "low",
+      taxonomyReviewRequested: true,
+      classificationReason: `${String(prev.classificationReason || "").trim()} Revisão manual solicitada no admin.`.trim(),
+    }));
+  }
+
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     setLoading(true);
@@ -213,8 +289,21 @@ export function AdminProductEditForm({ product }: { product: AdminCatalogProduct
         body: JSON.stringify({
           ...form,
           pricePix: parseNumber(String(form.pricePix)),
-          priceCard: calculateCardPrice(parseNumber(String(form.pricePix))),
+          priceCard: parseNumber(String(form.priceCard)),
           stock: parseNumber(String(form.stock)),
+          subcategory: String(form.subcategory),
+          primaryCategory: String(form.category),
+          productTypePath: String(form.productTypePath),
+          buyingIntents: parseList(String(form.buyingIntents)).filter((intent): intent is BuyingIntent =>
+            (BUYING_INTENTS as readonly string[]).includes(intent)
+          ),
+          objectType: String(form.objectType),
+          useCaseTags: parseList(String(form.useCaseTags)),
+          seoKeywords: parseList(String(form.seoKeywords)),
+          tags: parseList(String(form.tags)),
+          confidence: String(form.confidence),
+          classificationReason: String(form.classificationReason),
+          taxonomyReviewRequested: Boolean(form.taxonomyReviewRequested),
           estimatedGrams: parseNumber(String(form.estimatedGrams)),
           estimatedHours: parseNumber(String(form.estimatedHours)),
           complexity: parseNumber(String(form.complexity), 1),
@@ -225,7 +314,7 @@ export function AdminProductEditForm({ product }: { product: AdminCatalogProduct
           packagingCost: parseNumber(String(form.packagingCost), 2.5),
           overheadPercent: parseNumber(String(form.overheadPercent), 12),
           profitMode: form.profitMode,
-          profitTargetPercent: parseNumber(String(form.profitTargetPercent), 50),
+          profitTargetPercent: parseNumber(String(form.profitTargetPercent), 0),
           estimatedProfitAmount: currentProfitAmount,
           estimatedProfitPercent: currentProfitPercent,
           costingUpdatedAt: new Date().toISOString(),
@@ -235,7 +324,7 @@ export function AdminProductEditForm({ product }: { product: AdminCatalogProduct
       if (!res.ok) {
         throw new Error(String(data?.error || `Erro ao salvar. Status HTTP ${res.status}.`));
       }
-      setSuccess(String(data?.error || "Produto atualizado com sucesso!"));
+      setSuccess(String(data?.message || "Produto atualizado com sucesso!"));
       router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Erro ao salvar produto.");
@@ -273,12 +362,103 @@ export function AdminProductEditForm({ product }: { product: AdminCatalogProduct
 
         <div className="grid gap-4 sm:grid-cols-2">
           <label className="block">
-            <span className="mb-1 block text-sm text-white/70">Categoria</span>
-            <input name="category" value={String(form.category)} onChange={handleChange} className="field-base" />
+            <span className="mb-1 block text-sm text-white/70">Categoria principal</span>
+            <select name="category" value={String(form.category)} onChange={handleChange} className="field-base">
+              {CATALOG_PRIMARY_CATEGORIES.map((category) => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              ))}
+            </select>
           </label>
           <label className="block">
             <span className="mb-1 block text-sm text-white/70">Coleção</span>
             <input name="collection" value={String(form.collection)} onChange={handleChange} className="field-base" />
+          </label>
+        </div>
+
+        <div className="rounded-[8px] border border-cyan-300/14 bg-cyan-300/8 p-4">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-cyan-100/70">Taxonomia pública</p>
+              <p className="mt-1 text-sm text-white/60">
+                Categoria diz o que o item é; intenções dizem por que alguém compra.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <button type="button" onClick={reclassifyProduct} className="btn-secondary gap-2 text-sm">
+                <RefreshCw className="h-4 w-4" />
+                Reclassificar produto
+              </button>
+              <button type="button" onClick={markForTaxonomyReview} className="btn-glass gap-2 text-sm">
+                <Flag className="h-4 w-4" />
+                Marcar para revisão
+              </button>
+            </div>
+          </div>
+
+          <div className="mt-4 grid gap-4 sm:grid-cols-2">
+            <label className="block">
+              <span className="mb-1 block text-sm text-white/70">Subcategoria</span>
+              <input name="subcategory" value={String(form.subcategory)} onChange={handleChange} className="field-base" />
+            </label>
+            <label className="block">
+              <span className="mb-1 block text-sm text-white/70">Tipo de objeto</span>
+              <select name="objectType" value={String(form.objectType)} onChange={handleChange} className="field-base">
+                {PRODUCT_OBJECT_TYPES.map((objectType) => (
+                  <option key={objectType} value={objectType}>
+                    {objectType}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+
+          <div className="mt-4 grid gap-4">
+            <label className="block">
+              <span className="mb-1 block text-sm text-white/70">Caminho SEO</span>
+              <input name="productTypePath" value={String(form.productTypePath)} onChange={handleChange} className="field-base" />
+            </label>
+            <label className="block">
+              <span className="mb-1 block text-sm text-white/70">Intenções de compra</span>
+              <input name="buyingIntents" value={String(form.buyingIntents)} onChange={handleChange} className="field-base" />
+            </label>
+          </div>
+
+          <div className="mt-4 grid gap-4 md:grid-cols-2">
+            <label className="block">
+              <span className="mb-1 block text-sm text-white/70">Tags de uso</span>
+              <textarea name="useCaseTags" value={String(form.useCaseTags)} onChange={handleChange} rows={2} className="field-base resize-y" />
+            </label>
+            <label className="block">
+              <span className="mb-1 block text-sm text-white/70">SEO keywords</span>
+              <textarea name="seoKeywords" value={String(form.seoKeywords)} onChange={handleChange} rows={2} className="field-base resize-y" />
+            </label>
+          </div>
+
+          <label className="mt-4 block">
+            <span className="mb-1 block text-sm text-white/70">Tags públicas</span>
+            <textarea name="tags" value={String(form.tags)} onChange={handleChange} rows={2} className="field-base resize-y" />
+          </label>
+
+          <div className="mt-4 grid gap-4 md:grid-cols-[0.5fr_1fr]">
+            <label className="block">
+              <span className="mb-1 block text-sm text-white/70">Confiança</span>
+              <select name="confidence" value={String(form.confidence)} onChange={handleChange} className="field-base">
+                <option value="high">high</option>
+                <option value="medium">medium</option>
+                <option value="low">low</option>
+              </select>
+            </label>
+            <label className="block">
+              <span className="mb-1 block text-sm text-white/70">Razão da classificação</span>
+              <input name="classificationReason" value={String(form.classificationReason)} onChange={handleChange} className="field-base" />
+            </label>
+          </div>
+
+          <label className="mt-4 flex items-center gap-2 text-sm text-white/70">
+            <input type="checkbox" name="taxonomyReviewRequested" checked={Boolean(form.taxonomyReviewRequested)} onChange={handleChange} />
+            Revisão de taxonomia pendente
           </label>
         </div>
 
@@ -299,8 +479,13 @@ export function AdminProductEditForm({ product }: { product: AdminCatalogProduct
             <input name="pricePix" type="number" step={0.01} min={0} value={String(form.pricePix)} onChange={handleChange} className="field-base" />
           </label>
           <label className="block">
-            <span className="mb-1 block text-sm text-white/70">Preço Cartão (Pix + R$ 3)</span>
-            <input name="priceCard" type="number" step={0.01} min={0} value={String(form.priceCard)} readOnly className="field-base" />
+            <span className="mb-1 block text-sm text-white/70">Preço Cartão (Pix + R$ 1,00)</span>
+            <div className="flex gap-2">
+              <input name="priceCard" type="number" step={0.01} min={0} value={String(form.priceCard)} readOnly className="field-base" />
+              <button type="button" onClick={recalculateCardPrice} className="btn-secondary shrink-0 px-4 text-xs">
+                Recalcular
+              </button>
+            </div>
           </label>
           <label className="block">
             <span className="mb-1 block text-sm text-white/70">Estoque</span>
@@ -317,7 +502,7 @@ export function AdminProductEditForm({ product }: { product: AdminCatalogProduct
             </select>
           </label>
           <label className="block">
-            <span className="mb-1 block text-sm text-white/70">Lucro alvo (%)</span>
+            <span className="mb-1 block text-sm text-white/70">Ajuste sobre custo (%)</span>
             <input name="profitTargetPercent" type="number" step={0.1} min={0} value={String(form.profitTargetPercent)} onChange={handleChange} className="field-base" />
           </label>
         </div>
@@ -403,7 +588,7 @@ export function AdminProductEditForm({ product }: { product: AdminCatalogProduct
                 <div key={String(label)} className="rounded-[8px] border border-white/10 bg-white/[0.04] p-4">
                   <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-white/45">{String(label)}</p>
                   <p className="mt-2 text-2xl font-black text-white">{formatCurrency(item.recommendedPricePix)}</p>
-                  <p className="mt-1 text-sm text-white/55">Cartão + R$ 3: {formatCurrency(item.recommendedPriceCard)}</p>
+                  <p className="mt-1 text-sm text-white/55">Cartão: {formatCurrency(item.recommendedPriceCard)}</p>
                   <p className="mt-2 text-xs text-emerald-100">Lucro estimado: {formatCurrency(item.profitAmount)} ({item.profitPercent.toFixed(1)}%)</p>
                   <button type="button" onClick={() => applyPrices(item)} className="btn-secondary mt-3 w-full justify-center text-sm">
                     Aplicar Pix/Card

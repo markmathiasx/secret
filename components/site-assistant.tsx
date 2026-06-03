@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import { pix, whatsappNumber } from '@/lib/constants';
 
 const quickQuestions = [
-  'Quero um presente com foto real',
+  'Quero um presente com mídia validada',
   'Preciso de uma peça funcional para setup',
   'Quero enviar STL para orçamento'
 ];

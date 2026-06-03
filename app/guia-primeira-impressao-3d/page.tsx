@@ -25,7 +25,7 @@ export default function LeadMagnetPage() {
             Um checklist direto para decidir material, cor, tamanho, acabamento e prazo sem cair em orçamento confuso.
           </p>
           <div className="mt-8 grid gap-3">
-            {["Material certo para o uso", "Como estimar tamanho e resistência", "O que enviar no briefing", "Quando pedir foto real ou render"].map((item) => (
+            {["Material certo para o uso", "Como estimar tamanho e resistência", "O que enviar no briefing", "Quando pedir mídia validada ou render"].map((item) => (
               <div key={item} className="flex items-center gap-3 text-sm font-semibold text-white/78">
                 <CheckCircle2 className="h-4 w-4 text-emerald-100" />
                 {item}

@@ -26,7 +26,7 @@ const HERO_VIDEO = {
 };
 
 const HERO_SIGNALS = [
-  "Foto real e render fiel separados",
+  "Mídia validada e prévia técnica separados",
   "Produção local no Rio",
   "Personalização com STL, imagem e briefing",
 ];
@@ -35,7 +35,7 @@ const HERO_STEPS = [
   {
     value: "01",
     title: "Ache a peça certa",
-    body: "Comece por presente, utilidade, pronta entrega ou foto real sem navegar uma vitrine confusa.",
+    body: "Comece por presente, utilidade, pronta entrega ou mídia validada sem navegar uma vitrine confusa.",
   },
   {
     value: "02",
@@ -175,7 +175,7 @@ export function Hero({
       accent: "text-cyan-100",
     },
     {
-      label: "Fotos reais",
+      label: "Mídias validadas",
       value: String(realPhotoCount).padStart(2, "0"),
       helper: "prova visual mais forte para decidir",
       icon: ShieldCheck,
@@ -255,7 +255,7 @@ export function Hero({
 
             <h1 className="mt-6 max-w-5xl text-5xl font-black leading-[0.92] text-white md:text-7xl">
               Impressão 3D premium com{" "}
-              <span className="text-gradient-brand">foto real</span>, produção local e acabamento de vitrine.
+              <span className="text-gradient-brand">mídia validada</span>, produção local e acabamento de vitrine.
             </h1>
 
             <p className="mt-6 max-w-2xl text-base leading-8 text-white/82 md:text-lg">
@@ -270,7 +270,7 @@ export function Hero({
               <div>
                 <p className="font-semibold text-white">Rodada de fechamento de hoje</p>
                 <p className="mt-1 text-emerald-50/75">
-                  Priorize {readyRealCount} pronta entrega e {realPhotoCount} itens com foto real antes de pedir orçamento sob medida.
+                  Priorize {readyRealCount} pronta entrega e {realPhotoCount} itens com mídia validada antes de pedir orçamento sob medida.
                 </p>
               </div>
               <span className="rounded-full border border-emerald-300/25 bg-black/20 px-4 py-2 font-mono text-sm font-bold text-emerald-100">
@@ -312,7 +312,7 @@ export function Hero({
             </div>
 
             <p className="mt-4 text-sm leading-7 text-white/58">
-              Foto real, render fiel e projeto personalizado aparecem com sinalização clara antes de qualquer pagamento.
+              Mídia validada, prévia técnica e projeto personalizado aparecem com sinalização clara antes de qualquer pagamento.
             </p>
 
             {selectedFile ? (
@@ -348,7 +348,7 @@ export function Hero({
                 Escolha com menos dúvida e feche com mais segurança.
               </h2>
               <p className="mt-3 text-sm leading-7 text-white/62">
-                A entrada do site já separa foto real, pronta entrega, personalizados e pagamento para encurtar o caminho entre descobrir, validar e comprar.
+                A entrada do site já separa mídia validada, pronta entrega, personalizados e pagamento para encurtar o caminho entre descobrir, validar e comprar.
               </p>
             </div>
 
@@ -419,7 +419,7 @@ export function Hero({
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className="text-xs uppercase tracking-[0.18em] text-emerald-100/70">
-                      Foto real
+                      Mídia validada
                     </p>
                     <p className="mt-0.5 line-clamp-2 text-sm font-semibold text-white">
                       {item.name}
@@ -440,7 +440,7 @@ export function Hero({
 
         <div className="mt-10 grid gap-3 md:grid-cols-4">
           {[
-            "Foto real, render fiel e imagem conceitual aparecem com selo claro na vitrine.",
+            "Mídia validada, prévia técnica e imagem conceitual aparecem com selo claro na vitrine.",
             "Pix, acompanhamento e atendimento assistido seguem no mesmo fluxo de compra.",
             "Consultor e WhatsApp ajudam a escolher sem tirar o cliente do caminho de compra.",
             "Projetos sob medida aceitam STL, imagem e briefing com análise humana.",

@@ -9,11 +9,12 @@ import {
   DEFAULT_MACHINE_HOURLY_RATE,
   DEFAULT_SPOOL_PRICE_PER_KG,
   TARGET_LIQUID_MARGIN,
-  calculateCardPrice,
   calculateProductionCostRecommendation,
   roundCurrency,
 } from "@/lib/pricing-engine";
+import { calculateCardPrice } from "@/lib/payment-pricing";
 import { canConnectToDatabase, prisma } from "@/lib/prisma";
+import { applyCatalogTaxonomy } from "@/lib/catalog-taxonomy";
 import { slugify } from "@/lib/utils";
 import type { AdminProductOverride, ProductionStage, RealImageStatusRecord, ProfitMode } from "@/types/admin-catalog";
 
@@ -26,6 +27,17 @@ export type AdminCatalogProduct = {
   title: string;
   description: string;
   category: string;
+  subcategory: string;
+  primaryCategory: string;
+  productTypePath: string;
+  buyingIntents: string[];
+  objectType: string;
+  useCaseTags: string[];
+  seoKeywords: string[];
+  tags: string[];
+  confidence: string;
+  classificationReason: string;
+  taxonomyReviewRequested: boolean;
   collection: string;
   material: string;
   finish: string;
@@ -86,7 +98,7 @@ function normalizeProductionStage(value: string | undefined, readyToShip: boolea
 
 function deriveBaseCost(product: Product, override?: AdminProductOverride) {
   if (typeof override?.costBase === "number") return override.costBase;
-  if (typeof override?.pricePix === "number") return Number((override.pricePix * 0.6).toFixed(2));
+  if (typeof override?.pricePix === "number") return Number(override.pricePix.toFixed(2));
   if (typeof product.baseCost === "number") return product.baseCost;
   if (typeof product.estimatedUnitCost === "number") return product.estimatedUnitCost;
   return 0;
@@ -106,7 +118,7 @@ function decimalToOptionalNumber(value: Prisma.Decimal | number | null | undefin
 }
 
 function normalizeProfitMode(value: unknown): ProfitMode {
-  return value === "markup" ? "markup" : "margin";
+  return value === "margin" ? "margin" : "markup";
 }
 
 function mapStatusToLegacy(status: ProductStatus): Product["status"] {
@@ -121,7 +133,7 @@ function mapPrismaProduct(record: AdminPrismaProduct): Product {
   const category = record.category?.name || "Catálogo";
   const collection = record.collections[0]?.collection.name || "Marketplace";
 
-  return {
+  return applyCatalogTaxonomy({
     id: record.id,
     slug: record.slug,
     sku: record.sku,
@@ -145,7 +157,7 @@ function mapPrismaProduct(record: AdminPrismaProduct): Product {
     licenseType: record.licenseType === "commercial" ? "commercial" : "personal",
     variants: [],
     pricePix: decimalToNumber(record.pricePix),
-    priceCard: decimalToNumber(record.priceCard),
+    priceCard: calculateCardPrice(decimalToNumber(record.pricePix)),
     marketplaceSuggested: decimalToNumber(record.marketplaceSuggested),
     productionWindow: record.productionWindow,
     imageHint: record.imageHint || record.title,
@@ -173,7 +185,7 @@ function mapPrismaProduct(record: AdminPrismaProduct): Product {
     estimatedProfitAmount: decimalToOptionalNumber(record.estimatedProfitAmount),
     estimatedProfitPercent: decimalToOptionalNumber(record.estimatedProfitPercent),
     costingUpdatedAt: record.costingUpdatedAt?.toISOString(),
-  };
+  });
 }
 
 function buildAdminCatalogProduct(
@@ -226,6 +238,17 @@ function buildAdminCatalogProduct(
     title,
     description,
     category: override?.category ?? product.category,
+    subcategory: override?.subcategory ?? product.subcategory,
+    primaryCategory: override?.primaryCategory ?? product.primaryCategory ?? product.category,
+    productTypePath: override?.productTypePath ?? product.productTypePath ?? `Catálogo > ${product.category} > ${product.subcategory}`,
+    buyingIntents: override?.buyingIntents ?? product.buyingIntents ?? [],
+    objectType: override?.objectType ?? product.objectType ?? "outro",
+    useCaseTags: override?.useCaseTags ?? product.useCaseTags ?? [],
+    seoKeywords: override?.seoKeywords ?? product.seoKeywords ?? [],
+    tags: override?.tags ?? product.tags ?? [],
+    confidence: override?.confidence ?? product.confidence ?? "low",
+    classificationReason: override?.classificationReason ?? product.classificationReason ?? "Sem classificação registrada.",
+    taxonomyReviewRequested: override?.taxonomyReviewRequested ?? product.taxonomyReviewRequested ?? false,
     collection: override?.collection ?? product.collection,
     material: override?.material ?? product.material,
     finish: override?.finish ?? product.finish,
@@ -331,7 +354,6 @@ export async function updateAdminCatalogProduct(productId: string, patch: Partia
     id: productId,
     updatedAt: new Date().toISOString(),
   };
-  next.priceCard = calculateCardPrice(typeof next.pricePix === "number" ? next.pricePix : product.pricePix);
 
   overrides[productId] = next;
   await writeOverridesFile(overrides);

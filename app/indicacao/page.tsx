@@ -37,7 +37,7 @@ export default function ReferralLandingPage() {
               Entrar e pegar meu link
             </Link>
             <Link href="/catalogo?mode=real" className="btn-secondary justify-center">
-              Ver peças com foto real
+              Ver peças com mídia validada
             </Link>
           </div>
         </div>

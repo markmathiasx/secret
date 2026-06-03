@@ -169,7 +169,7 @@ export default async function CategoryLandingPage({
           <div className="mt-2 flex flex-wrap gap-3">
             <span>{readyCount} itens de pronta entrega</span>
             <span className="h-1 w-1 self-center rounded-full bg-white/30" />
-            <span>{verifiedCount} com foto real ou render fiel</span>
+            <span>{verifiedCount} com mídia validada ou prévia técnica</span>
             <span className="h-1 w-1 self-center rounded-full bg-white/30" />
             <span>CTA de compra e CTA de briefing na mesma categoria</span>
           </div>

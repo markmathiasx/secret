@@ -1,5 +1,5 @@
 import { findProduct, getProductUrl, type Product as CatalogProduct } from "@/lib/catalog";
-import { calculateCardPrice } from "@/lib/pricing-engine";
+import { calculateCardPrice } from "@/lib/payment-pricing";
 import { slugify } from "@/lib/utils";
 
 type ProductCopy = {
@@ -69,7 +69,7 @@ const copyBySourceId: Record<(typeof curatedSourceIds)[number] | "mdh-038", Prod
   "mdh-015": {
     shortDescription: "Suporte para celular com boa estabilidade para videochamada, estudos, cozinha ou mesa de trabalho.",
     longDescription:
-      "Resolve uso diário com uma peça compacta, leve e fácil de presentear. Funciona bem para clientes que querem utilidade imediata, preço claro e fechamento sem briefing longo.",
+      "Resolve uso diário com uma peça compacta, leve e fácil de presentear. Funciona bem para clientes que querem utilidade imediata e compra direta sem briefing longo.",
     featured: true,
   },
   "mdh-016": {
@@ -102,9 +102,9 @@ const copyBySourceId: Record<(typeof curatedSourceIds)[number] | "mdh-038", Prod
       "Produto de decoração com boa percepção de valor e compra direta. É indicado para clientes que querem presentear ou compor ambientes com uma peça leve e marcante.",
   },
   "mdh-026": {
-    shortDescription: "Pokébola impressa em 3D para coleção, presente geek ou decoração de setup.",
+    shortDescription: "Esfera colecionável em 3D para presente geek ou decoração de setup.",
     longDescription:
-      "Item de fandom com apelo visual imediato, boa taxa de clique e alta intenção de compra para público geek. Fecha bem em campanhas sazonais e kits com outros colecionáveis.",
+      "Item autoral com apelo visual imediato, boa taxa de clique e alta intenção de compra para público geek. Fecha bem em campanhas sazonais e kits com outros colecionáveis.",
   },
   "mdh-028": {
     shortDescription: "Luminária LED personalizada para nome, frase, logo ou peça decorativa com alto impacto visual.",
@@ -148,6 +148,8 @@ function assertProduct(productId: string) {
 
 function buildStorefrontProduct(product: CatalogProduct, copy: ProductCopy, overrides?: Partial<StorefrontProduct>): StorefrontProduct {
   const slug = overrides?.slug || product.slug || slugify(product.name);
+  const pricePix = overrides?.pricePix ?? product.pricePix;
+
   return {
     id: overrides?.id || product.id,
     sourceId: overrides?.sourceId ?? product.id,
@@ -161,10 +163,10 @@ function buildStorefrontProduct(product: CatalogProduct, copy: ProductCopy, over
     images: overrides?.images || product.images || [product.image || ""].filter(Boolean),
     stock: overrides?.stock ?? Math.max(1, product.stock),
     tags: overrides?.tags || product.tags,
-    price: overrides?.price ?? product.pricePix,
-    pricePix: overrides?.pricePix ?? product.pricePix,
-    priceCard: overrides?.priceCard ?? product.priceCard,
-    priceFromLabel: overrides?.priceFromLabel || `A partir de R$ ${product.pricePix.toFixed(2).replace(".", ",")}`,
+    price: overrides?.price ?? pricePix,
+    pricePix,
+    priceCard: calculateCardPrice(pricePix),
+    priceFromLabel: overrides?.priceFromLabel || `A partir de R$ ${pricePix.toFixed(2).replace(".", ",")}`,
     material: overrides?.material || product.material,
     finish: overrides?.finish || product.finish,
     productionWindow: overrides?.productionWindow || product.productionWindow,
