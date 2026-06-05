@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
 
   const userHtml = `
     <p>Olá <strong>${safeName}</strong>,</p>
-    <p>Recebemos sua mensagem e responderemos em breve.</p>
+    <p>Recebemos sua mensagem e responderemos pelo canal informado.</p>
     <p>Sua mensagem:</p>
     <blockquote>${safeMessage}</blockquote>
     <p>— Equipe MDH 3D</p>

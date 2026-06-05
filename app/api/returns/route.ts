@@ -49,7 +49,7 @@ export async function POST(req: NextRequest) {
     await sendMail({
       to: email,
       subject: "Recebemos sua solicitação de devolução — MDH 3D",
-      html: `<p>Olá ${safeName}, recebemos sua solicitação referente ao pedido <strong>${safeOrder}</strong> e entraremos em contato em breve.</p>`,
+      html: `<p>Olá ${safeName}, recebemos sua solicitação referente ao pedido <strong>${safeOrder}</strong> e entraremos em contato pelo canal informado.</p>`,
     });
   } catch (error) {
     logStructured("error", "returns_mail_failed", {

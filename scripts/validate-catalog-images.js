@@ -156,8 +156,8 @@ async function main() {
   console.log(`⚠️  Imagens ausentes: ${missing.length}`);
   console.log(`⚠️  Placeholder ou risco visual: ${placeholderRisk.length}`);
   console.log(`📊 Taxa de sucesso real: ${passRate}%`);
-  console.log(`📷 Foto real: ${summary.visualKinds["foto-real"]}`);
-  console.log(`🧊 Render fiel: ${summary.visualKinds["render-fiel"]}`);
+  console.log(`📷 Imagem validada: ${summary.visualKinds["foto-real"]}`);
+  console.log(`🧊 Visual fiel: ${summary.visualKinds["render-fiel"]}`);
   console.log(`🎯 Imagem conceitual: ${summary.visualKinds["imagem-conceitual"]}`);
 
   if (missing.length > 0) {

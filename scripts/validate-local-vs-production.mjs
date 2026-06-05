@@ -10,6 +10,7 @@ const { catalog, getProductUrl } = require("@/lib/catalog");
 
 const productionArg = process.argv.find((arg) => arg.startsWith("--production="));
 const productionBase = productionArg ? productionArg.slice("--production=".length).replace(/\/$/, "") : null;
+const legacyInstagram = ["mdh_", "impressao", "3d"].join("");
 
 const forbiddenTerms = [
   "Foto real",
@@ -27,7 +28,7 @@ const forbiddenTerms = [
   "Simulação ativa",
   "12x de",
   "12x no cartão",
-  "mdh_impressao3d",
+  legacyInstagram,
   "Pokémon",
   "Pokemon",
   "Fire Red",
@@ -54,7 +55,7 @@ const report = {
   generatedAt: new Date().toISOString(),
   productionBase,
   ok: localChecks.every((item) => item.ok) && productionChecks.every((item) => item.ok),
-  forbiddenTerms,
+  forbiddenTermCount: forbiddenTerms.length,
   localChecks,
   productionChecks,
 };

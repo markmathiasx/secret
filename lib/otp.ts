@@ -5,7 +5,7 @@ const MAX_ATTEMPTS = 5;
 
 /** Generate a cryptographically secure 6-digit OTP. */
 export function generateOTP(): string {
-  // Use randomInt for uniform distribution (0–999999), zero-padded
+  // Use randomInt for uniform six-digit distribution, zero-padded.
   return String(randomInt(0, 1_000_000)).padStart(6, "0");
 }
 

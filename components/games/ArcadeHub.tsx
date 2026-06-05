@@ -160,7 +160,7 @@ export function ArcadeHub() {
               Biblioteca restaurada
             </p>
             <p className="mt-3 text-sm leading-6 text-white/66">
-              11 experiências ativas: Pinball, Runner e 9 desafios de manufatura aditiva. Nenhum card fica como “em breve”.
+              11 experiências ativas: Pinball, Runner e 9 desafios de manufatura aditiva. Nenhum card fica indisponível.
             </p>
           </div>
         </div>

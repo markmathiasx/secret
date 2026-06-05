@@ -43,7 +43,7 @@ export default function ContatoPage() {
       <div className="mb-8">
         <p className="section-kicker">Fale conosco</p>
         <h1 className="section-title">Contato</h1>
-        <p className="section-copy">Envie sua mensagem e responderemos em breve.</p>
+        <p className="section-copy">Envie sua mensagem e responderemos pelo canal informado.</p>
       </div>
 
       <div className="grid gap-10 md:grid-cols-[1fr_1.5fr]">
@@ -75,7 +75,7 @@ export default function ContatoPage() {
         <form onSubmit={handleSubmit} className="glass-card space-y-4">
           {status === "success" && (
             <div className="rounded-[16px] border border-emerald-300/20 bg-emerald-300/10 p-3 text-sm text-emerald-200">
-              ✓ Mensagem enviada! Retornaremos em breve.
+              ✓ Mensagem enviada! Retornaremos pelo canal informado.
             </div>
           )}
           {status === "error" && (

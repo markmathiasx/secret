@@ -5,9 +5,11 @@ import { makePixPayload } from "@/lib/pix";
 import { resolveOrderPaymentContext } from "@/lib/server/payment-order";
 import { updateOrderRecord } from "@/lib/storage";
 
+const MAX_PIX_AMOUNT_BRL = 100000;
+
 const schema = z.object({
   title: z.string().min(1).max(120),
-  amount: z.number().positive().max(99999),
+  amount: z.number().positive().max(MAX_PIX_AMOUNT_BRL),
   orderCode: z.string().min(5).max(64).optional(),
   email: z.string().email().optional(),
   customerName: z.string().min(2).max(120).optional(),

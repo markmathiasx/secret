@@ -46,6 +46,7 @@
     "catalog:reprice:dry": "node scripts/catalog/reprice-products.mjs --dry-run",
     "catalog:reprice": "node scripts/catalog/reprice-products.mjs --apply",
     "catalog:fix-card-prices": "node scripts/catalog/fix-card-prices.mjs",
+    "catalog:apply-plus2-increase": "node scripts/catalog/apply-plus2-increase.mjs",
     "catalog:apply-plus2-pricing": "node scripts/catalog/apply-plus2-pricing.mjs",
     "catalog:validate-plus2-pricing": "node scripts/catalog/validate-plus2-pricing.mjs",
     "catalog:validate-card-prices": "node scripts/catalog/validate-card-prices.mjs",

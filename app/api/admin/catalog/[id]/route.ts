@@ -3,6 +3,8 @@ import { z } from "zod";
 import { updateAdminCatalogProduct } from "@/lib/server/admin-catalog-store";
 import { getServerSessionUser, isAdminSession } from "@/lib/server-session";
 
+const ADMIN_CATALOG_MONEY_LIMIT = 100000;
+
 const patchSchema = z.object({
   title: z.string().min(3).max(160).optional(),
   description: z.string().min(12).max(1500).optional(),
@@ -12,21 +14,21 @@ const patchSchema = z.object({
   finish: z.string().min(2).max(120).optional(),
   status: z.enum(["Pronta entrega", "Sob encomenda"]).optional(),
   stock: z.number().int().min(0).max(9999).optional(),
-  costBase: z.number().min(0).max(99999).optional(),
-  pricePix: z.number().min(0).max(99999).optional(),
-  priceCard: z.number().min(0).max(99999).optional(),
+  costBase: z.number().min(0).max(ADMIN_CATALOG_MONEY_LIMIT).optional(),
+  pricePix: z.number().min(0).max(ADMIN_CATALOG_MONEY_LIMIT).optional(),
+  priceCard: z.number().min(0).max(ADMIN_CATALOG_MONEY_LIMIT).optional(),
   estimatedGrams: z.number().min(0).max(100000).optional(),
   estimatedHours: z.number().min(0).max(10000).optional(),
   complexity: z.number().min(0.1).max(10).optional(),
-  spoolPricePerKg: z.number().min(0).max(99999).optional(),
+  spoolPricePerKg: z.number().min(0).max(ADMIN_CATALOG_MONEY_LIMIT).optional(),
   machineHourlyRate: z.number().min(0).max(9999).optional(),
   postProcessMinutes: z.number().int().min(0).max(100000).optional(),
   laborHourlyRate: z.number().min(0).max(9999).optional(),
-  packagingCost: z.number().min(0).max(99999).optional(),
+  packagingCost: z.number().min(0).max(ADMIN_CATALOG_MONEY_LIMIT).optional(),
   overheadPercent: z.number().min(0).max(300).optional(),
   profitMode: z.enum(["margin", "markup"]).optional(),
   profitTargetPercent: z.number().min(0).max(500).optional(),
-  estimatedProfitAmount: z.number().min(-99999).max(99999).optional(),
+  estimatedProfitAmount: z.number().min(-ADMIN_CATALOG_MONEY_LIMIT).max(ADMIN_CATALOG_MONEY_LIMIT).optional(),
   estimatedProfitPercent: z.number().min(-999).max(999).optional(),
   costingUpdatedAt: z.string().datetime().optional(),
   readyToShip: z.boolean().optional(),

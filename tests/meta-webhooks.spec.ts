@@ -192,7 +192,7 @@ test.describe("Meta and omnichannel webhooks", () => {
               sender: { id: igsid },
               recipient: { id: "ig-business-test" },
               timestamp: Date.now(),
-              message: { mid: `mid.ig.${suffix}`, text: "tem foto real?" },
+              message: { mid: `mid.ig.${suffix}`, text: "tem imagem validada?" },
             },
           ],
         },
@@ -205,7 +205,7 @@ test.describe("Meta and omnichannel webhooks", () => {
     await expect.poll(async () => threadForEmail(`ig-${igsid}@mdh.local`)).not.toBeNull();
     const thread = await threadForEmail(`ig-${igsid}@mdh.local`);
     expect(thread?.channel).toBe("instagram_dm");
-    expect(thread?.messages.some((message) => message.body.includes("foto real"))).toBe(true);
+    expect(thread?.messages.some((message) => message.body.includes("imagem validada"))).toBe(true);
   });
 
   test("Instagram comment payload creates an instagram_comments inbox thread", async ({ request }) => {

@@ -109,7 +109,7 @@ function resolveOrderItems(items: z.infer<typeof preferenceSchema>["items"]) {
         productionWindow: storefrontProduct.productionWindow,
         material: storefrontProduct.material,
         grams: catalogProduct?.grams || 120,
-        dimensions: catalogProduct?.dimensions || "16x12x8cm",
+        dimensions: catalogProduct?.dimensions || "16 x 12 x 8 cm",
       };
     }
 

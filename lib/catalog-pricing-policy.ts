@@ -20,6 +20,7 @@ type PriceBand = {
 };
 
 const BASE_VALUE_MARGIN = 0;
+const OPEN_PRICE_CEILING = 100000;
 
 function textBlob(product: Pick<Product, "name" | "category" | "subcategory" | "collection" | "tags" | "finish" | "material">) {
   return [
@@ -49,44 +50,44 @@ export function getCommercialPriceBand(product: Product): PriceBand {
   const madeToMeasure = includesAny(blob, ["sob medida", "stl", "3mf", "obj", "step", "iges"]);
 
   if (madeToMeasure) {
-    return { id: "sob-medida", label: "Sob medida", min: 0.01, max: 99999, minimumMargin: BASE_VALUE_MARGIN, preservePremium: true };
+    return { id: "sob-medida", label: "Sob medida", min: 0.01, max: OPEN_PRICE_CEILING, minimumMargin: BASE_VALUE_MARGIN, preservePremium: true };
   }
 
   if (batch) {
-    return { id: "lote", label: "Lotes e brindes", min: 0.01, max: 99999, minimumMargin: BASE_VALUE_MARGIN };
+    return { id: "lote", label: "Lotes e brindes", min: 0.01, max: OPEN_PRICE_CEILING, minimumMargin: BASE_VALUE_MARGIN };
   }
 
   if (includesAny(blob, ["chaveiro", "pingente", "tag"])) {
     return grams > 45 || product.customizable
-      ? { id: "chaveiro-personalizado", label: "Chaveiro maior/personalizado", min: 0.01, max: 99999, minimumMargin: BASE_VALUE_MARGIN }
-      : { id: "chaveiro-simples", label: "Chaveiro simples", min: 0.01, max: 99999, minimumMargin: BASE_VALUE_MARGIN };
+      ? { id: "chaveiro-personalizado", label: "Chaveiro maior/personalizado", min: 0.01, max: OPEN_PRICE_CEILING, minimumMargin: BASE_VALUE_MARGIN }
+      : { id: "chaveiro-simples", label: "Chaveiro simples", min: 0.01, max: OPEN_PRICE_CEILING, minimumMargin: BASE_VALUE_MARGIN };
   }
 
   if (includesAny(blob, ["setup", "home office", "controle", "fone", "cabo", "mesa", "suporte"])) {
-    return { id: "setup-pequeno", label: "Setup pequeno", min: 0.01, max: 99999, minimumMargin: BASE_VALUE_MARGIN };
+    return { id: "setup-pequeno", label: "Setup pequeno", min: 0.01, max: OPEN_PRICE_CEILING, minimumMargin: BASE_VALUE_MARGIN };
   }
 
   if (includesAny(blob, ["casa", "organiz", "cozinha", "banheiro", "gaveta", "parede", "gancho", "porta "])) {
     return grams <= 55
-      ? { id: "mini-utilidade", label: "Mini utilidade", min: 0.01, max: 99999, minimumMargin: BASE_VALUE_MARGIN }
-      : { id: "casa-organizacao", label: "Casa e organização", min: 0.01, max: 99999, minimumMargin: BASE_VALUE_MARGIN };
+      ? { id: "mini-utilidade", label: "Mini utilidade", min: 0.01, max: OPEN_PRICE_CEILING, minimumMargin: BASE_VALUE_MARGIN }
+      : { id: "casa-organizacao", label: "Casa e organização", min: 0.01, max: OPEN_PRICE_CEILING, minimumMargin: BASE_VALUE_MARGIN };
   }
 
   if (product.customizable && !premium) {
-    return { id: "personalizado", label: "Personalizado", min: 0.01, max: 99999, minimumMargin: BASE_VALUE_MARGIN, preservePremium: true };
+    return { id: "personalizado", label: "Personalizado", min: 0.01, max: OPEN_PRICE_CEILING, minimumMargin: BASE_VALUE_MARGIN, preservePremium: true };
   }
 
   if (includesAny(blob, ["geek", "anime", "chibi", "miniatura", "decor", "colec", "pokemon", "nintendo", "dragon", "dragao"])) {
     if (premium || grams > 90) {
-      return { id: "geek-premium", label: "Geek premium/pintado", min: 0.01, max: 99999, minimumMargin: BASE_VALUE_MARGIN, preservePremium: true };
+      return { id: "geek-premium", label: "Geek premium/pintado", min: 0.01, max: OPEN_PRICE_CEILING, minimumMargin: BASE_VALUE_MARGIN, preservePremium: true };
     }
     if (grams > 55) {
-      return { id: "geek-medio", label: "Geek médio", min: 0.01, max: 99999, minimumMargin: BASE_VALUE_MARGIN, preservePremium: true };
+      return { id: "geek-medio", label: "Geek médio", min: 0.01, max: OPEN_PRICE_CEILING, minimumMargin: BASE_VALUE_MARGIN, preservePremium: true };
     }
-    return { id: "geek-simples", label: "Geek simples", min: 0.01, max: 99999, minimumMargin: BASE_VALUE_MARGIN };
+    return { id: "geek-simples", label: "Geek simples", min: 0.01, max: OPEN_PRICE_CEILING, minimumMargin: BASE_VALUE_MARGIN };
   }
 
-  return { id: "entrada", label: "Produto de entrada", min: 0.01, max: 99999, minimumMargin: BASE_VALUE_MARGIN };
+  return { id: "entrada", label: "Produto de entrada", min: 0.01, max: OPEN_PRICE_CEILING, minimumMargin: BASE_VALUE_MARGIN };
 }
 
 export function getMinimumSafePrice(product: Product) {

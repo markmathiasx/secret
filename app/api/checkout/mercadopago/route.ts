@@ -8,12 +8,14 @@ import { getClientIp } from "@/lib/security";
 import { rateLimitRequest } from "@/lib/redis";
 import { createStableExternalReference, normalizeMpPaymentFormData } from "@/lib/mercadopago";
 
+const MAX_PAYMENT_AMOUNT_BRL = 100000;
+
 const schema = z.object({
   productId: z.string().min(1),
   quantity: z.coerce.number().int().min(1).max(20).default(1),
   email: z.string().email().optional(),
   orderCode: z.string().min(5).max(64).optional(),
-  amount: z.number().positive().max(99999).optional(),
+  amount: z.number().positive().max(MAX_PAYMENT_AMOUNT_BRL).optional(),
   paymentData: z.record(z.string(), z.unknown()).optional(),
 });
 

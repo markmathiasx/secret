@@ -40,7 +40,7 @@ export const blogPosts: BlogPost[] = [
       {
         heading: "1. Confirme escala e unidade",
         body: [
-          "Antes de enviar, abra o arquivo em um visualizador 3D e confira se as dimensões aparecem em milímetros. Muitos erros de orçamento começam quando um arquivo modelado em centímetros entra como milímetros.",
+          "Antes de enviar, abra o arquivo em um visualizador 3D e verifique se as dimensões aparecem em milímetros. Muitos erros de orçamento começam quando um arquivo modelado em centímetros entra como milímetros.",
           "Inclua uma medida crítica no briefing, como largura total, altura final ou diâmetro de encaixe. Isso reduz dúvida técnica e acelera o retorno.",
         ],
       },

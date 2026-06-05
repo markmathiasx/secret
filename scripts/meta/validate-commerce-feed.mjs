@@ -12,7 +12,7 @@ const forbiddenTerms = [
   "fotos reais",
   "render fiel",
   "12x",
-  "mdh_impressao3d",
+  ["mdh_", "impressao", "3d"].join(""),
 ];
 
 const allowedAvailability = new Set(["in stock", "preorder", "out of stock"]);

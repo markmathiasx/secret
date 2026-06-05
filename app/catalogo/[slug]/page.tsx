@@ -404,7 +404,7 @@ export default async function ProductPage({
           <span className="chip-nav"><CopyPlus className="h-4 w-4" /> SKU {product.sku}</span>
           <ShareButton
             title={product.name}
-            text={`Confira este produto na MDH 3D Store: ${product.name}`}
+            text={`Produto MDH 3D Store: ${product.name}`}
             className="chip-nav inline-flex items-center gap-1.5"
           />
         </div>

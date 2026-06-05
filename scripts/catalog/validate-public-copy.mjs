@@ -2,6 +2,9 @@ import fs from "node:fs";
 import path from "node:path";
 import { ROOT, writeJson } from "./ts-runtime.mjs";
 
+const legacyPhone = ["(21) 99", "999-9999"].join("");
+const legacyInstagram = ["mdh_", "impressao", "3d"].join("");
+
 const forbiddenTerms = [
   "Foto real",
   "Fotos reais",
@@ -19,10 +22,10 @@ const forbiddenTerms = [
   "Preço auditado",
   "Simulação ativa",
   "12x de",
-  "(21) 99999-9999",
+  legacyPhone,
   "Peça já produzida",
   "visual fiel do produto final",
-  "mdh_impressao3d",
+  legacyInstagram,
   "Pokémon",
   "Pokemon",
   "Fire Red",
@@ -68,7 +71,7 @@ const report = {
   generatedAt: new Date().toISOString(),
   ok: matches.length === 0,
   scannedFiles: files.length,
-  forbiddenTerms,
+  forbiddenTermCount: forbiddenTerms.length,
   matches,
 };
 

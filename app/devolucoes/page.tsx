@@ -94,7 +94,7 @@ export default function DevolucoesPage() {
           <h2 className="text-xl font-bold text-white">Solicitação registrada!</h2>
           <p className="mt-3 text-white/60 leading-7">
             Recebemos sua solicitação referente ao pedido <strong className="text-white">{form.orderCode}</strong>.
-            Você receberá um e-mail de confirmação e entraremos em contato em breve.
+            Você receberá um e-mail de confirmação e entraremos em contato pelo canal informado.
           </p>
         </div>
       ) : (

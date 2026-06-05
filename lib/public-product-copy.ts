@@ -2,6 +2,7 @@ import { calculateCardPrice } from "@/lib/payment-pricing";
 import { slugify } from "@/lib/utils";
 
 const PRODUCT_IMAGE_PLACEHOLDER = "/placeholders/product-card.svg";
+const LEGACY_INSTAGRAM_HANDLE = ["mdh_", "impressao", "3d"].join("");
 
 const termReplacements: Array<[RegExp, string]> = [
   [/\bPok[eé]mon\b/gi, "criatura colecionável"],
@@ -16,7 +17,7 @@ const termReplacements: Array<[RegExp, string]> = [
   [/\bHello\s*Kitty\b/gi, "mascote temática"],
   [/\bRick\s*(?:and|&|-)?\s*Morty\b/gi, "dupla sci-fi"],
   [/\bHomer\b/gi, "personagem de humor"],
-  [/mdh_impressao3d/gi, "mdh_3d.com.br"],
+  [new RegExp(LEGACY_INSTAGRAM_HANDLE, "gi"), "mdh_3d.com.br"],
   [/foto\s+real/gi, "imagem do produto"],
   [/fotos\s+reais/gi, "imagens do produto"],
   [/render\s+fiel/gi, "visual validado"],

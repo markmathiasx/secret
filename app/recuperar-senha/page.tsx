@@ -42,7 +42,7 @@ export default function PasswordRecoveryPage() {
         return;
       }
 
-      setMessage('Solicitação recebida! Se o e-mail estiver cadastrado, você receberá o link de recuperação em breve. Verifique também a pasta de spam.');
+      setMessage('Solicitação recebida! Se o e-mail estiver cadastrado, você receberá o link de recuperação. Verifique também a pasta de spam.');
     } catch {
       setError('Falha de rede ao iniciar a recuperação.');
     } finally {

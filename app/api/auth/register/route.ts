@@ -77,7 +77,7 @@ export async function POST(req: Request) {
           success: true,
           needsVerification: result.needsVerification,
           message: result.needsVerification
-            ? "Conta criada. Confira seu e-mail para confirmar o acesso."
+            ? "Conta criada. Verifique seu e-mail para confirmar o acesso."
             : "Conta criada com sucesso.",
           user: {
             id: result.user.id,

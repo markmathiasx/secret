@@ -20,22 +20,25 @@ type NormalizedProductPatch = Partial<AdminProductOverride> & {
   visibility?: ProductVisibility;
 };
 
+const ADMIN_MONEY_LIMIT = 100000;
+const ADMIN_STOCK_LIMIT = 1000000;
+
 const NUMERIC_LIMITS: Record<string, { min: number; max: number; integer?: boolean }> = {
-  pricePix: { min: 0, max: 99999 },
-  priceCard: { min: 0, max: 99999 },
-  stock: { min: 0, max: 999999, integer: true },
-  costBase: { min: 0, max: 99999 },
+  pricePix: { min: 0, max: ADMIN_MONEY_LIMIT },
+  priceCard: { min: 0, max: ADMIN_MONEY_LIMIT },
+  stock: { min: 0, max: ADMIN_STOCK_LIMIT, integer: true },
+  costBase: { min: 0, max: ADMIN_MONEY_LIMIT },
   estimatedGrams: { min: 0, max: 100000 },
   estimatedHours: { min: 0, max: 10000 },
   complexity: { min: 0.1, max: 10 },
-  spoolPricePerKg: { min: 0, max: 99999 },
+  spoolPricePerKg: { min: 0, max: ADMIN_MONEY_LIMIT },
   machineHourlyRate: { min: 0, max: 9999 },
   postProcessMinutes: { min: 0, max: 100000, integer: true },
   laborHourlyRate: { min: 0, max: 9999 },
-  packagingCost: { min: 0, max: 99999 },
+  packagingCost: { min: 0, max: ADMIN_MONEY_LIMIT },
   overheadPercent: { min: 0, max: 300 },
   profitTargetPercent: { min: 0, max: 500 },
-  estimatedProfitAmount: { min: -99999, max: 99999 },
+  estimatedProfitAmount: { min: -ADMIN_MONEY_LIMIT, max: ADMIN_MONEY_LIMIT },
   estimatedProfitPercent: { min: -999, max: 999 },
 };
 

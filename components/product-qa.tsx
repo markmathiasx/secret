@@ -106,7 +106,7 @@ export function ProductQa({ productId, questions: initialQuestions }: ProductQaP
         <p className="text-xs uppercase tracking-widest text-white/40">Fazer uma pergunta</p>
         {status === "success" ? (
           <p className="rounded-xl border border-emerald-400/20 bg-emerald-400/8 px-4 py-3 text-sm text-emerald-300">
-            Pergunta enviada! Será respondida em breve.
+            Pergunta enviada! A equipe responderá pelo canal de atendimento.
           </p>
         ) : (
           <>

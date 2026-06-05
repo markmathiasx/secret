@@ -126,7 +126,7 @@ export function paymentConfirmedHtml(order: {
         </div>
 
         <h1 style="margin:0 0 8px;font-size:26px;font-weight:900;color:#ffffff;text-align:center;">Pagamento confirmado! 🎉</h1>
-        <p style="margin:0 0 24px;font-size:15px;color:rgba(255,255,255,0.65);text-align:center;">Ótimo, ${order.customerName}! Seu pagamento foi aprovado e a produção começa em breve.</p>
+        <p style="margin:0 0 24px;font-size:15px;color:rgba(255,255,255,0.65);text-align:center;">Ótimo, ${order.customerName}! Seu pagamento foi aprovado e a produção começa agora.</p>
 
         <!-- Order code box -->
         <div style="background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.25);border-radius:16px;padding:16px 20px;margin-bottom:24px;text-align:center;">

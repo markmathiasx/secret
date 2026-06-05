@@ -73,7 +73,7 @@ export function ConversionHero({
               style={{ minHeight: '48px', minWidth: '48px' }}
             >
               <Camera className="h-5 w-5" />
-              <span className="hidden xs:inline">Ver Ofertas com Foto Real</span>
+              <span className="hidden xs:inline">Ver Ofertas com Mídia Validada</span>
               <span className="xs:hidden">Ver Ofertas</span>
               <ArrowRight className="h-4 w-4" />
             </Link>
