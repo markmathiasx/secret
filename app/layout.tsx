@@ -3,6 +3,7 @@ import Script from 'next/script';
 import { Manrope, Space_Grotesk } from 'next/font/google';
 import './globals.css';
 import { AccessibilityProvider, SkipLink } from '@/components/accessibility';
+import { AnalyticsBridge } from '@/components/analytics/AnalyticsBridge';
 import { CartProvider } from '@/lib/cart-context';
 import { DeferredLayoutWidgets } from '@/components/deferred-layout-widgets';
 import { SiteFooter } from '@/components/site-footer';
@@ -220,6 +221,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </Script>
           </>
         ) : null}
+        <AnalyticsBridge />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }} />
         <div className="site-shell">

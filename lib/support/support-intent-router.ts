@@ -27,6 +27,7 @@ export function classifySupportIntent(message: string): SupportIntent {
   if (has(text, /(or[cç]amento|sob medida|stl|obj|3mf|referencia|referência|projeto|personaliz)/)) return "personalizado";
   if (has(text, /(lote|brinde|lembrancinha|quantidade|atacado|evento|corporativo)/)) return "lote_brinde";
   if (has(text, /(chaveiro|keychain|pingente|tag)/)) return "chaveiro";
+  if (has(text, /(presente.*(barato|menor pre[cç]o|em conta|ate 50|até 50)|(barato|menor pre[cç]o|em conta|ate 50|até 50).*presente)/)) return "presente_barato";
   if (has(text, /(presente|barato.*presente|lembran[cç]a|gift)/)) return "presente";
   if (has(text, /(mais caro|maior pre[cç]o|premium|topo de linha)/)) return "produto_caro";
   if (has(text, /(barato|menor pre[cç]o|mais em conta|econ[oô]mico|entrada)/)) return "produto_barato";

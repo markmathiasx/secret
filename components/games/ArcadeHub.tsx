@@ -6,6 +6,7 @@ import { GameKeyboardGuard } from "@/components/game/GameKeyboardGuard";
 import { MiniGame, miniGameCatalog, type MiniGameId } from "@/components/game/MiniGames";
 import { PrintRunner } from "@/components/game/PrintRunner";
 import { PinballStar } from "@/components/games/PinballStar";
+import { trackCommerceEvent } from "@/lib/analytics/events";
 
 type ArcadeGameId = "hub" | "pinball-star" | "print-runner" | MiniGameId;
 
@@ -83,6 +84,11 @@ export function ArcadeHub() {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "auto" });
   }, [activeGame]);
+
+  function playGame(gameId: Exclude<ArcadeGameId, "hub">) {
+    trackCommerceEvent("game_play_started", { game_id: gameId });
+    setActiveGame(gameId);
+  }
 
   useEffect(() => {
     if (activeGame === "hub") return;
@@ -167,13 +173,13 @@ export function ArcadeHub() {
 
         <div className="mt-8 grid gap-4 lg:grid-cols-2">
           {featuredGames.map((game) => (
-            <ArcadeButton key={game.id} game={game} onPlay={setActiveGame} />
+            <ArcadeButton key={game.id} game={game} onPlay={playGame} />
           ))}
         </div>
 
         <div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
           {allGames.slice(featuredGames.length).map((game) => (
-            <ArcadeButton key={game.id} game={game} onPlay={setActiveGame} />
+            <ArcadeButton key={game.id} game={game} onPlay={playGame} />
           ))}
         </div>
 

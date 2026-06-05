@@ -73,6 +73,7 @@ function intentTerms(intent?: SupportIntent) {
     case "chaveiro":
       return ["chaveiro", "keychain", "pingente", "tag", "lembrancinha"];
     case "presente":
+    case "presente_barato":
       return ["presente", "gift", "lembranca", "criativo", "kawaii"];
     case "geek":
       return ["geek", "anime", "colecionavel", "colecionaveis", "chibi", "miniatura", "fandom", "desk toy"];
@@ -107,7 +108,7 @@ function scoreProduct(product: SupportProduct, queryTerms: string[], filters: Su
     if (searchText.includes(term)) score += 2;
   }
 
-  if (filters.intent === "produto_barato") score += Math.max(0, 100 - product.pricePix) / 10;
+  if (filters.intent === "produto_barato" || filters.intent === "presente_barato") score += Math.max(0, 100 - product.pricePix) / 10;
   if (filters.intent === "produto_caro") score += product.pricePix / 20;
   if (filters.customizable && product.customizable) score += 8;
   if (product.status === "Pronta entrega") score += 1.5;
@@ -129,11 +130,11 @@ export function searchSupportProducts(query: string, filters: SupportProductFilt
 
   const scored = products
     .map((product) => ({ product, score: scoreProduct(product, queryTerms, filters) }))
-    .filter(({ score }) => score > 0 || filters.sort === "price_asc" || filters.sort === "price_desc" || filters.intent === "produto_barato" || filters.intent === "produto_caro");
+    .filter(({ score }) => score > 0 || filters.sort === "price_asc" || filters.sort === "price_desc" || filters.intent === "produto_barato" || filters.intent === "presente_barato" || filters.intent === "produto_caro");
 
   products = scored
     .sort((a, b) => {
-      if (filters.sort === "price_asc" || filters.intent === "produto_barato") return a.product.pricePix - b.product.pricePix || b.score - a.score;
+      if (filters.sort === "price_asc" || filters.intent === "produto_barato" || filters.intent === "presente_barato") return a.product.pricePix - b.product.pricePix || b.score - a.score;
       if (filters.sort === "price_desc" || filters.intent === "produto_caro") return b.product.pricePix - a.product.pricePix || b.score - a.score;
       return b.score - a.score || a.product.pricePix - b.product.pricePix;
     })

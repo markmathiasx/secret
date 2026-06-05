@@ -28,6 +28,7 @@ function buildWhatsAppUrl(message: string) {
 function productQueryForIntent(intent: SupportIntent, message: string) {
   switch (intent) {
     case "produto_barato":
+    case "presente_barato":
       return "produto barato menor preço presente chaveiro utilidade";
     case "produto_caro":
       return "premium colecionável decoração peça grande";
@@ -55,7 +56,9 @@ function productQueryForIntent(intent: SupportIntent, message: string) {
 }
 
 function productFiltersForIntent(intent: SupportIntent) {
-  if (intent === "produto_barato" || intent === "presente") return { intent, sort: "price_asc" as const, limit: 6 };
+  if (intent === "produto_barato" || intent === "presente_barato" || intent === "presente") {
+    return { intent, sort: "price_asc" as const, maxPrice: intent === "presente_barato" ? 50 : undefined, limit: 6 };
+  }
   if (intent === "produto_caro") return { intent, sort: "price_desc" as const, limit: 6 };
   if (intent === "personalizado") return { intent, customizable: true, limit: 6 };
   return { intent, limit: 6 };
@@ -74,7 +77,9 @@ function buildProductReply(intent: SupportIntent, message: string, products: Sup
   const intro =
     intent === "chaveiro"
       ? "Encontrei opções reais de chaveiros e itens próximos no catálogo."
-      : intent === "produto_barato" || normalizeText(message).includes("barato")
+      : intent === "presente_barato"
+        ? "Separei presentes reais até R$ 50, começando pelos menores preços."
+        : intent === "produto_barato" || normalizeText(message).includes("barato")
         ? "Separei produtos reais começando pelos menores preços."
         : intent === "geek"
           ? "Separei opções reais com perfil geek, colecionável ou fandom."
@@ -127,6 +132,7 @@ export function buildSupportReply(message: string, sessionContext: SupportSessio
     "produto_barato",
     "produto_caro",
     "presente",
+    "presente_barato",
     "chaveiro",
     "geek",
     "decoracao",

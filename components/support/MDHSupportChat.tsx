@@ -18,7 +18,9 @@ import {
   Truck,
 } from "lucide-react";
 import { SupportProductSuggestions } from "@/components/support/SupportProductSuggestions";
+import { SupportHumanHandoff } from "@/components/support/SupportHumanHandoff";
 import { SupportQuickActions } from "@/components/support/SupportQuickActions";
+import { trackCommerceEvent } from "@/lib/analytics/events";
 import type { SupportPriceRange, SupportProduct } from "@/lib/support/support-types";
 
 type ChatRole = "assistant" | "user";
@@ -115,6 +117,7 @@ export function MDHSupportChat({
     const next = createSessionId();
     window.localStorage.setItem(key, next);
     setSessionId(next);
+    trackCommerceEvent("support_chat_started", { source: "atendimento" });
   }, []);
 
   useEffect(() => {
@@ -130,6 +133,14 @@ export function MDHSupportChat({
     setInput("");
     setMessages((current) => [...current, { id: `user-${Date.now()}`, role: "user", content: trimmed }]);
     setIsSending(true);
+    trackCommerceEvent("support_message_sent", {
+      source: "atendimento",
+      length: trimmed.length,
+      custom_quote: /or[cç]amento|personalizado|sob medida/i.test(trimmed),
+    });
+    if (/or[cç]amento|personalizado|sob medida/i.test(trimmed)) {
+      trackCommerceEvent("custom_quote_started", { source: "support_chat" });
+    }
 
     try {
       const response = await fetch("/api/support/chat", {
@@ -159,6 +170,10 @@ export function MDHSupportChat({
       ]);
       if (data.products?.length) {
         setSearchProducts(data.products);
+        trackCommerceEvent("support_product_suggested", {
+          source: "atendimento",
+          count: data.products.length,
+        });
       }
     } catch {
       setError("Não consegui responder agora. Use o WhatsApp ou tente novamente.");
@@ -254,10 +269,9 @@ export function MDHSupportChat({
                   }`}>
                     <p className="whitespace-pre-wrap">{message.content}</p>
                     {message.whatsappUrl ? (
-                      <a href={message.whatsappUrl} target="_blank" rel="noreferrer" className="mt-3 inline-flex items-center gap-2 rounded-[8px] border border-emerald-300/25 bg-emerald-300/10 px-3 py-2 text-xs font-bold text-emerald-100">
-                        <MessageCircleMore className="h-4 w-4" />
-                        Abrir WhatsApp
-                      </a>
+                      <div className="mt-3">
+                        <SupportHumanHandoff whatsappUrl={message.whatsappUrl} label="Abrir WhatsApp" />
+                      </div>
                     ) : null}
                     <div className="mt-3">
                       <SupportProductSuggestions products={message.products || []} whatsappNumber={whatsappNumber} />

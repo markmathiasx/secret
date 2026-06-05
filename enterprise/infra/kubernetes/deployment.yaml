@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mdh3d-telemetry
+  labels:
+    app: mdh3d-telemetry
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mdh3d-telemetry
+  template:
+    metadata:
+      labels:
+        app: mdh3d-telemetry
+    spec:
+      containers:
+        - name: telemetry
+          image: mdh3d/telemetry:local
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8787
+          env:
+            - name: NODE_ENV
+              value: production
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mdh3d-telemetry
+spec:
+  selector:
+    app: mdh3d-telemetry
+  ports:
+    - port: 8787
+      targetPort: 8787
