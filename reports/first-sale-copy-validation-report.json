@@ -1,0 +1,91 @@
+{
+  "generatedAt": "2026-06-05T23:35:46.267Z",
+  "ok": true,
+  "curated": [
+    {
+      "slot": "Chaveiro personalizado",
+      "id": "mdh-016",
+      "name": "Chaveiro Personalizado",
+      "pricePix": 7.49,
+      "priceCard": 8.49
+    },
+    {
+      "slot": "Chaveiro pet",
+      "id": "mw-a1-452",
+      "name": "Tag para Pet Compacto para rotina do pet",
+      "pricePix": 5.66,
+      "priceCard": 6.66
+    },
+    {
+      "slot": "Suporte celular",
+      "id": "mdh-015",
+      "name": "Suporte para Celular",
+      "pricePix": 7.49,
+      "priceCard": 8.49
+    },
+    {
+      "slot": "Organizador de cabos",
+      "id": "mdh-050",
+      "name": "Organizador de Cabo USB",
+      "pricePix": 7.49,
+      "priceCard": 8.49
+    },
+    {
+      "slot": "Porta creme dental",
+      "id": "real-002",
+      "name": "Porta Creme Dental de Bancada",
+      "pricePix": 9.32,
+      "priceCard": 10.32
+    },
+    {
+      "slot": "Cantinho do café",
+      "id": "csv-col-002",
+      "name": "Caneca Colecionável Reyna Valorant Nerd Premium para Café, Desk e Presente",
+      "pricePix": 38.72,
+      "priceCard": 39.72
+    },
+    {
+      "slot": "Suporte controle",
+      "id": "mdh-017",
+      "name": "Suporte para Controle PS5",
+      "pricePix": 10.25,
+      "priceCard": 11.25
+    },
+    {
+      "slot": "Porta-copos geek",
+      "id": "mdh-019",
+      "name": "Porta-Copos Geek",
+      "pricePix": 7.49,
+      "priceCard": 8.49
+    },
+    {
+      "slot": "Miniatura personalizada",
+      "id": "real-006",
+      "name": "Família Customizada em Miniatura",
+      "pricePix": 24.03,
+      "priceCard": 25.03
+    },
+    {
+      "slot": "Brinde para evento",
+      "id": "mw-a1-417",
+      "name": "Mini Presente Personalizável Slim para kit promocional",
+      "pricePix": 6.58,
+      "priceCard": 7.58
+    },
+    {
+      "slot": "Peça sob medida",
+      "id": "mw-a1-265",
+      "name": "Guia de Cabo Técnico com Clipe para bancada maker",
+      "pricePix": 14.84,
+      "priceCard": 15.84
+    },
+    {
+      "slot": "Organizador de mesa/setup",
+      "id": "mdh-022",
+      "name": "Organizador de Canetas",
+      "pricePix": 8.41,
+      "priceCard": 9.41
+    }
+  ],
+  "errors": []
+}

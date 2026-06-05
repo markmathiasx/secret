@@ -1,6 +1,11 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { ArrowRight, Gamepad2, Instagram, MessageCircleMore, Search, ShoppingBag, Sparkles, UploadCloud } from "lucide-react";
+import { BestSellersSection } from "@/components/commerce/BestSellersSection";
+import { HowItWorksSection } from "@/components/commerce/HowItWorksSection";
+import { IntentShoppingSection } from "@/components/commerce/IntentShoppingSection";
+import { TrustProofSection } from "@/components/commerce/TrustProofSection";
+import { WhatsAppQuoteCta } from "@/components/commerce/WhatsAppQuoteCta";
 import { RotatingProductHero, type RotatingHeroProduct } from "@/components/home/RotatingProductHero";
 import { CinematicVideoBackground } from "@/components/media/CinematicVideoBackground";
 import { SafeProductImage } from "@/components/safe-product-image";
@@ -22,11 +27,11 @@ export const metadata: Metadata = {
 };
 
 const quickBlocks = [
-  { label: "Produtos de menor preço", href: "/catalogo?maxPrice=29.90" },
-  { label: "Chaveiros e presentes rápidos", href: "/catalogo?category=Chaveiros%20e%20Acess%C3%B3rios" },
-  { label: "Utilidades para casa e setup", href: "/catalogo?category=Casa%20e%20Organiza%C3%A7%C3%A3o" },
-  { label: "Geek e colecionáveis", href: "/catalogo?category=Geek%20%26%20Colecion%C3%A1veis" },
-  { label: "Sob medida e lotes", href: "/imagem-para-impressao-3d" },
+  { label: "Presentes até R$ 50", href: "/presentes-ate-50" },
+  { label: "Chaveiros personalizados", href: "/chaveiros-personalizados" },
+  { label: "Organização e setup", href: "/organizadores" },
+  { label: "Setup gamer", href: "/setup-gamer" },
+  { label: "Brindes e lotes", href: "/brindes-e-lotes" },
 ] as const;
 
 function whatsappHref(message: string) {
@@ -121,7 +126,7 @@ export default async function HomePage() {
   const available = catalog.filter((product) => product.pricePix > 0);
   const cheapest = [...available].sort((left, right) => left.pricePix - right.pricePix);
   const minPix = cheapest[0]?.pricePix ?? 19.9;
-  const heroWhatsapp = whatsappHref("Quero comprar pela MDH 3D. Vim pela home e quero ver produtos, Pix e cartão.");
+  const quoteMessage = "Quero um orçamento na MDH 3D. Vim pela home e preciso de ajuda com produto, preço, prazo e personalização.";
   const heroProducts: RotatingHeroProduct[] = [...available]
     .sort((left, right) => Number(right.featured) - Number(left.featured) || left.pricePix - right.pricePix)
     .slice(0, Math.max(12, Math.min(16, available.length)))
@@ -158,23 +163,20 @@ export default async function HomePage() {
               Pix claro, cartão Pix + R$ 1,00
             </div>
             <h1 className="mt-5 text-4xl font-black leading-[1.02] text-white sm:text-5xl lg:text-6xl">
-              Impressão 3D sob demanda para presentes, utilidades e peças personalizadas.
+              Impressão 3D personalizada no Rio de Janeiro
             </h1>
             <p className="mt-5 max-w-2xl text-base leading-7 text-white/72 sm:text-lg">
-              Escolha no catálogo, compre pelo WhatsApp ou envie sua ideia. Produção local com Pix, cartão e atendimento direto.
+              Chaveiros, presentes, organizadores, peças geek e projetos sob medida. Escolha um modelo ou mande sua ideia no WhatsApp.
             </p>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-              <Link href="/catalogo" className="btn-primary justify-center gap-2 px-5 py-3">
+              <Link href="#mais-pedidos" className="btn-primary justify-center gap-2 px-5 py-3">
                 <Search className="h-4 w-4" />
-                Ver catálogo
+                Ver mais pedidos
               </Link>
-              <a href={heroWhatsapp} target="_blank" rel="noreferrer" className="btn-whatsapp justify-center gap-2 px-5 py-3">
-                <MessageCircleMore className="h-4 w-4" />
-                Comprar pelo WhatsApp
-              </a>
-              <Link href="/imagem-para-impressao-3d" className="btn-secondary justify-center gap-2 px-5 py-3">
-                <UploadCloud className="h-4 w-4" />
-                Pedir peça personalizada
+              <WhatsAppQuoteCta message={quoteMessage} />
+              <Link href="/presentes-ate-50" className="btn-secondary justify-center gap-2 px-5 py-3">
+                <ShoppingBag className="h-4 w-4" />
+                Presentes até R$ 50
               </Link>
               <Link href="/jogue" className="btn-secondary justify-center gap-2 px-5 py-3">
                 <Gamepad2 className="h-4 w-4" />
@@ -221,6 +223,8 @@ export default async function HomePage() {
         </div>
       </section>
 
+      <IntentShoppingSection />
+
       <section className="mx-auto max-w-7xl px-4 py-4 sm:px-6">
         <div className="grid gap-3 lg:grid-cols-[1fr_auto_auto] lg:items-center rounded-[8px] border border-white/10 bg-[linear-gradient(135deg,rgba(236,72,153,0.12),rgba(34,211,238,0.08))] p-4">
           <div>
@@ -238,9 +242,14 @@ export default async function HomePage() {
         </div>
       </section>
 
+      <BestSellersSection />
+
       <ProductRail title="Até R$ 29,90" href="/catalogo?maxPrice=29.90" products={entryProducts} siteUrl={siteUrl} />
       <ProductRail title="Casa, organização e setup" href="/catalogo?category=Casa%20e%20Organiza%C3%A7%C3%A3o" products={homeSetup} siteUrl={siteUrl} />
       <ProductRail title="Geek e colecionáveis" href="/catalogo?category=Geek%20%26%20Colecion%C3%A1veis" products={geek} siteUrl={siteUrl} />
+
+      <TrustProofSection />
+      <HowItWorksSection />
 
       <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
         <div className="grid gap-4 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
@@ -264,6 +273,41 @@ export default async function HomePage() {
           <div className="grid grid-cols-2 gap-3">
             {custom.slice(0, 4).map((product) => (
               <HomeProductCard key={product.id} product={product} siteUrl={siteUrl} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
+        <div className="grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
+          <div>
+            <h2 className="text-2xl font-black text-white sm:text-3xl">Atendimento humano e FAQ curto</h2>
+            <p className="mt-3 max-w-xl text-sm leading-7 text-white/62">
+              O bot ajuda a encontrar produto real, mas orçamento, urgência, lote e personalização sensível passam por uma pessoa da MDH 3D.
+            </p>
+            <div className="mt-5 flex flex-col gap-3 sm:flex-row">
+              <Link href="/atendimento" className="btn-primary justify-center gap-2">
+                <MessageCircleMore className="h-4 w-4" />
+                Abrir atendimento
+              </Link>
+              <WhatsAppQuoteCta
+                message="Quero atendimento humano na MDH 3D. Vim pela home e preciso confirmar produto, prazo e pagamento."
+                label="Chamar no WhatsApp"
+                className="btn-whatsapp justify-center gap-2 px-4 py-2"
+              />
+            </div>
+          </div>
+          <div className="grid gap-3">
+            {[
+              ["Qual é o preço no Pix?", "O Pix é o valor principal exibido no produto e no card."],
+              ["Quanto fica no cartão?", "Cartão é sempre Pix + R$ 1,00 por item."],
+              ["Posso personalizar?", "Quando o item permitir, confirme nome, cor, tema, quantidade e prazo pelo atendimento."],
+              ["Qual o prazo?", "Cada produto mostra janela de produção; urgência precisa ser confirmada antes de fechar."],
+            ].map(([question, answer]) => (
+              <article key={question} className="rounded-[8px] border border-white/10 bg-white/[0.045] p-4">
+                <h3 className="font-black text-white">{question}</h3>
+                <p className="mt-2 text-sm leading-6 text-white/62">{answer}</p>
+              </article>
             ))}
           </div>
         </div>

@@ -1,0 +1,22 @@
+{
+  "generatedAt": "2026-06-05T23:35:44.765Z",
+  "ok": true,
+  "checked": [
+    "enterprise/README.md",
+    "enterprise/cpp-slicer/include/slicer_engine.h",
+    "enterprise/cpp-slicer/src/slicer_engine.cpp",
+    "enterprise/cpp-slicer/CMakeLists.txt",
+    "enterprise/python-ai/src/defect_detection.py",
+    "enterprise/python-ai/src/recommendation_engine.py",
+    "enterprise/python-ai/requirements.txt",
+    "enterprise/java-order-service/pom.xml",
+    "enterprise/java-order-service/src/main/java/br/com/mdh3d/orders/OrderSagaService.java",
+    "enterprise/java-order-service/src/main/java/br/com/mdh3d/orders/dto/OrderCommand.java",
+    "enterprise/java-order-service/src/main/java/br/com/mdh3d/orders/dto/OrderEvent.java",
+    "enterprise/ts-telemetry/websocket-server.ts",
+    "enterprise/ts-telemetry/telemetry-route-example.ts",
+    "enterprise/infra/terraform/main.tf",
+    "enterprise/infra/kubernetes/deployment.yaml"
+  ],
+  "errors": []
+}

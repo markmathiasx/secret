@@ -4,6 +4,7 @@ export type SupportIntent =
   | "produto_barato"
   | "produto_caro"
   | "presente"
+  | "presente_barato"
   | "chaveiro"
   | "geek"
   | "decoracao"
