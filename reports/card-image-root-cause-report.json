@@ -1,0 +1,18 @@
+{
+  "generatedAt": "2026-06-05T00:25:42.592Z",
+  "answers": {
+    "imageFieldInProducts": "Produtos estáticos expõem images[] e image. Produtos vindos do banco mapeiam media[] para images[] e image. O resolver também cobre imageGallery, gallery, imageUrl, primaryImage e thumbnail.",
+    "productCardReadsCorrectField": "Corrigido. O card agora usa getProductCardImage(product), que tenta imageGallery[0].url, imageGallery[0].src, gallery[0].url, gallery[0].src, images[0], image, imageUrl, primaryImage, thumbnail e por fim placeholder.",
+    "mediaValidationWasHidingProducts": "Sim. Antes, PremiumCard retornava null quando validateProductMedia não era public safe, e lib/public-catalog filtrava por isPublicSafe + gallery. Agora mídia não decide se o card/produto público aparece.",
+    "cssWasHidingImages": "Não foi encontrada regra de card com opacity 0, display none, height 0 ou z-index escondendo a mídia. O card novo força aspect-square, img visível, object-cover e opacity-100.",
+    "nextImageRemoteBlocking": "Não foi a causa principal para imagens locais, e next.config já usa images.unoptimized. Para reduzir risco em produção, o ProductCard usa img nativo com onError para placeholder local.",
+    "catalogHtmlImageSignals": "A validação de HTML pós-build verifica <img, src, data-product-card, placeholder, Comprar, WhatsApp, Pix e Cartão em /catalogo.",
+    "productsWithoutOwnImage": [],
+    "fallbackUsed": "/placeholders/product-card.svg é renderizado como src inicial quando não existe mídia e também no onError quando qualquer imagem falha."
+  },
+  "totals": {
+    "totalPublicProducts": 559,
+    "totalWithOwnImage": 559,
+    "totalUsingPlaceholder": 0
+  }
+}

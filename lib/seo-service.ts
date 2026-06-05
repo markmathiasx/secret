@@ -4,6 +4,7 @@
  */
 
 import { getSiteUrl } from '@/lib/env';
+import { whatsappNumber } from '@/lib/constants';
 
 export interface ProductSchemaData {
   name: string;
@@ -121,7 +122,7 @@ export function generateOrganizationSchema(): string {
     contactPoint: {
       '@type': 'ContactPoint',
       contactType: 'Customer Service',
-      telephone: '+55-21-99999-9999'
+      telephone: `+${whatsappNumber}`
     },
     sameAs: [
       'https://www.facebook.com/mdh3d',
@@ -206,7 +207,7 @@ export function generateLocalBusinessSchema(): string {
       latitude: '-22.9068',
       longitude: '-43.1729'
     },
-    telephone: '+55-21-99999-9999',
+    telephone: `+${whatsappNumber}`,
     url: getSiteUrl(),
     priceRange: 'R$ 50 - R$ 5000',
     opens: 'Mo-Fr 09:00',

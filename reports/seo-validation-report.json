@@ -1,0 +1,62 @@
+{
+  "generatedAt": "2026-06-05T00:25:41.375Z",
+  "ok": true,
+  "checks": [
+    {
+      "name": "organization json-ld",
+      "ok": true
+    },
+    {
+      "name": "website searchaction",
+      "ok": true
+    },
+    {
+      "name": "catalog breadcrumb",
+      "ok": true
+    },
+    {
+      "name": "product json-ld",
+      "ok": true
+    },
+    {
+      "name": "product offer uses pix",
+      "ok": true
+    },
+    {
+      "name": "product image in schema",
+      "ok": true
+    },
+    {
+      "name": "product brand",
+      "ok": true
+    },
+    {
+      "name": "faq json-ld",
+      "ok": true
+    },
+    {
+      "name": "canonical home",
+      "ok": true
+    },
+    {
+      "name": "canonical catalog",
+      "ok": true
+    },
+    {
+      "name": "sitemap",
+      "ok": true
+    },
+    {
+      "name": "robots",
+      "ok": true
+    },
+    {
+      "name": "instagram current",
+      "ok": true
+    },
+    {
+      "name": "no false gtin",
+      "ok": true
+    }
+  ]
+}

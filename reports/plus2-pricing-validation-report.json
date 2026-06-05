@@ -1,0 +1,209 @@
+{
+  "generatedAt": "2026-06-05T00:25:32.091Z",
+  "ok": true,
+  "rule": "pricePix = basePix + 2.00; priceCard = pricePix + 1.00",
+  "productsChecked": 564,
+  "issues": [],
+  "samples": [
+    {
+      "id": "real-001",
+      "sku": "REAL-0001",
+      "name": "Grinder 3 Partes Premium",
+      "beforePix": 11,
+      "currentPix": 13,
+      "currentCard": 14,
+      "increaseApplied": 2,
+      "cardFeeApplied": 1
+    },
+    {
+      "id": "real-002",
+      "sku": "REAL-0002",
+      "name": "Porta Creme Dental de Bancada",
+      "beforePix": 7.32,
+      "currentPix": 9.32,
+      "currentCard": 10.32,
+      "increaseApplied": 2,
+      "cardFeeApplied": 1
+    },
+    {
+      "id": "real-003",
+      "sku": "REAL-0003",
+      "name": "Demogorgon Decorativo Premium",
+      "beforePix": 16.51,
+      "currentPix": 18.51,
+      "currentCard": 19.51,
+      "increaseApplied": 2,
+      "cardFeeApplied": 1
+    },
+    {
+      "id": "real-004",
+      "sku": "REAL-0004",
+      "name": "mascote temática Jedi Colecionável",
+      "beforePix": 11,
+      "currentPix": 13,
+      "currentCard": 14,
+      "increaseApplied": 2,
+      "cardFeeApplied": 1
+    },
+    {
+      "id": "real-005",
+      "sku": "REAL-0005",
+      "name": "Stencil dupla sci-fi Decorativo",
+      "beforePix": 18.35,
+      "currentPix": 20.35,
+      "currentCard": 21.35,
+      "increaseApplied": 2,
+      "cardFeeApplied": 1
+    },
+    {
+      "id": "real-006",
+      "sku": "REAL-0006",
+      "name": "Família Customizada em Miniatura",
+      "beforePix": 22.03,
+      "currentPix": 24.03,
+      "currentCard": 25.03,
+      "increaseApplied": 2,
+      "cardFeeApplied": 1
+    },
+    {
+      "id": "real-007",
+      "sku": "REAL-0007",
+      "name": "Boneca Infantil Personalizada",
+      "beforePix": 18.35,
+      "currentPix": 20.35,
+      "currentCard": 21.35,
+      "increaseApplied": 2,
+      "cardFeeApplied": 1
+    },
+    {
+      "id": "real-008",
+      "sku": "REAL-0008",
+      "name": "Case de Isqueiro Caveira",
+      "beforePix": 6.41,
+      "currentPix": 8.41,
+      "currentCard": 9.41,
+      "increaseApplied": 2,
+      "cardFeeApplied": 1
+    },
+    {
+      "id": "real-009",
+      "sku": "REAL-0009",
+      "name": "personagem de humor mascote elétrico Mashup Colecionável",
+      "beforePix": 11,
+      "currentPix": 13,
+      "currentCard": 14,
+      "increaseApplied": 2,
+      "cardFeeApplied": 1
+    },
+    {
+      "id": "real-010",
+      "sku": "REAL-0010",
+      "name": "Medalha Maçônica Personalizada",
+      "beforePix": 7.32,
+      "currentPix": 9.32,
+      "currentCard": 10.32,
+      "increaseApplied": 2,
+      "cardFeeApplied": 1
+    },
+    {
+      "id": "mdh-013",
+      "sku": "MDH-0013",
+      "name": "Suporte para Fone Headphone",
+      "beforePix": 11,
+      "currentPix": 13,
+      "currentCard": 14,
+      "increaseApplied": 2,
+      "cardFeeApplied": 1
+    },
+    {
+      "id": "mdh-014",
+      "sku": "MDH-0014",
+      "name": "Organizador de Cabos",
+      "beforePix": 5.49,
+      "currentPix": 7.49,
+      "currentCard": 8.49,
+      "increaseApplied": 2,
+      "cardFeeApplied": 1
+    },
+    {
+      "id": "mdh-015",
+      "sku": "MDH-0015",
+      "name": "Suporte para Celular",
+      "beforePix": 5.49,
+      "currentPix": 7.49,
+      "currentCard": 8.49,
+      "increaseApplied": 2,
+      "cardFeeApplied": 1
+    },
+    {
+      "id": "mdh-016",
+      "sku": "MDH-0016",
+      "name": "Chaveiro Personalizado",
+      "beforePix": 5.49,
+      "currentPix": 7.49,
+      "currentCard": 8.49,
+      "increaseApplied": 2,
+      "cardFeeApplied": 1
+    },
+    {
+      "id": "mdh-017",
+      "sku": "MDH-0017",
+      "name": "Suporte para Controle PS5",
+      "beforePix": 8.25,
+      "currentPix": 10.25,
+      "currentCard": 11.25,
+      "increaseApplied": 2,
+      "cardFeeApplied": 1
+    },
+    {
+      "id": "mdh-019",
+      "sku": "MDH-0019",
+      "name": "Porta-Copos Geek",
+      "beforePix": 5.49,
+      "currentPix": 7.49,
+      "currentCard": 8.49,
+      "increaseApplied": 2,
+      "cardFeeApplied": 1
+    },
+    {
+      "id": "mdh-022",
+      "sku": "MDH-0022",
+      "name": "Organizador de Canetas",
+      "beforePix": 6.41,
+      "currentPix": 8.41,
+      "currentCard": 9.41,
+      "increaseApplied": 2,
+      "cardFeeApplied": 1
+    },
+    {
+      "id": "mdh-025",
+      "sku": "MDH-0025",
+      "name": "Vaso Geométrico",
+      "beforePix": 18.35,
+      "currentPix": 20.35,
+      "currentCard": 21.35,
+      "increaseApplied": 2,
+      "cardFeeApplied": 1
+    },
+    {
+      "id": "mdh-026",
+      "sku": "MDH-0026",
+      "name": "esfera colecionável",
+      "beforePix": 5.49,
+      "currentPix": 7.49,
+      "currentCard": 8.49,
+      "increaseApplied": 2,
+      "cardFeeApplied": 1
+    },
+    {
+      "id": "mdh-028",
+      "sku": "MDH-0028",
+      "name": "Luminária LED Personalizada",
+      "beforePix": 22.03,
+      "currentPix": 24.03,
+      "currentCard": 25.03,
+      "increaseApplied": 2,
+      "cardFeeApplied": 1
+    }
+  ]
+}

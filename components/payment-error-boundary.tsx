@@ -9,6 +9,7 @@
 
 import { Component, ReactNode } from "react";
 import { AlertTriangle } from "lucide-react";
+import { whatsappNumber } from "@/lib/constants";
 import { logStructured } from "@/lib/logger";
 
 interface Props {
@@ -71,7 +72,7 @@ export class PaymentErrorBoundary extends Component<Props, State> {
                   ↻ Recarregar página
                 </button>
                 <p className="text-xs text-red-100/60">
-                  Se o problema persistir, entre em contato via WhatsApp: <strong>+55 21 99999-9999</strong>
+                  Se o problema persistir, entre em contato via WhatsApp: <strong>+{whatsappNumber}</strong>
                 </p>
               </div>
             </div>

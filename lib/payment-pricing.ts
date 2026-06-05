@@ -1,4 +1,5 @@
 export const CARD_PRICE_FLAT_FEE = 1;
+export const GLOBAL_PRICE_INCREASE = 2;
 
 export function normalizeMoney(value: unknown) {
   if (typeof value === "number") {
@@ -24,6 +25,10 @@ export function roundToCents(value: number) {
 
 export function calculateCardPrice(pricePix: unknown) {
   return roundToCents(normalizeMoney(pricePix) + CARD_PRICE_FLAT_FEE);
+}
+
+export function applyGlobalPriceIncrease(pricePix: unknown) {
+  return roundToCents(normalizeMoney(pricePix) + GLOBAL_PRICE_INCREASE);
 }
 
 export function formatPixPrice(value: unknown) {

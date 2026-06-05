@@ -1,0 +1,306 @@
+{
+  "generatedAt": "2026-06-05T00:25:42.522Z",
+  "ok": true,
+  "expectedHeader": "id,title,description,availability,condition,price,link,image_link,brand,google_product_category,product_type",
+  "productsInFeed": 560,
+  "publicProducts": 564,
+  "productsWithOwnImage": 560,
+  "productsUsingPlaceholder": 4,
+  "skippedProducts": 4,
+  "skippedByReason": {
+    "missing_public_real_image": 4
+  },
+  "sampleProducts": [
+    {
+      "id": "REAL-0001",
+      "title": "Grinder 3 Partes Premium",
+      "description": "Grinder 3 Partes Premium selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento fosco em PLA Premium. Indicado para uso diario, organizacao leve e presente funcional, mantendo prazo claro e apresentacao pronta para venda online.",
+      "availability": "in stock",
+      "condition": "new",
+      "price": "13.00 BRL",
+      "link": "https://www.mdh3d.com.br/loja/casa-e-organizacao/real-001-grinder-3-partes-premium",
+      "image_link": "https://www.mdh3d.com.br/products/foto-001-grinder-01.webp",
+      "brand": "MDH 3D",
+      "google_product_category": "Home & Garden > Decor",
+      "product_type": "Casa e Organização"
+    },
+    {
+      "id": "REAL-0002",
+      "title": "Porta Creme Dental de Bancada",
+      "description": "Porta Creme Dental de Bancada selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento fosco em PLA Premium. Indicado para mesa, gaveta, bancada criativa e rotina de trabalho, mantendo prazo claro e apresentacao pronta para venda online.",
+      "availability": "in stock",
+      "condition": "new",
+      "price": "9.32 BRL",
+      "link": "https://www.mdh3d.com.br/loja/casa-e-organizacao/real-002-porta-creme-dental-de-bancada",
+      "image_link": "https://www.mdh3d.com.br/products/foto-003-porta-creme-dental.webp",
+      "brand": "MDH 3D",
+      "google_product_category": "Home & Garden > Decor",
+      "product_type": "Casa e Organização"
+    },
+    {
+      "id": "REAL-0003",
+      "title": "Demogorgon Decorativo Premium",
+      "description": "Demogorgon Decorativo Premium selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento pintado à mão em PLA Premium. Indicado para colecao, estante, nicho, setup gamer e presente tematico, mantendo prazo claro e apresentacao pronta para venda online.",
+      "availability": "in stock",
+      "condition": "new",
+      "price": "18.51 BRL",
+      "link": "https://www.mdh3d.com.br/loja/geek-colecionaveis/real-003-demogorgon-decorativo-premium",
+      "image_link": "https://www.mdh3d.com.br/products/foto-004-demogorgon.webp",
+      "brand": "MDH 3D",
+      "google_product_category": "Arts & Entertainment > Hobbies & Creative Arts",
+      "product_type": "Geek & Colecionáveis"
+    },
+    {
+      "id": "REAL-0004",
+      "title": "mascote temática Jedi Colecionável",
+      "description": "mascote temática Jedi Colecionável selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento pintado à mão em PLA Premium. Indicado para colecao, estante, nicho, setup gamer e presente tematico, mantendo prazo claro e apresentacao pronta para venda online.",
+      "availability": "in stock",
+      "condition": "new",
+      "price": "13.00 BRL",
+      "link": "https://www.mdh3d.com.br/loja/geek-colecionaveis/real-004-hello-kitty-jedi-colecionavel",
+      "image_link": "https://www.mdh3d.com.br/products/gallery/real-004/3.webp",
+      "brand": "MDH 3D",
+      "google_product_category": "Arts & Entertainment > Hobbies & Creative Arts",
+      "product_type": "Geek & Colecionáveis"
+    },
+    {
+      "id": "REAL-0005",
+      "title": "Stencil dupla sci-fi Decorativo",
+      "description": "Stencil dupla sci-fi Decorativo selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento fosco em PLA Premium. Indicado para decoracao de quarto, escritorio, estante e composicao de ambiente, mantendo prazo claro e apresentacao pronta para venda online.",
+      "availability": "in stock",
+      "condition": "new",
+      "price": "20.35 BRL",
+      "link": "https://www.mdh3d.com.br/loja/geek-colecionaveis/real-005-stencil-rick-and-morty-decorativo",
+      "image_link": "https://www.mdh3d.com.br/products/render-real-005-stencil.webp",
+      "brand": "MDH 3D",
+      "google_product_category": "Arts & Entertainment > Hobbies & Creative Arts",
+      "product_type": "Geek & Colecionáveis"
+    },
+    {
+      "id": "REAL-0006",
+      "title": "Família Customizada em Miniatura",
+      "description": "Família Customizada em Miniatura selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento pintado à mão em PLA Premium. Indicado para colecao, estante, nicho, setup gamer e presente tematico, mantendo prazo claro e apresentacao pronta para venda online.",
+      "availability": "in stock",
+      "condition": "new",
+      "price": "24.03 BRL",
+      "link": "https://www.mdh3d.com.br/loja/presentes-personalizados/real-006-familia-customizada-em-miniatura",
+      "image_link": "https://www.mdh3d.com.br/products/foto-007-familia-custom.webp",
+      "brand": "MDH 3D",
+      "google_product_category": "Arts & Entertainment > Hobbies & Creative Arts",
+      "product_type": "Presentes Personalizados"
+    },
+    {
+      "id": "REAL-0007",
+      "title": "Boneca Infantil Personalizada",
+      "description": "Boneca Infantil Personalizada selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento pintado à mão em PLA Premium. Indicado para presente personalizado, lembranca afetiva e encomenda sob medida, mantendo prazo claro e apresentacao pronta para venda online.",
+      "availability": "in stock",
+      "condition": "new",
+      "price": "20.35 BRL",
+      "link": "https://www.mdh3d.com.br/loja/presentes-personalizados/real-007-boneca-infantil-personalizada",
+      "image_link": "https://www.mdh3d.com.br/products/foto-008-boneca-crianca.webp",
+      "brand": "MDH 3D",
+      "google_product_category": "Arts & Entertainment > Hobbies & Creative Arts",
+      "product_type": "Presentes Personalizados"
+    },
+    {
+      "id": "REAL-0008",
+      "title": "Case de Isqueiro Caveira",
+      "description": "Case de Isqueiro Caveira selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento fosco em PLA Premium. Indicado para uso diario, organizacao leve e presente funcional, mantendo prazo claro e apresentacao pronta para venda online.",
+      "availability": "in stock",
+      "condition": "new",
+      "price": "8.41 BRL",
+      "link": "https://www.mdh3d.com.br/loja/casa-e-organizacao/real-008-case-de-isqueiro-caveira",
+      "image_link": "https://www.mdh3d.com.br/products/foto-009-case-isqueiro-caveira.webp",
+      "brand": "MDH 3D",
+      "google_product_category": "Home & Garden > Decor",
+      "product_type": "Casa e Organização"
+    },
+    {
+      "id": "REAL-0009",
+      "title": "personagem de humor mascote elétrico Mashup Colecionável",
+      "description": "personagem de humor mascote elétrico Mashup Colecionável selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento pintado à mão em PLA Premium. Indicado para colecao, estante, nicho, setup gamer e presente tematico, mantendo prazo claro e apresentacao pronta para venda online.",
+      "availability": "in stock",
+      "condition": "new",
+      "price": "13.00 BRL",
+      "link": "https://www.mdh3d.com.br/loja/geek-colecionaveis/real-009-personagem-de-humor-mascote-eletrico-mashup-colecionavel",
+      "image_link": "https://www.mdh3d.com.br/products/gallery/real-009/3.webp",
+      "brand": "MDH 3D",
+      "google_product_category": "Arts & Entertainment > Hobbies & Creative Arts",
+      "product_type": "Geek & Colecionáveis"
+    },
+    {
+      "id": "REAL-0010",
+      "title": "Medalha Maçônica Personalizada",
+      "description": "Medalha Maçônica Personalizada selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento colorido em PLA Premium. Indicado para venda por impulso, lembrancinha, mochila, chaves e kits de presente, mantendo prazo claro e apresentacao pronta para venda online.",
+      "availability": "in stock",
+      "condition": "new",
+      "price": "9.32 BRL",
+      "link": "https://www.mdh3d.com.br/loja/presentes-personalizados/real-010-medalha-maconica-personalizada",
+      "image_link": "https://www.mdh3d.com.br/products/foto-011-chaveiro-maconaria.webp",
+      "brand": "MDH 3D",
+      "google_product_category": "Arts & Entertainment > Hobbies & Creative Arts",
+      "product_type": "Presentes Personalizados"
+    },
+    {
+      "id": "MDH-0013",
+      "title": "Suporte para Fone Headphone",
+      "description": "Suporte para Fone Headphone selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento premium em PLA Premium. Indicado para setup, home office, mesa gamer e organizacao de bancada, mantendo prazo claro e apresentacao pronta para venda online.",
+      "availability": "in stock",
+      "condition": "new",
+      "price": "13.00 BRL",
+      "link": "https://www.mdh3d.com.br/loja/setup-gamer-e-home-office/mdh-013-suporte-para-fone-headphone",
+      "image_link": "https://www.mdh3d.com.br/products/setup/suporte-fone-headphone.webp",
+      "brand": "MDH 3D",
+      "google_product_category": "Home & Garden > Decor",
+      "product_type": "Setup Gamer e Home Office"
+    },
+    {
+      "id": "MDH-0014",
+      "title": "Organizador de Cabos",
+      "description": "Organizador de Cabos selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento premium em PLA Premium. Indicado para mesa, gaveta, bancada criativa e rotina de trabalho, mantendo prazo claro e apresentacao pronta para venda online.",
+      "availability": "in stock",
+      "condition": "new",
+      "price": "7.49 BRL",
+      "link": "https://www.mdh3d.com.br/loja/setup-gamer-e-home-office/mdh-014-organizador-de-cabos",
+      "image_link": "https://www.mdh3d.com.br/products/setup/organizador-cabos.webp",
+      "brand": "MDH 3D",
+      "google_product_category": "Home & Garden > Decor",
+      "product_type": "Setup Gamer e Home Office"
+    },
+    {
+      "id": "MDH-0015",
+      "title": "Suporte para Celular",
+      "description": "Suporte para Celular selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento premium em PLA Premium. Indicado para setup, home office, mesa gamer e organizacao de bancada, mantendo prazo claro e apresentacao pronta para venda online.",
+      "availability": "in stock",
+      "condition": "new",
+      "price": "7.49 BRL",
+      "link": "https://www.mdh3d.com.br/loja/setup-gamer-e-home-office/mdh-015-suporte-para-celular",
+      "image_link": "https://www.mdh3d.com.br/products/setup/suporte-celular.webp",
+      "brand": "MDH 3D",
+      "google_product_category": "Home & Garden > Decor",
+      "product_type": "Setup Gamer e Home Office"
+    },
+    {
+      "id": "MDH-0016",
+      "title": "Chaveiro Personalizado",
+      "description": "Chaveiro Personalizado selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento premium em PLA Premium. Indicado para venda por impulso, lembrancinha, mochila, chaves e kits de presente, mantendo prazo claro e apresentacao pronta para venda online.",
+      "availability": "in stock",
+      "condition": "new",
+      "price": "7.49 BRL",
+      "link": "https://www.mdh3d.com.br/loja/chaveiros-e-acessorios/mdh-016-chaveiro-personalizado",
+      "image_link": "https://www.mdh3d.com.br/products/setup/chaveiro-personalizado.webp",
+      "brand": "MDH 3D",
+      "google_product_category": "Arts & Entertainment > Hobbies & Creative Arts",
+      "product_type": "Chaveiros e Acessórios"
+    },
+    {
+      "id": "MDH-0017",
+      "title": "Suporte para Controle PS5",
+      "description": "Suporte para Controle PS5 selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento premium em PLA Premium. Indicado para setup, home office, mesa gamer e organizacao de bancada, mantendo prazo claro e apresentacao pronta para venda online.",
+      "availability": "in stock",
+      "condition": "new",
+      "price": "10.25 BRL",
+      "link": "https://www.mdh3d.com.br/loja/setup-gamer-e-home-office/mdh-017-suporte-para-controle-ps5",
+      "image_link": "https://www.mdh3d.com.br/products/setup/suporte-controle-ps5.webp",
+      "brand": "MDH 3D",
+      "google_product_category": "Home & Garden > Decor",
+      "product_type": "Setup Gamer e Home Office"
+    },
+    {
+      "id": "MDH-0019",
+      "title": "Porta-Copos Geek",
+      "description": "Porta-Copos Geek selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento premium em PLA Premium. Indicado para uso diario, organizacao leve e presente funcional, mantendo prazo claro e apresentacao pronta para venda online.",
+      "availability": "in stock",
+      "condition": "new",
+      "price": "7.49 BRL",
+      "link": "https://www.mdh3d.com.br/loja/setup-gamer-e-home-office/mdh-019-porta-copos-geek",
+      "image_link": "https://www.mdh3d.com.br/products/setup/porta-copos-geek.webp",
+      "brand": "MDH 3D",
+      "google_product_category": "Home & Garden > Decor",
+      "product_type": "Setup Gamer e Home Office"
+    },
+    {
+      "id": "MDH-0022",
+      "title": "Organizador de Canetas",
+      "description": "Organizador de Canetas selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento premium em PLA Premium. Indicado para mesa, gaveta, bancada criativa e rotina de trabalho, mantendo prazo claro e apresentacao pronta para venda online.",
+      "availability": "in stock",
+      "condition": "new",
+      "price": "8.41 BRL",
+      "link": "https://www.mdh3d.com.br/loja/setup-gamer-e-home-office/mdh-022-organizador-de-canetas",
+      "image_link": "https://www.mdh3d.com.br/products/mdh-022-organizador-de-canetas/01-hero.jpg",
+      "brand": "MDH 3D",
+      "google_product_category": "Home & Garden > Decor",
+      "product_type": "Setup Gamer e Home Office"
+    },
+    {
+      "id": "MDH-0025",
+      "title": "Vaso Geométrico",
+      "description": "Vaso Geométrico selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento premium em PLA Premium. Indicado para decoracao de quarto, escritorio, estante e composicao de ambiente, mantendo prazo claro e apresentacao pronta para venda online.",
+      "availability": "in stock",
+      "condition": "new",
+      "price": "20.35 BRL",
+      "link": "https://www.mdh3d.com.br/loja/decoracao/mdh-025-vaso-geometrico",
+      "image_link": "https://www.mdh3d.com.br/products/mdh-025-vaso-geometrico/01-hero.jpg",
+      "brand": "MDH 3D",
+      "google_product_category": "Home & Garden > Decor",
+      "product_type": "Decoração"
+    },
+    {
+      "id": "MDH-0026",
+      "title": "esfera colecionável",
+      "description": "esfera colecionável selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento premium em PLA Premium. Indicado para colecao, estante, nicho, setup gamer e presente tematico, mantendo prazo claro e apresentacao pronta para venda online.",
+      "availability": "in stock",
+      "condition": "new",
+      "price": "7.49 BRL",
+      "link": "https://www.mdh3d.com.br/loja/decoracao/mdh-026-esfera-colecionavel",
+      "image_link": "https://www.mdh3d.com.br/products/mdh-026-pokebola/01-hero.jpg",
+      "brand": "MDH 3D",
+      "google_product_category": "Home & Garden > Decor",
+      "product_type": "Decoração"
+    },
+    {
+      "id": "MDH-0028",
+      "title": "Luminária LED Personalizada",
+      "description": "Luminária LED Personalizada selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento premium em PLA Premium. Indicado para decoracao de quarto, escritorio, estante e composicao de ambiente, mantendo prazo claro e apresentacao pronta para venda online.",
+      "availability": "in stock",
+      "condition": "new",
+      "price": "24.03 BRL",
+      "link": "https://www.mdh3d.com.br/loja/decoracao/mdh-028-luminaria-led-personalizada",
+      "image_link": "https://www.mdh3d.com.br/products/mdh-028-luminaria-led-personalizada/01-hero.jpg",
+      "brand": "MDH 3D",
+      "google_product_category": "Home & Garden > Decor",
+      "product_type": "Decoração"
+    }
+  ],
+  "warnings": [
+    {
+      "product": "mdh-067",
+      "title": "mascote elétrico tema geek Chibi",
+      "reasons": [
+        "missing_public_real_image"
+      ]
+    },
+    {
+      "product": "mdh-068",
+      "title": "mascote retrô tema clássico Chibi",
+      "reasons": [
+        "missing_public_real_image"
+      ]
+    },
+    {
+      "product": "mdh-069",
+      "title": "herói retrô tema clássico Chibi",
+      "reasons": [
+        "missing_public_real_image"
+      ]
+    },
+    {
+      "product": "csv-uti-040",
+      "title": "Organizador Modular mascote evolutivo criatura colecionável para Ferramentas Leves, Peças e Acessórios Nerd",
+      "reasons": [
+        "missing_public_real_image"
+      ]
+    }
+  ],
+  "errors": []
+}

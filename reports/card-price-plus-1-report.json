@@ -1,0 +1,9 @@
+{
+  "generatedAt": "2026-06-05T00:25:32.013Z",
+  "rule": "priceCard = pricePix + 1.00",
+  "ok": true,
+  "productsChecked": 564,
+  "mismatches": [],
+  "minPix": 5.66,
+  "minCard": 6.66
+}

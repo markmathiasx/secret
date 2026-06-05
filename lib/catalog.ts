@@ -25,7 +25,7 @@ import {
   calculateFinalPrice,
   calculateSalePrice as calculateSalePriceFromEngine,
 } from "@/lib/pricing-engine";
-import { calculateCardPrice } from "@/lib/payment-pricing";
+import { GLOBAL_PRICE_INCREASE, applyGlobalPriceIncrease, calculateCardPrice } from "@/lib/payment-pricing";
 import { getRecommendedPixPrice } from "@/lib/catalog-pricing-policy";
 import { sanitizePublicCatalogProducts } from "@/lib/public-product-copy";
 
@@ -65,6 +65,9 @@ export type Product = {
   variants?: { color: string; available: boolean }[];
   pricePix: number;
   priceCard: number;
+  pricePixBeforeGlobalIncrease?: number;
+  priceCardBeforeGlobalIncrease?: number;
+  globalPriceIncreaseApplied?: number;
   marketplaceSuggested: number;
   productionWindow: string;
   imageHint: string;
@@ -227,7 +230,9 @@ function enrichProduct(product: Product): Product {
     baseCost: pricing.costBase,
     estimatedUnitCost: pricing.costBase,
   });
-  const pricePix = taxonomized.manualPriceOverride ? taxonomized.pricePix : policyPricePix;
+  const pricePixBeforeGlobalIncrease = taxonomized.manualPriceOverride ? taxonomized.pricePix : policyPricePix;
+  const priceCardBeforeGlobalIncrease = calculateCardPrice(pricePixBeforeGlobalIncrease);
+  const pricePix = applyGlobalPriceIncrease(pricePixBeforeGlobalIncrease);
   const priceCard = calculateCardPrice(pricePix);
   const costBase =
     taxonomized.manualPriceOverride && typeof taxonomized.baseCost === "number"
@@ -241,6 +246,9 @@ function enrichProduct(product: Product): Product {
     baseCost: costBase,
     pricePix,
     priceCard,
+    pricePixBeforeGlobalIncrease,
+    priceCardBeforeGlobalIncrease,
+    globalPriceIncreaseApplied: GLOBAL_PRICE_INCREASE,
     marketplaceSuggested: pricing.referencePrice,
     estimatedUnitCost: costBase,
     estimatedUnitProfit: profitAmount,

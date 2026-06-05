@@ -1,0 +1,50 @@
+{
+  "generatedAt": "2026-06-05T00:25:41.380Z",
+  "ok": true,
+  "checks": [
+    {
+      "name": "home rotating every 3000ms",
+      "ok": true
+    },
+    {
+      "name": "home carousel controls",
+      "ok": true
+    },
+    {
+      "name": "home pause hover focus",
+      "ok": true
+    },
+    {
+      "name": "reduced motion",
+      "ok": true
+    },
+    {
+      "name": "card image fallback",
+      "ok": true
+    },
+    {
+      "name": "card conversion ctas",
+      "ok": true
+    },
+    {
+      "name": "catalog search",
+      "ok": true
+    },
+    {
+      "name": "catalog price chips",
+      "ok": true
+    },
+    {
+      "name": "game exists",
+      "ok": true
+    },
+    {
+      "name": "bottom dock game",
+      "ok": true
+    },
+    {
+      "name": "video metadata",
+      "ok": true
+    }
+  ]
+}

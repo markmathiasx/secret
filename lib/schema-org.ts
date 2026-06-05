@@ -1,4 +1,5 @@
 import type { Product } from '@/lib/catalog';
+import { whatsappNumber } from '@/lib/constants';
 
 // Schema.org JSON-LD Types
 export interface SchemaProduct {
@@ -304,7 +305,7 @@ export function generateOrganizationSchema(): SchemaOrganization {
     ],
     contactPoint: {
       '@type': 'ContactPoint',
-      telephone: '+55-21-99999-9999',
+      telephone: `+${whatsappNumber}`,
       contactType: 'customer service',
       availableLanguage: ['Portuguese', 'English', 'Spanish'],
     },
@@ -343,7 +344,7 @@ export function generateLocalBusinessSchema(): any {
     image: 'https://mdh3d.com.br/loja-image.jpg',
     '@id': 'https://mdh3d.com.br',
     url: 'https://mdh3d.com.br',
-    telephone: '+55-21-99999-9999',
+    telephone: `+${whatsappNumber}`,
     address: {
       '@type': 'PostalAddress',
       streetAddress: 'Rua Visconde de Pirajá, 414, Sala 305',

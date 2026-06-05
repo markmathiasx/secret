@@ -1,4 +1,5 @@
 import { getCachedData, cacheTtl } from './cache';
+import { whatsappNumber } from '@/lib/constants';
 
 // Types
 export type OrderStatus = 
@@ -66,7 +67,7 @@ Olá ${customerData.name.split(' ')[0]}, seu pedido #${orderId.slice(-6)} foi re
 
 Acompanhe em: https://mdh3d.com.br/conta/pedidos/${orderId}
 
-Dúvidas? Responda aqui ou ligue (21) 99999-9999
+Dúvidas? Responda aqui ou chame o WhatsApp +${whatsappNumber}
 `;
 
   await fetch('/api/notifications/whatsapp', {

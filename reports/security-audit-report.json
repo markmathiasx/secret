@@ -1,0 +1,829 @@
+{
+  "generatedAt": "2026-06-05T00:25:41.672Z",
+  "ok": true,
+  "headers": [
+    {
+      "token": "Content-Security-Policy",
+      "ok": true
+    },
+    {
+      "token": "Strict-Transport-Security",
+      "ok": true
+    },
+    {
+      "token": "X-Frame-Options",
+      "ok": true
+    },
+    {
+      "token": "X-Content-Type-Options",
+      "ok": true
+    },
+    {
+      "token": "Referrer-Policy",
+      "ok": true
+    },
+    {
+      "token": "Permissions-Policy",
+      "ok": true
+    },
+    {
+      "token": "frame-ancestors",
+      "ok": true
+    },
+    {
+      "token": "Content-Security-Policy",
+      "ok": true
+    },
+    {
+      "token": "X-Frame-Options",
+      "ok": true
+    },
+    {
+      "token": "X-Content-Type-Options",
+      "ok": true
+    },
+    {
+      "token": "Referrer-Policy",
+      "ok": true
+    },
+    {
+      "token": "Permissions-Policy",
+      "ok": true
+    },
+    {
+      "token": "frame-ancestors",
+      "ok": true
+    }
+  ],
+  "uploads": [
+    {
+      "token": "MODEL_EXTENSIONS",
+      "ok": true
+    },
+    {
+      "token": "stl",
+      "ok": true
+    },
+    {
+      "token": "3mf",
+      "ok": true
+    },
+    {
+      "token": "obj",
+      "ok": true
+    },
+    {
+      "token": "step",
+      "ok": true
+    },
+    {
+      "token": "iges",
+      "ok": true
+    },
+    {
+      "token": "MODEL_MIME_TYPES",
+      "ok": true
+    },
+    {
+      "token": "maxBytes",
+      "ok": true
+    },
+    {
+      "token": "isAllowedModelSignature",
+      "ok": true
+    }
+  ],
+  "adminRoutes": [
+    {
+      "file": "app/api/admin/catalog/replace-images/route.ts",
+      "protected": true,
+      "mutates": true
+    },
+    {
+      "file": "app/api/admin/catalog/route.ts",
+      "protected": true,
+      "mutates": false
+    },
+    {
+      "file": "app/api/admin/catalog/[id]/route.ts",
+      "protected": true,
+      "mutates": true
+    },
+    {
+      "file": "app/api/admin/coupons/route.ts",
+      "protected": true,
+      "mutates": true
+    },
+    {
+      "file": "app/api/admin/dashboard/metrics/route.ts",
+      "protected": true,
+      "mutates": false
+    },
+    {
+      "file": "app/api/admin/export/route.ts",
+      "protected": true,
+      "mutates": false
+    },
+    {
+      "file": "app/api/admin/inbox/route.ts",
+      "protected": true,
+      "mutates": true
+    },
+    {
+      "file": "app/api/admin/inventory/[id]/route.ts",
+      "protected": true,
+      "mutates": true
+    },
+    {
+      "file": "app/api/admin/invoices/route.ts",
+      "protected": true,
+      "mutates": true
+    },
+    {
+      "file": "app/api/admin/login/route.ts",
+      "protected": true,
+      "mutates": true
+    },
+    {
+      "file": "app/api/admin/logout/route.ts",
+      "protected": true,
+      "mutates": true
+    },
+    {
+      "file": "app/api/admin/meta/route.ts",
+      "protected": true,
+      "mutates": true
+    },
+    {
+      "file": "app/api/admin/orders/route.ts",
+      "protected": true,
+      "mutates": false
+    },
+    {
+      "file": "app/api/admin/orders/[id]/route.ts",
+      "protected": true,
+      "mutates": true
+    },
+    {
+      "file": "app/api/admin/payments/confirm/route.ts",
+      "protected": true,
+      "mutates": true
+    },
+    {
+      "file": "app/api/admin/products/route.ts",
+      "protected": true,
+      "mutates": true
+    },
+    {
+      "file": "app/api/admin/products/[id]/cost-estimate/route.ts",
+      "protected": true,
+      "mutates": true
+    },
+    {
+      "file": "app/api/admin/products/[id]/route.ts",
+      "protected": true,
+      "mutates": true
+    },
+    {
+      "file": "app/api/admin/send-password-reset/route.ts",
+      "protected": true,
+      "mutates": true
+    },
+    {
+      "file": "app/api/admin/users/route.ts",
+      "protected": true,
+      "mutates": false
+    },
+    {
+      "file": "app/api/admin/users/[id]/route.ts",
+      "protected": true,
+      "mutates": true
+    }
+  ],
+  "sensitiveApis": [
+    {
+      "file": "app/api/account/orders/route.ts",
+      "sensitive": true,
+      "methods": [
+        "GET"
+      ],
+      "readsBody": false,
+      "readsQuery": false,
+      "protectedAdmin": false,
+      "hasValidation": true,
+      "hasRateLimit": true
+    },
+    {
+      "file": "app/api/account/orders/[id]/route.ts",
+      "sensitive": true,
+      "methods": [
+        "GET"
+      ],
+      "readsBody": false,
+      "readsQuery": false,
+      "protectedAdmin": false,
+      "hasValidation": true,
+      "hasRateLimit": true
+    },
+    {
+      "file": "app/api/admin/catalog/replace-images/route.ts",
+      "sensitive": true,
+      "methods": [
+        "POST"
+      ],
+      "readsBody": true,
+      "readsQuery": false,
+      "protectedAdmin": true,
+      "hasValidation": true,
+      "hasRateLimit": false
+    },
+    {
+      "file": "app/api/admin/catalog/route.ts",
+      "sensitive": true,
+      "methods": [
+        "GET"
+      ],
+      "readsBody": false,
+      "readsQuery": false,
+      "protectedAdmin": true,
+      "hasValidation": true,
+      "hasRateLimit": false
+    },
+    {
+      "file": "app/api/admin/catalog/[id]/route.ts",
+      "sensitive": true,
+      "methods": [
+        "PATCH"
+      ],
+      "readsBody": true,
+      "readsQuery": false,
+      "protectedAdmin": true,
+      "hasValidation": true,
+      "hasRateLimit": false
+    },
+    {
+      "file": "app/api/admin/coupons/route.ts",
+      "sensitive": true,
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "readsBody": true,
+      "readsQuery": false,
+      "protectedAdmin": true,
+      "hasValidation": true,
+      "hasRateLimit": false
+    },
+    {
+      "file": "app/api/admin/dashboard/metrics/route.ts",
+      "sensitive": true,
+      "methods": [
+        "GET"
+      ],
+      "readsBody": false,
+      "readsQuery": false,
+      "protectedAdmin": true,
+      "hasValidation": true,
+      "hasRateLimit": false
+    },
+    {
+      "file": "app/api/admin/export/route.ts",
+      "sensitive": true,
+      "methods": [
+        "GET"
+      ],
+      "readsBody": false,
+      "readsQuery": true,
+      "protectedAdmin": true,
+      "hasValidation": true,
+      "hasRateLimit": false
+    },
+    {
+      "file": "app/api/admin/inbox/route.ts",
+      "sensitive": true,
+      "methods": [
+        "GET",
+        "POST",
+        "PATCH"
+      ],
+      "readsBody": true,
+      "readsQuery": true,
+      "protectedAdmin": true,
+      "hasValidation": true,
+      "hasRateLimit": false
+    },
+    {
+      "file": "app/api/admin/inventory/[id]/route.ts",
+      "sensitive": true,
+      "methods": [
+        "PUT"
+      ],
+      "readsBody": true,
+      "readsQuery": true,
+      "protectedAdmin": true,
+      "hasValidation": true,
+      "hasRateLimit": false
+    },
+    {
+      "file": "app/api/admin/invoices/route.ts",
+      "sensitive": true,
+      "methods": [
+        "POST",
+        "GET"
+      ],
+      "readsBody": true,
+      "readsQuery": true,
+      "protectedAdmin": true,
+      "hasValidation": true,
+      "hasRateLimit": false
+    },
+    {
+      "file": "app/api/admin/login/route.ts",
+      "sensitive": true,
+      "methods": [
+        "POST"
+      ],
+      "readsBody": true,
+      "readsQuery": true,
+      "protectedAdmin": true,
+      "hasValidation": true,
+      "hasRateLimit": true
+    },
+    {
+      "file": "app/api/admin/logout/route.ts",
+      "sensitive": true,
+      "methods": [
+        "POST"
+      ],
+      "readsBody": false,
+      "readsQuery": false,
+      "protectedAdmin": true,
+      "hasValidation": true,
+      "hasRateLimit": false
+    },
+    {
+      "file": "app/api/admin/meta/route.ts",
+      "sensitive": true,
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "readsBody": true,
+      "readsQuery": true,
+      "protectedAdmin": true,
+      "hasValidation": true,
+      "hasRateLimit": false
+    },
+    {
+      "file": "app/api/admin/orders/route.ts",
+      "sensitive": true,
+      "methods": [
+        "GET"
+      ],
+      "readsBody": false,
+      "readsQuery": true,
+      "protectedAdmin": true,
+      "hasValidation": true,
+      "hasRateLimit": false
+    },
+    {
+      "file": "app/api/admin/orders/[id]/route.ts",
+      "sensitive": true,
+      "methods": [
+        "GET",
+        "PATCH"
+      ],
+      "readsBody": true,
+      "readsQuery": true,
+      "protectedAdmin": true,
+      "hasValidation": true,
+      "hasRateLimit": false
+    },
+    {
+      "file": "app/api/admin/payments/confirm/route.ts",
+      "sensitive": true,
+      "methods": [
+        "POST"
+      ],
+      "readsBody": true,
+      "readsQuery": false,
+      "protectedAdmin": true,
+      "hasValidation": true,
+      "hasRateLimit": false
+    },
+    {
+      "file": "app/api/admin/products/route.ts",
+      "sensitive": true,
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "readsBody": true,
+      "readsQuery": false,
+      "protectedAdmin": true,
+      "hasValidation": true,
+      "hasRateLimit": false
+    },
+    {
+      "file": "app/api/admin/products/[id]/cost-estimate/route.ts",
+      "sensitive": true,
+      "methods": [
+        "POST"
+      ],
+      "readsBody": true,
+      "readsQuery": false,
+      "protectedAdmin": true,
+      "hasValidation": true,
+      "hasRateLimit": false
+    },
+    {
+      "file": "app/api/admin/products/[id]/route.ts",
+      "sensitive": true,
+      "methods": [
+        "PUT",
+        "DELETE"
+      ],
+      "readsBody": true,
+      "readsQuery": true,
+      "protectedAdmin": true,
+      "hasValidation": true,
+      "hasRateLimit": false
+    },
+    {
+      "file": "app/api/admin/send-password-reset/route.ts",
+      "sensitive": true,
+      "methods": [
+        "POST"
+      ],
+      "readsBody": true,
+      "readsQuery": true,
+      "protectedAdmin": true,
+      "hasValidation": true,
+      "hasRateLimit": false
+    },
+    {
+      "file": "app/api/admin/users/route.ts",
+      "sensitive": true,
+      "methods": [
+        "GET"
+      ],
+      "readsBody": false,
+      "readsQuery": true,
+      "protectedAdmin": true,
+      "hasValidation": true,
+      "hasRateLimit": false
+    },
+    {
+      "file": "app/api/admin/users/[id]/route.ts",
+      "sensitive": true,
+      "methods": [
+        "PUT"
+      ],
+      "readsBody": true,
+      "readsQuery": true,
+      "protectedAdmin": true,
+      "hasValidation": true,
+      "hasRateLimit": false
+    },
+    {
+      "file": "app/api/auth/2fa/confirm/route.ts",
+      "sensitive": true,
+      "methods": [
+        "POST"
+      ],
+      "readsBody": true,
+      "readsQuery": false,
+      "protectedAdmin": false,
+      "hasValidation": true,
+      "hasRateLimit": false
+    },
+    {
+      "file": "app/api/auth/2fa/disable/route.ts",
+      "sensitive": true,
+      "methods": [
+        "POST"
+      ],
+      "readsBody": false,
+      "readsQuery": false,
+      "protectedAdmin": false,
+      "hasValidation": true,
+      "hasRateLimit": false
+    },
+    {
+      "file": "app/api/auth/2fa/setup/route.ts",
+      "sensitive": true,
+      "methods": [
+        "POST"
+      ],
+      "readsBody": false,
+      "readsQuery": false,
+      "protectedAdmin": false,
+      "hasValidation": true,
+      "hasRateLimit": false
+    },
+    {
+      "file": "app/api/auth/business-login/callback/route.ts",
+      "sensitive": true,
+      "methods": [
+        "GET"
+      ],
+      "readsBody": false,
+      "readsQuery": true,
+      "protectedAdmin": false,
+      "hasValidation": true,
+      "hasRateLimit": false
+    },
+    {
+      "file": "app/api/auth/business-login/start/route.ts",
+      "sensitive": true,
+      "methods": [
+        "GET"
+      ],
+      "readsBody": false,
+      "readsQuery": true,
+      "protectedAdmin": false,
+      "hasValidation": true,
+      "hasRateLimit": false
+    },
+    {
+      "file": "app/api/auth/login/route.ts",
+      "sensitive": true,
+      "methods": [
+        "POST"
+      ],
+      "readsBody": true,
+      "readsQuery": true,
+      "protectedAdmin": false,
+      "hasValidation": true,
+      "hasRateLimit": true
+    },
+    {
+      "file": "app/api/auth/logout/route.ts",
+      "sensitive": true,
+      "methods": [
+        "POST"
+      ],
+      "readsBody": false,
+      "readsQuery": false,
+      "protectedAdmin": false,
+      "hasValidation": true,
+      "hasRateLimit": false
+    },
+    {
+      "file": "app/api/auth/password-reset/confirm/route.ts",
+      "sensitive": true,
+      "methods": [
+        "POST"
+      ],
+      "readsBody": true,
+      "readsQuery": false,
+      "protectedAdmin": false,
+      "hasValidation": true,
+      "hasRateLimit": false
+    },
+    {
+      "file": "app/api/auth/password-reset/request/route.ts",
+      "sensitive": true,
+      "methods": [
+        "POST"
+      ],
+      "readsBody": true,
+      "readsQuery": true,
+      "protectedAdmin": false,
+      "hasValidation": true,
+      "hasRateLimit": true
+    },
+    {
+      "file": "app/api/auth/password-reset/whatsapp/request/route.ts",
+      "sensitive": true,
+      "methods": [
+        "POST"
+      ],
+      "readsBody": true,
+      "readsQuery": false,
+      "protectedAdmin": false,
+      "hasValidation": true,
+      "hasRateLimit": true
+    },
+    {
+      "file": "app/api/auth/password-reset/whatsapp/verify/route.ts",
+      "sensitive": true,
+      "methods": [
+        "POST"
+      ],
+      "readsBody": true,
+      "readsQuery": false,
+      "protectedAdmin": false,
+      "hasValidation": true,
+      "hasRateLimit": true
+    },
+    {
+      "file": "app/api/auth/register/route.ts",
+      "sensitive": true,
+      "methods": [
+        "POST"
+      ],
+      "readsBody": true,
+      "readsQuery": false,
+      "protectedAdmin": false,
+      "hasValidation": true,
+      "hasRateLimit": true
+    },
+    {
+      "file": "app/api/auth/session/route.ts",
+      "sensitive": true,
+      "methods": [
+        "GET"
+      ],
+      "readsBody": false,
+      "readsQuery": false,
+      "protectedAdmin": false,
+      "hasValidation": true,
+      "hasRateLimit": false
+    },
+    {
+      "file": "app/api/auth/verify-email/route.ts",
+      "sensitive": true,
+      "methods": [
+        "GET"
+      ],
+      "readsBody": false,
+      "readsQuery": true,
+      "protectedAdmin": false,
+      "hasValidation": true,
+      "hasRateLimit": false
+    },
+    {
+      "file": "app/api/auth/[...nextauth]/route.ts",
+      "sensitive": true,
+      "methods": [],
+      "readsBody": false,
+      "readsQuery": false,
+      "protectedAdmin": false,
+      "hasValidation": true,
+      "hasRateLimit": false
+    },
+    {
+      "file": "app/api/checkout/mercadopago/route.ts",
+      "sensitive": true,
+      "methods": [
+        "POST"
+      ],
+      "readsBody": true,
+      "readsQuery": false,
+      "protectedAdmin": false,
+      "hasValidation": true,
+      "hasRateLimit": true
+    },
+    {
+      "file": "app/api/checkout/preference/route.ts",
+      "sensitive": true,
+      "methods": [
+        "POST"
+      ],
+      "readsBody": true,
+      "readsQuery": false,
+      "protectedAdmin": false,
+      "hasValidation": true,
+      "hasRateLimit": true
+    },
+    {
+      "file": "app/api/orders/route.ts",
+      "sensitive": true,
+      "methods": [
+        "POST"
+      ],
+      "readsBody": true,
+      "readsQuery": false,
+      "protectedAdmin": false,
+      "hasValidation": true,
+      "hasRateLimit": true
+    },
+    {
+      "file": "app/api/orders/track/route.ts",
+      "sensitive": true,
+      "methods": [
+        "GET"
+      ],
+      "readsBody": false,
+      "readsQuery": true,
+      "protectedAdmin": false,
+      "hasValidation": true,
+      "hasRateLimit": true
+    },
+    {
+      "file": "app/api/orders/[id]/cancel/route.ts",
+      "sensitive": true,
+      "methods": [
+        "POST"
+      ],
+      "readsBody": false,
+      "readsQuery": false,
+      "protectedAdmin": false,
+      "hasValidation": true,
+      "hasRateLimit": false
+    },
+    {
+      "file": "app/api/orders/[id]/pix/route.ts",
+      "sensitive": true,
+      "methods": [
+        "POST"
+      ],
+      "readsBody": false,
+      "readsQuery": false,
+      "protectedAdmin": false,
+      "hasValidation": true,
+      "hasRateLimit": false
+    },
+    {
+      "file": "app/api/pix/route.ts",
+      "sensitive": true,
+      "methods": [
+        "POST"
+      ],
+      "readsBody": true,
+      "readsQuery": false,
+      "protectedAdmin": false,
+      "hasValidation": true,
+      "hasRateLimit": false
+    },
+    {
+      "file": "app/api/quote/route.ts",
+      "sensitive": true,
+      "methods": [
+        "POST"
+      ],
+      "readsBody": true,
+      "readsQuery": true,
+      "protectedAdmin": false,
+      "hasValidation": true,
+      "hasRateLimit": true
+    },
+    {
+      "file": "app/api/shipping/quote/route.ts",
+      "sensitive": true,
+      "methods": [
+        "POST"
+      ],
+      "readsBody": true,
+      "readsQuery": false,
+      "protectedAdmin": false,
+      "hasValidation": true,
+      "hasRateLimit": false
+    },
+    {
+      "file": "app/api/webhooks/instagram/route.ts",
+      "sensitive": true,
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "readsBody": false,
+      "readsQuery": true,
+      "protectedAdmin": false,
+      "hasValidation": true,
+      "hasRateLimit": true
+    },
+    {
+      "file": "app/api/webhooks/mercadopago/route.ts",
+      "sensitive": true,
+      "methods": [
+        "POST"
+      ],
+      "readsBody": true,
+      "readsQuery": true,
+      "protectedAdmin": false,
+      "hasValidation": true,
+      "hasRateLimit": true
+    },
+    {
+      "file": "app/api/webhooks/meta-messaging/route.ts",
+      "sensitive": true,
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "readsBody": false,
+      "readsQuery": true,
+      "protectedAdmin": false,
+      "hasValidation": true,
+      "hasRateLimit": true
+    },
+    {
+      "file": "app/api/webhooks/whatsapp/route.ts",
+      "sensitive": true,
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "readsBody": false,
+      "readsQuery": true,
+      "protectedAdmin": false,
+      "hasValidation": true,
+      "hasRateLimit": true
+    }
+  ],
+  "possibleSecrets": [],
+  "sensitiveLogs": [],
+  "failures": []
+}

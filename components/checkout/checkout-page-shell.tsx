@@ -590,7 +590,7 @@ export function CheckoutPageShell({
                   value={form.phone}
                   onChange={(event) => setForm((state) => ({ ...state, phone: event.target.value }))}
                   className="rounded-[18px] border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none transition focus:border-cyan-300/35"
-                  placeholder="(21) 99999-9999"
+                  placeholder={`+${whatsappNumber}`}
                 />
               </label>
               <label className="grid gap-2">

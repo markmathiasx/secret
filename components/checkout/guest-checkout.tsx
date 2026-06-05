@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
 import { useCart } from "@/hooks/use-cart";
+import { whatsappNumber } from "@/lib/constants";
 import { calculateCardPrice } from "@/lib/payment-pricing";
 import { formatCurrency } from "@/lib/utils";
 import { sanitizePlainText, sanitizeEmail } from "@/lib/sanitize";
@@ -277,7 +278,7 @@ export function GuestCheckout() {
                   id="phone"
                   value={customerData.phone}
                   onChange={(e) => setCustomerData(prev => ({ ...prev, phone: e.target.value }))}
-                  placeholder="(21) 99999-9999"
+                  placeholder={`+${whatsappNumber}`}
                   className="bg-white/[0.1] border-white/20 text-white placeholder-white/40"
                   style={{ minHeight: '48px' }}
                 />

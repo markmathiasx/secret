@@ -30,6 +30,7 @@ type ChatMessage = {
 type AssistantApiResponse = {
   ok: boolean;
   message?: string;
+  reply?: string;
   responseId?: string | null;
   aiReady?: boolean;
   source?: "ai" | "fallback";
@@ -250,24 +251,24 @@ export function CommerceAssistantDialog({
     setIsSending(true);
 
     try {
-      const response = await fetch("/api/assistant/chat", {
+      const response = await fetch("/api/support/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "same-origin",
         cache: "no-store",
         body: JSON.stringify({
-          messages: nextMessages.map(({ role, content }) => ({ role, content })),
-          previousResponseId: responseId,
-          threadId: assistantThreadId,
+          message: trimmed,
+          sessionId: assistantThreadId || getVisitorId(),
+          sourcePage: typeof window !== "undefined" ? window.location.pathname : undefined,
           visitorId: getVisitorId(),
           source: "assistant_dialog",
-          channel: "site",
         }),
       });
 
       const data = (await response.json().catch(() => ({}))) as AssistantApiResponse;
+      const assistantMessage = data.reply || data.message;
 
-      if (!response.ok || !data.ok || !data.message) {
+      if (!response.ok || !data.ok || !assistantMessage) {
         throw new Error("Falha ao consultar o atendimento.");
       }
 
@@ -278,7 +279,7 @@ export function CommerceAssistantDialog({
         {
           id: `assistant-${Date.now()}`,
           role: "assistant",
-          content: data.message || "Posso continuar te ajudando.",
+          content: assistantMessage || "Posso continuar te ajudando.",
           source: data.source || (data.aiReady ? "ai" : "fallback"),
         },
       ]);
