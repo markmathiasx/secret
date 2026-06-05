@@ -69,3 +69,10 @@ A varredura adicional de copy antiga do prompt tambem retornou zero linhas nos a
 
 - O worktree `M:\LOJA\mdh-3d-store` permanece em outro branch com arquivos locais nao rastreados do Qwen e nao foi usado para publicar o `main`.
 - A validacao local final deve ser feita a partir de `M:\LOJA\mdh-prod-deploy`, que e o mesmo codigo commitado e enviado para producao.
+
+## Complemento pos-deploy
+
+- A validacao HTTP de producao encontrou uma variavel publica antiga de WhatsApp no ambiente Vercel.
+- O codigo foi reforcado para normalizar automaticamente numeros antigos para `5521974137662`.
+- Hardcodes de WhatsApp em componentes, paginas, scripts de smoke e templates de e-mail foram substituidos pelo numero oficial.
+- Os validadores preservam a busca por copy antiga, mas os termos sao montados por partes para nao reintroduzir strings proibidas no repositorio.

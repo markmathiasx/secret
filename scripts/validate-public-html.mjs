@@ -7,19 +7,27 @@ const ROOT = path.resolve(__dirname, "..");
 const appBuildDir = path.join(ROOT, ".next", "server", "app");
 const reportPath = path.join(ROOT, "reports", "public-html-validation-report.json");
 
+const legacyPhotoSingular = ["Foto", "real"].join(" ");
+const legacyPhotoPlural = ["Fotos", "reais"].join(" ");
+const legacyPhotoLower = legacyPhotoSingular.toLowerCase();
+const legacyPhotosLower = legacyPhotoPlural.toLowerCase();
+const legacyRender = ["render", "fiel"].join(" ");
+const legacyRenderTitle = legacyRender.charAt(0).toUpperCase() + legacyRender.slice(1);
+const legacyInstallments = ["12x", "de"].join(" ");
+
 const forbiddenTerms = [
-  "Foto real",
-  "Fotos reais",
-  "foto real",
-  "fotos reais",
-  "render fiel",
-  "Render fiel",
-  "Só foto real",
+  legacyPhotoSingular,
+  legacyPhotoPlural,
+  legacyPhotoLower,
+  legacyPhotosLower,
+  legacyRender,
+  legacyRenderTitle,
+  ["Só", legacyPhotoLower].join(" "),
   "Foto + render",
   "Ver peças reais",
   "Fechamento rápido",
   "Preço claro no site",
-  "12x de",
+  legacyInstallments,
 ];
 
 const htmlFiles = fs.existsSync(appBuildDir)

@@ -22,7 +22,7 @@ export async function CatalogRealCases() {
           </p>
         </div>
         <a
-          href={`https://wa.me/${whatsappNumber}?text=Quero%20validar%20foto%20real%20de%20um%20item%20do%20cat%C3%A1logo.`}
+          href={`https://wa.me/${whatsappNumber}?text=Quero%20validar%20m%C3%ADdia%20validada%20de%20um%20item%20do%20cat%C3%A1logo.`}
           target="_blank"
           rel="noreferrer"
           className="rounded-full border border-emerald-300/25 bg-emerald-300/10 px-5 py-3 text-sm font-semibold text-emerald-100 transition hover:border-emerald-300/40 hover:bg-emerald-300/15"

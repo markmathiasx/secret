@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-05T01:00:06.903Z",
+  "generatedAt": "2026-06-05T01:30:23.277Z",
   "ok": true,
   "rule": "pricePix = basePix + 2.00; priceCard = pricePix + 1.00",
   "productsChecked": 564,

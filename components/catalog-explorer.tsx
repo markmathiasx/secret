@@ -105,7 +105,7 @@ function getStockUrgency(product: Product) {
 
 function buildWhatsAppQuote(product: Product, quantity: number) {
   const message = `Oi! Quero fechar ${quantity}x ${product.name} (${product.sku}).`;
-  return `https://wa.me/5521920137249?text=${encodeURIComponent(message)}`;
+  return `https://wa.me/5521974137662?text=${encodeURIComponent(message)}`;
 }
 
 function buildSelectionWhatsApp(items: Product[], quantity: number) {
@@ -116,7 +116,7 @@ function buildSelectionWhatsApp(items: Product[], quantity: number) {
     ...lines,
     'Pode me ajudar a fechar a melhor opção?',
   ].join('\n');
-  return `https://wa.me/5521920137249?text=${encodeURIComponent(message)}`;
+  return `https://wa.me/5521974137662?text=${encodeURIComponent(message)}`;
 }
 
 function buildFavoritesWhatsApp(items: Product[]) {
@@ -127,7 +127,7 @@ function buildFavoritesWhatsApp(items: Product[]) {
     ...lines,
     'Pode me orientar sobre prazo, material e melhor fechamento?',
   ].join('\n');
-  return `https://wa.me/5521920137249?text=${encodeURIComponent(message)}`;
+  return `https://wa.me/5521974137662?text=${encodeURIComponent(message)}`;
 }
 
 function shouldIgnoreCardActivation(target: EventTarget | null) {

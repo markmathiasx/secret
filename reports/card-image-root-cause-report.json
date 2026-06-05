@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-05T01:00:07.196Z",
+  "generatedAt": "2026-06-05T01:31:04.618Z",
   "answers": {
     "imageFieldInProducts": "Produtos estáticos expõem images[] e image. Produtos vindos do banco mapeiam media[] para images[] e image. O resolver também cobre imageGallery, gallery, imageUrl, primaryImage e thumbnail.",
     "productCardReadsCorrectField": "Corrigido. O card agora usa getProductCardImage(product), que tenta imageGallery[0].url, imageGallery[0].src, gallery[0].url, gallery[0].src, images[0], image, imageUrl, primaryImage, thumbnail e por fim placeholder.",

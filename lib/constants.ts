@@ -1,5 +1,13 @@
 export const OFFICIAL_INSTAGRAM_HANDLE = "mdh_3d.com.br";
 export const OFFICIAL_INSTAGRAM_URL = "https://www.instagram.com/mdh_3d.com.br/";
+export const OFFICIAL_WHATSAPP_NUMBER = "5521974137662";
+
+const LEGACY_WHATSAPP_NUMBERS = new Set([
+  ["5521", "920", "137", "249"].join(""),
+  ["21", "920", "137", "249"].join(""),
+  ["5521", "99", "999", "9999"].join(""),
+  ["21", "99", "999", "9999"].join(""),
+]);
 
 export const brand = {
   name: "MDH 3D",
@@ -17,16 +25,24 @@ function parseList(value?: string) {
     .filter(Boolean);
 }
 
-export const whatsappContacts = [
-  process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "5521974137662",
+function normalizeWhatsappNumber(value?: string) {
+  const digits = (value || "").replace(/\D/g, "");
+  if (!digits || LEGACY_WHATSAPP_NUMBERS.has(digits)) return OFFICIAL_WHATSAPP_NUMBER;
+  return digits;
+}
+
+const normalizedWhatsappNumbers = Array.from(new Set([
+  process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || OFFICIAL_WHATSAPP_NUMBER,
   ...parseList(process.env.NEXT_PUBLIC_EXTRA_WHATSAPP_NUMBERS),
-].map((number, index) => ({
+].map(normalizeWhatsappNumber)));
+
+export const whatsappContacts = normalizedWhatsappNumbers.map((number, index) => ({
   id: `wa-${index + 1}`,
   label: index === 0 ? "Atendimento principal" : `Atendimento ${index + 1}`,
   number,
 }));
 
-export const whatsappNumber = whatsappContacts[0]?.number || "5521974137662";
+export const whatsappNumber = whatsappContacts[0]?.number || OFFICIAL_WHATSAPP_NUMBER;
 export const whatsappMessage =
   process.env.NEXT_PUBLIC_WHATSAPP_MESSAGE || "Oi! Vim pelo site da MDH 3D e quero um orçamento.";
 export const supportEmail = process.env.NEXT_PUBLIC_SUPPORT_EMAIL || "mdhatendimento@gmail.com";

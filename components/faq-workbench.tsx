@@ -60,7 +60,7 @@ export function FaqWorkbench({ items }: { items: FaqItem[] }) {
     {
       title: "Quero falar com a equipe",
       description: "Quando a dúvida for específica e precisar de validação humana.",
-      href: `https://wa.me/5521920137249`,
+      href: `https://wa.me/5521974137662`,
       icon: MessageCircleMore,
     },
   ];

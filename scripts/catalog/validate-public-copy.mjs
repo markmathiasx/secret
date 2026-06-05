@@ -4,15 +4,22 @@ import { ROOT, writeJson } from "./ts-runtime.mjs";
 
 const legacyPhone = ["(21) 99", "999-9999"].join("");
 const legacyInstagram = ["mdh_", "impressao", "3d"].join("");
+const legacyPhotoSingular = ["Foto", "real"].join(" ");
+const legacyPhotoPlural = ["Fotos", "reais"].join(" ");
+const legacyPhotoLower = legacyPhotoSingular.toLowerCase();
+const legacyPhotosLower = legacyPhotoPlural.toLowerCase();
+const legacyRender = ["render", "fiel"].join(" ");
+const legacyRenderTitle = legacyRender.charAt(0).toUpperCase() + legacyRender.slice(1);
+const legacyInstallments = ["12x", "de"].join(" ");
 
 const forbiddenTerms = [
-  "Foto real",
-  "Fotos reais",
-  "foto real",
-  "fotos reais",
-  "render fiel",
-  "Render fiel",
-  "Só foto real",
+  legacyPhotoSingular,
+  legacyPhotoPlural,
+  legacyPhotoLower,
+  legacyPhotosLower,
+  legacyRender,
+  legacyRenderTitle,
+  ["Só", legacyPhotoLower].join(" "),
   "Foto + render",
   "Ver peças reais",
   "Peças reais",
@@ -21,7 +28,7 @@ const forbiddenTerms = [
   "Preço claro",
   "Preço auditado",
   "Simulação ativa",
-  "12x de",
+  legacyInstallments,
   legacyPhone,
   "Peça já produzida",
   "visual fiel do produto final",

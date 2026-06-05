@@ -53,7 +53,7 @@ export default function DivulgacaoPage() {
   const routeCards = [
     { label: "Curar catálogo", href: "/catalogo?mode=verified", note: "abrir itens com visual mais forte para reutilizar em divulgação" },
     { label: "Mandar referência", href: "/imagem-para-impressao-3d", note: "levar uma ideia nova para virar peça e conteúdo ao mesmo tempo" },
-    { label: "Falar no WhatsApp", href: "https://wa.me/5521920137249", note: "alinhar pedido, prova visual e material antes da postagem" },
+    { label: "Falar no WhatsApp", href: "https://wa.me/5521974137662", note: "alinhar pedido, prova visual e material antes da postagem" },
   ];
 
   return (

@@ -7,10 +7,14 @@ const {
   buildMetaCommerceFeedData,
 } = require("@/lib/meta-commerce-feed");
 
+const legacyPhotoSingular = ["Foto", "real"].join(" ");
+const legacyPhotosLower = ["fotos", "reais"].join(" ");
+const legacyRender = ["render", "fiel"].join(" ");
+
 const forbiddenTerms = [
-  "Foto real",
-  "fotos reais",
-  "render fiel",
+  legacyPhotoSingular,
+  legacyPhotosLower,
+  legacyRender,
   "12x",
   ["mdh_", "impressao", "3d"].join(""),
 ];

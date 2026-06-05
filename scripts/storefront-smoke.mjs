@@ -160,11 +160,11 @@ async function runCheckoutFlow(page) {
 
   await page.getByLabel("Nome completo").first().fill("Cliente Teste MDH");
   await page.getByLabel("Email").first().fill("cliente.teste+codex@mdh3d.local");
-  await page.getByRole("textbox", { name: "WhatsApp" }).first().fill("21999999999");
+  await page.getByRole("textbox", { name: "WhatsApp" }).first().fill("21974137662");
   await page.getByLabel("Apelido do endereço").first().fill("Casa");
   await page.getByLabel("Destinatário").first().fill("Cliente Teste MDH");
   await page.getByRole("textbox", { name: "CEP" }).first().fill("22041001");
-  await page.getByLabel("Telefone do endereço").first().fill("21999999999");
+  await page.getByLabel("Telefone do endereço").first().fill("21974137662");
   await page.getByLabel("Rua e número").first().fill("Rua Barata Ribeiro, 100");
   await page.getByLabel("Complemento").first().fill("Teste automatizado");
   await page.getByLabel("Bairro").first().fill("Copacabana");

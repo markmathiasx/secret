@@ -8,7 +8,7 @@ export function orderConfirmationHtml(order: {
   productionWindow: string;
 }): string {
   const totalFormatted = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(order.totalPix);
-  const waLink = `https://wa.me/5521920137249?text=${encodeURIComponent(`Oi! Quero acompanhar o pedido ${order.orderCode}.`)}`;
+  const waLink = `https://wa.me/5521974137662?text=${encodeURIComponent(`Oi! Quero acompanhar o pedido ${order.orderCode}.`)}`;
 
   return `<!DOCTYPE html>
 <html lang="pt-BR">
@@ -97,7 +97,7 @@ export function paymentConfirmedHtml(order: {
   totalPix: number;
 }): string {
   const totalFormatted = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(order.totalPix);
-  const waLink = `https://wa.me/5521920137249?text=${encodeURIComponent(`Oi! Quero acompanhar o pedido ${order.orderCode}.`)}`;
+  const waLink = `https://wa.me/5521974137662?text=${encodeURIComponent(`Oi! Quero acompanhar o pedido ${order.orderCode}.`)}`;
 
   return `<!DOCTYPE html>
 <html lang="pt-BR">
@@ -200,7 +200,7 @@ export function orderShippedHtml(order: {
   trackingCode?: string | null;
   carrier?: string | null;
 }): string {
-  const waLink = `https://wa.me/5521920137249?text=${encodeURIComponent(`Oi! Quero rastrear o pedido ${order.orderCode}.`)}`;
+  const waLink = `https://wa.me/5521974137662?text=${encodeURIComponent(`Oi! Quero rastrear o pedido ${order.orderCode}.`)}`;
   return `<!DOCTYPE html>
 <html lang="pt-BR">
 <head><meta charset="UTF-8" /><title>Pedido enviado — MDH 3D</title></head>
@@ -241,7 +241,7 @@ export function orderCancelledHtml(order: {
       <tr><td style="padding:32px;">
         <h1 style="margin:0 0 8px;font-size:26px;font-weight:900;color:#ffffff;">Pedido cancelado</h1>
         <p style="margin:0 0 16px;font-size:15px;color:rgba(255,255,255,0.65);">Olá, ${order.customerName}. Seu pedido <strong>${order.orderCode}</strong> (${order.productName}) foi cancelado.</p>
-        <a href="https://wa.me/5521920137249" style="display:block;text-align:center;background:#25D366;color:#ffffff;font-size:15px;font-weight:700;padding:14px 24px;border-radius:14px;text-decoration:none;margin-top:20px;">💬 Falar com a equipe</a>
+        <a href="https://wa.me/5521974137662" style="display:block;text-align:center;background:#25D366;color:#ffffff;font-size:15px;font-weight:700;padding:14px 24px;border-radius:14px;text-decoration:none;margin-top:20px;">💬 Falar com a equipe</a>
       </td></tr>
       <tr><td style="background:#060c14;padding:16px;text-align:center;">
         <p style="margin:0;font-size:12px;color:rgba(255,255,255,0.3);">MDH 3D Store • Rio de Janeiro</p>
