@@ -21,10 +21,38 @@ export function getSupabaseStorageProvider(): FileStorageProvider | null {
       persistSession: false,
     },
   });
+  let bucketReady: Promise<void> | null = null;
+
+  async function ensureBucket() {
+    if (!bucketReady) {
+      bucketReady = supabase.storage
+        .getBucket(bucket)
+        .then(async ({ error }) => {
+          if (!error) return;
+
+          const { error: createError } = await supabase.storage.createBucket(bucket, {
+            public: false,
+            fileSizeLimit: 50 * 1024 * 1024,
+          });
+
+          if (createError && !/already exists/i.test(createError.message || "")) {
+            throw new Error(createError.message || "Falha ao criar bucket privado no Supabase Storage.");
+          }
+        })
+        .catch((error) => {
+          bucketReady = null;
+          throw error;
+        });
+    }
+
+    return bucketReady;
+  }
 
   return {
     name: "supabase",
     async store(input: StoreFileInput): Promise<StoredFileObject> {
+      await ensureBucket();
+
       const ownerSegment = input.ownerUserId ? safeSegment(input.ownerUserId) : "anonymous";
       const objectName = `${crypto.randomUUID()}-${safeSegment(input.safeName)}`;
       const objectPath = [safeSegment(input.purpose), ownerSegment, objectName].join("/");

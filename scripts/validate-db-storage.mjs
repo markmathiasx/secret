@@ -49,6 +49,13 @@ if (!storageProvider.includes("canConnectToDatabase") || !storageProvider.includ
   errors.push({ code: "storage_metadata_guard_missing" });
 }
 
+const supabaseStorageProvider = exists("lib/storage/supabase-storage-provider.ts")
+  ? read("lib/storage/supabase-storage-provider.ts")
+  : "";
+if (!supabaseStorageProvider.includes("createBucket") || !supabaseStorageProvider.includes("public: false")) {
+  errors.push({ code: "supabase_private_bucket_ensure_missing" });
+}
+
 const supabaseSql = exists("supabase/migrations/20260606063633_mdh_storage_rls_policies.sql")
   ? read("supabase/migrations/20260606063633_mdh_storage_rls_policies.sql")
   : "";
