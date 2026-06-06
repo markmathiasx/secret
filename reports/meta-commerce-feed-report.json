@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-05T23:36:03.803Z",
+  "generatedAt": "2026-06-06T00:55:04.241Z",
   "ok": true,
   "expectedHeader": "id,title,description,availability,condition,price,link,image_link,brand,google_product_category,product_type",
   "productsInFeed": 560,
@@ -8,7 +8,7 @@
   "productsUsingPlaceholder": 4,
   "skippedProducts": 4,
   "skippedByReason": {
-    "missing_public_real_image": 4
+    "missing_public_image": 4
   },
   "sampleProducts": [
     {
@@ -277,28 +277,28 @@
       "product": "mdh-067",
       "title": "mascote elétrico tema geek Chibi",
       "reasons": [
-        "missing_public_real_image"
+        "missing_public_image"
       ]
     },
     {
       "product": "mdh-068",
       "title": "mascote retrô tema clássico Chibi",
       "reasons": [
-        "missing_public_real_image"
+        "missing_public_image"
       ]
     },
     {
       "product": "mdh-069",
       "title": "herói retrô tema clássico Chibi",
       "reasons": [
-        "missing_public_real_image"
+        "missing_public_image"
       ]
     },
     {
       "product": "csv-uti-040",
       "title": "Organizador Modular mascote evolutivo criatura colecionável para Ferramentas Leves, Peças e Acessórios Nerd",
       "reasons": [
-        "missing_public_real_image"
+        "missing_public_image"
       ]
     }
   ],

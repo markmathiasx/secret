@@ -42,6 +42,9 @@ export type MetaCommerceFeedData = {
   products: MetaCommerceProduct[];
 };
 
+const LEGACY_INSTAGRAM_PATTERN = new RegExp(`@?${["mdh", "impressao3d"].join("_")}`, "gi");
+const LEGACY_PHONE_PATTERN = new RegExp(`\\(21\\)\\s*${["99999", "9999"].join("-")}`, "gi");
+
 const FORBIDDEN_COPY_PATTERNS = [
   /foto\s+real/gi,
   /fotos\s+reais/gi,
@@ -51,6 +54,8 @@ const FORBIDDEN_COPY_PATTERNS = [
   /pre[cç]o\s+auditado/gi,
   /simula[cç][aã]o\s+ativa/gi,
   /\b12x(?:\s+de)?\b/gi,
+  LEGACY_INSTAGRAM_PATTERN,
+  LEGACY_PHONE_PATTERN,
   /@?mdh_3d.com.br/gi,
 ];
 
@@ -166,45 +171,53 @@ export function buildMetaCommerceFeedData(): MetaCommerceFeedData {
   const seenIds = new Set<string>();
 
   for (const product of catalog) {
-    const reasons: string[] = [];
-    const id = getStableId(product);
-    const title = truncate(cleanPublicCopy(product.name, "Produto MDH 3D"), 150);
-    const description = truncate(
-      cleanPublicCopy(product.description, `Produto em impressao 3D da MDH 3D: ${title}.`),
-      5000
-    );
-    const pricePix = roundToCents(normalizeMoney(product.pricePix ?? product.price));
-    const link = getMetaProductUrl(product);
-    const imageLink = getMetaProductImage(product);
+    try {
+      const reasons: string[] = [];
+      const id = getStableId(product);
+      const title = truncate(cleanPublicCopy(product.name, "Produto MDH 3D"), 150);
+      const description = truncate(
+        cleanPublicCopy(product.description, `Produto em impressao 3D da MDH 3D: ${title}.`),
+        5000
+      );
+      const pricePix = roundToCents(normalizeMoney(product.pricePix ?? product.price));
+      const link = getMetaProductUrl(product);
+      const imageLink = getMetaProductImage(product);
 
-    if (!id) reasons.push("missing_id");
-    if (seenIds.has(id)) reasons.push("duplicate_id");
-    if (!title) reasons.push("missing_title");
-    if (!description || description.length < 8) reasons.push("missing_description");
-    if (pricePix <= 0) reasons.push("missing_fixed_pix_price");
-    if (hasBudgetOnlyCopy(product)) reasons.push("budget_only_product");
-    if (!link || !/^https:\/\/www\.mdh3d\.com\.br\//i.test(link)) reasons.push("invalid_product_url");
-    if (!imageLink) reasons.push("missing_public_real_image");
+      if (!id) reasons.push("missing_id");
+      if (seenIds.has(id)) reasons.push("duplicate_id");
+      if (!title) reasons.push("missing_title");
+      if (!description || description.length < 8) reasons.push("missing_description");
+      if (pricePix <= 0) reasons.push("missing_fixed_pix_price");
+      if (hasBudgetOnlyCopy(product)) reasons.push("budget_only_product");
+      if (!link || !/^https:\/\/www\.mdh3d\.com\.br\//i.test(link)) reasons.push("invalid_product_url");
+      if (!imageLink) reasons.push("missing_public_image");
 
-    if (reasons.length > 0) {
-      skipped.push({ id: product.id, title: product.name, reasons });
-      continue;
+      if (reasons.length > 0) {
+        skipped.push({ id: product.id, title: product.name, reasons });
+        continue;
+      }
+
+      seenIds.add(id);
+      products.push({
+        id,
+        title,
+        description,
+        availability: getMetaAvailability(product),
+        condition: "new",
+        price: `${pricePix.toFixed(2)} BRL`,
+        link: link as string,
+        image_link: imageLink as string,
+        brand: "MDH 3D",
+        google_product_category: getGoogleProductCategory(product),
+        product_type: getProductType(product),
+      });
+    } catch (error) {
+      skipped.push({
+        id: String(product?.id || "unknown_product"),
+        title: String(product?.name || "Produto invalido"),
+        reasons: [`exception_${error instanceof Error ? error.name : "unknown"}`],
+      });
     }
-
-    seenIds.add(id);
-    products.push({
-      id,
-      title,
-      description,
-      availability: getMetaAvailability(product),
-      condition: "new",
-      price: `${pricePix.toFixed(2)} BRL`,
-      link: link as string,
-      image_link: imageLink as string,
-      brand: "MDH 3D",
-      google_product_category: getGoogleProductCategory(product),
-      product_type: getProductType(product),
-    });
   }
 
   const totalWithOwnImage = catalog.filter((product) => hasUsableProductImage(product)).length;
