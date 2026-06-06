@@ -1,9 +1,12 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { randomBytes, scryptSync, timingSafeEqual } from "node:crypto";
+import { Role } from "@prisma/client";
+import { compare } from "bcryptjs";
 import { createClient } from "@supabase/supabase-js";
 import { isOrderBlobConfigured, readSecureBlobJson, writeSecureBlobJson } from "@/lib/blob-store";
 import { getSupabaseEnv } from "@/lib/env";
+import { canConnectToDatabase, prisma } from "@/lib/prisma";
 
 export type AuthRole = "customer" | "admin";
 
@@ -41,6 +44,16 @@ let writeQueue = Promise.resolve();
 
 function getRuntimeScope() {
   return globalThis as AuthStoreRuntime;
+}
+
+function isProductionRuntime() {
+  return process.env.NODE_ENV === "production" || process.env.VERCEL === "1" || process.env.VERCEL_ENV === "production";
+}
+
+function assertDevFallbackAllowed() {
+  if (isProductionRuntime()) {
+    throw new Error("Persistência de produção não configurada.");
+  }
 }
 
 function cloneStore(store: UserStore): UserStore {
@@ -239,6 +252,97 @@ function toRemoteAuthUser(user: { id: string; email?: string | null; user_metada
   };
 }
 
+async function createPrismaAuthUser(input: {
+  email: string;
+  displayName: string;
+  password: string;
+}) {
+  const email = normalizeEmail(input.email);
+  const displayName = normalizeDisplayName(input.displayName);
+
+  const existing = await prisma.user.findUnique({
+    where: { email },
+    select: { id: true },
+  });
+
+  if (existing) {
+    throw new Error("Já existe uma conta cadastrada com este e-mail.");
+  }
+
+  const { hash } = await import("bcryptjs");
+  const passwordHash = await hash(input.password, 10);
+  const user = await prisma.user.create({
+    data: {
+      email,
+      name: displayName,
+      passwordHash,
+      role: Role.BUYER,
+      emailVerified: new Date(),
+      buyerProfile: { create: {} },
+      wishlist: { create: {} },
+    },
+    select: {
+      id: true,
+      email: true,
+      name: true,
+      role: true,
+      createdAt: true,
+      lastLoginAt: true,
+    },
+  });
+
+  return {
+    id: user.id,
+    email: user.email || email,
+    displayName: user.name || displayName,
+    role: user.role === Role.ADMIN ? "admin" : "customer",
+    createdAt: user.createdAt.toISOString(),
+    lastLoginAt: user.lastLoginAt?.toISOString() ?? null,
+  } satisfies AuthUser;
+}
+
+async function authenticatePrismaCustomer(input: {
+  email: string;
+  password: string;
+}) {
+  const email = normalizeEmail(input.email);
+  const user = await prisma.user.findUnique({
+    where: { email },
+    select: {
+      id: true,
+      email: true,
+      name: true,
+      role: true,
+      passwordHash: true,
+      isActive: true,
+      disabledAt: true,
+      createdAt: true,
+    },
+  });
+
+  if (!user?.email || !user.passwordHash || !user.isActive || user.disabledAt) {
+    return null;
+  }
+
+  const valid = await compare(input.password, user.passwordHash);
+  if (!valid) return null;
+
+  const lastLoginAt = new Date();
+  await prisma.user.update({
+    where: { id: user.id },
+    data: { lastLoginAt },
+  });
+
+  return {
+    id: user.id,
+    email: user.email,
+    displayName: user.name || user.email.split("@")[0] || "cliente",
+    role: user.role === Role.ADMIN ? "admin" : "customer",
+    createdAt: user.createdAt.toISOString(),
+    lastLoginAt: lastLoginAt.toISOString(),
+  } satisfies AuthUser;
+}
+
 async function listRemoteUsers() {
   const supabaseAdmin = getSupabaseAdmin();
   if (!supabaseAdmin) return [];
@@ -316,6 +420,10 @@ export async function createCustomerAccount(input: {
   displayName: string;
   password: string;
 }) {
+  if (await canConnectToDatabase()) {
+    return createPrismaAuthUser(input);
+  }
+
   const supabaseAdmin = getSupabaseAdmin();
 
   if (supabaseAdmin) {
@@ -346,11 +454,15 @@ export async function createCustomerAccount(input: {
       }
 
       return toRemoteAuthUser(data.user);
-    } catch {
-      // Fallback local para ambientes sem acesso ao Supabase ou com instabilidade temporaria.
+    } catch (error) {
+      if (isProductionRuntime()) {
+        throw new Error(error instanceof Error ? error.message : "Não foi possível criar a conta.");
+      }
+      // Fallback local para ambientes de desenvolvimento sem acesso ao Supabase.
     }
   }
 
+  assertDevFallbackAllowed();
   return createUser({ ...input, role: "customer" });
 }
 
@@ -358,6 +470,11 @@ export async function authenticateCustomerUser(input: {
   email: string;
   password: string;
 }) {
+  if (await canConnectToDatabase()) {
+    const prismaUser = await authenticatePrismaCustomer(input);
+    if (prismaUser) return prismaUser;
+  }
+
   const supabasePublic = getSupabasePublic();
 
   if (supabasePublic) {
@@ -373,6 +490,10 @@ export async function authenticateCustomerUser(input: {
     } catch {
       // Segue para o fallback local abaixo.
     }
+  }
+
+  if (isProductionRuntime()) {
+    return null;
   }
 
   return authenticateUser({ ...input, role: "customer" });

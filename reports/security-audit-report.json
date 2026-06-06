@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-06T00:55:18.697Z",
+  "generatedAt": "2026-06-06T06:40:34.577Z",
   "ok": true,
   "headers": [
     {
@@ -564,6 +564,18 @@
         "POST"
       ],
       "readsBody": false,
+      "readsQuery": true,
+      "protectedAdmin": false,
+      "hasValidation": true,
+      "hasRateLimit": false
+    },
+    {
+      "file": "app/api/auth/me/route.ts",
+      "sensitive": true,
+      "methods": [
+        "GET"
+      ],
+      "readsBody": false,
       "readsQuery": false,
       "protectedAdmin": false,
       "hasValidation": true,
@@ -624,7 +636,7 @@
         "POST"
       ],
       "readsBody": true,
-      "readsQuery": false,
+      "readsQuery": true,
       "protectedAdmin": false,
       "hasValidation": true,
       "hasRateLimit": true
@@ -683,6 +695,18 @@
       ],
       "readsBody": true,
       "readsQuery": false,
+      "protectedAdmin": false,
+      "hasValidation": true,
+      "hasRateLimit": true
+    },
+    {
+      "file": "app/api/files/upload/route.ts",
+      "sensitive": true,
+      "methods": [
+        "POST"
+      ],
+      "readsBody": true,
+      "readsQuery": true,
       "protectedAdmin": false,
       "hasValidation": true,
       "hasRateLimit": true

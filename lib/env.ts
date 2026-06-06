@@ -94,6 +94,7 @@ export const envSchema = z.object({
   NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: optionalTrimmedString,
   SUPABASE_SERVICE_ROLE_KEY: optionalTrimmedString,
   SUPABASE_SECRET_KEY: optionalTrimmedString,
+  SUPABASE_STORAGE_BUCKET: optionalTrimmedString,
   NEXT_PUBLIC_SUPABASE_CATALOG_BUCKET_URL: optionalUrl,
   CHATWOOT_BASE_URL: optionalUrl,
   NEXT_PUBLIC_CHATWOOT_BASE_URL: optionalUrl,
@@ -310,6 +311,10 @@ export function getSupabaseEnv() {
     anon: getSupabaseAnonKey(),
     serviceRole: getSupabaseServiceKey()
   };
+}
+
+export function getSupabaseStorageBucket() {
+  return (process.env.SUPABASE_STORAGE_BUCKET || "mdh-private-assets").trim();
 }
 
 export function getDatabaseUrl() {

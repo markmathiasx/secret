@@ -28,9 +28,9 @@ function getPasswordStrength(password: string) {
   return { label: 'Forte', width: '100%', color: 'from-emerald-300 to-emerald-400' };
 }
 
-export default function LoginPage() {
+export default function LoginPage({ initialMode = 'register' }: { initialMode?: 'register' | 'login' }) {
   const [queryState, setQueryState] = useState({ redirectTo: '', verificationStatus: '' });
-  const [mode, setMode] = useState<'register' | 'login'>('register');
+  const [mode, setMode] = useState<'register' | 'login'>(initialMode);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
@@ -56,6 +56,10 @@ export default function LoginPage() {
       redirectTo: params.get('redirect') || '',
       verificationStatus: params.get('verified') || '',
     });
+    const requestedMode = params.get('mode');
+    if (requestedMode === 'login' || requestedMode === 'register') {
+      setMode(requestedMode);
+    }
   }, []);
 
   useEffect(() => {

@@ -5,6 +5,7 @@ import { getClientIp, isValidEmail } from "@/lib/security";
 import { rateLimitRequest } from "@/lib/redis";
 import { createSignedSessionToken, customerSessionCookieName, getCustomerSessionSecret } from "@/lib/session-token";
 import { logStructured } from "@/lib/logger";
+import { recordAuthAudit } from "@/lib/auth/audit";
 
 export const runtime = "nodejs";
 
@@ -40,6 +41,12 @@ export async function POST(req: Request) {
 
     if (!user) {
       logStructured("warn", "customer_login_failed", { requestId: req.headers.get("x-request-id") || null, ip, emailDomain: email.split("@")[1] || "unknown" });
+      await recordAuthAudit({
+        action: "auth.customer.login_failed",
+        ip,
+        userAgent: req.headers.get("user-agent"),
+        metadata: { emailDomain: email.split("@")[1] || "unknown" },
+      });
       return applyNoStoreHeaders(NextResponse.json({ error: "Email ou senha incorretos" }, { status: 401 }));
     }
 
@@ -77,6 +84,14 @@ export async function POST(req: Request) {
     });
 
     logStructured("info", "customer_login_success", { requestId: req.headers.get("x-request-id") || null, userId: user.id });
+    await recordAuthAudit({
+      actorUserId: user.id,
+      action: "auth.customer.login_success",
+      targetType: "User",
+      targetId: user.id,
+      ip,
+      userAgent: req.headers.get("user-agent"),
+    });
     return applyNoStoreHeaders(response);
   } catch (error) {
     logStructured("error", "customer_login_error", { error: error instanceof Error ? error.message : "unknown" });
