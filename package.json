@@ -81,6 +81,11 @@
     "public:validate-html": "node scripts/validate-local-vs-production.mjs",
     "validate:local-vs-production": "node scripts/validate-local-vs-production.mjs",
     "validate:first-sale": "node scripts/validate-first-sale-copy.mjs && node scripts/validate-whatsapp-links.mjs && node scripts/validate-intent-pages.mjs && node scripts/validate-support-bot.mjs && node scripts/validate-public-trust.mjs",
+    "validate:industrial-ui": "node scripts/validate-industrial-ui.mjs",
+    "validate:auth": "node scripts/validate-auth-flow.mjs",
+    "validate:db-storage": "node scripts/validate-db-storage.mjs",
+    "validate:private-routes": "node scripts/validate-private-routes.mjs",
+    "validate:public-regressions": "node scripts/validate-public-regressions.mjs",
     "validate:enterprise-scaffold": "node scripts/validate-enterprise-scaffold.mjs",
     "ci:check": "npm run lint:check && npm run typecheck && npm run build && npm run test:images && npm run test:e2e"
   },

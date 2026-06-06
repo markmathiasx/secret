@@ -78,6 +78,25 @@ npm run lint:check
 npm run build
 ```
 
+## Auth, DB e storage industrial
+
+Este projeto possui fundacao de conta privada, auditoria e upload protegido:
+
+- Rotas: `/cadastro`, `/perfil`, `/pedidos`, `/api/auth/me`, `/api/files/upload`.
+- Prisma: `UserProfile`, `ProductOverride`, `FileAsset`, `SupportConversation`, `SupportMessage`, `AuditLog`.
+- Supabase Storage: bucket privado `mdh-private-assets` com RLS em `supabase/migrations`.
+- Docs: [docs/AUTH_DB_STORAGE.md](./docs/AUTH_DB_STORAGE.md), [docs/VERCEL_ENV.md](./docs/VERCEL_ENV.md), [docs/SUPABASE_SETUP.md](./docs/SUPABASE_SETUP.md).
+
+Validadores especificos:
+
+```powershell
+npm run validate:industrial-ui
+npm run validate:auth
+npm run validate:db-storage
+npm run validate:private-routes
+npm run validate:public-regressions
+```
+
 ## Fluxo recomendado de desenvolvimento
 
 1. Suba `postgres`, `redis` e `mailhog`.

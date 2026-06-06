@@ -5,6 +5,7 @@ import { createCustomerAccount } from "@/lib/auth-store";
 import { canConnectToDatabase } from "@/lib/prisma";
 import { getClientIp, sanitizeTextInput, isValidEmail } from "@/lib/security";
 import { rateLimitRequest } from "@/lib/redis";
+import { recordAuthAudit } from "@/lib/auth/audit";
 
 export const runtime = "nodejs";
 
@@ -47,6 +48,14 @@ export async function POST(req: Request) {
         password,
         displayName: name,
       });
+      await recordAuthAudit({
+        actorUserId: user.id,
+        action: "auth.customer.register_success",
+        targetType: "User",
+        targetId: user.id,
+        ip,
+        userAgent: req.headers.get("user-agent"),
+      });
 
       return applyNoStoreHeaders(
         NextResponse.json(
@@ -69,6 +78,15 @@ export async function POST(req: Request) {
       email,
       password,
       name,
+    });
+    await recordAuthAudit({
+      actorUserId: result.user.id,
+      action: "auth.customer.register_success",
+      targetType: "User",
+      targetId: result.user.id,
+      ip,
+      userAgent: req.headers.get("user-agent"),
+      metadata: { needsVerification: result.needsVerification },
     });
 
     return applyNoStoreHeaders(
@@ -93,9 +111,21 @@ export async function POST(req: Request) {
     const normalized = message.toLowerCase();
 
     if (normalized.includes("já existe") || normalized.includes("already") || normalized.includes("registered")) {
-      return applyNoStoreHeaders(NextResponse.json({ error: message }, { status: 409 }));
+      await recordAuthAudit({
+        action: "auth.customer.register_rejected",
+        ip: req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip"),
+        userAgent: req.headers.get("user-agent"),
+        metadata: { reason: "duplicate_or_registered" },
+      });
+      return applyNoStoreHeaders(NextResponse.json({ error: "Não foi possível criar a conta com os dados informados." }, { status: 409 }));
     }
 
-    return applyNoStoreHeaders(NextResponse.json({ error: message }, { status: 500 }));
+    await recordAuthAudit({
+      action: "auth.customer.register_error",
+      ip: req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip"),
+      userAgent: req.headers.get("user-agent"),
+      metadata: { reason: normalized.slice(0, 120) },
+    });
+    return applyNoStoreHeaders(NextResponse.json({ error: "Não foi possível criar a conta agora." }, { status: 500 }));
   }
 }

@@ -5,10 +5,10 @@ import { applyNoStoreHeaders } from "@/lib/http-cache";
 import { API_RATE_LIMIT, AUTH_RATE_LIMIT, checkRateLimit, GLOBAL_RATE_LIMIT, PAYMENT_RATE_LIMIT, RateLimitConfig, SESSION_RATE_LIMIT } from "@/lib/rate-limit";
 import { getCustomerSessionSecret, verifySignedSessionToken } from "@/lib/session-token";
 
-const protectedPrefixes = ["/seller", "/admin", "/conta"];
+const protectedPrefixes = ["/seller", "/admin", "/conta", "/perfil", "/pedidos"];
 const adminLoginPath = "/admin/login";
-const privateResponsePrefixes = ["/admin", "/api/admin", "/conta", "/api/account"];
-const csrfProtectedPrefixes = ["/admin", "/api/admin", "/conta", "/api/account"];
+const privateResponsePrefixes = ["/admin", "/api/admin", "/conta", "/perfil", "/pedidos", "/api/account", "/api/files"];
+const csrfProtectedPrefixes = ["/admin", "/api/admin", "/conta", "/perfil", "/pedidos", "/api/account", "/api/files"];
 
 function isProtectedPath(pathname: string) {
   if (pathname === adminLoginPath || pathname.startsWith(`${adminLoginPath}/`)) {
