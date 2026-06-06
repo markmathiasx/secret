@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
-import { Clock, Mail, MessageCircleMore, PackageSearch, ShieldCheck, Truck } from "lucide-react";
+import { Clock, Instagram, Mail, MessageCircleMore, PackageSearch, ShieldCheck, Truck } from "lucide-react";
 import { MDHSupportChat } from "@/components/support/MDHSupportChat";
-import { whatsappNumber, supportEmail } from "@/lib/constants";
+import { brand, socialLinks, whatsappNumber, supportEmail } from "@/lib/constants";
 import { buildSupportCatalogIndex, getSupportCatalogStats } from "@/lib/support/catalog-support-index";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export const metadata: Metadata = {
   title: "Central de Atendimento MDH 3D",
@@ -16,6 +19,13 @@ const contactCards = [
     detail: "Atendimento humano para fechamento, orçamento e pedido.",
     icon: MessageCircleMore,
     href: `https://wa.me/${whatsappNumber}?text=${encodeURIComponent("Oi! Vim pela Central de Atendimento da MDH 3D.")}`,
+  },
+  {
+    title: "Instagram oficial",
+    value: `@${brand.instagramHandle}`,
+    detail: "Canal social oficial para acompanhar novidades e falar com a MDH 3D.",
+    icon: Instagram,
+    href: socialLinks.instagram,
   },
   {
     title: "E-mail",

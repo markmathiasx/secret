@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-05T01:30:23.947Z",
+  "generatedAt": "2026-06-06T00:54:58.966Z",
   "ok": true,
   "productsIndexed": 564,
   "issues": [],
@@ -57,29 +57,15 @@
     },
     {
       "message": "quero presente barato",
-      "intent": "presente",
+      "intent": "presente_barato",
       "handoff": false,
       "products": [
-        {
-          "id": "mw-a1-451",
-          "name": "Acessório Leve para Pet Modular para identificação",
-          "pricePix": 5.66,
-          "priceCard": 6.66,
-          "url": "/loja/casa-e-organizacao/mw-a1-451-acessorio-leve-para-pet-modular-para-identificacao"
-        },
         {
           "id": "mw-a1-452",
           "name": "Tag para Pet Compacto para rotina do pet",
           "pricePix": 5.66,
           "priceCard": 6.66,
           "url": "/loja/chaveiros-e-acessorios/mw-a1-452-tag-para-pet-compacto-para-rotina-do-pet"
-        },
-        {
-          "id": "mw-a1-454",
-          "name": "Acessório Leve para Pet Ajustável para identificação",
-          "pricePix": 5.66,
-          "priceCard": 6.66,
-          "url": "/loja/casa-e-organizacao/mw-a1-454-acessorio-leve-para-pet-ajustavel-para-identificacao"
         },
         {
           "id": "mw-a1-455",
@@ -89,6 +75,20 @@
           "url": "/loja/chaveiros-e-acessorios/mw-a1-455-tag-para-pet-dobravel-para-rotina-do-pet"
         },
         {
+          "id": "mw-a1-451",
+          "name": "Acessório Leve para Pet Modular para identificação",
+          "pricePix": 5.66,
+          "priceCard": 6.66,
+          "url": "/loja/casa-e-organizacao/mw-a1-451-acessorio-leve-para-pet-modular-para-identificacao"
+        },
+        {
+          "id": "mw-a1-454",
+          "name": "Acessório Leve para Pet Ajustável para identificação",
+          "pricePix": 5.66,
+          "priceCard": 6.66,
+          "url": "/loja/casa-e-organizacao/mw-a1-454-acessorio-leve-para-pet-ajustavel-para-identificacao"
+        },
+        {
           "id": "mw-a1-457",
           "name": "Acessório Leve para Pet de Bancada para identificação",
           "pricePix": 5.66,
@@ -96,14 +96,14 @@
           "url": "/loja/casa-e-organizacao/mw-a1-457-acessorio-leve-para-pet-de-bancada-para-identificacao"
         },
         {
-          "id": "mw-a1-441",
-          "name": "Lembrança de Data Especial Empilhável para presente temático",
+          "id": "mw-a1-428",
+          "name": "Tag de Presente Compacto para lembrança afetiva",
           "pricePix": 6.58,
           "priceCard": 7.58,
-          "url": "/loja/presentes-personalizados/mw-a1-441-lembranca-de-data-especial-empilhavel-para-presente-tematico"
+          "url": "/loja/chaveiros-e-acessorios/mw-a1-428-tag-de-presente-compacto-para-lembranca-afetiva"
         }
       ],
-      "replyPreview": "Separei produtos reais começando pelos menores preços.\n\nFaixa desta seleção: R$ 5,66 a R$ 6,58 no Pix.\n\n- Acessório Leve para Pet Modular para identificação: Pix R$ 5,66; cartão R$ 6,66; prazo 3 a 5 dias; link /loja/casa-e-organizacao/mw-a1-451-acessorio-leve-para-pet-modular-para-identificacao\n- Tag para Pet Compacto para rotina do pet: Pix R$ 5,66; cartão ",
+      "replyPreview": "Separei presentes reais até R$ 50, começando pelos menores preços.\n\nFaixa desta seleção: R$ 5,66 a R$ 6,58 no Pix.\n\n- Tag para Pet Compacto para rotina do pet: Pix R$ 5,66; cartão R$ 6,66; prazo 3 a 5 dias; link /loja/chaveiros-e-acessorios/mw-a1-452-tag-para-pet-compacto-para-rotina-do-pet\n- Tag para Pet Dobrável para rotina do pet: Pix R$ 5,66; cartão R$ 6",
       "issues": []
     },
     {
