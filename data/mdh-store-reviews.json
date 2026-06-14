@@ -1,0 +1,32 @@
+[
+  {
+    "productSlug": "chaveiro-flamengo-3d",
+    "author": "Marcos S.",
+    "rating": 5,
+    "title": "Leve e bem acabado",
+    "comment": "Comprei para presente e o acabamento ficou limpo. Atendimento confirmou a cor antes de produzir.",
+    "photo": "/catalog-assets/mdh-1.webp",
+    "verified": true,
+    "createdAt": "2026-05-18"
+  },
+  {
+    "productSlug": "suporte-controle-gamer",
+    "author": "Bianca R.",
+    "rating": 5,
+    "title": "Deixou o setup organizado",
+    "comment": "O suporte encaixou bem na mesa e o prazo combinado foi cumprido.",
+    "photo": "/catalog-assets/mdh-2.webp",
+    "verified": true,
+    "createdAt": "2026-05-21"
+  },
+  {
+    "productSlug": "miniatura-dragao-articulado",
+    "author": "Rafael M.",
+    "rating": 4,
+    "title": "Boa peça geek",
+    "comment": "A articulação ficou boa e dá para escolher cor. Vale confirmar tamanho pelo WhatsApp.",
+    "photo": "/catalog-assets/mdh-5.webp",
+    "verified": false,
+    "createdAt": "2026-05-29"
+  }
+]

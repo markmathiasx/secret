@@ -31,7 +31,9 @@ import { brand, socialLinks, whatsappNumber } from "@/lib/constants";
 
 const navLinks = [
   { href: "/loja", label: "Loja" },
+  { href: "/ofertas", label: "Ofertas" },
   { href: "/catalogo", label: "Catálogo" },
+  { href: "/orcamento-personalizado", label: "Sob medida" },
   { href: "/jogue", label: "Jogue" },
   { href: "/guia-primeira-impressao-3d", label: "Como funciona" },
   { href: "/blog", label: "Blog" },

@@ -36,6 +36,12 @@ export function productFeedRows(products: SmartStoreProduct[], baseUrl: string) 
       brand: product.brand || "MDH3D",
       google_product_category: "Arts & Entertainment > Hobbies & Creative Arts > Crafts & Hobbies",
       product_type: product.category,
+      material: product.material,
+      color: product.colors.join("/"),
+      shipping_weight: product.weightKg ? `${product.weightKg.toFixed(3)} kg` : "",
+      shipping_length: product.dimensions.lengthCm ? `${product.dimensions.lengthCm.toFixed(1)} cm` : "",
+      shipping_width: product.dimensions.widthCm ? `${product.dimensions.widthCm.toFixed(1)} cm` : "",
+      shipping_height: product.dimensions.heightCm ? `${product.dimensions.heightCm.toFixed(1)} cm` : "",
     };
   });
 }
@@ -54,6 +60,12 @@ export function buildMetaCatalogCsv(products: SmartStoreProduct[], baseUrl: stri
     "brand",
     "google_product_category",
     "product_type",
+    "material",
+    "color",
+    "shipping_weight",
+    "shipping_length",
+    "shipping_width",
+    "shipping_height",
   ];
   return [
     header.join(","),
@@ -77,7 +89,55 @@ export function buildGoogleShoppingXml(products: SmartStoreProduct[], baseUrl: s
       <g:brand>${xml(row.brand)}</g:brand>
       <g:google_product_category>${xml(row.google_product_category)}</g:google_product_category>
       <g:product_type>${xml(row.product_type)}</g:product_type>
+      ${row.material ? `<g:material>${xml(row.material)}</g:material>` : ""}
+      ${row.color ? `<g:color>${xml(row.color)}</g:color>` : ""}
+      ${row.shipping_weight ? `<g:shipping_weight>${xml(row.shipping_weight)}</g:shipping_weight>` : ""}
+      ${row.shipping_length ? `<g:shipping_length>${xml(row.shipping_length)}</g:shipping_length>` : ""}
+      ${row.shipping_width ? `<g:shipping_width>${xml(row.shipping_width)}</g:shipping_width>` : ""}
+      ${row.shipping_height ? `<g:shipping_height>${xml(row.shipping_height)}</g:shipping_height>` : ""}
     </item>`
       )
       .join("\n")}\n  </channel>\n</rss>\n`;
+}
+
+export function buildTiktokCatalogCsv(products: SmartStoreProduct[], baseUrl: string) {
+  const rows = productFeedRows(products, baseUrl);
+  const header = [
+    "sku_id",
+    "title",
+    "description",
+    "availability",
+    "condition",
+    "price",
+    "link",
+    "image_link",
+    "brand",
+    "product_type",
+    "google_product_category",
+    "material",
+    "color",
+    "shipping_weight",
+  ];
+  return [
+    header.join(","),
+    ...rows.map((row) => {
+      const values = {
+        sku_id: row.id,
+        title: row.title,
+        description: row.description,
+        availability: row.availability,
+        condition: row.condition,
+        price: row.price,
+        link: row.link,
+        image_link: row.image_link,
+        brand: row.brand,
+        product_type: row.product_type,
+        google_product_category: row.google_product_category,
+        material: row.material,
+        color: row.color,
+        shipping_weight: row.shipping_weight,
+      };
+      return header.map((key) => csv(values[key as keyof typeof values])).join(",");
+    }),
+  ].join("\n");
 }

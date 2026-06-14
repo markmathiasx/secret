@@ -50,3 +50,7 @@ export function getStorefrontMetaPixelId() {
       process.env.NEXT_PUBLIC_FB_PIXEL_ID
   );
 }
+
+export function getStorefrontTiktokPixelId() {
+  return clean(process.env.VITE_TIKTOK_PIXEL_ID || process.env.NEXT_PUBLIC_TIKTOK_PIXEL_ID);
+}

@@ -24,6 +24,7 @@ Campos esperados:
 - `Produto Físico`.
 - `Link Nuvemshop`: opcional.
 - `Imagem`: opcional, pode ser `/catalog-assets/...` ou URL `https://`.
+- Campos opcionais extras: `Material`, `Cores`, `Personalizável`, `Prazo de produção`, `Galeria` e `Vídeo`.
 
 ## Adicionar link da Nuvemshop
 
@@ -60,12 +61,19 @@ Se `VITE_GTM_ID` estiver vazio, o site não carrega GTM e não quebra. Os evento
 
 Eventos:
 
+- `view_category`
 - `view_product`
 - `search_product`
+- `filter_product`
 - `add_to_cart`
+- `remove_from_cart`
 - `click_buy_nuvemshop`
 - `click_whatsapp_budget`
+- `start_checkout`
 - `checkout_whatsapp`
+- `purchase_lead`
+- `coupon_apply`
+- `share_product`
 
 ## Configurar Meta Pixel
 
@@ -81,6 +89,16 @@ Eventos mapeados:
 - `Search`
 - `AddToCart`
 - `InitiateCheckout`
+- `Lead`
+
+## Configurar TikTok Pixel
+
+```env
+NEXT_PUBLIC_TIKTOK_PIXEL_ID=XXXXXXXXXXXX
+VITE_TIKTOK_PIXEL_ID=XXXXXXXXXXXX
+```
+
+Se estiver vazio, o pixel não carrega. Os eventos seguem o mesmo fluxo seguro do GTM/Meta.
 
 ## Feeds
 
@@ -102,7 +120,24 @@ JSON interno:
 /feeds/produtos.json
 ```
 
+TikTok:
+
+```text
+/feeds/tiktok-catalog.csv
+```
+
+Sitemap de produtos:
+
+```text
+/sitemap-products.xml
+```
+
 Os feeds usam os produtos locais do CSV com preço, disponibilidade, descrição, link de produto no site e imagem quando existir.
+
+## Ofertas e orçamento
+
+- `/ofertas`: cupons locais, combo leve 3 pague 2 e vitrines por faixa de preço.
+- `/orcamento-personalizado`: formulário com cálculo inicial, validação de extensões e WhatsApp com briefing completo.
 
 ## O que ainda depende do painel da Nuvemshop
 

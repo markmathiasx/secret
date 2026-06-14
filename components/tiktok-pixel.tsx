@@ -13,7 +13,7 @@ type TikTokQueue = {
   setAndDefer?: (target: any, method: string) => void;
 };
 
-const PIXEL_ID = process.env.NEXT_PUBLIC_TIKTOK_PIXEL_ID;
+const PIXEL_ID = process.env.NEXT_PUBLIC_TIKTOK_PIXEL_ID || process.env.VITE_TIKTOK_PIXEL_ID;
 
 function load(pixelId: string) {
   const win = typeof window !== "undefined" ? (window as Window & { ttq?: TikTokQueue }) : null;

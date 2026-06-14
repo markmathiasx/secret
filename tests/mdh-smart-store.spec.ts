@@ -19,10 +19,16 @@ test.describe("Loja inteligente MDH3D", () => {
     await expect(page.locator('[data-smart-product-card="suporte-controle-gamer"]').first()).toBeVisible();
     await expect(page.locator("[data-smart-result-count]")).toContainText("1 produto");
 
+    await page.locator("[data-smart-material]").selectOption("PLA");
+    await page.locator("[data-smart-sort]").selectOption("menor-preco");
+    await expect(page.locator('[data-smart-product-card="suporte-controle-gamer"]').first()).toBeVisible();
+
     await page.locator('[data-smart-product-card="suporte-controle-gamer"]').first().getByRole("button", { name: /Carrinho/i }).click();
-    const cartPanel = page.locator("aside").filter({ hasText: "Carrinho local" });
+    const cartPanel = page.locator('[role="dialog"]').filter({ hasText: "Carrinho local" });
     await expect(cartPanel).toContainText("1 item");
-    const checkout = page.getByRole("link", { name: /Finalizar pelo WhatsApp/i });
+    await cartPanel.getByPlaceholder("Cupom").fill("PRIMEIRAMDH");
+    await cartPanel.getByRole("button", { name: /Aplicar cupom/i }).click();
+    const checkout = cartPanel.getByRole("link", { name: /Finalizar pelo WhatsApp/i });
     await expect(checkout).toBeVisible();
     const href = await checkout.getAttribute("href");
     expect(href).toContain("wa.me");
@@ -41,6 +47,10 @@ test.describe("Loja inteligente MDH3D", () => {
     expect(await buy.getAttribute("rel")).toContain("noopener");
     const productJsonLd = await page.locator('script[type="application/ld+json"]').allTextContents();
     expect(productJsonLd.some((content) => content.includes('"@type":"Product"') || content.includes('"@type": "Product"'))).toBe(true);
+    await expect(page.getByRole("button", { name: /Abrir zoom/i })).toBeVisible();
+    const main = page.locator("#main-content");
+    await expect(main.getByText(/Frete e prazo/i)).toBeVisible();
+    await expect(main.getByText(/Q&A do produto/i)).toBeVisible();
   });
 
   test("produto sem link Nuvemshop abre WhatsApp com mensagem codificada", async ({ page }) => {
@@ -73,5 +83,31 @@ test.describe("Loja inteligente MDH3D", () => {
     expect(google.status()).toBe(200);
     expect(google.headers()["content-type"]).toContain("application/xml");
     expect(await google.text()).toContain("<g:price>4.50 BRL</g:price>");
+
+    const tiktok = await request.get(`${BASE_URL}/feeds/tiktok-catalog.csv`);
+    expect(tiktok.status()).toBe(200);
+    expect(tiktok.headers()["content-type"]).toContain("text/csv");
+    expect(await tiktok.text()).toContain("shipping_weight");
+
+    const sitemapProducts = await request.get(`${BASE_URL}/sitemap-products.xml`);
+    expect(sitemapProducts.status()).toBe(200);
+    expect(await sitemapProducts.text()).toContain("/produto/chaveiro-flamengo-3d");
+  });
+
+  test("ofertas e orçamento personalizado carregam sem credenciais externas", async ({ page }) => {
+    const ofertas = await page.goto(`${BASE_URL}/ofertas`);
+    expect(ofertas?.status()).toBe(200);
+    await expect(page.getByRole("heading", { name: /Ofertas, cupons e combos/i })).toBeVisible();
+    await expect(page.getByText("PRIMEIRAMDH")).toBeVisible();
+
+    const orcamento = await page.goto(`${BASE_URL}/orcamento-personalizado`);
+    expect(orcamento?.status()).toBe(200);
+    await expect(page.getByRole("heading", { name: /Orçamento sob medida/i })).toBeVisible();
+    await page.getByLabel(/Quantidade/i).fill("3");
+    const whatsapp = page.getByRole("link", { name: /Enviar orçamento no WhatsApp/i });
+    await expect(whatsapp).toBeVisible();
+    const href = await whatsapp.getAttribute("href");
+    expect(href).toContain("wa.me");
+    expect(decodeURIComponent(href || "")).toContain("Quantidade: 3");
   });
 });

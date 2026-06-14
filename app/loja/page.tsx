@@ -22,6 +22,13 @@ const trustBadges = [
   { label: "Compra segura via checkout externo quando houver link Nuvemshop", icon: ShieldCheck },
 ] as const;
 
+const commercialBanners = [
+  { title: "Presentes personalizados", text: "Peças com nome, tema, cor e briefing rápido pelo WhatsApp.", href: "/loja" },
+  { title: "Setup gamer", text: "Suportes, organizadores e decoração para mesa e controle.", href: "/loja" },
+  { title: "Casa organizada", text: "Utilidades compactas para cabos, bancada, nichos e cantinhos.", href: "/loja" },
+  { title: "Peças sob medida", text: "Envie referência, STL ou medidas e receba estimativa inicial.", href: "/orcamento-personalizado" },
+] as const;
+
 export default function LojaPage() {
   const products = getLocalStoreProducts();
   const categories = getLocalStoreCategories(products);
@@ -80,6 +87,16 @@ export default function LojaPage() {
             </div>
           </div>
         </div>
+      </section>
+
+      <section className="mx-auto grid max-w-7xl gap-3 px-4 py-6 sm:px-6 md:grid-cols-2 xl:grid-cols-4">
+        {commercialBanners.map((banner) => (
+          <Link key={banner.title} href={banner.href} className="group rounded-[8px] border border-white/10 bg-white/[0.045] p-5 transition hover:border-cyan-200/30 hover:bg-white/[0.065]">
+            <p className="text-lg font-black text-white">{banner.title}</p>
+            <p className="mt-2 text-sm leading-6 text-white/58">{banner.text}</p>
+            <span className="mt-4 inline-flex text-sm font-black text-cyan-100 underline-offset-4 group-hover:underline">Explorar</span>
+          </Link>
+        ))}
       </section>
 
       <section id="produtos" className="mx-auto max-w-7xl px-4 py-8 sm:px-6">

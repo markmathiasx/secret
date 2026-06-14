@@ -1,16 +1,51 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
-import { ArrowRight, Filter, MessageCircleMore, Search, ShoppingBag, Trash2 } from "lucide-react";
+import { useEffect, useId, useMemo, useState } from "react";
+import { ArrowRight, Filter, MessageCircleMore, Search, ShoppingBag, TicketPercent, Trash2, X } from "lucide-react";
 import type { SmartStoreProduct } from "@/lib/mdh-store/products";
 import { buildProductPagePath, buildWhatsappUrl } from "@/lib/mdh-store/links";
 import { trackSmartStoreEvent } from "@/lib/mdh-store/analytics";
 import { useSmartCart } from "@/components/mdh-store/smart-cart";
+import { FREE_SHIPPING_THRESHOLD, estimateCouponDiscount, smartStoreCoupons } from "@/lib/mdh-store/promotions";
 import { formatCurrency } from "@/lib/utils";
 
+const synonymMap: Record<string, string[]> = {
+  "porta cafe": ["café", "capsula", "organizador", "cozinha", "mesa"],
+  "porta café": ["café", "capsula", "organizador", "cozinha", "mesa"],
+  namorado: ["presente", "personalizado", "geek"],
+  namorada: ["presente", "personalizado", "decoracao"],
+  gamer: ["setup", "controle", "geek"],
+  pet: ["personalizado", "presente"],
+  barato: ["chaveiro", "presente", "até 50"],
+};
+
+function normalizeText(value: string) {
+  return value.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase();
+}
+
+function expandQuery(value: string) {
+  const normalized = normalizeText(value.trim());
+  const extra = Object.entries(synonymMap)
+    .filter(([term]) => normalized.includes(normalizeText(term)))
+    .flatMap(([, synonyms]) => synonyms);
+  const typoFix = normalized.replace(/\bchavero\b/g, "chaveiro").replace(/\bsuport\b/g, "suporte");
+  return Array.from(new Set([normalized, typoFix, ...extra.map(normalizeText)].filter(Boolean)));
+}
+
 function productSearchText(product: SmartStoreProduct) {
-  return [product.name, product.category, product.sku, product.description, product.tags.join(" ")].join(" ").toLowerCase();
+  return normalizeText(
+    [
+      product.name,
+      product.category,
+      product.sku,
+      product.description,
+      product.tags.join(" "),
+      product.material,
+      product.colors.join(" "),
+      product.personalizable ? "personalizavel personalizado sob medida" : "",
+    ].join(" ")
+  );
 }
 
 function ProductImage({ product }: { product: SmartStoreProduct }) {
@@ -110,6 +145,13 @@ function SmartProductCard({
 }
 
 function SmartCartPanel({ whatsappNumber, cart }: { whatsappNumber: string; cart: ReturnType<typeof useSmartCart> }) {
+  const [couponCode, setCouponCode] = useState("");
+  const couponInputId = useId();
+  const coupon = smartStoreCoupons.find((item) => item.code === couponCode.trim().toUpperCase());
+  const discount = coupon ? estimateCouponDiscount(coupon, cart.subtotal) : 0;
+  const total = Math.max(0, cart.subtotal - discount);
+  const remaining = Math.max(0, FREE_SHIPPING_THRESHOLD - cart.subtotal);
+
   return (
     <aside className="rounded-[8px] border border-white/10 bg-white/[0.045] p-4">
       <div className="flex items-center justify-between gap-3">
@@ -150,6 +192,11 @@ function SmartCartPanel({ whatsappNumber, cart }: { whatsappNumber: string; cart
                 </label>
                 <span className="font-black text-white">{formatCurrency(item.price * item.quantity)}</span>
               </div>
+              {item.checkoutUrl ? (
+                <a href={item.checkoutUrl} target="_blank" rel="noopener noreferrer" className="mt-3 inline-flex text-xs font-black text-cyan-100 underline-offset-4 hover:underline">
+                  Comprar este item na Nuvemshop
+                </a>
+              ) : null}
             </div>
           ))
         ) : (
@@ -159,9 +206,41 @@ function SmartCartPanel({ whatsappNumber, cart }: { whatsappNumber: string; cart
         )}
       </div>
       <div className="mt-4 border-t border-white/10 pt-4">
+        <div className="mb-4 rounded-[8px] border border-white/10 bg-black/20 p-3">
+          <p className="text-xs font-black uppercase tracking-[0.14em] text-white/46">Frete grátis local</p>
+          <div className="mt-2 h-2 overflow-hidden rounded-full bg-white/10">
+            <span className="block h-full bg-emerald-300" style={{ width: `${Math.min(100, (cart.subtotal / FREE_SHIPPING_THRESHOLD) * 100)}%` }} />
+          </div>
+          <p className="mt-2 text-xs text-white/58">
+            {remaining > 0 ? `Faltam ${formatCurrency(remaining)} para negociar frete/retirada local.` : "Condição de frete/retirada local atingida."}
+          </p>
+        </div>
+        <form
+          className="mb-4 flex gap-2"
+          onSubmit={(event) => {
+            event.preventDefault();
+            if (coupon) trackSmartStoreEvent("coupon_apply", { coupon: coupon.code, value: discount });
+          }}
+        >
+          <label className="sr-only" htmlFor={couponInputId}>Cupom</label>
+          <input id={couponInputId} value={couponCode} onChange={(event) => setCouponCode(event.target.value.toUpperCase())} placeholder="Cupom" className="industrial-input min-h-11" />
+          <button type="submit" className="btn-secondary min-h-11 px-3" aria-label="Aplicar cupom">
+            <TicketPercent className="h-4 w-4" />
+          </button>
+        </form>
         <div className="flex items-center justify-between">
           <span className="text-sm font-bold text-white/60">Subtotal estimado</span>
           <strong className="text-2xl font-black text-white">{formatCurrency(cart.subtotal)}</strong>
+        </div>
+        {discount > 0 ? (
+          <div className="mt-2 flex items-center justify-between text-sm">
+            <span className="font-bold text-emerald-100">Desconto {coupon?.code}</span>
+            <strong className="text-emerald-100">-{formatCurrency(discount)}</strong>
+          </div>
+        ) : null}
+        <div className="mt-2 flex items-center justify-between">
+          <span className="text-sm font-bold text-white/60">Total estimado</span>
+          <strong className="text-2xl font-black text-white">{formatCurrency(total)}</strong>
         </div>
         <a
           href={cart.items.length ? cart.checkoutUrl(whatsappNumber) : undefined}
@@ -199,29 +278,73 @@ export function SmartStorefront({
 }) {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("Todas");
+  const [material, setMaterial] = useState("Todos");
+  const [useCase, setUseCase] = useState("Todos");
+  const [color, setColor] = useState("Todas");
+  const [personalizableOnly, setPersonalizableOnly] = useState(false);
+  const [sort, setSort] = useState("relevancia");
+  const [cartOpen, setCartOpen] = useState(false);
   const prices = products.map((product) => product.pixPrice).filter(Number.isFinite);
   const priceMin = prices.length ? Math.floor(Math.min(...prices)) : 0;
   const priceMax = prices.length ? Math.ceil(Math.max(...prices)) : 100;
   const [maxPrice, setMaxPrice] = useState(priceMax);
-  const normalizedQuery = query.trim().toLowerCase();
+  const normalizedQuery = query.trim();
+  const queryTerms = useMemo(() => expandQuery(normalizedQuery), [normalizedQuery]);
   const cart = useSmartCart();
+  const materials = useMemo(() => Array.from(new Set(products.map((product) => product.material))).sort(), [products]);
+  const colors = useMemo(() => Array.from(new Set(products.flatMap((product) => product.colors))).sort(), [products]);
+  const useCases = ["Todos", "presente", "setup", "casa", "pet", "geek", "brindes", "sob encomenda"];
+  const popularProducts = useMemo(() => [...products].sort((a, b) => b.marketplaceScore - a.marketplaceScore).slice(0, 5), [products]);
+
+  useEffect(() => {
+    trackSmartStoreEvent("view_category", { category: "loja", item_count: products.length });
+  }, [products.length]);
 
   useEffect(() => {
     if (!normalizedQuery) return;
     const timer = window.setTimeout(() => {
       trackSmartStoreEvent("search_product", { search_term: normalizedQuery });
+      const history = JSON.parse(window.localStorage.getItem("mdh3d_search_history") || "[]");
+      const next = Array.from(new Set([normalizedQuery, ...(Array.isArray(history) ? history : [])])).slice(0, 6);
+      window.localStorage.setItem("mdh3d_search_history", JSON.stringify(next));
     }, 400);
     return () => window.clearTimeout(timer);
   }, [normalizedQuery]);
 
   const filtered = useMemo(() => {
-    return products.filter((product) => {
-      const matchesQuery = !normalizedQuery || productSearchText(product).includes(normalizedQuery);
+    const result = products.filter((product) => {
+      const searchText = productSearchText(product);
+      const matchesQuery = !queryTerms.length || queryTerms.some((term) => searchText.includes(term));
       const matchesCategory = category === "Todas" || product.category === category;
+      const matchesMaterial = material === "Todos" || product.material === material;
+      const matchesUseCase = useCase === "Todos" || searchText.includes(normalizeText(useCase));
+      const matchesColor = color === "Todas" || product.colors.includes(color);
       const matchesPrice = product.pixPrice <= maxPrice;
-      return matchesQuery && matchesCategory && matchesPrice;
+      const matchesPersonalization = !personalizableOnly || product.personalizable;
+      return matchesQuery && matchesCategory && matchesMaterial && matchesUseCase && matchesColor && matchesPrice && matchesPersonalization;
     });
-  }, [category, normalizedQuery, maxPrice, products]);
+    return result.sort((a, b) => {
+      if (sort === "menor-preco") return a.pixPrice - b.pixPrice;
+      if (sort === "maior-preco") return b.pixPrice - a.pixPrice;
+      if (sort === "novidades") return b.marketplaceScore - a.marketplaceScore;
+      if (sort === "personalizados") return Number(b.personalizable) - Number(a.personalizable) || b.marketplaceScore - a.marketplaceScore;
+      if (sort === "prazo") return a.productionWindow.localeCompare(b.productionWindow);
+      return b.marketplaceScore - a.marketplaceScore;
+    });
+  }, [category, color, material, maxPrice, personalizableOnly, products, queryTerms, sort, useCase]);
+
+  useEffect(() => {
+    trackSmartStoreEvent("filter_product", {
+      category,
+      material,
+      use_case: useCase,
+      color,
+      max_price: maxPrice,
+      personalizable: personalizableOnly,
+      sort,
+      result_count: filtered.length,
+    });
+  }, [category, color, filtered.length, material, maxPrice, personalizableOnly, sort, useCase]);
 
   const featured = useMemo(() => products.filter((product) => product.featured).slice(0, 4), [products]);
   const related = useMemo(() => {
@@ -231,8 +354,14 @@ export function SmartStorefront({
   }, [featured, filtered, products]);
 
   function addToCart(product: SmartStoreProduct) {
-    cart.add({ slug: product.slug, name: product.name, sku: product.sku, price: product.pixPrice, image: product.image });
+    cart.add({ slug: product.slug, name: product.name, sku: product.sku, price: product.pixPrice, image: product.image, checkoutUrl: product.nuvemshopUrl });
+    setCartOpen(true);
   }
+
+  const suggestions = useMemo(() => {
+    if (!normalizedQuery) return popularProducts;
+    return products.filter((product) => queryTerms.some((term) => productSearchText(product).includes(term))).slice(0, 5);
+  }, [normalizedQuery, popularProducts, products, queryTerms]);
 
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
@@ -252,6 +381,15 @@ export function SmartStorefront({
                 className="industrial-input"
                 data-smart-search
               />
+              {suggestions.length ? (
+                <div className="mt-2 flex flex-wrap gap-2" aria-label="Sugestões de busca">
+                  {suggestions.map((item) => (
+                    <button key={item.slug} type="button" onClick={() => setQuery(item.name)} className="rounded-full border border-white/10 bg-black/20 px-3 py-1 text-xs font-bold text-white/68 hover:text-white">
+                      {item.name}
+                    </button>
+                  ))}
+                </div>
+              ) : null}
             </label>
             <label className="block">
               <span className="mb-2 flex items-center gap-2 text-xs font-black uppercase tracking-[0.14em] text-white/48">
@@ -276,6 +414,65 @@ export function SmartStorefront({
                 className="mt-3 w-full accent-cyan-300"
                 data-smart-price
               />
+            </label>
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-4">
+            <label className="block">
+              <span className="mb-2 text-xs font-black uppercase tracking-[0.14em] text-white/48">Uso</span>
+              <select value={useCase} onChange={(event) => setUseCase(event.target.value)} className="industrial-input" data-smart-use>
+                {useCases.map((item) => (
+                  <option key={item}>{item}</option>
+                ))}
+              </select>
+            </label>
+            <label className="block">
+              <span className="mb-2 text-xs font-black uppercase tracking-[0.14em] text-white/48">Material</span>
+              <select value={material} onChange={(event) => setMaterial(event.target.value)} className="industrial-input" data-smart-material>
+                <option>Todos</option>
+                {materials.map((item) => (
+                  <option key={item}>{item}</option>
+                ))}
+              </select>
+            </label>
+            <label className="block">
+              <span className="mb-2 text-xs font-black uppercase tracking-[0.14em] text-white/48">Cor</span>
+              <select value={color} onChange={(event) => setColor(event.target.value)} className="industrial-input" data-smart-color>
+                <option>Todas</option>
+                {colors.map((item) => (
+                  <option key={item}>{item}</option>
+                ))}
+              </select>
+            </label>
+            <label className="block">
+              <span className="mb-2 text-xs font-black uppercase tracking-[0.14em] text-white/48">Ordenar</span>
+              <select value={sort} onChange={(event) => setSort(event.target.value)} className="industrial-input" data-smart-sort>
+                <option value="relevancia">Melhor custo-benefício</option>
+                <option value="menor-preco">Menor preço</option>
+                <option value="maior-preco">Maior preço</option>
+                <option value="novidades">Novidades</option>
+                <option value="personalizados">Mais personalizados</option>
+                <option value="prazo">Entrega mais rápida</option>
+              </select>
+            </label>
+          </div>
+          <div className="mt-4 flex flex-wrap gap-2">
+            {[
+              { label: "Até R$ 20", action: () => setMaxPrice(Math.min(20, priceMax)) },
+              { label: "Até R$ 50", action: () => setMaxPrice(Math.min(50, priceMax)) },
+              { label: "Presente rápido", action: () => setUseCase("presente") },
+              { label: "Setup gamer", action: () => setUseCase("setup") },
+              { label: "Casa e organização", action: () => setUseCase("casa") },
+              { label: "Geek e colecionáveis", action: () => setUseCase("geek") },
+              { label: "Brindes em lote", action: () => setUseCase("brindes") },
+              { label: "Sob encomenda", action: () => setPersonalizableOnly(true) },
+            ].map((chip) => (
+              <button key={chip.label} type="button" onClick={chip.action} className="chip-nav">
+                {chip.label}
+              </button>
+            ))}
+            <label className="chip-nav cursor-pointer gap-2">
+              <input type="checkbox" checked={personalizableOnly} onChange={(event) => setPersonalizableOnly(event.target.checked)} className="accent-cyan-300" />
+              Personalizável
             </label>
           </div>
         </section>
@@ -315,6 +512,13 @@ export function SmartStorefront({
             <div className="industrial-empty">
               <h3 className="font-black text-white">Nenhum produto nessa combinação.</h3>
               <p className="mt-2 text-sm text-white/58">Ajuste busca, categoria ou faixa de preço.</p>
+              <div className="mt-4 flex flex-wrap justify-center gap-2">
+                {popularProducts.map((product) => (
+                  <button key={product.slug} type="button" onClick={() => setQuery(product.name)} className="chip-nav">
+                    {product.name}
+                  </button>
+                ))}
+              </div>
             </div>
           )}
         </section>
@@ -339,6 +543,25 @@ export function SmartStorefront({
       <div className="lg:sticky lg:top-28 lg:self-start">
         <SmartCartPanel whatsappNumber={whatsappNumber} cart={cart} />
       </div>
+
+      <button
+        type="button"
+        onClick={() => setCartOpen(true)}
+        className="fixed bottom-5 right-5 z-40 inline-flex min-h-12 items-center gap-2 rounded-full border border-emerald-200/20 bg-emerald-400 px-5 text-sm font-black text-emerald-950 shadow-[0_18px_45px_rgba(0,0,0,0.35)]"
+      >
+        <ShoppingBag className="h-4 w-4" /> Carrinho ({cart.count})
+      </button>
+
+      {cartOpen ? (
+        <div className="fixed inset-0 z-[70] bg-black/70 backdrop-blur-sm" role="dialog" aria-modal="true" aria-label="Carrinho local">
+          <div className="absolute right-0 top-0 h-full w-full max-w-md overflow-y-auto border-l border-white/10 bg-[#071016] p-4 shadow-2xl">
+            <button type="button" onClick={() => setCartOpen(false)} className="mb-3 ml-auto flex rounded-full border border-white/10 p-3 text-white/72 hover:text-white" aria-label="Fechar carrinho">
+              <X className="h-5 w-5" />
+            </button>
+            <SmartCartPanel whatsappNumber={whatsappNumber} cart={cart} />
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }

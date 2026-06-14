@@ -75,6 +75,7 @@ export const envSchema = z.object({
   NEXT_PUBLIC_META_PIXEL_ID: optionalTrimmedString,
   NEXT_PUBLIC_FB_PIXEL_ID: optionalTrimmedString,
   NEXT_PUBLIC_TIKTOK_PIXEL_ID: optionalTrimmedString,
+  VITE_TIKTOK_PIXEL_ID: optionalTrimmedString,
   VITE_WHATSAPP_NUMBER: optionalTrimmedString,
   WHATSAPP_NUMBER: optionalTrimmedString,
   VITE_NUVEMSHOP_BASE_URL: optionalUrl,

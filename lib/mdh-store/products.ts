@@ -9,6 +9,9 @@ export type SmartStoreProduct = {
   slug: string;
   name: string;
   category: string;
+  material: string;
+  colors: string[];
+  personalizable: boolean;
   price: number;
   promotionalPrice?: number;
   pixPrice: number;
@@ -29,8 +32,13 @@ export type SmartStoreProduct = {
   physical: boolean;
   nuvemshopUrl?: string;
   image?: string;
+  gallery: string[];
+  videoUrl?: string;
+  careInstructions: string[];
+  faqs: Array<{ question: string; answer: string }>;
   productionWindow: string;
   featured: boolean;
+  marketplaceScore: number;
 };
 
 const CSV_PATH = path.join(process.cwd(), "data", "produtos.csv");
@@ -60,6 +68,13 @@ function splitTags(value?: string) {
   return clean(value)
     .split(/[;,|]/)
     .map((tag) => tag.trim())
+    .filter(Boolean);
+}
+
+function splitList(value?: string) {
+  return clean(value)
+    .split(/[;,|]/)
+    .map((item) => item.trim())
     .filter(Boolean);
 }
 
@@ -162,6 +177,72 @@ function normalizeImage(value: string) {
   return raw.startsWith("/") ? raw : `/${raw}`;
 }
 
+function buildFallbackGallery(primaryImage: string | undefined, index: number) {
+  const start = (index % 24) + 1;
+  const candidates = [
+    primaryImage,
+    `/catalog-assets/mdh-${start}.webp`,
+    `/catalog-assets/mdh-${start + 1}.webp`,
+    `/catalog-assets/mdh-${start + 2}.webp`,
+    `/catalog-assets/mdh-${start + 3}.webp`,
+    `/catalog-assets/mdh-${start + 4}.webp`,
+  ].filter(Boolean) as string[];
+
+  return Array.from(new Set(candidates)).slice(0, 6);
+}
+
+function inferMaterial(row: Record<string, string>, tags: string[]) {
+  const explicit = clean(pick(row, ["Material", "Materiais"]));
+  if (explicit) return explicit;
+  if (tags.some((tag) => /petg/i.test(tag))) return "PETG";
+  if (tags.some((tag) => /resina/i.test(tag))) return "Resina";
+  return "PLA";
+}
+
+function inferColors(row: Record<string, string>) {
+  const explicit = splitList(pick(row, ["Cores", "Cores disponíveis", "Cores disponiveis"]));
+  if (explicit.length) return explicit;
+  return ["Preto", "Branco", "Vermelho", "Azul", "Verde", "Sob consulta"];
+}
+
+function inferPersonalizable(row: Record<string, string>, rawName: string, tags: string[], category: string) {
+  const explicit = clean(pick(row, ["Personalizável", "Personalizavel", "Sob medida"]));
+  if (explicit) return parseBoolean(explicit);
+  return /personaliz|sob medida|nome|logo/i.test(`${rawName} ${category} ${tags.join(" ")}`);
+}
+
+function buildCareInstructions(material: string) {
+  const base = [
+    "Limpar com pano seco ou levemente úmido.",
+    "Evitar exposição prolongada ao sol forte ou calor intenso.",
+    "Não usar álcool, solventes ou abrasivos na peça.",
+  ];
+  if (/pla/i.test(material)) {
+    return [...base, "PLA é indicado para uso decorativo e organizadores internos."];
+  }
+  if (/petg/i.test(material)) {
+    return [...base, "PETG oferece maior resistência para peças funcionais."];
+  }
+  return base;
+}
+
+function buildProductFaqs(productName: string, productionWindow: string, material: string) {
+  return [
+    {
+      question: "Posso escolher a cor?",
+      answer: "Sim. A cor é confirmada no WhatsApp antes da produção, conforme disponibilidade de material.",
+    },
+    {
+      question: "Qual é o prazo de produção?",
+      answer: `O prazo estimado para ${productName} é ${productionWindow}, podendo variar conforme fila e acabamento.`,
+    },
+    {
+      question: "Qual material é usado?",
+      answer: `A peça usa ${material} por padrão, com alternativas sob consulta quando o projeto exigir.`,
+    },
+  ];
+}
+
 function rowToProduct(row: Record<string, string>, index: number): SmartStoreProduct | null {
   const rawName = clean(pick(row, ["Nome", "name"]));
   const rawSlug = clean(pick(row, ["Identificador URL", "Slug", "URL"]));
@@ -181,8 +262,16 @@ function rowToProduct(row: Record<string, string>, index: number): SmartStorePro
     clean(pick(row, ["Descrição", "Descricao"])) ||
     `${rawName} produzido em impressão 3D pela MDH3D, com atendimento pelo WhatsApp para cor, prazo e acabamento.`;
   const tags = splitTags(pick(row, ["Tags"]));
+  const material = inferMaterial(row, tags);
+  const colors = inferColors(row);
+  const personalizable = inferPersonalizable(row, rawName, tags, category);
   const seoTitle = clean(pick(row, ["Título para SEO", "Titulo para SEO"])) || `${rawName} | MDH3D`;
   const seoDescription = clean(pick(row, ["Descrição para SEO", "Descricao para SEO"])) || description.slice(0, 155);
+  const image = normalizeImage(pick(row, ["Imagem", "Image", "Foto"]));
+  const gallery = splitList(pick(row, ["Galeria", "Imagens", "Fotos"]))
+    .map(normalizeImage)
+    .filter(Boolean) as string[];
+  const productionWindow = clean(pick(row, ["Prazo de produção", "Prazo de producao"])) || "2 a 5 dias úteis";
 
   const physicalRaw = clean(pick(row, ["Produto Físico", "Produto Fisico"]));
 
@@ -190,6 +279,9 @@ function rowToProduct(row: Record<string, string>, index: number): SmartStorePro
     slug,
     name: rawName,
     category,
+    material,
+    colors,
+    personalizable,
     price,
     promotionalPrice,
     pixPrice,
@@ -211,9 +303,18 @@ function rowToProduct(row: Record<string, string>, index: number): SmartStorePro
     nuvemshopUrl: normalizeNuvemshopUrl(
       pick(row, ["Nuvemshop URL", "URL Nuvemshop", "Link Nuvemshop", "Checkout URL", "Link do produto"])
     ),
-    image: normalizeImage(pick(row, ["Imagem", "Image", "Foto"])),
-    productionWindow: clean(pick(row, ["Prazo de produção", "Prazo de producao"])) || "2 a 5 dias úteis",
+    image,
+    gallery: gallery.length ? gallery : buildFallbackGallery(image, index),
+    videoUrl: normalizeImage(pick(row, ["Vídeo", "Video", "Video URL", "Vídeo URL"])),
+    careInstructions: buildCareInstructions(material),
+    faqs: buildProductFaqs(rawName, productionWindow, material),
+    productionWindow,
     featured: index < 4 || tags.some((tag) => /destaque|presente|geek/i.test(tag)),
+    marketplaceScore:
+      Number(index < 4) * 20 +
+      Number(personalizable) * 8 +
+      Math.max(0, 12 - index) +
+      tags.length,
   };
 }
 

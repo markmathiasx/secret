@@ -20,6 +20,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages = [
     "",
     "/loja",
+    "/ofertas",
+    "/orcamento-personalizado",
     "/catalogo",
     "/atendimento",
     "/jogue",
@@ -48,7 +50,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/merchant/products.xml",
     "/feeds/google-shopping.xml",
     "/feeds/meta-catalog.csv",
+    "/feeds/tiktok-catalog.csv",
     "/feeds/produtos.json",
+    "/sitemap-products.xml",
   ].map((path) => ({
     url: `${base}${path}`,
     lastModified: buildDate,

@@ -10,6 +10,7 @@ export type SmartCartProduct = {
   sku: string;
   price: number;
   image?: string;
+  checkoutUrl?: string;
 };
 
 export type SmartCartItem = SmartCartProduct & {
@@ -32,6 +33,7 @@ function readCart() {
         sku: typeof item.sku === "string" ? item.sku : "",
         price: Number.isFinite(Number(item.price)) ? Number(item.price) : 0,
         image: typeof item.image === "string" ? item.image : undefined,
+        checkoutUrl: typeof item.checkoutUrl === "string" ? item.checkoutUrl : undefined,
         quantity: Math.min(99, Math.max(1, Math.floor(Number(item.quantity) || 1))),
       }));
   } catch {
@@ -92,7 +94,17 @@ export function useSmartCart() {
   }
 
   function remove(slug: string) {
+    const item = items.find((current) => current.slug === slug);
     commit((current) => current.filter((item) => item.slug !== slug));
+    if (item) {
+      trackSmartStoreEvent("remove_from_cart", {
+        item_id: item.sku || item.slug,
+        item_name: item.name,
+        value: item.price,
+        currency: "BRL",
+        quantity: item.quantity,
+      });
+    }
   }
 
   function update(slug: string, quantity: number) {
@@ -111,6 +123,11 @@ export function useSmartCart() {
   }
 
   function trackCheckout() {
+    trackSmartStoreEvent("start_checkout", {
+      value: subtotal,
+      currency: "BRL",
+      items: items.map((item) => ({ item_id: item.sku || item.slug, item_name: item.name, quantity: item.quantity })),
+    });
     trackSmartStoreEvent("checkout_whatsapp", {
       value: subtotal,
       currency: "BRL",

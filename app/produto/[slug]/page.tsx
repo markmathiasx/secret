@@ -2,10 +2,12 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Clock3, PackageCheck, Ruler, Tag, type LucideIcon } from "lucide-react";
+import { LocalReviewsAndQuestions, ProductMediaGallery, ProductShippingEstimator, ProductSpecsPanel } from "@/components/mdh-store/ProductExperience";
 import { SmartProductActions } from "@/components/mdh-store/SmartProductActions";
 import { getStorefrontWhatsappNumber } from "@/lib/mdh-store/config";
 import { buildProductPagePath } from "@/lib/mdh-store/links";
 import { findLocalStoreProduct, getLocalStoreProducts, getRelatedLocalProducts } from "@/lib/mdh-store/products";
+import { getLocalQuestions, getLocalReviews, getReviewSummary } from "@/lib/mdh-store/social-proof";
 import { getSiteUrl } from "@/lib/env";
 import { formatCurrency } from "@/lib/utils";
 
@@ -53,6 +55,9 @@ export default async function ProdutoPage({ params }: { params: Promise<{ slug: 
   const siteUrl = getSiteUrl();
   const productUrl = `${siteUrl}${buildProductPagePath(product)}`;
   const related = getRelatedLocalProducts(product);
+  const reviews = getLocalReviews(product.slug);
+  const questions = getLocalQuestions(product.slug);
+  const reviewSummary = getReviewSummary(product.slug);
   const whatsappNumber = getStorefrontWhatsappNumber();
   const imageUrl = product.image
     ? product.image.startsWith("http")
@@ -68,6 +73,21 @@ export default async function ProdutoPage({ params }: { params: Promise<{ slug: 
     brand: { "@type": "Brand", name: product.brand },
     category: product.category,
     image: imageUrl ? [imageUrl] : undefined,
+    aggregateRating: reviewSummary.average
+      ? {
+          "@type": "AggregateRating",
+          ratingValue: reviewSummary.average,
+          reviewCount: reviewSummary.total,
+        }
+      : undefined,
+    review: reviews.map((review) => ({
+      "@type": "Review",
+      author: { "@type": "Person", name: review.author },
+      reviewRating: { "@type": "Rating", ratingValue: review.rating, bestRating: 5 },
+      name: review.title,
+      reviewBody: review.comment,
+      datePublished: review.createdAt,
+    })),
     url: productUrl,
     offers: {
       "@type": "Offer",
@@ -81,7 +101,27 @@ export default async function ProdutoPage({ params }: { params: Promise<{ slug: 
       { "@type": "PropertyValue", name: "Prazo de produção", value: product.productionWindow },
       { "@type": "PropertyValue", name: "Medidas", value: dimensionsLabel(product) },
       { "@type": "PropertyValue", name: "Peso", value: product.weightKg ? `${product.weightKg} kg` : "Sob consulta" },
+      { "@type": "PropertyValue", name: "Material", value: product.material },
+      { "@type": "PropertyValue", name: "Cores", value: product.colors.join(", ") },
     ],
+  };
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Início", item: siteUrl },
+      { "@type": "ListItem", position: 2, name: "Loja", item: `${siteUrl}/loja` },
+      { "@type": "ListItem", position: 3, name: product.name, item: productUrl },
+    ],
+  };
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [...questions, ...product.faqs.map((faq) => ({ question: faq.question, answer: faq.answer }))].map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: { "@type": "Answer", text: item.answer },
+    })),
   };
   const details: Array<{ label: string; value: string; icon: LucideIcon }> = [
     { label: "Categoria", value: product.category, icon: Tag },
@@ -93,19 +133,12 @@ export default async function ProdutoPage({ params }: { params: Promise<{ slug: 
   return (
     <main className="min-h-screen bg-[#071016] pb-14 text-white">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
 
       <section className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[0.9fr_1.1fr]">
         <div className="lg:sticky lg:top-28 lg:self-start">
-          <div className="overflow-hidden rounded-[8px] border border-white/10 bg-white/[0.045] p-3">
-            <div className="aspect-square overflow-hidden rounded-[8px] bg-black/30">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={product.image || "/catalog-assets/product-placeholder.webp"}
-                alt={product.name}
-                className="h-full w-full object-cover"
-              />
-            </div>
-          </div>
+          <ProductMediaGallery product={product} />
         </div>
 
         <div>
@@ -141,6 +174,10 @@ export default async function ProdutoPage({ params }: { params: Promise<{ slug: 
               </div>
             ))}
           </dl>
+
+          <ProductSpecsPanel product={product} />
+          <ProductShippingEstimator product={product} />
+          <LocalReviewsAndQuestions product={product} reviews={reviews} questions={questions} />
 
           <section className="mt-8">
             <p className="section-kicker">Relacionados</p>

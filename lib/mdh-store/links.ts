@@ -44,3 +44,42 @@ export function buildCartWhatsappUrl(
   const phone = (options.whatsappNumber || getStorefrontWhatsappNumber()).replace(/\D/g, "");
   return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
 }
+
+export type CustomQuotePayload = {
+  pieceType: string;
+  dimensions: string;
+  color: string;
+  material: string;
+  quantity: number;
+  usage: string;
+  urgency: string;
+  phone?: string;
+  files?: string[];
+  estimatedPrice?: number;
+  estimatedDays?: string;
+  pageUrl?: string;
+  notes?: string;
+};
+
+export function buildCustomQuoteWhatsappUrl(
+  payload: CustomQuotePayload,
+  options: { whatsappNumber?: string } = {}
+) {
+  const lines = [
+    "Olá, vim pelo site da MDH3D e quero um orçamento personalizado.",
+    `Tipo de peça: ${payload.pieceType || "não informado"}`,
+    `Medidas aproximadas: ${payload.dimensions || "não informado"}`,
+    `Cor desejada: ${payload.color || "não informado"}`,
+    `Material: ${payload.material || "não informado"}`,
+    `Quantidade: ${payload.quantity || 1}`,
+    `Uso da peça: ${payload.usage || "não informado"}`,
+    `Urgência: ${payload.urgency || "normal"}`,
+    payload.files?.length ? `Arquivos/referências: ${payload.files.join(", ")}` : "",
+    payload.estimatedPrice ? `Estimativa inicial do site: R$ ${payload.estimatedPrice.toFixed(2)}` : "",
+    payload.estimatedDays ? `Prazo estimado: ${payload.estimatedDays}` : "",
+    payload.notes ? `Observações: ${payload.notes}` : "",
+    payload.pageUrl ? `Link: ${payload.pageUrl}` : "",
+  ].filter(Boolean);
+  const phone = (options.whatsappNumber || getStorefrontWhatsappNumber()).replace(/\D/g, "");
+  return `https://wa.me/${phone}?text=${encodeURIComponent(lines.join("\n"))}`;
+}

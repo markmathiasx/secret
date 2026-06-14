@@ -10,6 +10,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: ["/api/", "/painel-mdh-85", "/admin", "/seller", "/carrinho", "/checkout"]
     },
-    sitemap: `${base}/sitemap.xml`
+    sitemap: [`${base}/sitemap.xml`, `${base}/sitemap-products.xml`]
   };
 }

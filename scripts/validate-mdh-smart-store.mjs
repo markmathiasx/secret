@@ -52,19 +52,38 @@ const sourceChecks = {
     "getNuvemshopBaseUrl",
     "promotionalPrice",
     "cardPrice",
+    "material",
+    "colors",
+    "gallery",
   ],
   "lib/mdh-store/links.ts": [
     "buildWhatsappUrl",
+    "buildCustomQuoteWhatsappUrl",
     "Olá, vim pelo site da MDH3D e quero orçamento/comprar:",
     "encodeURIComponent",
   ],
   "components/mdh-store/SmartStorefront.tsx": [
     "data-smart-search",
     "data-smart-category",
+    "data-smart-material",
+    "data-smart-sort",
     "Finalizar pelo WhatsApp",
+    "coupon_apply",
     "click_buy_nuvemshop",
     "click_whatsapp_budget",
     "search_product",
+  ],
+  "components/mdh-store/ProductExperience.tsx": [
+    "ProductMediaGallery",
+    "ProductShippingEstimator",
+    "LocalReviewsAndQuestions",
+    "Zoom",
+  ],
+  "components/mdh-store/CustomQuoteForm.tsx": [
+    ".stl",
+    ".obj",
+    ".3mf",
+    "buildCustomQuoteWhatsappUrl",
   ],
   "components/mdh-store/EcommerceAnalytics.tsx": [
     "gtmId",
@@ -75,7 +94,14 @@ const sourceChecks = {
     "VITE_WHATSAPP_NUMBER",
     "VITE_GTM_ID",
     "VITE_META_PIXEL_ID",
+    "VITE_TIKTOK_PIXEL_ID",
     "VITE_NUVEMSHOP_BASE_URL",
+  ],
+  "lib/mdh-store/feeds.ts": [
+    "buildTiktokCatalogCsv",
+    "shipping_weight",
+    "material",
+    "color",
   ],
 };
 
@@ -91,25 +117,39 @@ for (const file of [
   "app/produto/[slug]/page.tsx",
   "app/feeds/google-shopping.xml/route.ts",
   "app/feeds/meta-catalog.csv/route.ts",
+  "app/feeds/tiktok-catalog.csv/route.ts",
   "app/feeds/produtos.json/route.ts",
+  "app/sitemap-products.xml/route.ts",
+  "app/ofertas/page.tsx",
+  "app/orcamento-personalizado/page.tsx",
   "app/comprar-na-mdh3d/page.tsx",
   "app/politica-de-envio/page.tsx",
   "app/politica-de-troca/page.tsx",
   "app/termos-de-compra/page.tsx",
   "app/prazo-de-producao/page.tsx",
+  "data/mdh-store-reviews.json",
+  "data/mdh-store-questions.json",
+  "docs/AUDITORIA_ECOMMERCE_MDH3D.md",
+  "docs/COMO_EDITAR_PRODUTOS.md",
+  "docs/INTEGRACOES_MARKETING.md",
   "docs/ECOMMERCE_MDH3D.md",
 ]) {
   check(exists(file), `missing_file:${file}`);
 }
 
 const envExample = read(".env.example");
-for (const key of ["VITE_WHATSAPP_NUMBER", "VITE_GTM_ID", "VITE_META_PIXEL_ID", "VITE_NUVEMSHOP_BASE_URL"]) {
+for (const key of ["VITE_WHATSAPP_NUMBER", "VITE_GTM_ID", "VITE_META_PIXEL_ID", "VITE_TIKTOK_PIXEL_ID", "VITE_NUVEMSHOP_BASE_URL"]) {
   check(envExample.includes(key), `missing_env_example:${key}`);
 }
 
 const docs = read("docs/ECOMMERCE_MDH3D.md");
 for (const term of ["produtos.csv", "Nuvemshop", "WhatsApp", "GTM", "Meta", "Google Shopping"]) {
   check(docs.includes(term), `missing_docs:${term}`);
+}
+
+const auditDocs = read("docs/AUDITORIA_ECOMMERCE_MDH3D.md");
+for (const term of ["/ofertas", "/orcamento-personalizado", "TikTok", "sitemap-products.xml"]) {
+  check(auditDocs.includes(term), `missing_audit_docs:${term}`);
 }
 
 const forbidden = [
@@ -122,6 +162,8 @@ const touchedSources = [
   "components/mdh-store/SmartStorefront.tsx",
   "app/loja/page.tsx",
   "app/produto/[slug]/page.tsx",
+  "app/ofertas/page.tsx",
+  "app/orcamento-personalizado/page.tsx",
 ].map(read).join("\n");
 for (const term of forbidden) {
   check(!touchedSources.toLowerCase().includes(term.toLowerCase()), `forbidden_credential_or_api:${term}`);
