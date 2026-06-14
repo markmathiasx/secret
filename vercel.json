@@ -50,11 +50,6 @@
       "source": "/home",
       "destination": "/",
       "permanent": true
-    },
-    {
-      "source": "/loja",
-      "destination": "/catalogo",
-      "permanent": true
     }
   ],
   "crons": [
