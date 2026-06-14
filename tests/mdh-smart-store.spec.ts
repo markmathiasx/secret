@@ -1,0 +1,77 @@
+import { expect, test } from "@playwright/test";
+
+const BASE_URL = process.env.SMOKE_BASE_URL || "http://localhost:3000";
+
+test.describe("Loja inteligente MDH3D", () => {
+  test("busca, filtro por categoria e carrinho local funcionam", async ({ page }) => {
+    await page.addInitScript(() => window.localStorage.removeItem("mdh3d_smart_cart"));
+    const response = await page.goto(`${BASE_URL}/loja`);
+    expect(response?.status()).toBe(200);
+    await expect(page.getByRole("heading", { name: /MDH3D com checkout externo/i })).toBeVisible();
+    await expect(page.locator('[data-smart-product-card="chaveiro-flamengo-3d"]').first()).toBeVisible();
+
+    await page.locator("[data-smart-search]").fill("dragão");
+    await expect(page.locator('[data-smart-product-card="miniatura-dragao-articulado"]').first()).toBeVisible();
+    await expect(page.locator("[data-smart-result-count]")).toContainText("1 produto");
+
+    await page.locator("[data-smart-search]").fill("");
+    await page.locator("[data-smart-category]").selectOption("Setup Gamer");
+    await expect(page.locator('[data-smart-product-card="suporte-controle-gamer"]').first()).toBeVisible();
+    await expect(page.locator("[data-smart-result-count]")).toContainText("1 produto");
+
+    await page.locator('[data-smart-product-card="suporte-controle-gamer"]').first().getByRole("button", { name: /Carrinho/i }).click();
+    const cartPanel = page.locator("aside").filter({ hasText: "Carrinho local" });
+    await expect(cartPanel).toContainText("1 item");
+    const checkout = page.getByRole("link", { name: /Finalizar pelo WhatsApp/i });
+    await expect(checkout).toBeVisible();
+    const href = await checkout.getAttribute("href");
+    expect(href).toContain("wa.me");
+    expect(decodeURIComponent(href || "")).toContain("Suporte para Controle Gamer");
+  });
+
+  test("produto com link Nuvemshop usa checkout externo", async ({ page }) => {
+    const response = await page.goto(`${BASE_URL}/produto/chaveiro-flamengo-3d`);
+    expect(response?.status()).toBe(200);
+    await expect(page.getByRole("heading", { name: /Chaveiro Flamengo 3D/i })).toBeVisible();
+    const buy = page.getByRole("link", { name: /Comprar com Pix ou Cartão/i }).first();
+    await expect(buy).toBeVisible();
+    const href = await buy.getAttribute("href");
+    expect(href).toContain("lojavirtualnuvem.com.br");
+    expect(await buy.getAttribute("target")).toBe("_blank");
+    expect(await buy.getAttribute("rel")).toContain("noopener");
+    const productJsonLd = await page.locator('script[type="application/ld+json"]').allTextContents();
+    expect(productJsonLd.some((content) => content.includes('"@type":"Product"') || content.includes('"@type": "Product"'))).toBe(true);
+  });
+
+  test("produto sem link Nuvemshop abre WhatsApp com mensagem codificada", async ({ page }) => {
+    const response = await page.goto(`${BASE_URL}/produto/suporte-controle-gamer`);
+    expect(response?.status()).toBe(200);
+    const budget = page.getByRole("link", { name: /Pedir orçamento no WhatsApp/i }).first();
+    await expect(budget).toBeVisible();
+    const href = await budget.getAttribute("href");
+    expect(href).toContain("wa.me");
+    expect(href).toContain("text=");
+    const decoded = decodeURIComponent(href || "");
+    expect(decoded).toContain("Suporte para Controle Gamer");
+    expect(decoded).toContain("MDH-SET-CTRL");
+    expect(decoded).toContain("/produto/suporte-controle-gamer");
+  });
+
+  test("feeds locais retornam dados do CSV", async ({ request }) => {
+    const json = await request.get(`${BASE_URL}/feeds/produtos.json`);
+    expect(json.status()).toBe(200);
+    const payload = await json.json();
+    expect(payload.total).toBeGreaterThanOrEqual(6);
+    expect(payload.products.some((product: { slug: string }) => product.slug === "chaveiro-flamengo-3d")).toBe(true);
+
+    const meta = await request.get(`${BASE_URL}/feeds/meta-catalog.csv`);
+    expect(meta.status()).toBe(200);
+    expect(meta.headers()["content-type"]).toContain("text/csv");
+    expect(await meta.text()).toContain("chaveiro-flamengo-3d");
+
+    const google = await request.get(`${BASE_URL}/feeds/google-shopping.xml`);
+    expect(google.status()).toBe(200);
+    expect(google.headers()["content-type"]).toContain("application/xml");
+    expect(await google.text()).toContain("<g:price>4.50 BRL</g:price>");
+  });
+});

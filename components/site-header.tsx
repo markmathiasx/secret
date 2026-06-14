@@ -30,6 +30,7 @@ import { HeaderCommandPalette } from "@/components/header-command-palette";
 import { brand, socialLinks, whatsappNumber } from "@/lib/constants";
 
 const navLinks = [
+  { href: "/loja", label: "Loja" },
   { href: "/catalogo", label: "Catálogo" },
   { href: "/jogue", label: "Jogue" },
   { href: "/guia-primeira-impressao-3d", label: "Como funciona" },

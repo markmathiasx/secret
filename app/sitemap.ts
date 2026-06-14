@@ -5,10 +5,13 @@ import { categoryPageConfigs } from "@/lib/category-pages";
 import { getSiteUrl } from "@/lib/env";
 import { salesLandings } from "@/lib/sales-landings";
 import { blogPosts } from "@/lib/blog";
+import { buildProductPagePath } from "@/lib/mdh-store/links";
+import { getLocalStoreProducts } from "@/lib/mdh-store/products";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = getSiteUrl();
   const catalog = await getCatalogSnapshot();
+  const smartStoreProducts = getLocalStoreProducts();
 
   const buildDate = new Date();
   const landingPaths = Object.values(salesLandings).map((landing) => landing.slug);
@@ -16,6 +19,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const staticPages = [
     "",
+    "/loja",
     "/catalogo",
     "/atendimento",
     "/jogue",
@@ -30,6 +34,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...categoryPaths,
     "/divulgacao",
     "/politica-de-privacidade",
+    "/politica-de-envio",
+    "/politica-de-troca",
+    "/termos-de-compra",
+    "/prazo-de-producao",
+    "/comprar-na-mdh3d",
     "/termos",
     "/trocas-e-devolucoes",
     "/entregas",
@@ -37,6 +46,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/indicacao",
     "/guia-primeira-impressao-3d",
     "/merchant/products.xml",
+    "/feeds/google-shopping.xml",
+    "/feeds/meta-catalog.csv",
+    "/feeds/produtos.json",
   ].map((path) => ({
     url: `${base}${path}`,
     lastModified: buildDate,
@@ -56,6 +68,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     changeFrequency: "monthly" as const,
     priority: 0.65,
   }));
+  const smartStorePages = smartStoreProducts.map((product) => ({
+    url: `${base}${buildProductPagePath(product)}`,
+    lastModified: buildDate,
+    changeFrequency: "weekly" as const,
+    priority: 0.65,
+  }));
 
-  return [...staticPages, ...productPages, ...blogPages];
+  return [...staticPages, ...productPages, ...smartStorePages, ...blogPages];
 }

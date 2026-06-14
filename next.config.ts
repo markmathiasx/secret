@@ -257,18 +257,8 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
-        source: '/loja',
-        destination: '/catalogo',
-        permanent: true,
-      },
-      {
         source: '/produtos',
         destination: '/catalogo',
-        permanent: true,
-      },
-      {
-        source: '/produto/:slug*',
-        destination: '/loja/produto/:slug*',
         permanent: true,
       },
       {

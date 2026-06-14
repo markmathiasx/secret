@@ -86,6 +86,8 @@
     "validate:db-storage": "node scripts/validate-db-storage.mjs",
     "validate:private-routes": "node scripts/validate-private-routes.mjs",
     "validate:public-regressions": "node scripts/validate-public-regressions.mjs",
+    "validate:mdh-smart-store": "node scripts/validate-mdh-smart-store.mjs",
+    "test:mdh-smart-store": "node scripts/run-mdh-smart-store-tests.mjs",
     "validate:enterprise-scaffold": "node scripts/validate-enterprise-scaffold.mjs",
     "ci:check": "npm run lint:check && npm run typecheck && npm run build && npm run test:images && npm run test:e2e"
   },

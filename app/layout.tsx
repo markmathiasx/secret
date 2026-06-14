@@ -4,6 +4,7 @@ import { Manrope, Space_Grotesk } from 'next/font/google';
 import './globals.css';
 import { AccessibilityProvider, SkipLink } from '@/components/accessibility';
 import { AnalyticsBridge } from '@/components/analytics/AnalyticsBridge';
+import { EcommerceAnalytics } from '@/components/mdh-store/EcommerceAnalytics';
 import { CartProvider } from '@/lib/cart-context';
 import { DeferredLayoutWidgets } from '@/components/deferred-layout-widgets';
 import { SiteFooter } from '@/components/site-footer';
@@ -21,6 +22,7 @@ import {
   isCardCheckoutConfigured,
   isChatwootWidgetConfigured,
 } from '@/lib/env';
+import { getStorefrontGtmId, getStorefrontMetaPixelId } from '@/lib/mdh-store/config';
 
 const siteUrl = getSiteUrl();
 const sans = Manrope({ subsets: ['latin'], variable: '--font-sans', display: 'swap', preload: true });
@@ -37,6 +39,8 @@ const normalizedPhone = `+${whatsappNumber.replace(/\D/g, '')}`;
 const socialProfiles = [socialLinks.instagram].filter((item) => Boolean(item) && item !== '#');
 const googleVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION?.trim();
 const gaMeasurementId = (process.env.NEXT_PUBLIC_GA4_ID || process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || '').trim();
+const storefrontGtmId = getStorefrontGtmId();
+const storefrontMetaPixelId = getStorefrontMetaPixelId();
 const organizationJsonLd = {
   '@context': 'https://schema.org',
   '@type': ['Organization', 'LocalBusiness', 'Store'],
@@ -222,6 +226,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </>
         ) : null}
         <AnalyticsBridge />
+        <EcommerceAnalytics gtmId={storefrontGtmId} metaPixelId={storefrontMetaPixelId} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }} />
         <div className="site-shell">

@@ -1,6 +1,7 @@
 import { defineConfig, devices } from "@playwright/test";
 
 const BASE_URL = process.env.SMOKE_BASE_URL || "http://localhost:3000";
+const useSystemChrome = process.env.PLAYWRIGHT_USE_SYSTEM_CHROME === "1";
 
 export default defineConfig({
   testDir: "./tests",
@@ -20,7 +21,7 @@ export default defineConfig({
   projects: [
     {
       name: "chromium",
-      use: { ...devices["Desktop Chrome"] },
+      use: { ...devices["Desktop Chrome"], ...(useSystemChrome ? { channel: "chrome" } : {}) },
     },
   ],
   timeout: 30_000,
