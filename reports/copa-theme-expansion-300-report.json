@@ -1,0 +1,16 @@
+{
+  "generatedAt": "2026-06-17T13:11:10.618Z",
+  "total": 300,
+  "filamentPricePerKg": 100,
+  "profitMarkupPercent": 30,
+  "minPix": 11.43,
+  "maxPix": 58.03,
+  "categories": {
+    "Copa e Futebol": 130,
+    "Setup Gamer": 34,
+    "Organizacao": 40,
+    "Presentes Personalizados": 36,
+    "Geek e Colecionaveis": 32,
+    "Pets e Kids": 28
+  }
+}

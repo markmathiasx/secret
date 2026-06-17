@@ -2,6 +2,7 @@ import "server-only";
 
 import fs from "node:fs";
 import path from "node:path";
+import copaThemeRows from "@/data/copa-theme-expansion-300.json";
 import { getNuvemshopBaseUrl } from "@/lib/mdh-store/config";
 import { slugify } from "@/lib/utils";
 
@@ -16,6 +17,12 @@ export type SmartStoreProduct = {
   promotionalPrice?: number;
   pixPrice: number;
   cardPrice?: number;
+  productionCost?: number;
+  filamentCost?: number;
+  profitAmount?: number;
+  profitPercent: number;
+  pricingBasis: string;
+  filamentPricePerKg: number;
   stock: number;
   sku: string;
   description: string;
@@ -42,6 +49,35 @@ export type SmartStoreProduct = {
 };
 
 const CSV_PATH = path.join(process.cwd(), "data", "produtos.csv");
+const DEFAULT_FILAMENT_PRICE_PER_KG = 100;
+const DEFAULT_PROFIT_MARKUP = 0.3;
+const CARD_FLAT_FEE = 1;
+
+type CopaThemeStoreRow = {
+  id: string;
+  sku: string;
+  slug: string;
+  name: string;
+  category: string;
+  subcategory: string;
+  theme: string;
+  estimatedGrams: number;
+  dimensions: string;
+  material: string;
+  finish: string;
+  colors: string[];
+  costBreakdown: { totalCost: number; filament: number };
+  filamentPricePerKg: number;
+  profitMarkupPercent: number;
+  pricePix: number;
+  priceCard: number;
+  image: string;
+  images: string[];
+  tags: string[];
+  description: string;
+  productionWindow: string;
+  customizable: boolean;
+};
 
 function parseNumber(value?: string) {
   let normalized = (value || "").replace(/\s/g, "").replace(/[R$]/gi, "");
@@ -58,6 +94,18 @@ function parseNumber(value?: string) {
   }
   const parsed = Number(normalized);
   return Number.isFinite(parsed) ? parsed : undefined;
+}
+
+function roundMoney(value: number) {
+  return Math.round((Number.isFinite(value) ? value : 0) * 100) / 100;
+}
+
+function getDefaultFilamentPricePerKg() {
+  return parseNumber(
+    process.env.MDH_FILAMENT_PRICE_PER_KG ||
+      process.env.VITE_MDH_FILAMENT_PRICE_PER_KG ||
+      process.env.NEXT_PUBLIC_MDH_FILAMENT_PRICE_PER_KG
+  ) || DEFAULT_FILAMENT_PRICE_PER_KG;
 }
 
 function clean(value?: string) {
@@ -252,10 +300,26 @@ function rowToProduct(row: Record<string, string>, index: number): SmartStorePro
   const slug = slugify(rawSlug || rawName);
   if (!slug) return null;
 
-  const price = parseNumber(pick(row, ["Preço", "Preco", "price"])) || 0;
-  const promotionalPrice = parseNumber(pick(row, ["Preço promocional", "Preco promocional", "Promocional"]));
-  const pixPrice = promotionalPrice && promotionalPrice > 0 && promotionalPrice < price ? promotionalPrice : price;
-  const cardPrice = price > 0 && Math.abs(price - pixPrice) > 0.01 ? price : undefined;
+  const csvPrice = parseNumber(pick(row, ["Preço", "Preco", "price"])) || 0;
+  const csvPromotionalPrice = parseNumber(pick(row, ["Preço promocional", "Preco promocional", "Promocional"]));
+  const weightKg = parseNumber(pick(row, ["Peso (kg)", "Peso"]));
+  const filamentPricePerKg =
+    parseNumber(pick(row, ["Custo do filamento/kg", "Custo filamento kg", "Filamento kg"])) ||
+    getDefaultFilamentPricePerKg();
+  const filamentCost = weightKg ? roundMoney(weightKg * filamentPricePerKg) : undefined;
+  const productionCost =
+    parseNumber(pick(row, ["Custo de produção", "Custo de producao", "Custo da peça", "Custo da peca", "Custo"])) ||
+    (csvPromotionalPrice && csvPromotionalPrice > 0 && csvPromotionalPrice < csvPrice
+      ? csvPromotionalPrice
+      : csvPrice || filamentCost || 0);
+  const profitMarkup =
+    (parseNumber(pick(row, ["Lucro (%)", "Lucro", "Markup (%)"])) || DEFAULT_PROFIT_MARKUP * 100) / 100;
+  const computedPixPrice = productionCost > 0 ? roundMoney(productionCost * (1 + profitMarkup)) : 0;
+  const computedCardPrice = computedPixPrice > 0 ? roundMoney(computedPixPrice + CARD_FLAT_FEE) : undefined;
+  const price = computedCardPrice || csvPrice;
+  const promotionalPrice = computedPixPrice || csvPromotionalPrice;
+  const pixPrice = promotionalPrice || price;
+  const cardPrice = computedCardPrice || (price > 0 && Math.abs(price - pixPrice) > 0.01 ? price : undefined);
   const category = clean(pick(row, ["Categorias", "Categoria"])) || "Impressão 3D";
   const sku = clean(pick(row, ["SKU", "Código de barras", "Codigo de barras"])) || `MDH-${String(index + 1).padStart(3, "0")}`;
   const description =
@@ -295,7 +359,13 @@ function rowToProduct(row: Record<string, string>, index: number): SmartStorePro
       widthCm: parseNumber(pick(row, ["Largura (cm)", "Largura"])),
       lengthCm: parseNumber(pick(row, ["Comprimento (cm)", "Comprimento"])),
     },
-    weightKg: parseNumber(pick(row, ["Peso (kg)", "Peso"])),
+    weightKg,
+    productionCost: productionCost > 0 ? productionCost : undefined,
+    filamentCost,
+    profitAmount: productionCost > 0 ? roundMoney(pixPrice - productionCost) : undefined,
+    profitPercent: productionCost > 0 ? Math.round(profitMarkup * 100) : 0,
+    pricingBasis: productionCost > 0 ? "Custo de produção + 30% de lucro; cartão = Pix + R$ 1" : "Preço informado no CSV",
+    filamentPricePerKg,
     seoTitle,
     seoDescription,
     brand: clean(pick(row, ["Marca"])) || "MDH3D",
@@ -315,6 +385,61 @@ function rowToProduct(row: Record<string, string>, index: number): SmartStorePro
       Number(personalizable) * 8 +
       Math.max(0, 12 - index) +
       tags.length,
+  };
+}
+
+function parseDimensionsLabel(dimensions: string) {
+  const values = String(dimensions || "")
+    .match(/\d+(?:[.,]\d+)?/g)
+    ?.map((value) => parseNumber(value));
+  return {
+    lengthCm: values?.[0],
+    widthCm: values?.[1],
+    heightCm: values?.[2],
+  };
+}
+
+function copaThemeRowToProduct(row: CopaThemeStoreRow, index: number): SmartStoreProduct {
+  const slug = `${row.slug}-${row.id}`;
+  const pixPrice = roundMoney(row.pricePix);
+  const cardPrice = roundMoney(row.priceCard || pixPrice + CARD_FLAT_FEE);
+  const productionCost = roundMoney(row.costBreakdown.totalCost);
+  const dimensions = parseDimensionsLabel(row.dimensions);
+
+  return {
+    slug,
+    name: row.name,
+    category: row.category,
+    material: row.material,
+    colors: row.colors?.length ? row.colors : inferColors({}),
+    personalizable: Boolean(row.customizable),
+    price: cardPrice,
+    promotionalPrice: pixPrice,
+    pixPrice,
+    cardPrice,
+    productionCost,
+    filamentCost: roundMoney(row.costBreakdown.filament),
+    profitAmount: roundMoney(pixPrice - productionCost),
+    profitPercent: row.profitMarkupPercent,
+    pricingBasis: "Custo de produção + 30% de lucro; cartão = Pix + R$ 1",
+    filamentPricePerKg: row.filamentPricePerKg,
+    stock: row.category === "Copa e Futebol" ? 18 : 12,
+    sku: row.sku,
+    description: row.description,
+    tags: Array.from(new Set([...(row.tags || []), row.theme, row.subcategory, row.category === "Copa e Futebol" ? "Copa 2026" : ""].filter(Boolean))),
+    dimensions,
+    weightKg: row.estimatedGrams ? roundMoney(row.estimatedGrams / 1000) : undefined,
+    seoTitle: `${row.name} | MDH3D`,
+    seoDescription: row.description.slice(0, 155),
+    brand: "MDH3D",
+    physical: true,
+    image: row.image,
+    gallery: row.images?.length ? row.images : buildFallbackGallery(row.image, index),
+    careInstructions: buildCareInstructions(row.material),
+    faqs: buildProductFaqs(row.name, row.productionWindow, row.material),
+    productionWindow: row.productionWindow,
+    featured: index < 18 || row.category === "Copa e Futebol",
+    marketplaceScore: 70 + Number(row.category === "Copa e Futebol") * 15 + Number(row.customizable) * 6 - Math.min(index, 40) / 4,
   };
 }
 
@@ -345,8 +470,13 @@ export function parseProductsCsv(csvText: string) {
 }
 
 export function getLocalStoreProducts() {
-  if (!fs.existsSync(CSV_PATH)) return [] as SmartStoreProduct[];
-  return parseProductsCsv(fs.readFileSync(CSV_PATH, "utf8"));
+  const csvProducts = fs.existsSync(CSV_PATH) ? parseProductsCsv(fs.readFileSync(CSV_PATH, "utf8")) : [];
+  const products = new Map(csvProducts.map((product) => [product.slug, product]));
+  (copaThemeRows as CopaThemeStoreRow[]).forEach((row, index) => {
+    const product = copaThemeRowToProduct(row, index);
+    if (!products.has(product.slug)) products.set(product.slug, product);
+  });
+  return Array.from(products.values()).sort((a, b) => Number(b.featured) - Number(a.featured) || b.marketplaceScore - a.marketplaceScore || a.name.localeCompare(b.name));
 }
 
 export function getLocalStoreCategories(products = getLocalStoreProducts()) {

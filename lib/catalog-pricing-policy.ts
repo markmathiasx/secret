@@ -19,7 +19,7 @@ type PriceBand = {
   preservePremium?: boolean;
 };
 
-const BASE_VALUE_MARGIN = 0;
+const BASE_VALUE_MARGIN = 0.3;
 const OPEN_PRICE_CEILING = 100000;
 
 function textBlob(product: Pick<Product, "name" | "category" | "subcategory" | "collection" | "tags" | "finish" | "material">) {

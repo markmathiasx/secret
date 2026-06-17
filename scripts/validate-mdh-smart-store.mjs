@@ -23,6 +23,9 @@ const requiredHeaders = [
   "Categorias",
   "Preço",
   "Preço promocional",
+  "Custo de produção",
+  "Custo do filamento/kg",
+  "Lucro (%)",
   "Peso (kg)",
   "Altura (cm)",
   "Largura (cm)",
@@ -48,10 +51,15 @@ check(/;"";"\/catalog-assets\//.test(csv), "missing_product_without_nuvemshop_li
 const sourceChecks = {
   "lib/mdh-store/products.ts": [
     "parseProductsCsv",
+    "copaThemeRows",
+    "copaThemeRowToProduct",
     "nuvemshopUrl",
     "getNuvemshopBaseUrl",
     "promotionalPrice",
     "cardPrice",
+    "productionCost",
+    "filamentCost",
+    "profitPercent",
     "material",
     "colors",
     "gallery",
@@ -72,6 +80,11 @@ const sourceChecks = {
     "click_buy_nuvemshop",
     "click_whatsapp_budget",
     "search_product",
+    "Custo",
+  ],
+  "components/mdh-store/StoreAnimatedBackground.tsx": [
+    "store-live-background",
+    "store-live-background__printer",
   ],
   "components/mdh-store/ProductExperience.tsx": [
     "ProductMediaGallery",
@@ -97,11 +110,21 @@ const sourceChecks = {
     "VITE_TIKTOK_PIXEL_ID",
     "VITE_NUVEMSHOP_BASE_URL",
   ],
+  "app/globals.css": [
+    "store-animated-shell",
+    "storeGridFlow",
+    "storePrintHead",
+  ],
   "lib/mdh-store/feeds.ts": [
     "buildTiktokCatalogCsv",
     "shipping_weight",
     "material",
     "color",
+  ],
+  "lib/copa-theme-expansion-catalog.ts": [
+    "copaThemeExpansionCatalog",
+    "profitTargetPercent",
+    "Custo estimado",
   ],
 };
 
@@ -122,6 +145,7 @@ for (const file of [
   "app/sitemap-products.xml/route.ts",
   "app/ofertas/page.tsx",
   "app/orcamento-personalizado/page.tsx",
+  "components/mdh-store/StoreAnimatedBackground.tsx",
   "app/comprar-na-mdh3d/page.tsx",
   "app/politica-de-envio/page.tsx",
   "app/politica-de-troca/page.tsx",
@@ -129,6 +153,8 @@ for (const file of [
   "app/prazo-de-producao/page.tsx",
   "data/mdh-store-reviews.json",
   "data/mdh-store-questions.json",
+  "data/copa-theme-expansion-300.json",
+  "lib/copa-theme-expansion-catalog.ts",
   "docs/AUDITORIA_ECOMMERCE_MDH3D.md",
   "docs/COMO_EDITAR_PRODUTOS.md",
   "docs/INTEGRACOES_MARKETING.md",
@@ -138,12 +164,12 @@ for (const file of [
 }
 
 const envExample = read(".env.example");
-for (const key of ["VITE_WHATSAPP_NUMBER", "VITE_GTM_ID", "VITE_META_PIXEL_ID", "VITE_TIKTOK_PIXEL_ID", "VITE_NUVEMSHOP_BASE_URL"]) {
+for (const key of ["VITE_WHATSAPP_NUMBER", "VITE_GTM_ID", "VITE_META_PIXEL_ID", "VITE_TIKTOK_PIXEL_ID", "VITE_NUVEMSHOP_BASE_URL", "MDH_FILAMENT_PRICE_PER_KG"]) {
   check(envExample.includes(key), `missing_env_example:${key}`);
 }
 
 const docs = read("docs/ECOMMERCE_MDH3D.md");
-for (const term of ["produtos.csv", "Nuvemshop", "WhatsApp", "GTM", "Meta", "Google Shopping"]) {
+for (const term of ["produtos.csv", "Nuvemshop", "WhatsApp", "GTM", "Meta", "Google Shopping", "Copa", "30%"]) {
   check(docs.includes(term), `missing_docs:${term}`);
 }
 
@@ -151,6 +177,11 @@ const auditDocs = read("docs/AUDITORIA_ECOMMERCE_MDH3D.md");
 for (const term of ["/ofertas", "/orcamento-personalizado", "TikTok", "sitemap-products.xml"]) {
   check(auditDocs.includes(term), `missing_audit_docs:${term}`);
 }
+
+const copaExpansion = JSON.parse(read("data/copa-theme-expansion-300.json"));
+check(Array.isArray(copaExpansion) && copaExpansion.length === 300, "invalid_copa_theme_expansion_count");
+check(copaExpansion.every((item) => item.priceCard === Number((item.pricePix + 1).toFixed(2))), "invalid_copa_theme_card_price");
+check(copaExpansion.every((item) => item.profitMarkupPercent === 30), "invalid_copa_theme_profit_markup");
 
 const forbidden = [
   "NUVEMSHOP_ACCESS_TOKEN",

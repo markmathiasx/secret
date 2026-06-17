@@ -40,14 +40,14 @@ export type ProductionCostRecommendation = {
   referencePrice: number;
 };
 
-export const TARGET_PROFIT_MARKUP = 0;
+export const TARGET_PROFIT_MARKUP = 0.3;
 export const TARGET_LIQUID_MARGIN = TARGET_PROFIT_MARKUP;
 export const PIX_PRICE_DIVISOR = 1 / (1 + TARGET_PROFIT_MARKUP);
 export const CARD_MULTIPLIER = 1;
 export const BOLETO_MULTIPLIER = 1.08;
 export const MARKETPLACE_PRICE_MULTIPLIER = 1.15;
 export const REFERENCE_PRICE_MULTIPLIER = 1.18;
-export const FIXED_MARGIN_BADGE_LABEL = "Preço calculado";
+export const FIXED_MARGIN_BADGE_LABEL = "Custo + 30%";
 export const LOCAL_PRODUCTION_BADGE_LABEL = "Atendimento direto";
 export const MIN_SITE_PRICE_PIX = 0.01;
 export const DEFAULT_SPOOL_PRICE_PER_KG = 100;
@@ -390,5 +390,5 @@ export function generatePricingCacheKey(slug: string, options: DynamicPricingOpt
 }
 
 export function buildFixedMarginNarrative(_costBase: number, pricePix: number) {
-  return `Pix ${pricePix.toFixed(2).replace(".", ",")} calculado com material, tempo de producao e acabamento estimados.`;
+  return `Pix ${pricePix.toFixed(2).replace(".", ",")} calculado com material, tempo de producao, acabamento e lucro de 30% estimados.`;
 }

@@ -1,5 +1,5 @@
 export const CARD_PRICE_FLAT_FEE = 1;
-export const GLOBAL_PRICE_INCREASE = 2;
+export const GLOBAL_PRICE_INCREASE = 0;
 
 export function normalizeMoney(value: unknown) {
   if (typeof value === "number") {

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { CustomQuoteForm } from "@/components/mdh-store/CustomQuoteForm";
+import { StoreAnimatedBackground } from "@/components/mdh-store/StoreAnimatedBackground";
 import { getStorefrontWhatsappNumber } from "@/lib/mdh-store/config";
 import { getSiteUrl } from "@/lib/env";
 
@@ -15,8 +16,9 @@ export default function OrcamentoPersonalizadoPage() {
   const whatsappNumber = getStorefrontWhatsappNumber();
 
   return (
-    <main className="min-h-screen bg-[#071016] pb-14 text-white">
-      <section className="border-b border-white/10 bg-[radial-gradient(circle_at_16%_12%,rgba(34,211,238,0.18),transparent_32%),linear-gradient(180deg,#071016,#09131b)] px-4 py-12 sm:px-6">
+    <main className="store-animated-shell min-h-screen pb-14 text-white">
+      <StoreAnimatedBackground />
+      <section className="border-b border-white/10 bg-[linear-gradient(180deg,rgba(3,7,13,0.76),rgba(3,7,13,0.42))] px-4 py-12 sm:px-6">
         <div className="mx-auto max-w-7xl">
           <Link href="/loja" className="text-sm font-bold text-cyan-100 underline-offset-4 hover:underline">
             Voltar para loja

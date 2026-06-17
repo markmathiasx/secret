@@ -15,6 +15,7 @@ import { getProductVisual } from "@/lib/product-visuals";
 import { verifiedCatalog } from "@/lib/verified-catalog";
 import { csvCuratedCatalog } from "@/lib/catalog-csv-curated";
 import { a1MiniExpansionCatalog } from "@/lib/a1-mini-expansion-catalog";
+import { copaThemeExpansionCatalog } from "@/lib/copa-theme-expansion-catalog";
 import { getSafePublicCatalog } from "@/lib/csv-curated-media";
 import { applyA1MiniProfile } from "@/lib/a1-mini-catalog";
 import adminProductOverridesJson from "@/data/admin-product-overrides.json";
@@ -2842,6 +2843,12 @@ const fullCatalog = [
     })
   ),
   ...a1MiniExpansionCatalog.map((product) =>
+    applyCatalogMedia(enrichProduct(product), {
+      preserveExisting: true,
+      preferExistingImages: true,
+    })
+  ),
+  ...copaThemeExpansionCatalog.map((product) =>
     applyCatalogMedia(enrichProduct(product), {
       preserveExisting: true,
       preferExistingImages: true,

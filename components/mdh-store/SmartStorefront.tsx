@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useId, useMemo, useState } from "react";
-import { ArrowRight, Filter, MessageCircleMore, Search, ShoppingBag, TicketPercent, Trash2, X } from "lucide-react";
+import { ArrowRight, Calculator, Filter, MessageCircleMore, Search, ShoppingBag, TicketPercent, Trash2, X } from "lucide-react";
 import type { SmartStoreProduct } from "@/lib/mdh-store/products";
 import { buildProductPagePath, buildWhatsappUrl } from "@/lib/mdh-store/links";
 import { trackSmartStoreEvent } from "@/lib/mdh-store/analytics";
@@ -104,6 +104,14 @@ function SmartProductCard({
             {product.cardPrice ? <span className="pb-1 text-sm text-white/52">Cartão {formatCurrency(product.cardPrice)}</span> : null}
           </div>
         </div>
+        {product.productionCost ? (
+          <div className="mt-3 rounded-[8px] border border-emerald-300/[0.14] bg-emerald-300/[0.08] px-3 py-2 text-xs leading-5 text-emerald-50/74">
+            <span className="inline-flex items-center gap-1 font-black text-emerald-100">
+              <Calculator className="h-3.5 w-3.5" /> Custo {formatCurrency(product.productionCost)}
+            </span>{" "}
+            + {product.profitPercent}% lucro
+          </div>
+        ) : null}
         <div className="mt-4 flex flex-wrap gap-2">
           {hasCheckout ? (
             <a

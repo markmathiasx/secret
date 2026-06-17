@@ -9,15 +9,16 @@ test.describe("Loja inteligente MDH3D", () => {
     expect(response?.status()).toBe(200);
     await expect(page.getByRole("heading", { name: /MDH3D com checkout externo/i })).toBeVisible();
     await expect(page.locator('[data-smart-product-card="chaveiro-flamengo-3d"]').first()).toBeVisible();
+    await expect(page.locator('[data-smart-product-card="chaveiro-flamengo-3d"]').first()).toContainText("Custo");
 
     await page.locator("[data-smart-search]").fill("dragão");
     await expect(page.locator('[data-smart-product-card="miniatura-dragao-articulado"]').first()).toBeVisible();
-    await expect(page.locator("[data-smart-result-count]")).toContainText("1 produto");
+    await expect(page.locator("[data-smart-result-count]")).toContainText(/produto/);
 
     await page.locator("[data-smart-search]").fill("");
     await page.locator("[data-smart-category]").selectOption("Setup Gamer");
     await expect(page.locator('[data-smart-product-card="suporte-controle-gamer"]').first()).toBeVisible();
-    await expect(page.locator("[data-smart-result-count]")).toContainText("1 produto");
+    await expect(page.locator("[data-smart-result-count]")).toContainText(/produto/);
 
     await page.locator("[data-smart-material]").selectOption("PLA");
     await page.locator("[data-smart-sort]").selectOption("menor-preco");
@@ -82,7 +83,7 @@ test.describe("Loja inteligente MDH3D", () => {
     const google = await request.get(`${BASE_URL}/feeds/google-shopping.xml`);
     expect(google.status()).toBe(200);
     expect(google.headers()["content-type"]).toContain("application/xml");
-    expect(await google.text()).toContain("<g:price>4.50 BRL</g:price>");
+    expect(await google.text()).toContain("<g:price>5.85 BRL</g:price>");
 
     const tiktok = await request.get(`${BASE_URL}/feeds/tiktok-catalog.csv`);
     expect(tiktok.status()).toBe(200);

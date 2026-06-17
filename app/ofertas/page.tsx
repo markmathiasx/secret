@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Clock3, Gift, Percent, ShoppingBag, TicketPercent } from "lucide-react";
+import { StoreAnimatedBackground } from "@/components/mdh-store/StoreAnimatedBackground";
 import { smartStoreCoupons } from "@/lib/mdh-store/promotions";
 import { getLocalStoreProducts } from "@/lib/mdh-store/products";
 import { formatCurrency } from "@/lib/utils";
@@ -23,8 +24,9 @@ export default function OfertasPage() {
   ];
 
   return (
-    <main className="min-h-screen bg-[#071016] pb-14 text-white">
-      <section className="border-b border-white/10 bg-[radial-gradient(circle_at_12%_10%,rgba(132,204,22,0.15),transparent_30%),linear-gradient(180deg,#071016,#09131b)] px-4 py-12 sm:px-6">
+    <main className="store-animated-shell min-h-screen pb-14 text-white">
+      <StoreAnimatedBackground />
+      <section className="border-b border-white/10 bg-[linear-gradient(180deg,rgba(3,7,13,0.76),rgba(3,7,13,0.42))] px-4 py-12 sm:px-6">
         <div className="mx-auto max-w-7xl">
           <p className="section-kicker">Campanhas</p>
           <h1 className="mt-3 max-w-4xl text-4xl font-black leading-tight text-white sm:text-6xl">

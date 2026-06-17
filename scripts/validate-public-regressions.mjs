@@ -12,7 +12,9 @@ const warnings = [];
 
 const baselinePath = path.join(ROOT, "reports/industrial-auth-db-baseline.json");
 const baseline = fs.existsSync(baselinePath) ? JSON.parse(fs.readFileSync(baselinePath, "utf8")) : null;
-const expectedProductCount = baseline?.productCount ?? catalog.length;
+const copaExpansionPath = path.join(ROOT, "data/copa-theme-expansion-300.json");
+const copaExpansionCount = fs.existsSync(copaExpansionPath) ? JSON.parse(fs.readFileSync(copaExpansionPath, "utf8")).length : 0;
+const expectedProductCount = (baseline?.productCount ?? catalog.length - copaExpansionCount) + copaExpansionCount;
 
 if (catalog.length !== expectedProductCount) {
   errors.push({ code: "catalog_count_changed", expected: expectedProductCount, actual: catalog.length });

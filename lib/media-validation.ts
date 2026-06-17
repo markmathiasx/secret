@@ -173,6 +173,16 @@ function hasCuratedValorantMedia(product: Product) {
   );
 }
 
+function hasLocalCopaThemeMedia(product: Product) {
+  const productId = product.id.toLowerCase();
+  const images = product.images || [];
+  return (
+    productId.startsWith("copa-") &&
+    images.length >= 1 &&
+    images.every((url) => url.startsWith("/products/copa-theme-expansion/") && !/placeholder|catalog-assets/i.test(url))
+  );
+}
+
 export function deriveMediaStatus(
   product: Product,
   photoKind: CatalogPhotoKind | undefined,
@@ -194,6 +204,10 @@ export function deriveMediaStatus(
   // removing SKU placeholder text cards. They are public as illustrative media,
   // but must not be classified as foto-real or render-fiel.
   if (photoKind === "imagem-conceitual" && hasCuratedValorantMedia(product)) return "probable";
+
+  // Copa/theme expansion images are local generated merchandising assets for
+  // product cards. They are public as illustrative media only, never as verified photos.
+  if (!photoKind && hasLocalCopaThemeMedia(product)) return "probable";
 
   // imagem-conceitual with near-perfect semantic match → probable
   if (photoKind === "imagem-conceitual" && semanticScore >= 99) return "probable";

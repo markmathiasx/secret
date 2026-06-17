@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { Clock3, PackageCheck, Ruler, Tag, type LucideIcon } from "lucide-react";
 import { LocalReviewsAndQuestions, ProductMediaGallery, ProductShippingEstimator, ProductSpecsPanel } from "@/components/mdh-store/ProductExperience";
 import { SmartProductActions } from "@/components/mdh-store/SmartProductActions";
+import { StoreAnimatedBackground } from "@/components/mdh-store/StoreAnimatedBackground";
 import { getStorefrontWhatsappNumber } from "@/lib/mdh-store/config";
 import { buildProductPagePath } from "@/lib/mdh-store/links";
 import { findLocalStoreProduct, getLocalStoreProducts, getRelatedLocalProducts } from "@/lib/mdh-store/products";
@@ -131,7 +132,8 @@ export default async function ProdutoPage({ params }: { params: Promise<{ slug: 
   ];
 
   return (
-    <main className="min-h-screen bg-[#071016] pb-14 text-white">
+    <main className="store-animated-shell min-h-screen pb-14 text-white">
+      <StoreAnimatedBackground />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
@@ -149,7 +151,7 @@ export default async function ProdutoPage({ params }: { params: Promise<{ slug: 
           <h1 className="mt-3 text-4xl font-black leading-tight text-white sm:text-6xl">{product.name}</h1>
           <p className="mt-4 max-w-3xl text-base leading-7 text-white/68">{product.description}</p>
 
-          <div className="mt-6 grid gap-3 sm:grid-cols-2">
+          <div className="mt-6 grid gap-3 sm:grid-cols-3">
             <div className="rounded-[8px] border border-emerald-300/18 bg-emerald-300/10 p-4">
               <p className="text-xs font-black uppercase tracking-[0.16em] text-emerald-100/68">Preço Pix</p>
               <p className="mt-2 text-3xl font-black text-white">{formatCurrency(product.pixPrice)}</p>
@@ -157,6 +159,11 @@ export default async function ProdutoPage({ params }: { params: Promise<{ slug: 
             <div className="rounded-[8px] border border-white/10 bg-white/[0.045] p-4">
               <p className="text-xs font-black uppercase tracking-[0.16em] text-white/46">Cartão</p>
               <p className="mt-2 text-3xl font-black text-white">{product.cardPrice ? formatCurrency(product.cardPrice) : "Sob consulta"}</p>
+            </div>
+            <div className="rounded-[8px] border border-cyan-300/18 bg-cyan-300/[0.08] p-4">
+              <p className="text-xs font-black uppercase tracking-[0.16em] text-cyan-100/70">Cálculo</p>
+              <p className="mt-2 text-lg font-black text-white">{product.profitPercent}% sobre custo</p>
+              {product.productionCost ? <p className="mt-1 text-xs text-white/58">Custo estimado {formatCurrency(product.productionCost)}</p> : null}
             </div>
           </div>
 

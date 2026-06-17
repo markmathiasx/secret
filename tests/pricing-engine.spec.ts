@@ -1,10 +1,10 @@
 import { expect, test } from "@playwright/test";
 import {
-  CARD_MULTIPLIER,
   calculateFinalPrice,
   calculateProductionCostRecommendation,
   roundCurrency,
 } from "../lib/pricing-engine";
+import { calculateCardPrice } from "../lib/payment-pricing";
 
 test("production recommendation calculates full cost breakdown with margin target", () => {
   const result = calculateProductionCostRecommendation({
@@ -27,7 +27,7 @@ test("production recommendation calculates full cost breakdown with margin targe
   expect(result.costOverhead).toBe(5.5);
   expect(result.totalCost).toBe(60.5);
   expect(result.recommendedPricePix).toBe(121);
-  expect(result.recommendedPriceCard).toBe(roundCurrency(121 * CARD_MULTIPLIER));
+  expect(result.recommendedPriceCard).toBe(calculateCardPrice(121));
   expect(result.profitAmount).toBe(60.5);
   expect(result.profitPercent).toBe(50);
 });
@@ -56,17 +56,17 @@ test("legacy final pricing keeps baseCost fallback and card multiplier behavior"
   const result = calculateFinalPrice({ baseCost: 20, pricePix: 28, priceCard: 35 });
 
   expect(result.costBase).toBe(20);
-  expect(result.pricePix).toBe(40);
-  expect(result.priceCard).toBe(roundCurrency(40 * CARD_MULTIPLIER));
-  expect(result.profitAmount).toBe(20);
+  expect(result.pricePix).toBe(26);
+  expect(result.priceCard).toBe(calculateCardPrice(26));
+  expect(result.profitAmount).toBe(6);
 });
 
 test("legacy final pricing does not switch modes for historical gram estimates alone", () => {
   const result = calculateFinalPrice({ baseCost: 20, estimatedGrams: 100, estimatedHours: 2 });
 
   expect(result.costBase).toBe(20);
-  expect(result.pricePix).toBe(40);
-  expect(result.priceCard).toBe(roundCurrency(40 * CARD_MULTIPLIER));
+  expect(result.pricePix).toBe(26);
+  expect(result.priceCard).toBe(calculateCardPrice(26));
 });
 
 test("roundCurrency returns stable two-decimal numbers", () => {

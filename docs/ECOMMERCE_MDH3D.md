@@ -13,6 +13,9 @@ Campos esperados:
 - `Categorias`: categoria da loja.
 - `Preço`: preço cheio ou cartão.
 - `Preço promocional`: usado como Pix quando menor que `Preço`.
+- `Custo de produção`: custo base estimado da peça. Quando preenchido, o site usa este valor para recalcular o Pix.
+- `Custo do filamento/kg`: referência do custo do rolo de filamento em reais por kg. O fallback atual é `100`.
+- `Lucro (%)`: markup aplicado sobre o custo de produção. A regra atual é `30`.
 - `Peso (kg)`, `Altura (cm)`, `Largura (cm)`, `Comprimento (cm)`.
 - `Estoque`.
 - `SKU`.
@@ -134,10 +137,32 @@ Sitemap de produtos:
 
 Os feeds usam os produtos locais do CSV com preço, disponibilidade, descrição, link de produto no site e imagem quando existir.
 
+## Preço por custo de produção
+
+A loja inteligente usa a regra comercial atual:
+
+```text
+Pix = custo de produção x 1,30
+Cartão = Pix + R$ 1,00
+```
+
+O custo do filamento por kg pode ser configurado com `MDH_FILAMENT_PRICE_PER_KG` ou `VITE_MDH_FILAMENT_PRICE_PER_KG`. O fallback é R$ 100/kg, uma referência conservadora para PLA comum/premium no Brasil.
+
 ## Ofertas e orçamento
 
 - `/ofertas`: cupons locais, combo leve 3 pague 2 e vitrines por faixa de preço.
 - `/orcamento-personalizado`: formulário com cálculo inicial, validação de extensões e WhatsApp com briefing completo.
+
+## Expansão Copa e temas populares
+
+A vitrine agora inclui `data/copa-theme-expansion-300.json`, com 300 SKUs adicionais e imagens próprias em `/products/copa-theme-expansion/`.
+
+- 130 itens de Copa/futebol: chaveiros, troféus, decoração e utilidades de jogo.
+- 170 itens de temas diversos: setup gamer, organização, presentes, geek neutro, pets e kids.
+- Todos usam Pix = custo estimado + 30% e cartão = Pix + R$ 1.
+- As imagens são geradas localmente para a MDH3D e não usam logo oficial de Copa/FIFA ou arte protegida.
+
+STLFlix: a pesquisa pública indica que a plataforma é uma biblioteca por assinatura com milhares de STLs e licença comercial para assinantes. O projeto não baixa nem replica STL privado sem credencial/licença. Quando houver arquivos licenciados, cadastre o produto no CSV/JSON com imagem própria e mantenha a prova de licença fora do repositório.
 
 ## O que ainda depende do painel da Nuvemshop
 

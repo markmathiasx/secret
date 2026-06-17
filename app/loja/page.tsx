@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { BadgeCheck, MessageCircleMore, ShieldCheck, ShoppingBag, Sparkles } from "lucide-react";
 import { SmartStorefront } from "@/components/mdh-store/SmartStorefront";
+import { StoreAnimatedBackground } from "@/components/mdh-store/StoreAnimatedBackground";
 import { getStorefrontWhatsappNumber } from "@/lib/mdh-store/config";
 import { getLocalStoreCategories, getLocalStoreProducts } from "@/lib/mdh-store/products";
 import { getSiteUrl } from "@/lib/env";
@@ -54,10 +55,11 @@ export default function LojaPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#071016] pb-14 text-white">
+    <main className="store-animated-shell min-h-screen pb-14 text-white">
+      <StoreAnimatedBackground />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
-      <section className="border-b border-white/10 bg-[radial-gradient(circle_at_12%_10%,rgba(34,211,238,0.18),transparent_30%),linear-gradient(180deg,#071016,#09131b)] px-4 py-12 sm:px-6">
+      <section className="border-b border-white/10 bg-[linear-gradient(180deg,rgba(3,7,13,0.78),rgba(3,7,13,0.42))] px-4 py-12 sm:px-6">
         <div className="mx-auto max-w-7xl">
           <div className="grid gap-8 lg:grid-cols-[1fr_0.65fr] lg:items-end">
             <div>
@@ -66,7 +68,7 @@ export default function LojaPage() {
                 MDH3D com checkout externo ou WhatsApp automático
               </h1>
               <p className="mt-4 max-w-2xl text-base leading-7 text-white/68 sm:text-lg">
-                Produtos locais carregados do CSV da loja. Quando houver link Nuvemshop, o botão abre o checkout; quando não houver, o orçamento vai pronto para o WhatsApp.
+                Produtos locais carregados do CSV da loja com preço Pix calculado por custo de produção + 30% de lucro. Quando houver link Nuvemshop, o botão abre o checkout; quando não houver, o orçamento vai pronto para o WhatsApp.
               </p>
               <div className="mt-6 flex flex-wrap gap-2">
                 <a href="#produtos" className="btn-primary gap-2 px-5 py-3">
