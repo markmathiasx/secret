@@ -4,7 +4,7 @@ Data: 2026-06-19
 Branch: `codex/visual-fase14-cinematic`  
 Base auditada: `3b8ed4bf04a56bf8f1788ddc2e6d59b338d0eddf`  
 Status final honesto: **94% concluido**
-Deploy producao: `https://mdh-3d-store-fbjvq6o94-markmathias.vercel.app`  
+Deploy producao final: `https://mdh-3d-store-98yr5p0xk-markmathias.vercel.app`  
 Dominio publico validado: `https://www.mdh3d.com.br`
 
 ## Evidencias
@@ -76,7 +76,7 @@ Dominio publico validado: `https://www.mdh3d.com.br`
 
 ## Producao
 
-- Deploy Vercel `READY`: `https://mdh-3d-store-fbjvq6o94-markmathias.vercel.app`
+- Deploy Vercel final `READY`: `https://mdh-3d-store-98yr5p0xk-markmathias.vercel.app`
 - Alias publico confirmado: `https://www.mdh3d.com.br`
 - Home producao: 39 cards, 0 duplicados, video `/videos/hero-printing.mp4`
 - Catalogo producao: HTTP 200
