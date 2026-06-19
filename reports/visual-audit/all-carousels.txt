@@ -1,0 +1,2 @@
+app\admin\content\page.tsx:21:          O fluxo agora trata produto, landing e distribuicao como a mesma esteira: produto vira Reel, carrossel, Story, blog e FAQ sem perder CTA, prova e honestidade visual.
+components\home\RotatingProductHero.tsx:87:      data-carousel-interval={ROTATION_MS}

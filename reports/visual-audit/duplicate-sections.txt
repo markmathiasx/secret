@@ -1,0 +1,6 @@
+components\catalog-explorer.tsx:45:const PURCHASE_INTENTS = ['Geral', 'Compra rápida', 'Economia', 'Presente', 'Atacado'] as const;
+components\catalog-explorer.tsx:387:      if (purchaseIntent === 'Compra rápida') {
+components\catalog-explorer.tsx:435:    if (purchaseIntent === 'Compra rápida') {
+components\catalog-explorer.tsx:796:    { id: 'fast', label: 'Compra rápida', active: purchaseIntent === 'Compra rápida', onClick: () => { setPurchaseIntent((value) => value === 'Compra rápida' ? 'Geral' : 'Compra rápida'); safeSetPage(1); } },
+app\catalogo\page.tsx:162:            <p className="text-xs font-black uppercase tracking-[0.12em] text-emerald-100/75">Compra rápida</p>
+app\page.tsx:107:          <p className="section-kicker">Compra rápida</p>
