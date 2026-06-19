@@ -19,14 +19,17 @@ function ProductCard({ item }: { item: CuratedFirstSaleProduct }) {
   ].join("\n");
 
   return (
-    <article className="overflow-hidden rounded-[8px] border border-white/10 bg-white/[0.045]">
+    <article
+      data-product-id={product.id}
+      className="group overflow-hidden rounded-[8px] border border-white/10 bg-white/[0.045] transition-all duration-300 hover:-translate-y-1 hover:border-emerald-300/30 hover:bg-white/[0.065] hover:shadow-[0_18px_48px_rgba(2,8,23,0.42)]"
+    >
       <Link href={item.href} className="block">
         <div className="relative aspect-square bg-black/25">
           <SafeProductImage
             candidates={[item.image, "/placeholders/product-card.svg"]}
             alt={item.imageAlt}
             sizes="(max-width: 768px) 50vw, 280px"
-            className="aspect-square w-full object-cover"
+            className="aspect-square w-full object-cover transition duration-500 group-hover:scale-105"
           />
         </div>
       </Link>

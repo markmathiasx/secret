@@ -69,9 +69,9 @@ export function HomeCategoriesShowcase({ catalogCount }: { catalogCount: number 
             <Reveal key={cat.title} direction="up" delay={i * 80}>
               <Link
                 href={cat.href}
-                className={`group flex items-start gap-4 rounded-2xl border border-white/10 bg-gradient-to-br ${cat.color} p-5 transition-all duration-300 hover:-translate-y-1 hover:border-white/20 hover:shadow-[0_20px_40px_rgba(2,8,23,0.3)]`}
+                className={`group flex items-start gap-4 rounded-[8px] border border-white/10 bg-gradient-to-br ${cat.color} p-5 transition-all duration-300 hover:-translate-y-1 hover:border-white/20 hover:shadow-[0_20px_40px_rgba(2,8,23,0.3)]`}
               >
-                <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-black/30 ${cat.iconColor}`}>
+                <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-[8px] border border-white/10 bg-black/30 ${cat.iconColor}`}>
                   <Icon className="h-6 w-6" />
                 </div>
                 <div className="min-w-0 flex-1">

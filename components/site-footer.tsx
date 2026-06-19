@@ -5,6 +5,7 @@ import Image from "next/image";
 import { ArrowUpRight, Gamepad2, Mail, MapPin, MessageCircleMore } from "lucide-react";
 import {
   brand,
+  businessRegistration,
   catalogShortcutLinks,
   footerLinks,
   orderPrepChecklist,
@@ -116,11 +117,11 @@ export function SiteFooter({ cardCheckoutReady: _cardCheckoutReady = false }: { 
               Portfólio e conteúdo
             </Link>
           </div>
-          <div className="mt-6 rounded-[22px] border border-white/10 bg-white/5 p-4">
+          <div className="mt-6 rounded-[8px] border border-white/10 bg-white/5 p-4">
             <p className="text-[11px] uppercase tracking-[0.18em] text-cyan-100/80">Atalhos de compra</p>
             <div className="mt-3 grid gap-2">
               {footerCatalogShortcutLinks.map((item) => (
-                <Link key={item.href} href={item.href} className="rounded-full border border-white/10 bg-black/20 px-3 py-2 text-xs text-white/75 transition hover:border-cyan-300/30 hover:text-cyan-100">
+                <Link key={item.href} href={item.href} className="rounded-[8px] border border-white/10 bg-black/20 px-3 py-2 text-xs text-white/75 transition hover:border-cyan-300/30 hover:text-cyan-100">
                   {item.label}
                 </Link>
               ))}
@@ -165,11 +166,11 @@ export function SiteFooter({ cardCheckoutReady: _cardCheckoutReady = false }: { 
               Acompanhar conta e pedidos
             </Link>
           </div>
-          <div className="mt-6 rounded-[22px] border border-white/10 bg-white/5 p-4">
+          <div className="mt-6 rounded-[8px] border border-white/10 bg-white/5 p-4">
             <p className="text-[11px] uppercase tracking-[0.18em] text-emerald-100/80">Antes de pedir</p>
             <div className="mt-3 grid gap-3 text-xs text-white/68">
               {orderPrepChecklist.slice(0, 3).map((item) => (
-                <div key={item.title} className="rounded-[16px] border border-white/10 bg-black/20 p-3">
+                <div key={item.title} className="rounded-[8px] border border-white/10 bg-black/20 p-3">
                   <p className="font-semibold text-white/85">{item.title}</p>
                   <p className="mt-1 leading-6">{item.description}</p>
                 </div>
@@ -194,14 +195,14 @@ export function SiteFooter({ cardCheckoutReady: _cardCheckoutReady = false }: { 
           <div className="mt-4 grid gap-4 text-sm text-white/70">
             <a
               href={`https://wa.me/${whatsappNumber}`}
-              className="flex items-start gap-3 rounded-[20px] border border-white/10 bg-white/5 p-4 transition hover:border-emerald-300/30"
+              className="flex items-start gap-3 rounded-[8px] border border-white/10 bg-white/5 p-4 transition hover:border-emerald-300/30"
             >
               <MessageCircleMore className="mt-0.5 h-4 w-4 text-emerald-200" />
               <span>Atendimento humano para orçamento, personalização e pós-venda.</span>
             </a>
             <a
               href={`mailto:${supportEmail}`}
-              className="flex items-start gap-3 rounded-[20px] border border-white/10 bg-white/5 p-4 transition hover:border-cyan-300/30"
+              className="flex items-start gap-3 rounded-[8px] border border-white/10 bg-white/5 p-4 transition hover:border-cyan-300/30"
             >
               <Mail className="mt-0.5 h-4 w-4 text-cyan-100" />
               <span>{supportEmail}</span>
@@ -210,15 +211,20 @@ export function SiteFooter({ cardCheckoutReady: _cardCheckoutReady = false }: { 
               href={socialLinks.instagram}
               target="_blank"
               rel="noreferrer"
-              className="flex items-start gap-3 rounded-[20px] border border-white/10 bg-white/5 p-4 transition hover:border-pink-300/30"
+              className="flex items-start gap-3 rounded-[8px] border border-white/10 bg-white/5 p-4 transition hover:border-pink-300/30"
             >
               <InstagramIcon className="mt-0.5 h-4 w-4 text-pink-200" />
               <span>@{brand.instagramHandle}</span>
             </a>
-            <div className="flex items-start gap-3 rounded-[20px] border border-white/10 bg-white/5 p-4">
+            <div className="flex items-start gap-3 rounded-[8px] border border-white/10 bg-white/5 p-4">
               <MapPin className="mt-0.5 h-4 w-4 text-white/80" />
               <span>Produção local no Rio de Janeiro com resposta em horário comercial.</span>
             </div>
+            {businessRegistration ? (
+              <div className="rounded-[8px] border border-white/10 bg-white/5 p-4 text-xs font-semibold text-white/62">
+                CNPJ: {businessRegistration}
+              </div>
+            ) : null}
           </div>
         </div>
       </div>

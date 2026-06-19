@@ -3,13 +3,13 @@
 Hoje a MDH 3D Store usa dois modos de imagem:
 
 - fotos reais já validadas, mantidas como estão;
-- backfill automático com `picsum.photos`, usando seed baseada no slug do produto.
+- fallback local de marca para itens ainda sem foto validada, sem usar banco externo de placeholders em produto à venda.
 
 ## Onde trocar depois
 
 As imagens entram no catálogo pelo campo `images` de cada produto já normalizado em [D:\mdh-3d-store\lib\catalog.ts](D:/mdh-3d-store/lib/catalog.ts) e pelos helpers em [D:\mdh-3d-store\lib\catalog-media.ts](D:/mdh-3d-store/lib/catalog-media.ts).
 
-Se você quiser substituir as URLs do Picsum por fotos reais, há três caminhos principais.
+Se você quiser substituir o fallback local por fotos reais, há três caminhos principais.
 
 ## Opção 1: Cloudinary
 
@@ -54,4 +54,4 @@ images: [
 
 ## Script de apoio
 
-Existe um exemplo em [D:\mdh-3d-store\scripts\generate-real-images.js](D:/mdh-3d-store/scripts/generate-real-images.js) para buscar imagens via Unsplash ou Pexels e baixar em lote.
+Use somente fotos próprias, renders gerados pela MDH ou mídia com licença comprovada. Banco genérico de imagem não deve ser usado como foto de produto à venda.

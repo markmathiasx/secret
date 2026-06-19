@@ -46,6 +46,7 @@ export const whatsappNumber = whatsappContacts[0]?.number || OFFICIAL_WHATSAPP_N
 export const whatsappMessage =
   process.env.NEXT_PUBLIC_WHATSAPP_MESSAGE || "Oi! Vim pelo site da MDH 3D e quero um orçamento.";
 export const supportEmail = process.env.NEXT_PUBLIC_SUPPORT_EMAIL || "mdhatendimento@gmail.com";
+export const businessRegistration = (process.env.NEXT_PUBLIC_BUSINESS_REGISTRATION || "").trim();
 
 export const pix = {
   key: (process.env.NEXT_PUBLIC_PIX_KEY || "").trim(),

@@ -25,8 +25,8 @@ type VideoFallback = {
 
 const FALLBACKS: Record<LicensedVideoAssetId, VideoFallback> = {
   "hero-printer-loop": {
-    optimizedFile: "/media/videos/hero-printer-loop.mp4",
-    posterFile: "/media/posters/hero-printer-poster.webp",
+    optimizedFile: "/videos/hero-printing.mp4",
+    posterFile: "/hero-poster.webp",
   },
   "filament-detail-loop": {
     optimizedFile: "/media/videos/filament-detail-loop.mp4",

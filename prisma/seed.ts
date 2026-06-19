@@ -237,7 +237,7 @@ async function seedCatalog() {
         url,
         altText: buildProductImageAlt(item.name, index + 1),
         sortOrder: index,
-        source: url.includes("picsum.photos") ? "picsum" : "catalog",
+        source: "catalog",
         isPrimary: index === 0,
       })),
     });

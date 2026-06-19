@@ -1,15 +1,17 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { motion, useReducedMotion } from "framer-motion";
+import type { ReactNode } from "react";
+import { revealVariants } from "@/lib/animations";
 
 type Direction = "up" | "down" | "left" | "right" | "scale";
 
-const TRANSFORMS: Record<Direction, string> = {
-  up: "translateY(30px)",
-  down: "translateY(-30px)",
-  left: "translateX(-30px)",
-  right: "translateX(30px)",
-  scale: "scale(0.95)",
+const OFFSETS: Record<Direction, { x?: number; y?: number; scale?: number }> = {
+  up: { y: 28 },
+  down: { y: -28 },
+  left: { x: -28 },
+  right: { x: 28 },
+  scale: { scale: 0.96 },
 };
 
 export function Reveal({
@@ -23,40 +25,35 @@ export function Reveal({
   delay?: number;
   className?: string;
 }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
+  const prefersReducedMotion = useReducedMotion();
+  const offset = OFFSETS[direction];
 
-  useEffect(() => {
-    const element = ref.current;
-    if (!element) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-          observer.unobserve(element);
-        }
-      },
-      { threshold: 0.15, rootMargin: "0px 0px -40px 0px" }
-    );
-
-    observer.observe(element);
-    return () => observer.disconnect();
-  }, []);
+  if (prefersReducedMotion) {
+    return <div className={className}>{children}</div>;
+  }
 
   return (
-    <div
-      ref={ref}
+    <motion.div
       className={className}
-      style={{
-        opacity: visible ? 1 : 0,
-        transform: visible ? "translate(0) scale(1)" : TRANSFORMS[direction],
-        transition: `opacity 0.7s cubic-bezier(0.16,1,0.3,1) ${delay}ms, transform 0.7s cubic-bezier(0.16,1,0.3,1) ${delay}ms`,
-        willChange: visible ? "auto" : "opacity, transform",
+      variants={{
+        hidden: {
+          ...revealVariants.hidden,
+          ...offset,
+        },
+        visible: {
+          ...revealVariants.visible,
+          transition: {
+            ...(typeof revealVariants.visible === "object" ? revealVariants.visible.transition : {}),
+            delay: delay / 1000,
+          },
+        },
       }}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.18, margin: "0px 0px -48px 0px" }}
     >
       {children}
-    </div>
+    </motion.div>
   );
 }
 

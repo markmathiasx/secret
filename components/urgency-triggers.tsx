@@ -19,7 +19,7 @@ interface UrgencyData {
   };
 }
 
-// Real-time viewer counter using Redis pub/sub
+// Real-time viewer counter backed by the application API. Do not show simulated demand.
 export function RealTimeViewers({ productId }: { productId: string }) {
   const [viewers, setViewers] = useState(0);
   
@@ -49,7 +49,7 @@ export function RealTimeViewers({ productId }: { productId: string }) {
     <div className="flex items-center gap-2 text-amber-400 animate-pulse">
       <Flame className="w-4 h-4" />
       <span className="text-sm font-medium">
-        🔥 {viewers} pessoas visualizando agora
+        {viewers} visualizações ativas confirmadas
       </span>
     </div>
   );
@@ -60,10 +60,10 @@ export function LowStockIndicator({ stock }: { stock: number }) {
   if (stock >= 5) return null;
   
   const messages: Record<number, string> = {
-    1: "⚠️ Última unidade disponível!",
-    2: "⚠️ Apenas 2 unidades restantes",
-    3: "🔥 Apenas 3 unidades - corre!",
-    4: "⏰ Estoques acabando (4 restantes)",
+    1: "Ultima unidade em estoque",
+    2: "2 unidades em estoque",
+    3: "3 unidades em estoque",
+    4: "4 unidades em estoque",
   };
   
   return (
@@ -110,10 +110,10 @@ export function DeliveryEstimate({
     <div className={`flex items-center gap-2 ${isUrgent ? 'text-green-400' : 'text-cyan-400'}`}>
       <Truck className="w-4 h-4" />
       <span className="text-sm">
-        🚚 Entrega {estimate.date}
+        Entrega estimada: {estimate.date}
         {isUrgent && (
           <span className="font-medium ml-1">
-            (pedido em até {estimate.cutoffTime}!)
+            (confirmar ate {estimate.cutoffTime})
           </span>
         )}
       </span>
@@ -149,7 +149,7 @@ export function RecentPurchaseTicker() {
     <div className="flex items-center gap-2 text-emerald-400 text-sm">
       <TrendingUp className="w-4 h-4" />
       <span>
-        Alguém em {purchase.location} acabou de comprar {purchase.productName} ({purchase.timeAgo})
+        Pedido recente confirmado: {purchase.productName} em {purchase.location} ({purchase.timeAgo})
       </span>
     </div>
   );
@@ -179,7 +179,7 @@ export function BestSellerBadge({
   
   if (!rank || rank > 3) return null;
   
-  const badges = ['🏆 #1 Mais vendido', '🥈 #2 Mais vendido', '🥉 #3 Mais vendido'];
+  const badges = ['Destaque confirmado #1', 'Destaque confirmado #2', 'Destaque confirmado #3'];
   
   return (
     <div className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-500/20 to-orange-500/20 
