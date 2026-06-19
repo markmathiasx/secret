@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { Metadata } from "next";
 import {
   ArrowDown,
@@ -18,7 +19,6 @@ import { HomeCategoriesShowcase } from "@/components/home-categories-showcase";
 import { HomeTestimonials } from "@/components/home-testimonials";
 import { CinematicVideoBackground } from "@/components/media/CinematicVideoBackground";
 import { Reveal } from "@/components/reveal";
-import { SafeProductImage } from "@/components/safe-product-image";
 import { MagneticLink } from "@/components/ui/magnetic-link";
 import { getCatalogSnapshot } from "@/lib/catalog-repository";
 import type { Product } from "@/lib/catalog";
@@ -70,13 +70,14 @@ function HomeProductCard({ product, siteUrl, priority = false }: { product: Prod
       className="group overflow-hidden rounded-[8px] border border-white/10 bg-white/[0.045] transition-all duration-300 hover:-translate-y-1 hover:border-emerald-300/30 hover:bg-white/[0.065] hover:shadow-[0_18px_48px_rgba(2,8,23,0.42)]"
     >
       <Link href={href} className="block">
-        <div className="relative aspect-square overflow-hidden bg-black/25">
-          <SafeProductImage
-            candidates={[productImage(product), "/placeholders/product-card.svg"]}
+        <div className="relative overflow-hidden bg-black/25" style={{ aspectRatio: "1 / 1" }}>
+          <Image
+            src={productImage(product)}
             alt={getProductImageAlt(product)}
+            fill
             priority={priority}
             sizes="(max-width: 768px) 50vw, (max-width: 1280px) 25vw, 280px"
-            className="aspect-square w-full object-cover transition duration-500 group-hover:scale-105"
+            className="object-cover transition duration-500 group-hover:scale-105"
           />
           <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-3 opacity-0 transition group-hover:opacity-100">
             <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-white/70">{product.productionWindow}</p>
@@ -116,6 +117,7 @@ function HomeProductCard({ product, siteUrl, priority = false }: { product: Prod
 }
 
 function ProductRail({
+  id,
   kicker,
   title,
   description,
@@ -123,6 +125,7 @@ function ProductRail({
   products,
   siteUrl,
 }: {
+  id?: string;
   kicker: string;
   title: string;
   description: string;
@@ -133,7 +136,7 @@ function ProductRail({
   if (!products.length) return null;
 
   return (
-    <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
+    <section id={id} className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
       <Reveal>
         <div className="mb-5 flex items-end justify-between gap-4">
           <div>
@@ -177,9 +180,10 @@ function HeroProductStack({ products, siteUrl }: { products: Product[]; siteUrl:
                 className="group flex items-center gap-3 rounded-[8px] border border-white/10 bg-black/20 p-3 transition hover:-translate-y-0.5 hover:border-emerald-300/30"
               >
                 <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-[8px] bg-black/30">
-                  <SafeProductImage
-                    candidates={[productImage(product), "/placeholders/product-card.svg"]}
+                  <Image
+                    src={productImage(product)}
                     alt={getProductImageAlt(product)}
+                    fill
                     sizes="64px"
                     className="h-16 w-16 object-cover transition duration-500 group-hover:scale-105"
                   />
@@ -229,14 +233,14 @@ export default async function HomePage() {
             </Reveal>
             <Reveal delay={140}>
               <p className="mt-5 max-w-2xl text-base leading-7 text-white/72 sm:text-lg">
-                Chaveiros, presentes, organizadores, peças geek e projetos sob medida. Veja produtos reais do catálogo ou mande sua ideia no WhatsApp oficial.
+                Chaveiros, presentes, organizadores, peças geek e projetos sob medida. Escolha um modelo ou mande sua ideia no WhatsApp.
               </p>
             </Reveal>
             <Reveal delay={200}>
               <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-                <MagneticLink href="/catalogo" className="btn-primary justify-center gap-2 px-5 py-3">
+                <MagneticLink href="#mais-pedidos" className="btn-primary justify-center gap-2 px-5 py-3">
                   <Search className="h-4 w-4" />
-                  Ver catálogo
+                  Ver mais pedidos
                 </MagneticLink>
                 <MagneticLink href={whatsappHref(quoteMessage)} external className="btn-whatsapp justify-center gap-2 px-5 py-3">
                   <MessageCircleMore className="h-4 w-4" />
@@ -316,6 +320,7 @@ export default async function HomePage() {
       </section>
 
       <ProductRail
+        id="mais-pedidos"
         kicker="Vitrine curada"
         title="Produtos em destaque"
         description="Seleção única da home: cada card aparece uma vez para evitar repetição visual e facilitar a decisão."

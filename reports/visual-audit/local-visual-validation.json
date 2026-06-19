@@ -1,0 +1,96 @@
+{
+  "baseUrl": "http://127.0.0.1:3000",
+  "checkedAt": "2026-06-19T14:29:57.493Z",
+  "routes": {
+    "/": {
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "title": "MDH 3D Store | Impressão 3D sob demanda",
+      "hasOldInstagram": false,
+      "hasFakePhone": false,
+      "hasFotosReais": false,
+      "hasPicsum": false
+    },
+    "/catalogo": {
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "title": "Catálogo MDH 3D | MDH 3D",
+      "hasOldInstagram": false,
+      "hasFakePhone": false,
+      "hasFotosReais": false,
+      "hasPicsum": false
+    },
+    "/atendimento": {
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "title": "Central de Atendimento MDH 3D | MDH 3D",
+      "hasOldInstagram": false,
+      "hasFakePhone": false,
+      "hasFotosReais": false,
+      "hasPicsum": false
+    },
+    "/jogue": {
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "title": "Arcade MDH 3D — Pinball Star e mini-games | MDH 3D",
+      "hasOldInstagram": false,
+      "hasFakePhone": false,
+      "hasFotosReais": false,
+      "hasPicsum": false
+    },
+    "/meta/catalog.csv": {
+      "status": 200,
+      "contentType": "text/csv; charset=utf-8",
+      "startsAsCsv": true,
+      "bytes": 438758,
+      "hasHtml": false,
+      "hasPicsum": false
+    }
+  },
+  "screenshots": [
+    {
+      "name": "mobile-360-revealed",
+      "path": "M:\\LOJA\\mdh-prod-deploy\\reports\\visual-audit\\home-after-mobile-360-revealed.png",
+      "bytes": 2840357
+    },
+    {
+      "name": "desktop-1440-revealed",
+      "path": "M:\\LOJA\\mdh-prod-deploy\\reports\\visual-audit\\home-after-desktop-1440-revealed.png",
+      "bytes": 6322320
+    }
+  ],
+  "home": {
+    "productCardCount": 39,
+    "duplicateProductIds": [],
+    "hasRequiredCopy": true,
+    "hasRequiredCta": true,
+    "hasPixPlusOne": true,
+    "hasPicsum": false,
+    "hasSimulatedViewerCopy": false,
+    "videoSrcs": [
+      "/videos/hero-printing.mp4"
+    ],
+    "firstImages": [
+      {
+        "src": "/products/mdh-050-organizador-de-cabo-usb/01-hero.jpg",
+        "width": 297,
+        "height": 297
+      },
+      {
+        "src": "/products/foto-003-porta-creme-dental.webp",
+        "width": 297,
+        "height": 297
+      },
+      {
+        "src": "/products/a1-mini-expansion/mw-a1-057/cover.webp",
+        "width": 297,
+        "height": 297
+      },
+      {
+        "src": "/products/setup/suporte-controle-ps5.webp",
+        "width": 297,
+        "height": 297
+      }
+    ]
+  }
+}

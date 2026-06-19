@@ -57,7 +57,7 @@ npm run db:studio
 
 ## Fotos do catálogo
 
-- Produtos com fotos reais validadas continuam usando seus arquivos atuais.
+- Produtos com mídia própria/licenciada validada continuam usando seus arquivos atuais.
 - Os demais produtos usam fallback local de marca ou mídia própria/licenciada validada.
 - O guia para atualizar mídia sem placeholder externo está em [COMO-ATUALIZAR-FOTOS.md](./COMO-ATUALIZAR-FOTOS.md).
 

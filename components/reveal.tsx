@@ -1,17 +1,15 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
-import type { ReactNode } from "react";
-import { revealVariants } from "@/lib/animations";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 
 type Direction = "up" | "down" | "left" | "right" | "scale";
 
-const OFFSETS: Record<Direction, { x?: number; y?: number; scale?: number }> = {
-  up: { y: 28 },
-  down: { y: -28 },
-  left: { x: -28 },
-  right: { x: 28 },
-  scale: { scale: 0.96 },
+const TRANSFORMS: Record<Direction, string> = {
+  up: "translateY(28px)",
+  down: "translateY(-28px)",
+  left: "translateX(-28px)",
+  right: "translateX(28px)",
+  scale: "scale(0.96)",
 };
 
 export function Reveal({
@@ -25,35 +23,44 @@ export function Reveal({
   delay?: number;
   className?: string;
 }) {
-  const prefersReducedMotion = useReducedMotion();
-  const offset = OFFSETS[direction];
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
 
-  if (prefersReducedMotion) {
-    return <div className={className}>{children}</div>;
-  }
+  useEffect(() => {
+    const element = ref.current;
+    if (!element) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setVisible(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.unobserve(element);
+        }
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -32px 0px" }
+    );
+
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <motion.div
+    <div
+      ref={ref}
       className={className}
-      variants={{
-        hidden: {
-          ...revealVariants.hidden,
-          ...offset,
-        },
-        visible: {
-          ...revealVariants.visible,
-          transition: {
-            ...(typeof revealVariants.visible === "object" ? revealVariants.visible.transition : {}),
-            delay: delay / 1000,
-          },
-        },
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? "translate(0) scale(1)" : TRANSFORMS[direction],
+        transition: `opacity 0.65s cubic-bezier(0.16,1,0.3,1) ${delay}ms, transform 0.65s cubic-bezier(0.16,1,0.3,1) ${delay}ms`,
+        willChange: visible ? "auto" : "opacity, transform",
       }}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.18, margin: "0px 0px -48px 0px" }}
     >
       {children}
-    </motion.div>
+    </div>
   );
 }
 

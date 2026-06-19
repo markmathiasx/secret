@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { getLicensedVideoAsset, type LicensedVideoAssetId } from "@/lib/video-assets";
 
@@ -29,19 +30,26 @@ export function CinematicVideoBackground({
   objectPosition = "center",
 }: CinematicVideoBackgroundProps) {
   const asset = getLicensedVideoAsset(variantAsset[variant]);
+  const homeMediaVisibility = variant === "home" ? "hidden md:block" : "";
 
   return (
     <div className={cn("pointer-events-none absolute inset-0 overflow-hidden", variantFallback[variant], className)} aria-hidden="true">
       {asset.poster ? (
-        <div
-          className="absolute inset-0 bg-cover bg-center opacity-85"
-          style={{ backgroundImage: `url("${asset.poster}")`, backgroundPosition: objectPosition }}
+        <Image
+          src={asset.poster}
+          alt=""
+          fill
+          priority={variant === "home"}
+          fetchPriority={variant === "home" ? "high" : "auto"}
+          sizes="100vw"
+          className={cn("absolute inset-0 object-cover opacity-85", homeMediaVisibility)}
+          style={{ objectPosition }}
         />
       ) : null}
 
       {asset.src ? (
         <video
-          className="absolute inset-0 h-full w-full object-cover opacity-70 motion-reduce:hidden"
+          className={cn("absolute inset-0 h-full w-full object-cover opacity-70 motion-reduce:hidden", homeMediaVisibility)}
           src={asset.src}
           poster={asset.poster ?? undefined}
           muted

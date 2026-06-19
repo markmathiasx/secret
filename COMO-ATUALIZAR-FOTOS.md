@@ -2,14 +2,14 @@
 
 Hoje a MDH 3D Store usa dois modos de imagem:
 
-- fotos reais já validadas, mantidas como estão;
+- mídia própria/licenciada já validada, mantida como está;
 - fallback local de marca para itens ainda sem foto validada, sem usar banco externo de placeholders em produto à venda.
 
 ## Onde trocar depois
 
 As imagens entram no catálogo pelo campo `images` de cada produto já normalizado em [D:\mdh-3d-store\lib\catalog.ts](D:/mdh-3d-store/lib/catalog.ts) e pelos helpers em [D:\mdh-3d-store\lib\catalog-media.ts](D:/mdh-3d-store/lib/catalog-media.ts).
 
-Se você quiser substituir o fallback local por fotos reais, há três caminhos principais.
+Se você quiser substituir o fallback local por mídia própria validada, há três caminhos principais.
 
 ## Opção 1: Cloudinary
 
