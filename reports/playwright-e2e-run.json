@@ -1,0 +1,7 @@
+{
+  "generatedAt": "2026-06-19T05:27:15.0862069Z",
+  "command": "npm run test:e2e -- --reporter=line",
+  "exitCode": 0,
+  "baseUrl": "http://127.0.0.1:3000",
+  "browser": "system chrome"
+}

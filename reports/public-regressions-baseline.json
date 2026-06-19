@@ -1,0 +1,8 @@
+{
+  "generatedAt": "2026-06-19T05:31:00.000Z",
+  "source": "marketplace-phase0-reconciliation",
+  "baseProductCountWithoutCopaExpansion": 548,
+  "copaExpansionCount": 300,
+  "expectedCatalogCount": 848,
+  "reason": "A auditoria semantica atualizada bloqueou 16 itens que antes estavam como FIX_TEXT/probable, pois apontavam para placeholder text cards em vez de midia curada. Nenhum produto BLOCKED permanece publico."
+}

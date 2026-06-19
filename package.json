@@ -25,6 +25,7 @@
     "typecheck": "node scripts/typecheck.mjs",
     "typecheck:watch": "tsc --noEmit --watch",
     "test": "playwright test",
+    "test:e2e": "playwright test --config=playwright.e2e.config.ts",
     "test:watch": "playwright test --ui",
     "test:coverage": "playwright test --reporter=html",
     "test:smoke": "playwright test",
@@ -89,6 +90,8 @@
     "validate:mdh-smart-store": "node scripts/validate-mdh-smart-store.mjs",
     "test:mdh-smart-store": "node scripts/run-mdh-smart-store-tests.mjs",
     "validate:enterprise-scaffold": "node scripts/validate-enterprise-scaffold.mjs",
+    "marketplace:phase0": "node scripts/marketplace/phase0-reconcile.mjs",
+    "marketplace:verify-gates": "node scripts/marketplace/run-verification-gates.mjs",
     "ci:check": "npm run lint:check && npm run typecheck && npm run build && npm run test:images && npm run test:e2e"
   },
   "dependencies": {
@@ -114,7 +117,7 @@
     "next": "^15.5.13",
     "next-auth": "5.0.0-beta.31",
     "next-themes": "^0.4.4",
-    "nodemailer": "^8.0.5",
+    "nodemailer": "^9.0.1",
     "openai": "^6.32.0",
     "otplib": "^13.4.0",
     "qrcode": "^1.5.4",

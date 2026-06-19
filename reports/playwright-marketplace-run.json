@@ -1,0 +1,10 @@
+{
+  "generatedAt": "2026-06-19T05:27:35.9201492Z",
+  "serverReady": true,
+  "testsCommand": "npm run test -- --reporter=line",
+  "testsExitCode": 0,
+  "e2eCommand": "npm run test:e2e -- --reporter=line",
+  "e2eExitCode": 0,
+  "baseUrl": "http://127.0.0.1:3000",
+  "browser": "system chrome for e2e"
+}

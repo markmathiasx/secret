@@ -1,0 +1,95 @@
+{
+  "generatedAt": "2026-06-19T05:35:47.286Z",
+  "branch": "codex/marketplace-phase0-protocol",
+  "commit": "266d6865",
+  "commands": [
+    {
+      "command": "npm run db:generate",
+      "exitCode": 0,
+      "durationMs": 2238,
+      "timedOut": false,
+      "stdoutTail": "> mdh-3d-store@2.0.0 db:generate\n> node scripts/db-generate.mjs\n\nPrisma schema loaded from prisma\\schema.prisma\n\n✔ Generated Prisma Client (v6.19.3) to .\\node_modules\\@prisma\\client in 286ms\n\nStart by importing your Prisma Client (See: https://pris.ly/d/importing-client)\n\nTip: Interested in query caching in just a few lines of code? Try Accelerate today! https://pris.ly/tip-3-accelerate",
+      "stderrTail": ""
+    },
+    {
+      "command": "npm run typecheck",
+      "exitCode": 0,
+      "durationMs": 3462,
+      "timedOut": false,
+      "stdoutTail": "> mdh-3d-store@2.0.0 typecheck\n> node scripts/typecheck.mjs",
+      "stderrTail": ""
+    },
+    {
+      "command": "npm run lint:check",
+      "exitCode": 0,
+      "durationMs": 7858,
+      "timedOut": false,
+      "stdoutTail": "> mdh-3d-store@2.0.0 lint:check\n> node scripts/lint.mjs",
+      "stderrTail": ""
+    },
+    {
+      "command": "npm run build",
+      "exitCode": 0,
+      "durationMs": 79239,
+      "timedOut": false,
+      "stdoutTail": "├ ƒ /checkout/sucesso                                                    177 B         276 kB\n├ ○ /colecionaveis-geek-3d                                               141 B         556 kB\n├ ○ /compra-protegida                                                  4.98 kB         274 kB\n├ ○ /comprar-na-mdh3d                                                    202 B         269 kB\n├ ○ /conta                                                               171 B         526 kB\n├ ƒ /conta/pedidos/[id]                                                7.27 kB         276 kB\n├ ○ /contato                                                           3.47 kB         273 kB\n├ ○ /decoracao-3d-para-casa                                              141 B         556 kB\n├ ○ /devolucoes                                                        6.57 kB         276 kB\n├ ○ /divulgacao                                                          742 B         270 kB\n├ ○ /entregas                                                             4 kB         273 kB\n├ ƒ /falha                                                               177 B         276 kB\n├ ○ /faq                                                               1.98 kB         271 kB\n├ ○ /favoritos                                                         1.56 kB         271 kB\n├ ○ /feeds/google-shopping.xml                                           420 B         270 kB          5m      1y\n├ ○ /feeds/meta-catalog.csv                                              420 B         270 kB          5m      1y\n├ ○ /feeds/produtos.json                                                 420 B         270 kB          5m      1y\n├ ○ /feeds/tiktok-catalog.csv                                            420 B         270 kB          5m      1y\n├ ○ /guia-primeira-impressao-3d                                         2.1 kB         271 kB\n├ ○ /imagem-para-impressao-3d                                          6.78 kB         276 kB\n├ ○ /indicacao                                                           202 B         269 kB\n├ ○ /jogue                                                               18 kB         287 kB\n├ ○ /login                                                               162 B         276 kB\n├ ○ /loja                                                              6.04 kB         279 kB          5m      1y\n├ ● /loja/[categoria]/[slug]                                             138 B         541 kB          5m      1y\n├   ├ /loja/casa-e-organizacao/real-001-grinder-3-partes-premium                                       5m      1y\n├   ├ /loja/casa-e-organizacao/real-002-porta-creme-dental-de-bancada                                  5m      1y\n├   ├ /loja/geek-colecionaveis/real-003-demogorgon-decorativo-premium                                  5m      1y\n├   └ [+840 more paths]\n├ ○ /manifest.webmanifest                                                420 B         270 kB\n├ ○ /merchant/products.xml                                               420 B         270 kB          1h      1y\n├ ƒ /meta/catalog.csv                                                    420 B         270 kB\n├ ○ /ofertas                                                             202 B         269 kB\n├ ○ /orcamento-personalizado                                           5.22 kB         274 kB\n├ ○ /organizadores                                                     1.85 kB         271 kB\n├ ○ /peca-sob-medida                                                   1.85 kB         271 kB\n├ ○ /pedidos                                                             176 B         526 kB\n├ ƒ /pedidos/[id]                                                        420 B         270 kB\n├ ƒ /pendente                                                            177 B         276 kB\n├ ○ /perfil                                                              176 B         526 kB\n├ ○ /politica-de-envio                                                   202 B         269 kB\n├ ○ /politica-de-privacidade                                             420 B         270 kB\n├ ○ /politica-de-troca                                                   202 B         269 kB\n├ ○ /prazo-de-producao                                                   202 B         269 kB\n├ ○ /presentes-3d                                                        140 B         556 kB\n├ ○ /presentes-ate-50                                                  1.85 kB         271 kB\n├ ƒ /product/[id]                                                        420 B         270 kB\n├ ● /produto/[slug]                                                    3.58 kB         277 kB          5m      1y\n├   ├ /produto/chaveiro-goleiro-comercial-copa-2026-copa-001                                           5m      1y\n├   ├ /produto/chaveiro-bola-para-presente-copa-2026-copa-002                                          5m      1y\n├   ├ /produto/chaveiro-camisa-mini-copa-2026-copa-003                                                 5m      1y\n├   └ [+303 more paths]\n├ ○ /rastrear                                                          6.06 kB         275 kB\n├ ○ /recuperar-senha                                                   1.85 kB         271 kB\n├ ƒ /recuperar-senha/confirmar                                           420 B         270 kB\n├ ○ /recuperar-senha/whatsapp                                          3.57 kB         273 kB\n├ ○ /robots.txt                                                          420 B         270 kB\n├ ƒ /seller                                                              202 B         269 kB\n├ ○ /setup-e-organizacao-3d                                              141 B         556 kB\n├ ○ /setup-gamer                                                       1.85 kB         271 kB\n├ ○ /sitemap-products.xml                                                420 B         270 kB          5m      1y\n├ ○ /sitemap.xml                                                         420 B         270 kB\n├ ○ /sobre                                                               182 B         269 kB\n├ ƒ /sucesso                                                           1.06 kB         277 kB\n├ ○ /termos                                                              420 B         270 kB\n├ ○ /termos-de-compra                                                    202 B         269 kB\n└ ○ /trocas-e-devolucoes                                                 420 B         270 kB\n+ First Load JS shared by all                                           269 kB\n  ├ chunks/4bd1b696-100b9d70ed4e49c1.js                                54.2 kB\n  └ chunks/vendors-c8178a0819573c27.js                                  213 kB\n  └ other shared chunks (total)                                        2.27 kB\n\n\nƒ Middleware                                                           63.7 kB\n\n○  (Static)   prerendered as static content\n●  (SSG)      prerendered as static HTML (uses generateStaticParams)\nƒ  (Dynamic)  server-rendered on demand",
+      "stderrTail": ""
+    },
+    {
+      "command": "npm run validate:industrial-ui",
+      "exitCode": 0,
+      "durationMs": 325,
+      "timedOut": false,
+      "stdoutTail": "> mdh-3d-store@2.0.0 validate:industrial-ui\n> node scripts/validate-industrial-ui.mjs\n\nOK: fundacao visual industrial validada.",
+      "stderrTail": ""
+    },
+    {
+      "command": "npm run validate:auth",
+      "exitCode": 0,
+      "durationMs": 295,
+      "timedOut": false,
+      "stdoutTail": "> mdh-3d-store@2.0.0 validate:auth\n> node scripts/validate-auth-flow.mjs\n\nOK: fluxo de auth validado.",
+      "stderrTail": ""
+    },
+    {
+      "command": "npm run validate:db-storage",
+      "exitCode": 0,
+      "durationMs": 294,
+      "timedOut": false,
+      "stdoutTail": "> mdh-3d-store@2.0.0 validate:db-storage\n> node scripts/validate-db-storage.mjs\n\nOK: DB/storage validado.",
+      "stderrTail": ""
+    },
+    {
+      "command": "npm run validate:private-routes",
+      "exitCode": 0,
+      "durationMs": 287,
+      "timedOut": false,
+      "stdoutTail": "> mdh-3d-store@2.0.0 validate:private-routes\n> node scripts/validate-private-routes.mjs\n\nOK: rotas privadas validadas.",
+      "stderrTail": ""
+    },
+    {
+      "command": "npm run validate:public-regressions",
+      "exitCode": 0,
+      "durationMs": 1236,
+      "timedOut": false,
+      "stdoutTail": "> mdh-3d-store@2.0.0 validate:public-regressions\n> node scripts/validate-public-regressions.mjs\n\nOK: regressões públicas validadas (848 produtos, 11 jogos).",
+      "stderrTail": ""
+    },
+    {
+      "command": "npm run security:audit",
+      "exitCode": 0,
+      "durationMs": 463,
+      "timedOut": false,
+      "stdoutTail": "> mdh-3d-store@2.0.0 security:audit\n> node scripts/security/audit-security.mjs\n\nOK: auditoria de seguranca sem achados criticos.",
+      "stderrTail": ""
+    },
+    {
+      "command": "npm audit --audit-level=low",
+      "exitCode": 0,
+      "durationMs": 927,
+      "timedOut": false,
+      "stdoutTail": "found 0 vulnerabilities",
+      "stderrTail": ""
+    }
+  ]
+}

@@ -1,0 +1,585 @@
+{
+  "generatedAt": "2026-06-19T05:37:24.445Z",
+  "branch": "codex/marketplace-phase0-protocol",
+  "commit": "266d6865",
+  "remote": "https://github.com/markmathiasx/secret.git",
+  "requiredInventory": [
+    {
+      "file": "AGENTS.md",
+      "status": "PRESENTE",
+      "evidence": "Arquivo encontrado em AGENTS.md"
+    },
+    {
+      "file": "01-BACKLOG-PRIORIZADO.md",
+      "status": "PRESENTE",
+      "evidence": "Arquivo encontrado em 01-BACKLOG-PRIORIZADO.md"
+    },
+    {
+      "file": "02-AUDITORIA-ABA-A-ABA.md",
+      "status": "PRESENTE",
+      "evidence": "Arquivo encontrado em 02-AUDITORIA-ABA-A-ABA.md"
+    },
+    {
+      "file": "03-CURADORIA-COLECOES.md",
+      "status": "PRESENTE",
+      "evidence": "Arquivo encontrado em 03-CURADORIA-COLECOES.md"
+    },
+    {
+      "file": "04-TEMPLATE-PRODUTO-PADRAO.md",
+      "status": "PRESENTE",
+      "evidence": "Arquivo encontrado em 04-TEMPLATE-PRODUTO-PADRAO.md"
+    },
+    {
+      "file": "05-HOME-COPY-E-CONFIANCA.md",
+      "status": "PRESENTE",
+      "evidence": "Arquivo encontrado em 05-HOME-COPY-E-CONFIANCA.md"
+    },
+    {
+      "file": "06-CHECKOUT-UX.md",
+      "status": "PRESENTE",
+      "evidence": "Arquivo encontrado em 06-CHECKOUT-UX.md"
+    },
+    {
+      "file": "07-FAQ-ENTREGAS-TROCAS.md",
+      "status": "PRESENTE",
+      "evidence": "Arquivo encontrado em 07-FAQ-ENTREGAS-TROCAS.md"
+    },
+    {
+      "file": "08-SEO-SCHEMA-PRODUCT.md",
+      "status": "PRESENTE",
+      "evidence": "Arquivo encontrado em 08-SEO-SCHEMA-PRODUCT.md"
+    },
+    {
+      "file": "09-IMAGENS-NEXT.md",
+      "status": "PRESENTE",
+      "evidence": "Arquivo encontrado em 09-IMAGENS-NEXT.md"
+    },
+    {
+      "file": "10-DOCKER-NODE24-REFERENCIA.md",
+      "status": "PRESENTE",
+      "evidence": "Arquivo encontrado em 10-DOCKER-NODE24-REFERENCIA.md"
+    },
+    {
+      "file": "AUDITORIA.md",
+      "status": "PRESENTE",
+      "evidence": "Arquivo encontrado em AUDITORIA.md"
+    },
+    {
+      "file": "CHECKLIST-MELHORIAS.md",
+      "status": "PRESENTE",
+      "evidence": "Arquivo encontrado em CHECKLIST-MELHORIAS.md"
+    },
+    {
+      "file": "COMPLETION-VERIFICATION.md",
+      "status": "PRESENTE",
+      "evidence": "Arquivo encontrado em COMPLETION-VERIFICATION.md"
+    },
+    {
+      "file": "FINAL_SUMMARY.md",
+      "status": "PRESENTE",
+      "evidence": "Arquivo encontrado em FINAL_SUMMARY.md"
+    },
+    {
+      "file": "CONCLUSION.md",
+      "status": "PRESENTE",
+      "evidence": "Arquivo encontrado em CONCLUSION.md"
+    },
+    {
+      "file": "IMPLEMENTATION-SUMMARY.md",
+      "status": "PRESENTE",
+      "evidence": "Arquivo encontrado em IMPLEMENTATION-SUMMARY.md"
+    },
+    {
+      "file": "CATALOG_VALIDATION_REPORT.json",
+      "status": "PRESENTE",
+      "evidence": "Arquivo encontrado em CATALOG_VALIDATION_REPORT.json"
+    }
+  ],
+  "statusCounts": {
+    "PARCIAL_COM_COMANDOS": 1,
+    "A_VERIFICAR": 33,
+    "PARCIAL_ESTATICO": 16,
+    "NAO_COMPROVADO": 8
+  },
+  "phaseProgress": [
+    {
+      "phase": "Fase 0 - Reconciliacao",
+      "percent": "90%",
+      "status": "Fase 0 estatica criada; gates obrigatorios registrados",
+      "evidence": "Fontes presentes: 18/18; afirmacoes classificadas: 58; gates registrados: sim."
+    },
+    {
+      "phase": "Fase 1 - Performance",
+      "percent": "0%",
+      "status": "Nao executada nesta rodada",
+      "evidence": "Bloqueada pela ordem do TXT ate a conclusao objetiva da Fase 0 e seus gates."
+    },
+    {
+      "phase": "Fase 2 - Design System",
+      "percent": "0%",
+      "status": "Nao executada nesta rodada",
+      "evidence": "Bloqueada pela ordem do TXT ate a conclusao objetiva da Fase 0 e seus gates."
+    },
+    {
+      "phase": "Fase 3 - Comercio e checkout",
+      "percent": "0%",
+      "status": "Nao executada nesta rodada",
+      "evidence": "Bloqueada pela ordem do TXT ate a conclusao objetiva da Fase 0 e seus gates."
+    },
+    {
+      "phase": "Fase 4 - Busca, filtros e recomendacoes",
+      "percent": "0%",
+      "status": "Nao executada nesta rodada",
+      "evidence": "Bloqueada pela ordem do TXT ate a conclusao objetiva da Fase 0 e seus gates."
+    },
+    {
+      "phase": "Fase 5 - Confianca e prova social",
+      "percent": "0%",
+      "status": "Nao executada nesta rodada",
+      "evidence": "Bloqueada pela ordem do TXT ate a conclusao objetiva da Fase 0 e seus gates."
+    },
+    {
+      "phase": "Fase 6 - SEO e dados estruturados",
+      "percent": "0%",
+      "status": "Nao executada nesta rodada",
+      "evidence": "Bloqueada pela ordem do TXT ate a conclusao objetiva da Fase 0 e seus gates."
+    },
+    {
+      "phase": "Fase 7 - Analytics",
+      "percent": "0%",
+      "status": "Nao executada nesta rodada",
+      "evidence": "Bloqueada pela ordem do TXT ate a conclusao objetiva da Fase 0 e seus gates."
+    },
+    {
+      "phase": "Fase 8 - Acessibilidade",
+      "percent": "0%",
+      "status": "Nao executada nesta rodada",
+      "evidence": "Bloqueada pela ordem do TXT ate a conclusao objetiva da Fase 0 e seus gates."
+    },
+    {
+      "phase": "Fase 9 - Seguranca, LGPD e infra",
+      "percent": "0%",
+      "status": "Nao executada nesta rodada",
+      "evidence": "Bloqueada pela ordem do TXT ate a conclusao objetiva da Fase 0 e seus gates."
+    },
+    {
+      "phase": "Fase 10 - Risco de propriedade intelectual",
+      "percent": "0%",
+      "status": "Nao executada nesta rodada",
+      "evidence": "Bloqueada pela ordem do TXT ate a conclusao objetiva da Fase 0 e seus gates."
+    },
+    {
+      "phase": "Fase 11 - Integridade do catalogo",
+      "percent": "0%",
+      "status": "Nao executada nesta rodada",
+      "evidence": "Bloqueada pela ordem do TXT ate a conclusao objetiva da Fase 0 e seus gates."
+    },
+    {
+      "phase": "Fase 12 - Playwright e regressao",
+      "percent": "0%",
+      "status": "Nao executada nesta rodada",
+      "evidence": "Bloqueada pela ordem do TXT ate a conclusao objetiva da Fase 0 e seus gates."
+    },
+    {
+      "phase": "Fase 13 - Vercel, Docker e deploy",
+      "percent": "0%",
+      "status": "Nao executada nesta rodada",
+      "evidence": "Bloqueada pela ordem do TXT ate a conclusao objetiva da Fase 0 e seus gates."
+    }
+  ],
+  "staticInventory": [
+    {
+      "area": "Carrinho persistente",
+      "status": "PRESENTE",
+      "evidence": "Encontrados: app/api/cart/route.ts, app/carrinho/page.tsx, lib/cart-store.ts",
+      "detail": "Base estatica para carrinho local/API."
+    },
+    {
+      "area": "Pedido antes do redirecionamento",
+      "status": "PRESENTE",
+      "evidence": "Encontrados: app/api/checkout/preference/route.ts, app/api/orders/route.ts",
+      "detail": "Rotas existem; precisa e2e para confirmar criacao real antes do redirect."
+    },
+    {
+      "area": "Rastreio de pedidos",
+      "status": "PRESENTE",
+      "evidence": "Encontrados: app/pedidos/page.tsx, app/api/orders/track/route.ts, app/pedidos/[id]/page.tsx",
+      "detail": "Superficie de rastreio existe."
+    },
+    {
+      "area": "Reviews reais",
+      "status": "PRESENTE",
+      "evidence": "Encontrados: app/api/products/[slug]/reviews/route.ts, components/product-reviews.tsx",
+      "detail": "Rota e componente existem; dados precisam vir de DB/catalogo real."
+    },
+    {
+      "area": "Feeds e catalogo",
+      "status": "PRESENTE",
+      "evidence": "Encontrados: app/feeds/google-shopping.xml/route.ts, app/feeds/meta-catalog.csv/route.ts, app/feeds/produtos.json/route.ts, lib/meta-commerce-feed.ts",
+      "detail": "Feeds existem e exigem validacao de conteudo."
+    },
+    {
+      "area": "Scripts obrigatorios",
+      "status": "PRESENTE",
+      "evidence": "Scripts presentes: db:generate, typecheck, lint:check, build, validate:industrial-ui, validate:auth, validate:db-storage, validate:private-routes, validate:public-regressions, security:audit",
+      "detail": "Presenca em package.json; sucesso depende do log de execucao."
+    }
+  ],
+  "dependencyCaveats": [
+    {
+      "item": "next-auth peer nodemailer",
+      "status": "RISCO_UPSTREAM_MONITORADO",
+      "evidence": "next-auth 5.0.0-beta.31 declara peer nodemailer ^7.0.7 no registry, mas nodemailer ^9.0.1 e necessario para zerar npm audit. auth.ts usa Credentials/Google/Apple e nao provider de email do NextAuth."
+    }
+  ],
+  "claims": [
+    {
+      "item": "Nunca declarar tarefa concluída sem lint, typecheck, build, validate:assets e test:images.",
+      "source": "AGENTS.md:4",
+      "status": "PARCIAL_COM_COMANDOS",
+      "evidence": "testes_gates: Comandos registrados em 2026-06-19T05:35:47.286Z passaram: npm run db:generate, npm run typecheck, npm run lint:check, npm run build, npm run validate:industrial-ui, npm run validate:auth, npm run validate:db-storage, npm run validate:private-routes, npm run validate:public-regressions, npm run security:audit, npm audit --audit-level=low."
+    },
+    {
+      "item": "Para execuções do marketplace MDH 3D nível Apple/ML/AliExpress/Shopee, seguir `docs/CODEX_EXECUTION_PROTOCOL.md`: executar a Fase 0 antes das demais, manter `RELATORIO-EXECUCAO-MARKETPLACE.md` incremental e nunca marcar fase como 100% sem evidência objetiva em código, comandos e validação local/produção.",
+      "source": "AGENTS.md:9",
+      "status": "A_VERIFICAR",
+      "evidence": "Afirmação localizada no documento, mas sem regra estatica suficiente; precisa verificacao manual/runtime."
+    },
+    {
+      "item": "Confirmar domínio, SSL e deploy ativo em produção",
+      "source": "01-BACKLOG-PRIORIZADO.md:5",
+      "status": "PARCIAL_ESTATICO",
+      "evidence": "vercel_docker: arquivos: docs/VERCEL_ENV.md, Dockerfile; Arquivos de deploy existem; deploy e build Docker exigem execucao atual."
+    },
+    {
+      "item": "Entregas separando produção x transporte",
+      "source": "01-BACKLOG-PRIORIZADO.md:24",
+      "status": "A_VERIFICAR",
+      "evidence": "Afirmação localizada no documento, mas sem regra estatica suficiente; precisa verificacao manual/runtime."
+    },
+    {
+      "item": "Mistura prazo de produção com transporte.",
+      "source": "02-AUDITORIA-ABA-A-ABA.md:62",
+      "status": "A_VERIFICAR",
+      "evidence": "Afirmação localizada no documento, mas sem regra estatica suficiente; precisa verificacao manual/runtime."
+    },
+    {
+      "item": "Separar: produção, postagem, rastreio, regiões, observações.",
+      "source": "02-AUDITORIA-ABA-A-ABA.md:64",
+      "status": "A_VERIFICAR",
+      "evidence": "Afirmação localizada no documento, mas sem regra estatica suficiente; precisa verificacao manual/runtime."
+    },
+    {
+      "item": "Prazo de produção",
+      "source": "04-TEMPLATE-PRODUTO-PADRAO.md:13",
+      "status": "A_VERIFICAR",
+      "evidence": "Afirmação localizada no documento, mas sem regra estatica suficiente; precisa verificacao manual/runtime."
+    },
+    {
+      "item": "Prazo de produção: 3 a 5 dias úteis",
+      "source": "04-TEMPLATE-PRODUTO-PADRAO.md:44",
+      "status": "A_VERIFICAR",
+      "evidence": "Afirmação localizada no documento, mas sem regra estatica suficiente; precisa verificacao manual/runtime."
+    },
+    {
+      "item": "Produção própria, acabamento cuidadoso e opções sob encomenda para transformar sua ideia em uma peça única.",
+      "source": "05-HOME-COPY-E-CONFIANCA.md:8",
+      "status": "A_VERIFICAR",
+      "evidence": "Afirmação localizada no documento, mas sem regra estatica suficiente; precisa verificacao manual/runtime."
+    },
+    {
+      "item": "Produção própria",
+      "source": "05-HOME-COPY-E-CONFIANCA.md:17",
+      "status": "A_VERIFICAR",
+      "evidence": "Afirmação localizada no documento, mas sem regra estatica suficiente; precisa verificacao manual/runtime."
+    },
+    {
+      "item": "“Prazo de produção e entrega aparecem antes da finalização.”",
+      "source": "06-CHECKOUT-UX.md:17",
+      "status": "A_VERIFICAR",
+      "evidence": "Afirmação localizada no documento, mas sem regra estatica suficiente; precisa verificacao manual/runtime."
+    },
+    {
+      "item": "Qual é o prazo de produção?",
+      "source": "07-FAQ-ENTREGAS-TROCAS.md:6",
+      "status": "A_VERIFICAR",
+      "evidence": "Afirmação localizada no documento, mas sem regra estatica suficiente; precisa verificacao manual/runtime."
+    },
+    {
+      "item": "Prazo de produção",
+      "source": "07-FAQ-ENTREGAS-TROCAS.md:14",
+      "status": "A_VERIFICAR",
+      "evidence": "Afirmação localizada no documento, mas sem regra estatica suficiente; precisa verificacao manual/runtime."
+    },
+    {
+      "item": "não publicar mais commits “final: loja pronta para produção” se o repositório ainda estiver inconsistente",
+      "source": "AUDITORIA.md:33",
+      "status": "A_VERIFICAR",
+      "evidence": "Afirmação localizada no documento, mas sem regra estatica suficiente; precisa verificacao manual/runtime."
+    },
+    {
+      "item": "| 🔴 CRÍTICO | Corrigir vercel.json (remover gru1) | ✅ Concluído (no arquivo `secret/vercel.json`) |",
+      "source": "CHECKLIST-MELHORIAS.md:5",
+      "status": "PARCIAL_ESTATICO",
+      "evidence": "seguranca: arquivos: lib/security.ts, scripts/security/audit-security.mjs, scripts/validate-auth-flow.mjs, scripts/validate-db-storage.mjs; Checks de seguranca existem; headers e storage precisam de validacao local/producao. | vercel_docker: arquivos: docs/VERCEL_ENV.md, Dockerfile; Arquivos de deploy existem; deploy e build Docker exigem execucao atual."
+    },
+    {
+      "item": "| 🔴 CRÍTICO | Verificar plano Vercel (Hobby vs Pro) | ✅ Concluído (helper em `src/lib/env.ts` + env var `NEXT_PUBLIC_VERCEL_PLAN`) |",
+      "source": "CHECKLIST-MELHORIAS.md:6",
+      "status": "PARCIAL_ESTATICO",
+      "evidence": "vercel_docker: arquivos: docs/VERCEL_ENV.md, Dockerfile; Arquivos de deploy existem; deploy e build Docker exigem execucao atual."
+    },
+    {
+      "item": "| 🟡 ALTA | Implementar novo catálogo 20+ itens | ✅ Concluído (77 itens no catálogo) |",
+      "source": "CHECKLIST-MELHORIAS.md:7",
+      "status": "PARCIAL_ESTATICO",
+      "evidence": "catalogo_imagens: arquivos: CATALOG_VALIDATION_REPORT.json, lib/media-validation.ts, lib/product-images.ts, lib/catalog-media.ts; Governanca de catalogo/imagem existe; itens publicos devem ser auditados contra bloqueios."
+    },
+    {
+      "item": "| 🟡 ALTA | Adicionar seção anime (10+ personagens) | ✅ Concluído (10 personagens anime adicionados) |",
+      "source": "CHECKLIST-MELHORIAS.md:8",
+      "status": "A_VERIFICAR",
+      "evidence": "Afirmação localizada no documento, mas sem regra estatica suficiente; precisa verificacao manual/runtime."
+    },
+    {
+      "item": "| 🟡 ALTA | Páginas de produto completas | ✅ Concluído (galeria, variantes, aviso licença, personalização) |",
+      "source": "CHECKLIST-MELHORIAS.md:9",
+      "status": "PARCIAL_ESTATICO",
+      "evidence": "catalogo_imagens: arquivos: CATALOG_VALIDATION_REPORT.json, lib/media-validation.ts, lib/product-images.ts, lib/catalog-media.ts; Governanca de catalogo/imagem existe; itens publicos devem ser auditados contra bloqueios."
+    },
+    {
+      "item": "| 🟢 MÉDIA | Integração pagamentos | ✅ Concluído (Mercado Pago implementado) |",
+      "source": "CHECKLIST-MELHORIAS.md:10",
+      "status": "PARCIAL_ESTATICO",
+      "evidence": "pedido_checkout: arquivos: app/api/orders/route.ts, app/api/checkout/preference/route.ts, app/checkout/page.tsx, app/pedidos/page.tsx; provas: prisma/schema.prisma, prisma/schema.prisma; Fluxo comercial existe no codigo; ainda requer teste carrinho -> pedido -> rastreio."
+    },
+    {
+      "item": "| 🟢 MÉDIA | Calculadora de frete | ✅ Concluído (calculadora CEP + zonas de entrega) |",
+      "source": "CHECKLIST-MELHORIAS.md:11",
+      "status": "A_VERIFICAR",
+      "evidence": "Afirmação localizada no documento, mas sem regra estatica suficiente; precisa verificacao manual/runtime."
+    },
+    {
+      "item": "| 🟢 MÉDIA | SEO e meta tags | ✅ Concluído (Open Graph, Twitter Cards, Schema.org JSON-LD) |",
+      "source": "CHECKLIST-MELHORIAS.md:12",
+      "status": "PARCIAL_ESTATICO",
+      "evidence": "seo_schema: arquivos: app/sitemap.ts, app/robots.ts, app/catalogo/[slug]/page.tsx, app/produto/[slug]/page.tsx; Arquivos SEO existem; cada schema precisa ser auditado para dados reais."
+    },
+    {
+      "item": "Confirmar que o deploy do projeto não está suspenso (Vercel fornece aviso na UI).",
+      "source": "CHECKLIST-MELHORIAS.md:33",
+      "status": "PARCIAL_ESTATICO",
+      "evidence": "vercel_docker: arquivos: docs/VERCEL_ENV.md, Dockerfile; Arquivos de deploy existem; deploy e build Docker exigem execucao atual."
+    },
+    {
+      "item": "Verificar se `NEXT_PUBLIC_VERCEL_PLAN` está configurado corretamente no ambiente de produção.",
+      "source": "CHECKLIST-MELHORIAS.md:34",
+      "status": "A_VERIFICAR",
+      "evidence": "Afirmação localizada no documento, mas sem regra estatica suficiente; precisa verificacao manual/runtime."
+    },
+    {
+      "item": "║              🎉 MDH 3D Store - Docker Completo & Corrigido 🎉             ║",
+      "source": "FINAL_SUMMARY.md:7",
+      "status": "PARCIAL_ESTATICO",
+      "evidence": "vercel_docker: arquivos: docs/VERCEL_ENV.md, Dockerfile; Arquivos de deploy existem; deploy e build Docker exigem execucao atual."
+    },
+    {
+      "item": "✅ STATUS: PRONTO PARA PRODUÇÃO",
+      "source": "FINAL_SUMMARY.md:16",
+      "status": "NAO_COMPROVADO",
+      "evidence": "Documento antigo de conclusao nao e aceito como prova. Esta Fase 0 exige codigo, comandos e validacao publica atuais."
+    },
+    {
+      "item": "• Status: ✅ Carregando (200 OK)",
+      "source": "FINAL_SUMMARY.md:34",
+      "status": "A_VERIFICAR",
+      "evidence": "Afirmação localizada no documento, mas sem regra estatica suficiente; precisa verificacao manual/runtime."
+    },
+    {
+      "item": "└─ ✅ CORRIGIDO:",
+      "source": "FINAL_SUMMARY.md:44",
+      "status": "A_VERIFICAR",
+      "evidence": "Afirmação localizada no documento, mas sem regra estatica suficiente; precisa verificacao manual/runtime."
+    },
+    {
+      "item": "└─ ✅ CORRIGIDO:",
+      "source": "FINAL_SUMMARY.md:53",
+      "status": "A_VERIFICAR",
+      "evidence": "Afirmação localizada no documento, mas sem regra estatica suficiente; precisa verificacao manual/runtime."
+    },
+    {
+      "item": "└─ ✅ CORRIGIDO:",
+      "source": "FINAL_SUMMARY.md:60",
+      "status": "A_VERIFICAR",
+      "evidence": "Afirmação localizada no documento, mas sem regra estatica suficiente; precisa verificacao manual/runtime."
+    },
+    {
+      "item": "└─ Pronto para volumes",
+      "source": "FINAL_SUMMARY.md:81",
+      "status": "NAO_COMPROVADO",
+      "evidence": "Documento antigo de conclusao nao e aceito como prova. Esta Fase 0 exige codigo, comandos e validacao publica atuais."
+    },
+    {
+      "item": "✅ http://localhost:3000 responde (200 OK)",
+      "source": "FINAL_SUMMARY.md:186",
+      "status": "A_VERIFICAR",
+      "evidence": "Afirmação localizada no documento, mas sem regra estatica suficiente; precisa verificacao manual/runtime."
+    },
+    {
+      "item": "✅ Imagens /catalog-assets carregam (200 OK)",
+      "source": "FINAL_SUMMARY.md:188",
+      "status": "A_VERIFICAR",
+      "evidence": "Afirmação localizada no documento, mas sem regra estatica suficiente; precisa verificacao manual/runtime."
+    },
+    {
+      "item": "Pronto para Kubernetes/Docker Swarm",
+      "source": "FINAL_SUMMARY.md:253",
+      "status": "NAO_COMPROVADO",
+      "evidence": "Documento antigo de conclusao nao e aceito como prova. Esta Fase 0 exige codigo, comandos e validacao publica atuais."
+    },
+    {
+      "item": "□ Deploy em produção (cloud)",
+      "source": "FINAL_SUMMARY.md:266",
+      "status": "PARCIAL_ESTATICO",
+      "evidence": "vercel_docker: arquivos: docs/VERCEL_ENV.md, Dockerfile; Arquivos de deploy existem; deploy e build Docker exigem execucao atual."
+    },
+    {
+      "item": "✅ Pronto para Produção & Desenvolvimento",
+      "source": "FINAL_SUMMARY.md:288",
+      "status": "NAO_COMPROVADO",
+      "evidence": "Documento antigo de conclusao nao e aceito como prova. Esta Fase 0 exige codigo, comandos e validacao publica atuais."
+    },
+    {
+      "item": "║              🎉 Todos os Problemas Resolvidos - Pronto! 🎉                 ║",
+      "source": "CONCLUSION.md:5",
+      "status": "NAO_COMPROVADO",
+      "evidence": "Documento antigo de conclusao nao e aceito como prova. Esta Fase 0 exige codigo, comandos e validacao publica atuais."
+    },
+    {
+      "item": "http://localhost:3000              → 200 OK",
+      "source": "CONCLUSION.md:19",
+      "status": "A_VERIFICAR",
+      "evidence": "Afirmação localizada no documento, mas sem regra estatica suficiente; precisa verificacao manual/runtime."
+    },
+    {
+      "item": "http://localhost:3000/catalogo     → 200 OK",
+      "source": "CONCLUSION.md:20",
+      "status": "PARCIAL_ESTATICO",
+      "evidence": "catalogo_imagens: arquivos: CATALOG_VALIDATION_REPORT.json, lib/media-validation.ts, lib/product-images.ts, lib/catalog-media.ts; Governanca de catalogo/imagem existe; itens publicos devem ser auditados contra bloqueios."
+    },
+    {
+      "item": "http://localhost:3000/catalogo-assets/mdh-*.webp → 200 OK",
+      "source": "CONCLUSION.md:21",
+      "status": "PARCIAL_ESTATICO",
+      "evidence": "catalogo_imagens: arquivos: CATALOG_VALIDATION_REPORT.json, lib/media-validation.ts, lib/product-images.ts, lib/catalog-media.ts; Governanca de catalogo/imagem existe; itens publicos devem ser auditados contra bloqueios."
+    },
+    {
+      "item": "└─ ✅ CORRIGIDO",
+      "source": "CONCLUSION.md:33",
+      "status": "A_VERIFICAR",
+      "evidence": "Afirmação localizada no documento, mas sem regra estatica suficiente; precisa verificacao manual/runtime."
+    },
+    {
+      "item": "└─ ✅ CORRIGIDO",
+      "source": "CONCLUSION.md:39",
+      "status": "A_VERIFICAR",
+      "evidence": "Afirmação localizada no documento, mas sem regra estatica suficiente; precisa verificacao manual/runtime."
+    },
+    {
+      "item": "└─ ✅ CORRIGIDO",
+      "source": "CONCLUSION.md:45",
+      "status": "A_VERIFICAR",
+      "evidence": "Afirmação localizada no documento, mas sem regra estatica suficiente; precisa verificacao manual/runtime."
+    },
+    {
+      "item": "✅ Multi-stage builds (production otimizado)",
+      "source": "CONCLUSION.md:102",
+      "status": "A_VERIFICAR",
+      "evidence": "Afirmação localizada no documento, mas sem regra estatica suficiente; precisa verificacao manual/runtime."
+    },
+    {
+      "item": "✅ http://localhost:3000 responde (200 OK)",
+      "source": "CONCLUSION.md:151",
+      "status": "A_VERIFICAR",
+      "evidence": "Afirmação localizada no documento, mas sem regra estatica suficiente; precisa verificacao manual/runtime."
+    },
+    {
+      "item": "✅ Imagens /catalog-assets carregam (200 OK)",
+      "source": "CONCLUSION.md:153",
+      "status": "A_VERIFICAR",
+      "evidence": "Afirmação localizada no documento, mas sem regra estatica suficiente; precisa verificacao manual/runtime."
+    },
+    {
+      "item": "✅ DevTools mostra mdh-*.webp (200 OK)",
+      "source": "CONCLUSION.md:154",
+      "status": "A_VERIFICAR",
+      "evidence": "Afirmação localizada no documento, mas sem regra estatica suficiente; precisa verificacao manual/runtime."
+    },
+    {
+      "item": "Se tudo OK:",
+      "source": "CONCLUSION.md:170",
+      "status": "A_VERIFICAR",
+      "evidence": "Afirmação localizada no documento, mas sem regra estatica suficiente; precisa verificacao manual/runtime."
+    },
+    {
+      "item": "□ Prepare para produção",
+      "source": "CONCLUSION.md:173",
+      "status": "A_VERIFICAR",
+      "evidence": "Afirmação localizada no documento, mas sem regra estatica suficiente; precisa verificacao manual/runtime."
+    },
+    {
+      "item": "□ Deploy em cloud (AWS/GCP/Azure)",
+      "source": "CONCLUSION.md:178",
+      "status": "PARCIAL_ESTATICO",
+      "evidence": "vercel_docker: arquivos: docs/VERCEL_ENV.md, Dockerfile; Arquivos de deploy existem; deploy e build Docker exigem execucao atual."
+    },
+    {
+      "item": "• Para produção, customize com seus valores",
+      "source": "CONCLUSION.md:228",
+      "status": "A_VERIFICAR",
+      "evidence": "Afirmação localizada no documento, mas sem regra estatica suficiente; precisa verificacao manual/runtime."
+    },
+    {
+      "item": "✅ Pronto para Desenvolvimento",
+      "source": "CONCLUSION.md:260",
+      "status": "NAO_COMPROVADO",
+      "evidence": "Documento antigo de conclusao nao e aceito como prova. Esta Fase 0 exige codigo, comandos e validacao publica atuais."
+    },
+    {
+      "item": "✅ Pronto para Produção",
+      "source": "CONCLUSION.md:261",
+      "status": "NAO_COMPROVADO",
+      "evidence": "Documento antigo de conclusao nao e aceito como prova. Esta Fase 0 exige codigo, comandos e validacao publica atuais."
+    },
+    {
+      "item": "Status: ✅ PRONTO PARA PRODUÇÃO",
+      "source": "CONCLUSION.md:269",
+      "status": "NAO_COMPROVADO",
+      "evidence": "Documento antigo de conclusao nao e aceito como prova. Esta Fase 0 exige codigo, comandos e validacao publica atuais."
+    },
+    {
+      "item": "└─ Deploy Guide ✓",
+      "source": "IMPLEMENTATION-SUMMARY.md:265",
+      "status": "PARCIAL_ESTATICO",
+      "evidence": "vercel_docker: arquivos: docs/VERCEL_ENV.md, Dockerfile; Arquivos de deploy existem; deploy e build Docker exigem execucao atual."
+    },
+    {
+      "item": "[ ] Deploy to staging",
+      "source": "IMPLEMENTATION-SUMMARY.md:520",
+      "status": "PARCIAL_ESTATICO",
+      "evidence": "vercel_docker: arquivos: docs/VERCEL_ENV.md, Dockerfile; Arquivos de deploy existem; deploy e build Docker exigem execucao atual."
+    },
+    {
+      "item": "[ ] Deploy to production",
+      "source": "IMPLEMENTATION-SUMMARY.md:522",
+      "status": "PARCIAL_ESTATICO",
+      "evidence": "vercel_docker: arquivos: docs/VERCEL_ENV.md, Dockerfile; Arquivos de deploy existem; deploy e build Docker exigem execucao atual."
+    },
+    {
+      "item": "JSON carregavel com chaves de topo: timestamp, source, total, valid, missing, placeholderRisk, visualKinds, missingIds, placeholderRiskIds, passRate, validItems, missingItems",
+      "source": "CATALOG_VALIDATION_REPORT.json:1",
+      "status": "A_VERIFICAR",
+      "evidence": "Afirmação localizada no documento, mas sem regra estatica suficiente; precisa verificacao manual/runtime."
+    }
+  ]
+}

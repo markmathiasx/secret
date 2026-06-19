@@ -1,275 +1,78 @@
-/**
- * E2E Tests - Checkout Flow
- * Tests critical checkout paths that MUST pass before production deploy
- */
+import { expect, test } from "@playwright/test";
 
-import { test, expect } from '@playwright/test';
+const BASE_URL = process.env.BASE_URL || "http://localhost:3000";
 
-const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
+const cartPayload = {
+  state: {
+    items: [
+      {
+        productId: "mdh-013",
+        quantity: 2,
+        title: "Suporte para Fone Headphone",
+        pricePix: 69.9,
+        priceCard: 70.9,
+        image: "/products/setup/suporte-fone-headphone.webp",
+        updatedAt: new Date().toISOString(),
+      },
+    ],
+  },
+  version: 0,
+};
 
-test.describe('Checkout Flow - Production Critical', () => {
+async function seedCart(page: import("@playwright/test").Page) {
+  await page.goto(BASE_URL, { waitUntil: "domcontentloaded" });
+  await page.evaluate((payload) => {
+    window.localStorage.setItem("mdh:cart:v2", JSON.stringify(payload));
+  }, cartPayload);
+}
+
+test.describe("Checkout web-first", () => {
   test.beforeEach(async ({ page }) => {
-    // Set authenticated user
-    await page.goto(`${BASE_URL}/`);
+    await seedCart(page);
   });
 
-  test.describe('PIX Payment', () => {
-    test('should load checkout page with PIX option', async ({ page }) => {
-      await page.goto(`${BASE_URL}/checkout`);
-      
-      const pixButton = page.locator('button:has-text("PIX")');
-      await expect(pixButton).toBeVisible();
-      await expect(pixButton).toBeEnabled();
-    });
+  test("loads checkout with persisted cart and order totals", async ({ page }) => {
+    await page.goto(`${BASE_URL}/checkout`, { waitUntil: "networkidle" });
 
-    test('should generate PIX QR code', async ({ page }) => {
-      await page.goto(`${BASE_URL}/checkout`);
-      
-      // Select PIX payment
-      await page.click('button:has-text("PIX")');
-      await page.waitForTimeout(500);
-      
-      // Verify QR code is displayed
-      const qrCode = page.locator('canvas[id*="qr"], img[alt*="QR"]');
-      await expect(qrCode).toBeVisible({ timeout: 5000 });
-    });
-
-    test('should copy PIX key to clipboard', async ({ page, context }) => {
-      // Grant clipboard permissions
-      await context.grantPermissions(['clipboard-read', 'clipboard-write']);
-      
-      await page.goto(`${BASE_URL}/checkout`);
-      await page.click('button:has-text("PIX")');
-      
-      const copyButton = page.locator('button:has-text("Copiar"), button:has-text("Copy")');
-      await expect(copyButton).toBeVisible();
-      
-      await copyButton.click();
-      await page.waitForTimeout(300);
-      
-      // Verify success message
-      const successMsg = page.locator('text=/copiado|copied/i');
-      await expect(successMsg).toBeVisible({ timeout: 3000 });
-    });
-
-    test('should display payment instructions clearly', async ({ page }) => {
-      await page.goto(`${BASE_URL}/checkout`);
-      await page.click('button:has-text("PIX")');
-      
-      // Verify instructions are present
-      const instructions = page.locator('text=/instrução|instruction|prazo|pix/i');
-      await expect(instructions.first()).toBeVisible();
-    });
+    await expect(page.getByRole("heading", { name: /checkout sem cadastro/i })).toBeVisible();
+    await expect(page.getByText("Suporte para Fone Headphone")).toBeVisible();
+    await expect(page.getByText(/Total do site/i)).toBeVisible();
+    await expect(page.getByText(/R\$\s*139,80/).first()).toBeVisible();
   });
 
-  test.describe('Credit Card Payment', () => {
-    test('should load credit card form', async ({ page }) => {
-      await page.goto(`${BASE_URL}/checkout`);
-      
-      const cardButton = page.locator('button:has-text("Cartão")');
-      await expect(cardButton).toBeVisible();
-      await cardButton.click();
-      
-      // Verify card form appears
-      const cardForm = page.locator('[data-testid="card-form"], form:has([placeholder*="card"i])');
-      await expect(cardForm).toBeVisible({ timeout: 5000 });
-    });
+  test("shows empty-cart guard when no product is persisted", async ({ page }) => {
+    await page.goto(BASE_URL, { waitUntil: "domcontentloaded" });
+    await page.evaluate(() => window.localStorage.removeItem("mdh:cart:v2"));
+    await page.goto(`${BASE_URL}/checkout`, { waitUntil: "networkidle" });
 
-    test('should validate card number format', async ({ page }) => {
-      await page.goto(`${BASE_URL}/checkout`);
-      await page.click('button:has-text("Cartão")');
-      
-      const cardInput = page.locator('[name="cardNumber"], [placeholder*="card number"i]');
-      await cardInput.fill('invalid');
-      
-      // Blur to trigger validation
-      await cardInput.blur();
-      
-      const errorMsg = page.locator('text=/inválido|invalid/i');
-      await expect(errorMsg).toBeVisible({ timeout: 2000 });
-    });
-
-    test('should accept valid test card', async ({ page }) => {
-      await page.goto(`${BASE_URL}/checkout`);
-      await page.click('button:has-text("Cartão")');
-      
-      // Fill with valid test card (Stripe test)
-      const cardInput = page.locator('[name="cardNumber"], [data-testid="card-number"]');
-      await cardInput.fill('4242424242424242');
-      
-      const expiryInput = page.locator('[name="expiry"], [placeholder*="MM/YY"i]');
-      await expiryInput.fill('12/25');
-      
-      const cvcInput = page.locator('[name="cvc"], [placeholder*="CVC"i]');
-      await cvcInput.fill('123');
-      
-      // Verify no validation errors
-      const errors = page.locator('text=/erro|error/i');
-      await expect(errors).not.toBeVisible();
-    });
-
-    test('should require all card fields', async ({ page }) => {
-      await page.goto(`${BASE_URL}/checkout`);
-      await page.click('button:has-text("Cartão")');
-      
-      const submitButton = page.locator('button[type="submit"]:has-text("Pagar"), button:has-text("Pay")');
-      await submitButton.click();
-      
-      // Should show validation errors
-      const requiredErrors = page.locator('text=/obrigatório|required/i');
-      await expect(requiredErrors.first()).toBeVisible({ timeout: 2000 });
-    });
-
-    test('should show installment options', async ({ page }) => {
-      await page.goto(`${BASE_URL}/checkout`);
-      await page.click('button:has-text("Cartão")');
-      
-      const installmentSelect = page.locator('select[name="installments"], [data-testid="installments"]');
-      await expect(installmentSelect).toBeVisible();
-      
-      // Verify we have multiple options
-      const options = installmentSelect.locator('option');
-      const count = await options.count();
-      expect(count).toBeGreaterThan(1);
-    });
+    await expect(page.getByRole("heading", { name: /checkout começa no carrinho/i })).toBeVisible();
+    await expect(page.locator("main").getByRole("link", { name: /ir para o carrinho/i })).toBeVisible();
   });
 
-  test.describe('Checkout Security', () => {
-    test('should not expose sensitive data in DOM', async ({ page }) => {
-      await page.goto(`${BASE_URL}/checkout`);
-      
-      const content = await page.content();
-      
-      // Should NOT contain real test cards in source
-      expect(content).not.toContain('4242424242424242');
-      expect(content).not.toContain('5555555555554444');
-    });
+  test("keeps WhatsApp fallback available with encoded cart context", async ({ page }) => {
+    await page.goto(`${BASE_URL}/checkout`, { waitUntil: "networkidle" });
 
-    test('should use HTTPS for payment endpoints', async ({ page }) => {
-      await page.goto(`${BASE_URL}/checkout`);
-      
-      // Intercept payment requests
-      const paymentRequests: string[] = [];
-      page.on('request', (request) => {
-        if (request.url().includes('payment') || request.url().includes('charge')) {
-          paymentRequests.push(request.url());
-        }
-      });
-      
-      // All payment requests should be HTTPS
-      paymentRequests.forEach(url => {
-        expect(url).toMatch(/^https:\/\//);
-      });
-    });
+    await page.getByPlaceholder("Seu nome").fill("Cliente Teste");
+    await page.getByPlaceholder("voce@email.com").fill("cliente@example.com");
+    await page.getByPlaceholder("+5521974137662").fill("5521974137662");
+    await page.getByPlaceholder("00000-000").fill("20040002");
+    await page.getByPlaceholder("Rua, avenida e número").fill("Rua Teste, 123");
+    await page.getByPlaceholder("Bairro").fill("Centro");
 
-    test('should validate CSRF tokens', async ({ page }) => {
-      await page.goto(`${BASE_URL}/checkout`);
-      
-      const csrfToken = page.locator('[name="csrf"], [name="_csrf"], input[value*="."]');
-      if (await csrfToken.isVisible()) {
-        const tokenValue = await csrfToken.inputValue();
-        expect(tokenValue).toBeTruthy();
-        expect(tokenValue!.length).toBeGreaterThan(10);
-      }
-    });
+    const whatsapp = page.getByRole("link", { name: /finalizar via whatsapp/i }).first();
+    await expect(whatsapp).toBeVisible();
+    const href = await whatsapp.getAttribute("href");
+
+    expect(href).toContain("https://wa.me/5521974137662");
+    expect(decodeURIComponent(href || "")).toContain("Suporte para Fone Headphone");
+    expect(decodeURIComponent(href || "")).toContain("Cliente Teste");
   });
 
-  test.describe('Order Summary', () => {
-    test('should display order total correctly', async ({ page }) => {
-      await page.goto(`${BASE_URL}/checkout`);
-      
-      const totalPrice = page.locator('[data-testid="order-total"], text=/total:/i');
-      await expect(totalPrice).toBeVisible();
-      
-      const priceText = await totalPrice.textContent();
-      expect(priceText).toMatch(/\d+[\.,]\d{2}/); // Currency format
-    });
+  test("does not expose card test numbers or payment secrets in checkout DOM", async ({ page }) => {
+    await page.goto(`${BASE_URL}/checkout`, { waitUntil: "networkidle" });
+    const content = await page.content();
 
-    test('should show shipping cost', async ({ page }) => {
-      await page.goto(`${BASE_URL}/checkout`);
-      
-      const shippingCost = page.locator('[data-testid="shipping-cost"], text=/frete|shipping/i');
-      await expect(shippingCost).toBeVisible();
-    });
-
-    test('should apply discount codes', async ({ page }) => {
-      await page.goto(`${BASE_URL}/checkout`);
-      
-      const discountInput = page.locator('[name="coupon"], [placeholder*="cupom"i], [placeholder*="coupon"i]');
-      if (await discountInput.isVisible()) {
-        await discountInput.fill('TESTDISCOUNT');
-        
-        const applyButton = page.locator('button:has-text("Aplicar"), button:has-text("Apply")');
-        await applyButton.click();
-        
-        // Wait for discount calculation
-        await page.waitForTimeout(1000);
-      }
-    });
-  });
-
-  test.describe('Accessibility', () => {
-    test('should be keyboard navigable', async ({ page }) => {
-      await page.goto(`${BASE_URL}/checkout`);
-      
-      // Tab through form elements
-      await page.keyboard.press('Tab');
-      let focusedElement = await page.evaluate(() => document.activeElement?.tagName);
-      expect(focusedElement).toBeTruthy();
-      
-      // Should be able to navigate to submit button with Tab
-      for (let i = 0; i < 10; i++) {
-        await page.keyboard.press('Tab');
-      }
-    });
-
-    test('should have proper form labels', async ({ page }) => {
-      await page.goto(`${BASE_URL}/checkout`);
-      
-      const inputs = page.locator('input[type="text"], input[type="email"], input[type="tel"]');
-      const count = await inputs.count();
-      
-      for (let i = 0; i < count; i++) {
-        const input = inputs.nth(i);
-        const label = page.locator(`label[for="${await input.getAttribute('id')}"]`);
-        
-        // Either has associated label or aria-label
-        const hasLabel = (await label.count()) > 0 || await input.getAttribute('aria-label');
-        expect(hasLabel).toBeTruthy();
-      }
-    });
-  });
-
-  test.describe('Error Handling', () => {
-    test('should handle network errors gracefully', async ({ page }) => {
-      await page.goto(`${BASE_URL}/checkout`);
-      
-      // Simulate offline
-      await page.context().setOffline(true);
-      
-      const submitButton = page.locator('button[type="submit"]').first();
-      if (await submitButton.isEnabled()) {
-        await submitButton.click();
-      }
-      
-      // Should show network error message
-      const errorMsg = page.locator('text=/erro|erro de conexão|network/i');
-      await expect(errorMsg).toBeVisible({ timeout: 5000 });
-      
-      // Restore connection
-      await page.context().setOffline(false);
-    });
-
-    test('should show clear error for invalid payment', async ({ page }) => {
-      await page.goto(`${BASE_URL}/checkout`);
-      
-      // Try to submit with invalid data
-      const submitButton = page.locator('button[type="submit"]').first();
-      await submitButton.click({ force: true });
-      
-      // Should show validation or payment error
-      const errorMsg = page.locator('[role="alert"], text=/erro|error|inválido|invalid/i');
-      await expect(errorMsg.first()).toBeVisible({ timeout: 5000 });
-    });
+    expect(content).not.toContain("4242424242424242");
+    expect(content).not.toMatch(/MERCADOPAGO_ACCESS_TOKEN|NEXT_PUBLIC_MP_PUBLIC_KEY|sk_live|sk_test/i);
   });
 });

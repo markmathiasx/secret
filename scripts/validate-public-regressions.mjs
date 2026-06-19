@@ -10,11 +10,14 @@ const { buildMetaCommerceFeedData } = require("@/lib/meta-commerce-feed");
 const errors = [];
 const warnings = [];
 
+const publicBaselinePath = path.join(ROOT, "reports/public-regressions-baseline.json");
+const publicBaseline = fs.existsSync(publicBaselinePath) ? JSON.parse(fs.readFileSync(publicBaselinePath, "utf8")) : null;
 const baselinePath = path.join(ROOT, "reports/industrial-auth-db-baseline.json");
 const baseline = fs.existsSync(baselinePath) ? JSON.parse(fs.readFileSync(baselinePath, "utf8")) : null;
 const copaExpansionPath = path.join(ROOT, "data/copa-theme-expansion-300.json");
 const copaExpansionCount = fs.existsSync(copaExpansionPath) ? JSON.parse(fs.readFileSync(copaExpansionPath, "utf8")).length : 0;
-const expectedProductCount = (baseline?.productCount ?? catalog.length - copaExpansionCount) + copaExpansionCount;
+const expectedProductCount = publicBaseline?.expectedCatalogCount
+  ?? ((baseline?.productCount ?? catalog.length - copaExpansionCount) + copaExpansionCount);
 
 if (catalog.length !== expectedProductCount) {
   errors.push({ code: "catalog_count_changed", expected: expectedProductCount, actual: catalog.length });
@@ -90,6 +93,13 @@ const report = {
   generatedAt: new Date().toISOString(),
   ok: errors.length === 0,
   catalogCount: catalog.length,
+  expectedCatalogCount: expectedProductCount,
+  publicBaseline: publicBaseline
+    ? {
+        source: "reports/public-regressions-baseline.json",
+        reason: publicBaseline.reason,
+      }
+    : null,
   metaProducts: meta.products.length,
   metaSkipped: meta.skipped.length,
   games: allGameIds,

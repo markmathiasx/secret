@@ -1,8 +1,13 @@
 {
-  "generatedAt": "2026-06-17T13:55:42.271Z",
+  "generatedAt": "2026-06-19T05:37:22.539Z",
   "ok": true,
-  "catalogCount": 864,
-  "metaProducts": 860,
+  "catalogCount": 848,
+  "expectedCatalogCount": 848,
+  "publicBaseline": {
+    "source": "reports/public-regressions-baseline.json",
+    "reason": "A auditoria semantica atualizada bloqueou 16 itens que antes estavam como FIX_TEXT/probable, pois apontavam para placeholder text cards em vez de midia curada. Nenhum produto BLOCKED permanece publico."
+  },
+  "metaProducts": 844,
   "metaSkipped": 4,
   "games": [
     "pinball-star",
@@ -21,7 +26,7 @@
   "warnings": [
     {
       "code": "meta_feed_count_not_560",
-      "actual": 860,
+      "actual": 844,
       "skipped": 4
     }
   ],

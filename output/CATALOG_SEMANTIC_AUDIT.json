@@ -1,14 +1,14 @@
 {
-  "timestamp": "2026-04-25T00:42:46.939Z",
+  "timestamp": "2026-06-19T04:54:26.897Z",
   "stats": {
     "total": 248,
     "approved": 48,
     "fixImage": 0,
-    "fixText": 16,
+    "fixText": 0,
     "fixBoth": 0,
-    "blocked": 184,
-    "with4Images": 229,
-    "placeholderCards": 181,
+    "blocked": 200,
+    "with4Images": 245,
+    "placeholderCards": 197,
     "realImages": 51
   },
   "items": [
@@ -2215,21 +2215,22 @@
       "material": "PLA Premium",
       "collection": "Curadoria CSV 160 • Chaveiros",
       "visualKind": "imagem-conceitual",
-      "imageCount": 3,
+      "imageCount": 4,
       "allImagesExist": true,
-      "isPlaceholderSet": false,
-      "placeholderReason": "curated_local_valorant_media",
+      "isPlaceholderSet": true,
+      "placeholderReason": "uniform_size_text_card",
       "semanticTextScore": 0.83,
-      "finalScore": 0.8,
-      "status": "FIX_TEXT",
-      "mediaStatus": "probable",
-      "reason": "Imagem conceitual local curada; não classificar como foto real.",
+      "finalScore": 0,
+      "status": "BLOCKED",
+      "mediaStatus": "placeholder",
+      "reason": "All 4 images are placeholder text cards (uniform_size_text_card)",
       "images": [
-        "/products/valorant/cha-001/cover.webp",
-        "/products/valorant/cha-001/2.webp",
-        "/products/valorant/cha-001/3.webp"
+        "/products/csv-cha-001-chaveiro-acrilico-premium-jett-valorant-dupla-face-para-mochila-chaves-e-setup-gamer/01-hero.jpg",
+        "/products/csv-cha-001-chaveiro-acrilico-premium-jett-valorant-dupla-face-para-mochila-chaves-e-setup-gamer/02-closeup.jpg",
+        "/products/csv-cha-001-chaveiro-acrilico-premium-jett-valorant-dupla-face-para-mochila-chaves-e-setup-gamer/03-in_use.jpg",
+        "/products/csv-cha-001-chaveiro-acrilico-premium-jett-valorant-dupla-face-para-mochila-chaves-e-setup-gamer/04-packshot.jpg"
       ],
-      "heroImage": "/products/valorant/cha-001/cover.webp"
+      "heroImage": "/products/csv-cha-001-chaveiro-acrilico-premium-jett-valorant-dupla-face-para-mochila-chaves-e-setup-gamer/01-hero.jpg"
     },
     {
       "id": "csv-cha-002",
@@ -2239,21 +2240,22 @@
       "material": "PLA Premium",
       "collection": "Curadoria CSV 160 • Chaveiros",
       "visualKind": "imagem-conceitual",
-      "imageCount": 3,
+      "imageCount": 4,
       "allImagesExist": true,
-      "isPlaceholderSet": false,
-      "placeholderReason": "curated_local_valorant_media",
+      "isPlaceholderSet": true,
+      "placeholderReason": "uniform_size_text_card",
       "semanticTextScore": 0.85,
-      "finalScore": 0.8,
-      "status": "FIX_TEXT",
-      "mediaStatus": "probable",
-      "reason": "Imagem conceitual local curada; não classificar como foto real.",
+      "finalScore": 0,
+      "status": "BLOCKED",
+      "mediaStatus": "placeholder",
+      "reason": "All 4 images are placeholder text cards (uniform_size_text_card)",
       "images": [
-        "/products/valorant/cha-002/cover.webp",
-        "/products/valorant/cha-002/2.webp",
-        "/products/valorant/cha-002/3.webp"
+        "/products/csv-cha-002-chaveiro-emborrachado-reyna-valorant-estilo-gamer-resistente-para-chaves-e-mochila/01-hero.jpg",
+        "/products/csv-cha-002-chaveiro-emborrachado-reyna-valorant-estilo-gamer-resistente-para-chaves-e-mochila/02-closeup.jpg",
+        "/products/csv-cha-002-chaveiro-emborrachado-reyna-valorant-estilo-gamer-resistente-para-chaves-e-mochila/03-in_use.jpg",
+        "/products/csv-cha-002-chaveiro-emborrachado-reyna-valorant-estilo-gamer-resistente-para-chaves-e-mochila/04-packshot.jpg"
       ],
-      "heroImage": "/products/valorant/cha-002/cover.webp"
+      "heroImage": "/products/csv-cha-002-chaveiro-emborrachado-reyna-valorant-estilo-gamer-resistente-para-chaves-e-mochila/01-hero.jpg"
     },
     {
       "id": "csv-cha-003",
@@ -2263,21 +2265,22 @@
       "material": "PLA Premium",
       "collection": "Curadoria CSV 160 • Chaveiros",
       "visualKind": "imagem-conceitual",
-      "imageCount": 3,
+      "imageCount": 4,
       "allImagesExist": true,
-      "isPlaceholderSet": false,
-      "placeholderReason": "curated_local_valorant_media",
+      "isPlaceholderSet": true,
+      "placeholderReason": "uniform_size_text_card",
       "semanticTextScore": 1,
-      "finalScore": 0.8,
-      "status": "FIX_TEXT",
-      "mediaStatus": "probable",
-      "reason": "Imagem conceitual local curada; não classificar como foto real.",
+      "finalScore": 0,
+      "status": "BLOCKED",
+      "mediaStatus": "placeholder",
+      "reason": "All 4 images are placeholder text cards (uniform_size_text_card)",
       "images": [
-        "/products/valorant/cha-003/cover.webp",
-        "/products/valorant/cha-003/2.webp",
-        "/products/valorant/cha-003/3.webp"
+        "/products/csv-cha-003-chaveiro-metalizado-sage-valorant-edicao-nerd-para-colecao-e-presente-criativo/01-hero.jpg",
+        "/products/csv-cha-003-chaveiro-metalizado-sage-valorant-edicao-nerd-para-colecao-e-presente-criativo/02-closeup.jpg",
+        "/products/csv-cha-003-chaveiro-metalizado-sage-valorant-edicao-nerd-para-colecao-e-presente-criativo/03-in_use.jpg",
+        "/products/csv-cha-003-chaveiro-metalizado-sage-valorant-edicao-nerd-para-colecao-e-presente-criativo/04-packshot.jpg"
       ],
-      "heroImage": "/products/valorant/cha-003/cover.webp"
+      "heroImage": "/products/csv-cha-003-chaveiro-metalizado-sage-valorant-edicao-nerd-para-colecao-e-presente-criativo/01-hero.jpg"
     },
     {
       "id": "csv-cha-004",
@@ -2287,21 +2290,22 @@
       "material": "PLA Premium",
       "collection": "Curadoria CSV 160 • Chaveiros",
       "visualKind": "imagem-conceitual",
-      "imageCount": 3,
+      "imageCount": 4,
       "allImagesExist": true,
-      "isPlaceholderSet": false,
-      "placeholderReason": "curated_local_valorant_media",
+      "isPlaceholderSet": true,
+      "placeholderReason": "uniform_size_text_card",
       "semanticTextScore": 0.87,
-      "finalScore": 0.8,
-      "status": "FIX_TEXT",
-      "mediaStatus": "probable",
-      "reason": "Imagem conceitual local curada; não classificar como foto real.",
+      "finalScore": 0,
+      "status": "BLOCKED",
+      "mediaStatus": "placeholder",
+      "reason": "All 4 images are placeholder text cards (uniform_size_text_card)",
       "images": [
-        "/products/valorant/cha-004/cover.webp",
-        "/products/valorant/cha-004/2.webp",
-        "/products/valorant/cha-004/3.webp"
+        "/products/csv-cha-004-chaveiro-3d-omen-valorant-mini-pingente-decorativo-para-mochila-e-setup/01-hero.jpg",
+        "/products/csv-cha-004-chaveiro-3d-omen-valorant-mini-pingente-decorativo-para-mochila-e-setup/02-closeup.jpg",
+        "/products/csv-cha-004-chaveiro-3d-omen-valorant-mini-pingente-decorativo-para-mochila-e-setup/03-in_use.jpg",
+        "/products/csv-cha-004-chaveiro-3d-omen-valorant-mini-pingente-decorativo-para-mochila-e-setup/04-packshot.jpg"
       ],
-      "heroImage": "/products/valorant/cha-004/cover.webp"
+      "heroImage": "/products/csv-cha-004-chaveiro-3d-omen-valorant-mini-pingente-decorativo-para-mochila-e-setup/01-hero.jpg"
     },
     {
       "id": "csv-cha-005",
@@ -3211,21 +3215,22 @@
       "material": "PLA Silk",
       "collection": "Curadoria CSV 160 • Decoração",
       "visualKind": "imagem-conceitual",
-      "imageCount": 3,
+      "imageCount": 4,
       "allImagesExist": true,
-      "isPlaceholderSet": false,
-      "placeholderReason": "curated_local_valorant_media",
+      "isPlaceholderSet": true,
+      "placeholderReason": "uniform_size_text_card",
       "semanticTextScore": 0.94,
-      "finalScore": 0.8,
-      "status": "FIX_TEXT",
-      "mediaStatus": "probable",
-      "reason": "Imagem conceitual local curada; não classificar como foto real.",
+      "finalScore": 0,
+      "status": "BLOCKED",
+      "mediaStatus": "placeholder",
+      "reason": "All 4 images are placeholder text cards (uniform_size_text_card)",
       "images": [
-        "/products/valorant/dec-001/cover.webp",
-        "/products/valorant/dec-001/2.webp",
-        "/products/valorant/dec-001/3.webp"
+        "/products/csv-dec-001-luminaria-decorativa-jett-valorant-led-para-quarto-gamer-mesa-e-setup-nerd/01-hero.jpg",
+        "/products/csv-dec-001-luminaria-decorativa-jett-valorant-led-para-quarto-gamer-mesa-e-setup-nerd/02-closeup.jpg",
+        "/products/csv-dec-001-luminaria-decorativa-jett-valorant-led-para-quarto-gamer-mesa-e-setup-nerd/03-in_use.jpg",
+        "/products/csv-dec-001-luminaria-decorativa-jett-valorant-led-para-quarto-gamer-mesa-e-setup-nerd/04-packshot.jpg"
       ],
-      "heroImage": "/products/valorant/dec-001/cover.webp"
+      "heroImage": "/products/csv-dec-001-luminaria-decorativa-jett-valorant-led-para-quarto-gamer-mesa-e-setup-nerd/01-hero.jpg"
     },
     {
       "id": "csv-dec-002",
@@ -3235,21 +3240,22 @@
       "material": "PLA Silk",
       "collection": "Curadoria CSV 160 • Decoração",
       "visualKind": "imagem-conceitual",
-      "imageCount": 3,
+      "imageCount": 4,
       "allImagesExist": true,
-      "isPlaceholderSet": false,
-      "placeholderReason": "curated_local_valorant_media",
+      "isPlaceholderSet": true,
+      "placeholderReason": "uniform_size_text_card",
       "semanticTextScore": 0.94,
-      "finalScore": 0.8,
-      "status": "FIX_TEXT",
-      "mediaStatus": "probable",
-      "reason": "Imagem conceitual local curada; não classificar como foto real.",
+      "finalScore": 0,
+      "status": "BLOCKED",
+      "mediaStatus": "placeholder",
+      "reason": "All 4 images are placeholder text cards (uniform_size_text_card)",
       "images": [
-        "/products/valorant/dec-002/cover.webp",
-        "/products/valorant/dec-002/2.webp",
-        "/products/valorant/dec-002/3.webp"
+        "/products/csv-dec-002-quadro-decorativo-reyna-valorant-premium-para-parede-de-quarto-gamer-e-home-office/01-hero.jpg",
+        "/products/csv-dec-002-quadro-decorativo-reyna-valorant-premium-para-parede-de-quarto-gamer-e-home-office/02-closeup.jpg",
+        "/products/csv-dec-002-quadro-decorativo-reyna-valorant-premium-para-parede-de-quarto-gamer-e-home-office/03-in_use.jpg",
+        "/products/csv-dec-002-quadro-decorativo-reyna-valorant-premium-para-parede-de-quarto-gamer-e-home-office/04-packshot.jpg"
       ],
-      "heroImage": "/products/valorant/dec-002/cover.webp"
+      "heroImage": "/products/csv-dec-002-quadro-decorativo-reyna-valorant-premium-para-parede-de-quarto-gamer-e-home-office/01-hero.jpg"
     },
     {
       "id": "csv-dec-003",
@@ -3259,21 +3265,22 @@
       "material": "PLA Silk",
       "collection": "Curadoria CSV 160 • Decoração",
       "visualKind": "imagem-conceitual",
-      "imageCount": 3,
+      "imageCount": 4,
       "allImagesExist": true,
-      "isPlaceholderSet": false,
-      "placeholderReason": "curated_local_valorant_media",
+      "isPlaceholderSet": true,
+      "placeholderReason": "uniform_size_text_card",
       "semanticTextScore": 0.94,
-      "finalScore": 0.8,
-      "status": "FIX_TEXT",
-      "mediaStatus": "probable",
-      "reason": "Imagem conceitual local curada; não classificar como foto real.",
+      "finalScore": 0,
+      "status": "BLOCKED",
+      "mediaStatus": "placeholder",
+      "reason": "All 4 images are placeholder text cards (uniform_size_text_card)",
       "images": [
-        "/products/valorant/dec-003/cover.webp",
-        "/products/valorant/dec-003/2.webp",
-        "/products/valorant/dec-003/3.webp"
+        "/products/csv-dec-003-almofada-decorativa-sage-valorant-para-sofa-cama-e-espaco-geek/01-hero.jpg",
+        "/products/csv-dec-003-almofada-decorativa-sage-valorant-para-sofa-cama-e-espaco-geek/02-closeup.jpg",
+        "/products/csv-dec-003-almofada-decorativa-sage-valorant-para-sofa-cama-e-espaco-geek/03-in_use.jpg",
+        "/products/csv-dec-003-almofada-decorativa-sage-valorant-para-sofa-cama-e-espaco-geek/04-packshot.jpg"
       ],
-      "heroImage": "/products/valorant/dec-003/cover.webp"
+      "heroImage": "/products/csv-dec-003-almofada-decorativa-sage-valorant-para-sofa-cama-e-espaco-geek/01-hero.jpg"
     },
     {
       "id": "csv-dec-004",
@@ -3283,21 +3290,22 @@
       "material": "PLA Silk",
       "collection": "Curadoria CSV 160 • Decoração",
       "visualKind": "imagem-conceitual",
-      "imageCount": 3,
+      "imageCount": 4,
       "allImagesExist": true,
-      "isPlaceholderSet": false,
-      "placeholderReason": "curated_local_valorant_media",
+      "isPlaceholderSet": true,
+      "placeholderReason": "uniform_size_text_card",
       "semanticTextScore": 0.94,
-      "finalScore": 0.8,
-      "status": "FIX_TEXT",
-      "mediaStatus": "probable",
-      "reason": "Imagem conceitual local curada; não classificar como foto real.",
+      "finalScore": 0,
+      "status": "BLOCKED",
+      "mediaStatus": "placeholder",
+      "reason": "All 4 images are placeholder text cards (uniform_size_text_card)",
       "images": [
-        "/products/valorant/dec-004/cover.webp",
-        "/products/valorant/dec-004/2.webp",
-        "/products/valorant/dec-004/3.webp"
+        "/products/csv-dec-004-placa-decorativa-omen-valorant-estilo-geek-para-porta-parede-e-setup/01-hero.jpg",
+        "/products/csv-dec-004-placa-decorativa-omen-valorant-estilo-geek-para-porta-parede-e-setup/02-closeup.jpg",
+        "/products/csv-dec-004-placa-decorativa-omen-valorant-estilo-geek-para-porta-parede-e-setup/03-in_use.jpg",
+        "/products/csv-dec-004-placa-decorativa-omen-valorant-estilo-geek-para-porta-parede-e-setup/04-packshot.jpg"
       ],
-      "heroImage": "/products/valorant/dec-004/cover.webp"
+      "heroImage": "/products/csv-dec-004-placa-decorativa-omen-valorant-estilo-geek-para-porta-parede-e-setup/01-hero.jpg"
     },
     {
       "id": "csv-dec-005",
@@ -4207,21 +4215,22 @@
       "material": "PLA+ Reforçado",
       "collection": "Curadoria CSV 160 • Utilitários/Ferramentas",
       "visualKind": "imagem-conceitual",
-      "imageCount": 3,
+      "imageCount": 4,
       "allImagesExist": true,
-      "isPlaceholderSet": false,
-      "placeholderReason": "curated_local_valorant_media",
+      "isPlaceholderSet": true,
+      "placeholderReason": "uniform_size_text_card",
       "semanticTextScore": 0.94,
-      "finalScore": 0.8,
-      "status": "FIX_TEXT",
-      "mediaStatus": "probable",
-      "reason": "Imagem conceitual local curada; não classificar como foto real.",
+      "finalScore": 0,
+      "status": "BLOCKED",
+      "mediaStatus": "placeholder",
+      "reason": "All 4 images are placeholder text cards (uniform_size_text_card)",
       "images": [
-        "/products/valorant/uti-001/cover.webp",
-        "/products/valorant/uti-001/2.webp",
-        "/products/valorant/uti-001/3.webp"
+        "/products/csv-uti-001-kit-ferramenta-gamer-jett-valorant-organizador-utilitario-para-mesa-cabos-e-setup/01-hero.jpg",
+        "/products/csv-uti-001-kit-ferramenta-gamer-jett-valorant-organizador-utilitario-para-mesa-cabos-e-setup/02-closeup.jpg",
+        "/products/csv-uti-001-kit-ferramenta-gamer-jett-valorant-organizador-utilitario-para-mesa-cabos-e-setup/03-in_use.jpg",
+        "/products/csv-uti-001-kit-ferramenta-gamer-jett-valorant-organizador-utilitario-para-mesa-cabos-e-setup/04-packshot.jpg"
       ],
-      "heroImage": "/products/valorant/uti-001/cover.webp"
+      "heroImage": "/products/csv-uti-001-kit-ferramenta-gamer-jett-valorant-organizador-utilitario-para-mesa-cabos-e-setup/01-hero.jpg"
     },
     {
       "id": "csv-uti-002",
@@ -4231,21 +4240,22 @@
       "material": "PLA+ Reforçado",
       "collection": "Curadoria CSV 160 • Utilitários/Ferramentas",
       "visualKind": "imagem-conceitual",
-      "imageCount": 3,
+      "imageCount": 4,
       "allImagesExist": true,
-      "isPlaceholderSet": false,
-      "placeholderReason": "curated_local_valorant_media",
+      "isPlaceholderSet": true,
+      "placeholderReason": "uniform_size_text_card",
       "semanticTextScore": 0.94,
-      "finalScore": 0.8,
-      "status": "FIX_TEXT",
-      "mediaStatus": "probable",
-      "reason": "Imagem conceitual local curada; não classificar como foto real.",
+      "finalScore": 0,
+      "status": "BLOCKED",
+      "mediaStatus": "placeholder",
+      "reason": "All 4 images are placeholder text cards (uniform_size_text_card)",
       "images": [
-        "/products/valorant/uti-002/cover.webp",
-        "/products/valorant/uti-002/2.webp",
-        "/products/valorant/uti-002/3.webp"
+        "/products/csv-uti-002-porta-ferramentas-reyna-valorant-para-mesa-gamer-oficina-criativa-e-home-office/01-hero.jpg",
+        "/products/csv-uti-002-porta-ferramentas-reyna-valorant-para-mesa-gamer-oficina-criativa-e-home-office/02-closeup.jpg",
+        "/products/csv-uti-002-porta-ferramentas-reyna-valorant-para-mesa-gamer-oficina-criativa-e-home-office/03-in_use.jpg",
+        "/products/csv-uti-002-porta-ferramentas-reyna-valorant-para-mesa-gamer-oficina-criativa-e-home-office/04-packshot.jpg"
       ],
-      "heroImage": "/products/valorant/uti-002/cover.webp"
+      "heroImage": "/products/csv-uti-002-porta-ferramentas-reyna-valorant-para-mesa-gamer-oficina-criativa-e-home-office/01-hero.jpg"
     },
     {
       "id": "csv-uti-003",
@@ -4255,21 +4265,22 @@
       "material": "PLA+ Reforçado",
       "collection": "Curadoria CSV 160 • Utilitários/Ferramentas",
       "visualKind": "imagem-conceitual",
-      "imageCount": 3,
+      "imageCount": 4,
       "allImagesExist": true,
-      "isPlaceholderSet": false,
-      "placeholderReason": "curated_local_valorant_media",
+      "isPlaceholderSet": true,
+      "placeholderReason": "uniform_size_text_card",
       "semanticTextScore": 0.94,
-      "finalScore": 0.8,
-      "status": "FIX_TEXT",
-      "mediaStatus": "probable",
-      "reason": "Imagem conceitual local curada; não classificar como foto real.",
+      "finalScore": 0,
+      "status": "BLOCKED",
+      "mediaStatus": "placeholder",
+      "reason": "All 4 images are placeholder text cards (uniform_size_text_card)",
       "images": [
-        "/products/valorant/uti-003/cover.webp",
-        "/products/valorant/uti-003/2.webp",
-        "/products/valorant/uti-003/3.webp"
+        "/products/csv-uti-003-suporte-multiuso-sage-valorant-para-headset-controle-cabos-e-acessorios/01-hero.jpg",
+        "/products/csv-uti-003-suporte-multiuso-sage-valorant-para-headset-controle-cabos-e-acessorios/02-closeup.jpg",
+        "/products/csv-uti-003-suporte-multiuso-sage-valorant-para-headset-controle-cabos-e-acessorios/03-in_use.jpg",
+        "/products/csv-uti-003-suporte-multiuso-sage-valorant-para-headset-controle-cabos-e-acessorios/04-packshot.jpg"
       ],
-      "heroImage": "/products/valorant/uti-003/cover.webp"
+      "heroImage": "/products/csv-uti-003-suporte-multiuso-sage-valorant-para-headset-controle-cabos-e-acessorios/01-hero.jpg"
     },
     {
       "id": "csv-uti-004",
@@ -4279,21 +4290,22 @@
       "material": "PLA+ Reforçado",
       "collection": "Curadoria CSV 160 • Utilitários/Ferramentas",
       "visualKind": "imagem-conceitual",
-      "imageCount": 3,
+      "imageCount": 4,
       "allImagesExist": true,
-      "isPlaceholderSet": false,
-      "placeholderReason": "curated_local_valorant_media",
+      "isPlaceholderSet": true,
+      "placeholderReason": "uniform_size_text_card",
       "semanticTextScore": 0.94,
-      "finalScore": 0.8,
-      "status": "FIX_TEXT",
-      "mediaStatus": "probable",
-      "reason": "Imagem conceitual local curada; não classificar como foto real.",
+      "finalScore": 0,
+      "status": "BLOCKED",
+      "mediaStatus": "placeholder",
+      "reason": "All 4 images are placeholder text cards (uniform_size_text_card)",
       "images": [
-        "/products/valorant/uti-004/cover.webp",
-        "/products/valorant/uti-004/2.webp",
-        "/products/valorant/uti-004/3.webp"
+        "/products/csv-uti-004-organizador-modular-omen-valorant-para-ferramentas-leves-pecas-e-acessorios-nerd/01-hero.jpg",
+        "/products/csv-uti-004-organizador-modular-omen-valorant-para-ferramentas-leves-pecas-e-acessorios-nerd/02-closeup.jpg",
+        "/products/csv-uti-004-organizador-modular-omen-valorant-para-ferramentas-leves-pecas-e-acessorios-nerd/03-in_use.jpg",
+        "/products/csv-uti-004-organizador-modular-omen-valorant-para-ferramentas-leves-pecas-e-acessorios-nerd/04-packshot.jpg"
       ],
-      "heroImage": "/products/valorant/uti-004/cover.webp"
+      "heroImage": "/products/csv-uti-004-organizador-modular-omen-valorant-para-ferramentas-leves-pecas-e-acessorios-nerd/01-hero.jpg"
     },
     {
       "id": "csv-uti-005",
@@ -5203,21 +5215,22 @@
       "material": "PLA Premium",
       "collection": "Curadoria CSV 160 • Colecionáveis/Merch",
       "visualKind": "imagem-conceitual",
-      "imageCount": 3,
+      "imageCount": 4,
       "allImagesExist": true,
-      "isPlaceholderSet": false,
-      "placeholderReason": "curated_local_valorant_media",
+      "isPlaceholderSet": true,
+      "placeholderReason": "uniform_size_text_card",
       "semanticTextScore": 0.94,
-      "finalScore": 0.8,
-      "status": "FIX_TEXT",
-      "mediaStatus": "probable",
-      "reason": "Imagem conceitual local curada; não classificar como foto real.",
+      "finalScore": 0,
+      "status": "BLOCKED",
+      "mediaStatus": "placeholder",
+      "reason": "All 4 images are placeholder text cards (uniform_size_text_card)",
       "images": [
-        "/products/valorant/col-001/cover.webp",
-        "/products/valorant/col-001/2.webp",
-        "/products/valorant/col-001/3.webp"
+        "/products/csv-col-001-mini-estatua-colecionavel-jett-valorant-edicao-decor-para-estante-mesa-e-setup/01-hero.jpg",
+        "/products/csv-col-001-mini-estatua-colecionavel-jett-valorant-edicao-decor-para-estante-mesa-e-setup/02-closeup.jpg",
+        "/products/csv-col-001-mini-estatua-colecionavel-jett-valorant-edicao-decor-para-estante-mesa-e-setup/03-in_use.jpg",
+        "/products/csv-col-001-mini-estatua-colecionavel-jett-valorant-edicao-decor-para-estante-mesa-e-setup/04-packshot.jpg"
       ],
-      "heroImage": "/products/valorant/col-001/cover.webp"
+      "heroImage": "/products/csv-col-001-mini-estatua-colecionavel-jett-valorant-edicao-decor-para-estante-mesa-e-setup/01-hero.jpg"
     },
     {
       "id": "csv-col-002",
@@ -5227,21 +5240,22 @@
       "material": "PLA Premium",
       "collection": "Curadoria CSV 160 • Colecionáveis/Merch",
       "visualKind": "imagem-conceitual",
-      "imageCount": 3,
+      "imageCount": 4,
       "allImagesExist": true,
-      "isPlaceholderSet": false,
-      "placeholderReason": "curated_local_valorant_media",
+      "isPlaceholderSet": true,
+      "placeholderReason": "uniform_size_text_card",
       "semanticTextScore": 0.94,
-      "finalScore": 0.8,
-      "status": "FIX_TEXT",
-      "mediaStatus": "probable",
-      "reason": "Imagem conceitual local curada; não classificar como foto real.",
+      "finalScore": 0,
+      "status": "BLOCKED",
+      "mediaStatus": "placeholder",
+      "reason": "All 4 images are placeholder text cards (uniform_size_text_card)",
       "images": [
-        "/products/valorant/col-002/cover.webp",
-        "/products/valorant/col-002/2.webp",
-        "/products/valorant/col-002/3.webp"
+        "/products/csv-col-002-caneca-colecionavel-reyna-valorant-nerd-premium-para-cafe-desk-e-presente/01-hero.jpg",
+        "/products/csv-col-002-caneca-colecionavel-reyna-valorant-nerd-premium-para-cafe-desk-e-presente/02-closeup.jpg",
+        "/products/csv-col-002-caneca-colecionavel-reyna-valorant-nerd-premium-para-cafe-desk-e-presente/03-in_use.jpg",
+        "/products/csv-col-002-caneca-colecionavel-reyna-valorant-nerd-premium-para-cafe-desk-e-presente/04-packshot.jpg"
       ],
-      "heroImage": "/products/valorant/col-002/cover.webp"
+      "heroImage": "/products/csv-col-002-caneca-colecionavel-reyna-valorant-nerd-premium-para-cafe-desk-e-presente/01-hero.jpg"
     },
     {
       "id": "csv-col-003",
@@ -5251,21 +5265,22 @@
       "material": "PLA Premium",
       "collection": "Curadoria CSV 160 • Colecionáveis/Merch",
       "visualKind": "imagem-conceitual",
-      "imageCount": 3,
+      "imageCount": 4,
       "allImagesExist": true,
-      "isPlaceholderSet": false,
-      "placeholderReason": "curated_local_valorant_media",
+      "isPlaceholderSet": true,
+      "placeholderReason": "uniform_size_text_card",
       "semanticTextScore": 0.94,
-      "finalScore": 0.8,
-      "status": "FIX_TEXT",
-      "mediaStatus": "probable",
-      "reason": "Imagem conceitual local curada; não classificar como foto real.",
+      "finalScore": 0,
+      "status": "BLOCKED",
+      "mediaStatus": "placeholder",
+      "reason": "All 4 images are placeholder text cards (uniform_size_text_card)",
       "images": [
-        "/products/valorant/col-003/cover.webp",
-        "/products/valorant/col-003/2.webp",
-        "/products/valorant/col-003/3.webp"
+        "/products/csv-col-003-mousepad-colecionavel-sage-valorant-desk-mat-gamer-para-setup-profissional/01-hero.jpg",
+        "/products/csv-col-003-mousepad-colecionavel-sage-valorant-desk-mat-gamer-para-setup-profissional/02-closeup.jpg",
+        "/products/csv-col-003-mousepad-colecionavel-sage-valorant-desk-mat-gamer-para-setup-profissional/03-in_use.jpg",
+        "/products/csv-col-003-mousepad-colecionavel-sage-valorant-desk-mat-gamer-para-setup-profissional/04-packshot.jpg"
       ],
-      "heroImage": "/products/valorant/col-003/cover.webp"
+      "heroImage": "/products/csv-col-003-mousepad-colecionavel-sage-valorant-desk-mat-gamer-para-setup-profissional/01-hero.jpg"
     },
     {
       "id": "csv-col-004",
@@ -5275,21 +5290,22 @@
       "material": "PLA Premium",
       "collection": "Curadoria CSV 160 • Colecionáveis/Merch",
       "visualKind": "imagem-conceitual",
-      "imageCount": 3,
+      "imageCount": 4,
       "allImagesExist": true,
-      "isPlaceholderSet": false,
-      "placeholderReason": "curated_local_valorant_media",
+      "isPlaceholderSet": true,
+      "placeholderReason": "uniform_size_text_card",
       "semanticTextScore": 1,
-      "finalScore": 0.8,
-      "status": "FIX_TEXT",
-      "mediaStatus": "probable",
-      "reason": "Imagem conceitual local curada; não classificar como foto real.",
+      "finalScore": 0,
+      "status": "BLOCKED",
+      "mediaStatus": "placeholder",
+      "reason": "All 4 images are placeholder text cards (uniform_size_text_card)",
       "images": [
-        "/products/valorant/col-004/cover.webp",
-        "/products/valorant/col-004/2.webp",
-        "/products/valorant/col-004/3.webp"
+        "/products/csv-col-004-poster-premium-omen-valorant-colecionavel-para-parede-estudio-e-espaco-geek/01-hero.jpg",
+        "/products/csv-col-004-poster-premium-omen-valorant-colecionavel-para-parede-estudio-e-espaco-geek/02-closeup.jpg",
+        "/products/csv-col-004-poster-premium-omen-valorant-colecionavel-para-parede-estudio-e-espaco-geek/03-in_use.jpg",
+        "/products/csv-col-004-poster-premium-omen-valorant-colecionavel-para-parede-estudio-e-espaco-geek/04-packshot.jpg"
       ],
-      "heroImage": "/products/valorant/col-004/cover.webp"
+      "heroImage": "/products/csv-col-004-poster-premium-omen-valorant-colecionavel-para-parede-estudio-e-espaco-geek/01-hero.jpg"
     },
     {
       "id": "csv-col-005",
