@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-06-06T06:40:13.436Z",
+  "generatedAt": "2026-06-19T10:09:05.695Z",
   "ok": true,
-  "productsIndexed": 564,
+  "productsIndexed": 848,
   "issues": [],
   "promptResults": [
     {
@@ -10,49 +10,49 @@
       "handoff": false,
       "products": [
         {
-          "id": "csv-cha-004",
-          "name": "Chaveiro 3D Omen Valorant Mini Pingente Decorativo para Mochila e Setup",
-          "pricePix": 9.32,
-          "priceCard": 10.32,
-          "url": "/loja/chaveiros-e-acessorios/csv-cha-004-chaveiro-3d-omen-valorant-mini-pingente-decorativo-para-mochila-e-setup"
+          "id": "copa-031",
+          "name": "Tag Mochila Futebol de Mesa Copa 2026",
+          "pricePix": 13.49,
+          "priceCard": 14.49,
+          "url": "/loja/chaveiros-e-acessorios/copa-031-tag-mochila-futebol-de-mesa-copa-2026-copa-031"
+        },
+        {
+          "id": "copa-022",
+          "name": "Tag Mochila Futebol Slim Copa 2026",
+          "pricePix": 13.52,
+          "priceCard": 14.52,
+          "url": "/loja/chaveiros-e-acessorios/copa-022-tag-mochila-futebol-slim-copa-2026-copa-022"
+        },
+        {
+          "id": "copa-008",
+          "name": "Tag Mochila Futebol Mini Copa 2026",
+          "pricePix": 14.42,
+          "priceCard": 15.42,
+          "url": "/loja/chaveiros-e-acessorios/copa-008-tag-mochila-futebol-mini-copa-2026-copa-008"
+        },
+        {
+          "id": "copa-013",
+          "name": "Tag Mochila Futebol Mini Copa 2026",
+          "pricePix": 17,
+          "priceCard": 18,
+          "url": "/loja/chaveiros-e-acessorios/copa-013-tag-mochila-futebol-mini-copa-2026-copa-013"
+        },
+        {
+          "id": "copa-010",
+          "name": "Tag Mochila Futebol Personalizado Copa 2026",
+          "pricePix": 19.38,
+          "priceCard": 20.38,
+          "url": "/loja/chaveiros-e-acessorios/copa-010-tag-mochila-futebol-personalizado-copa-2026-copa-010"
         },
         {
           "id": "mdh-016",
           "name": "Chaveiro Personalizado",
-          "pricePix": 7.49,
-          "priceCard": 8.49,
+          "pricePix": 7.14,
+          "priceCard": 8.14,
           "url": "/loja/chaveiros-e-acessorios/mdh-016-chaveiro-personalizado"
-        },
-        {
-          "id": "csv-cha-001",
-          "name": "Chaveiro Acrílico Premium Jett Valorant Dupla Face para Mochila, Chaves e Setup Gamer",
-          "pricePix": 8.41,
-          "priceCard": 9.41,
-          "url": "/loja/chaveiros-e-acessorios/csv-cha-001-chaveiro-acrilico-premium-jett-valorant-dupla-face-para-mochila-chaves-e-setup-gamer"
-        },
-        {
-          "id": "csv-cha-002",
-          "name": "Chaveiro Emborrachado Reyna Valorant Estilo Gamer Resistente para Chaves e Mochila",
-          "pricePix": 8.41,
-          "priceCard": 9.41,
-          "url": "/loja/chaveiros-e-acessorios/csv-cha-002-chaveiro-emborrachado-reyna-valorant-estilo-gamer-resistente-para-chaves-e-mochila"
-        },
-        {
-          "id": "csv-cha-006",
-          "name": "Chaveiro Emborrachado Yasuo League of Legends Estilo Gamer Resistente para Chaves e Mochila",
-          "pricePix": 8.41,
-          "priceCard": 9.41,
-          "url": "/loja/chaveiros-e-acessorios/csv-cha-006-chaveiro-emborrachado-yasuo-league-of-legends-estilo-gamer-resistente-para-chaves-e-mochila"
-        },
-        {
-          "id": "csv-cha-003",
-          "name": "Chaveiro Metalizado Sage Valorant Edição Nerd para Coleção e Presente Criativo",
-          "pricePix": 9.32,
-          "priceCard": 10.32,
-          "url": "/loja/chaveiros-e-acessorios/csv-cha-003-chaveiro-metalizado-sage-valorant-edicao-nerd-para-colecao-e-presente-criativo"
         }
       ],
-      "replyPreview": "Encontrei opções reais de chaveiros e itens próximos no catálogo.\n\nFaixa desta seleção: R$ 7,49 a R$ 9,32 no Pix.\n\n- Chaveiro 3D Omen Valorant Mini Pingente Decorativo para Mochila e Setup: Pix R$ 9,32; cartão R$ 10,32; prazo 3 a 7 dias; link /loja/chaveiros-e-acessorios/csv-cha-004-chaveiro-3d-omen-valorant-mini-pingente-decorativo-para-mochila-e-setup\n- Ch",
+      "replyPreview": "Encontrei opções reais de chaveiros e itens próximos no catálogo.\n\nFaixa desta seleção: R$ 7,14 a R$ 19,38 no Pix.\n\n- Tag Mochila Futebol de Mesa Copa 2026: Pix R$ 13,49; cartão R$ 14,49; prazo 2 a 5 dias uteis; link /loja/chaveiros-e-acessorios/copa-031-tag-mochila-futebol-de-mesa-copa-2026-copa-031\n- Tag Mochila Futebol Slim Copa 2026: Pix R$ 13,52; cartão",
       "issues": []
     },
     {
@@ -63,47 +63,47 @@
         {
           "id": "mw-a1-452",
           "name": "Tag para Pet Compacto para rotina do pet",
-          "pricePix": 5.66,
-          "priceCard": 6.66,
+          "pricePix": 4.76,
+          "priceCard": 5.76,
           "url": "/loja/chaveiros-e-acessorios/mw-a1-452-tag-para-pet-compacto-para-rotina-do-pet"
         },
         {
           "id": "mw-a1-455",
           "name": "Tag para Pet Dobrável para rotina do pet",
-          "pricePix": 5.66,
-          "priceCard": 6.66,
+          "pricePix": 4.76,
+          "priceCard": 5.76,
           "url": "/loja/chaveiros-e-acessorios/mw-a1-455-tag-para-pet-dobravel-para-rotina-do-pet"
         },
         {
           "id": "mw-a1-451",
           "name": "Acessório Leve para Pet Modular para identificação",
-          "pricePix": 5.66,
-          "priceCard": 6.66,
+          "pricePix": 4.76,
+          "priceCard": 5.76,
           "url": "/loja/casa-e-organizacao/mw-a1-451-acessorio-leve-para-pet-modular-para-identificacao"
         },
         {
           "id": "mw-a1-454",
           "name": "Acessório Leve para Pet Ajustável para identificação",
-          "pricePix": 5.66,
-          "priceCard": 6.66,
+          "pricePix": 4.76,
+          "priceCard": 5.76,
           "url": "/loja/casa-e-organizacao/mw-a1-454-acessorio-leve-para-pet-ajustavel-para-identificacao"
         },
         {
           "id": "mw-a1-457",
           "name": "Acessório Leve para Pet de Bancada para identificação",
-          "pricePix": 5.66,
-          "priceCard": 6.66,
+          "pricePix": 4.76,
+          "priceCard": 5.76,
           "url": "/loja/casa-e-organizacao/mw-a1-457-acessorio-leve-para-pet-de-bancada-para-identificacao"
         },
         {
           "id": "mw-a1-428",
           "name": "Tag de Presente Compacto para lembrança afetiva",
-          "pricePix": 6.58,
-          "priceCard": 7.58,
+          "pricePix": 5.95,
+          "priceCard": 6.95,
           "url": "/loja/chaveiros-e-acessorios/mw-a1-428-tag-de-presente-compacto-para-lembranca-afetiva"
         }
       ],
-      "replyPreview": "Separei presentes reais até R$ 50, começando pelos menores preços.\n\nFaixa desta seleção: R$ 5,66 a R$ 6,58 no Pix.\n\n- Tag para Pet Compacto para rotina do pet: Pix R$ 5,66; cartão R$ 6,66; prazo 3 a 5 dias; link /loja/chaveiros-e-acessorios/mw-a1-452-tag-para-pet-compacto-para-rotina-do-pet\n- Tag para Pet Dobrável para rotina do pet: Pix R$ 5,66; cartão R$ 6",
+      "replyPreview": "Separei presentes reais até R$ 50, começando pelos menores preços.\n\nFaixa desta seleção: R$ 4,76 a R$ 5,95 no Pix.\n\n- Tag para Pet Compacto para rotina do pet: Pix R$ 4,76; cartão R$ 5,76; prazo 3 a 5 dias; link /loja/chaveiros-e-acessorios/mw-a1-452-tag-para-pet-compacto-para-rotina-do-pet\n- Tag para Pet Dobrável para rotina do pet: Pix R$ 4,76; cartão R$ 5",
       "issues": []
     },
     {
@@ -114,47 +114,47 @@
         {
           "id": "mdh-067",
           "name": "mascote elétrico tema geek Chibi",
-          "pricePix": 7.49,
-          "priceCard": 8.49,
+          "pricePix": 7.14,
+          "priceCard": 8.14,
           "url": "/loja/geek-colecionaveis/mdh-067-mascote-eletrico-tema-geek-chibi"
+        },
+        {
+          "id": "mdh-064",
+          "name": "Pirata de Anime Chibi",
+          "pricePix": 8.33,
+          "priceCard": 9.33,
+          "url": "/loja/geek-colecionaveis/mdh-064-pirata-de-anime-chibi"
         },
         {
           "id": "mw-a1-311",
           "name": "Miniatura Geek com Divisórias para estante",
-          "pricePix": 7.49,
-          "priceCard": 8.49,
+          "pricePix": 7.14,
+          "priceCard": 8.14,
           "url": "/loja/geek-colecionaveis/mw-a1-311-miniatura-geek-com-divisorias-para-estante"
         },
         {
           "id": "mw-a1-313",
           "name": "Colecionável de Mesa Slim para presente geek neutro",
-          "pricePix": 7.49,
-          "priceCard": 8.49,
+          "pricePix": 7.14,
+          "priceCard": 8.14,
           "url": "/loja/geek-colecionaveis/mw-a1-313-colecionavel-de-mesa-slim-para-presente-geek-neutro"
         },
         {
           "id": "mw-a1-317",
           "name": "Miniatura Geek de Bancada para estante",
-          "pricePix": 7.49,
-          "priceCard": 8.49,
+          "pricePix": 7.14,
+          "priceCard": 8.14,
           "url": "/loja/geek-colecionaveis/mw-a1-317-miniatura-geek-de-bancada-para-estante"
         },
         {
           "id": "mw-a1-320",
           "name": "Miniatura Geek Minimalista para estante",
-          "pricePix": 7.49,
-          "priceCard": 8.49,
+          "pricePix": 7.14,
+          "priceCard": 8.14,
           "url": "/loja/geek-colecionaveis/mw-a1-320-miniatura-geek-minimalista-para-estante"
-        },
-        {
-          "id": "mw-a1-323",
-          "name": "Miniatura Geek para Uso Diário para estante",
-          "pricePix": 7.49,
-          "priceCard": 8.49,
-          "url": "/loja/geek-colecionaveis/mw-a1-323-miniatura-geek-para-uso-diario-para-estante"
         }
       ],
-      "replyPreview": "Separei opções reais com perfil geek, colecionável ou fandom.\n\nFaixa desta seleção: R$ 7,49 a R$ 7,49 no Pix.\n\n- mascote elétrico tema geek Chibi: Pix R$ 7,49; cartão R$ 8,49; prazo 24h a 48h; link /loja/geek-colecionaveis/mdh-067-mascote-eletrico-tema-geek-chibi\n- Miniatura Geek com Divisórias para estante: Pix R$ 7,49; cartão R$ 8,49; prazo 3 a 5 dias; lin",
+      "replyPreview": "Separei opções reais com perfil geek, colecionável ou fandom.\n\nFaixa desta seleção: R$ 7,14 a R$ 8,33 no Pix.\n\n- mascote elétrico tema geek Chibi: Pix R$ 7,14; cartão R$ 8,14; prazo 24h a 48h; link /loja/geek-colecionaveis/mdh-067-mascote-eletrico-tema-geek-chibi\n- Pirata de Anime Chibi: Pix R$ 8,33; cartão R$ 9,33; prazo 24h a 48h; link /loja/geek-coleciona",
       "issues": []
     },
     {
@@ -165,47 +165,47 @@
         {
           "id": "mw-a1-097",
           "name": "Caixa Organizadora Gridfinity para mesa e gaveta",
-          "pricePix": 14.84,
-          "priceCard": 15.84,
+          "pricePix": 16.69,
+          "priceCard": 17.69,
           "url": "/loja/casa-e-organizacao/mw-a1-097-caixa-organizadora-gridfinity-para-mesa-e-gaveta"
         },
         {
           "id": "mw-a1-100",
           "name": "Caixa Organizadora Mini para mesa e gaveta",
-          "pricePix": 14.84,
-          "priceCard": 15.84,
+          "pricePix": 16.69,
+          "priceCard": 17.69,
           "url": "/loja/casa-e-organizacao/mw-a1-100-caixa-organizadora-mini-para-mesa-e-gaveta"
         },
         {
           "id": "mw-a1-103",
           "name": "Caixa Organizadora Mini para mesa e gaveta com uso intuitivo",
-          "pricePix": 14.84,
-          "priceCard": 15.84,
+          "pricePix": 16.69,
+          "priceCard": 17.69,
           "url": "/loja/casa-e-organizacao/mw-a1-103-caixa-organizadora-mini-para-mesa-e-gaveta-com-uso-intuitivo"
         },
         {
           "id": "mw-a1-106",
           "name": "Caixa Organizadora Empilhável para mesa e gaveta",
-          "pricePix": 14.84,
-          "priceCard": 15.84,
+          "pricePix": 16.69,
+          "priceCard": 17.69,
           "url": "/loja/casa-e-organizacao/mw-a1-106-caixa-organizadora-empilhavel-para-mesa-e-gaveta"
         },
         {
           "id": "mw-a1-109",
           "name": "Caixa Organizadora Gridfinity para mesa e gaveta com corpo reforçado",
-          "pricePix": 14.84,
-          "priceCard": 15.84,
+          "pricePix": 16.69,
+          "priceCard": 17.69,
           "url": "/loja/casa-e-organizacao/mw-a1-109-caixa-organizadora-gridfinity-para-mesa-e-gaveta-com-corpo-reforcado"
         },
         {
           "id": "mw-a1-112",
           "name": "Caixa Organizadora com Pegada Prática para mesa e gaveta",
-          "pricePix": 14.84,
-          "priceCard": 15.84,
+          "pricePix": 16.69,
+          "priceCard": 17.69,
           "url": "/loja/casa-e-organizacao/mw-a1-112-caixa-organizadora-com-pegada-pratica-para-mesa-e-gaveta"
         }
       ],
-      "replyPreview": "Separei utilidades reais para setup, mesa e organização.\n\nFaixa desta seleção: R$ 14,84 a R$ 14,84 no Pix.\n\n- Caixa Organizadora Gridfinity para mesa e gaveta: Pix R$ 14,84; cartão R$ 15,84; prazo 3 a 5 dias; link /loja/casa-e-organizacao/mw-a1-097-caixa-organizadora-gridfinity-para-mesa-e-gaveta\n- Caixa Organizadora Mini para mesa e gaveta: Pix R$ 14,84; ca",
+      "replyPreview": "Separei utilidades reais para setup, mesa e organização.\n\nFaixa desta seleção: R$ 16,69 a R$ 16,69 no Pix.\n\n- Caixa Organizadora Gridfinity para mesa e gaveta: Pix R$ 16,69; cartão R$ 17,69; prazo 3 a 5 dias; link /loja/casa-e-organizacao/mw-a1-097-caixa-organizadora-gridfinity-para-mesa-e-gaveta\n- Caixa Organizadora Mini para mesa e gaveta: Pix R$ 16,69; ca",
       "issues": []
     },
     {
@@ -224,43 +224,43 @@
         {
           "id": "mdh-038",
           "name": "Nome 3D Personalizado",
-          "pricePix": 20.35,
-          "priceCard": 21.35,
+          "pricePix": 23.86,
+          "priceCard": 24.86,
           "url": "/loja/presentes-personalizados/mdh-038-nome-3d-personalizado"
         },
         {
           "id": "mw-a1-391",
           "name": "Nome 3D Personalizado Modular para quarto e porta",
-          "pricePix": 6.58,
-          "priceCard": 7.58,
+          "pricePix": 5.95,
+          "priceCard": 6.95,
           "url": "/loja/presentes-personalizados/mw-a1-391-nome-3d-personalizado-modular-para-quarto-e-porta"
         },
         {
           "id": "mw-a1-398",
           "name": "Placa de Nome de Mesa para presente personalizado",
-          "pricePix": 6.58,
-          "priceCard": 7.58,
+          "pricePix": 5.95,
+          "priceCard": 6.95,
           "url": "/loja/presentes-personalizados/mw-a1-398-placa-de-nome-de-mesa-para-presente-personalizado"
         },
         {
           "id": "mw-a1-401",
           "name": "Placa de Nome Multiuso para presente personalizado",
-          "pricePix": 7.49,
-          "priceCard": 8.49,
+          "pricePix": 7.14,
+          "priceCard": 8.14,
           "url": "/loja/presentes-personalizados/mw-a1-401-placa-de-nome-multiuso-para-presente-personalizado"
         },
         {
           "id": "mw-a1-394",
           "name": "Nome 3D Personalizado de Mesa para quarto e porta",
-          "pricePix": 9.32,
-          "priceCard": 10.32,
+          "pricePix": 9.52,
+          "priceCard": 10.52,
           "url": "/loja/presentes-personalizados/mw-a1-394-nome-3d-personalizado-de-mesa-para-quarto-e-porta"
         },
         {
           "id": "mw-a1-397",
           "name": "Nome 3D Personalizado de Bancada para quarto e porta",
-          "pricePix": 9.32,
-          "priceCard": 10.32,
+          "pricePix": 9.52,
+          "priceCard": 10.52,
           "url": "/loja/presentes-personalizados/mw-a1-397-nome-3d-personalizado-de-bancada-para-quarto-e-porta"
         }
       ],

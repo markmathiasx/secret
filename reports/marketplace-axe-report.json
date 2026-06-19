@@ -1,0 +1,226 @@
+{
+  "generatedAt": "2026-06-19T09:54:00.618Z",
+  "baseUrl": "http://127.0.0.1:3000",
+  "results": [
+    {
+      "page": "home",
+      "viewport": "mobile",
+      "url": "http://127.0.0.1:3000/",
+      "ok": true,
+      "status": 200,
+      "bodyTextLength": 12264,
+      "frameworkOverlay": false,
+      "skipLink": {
+        "exists": true,
+        "firstTabFocusesSkip": true,
+        "enterMovesToMain": true
+      },
+      "violationCount": 0,
+      "seriousOrCritical": 0,
+      "violations": [],
+      "error": null
+    },
+    {
+      "page": "catalog",
+      "viewport": "mobile",
+      "url": "http://127.0.0.1:3000/catalogo",
+      "ok": true,
+      "status": 200,
+      "bodyTextLength": 18152,
+      "frameworkOverlay": false,
+      "skipLink": {
+        "exists": true,
+        "firstTabFocusesSkip": true,
+        "enterMovesToMain": true
+      },
+      "violationCount": 0,
+      "seriousOrCritical": 0,
+      "violations": [],
+      "error": null
+    },
+    {
+      "page": "smart_store",
+      "viewport": "mobile",
+      "url": "http://127.0.0.1:3000/loja",
+      "ok": true,
+      "status": 200,
+      "bodyTextLength": 126311,
+      "frameworkOverlay": false,
+      "skipLink": {
+        "exists": true,
+        "firstTabFocusesSkip": true,
+        "enterMovesToMain": true
+      },
+      "violationCount": 0,
+      "seriousOrCritical": 0,
+      "violations": [],
+      "error": null
+    },
+    {
+      "page": "product",
+      "viewport": "mobile",
+      "url": "http://127.0.0.1:3000/produto/chaveiro-rubro-negro-3d",
+      "ok": true,
+      "status": 200,
+      "bodyTextLength": 3708,
+      "frameworkOverlay": false,
+      "skipLink": {
+        "exists": true,
+        "firstTabFocusesSkip": true,
+        "enterMovesToMain": true
+      },
+      "violationCount": 0,
+      "seriousOrCritical": 0,
+      "violations": [],
+      "error": null
+    },
+    {
+      "page": "checkout",
+      "viewport": "mobile",
+      "url": "http://127.0.0.1:3000/checkout",
+      "ok": true,
+      "status": 200,
+      "bodyTextLength": 1824,
+      "frameworkOverlay": false,
+      "skipLink": {
+        "exists": true,
+        "firstTabFocusesSkip": true,
+        "enterMovesToMain": true
+      },
+      "violationCount": 0,
+      "seriousOrCritical": 0,
+      "violations": [],
+      "error": null
+    },
+    {
+      "page": "games",
+      "viewport": "mobile",
+      "url": "http://127.0.0.1:3000/jogue",
+      "ok": true,
+      "status": 200,
+      "bodyTextLength": 2982,
+      "frameworkOverlay": false,
+      "skipLink": {
+        "exists": true,
+        "firstTabFocusesSkip": true,
+        "enterMovesToMain": true
+      },
+      "violationCount": 0,
+      "seriousOrCritical": 0,
+      "violations": [],
+      "error": null
+    },
+    {
+      "page": "home",
+      "viewport": "desktop",
+      "url": "http://127.0.0.1:3000/",
+      "ok": true,
+      "status": 200,
+      "bodyTextLength": 12464,
+      "frameworkOverlay": false,
+      "skipLink": {
+        "exists": true,
+        "firstTabFocusesSkip": true,
+        "enterMovesToMain": true
+      },
+      "violationCount": 0,
+      "seriousOrCritical": 0,
+      "violations": [],
+      "error": null
+    },
+    {
+      "page": "catalog",
+      "viewport": "desktop",
+      "url": "http://127.0.0.1:3000/catalogo",
+      "ok": true,
+      "status": 200,
+      "bodyTextLength": 18312,
+      "frameworkOverlay": false,
+      "skipLink": {
+        "exists": true,
+        "firstTabFocusesSkip": true,
+        "enterMovesToMain": true
+      },
+      "violationCount": 0,
+      "seriousOrCritical": 0,
+      "violations": [],
+      "error": null
+    },
+    {
+      "page": "smart_store",
+      "viewport": "desktop",
+      "url": "http://127.0.0.1:3000/loja",
+      "ok": true,
+      "status": 200,
+      "bodyTextLength": 126471,
+      "frameworkOverlay": false,
+      "skipLink": {
+        "exists": true,
+        "firstTabFocusesSkip": true,
+        "enterMovesToMain": true
+      },
+      "violationCount": 0,
+      "seriousOrCritical": 0,
+      "violations": [],
+      "error": null
+    },
+    {
+      "page": "product",
+      "viewport": "desktop",
+      "url": "http://127.0.0.1:3000/produto/chaveiro-rubro-negro-3d",
+      "ok": true,
+      "status": 200,
+      "bodyTextLength": 3867,
+      "frameworkOverlay": false,
+      "skipLink": {
+        "exists": true,
+        "firstTabFocusesSkip": true,
+        "enterMovesToMain": true
+      },
+      "violationCount": 0,
+      "seriousOrCritical": 0,
+      "violations": [],
+      "error": null
+    },
+    {
+      "page": "checkout",
+      "viewport": "desktop",
+      "url": "http://127.0.0.1:3000/checkout",
+      "ok": true,
+      "status": 200,
+      "bodyTextLength": 1984,
+      "frameworkOverlay": false,
+      "skipLink": {
+        "exists": true,
+        "firstTabFocusesSkip": true,
+        "enterMovesToMain": true
+      },
+      "violationCount": 0,
+      "seriousOrCritical": 0,
+      "violations": [],
+      "error": null
+    },
+    {
+      "page": "games",
+      "viewport": "desktop",
+      "url": "http://127.0.0.1:3000/jogue",
+      "ok": true,
+      "status": 200,
+      "bodyTextLength": 3141,
+      "frameworkOverlay": false,
+      "skipLink": {
+        "exists": true,
+        "firstTabFocusesSkip": true,
+        "enterMovesToMain": true
+      },
+      "violationCount": 0,
+      "seriousOrCritical": 0,
+      "violations": [],
+      "error": null
+    }
+  ],
+  "ok": true,
+  "totalViolations": 0,
+  "seriousOrCritical": 0,
+  "skipLinkOk": true
+}

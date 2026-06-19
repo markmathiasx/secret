@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-06-17T13:55:42.244Z",
+  "generatedAt": "2026-06-19T09:53:09.258Z",
   "ok": true,
-  "productsChecked": 864,
+  "productsChecked": 848,
   "issues": [],
   "minPix": 4.76,
   "minCard": 5.76,
-  "entryLevelUnder30": 745,
+  "entryLevelUnder30": 737,
   "premiumProducts": 0,
   "items": [
     {
@@ -351,7 +351,7 @@
     },
     {
       "id": "mdh-064",
-      "name": "Luffy One Piece Chibi",
+      "name": "Pirata de Anime Chibi",
       "category": "Geek & Colecionáveis",
       "band": "setup-pequeno",
       "pricePix": 8.33,
@@ -417,7 +417,7 @@
     },
     {
       "id": "mdh-070",
-      "name": "Sonic Hedgehog Chibi",
+      "name": "Mascote Veloz Chibi",
       "category": "Geek & Colecionáveis",
       "band": "setup-pequeno",
       "pricePix": 7.14,
@@ -482,50 +482,6 @@
       "marginPercent": 23.07
     },
     {
-      "id": "csv-cha-001",
-      "name": "Chaveiro Acrílico Premium Jett Valorant Dupla Face para Mochila, Chaves e Setup Gamer",
-      "category": "Chaveiros e Acessórios",
-      "band": "chaveiro-personalizado",
-      "pricePix": 8.33,
-      "priceCard": 9.33,
-      "minimumSafePrice": 8.33,
-      "totalCost": 6.41,
-      "marginPercent": 23.05
-    },
-    {
-      "id": "csv-cha-002",
-      "name": "Chaveiro Emborrachado Reyna Valorant Estilo Gamer Resistente para Chaves e Mochila",
-      "category": "Chaveiros e Acessórios",
-      "band": "chaveiro-personalizado",
-      "pricePix": 8.33,
-      "priceCard": 9.33,
-      "minimumSafePrice": 8.33,
-      "totalCost": 6.41,
-      "marginPercent": 23.05
-    },
-    {
-      "id": "csv-cha-003",
-      "name": "Chaveiro Metalizado Sage Valorant Edição Nerd para Coleção e Presente Criativo",
-      "category": "Chaveiros e Acessórios",
-      "band": "chaveiro-personalizado",
-      "pricePix": 9.52,
-      "priceCard": 10.52,
-      "minimumSafePrice": 9.52,
-      "totalCost": 7.32,
-      "marginPercent": 23.11
-    },
-    {
-      "id": "csv-cha-004",
-      "name": "Chaveiro 3D Omen Valorant Mini Pingente Decorativo para Mochila e Setup",
-      "category": "Chaveiros e Acessórios",
-      "band": "chaveiro-personalizado",
-      "pricePix": 9.52,
-      "priceCard": 10.52,
-      "minimumSafePrice": 9.52,
-      "totalCost": 7.32,
-      "marginPercent": 23.11
-    },
-    {
       "id": "csv-cha-006",
       "name": "Chaveiro Emborrachado Yasuo League of Legends Estilo Gamer Resistente para Chaves e Mochila",
       "category": "Chaveiros e Acessórios",
@@ -549,7 +505,7 @@
     },
     {
       "id": "csv-cha-030",
-      "name": "Chaveiro Emborrachado Iron Man Marvel Estilo Gamer Resistente para Chaves e Mochila",
+      "name": "Chaveiro Emborrachado Herói de Armadura Estilo Gamer Resistente para Chaves e Mochila",
       "category": "Chaveiros e Acessórios",
       "band": "chaveiro-personalizado",
       "pricePix": 8.33,
@@ -557,94 +513,6 @@
       "minimumSafePrice": 8.33,
       "totalCost": 6.41,
       "marginPercent": 23.05
-    },
-    {
-      "id": "csv-dec-001",
-      "name": "Luminária Decorativa Jett Valorant LED para Quarto Gamer, Mesa e Setup Nerd",
-      "category": "Geek & Colecionáveis",
-      "band": "setup-pequeno",
-      "pricePix": 35.79,
-      "priceCard": 36.79,
-      "minimumSafePrice": 35.79,
-      "totalCost": 27.53,
-      "marginPercent": 23.08
-    },
-    {
-      "id": "csv-dec-002",
-      "name": "Quadro Decorativo Reyna Valorant Premium para Parede de Quarto Gamer e Home Office",
-      "category": "Geek & Colecionáveis",
-      "band": "setup-pequeno",
-      "pricePix": 35.79,
-      "priceCard": 36.79,
-      "minimumSafePrice": 35.79,
-      "totalCost": 27.53,
-      "marginPercent": 23.08
-    },
-    {
-      "id": "csv-dec-003",
-      "name": "Almofada Decorativa Sage Valorant para Sofá, Cama e Espaço Geek",
-      "category": "Geek & Colecionáveis",
-      "band": "lote",
-      "pricePix": 35.79,
-      "priceCard": 36.79,
-      "minimumSafePrice": 35.79,
-      "totalCost": 27.53,
-      "marginPercent": 23.08
-    },
-    {
-      "id": "csv-dec-004",
-      "name": "Placa Decorativa Omen Valorant Estilo Geek para Porta, Parede e Setup",
-      "category": "Geek & Colecionáveis",
-      "band": "setup-pequeno",
-      "pricePix": 35.79,
-      "priceCard": 36.79,
-      "minimumSafePrice": 35.79,
-      "totalCost": 27.53,
-      "marginPercent": 23.08
-    },
-    {
-      "id": "csv-uti-001",
-      "name": "Kit Ferramenta Gamer Jett Valorant Organizador Utilitário para Mesa, Cabos e Setup",
-      "category": "Setup Gamer e Home Office",
-      "band": "setup-pequeno",
-      "pricePix": 28.64,
-      "priceCard": 29.64,
-      "minimumSafePrice": 28.64,
-      "totalCost": 22.03,
-      "marginPercent": 23.08
-    },
-    {
-      "id": "csv-uti-002",
-      "name": "Porta Ferramentas Reyna Valorant para Mesa Gamer, Oficina Criativa e Home Office",
-      "category": "Setup Gamer e Home Office",
-      "band": "setup-pequeno",
-      "pricePix": 28.64,
-      "priceCard": 29.64,
-      "minimumSafePrice": 28.64,
-      "totalCost": 22.03,
-      "marginPercent": 23.08
-    },
-    {
-      "id": "csv-uti-003",
-      "name": "Suporte Multiuso Sage Valorant para Headset, Controle, Cabos e Acessórios",
-      "category": "Setup Gamer e Home Office",
-      "band": "setup-pequeno",
-      "pricePix": 28.64,
-      "priceCard": 29.64,
-      "minimumSafePrice": 28.64,
-      "totalCost": 22.03,
-      "marginPercent": 23.08
-    },
-    {
-      "id": "csv-uti-004",
-      "name": "Organizador Modular Omen Valorant para Ferramentas Leves, Peças e Acessórios Nerd",
-      "category": "Setup Gamer e Home Office",
-      "band": "setup-pequeno",
-      "pricePix": 28.64,
-      "priceCard": 29.64,
-      "minimumSafePrice": 28.64,
-      "totalCost": 22.03,
-      "marginPercent": 23.08
     },
     {
       "id": "csv-uti-005",
@@ -666,50 +534,6 @@
       "priceCard": 29.64,
       "minimumSafePrice": 28.64,
       "totalCost": 22.03,
-      "marginPercent": 23.08
-    },
-    {
-      "id": "csv-col-001",
-      "name": "Mini Estátua Colecionável Jett Valorant Edição Decor para Estante, Mesa e Setup",
-      "category": "Geek & Colecionáveis",
-      "band": "setup-pequeno",
-      "pricePix": 47.74,
-      "priceCard": 48.74,
-      "minimumSafePrice": 47.74,
-      "totalCost": 36.72,
-      "marginPercent": 23.08
-    },
-    {
-      "id": "csv-col-002",
-      "name": "Caneca Colecionável Reyna Valorant Nerd Premium para Café, Desk e Presente",
-      "category": "Geek & Colecionáveis",
-      "band": "geek-premium",
-      "pricePix": 47.74,
-      "priceCard": 48.74,
-      "minimumSafePrice": 47.74,
-      "totalCost": 36.72,
-      "marginPercent": 23.08
-    },
-    {
-      "id": "csv-col-003",
-      "name": "Mousepad Colecionável Sage Valorant Desk Mat Gamer para Setup Profissional",
-      "category": "Geek & Colecionáveis",
-      "band": "setup-pequeno",
-      "pricePix": 47.74,
-      "priceCard": 48.74,
-      "minimumSafePrice": 47.74,
-      "totalCost": 36.72,
-      "marginPercent": 23.08
-    },
-    {
-      "id": "csv-col-004",
-      "name": "Poster Premium Omen Valorant Colecionável para Parede, Estúdio e Espaço Geek",
-      "category": "Geek & Colecionáveis",
-      "band": "casa-organizacao",
-      "pricePix": 47.74,
-      "priceCard": 48.74,
-      "minimumSafePrice": 47.74,
-      "totalCost": 36.72,
       "marginPercent": 23.08
     },
     {

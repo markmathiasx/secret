@@ -29,6 +29,7 @@ const sections = [
     title: "3. Prazo para reporte",
     body: [
       "O ideal é reportar qualquer problema assim que o produto for recebido. Quanto mais cedo a divergência for registrada, mais rápida tende a ser a tratativa.",
+      "Compras realizadas fora do estabelecimento físico têm direito de arrependimento em até 7 dias corridos, conforme o Código de Defesa do Consumidor, art. 49. Itens personalizados continuam sujeitos à análise do briefing aprovado, material já produzido e condição da peça.",
       "Em situações de transporte, embalagem avariada ou peça quebrada no recebimento, registre imagens do pacote e do item no mesmo contato.",
     ],
   },
@@ -52,7 +53,8 @@ export default function ReturnsPage() {
           que foi aprovado no pedido.
         </p>
         <div className="mt-4 rounded-[20px] border border-emerald-300/20 bg-emerald-300/10 p-4 text-sm leading-7 text-emerald-50">
-          Janela simples: pedidos elegíveis podem entrar em análise dentro de 7 dias corridos após o recebimento. Projetos personalizados seguem a regra do briefing aprovado.
+          Janela simples: pedidos elegíveis podem entrar em análise dentro de 7 dias corridos após o recebimento.
+          Compras online seguem o direito de arrependimento do CDC, art. 49; projetos personalizados seguem a regra do briefing aprovado.
         </div>
       </div>
 

@@ -18,7 +18,6 @@ const imageHosts = new Set([
   "jimhpbvmvhgkfrtprvfs.supabase.co",
   "mdh3d.com.br",
   "www.mdh3d.com.br",
-  "picsum.photos",
   "localhost",
   "127.0.0.1"
 ]);

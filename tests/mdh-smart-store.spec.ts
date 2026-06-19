@@ -8,8 +8,8 @@ test.describe("Loja inteligente MDH3D", () => {
     const response = await page.goto(`${BASE_URL}/loja`);
     expect(response?.status()).toBe(200);
     await expect(page.getByRole("heading", { name: /MDH3D com checkout externo/i })).toBeVisible();
-    await expect(page.locator('[data-smart-product-card="chaveiro-flamengo-3d"]').first()).toBeVisible();
-    await expect(page.locator('[data-smart-product-card="chaveiro-flamengo-3d"]').first()).toContainText("Custo");
+    await expect(page.locator('[data-smart-product-card="chaveiro-rubro-negro-3d"]').first()).toBeVisible();
+    await expect(page.locator('[data-smart-product-card="chaveiro-rubro-negro-3d"]').first()).toContainText("Custo");
 
     await page.locator("[data-smart-search]").fill("dragão");
     await expect(page.locator('[data-smart-product-card="miniatura-dragao-articulado"]').first()).toBeVisible();
@@ -37,9 +37,9 @@ test.describe("Loja inteligente MDH3D", () => {
   });
 
   test("produto com link Nuvemshop usa checkout externo", async ({ page }) => {
-    const response = await page.goto(`${BASE_URL}/produto/chaveiro-flamengo-3d`);
+    const response = await page.goto(`${BASE_URL}/produto/vaso-geometrico-pla`);
     expect(response?.status()).toBe(200);
-    await expect(page.getByRole("heading", { name: /Chaveiro Flamengo 3D/i })).toBeVisible();
+    await expect(page.getByRole("heading", { name: /Vaso Geométrico em PLA/i })).toBeVisible();
     const buy = page.getByRole("link", { name: /Comprar com Pix ou Cartão/i }).first();
     await expect(buy).toBeVisible();
     const href = await buy.getAttribute("href");
@@ -73,12 +73,12 @@ test.describe("Loja inteligente MDH3D", () => {
     expect(json.status()).toBe(200);
     const payload = await json.json();
     expect(payload.total).toBeGreaterThanOrEqual(6);
-    expect(payload.products.some((product: { slug: string }) => product.slug === "chaveiro-flamengo-3d")).toBe(true);
+    expect(payload.products.some((product: { slug: string }) => product.slug === "chaveiro-rubro-negro-3d")).toBe(true);
 
     const meta = await request.get(`${BASE_URL}/feeds/meta-catalog.csv`);
     expect(meta.status()).toBe(200);
     expect(meta.headers()["content-type"]).toContain("text/csv");
-    expect(await meta.text()).toContain("chaveiro-flamengo-3d");
+    expect(await meta.text()).toContain("chaveiro-rubro-negro-3d");
 
     const google = await request.get(`${BASE_URL}/feeds/google-shopping.xml`);
     expect(google.status()).toBe(200);
@@ -92,7 +92,7 @@ test.describe("Loja inteligente MDH3D", () => {
 
     const sitemapProducts = await request.get(`${BASE_URL}/sitemap-products.xml`);
     expect(sitemapProducts.status()).toBe(200);
-    expect(await sitemapProducts.text()).toContain("/produto/chaveiro-flamengo-3d");
+    expect(await sitemapProducts.text()).toContain("/produto/chaveiro-rubro-negro-3d");
   });
 
   test("ofertas e orçamento personalizado carregam sem credenciais externas", async ({ page }) => {

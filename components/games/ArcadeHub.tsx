@@ -155,7 +155,7 @@ export function ArcadeHub() {
             <h1 className="mt-4 font-display text-5xl font-black leading-none tracking-normal text-white md:text-7xl">
               Play <span className="text-cyan-300">MDH</span> 3D
             </h1>
-            <p className="mt-5 max-w-3xl text-base leading-7 text-white/66 md:text-lg">
+            <p className="mt-5 max-w-3xl text-base leading-7 text-white md:text-lg">
               Pinball Star continua como destaque principal e os mini-games de impressão 3D voltaram para o catálogo jogável.
             </p>
           </div>

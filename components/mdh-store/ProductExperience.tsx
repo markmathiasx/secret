@@ -9,9 +9,9 @@ import { formatCurrency } from "@/lib/utils";
 
 function Stars({ value }: { value: number }) {
   return (
-    <span className="inline-flex gap-0.5" aria-label={`${value} de 5 estrelas`}>
+    <span className="inline-flex gap-0.5" role="img" aria-label={`${value} de 5 estrelas`}>
       {[1, 2, 3, 4, 5].map((star) => (
-        <Star key={star} className={`h-4 w-4 ${star <= value ? "fill-amber-300 text-amber-300" : "text-white/25"}`} />
+        <Star key={star} aria-hidden="true" className={`h-4 w-4 ${star <= value ? "fill-amber-300 text-amber-300" : "text-white/25"}`} />
       ))}
     </span>
   );
@@ -21,6 +21,7 @@ export function ProductMediaGallery({ product }: { product: SmartStoreProduct })
   const images = product.gallery.length ? product.gallery : [product.image || "/catalog-assets/product-placeholder.webp"];
   const [active, setActive] = useState(images[0]);
   const [zoomOpen, setZoomOpen] = useState(false);
+  const activeIsPlaceholder = active.includes("/catalog-assets/product-placeholder");
 
   return (
     <div className="space-y-3">
@@ -33,6 +34,11 @@ export function ProductMediaGallery({ product }: { product: SmartStoreProduct })
         <span className="absolute right-5 top-5 z-10 rounded-full border border-white/10 bg-black/55 px-3 py-1 text-xs font-black text-white/82 backdrop-blur">
           Zoom
         </span>
+        {activeIsPlaceholder ? (
+          <span className="absolute bottom-5 left-5 z-10 max-w-[80%] rounded-[8px] border border-amber-200/25 bg-amber-300/14 px-3 py-2 text-xs font-black text-amber-50 backdrop-blur">
+            Foto ilustrativa - produto real sob aprovação
+          </span>
+        ) : null}
         <span className="block aspect-square overflow-hidden rounded-[8px] bg-black/30">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={active} alt={product.name} className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.035]" />

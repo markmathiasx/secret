@@ -1,0 +1,670 @@
+{
+  "generatedAt": "2026-06-19T10:17:50.199Z",
+  "branch": "codex/marketplace-phase0-protocol",
+  "commit": "01dcc04d",
+  "phases": [
+    {
+      "name": "0. Reconciliação",
+      "percent": 100,
+      "passed": 4,
+      "total": 4,
+      "criteria": [
+        {
+          "label": "fontes obrigatorias lidas",
+          "ok": true,
+          "evidence": "18/18 fontes presentes",
+          "blocker": "Fase 0 sem todas as fontes exigidas"
+        },
+        {
+          "label": "afirmacoes antigas classificadas",
+          "ok": true,
+          "evidence": "58 afirmacoes",
+          "blocker": "Sem tabela de reconciliacao objetiva"
+        },
+        {
+          "label": "protocolo permanente",
+          "ok": true,
+          "evidence": "docs/CODEX_EXECUTION_PROTOCOL.md referenciado em AGENTS.md",
+          "blocker": "Protocolo permanente ausente"
+        },
+        {
+          "label": "gates obrigatorios base",
+          "ok": true,
+          "evidence": "11/11 comandos passaram",
+          "blocker": "Nem todos os gates base passaram"
+        }
+      ],
+      "blockers": []
+    },
+    {
+      "name": "1. Performance",
+      "percent": 75,
+      "passed": 3,
+      "total": 4,
+      "criteria": [
+        {
+          "label": "Lighthouse mobile coletado",
+          "ok": true,
+          "evidence": "paginas: 5",
+          "blocker": "Rode npm run marketplace:lighthouse com servidor local em producao"
+        },
+        {
+          "label": "metas Lighthouse >=95",
+          "ok": false,
+          "evidence": "home/produto/checkout/catalogo/categoria precisam bater performance/a11y/best/seo >=95 e LCP/CLS alvo",
+          "blocker": "Notas Lighthouse ou Web Vitals lab abaixo da meta"
+        },
+        {
+          "label": "bundle JS inicial medido",
+          "ok": true,
+          "evidence": "First Load JS shared by all: 269 kB",
+          "blocker": "Sem build atual com tamanho de bundle"
+        },
+        {
+          "label": "cache por rota validado em producao",
+          "ok": true,
+          "evidence": "curl/HEAD publico capturou cache-control",
+          "blocker": "Sem prova de headers cache em producao"
+        }
+      ],
+      "blockers": [
+        "Notas Lighthouse ou Web Vitals lab abaixo da meta"
+      ]
+    },
+    {
+      "name": "2. Design System",
+      "percent": 100,
+      "passed": 5,
+      "total": 5,
+      "criteria": [
+        {
+          "label": "axe-core executado",
+          "ok": true,
+          "evidence": "12 combinacoes pagina/viewport",
+          "blocker": "Rode npm run marketplace:axe"
+        },
+        {
+          "label": "sem violacoes serias/criticas axe",
+          "ok": true,
+          "evidence": "0 serias/criticas",
+          "blocker": "Corrigir violacoes axe serias/criticas"
+        },
+        {
+          "label": "Picsum removido da allowlist runtime",
+          "ok": true,
+          "evidence": "next.config.ts nao permite picsum.photos",
+          "blocker": "Remover picsum.photos da allowlist"
+        },
+        {
+          "label": "placeholder honesto tem selo publico",
+          "ok": true,
+          "evidence": "selo presente em cards e PDP da loja inteligente",
+          "blocker": "Placeholder sem aviso explicito ao cliente"
+        },
+        {
+          "label": "fundo/motion da loja centralizado",
+          "ok": true,
+          "evidence": "StoreAnimatedBackground usado em /loja e /produto/[slug]",
+          "blocker": "Sem evidencia de fundo animado da loja"
+        }
+      ],
+      "blockers": []
+    },
+    {
+      "name": "3. Motor de Comércio — mínimo",
+      "percent": 83.33,
+      "passed": 5,
+      "total": 6,
+      "criteria": [
+        {
+          "label": "modelos Cart/Order existem",
+          "ok": true,
+          "evidence": "Prisma tem Cart, Order e OrderItem",
+          "blocker": "Schema sem modelos comerciais"
+        },
+        {
+          "label": "carrinho persistente/editavel",
+          "ok": true,
+          "evidence": "API /api/cart, /carrinho e carrinho local com add/update/remove",
+          "blocker": "Carrinho sem persistencia ou edicao"
+        },
+        {
+          "label": "pedido criado antes do redirect",
+          "ok": true,
+          "evidence": "app/api/checkout/preference cria Order antes de preferencia Mercado Pago",
+          "blocker": "Checkout nao persiste pedido antes de sair"
+        },
+        {
+          "label": "rastreio de pedido existe",
+          "ok": true,
+          "evidence": "/pedidos, /pedidos/[id] e /api/orders/track presentes",
+          "blocker": "Sem pagina/rota de rastreio"
+        },
+        {
+          "label": "e2e checkout/carrinho executado",
+          "ok": true,
+          "evidence": "smoke=0 (10), smart=0 (5), e2e=0 (9)",
+          "blocker": "Rodar suíte Playwright atual"
+        },
+        {
+          "label": "banco local/producao disponivel para prova runtime",
+          "ok": false,
+          "evidence": "DATABASE_URL presente no ambiente do script",
+          "blocker": "Sem DATABASE_URL neste ambiente; criacao real no banco nao foi provada nesta execucao local"
+        }
+      ],
+      "blockers": [
+        "Sem DATABASE_URL neste ambiente; criacao real no banco nao foi provada nesta execucao local"
+      ]
+    },
+    {
+      "name": "3. Motor de Comércio — avançado",
+      "percent": 60,
+      "passed": 3,
+      "total": 5,
+      "criteria": [
+        {
+          "label": "Mercado Pago integrado em codigo",
+          "ok": true,
+          "evidence": "rotas chamam createMercadoPagoPreference/createMercadoPagoPayment",
+          "blocker": "Sem integracao de gateway"
+        },
+        {
+          "label": "credenciais Mercado Pago presentes",
+          "ok": false,
+          "evidence": "MERCADOPAGO_ACCESS_TOKEN + NEXT_PUBLIC_MP_PUBLIC_KEY no ambiente",
+          "blocker": "Credenciais Mercado Pago ausentes nesta execucao; fica fallback/sandbox"
+        },
+        {
+          "label": "frete/CEP implementado",
+          "ok": true,
+          "evidence": "/api/shipping/quote e quoteBestShipping",
+          "blocker": "Sem calculo de frete"
+        },
+        {
+          "label": "email transacional implementado",
+          "ok": true,
+          "evidence": "sendMail + orderConfirmationHtml no fluxo",
+          "blocker": "Sem email transacional"
+        },
+        {
+          "label": "SMTP real configurado",
+          "ok": false,
+          "evidence": "SMTP_HOST + EMAIL_FROM no ambiente",
+          "blocker": "Credenciais SMTP ausentes nesta execucao"
+        }
+      ],
+      "blockers": [
+        "Credenciais Mercado Pago ausentes nesta execucao; fica fallback/sandbox",
+        "Credenciais SMTP ausentes nesta execucao"
+      ]
+    },
+    {
+      "name": "4. Busca/Filtro/Recomendação",
+      "percent": 100,
+      "passed": 5,
+      "total": 5,
+      "criteria": [
+        {
+          "label": "busca API/catalogo",
+          "ok": true,
+          "evidence": "/api/catalog/search presente",
+          "blocker": "Sem busca server-side"
+        },
+        {
+          "label": "autocomplete Ctrl K",
+          "ok": true,
+          "evidence": "HeaderCommandPalette consulta /api/catalog/search",
+          "blocker": "Autocomplete nao comprovado"
+        },
+        {
+          "label": "filtros por categoria/preco/prazo/personalizacao",
+          "ok": true,
+          "evidence": "SmartStorefront tem categoria, preco, personalizacao e prazo",
+          "blocker": "Filtros exigidos ausentes"
+        },
+        {
+          "label": "ordenacoes exigidas",
+          "ok": true,
+          "evidence": "ordenacoes no select da loja",
+          "blocker": "Ordenacao incompleta"
+        },
+        {
+          "label": "recomendacoes/relacionados",
+          "ok": true,
+          "evidence": "/api/catalog/recommendations e relacionados na loja",
+          "blocker": "Sem recomendacao"
+        }
+      ],
+      "blockers": []
+    },
+    {
+      "name": "5. Confiança/Prova Social",
+      "percent": 100,
+      "passed": 4,
+      "total": 4,
+      "criteria": [
+        {
+          "label": "reviews reais por produto",
+          "ok": true,
+          "evidence": "Prisma Review + rota de reviews",
+          "blocker": "Sem sistema de avaliacao"
+        },
+        {
+          "label": "AggregateRating condicional",
+          "ok": true,
+          "evidence": "AggregateRating so entra quando ha average",
+          "blocker": "Nota agregada pode ser ficticia"
+        },
+        {
+          "label": "CDC art. 49 explicito",
+          "ok": true,
+          "evidence": "/trocas-e-devolucoes e /politica-de-troca citam CDC art. 49",
+          "blocker": "Politica sem CDC art. 49"
+        },
+        {
+          "label": "selos de confianca loja",
+          "ok": true,
+          "evidence": "/loja exibe selos exigidos",
+          "blocker": "Selos de confianca ausentes"
+        }
+      ],
+      "blockers": []
+    },
+    {
+      "name": "6. SEO técnico",
+      "percent": 100,
+      "passed": 5,
+      "total": 5,
+      "criteria": [
+        {
+          "label": "Product schema em PDP",
+          "ok": true,
+          "evidence": "/produto/[slug] inclui Product JSON-LD com BRL",
+          "blocker": "PDP sem schema Product"
+        },
+        {
+          "label": "Review schema condicional",
+          "ok": true,
+          "evidence": "Reviews reais viram JSON-LD",
+          "blocker": "Review schema ausente"
+        },
+        {
+          "label": "BreadcrumbList",
+          "ok": true,
+          "evidence": "PDP inclui BreadcrumbList",
+          "blocker": "Breadcrumb schema ausente"
+        },
+        {
+          "label": "sitemap dinamico",
+          "ok": true,
+          "evidence": "sitemap usa catalogo publico + loja inteligente",
+          "blocker": "Sitemap nao vem do catalogo real"
+        },
+        {
+          "label": "robots/canonical",
+          "ok": true,
+          "evidence": "robots.ts e canonical dinamico",
+          "blocker": "robots/canonical incompletos"
+        }
+      ],
+      "blockers": []
+    },
+    {
+      "name": "7. Analytics",
+      "percent": 80,
+      "passed": 4,
+      "total": 5,
+      "criteria": [
+        {
+          "label": "dataLayer seguro",
+          "ok": true,
+          "evidence": "trackSmartStoreEvent inicializa dataLayer",
+          "blocker": "dataLayer pode quebrar sem GTM"
+        },
+        {
+          "label": "eventos loja exigidos",
+          "ok": true,
+          "evidence": "eventos da loja inteligente declarados",
+          "blocker": "Eventos exigidos faltando"
+        },
+        {
+          "label": "GA4 marketplace legado",
+          "ok": true,
+          "evidence": "GA4 view_item/add_to_cart/begin_checkout/purchase em lib/analytics.ts",
+          "blocker": "Eventos GA4 legados faltando"
+        },
+        {
+          "label": "Pixel opcional sem quebrar",
+          "ok": true,
+          "evidence": "layout carrega pixel via env opcional",
+          "blocker": "Pixel nao opcional"
+        },
+        {
+          "label": "captura runtime de eventos",
+          "ok": false,
+          "evidence": "nenhum DebugView/Tag Assistant capturado nesta execucao",
+          "blocker": "Capturar eventos em navegador/Tag Assistant para 100%"
+        }
+      ],
+      "blockers": [
+        "Capturar eventos em navegador/Tag Assistant para 100%"
+      ]
+    },
+    {
+      "name": "8. Acessibilidade",
+      "percent": 100,
+      "passed": 5,
+      "total": 5,
+      "criteria": [
+        {
+          "label": "axe em paginas-chave",
+          "ok": true,
+          "evidence": "12 checks axe",
+          "blocker": "Rode axe mobile+desktop em paginas-chave"
+        },
+        {
+          "label": "violacoes axe zeradas",
+          "ok": true,
+          "evidence": "0 violacoes",
+          "blocker": "Corrigir violacoes axe restantes"
+        },
+        {
+          "label": "skip link funcional",
+          "ok": true,
+          "evidence": "skipLinkOk=true",
+          "blocker": "Skip link nao focou/moveu para main nos testes"
+        },
+        {
+          "label": "alt em imagens de produto",
+          "ok": true,
+          "evidence": "PDP e cards usam alt de produto",
+          "blocker": "Alt de produto ausente"
+        },
+        {
+          "label": "teclado no carrinho/checkout",
+          "ok": true,
+          "evidence": "dialog de carrinho tem role/aria e e2e passou",
+          "blocker": "Navegacao por teclado nao comprovada o bastante"
+        }
+      ],
+      "blockers": []
+    },
+    {
+      "name": "9. Segurança/LGPD",
+      "percent": 100,
+      "passed": 5,
+      "total": 5,
+      "criteria": [
+        {
+          "label": "banner cookies + privacidade",
+          "ok": true,
+          "evidence": "CookieConsent e politica de privacidade presentes",
+          "blocker": "LGPD basico ausente"
+        },
+        {
+          "label": "headers producao",
+          "ok": true,
+          "evidence": "CSP/HSTS/X-Content-Type-Options capturados por HEAD publico",
+          "blocker": "Headers publicos faltando"
+        },
+        {
+          "label": "auditoria seguranca app",
+          "ok": true,
+          "evidence": "security:audit ok=true",
+          "blocker": "security:audit com achados"
+        },
+        {
+          "label": "scanner de segredos atual+historico",
+          "ok": true,
+          "evidence": "0 atuais, 0 historicos",
+          "blocker": "Secret scan encontrou achados ou nao foi executado"
+        },
+        {
+          "label": "Supabase RLS privado",
+          "ok": true,
+          "evidence": "validate:db-storage + migration RLS",
+          "blocker": "Falta teste runtime 401/403 sem token ou RLS ausente"
+        }
+      ],
+      "blockers": []
+    },
+    {
+      "name": "10. Risco de PI",
+      "percent": 100,
+      "passed": 3,
+      "total": 3,
+      "criteria": [
+        {
+          "label": "auditoria de termos de PI gerada",
+          "ok": true,
+          "evidence": "0 achados",
+          "blocker": "Gerar reports/marketplace-ip-risk-report.json"
+        },
+        {
+          "label": "classificacao e proposta por item",
+          "ok": true,
+          "evidence": "cada achado tem risco e suggestedCopy",
+          "blocker": "Achados sem classificacao/proposta"
+        },
+        {
+          "label": "sem risco publico restante",
+          "ok": true,
+          "evidence": "0 referencias publicas de risco",
+          "blocker": "Reescrever/remover termos de marca/franquia restantes"
+        }
+      ],
+      "blockers": []
+    },
+    {
+      "name": "11. Integridade de catálogo",
+      "percent": 100,
+      "passed": 5,
+      "total": 5,
+      "criteria": [
+        {
+          "label": "contagem catalogo atual",
+          "ok": true,
+          "evidence": "848 publicos + 306 loja",
+          "blocker": "Catalogo vazio ou loja CSV nao carregou"
+        },
+        {
+          "label": "preco Pix/cartao coerente",
+          "ok": true,
+          "evidence": "848 produtos em pricing-validation; smart issues 0",
+          "blocker": "Corrigir Pix/cartao/custo+30%"
+        },
+        {
+          "label": "sem duplicata slug",
+          "ok": true,
+          "evidence": "0 duplicatas",
+          "blocker": "Resolver duplicatas de slug"
+        },
+        {
+          "label": "sem Picsum publico",
+          "ok": true,
+          "evidence": "public 0, smart 0",
+          "blocker": "Remover Picsum de imagens publicas"
+        },
+        {
+          "label": "regressao publica catalogo/jogos",
+          "ok": true,
+          "evidence": "ok=true",
+          "blocker": "validate:public-regressions falhou ou nao foi executado"
+        }
+      ],
+      "blockers": []
+    },
+    {
+      "name": "12. Testes",
+      "percent": 100,
+      "passed": 5,
+      "total": 5,
+      "criteria": [
+        {
+          "label": "db:generate/typecheck/lint/build",
+          "ok": true,
+          "evidence": "npm run db:generate: exit 0, 2s; npm run typecheck: exit 0, 14s; npm run lint:check: exit 0, 7s; npm run build: exit 0, 70s",
+          "blocker": "Gates principais falharam"
+        },
+        {
+          "label": "validadores publicos/privados",
+          "ok": true,
+          "evidence": "validadores obrigatorios com exit 0",
+          "blocker": "Validadores obrigatorios falharam"
+        },
+        {
+          "label": "npm audit",
+          "ok": true,
+          "evidence": "exit 0, 1s",
+          "blocker": "npm audit nao esta limpo"
+        },
+        {
+          "label": "Playwright existente",
+          "ok": true,
+          "evidence": "smoke=0 (10), smart=0 (5), e2e=0 (9)",
+          "blocker": "Suítes Playwright nao passaram"
+        },
+        {
+          "label": "testes loja inteligente",
+          "ok": true,
+          "evidence": "tests/mdh-smart-store.spec.ts cobre Nuvemshop/WhatsApp/carrinho/feed e passou",
+          "blocker": "Cobertura loja inteligente incompleta"
+        }
+      ],
+      "blockers": []
+    },
+    {
+      "name": "13. Deploy/Infra",
+      "percent": 80,
+      "passed": 4,
+      "total": 5,
+      "criteria": [
+        {
+          "label": "docs Vercel env atualizados",
+          "ok": true,
+          "evidence": "docs/VERCEL_ENV.md lista loja, analytics, checkout",
+          "blocker": "docs/VERCEL_ENV.md incompleto"
+        },
+        {
+          "label": "Dockerfile/docker-compose presentes",
+          "ok": true,
+          "evidence": "Dockerfile + docker-compose.yml presentes",
+          "blocker": "Docker ausente"
+        },
+        {
+          "label": "build Docker comprovado",
+          "ok": false,
+          "evidence": "dockerBuild ok=false",
+          "blocker": "Rodar docker compose build/up e registrar log"
+        },
+        {
+          "label": "deploy Vercel registrado",
+          "ok": true,
+          "evidence": "https://mdh-3d-store-gawprn2bq-markmathias.vercel.app",
+          "blocker": "Registrar deploy Vercel final desta rodada"
+        },
+        {
+          "label": "producao responde e local/site comparados",
+          "ok": true,
+          "evidence": "publicHttp=true, local-vs-prod=true",
+          "blocker": "Rodar validacao publica/local e corrigir divergencias"
+        }
+      ],
+      "blockers": [
+        "Rodar docker compose build/up e registrar log"
+      ]
+    }
+  ],
+  "generalPercent": 91.88,
+  "metrics": {
+    "lighthouse": [
+      {
+        "key": "home",
+        "categories": {
+          "performance": 78,
+          "accessibility": 96,
+          "bestPractices": 100,
+          "seo": 100
+        },
+        "lcp": "5.6 s",
+        "cls": "0.009"
+      },
+      {
+        "key": "category",
+        "categories": {
+          "performance": 50,
+          "accessibility": 100,
+          "bestPractices": 100,
+          "seo": 100
+        },
+        "lcp": "5.0 s",
+        "cls": "0.009"
+      },
+      {
+        "key": "product",
+        "categories": {
+          "performance": 83,
+          "accessibility": 100,
+          "bestPractices": 100,
+          "seo": 100
+        },
+        "lcp": "4.5 s",
+        "cls": "0.009"
+      },
+      {
+        "key": "catalog",
+        "categories": {
+          "performance": 53,
+          "accessibility": 100,
+          "bestPractices": 100,
+          "seo": 100
+        },
+        "lcp": "4.7 s",
+        "cls": "0.009"
+      },
+      {
+        "key": "checkout",
+        "categories": {
+          "performance": 43,
+          "accessibility": 100,
+          "bestPractices": 100,
+          "seo": 58
+        },
+        "lcp": "7.3 s",
+        "cls": "0.151"
+      }
+    ],
+    "bundleInitialSharedJs": "269 kB",
+    "axeViolations": 0,
+    "axeSeriousOrCritical": 0,
+    "publicPhotoPercent": "100.00% (248/248)",
+    "productSchemaCoverage": "100% por rota /produto/[slug] da loja inteligente; catalogo legado validado por codigo, nao por crawl total nesta execucao"
+  },
+  "blocked": [
+    {
+      "phase": "1. Performance",
+      "blocker": "Notas Lighthouse ou Web Vitals lab abaixo da meta"
+    },
+    {
+      "phase": "3. Motor de Comércio — mínimo",
+      "blocker": "Sem DATABASE_URL neste ambiente; criacao real no banco nao foi provada nesta execucao local"
+    },
+    {
+      "phase": "3. Motor de Comércio — avançado",
+      "blocker": "Credenciais Mercado Pago ausentes nesta execucao; fica fallback/sandbox"
+    },
+    {
+      "phase": "3. Motor de Comércio — avançado",
+      "blocker": "Credenciais SMTP ausentes nesta execucao"
+    },
+    {
+      "phase": "7. Analytics",
+      "blocker": "Capturar eventos em navegador/Tag Assistant para 100%"
+    },
+    {
+      "phase": "13. Deploy/Infra",
+      "blocker": "Rodar docker compose build/up e registrar log"
+    }
+  ]
+}

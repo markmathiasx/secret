@@ -1,0 +1,199 @@
+{
+  "generatedAt": "2026-06-19T09:53:08.068Z",
+  "baseUrl": "http://127.0.0.1:3000",
+  "chromePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  "pages": [
+    {
+      "key": "home",
+      "label": "home",
+      "path": "/",
+      "url": "http://127.0.0.1:3000/",
+      "ok": true,
+      "durationMs": 16887,
+      "reportPath": "reports/lighthouse/home.json",
+      "finalUrl": "http://127.0.0.1:3000/",
+      "fetchTime": "2026-06-19T09:53:12.730Z",
+      "categories": {
+        "performance": 78,
+        "accessibility": 96,
+        "bestPractices": 100,
+        "seo": 100
+      },
+      "audits": {
+        "lcp": {
+          "title": "Largest Contentful Paint",
+          "score": 0.18,
+          "numericValue": 5570.3300500000005,
+          "displayValue": "5.6 s"
+        },
+        "cls": {
+          "title": "Cumulative Layout Shift",
+          "score": 1,
+          "numericValue": 0.00896726171146812,
+          "displayValue": "0.009"
+        },
+        "tbt": {
+          "title": "Total Blocking Time",
+          "score": 0.96,
+          "numericValue": 133,
+          "displayValue": "130 ms"
+        },
+        "inp": null
+      }
+    },
+    {
+      "key": "category",
+      "label": "categoria",
+      "path": "/catalogo/categoria/geek-colecionaveis",
+      "url": "http://127.0.0.1:3000/catalogo/categoria/geek-colecionaveis",
+      "ok": true,
+      "durationMs": 17801,
+      "reportPath": "reports/lighthouse/category.json",
+      "finalUrl": "http://127.0.0.1:3000/catalogo/categoria/geek-colecionaveis",
+      "fetchTime": "2026-06-19T09:53:29.257Z",
+      "categories": {
+        "performance": 50,
+        "accessibility": 100,
+        "bestPractices": 100,
+        "seo": 100
+      },
+      "audits": {
+        "lcp": {
+          "title": "Largest Contentful Paint",
+          "score": 0.26,
+          "numericValue": 5043.2665,
+          "displayValue": "5.0 s"
+        },
+        "cls": {
+          "title": "Cumulative Layout Shift",
+          "score": 1,
+          "numericValue": 0.009127399575663327,
+          "displayValue": "0.009"
+        },
+        "tbt": {
+          "title": "Total Blocking Time",
+          "score": 0.06,
+          "numericValue": 2185.5,
+          "displayValue": "2,190 ms"
+        },
+        "inp": null
+      }
+    },
+    {
+      "key": "product",
+      "label": "produto",
+      "path": "/produto/chaveiro-rubro-negro-3d",
+      "url": "http://127.0.0.1:3000/produto/chaveiro-rubro-negro-3d",
+      "ok": true,
+      "durationMs": 13882,
+      "reportPath": "reports/lighthouse/product.json",
+      "finalUrl": "http://127.0.0.1:3000/produto/chaveiro-rubro-negro-3d",
+      "fetchTime": "2026-06-19T09:53:46.779Z",
+      "categories": {
+        "performance": 83,
+        "accessibility": 100,
+        "bestPractices": 100,
+        "seo": 100
+      },
+      "audits": {
+        "lcp": {
+          "title": "Largest Contentful Paint",
+          "score": 0.36,
+          "numericValue": 4548.183,
+          "displayValue": "4.5 s"
+        },
+        "cls": {
+          "title": "Cumulative Layout Shift",
+          "score": 1,
+          "numericValue": 0.008965391142968526,
+          "displayValue": "0.009"
+        },
+        "tbt": {
+          "title": "Total Blocking Time",
+          "score": 0.99,
+          "numericValue": 67.5,
+          "displayValue": "70 ms"
+        },
+        "inp": null
+      }
+    },
+    {
+      "key": "catalog",
+      "label": "catalogo",
+      "path": "/catalogo",
+      "url": "http://127.0.0.1:3000/catalogo",
+      "ok": true,
+      "durationMs": 16678,
+      "reportPath": "reports/lighthouse/catalog.json",
+      "finalUrl": "http://127.0.0.1:3000/catalogo",
+      "fetchTime": "2026-06-19T09:54:00.686Z",
+      "categories": {
+        "performance": 53,
+        "accessibility": 100,
+        "bestPractices": 100,
+        "seo": 100
+      },
+      "audits": {
+        "lcp": {
+          "title": "Largest Contentful Paint",
+          "score": 0.33,
+          "numericValue": 4673.402249999999,
+          "displayValue": "4.7 s"
+        },
+        "cls": {
+          "title": "Cumulative Layout Shift",
+          "score": 1,
+          "numericValue": 0.008948341018598654,
+          "displayValue": "0.009"
+        },
+        "tbt": {
+          "title": "Total Blocking Time",
+          "score": 0.1,
+          "numericValue": 1744.6002499999986,
+          "displayValue": "1,740 ms"
+        },
+        "inp": null
+      }
+    },
+    {
+      "key": "checkout",
+      "label": "checkout",
+      "path": "/checkout",
+      "url": "http://127.0.0.1:3000/checkout",
+      "ok": true,
+      "durationMs": 13972,
+      "reportPath": "reports/lighthouse/checkout.json",
+      "finalUrl": "http://127.0.0.1:3000/checkout",
+      "fetchTime": "2026-06-19T09:54:17.072Z",
+      "categories": {
+        "performance": 43,
+        "accessibility": 100,
+        "bestPractices": 100,
+        "seo": 58
+      },
+      "audits": {
+        "lcp": {
+          "title": "Largest Contentful Paint",
+          "score": 0.05,
+          "numericValue": 7269.618,
+          "displayValue": "7.3 s"
+        },
+        "cls": {
+          "title": "Cumulative Layout Shift",
+          "score": 0.76,
+          "numericValue": 0.15054311992220384,
+          "displayValue": "0.151"
+        },
+        "tbt": {
+          "title": "Total Blocking Time",
+          "score": 0.11,
+          "numericValue": 1712.5,
+          "displayValue": "1,710 ms"
+        },
+        "inp": null
+      }
+    }
+  ],
+  "ok": true,
+  "allTargetsMet": false
+}

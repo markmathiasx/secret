@@ -50,10 +50,16 @@ function productSearchText(product: SmartStoreProduct) {
 
 function ProductImage({ product }: { product: SmartStoreProduct }) {
   const src = product.image || "/catalog-assets/product-placeholder.webp";
+  const isPlaceholder = src.includes("/catalog-assets/product-placeholder");
   return (
     <div className="relative aspect-[4/3] overflow-hidden rounded-[8px] border border-white/10 bg-black/30">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={src} alt={product.name} className="h-full w-full object-cover" loading="lazy" />
+      {isPlaceholder ? (
+        <span className="absolute bottom-2 left-2 right-2 rounded-[8px] border border-amber-200/25 bg-black/72 px-2 py-1 text-[11px] font-black leading-4 text-amber-50 backdrop-blur">
+          Foto ilustrativa - produto real sob aprovação
+        </span>
+      ) : null}
     </div>
   );
 }

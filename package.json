@@ -55,6 +55,7 @@
     "catalog:validate-card-images": "node scripts/catalog/validate-card-images.mjs",
     "catalog:validate-public-copy": "node scripts/catalog/validate-public-copy.mjs",
     "security:audit": "node scripts/security/audit-security.mjs",
+    "security:scan-secrets": "node scripts/security/scan-git-secrets.mjs",
     "seo:validate": "node scripts/seo/validate-seo.mjs",
     "pwa:validate": "node scripts/pwa/validate-pwa.mjs",
     "ux:validate": "node scripts/ux/validate-ux.mjs",
@@ -91,6 +92,9 @@
     "test:mdh-smart-store": "node scripts/run-mdh-smart-store-tests.mjs",
     "validate:enterprise-scaffold": "node scripts/validate-enterprise-scaffold.mjs",
     "marketplace:phase0": "node scripts/marketplace/phase0-reconcile.mjs",
+    "marketplace:lighthouse": "node scripts/marketplace/run-lighthouse.mjs",
+    "marketplace:axe": "node scripts/marketplace/run-axe-audit.mjs",
+    "marketplace:audit-phases": "node scripts/marketplace/audit-phases.mjs",
     "marketplace:verify-gates": "node scripts/marketplace/run-verification-gates.mjs",
     "ci:check": "npm run lint:check && npm run typecheck && npm run build && npm run test:images && npm run test:e2e"
   },
@@ -135,6 +139,7 @@
     "zustand": "^5.0.12"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.11.3",
     "@next/bundle-analyzer": "^15.5.13",
     "@playwright/test": "^1.59.1",
     "@types/node": "^22.10.2",

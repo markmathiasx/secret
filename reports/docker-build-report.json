@@ -1,0 +1,7 @@
+{
+  "generatedAt": "2026-06-19T09:15:49.7253759Z",
+  "command": "docker build --target runner -t mdh-prod-deploy:marketplace .",
+  "exitCode": 1,
+  "ok": false,
+  "log": "reports/docker-build.log"
+}

@@ -1,15 +1,15 @@
 # Marketplace Verification Gates
 
-Generated at: 2026-06-19T05:35:47.286Z
+Generated at: 2026-06-19T10:07:13.403Z
 Branch: codex/marketplace-phase0-protocol
-Commit: 266d6865
+Commit: 01dcc04d
 
 | Command | Exit code | Duration | Result |
 | --- | ---: | ---: | --- |
 | `npm run db:generate` | 0 | 2s | PASS |
-| `npm run typecheck` | 0 | 3s | PASS |
-| `npm run lint:check` | 0 | 8s | PASS |
-| `npm run build` | 0 | 79s | PASS |
+| `npm run typecheck` | 0 | 14s | PASS |
+| `npm run lint:check` | 0 | 7s | PASS |
+| `npm run build` | 0 | 70s | PASS |
 | `npm run validate:industrial-ui` | 0 | 0s | PASS |
 | `npm run validate:auth` | 0 | 0s | PASS |
 | `npm run validate:db-storage` | 0 | 0s | PASS |
@@ -30,11 +30,11 @@ Exit code: 0
 
 Prisma schema loaded from prisma\schema.prisma
 
-✔ Generated Prisma Client (v6.19.3) to .\node_modules\@prisma\client in 286ms
+✔ Generated Prisma Client (v6.19.3) to .\node_modules\@prisma\client in 281ms
 
 Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
 
-Tip: Interested in query caching in just a few lines of code? Try Accelerate today! https://pris.ly/tip-3-accelerate
+Tip: Need your database queries to be 1000x faster? Accelerate offers you that and more: https://pris.ly/tip-2-accelerate
 ```
 
 ### npm run typecheck
@@ -83,8 +83,8 @@ Exit code: 0
 ├ ○ /indicacao                                                           202 B         269 kB
 ├ ○ /jogue                                                               18 kB         287 kB
 ├ ○ /login                                                               162 B         276 kB
-├ ○ /loja                                                              6.04 kB         279 kB          5m      1y
-├ ● /loja/[categoria]/[slug]                                             138 B         541 kB          5m      1y
+├ ○ /loja                                                              6.11 kB         279 kB          5m      1y
+├ ● /loja/[categoria]/[slug]                                             138 B         542 kB          5m      1y
 ├   ├ /loja/casa-e-organizacao/real-001-grinder-3-partes-premium                                       5m      1y
 ├   ├ /loja/casa-e-organizacao/real-002-porta-creme-dental-de-bancada                                  5m      1y
 ├   ├ /loja/geek-colecionaveis/real-003-demogorgon-decorativo-premium                                  5m      1y
@@ -107,7 +107,7 @@ Exit code: 0
 ├ ○ /presentes-3d                                                        140 B         556 kB
 ├ ○ /presentes-ate-50                                                  1.85 kB         271 kB
 ├ ƒ /product/[id]                                                        420 B         270 kB
-├ ● /produto/[slug]                                                    3.58 kB         277 kB          5m      1y
+├ ● /produto/[slug]                                                    3.69 kB         277 kB          5m      1y
 ├   ├ /produto/chaveiro-goleiro-comercial-copa-2026-copa-001                                           5m      1y
 ├   ├ /produto/chaveiro-bola-para-presente-copa-2026-copa-002                                          5m      1y
 ├   ├ /produto/chaveiro-camisa-mini-copa-2026-copa-003                                                 5m      1y

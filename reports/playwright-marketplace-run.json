@@ -1,10 +1,15 @@
 {
-  "generatedAt": "2026-06-19T05:27:35.9201492Z",
+  "generatedAt": "2026-06-19T10:10:36.5393496Z",
   "serverReady": true,
   "testsCommand": "npm run test -- --reporter=line",
   "testsExitCode": 0,
-  "e2eCommand": "npm run test:e2e -- --reporter=line",
+  "testsExpected": 10,
+  "smartStoreCommand": "npm run test:mdh-smart-store",
+  "smartStoreExitCode": 0,
+  "smartStoreExpected": 5,
+  "e2eCommand": "$env:PLAYWRIGHT_USE_SYSTEM_CHROME='1'; npm run test:e2e -- --reporter=line",
   "e2eExitCode": 0,
+  "e2eExpected": 9,
   "baseUrl": "http://127.0.0.1:3000",
-  "browser": "system chrome for e2e"
+  "browser": "system chrome via PLAYWRIGHT_USE_SYSTEM_CHROME=1"
 }

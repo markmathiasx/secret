@@ -27,6 +27,14 @@ function resolveProjectSpecifier(request) {
   return found || target;
 }
 
+function resolveScriptStub(request) {
+  if (request === "server-only") {
+    return path.join(ROOT, "scripts", "catalog", "server-only-stub.cjs");
+  }
+
+  return null;
+}
+
 export function createProjectRequire() {
   const require = createRequire(import.meta.url);
   if (registered) return require;
@@ -35,6 +43,11 @@ export function createProjectRequire() {
   const originalResolveFilename = Module._resolveFilename;
 
   Module._resolveFilename = function resolveFilename(request, parent, isMain, options) {
+    const scriptStub = typeof request === "string" ? resolveScriptStub(request) : null;
+    if (scriptStub) {
+      return scriptStub;
+    }
+
     if (typeof request === "string" && request.startsWith("@/")) {
       return originalResolveFilename.call(this, resolveProjectSpecifier(request), parent, isMain, options);
     }

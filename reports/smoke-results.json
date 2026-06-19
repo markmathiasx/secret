@@ -1,7 +1,7 @@
 {
   "config": {
-    "configFile": "D:\\mdh-3d-store\\playwright.config.ts",
-    "rootDir": "D:/mdh-3d-store/tests",
+    "configFile": "M:\\LOJA\\mdh-prod-deploy\\playwright.config.ts",
+    "rootDir": "M:/LOJA/mdh-prod-deploy/tests",
     "forbidOnly": false,
     "fullyParallel": false,
     "globalSetup": null,
@@ -16,7 +16,7 @@
     "preserveOutput": "always",
     "projects": [
       {
-        "outputDir": "D:/mdh-3d-store/test-results",
+        "outputDir": "M:/LOJA/mdh-prod-deploy/test-results",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
@@ -24,7 +24,7 @@
         },
         "id": "chromium",
         "name": "chromium",
-        "testDir": "D:/mdh-3d-store/tests",
+        "testDir": "M:/LOJA/mdh-prod-deploy/tests",
         "testIgnore": [],
         "testMatch": [
           "**/*.@(spec|test).?(c|m)[jt]s?(x)"
@@ -59,529 +59,198 @@
   },
   "suites": [
     {
-      "title": "storefront-images.spec.ts",
-      "file": "storefront-images.spec.ts",
+      "title": "mdh-smart-store.spec.ts",
+      "file": "mdh-smart-store.spec.ts",
       "column": 0,
       "line": 0,
-      "specs": [
+      "specs": [],
+      "suites": [
         {
-          "title": "PDP mostra 4 imagens visiveis em real-001",
-          "ok": true,
-          "tags": [],
-          "tests": [
+          "title": "Loja inteligente MDH3D",
+          "file": "mdh-smart-store.spec.ts",
+          "line": 5,
+          "column": 6,
+          "specs": [
             {
-              "timeout": 30000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "chromium",
-              "projectName": "chromium",
-              "results": [
+              "title": "busca, filtro por categoria e carrinho local funcionam",
+              "ok": true,
+              "tags": [],
+              "tests": [
                 {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 2529,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-05-04T19:18:56.541Z",
+                  "timeout": 30000,
                   "annotations": [],
-                  "attachments": []
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3233,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-19T09:52:40.347Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
                 }
               ],
-              "status": "expected"
-            }
-          ],
-          "id": "ba125c80e441cb68a830-57950f4729b5930c4ffc",
-          "file": "storefront-images.spec.ts",
-          "line": 145,
-          "column": 7
-        },
-        {
-          "title": "PDP mostra 4 imagens visiveis em real-002",
-          "ok": true,
-          "tags": [],
-          "tests": [
+              "id": "5f4be4bce4fd77a1909a-4085852b0e2f00e8a00d",
+              "file": "mdh-smart-store.spec.ts",
+              "line": 6,
+              "column": 7
+            },
             {
-              "timeout": 30000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "chromium",
-              "projectName": "chromium",
-              "results": [
+              "title": "produto com link Nuvemshop usa checkout externo",
+              "ok": true,
+              "tags": [],
+              "tests": [
                 {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 1683,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-05-04T19:18:59.437Z",
+                  "timeout": 30000,
                   "annotations": [],
-                  "attachments": []
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1132,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-19T09:52:43.935Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
                 }
               ],
-              "status": "expected"
-            }
-          ],
-          "id": "ba125c80e441cb68a830-47910420171612f2a95f",
-          "file": "storefront-images.spec.ts",
-          "line": 145,
-          "column": 7
-        },
-        {
-          "title": "PDP mostra 4 imagens visiveis em real-003",
-          "ok": true,
-          "tags": [],
-          "tests": [
+              "id": "5f4be4bce4fd77a1909a-608548c06676f435dc26",
+              "file": "mdh-smart-store.spec.ts",
+              "line": 39,
+              "column": 7
+            },
             {
-              "timeout": 30000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "chromium",
-              "projectName": "chromium",
-              "results": [
+              "title": "produto sem link Nuvemshop abre WhatsApp com mensagem codificada",
+              "ok": true,
+              "tags": [],
+              "tests": [
                 {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 1596,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-05-04T19:19:01.146Z",
+                  "timeout": 30000,
                   "annotations": [],
-                  "attachments": []
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 907,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-19T09:52:45.086Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
                 }
               ],
-              "status": "expected"
-            }
-          ],
-          "id": "ba125c80e441cb68a830-0ef1fcb21c70f29393f9",
-          "file": "storefront-images.spec.ts",
-          "line": 145,
-          "column": 7
-        },
-        {
-          "title": "PDP mostra 4 imagens visiveis em real-004",
-          "ok": true,
-          "tags": [],
-          "tests": [
+              "id": "5f4be4bce4fd77a1909a-c5375300552d49db3cde",
+              "file": "mdh-smart-store.spec.ts",
+              "line": 57,
+              "column": 7
+            },
             {
-              "timeout": 30000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "chromium",
-              "projectName": "chromium",
-              "results": [
+              "title": "feeds locais retornam dados do CSV",
+              "ok": true,
+              "tags": [],
+              "tests": [
                 {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 1615,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-05-04T19:19:02.761Z",
+                  "timeout": 30000,
                   "annotations": [],
-                  "attachments": []
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 378,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-19T09:52:46.006Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
                 }
               ],
-              "status": "expected"
-            }
-          ],
-          "id": "ba125c80e441cb68a830-dae9c6ef9dd2db0e99b2",
-          "file": "storefront-images.spec.ts",
-          "line": 145,
-          "column": 7
-        },
-        {
-          "title": "PDP mostra 4 imagens visiveis em real-005",
-          "ok": true,
-          "tags": [],
-          "tests": [
+              "id": "5f4be4bce4fd77a1909a-6b0a7e12e54f7202176d",
+              "file": "mdh-smart-store.spec.ts",
+              "line": 71,
+              "column": 7
+            },
             {
-              "timeout": 30000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "chromium",
-              "projectName": "chromium",
-              "results": [
+              "title": "ofertas e orçamento personalizado carregam sem credenciais externas",
+              "ok": true,
+              "tags": [],
+              "tests": [
                 {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 1623,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-05-04T19:19:04.393Z",
+                  "timeout": 30000,
                   "annotations": [],
-                  "attachments": []
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1214,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-19T09:52:46.395Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
                 }
               ],
-              "status": "expected"
+              "id": "5f4be4bce4fd77a1909a-10251657452c1acd0935",
+              "file": "mdh-smart-store.spec.ts",
+              "line": 98,
+              "column": 7
             }
-          ],
-          "id": "ba125c80e441cb68a830-74068d1e1eacebd6feac",
-          "file": "storefront-images.spec.ts",
-          "line": 145,
-          "column": 7
-        },
-        {
-          "title": "PDP mostra 4 imagens visiveis em real-006",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 30000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "chromium",
-              "projectName": "chromium",
-              "results": [
-                {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 1608,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-05-04T19:19:06.027Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "ba125c80e441cb68a830-d00fe75d45a34b36fd3c",
-          "file": "storefront-images.spec.ts",
-          "line": 145,
-          "column": 7
-        },
-        {
-          "title": "PDP mostra 4 imagens visiveis em real-007",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 30000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "chromium",
-              "projectName": "chromium",
-              "results": [
-                {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 1592,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-05-04T19:19:07.649Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "ba125c80e441cb68a830-8e16f2bf60caef6206a9",
-          "file": "storefront-images.spec.ts",
-          "line": 145,
-          "column": 7
-        },
-        {
-          "title": "PDP mostra 4 imagens visiveis em real-008",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 30000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "chromium",
-              "projectName": "chromium",
-              "results": [
-                {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 1556,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-05-04T19:19:09.254Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "ba125c80e441cb68a830-53ceebe1ee84b59fcaad",
-          "file": "storefront-images.spec.ts",
-          "line": 145,
-          "column": 7
-        },
-        {
-          "title": "PDP mostra 4 imagens visiveis em real-009",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 30000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "chromium",
-              "projectName": "chromium",
-              "results": [
-                {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 1616,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-05-04T19:19:10.821Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "ba125c80e441cb68a830-19c7c767be33e3b7d584",
-          "file": "storefront-images.spec.ts",
-          "line": 145,
-          "column": 7
-        },
-        {
-          "title": "PDP mostra 4 imagens visiveis em real-010",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 30000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "chromium",
-              "projectName": "chromium",
-              "results": [
-                {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 1586,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-05-04T19:19:12.449Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "ba125c80e441cb68a830-3ff7e96896d17031700a",
-          "file": "storefront-images.spec.ts",
-          "line": 145,
-          "column": 7
-        },
-        {
-          "title": "home usa imagens de produto nos cards principais",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 30000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "chromium",
-              "projectName": "chromium",
-              "results": [
-                {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 2975,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-05-04T19:19:14.049Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "ba125c80e441cb68a830-353dcbddfea26ba02e82",
-          "file": "storefront-images.spec.ts",
-          "line": 174,
-          "column": 5
-        },
-        {
-          "title": "arquivos da vitrine nao sao cards textuais uniformes",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 30000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "chromium",
-              "projectName": "chromium",
-              "results": [
-                {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 54,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-05-04T19:19:17.037Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "ba125c80e441cb68a830-deedc7386de8aa26d071",
-          "file": "storefront-images.spec.ts",
-          "line": 200,
-          "column": 5
-        },
-        {
-          "title": "itens Valorant usam imagens curadas e nao placeholders de SKU",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 30000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "chromium",
-              "projectName": "chromium",
-              "results": [
-                {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 77,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-05-04T19:19:17.102Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "ba125c80e441cb68a830-3adfc48d0a7f9fc14859",
-          "file": "storefront-images.spec.ts",
-          "line": 219,
-          "column": 5
-        },
-        {
-          "title": "PDP Valorant curado e publico usa imagem conceitual local",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 30000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "chromium",
-              "projectName": "chromium",
-              "results": [
-                {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 1616,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-05-04T19:19:17.204Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "ba125c80e441cb68a830-4693bc38cbf552ed34c3",
-          "file": "storefront-images.spec.ts",
-          "line": 251,
-          "column": 5
-        },
-        {
-          "title": "checkout continua carregando sem imagens quebradas",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 30000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "chromium",
-              "projectName": "chromium",
-              "results": [
-                {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 1375,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-05-04T19:19:18.830Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "ba125c80e441cb68a830-94567445342e5492d014",
-          "file": "storefront-images.spec.ts",
-          "line": 268,
-          "column": 5
+          ]
         }
       ]
     }
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-05-04T19:18:55.918Z",
-    "duration": 24405.39,
-    "expected": 15,
+    "startTime": "2026-06-19T09:52:39.762Z",
+    "duration": 8163.027,
+    "expected": 5,
     "skipped": 0,
     "unexpected": 0,
     "flaky": 0
