@@ -1,0 +1,78 @@
+{
+  "baseUrl": "https://www.mdh3d.com.br",
+  "deployUrl": "https://mdh-3d-store-fbjvq6o94-markmathias.vercel.app",
+  "checkedAt": "2026-06-19T14:37:01.271Z",
+  "routes": {
+    "/": {
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "title": "MDH 3D Store | Impressão 3D sob demanda",
+      "hasOldInstagram": false,
+      "hasFakePhone": false,
+      "hasFotosReais": false,
+      "hasPicsum": false,
+      "productCardCount": 39,
+      "duplicateProductIds": [],
+      "videoSrcs": [
+        "/videos/hero-printing.mp4"
+      ],
+      "hasRequiredCopy": true,
+      "hasPixPlusOne": true
+    },
+    "/catalogo": {
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "title": "Catálogo MDH 3D | MDH 3D",
+      "hasOldInstagram": false,
+      "hasFakePhone": false,
+      "hasFotosReais": false,
+      "hasPicsum": false
+    },
+    "/atendimento": {
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "title": "Central de Atendimento MDH 3D | MDH 3D",
+      "hasOldInstagram": false,
+      "hasFakePhone": false,
+      "hasFotosReais": false,
+      "hasPicsum": false
+    },
+    "/jogue": {
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "title": "Arcade MDH 3D — Pinball Star e mini-games | MDH 3D",
+      "hasOldInstagram": false,
+      "hasFakePhone": false,
+      "hasFotosReais": false,
+      "hasPicsum": false,
+      "hasPinball": true,
+      "hasArcadeTitle": true
+    },
+    "/meta/catalog.csv": {
+      "status": 200,
+      "contentType": "text/csv; charset=utf-8",
+      "startsAsCsv": true,
+      "bytes": 438758,
+      "hasHtml": false,
+      "hasPicsum": false
+    }
+  },
+  "deploymentRoutes": {
+    "/": {
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "title": "MDH 3D Store | Impressão 3D sob demanda",
+      "hasOldInstagram": false,
+      "hasFakePhone": false,
+      "hasFotosReais": false,
+      "hasPicsum": false,
+      "productCardCount": 39,
+      "duplicateProductIds": [],
+      "videoSrcs": [
+        "/videos/hero-printing.mp4"
+      ],
+      "hasRequiredCopy": true,
+      "hasPixPlusOne": true
+    }
+  }
+}

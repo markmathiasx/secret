@@ -3,7 +3,9 @@
 Data: 2026-06-19  
 Branch: `codex/visual-fase14-cinematic`  
 Base auditada: `3b8ed4bf04a56bf8f1788ddc2e6d59b338d0eddf`  
-Status local honesto: **94% concluido**
+Status final honesto: **94% concluido**
+Deploy producao: `https://mdh-3d-store-fbjvq6o94-markmathias.vercel.app`  
+Dominio publico validado: `https://www.mdh3d.com.br`
 
 ## Evidencias
 
@@ -14,6 +16,7 @@ Status local honesto: **94% concluido**
 | Screenshots antes | `reports/visual-audit/*-before.png` | home/catalogo/sobre/contato capturados |
 | Screenshots depois | `reports/visual-audit/home-after-desktop-1440-revealed.png`, `reports/visual-audit/home-after-mobile-360-revealed.png` | capturados apos scroll reveal |
 | Validacao local visual | `reports/visual-audit/local-visual-validation.json` | 0 produto duplicado, 39 cards, CSV 200 |
+| Validacao producao visual | `reports/visual-audit/production-visual-validation.json` | dominio publico 200, 0 duplicados, CSV 200 |
 | Lighthouse antes | `reports/visual-audit/lighthouse-home-before.json` | Perf 85, A11y 96, BP 100, SEO 100 |
 | Lighthouse local depois | `reports/visual-audit/lighthouse-home-after-local.json` | Perf 53, A11y 98, BP 100, SEO 100 |
 
@@ -61,6 +64,8 @@ Status local honesto: **94% concluido**
 - `npm run seo:validate` - OK
 - `git diff --check` - OK
 - Playwright local em `/`, `/catalogo`, `/atendimento`, `/jogue`, `/meta/catalog.csv` - OK
+- Playwright producao em `https://www.mdh3d.com.br/`, `/catalogo`, `/atendimento`, `/jogue`, `/meta/catalog.csv` - OK
+- `/jogue` producao: 11 botoes de jogo encontrados, incluindo Pinball Star e Print Runner 3D - OK
 
 ## Pendencias reais
 
@@ -71,5 +76,10 @@ Status local honesto: **94% concluido**
 
 ## Producao
 
-Pendente ate concluir push e deploy Vercel.
-
+- Deploy Vercel `READY`: `https://mdh-3d-store-fbjvq6o94-markmathias.vercel.app`
+- Alias publico confirmado: `https://www.mdh3d.com.br`
+- Home producao: 39 cards, 0 duplicados, video `/videos/hero-printing.mp4`
+- Catalogo producao: HTTP 200
+- Atendimento producao: HTTP 200, sem `mdh_impressao3d`, sem telefone fake, sem `fotos reais`
+- Jogue producao: HTTP 200, Pinball presente, 11 botoes de jogo renderizados
+- Meta feed producao: HTTP 200, `text/csv`, CSV real, sem HTML
