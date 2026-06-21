@@ -1,10 +1,14 @@
 {
-  "generatedAt": "2026-06-21T15:54:30.962Z",
+  "generatedAt": "2026-06-21T16:01:08.937Z",
   "baseUrls": [
-    "http://127.0.0.1:3000"
+    "https://www.mdh3d.com.br",
+    "https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app"
   ],
   "ok": true,
   "counts": [
+    843,
+    843,
+    843,
     843,
     843,
     843
@@ -12,10 +16,10 @@
   "countsConsistent": true,
   "html": [
     {
-      "baseUrl": "http://127.0.0.1:3000",
+      "baseUrl": "https://www.mdh3d.com.br",
       "route": "/",
-      "url": "http://127.0.0.1:3000/",
-      "finalUrl": "http://127.0.0.1:3000/",
+      "url": "https://www.mdh3d.com.br/",
+      "finalUrl": "https://www.mdh3d.com.br/",
       "status": 200,
       "contentType": "text/html; charset=utf-8",
       "officialCount": 843,
@@ -36,10 +40,10 @@
       "errors": []
     },
     {
-      "baseUrl": "http://127.0.0.1:3000",
+      "baseUrl": "https://www.mdh3d.com.br",
       "route": "/loja",
-      "url": "http://127.0.0.1:3000/loja",
-      "finalUrl": "http://127.0.0.1:3000/loja",
+      "url": "https://www.mdh3d.com.br/loja",
+      "finalUrl": "https://www.mdh3d.com.br/loja",
       "status": 200,
       "contentType": "text/html; charset=utf-8",
       "officialCount": null,
@@ -60,10 +64,10 @@
       "errors": []
     },
     {
-      "baseUrl": "http://127.0.0.1:3000",
+      "baseUrl": "https://www.mdh3d.com.br",
       "route": "/ofertas",
-      "url": "http://127.0.0.1:3000/ofertas",
-      "finalUrl": "http://127.0.0.1:3000/ofertas",
+      "url": "https://www.mdh3d.com.br/ofertas",
+      "finalUrl": "https://www.mdh3d.com.br/ofertas",
       "status": 200,
       "contentType": "text/html; charset=utf-8",
       "officialCount": null,
@@ -84,10 +88,10 @@
       "errors": []
     },
     {
-      "baseUrl": "http://127.0.0.1:3000",
+      "baseUrl": "https://www.mdh3d.com.br",
       "route": "/catalogo",
-      "url": "http://127.0.0.1:3000/catalogo",
-      "finalUrl": "http://127.0.0.1:3000/catalogo",
+      "url": "https://www.mdh3d.com.br/catalogo",
+      "finalUrl": "https://www.mdh3d.com.br/catalogo",
       "status": 200,
       "contentType": "text/html; charset=utf-8",
       "officialCount": 843,
@@ -108,10 +112,10 @@
       "errors": []
     },
     {
-      "baseUrl": "http://127.0.0.1:3000",
+      "baseUrl": "https://www.mdh3d.com.br",
       "route": "/sob-medida",
-      "url": "http://127.0.0.1:3000/sob-medida",
-      "finalUrl": "http://127.0.0.1:3000/sob-medida",
+      "url": "https://www.mdh3d.com.br/sob-medida",
+      "finalUrl": "https://www.mdh3d.com.br/sob-medida",
       "status": 200,
       "contentType": "text/html; charset=utf-8",
       "officialCount": null,
@@ -132,10 +136,10 @@
       "errors": []
     },
     {
-      "baseUrl": "http://127.0.0.1:3000",
+      "baseUrl": "https://www.mdh3d.com.br",
       "route": "/jogue",
-      "url": "http://127.0.0.1:3000/jogue",
-      "finalUrl": "http://127.0.0.1:3000/jogue",
+      "url": "https://www.mdh3d.com.br/jogue",
+      "finalUrl": "https://www.mdh3d.com.br/jogue",
       "status": 200,
       "contentType": "text/html; charset=utf-8",
       "officialCount": null,
@@ -156,10 +160,10 @@
       "errors": []
     },
     {
-      "baseUrl": "http://127.0.0.1:3000",
+      "baseUrl": "https://www.mdh3d.com.br",
       "route": "/como-funciona",
-      "url": "http://127.0.0.1:3000/como-funciona",
-      "finalUrl": "http://127.0.0.1:3000/como-funciona",
+      "url": "https://www.mdh3d.com.br/como-funciona",
+      "finalUrl": "https://www.mdh3d.com.br/como-funciona",
       "status": 200,
       "contentType": "text/html; charset=utf-8",
       "officialCount": null,
@@ -180,10 +184,10 @@
       "errors": []
     },
     {
-      "baseUrl": "http://127.0.0.1:3000",
+      "baseUrl": "https://www.mdh3d.com.br",
       "route": "/blog",
-      "url": "http://127.0.0.1:3000/blog",
-      "finalUrl": "http://127.0.0.1:3000/blog",
+      "url": "https://www.mdh3d.com.br/blog",
+      "finalUrl": "https://www.mdh3d.com.br/blog",
       "status": 200,
       "contentType": "text/html; charset=utf-8",
       "officialCount": null,
@@ -204,10 +208,226 @@
       "errors": []
     },
     {
-      "baseUrl": "http://127.0.0.1:3000",
+      "baseUrl": "https://www.mdh3d.com.br",
       "route": "/atendimento",
-      "url": "http://127.0.0.1:3000/atendimento",
-      "finalUrl": "http://127.0.0.1:3000/atendimento",
+      "url": "https://www.mdh3d.com.br/atendimento",
+      "finalUrl": "https://www.mdh3d.com.br/atendimento",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "officialCount": 843,
+      "menuLabelsFound": [
+        "Loja",
+        "Ofertas",
+        "Catálogo",
+        "Sob medida",
+        "Jogue",
+        "Como funciona",
+        "Blog",
+        "Atendimento"
+      ],
+      "whatsappLinks": [
+        "5521974137662"
+      ],
+      "ok": true,
+      "errors": []
+    },
+    {
+      "baseUrl": "https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app",
+      "route": "/",
+      "url": "https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app/",
+      "finalUrl": "https://www.mdh3d.com.br/",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "officialCount": 843,
+      "menuLabelsFound": [
+        "Loja",
+        "Ofertas",
+        "Catálogo",
+        "Sob medida",
+        "Jogue",
+        "Como funciona",
+        "Blog",
+        "Atendimento"
+      ],
+      "whatsappLinks": [
+        "5521974137662"
+      ],
+      "ok": true,
+      "errors": []
+    },
+    {
+      "baseUrl": "https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app",
+      "route": "/loja",
+      "url": "https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app/loja",
+      "finalUrl": "https://www.mdh3d.com.br/loja",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "officialCount": null,
+      "menuLabelsFound": [
+        "Loja",
+        "Ofertas",
+        "Catálogo",
+        "Sob medida",
+        "Jogue",
+        "Como funciona",
+        "Blog",
+        "Atendimento"
+      ],
+      "whatsappLinks": [
+        "5521974137662"
+      ],
+      "ok": true,
+      "errors": []
+    },
+    {
+      "baseUrl": "https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app",
+      "route": "/ofertas",
+      "url": "https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app/ofertas",
+      "finalUrl": "https://www.mdh3d.com.br/ofertas",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "officialCount": null,
+      "menuLabelsFound": [
+        "Loja",
+        "Ofertas",
+        "Catálogo",
+        "Sob medida",
+        "Jogue",
+        "Como funciona",
+        "Blog",
+        "Atendimento"
+      ],
+      "whatsappLinks": [
+        "5521974137662"
+      ],
+      "ok": true,
+      "errors": []
+    },
+    {
+      "baseUrl": "https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app",
+      "route": "/catalogo",
+      "url": "https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app/catalogo",
+      "finalUrl": "https://www.mdh3d.com.br/catalogo",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "officialCount": 843,
+      "menuLabelsFound": [
+        "Loja",
+        "Ofertas",
+        "Catálogo",
+        "Sob medida",
+        "Jogue",
+        "Como funciona",
+        "Blog",
+        "Atendimento"
+      ],
+      "whatsappLinks": [
+        "5521974137662"
+      ],
+      "ok": true,
+      "errors": []
+    },
+    {
+      "baseUrl": "https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app",
+      "route": "/sob-medida",
+      "url": "https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app/sob-medida",
+      "finalUrl": "https://www.mdh3d.com.br/sob-medida",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "officialCount": null,
+      "menuLabelsFound": [
+        "Loja",
+        "Ofertas",
+        "Catálogo",
+        "Sob medida",
+        "Jogue",
+        "Como funciona",
+        "Blog",
+        "Atendimento"
+      ],
+      "whatsappLinks": [
+        "5521974137662"
+      ],
+      "ok": true,
+      "errors": []
+    },
+    {
+      "baseUrl": "https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app",
+      "route": "/jogue",
+      "url": "https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app/jogue",
+      "finalUrl": "https://www.mdh3d.com.br/jogue",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "officialCount": null,
+      "menuLabelsFound": [
+        "Loja",
+        "Ofertas",
+        "Catálogo",
+        "Sob medida",
+        "Jogue",
+        "Como funciona",
+        "Blog",
+        "Atendimento"
+      ],
+      "whatsappLinks": [
+        "5521974137662"
+      ],
+      "ok": true,
+      "errors": []
+    },
+    {
+      "baseUrl": "https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app",
+      "route": "/como-funciona",
+      "url": "https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app/como-funciona",
+      "finalUrl": "https://www.mdh3d.com.br/como-funciona",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "officialCount": null,
+      "menuLabelsFound": [
+        "Loja",
+        "Ofertas",
+        "Catálogo",
+        "Sob medida",
+        "Jogue",
+        "Como funciona",
+        "Blog",
+        "Atendimento"
+      ],
+      "whatsappLinks": [
+        "5521974137662"
+      ],
+      "ok": true,
+      "errors": []
+    },
+    {
+      "baseUrl": "https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app",
+      "route": "/blog",
+      "url": "https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app/blog",
+      "finalUrl": "https://www.mdh3d.com.br/blog",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "officialCount": null,
+      "menuLabelsFound": [
+        "Loja",
+        "Ofertas",
+        "Catálogo",
+        "Sob medida",
+        "Jogue",
+        "Como funciona",
+        "Blog",
+        "Atendimento"
+      ],
+      "whatsappLinks": [
+        "5521974137662"
+      ],
+      "ok": true,
+      "errors": []
+    },
+    {
+      "baseUrl": "https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app",
+      "route": "/atendimento",
+      "url": "https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app/atendimento",
+      "finalUrl": "https://www.mdh3d.com.br/atendimento",
       "status": 200,
       "contentType": "text/html; charset=utf-8",
       "officialCount": 843,
@@ -230,10 +450,10 @@
   ],
   "feeds": [
     {
-      "baseUrl": "http://127.0.0.1:3000",
+      "baseUrl": "https://www.mdh3d.com.br",
       "route": "/meta/catalog.csv",
-      "url": "http://127.0.0.1:3000/meta/catalog.csv",
-      "finalUrl": "http://127.0.0.1:3000/meta/catalog.csv",
+      "url": "https://www.mdh3d.com.br/meta/catalog.csv",
+      "finalUrl": "https://www.mdh3d.com.br/meta/catalog.csv",
       "status": 200,
       "contentType": "text/csv; charset=utf-8",
       "itemCount": 840,
@@ -241,10 +461,10 @@
       "errors": []
     },
     {
-      "baseUrl": "http://127.0.0.1:3000",
+      "baseUrl": "https://www.mdh3d.com.br",
       "route": "/feeds/google-shopping.xml",
-      "url": "http://127.0.0.1:3000/feeds/google-shopping.xml",
-      "finalUrl": "http://127.0.0.1:3000/feeds/google-shopping.xml",
+      "url": "https://www.mdh3d.com.br/feeds/google-shopping.xml",
+      "finalUrl": "https://www.mdh3d.com.br/feeds/google-shopping.xml",
       "status": 200,
       "contentType": "application/xml; charset=utf-8",
       "itemCount": 306,
@@ -252,10 +472,10 @@
       "errors": []
     },
     {
-      "baseUrl": "http://127.0.0.1:3000",
+      "baseUrl": "https://www.mdh3d.com.br",
       "route": "/feeds/products.json",
-      "url": "http://127.0.0.1:3000/feeds/products.json",
-      "finalUrl": "http://127.0.0.1:3000/feeds/products.json",
+      "url": "https://www.mdh3d.com.br/feeds/products.json",
+      "finalUrl": "https://www.mdh3d.com.br/feeds/products.json",
       "status": 200,
       "contentType": "application/json",
       "itemCount": 306,
@@ -263,10 +483,54 @@
       "errors": []
     },
     {
-      "baseUrl": "http://127.0.0.1:3000",
+      "baseUrl": "https://www.mdh3d.com.br",
       "route": "/sitemap-products.xml",
-      "url": "http://127.0.0.1:3000/sitemap-products.xml",
-      "finalUrl": "http://127.0.0.1:3000/sitemap-products.xml",
+      "url": "https://www.mdh3d.com.br/sitemap-products.xml",
+      "finalUrl": "https://www.mdh3d.com.br/sitemap-products.xml",
+      "status": 200,
+      "contentType": "application/xml; charset=utf-8",
+      "itemCount": 1149,
+      "ok": true,
+      "errors": []
+    },
+    {
+      "baseUrl": "https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app",
+      "route": "/meta/catalog.csv",
+      "url": "https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app/meta/catalog.csv",
+      "finalUrl": "https://www.mdh3d.com.br/meta/catalog.csv",
+      "status": 200,
+      "contentType": "text/csv; charset=utf-8",
+      "itemCount": 840,
+      "ok": true,
+      "errors": []
+    },
+    {
+      "baseUrl": "https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app",
+      "route": "/feeds/google-shopping.xml",
+      "url": "https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app/feeds/google-shopping.xml",
+      "finalUrl": "https://www.mdh3d.com.br/feeds/google-shopping.xml",
+      "status": 200,
+      "contentType": "application/xml; charset=utf-8",
+      "itemCount": 306,
+      "ok": true,
+      "errors": []
+    },
+    {
+      "baseUrl": "https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app",
+      "route": "/feeds/products.json",
+      "url": "https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app/feeds/products.json",
+      "finalUrl": "https://www.mdh3d.com.br/feeds/products.json",
+      "status": 200,
+      "contentType": "application/json",
+      "itemCount": 306,
+      "ok": true,
+      "errors": []
+    },
+    {
+      "baseUrl": "https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app",
+      "route": "/sitemap-products.xml",
+      "url": "https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app/sitemap-products.xml",
+      "finalUrl": "https://www.mdh3d.com.br/sitemap-products.xml",
       "status": 200,
       "contentType": "application/xml; charset=utf-8",
       "itemCount": 1149,

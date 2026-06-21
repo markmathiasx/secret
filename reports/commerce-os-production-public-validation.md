@@ -1,36 +1,50 @@
 # Commerce OS Production Public Validation
 
-Generated at: 2026-06-21T15:54:30.962Z
+Generated at: 2026-06-21T16:01:08.937Z
 Overall: PASS
 
 ## Base URLs
-- http://127.0.0.1:3000
+- https://www.mdh3d.com.br
+- https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app
 
 ## HTML routes
 
 | Base | Route | Status | Count | Result |
 | --- | --- | ---: | ---: | --- |
-| http://127.0.0.1:3000 | / | 200 | 843 | PASS |
-| http://127.0.0.1:3000 | /loja | 200 |  | PASS |
-| http://127.0.0.1:3000 | /ofertas | 200 |  | PASS |
-| http://127.0.0.1:3000 | /catalogo | 200 | 843 | PASS |
-| http://127.0.0.1:3000 | /sob-medida | 200 |  | PASS |
-| http://127.0.0.1:3000 | /jogue | 200 |  | PASS |
-| http://127.0.0.1:3000 | /como-funciona | 200 |  | PASS |
-| http://127.0.0.1:3000 | /blog | 200 |  | PASS |
-| http://127.0.0.1:3000 | /atendimento | 200 | 843 | PASS |
+| https://www.mdh3d.com.br | / | 200 | 843 | PASS |
+| https://www.mdh3d.com.br | /loja | 200 |  | PASS |
+| https://www.mdh3d.com.br | /ofertas | 200 |  | PASS |
+| https://www.mdh3d.com.br | /catalogo | 200 | 843 | PASS |
+| https://www.mdh3d.com.br | /sob-medida | 200 |  | PASS |
+| https://www.mdh3d.com.br | /jogue | 200 |  | PASS |
+| https://www.mdh3d.com.br | /como-funciona | 200 |  | PASS |
+| https://www.mdh3d.com.br | /blog | 200 |  | PASS |
+| https://www.mdh3d.com.br | /atendimento | 200 | 843 | PASS |
+| https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app | / | 200 | 843 | PASS |
+| https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app | /loja | 200 |  | PASS |
+| https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app | /ofertas | 200 |  | PASS |
+| https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app | /catalogo | 200 | 843 | PASS |
+| https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app | /sob-medida | 200 |  | PASS |
+| https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app | /jogue | 200 |  | PASS |
+| https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app | /como-funciona | 200 |  | PASS |
+| https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app | /blog | 200 |  | PASS |
+| https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app | /atendimento | 200 | 843 | PASS |
 
 ## Feeds
 
 | Base | Route | Status | Items | Content-Type | Result |
 | --- | --- | ---: | ---: | --- | --- |
-| http://127.0.0.1:3000 | /meta/catalog.csv | 200 | 840 | text/csv; charset=utf-8 | PASS |
-| http://127.0.0.1:3000 | /feeds/google-shopping.xml | 200 | 306 | application/xml; charset=utf-8 | PASS |
-| http://127.0.0.1:3000 | /feeds/products.json | 200 | 306 | application/json | PASS |
-| http://127.0.0.1:3000 | /sitemap-products.xml | 200 | 1149 | application/xml; charset=utf-8 | PASS |
+| https://www.mdh3d.com.br | /meta/catalog.csv | 200 | 840 | text/csv; charset=utf-8 | PASS |
+| https://www.mdh3d.com.br | /feeds/google-shopping.xml | 200 | 306 | application/xml; charset=utf-8 | PASS |
+| https://www.mdh3d.com.br | /feeds/products.json | 200 | 306 | application/json | PASS |
+| https://www.mdh3d.com.br | /sitemap-products.xml | 200 | 1149 | application/xml; charset=utf-8 | PASS |
+| https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app | /meta/catalog.csv | 200 | 840 | text/csv; charset=utf-8 | PASS |
+| https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app | /feeds/google-shopping.xml | 200 | 306 | application/xml; charset=utf-8 | PASS |
+| https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app | /feeds/products.json | 200 | 306 | application/json | PASS |
+| https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app | /sitemap-products.xml | 200 | 1149 | application/xml; charset=utf-8 | PASS |
 
 ## Count consistency
 
-Official counts found: 843, 843, 843
+Official counts found: 843, 843, 843, 843, 843, 843
 Counts consistent: yes
 
