@@ -1,0 +1,48 @@
+{
+  "version": "2026-06-21",
+  "mode": "safe-export-only",
+  "channels": [
+    {
+      "id": "site",
+      "enabledWithoutCredentials": true,
+      "action": "publish-local"
+    },
+    {
+      "id": "whatsapp",
+      "enabledWithoutCredentials": true,
+      "action": "encoded-message-link"
+    },
+    {
+      "id": "meta_catalog",
+      "enabledWithoutCredentials": true,
+      "action": "csv-feed"
+    },
+    {
+      "id": "google_merchant",
+      "enabledWithoutCredentials": true,
+      "action": "xml-feed"
+    },
+    {
+      "id": "mercadolivre",
+      "enabledWithoutCredentials": false,
+      "action": "payload-export-only"
+    },
+    {
+      "id": "shopee",
+      "enabledWithoutCredentials": false,
+      "action": "payload-export-only"
+    },
+    {
+      "id": "facebook_marketplace",
+      "enabledWithoutCredentials": false,
+      "action": "manual-only-no-browser-automation"
+    }
+  ],
+  "prohibited": [
+    "login automation",
+    "captcha bypass",
+    "marketplace publish without official credentials",
+    "aggressive scraping",
+    "credential hardcode"
+  ]
+}

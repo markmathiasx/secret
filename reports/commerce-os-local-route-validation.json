@@ -1,0 +1,62 @@
+{
+  "generatedAt": "2026-06-21T14:17:51.9899037Z",
+  "baseUrl": "http://127.0.0.1:3000",
+  "ok": true,
+  "routes": [
+    {
+      "route": "/",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "length": 439080
+    },
+    {
+      "route": "/loja",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "length": 2108404
+    },
+    {
+      "route": "/catalogo",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "length": 3708289
+    },
+    {
+      "route": "/atendimento",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "length": 129604
+    },
+    {
+      "route": "/jogue",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "length": 87944
+    },
+    {
+      "route": "/meta/catalog.csv",
+      "status": 200,
+      "contentType": "text/csv; charset=utf-8",
+      "length": 435356
+    },
+    {
+      "route": "/feeds/meta-catalog.csv",
+      "status": 200,
+      "contentType": "text/csv; charset=utf-8",
+      "length": 161676
+    },
+    {
+      "route": "/feeds/google-shopping.xml",
+      "status": 200,
+      "contentType": "application/xml; charset=utf-8",
+      "length": 355793
+    },
+    {
+      "route": "/api/admin/commerce-os/health",
+      "status": 401,
+      "contentType": "",
+      "expectedBlocked": true,
+      "error": "Response status code does not indicate success: 401 (Unauthorized)."
+    }
+  ]
+}

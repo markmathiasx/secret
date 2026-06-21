@@ -35,6 +35,8 @@
     "components/**/*.tsx",
     "data/**/*.json",
     "lib/**/*.ts",
+    "src/**/*.ts",
+    "src/**/*.tsx",
     "middleware.ts",
     "next-env.d.ts",
     "prisma/**/*.ts",

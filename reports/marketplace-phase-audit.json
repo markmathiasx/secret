@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-06-19T10:17:50.199Z",
-  "branch": "codex/marketplace-phase0-protocol",
-  "commit": "01dcc04d",
+  "generatedAt": "2026-06-21T14:14:14.197Z",
+  "branch": "codex/visual-fase14-cinematic",
+  "commit": "a25d59c4",
   "phases": [
     {
       "name": "0. Reconciliação",
@@ -504,7 +504,7 @@
         {
           "label": "db:generate/typecheck/lint/build",
           "ok": true,
-          "evidence": "npm run db:generate: exit 0, 2s; npm run typecheck: exit 0, 14s; npm run lint:check: exit 0, 7s; npm run build: exit 0, 70s",
+          "evidence": "npm run db:generate: exit 0, 2s; npm run typecheck: exit 0, 4s; npm run lint:check: exit 0, 7s; npm run build: exit 0, 76s",
           "blocker": "Gates principais falharam"
         },
         {

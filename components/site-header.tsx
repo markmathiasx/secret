@@ -28,25 +28,20 @@ import { useCart } from "@/lib/cart-context";
 import { CommerceAssistantDialog } from "@/components/commerce-assistant-dialog";
 import { HeaderCommandPalette } from "@/components/header-command-palette";
 import { brand, socialLinks, whatsappNumber } from "@/lib/constants";
+import { primaryNavigationLinks, commerceShortcutLinks } from "@/src/config/navigation";
 
-const navLinks = [
-  { href: "/loja", label: "Loja" },
-  { href: "/ofertas", label: "Ofertas" },
-  { href: "/catalogo", label: "Catálogo" },
-  { href: "/orcamento-personalizado", label: "Sob medida" },
-  { href: "/jogue", label: "Jogue" },
-  { href: "/guia-primeira-impressao-3d", label: "Como funciona" },
-  { href: "/blog", label: "Blog" },
-  { href: "/atendimento", label: "Atendimento" },
-];
+const shortcutIcons = {
+  "Midia validada": BadgeCheck,
+  "Pronta entrega": PackageCheck,
+  "Ideias de presente": ShoppingBag,
+  "Enviar STL": Boxes,
+  "Print Quest": Gamepad2,
+} as const;
 
-const commerceShortcuts = [
-  { href: "/catalogo?mode=verified", label: "Mídia validada", icon: BadgeCheck },
-  { href: "/catalogo?status=Pronta%20entrega", label: "Pronta entrega", icon: PackageCheck },
-  { href: "/catalogo?intent=presentear", label: "Ideias de presente", icon: ShoppingBag },
-  { href: "/imagem-para-impressao-3d", label: "Enviar STL", icon: Boxes },
-  { href: "/jogue", label: "Print Quest", icon: Gamepad2 },
-] as const;
+const commerceShortcuts = commerceShortcutLinks.map((link) => ({
+  ...link,
+  icon: shortcutIcons[link.label as keyof typeof shortcutIcons] || BadgeCheck,
+}));
 
 
 function isLinkActive(pathname: string, href: string) {
@@ -87,7 +82,7 @@ export function SiteHeader({
   const userLabel = session.user?.displayName || session.user?.email?.split("@")[0] || "Minha conta";
   const nav = useMemo(
     () =>
-      navLinks.map((link) => ({
+      primaryNavigationLinks.map((link) => ({
         ...link,
         active: isLinkActive(pathname, link.href),
       })),

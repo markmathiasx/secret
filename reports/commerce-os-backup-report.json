@@ -1,0 +1,32 @@
+{
+  "generatedAt": "2026-06-21T14:17:02.165Z",
+  "backupId": "2026-06-21T14-17-02-160Z",
+  "mode": "manual-safe",
+  "files": [
+    {
+      "source": "data/produtos.csv",
+      "target": "data/priceops/backups/2026-06-21T14-17-02-160Z/data/produtos.csv",
+      "copied": true,
+      "bytes": 3154
+    },
+    {
+      "source": "data/admin-product-overrides.json",
+      "target": "data/priceops/backups/2026-06-21T14-17-02-160Z/data/admin-product-overrides.json",
+      "copied": true,
+      "bytes": 576134
+    },
+    {
+      "source": "data/copa-theme-expansion-300.json",
+      "target": "data/priceops/backups/2026-06-21T14-17-02-160Z/data/copa-theme-expansion-300.json",
+      "copied": true,
+      "bytes": 518920
+    },
+    {
+      "source": "data/catalogo_curado_160_itens_ptbr.json",
+      "target": "data/priceops/backups/2026-06-21T14-17-02-160Z/data/catalogo_curado_160_itens_ptbr.json",
+      "copied": true,
+      "bytes": 207123
+    }
+  ],
+  "ok": true
+}

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-19T14:01:41.063Z",
+  "generatedAt": "2026-06-21T14:13:56.674Z",
   "ok": true,
   "headers": [
     {
@@ -108,6 +108,11 @@
       "file": "app/api/admin/catalog/[id]/route.ts",
       "protected": true,
       "mutates": true
+    },
+    {
+      "file": "app/api/admin/commerce-os/health/route.ts",
+      "protected": true,
+      "mutates": false
     },
     {
       "file": "app/api/admin/coupons/route.ts",
@@ -256,6 +261,18 @@
         "PATCH"
       ],
       "readsBody": true,
+      "readsQuery": false,
+      "protectedAdmin": true,
+      "hasValidation": true,
+      "hasRateLimit": false
+    },
+    {
+      "file": "app/api/admin/commerce-os/health/route.ts",
+      "sensitive": true,
+      "methods": [
+        "GET"
+      ],
+      "readsBody": false,
       "readsQuery": false,
       "protectedAdmin": true,
       "hasValidation": true,

@@ -1,0 +1,41 @@
+{
+  "version": "2026-06-21",
+  "officialPublicRoutes": [
+    "/",
+    "/loja",
+    "/catalogo",
+    "/produto/[slug]",
+    "/loja/[categoria]/[slug]",
+    "/carrinho",
+    "/checkout",
+    "/pedidos",
+    "/atendimento",
+    "/jogue",
+    "/blog",
+    "/comprar-na-mdh3d",
+    "/politica-de-envio",
+    "/politica-de-troca",
+    "/politica-de-privacidade",
+    "/termos-de-compra",
+    "/prazo-de-producao"
+  ],
+  "legacyCompatibleRoutes": [
+    "/product/[id]",
+    "/catalogo/[slug]",
+    "/[slug]"
+  ],
+  "redirectCandidates": [
+    {
+      "from": "/home",
+      "to": "/",
+      "status": 308,
+      "implementedIn": "vercel.json"
+    }
+  ],
+  "rules": [
+    "Menus desktop e mobile devem apontar apenas para rotas existentes.",
+    "Rotas legadas devem continuar respondendo enquanto existirem links externos.",
+    "Botoes sem checkout devem abrir WhatsApp com mensagem codificada.",
+    "Links externos devem usar noopener noreferrer."
+  ]
+}

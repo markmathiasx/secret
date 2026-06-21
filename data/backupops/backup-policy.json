@@ -1,0 +1,18 @@
+{
+  "version": "2026-06-21",
+  "mode": "manual-safe",
+  "catalogFiles": [
+    "data/produtos.csv",
+    "data/admin-product-overrides.json",
+    "data/copa-theme-expansion-300.json",
+    "data/catalogo_curado_160_itens_ptbr.json"
+  ],
+  "backupDir": "data/priceops/backups",
+  "rollbackDir": "data/priceops/rollback",
+  "rules": [
+    "Criar backup antes de qualquer alteracao massiva de preco/catalogo.",
+    "Rollback exige manifest explicito.",
+    "Scripts nao alteram preco automaticamente.",
+    "Secrets e .env nunca entram no backup."
+  ]
+}

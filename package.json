@@ -96,6 +96,10 @@
     "marketplace:axe": "node scripts/marketplace/run-axe-audit.mjs",
     "marketplace:audit-phases": "node scripts/marketplace/audit-phases.mjs",
     "marketplace:verify-gates": "node scripts/marketplace/run-verification-gates.mjs",
+    "commerce-os:score": "node scripts/score-commerce-os.ts",
+    "commerce-os:validate": "node scripts/commerce-os/validate-static-contracts.mjs",
+    "commerce-os:backup": "node scripts/commerce-os/backup-catalog.mjs",
+    "commerce-os:rollback:dry": "node scripts/commerce-os/rollback-catalog.mjs --dry-run",
     "ci:check": "npm run lint:check && npm run typecheck && npm run build && npm run test:images && npm run test:e2e"
   },
   "dependencies": {

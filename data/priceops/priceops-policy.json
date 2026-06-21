@@ -1,0 +1,24 @@
+{
+  "version": "2026-06-21",
+  "mode": "safe-readonly",
+  "autoApply": false,
+  "cardFlatFeeBrl": 1,
+  "defaultTargetMarginPercent": 30,
+  "minimumAllowedMarginPercent": 20,
+  "requiredArtifactsBeforeApply": [
+    "data/priceops/backups/*.json",
+    "data/priceops/reports/*.json",
+    "data/priceops/rollback/*.json"
+  ],
+  "blockedWithoutEvidence": [
+    "internet price scrape",
+    "manual mass price mutation",
+    "price below production cost",
+    "price change without rollback"
+  ],
+  "currentValidation": {
+    "report": "reports/pricing-validation-report.json",
+    "productsChecked": 848,
+    "rule": "Pix base e cartao Pix + R$ 1,00"
+  }
+}

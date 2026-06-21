@@ -1,0 +1,223 @@
+{
+  "generatedAt": "2026-06-21T14:18:51.862Z",
+  "ok": true,
+  "total": 43,
+  "failed": [],
+  "checks": [
+    {
+      "id": "file:docs/00_AUDITORIA_TOTAL_MDH3D.md",
+      "ok": true,
+      "detail": "docs/00_AUDITORIA_TOTAL_MDH3D.md"
+    },
+    {
+      "id": "file:docs/01_ROTAS_LINKS_ACOES.md",
+      "ok": true,
+      "detail": "docs/01_ROTAS_LINKS_ACOES.md"
+    },
+    {
+      "id": "file:docs/02_CATALOGO_DADOS_PRODUTOS.md",
+      "ok": true,
+      "detail": "docs/02_CATALOGO_DADOS_PRODUTOS.md"
+    },
+    {
+      "id": "file:docs/03_RISCOS_SEGURANCA.md",
+      "ok": true,
+      "detail": "docs/03_RISCOS_SEGURANCA.md"
+    },
+    {
+      "id": "file:docs/04_SCORE_ANTES_DEPOIS.md",
+      "ok": true,
+      "detail": "docs/04_SCORE_ANTES_DEPOIS.md"
+    },
+    {
+      "id": "file:docs/SCORE_COMMERCE_OS.md",
+      "ok": true,
+      "detail": "docs/SCORE_COMMERCE_OS.md"
+    },
+    {
+      "id": "file:data/catalog/product-master-contract.json",
+      "ok": true,
+      "detail": "data/catalog/product-master-contract.json"
+    },
+    {
+      "id": "file:data/catalog/route-policy.json",
+      "ok": true,
+      "detail": "data/catalog/route-policy.json"
+    },
+    {
+      "id": "file:data/priceops/priceops-policy.json",
+      "ok": true,
+      "detail": "data/priceops/priceops-policy.json"
+    },
+    {
+      "id": "file:data/channelops/channel-policy.json",
+      "ok": true,
+      "detail": "data/channelops/channel-policy.json"
+    },
+    {
+      "id": "file:data/backupops/backup-policy.json",
+      "ok": true,
+      "detail": "data/backupops/backup-policy.json"
+    },
+    {
+      "id": "file:src/lib/catalog/repository.ts",
+      "ok": true,
+      "detail": "src/lib/catalog/repository.ts"
+    },
+    {
+      "id": "file:src/lib/priceops/policy.ts",
+      "ok": true,
+      "detail": "src/lib/priceops/policy.ts"
+    },
+    {
+      "id": "file:src/lib/channelops/channels.ts",
+      "ok": true,
+      "detail": "src/lib/channelops/channels.ts"
+    },
+    {
+      "id": "file:src/lib/feedops/health.ts",
+      "ok": true,
+      "detail": "src/lib/feedops/health.ts"
+    },
+    {
+      "id": "file:src/lib/apiops/auth.ts",
+      "ok": true,
+      "detail": "src/lib/apiops/auth.ts"
+    },
+    {
+      "id": "file:src/config/navigation.ts",
+      "ok": true,
+      "detail": "src/config/navigation.ts"
+    },
+    {
+      "id": "file:app/api/admin/commerce-os/health/route.ts",
+      "ok": true,
+      "detail": "app/api/admin/commerce-os/health/route.ts"
+    },
+    {
+      "id": "file:scripts/score-commerce-os.ts",
+      "ok": true,
+      "detail": "scripts/score-commerce-os.ts"
+    },
+    {
+      "id": "file:scripts/commerce-os/backup-catalog.mjs",
+      "ok": true,
+      "detail": "scripts/commerce-os/backup-catalog.mjs"
+    },
+    {
+      "id": "file:scripts/commerce-os/rollback-catalog.mjs",
+      "ok": true,
+      "detail": "scripts/commerce-os/rollback-catalog.mjs"
+    },
+    {
+      "id": "route:/",
+      "ok": true,
+      "detail": "app/page.tsx"
+    },
+    {
+      "id": "route:/loja",
+      "ok": true,
+      "detail": "app/loja/page.tsx"
+    },
+    {
+      "id": "route:/catalogo",
+      "ok": true,
+      "detail": "app/catalogo/page.tsx"
+    },
+    {
+      "id": "route:/produto/[slug]",
+      "ok": true,
+      "detail": "app/produto/[slug]/page.tsx"
+    },
+    {
+      "id": "route:/carrinho",
+      "ok": true,
+      "detail": "app/carrinho/page.tsx"
+    },
+    {
+      "id": "route:/checkout",
+      "ok": true,
+      "detail": "app/checkout/page.tsx"
+    },
+    {
+      "id": "route:/pedidos",
+      "ok": true,
+      "detail": "app/pedidos/page.tsx"
+    },
+    {
+      "id": "route:/atendimento",
+      "ok": true,
+      "detail": "app/atendimento/page.tsx"
+    },
+    {
+      "id": "route:/jogue",
+      "ok": true,
+      "detail": "app/jogue/page.tsx"
+    },
+    {
+      "id": "route:/blog",
+      "ok": true,
+      "detail": "app/blog/page.tsx"
+    },
+    {
+      "id": "route:/comprar-na-mdh3d",
+      "ok": true,
+      "detail": "app/comprar-na-mdh3d/page.tsx"
+    },
+    {
+      "id": "route:/politica-de-envio",
+      "ok": true,
+      "detail": "app/politica-de-envio/page.tsx"
+    },
+    {
+      "id": "route:/politica-de-troca",
+      "ok": true,
+      "detail": "app/politica-de-troca/page.tsx"
+    },
+    {
+      "id": "route:/politica-de-privacidade",
+      "ok": true,
+      "detail": "app/politica-de-privacidade/page.tsx"
+    },
+    {
+      "id": "route:/termos-de-compra",
+      "ok": true,
+      "detail": "app/termos-de-compra/page.tsx"
+    },
+    {
+      "id": "route:/prazo-de-producao",
+      "ok": true,
+      "detail": "app/prazo-de-producao/page.tsx"
+    },
+    {
+      "id": "catalog:848",
+      "ok": true,
+      "detail": 848
+    },
+    {
+      "id": "games:11",
+      "ok": true,
+      "detail": 11
+    },
+    {
+      "id": "feed:ok",
+      "ok": true,
+      "detail": 844
+    },
+    {
+      "id": "security:ok",
+      "ok": true,
+      "detail": "2026-06-21T14:13:56.674Z"
+    },
+    {
+      "id": "secrets:ok",
+      "ok": true,
+      "detail": 311
+    },
+    {
+      "id": "pricing:ok",
+      "ok": true,
+      "detail": 848
+    }
+  ]
+}

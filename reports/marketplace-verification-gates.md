@@ -1,15 +1,15 @@
 # Marketplace Verification Gates
 
-Generated at: 2026-06-19T10:07:13.403Z
-Branch: codex/marketplace-phase0-protocol
-Commit: 01dcc04d
+Generated at: 2026-06-21T14:12:24.129Z
+Branch: codex/visual-fase14-cinematic
+Commit: a25d59c4
 
 | Command | Exit code | Duration | Result |
 | --- | ---: | ---: | --- |
 | `npm run db:generate` | 0 | 2s | PASS |
-| `npm run typecheck` | 0 | 14s | PASS |
+| `npm run typecheck` | 0 | 4s | PASS |
 | `npm run lint:check` | 0 | 7s | PASS |
-| `npm run build` | 0 | 70s | PASS |
+| `npm run build` | 0 | 76s | PASS |
 | `npm run validate:industrial-ui` | 0 | 0s | PASS |
 | `npm run validate:auth` | 0 | 0s | PASS |
 | `npm run validate:db-storage` | 0 | 0s | PASS |
@@ -30,11 +30,11 @@ Exit code: 0
 
 Prisma schema loaded from prisma\schema.prisma
 
-✔ Generated Prisma Client (v6.19.3) to .\node_modules\@prisma\client in 281ms
+✔ Generated Prisma Client (v6.19.3) to .\node_modules\@prisma\client in 282ms
 
 Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
 
-Tip: Need your database queries to be 1000x faster? Accelerate offers you that and more: https://pris.ly/tip-2-accelerate
+Tip: Want to turn off tips and other hints? https://pris.ly/tip-4-nohints
 ```
 
 ### npm run typecheck
@@ -60,76 +60,76 @@ Exit code: 0
 Exit code: 0
 
 ```text
-├ ƒ /checkout/sucesso                                                    177 B         276 kB
-├ ○ /colecionaveis-geek-3d                                               141 B         556 kB
-├ ○ /compra-protegida                                                  4.98 kB         274 kB
-├ ○ /comprar-na-mdh3d                                                    202 B         269 kB
+├ ƒ /checkout/sucesso                                                    177 B         277 kB
+├ ○ /colecionaveis-geek-3d                                               139 B         556 kB
+├ ○ /compra-protegida                                                  5.01 kB         274 kB
+├ ○ /comprar-na-mdh3d                                                    202 B         270 kB
 ├ ○ /conta                                                               171 B         526 kB
-├ ƒ /conta/pedidos/[id]                                                7.27 kB         276 kB
-├ ○ /contato                                                           3.47 kB         273 kB
-├ ○ /decoracao-3d-para-casa                                              141 B         556 kB
-├ ○ /devolucoes                                                        6.57 kB         276 kB
+├ ƒ /conta/pedidos/[id]                                                 7.3 kB         277 kB
+├ ○ /contato                                                           3.51 kB         273 kB
+├ ○ /decoracao-3d-para-casa                                              139 B         556 kB
+├ ○ /devolucoes                                                         6.6 kB         276 kB
 ├ ○ /divulgacao                                                          742 B         270 kB
-├ ○ /entregas                                                             4 kB         273 kB
-├ ƒ /falha                                                               177 B         276 kB
+├ ○ /entregas                                                          4.03 kB         273 kB
+├ ƒ /falha                                                               177 B         277 kB
 ├ ○ /faq                                                               1.98 kB         271 kB
 ├ ○ /favoritos                                                         1.56 kB         271 kB
-├ ○ /feeds/google-shopping.xml                                           420 B         270 kB          5m      1y
-├ ○ /feeds/meta-catalog.csv                                              420 B         270 kB          5m      1y
-├ ○ /feeds/produtos.json                                                 420 B         270 kB          5m      1y
-├ ○ /feeds/tiktok-catalog.csv                                            420 B         270 kB          5m      1y
-├ ○ /guia-primeira-impressao-3d                                         2.1 kB         271 kB
-├ ○ /imagem-para-impressao-3d                                          6.78 kB         276 kB
-├ ○ /indicacao                                                           202 B         269 kB
+├ ○ /feeds/google-shopping.xml                                           425 B         270 kB          5m      1y
+├ ○ /feeds/meta-catalog.csv                                              425 B         270 kB          5m      1y
+├ ○ /feeds/produtos.json                                                 425 B         270 kB          5m      1y
+├ ○ /feeds/tiktok-catalog.csv                                            425 B         270 kB          5m      1y
+├ ○ /guia-primeira-impressao-3d                                         2.1 kB         272 kB
+├ ○ /imagem-para-impressao-3d                                          6.81 kB         276 kB
+├ ○ /indicacao                                                           202 B         270 kB
 ├ ○ /jogue                                                               18 kB         287 kB
 ├ ○ /login                                                               162 B         276 kB
-├ ○ /loja                                                              6.11 kB         279 kB          5m      1y
-├ ● /loja/[categoria]/[slug]                                             138 B         542 kB          5m      1y
+├ ○ /loja                                                              6.11 kB         280 kB          5m      1y
+├ ● /loja/[categoria]/[slug]                                             135 B         540 kB          5m      1y
 ├   ├ /loja/casa-e-organizacao/real-001-grinder-3-partes-premium                                       5m      1y
 ├   ├ /loja/casa-e-organizacao/real-002-porta-creme-dental-de-bancada                                  5m      1y
 ├   ├ /loja/geek-colecionaveis/real-003-demogorgon-decorativo-premium                                  5m      1y
 ├   └ [+840 more paths]
-├ ○ /manifest.webmanifest                                                420 B         270 kB
-├ ○ /merchant/products.xml                                               420 B         270 kB          1h      1y
-├ ƒ /meta/catalog.csv                                                    420 B         270 kB
-├ ○ /ofertas                                                             202 B         269 kB
-├ ○ /orcamento-personalizado                                           5.22 kB         274 kB
-├ ○ /organizadores                                                     1.85 kB         271 kB
-├ ○ /peca-sob-medida                                                   1.85 kB         271 kB
+├ ○ /manifest.webmanifest                                                425 B         270 kB
+├ ○ /merchant/products.xml                                               425 B         270 kB          1h      1y
+├ ƒ /meta/catalog.csv                                                    425 B         270 kB
+├ ○ /ofertas                                                             202 B         270 kB
+├ ○ /orcamento-personalizado                                           5.25 kB         275 kB
+├ ○ /organizadores                                                     1.84 kB         271 kB
+├ ○ /peca-sob-medida                                                   1.84 kB         271 kB
 ├ ○ /pedidos                                                             176 B         526 kB
-├ ƒ /pedidos/[id]                                                        420 B         270 kB
-├ ƒ /pendente                                                            177 B         276 kB
+├ ƒ /pedidos/[id]                                                        425 B         270 kB
+├ ƒ /pendente                                                            177 B         277 kB
 ├ ○ /perfil                                                              176 B         526 kB
-├ ○ /politica-de-envio                                                   202 B         269 kB
-├ ○ /politica-de-privacidade                                             420 B         270 kB
-├ ○ /politica-de-troca                                                   202 B         269 kB
-├ ○ /prazo-de-producao                                                   202 B         269 kB
-├ ○ /presentes-3d                                                        140 B         556 kB
-├ ○ /presentes-ate-50                                                  1.85 kB         271 kB
-├ ƒ /product/[id]                                                        420 B         270 kB
+├ ○ /politica-de-envio                                                   202 B         270 kB
+├ ○ /politica-de-privacidade                                             425 B         270 kB
+├ ○ /politica-de-troca                                                   202 B         270 kB
+├ ○ /prazo-de-producao                                                   202 B         270 kB
+├ ○ /presentes-3d                                                        138 B         556 kB
+├ ○ /presentes-ate-50                                                  1.84 kB         271 kB
+├ ƒ /product/[id]                                                        425 B         270 kB
 ├ ● /produto/[slug]                                                    3.69 kB         277 kB          5m      1y
 ├   ├ /produto/chaveiro-goleiro-comercial-copa-2026-copa-001                                           5m      1y
 ├   ├ /produto/chaveiro-bola-para-presente-copa-2026-copa-002                                          5m      1y
 ├   ├ /produto/chaveiro-camisa-mini-copa-2026-copa-003                                                 5m      1y
 ├   └ [+303 more paths]
-├ ○ /rastrear                                                          6.06 kB         275 kB
+├ ○ /rastrear                                                          6.09 kB         276 kB
 ├ ○ /recuperar-senha                                                   1.85 kB         271 kB
-├ ƒ /recuperar-senha/confirmar                                           420 B         270 kB
+├ ƒ /recuperar-senha/confirmar                                           425 B         270 kB
 ├ ○ /recuperar-senha/whatsapp                                          3.57 kB         273 kB
-├ ○ /robots.txt                                                          420 B         270 kB
-├ ƒ /seller                                                              202 B         269 kB
-├ ○ /setup-e-organizacao-3d                                              141 B         556 kB
-├ ○ /setup-gamer                                                       1.85 kB         271 kB
-├ ○ /sitemap-products.xml                                                420 B         270 kB          5m      1y
-├ ○ /sitemap.xml                                                         420 B         270 kB
-├ ○ /sobre                                                               182 B         269 kB
+├ ○ /robots.txt                                                          425 B         270 kB
+├ ƒ /seller                                                              202 B         270 kB
+├ ○ /setup-e-organizacao-3d                                              139 B         556 kB
+├ ○ /setup-gamer                                                       1.84 kB         271 kB
+├ ○ /sitemap-products.xml                                                425 B         270 kB          5m      1y
+├ ○ /sitemap.xml                                                         425 B         270 kB
+├ ○ /sobre                                                               182 B         270 kB
 ├ ƒ /sucesso                                                           1.06 kB         277 kB
-├ ○ /termos                                                              420 B         270 kB
-├ ○ /termos-de-compra                                                    202 B         269 kB
-└ ○ /trocas-e-devolucoes                                                 420 B         270 kB
+├ ○ /termos                                                              425 B         270 kB
+├ ○ /termos-de-compra                                                    202 B         270 kB
+└ ○ /trocas-e-devolucoes                                                 425 B         270 kB
 + First Load JS shared by all                                           269 kB
   ├ chunks/4bd1b696-100b9d70ed4e49c1.js                                54.2 kB
-  └ chunks/vendors-c8178a0819573c27.js                                  213 kB
+  └ chunks/vendors-613547e7638f7fe9.js                                  213 kB
   └ other shared chunks (total)                                        2.27 kB
 
 

@@ -1,11 +1,11 @@
 # Relatório de Execução — MDH 3D nível Apple/ML/AliExpress/Shopee
-Data: 2026-06-19T10:17:50.199Z
-Commit final: 01dcc04d
+Data: 2026-06-21T14:14:14.197Z
+Commit final: a25d59c4
 
 ## 1. Reconciliação (Fase 0)
 | Item afirmado antes | Fonte | Status real | Evidência |
 |---|---|---|---|
-| Nunca declarar tarefa concluída sem lint, typecheck, build, validate:assets e test:images. | AGENTS.md:4 | PARCIAL_COM_COMANDOS | testes_gates: Comandos registrados em 2026-06-19T10:07:13.403Z passaram: npm run db:generate, npm run typecheck, npm run lint:check, npm run build, npm run validate:industrial-ui, npm run validate:auth, npm run validate:db-storage, npm run validate:private-routes, npm run validate:public-regressions, npm run securit... |
+| Nunca declarar tarefa concluída sem lint, typecheck, build, validate:assets e test:images. | AGENTS.md:4 | PARCIAL_COM_COMANDOS | testes_gates: Comandos registrados em 2026-06-21T14:12:24.129Z passaram: npm run db:generate, npm run typecheck, npm run lint:check, npm run build, npm run validate:industrial-ui, npm run validate:auth, npm run validate:db-storage, npm run validate:private-routes, npm run validate:public-regressions, npm run securit... |
 | Para execuções do marketplace MDH 3D nível Apple/ML/AliExpress/Shopee, seguir `docs/CODEX_EXECUTION_PROTOCOL.md`: executar a Fase 0 antes das demais, manter `RELATORIO-EXECUCAO-... | AGENTS.md:9 | A_VERIFICAR | Afirmação localizada no documento, mas sem regra estatica suficiente; precisa verificacao manual/runtime. |
 | Confirmar domínio, SSL e deploy ativo em produção | 01-BACKLOG-PRIORIZADO.md:5 | PARCIAL_ESTATICO | vercel_docker: arquivos: docs/VERCEL_ENV.md, Dockerfile; Arquivos de deploy existem; deploy e build Docker exigem execucao atual. |
 | Entregas separando produção x transporte | 01-BACKLOG-PRIORIZADO.md:24 | A_VERIFICAR | Afirmação localizada no documento, mas sem regra estatica suficiente; precisa verificacao manual/runtime. |
@@ -80,7 +80,7 @@ Commit final: 01dcc04d
 | 9. Segurança/LGPD | 100.00% | 5/5 critérios passaram | OK banner cookies + privacidade: CookieConsent e politica de privacidade presentes<br>OK headers producao: CSP/HSTS/X-Content-Type-Options capturados por HEAD publico<br>OK auditoria seguranca app: security:audit ok=true<br>OK scanner de segredos atual+historico: 0 atuais, 0 historicos<br>OK Supabase RLS privado: validate:db-storage + migration RLS |  |
 | 10. Risco de PI | 100.00% | 3/3 critérios passaram | OK auditoria de termos de PI gerada: 0 achados<br>OK classificacao e proposta por item: cada achado tem risco e suggestedCopy<br>OK sem risco publico restante: 0 referencias publicas de risco |  |
 | 11. Integridade de catálogo | 100.00% | 5/5 critérios passaram | OK contagem catalogo atual: 848 publicos + 306 loja<br>OK preco Pix/cartao coerente: 848 produtos em pricing-validation; smart issues 0<br>OK sem duplicata slug: 0 duplicatas<br>OK sem Picsum publico: public 0, smart 0<br>OK regressao publica catalogo/jogos: ok=true |  |
-| 12. Testes | 100.00% | 5/5 critérios passaram | OK db:generate/typecheck/lint/build: npm run db:generate: exit 0, 2s; npm run typecheck: exit 0, 14s; npm run lint:check: exit 0, 7s; npm run build: exit 0, 70s<br>OK validadores publicos/privados: validadores obrigatorios com exit 0<br>OK npm audit: exit 0, 1s<br>OK Playwright existente: smoke=0 (10), smart=0 (5), e2e=0 (9)<br>OK testes loja inteligente: tests/mdh-smart-store.spec.ts cobre Nuvemshop/WhatsApp/carrinho/feed e passou |  |
+| 12. Testes | 100.00% | 5/5 critérios passaram | OK db:generate/typecheck/lint/build: npm run db:generate: exit 0, 2s; npm run typecheck: exit 0, 4s; npm run lint:check: exit 0, 7s; npm run build: exit 0, 76s<br>OK validadores publicos/privados: validadores obrigatorios com exit 0<br>OK npm audit: exit 0, 1s<br>OK Playwright existente: smoke=0 (10), smart=0 (5), e2e=0 (9)<br>OK testes loja inteligente: tests/mdh-smart-store.spec.ts cobre Nuvemshop/WhatsApp/carrinho/feed e passou |  |
 | 13. Deploy/Infra | 80.00% | 4/5 critérios passaram | OK docs Vercel env atualizados: docs/VERCEL_ENV.md lista loja, analytics, checkout<br>OK Dockerfile/docker-compose presentes: Dockerfile + docker-compose.yml presentes<br>FALHA build Docker comprovado: dockerBuild ok=false<br>OK deploy Vercel registrado: https://mdh-3d-store-gawprn2bq-markmathias.vercel.app<br>OK producao responde e local/site comparados: publicHttp=true, local-vs-prod=true | Rodar docker compose build/up e registrar log |
 
 ## 3. Métricas antes → depois

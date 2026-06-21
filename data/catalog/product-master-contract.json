@@ -1,0 +1,64 @@
+{
+  "version": "2026-06-21",
+  "owner": "MDH3D Commerce OS",
+  "mode": "safe-readonly",
+  "description": "Contrato canonico para consolidar catalogo publico, loja inteligente e feeds sem reescrever precos automaticamente.",
+  "canonicalFields": [
+    "id",
+    "slug",
+    "sku",
+    "name",
+    "category",
+    "subcategory",
+    "description",
+    "tags",
+    "pricePix",
+    "priceCard",
+    "stock",
+    "status",
+    "productionWindow",
+    "dimensions",
+    "weightKg",
+    "images",
+    "primaryImage",
+    "seoTitle",
+    "seoDescription",
+    "source",
+    "productUrl",
+    "nuvemshopUrl",
+    "whatsappEligible"
+  ],
+  "sources": {
+    "publicCatalog": {
+      "module": "lib/catalog-repository.ts",
+      "countReport": "reports/public-regressions-validation-report.json",
+      "expectedCurrentCount": 848
+    },
+    "smartStore": {
+      "module": "lib/mdh-store/products.ts",
+      "csv": "data/produtos.csv",
+      "expansion": "data/copa-theme-expansion-300.json",
+      "countReport": "reports/marketplace-catalog-integrity-report.json",
+      "expectedCurrentCount": 306
+    }
+  },
+  "pricingRules": {
+    "pix": "Valor base da peca.",
+    "card": "Pix + R$ 1,00 por item.",
+    "autoMutation": false,
+    "requiredBeforePriceChange": [
+      "backup",
+      "dry-run report",
+      "minimum margin check",
+      "rollback plan"
+    ]
+  },
+  "unsafeInputs": [
+    "localhost image/link",
+    "blob:",
+    "data:",
+    "javascript:",
+    "secret or token in product data",
+    "placeholder treated as real photo"
+  ]
+}

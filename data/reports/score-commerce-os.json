@@ -1,0 +1,29 @@
+{
+  "generatedAt": "2026-06-21T14:18:51.831Z",
+  "scores": {
+    "ecommerceOperational": 97.4,
+    "catalogVisualWhatsapp": 100,
+    "omnichannelMarketplace": 87.89
+  },
+  "requiredPerfectScore": 100,
+  "pass": false,
+  "evidence": {
+    "phaseGeneralPercent": 91.88,
+    "publicCatalogCount": 848,
+    "games": 11,
+    "metaProducts": 844,
+    "pricingProductsChecked": 848,
+    "publicPicsumCount": 0,
+    "smartPicsumCount": 0,
+    "securityOk": true,
+    "secretScanOk": true
+  },
+  "blockers": [
+    "1. Performance: Notas Lighthouse ou Web Vitals lab abaixo da meta",
+    "3. Motor de Comércio — mínimo: Sem DATABASE_URL neste ambiente; criacao real no banco nao foi provada nesta execucao local",
+    "3. Motor de Comércio — avançado: Credenciais Mercado Pago ausentes nesta execucao; fica fallback/sandbox",
+    "3. Motor de Comércio — avançado: Credenciais SMTP ausentes nesta execucao",
+    "7. Analytics: Capturar eventos em navegador/Tag Assistant para 100%",
+    "13. Deploy/Infra: Rodar docker compose build/up e registrar log"
+  ]
+}
