@@ -6,7 +6,7 @@ Generated at: 2026-06-21T16:01:08-03:00
 
 - Branch: `codex/visual-fase14-cinematic`
 - Implementation commit: `67973f24`
-- Production deploy URL: `https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app`
+- Production deploy URL: `https://mdh-3d-store-ikqa9k3vn-markmathias.vercel.app`
 - Production alias: `https://www.mdh3d.com.br`
 
 ## Before

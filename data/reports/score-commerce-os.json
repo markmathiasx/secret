@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-21T16:01:19.361Z",
+  "generatedAt": "2026-06-21T16:07:27.860Z",
   "scores": {
     "ecommerceOperational": 100,
     "catalogVisualWhatsapp": 100,
@@ -64,7 +64,7 @@
       {
         "id": "production_public_if_available",
         "ok": true,
-        "detail": "2026-06-21T16:01:08.937Z"
+        "detail": "2026-06-21T16:07:08.133Z"
       },
       {
         "id": "no_runtime_phase_blockers",
@@ -160,7 +160,7 @@
       {
         "id": "production_feeds_if_available",
         "ok": true,
-        "detail": "2026-06-21T16:01:08.937Z"
+        "detail": "2026-06-21T16:07:08.133Z"
       },
       {
         "id": "security_audit",

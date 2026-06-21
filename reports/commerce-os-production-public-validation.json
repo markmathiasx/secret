@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-06-21T16:01:08.937Z",
+  "generatedAt": "2026-06-21T16:07:08.133Z",
   "baseUrls": [
     "https://www.mdh3d.com.br",
-    "https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app"
+    "https://mdh-3d-store-ikqa9k3vn-markmathias.vercel.app"
   ],
   "ok": true,
   "counts": [
@@ -232,9 +232,9 @@
       "errors": []
     },
     {
-      "baseUrl": "https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app",
+      "baseUrl": "https://mdh-3d-store-ikqa9k3vn-markmathias.vercel.app",
       "route": "/",
-      "url": "https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app/",
+      "url": "https://mdh-3d-store-ikqa9k3vn-markmathias.vercel.app/",
       "finalUrl": "https://www.mdh3d.com.br/",
       "status": 200,
       "contentType": "text/html; charset=utf-8",
@@ -256,9 +256,9 @@
       "errors": []
     },
     {
-      "baseUrl": "https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app",
+      "baseUrl": "https://mdh-3d-store-ikqa9k3vn-markmathias.vercel.app",
       "route": "/loja",
-      "url": "https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app/loja",
+      "url": "https://mdh-3d-store-ikqa9k3vn-markmathias.vercel.app/loja",
       "finalUrl": "https://www.mdh3d.com.br/loja",
       "status": 200,
       "contentType": "text/html; charset=utf-8",
@@ -280,9 +280,9 @@
       "errors": []
     },
     {
-      "baseUrl": "https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app",
+      "baseUrl": "https://mdh-3d-store-ikqa9k3vn-markmathias.vercel.app",
       "route": "/ofertas",
-      "url": "https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app/ofertas",
+      "url": "https://mdh-3d-store-ikqa9k3vn-markmathias.vercel.app/ofertas",
       "finalUrl": "https://www.mdh3d.com.br/ofertas",
       "status": 200,
       "contentType": "text/html; charset=utf-8",
@@ -304,9 +304,9 @@
       "errors": []
     },
     {
-      "baseUrl": "https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app",
+      "baseUrl": "https://mdh-3d-store-ikqa9k3vn-markmathias.vercel.app",
       "route": "/catalogo",
-      "url": "https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app/catalogo",
+      "url": "https://mdh-3d-store-ikqa9k3vn-markmathias.vercel.app/catalogo",
       "finalUrl": "https://www.mdh3d.com.br/catalogo",
       "status": 200,
       "contentType": "text/html; charset=utf-8",
@@ -328,9 +328,9 @@
       "errors": []
     },
     {
-      "baseUrl": "https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app",
+      "baseUrl": "https://mdh-3d-store-ikqa9k3vn-markmathias.vercel.app",
       "route": "/sob-medida",
-      "url": "https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app/sob-medida",
+      "url": "https://mdh-3d-store-ikqa9k3vn-markmathias.vercel.app/sob-medida",
       "finalUrl": "https://www.mdh3d.com.br/sob-medida",
       "status": 200,
       "contentType": "text/html; charset=utf-8",
@@ -352,9 +352,9 @@
       "errors": []
     },
     {
-      "baseUrl": "https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app",
+      "baseUrl": "https://mdh-3d-store-ikqa9k3vn-markmathias.vercel.app",
       "route": "/jogue",
-      "url": "https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app/jogue",
+      "url": "https://mdh-3d-store-ikqa9k3vn-markmathias.vercel.app/jogue",
       "finalUrl": "https://www.mdh3d.com.br/jogue",
       "status": 200,
       "contentType": "text/html; charset=utf-8",
@@ -376,9 +376,9 @@
       "errors": []
     },
     {
-      "baseUrl": "https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app",
+      "baseUrl": "https://mdh-3d-store-ikqa9k3vn-markmathias.vercel.app",
       "route": "/como-funciona",
-      "url": "https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app/como-funciona",
+      "url": "https://mdh-3d-store-ikqa9k3vn-markmathias.vercel.app/como-funciona",
       "finalUrl": "https://www.mdh3d.com.br/como-funciona",
       "status": 200,
       "contentType": "text/html; charset=utf-8",
@@ -400,9 +400,9 @@
       "errors": []
     },
     {
-      "baseUrl": "https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app",
+      "baseUrl": "https://mdh-3d-store-ikqa9k3vn-markmathias.vercel.app",
       "route": "/blog",
-      "url": "https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app/blog",
+      "url": "https://mdh-3d-store-ikqa9k3vn-markmathias.vercel.app/blog",
       "finalUrl": "https://www.mdh3d.com.br/blog",
       "status": 200,
       "contentType": "text/html; charset=utf-8",
@@ -424,9 +424,9 @@
       "errors": []
     },
     {
-      "baseUrl": "https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app",
+      "baseUrl": "https://mdh-3d-store-ikqa9k3vn-markmathias.vercel.app",
       "route": "/atendimento",
-      "url": "https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app/atendimento",
+      "url": "https://mdh-3d-store-ikqa9k3vn-markmathias.vercel.app/atendimento",
       "finalUrl": "https://www.mdh3d.com.br/atendimento",
       "status": 200,
       "contentType": "text/html; charset=utf-8",
@@ -494,9 +494,9 @@
       "errors": []
     },
     {
-      "baseUrl": "https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app",
+      "baseUrl": "https://mdh-3d-store-ikqa9k3vn-markmathias.vercel.app",
       "route": "/meta/catalog.csv",
-      "url": "https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app/meta/catalog.csv",
+      "url": "https://mdh-3d-store-ikqa9k3vn-markmathias.vercel.app/meta/catalog.csv",
       "finalUrl": "https://www.mdh3d.com.br/meta/catalog.csv",
       "status": 200,
       "contentType": "text/csv; charset=utf-8",
@@ -505,9 +505,9 @@
       "errors": []
     },
     {
-      "baseUrl": "https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app",
+      "baseUrl": "https://mdh-3d-store-ikqa9k3vn-markmathias.vercel.app",
       "route": "/feeds/google-shopping.xml",
-      "url": "https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app/feeds/google-shopping.xml",
+      "url": "https://mdh-3d-store-ikqa9k3vn-markmathias.vercel.app/feeds/google-shopping.xml",
       "finalUrl": "https://www.mdh3d.com.br/feeds/google-shopping.xml",
       "status": 200,
       "contentType": "application/xml; charset=utf-8",
@@ -516,9 +516,9 @@
       "errors": []
     },
     {
-      "baseUrl": "https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app",
+      "baseUrl": "https://mdh-3d-store-ikqa9k3vn-markmathias.vercel.app",
       "route": "/feeds/products.json",
-      "url": "https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app/feeds/products.json",
+      "url": "https://mdh-3d-store-ikqa9k3vn-markmathias.vercel.app/feeds/products.json",
       "finalUrl": "https://www.mdh3d.com.br/feeds/products.json",
       "status": 200,
       "contentType": "application/json",
@@ -527,9 +527,9 @@
       "errors": []
     },
     {
-      "baseUrl": "https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app",
+      "baseUrl": "https://mdh-3d-store-ikqa9k3vn-markmathias.vercel.app",
       "route": "/sitemap-products.xml",
-      "url": "https://mdh-3d-store-1jj7kgp3n-markmathias.vercel.app/sitemap-products.xml",
+      "url": "https://mdh-3d-store-ikqa9k3vn-markmathias.vercel.app/sitemap-products.xml",
       "finalUrl": "https://www.mdh3d.com.br/sitemap-products.xml",
       "status": 200,
       "contentType": "application/xml; charset=utf-8",
