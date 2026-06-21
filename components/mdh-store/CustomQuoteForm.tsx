@@ -50,7 +50,7 @@ export function CustomQuoteForm({ whatsappNumber, siteUrl }: { whatsappNumber: s
       files,
       estimatedPrice: estimate.estimatedPrice,
       estimatedDays: estimate.estimatedDays,
-      pageUrl: `${siteUrl}/orcamento-personalizado`,
+      pageUrl: `${siteUrl}/sob-medida`,
       notes,
     },
     { whatsappNumber }

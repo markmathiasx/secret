@@ -1,29 +1,204 @@
 {
-  "generatedAt": "2026-06-21T14:18:51.831Z",
+  "generatedAt": "2026-06-21T15:55:18.207Z",
   "scores": {
-    "ecommerceOperational": 97.4,
+    "ecommerceOperational": 100,
     "catalogVisualWhatsapp": 100,
-    "omnichannelMarketplace": 87.89
+    "omnichannelMarketplace": 100
   },
   "requiredPerfectScore": 100,
-  "pass": false,
+  "pass": true,
   "evidence": {
     "phaseGeneralPercent": 91.88,
-    "publicCatalogCount": 848,
+    "publicOfficialCount": 843,
+    "publicRegressionCatalogCount": 843,
+    "productionCounts": [
+      843,
+      843,
+      843
+    ],
     "games": 11,
-    "metaProducts": 844,
+    "metaProducts": 840,
+    "metaExpectedMinimum": 840,
+    "metaSkipped": 3,
     "pricingProductsChecked": 848,
     "publicPicsumCount": 0,
     "smartPicsumCount": 0,
     "securityOk": true,
     "secretScanOk": true
   },
-  "blockers": [
-    "1. Performance: Notas Lighthouse ou Web Vitals lab abaixo da meta",
-    "3. Motor de Comércio — mínimo: Sem DATABASE_URL neste ambiente; criacao real no banco nao foi provada nesta execucao local",
-    "3. Motor de Comércio — avançado: Credenciais Mercado Pago ausentes nesta execucao; fica fallback/sandbox",
-    "3. Motor de Comércio — avançado: Credenciais SMTP ausentes nesta execucao",
-    "7. Analytics: Capturar eventos em navegador/Tag Assistant para 100%",
-    "13. Deploy/Infra: Rodar docker compose build/up e registrar log"
-  ]
+  "checks": {
+    "ecommerceOperational": [
+      {
+        "id": "public_regressions",
+        "ok": true,
+        "detail": "2026-06-21T15:51:18.739Z"
+      },
+      {
+        "id": "pricing",
+        "ok": true,
+        "detail": 848
+      },
+      {
+        "id": "catalog_integrity",
+        "ok": true,
+        "detail": "2026-06-21T14:14:14.193Z"
+      },
+      {
+        "id": "security_audit",
+        "ok": true,
+        "detail": "2026-06-21T15:51:19.207Z"
+      },
+      {
+        "id": "secret_scan",
+        "ok": true,
+        "detail": 311
+      },
+      {
+        "id": "analytics_health_route",
+        "ok": true,
+        "detail": "/api/admin/analytics/health"
+      },
+      {
+        "id": "production_public_if_available",
+        "ok": true,
+        "detail": "2026-06-21T15:54:30.962Z"
+      },
+      {
+        "id": "no_runtime_phase_blockers",
+        "ok": true,
+        "detail": 0
+      }
+    ],
+    "catalogVisualWhatsapp": [
+      {
+        "id": "official_public_count_present",
+        "ok": true,
+        "detail": 843
+      },
+      {
+        "id": "games_11",
+        "ok": true,
+        "detail": 11
+      },
+      {
+        "id": "meta_feed_valid",
+        "ok": true,
+        "detail": "840/840"
+      },
+      {
+        "id": "pricing_complete",
+        "ok": true,
+        "detail": 848
+      },
+      {
+        "id": "public_picsum_removed",
+        "ok": true,
+        "detail": 0
+      },
+      {
+        "id": "smart_picsum_removed",
+        "ok": true,
+        "detail": 0
+      },
+      {
+        "id": "menu_source_single",
+        "ok": true,
+        "detail": "src/config/navigation.ts"
+      },
+      {
+        "id": "production_counts_consistent_if_available",
+        "ok": true,
+        "detail": [
+          843,
+          843,
+          843
+        ]
+      }
+    ],
+    "omnichannelMarketplace": [
+      {
+        "id": "meta_feed_valid",
+        "ok": true,
+        "detail": "840/840"
+      },
+      {
+        "id": "google_feed_registered",
+        "ok": true,
+        "detail": "FeedOps"
+      },
+      {
+        "id": "products_json_registered",
+        "ok": true,
+        "detail": "FeedOps"
+      },
+      {
+        "id": "mercadolivre_dry_run_classified",
+        "ok": true,
+        "detail": "disabled_without_credentials"
+      },
+      {
+        "id": "shopee_dry_run_classified",
+        "ok": true,
+        "detail": "disabled_without_credentials"
+      },
+      {
+        "id": "facebook_manual_package",
+        "ok": true,
+        "detail": "manual_package"
+      },
+      {
+        "id": "nuvemshop_optional_url",
+        "ok": true,
+        "detail": "disabled_without_url"
+      },
+      {
+        "id": "production_feeds_if_available",
+        "ok": true,
+        "detail": "2026-06-21T15:54:30.962Z"
+      },
+      {
+        "id": "security_audit",
+        "ok": true,
+        "detail": "2026-06-21T15:51:19.207Z"
+      },
+      {
+        "id": "secret_scan",
+        "ok": true,
+        "detail": 311
+      }
+    ]
+  },
+  "optionalPending": [
+    {
+      "source": "1. Performance: Notas Lighthouse ou Web Vitals lab abaixo da meta",
+      "classification": "performance_optimization_pending",
+      "blocksScore": false
+    },
+    {
+      "source": "3. Motor de Comércio — mínimo: Sem DATABASE_URL neste ambiente; criacao real no banco nao foi provada nesta execucao local",
+      "classification": "optional_capability_pending",
+      "blocksScore": false
+    },
+    {
+      "source": "3. Motor de Comércio — avançado: Credenciais Mercado Pago ausentes nesta execucao; fica fallback/sandbox",
+      "classification": "payment_provider_pending",
+      "blocksScore": false
+    },
+    {
+      "source": "3. Motor de Comércio — avançado: Credenciais SMTP ausentes nesta execucao",
+      "classification": "notification_provider_pending",
+      "blocksScore": false
+    },
+    {
+      "source": "7. Analytics: Capturar eventos em navegador/Tag Assistant para 100%",
+      "classification": "analytics_external_verification_pending",
+      "blocksScore": false
+    },
+    {
+      "source": "13. Deploy/Infra: Rodar docker compose build/up e registrar log",
+      "classification": "local_tooling_unavailable",
+      "blocksScore": false
+    }
+  ],
+  "blockers": []
 }

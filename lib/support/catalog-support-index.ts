@@ -1,4 +1,6 @@
 import { catalog, getProductUrl, type Product } from "@/lib/catalog";
+import { filterPublicCatalogProducts } from "@/lib/public-catalog";
+import { buildPublicCatalogStats } from "@/src/lib/catalog/stats";
 import type { SupportCategorySummary, SupportIntent, SupportPriceRange, SupportProduct, SupportProductFilters } from "@/lib/support/support-types";
 
 function normalizeText(value: unknown) {
@@ -63,7 +65,7 @@ let supportCatalogIndex: SupportProduct[] | null = null;
 
 export function buildSupportCatalogIndex() {
   if (!supportCatalogIndex) {
-    supportCatalogIndex = catalog.map(toSupportProduct);
+    supportCatalogIndex = filterPublicCatalogProducts(catalog).filter((product) => product.pricePix > 0).map(toSupportProduct);
   }
   return supportCatalogIndex;
 }
@@ -166,8 +168,10 @@ export function getSupportCategorySummary(category: string): SupportCategorySumm
 
 export function getSupportCatalogStats() {
   const products = buildSupportCatalogIndex();
+  const publicStats = buildPublicCatalogStats(filterPublicCatalogProducts(catalog));
   return {
-    products: products.length,
+    products: publicStats.activeProductCount,
+    publicStats,
     priceRange: getSupportPriceRange(products),
     categories: Array.from(new Set(products.map((product) => product.category))).sort(),
   };

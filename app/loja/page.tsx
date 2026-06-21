@@ -27,7 +27,7 @@ const commercialBanners = [
   { title: "Presentes personalizados", text: "Peças com nome, tema, cor e briefing rápido pelo WhatsApp.", href: "/loja" },
   { title: "Setup gamer", text: "Suportes, organizadores e decoração para mesa e controle.", href: "/loja" },
   { title: "Casa organizada", text: "Utilidades compactas para cabos, bancada, nichos e cantinhos.", href: "/loja" },
-  { title: "Peças sob medida", text: "Envie referência, STL ou medidas e receba estimativa inicial.", href: "/orcamento-personalizado" },
+  { title: "Peças sob medida", text: "Envie referência, STL ou medidas e receba estimativa inicial.", href: "/sob-medida" },
 ] as const;
 
 export default function LojaPage() {

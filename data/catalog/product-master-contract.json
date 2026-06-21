@@ -32,7 +32,7 @@
     "publicCatalog": {
       "module": "lib/catalog-repository.ts",
       "countReport": "reports/public-regressions-validation-report.json",
-      "expectedCurrentCount": 848
+      "expectedCurrentCount": 843
     },
     "smartStore": {
       "module": "lib/mdh-store/products.ts",

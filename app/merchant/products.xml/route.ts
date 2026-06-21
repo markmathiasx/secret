@@ -16,16 +16,28 @@ function escapeXml(value: string) {
     .replace(/'/g, "&apos;");
 }
 
-export async function GET() {
-  const siteUrl = getSiteUrl();
-  const products = (await getCatalogSnapshot()).filter((product) => product.stock > 0 && product.pricePix > 0).slice(0, 1000);
-  const items = products
-    .map((product) => {
-      const image = resolveProductImage(product);
-      const imageUrl = image.startsWith("http") ? image : `${siteUrl}${image}`;
-      const productUrl = `${siteUrl}${getProductUrl(product)}`;
+function merchantResponse(xml: string, headers: Record<string, string> = {}) {
+  return new NextResponse(xml, {
+    status: 200,
+    headers: {
+      "Content-Type": "application/xml; charset=utf-8",
+      "Cache-Control": "public, max-age=0, s-maxage=3600, stale-while-revalidate=300",
+      ...headers,
+    },
+  });
+}
 
-      return `
+export async function GET() {
+  try {
+    const siteUrl = getSiteUrl();
+    const products = (await getCatalogSnapshot()).filter((product) => product.stock > 0 && product.pricePix > 0).slice(0, 1000);
+    const items = products
+      .map((product) => {
+        const image = resolveProductImage(product);
+        const imageUrl = image.startsWith("http") ? image : `${siteUrl}${image}`;
+        const productUrl = `${siteUrl}${getProductUrl(product)}`;
+
+        return `
         <item>
           <g:id>${escapeXml(product.sku || product.id)}</g:id>
           <g:title>${escapeXml(product.name)}</g:title>
@@ -40,10 +52,10 @@ export async function GET() {
           <g:custom_label_0>${escapeXml(product.material)}</g:custom_label_0>
           <g:custom_label_1>${escapeXml(product.readyToShip ? "pronta-entrega" : "sob-encomenda")}</g:custom_label_1>
         </item>`;
-    })
-    .join("");
+      })
+      .join("");
 
-  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+    const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">
   <channel>
     <title>MDH 3D Store</title>
@@ -53,10 +65,19 @@ export async function GET() {
   </channel>
 </rss>`;
 
-  return new NextResponse(xml, {
-    headers: {
-      "Content-Type": "application/xml; charset=utf-8",
-      "Cache-Control": "public, max-age=0, s-maxage=3600, stale-while-revalidate=300",
-    },
-  });
+    return merchantResponse(xml);
+  } catch (error) {
+    const siteUrl = getSiteUrl();
+    const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">
+  <channel>
+    <title>MDH 3D Store</title>
+    <link>${escapeXml(siteUrl)}</link>
+    <description>Catálogo MDH 3D para Google Merchant Center</description>
+  </channel>
+</rss>`;
+    return merchantResponse(xml, {
+      "X-MDH-Feed-Error": error instanceof Error ? error.message.slice(0, 180).replace(/[\r\n<>"]/g, " ") : "unknown_feed_error",
+    });
+  }
 }

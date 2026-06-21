@@ -13,3 +13,8 @@ export {
   normalizePublicCatalogProduct,
   normalizeSmartStoreProduct,
 } from "./normalize";
+export {
+  buildPublicCatalogStats,
+  getPublicCatalogStats,
+  type PublicCatalogStats,
+} from "./stats";

@@ -29,6 +29,7 @@ import { buildUniqueHomeSections, getHomeDuplicateIds } from "@/lib/home-product
 import { calculateCardPrice } from "@/lib/payment-pricing";
 import { getPrimaryProductImage, getProductImageAlt } from "@/lib/product-images";
 import { formatCurrency } from "@/lib/utils";
+import { buildPublicCatalogStats } from "@/src/lib/catalog/stats";
 
 export const revalidate = 300;
 
@@ -205,13 +206,14 @@ export default async function HomePage() {
   const catalog = await getCatalogSnapshot();
   const siteUrl = getSiteUrl();
   const available = catalog.filter((product) => product.pricePix > 0);
+  const publicStats = buildPublicCatalogStats(catalog);
   const minPix = [...available].sort((left, right) => left.pricePix - right.pricePix)[0]?.pricePix ?? 19.9;
   const quoteMessage = "Quero um orçamento na MDH 3D. Vim pela home e preciso de ajuda com produto, preço, prazo e personalização.";
   const sections = buildUniqueHomeSections(available);
   const duplicateIds = getHomeDuplicateIds(sections);
 
   return (
-    <main className="min-h-screen bg-[#071016] text-white" data-home-duplicate-count={duplicateIds.length}>
+    <main className="min-h-screen bg-[#071016] text-white" data-home-duplicate-count={duplicateIds.length} data-official-product-count={publicStats.activeProductCount}>
       <section className="relative isolate overflow-hidden border-b border-white/10 bg-[#071016]">
         <CinematicVideoBackground
           variant="home"
@@ -261,7 +263,7 @@ export default async function HomePage() {
                 </div>
                 <div className="rounded-[8px] border border-white/10 bg-white/[0.045] p-3">
                   <p className="text-[11px] uppercase tracking-[0.12em] text-white/48">Produtos</p>
-                  <p className="mt-1 text-xl font-black text-white">{available.length}</p>
+                  <p className="mt-1 text-xl font-black text-white">{publicStats.activeProductCount}</p>
                 </div>
                 <div className="rounded-[8px] border border-white/10 bg-white/[0.045] p-3">
                   <p className="text-[11px] uppercase tracking-[0.12em] text-white/48">Cartão</p>
@@ -297,7 +299,7 @@ export default async function HomePage() {
       <TrustProofSection />
 
       <div id="categorias">
-        <HomeCategoriesShowcase catalogCount={available.length} />
+        <HomeCategoriesShowcase catalogCount={publicStats.activeProductCount} />
       </div>
 
       <section className="mx-auto max-w-7xl px-4 py-4 sm:px-6">

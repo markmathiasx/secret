@@ -5,6 +5,7 @@ import {
   hasUsableProductImage,
 } from "@/lib/product-images";
 import { normalizeMoney, roundToCents } from "@/lib/payment-pricing";
+import { filterPublicCatalogProducts } from "@/lib/public-catalog";
 
 export const META_COMMERCE_BASE_URL = "https://www.mdh3d.com.br";
 
@@ -169,8 +170,9 @@ export function buildMetaCommerceFeedData(): MetaCommerceFeedData {
   const products: MetaCommerceProduct[] = [];
   const skipped: MetaCommerceSkippedProduct[] = [];
   const seenIds = new Set<string>();
+  const publicProducts = filterPublicCatalogProducts(catalog).filter((product) => normalizeMoney(product.pricePix ?? product.price) > 0);
 
-  for (const product of catalog) {
+  for (const product of publicProducts) {
     try {
       const reasons: string[] = [];
       const id = getStableId(product);
@@ -220,13 +222,13 @@ export function buildMetaCommerceFeedData(): MetaCommerceFeedData {
     }
   }
 
-  const totalWithOwnImage = catalog.filter((product) => hasUsableProductImage(product)).length;
+  const totalWithOwnImage = publicProducts.filter((product) => hasUsableProductImage(product)).length;
 
   return {
     generatedAt: new Date().toISOString(),
-    totalPublicProducts: catalog.length,
+    totalPublicProducts: publicProducts.length,
     totalWithOwnImage,
-    totalUsingPlaceholder: catalog.length - totalWithOwnImage,
+    totalUsingPlaceholder: publicProducts.length - totalWithOwnImage,
     included: products.length,
     skipped,
     products,

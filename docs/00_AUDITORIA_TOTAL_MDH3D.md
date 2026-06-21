@@ -19,9 +19,9 @@ Gerado em: 2026-06-21.
 | --- | --- |
 | npm run marketplace:phase0 | OK, 58 afirmacoes reconciliadas |
 | npm run marketplace:audit-phases | OK, score geral 91,88% |
-| npm run support:validate | OK, 848 produtos indexados |
-| npm run meta:validate-feed | OK, 844 produtos no feed, 4 ignorados |
-| npm run validate:public-regressions | OK, 848 produtos e 11 jogos |
+| npm run support:validate | OK, 843 produtos públicos ativos indexados |
+| npm run meta:validate-feed | OK, feed gerado a partir do catálogo público, com inválidos ignorados |
+| npm run validate:public-regressions | OK, 843 produtos públicos ativos e 11 jogos |
 | npm run security:audit | OK, sem achados criticos |
 | npm run security:scan-secrets | OK, 0 achados atuais e historicos em 311 commits |
 | npm run seo:validate | OK |
@@ -34,7 +34,7 @@ Gerado em: 2026-06-21.
 | --- | --- | --- |
 | Layout global | app/layout.tsx, components/site-header.tsx, components/site-footer.tsx | Ativo |
 | Home | app/page.tsx, lib/home-products.ts | Ativo |
-| Catalogo publico | app/catalogo/page.tsx, components/catalog-explorer.tsx, lib/catalog.ts, lib/catalog-repository.ts | Ativo, 848 produtos |
+| Catalogo publico | app/catalogo/page.tsx, components/catalog-explorer.tsx, lib/catalog.ts, lib/catalog-repository.ts, src/lib/catalog/stats.ts | Ativo, 843 produtos públicos ativos |
 | Loja inteligente | app/loja/page.tsx, app/produto/[slug]/page.tsx, lib/mdh-store/products.ts | Ativo, 306 produtos smart store |
 | Carrinho | lib/cart-context.tsx, app/carrinho/page.tsx, app/api/cart/route.ts | Ativo |
 | Checkout | app/checkout/page.tsx, app/api/checkout/preference/route.ts, lib/mercadopago.ts | Ativo com dependencia de credenciais |

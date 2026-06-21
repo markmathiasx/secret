@@ -144,7 +144,9 @@ for (const file of [
   "app/feeds/produtos.json/route.ts",
   "app/sitemap-products.xml/route.ts",
   "app/ofertas/page.tsx",
+  "app/sob-medida/page.tsx",
   "app/orcamento-personalizado/page.tsx",
+  "app/como-funciona/page.tsx",
   "components/mdh-store/StoreAnimatedBackground.tsx",
   "app/comprar-na-mdh3d/page.tsx",
   "app/politica-de-envio/page.tsx",
@@ -174,7 +176,7 @@ for (const term of ["produtos.csv", "Nuvemshop", "WhatsApp", "GTM", "Meta", "Goo
 }
 
 const auditDocs = read("docs/AUDITORIA_ECOMMERCE_MDH3D.md");
-for (const term of ["/ofertas", "/orcamento-personalizado", "TikTok", "sitemap-products.xml"]) {
+for (const term of ["/ofertas", "/sob-medida", "/orcamento-personalizado", "TikTok", "sitemap-products.xml"]) {
   check(auditDocs.includes(term), `missing_audit_docs:${term}`);
 }
 

@@ -5,37 +5,50 @@
     {
       "id": "site",
       "enabledWithoutCredentials": true,
+      "status": "active",
       "action": "publish-local"
     },
     {
       "id": "whatsapp",
       "enabledWithoutCredentials": true,
+      "status": "active",
       "action": "encoded-message-link"
     },
     {
       "id": "meta_catalog",
       "enabledWithoutCredentials": true,
+      "status": "active",
       "action": "csv-feed"
     },
     {
       "id": "google_merchant",
       "enabledWithoutCredentials": true,
+      "status": "active",
       "action": "xml-feed"
     },
     {
       "id": "mercadolivre",
       "enabledWithoutCredentials": false,
+      "status": "disabled_without_credentials",
       "action": "payload-export-only"
     },
     {
       "id": "shopee",
       "enabledWithoutCredentials": false,
+      "status": "disabled_without_credentials",
       "action": "payload-export-only"
     },
     {
       "id": "facebook_marketplace",
       "enabledWithoutCredentials": false,
+      "status": "manual_package",
       "action": "manual-only-no-browser-automation"
+    },
+    {
+      "id": "nuvemshop",
+      "enabledWithoutCredentials": true,
+      "status": "disabled_without_url",
+      "action": "external-checkout-url-or-whatsapp-fallback"
     }
   ],
   "prohibited": [

@@ -31,7 +31,7 @@ import { brand, socialLinks, whatsappNumber } from "@/lib/constants";
 import { primaryNavigationLinks, commerceShortcutLinks } from "@/src/config/navigation";
 
 const shortcutIcons = {
-  "Midia validada": BadgeCheck,
+  "Mídia validada": BadgeCheck,
   "Pronta entrega": PackageCheck,
   "Ideias de presente": ShoppingBag,
   "Enviar STL": Boxes,

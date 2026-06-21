@@ -3,7 +3,9 @@
   "officialPublicRoutes": [
     "/",
     "/loja",
+    "/ofertas",
     "/catalogo",
+    "/sob-medida",
     "/produto/[slug]",
     "/loja/[categoria]/[slug]",
     "/carrinho",
@@ -11,6 +13,7 @@
     "/pedidos",
     "/atendimento",
     "/jogue",
+    "/como-funciona",
     "/blog",
     "/comprar-na-mdh3d",
     "/politica-de-envio",
@@ -30,6 +33,18 @@
       "to": "/",
       "status": 308,
       "implementedIn": "vercel.json"
+    },
+    {
+      "from": "/orcamento-personalizado",
+      "to": "/sob-medida",
+      "status": 200,
+      "implementedIn": "app/sob-medida/page.tsx"
+    },
+    {
+      "from": "/guia-primeira-impressao-3d",
+      "to": "/como-funciona",
+      "status": 200,
+      "implementedIn": "app/como-funciona/page.tsx"
     }
   ],
   "rules": [

@@ -7,6 +7,7 @@ const require = createProjectRequire();
 const { catalog } = require("@/lib/catalog");
 const { normalizeMoney } = require("@/lib/payment-pricing");
 const { buildMetaCommerceFeedData } = require("@/lib/meta-commerce-feed");
+const { filterPublicCatalogProducts } = require("@/lib/public-catalog");
 const errors = [];
 const warnings = [];
 
@@ -16,15 +17,17 @@ const baselinePath = path.join(ROOT, "reports/industrial-auth-db-baseline.json")
 const baseline = fs.existsSync(baselinePath) ? JSON.parse(fs.readFileSync(baselinePath, "utf8")) : null;
 const copaExpansionPath = path.join(ROOT, "data/copa-theme-expansion-300.json");
 const copaExpansionCount = fs.existsSync(copaExpansionPath) ? JSON.parse(fs.readFileSync(copaExpansionPath, "utf8")).length : 0;
-const expectedProductCount = publicBaseline?.expectedCatalogCount
-  ?? ((baseline?.productCount ?? catalog.length - copaExpansionCount) + copaExpansionCount);
+const publicCatalog = filterPublicCatalogProducts(catalog).filter((product) => normalizeMoney(product.pricePix) > 0);
+const expectedProductCount = publicCatalog.length
+  || publicBaseline?.expectedPublicCatalogCount
+  || ((baseline?.productCount ?? catalog.length - copaExpansionCount) + copaExpansionCount);
 
-if (catalog.length !== expectedProductCount) {
-  errors.push({ code: "catalog_count_changed", expected: expectedProductCount, actual: catalog.length });
+if (publicCatalog.length !== expectedProductCount) {
+  errors.push({ code: "public_catalog_count_changed", expected: expectedProductCount, actual: publicCatalog.length });
 }
 
 const pricingIssues = [];
-for (const product of catalog) {
+for (const product of publicCatalog) {
   const pix = normalizeMoney(product.pricePix);
   const card = normalizeMoney(product.priceCard);
   if (Math.abs(card - pix - 1) > 0.009) {
@@ -39,8 +42,11 @@ const meta = buildMetaCommerceFeedData();
 if (meta.products.length < 1) {
   errors.push({ code: "meta_feed_empty" });
 }
-if (meta.products.length !== 560) {
-  warnings.push({ code: "meta_feed_count_not_560", actual: meta.products.length, skipped: meta.skipped.length });
+if (meta.totalPublicProducts !== publicCatalog.length) {
+  errors.push({ code: "meta_public_count_mismatch", expected: publicCatalog.length, actual: meta.totalPublicProducts });
+}
+if (meta.products.length + meta.skipped.length !== publicCatalog.length) {
+  warnings.push({ code: "meta_feed_inclusion_plus_skip_mismatch", actual: meta.products.length, skipped: meta.skipped.length, publicCatalog: publicCatalog.length });
 }
 
 const serializedMeta = meta.products.map((product) => Object.values(product).join(" ")).join("\n");
@@ -92,7 +98,8 @@ for (const file of publicSourceFiles) {
 const report = {
   generatedAt: new Date().toISOString(),
   ok: errors.length === 0,
-  catalogCount: catalog.length,
+  catalogCount: publicCatalog.length,
+  rawCatalogCount: catalog.length,
   expectedCatalogCount: expectedProductCount,
   publicBaseline: publicBaseline
     ? {
@@ -115,4 +122,4 @@ if (errors.length) {
   process.exit(1);
 }
 
-console.log(`OK: regressões públicas validadas (${catalog.length} produtos, ${allGameIds.length} jogos).`);
+console.log(`OK: regressões públicas validadas (${publicCatalog.length} produtos públicos ativos, ${allGameIds.length} jogos).`);

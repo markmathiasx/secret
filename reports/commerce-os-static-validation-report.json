@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-06-21T14:18:51.862Z",
+  "generatedAt": "2026-06-21T15:47:04.878Z",
   "ok": true,
-  "total": 43,
+  "total": 46,
   "failed": [],
   "checks": [
     {
@@ -120,9 +120,19 @@
       "detail": "app/loja/page.tsx"
     },
     {
+      "id": "route:/ofertas",
+      "ok": true,
+      "detail": "app/ofertas/page.tsx"
+    },
+    {
       "id": "route:/catalogo",
       "ok": true,
       "detail": "app/catalogo/page.tsx"
+    },
+    {
+      "id": "route:/sob-medida",
+      "ok": true,
+      "detail": "app/sob-medida/page.tsx"
     },
     {
       "id": "route:/produto/[slug]",
@@ -153,6 +163,11 @@
       "id": "route:/jogue",
       "ok": true,
       "detail": "app/jogue/page.tsx"
+    },
+    {
+      "id": "route:/como-funciona",
+      "ok": true,
+      "detail": "app/como-funciona/page.tsx"
     },
     {
       "id": "route:/blog",
@@ -190,9 +205,9 @@
       "detail": "app/prazo-de-producao/page.tsx"
     },
     {
-      "id": "catalog:848",
+      "id": "catalog:official-public-count",
       "ok": true,
-      "detail": 848
+      "detail": 843
     },
     {
       "id": "games:11",
@@ -202,7 +217,7 @@
     {
       "id": "feed:ok",
       "ok": true,
-      "detail": 844
+      "detail": "840/840"
     },
     {
       "id": "security:ok",

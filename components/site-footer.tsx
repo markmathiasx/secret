@@ -13,6 +13,7 @@ import {
   supportEmail,
   whatsappNumber,
 } from "@/lib/constants";
+import { primaryNavigationLinks } from "@/src/config/navigation";
 
 const quickWhatsAppLinks = [
   { label: "Comprar catálogo", text: "Oi! Quero fechar um item do catálogo da MDH 3D." },
@@ -130,29 +131,13 @@ export function SiteFooter({ cardCheckoutReady: _cardCheckoutReady = false }: { 
         </div>
 
         <div>
-          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-white/70">Jornada de compra</p>
+          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-white/70">Menu principal</p>
           <div className="mt-4 grid gap-3 text-sm text-white/70">
-            <Link href="/catalogo" className="transition hover:text-cyan-glow">
-              Escolher um produto
-            </Link>
-            <Link href="/busca" className="transition hover:text-cyan-glow">
-              Buscar no catálogo
-            </Link>
-            <Link href="/favoritos" className="transition hover:text-cyan-glow">
-              Favoritos
-            </Link>
-            <Link href="/presentes-3d" className="transition hover:text-cyan-glow">
-              Presentes 3D
-            </Link>
-            <Link href="/jogue" className="transition hover:text-cyan-glow">
-              Jogue no site
-            </Link>
-            <Link href="/setup-e-organizacao-3d" className="transition hover:text-cyan-glow">
-              Setup e organização
-            </Link>
-            <Link href="/brindes-personalizados-3d" className="transition hover:text-cyan-glow">
-              Brindes e lotes
-            </Link>
+            {primaryNavigationLinks.map((item) => (
+              <Link key={item.href} href={item.href} className="transition hover:text-cyan-glow">
+                {item.label}
+              </Link>
+            ))}
             <Link href="/carrinho" className="transition hover:text-cyan-glow">
               Ir para o carrinho
             </Link>

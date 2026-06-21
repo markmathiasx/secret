@@ -1152,7 +1152,7 @@ export function CatalogExplorer({
         </div>
 
         <div className="mt-4 flex flex-wrap items-center gap-3 text-sm text-white/60">
-          <span>{filtered.length} produtos</span>
+          <span>{filtered.length} resultados neste recorte</span>
           <span className="h-1 w-1 rounded-full bg-white/30" />
           <span>{readyCount} pronta entrega</span>
           <span className="h-1 w-1 rounded-full bg-white/30" />

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-21T14:13:56.674Z",
+  "generatedAt": "2026-06-21T15:51:19.207Z",
   "ok": true,
   "headers": [
     {
@@ -94,6 +94,11 @@
     }
   ],
   "adminRoutes": [
+    {
+      "file": "app/api/admin/analytics/health/route.ts",
+      "protected": true,
+      "mutates": false
+    },
     {
       "file": "app/api/admin/catalog/replace-images/route.ts",
       "protected": true,
@@ -229,6 +234,18 @@
       "protectedAdmin": false,
       "hasValidation": true,
       "hasRateLimit": true
+    },
+    {
+      "file": "app/api/admin/analytics/health/route.ts",
+      "sensitive": true,
+      "methods": [
+        "GET"
+      ],
+      "readsBody": false,
+      "readsQuery": false,
+      "protectedAdmin": true,
+      "hasValidation": true,
+      "hasRateLimit": false
     },
     {
       "file": "app/api/admin/catalog/replace-images/route.ts",

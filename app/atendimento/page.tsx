@@ -59,7 +59,7 @@ export default function AtendimentoPage() {
     .slice(0, 6);
 
   return (
-    <main className="min-h-screen bg-[#071019] text-white">
+    <main className="min-h-screen bg-[#071019] text-white" data-official-product-count={stats.products}>
       <section className="border-b border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(34,211,238,0.14),transparent_34%),linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0))] px-4 py-10">
         <div className="mx-auto max-w-7xl">
           <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
@@ -73,7 +73,7 @@ export default function AtendimentoPage() {
             <div className="grid gap-2 rounded-[8px] border border-emerald-300/20 bg-emerald-300/10 p-4 text-sm text-emerald-50">
               <span className="inline-flex items-center gap-2 font-bold">
                 <ShieldCheck className="h-4 w-4" />
-                {stats.products} produtos indexados
+                {stats.products} produtos ativos indexados
               </span>
               <span className="text-white/65">Cartão sempre Pix + R$ 1,00.</span>
             </div>

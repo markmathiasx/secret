@@ -1,0 +1,278 @@
+{
+  "generatedAt": "2026-06-21T15:54:30.962Z",
+  "baseUrls": [
+    "http://127.0.0.1:3000"
+  ],
+  "ok": true,
+  "counts": [
+    843,
+    843,
+    843
+  ],
+  "countsConsistent": true,
+  "html": [
+    {
+      "baseUrl": "http://127.0.0.1:3000",
+      "route": "/",
+      "url": "http://127.0.0.1:3000/",
+      "finalUrl": "http://127.0.0.1:3000/",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "officialCount": 843,
+      "menuLabelsFound": [
+        "Loja",
+        "Ofertas",
+        "Catálogo",
+        "Sob medida",
+        "Jogue",
+        "Como funciona",
+        "Blog",
+        "Atendimento"
+      ],
+      "whatsappLinks": [
+        "5521974137662"
+      ],
+      "ok": true,
+      "errors": []
+    },
+    {
+      "baseUrl": "http://127.0.0.1:3000",
+      "route": "/loja",
+      "url": "http://127.0.0.1:3000/loja",
+      "finalUrl": "http://127.0.0.1:3000/loja",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "officialCount": null,
+      "menuLabelsFound": [
+        "Loja",
+        "Ofertas",
+        "Catálogo",
+        "Sob medida",
+        "Jogue",
+        "Como funciona",
+        "Blog",
+        "Atendimento"
+      ],
+      "whatsappLinks": [
+        "5521974137662"
+      ],
+      "ok": true,
+      "errors": []
+    },
+    {
+      "baseUrl": "http://127.0.0.1:3000",
+      "route": "/ofertas",
+      "url": "http://127.0.0.1:3000/ofertas",
+      "finalUrl": "http://127.0.0.1:3000/ofertas",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "officialCount": null,
+      "menuLabelsFound": [
+        "Loja",
+        "Ofertas",
+        "Catálogo",
+        "Sob medida",
+        "Jogue",
+        "Como funciona",
+        "Blog",
+        "Atendimento"
+      ],
+      "whatsappLinks": [
+        "5521974137662"
+      ],
+      "ok": true,
+      "errors": []
+    },
+    {
+      "baseUrl": "http://127.0.0.1:3000",
+      "route": "/catalogo",
+      "url": "http://127.0.0.1:3000/catalogo",
+      "finalUrl": "http://127.0.0.1:3000/catalogo",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "officialCount": 843,
+      "menuLabelsFound": [
+        "Loja",
+        "Ofertas",
+        "Catálogo",
+        "Sob medida",
+        "Jogue",
+        "Como funciona",
+        "Blog",
+        "Atendimento"
+      ],
+      "whatsappLinks": [
+        "5521974137662"
+      ],
+      "ok": true,
+      "errors": []
+    },
+    {
+      "baseUrl": "http://127.0.0.1:3000",
+      "route": "/sob-medida",
+      "url": "http://127.0.0.1:3000/sob-medida",
+      "finalUrl": "http://127.0.0.1:3000/sob-medida",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "officialCount": null,
+      "menuLabelsFound": [
+        "Loja",
+        "Ofertas",
+        "Catálogo",
+        "Sob medida",
+        "Jogue",
+        "Como funciona",
+        "Blog",
+        "Atendimento"
+      ],
+      "whatsappLinks": [
+        "5521974137662"
+      ],
+      "ok": true,
+      "errors": []
+    },
+    {
+      "baseUrl": "http://127.0.0.1:3000",
+      "route": "/jogue",
+      "url": "http://127.0.0.1:3000/jogue",
+      "finalUrl": "http://127.0.0.1:3000/jogue",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "officialCount": null,
+      "menuLabelsFound": [
+        "Loja",
+        "Ofertas",
+        "Catálogo",
+        "Sob medida",
+        "Jogue",
+        "Como funciona",
+        "Blog",
+        "Atendimento"
+      ],
+      "whatsappLinks": [
+        "5521974137662"
+      ],
+      "ok": true,
+      "errors": []
+    },
+    {
+      "baseUrl": "http://127.0.0.1:3000",
+      "route": "/como-funciona",
+      "url": "http://127.0.0.1:3000/como-funciona",
+      "finalUrl": "http://127.0.0.1:3000/como-funciona",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "officialCount": null,
+      "menuLabelsFound": [
+        "Loja",
+        "Ofertas",
+        "Catálogo",
+        "Sob medida",
+        "Jogue",
+        "Como funciona",
+        "Blog",
+        "Atendimento"
+      ],
+      "whatsappLinks": [
+        "5521974137662"
+      ],
+      "ok": true,
+      "errors": []
+    },
+    {
+      "baseUrl": "http://127.0.0.1:3000",
+      "route": "/blog",
+      "url": "http://127.0.0.1:3000/blog",
+      "finalUrl": "http://127.0.0.1:3000/blog",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "officialCount": null,
+      "menuLabelsFound": [
+        "Loja",
+        "Ofertas",
+        "Catálogo",
+        "Sob medida",
+        "Jogue",
+        "Como funciona",
+        "Blog",
+        "Atendimento"
+      ],
+      "whatsappLinks": [
+        "5521974137662"
+      ],
+      "ok": true,
+      "errors": []
+    },
+    {
+      "baseUrl": "http://127.0.0.1:3000",
+      "route": "/atendimento",
+      "url": "http://127.0.0.1:3000/atendimento",
+      "finalUrl": "http://127.0.0.1:3000/atendimento",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "officialCount": 843,
+      "menuLabelsFound": [
+        "Loja",
+        "Ofertas",
+        "Catálogo",
+        "Sob medida",
+        "Jogue",
+        "Como funciona",
+        "Blog",
+        "Atendimento"
+      ],
+      "whatsappLinks": [
+        "5521974137662"
+      ],
+      "ok": true,
+      "errors": []
+    }
+  ],
+  "feeds": [
+    {
+      "baseUrl": "http://127.0.0.1:3000",
+      "route": "/meta/catalog.csv",
+      "url": "http://127.0.0.1:3000/meta/catalog.csv",
+      "finalUrl": "http://127.0.0.1:3000/meta/catalog.csv",
+      "status": 200,
+      "contentType": "text/csv; charset=utf-8",
+      "itemCount": 840,
+      "ok": true,
+      "errors": []
+    },
+    {
+      "baseUrl": "http://127.0.0.1:3000",
+      "route": "/feeds/google-shopping.xml",
+      "url": "http://127.0.0.1:3000/feeds/google-shopping.xml",
+      "finalUrl": "http://127.0.0.1:3000/feeds/google-shopping.xml",
+      "status": 200,
+      "contentType": "application/xml; charset=utf-8",
+      "itemCount": 306,
+      "ok": true,
+      "errors": []
+    },
+    {
+      "baseUrl": "http://127.0.0.1:3000",
+      "route": "/feeds/products.json",
+      "url": "http://127.0.0.1:3000/feeds/products.json",
+      "finalUrl": "http://127.0.0.1:3000/feeds/products.json",
+      "status": 200,
+      "contentType": "application/json",
+      "itemCount": 306,
+      "ok": true,
+      "errors": []
+    },
+    {
+      "baseUrl": "http://127.0.0.1:3000",
+      "route": "/sitemap-products.xml",
+      "url": "http://127.0.0.1:3000/sitemap-products.xml",
+      "finalUrl": "http://127.0.0.1:3000/sitemap-products.xml",
+      "status": 200,
+      "contentType": "application/xml; charset=utf-8",
+      "itemCount": 1149,
+      "ok": true,
+      "errors": []
+    }
+  ],
+  "errors": []
+}

@@ -1,20 +1,20 @@
 {
-  "generatedAt": "2026-06-21T14:12:24.129Z",
+  "generatedAt": "2026-06-21T15:49:37.641Z",
   "branch": "codex/visual-fase14-cinematic",
-  "commit": "a25d59c4",
+  "commit": "81fcd335",
   "commands": [
     {
       "command": "npm run db:generate",
       "exitCode": 0,
-      "durationMs": 2093,
+      "durationMs": 2153,
       "timedOut": false,
-      "stdoutTail": "> mdh-3d-store@2.0.0 db:generate\n> node scripts/db-generate.mjs\n\nPrisma schema loaded from prisma\\schema.prisma\n\n✔ Generated Prisma Client (v6.19.3) to .\\node_modules\\@prisma\\client in 282ms\n\nStart by importing your Prisma Client (See: https://pris.ly/d/importing-client)\n\nTip: Want to turn off tips and other hints? https://pris.ly/tip-4-nohints",
-      "stderrTail": "┌─────────────────────────────────────────────────────────┐\n│  Update available 6.19.3 -> 7.8.0                       │\n│                                                         │\n│  This is a major update - please follow the guide at    │\n│  https://pris.ly/d/major-version-upgrade                │\n│                                                         │\n│  Run the following to update                            │\n│    npm i --save-dev prisma@latest                       │\n│    npm i @prisma/client@latest                          │\n└─────────────────────────────────────────────────────────┘"
+      "stdoutTail": "> mdh-3d-store@2.0.0 db:generate\n> node scripts/db-generate.mjs\n\nPrisma schema loaded from prisma\\schema.prisma\n\n✔ Generated Prisma Client (v6.19.3) to .\\node_modules\\@prisma\\client in 288ms\n\nStart by importing your Prisma Client (See: https://pris.ly/d/importing-client)\n\nTip: Interested in query caching in just a few lines of code? Try Accelerate today! https://pris.ly/tip-3-accelerate",
+      "stderrTail": ""
     },
     {
       "command": "npm run typecheck",
       "exitCode": 0,
-      "durationMs": 4468,
+      "durationMs": 14675,
       "timedOut": false,
       "stdoutTail": "> mdh-3d-store@2.0.0 typecheck\n> node scripts/typecheck.mjs",
       "stderrTail": ""
@@ -22,7 +22,7 @@
     {
       "command": "npm run lint:check",
       "exitCode": 0,
-      "durationMs": 7198,
+      "durationMs": 7351,
       "timedOut": false,
       "stdoutTail": "> mdh-3d-store@2.0.0 lint:check\n> node scripts/lint.mjs",
       "stderrTail": ""
@@ -30,15 +30,15 @@
     {
       "command": "npm run build",
       "exitCode": 0,
-      "durationMs": 75876,
+      "durationMs": 74314,
       "timedOut": false,
-      "stdoutTail": "├ ƒ /checkout/sucesso                                                    177 B         277 kB\n├ ○ /colecionaveis-geek-3d                                               139 B         556 kB\n├ ○ /compra-protegida                                                  5.01 kB         274 kB\n├ ○ /comprar-na-mdh3d                                                    202 B         270 kB\n├ ○ /conta                                                               171 B         526 kB\n├ ƒ /conta/pedidos/[id]                                                 7.3 kB         277 kB\n├ ○ /contato                                                           3.51 kB         273 kB\n├ ○ /decoracao-3d-para-casa                                              139 B         556 kB\n├ ○ /devolucoes                                                         6.6 kB         276 kB\n├ ○ /divulgacao                                                          742 B         270 kB\n├ ○ /entregas                                                          4.03 kB         273 kB\n├ ƒ /falha                                                               177 B         277 kB\n├ ○ /faq                                                               1.98 kB         271 kB\n├ ○ /favoritos                                                         1.56 kB         271 kB\n├ ○ /feeds/google-shopping.xml                                           425 B         270 kB          5m      1y\n├ ○ /feeds/meta-catalog.csv                                              425 B         270 kB          5m      1y\n├ ○ /feeds/produtos.json                                                 425 B         270 kB          5m      1y\n├ ○ /feeds/tiktok-catalog.csv                                            425 B         270 kB          5m      1y\n├ ○ /guia-primeira-impressao-3d                                         2.1 kB         272 kB\n├ ○ /imagem-para-impressao-3d                                          6.81 kB         276 kB\n├ ○ /indicacao                                                           202 B         270 kB\n├ ○ /jogue                                                               18 kB         287 kB\n├ ○ /login                                                               162 B         276 kB\n├ ○ /loja                                                              6.11 kB         280 kB          5m      1y\n├ ● /loja/[categoria]/[slug]                                             135 B         540 kB          5m      1y\n├   ├ /loja/casa-e-organizacao/real-001-grinder-3-partes-premium                                       5m      1y\n├   ├ /loja/casa-e-organizacao/real-002-porta-creme-dental-de-bancada                                  5m      1y\n├   ├ /loja/geek-colecionaveis/real-003-demogorgon-decorativo-premium                                  5m      1y\n├   └ [+840 more paths]\n├ ○ /manifest.webmanifest                                                425 B         270 kB\n├ ○ /merchant/products.xml                                               425 B         270 kB          1h      1y\n├ ƒ /meta/catalog.csv                                                    425 B         270 kB\n├ ○ /ofertas                                                             202 B         270 kB\n├ ○ /orcamento-personalizado                                           5.25 kB         275 kB\n├ ○ /organizadores                                                     1.84 kB         271 kB\n├ ○ /peca-sob-medida                                                   1.84 kB         271 kB\n├ ○ /pedidos                                                             176 B         526 kB\n├ ƒ /pedidos/[id]                                                        425 B         270 kB\n├ ƒ /pendente                                                            177 B         277 kB\n├ ○ /perfil                                                              176 B         526 kB\n├ ○ /politica-de-envio                                                   202 B         270 kB\n├ ○ /politica-de-privacidade                                             425 B         270 kB\n├ ○ /politica-de-troca                                                   202 B         270 kB\n├ ○ /prazo-de-producao                                                   202 B         270 kB\n├ ○ /presentes-3d                                                        138 B         556 kB\n├ ○ /presentes-ate-50                                                  1.84 kB         271 kB\n├ ƒ /product/[id]                                                        425 B         270 kB\n├ ● /produto/[slug]                                                    3.69 kB         277 kB          5m      1y\n├   ├ /produto/chaveiro-goleiro-comercial-copa-2026-copa-001                                           5m      1y\n├   ├ /produto/chaveiro-bola-para-presente-copa-2026-copa-002                                          5m      1y\n├   ├ /produto/chaveiro-camisa-mini-copa-2026-copa-003                                                 5m      1y\n├   └ [+303 more paths]\n├ ○ /rastrear                                                          6.09 kB         276 kB\n├ ○ /recuperar-senha                                                   1.85 kB         271 kB\n├ ƒ /recuperar-senha/confirmar                                           425 B         270 kB\n├ ○ /recuperar-senha/whatsapp                                          3.57 kB         273 kB\n├ ○ /robots.txt                                                          425 B         270 kB\n├ ƒ /seller                                                              202 B         270 kB\n├ ○ /setup-e-organizacao-3d                                              139 B         556 kB\n├ ○ /setup-gamer                                                       1.84 kB         271 kB\n├ ○ /sitemap-products.xml                                                425 B         270 kB          5m      1y\n├ ○ /sitemap.xml                                                         425 B         270 kB\n├ ○ /sobre                                                               182 B         270 kB\n├ ƒ /sucesso                                                           1.06 kB         277 kB\n├ ○ /termos                                                              425 B         270 kB\n├ ○ /termos-de-compra                                                    202 B         270 kB\n└ ○ /trocas-e-devolucoes                                                 425 B         270 kB\n+ First Load JS shared by all                                           269 kB\n  ├ chunks/4bd1b696-100b9d70ed4e49c1.js                                54.2 kB\n  └ chunks/vendors-613547e7638f7fe9.js                                  213 kB\n  └ other shared chunks (total)                                        2.27 kB\n\n\nƒ Middleware                                                           63.7 kB\n\n○  (Static)   prerendered as static content\n●  (SSG)      prerendered as static HTML (uses generateStaticParams)\nƒ  (Dynamic)  server-rendered on demand",
+      "stdoutTail": "├ ○ /comprar-na-mdh3d                                                    202 B         270 kB\n├ ○ /conta                                                               171 B         526 kB\n├ ƒ /conta/pedidos/[id]                                                 7.3 kB         277 kB\n├ ○ /contato                                                           3.51 kB         273 kB\n├ ○ /decoracao-3d-para-casa                                              139 B         556 kB\n├ ○ /devolucoes                                                         6.6 kB         276 kB\n├ ○ /divulgacao                                                          742 B         270 kB\n├ ○ /entregas                                                          4.03 kB         273 kB\n├ ƒ /falha                                                               177 B         277 kB\n├ ○ /faq                                                               1.98 kB         271 kB\n├ ○ /favoritos                                                         1.56 kB         271 kB\n├ ○ /feeds/google-shopping.csv                                           432 B         270 kB          5m      1y\n├ ○ /feeds/google-shopping.xml                                           432 B         270 kB          5m      1y\n├ ○ /feeds/meta-catalog.csv                                              432 B         270 kB          5m      1y\n├ ○ /feeds/products.json                                                 432 B         270 kB          5m      1y\n├ ○ /feeds/produtos.json                                                 432 B         270 kB          5m      1y\n├ ○ /feeds/tiktok-catalog.csv                                            432 B         270 kB          5m      1y\n├ ○ /guia-primeira-impressao-3d                                         2.1 kB         272 kB\n├ ○ /imagem-para-impressao-3d                                          6.81 kB         276 kB\n├ ○ /indicacao                                                           202 B         270 kB\n├ ○ /jogue                                                               18 kB         287 kB\n├ ○ /login                                                               162 B         276 kB\n├ ○ /loja                                                              6.11 kB         280 kB          5m      1y\n├ ● /loja/[categoria]/[slug]                                             135 B         540 kB          5m      1y\n├   ├ /loja/casa-e-organizacao/real-001-grinder-3-partes-premium                                       5m      1y\n├   ├ /loja/casa-e-organizacao/real-002-porta-creme-dental-de-bancada                                  5m      1y\n├   ├ /loja/geek-colecionaveis/real-003-demogorgon-decorativo-premium                                  5m      1y\n├   └ [+840 more paths]\n├ ○ /manifest.webmanifest                                                432 B         270 kB\n├ ○ /merchant/products.xml                                               432 B         270 kB          1h      1y\n├ ƒ /meta/catalog.csv                                                    432 B         270 kB\n├ ○ /ofertas                                                             202 B         270 kB\n├ ○ /orcamento-personalizado                                             124 B         275 kB\n├ ○ /organizadores                                                     1.84 kB         271 kB\n├ ○ /peca-sob-medida                                                   1.84 kB         271 kB\n├ ○ /pedidos                                                             176 B         526 kB\n├ ƒ /pedidos/[id]                                                        432 B         270 kB\n├ ƒ /pendente                                                            177 B         277 kB\n├ ○ /perfil                                                              176 B         526 kB\n├ ○ /politica-de-envio                                                   202 B         270 kB\n├ ○ /politica-de-privacidade                                             432 B         270 kB\n├ ○ /politica-de-troca                                                   202 B         270 kB\n├ ○ /prazo-de-producao                                                   202 B         270 kB\n├ ○ /presentes-3d                                                        138 B         556 kB\n├ ○ /presentes-ate-50                                                  1.84 kB         271 kB\n├ ƒ /product/[id]                                                        432 B         270 kB\n├ ● /produto/[slug]                                                    3.69 kB         277 kB          5m      1y\n├   ├ /produto/chaveiro-goleiro-comercial-copa-2026-copa-001                                           5m      1y\n├   ├ /produto/chaveiro-bola-para-presente-copa-2026-copa-002                                          5m      1y\n├   ├ /produto/chaveiro-camisa-mini-copa-2026-copa-003                                                 5m      1y\n├   └ [+303 more paths]\n├ ○ /rastrear                                                          6.09 kB         276 kB\n├ ○ /recuperar-senha                                                   1.85 kB         271 kB\n├ ƒ /recuperar-senha/confirmar                                           432 B         270 kB\n├ ○ /recuperar-senha/whatsapp                                          3.57 kB         273 kB\n├ ○ /robots.txt                                                          432 B         270 kB\n├ ƒ /seller                                                              202 B         270 kB\n├ ○ /setup-e-organizacao-3d                                              139 B         556 kB\n├ ○ /setup-gamer                                                       1.84 kB         271 kB\n├ ○ /sitemap-products.xml                                                432 B         270 kB          5m      1y\n├ ○ /sitemap.xml                                                         432 B         270 kB\n├ ○ /sob-medida                                                          124 B         275 kB\n├ ○ /sobre                                                               182 B         270 kB\n├ ƒ /sucesso                                                           1.06 kB         277 kB\n├ ○ /termos                                                              432 B         270 kB\n├ ○ /termos-de-compra                                                    202 B         270 kB\n└ ○ /trocas-e-devolucoes                                                 432 B         270 kB\n+ First Load JS shared by all                                           269 kB\n  ├ chunks/4bd1b696-100b9d70ed4e49c1.js                                54.2 kB\n  └ chunks/vendors-613547e7638f7fe9.js                                  213 kB\n  └ other shared chunks (total)                                        2.27 kB\n\n\nƒ Middleware                                                           63.7 kB\n\n○  (Static)   prerendered as static content\n●  (SSG)      prerendered as static HTML (uses generateStaticParams)\nƒ  (Dynamic)  server-rendered on demand",
       "stderrTail": ""
     },
     {
       "command": "npm run validate:industrial-ui",
       "exitCode": 0,
-      "durationMs": 364,
+      "durationMs": 302,
       "timedOut": false,
       "stdoutTail": "> mdh-3d-store@2.0.0 validate:industrial-ui\n> node scripts/validate-industrial-ui.mjs\n\nOK: fundacao visual industrial validada.",
       "stderrTail": ""
@@ -46,7 +46,7 @@
     {
       "command": "npm run validate:auth",
       "exitCode": 0,
-      "durationMs": 277,
+      "durationMs": 293,
       "timedOut": false,
       "stdoutTail": "> mdh-3d-store@2.0.0 validate:auth\n> node scripts/validate-auth-flow.mjs\n\nOK: fluxo de auth validado.",
       "stderrTail": ""
@@ -54,7 +54,7 @@
     {
       "command": "npm run validate:db-storage",
       "exitCode": 0,
-      "durationMs": 271,
+      "durationMs": 270,
       "timedOut": false,
       "stdoutTail": "> mdh-3d-store@2.0.0 validate:db-storage\n> node scripts/validate-db-storage.mjs\n\nOK: DB/storage validado.",
       "stderrTail": ""
@@ -62,7 +62,7 @@
     {
       "command": "npm run validate:private-routes",
       "exitCode": 0,
-      "durationMs": 272,
+      "durationMs": 278,
       "timedOut": false,
       "stdoutTail": "> mdh-3d-store@2.0.0 validate:private-routes\n> node scripts/validate-private-routes.mjs\n\nOK: rotas privadas validadas.",
       "stderrTail": ""
@@ -70,9 +70,9 @@
     {
       "command": "npm run validate:public-regressions",
       "exitCode": 0,
-      "durationMs": 1250,
+      "durationMs": 1448,
       "timedOut": false,
-      "stdoutTail": "> mdh-3d-store@2.0.0 validate:public-regressions\n> node scripts/validate-public-regressions.mjs\n\nOK: regressões públicas validadas (848 produtos, 11 jogos).",
+      "stdoutTail": "> mdh-3d-store@2.0.0 validate:public-regressions\n> node scripts/validate-public-regressions.mjs\n\nOK: regressões públicas validadas (843 produtos públicos ativos, 11 jogos).",
       "stderrTail": ""
     },
     {
@@ -86,7 +86,7 @@
     {
       "command": "npm audit --audit-level=low",
       "exitCode": 0,
-      "durationMs": 855,
+      "durationMs": 872,
       "timedOut": false,
       "stdoutTail": "found 0 vulnerabilities",
       "stderrTail": ""

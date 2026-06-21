@@ -1,14 +1,14 @@
 {
-  "generatedAt": "2026-06-21T14:10:19.140Z",
+  "generatedAt": "2026-06-21T15:46:43.565Z",
   "ok": true,
   "expectedHeader": "id,title,description,availability,condition,price,link,image_link,brand,google_product_category,product_type",
-  "productsInFeed": 844,
-  "publicProducts": 848,
-  "productsWithOwnImage": 844,
-  "productsUsingPlaceholder": 4,
-  "skippedProducts": 4,
+  "productsInFeed": 840,
+  "publicProducts": 843,
+  "productsWithOwnImage": 840,
+  "productsUsingPlaceholder": 3,
+  "skippedProducts": 3,
   "skippedByReason": {
-    "missing_public_image": 4
+    "missing_public_image": 3
   },
   "sampleProducts": [
     {
@@ -290,13 +290,6 @@
     {
       "product": "mdh-069",
       "title": "herói retrô tema clássico Chibi",
-      "reasons": [
-        "missing_public_image"
-      ]
-    },
-    {
-      "product": "csv-uti-040",
-      "title": "Organizador Modular mascote evolutivo criatura colecionável para Ferramentas Leves, Peças e Acessórios Nerd",
       "reasons": [
         "missing_public_image"
       ]

@@ -6,7 +6,9 @@
 | --- | --- | --- |
 | / | app/page.tsx | Ativa |
 | /loja | app/loja/page.tsx | Ativa |
+| /ofertas | app/ofertas/page.tsx | Ativa |
 | /catalogo | app/catalogo/page.tsx | Ativa |
+| /sob-medida | app/sob-medida/page.tsx | Ativa |
 | /produto/[slug] | app/produto/[slug]/page.tsx | Ativa |
 | /loja/[categoria]/[slug] | app/loja/[categoria]/[slug]/page.tsx | Ativa |
 | /carrinho | app/carrinho/page.tsx | Ativa |
@@ -14,6 +16,7 @@
 | /pedidos | app/pedidos/page.tsx | Ativa |
 | /atendimento | app/atendimento/page.tsx | Ativa |
 | /jogue | app/jogue/page.tsx | Ativa, 11 jogos |
+| /como-funciona | app/como-funciona/page.tsx | Ativa |
 | /blog | app/blog/page.tsx | Ativa |
 
 ## Rotas institucionais obrigatorias
@@ -43,10 +46,12 @@
 
 | Feed | Arquivo | Validacao |
 | --- | --- | --- |
-| /meta/catalog.csv | app/meta/catalog.csv/route.ts | 844 produtos, 4 ignorados por imagem ausente |
+| /meta/catalog.csv | app/meta/catalog.csv/route.ts | Catálogo público ativo, inválidos ignorados com relatório |
 | /feeds/meta-catalog.csv | app/feeds/meta-catalog.csv/route.ts | Ativo |
 | /feeds/google-shopping.xml | app/feeds/google-shopping.xml/route.ts | Ativo |
+| /feeds/google-shopping.csv | app/feeds/google-shopping.csv/route.ts | Ativo |
 | /feeds/produtos.json | app/feeds/produtos.json/route.ts | Ativo |
+| /feeds/products.json | app/feeds/products.json/route.ts | Ativo |
 | /merchant/products.xml | app/merchant/products.xml/route.ts | Ativo |
 
 ## Acoes comerciais observadas
@@ -57,9 +62,9 @@
 | Produto sem URL abre WhatsApp | buildWhatsappUrl() | Ativo |
 | Carrinho local smart finaliza pelo WhatsApp | buildCartWhatsappUrl() | Ativo |
 | Carrinho principal adiciona/remove/altera quantidade | lib/cart-context.tsx e app/carrinho/page.tsx | Ativo |
-| Suporte responde com produtos reais | support:validate, 848 indexados | Ativo |
+| Suporte responde com produtos reais | support:validate, 843 públicos ativos indexados | Ativo |
 | Botao jogo permanece isolado | /jogue validado com 11 jogos | Ativo |
 
 ## Ajuste aplicado nesta fase
 
-Foi criada a configuracao central `src/config/navigation.ts` e o header passou a consumir `primaryNavigationLinks` e `commerceShortcutLinks`. Isso reduz divergencia entre menu desktop/mobile e a politica de rotas em `data/catalog/route-policy.json`.
+Foi criada a configuracao central `src/config/navigation.ts` e header/footer passaram a consumir `primaryNavigationLinks`. O menu oficial e: Loja, Ofertas, Catálogo, Sob medida, Jogue, Como funciona, Blog, Atendimento.

@@ -1,14 +1,15 @@
 {
-  "generatedAt": "2026-06-21T14:13:56.211Z",
+  "generatedAt": "2026-06-21T15:51:18.739Z",
   "ok": true,
-  "catalogCount": 848,
-  "expectedCatalogCount": 848,
+  "catalogCount": 843,
+  "rawCatalogCount": 848,
+  "expectedCatalogCount": 843,
   "publicBaseline": {
     "source": "reports/public-regressions-baseline.json",
     "reason": "A auditoria semantica atualizada bloqueou 16 itens que antes estavam como FIX_TEXT/probable, pois apontavam para placeholder text cards em vez de midia curada. Nenhum produto BLOCKED permanece publico."
   },
-  "metaProducts": 844,
-  "metaSkipped": 4,
+  "metaProducts": 840,
+  "metaSkipped": 3,
   "games": [
     "pinball-star",
     "print-runner",
@@ -23,12 +24,6 @@
     "print-tycoon-mini"
   ],
   "pricingIssues": [],
-  "warnings": [
-    {
-      "code": "meta_feed_count_not_560",
-      "actual": 844,
-      "skipped": 4
-    }
-  ],
+  "warnings": [],
   "errors": []
 }

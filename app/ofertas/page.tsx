@@ -39,7 +39,7 @@ export default function OfertasPage() {
             <Link href="/loja" className="btn-primary gap-2 px-5 py-3">
               <ShoppingBag className="h-4 w-4" /> Ver loja
             </Link>
-            <Link href="/orcamento-personalizado" className="btn-secondary gap-2 px-5 py-3">
+            <Link href="/sob-medida" className="btn-secondary gap-2 px-5 py-3">
               Peça sob medida
             </Link>
           </div>

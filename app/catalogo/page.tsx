@@ -7,6 +7,7 @@ import { getCatalogSnapshot } from "@/lib/catalog-repository";
 import { getSiteUrl } from "@/lib/env";
 import { brand, socialLinks, whatsappNumber } from "@/lib/constants";
 import { formatCurrency } from "@/lib/utils";
+import { buildPublicCatalogStats } from "@/src/lib/catalog/stats";
 
 export const metadata: Metadata = {
   title: "Catálogo MDH 3D",
@@ -41,10 +42,8 @@ function whatsappHref(message: string) {
 export default async function CatalogPage() {
   const catalog = await getCatalogSnapshot();
   const siteUrl = getSiteUrl();
-  const prices = catalog.map((product) => product.pricePix).filter((price) => price > 0);
-  const minPrice = prices.length ? Math.min(...prices) : 19.9;
-  const customizable = catalog.filter((product) => product.customizable).length;
-  const ready = catalog.filter((product) => product.readyToShip || product.status === "Pronta entrega").length;
+  const publicStats = buildPublicCatalogStats(catalog);
+  const minPrice = publicStats.minPrice || 19.9;
   const quickProducts = catalog.filter((product) => product.pricePix <= 39.9 || product.readyToShip).length;
   const whatsapp = whatsappHref("Quero ajuda para escolher no Catálogo MDH 3D. Quero ver Pix, cartão e prazo.");
   const breadcrumbJsonLd = {
@@ -57,7 +56,7 @@ export default async function CatalogPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#071016] pb-14 text-white">
+    <main className="min-h-screen bg-[#071016] pb-14 text-white" data-official-product-count={publicStats.activeProductCount}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
 
       <section className="relative isolate overflow-hidden border-b border-white/10 bg-[#071016] px-4 pb-9 pt-10 sm:px-6 lg:pt-14">
@@ -111,10 +110,10 @@ export default async function CatalogPage() {
 
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-2">
               {[
-                ["Produtos", catalog.length.toLocaleString("pt-BR")],
+                ["Produtos ativos", publicStats.activeProductCount.toLocaleString("pt-BR")],
                 ["A partir de", formatCurrency(minPrice)],
-                ["Personalizáveis", customizable.toLocaleString("pt-BR")],
-                ["Pronta entrega", ready.toLocaleString("pt-BR")],
+                ["Personalizáveis", publicStats.customizableCount.toLocaleString("pt-BR")],
+                ["Pronta entrega", publicStats.readyToShipCount.toLocaleString("pt-BR")],
               ].map(([label, value]) => (
                 <div key={label} className="rounded-[8px] border border-white/10 bg-white/[0.055] p-4">
                   <p className="text-[11px] font-black uppercase tracking-[0.12em] text-white/48">{label}</p>
@@ -166,7 +165,7 @@ export default async function CatalogPage() {
           <Link href="/catalogo?custom=1" className="rounded-[8px] border border-cyan-300/16 bg-cyan-300/8 p-4 transition hover:bg-cyan-300/12">
             <p className="text-xs font-black uppercase tracking-[0.12em] text-cyan-100/75">Personalizados</p>
             <h2 className="mt-2 text-xl font-black text-white">Nome, cor, tema ou ajuste</h2>
-            <p className="mt-2 text-sm text-white/62">{customizable.toLocaleString("pt-BR")} produtos aceitam personalização.</p>
+            <p className="mt-2 text-sm text-white/62">{publicStats.customizableCount.toLocaleString("pt-BR")} produtos aceitam personalização.</p>
           </Link>
         </div>
       </section>
