@@ -2,6 +2,7 @@ import { defineConfig, devices } from "@playwright/test";
 
 const BASE_URL = process.env.SMOKE_BASE_URL || "http://localhost:3000";
 const useSystemChrome = process.env.PLAYWRIGHT_USE_SYSTEM_CHROME === "1";
+const shouldStartLocalServer = /^https?:\/\/(?:localhost|127\.0\.0\.1)(?::\d+)?/i.test(BASE_URL);
 
 export default defineConfig({
   testDir: "./tests",
@@ -18,6 +19,14 @@ export default defineConfig({
     trace: "on-first-retry",
     screenshot: "only-on-failure",
   },
+  webServer: shouldStartLocalServer
+    ? {
+        command: "npm run start",
+        url: BASE_URL,
+        reuseExistingServer: !process.env.CI,
+        timeout: 120_000,
+      }
+    : undefined,
   projects: [
     {
       name: "chromium",

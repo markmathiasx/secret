@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import Script from 'next/script';
 import { Manrope, Space_Grotesk } from 'next/font/google';
 import './globals.css';
+import '@/src/styles/neoglass-preview.css';
 import { AccessibilityProvider, SkipLink } from '@/components/accessibility';
 import { AnalyticsBridge } from '@/components/analytics/AnalyticsBridge';
 import { EcommerceAnalytics } from '@/components/mdh-store/EcommerceAnalytics';

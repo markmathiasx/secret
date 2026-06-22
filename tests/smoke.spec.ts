@@ -21,13 +21,13 @@ test.describe("MDH 3D Store – Smoke Tests", () => {
   test("Catálogo: retorna 200 e mostra produtos", async ({ page }) => {
     const response = await page.goto(`${BASE_URL}/catalogo`);
     expect(response?.status()).toBe(200);
-    await expect(page.locator("main")).toBeVisible();
+    await expect(page.locator("#main-content")).toBeVisible();
   });
 
   test("Catálogo: filtro mode=real funciona", async ({ page }) => {
     const response = await page.goto(`${BASE_URL}/catalogo?mode=real`);
     expect(response?.status()).toBe(200);
-    await expect(page.locator("main")).toBeVisible();
+    await expect(page.locator("#main-content")).toBeVisible();
   });
 
   test("Catálogo: filtro status=Pronta+entrega funciona", async ({ page }) => {
@@ -38,7 +38,7 @@ test.describe("MDH 3D Store – Smoke Tests", () => {
   test("PDP: primeira página de produto retorna 200", async ({ page }) => {
     // Navigate to catalog and get first product link
     await page.goto(`${BASE_URL}/catalogo`);
-    const productLink = page.locator('a[href^="/catalogo/"]').first();
+    const productLink = page.locator('a[href^="/loja/"]').first();
     const href = await productLink.getAttribute("href");
     if (!href) throw new Error("Nenhum link de produto encontrado no catálogo");
 
@@ -49,7 +49,7 @@ test.describe("MDH 3D Store – Smoke Tests", () => {
 
   test("PDP: JSON-LD de produto presente na página", async ({ page }) => {
     await page.goto(`${BASE_URL}/catalogo`);
-    const productLink = page.locator('a[href^="/catalogo/"]').first();
+    const productLink = page.locator('a[href^="/loja/"]').first();
     const href = await productLink.getAttribute("href");
     if (!href) throw new Error("Nenhum link de produto encontrado");
 
@@ -85,7 +85,7 @@ test.describe("MDH 3D Store – Smoke Tests", () => {
   test("Login: retorna 200 e mostra formulário", async ({ page }) => {
     const response = await page.goto(`${BASE_URL}/login`);
     expect(response?.status()).toBe(200);
-    await expect(page.locator("main")).toBeVisible();
+    await expect(page.locator("#main-content")).toBeVisible();
   });
 
   test("FAQ: retorna 200", async ({ page }) => {

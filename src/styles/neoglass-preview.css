@@ -1,0 +1,1210 @@
+body:has(.neoglass-preview) .mdh-site-header,
+body:has(.neoglass-preview) .footer-ambient {
+  display: none;
+}
+
+body:has(.neoglass-preview) .site-shell {
+  background: #030712;
+}
+
+body:has(.neoglass-preview) #main-content {
+  outline: none;
+}
+
+.neoglass-preview {
+  --neo-bg: #030712;
+  --neo-panel: rgba(10, 18, 32, 0.72);
+  --neo-panel-strong: rgba(8, 15, 28, 0.9);
+  --neo-border: rgba(190, 232, 255, 0.16);
+  --neo-border-hot: rgba(244, 114, 182, 0.34);
+  --neo-cyan: #67e8f9;
+  --neo-blue: #60a5fa;
+  --neo-violet: #a78bfa;
+  --neo-pink: #f472b6;
+  --neo-green: #86efac;
+  --neo-amber: #fbbf24;
+  --neo-text: #f8fbff;
+  --neo-muted: rgba(226, 232, 240, 0.68);
+  --neo-faint: rgba(226, 232, 240, 0.42);
+  --neo-shadow: 0 24px 80px rgba(0, 0, 0, 0.42);
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+  overflow: hidden;
+  background:
+    linear-gradient(135deg, rgba(8, 13, 27, 0.98), rgba(5, 8, 18, 0.98)),
+    repeating-linear-gradient(90deg, rgba(103, 232, 249, 0.04) 0 1px, transparent 1px 72px),
+    repeating-linear-gradient(0deg, rgba(167, 139, 250, 0.035) 0 1px, transparent 1px 72px);
+  color: var(--neo-text);
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+.neo-ambient {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(900px 460px at 18% 12%, rgba(103, 232, 249, 0.16), transparent 62%),
+    radial-gradient(840px 520px at 82% 4%, rgba(244, 114, 182, 0.15), transparent 64%),
+    radial-gradient(760px 520px at 70% 78%, rgba(134, 239, 172, 0.08), transparent 66%);
+  filter: saturate(1.1);
+  animation: neoDrift 14s ease-in-out infinite alternate;
+}
+
+.neo-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 20px;
+  align-items: center;
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 16px 0;
+  backdrop-filter: blur(18px);
+}
+
+.neo-brand,
+.neo-btn,
+.neo-nav a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.neo-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 156px;
+}
+
+.neo-brand img {
+  border-radius: 8px;
+  border: 1px solid rgba(103, 232, 249, 0.24);
+  box-shadow: 0 0 34px rgba(103, 232, 249, 0.18);
+}
+
+.neo-brand span,
+.neo-floating-stat span {
+  display: grid;
+}
+
+.neo-brand strong {
+  font-family: var(--font-display), system-ui, sans-serif;
+  letter-spacing: 0;
+}
+
+.neo-brand small,
+.neo-floating-stat small,
+.neo-product-kicker,
+.neo-product-prices small,
+.neo-command-card small,
+.neo-config-step small {
+  color: var(--neo-muted);
+}
+
+.neo-nav {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.neo-nav::-webkit-scrollbar {
+  display: none;
+}
+
+.neo-nav a {
+  flex: 0 0 auto;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: 9px 12px;
+  color: rgba(241, 245, 249, 0.76);
+  font-size: 0.82rem;
+  transition: border-color 180ms ease, color 180ms ease, background 180ms ease;
+}
+
+.neo-nav a:hover,
+.neo-nav a:focus-visible {
+  border-color: rgba(103, 232, 249, 0.28);
+  background: rgba(103, 232, 249, 0.08);
+  color: white;
+}
+
+.neo-header-actions,
+.neo-hero-actions,
+.neo-product-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.neo-header-actions {
+  justify-content: flex-end;
+}
+
+.neo-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 42px;
+  border-radius: 8px;
+  border: 1px solid var(--neo-border);
+  padding: 10px 14px;
+  font-size: 0.9rem;
+  font-weight: 800;
+  line-height: 1.1;
+  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease, box-shadow 180ms ease;
+}
+
+.neo-btn svg {
+  width: 17px;
+  height: 17px;
+  flex: 0 0 auto;
+}
+
+.neo-btn:hover,
+.neo-btn:focus-visible {
+  transform: translateY(-1px);
+  outline: none;
+}
+
+.neo-btn-solid {
+  border-color: rgba(103, 232, 249, 0.42);
+  background: linear-gradient(135deg, rgba(103, 232, 249, 0.95), rgba(167, 139, 250, 0.92));
+  color: #03101d;
+  box-shadow: 0 16px 38px rgba(96, 165, 250, 0.22);
+}
+
+.neo-btn-ghost {
+  background: rgba(255, 255, 255, 0.055);
+  color: var(--neo-text);
+}
+
+.neo-btn-ghost:hover,
+.neo-btn-ghost:focus-visible {
+  border-color: rgba(244, 114, 182, 0.42);
+  background: rgba(244, 114, 182, 0.1);
+}
+
+.neo-btn-large {
+  min-height: 50px;
+  padding: 13px 18px;
+}
+
+.neo-hero,
+.neo-section {
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
+}
+
+.neo-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(360px, 0.88fr);
+  gap: clamp(28px, 5vw, 68px);
+  align-items: center;
+  min-height: calc(100svh - 76px);
+  padding: 34px 0 58px;
+}
+
+.neo-hero-copy h1,
+.neo-section-heading h2,
+.neo-cinematic-copy h2 {
+  margin: 0;
+  font-family: var(--font-display), system-ui, sans-serif;
+  letter-spacing: 0;
+  color: white;
+}
+
+.neo-hero-copy h1 {
+  max-width: 820px;
+  font-size: clamp(2.7rem, 7vw, 6.65rem);
+  line-height: 0.9;
+}
+
+.neo-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0 0 16px;
+  color: var(--neo-cyan);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.neo-eyebrow svg {
+  width: 17px;
+  height: 17px;
+}
+
+.neo-hero-subtitle {
+  max-width: 660px;
+  margin: 22px 0 0;
+  color: var(--neo-muted);
+  font-size: clamp(1rem, 1.6vw, 1.22rem);
+  line-height: 1.75;
+}
+
+.neo-hero-actions {
+  margin-top: 28px;
+}
+
+.neo-hero-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin: 34px 0 0;
+}
+
+.neo-hero-stats div,
+.neo-search-panel,
+.neo-product-card,
+.neo-drop-rail,
+.neo-cinematic,
+.neo-config-step,
+.neo-config-summary,
+.neo-command-card,
+.neo-ops-grid article,
+.neo-channel-table,
+.neo-phone-frame,
+.neo-comparison-table {
+  border: 1px solid var(--neo-border);
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.086), rgba(255, 255, 255, 0.034));
+  box-shadow: var(--neo-shadow);
+  backdrop-filter: blur(18px);
+}
+
+.neo-hero-stats div {
+  padding: 15px;
+}
+
+.neo-hero-stats dt,
+.neo-product-kicker,
+.neo-cinematic-price span,
+.neo-spec-grid span,
+.neo-command-card span,
+.neo-config-summary p,
+.neo-config-summary dt,
+.neo-rail-heading span {
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.neo-hero-stats dt {
+  color: var(--neo-faint);
+}
+
+.neo-hero-stats dd {
+  margin: 7px 0 0;
+  color: white;
+  font-size: 1.08rem;
+  font-weight: 900;
+}
+
+.neo-hero-stage {
+  position: relative;
+  min-height: 620px;
+}
+
+.neo-product-hologram {
+  position: absolute;
+  inset: 72px 26px 84px;
+  border: 1px solid rgba(103, 232, 249, 0.22);
+  border-radius: 8px;
+  overflow: hidden;
+  background: linear-gradient(155deg, rgba(103, 232, 249, 0.12), rgba(244, 114, 182, 0.08));
+  box-shadow: 0 26px 90px rgba(0, 0, 0, 0.44), inset 0 0 80px rgba(103, 232, 249, 0.06);
+  animation: neoFloat 5.5s ease-in-out infinite;
+}
+
+.neo-product-hologram img,
+.neo-cinematic-media img,
+.neo-product-media img {
+  object-fit: cover;
+}
+
+.neo-product-hologram::after,
+.neo-cinematic-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent, rgba(3, 7, 18, 0.5));
+  pointer-events: none;
+}
+
+.neo-hero-product-card,
+.neo-floating-stat,
+.neo-printer-core {
+  position: absolute;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 8px;
+  background: rgba(5, 11, 22, 0.78);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.34);
+}
+
+.neo-hero-product-card {
+  right: 0;
+  bottom: 46px;
+  display: grid;
+  gap: 6px;
+  width: min(300px, 76%);
+  padding: 18px;
+}
+
+.neo-hero-product-card span {
+  color: var(--neo-green);
+  font-size: 0.74rem;
+  font-weight: 900;
+}
+
+.neo-hero-product-card strong {
+  color: white;
+  font-size: 1.05rem;
+}
+
+.neo-hero-product-card small {
+  color: var(--neo-muted);
+}
+
+.neo-floating-stack {
+  position: absolute;
+  top: 34px;
+  left: 0;
+  display: grid;
+  gap: 10px;
+  width: min(250px, 68%);
+}
+
+.neo-floating-stat {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+}
+
+.neo-floating-stat svg,
+.neo-printer-core svg {
+  width: 19px;
+  height: 19px;
+  color: var(--neo-cyan);
+}
+
+.neo-floating-stat strong {
+  color: white;
+  font-size: 0.9rem;
+}
+
+.neo-printer-core {
+  right: 22px;
+  top: 98px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  color: var(--neo-amber);
+  font-size: 0.82rem;
+  font-weight: 900;
+}
+
+.neo-section {
+  padding: 46px 0;
+}
+
+.neo-section-heading {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.neo-section-heading h2,
+.neo-cinematic-copy h2 {
+  max-width: 820px;
+  font-size: clamp(1.8rem, 3.5vw, 3.2rem);
+  line-height: 1.02;
+}
+
+.neo-search-panel {
+  display: grid;
+  gap: 16px;
+  padding: 18px;
+}
+
+.neo-search-input {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 58px;
+  border: 1px solid rgba(103, 232, 249, 0.22);
+  border-radius: 8px;
+  background: rgba(2, 6, 14, 0.56);
+  padding: 0 16px;
+}
+
+.neo-search-input svg,
+.neo-search-meta svg {
+  color: var(--neo-cyan);
+  width: 20px;
+  height: 20px;
+  flex: 0 0 auto;
+}
+
+.neo-search-input input,
+.neo-phone-search input {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: white;
+  outline: none;
+}
+
+.neo-search-input input::placeholder,
+.neo-phone-search input::placeholder {
+  color: rgba(226, 232, 240, 0.42);
+}
+
+.neo-filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.neo-filter-chips button {
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.052);
+  color: var(--neo-muted);
+  padding: 9px 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.neo-filter-chips button.is-active,
+.neo-filter-chips button:hover,
+.neo-filter-chips button:focus-visible {
+  border-color: rgba(103, 232, 249, 0.5);
+  background: rgba(103, 232, 249, 0.14);
+  color: white;
+  outline: none;
+}
+
+.neo-search-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--neo-muted);
+  font-size: 0.92rem;
+}
+
+.neo-product-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.neo-product-card {
+  display: grid;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.neo-product-media {
+  position: relative;
+  display: block;
+  aspect-ratio: 1 / 0.82;
+  overflow: hidden;
+  background: rgba(3, 7, 18, 0.6);
+}
+
+.neo-product-content {
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+}
+
+.neo-product-kicker {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.neo-product-kicker span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.neo-product-card h3 {
+  margin: 0;
+  min-height: 2.8em;
+  color: white;
+  font-size: 1rem;
+  line-height: 1.35;
+}
+
+.neo-product-card p {
+  display: -webkit-box;
+  min-height: 4.55em;
+  margin: 0;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  color: var(--neo-muted);
+  font-size: 0.86rem;
+  line-height: 1.52;
+}
+
+.neo-product-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-height: 27px;
+}
+
+.neo-product-badges span {
+  border: 1px solid rgba(134, 239, 172, 0.22);
+  border-radius: 999px;
+  background: rgba(134, 239, 172, 0.08);
+  color: rgba(220, 252, 231, 0.92);
+  padding: 5px 8px;
+  font-size: 0.68rem;
+  font-weight: 800;
+}
+
+.neo-product-prices {
+  display: grid;
+  gap: 4px;
+}
+
+.neo-product-prices strong {
+  color: var(--neo-green);
+  font-size: 1.05rem;
+}
+
+.neo-product-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.neo-product-card-compact {
+  width: 238px;
+  min-width: 238px;
+}
+
+.neo-product-card-compact .neo-product-media {
+  aspect-ratio: 1 / 0.72;
+}
+
+.neo-product-card-compact .neo-product-content {
+  padding: 12px;
+}
+
+.neo-product-card-compact h3 {
+  min-height: 2.65em;
+  font-size: 0.88rem;
+}
+
+.neo-product-card-compact .neo-product-actions,
+.neo-product-card-compact .neo-product-badges {
+  display: none;
+}
+
+.neo-rails-stack {
+  display: grid;
+  gap: 18px;
+}
+
+.neo-drop-rail {
+  padding: 14px;
+  overflow: hidden;
+}
+
+.neo-rail-heading {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.neo-rail-heading > span {
+  border: 1px solid rgba(244, 114, 182, 0.32);
+  border-radius: 8px;
+  background: rgba(244, 114, 182, 0.12);
+  color: var(--neo-pink);
+  padding: 8px 10px;
+}
+
+.neo-rail-heading h3,
+.neo-config-summary h3,
+.neo-ops-grid h3 {
+  margin: 0;
+  color: white;
+}
+
+.neo-rail-heading p,
+.neo-config-summary dd,
+.neo-ops-grid p {
+  margin: 4px 0 0;
+  color: var(--neo-muted);
+}
+
+.neo-rail-track {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  scrollbar-width: thin;
+}
+
+.neo-cinematic {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr);
+  gap: 28px;
+  align-items: center;
+  padding: 18px;
+}
+
+.neo-cinematic-media {
+  position: relative;
+  min-height: 560px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: rgba(103, 232, 249, 0.08);
+}
+
+.neo-cinematic-copy {
+  padding: 12px;
+}
+
+.neo-cinematic-copy p {
+  max-width: 660px;
+  color: var(--neo-muted);
+  line-height: 1.75;
+}
+
+.neo-cinematic-price {
+  display: inline-grid;
+  gap: 4px;
+  margin: 18px 0;
+  border: 1px solid rgba(134, 239, 172, 0.24);
+  border-radius: 8px;
+  background: rgba(134, 239, 172, 0.09);
+  padding: 14px 18px;
+}
+
+.neo-cinematic-price span,
+.neo-spec-grid span,
+.neo-command-card span,
+.neo-config-summary dt {
+  color: var(--neo-faint);
+}
+
+.neo-cinematic-price strong {
+  color: var(--neo-green);
+  font-size: 2rem;
+}
+
+.neo-cinematic-price small {
+  color: rgba(220, 252, 231, 0.8);
+}
+
+.neo-spec-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.neo-spec-grid div {
+  display: grid;
+  gap: 7px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.045);
+  padding: 12px;
+}
+
+.neo-spec-grid svg {
+  width: 18px;
+  height: 18px;
+  color: var(--neo-cyan);
+}
+
+.neo-spec-grid strong {
+  color: white;
+  font-size: 0.84rem;
+  line-height: 1.32;
+}
+
+.neo-config-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 18px;
+}
+
+.neo-config-steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.neo-config-step {
+  display: grid;
+  gap: 12px;
+  padding: 18px;
+}
+
+.neo-config-step span {
+  width: max-content;
+  border-radius: 999px;
+  background: rgba(103, 232, 249, 0.11);
+  color: var(--neo-cyan);
+  padding: 6px 10px;
+  font-size: 0.75rem;
+  font-weight: 900;
+}
+
+.neo-config-step svg {
+  width: 28px;
+  height: 28px;
+  color: var(--neo-pink);
+}
+
+.neo-config-step strong {
+  color: white;
+  font-size: 1.08rem;
+}
+
+.neo-config-summary {
+  padding: 18px;
+}
+
+.neo-config-summary dl {
+  display: grid;
+  gap: 10px;
+  margin: 18px 0;
+}
+
+.neo-config-summary div {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 10px;
+}
+
+.neo-command-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.neo-command-card {
+  display: grid;
+  gap: 8px;
+  padding: 15px;
+}
+
+.neo-command-card svg {
+  width: 21px;
+  height: 21px;
+  color: var(--neo-cyan);
+}
+
+.neo-command-card strong {
+  color: white;
+  font-size: 1.75rem;
+}
+
+.neo-ops-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.neo-ops-grid article {
+  padding: 15px;
+}
+
+.neo-ops-grid svg {
+  width: 19px;
+  height: 19px;
+  color: var(--neo-green);
+}
+
+.neo-channel-table,
+.neo-comparison-table {
+  display: grid;
+  margin-top: 16px;
+  overflow: hidden;
+}
+
+.neo-channel-table [role="row"],
+.neo-comparison-table [role="row"] {
+  display: grid;
+  grid-template-columns: 1.1fr 0.8fr 1.3fr;
+  gap: 12px;
+  align-items: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 13px 16px;
+}
+
+.neo-channel-table [role="row"]:first-child,
+.neo-comparison-table [role="row"]:first-child {
+  border-top: 0;
+}
+
+.neo-channel-head,
+.neo-comparison-head {
+  background: rgba(103, 232, 249, 0.08);
+  color: var(--neo-cyan);
+  font-weight: 900;
+}
+
+.neo-channel-table span,
+.neo-comparison-table span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.neo-channel-table [role="cell"],
+.neo-comparison-table [role="cell"] {
+  color: var(--neo-muted);
+}
+
+.neo-channel-table [role="cell"]:first-child,
+.neo-comparison-table [role="cell"]:first-child {
+  color: white;
+  font-weight: 900;
+}
+
+.neo-channel-table [role="cell"]:nth-child(2) {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--neo-green);
+  font-weight: 900;
+}
+
+.neo-channel-table svg {
+  width: 15px;
+  height: 15px;
+}
+
+.neo-mobile-section {
+  display: grid;
+  justify-items: center;
+}
+
+.neo-mobile-section .neo-section-heading {
+  width: 100%;
+}
+
+.neo-phone-frame {
+  position: relative;
+  width: min(390px, 100%);
+  min-height: 790px;
+  overflow: hidden;
+  padding: 18px 14px 92px;
+  background: linear-gradient(180deg, rgba(7, 14, 26, 0.96), rgba(4, 7, 16, 0.96));
+}
+
+.neo-phone-status {
+  width: 110px;
+  height: 24px;
+  margin: 0 auto 12px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.72);
+}
+
+.neo-phone-header,
+.neo-phone-search,
+.neo-bottom-menu,
+.neo-cart-drawer {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.neo-phone-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+}
+
+.neo-phone-header strong {
+  color: white;
+  font-family: var(--font-display), system-ui, sans-serif;
+}
+
+.neo-phone-header a {
+  display: inline-flex;
+  color: var(--neo-green);
+}
+
+.neo-phone-header svg,
+.neo-bottom-menu svg {
+  width: 18px;
+  height: 18px;
+}
+
+.neo-phone-search {
+  position: sticky;
+  top: 8px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+  padding: 12px;
+}
+
+.neo-phone-search svg {
+  color: var(--neo-cyan);
+  width: 18px;
+  height: 18px;
+}
+
+.neo-phone-list {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.neo-phone-list article {
+  display: grid;
+  grid-template-columns: 80px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.048);
+  padding: 10px;
+}
+
+.neo-phone-list img {
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.neo-phone-list span {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.neo-phone-list strong {
+  overflow: hidden;
+  color: white;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.neo-phone-list small {
+  color: var(--neo-green);
+}
+
+.neo-cart-drawer {
+  position: absolute;
+  right: 14px;
+  bottom: 84px;
+  left: 14px;
+  display: grid;
+  gap: 4px;
+  padding: 14px;
+}
+
+.neo-cart-drawer span {
+  color: var(--neo-faint);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.neo-cart-drawer strong {
+  color: white;
+}
+
+.neo-bottom-menu {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  left: 14px;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 4px;
+  padding: 8px;
+}
+
+.neo-bottom-menu span {
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  color: var(--neo-muted);
+  font-size: 0.64rem;
+  font-weight: 800;
+}
+
+.neo-bottom-menu span:nth-child(4) {
+  color: var(--neo-green);
+}
+
+.neo-comparison {
+  padding-bottom: 90px;
+}
+
+@keyframes neoFloat {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(0, -14px, 0);
+  }
+}
+
+@keyframes neoDrift {
+  from {
+    transform: translate3d(-1%, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(1%, -1%, 0) scale(1.02);
+  }
+}
+
+@media (max-width: 1180px) {
+  .neo-header {
+    grid-template-columns: 1fr;
+  }
+
+  .neo-nav {
+    justify-content: flex-start;
+  }
+
+  .neo-header-actions {
+    justify-content: flex-start;
+  }
+
+  .neo-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .neo-hero-stage {
+    min-height: 560px;
+  }
+
+  .neo-product-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .neo-command-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .neo-ops-grid,
+  .neo-config-steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .neo-hero {
+    min-height: auto;
+    padding-top: 24px;
+  }
+
+  .neo-hero-stats,
+  .neo-product-grid,
+  .neo-spec-grid,
+  .neo-config-grid,
+  .neo-cinematic {
+    grid-template-columns: 1fr;
+  }
+
+  .neo-cinematic-media {
+    min-height: 420px;
+  }
+
+  .neo-config-grid {
+    gap: 14px;
+  }
+
+  .neo-channel-table [role="row"],
+  .neo-comparison-table [role="row"] {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .neo-hero,
+  .neo-section,
+  .neo-header {
+    width: min(100% - 20px, 1180px);
+  }
+
+  .neo-hero-copy h1 {
+    font-size: clamp(2.25rem, 15vw, 3.5rem);
+    line-height: 0.96;
+  }
+
+  .neo-hero-stage {
+    min-height: 470px;
+  }
+
+  .neo-product-hologram {
+    inset: 78px 0 82px;
+  }
+
+  .neo-floating-stack {
+    width: 78%;
+  }
+
+  .neo-printer-core {
+    right: 0;
+  }
+
+  .neo-hero-product-card {
+    width: 88%;
+  }
+
+  .neo-config-steps,
+  .neo-command-grid,
+  .neo-ops-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .neo-product-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .neo-product-card-compact {
+    width: 210px;
+    min-width: 210px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .neo-ambient,
+  .neo-product-hologram {
+    animation: none;
+  }
+
+  .neo-btn,
+  .neo-nav a {
+    transition: none;
+  }
+}

@@ -35,11 +35,11 @@ test.describe("Checkout Flow", () => {
     await page.waitForLoadState("networkidle");
 
     // Find first product card and navigate to it
-    const productLink = page.locator('a[href^="/catalogo/"]').first();
+    const productLink = page.locator('a[href^="/loja/"]').first();
     await expect(productLink).toBeVisible({ timeout: 10000 });
     await productLink.click();
 
-    await page.waitForURL("**/catalogo/**");
+    await page.waitForURL("**/loja/**");
     await page.waitForLoadState("networkidle");
 
     // Add to cart — try various CTA selectors

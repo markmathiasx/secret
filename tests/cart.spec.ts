@@ -14,7 +14,7 @@ test.describe("Cart UI", () => {
 
     await expect(page).toHaveURL(/\/catalogo/);
     // Should have at least one product link
-    const productLinks = page.locator('a[href^="/catalogo/"]');
+    const productLinks = page.locator('a[href^="/loja/"]');
     await expect(productLinks.first()).toBeVisible({ timeout: 10000 });
   });
 
@@ -22,7 +22,7 @@ test.describe("Cart UI", () => {
     await page.goto(`${BASE_URL}/catalogo`);
     await page.waitForLoadState("networkidle");
 
-    const productLink = page.locator('a[href^="/catalogo/"]').first();
+    const productLink = page.locator('a[href^="/loja/"]').first();
     const href = await productLink.getAttribute("href");
     if (!href) return;
 
