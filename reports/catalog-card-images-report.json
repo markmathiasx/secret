@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-05T23:28:55.065Z",
+  "generatedAt": "2026-06-25T14:03:53.603Z",
   "ok": true,
   "placeholder": {
     "src": "/placeholders/product-card.svg",
@@ -14,8 +14,8 @@
     "noNullReturn": true,
     "hasNativeImage": true
   },
-  "totalPublicProducts": 559,
-  "totalWithOwnImage": 559,
+  "totalPublicProducts": 843,
+  "totalWithOwnImage": 843,
   "totalUsingPlaceholder": 0,
   "possibleCardWithoutImage": 0,
   "examplesWithImage": [

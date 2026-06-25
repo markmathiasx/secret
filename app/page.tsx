@@ -19,6 +19,7 @@ import { HomeCategoriesShowcase } from "@/components/home-categories-showcase";
 import { HomeTestimonials } from "@/components/home-testimonials";
 import { CinematicVideoBackground } from "@/components/media/CinematicVideoBackground";
 import { Reveal } from "@/components/reveal";
+import { RotatingProductHero, type RotatingHeroProduct } from "@/components/home/RotatingProductHero";
 import { MagneticLink } from "@/components/ui/magnetic-link";
 import { getCatalogSnapshot } from "@/lib/catalog-repository";
 import type { Product } from "@/lib/catalog";
@@ -52,6 +53,21 @@ function whatsappHref(message: string) {
 
 function productImage(product?: Product) {
   return product ? getPrimaryProductImage(product) : "/placeholders/product-card.svg";
+}
+
+function toRotatingHeroProducts(products: Product[]): RotatingHeroProduct[] {
+  return products.map((product) => ({
+    id: product.id,
+    sku: product.sku,
+    name: product.name,
+    category: product.category,
+    pricePix: product.pricePix,
+    image: productImage(product),
+    imageAlt: getProductImageAlt(product),
+    href: getProductUrl(product),
+    productionWindow: product.productionWindow,
+    material: product.material,
+  }));
 }
 
 function shortText(product: Product) {
@@ -161,47 +177,6 @@ function ProductRail({
   );
 }
 
-function HeroProductStack({ products, siteUrl }: { products: Product[]; siteUrl: string }) {
-  if (!products.length) return null;
-
-  const mainProduct = products[0];
-
-  return (
-    <Reveal direction="left" className="lg:pl-4">
-      <div className="relative rounded-[8px] border border-white/12 bg-white/[0.055] p-3 shadow-[0_24px_90px_rgba(0,0,0,0.42)] backdrop-blur-xl">
-        <div className="absolute -right-8 -top-8 h-28 w-28 rounded-full bg-cyan-300/14 blur-3xl" />
-        <HomeProductCard product={mainProduct} siteUrl={siteUrl} priority />
-        {products.slice(1, 3).length ? (
-          <div className="mt-3 grid gap-3 sm:grid-cols-2">
-            {products.slice(1, 3).map((product) => (
-              <Link
-                key={product.id}
-                href={getProductUrl(product)}
-                data-product-id={product.id}
-                className="group flex items-center gap-3 rounded-[8px] border border-white/10 bg-black/20 p-3 transition hover:-translate-y-0.5 hover:border-emerald-300/30"
-              >
-                <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-[8px] bg-black/30">
-                  <Image
-                    src={productImage(product)}
-                    alt={getProductImageAlt(product)}
-                    fill
-                    sizes="64px"
-                    className="h-16 w-16 object-cover transition duration-500 group-hover:scale-105"
-                  />
-                </div>
-                <div className="min-w-0">
-                  <p className="line-clamp-2 text-xs font-black leading-4 text-white">{product.name}</p>
-                  <p className="mt-1 text-xs font-bold text-emerald-100">{formatCurrency(product.pricePix)}</p>
-                </div>
-              </Link>
-            ))}
-          </div>
-        ) : null}
-      </div>
-    </Reveal>
-  );
-}
-
 export default async function HomePage() {
   const catalog = await getCatalogSnapshot();
   const siteUrl = getSiteUrl();
@@ -277,7 +252,9 @@ export default async function HomePage() {
             </Reveal>
           </div>
 
-          <HeroProductStack products={sections.hero} siteUrl={siteUrl} />
+          <Reveal direction="left" className="lg:pl-4">
+            <RotatingProductHero products={toRotatingHeroProducts(sections.hero)} />
+          </Reveal>
         </div>
 
         <div className="relative z-10 border-t border-white/10 bg-black/20 px-4 py-3 backdrop-blur-md sm:px-6">
