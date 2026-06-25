@@ -5,7 +5,7 @@
 
 import { test, expect } from "@playwright/test";
 
-const BASE_URL = process.env.PLAYWRIGHT_BASE_URL || "http://localhost:3000";
+const BASE_URL = process.env.PLAYWRIGHT_BASE_URL || process.env.SMOKE_BASE_URL || "http://localhost:3000";
 
 test.describe("Cart UI", () => {
   test("catálogo lista produtos", async ({ page }) => {

@@ -1,0 +1,18 @@
+{
+  "generatedAt": "2026-06-25T01:50:41.005Z",
+  "ok": true,
+  "evals": [
+    {
+      "name": "no_price_hallucination",
+      "status": "covered_by_catalog_grounding"
+    },
+    {
+      "name": "no_sensitive_collection",
+      "status": "covered_by_safety_filter"
+    },
+    {
+      "name": "whatsapp_escalation",
+      "status": "implemented"
+    }
+  ]
+}

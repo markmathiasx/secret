@@ -1,0 +1,51 @@
+{
+  "generatedAt": "2026-06-25T01:50:52.002Z",
+  "results": [
+    {
+      "cmd": "git",
+      "args": [
+        "status",
+        "--short"
+      ],
+      "status": 0,
+      "stdout": " M .env.example\n M app/api/health/route.ts\n M data/reports/score-commerce-os.json\n M docs/SCORE_COMMERCE_OS.md\n M package.json\n M reports/commerce-os-production-public-validation.json\n M reports/commerce-os-production-public-validation.md\n M reports/commerce-os-rollback-report.json\n M reports/git-secret-scan-report.json\n M reports/security-audit-report.json\n M reports/smoke-results.json\n M tests/cart.spec.ts\n M tests/checkout.spec.ts\n?? .github/workflows/industrial-quality-gate.yml\n?? app/admin/ai-operator/\n?? app/admin/platform/\n?? app/api/admin/ai-chat/\n?? app/api/admin/jobs/\n?? app/api/admin/platform/\n?? app/api/ai-chat/\n?? app/api/health/cache/\n?? app/api/health/db/\n?? app/api/health/deep/\n?? app/api/health/liveness/\n?? app/api/health/readiness/\n?? app/api/local-agent/\n?? docs/ADMIN_AI_COMMAND_CENTER_REPORT.md\n?? docs/AI_CHAT_REPORT.md\n?? docs/BACKUP_ROLLBACK_DR_REPORT.md\n?? docs/CI_CD_QUALITY_GATE_REPORT.md\n?? docs/CODEX_MAX_MODE.md\n?? docs/DATABASE_POOLING_REPORT.md\n?? docs/DATA_ACCESS_LAYER_REPORT.md\n?? docs/ENVIRONMENT_VARIABLES.md\n?? docs/GLOBALIZATION_READINESS.md\n?? docs/GLOBAL_RUNTIME_HEALTH_REPORT.md\n?? docs/INDUSTRIAL_ARCHITECTURE_AUDIT.md\n?? docs/INDUSTRIAL_BASELINE.md\n?? docs/INDUSTRIAL_EXECUTION_PLAN.md\n?? docs/INDUSTRIAL_PLATFORM_FINAL_REPORT.md\n?? docs/INDUSTRIAL_RISK_REGISTER.md\n?? docs/INDUSTRIAL_SECURITY_RUNBOOK.md\n?? docs/JOBS_QUEUE_REPORT.md\n?? docs/LOCAL_QWEN_OPERATOR_REPORT.md\n?? docs/OBSERVABILITY_REPORT.md\n?? docs/PERFORMANCE_AND_CHAOS_REPORT.md\n?? docs/REDIS_CACHE_REPORT.md\n?? docs/WINDOWS_LOCAL_OPERATOR_RUNBOOK.md\n?? local-agent/\n?? reports/industrial/\n?? scripts/chaos/\n?? scripts/industrial/\n?? scripts/perf/\n?? scripts/windows/\n?? src/components/ai-chat/\n?? src/lib/admin-ai/\n?? src/lib/ai-chat/\n?? src/lib/platform/\n?? tests/industrial-platform.spec.ts\n",
+      "stderr": ""
+    },
+    {
+      "cmd": "node",
+      "args": [
+        "scripts/industrial/db-health.mjs"
+      ],
+      "status": 0,
+      "stdout": "PASS: M:\\LOJA\\mdh-prod-deploy\\reports\\industrial\\db-health.json\n",
+      "stderr": ""
+    },
+    {
+      "cmd": "node",
+      "args": [
+        "scripts/industrial/cache-health.mjs"
+      ],
+      "status": 0,
+      "stdout": "PASS: M:\\LOJA\\mdh-prod-deploy\\reports\\industrial\\cache-health.json\n",
+      "stderr": ""
+    },
+    {
+      "cmd": "node",
+      "args": [
+        "scripts/industrial/ai-health.mjs"
+      ],
+      "status": 0,
+      "stdout": "PASS: M:\\LOJA\\mdh-prod-deploy\\reports\\industrial\\ai-health.json\n",
+      "stderr": ""
+    },
+    {
+      "cmd": "node",
+      "args": [
+        "scripts/industrial/jobs-report.mjs"
+      ],
+      "status": 0,
+      "stdout": "PASS: M:\\LOJA\\mdh-prod-deploy\\reports\\industrial\\jobs-report.json\n",
+      "stderr": ""
+    }
+  ]
+}

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getCatalogDiagnostics, getCatalogSnapshot } from "@/lib/catalog-repository";
 import { applyNoStoreHeaders } from "@/lib/http-cache";
 import { getSupportStatus } from "@/lib/live-chat-service";
+import { getReadinessReport } from "@/src/lib/platform/health/readiness";
 import {
   getAiAssistantModel,
   getAiAssistantProvider,
@@ -16,6 +17,7 @@ import {
 import { isProductVisualVerified } from "@/lib/product-visuals";
 
 export async function GET() {
+  const platform = await getReadinessReport();
   const supabase = getSupabaseEnv();
   const catalogDiagnostics = await getCatalogDiagnostics();
   const products = await getCatalogSnapshot();
@@ -54,6 +56,7 @@ export async function GET() {
       integrations: {
         supabaseConfigured: Boolean(supabase.url && supabase.anon),
       },
+      platform,
     })
   );
 }

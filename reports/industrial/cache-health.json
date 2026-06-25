@@ -1,0 +1,9 @@
+{
+  "generatedAt": "2026-06-25T01:50:51.869Z",
+  "ok": true,
+  "enabled": true,
+  "provider": "memory-fallback",
+  "redisConfigured": false,
+  "fallback": true,
+  "staleFallbackTtlSeconds": 86400
+}

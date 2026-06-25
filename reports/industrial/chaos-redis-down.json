@@ -1,0 +1,6 @@
+{
+  "generatedAt": "2026-06-25T01:49:41.429Z",
+  "ok": true,
+  "scenario": "redis_down",
+  "expected": "Redis missing or failing keeps cache in memory/stale fallback and does not break catalog or feeds."
+}

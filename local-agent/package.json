@@ -1,0 +1,9 @@
+{
+  "name": "mdh3d-local-qwen-agent",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "once": "node --experimental-strip-types src/index.ts --once",
+    "dev": "node --experimental-strip-types src/index.ts"
+  }
+}

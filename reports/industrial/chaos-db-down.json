@@ -1,0 +1,6 @@
+{
+  "generatedAt": "2026-06-25T01:49:41.581Z",
+  "ok": true,
+  "scenario": "db_down_optional",
+  "expected": "With DATABASE_REQUIRED=false, Product Master/static fallback keeps production available."
+}

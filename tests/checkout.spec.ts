@@ -8,7 +8,7 @@
 
 import { test, expect, Page } from "@playwright/test";
 
-const BASE_URL = process.env.PLAYWRIGHT_BASE_URL || "http://localhost:3000";
+const BASE_URL = process.env.PLAYWRIGHT_BASE_URL || process.env.SMOKE_BASE_URL || "http://localhost:3000";
 
 /** Helper: intercept all MP payment API calls and return a mock success */
 async function mockMercadoPago(page: Page) {

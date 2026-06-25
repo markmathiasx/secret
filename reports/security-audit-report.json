@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-21T15:51:19.207Z",
+  "generatedAt": "2026-06-25T02:05:41.380Z",
   "ok": true,
   "headers": [
     {
@@ -95,6 +95,16 @@
   ],
   "adminRoutes": [
     {
+      "file": "app/api/admin/ai-chat/evals/route.ts",
+      "protected": true,
+      "mutates": false
+    },
+    {
+      "file": "app/api/admin/ai-chat/health/route.ts",
+      "protected": true,
+      "mutates": false
+    },
+    {
       "file": "app/api/admin/analytics/health/route.ts",
       "protected": true,
       "mutates": false
@@ -150,6 +160,21 @@
       "mutates": true
     },
     {
+      "file": "app/api/admin/jobs/enqueue/route.ts",
+      "protected": true,
+      "mutates": true
+    },
+    {
+      "file": "app/api/admin/jobs/route.ts",
+      "protected": true,
+      "mutates": false
+    },
+    {
+      "file": "app/api/admin/jobs/[id]/route.ts",
+      "protected": true,
+      "mutates": true
+    },
+    {
       "file": "app/api/admin/login/route.ts",
       "protected": true,
       "mutates": true
@@ -176,6 +201,46 @@
     },
     {
       "file": "app/api/admin/payments/confirm/route.ts",
+      "protected": true,
+      "mutates": true
+    },
+    {
+      "file": "app/api/admin/platform/backup/route.ts",
+      "protected": true,
+      "mutates": true
+    },
+    {
+      "file": "app/api/admin/platform/backups/route.ts",
+      "protected": true,
+      "mutates": false
+    },
+    {
+      "file": "app/api/admin/platform/cache-invalidate/route.ts",
+      "protected": true,
+      "mutates": true
+    },
+    {
+      "file": "app/api/admin/platform/cache-report/route.ts",
+      "protected": true,
+      "mutates": false
+    },
+    {
+      "file": "app/api/admin/platform/cache-warmup/route.ts",
+      "protected": true,
+      "mutates": true
+    },
+    {
+      "file": "app/api/admin/platform/db-health/route.ts",
+      "protected": true,
+      "mutates": false
+    },
+    {
+      "file": "app/api/admin/platform/observability/report/route.ts",
+      "protected": true,
+      "mutates": false
+    },
+    {
+      "file": "app/api/admin/platform/rollback/route.ts",
       "protected": true,
       "mutates": true
     },
@@ -234,6 +299,30 @@
       "protectedAdmin": false,
       "hasValidation": true,
       "hasRateLimit": true
+    },
+    {
+      "file": "app/api/admin/ai-chat/evals/route.ts",
+      "sensitive": true,
+      "methods": [
+        "GET"
+      ],
+      "readsBody": false,
+      "readsQuery": false,
+      "protectedAdmin": true,
+      "hasValidation": true,
+      "hasRateLimit": false
+    },
+    {
+      "file": "app/api/admin/ai-chat/health/route.ts",
+      "sensitive": true,
+      "methods": [
+        "GET"
+      ],
+      "readsBody": false,
+      "readsQuery": false,
+      "protectedAdmin": true,
+      "hasValidation": true,
+      "hasRateLimit": false
     },
     {
       "file": "app/api/admin/analytics/health/route.ts",
@@ -372,6 +461,43 @@
       "hasRateLimit": false
     },
     {
+      "file": "app/api/admin/jobs/enqueue/route.ts",
+      "sensitive": true,
+      "methods": [
+        "POST"
+      ],
+      "readsBody": true,
+      "readsQuery": false,
+      "protectedAdmin": true,
+      "hasValidation": true,
+      "hasRateLimit": false
+    },
+    {
+      "file": "app/api/admin/jobs/route.ts",
+      "sensitive": true,
+      "methods": [
+        "GET"
+      ],
+      "readsBody": false,
+      "readsQuery": false,
+      "protectedAdmin": true,
+      "hasValidation": true,
+      "hasRateLimit": false
+    },
+    {
+      "file": "app/api/admin/jobs/[id]/route.ts",
+      "sensitive": true,
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "readsBody": true,
+      "readsQuery": false,
+      "protectedAdmin": true,
+      "hasValidation": true,
+      "hasRateLimit": false
+    },
+    {
       "file": "app/api/admin/login/route.ts",
       "sensitive": true,
       "methods": [
@@ -440,6 +566,102 @@
         "POST"
       ],
       "readsBody": true,
+      "readsQuery": false,
+      "protectedAdmin": true,
+      "hasValidation": true,
+      "hasRateLimit": false
+    },
+    {
+      "file": "app/api/admin/platform/backup/route.ts",
+      "sensitive": true,
+      "methods": [
+        "POST"
+      ],
+      "readsBody": false,
+      "readsQuery": false,
+      "protectedAdmin": true,
+      "hasValidation": true,
+      "hasRateLimit": false
+    },
+    {
+      "file": "app/api/admin/platform/backups/route.ts",
+      "sensitive": true,
+      "methods": [
+        "GET"
+      ],
+      "readsBody": false,
+      "readsQuery": false,
+      "protectedAdmin": true,
+      "hasValidation": true,
+      "hasRateLimit": false
+    },
+    {
+      "file": "app/api/admin/platform/cache-invalidate/route.ts",
+      "sensitive": true,
+      "methods": [
+        "POST"
+      ],
+      "readsBody": true,
+      "readsQuery": false,
+      "protectedAdmin": true,
+      "hasValidation": true,
+      "hasRateLimit": false
+    },
+    {
+      "file": "app/api/admin/platform/cache-report/route.ts",
+      "sensitive": true,
+      "methods": [
+        "GET"
+      ],
+      "readsBody": false,
+      "readsQuery": false,
+      "protectedAdmin": true,
+      "hasValidation": true,
+      "hasRateLimit": false
+    },
+    {
+      "file": "app/api/admin/platform/cache-warmup/route.ts",
+      "sensitive": true,
+      "methods": [
+        "POST"
+      ],
+      "readsBody": false,
+      "readsQuery": false,
+      "protectedAdmin": true,
+      "hasValidation": true,
+      "hasRateLimit": false
+    },
+    {
+      "file": "app/api/admin/platform/db-health/route.ts",
+      "sensitive": true,
+      "methods": [
+        "GET"
+      ],
+      "readsBody": false,
+      "readsQuery": false,
+      "protectedAdmin": true,
+      "hasValidation": true,
+      "hasRateLimit": false
+    },
+    {
+      "file": "app/api/admin/platform/observability/report/route.ts",
+      "sensitive": true,
+      "methods": [
+        "GET"
+      ],
+      "readsBody": false,
+      "readsQuery": false,
+      "protectedAdmin": true,
+      "hasValidation": true,
+      "hasRateLimit": false
+    },
+    {
+      "file": "app/api/admin/platform/rollback/route.ts",
+      "sensitive": true,
+      "methods": [
+        "POST"
+      ],
+      "readsBody": false,
       "readsQuery": false,
       "protectedAdmin": true,
       "hasValidation": true,

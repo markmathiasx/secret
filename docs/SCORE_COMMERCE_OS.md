@@ -1,6 +1,6 @@
 # Score Commerce OS MDH3D
 
-Gerado em: 2026-06-22T06:29:33.190Z
+Gerado em: 2026-06-25T01:49:41.450Z
 
 | Pilar | Score |
 | --- | ---: |

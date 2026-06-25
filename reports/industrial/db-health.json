@@ -1,0 +1,11 @@
+{
+  "generatedAt": "2026-06-25T01:50:51.814Z",
+  "ok": true,
+  "status": "optional_missing_with_file_fallback",
+  "provider": "postgres",
+  "poolingEnabled": true,
+  "runtimeUrlConfigured": false,
+  "directUrlConfigured": false,
+  "directUrlAllowedInRuntime": false,
+  "fallback": true
+}

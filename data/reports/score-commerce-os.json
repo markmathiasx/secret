@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-22T06:29:33.190Z",
+  "generatedAt": "2026-06-25T01:49:41.450Z",
   "scores": {
     "ecommerceOperational": 100,
     "catalogVisualWhatsapp": 100,
@@ -12,9 +12,6 @@
     "publicOfficialCount": 843,
     "publicRegressionCatalogCount": 843,
     "productionCounts": [
-      843,
-      843,
-      843,
       843,
       843,
       843
@@ -54,7 +51,7 @@
       {
         "id": "secret_scan",
         "ok": true,
-        "detail": 311
+        "detail": 317
       },
       {
         "id": "analytics_health_route",
@@ -64,7 +61,7 @@
       {
         "id": "production_public_if_available",
         "ok": true,
-        "detail": "2026-06-21T16:07:08.133Z"
+        "detail": "2026-06-25T01:11:59.166Z"
       },
       {
         "id": "no_runtime_phase_blockers",
@@ -114,9 +111,6 @@
         "detail": [
           843,
           843,
-          843,
-          843,
-          843,
           843
         ]
       }
@@ -160,7 +154,7 @@
       {
         "id": "production_feeds_if_available",
         "ok": true,
-        "detail": "2026-06-21T16:07:08.133Z"
+        "detail": "2026-06-25T01:11:59.166Z"
       },
       {
         "id": "security_audit",
@@ -170,7 +164,7 @@
       {
         "id": "secret_scan",
         "ok": true,
-        "detail": 311
+        "detail": 317
       }
     ]
   },

@@ -1,0 +1,15 @@
+{
+  "generatedAt": "2026-06-25T02:08:33.349Z",
+  "ok": true,
+  "missing": [],
+  "scoreCommerceOsPreserved": true,
+  "secretScanOk": true,
+  "secretScanExitCode": 0,
+  "invariants": {
+    "dbOptionalFallback": true,
+    "redisOptionalFallback": true,
+    "aiChatIndependentFromPc": true,
+    "adminAiProtected": true,
+    "rollbackDryRun": true
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "generatedAt": "2026-06-25T01:50:51.927Z",
+  "ok": true,
+  "missing": [],
+  "publicChatMode": "fallback_instant",
+  "dependsOnLocalPcForPublicChat": false,
+  "localAgentCanDeploy": false,
+  "localAgentCanPushMain": false
+}

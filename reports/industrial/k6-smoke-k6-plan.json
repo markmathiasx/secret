@@ -1,0 +1,8 @@
+{
+  "generatedAt": "2026-06-25T02:07:43.036Z",
+  "ok": true,
+  "mode": "plan-only",
+  "reason": "k6 is not installed in this environment.",
+  "install": "Install k6 and run this script again.",
+  "script": "scripts/perf/k6-smoke.js"
+}

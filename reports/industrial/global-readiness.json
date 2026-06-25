@@ -1,0 +1,85 @@
+{
+  "generatedAt": "2026-06-25T02:05:25.637Z",
+  "baseUrl": "http://127.0.0.1:3020",
+  "ok": true,
+  "results": [
+    {
+      "route": "/",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "ok": true
+    },
+    {
+      "route": "/loja",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "ok": true
+    },
+    {
+      "route": "/ofertas",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "ok": true
+    },
+    {
+      "route": "/catalogo",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "ok": true
+    },
+    {
+      "route": "/atendimento",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "ok": true
+    },
+    {
+      "route": "/jogue",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "ok": true
+    },
+    {
+      "route": "/meta/catalog.csv",
+      "status": 200,
+      "contentType": "text/csv; charset=utf-8",
+      "ok": true
+    },
+    {
+      "route": "/feeds/google-shopping.xml",
+      "status": 200,
+      "contentType": "application/xml; charset=utf-8",
+      "ok": true
+    },
+    {
+      "route": "/feeds/products.json",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true
+    },
+    {
+      "route": "/sitemap-products.xml",
+      "status": 200,
+      "contentType": "application/xml; charset=utf-8",
+      "ok": true
+    },
+    {
+      "route": "/api/health",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true
+    },
+    {
+      "route": "/api/health/liveness",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true
+    },
+    {
+      "route": "/api/health/readiness",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true
+    }
+  ]
+}

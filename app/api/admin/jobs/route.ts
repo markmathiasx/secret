@@ -1,0 +1,11 @@
+import { listJobs } from "@/src/lib/platform/jobs/store";
+import { platformJson } from "@/src/lib/platform/http/response";
+import { requireAdminPlatformAuth } from "@/src/lib/platform/security/admin-auth";
+
+export const dynamic = "force-dynamic";
+
+export async function GET(request: Request) {
+  const denied = await requireAdminPlatformAuth(request);
+  if (denied) return denied;
+  return platformJson({ ok: true, jobs: listJobs() });
+}

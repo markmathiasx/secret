@@ -1,0 +1,13 @@
+{
+  "generatedAt": "2026-06-25T01:50:51.991Z",
+  "ok": true,
+  "missing": [],
+  "backends": [
+    "redis-if-configured",
+    "database-policy-ready",
+    "json-dev-fallback",
+    "memory-transient-fallback"
+  ],
+  "protectedAdminEndpoints": true,
+  "protectedLocalAgentEndpoints": true
+}
