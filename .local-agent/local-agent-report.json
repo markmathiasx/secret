@@ -1,0 +1,13 @@
+{
+  "projectPath": "M:\\LOJA\\mdh-3d-store",
+  "cpu": "AMD Ryzen 5 5500                               ",
+  "ramGB": 15.9,
+  "gpuWindows": "NVIDIA GeForce RTX 5060 - VRAM detectada pelo Windows: 4GB",
+  "nvidiaName": "NVIDIA GeForce RTX 5060",
+  "nvidiaVRAMGB": 8.0,
+  "installedOllamaModels": [],
+  "chosenBaseModel": "qwen2.5-coder:7b",
+  "createdModel": "mdh3d-coder-16384",
+  "numCtx": 16384,
+  "recommendation": "Use Roo Code em Code Mode com provider Ollama e model mdh3d-coder-16384. Para terminal, use Aider com ollama_chat/mdh3d-coder-16384."
+}

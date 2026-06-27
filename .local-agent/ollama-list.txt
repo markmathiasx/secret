@@ -1,0 +1,14 @@
+NAME                          ID              SIZE      MODIFIED       
+qwen-coder-32k:latest         a0ea7c61c958    9.0 GB    15 minutes ago    
+qwen2.5-coder:14b             9ec8897f747e    9.0 GB    15 minutes ago    
+qwen3-mark-rapido:latest      9d4a80dbc1c1    2.5 GB    7 days ago        
+qwen3-mark-pensador:latest    2183ff3583d8    5.2 GB    7 days ago        
+bge-m3:latest                 790764642607    1.2 GB    7 days ago        
+qwen3:8b                      500a1f067a9f    5.2 GB    7 days ago        
+qwen3:4b                      359d7dd4bcda    2.5 GB    7 days ago        
+qwen3-mark-8b:latest          1d9eccb6ed86    5.2 GB    7 days ago        
+qwen3-mark-4b:latest          dac0c0d6fb24    2.5 GB    7 days ago        
+qwen3-coder:30b               06c1097efce0    18 GB     7 days ago        
+qwen3:14b                     bdbd181c33f2    9.3 GB    7 days ago        
+qwen2.5-coder:7b              dae161e27b0e    4.7 GB    7 days ago        
+qwen25coder7b:latest          dae161e27b0e    4.7 GB    7 days ago        

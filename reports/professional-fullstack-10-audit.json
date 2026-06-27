@@ -1,0 +1,27 @@
+{
+  "branch_base": "fix/mdh3d-chatbot-support-ui-admin-handoff",
+  "files": {
+    "home": "app/page.tsx",
+    "catalog": "app/catalogo/page.tsx",
+    "jogue": "app/jogue/page.tsx",
+    "admin": "app/admin/page.tsx",
+    "admin_layout": "app/admin/layout.tsx"
+  },
+  "api_routes": {
+    "products": "app/api/admin/products/route.ts",
+    "product_id": "app/api/admin/products/[id]/route.ts"
+  },
+  "persistence": "Prisma + PostgreSQL",
+  "admin_save_issue": "Investigation needed on revalidatePath and JSON response consistency",
+  "jogue_issue": "Internal Error likely due to missing component or logic error in PrintQuestGame",
+  "prohibited_terms_locations": [
+    "components/catalog-explorer.tsx",
+    "app/catalogo/[slug]/page.tsx",
+    "app/layout.tsx",
+    "lib/constants.ts"
+  ],
+  "instagram_old": "@mdh_impressao3d",
+  "instagram_new": "@mdh_3d.com.br",
+  "price_card_formula": "Pix + R$ 3,00",
+  "price_card_location": "lib/payment-pricing.ts"
+}

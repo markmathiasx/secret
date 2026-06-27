@@ -1,0 +1,10 @@
+{
+  "components": [],
+  "routes": [],
+  "chatwoot_exists": false,
+  "admin_inbox_exists": false,
+  "conversations_table_exists": false,
+  "database": "Prisma/PostgreSQL",
+  "terms_forbidden": ["foto real", "render fiel", "12x"],
+  "instagram_old": "@mdh_impressao3d"
+}

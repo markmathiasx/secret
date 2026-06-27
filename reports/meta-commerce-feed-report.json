@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-25T19:42:00.800Z",
+  "generatedAt": "2026-05-25T21:04:09.621Z",
   "ok": true,
   "expectedHeader": "id,title,description,availability,condition,price,link,image_link,brand,google_product_category,product_type",
   "productsInFeed": 560,

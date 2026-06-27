@@ -33,3 +33,4 @@ uploads/*
 !uploads/stl/
 !uploads/stl/.gitkeep
 *.tsbuildinfo
+.aider*

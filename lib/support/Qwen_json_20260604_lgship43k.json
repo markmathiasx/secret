@@ -1,0 +1,6 @@
+{
+  "scripts": {
+    "catalog:apply-plus2": "node scripts/catalog/apply-plus2-increase.mjs",
+    "catalog:validate-plus2": "node scripts/catalog/validate-plus2-increase.mjs"
+  }
+}

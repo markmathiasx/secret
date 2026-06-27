@@ -1,0 +1,117 @@
+{
+  "generatedAt": "2026-06-01T00:01:40.985Z",
+  "rule": "Pix atual escalado por 5.40 / 24.50; cartao = Pix + 1.00; lucro = 20% sobre custo",
+  "scale": 0.2204081632653061,
+  "adminOverridesTouched": 812,
+  "legacyProductsTouched": 220,
+  "assetProductsTouched": 60,
+  "samples": [
+    {
+      "id": "csv-cha-001-chaveiro-acrilico-premium-jett-valorant-dupla-face-para-mochila-chaves-e-setup-gamer",
+      "before": 40.9,
+      "afterPix": 9.01,
+      "afterCard": 10.01,
+      "costBase": 7.51
+    },
+    {
+      "id": "csv-cha-002-chaveiro-emborrachado-reyna-valorant-estilo-gamer-resistente-para-chaves-e-mochila",
+      "before": 38.9,
+      "afterPix": 8.57,
+      "afterCard": 9.57,
+      "costBase": 7.14
+    },
+    {
+      "id": "csv-cha-003-chaveiro-metalizado-sage-valorant-edicao-nerd-para-colecao-e-presente-criativo",
+      "before": 46.9,
+      "afterPix": 10.34,
+      "afterCard": 11.34,
+      "costBase": 8.62
+    },
+    {
+      "id": "csv-cha-004-chaveiro-3d-omen-valorant-mini-pingente-decorativo-para-mochila-e-setup",
+      "before": 26.9,
+      "afterPix": 5.93,
+      "afterCard": 6.93,
+      "costBase": 4.94
+    },
+    {
+      "id": "csv-cha-005-chaveiro-acrilico-premium-ahri-league-of-legends-dupla-face-para-mochila-chaves-e-setup-gamer",
+      "before": 40.9,
+      "afterPix": 9.01,
+      "afterCard": 10.01,
+      "costBase": 7.51
+    },
+    {
+      "id": "csv-cha-006-chaveiro-emborrachado-yasuo-league-of-legends-estilo-gamer-resistente-para-chaves-e-mochila",
+      "before": 38.9,
+      "afterPix": 8.57,
+      "afterCard": 9.57,
+      "costBase": 7.14
+    },
+    {
+      "id": "csv-cha-007-chaveiro-metalizado-jinx-league-of-legends-edicao-nerd-para-colecao-e-presente-criativo",
+      "before": 46.9,
+      "afterPix": 10.34,
+      "afterCard": 11.34,
+      "costBase": 8.62
+    },
+    {
+      "id": "csv-cha-008-chaveiro-3d-lux-league-of-legends-mini-pingente-decorativo-para-mochila-e-setup",
+      "before": 26.9,
+      "afterPix": 5.93,
+      "afterCard": 6.93,
+      "costBase": 4.94
+    }
+  ],
+  "a1ExpansionTouched": 500,
+  "a1ExpansionSamples": [
+    {
+      "id": "mw-a1-001",
+      "before": 44.9,
+      "afterPix": 9.9,
+      "baseCost": 8.25
+    },
+    {
+      "id": "mw-a1-002",
+      "before": 19.9,
+      "afterPix": 4.39,
+      "baseCost": 3.66
+    },
+    {
+      "id": "mw-a1-003",
+      "before": 27.9,
+      "afterPix": 6.15,
+      "baseCost": 5.13
+    },
+    {
+      "id": "mw-a1-004",
+      "before": 34.9,
+      "afterPix": 7.69,
+      "baseCost": 6.41
+    },
+    {
+      "id": "mw-a1-005",
+      "before": 27.9,
+      "afterPix": 6.15,
+      "baseCost": 5.13
+    },
+    {
+      "id": "mw-a1-006",
+      "before": 27.9,
+      "afterPix": 6.15,
+      "baseCost": 5.13
+    },
+    {
+      "id": "mw-a1-007",
+      "before": 29.9,
+      "afterPix": 6.59,
+      "baseCost": 5.49
+    },
+    {
+      "id": "mw-a1-008",
+      "before": 49.9,
+      "afterPix": 11,
+      "baseCost": 9.17
+    }
+  ]
+}
