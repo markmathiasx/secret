@@ -27,7 +27,7 @@ import {
   calculateSalePrice as calculateSalePriceFromEngine,
 } from "@/lib/pricing-engine";
 import { GLOBAL_PRICE_INCREASE, applyGlobalPriceIncrease, calculateCardPrice } from "@/lib/payment-pricing";
-import { getRecommendedPixPrice } from "@/lib/catalog-pricing-policy";
+import { getMinimumSafePrice } from "@/lib/catalog-pricing-policy";
 import { sanitizePublicCatalogProducts } from "@/lib/public-product-copy";
 
 export type PaymentMethod = "pix" | "cartao" | "boleto";
@@ -90,6 +90,11 @@ export type Product = {
   postProcessMinutes?: number;
   laborHourlyRate?: number;
   packagingCost?: number;
+  hardwareCost?: number;
+  retailPackagingCost?: number;
+  shippingSuppliesCost?: number;
+  failureReservePercent?: number;
+  designSetupCost?: number;
   overheadPercent?: number;
   profitMode?: ProfitMode;
   profitTargetPercent?: number;
@@ -141,9 +146,7 @@ function applyAdminOverride(product: Product): Product {
   const derivedBaseCost =
     typeof override.costBase === "number"
       ? override.costBase
-      : typeof override.pricePix === "number"
-        ? Number(override.pricePix.toFixed(2))
-        : product.baseCost;
+      : product.baseCost;
   const nextStatus = override.status ?? product.status;
   const manualPriceOverride = override.pricePix !== undefined;
   const overridePricePix = override.pricePix ?? product.pricePix;
@@ -185,6 +188,11 @@ function applyAdminOverride(product: Product): Product {
     postProcessMinutes: override.postProcessMinutes ?? product.postProcessMinutes,
     laborHourlyRate: override.laborHourlyRate ?? product.laborHourlyRate,
     packagingCost: override.packagingCost ?? product.packagingCost,
+    hardwareCost: override.hardwareCost ?? product.hardwareCost,
+    retailPackagingCost: override.retailPackagingCost ?? product.retailPackagingCost,
+    shippingSuppliesCost: override.shippingSuppliesCost ?? product.shippingSuppliesCost,
+    failureReservePercent: override.failureReservePercent ?? product.failureReservePercent,
+    designSetupCost: override.designSetupCost ?? product.designSetupCost,
     overheadPercent: override.overheadPercent ?? product.overheadPercent,
     profitMode: override.profitMode ?? product.profitMode,
     profitTargetPercent: override.profitTargetPercent ?? product.profitTargetPercent,
@@ -226,19 +234,22 @@ function enrichProduct(product: Product): Product {
     profitMode: taxonomized.profitMode,
     profitTargetPercent: taxonomized.profitTargetPercent,
   });
-  const policyPricePix = getRecommendedPixPrice({
+  const commercialPolicy = getMinimumSafePrice({
     ...taxonomized,
-    baseCost: pricing.costBase,
-    estimatedUnitCost: pricing.costBase,
+    baseCost: taxonomized.baseCost,
+    estimatedUnitCost: taxonomized.estimatedUnitCost,
   });
-  const pricePixBeforeGlobalIncrease = taxonomized.manualPriceOverride ? taxonomized.pricePix : policyPricePix;
+  const requestedPricePix = taxonomized.manualPriceOverride
+    ? taxonomized.pricePix
+    : commercialPolicy.recommendedPixPrice;
+  const pricePixBeforeGlobalIncrease = Math.max(
+    requestedPricePix,
+    commercialPolicy.recommendedPixPrice
+  );
   const priceCardBeforeGlobalIncrease = calculateCardPrice(pricePixBeforeGlobalIncrease);
   const pricePix = applyGlobalPriceIncrease(pricePixBeforeGlobalIncrease);
   const priceCard = calculateCardPrice(pricePix);
-  const costBase =
-    taxonomized.manualPriceOverride && typeof taxonomized.baseCost === "number"
-      ? taxonomized.baseCost
-      : pricing.costBase;
+  const costBase = commercialPolicy.totalCost;
   const profitAmount = Number((pricePix - costBase).toFixed(2));
 
   return {
@@ -250,7 +261,7 @@ function enrichProduct(product: Product): Product {
     pricePixBeforeGlobalIncrease,
     priceCardBeforeGlobalIncrease,
     globalPriceIncreaseApplied: GLOBAL_PRICE_INCREASE,
-    marketplaceSuggested: pricing.referencePrice,
+    marketplaceSuggested: Math.max(pricing.referencePrice, priceCard),
     estimatedUnitCost: costBase,
     estimatedUnitProfit: profitAmount,
     pricingMode: "faixa-auditada",

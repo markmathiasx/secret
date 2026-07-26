@@ -34,14 +34,14 @@ export const firstSaleSlots: SlotConfig[] = [
     intent: "chaveiros-personalizados",
     preferredIds: ["mdh-016", "real-010"],
     fallbackTerms: ["chaveiro", "personalizado", "nome"],
-    whyBuy: "Entrada barata para nome, logo, tema ou lembrancinha.",
+    whyBuy: "Inclui peça impressa, argola metálica, corrente, montagem e embalagem individual.",
   },
   {
     slot: "Chaveiro pet",
     intent: "chaveiros-personalizados",
     preferredIds: ["mw-a1-452", "mw-a1-455", "mw-a1-458"],
     fallbackTerms: ["pet", "tag", "identificação"],
-    whyBuy: "Bom para identificação leve e presente rápido para tutor.",
+    whyBuy: "Identificação leve com ferragem metálica, montagem e embalagem individual.",
   },
   {
     slot: "Suporte celular",
@@ -119,12 +119,13 @@ export const intentPageConfigs = {
   "chaveiros-personalizados": {
     slug: "/chaveiros-personalizados",
     intent: "chaveiros-personalizados" as FirstSaleIntent,
-    title: "Chaveiros personalizados em impressão 3D",
-    description: "Chaveiros com nome, tema, pet, evento ou brinde, usando produtos reais do catálogo MDH 3D.",
+    title: "Chaveiros personalizados completos em impressão 3D",
+    description: "Chaveiros com nome, logo, pet, evento ou brinde. O preço seguro inclui impressão, ferragens, montagem, embalagem individual e insumos de postagem.",
     faq: [
-      ["Posso personalizar nome ou tema?", "Sim. Envie nome, tema, cor e quantidade pelo WhatsApp antes de fechar."],
-      ["Tem opção barata?", "Sim. A página prioriza itens de entrada e mostra Pix e cartão em cada card."],
-      ["Serve para evento?", "Serve. Para lote, confirme quantidade e prazo no atendimento."],
+      ["O que acompanha cada chaveiro?", "Peça impressa, argola metálica, corrente, montagem e embalagem individual."],
+      ["O frete está incluído?", "Os insumos para preparar o envio estão incluídos. O frete real dos Correios ou transportadora é calculado separadamente."],
+      ["Posso personalizar nome ou logo?", "Sim. Envie nome, logo, cor, quantidade e prazo pelo WhatsApp antes de fechar."],
+      ["Serve para evento ou empresa?", "Sim. Em lotes, a preparação e a embalagem externa são rateadas pela quantidade."],
     ],
   },
   "presentes-ate-50": {

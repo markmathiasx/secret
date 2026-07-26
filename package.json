@@ -118,7 +118,11 @@
     "verify:industrial": "node scripts/industrial/verify-industrial.mjs",
     "debug:industrial": "node scripts/industrial/debug-industrial.mjs",
     "global:readiness": "node scripts/industrial/global-readiness.mjs",
-    "ci:check": "npm run lint:check && npm run typecheck && npm run build && npm run test:images && npm run test:e2e"
+    "ci:check": "npm run lint:check && npm run typecheck && npm run build && npm run test:images && npm run test:e2e",
+    "catalog:audit-commercial-costs": "node scripts/catalog/audit-commercial-costs.mjs",
+    "catalog:audit-commercial-costs:strict": "node scripts/catalog/audit-commercial-costs.mjs --strict",
+    "pricing:keychain": "node scripts/pricing/calculate-keychain.mjs",
+    "pricing:validate-commercial": "node scripts/pricing/validate-commercial-pricing.mjs"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.2",
