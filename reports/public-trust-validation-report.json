@@ -1,7 +1,8 @@
 {
-  "generatedAt": "2026-06-19T14:03:01.938Z",
+  "generatedAt": "2026-07-27T08:32:19.663Z",
   "ok": true,
-  "catalogProducts": 848,
+  "catalogProducts": 12,
+  "expectedPublicProducts": 12,
   "matches": [],
   "errors": []
 }

@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-06-21T14:14:05.317Z",
-  "branch": "codex/visual-fase14-cinematic",
-  "commit": "a25d59c4",
+  "generatedAt": "2026-07-27T06:10:00.039Z",
+  "branch": "industrial-ai-v62-20260727-005340",
+  "commit": "0985c88e",
   "remote": "https://github.com/markmathiasx/secret.git",
   "requiredInventory": [
     {
@@ -229,7 +229,7 @@
     {
       "item": "next-auth peer nodemailer",
       "status": "RISCO_UPSTREAM_MONITORADO",
-      "evidence": "next-auth 5.0.0-beta.31 declara peer nodemailer ^7.0.7 no registry, mas nodemailer ^9.0.1 e necessario para zerar npm audit. auth.ts usa Credentials/Google/Apple e nao provider de email do NextAuth."
+      "evidence": "next-auth 5.0.0-beta.32 declara peer nodemailer ^7.0.7 no registry, mas nodemailer ^9.0.1 e necessario para zerar npm audit. auth.ts usa Credentials/Google/Apple e nao provider de email do NextAuth."
     }
   ],
   "claims": [
@@ -237,7 +237,7 @@
       "item": "Nunca declarar tarefa concluída sem lint, typecheck, build, validate:assets e test:images.",
       "source": "AGENTS.md:4",
       "status": "PARCIAL_COM_COMANDOS",
-      "evidence": "testes_gates: Comandos registrados em 2026-06-21T14:12:24.129Z passaram: npm run db:generate, npm run typecheck, npm run lint:check, npm run build, npm run validate:industrial-ui, npm run validate:auth, npm run validate:db-storage, npm run validate:private-routes, npm run validate:public-regressions, npm run security:audit, npm audit --audit-level=low."
+      "evidence": "testes_gates: Comandos registrados em 2026-06-21T15:49:37.641Z passaram: npm run db:generate, npm run typecheck, npm run lint:check, npm run build, npm run validate:industrial-ui, npm run validate:auth, npm run validate:db-storage, npm run validate:private-routes, npm run validate:public-regressions, npm run security:audit, npm audit --audit-level=low."
     },
     {
       "item": "Para execuções do marketplace MDH 3D nível Apple/ML/AliExpress/Shopee, seguir `docs/CODEX_EXECUTION_PROTOCOL.md`: executar a Fase 0 antes das demais, manter `RELATORIO-EXECUCAO-MARKETPLACE.md` incremental e nunca marcar fase como 100% sem evidência objetiva em código, comandos e validação local/produção.",

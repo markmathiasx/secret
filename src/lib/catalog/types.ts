@@ -19,6 +19,7 @@ export type ProductMasterRecord = {
   pricePix: number;
   priceCard: number;
   stock: number;
+  availabilityMode?: "in_stock" | "made_to_order" | "out_of_stock";
   status: "Pronta entrega" | "Sob encomenda" | "Indisponivel";
   productionWindow: string;
   dimensions: ProductMasterDimensions;

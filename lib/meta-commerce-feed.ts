@@ -5,6 +5,7 @@ import {
   hasUsableProductImage,
 } from "@/lib/product-images";
 import { normalizeMoney, roundToCents } from "@/lib/payment-pricing";
+import { getCommerceFeedAvailability } from "@/lib/product-availability";
 import { filterPublicCatalogProducts } from "@/lib/public-catalog";
 
 export const META_COMMERCE_BASE_URL = "https://www.mdh3d.com.br";
@@ -142,15 +143,7 @@ export function escapeCsv(value: unknown) {
 }
 
 export function getMetaAvailability(product: Product) {
-  if ((typeof product.stock === "number" && product.stock > 0) || product.readyToShip === true) {
-    return "in stock";
-  }
-
-  if (product.status === "Sob encomenda") {
-    return "preorder";
-  }
-
-  return "out of stock";
+  return getCommerceFeedAvailability(product);
 }
 
 export function getMetaProductImage(product: Product) {

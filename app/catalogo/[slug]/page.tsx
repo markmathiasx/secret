@@ -34,6 +34,13 @@ import { catalog, featuredCatalog, getProductUrl } from '@/lib/catalog';
 import { getProductMarketplaceSignals, getStoreReputationSummary, getProductReviewSnippets } from '@/lib/marketplace-signals';
 import { validateProductMedia, isPublicSafe } from '@/lib/media-validation';
 import { getProductVisual } from '@/lib/product-visuals';
+import {
+  getProductAvailabilityMode,
+  getPublicAvailabilityLabel,
+  getPublicStockQuantity,
+  getStructuredDataAvailability,
+  isOutOfStockProduct,
+} from '@/lib/product-availability';
 import { getLicensedVideoAsset } from '@/lib/video-assets';
 
 export const revalidate = 300;
@@ -112,6 +119,10 @@ export default async function ProductPage({
   }
 
   const siteUrl = getSiteUrl();
+  const availabilityMode = getProductAvailabilityMode(product);
+  const availabilityLabel = getPublicAvailabilityLabel(product);
+  const publicStockLevel = getPublicStockQuantity({ ...product, availabilityMode });
+  const showBackInStockButton = isOutOfStockProduct({ ...product, availabilityMode });
   const cardCheckoutReady = isCardCheckoutConfigured();
   const productPath = getProductUrl(product);
   const productUrl = `${siteUrl}${productPath}`;
@@ -171,7 +182,7 @@ export default async function ProductPage({
       priceCurrency: 'BRL',
       priceValidUntil: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30).toISOString().slice(0, 10),
       itemCondition: 'https://schema.org/NewCondition',
-      availability: product.stock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+      availability: getStructuredDataAvailability({ ...product, availabilityMode }),
       priceSpecification: {
         '@type': 'PriceSpecification',
         price: product.pricePix,
@@ -424,7 +435,7 @@ export default async function ProductPage({
             <span className="glass-chip">{product.category}</span>
             <span className="chip-nav">{product.subcategory}</span>
             <span className="chip-nav">{product.collection}</span>
-            <span className="chip-nav">{product.readyToShip ? 'Pronta entrega' : 'Sob encomenda'}</span>
+            <span className="chip-nav">{availabilityLabel}</span>
             <ProductVisualBadge product={product} />
           </div>
           <div className="mt-4">
@@ -434,7 +445,8 @@ export default async function ProductPage({
               reviewCount={productSignals?.reviewCount ?? storeSummary?.reviewCount ?? 0}
               soldTotal={productSignals?.soldTotal}
               soldLast30Days={productSignals?.soldLast30Days}
-              stockLevel={product.stock}
+              stockLevel={publicStockLevel}
+              availabilityMode={availabilityMode}
             />
           </div>
           <TrustBadges />
@@ -562,7 +574,7 @@ export default async function ProductPage({
               customizationHref={customizationHref}
               cardCheckoutReady={cardCheckoutReady}
             />
-            {product.stock <= 0 && (
+            {showBackInStockButton && (
               <div className="mt-4">
                 <BackInStockButton productId={product.id} productName={product.name} />
               </div>
@@ -644,6 +656,8 @@ export default async function ProductPage({
         <SafeBackgroundVideo
           src={productProcessVideo.src}
           poster={productProcessVideo.poster}
+          preload="none"
+          loadOnView
           overlayClassName="bg-[linear-gradient(90deg,rgba(2,6,23,0.92),rgba(2,6,23,0.76)_48%,rgba(2,6,23,0.50)),linear-gradient(180deg,rgba(2,6,23,0.35),rgba(2,6,23,0.88))]"
         />
         <div className="relative z-10 max-w-3xl">

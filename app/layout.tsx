@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from 'next';
+import type { CSSProperties, ReactNode } from 'react';
 import Script from 'next/script';
-import { Manrope, Space_Grotesk } from 'next/font/google';
 import './globals.css';
 import '@/src/styles/neoglass-preview.css';
 import { AccessibilityProvider, SkipLink } from '@/components/accessibility';
@@ -26,8 +26,10 @@ import {
 import { getStorefrontGtmId, getStorefrontMetaPixelId } from '@/lib/mdh-store/config';
 
 const siteUrl = getSiteUrl();
-const sans = Manrope({ subsets: ['latin'], variable: '--font-sans', display: 'swap', preload: true });
-const display = Space_Grotesk({ subsets: ['latin'], variable: '--font-display', display: 'swap', preload: false });
+const fontVariables: CSSProperties & Record<"--font-sans" | "--font-display", string> = {
+  "--font-sans": '"Segoe UI", "Helvetica Neue", Arial, sans-serif',
+  "--font-display": '"Trebuchet MS", "Aptos", "Segoe UI", sans-serif',
+};
 const cardCheckoutReady = isCardCheckoutConfigured();
 const aiAssistantReady = isAiAssistantConfigured();
 const aiAssistantModel = getAiAssistantModel();
@@ -196,13 +198,11 @@ export const viewport: Viewport = {
   viewportFit: 'cover',
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="pt-BR" data-scroll-behavior="smooth" className={`${sans.variable} ${display.variable}`}>
+    <html lang="pt-BR" data-scroll-behavior="smooth" style={fontVariables}>
       <head>
         {/* Critical resource hints — preconnect to third-party origins used above the fold */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://analytics.tiktok.com" />
         <link rel="dns-prefetch" href="https://api.mercadopago.com" />

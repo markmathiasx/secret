@@ -4,6 +4,7 @@ import { sendMail } from '@/lib/mailer';
 import { orderShippedHtml } from '@/lib/email-templates';
 import { recordAdminAction } from '@/lib/admin-audit';
 import { getServerSessionUser, isAdminSession } from '@/lib/server-session';
+import { validateCriticalActionConfirmation } from '@/src/lib/commerce-os/critical-actions';
 
 export async function GET(_req: NextRequest, context: { params: Promise<{ id: string }> }) {
   const user = await getServerSessionUser();
@@ -50,9 +51,28 @@ export async function PATCH(req: NextRequest, context: { params: Promise<{ id: s
 
   const status = typeof body.status === "string" ? body.status.trim().toUpperCase().slice(0, 40) : undefined;
   const notes = typeof body.notes === "string" ? body.notes.trim().slice(0, 5000) : undefined;
+  const confirmationText = typeof body.confirmationText === "string" ? body.confirmationText : undefined;
 
   if (!status && notes === undefined) {
     return NextResponse.json({ error: "status or notes required" }, { status: 400 });
+  }
+
+  if (status === "CANCELED") {
+    const confirmation = validateCriticalActionConfirmation({
+      type: "cancel_order",
+      subjectId: before?.orderNumber || id,
+      confirmationText,
+    });
+    if (!confirmation.ok) {
+      return NextResponse.json(
+        {
+          error: "Critical confirmation required.",
+          expectedPhrase: confirmation.expectedPhrase,
+          expectedDigest: confirmation.expectedDigest,
+        },
+        { status: 409 }
+      );
+    }
   }
 
   const updated = await prisma.order.update({

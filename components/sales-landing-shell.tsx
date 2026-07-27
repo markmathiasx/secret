@@ -1,5 +1,5 @@
 import { SalesLandingPage } from "@/components/sales-landing-page";
-import { getProductUrl } from "@/lib/catalog";
+import { getProductUrl } from "@/lib/product-routing";
 import { getCatalogSnapshot } from "@/lib/catalog-repository";
 import { getSiteUrl } from "@/lib/env";
 import { getLandingProducts, type SalesLandingKey, salesLandings } from "@/lib/sales-landings";

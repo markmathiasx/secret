@@ -1,109 +1,117 @@
+import type { Metadata } from "next";
 import Link from "next/link";
-import { Search } from "lucide-react";
+import { ArrowRight, SlidersHorizontal } from "lucide-react";
+import { CatalogExplorer } from "@/components/catalog-explorer";
+import { StorefrontSearchBox } from "@/components/storefront-search-box";
 import { getCatalogSnapshot } from "@/lib/catalog-repository";
+import { getProductUrl } from "@/lib/catalog";
+import { getSiteUrl } from "@/lib/env";
+import { formatCurrency } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
+export const revalidate = 300;
 
-type Props = { searchParams: Promise<{ q?: string }> };
+export const metadata: Metadata = {
+  title: "Busca MDH 3D",
+  description: "Busque produtos da MDH 3D com filtro por categoria, material, personalizacao, disponibilidade e faixa de preco.",
+  alternates: { canonical: `${getSiteUrl()}/busca` },
+};
+
+type SearchPageParams = {
+  q?: string;
+  category?: string;
+  collection?: string;
+  status?: string;
+  material?: string;
+  intent?: string;
+  sort?: string;
+  mode?: string;
+  custom?: string;
+  min?: string;
+  max?: string;
+  page?: string;
+};
+
+type Props = { searchParams: Promise<SearchPageParams> };
 
 export default async function BuscaPage({ searchParams }: Props) {
-  const { q } = await searchParams;
-  const query = q?.trim().toLowerCase() || "";
   const catalog = await getCatalogSnapshot();
-
-  const results = query
-    ? catalog.filter(
-        (p) =>
-          p.name.toLowerCase().includes(query) ||
-          p.sku.toLowerCase().includes(query) ||
-          p.category.toLowerCase().includes(query) ||
-          p.description.toLowerCase().includes(query) ||
-          p.tags?.some((t) => t.toLowerCase().includes(query))
-      )
-    : [];
-
-  const fmt = (n: number) =>
-    new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(n);
+  const params = await searchParams;
+  const visualMode = params.mode === "real" || params.mode === "verified" ? params.mode : "all";
+  const searchEntries = catalog.map((product) => ({
+    id: product.id,
+    name: product.name,
+    category: product.category,
+    collection: product.collection,
+    tags: product.tags,
+    href: getProductUrl(product),
+  }));
+  const minPrice = catalog.length ? Math.min(...catalog.map((product) => product.pricePix)) : 0;
+  const readyToShipCount = catalog.filter((product) => product.readyToShip).length;
+  const customizableCount = catalog.filter((product) => product.customizable).length;
 
   return (
-    <main className="mx-auto max-w-6xl px-4 py-10">
-      <div className="mb-8">
-        <p className="section-kicker">Catálogo</p>
-        <h1 className="section-title">Buscar produtos</h1>
-      </div>
-
-      <form method="get" className="mb-8 flex gap-3">
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-white/40" />
-          <input
-            type="search"
-            name="q"
-            defaultValue={q || ""}
-            placeholder="Nome, categoria, SKU ou descrição…"
-            className="field-base pl-10 text-base"
-            autoFocus
-          />
-        </div>
-        <button type="submit" className="btn-primary whitespace-nowrap">
-          Buscar
-        </button>
-      </form>
-
-      {!query && (
-        <div className="rounded-[24px] border border-white/10 bg-white/5 p-8 text-center text-white/50">
-          <Search className="mx-auto mb-3 h-10 w-10 opacity-30" />
-          <p>Digite algo para buscar no catálogo.</p>
-        </div>
-      )}
-
-      {query && results.length === 0 && (
-        <div className="rounded-[24px] border border-white/10 bg-white/5 p-8 text-center text-white/50">
-          <p>Nenhum produto encontrado para <strong className="text-white">&quot;{q}&quot;</strong>.</p>
-          <Link href="/catalogo" className="btn-secondary mt-4 inline-flex">
-            Ver todo o catálogo
-          </Link>
-        </div>
-      )}
-
-      {results.length > 0 && (
-        <>
-          <p className="mb-4 text-sm text-white/50">
-            {results.length} resultado{results.length !== 1 ? "s" : ""} para <strong className="text-white">&quot;{q}&quot;</strong>
-          </p>
-          <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            {results.map((product) => (
-              <Link
-                key={product.id}
-                href={`/catalogo/${product.id}-${product.slug || product.sku.toLowerCase()}`}
-                className="glass-card group flex flex-col gap-3 transition hover:border-cyan-300/30"
-              >
-                <div className="aspect-square overflow-hidden rounded-[16px] bg-white/5">
-                  {product.images?.[0] ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={product.images[0]}
-                      alt={product.name}
-                      className="h-full w-full object-cover transition group-hover:scale-105"
-                    />
-                  ) : (
-                    <div className="flex h-full items-center justify-center text-white/20 text-3xl">📦</div>
-                  )}
-                </div>
-                <div>
-                  <p className="font-semibold text-white leading-tight">{product.name}</p>
-                  <p className="mt-0.5 text-xs text-white/50">{product.category}</p>
-                  <div className="mt-2 flex items-center justify-between">
-                    <span className="text-sm font-bold text-emerald-200">{fmt(product.pricePix)}</span>
-                    <span className={`rounded-full border px-2 py-0.5 text-xs ${product.stock > 0 ? "border-emerald-300/30 bg-emerald-300/10 text-emerald-100" : "border-white/10 bg-white/5 text-white/40"}`}>
-                      {product.status === "Pronta entrega" ? "Pronta entrega" : "Sob encomenda"}
-                    </span>
-                  </div>
-                </div>
+    <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
+      <section className="rounded-[32px] border border-white/10 bg-[linear-gradient(135deg,rgba(8,19,27,0.98),rgba(7,16,22,0.94))] p-6 shadow-[0_24px_80px_rgba(2,8,23,0.3)] md:p-8">
+        <div className="grid gap-6 lg:grid-cols-[1fr_0.78fr] lg:items-end">
+          <div>
+            <p className="section-kicker">Busca comercial</p>
+            <h1 className="mt-2 text-4xl font-black text-white md:text-5xl">Encontre mais rapido o produto certo para fechar.</h1>
+            <p className="mt-4 max-w-3xl text-base leading-7 text-white/68">
+              A busca usa sinonimos do catalogo, aceita erro pequeno de digitacao, guarda recentes no navegador e mantem URL compartilhavel para retomada.
+            </p>
+            <div className="mt-6 max-w-3xl">
+              <StorefrontSearchBox
+                products={searchEntries}
+                actionPath="/busca"
+                placeholder="Busque por nome, uso, categoria, lote ou personalizacao..."
+                quickQueries={["chaveiro personalizado", "luminaria personalizada", "organizador de mesa", "brindes em lote"]}
+              />
+            </div>
+            <div className="mt-4 flex flex-wrap gap-2">
+              <Link href="/catalogo" className="btn-secondary gap-2 px-4 py-2 text-sm">
+                <SlidersHorizontal className="h-4 w-4" /> Ver catalogo completo
               </Link>
+              <Link href="/imagem-para-impressao-3d" className="btn-secondary gap-2 px-4 py-2 text-sm">
+                <ArrowRight className="h-4 w-4" /> Pedir sob medida
+              </Link>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            {[
+              ["Faixa inicial", formatCurrency(minPrice)],
+              ["Personalizaveis", customizableCount.toLocaleString("pt-BR")],
+              ["Pronta entrega", readyToShipCount.toLocaleString("pt-BR")],
+              ["Catalogo curado", catalog.length.toLocaleString("pt-BR")],
+            ].map(([label, value]) => (
+              <div key={label} className="rounded-[20px] border border-white/10 bg-white/[0.05] p-4">
+                <p className="text-[11px] font-black uppercase tracking-[0.14em] text-white/46">{label}</p>
+                <p className="mt-2 text-2xl font-black text-white">{value}</p>
+              </div>
             ))}
           </div>
-        </>
-      )}
+        </div>
+      </section>
+
+      <section className="mt-8">
+        <CatalogExplorer
+          products={catalog}
+          basePath="/busca"
+          initialQuery={params.q || ""}
+          initialCategory={params.category || "Todas"}
+          initialCollection={params.collection || "Todas"}
+          initialVisualMode={visualMode}
+          initialAvailability={(params.status as "Todos" | "Pronta entrega" | "Sob encomenda" | undefined) || "Todos"}
+          initialMaterial={params.material || "Todos"}
+          initialIntent={params.intent || "Geral"}
+          initialOrder={params.sort || "Destaques"}
+          initialCustomizableOnly={params.custom === "1"}
+          initialPriceMin={params.min ? Number(params.min) : undefined}
+          initialPriceMax={params.max ? Number(params.max) : undefined}
+          initialPage={params.page ? Number(params.page) : 1}
+        />
+      </section>
     </main>
   );
 }

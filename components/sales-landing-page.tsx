@@ -1,12 +1,10 @@
-"use client";
-
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { CatalogExplorer } from "@/components/catalog-explorer";
 import { CatalogGrid } from "@/components/catalog-grid";
 import { CommerceFaq } from "@/components/commerce-faq";
 import { SafeProductImage } from "@/components/safe-product-image";
-import { catalog, getProductUrl } from "@/lib/catalog";
+import { catalog } from "@/lib/catalog";
+import { getProductUrl } from "@/lib/product-routing";
 import {
   getLandingHighlights,
   getLandingProducts,
@@ -17,17 +15,9 @@ import {
 import { isProductVisualVerified } from "@/lib/product-visuals";
 import { formatCurrency } from "@/lib/utils";
 
-function shouldIgnoreCardActivation(target: EventTarget | null) {
-  return (
-    target instanceof Element &&
-    Boolean(target.closest("a, button, input, select, textarea, [role='button'], [data-card-interactive='true']"))
-  );
-}
-
 const allLandingConfigs = Object.values(salesLandings);
 
 export function SalesLandingPage({ landingKey }: { landingKey: SalesLandingKey }) {
-  const router = useRouter();
   const config: SalesLandingConfig = salesLandings[landingKey];
   const matchingProducts = getLandingProducts(catalog, config);
   const highlights = getLandingHighlights(catalog, config);
@@ -51,10 +41,6 @@ export function SalesLandingPage({ landingKey }: { landingKey: SalesLandingKey }
     note: string;
     product: (typeof matchingProducts)[number];
   }>;
-
-  function openProduct(product: (typeof matchingProducts)[number]) {
-    router.push(getProductUrl(product));
-  }
 
   return (
     <section className="mx-auto max-w-7xl px-6 py-16">
@@ -182,21 +168,7 @@ export function SalesLandingPage({ landingKey }: { landingKey: SalesLandingKey }
           {guidedPicks.map((item) => (
             <article
               key={item.label}
-              className="catalog-product-card cursor-pointer rounded-[24px] border border-white/10 bg-card p-4"
-              role="link"
-              tabIndex={0}
-              aria-label={`Abrir ${item.product.name}`}
-              onClick={(event) => {
-                if (shouldIgnoreCardActivation(event.target)) return;
-                openProduct(item.product);
-              }}
-              onKeyDown={(event) => {
-                if (shouldIgnoreCardActivation(event.target)) return;
-                if (event.key === "Enter" || event.key === " ") {
-                  event.preventDefault();
-                  openProduct(item.product);
-                }
-              }}
+              className="catalog-product-card rounded-[24px] border border-white/10 bg-card p-4"
             >
               <div className="overflow-hidden rounded-[18px] border border-white/10 bg-white/5">
                 <SafeProductImage

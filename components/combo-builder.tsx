@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { catalog, type Product } from '@/lib/catalog';
+import type { Product } from '@/lib/catalog';
 import { formatCurrency } from '@/lib/utils';
 import { SafeProductImage } from '@/components/safe-product-image';
 import { getProductImageCandidates } from '@/lib/product-images';
@@ -48,17 +48,17 @@ const comboProfiles = [
   },
 ] as const;
 
-export function ComboBuilder() {
+export function ComboBuilder({ products }: { products: Product[] }) {
   const [selectedProfile, setSelectedProfile] = useState<(typeof comboProfiles)[number]['id']>('presentes');
   const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
 
   const activeProfile = comboProfiles.find((profile) => profile.id === selectedProfile) || comboProfiles[0];
   const profileProducts = useMemo(() => {
-    return catalog
+    return products
       .filter(activeProfile.matcher)
       .sort((a, b) => Number(isProductVisualVerified(b)) - Number(isProductVisualVerified(a)) || Number(b.featured) - Number(a.featured) || a.pricePix - b.pricePix)
       .slice(0, 12);
-  }, [activeProfile]);
+  }, [activeProfile, products]);
 
   const summary = useMemo(() => {
     const total = selectedProducts.reduce((sum, product) => sum + product.pricePix, 0);

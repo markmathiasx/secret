@@ -32,86 +32,86 @@ export const firstSaleSlots: SlotConfig[] = [
   {
     slot: "Chaveiro personalizado",
     intent: "chaveiros-personalizados",
-    preferredIds: ["mdh-016", "real-010"],
-    fallbackTerms: ["chaveiro", "personalizado", "nome"],
-    whyBuy: "Entrada barata para nome, logo, tema ou lembrancinha.",
+    preferredIds: ["mdh-016"],
+    fallbackTerms: ["chaveiro", "personalizado", "nome", "logo"],
+    whyBuy: "Inclui impressão, argola com corrente, montagem, embalagem individual e insumos de postagem.",
   },
   {
-    slot: "Chaveiro pet",
-    intent: "chaveiros-personalizados",
-    preferredIds: ["mw-a1-452", "mw-a1-455", "mw-a1-458"],
-    fallbackTerms: ["pet", "tag", "identificação"],
-    whyBuy: "Bom para identificação leve e presente rápido para tutor.",
-  },
-  {
-    slot: "Suporte celular",
-    intent: "setup-gamer",
-    preferredIds: ["mdh-015", "mw-a1-141", "mw-a1-144"],
-    fallbackTerms: ["suporte", "celular", "smartphone"],
-    whyBuy: "Resolve mesa, videochamada e carregamento sem ocupar espaço.",
-  },
-  {
-    slot: "Organizador de cabos",
+    slot: "Kit organizador de cabos",
     intent: "organizacao-setup",
-    preferredIds: ["mdh-050", "mdh-014", "mw-a1-019"],
-    fallbackTerms: ["organizador", "cabo", "usb"],
-    whyBuy: "Compra simples para arrumar carregadores e setup.",
+    preferredIds: ["mdh-014"],
+    fallbackTerms: ["kit", "organizador", "cabos", "mesa"],
+    whyBuy: "Kit com seis peças para organizar carregadores e cabos de uso diário.",
   },
   {
-    slot: "Porta creme dental",
-    intent: "organizacao-setup",
-    preferredIds: ["real-002", "mw-a1-074", "mw-a1-077"],
-    fallbackTerms: ["porta", "creme", "banheiro"],
-    whyBuy: "Utilidade clara para bancada, pia e rotina da casa.",
-  },
-  {
-    slot: "Cantinho do café",
-    intent: "presentes-ate-50",
-    preferredIds: ["csv-col-002", "mw-a1-057", "mw-a1-060"],
-    fallbackTerms: ["café", "caneca", "cozinha", "suporte"],
-    whyBuy: "Fallback real do catálogo para quem procura porta cápsulas ou café.",
-  },
-  {
-    slot: "Suporte controle",
+    slot: "Suporte para celular",
     intent: "setup-gamer",
-    preferredIds: ["mdh-017", "mw-a1-171", "mw-a1-174"],
-    fallbackTerms: ["suporte", "controle", "gamepad"],
-    whyBuy: "Organiza console, controle e mesa gamer.",
+    preferredIds: ["mdh-015"],
+    fallbackTerms: ["suporte", "celular", "mesa"],
+    whyBuy: "Apoio estável para chamadas, vídeos e carregamento na mesa.",
+  },
+  {
+    slot: "Suporte para headphone",
+    intent: "setup-gamer",
+    preferredIds: ["mdh-013"],
+    fallbackTerms: ["suporte", "headphone", "fone"],
+    whyBuy: "Mantém o headphone organizado sem ocupar a área principal da mesa.",
+  },
+  {
+    slot: "Suporte para controle gamer",
+    intent: "setup-gamer",
+    preferredIds: ["mdh-017"],
+    fallbackTerms: ["suporte", "controle", "gamer"],
+    whyBuy: "Organiza o controle e melhora a apresentação do setup.",
+  },
+  {
+    slot: "Organizador de mesa",
+    intent: "organizacao-setup",
+    preferredIds: ["mdh-022"],
+    fallbackTerms: ["organizador", "mesa", "canetas"],
+    whyBuy: "Reúne canetas e pequenos acessórios em um único lugar.",
   },
   {
     slot: "Porta-copos geek",
-    intent: "setup-gamer",
+    intent: "presentes-ate-50",
     preferredIds: ["mdh-019"],
-    fallbackTerms: ["porta-copos", "porta copos", "geek"],
-    whyBuy: "Presente barato para mesa, setup e decoração geek.",
+    fallbackTerms: ["porta-copos", "mesa", "geek", "presente"],
+    whyBuy: "Protege a mesa e funciona como presente geek de ticket inicial mais acessível.",
   },
   {
-    slot: "Miniatura personalizada",
+    slot: "Vaso geométrico",
+    intent: "presentes-ate-50",
+    preferredIds: ["mdh-025"],
+    fallbackTerms: ["vaso", "geométrico", "decoração"],
+    whyBuy: "Peça decorativa para arranjos secos ou uso com recipiente interno.",
+  },
+  {
+    slot: "Nome 3D personalizado",
     intent: "peca-sob-medida",
-    preferredIds: ["real-006", "real-007", "mdh-038"],
-    fallbackTerms: ["miniatura", "personalizada", "família"],
-    whyBuy: "Opção afetiva para presente sob encomenda.",
+    preferredIds: ["mdh-038"],
+    fallbackTerms: ["nome 3d", "personalizado", "mesa"],
+    whyBuy: "Produto sob encomenda com tamanho, base e cores definidos no pedido.",
   },
   {
-    slot: "Brinde para evento",
-    intent: "brindes-e-lotes",
-    preferredIds: ["mw-a1-417", "mw-a1-404", "mw-a1-415"],
-    fallbackTerms: ["brinde", "evento", "lote"],
-    whyBuy: "Serve para kits, eventos e lembranças em quantidade.",
-  },
-  {
-    slot: "Peça sob medida",
+    slot: "Luminária LED personalizada",
     intent: "peca-sob-medida",
-    preferredIds: ["mw-a1-265", "mw-a1-266", "mw-a1-267"],
-    fallbackTerms: ["técnico", "sob medida", "fixação"],
-    whyBuy: "Ponto de partida para explicar medida, uso e material.",
+    preferredIds: ["mdh-028"],
+    fallbackTerms: ["luminaria", "led", "personalizado", "presente"],
+    whyBuy: "Presente premium com personalização clara e boa percepção de valor.",
   },
   {
-    slot: "Organizador de mesa/setup",
+    slot: "Foto litofania",
+    intent: "peca-sob-medida",
+    preferredIds: ["mdh-029"],
+    fallbackTerms: ["foto", "litofania", "personalizado", "presente"],
+    whyBuy: "Entrega apelo afetivo forte com personalização a partir de foto enviada pelo cliente.",
+  },
+  {
+    slot: "Caixa organizadora",
     intent: "organizacao-setup",
-    preferredIds: ["mdh-022", "mw-a1-182", "mw-a1-184"],
-    fallbackTerms: ["organizador", "mesa", "canetas"],
-    whyBuy: "Compra prática para escritório, estudo e setup.",
+    preferredIds: ["mdh-053"],
+    fallbackTerms: ["caixa", "organizadora", "tampa"],
+    whyBuy: "Armazena pequenos objetos com medida confirmada antes da produção.",
   },
 ];
 
@@ -119,19 +119,20 @@ export const intentPageConfigs = {
   "chaveiros-personalizados": {
     slug: "/chaveiros-personalizados",
     intent: "chaveiros-personalizados" as FirstSaleIntent,
-    title: "Chaveiros personalizados em impressão 3D",
-    description: "Chaveiros com nome, tema, pet, evento ou brinde, usando produtos reais do catálogo MDH 3D.",
+    title: "Chaveiros personalizados completos em impressão 3D",
+    description: "Chaveiros com nome, logo, pet, evento ou brinde. O preço seguro inclui impressão, ferragens, montagem, embalagem individual e insumos de postagem.",
     faq: [
-      ["Posso personalizar nome ou tema?", "Sim. Envie nome, tema, cor e quantidade pelo WhatsApp antes de fechar."],
-      ["Tem opção barata?", "Sim. A página prioriza itens de entrada e mostra Pix e cartão em cada card."],
-      ["Serve para evento?", "Serve. Para lote, confirme quantidade e prazo no atendimento."],
+      ["O que acompanha cada chaveiro?", "Peça impressa, argola metálica, corrente, montagem e embalagem individual."],
+      ["O frete está incluído?", "Os insumos para preparar o envio estão incluídos. O frete real dos Correios ou transportadora é calculado separadamente."],
+      ["Posso personalizar nome ou logo?", "Sim. Envie nome, logo, cor, quantidade e prazo pelo WhatsApp antes de fechar."],
+      ["Serve para evento ou empresa?", "Sim. Em lotes, a preparação e a embalagem externa são rateadas pela quantidade."],
     ],
   },
   "presentes-ate-50": {
     slug: "/presentes-ate-50",
     intent: "presentes-ate-50" as FirstSaleIntent,
     title: "Presentes 3D até R$ 50",
-    description: "Presentes úteis, geek e personalizáveis com preço Pix até R$ 50 e cartão sempre Pix + R$ 1.",
+    description: "Presentes úteis e personalizáveis com preço Pix de até R$ 50 na seleção atual.",
     faq: [
       ["O preço é real?", "Sim. Os cards usam o preço atual do catálogo."],
       ["Dá para mandar pelo WhatsApp?", "Sim. Cada card já abre mensagem com produto, preço e link."],
@@ -142,9 +143,9 @@ export const intentPageConfigs = {
     slug: "/organizadores",
     intent: "organizacao-setup" as FirstSaleIntent,
     title: "Organizadores 3D para casa, cabos e mesa",
-    description: "Organizadores de cabos, banheiro, gaveta, mesa e rotina com preço claro e produção local.",
+    description: "Organizadores de cabos, mesa e pequenos objetos com preço claro e produção local.",
     faq: [
-      ["Qual organizador comprar primeiro?", "Comece por cabos, celular, banheiro ou mesa, conforme o problema que quer resolver."],
+      ["Qual organizador comprar primeiro?", "Comece pelo kit de cabos, pelo organizador de mesa ou pela caixa com tampa."],
       ["Tem pronta entrega?", "O status aparece em cada produto. Confirme urgência antes de fechar."],
       ["Pode adaptar medida?", "Peças simples podem ser ajustadas mediante orçamento."],
     ],
@@ -153,10 +154,10 @@ export const intentPageConfigs = {
     slug: "/setup-gamer",
     intent: "setup-gamer" as FirstSaleIntent,
     title: "Acessórios 3D para setup gamer e home office",
-    description: "Suportes para controle, celular, fone, cabos e itens geek para deixar a mesa organizada.",
+    description: "Suportes para controle, celular e headphone para deixar a mesa organizada.",
     faq: [
-      ["Serve para presente gamer?", "Sim. Porta-copos, suporte de controle e chaveiros são boas entradas."],
-      ["Cartão muda quanto?", "A regra vigente é cartão = Pix + R$ 1 por item."],
+      ["Serve para presente gamer?", "Sim. Suportes para controle, celular e headphone são opções práticas."],
+      ["Como vejo o valor no cartão?", "O valor atualizado aparece no card do produto e no checkout."],
       ["Posso pedir tema específico?", "Pode. Use o WhatsApp com referência, cor e prazo desejado."],
     ],
   },
@@ -167,7 +168,7 @@ export const intentPageConfigs = {
     description: "Chaveiros, lembranças, tags e pequenos presentes para evento, empresa e kit promocional.",
     faq: [
       ["Como cotar lote?", "Informe quantidade, prazo, personalização e uso do brinde."],
-      ["O preço do card vale para lote?", "O card mostra referência unitária. Lote precisa confirmar quantidade e prazo."],
+      ["O preço do card vale para lote?", "O card mostra a referência inicial. Lotes recebem orçamento por quantidade, personalização e prazo."],
       ["Dá para colocar marca?", "Sim, quando o arquivo ou referência estiverem adequados para impressão."],
     ],
   },
@@ -175,7 +176,7 @@ export const intentPageConfigs = {
     slug: "/peca-sob-medida",
     intent: "peca-sob-medida" as FirstSaleIntent,
     title: "Peça sob medida em impressão 3D",
-    description: "Peças técnicas, miniaturas, nomes 3D e projetos personalizados com orçamento orientado por uso e medida.",
+    description: "Nomes 3D, porta-retratos e projetos personalizados com orçamento orientado por uso e medida.",
     faq: [
       ["O que preciso enviar?", "Uso da peça, medidas, cor, quantidade, prazo e foto/STL/OBJ/3MF se tiver."],
       ["Tem preço fechado sem avaliar?", "Não. Produtos do catálogo têm preço; projeto novo precisa briefing."],
@@ -183,6 +184,16 @@ export const intentPageConfigs = {
     ],
   },
 } as const;
+
+const intentExpansionTerms: Record<FirstSaleIntent, string[]> = {
+  "mais-pedidos": [],
+  "presentes-ate-50": ["presente", "chaveiro", "porta-copos", "kit", "suporte", "mesa"],
+  "chaveiros-personalizados": ["chaveiro", "personalizado", "nome", "logo", "brinde", "presente", "luminaria", "litofania", "decoração"],
+  "organizacao-setup": ["organizador", "mesa", "cabos", "suporte", "caixa", "setup"],
+  "setup-gamer": ["suporte", "controle", "gamer", "headphone", "celular", "mesa", "setup"],
+  "brindes-e-lotes": ["brinde", "lote", "evento", "logo", "personalizado", "chaveiro", "porta-copos", "nome", "mesa"],
+  "peca-sob-medida": ["personalizado", "nome", "luminaria", "litofania", "foto", "sob encomenda", "medida"],
+};
 
 function normalizeText(value: string) {
   return value
@@ -246,6 +257,7 @@ export function getIntentProducts(intent: FirstSaleIntent, limit = 12) {
   const terms = firstSaleSlots
     .filter((slot) => slot.intent === intent || intent === "mais-pedidos")
     .flatMap((slot) => slot.fallbackTerms)
+    .concat(intentExpansionTerms[intent] || [])
     .map(normalizeText);
 
   const fallback = catalog

@@ -1,90 +1,90 @@
 {
-  "generatedAt": "2026-06-19T14:02:57.228Z",
+  "generatedAt": "2026-07-27T08:32:15.538Z",
   "ok": true,
   "curated": [
     {
       "slot": "Chaveiro personalizado",
       "id": "mdh-016",
-      "name": "Chaveiro Personalizado",
-      "pricePix": 7.14,
-      "priceCard": 8.14
+      "name": "Chaveiro 3D Personalizado com Nome ou Logo",
+      "pricePix": 29.9,
+      "priceCard": 30.9
     },
     {
-      "slot": "Chaveiro pet",
-      "id": "mw-a1-452",
-      "name": "Tag para Pet Compacto para rotina do pet",
-      "pricePix": 4.76,
-      "priceCard": 5.76
+      "slot": "Kit organizador de cabos",
+      "id": "mdh-014",
+      "name": "Kit 6 Organizadores de Cabos para Mesa",
+      "pricePix": 39.9,
+      "priceCard": 40.9
     },
     {
-      "slot": "Suporte celular",
+      "slot": "Suporte para celular",
       "id": "mdh-015",
-      "name": "Suporte para Celular",
-      "pricePix": 7.14,
-      "priceCard": 8.14
+      "name": "Suporte de Mesa para Celular",
+      "pricePix": 39.9,
+      "priceCard": 40.9
     },
     {
-      "slot": "Organizador de cabos",
-      "id": "mdh-050",
-      "name": "Organizador de Cabo USB",
-      "pricePix": 7.14,
-      "priceCard": 8.14
+      "slot": "Suporte para headphone",
+      "id": "mdh-013",
+      "name": "Suporte de Mesa para Headphone",
+      "pricePix": 74.9,
+      "priceCard": 75.9
     },
     {
-      "slot": "Porta creme dental",
-      "id": "real-002",
-      "name": "Porta Creme Dental de Bancada",
-      "pricePix": 9.52,
-      "priceCard": 10.52
-    },
-    {
-      "slot": "Cantinho do café",
-      "id": "mw-a1-057",
-      "name": "Suporte de Cozinha Slim para bancada e armário",
-      "pricePix": 7.14,
-      "priceCard": 8.14
-    },
-    {
-      "slot": "Suporte controle",
+      "slot": "Suporte para controle gamer",
       "id": "mdh-017",
-      "name": "Suporte para Controle PS5",
-      "pricePix": 10.73,
-      "priceCard": 11.73
+      "name": "Suporte Universal de Mesa para Controle Gamer",
+      "pricePix": 59.9,
+      "priceCard": 60.9
+    },
+    {
+      "slot": "Organizador de mesa",
+      "id": "mdh-022",
+      "name": "Organizador de Mesa para Canetas e Pequenos Objetos",
+      "pricePix": 69.9,
+      "priceCard": 70.9
     },
     {
       "slot": "Porta-copos geek",
       "id": "mdh-019",
-      "name": "Porta-Copos Geek",
-      "pricePix": 7.14,
-      "priceCard": 8.14
+      "name": "Porta-Copos Geek para Mesa, Setup e Presente Criativo",
+      "pricePix": 39.9,
+      "priceCard": 40.9
     },
     {
-      "slot": "Miniatura personalizada",
-      "id": "real-006",
-      "name": "Família Customizada em Miniatura",
-      "pricePix": 28.64,
-      "priceCard": 29.64
+      "slot": "Vaso geométrico",
+      "id": "mdh-025",
+      "name": "Vaso Geométrico Decorativo",
+      "pricePix": 89.9,
+      "priceCard": 90.9
     },
     {
-      "slot": "Brinde para evento",
-      "id": "mw-a1-417",
-      "name": "Mini Presente Personalizável Slim para kit promocional",
-      "pricePix": 5.95,
-      "priceCard": 6.95
+      "slot": "Nome 3D personalizado",
+      "id": "mdh-038",
+      "name": "Nome 3D Personalizado de Mesa",
+      "pricePix": 94.9,
+      "priceCard": 95.9
     },
     {
-      "slot": "Peça sob medida",
-      "id": "mw-a1-265",
-      "name": "Guia de Cabo Técnico com Clipe para bancada maker",
-      "pricePix": 16.69,
-      "priceCard": 17.69
+      "slot": "Luminária LED personalizada",
+      "id": "mdh-028",
+      "name": "Luminária LED Personalizada para Nome, Frase ou Presente",
+      "pricePix": 129.9,
+      "priceCard": 130.9
     },
     {
-      "slot": "Organizador de mesa/setup",
-      "id": "mdh-022",
-      "name": "Organizador de Canetas",
-      "pricePix": 8.33,
-      "priceCard": 9.33
+      "slot": "Foto litofania",
+      "id": "mdh-029",
+      "name": "Foto Litofania Personalizada com Efeito de Luz",
+      "pricePix": 119.9,
+      "priceCard": 120.9
+    },
+    {
+      "slot": "Caixa organizadora",
+      "id": "mdh-053",
+      "name": "Caixa Organizadora Modular com Tampa",
+      "pricePix": 99.9,
+      "priceCard": 100.9
     }
   ],
   "errors": []

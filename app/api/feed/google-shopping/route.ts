@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
 import { getCatalogSnapshot } from "@/lib/catalog-repository";
+import { getProductUrl } from "@/lib/catalog";
 import { resolveProductImage } from "@/lib/product-images";
 import { getSiteUrl } from "@/lib/env";
+import { getCommerceFeedAvailability } from "@/lib/product-availability";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 3600; // 1 hour
@@ -23,10 +25,9 @@ export async function GET() {
     .map((p) => {
       const rawImage = resolveProductImage(p);
       const imageUrl = rawImage.startsWith("http") ? rawImage : `${siteUrl}${rawImage}`;
-      const slug = p.slug || p.id;
-      const productUrl = `${siteUrl}/catalogo/${slug}`;
+      const productUrl = `${siteUrl}${getProductUrl(p)}`;
       const price = p.pricePix.toFixed(2);
-      const availability = p.stock > 0 ? "in stock" : "preorder";
+      const availability = getCommerceFeedAvailability(p);
       const condition = "new";
       const brand = "MDH 3D Store";
       const description = p.description

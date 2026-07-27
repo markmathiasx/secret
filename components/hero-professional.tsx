@@ -16,7 +16,7 @@ import {
   Zap,
 } from "lucide-react";
 import { whatsappNumber } from "@/lib/constants";
-import { getProductUrl } from "@/lib/catalog";
+import { getProductUrl } from "@/lib/product-routing";
 import { verifiedCatalog } from "@/lib/verified-catalog";
 import { SafeProductImage } from "@/components/safe-product-image";
 

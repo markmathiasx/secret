@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, BadgeCheck, Camera, Clock3, MapPin, ShieldCheck, Star } from "lucide-react";
 import { verifiedCatalog } from "@/lib/verified-catalog";
-import { getProductUrl } from "@/lib/catalog";
+import { getProductUrl } from "@/lib/product-routing";
 import { getCachedData, cacheKeys, cacheTtl } from "@/lib/cache";
 import { useState, useEffect } from "react";
 

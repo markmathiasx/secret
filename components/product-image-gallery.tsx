@@ -12,7 +12,8 @@ const compactCardSizes =
   "(min-width: 1536px) 23vw, (min-width: 1280px) 31vw, (min-width: 640px) 48vw, 96vw";
 const expandedMainSizes =
   "(min-width: 1024px) 68vw, (min-width: 640px) 88vw, 96vw";
-const thumbSizes = "(min-width: 1024px) 84px, 25vw";
+const pdpMainSizes = "(min-width: 1280px) 520px, (min-width: 1024px) 44vw, 92vw";
+const thumbSizes = "(min-width: 1024px) 84px, 108px";
 
 export function ProductImageGallery({
   product,
@@ -95,7 +96,7 @@ export function ProductImageGallery({
             className="aspect-square w-full object-cover transition duration-300"
             priority
             fetchPriority="high"
-            sizes={expandedMainSizes}
+            sizes={pdpMainSizes}
           />
           {isConceptual && (
             <div className="absolute inset-x-0 bottom-0 flex items-center gap-2 bg-gradient-to-t from-amber-950/80 via-amber-950/40 to-transparent px-5 pb-4 pt-10 pointer-events-none">
@@ -133,8 +134,8 @@ export function ProductImageGallery({
                 candidates={image.candidates}
                 alt={image.alt}
                 className="aspect-square w-full object-cover"
-                priority={priority || galleryIndex <= 3}
-                fetchPriority={priority || galleryIndex <= 3 ? "high" : "auto"}
+                priority={false}
+                fetchPriority="low"
                 sizes={thumbSizes}
               />
             </button>

@@ -14,9 +14,12 @@ const detectors = [
   { id: "google_api_key", pattern: /\bAIza[0-9A-Za-z_-]{35}\b/g, gitPattern: "AIza[0-9A-Za-z_-]{35}" },
   { id: "private_key_block", pattern: /-----BEGIN (?:RSA |EC |OPENSSH |)PRIVATE KEY-----/g, gitPattern: "BEGIN (RSA |EC |OPENSSH |)?PRIVATE KEY" },
   { id: "mercadopago_token", pattern: /\bAPP_USR-[0-9A-Za-z_-]{20,}\b/g, gitPattern: "APP_USR-[0-9A-Za-z_-]{20,}" },
+  { id: "supabase_secret_key", pattern: /\bsb_secret_[A-Za-z0-9_-]{20,}\b/g, gitPattern: "sb_secret_[A-Za-z0-9_-]{20,}" },
+  { id: "supabase_service_role_jwt", pattern: /\bSUPABASE_SERVICE_ROLE_KEY\s*=\s*eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+/g, gitPattern: "SUPABASE_SERVICE_ROLE_KEY[[:space:]]*=[[:space:]]*eyJ[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+" },
+  { id: "pexels_api_key", pattern: /\bPEXELS_API_KEY\s*[:=]\s*["']?[A-Za-z0-9_-]{32,}\b/g, gitPattern: "PEXELS_API_KEY[[:space:]]*[:=][[:space:]]*['\"]?[A-Za-z0-9_-]{32,}" },
 ];
 
-const ignoredPath = /(^|\/)(node_modules|\.next|\.vercel|test-results|reports|coverage)\//;
+const ignoredPath = /(^|\/)(node_modules|\.next|\.vercel|test-results|coverage)\//;
 const ignoredFile = /(package-lock\.json|pnpm-lock\.yaml|yarn\.lock|tsconfig\.typecheck\.tsbuildinfo|estrutura\.txt)$/;
 
 function git(args) {

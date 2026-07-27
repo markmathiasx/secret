@@ -1,9 +1,14 @@
 import { getAdminPlatformDal } from "@/src/lib/platform/data/admin-dal";
 import { evaluateAiChatSafety } from "@/src/lib/ai-chat/evaluation";
+import { getCommerceOsDashboard } from "@/src/lib/commerce-os/service";
 import { verifyRollbackReadiness } from "@/src/lib/platform/rollback/verify-rollback";
 
 export async function getAdminAiOperatorReport() {
-  const [platform, aiChat] = await Promise.all([getAdminPlatformDal(), evaluateAiChatSafety()]);
+  const [platform, aiChat, commerceOs] = await Promise.all([
+    getAdminPlatformDal(),
+    evaluateAiChatSafety(),
+    getCommerceOsDashboard(),
+  ]);
   return {
     ok: aiChat.ok && verifyRollbackReadiness().ok,
     generatedAt: new Date().toISOString(),
@@ -26,6 +31,11 @@ export async function getAdminAiOperatorReport() {
       noSecretsInPayload: true,
       noDirectDeploy: true,
       noMainPush: true,
+    },
+    commerceOs: {
+      executive: commerceOs.executive,
+      copilot: commerceOs.copilot,
+      notes: commerceOs.notes,
     },
     platform,
     aiChat,

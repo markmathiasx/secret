@@ -1,6 +1,4 @@
 import { NextResponse } from "next/server";
-import { buildProductPagePath } from "@/lib/mdh-store/links";
-import { getLocalStoreProducts } from "@/lib/mdh-store/products";
 import { getCatalogSnapshot } from "@/lib/catalog-repository";
 import { getProductUrl } from "@/lib/catalog";
 import { getSiteUrl } from "@/lib/env";
@@ -38,11 +36,7 @@ export async function GET() {
     const baseUrl = getSiteUrl();
     const now = new Date().toISOString();
     const catalog = await getCatalogSnapshot();
-    const smartProducts = getLocalStoreProducts();
-    const urls = [
-      ...catalog.slice(0, 1000).map((product) => `${baseUrl}${getProductUrl(product)}`),
-      ...smartProducts.map((product) => `${baseUrl}${buildProductPagePath(product)}`),
-    ];
+    const urls = catalog.slice(0, 1000).map((product) => `${baseUrl}${getProductUrl(product)}`);
 
     const body = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${Array.from(new Set(urls))
       .map((url) => `  <url>\n    <loc>${xml(url)}</loc>\n    <lastmod>${now}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.65</priority>\n  </url>`)

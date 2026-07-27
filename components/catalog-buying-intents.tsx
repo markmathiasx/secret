@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, Boxes, Building2, Gift, Layers3, MonitorCog, Palette, Sparkles } from "lucide-react";
 import type { Product } from "@/lib/catalog";
-import { getProductUrl } from "@/lib/catalog";
+import { getProductUrl } from "@/lib/product-routing";
 import { SafeProductImage } from "@/components/safe-product-image";
 import { resolveProductImage } from "@/lib/product-images";
 import { formatCurrency } from "@/lib/utils";

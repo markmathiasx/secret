@@ -14,9 +14,9 @@ import {
 import { PurchaseProtectionBanner } from '@/components/purchase-protection-banner';
 import { PostPurchaseHub } from '@/components/post-purchase-hub';
 import { TwoFactorPanel } from '@/components/account/two-factor-panel';
-import { featuredCatalog, findProduct, getProductUrl } from '@/lib/catalog';
 import { emitCustomerAuthChange, useCustomerSession } from '@/lib/customer-session-client';
 import { getDisplayName, getMemberKey, listFavorites, listSavedQuotes, type SavedQuote } from '@/lib/member-store';
+import { featuredStorefrontProducts, findStorefrontProductById, resolveStorefrontHref } from '@/lib/products';
 import { formatCurrency } from '@/lib/utils';
 
 type AccountState = {
@@ -87,8 +87,7 @@ function formatOrderStatus(status: string | null | undefined) {
 }
 
 function resolveProductUrl(productId: string) {
-  const product = findProduct(productId);
-  return product ? getProductUrl(product) : '/catalogo';
+  return resolveStorefrontHref(productId);
 }
 
 export default function AccountPage() {
@@ -153,8 +152,8 @@ export default function AccountPage() {
     };
   }, [session.loggedIn, session.ready, session.user?.displayName, session.user?.email, session.user?.id]);
 
-  const favoriteProducts = useMemo(() => account.favorites.map((item) => findProduct(item)).filter(Boolean), [account.favorites]);
-  const recentProducts = useMemo(() => recentIds.map((item) => findProduct(item)).filter(Boolean), [recentIds]);
+  const favoriteProducts = useMemo(() => account.favorites.map((item) => findStorefrontProductById(item)).filter(Boolean), [account.favorites]);
+  const recentProducts = useMemo(() => recentIds.map((item) => findStorefrontProductById(item)).filter(Boolean), [recentIds]);
   const lastQuote = account.quotes[0] || null;
   const stats = [
     { label: 'Favoritos', value: String(account.favorites.length).padStart(2, '0') },
@@ -164,7 +163,7 @@ export default function AccountPage() {
   ];
   const recommendedProducts = useMemo(() => {
     const favoriteCategories = Array.from(new Set(favoriteProducts.map((item) => item!.category)));
-    return featuredCatalog
+    return featuredStorefrontProducts
       .filter((item) => !account.favorites.includes(item.id))
       .sort((a, b) => Number(favoriteCategories.includes(b.category)) - Number(favoriteCategories.includes(a.category)))
       .slice(0, 4);
@@ -297,7 +296,7 @@ export default function AccountPage() {
           </div>
           <div className="mt-4 grid gap-3 md:grid-cols-2">
             {recentProducts.length ? recentProducts.slice(0, 6).map((item) => (
-              <Link key={item!.id} href={getProductUrl(item!)} className="rounded-[20px] border border-white/10 bg-black/20 p-4 text-sm text-white/80 transition hover:border-cyan-300/35">
+              <Link key={item!.id} href={item!.href} className="rounded-[20px] border border-white/10 bg-black/20 p-4 text-sm text-white/80 transition hover:border-cyan-300/35">
                 <p className="text-xs uppercase tracking-[0.16em] text-cyan-100/70">{item!.category}</p>
                 <p className="mt-2 font-semibold text-white">{item!.name}</p>
                 <p className="mt-2 text-white/60">{formatCurrency(item!.pricePix)} • {item!.productionWindow}</p>
@@ -316,7 +315,7 @@ export default function AccountPage() {
           <p className="mt-1 text-sm text-white/60">{account.favorites.length} item(ns) salvo(s)</p>
           <div className="mt-4 grid gap-3">
             {favoriteProducts.length ? favoriteProducts.map((item) => (
-              <Link key={item!.id} href={getProductUrl(item!)} className="rounded-2xl border border-white/10 bg-black/20 p-4 text-sm text-white/80 hover:border-cyan-300/35">
+              <Link key={item!.id} href={item!.href} className="rounded-2xl border border-white/10 bg-black/20 p-4 text-sm text-white/80 hover:border-cyan-300/35">
                 <p className="text-cyan-100">{item!.category}</p>
                 <p className="mt-1 font-semibold text-white">{item!.name}</p>
               </Link>
@@ -404,7 +403,7 @@ export default function AccountPage() {
         <p className="mt-1 text-sm text-white/60">A seleção abaixo tenta aproveitar o que você já curtiu ou abriu recentemente.</p>
         <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
           {recommendedProducts.map((item) => (
-            <Link key={item.id} href={getProductUrl(item)} className="rounded-2xl border border-white/10 bg-black/20 p-4 text-sm text-white/80 hover:border-cyan-300/35">
+            <Link key={item.id} href={item.href} className="rounded-2xl border border-white/10 bg-black/20 p-4 text-sm text-white/80 hover:border-cyan-300/35">
               <p className="text-cyan-100">{item.category}</p>
               <p className="mt-1 font-semibold text-white">{item.name}</p>
               <p className="mt-2 text-white/60">{formatCurrency(item.pricePix)} • {item.productionWindow}</p>

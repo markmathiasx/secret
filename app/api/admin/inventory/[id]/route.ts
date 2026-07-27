@@ -5,6 +5,7 @@ import { canConnectToDatabase, prisma } from "@/lib/prisma";
 import { updateAdminCatalogProduct } from "@/lib/server/admin-catalog-store";
 import { recordAdminAction } from "@/lib/admin-audit";
 import { invalidateCatalogCache } from "@/lib/runtime-cache";
+import { validateCriticalActionConfirmation } from "@/src/lib/commerce-os/critical-actions";
 
 export const dynamic = "force-dynamic";
 
@@ -21,9 +22,34 @@ export async function PUT(req: NextRequest, context: RouteContext) {
   if (!body) {
     return NextResponse.json({ ok: false, error: "Body inválido." }, { status: 400 });
   }
+  const confirmationText = typeof body.confirmationText === "string" ? body.confirmationText : undefined;
 
   if (await canConnectToDatabase()) {
     try {
+      const currentInventory = await prisma.inventory.findUnique({
+        where: { productId: id },
+        select: { quantity: true },
+      });
+      const delta =
+        body.quantity !== undefined ? Number(body.quantity) - Number(currentInventory?.quantity ?? 0) : null;
+      const confirmation = validateCriticalActionConfirmation({
+        type: "override_inventory",
+        subjectId: id,
+        confirmationText,
+        delta,
+      });
+      if (!confirmation.ok) {
+        return NextResponse.json(
+          {
+            ok: false,
+            error: "Critical confirmation required.",
+            expectedPhrase: confirmation.expectedPhrase,
+            expectedDigest: confirmation.expectedDigest,
+          },
+          { status: 409 }
+        );
+      }
+
       const inventory = await prisma.inventory.upsert({
         where: { productId: id },
         update: {
@@ -72,6 +98,25 @@ export async function PUT(req: NextRequest, context: RouteContext) {
   }
 
   // Fallback: update catalog override stock
+  const fallbackDelta = body.quantity !== undefined ? Number(body.quantity) : null;
+  const fallbackConfirmation = validateCriticalActionConfirmation({
+    type: "override_inventory",
+    subjectId: id,
+    confirmationText,
+    delta: fallbackDelta,
+  });
+  if (!fallbackConfirmation.ok) {
+    return NextResponse.json(
+      {
+        ok: false,
+        error: "Critical confirmation required.",
+        expectedPhrase: fallbackConfirmation.expectedPhrase,
+        expectedDigest: fallbackConfirmation.expectedDigest,
+      },
+      { status: 409 }
+    );
+  }
+
   if (body.quantity !== undefined) {
     await updateAdminCatalogProduct(id, { stock: Number(body.quantity) });
   }

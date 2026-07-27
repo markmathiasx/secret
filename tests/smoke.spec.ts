@@ -1,6 +1,7 @@
 import { test, expect } from "@playwright/test";
 
 const BASE_URL = process.env.SMOKE_BASE_URL || "http://localhost:3000";
+const PRODUCT_LINK_SELECTOR = 'a[href^="/catalogo/"]';
 
 test.describe("MDH 3D Store – Smoke Tests", () => {
   test("Home: carrega com elementos principais", async ({ page }) => {
@@ -38,7 +39,7 @@ test.describe("MDH 3D Store – Smoke Tests", () => {
   test("PDP: primeira página de produto retorna 200", async ({ page }) => {
     // Navigate to catalog and get first product link
     await page.goto(`${BASE_URL}/catalogo`);
-    const productLink = page.locator('a[href^="/loja/"]').first();
+    const productLink = page.locator(PRODUCT_LINK_SELECTOR).first();
     const href = await productLink.getAttribute("href");
     if (!href) throw new Error("Nenhum link de produto encontrado no catálogo");
 
@@ -49,7 +50,7 @@ test.describe("MDH 3D Store – Smoke Tests", () => {
 
   test("PDP: JSON-LD de produto presente na página", async ({ page }) => {
     await page.goto(`${BASE_URL}/catalogo`);
-    const productLink = page.locator('a[href^="/loja/"]').first();
+    const productLink = page.locator(PRODUCT_LINK_SELECTOR).first();
     const href = await productLink.getAttribute("href");
     if (!href) throw new Error("Nenhum link de produto encontrado");
 

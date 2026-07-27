@@ -1,5 +1,6 @@
 import type { Product } from '@/lib/catalog';
 import { whatsappNumber } from '@/lib/constants';
+import { getStructuredDataAvailability } from '@/lib/product-availability';
 
 // Schema.org JSON-LD Types
 export interface SchemaProduct {
@@ -157,9 +158,7 @@ export function generateProductSchema(
       priceCurrency: 'BRL',
       price: product.pricePix?.toFixed(2) || product.price?.toFixed(2) || '0',
       priceValidUntil: (product as any).saleEndsAt || undefined,
-      availability: product.stock > 0
-        ? 'https://schema.org/InStock'
-        : 'https://schema.org/OutOfStock',
+      availability: getStructuredDataAvailability(product),
       itemCondition: 'https://schema.org/NewCondition',
       shippingDetails: {
         '@type': 'OfferShippingDetails',

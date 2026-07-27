@@ -1,6 +1,6 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 type SafeBackgroundVideoProps = {
@@ -14,6 +14,8 @@ type SafeBackgroundVideoProps = {
   overlayClassName?: string;
   fallbackClassName?: string;
   objectPosition?: string;
+  preload?: "none" | "metadata" | "auto";
+  loadOnView?: boolean;
 };
 
 export function SafeBackgroundVideo({
@@ -27,16 +29,37 @@ export function SafeBackgroundVideo({
   overlayClassName,
   fallbackClassName,
   objectPosition = "center",
+  preload = "metadata",
+  loadOnView = false,
 }: SafeBackgroundVideoProps) {
+  const rootRef = useRef<HTMLDivElement>(null);
+  const [inView, setInView] = useState(!loadOnView);
   const localSrc = src && !/^https?:\/\//i.test(src) ? src : null;
-  const showVideo = Boolean(localSrc);
+  const showVideo = Boolean(localSrc) && inView;
   const showPosterFallback = Boolean(poster);
   const showCustomFallback = Boolean(fallbackVisual) && (!showVideo || reducedMotionBehavior === "fallback" || !poster);
   const showGeneratedFallback = !showVideo && !showPosterFallback && !showCustomFallback && reducedMotionBehavior !== "none";
   const hideVideoForReducedMotion = reducedMotionBehavior === "poster" || reducedMotionBehavior === "fallback";
 
+  useEffect(() => {
+    if (!loadOnView || inView) return;
+    const node = rootRef.current;
+    if (!node) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting) {
+          setInView(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "240px" }
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [inView, loadOnView]);
+
   return (
-    <div className={cn("pointer-events-none absolute inset-0 overflow-hidden", className)} aria-hidden="true">
+    <div ref={rootRef} className={cn("pointer-events-none absolute inset-0 overflow-hidden", className)} aria-hidden="true">
       {showPosterFallback ? (
         <div
           className={cn(
@@ -68,7 +91,7 @@ export function SafeBackgroundVideo({
           autoPlay
           loop
           playsInline
-          preload="metadata"
+          preload={preload}
           style={{ objectPosition }}
         />
       ) : null}

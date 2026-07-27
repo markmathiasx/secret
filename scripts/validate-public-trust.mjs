@@ -4,6 +4,7 @@ import { createProjectRequire, ROOT, writeJson } from "./catalog/ts-runtime.mjs"
 
 const require = createProjectRequire();
 const { catalog } = require("@/lib/catalog");
+const { COMMERCIAL_STOREFRONT_CONFIG } = require("@/lib/commercial-catalog-policy");
 
 const publicRoots = ["app", "components", "lib"].map((root) => path.join(ROOT, root));
 const files = [];
@@ -30,6 +31,7 @@ const forbiddenTerms = [
 
 const errors = [];
 const matches = [];
+const expectedPublicProducts = Number(COMMERCIAL_STOREFRONT_CONFIG.maximumPublicProducts || 12);
 
 for (const file of files) {
   const relative = path.relative(ROOT, file).replaceAll("\\", "/");
@@ -60,12 +62,15 @@ if (!arcade.includes("Print Runner 3D")) errors.push("Print Runner ausente");
 if (!supportPage.includes("catálogo real") || !supportPage.includes("Central de Atendimento MDH 3D")) errors.push("/atendimento sem central de catalogo real");
 if (!layout.includes("Organization") || !layout.includes("WebSite")) errors.push("JSON-LD Organization/WebSite ausente");
 if (!sitemap.includes("/jogue") || !sitemap.includes("/atendimento")) errors.push("sitemap sem rotas criticas");
-if (catalog.length < 500) errors.push(`catalogo parece reduzido: ${catalog.length} produtos`);
+if (catalog.length !== expectedPublicProducts) {
+  errors.push(`catalogo publico fora da curadoria industrial: ${catalog.length}/${expectedPublicProducts} produtos`);
+}
 
 writeJson("reports/public-trust-validation-report.json", {
   generatedAt: new Date().toISOString(),
   ok: errors.length === 0,
   catalogProducts: catalog.length,
+  expectedPublicProducts,
   matches,
   errors,
 });

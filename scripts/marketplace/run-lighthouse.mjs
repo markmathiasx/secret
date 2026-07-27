@@ -14,7 +14,7 @@ const npxBin = process.platform === "win32" ? "npx.cmd" : "npx";
 const pages = [
   { key: "home", label: "home", path: "/" },
   { key: "category", label: "categoria", path: "/catalogo/categoria/geek-colecionaveis" },
-  { key: "product", label: "produto", path: "/produto/chaveiro-rubro-negro-3d" },
+  { key: "product", label: "produto", path: "/catalogo/mdh-016-chaveiro-3d-personalizado-com-nome-ou-logo" },
   { key: "catalog", label: "catalogo", path: "/catalogo" },
   { key: "checkout", label: "checkout", path: "/checkout" },
 ];

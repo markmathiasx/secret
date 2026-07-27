@@ -45,6 +45,8 @@ Se GTM, Meta Pixel ou TikTok Pixel ficarem vazios, o app nao deve carregar scrip
 - `NEXT_PUBLIC_MP_PUBLIC_KEY`
 - `MERCADOPAGO_WEBHOOK_SECRET`
 - `MERCADOPAGO_FALLBACK_EMAIL`
+- `EMAIL_PROVIDER=resend`
+- `RESEND_API_KEY`
 - `SMTP_HOST`
 - `SMTP_PORT`
 - `SMTP_USER`
@@ -53,6 +55,8 @@ Se GTM, Meta Pixel ou TikTok Pixel ficarem vazios, o app nao deve carregar scrip
 - `REDIS_URL` ou `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN`
 
 Sem credenciais reais de Mercado Pago, banco e email, o checkout avancado deve permanecer em fallback/sandbox e isso precisa aparecer no relatorio de execucao.
+
+Em Vercel Production, prefira `EMAIL_PROVIDER=resend`, `sendgrid` ou `mailgun`. SMTP so deve ser usado com host real; `localhost`, `127.0.0.1` e `0.0.0.0` bloqueiam readiness de producao.
 
 ## Validacao antes do deploy
 
@@ -68,4 +72,7 @@ npm run validate:db-storage
 npm run validate:private-routes
 npm run validate:public-regressions
 npm run security:scan-secrets
+npm run production:readiness
 ```
+
+`production:readiness` nao imprime valores de secrets. Ele verifica chaves presentes em variaveis de ambiente locais ou no arquivo ignorado `.vercel/.env.production.local`, confirma vinculo Vercel por `.vercel/project.json` ou `VERCEL_ORG_ID`/`VERCEL_PROJECT_ID`, valida CLI Supabase via npm e bloqueia deploy com placeholders, chaves de teste do Mercado Pago, `DATABASE_URL`/`DIRECT_URL` invalidas ou policies Supabase sem papel explicito.

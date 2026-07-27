@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-19T14:03:00.856Z",
+  "generatedAt": "2026-07-27T08:32:18.458Z",
   "ok": true,
   "results": [
     {
@@ -7,176 +7,164 @@
       "intent": "chaveiro",
       "products": [
         {
-          "name": "Tag Mochila Futebol de Mesa Copa 2026",
-          "pricePix": 13.49,
-          "priceCard": 14.49,
-          "url": "/loja/chaveiros-e-acessorios/copa-031-tag-mochila-futebol-de-mesa-copa-2026-copa-031"
+          "name": "Chaveiro 3D Personalizado com Nome ou Logo",
+          "pricePix": 29.9,
+          "priceCard": 30.9,
+          "url": "/catalogo/mdh-016-chaveiro-3d-personalizado-com-nome-ou-logo"
         },
         {
-          "name": "Tag Mochila Futebol Slim Copa 2026",
-          "pricePix": 13.52,
-          "priceCard": 14.52,
-          "url": "/loja/chaveiros-e-acessorios/copa-022-tag-mochila-futebol-slim-copa-2026-copa-022"
+          "name": "Nome 3D Personalizado de Mesa",
+          "pricePix": 94.9,
+          "priceCard": 95.9,
+          "url": "/catalogo/mdh-038-nome-3d-personalizado-de-mesa"
         },
         {
-          "name": "Tag Mochila Futebol Mini Copa 2026",
-          "pricePix": 14.42,
-          "priceCard": 15.42,
-          "url": "/loja/chaveiros-e-acessorios/copa-008-tag-mochila-futebol-mini-copa-2026-copa-008"
+          "name": "Luminária LED Personalizada para Nome, Frase ou Presente",
+          "pricePix": 129.9,
+          "priceCard": 130.9,
+          "url": "/catalogo/mdh-028-luminaria-led-personalizada-para-nome-frase-ou-presente"
         },
         {
-          "name": "Tag Mochila Futebol Mini Copa 2026",
-          "pricePix": 17,
-          "priceCard": 18,
-          "url": "/loja/chaveiros-e-acessorios/copa-013-tag-mochila-futebol-mini-copa-2026-copa-013"
+          "name": "Porta-Copos Geek para Mesa, Setup e Presente Criativo",
+          "pricePix": 39.9,
+          "priceCard": 40.9,
+          "url": "/catalogo/mdh-019-porta-copos-geek-para-mesa-setup-e-presente-criativo"
         },
         {
-          "name": "Tag Mochila Futebol Personalizado Copa 2026",
-          "pricePix": 19.38,
-          "priceCard": 20.38,
-          "url": "/loja/chaveiros-e-acessorios/copa-010-tag-mochila-futebol-personalizado-copa-2026-copa-010"
+          "name": "Foto Litofania Personalizada com Efeito de Luz",
+          "pricePix": 119.9,
+          "priceCard": 120.9,
+          "url": "/catalogo/mdh-029-foto-litofania-personalizada-com-efeito-de-luz"
         },
         {
-          "name": "Chaveiro Personalizado",
-          "pricePix": 7.14,
-          "priceCard": 8.14,
-          "url": "/loja/chaveiros-e-acessorios/mdh-016-chaveiro-personalizado"
+          "name": "Kit 6 Organizadores de Cabos para Mesa",
+          "pricePix": 39.9,
+          "priceCard": 40.9,
+          "url": "/catalogo/mdh-014-kit-6-organizadores-de-cabos-para-mesa"
         }
       ],
       "hasWhatsapp": false,
-      "replyPreview": "Encontrei opções reais de chaveiros e itens próximos no catálogo.\n\nFaixa desta seleção: R$ 7,14 a R$ 19,38 no Pix.\n\n- Tag Mochila Futebol de Mesa Copa 2026: Pix R$ 13,49; cartão R$ 14,49; prazo 2 a 5 dias uteis; link /loja/chaveiros-e-acess"
+      "replyPreview": "Encontrei opções reais de chaveiros e itens próximos no catálogo.\n\nFaixa desta seleção: R$ 29,90 a R$ 129,90 no Pix.\n\n- Chaveiro 3D Personalizado com Nome ou Logo: Pix R$ 29,90; cartão R$ 30,90; prazo 2 a 4 dias úteis; link /catalogo/mdh-01"
     },
     {
       "prompt": "presente barato",
       "intent": "presente_barato",
       "products": [
         {
-          "name": "Tag para Pet Compacto para rotina do pet",
-          "pricePix": 4.76,
-          "priceCard": 5.76,
-          "url": "/loja/chaveiros-e-acessorios/mw-a1-452-tag-para-pet-compacto-para-rotina-do-pet"
+          "name": "Chaveiro 3D Personalizado com Nome ou Logo",
+          "pricePix": 29.9,
+          "priceCard": 30.9,
+          "url": "/catalogo/mdh-016-chaveiro-3d-personalizado-com-nome-ou-logo"
         },
         {
-          "name": "Tag para Pet Dobrável para rotina do pet",
-          "pricePix": 4.76,
-          "priceCard": 5.76,
-          "url": "/loja/chaveiros-e-acessorios/mw-a1-455-tag-para-pet-dobravel-para-rotina-do-pet"
+          "name": "Porta-Copos Geek para Mesa, Setup e Presente Criativo",
+          "pricePix": 39.9,
+          "priceCard": 40.9,
+          "url": "/catalogo/mdh-019-porta-copos-geek-para-mesa-setup-e-presente-criativo"
         },
         {
-          "name": "Acessório Leve para Pet Modular para identificação",
-          "pricePix": 4.76,
-          "priceCard": 5.76,
-          "url": "/loja/casa-e-organizacao/mw-a1-451-acessorio-leve-para-pet-modular-para-identificacao"
+          "name": "Kit 6 Organizadores de Cabos para Mesa",
+          "pricePix": 39.9,
+          "priceCard": 40.9,
+          "url": "/catalogo/mdh-014-kit-6-organizadores-de-cabos-para-mesa"
         },
         {
-          "name": "Acessório Leve para Pet Ajustável para identificação",
-          "pricePix": 4.76,
-          "priceCard": 5.76,
-          "url": "/loja/casa-e-organizacao/mw-a1-454-acessorio-leve-para-pet-ajustavel-para-identificacao"
-        },
-        {
-          "name": "Acessório Leve para Pet de Bancada para identificação",
-          "pricePix": 4.76,
-          "priceCard": 5.76,
-          "url": "/loja/casa-e-organizacao/mw-a1-457-acessorio-leve-para-pet-de-bancada-para-identificacao"
-        },
-        {
-          "name": "Tag de Presente Compacto para lembrança afetiva",
-          "pricePix": 5.95,
-          "priceCard": 6.95,
-          "url": "/loja/chaveiros-e-acessorios/mw-a1-428-tag-de-presente-compacto-para-lembranca-afetiva"
+          "name": "Suporte de Mesa para Celular",
+          "pricePix": 39.9,
+          "priceCard": 40.9,
+          "url": "/catalogo/mdh-015-suporte-de-mesa-para-celular"
         }
       ],
       "hasWhatsapp": false,
-      "replyPreview": "Separei presentes reais até R$ 50, começando pelos menores preços.\n\nFaixa desta seleção: R$ 4,76 a R$ 5,95 no Pix.\n\n- Tag para Pet Compacto para rotina do pet: Pix R$ 4,76; cartão R$ 5,76; prazo 3 a 5 dias; link /loja/chaveiros-e-acessorios"
+      "replyPreview": "Separei presentes reais até R$ 50, começando pelos menores preços.\n\nFaixa desta seleção: R$ 29,90 a R$ 39,90 no Pix.\n\n- Chaveiro 3D Personalizado com Nome ou Logo: Pix R$ 29,90; cartão R$ 30,90; prazo 2 a 4 dias úteis; link /catalogo/mdh-01"
     },
     {
       "prompt": "geek",
       "intent": "geek",
       "products": [
         {
-          "name": "mascote elétrico tema geek Chibi",
-          "pricePix": 7.14,
-          "priceCard": 8.14,
-          "url": "/loja/geek-colecionaveis/mdh-067-mascote-eletrico-tema-geek-chibi"
+          "name": "Porta-Copos Geek para Mesa, Setup e Presente Criativo",
+          "pricePix": 39.9,
+          "priceCard": 40.9,
+          "url": "/catalogo/mdh-019-porta-copos-geek-para-mesa-setup-e-presente-criativo"
         },
         {
-          "name": "Pirata de Anime Chibi",
-          "pricePix": 8.33,
-          "priceCard": 9.33,
-          "url": "/loja/geek-colecionaveis/mdh-064-pirata-de-anime-chibi"
+          "name": "Suporte Universal de Mesa para Controle Gamer",
+          "pricePix": 59.9,
+          "priceCard": 60.9,
+          "url": "/catalogo/mdh-017-suporte-universal-de-mesa-para-controle-gamer"
         },
         {
-          "name": "Miniatura Geek com Divisórias para estante",
-          "pricePix": 7.14,
-          "priceCard": 8.14,
-          "url": "/loja/geek-colecionaveis/mw-a1-311-miniatura-geek-com-divisorias-para-estante"
+          "name": "Suporte de Mesa para Headphone",
+          "pricePix": 74.9,
+          "priceCard": 75.9,
+          "url": "/catalogo/mdh-013-suporte-de-mesa-para-headphone"
         },
         {
-          "name": "Colecionável de Mesa Slim para presente geek neutro",
-          "pricePix": 7.14,
-          "priceCard": 8.14,
-          "url": "/loja/geek-colecionaveis/mw-a1-313-colecionavel-de-mesa-slim-para-presente-geek-neutro"
+          "name": "Luminária LED Personalizada para Nome, Frase ou Presente",
+          "pricePix": 129.9,
+          "priceCard": 130.9,
+          "url": "/catalogo/mdh-028-luminaria-led-personalizada-para-nome-frase-ou-presente"
         },
         {
-          "name": "Miniatura Geek de Bancada para estante",
-          "pricePix": 7.14,
-          "priceCard": 8.14,
-          "url": "/loja/geek-colecionaveis/mw-a1-317-miniatura-geek-de-bancada-para-estante"
+          "name": "Suporte de Mesa para Celular",
+          "pricePix": 39.9,
+          "priceCard": 40.9,
+          "url": "/catalogo/mdh-015-suporte-de-mesa-para-celular"
         },
         {
-          "name": "Miniatura Geek Minimalista para estante",
-          "pricePix": 7.14,
-          "priceCard": 8.14,
-          "url": "/loja/geek-colecionaveis/mw-a1-320-miniatura-geek-minimalista-para-estante"
+          "name": "Nome 3D Personalizado de Mesa",
+          "pricePix": 94.9,
+          "priceCard": 95.9,
+          "url": "/catalogo/mdh-038-nome-3d-personalizado-de-mesa"
         }
       ],
       "hasWhatsapp": false,
-      "replyPreview": "Separei opções reais com perfil geek, colecionável ou fandom.\n\nFaixa desta seleção: R$ 7,14 a R$ 8,33 no Pix.\n\n- mascote elétrico tema geek Chibi: Pix R$ 7,14; cartão R$ 8,14; prazo 24h a 48h; link /loja/geek-colecionaveis/mdh-067-mascote-e"
+      "replyPreview": "Separei opções reais com perfil geek, colecionável ou fandom.\n\nFaixa desta seleção: R$ 39,90 a R$ 129,90 no Pix.\n\n- Porta-Copos Geek para Mesa, Setup e Presente Criativo: Pix R$ 39,90; cartão R$ 40,90; prazo 2 a 4 dias úteis; link /catalogo"
     },
     {
       "prompt": "organizador para setup",
       "intent": "organizador",
       "products": [
         {
-          "name": "Caixa Organizadora Gridfinity para mesa e gaveta",
-          "pricePix": 16.69,
-          "priceCard": 17.69,
-          "url": "/loja/casa-e-organizacao/mw-a1-097-caixa-organizadora-gridfinity-para-mesa-e-gaveta"
+          "name": "Organizador de Mesa para Canetas e Pequenos Objetos",
+          "pricePix": 69.9,
+          "priceCard": 70.9,
+          "url": "/catalogo/mdh-022-organizador-de-mesa-para-canetas-e-pequenos-objetos"
         },
         {
-          "name": "Caixa Organizadora Mini para mesa e gaveta",
-          "pricePix": 16.69,
-          "priceCard": 17.69,
-          "url": "/loja/casa-e-organizacao/mw-a1-100-caixa-organizadora-mini-para-mesa-e-gaveta"
+          "name": "Kit 6 Organizadores de Cabos para Mesa",
+          "pricePix": 39.9,
+          "priceCard": 40.9,
+          "url": "/catalogo/mdh-014-kit-6-organizadores-de-cabos-para-mesa"
         },
         {
-          "name": "Caixa Organizadora Mini para mesa e gaveta com uso intuitivo",
-          "pricePix": 16.69,
-          "priceCard": 17.69,
-          "url": "/loja/casa-e-organizacao/mw-a1-103-caixa-organizadora-mini-para-mesa-e-gaveta-com-uso-intuitivo"
+          "name": "Caixa Organizadora Modular com Tampa",
+          "pricePix": 99.9,
+          "priceCard": 100.9,
+          "url": "/catalogo/mdh-053-caixa-organizadora-modular-com-tampa"
         },
         {
-          "name": "Caixa Organizadora Empilhável para mesa e gaveta",
-          "pricePix": 16.69,
-          "priceCard": 17.69,
-          "url": "/loja/casa-e-organizacao/mw-a1-106-caixa-organizadora-empilhavel-para-mesa-e-gaveta"
+          "name": "Porta-Copos Geek para Mesa, Setup e Presente Criativo",
+          "pricePix": 39.9,
+          "priceCard": 40.9,
+          "url": "/catalogo/mdh-019-porta-copos-geek-para-mesa-setup-e-presente-criativo"
         },
         {
-          "name": "Caixa Organizadora Gridfinity para mesa e gaveta com corpo reforçado",
-          "pricePix": 16.69,
-          "priceCard": 17.69,
-          "url": "/loja/casa-e-organizacao/mw-a1-109-caixa-organizadora-gridfinity-para-mesa-e-gaveta-com-corpo-reforcado"
+          "name": "Suporte Universal de Mesa para Controle Gamer",
+          "pricePix": 59.9,
+          "priceCard": 60.9,
+          "url": "/catalogo/mdh-017-suporte-universal-de-mesa-para-controle-gamer"
         },
         {
-          "name": "Caixa Organizadora com Pegada Prática para mesa e gaveta",
-          "pricePix": 16.69,
-          "priceCard": 17.69,
-          "url": "/loja/casa-e-organizacao/mw-a1-112-caixa-organizadora-com-pegada-pratica-para-mesa-e-gaveta"
+          "name": "Suporte de Mesa para Headphone",
+          "pricePix": 74.9,
+          "priceCard": 75.9,
+          "url": "/catalogo/mdh-013-suporte-de-mesa-para-headphone"
         }
       ],
       "hasWhatsapp": false,
-      "replyPreview": "Separei utilidades reais para setup, mesa e organização.\n\nFaixa desta seleção: R$ 16,69 a R$ 16,69 no Pix.\n\n- Caixa Organizadora Gridfinity para mesa e gaveta: Pix R$ 16,69; cartão R$ 17,69; prazo 3 a 5 dias; link /loja/casa-e-organizacao/m"
+      "replyPreview": "Separei utilidades reais para setup, mesa e organização.\n\nFaixa desta seleção: R$ 39,90 a R$ 99,90 no Pix.\n\n- Organizador de Mesa para Canetas e Pequenos Objetos: Pix R$ 69,90; cartão R$ 70,90; prazo 3 a 5 dias úteis; link /catalogo/mdh-022"
     },
     {
       "prompt": "quanto custa no cartão?",
@@ -190,40 +178,40 @@
       "intent": "personalizado",
       "products": [
         {
-          "name": "Nome 3D Personalizado",
-          "pricePix": 23.86,
-          "priceCard": 24.86,
-          "url": "/loja/presentes-personalizados/mdh-038-nome-3d-personalizado"
+          "name": "Chaveiro 3D Personalizado com Nome ou Logo",
+          "pricePix": 29.9,
+          "priceCard": 30.9,
+          "url": "/catalogo/mdh-016-chaveiro-3d-personalizado-com-nome-ou-logo"
         },
         {
-          "name": "Nome 3D Personalizado Modular para quarto e porta",
-          "pricePix": 5.95,
-          "priceCard": 6.95,
-          "url": "/loja/presentes-personalizados/mw-a1-391-nome-3d-personalizado-modular-para-quarto-e-porta"
+          "name": "Nome 3D Personalizado de Mesa",
+          "pricePix": 94.9,
+          "priceCard": 95.9,
+          "url": "/catalogo/mdh-038-nome-3d-personalizado-de-mesa"
         },
         {
-          "name": "Placa de Nome de Mesa para presente personalizado",
-          "pricePix": 5.95,
-          "priceCard": 6.95,
-          "url": "/loja/presentes-personalizados/mw-a1-398-placa-de-nome-de-mesa-para-presente-personalizado"
+          "name": "Luminária LED Personalizada para Nome, Frase ou Presente",
+          "pricePix": 129.9,
+          "priceCard": 130.9,
+          "url": "/catalogo/mdh-028-luminaria-led-personalizada-para-nome-frase-ou-presente"
         },
         {
-          "name": "Placa de Nome Multiuso para presente personalizado",
-          "pricePix": 7.14,
-          "priceCard": 8.14,
-          "url": "/loja/presentes-personalizados/mw-a1-401-placa-de-nome-multiuso-para-presente-personalizado"
+          "name": "Foto Litofania Personalizada com Efeito de Luz",
+          "pricePix": 119.9,
+          "priceCard": 120.9,
+          "url": "/catalogo/mdh-029-foto-litofania-personalizada-com-efeito-de-luz"
         },
         {
-          "name": "Nome 3D Personalizado de Mesa para quarto e porta",
-          "pricePix": 9.52,
-          "priceCard": 10.52,
-          "url": "/loja/presentes-personalizados/mw-a1-394-nome-3d-personalizado-de-mesa-para-quarto-e-porta"
+          "name": "Porta-Copos Geek para Mesa, Setup e Presente Criativo",
+          "pricePix": 39.9,
+          "priceCard": 40.9,
+          "url": "/catalogo/mdh-019-porta-copos-geek-para-mesa-setup-e-presente-criativo"
         },
         {
-          "name": "Nome 3D Personalizado de Bancada para quarto e porta",
-          "pricePix": 9.52,
-          "priceCard": 10.52,
-          "url": "/loja/presentes-personalizados/mw-a1-397-nome-3d-personalizado-de-bancada-para-quarto-e-porta"
+          "name": "Caixa Organizadora Modular com Tampa",
+          "pricePix": 99.9,
+          "priceCard": 100.9,
+          "url": "/catalogo/mdh-053-caixa-organizadora-modular-com-tampa"
         }
       ],
       "hasWhatsapp": true,

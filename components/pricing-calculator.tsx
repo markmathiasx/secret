@@ -1,8 +1,11 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { calculateBaseCost, calculateSalePrice, type PaymentMethod, type SalesChannel } from "@/lib/catalog";
+import { calculateBaseCost, calculateSalePrice } from "@/lib/pricing-engine";
 import { formatCurrency } from "@/lib/utils";
+
+type PaymentMethod = "pix" | "cartao" | "boleto";
+type SalesChannel = "site" | "mercadolivre" | "shopee" | "whatsapp";
 
 export function PricingCalculator() {
   const [grams, setGrams] = useState(110);

@@ -2,6 +2,7 @@ import { getProductUrl, type Product } from "@/lib/catalog";
 import type { SmartStoreProduct } from "@/lib/mdh-store/products";
 import { buildProductPagePath } from "@/lib/mdh-store/links";
 import { calculateCardPrice, normalizeMoney } from "@/lib/payment-pricing";
+import { getProductAvailabilityMode, getPublicAvailabilityLabel, getPublicStockQuantity } from "@/lib/product-availability";
 import { slugify } from "@/lib/utils";
 import type { ProductMasterRecord } from "./types";
 
@@ -11,11 +12,11 @@ function cleanText(value: unknown) {
   return String(value ?? "").replace(/\s+/g, " ").trim();
 }
 
-function normalizeStatus(value: unknown, stock: number): ProductMasterRecord["status"] {
-  const text = cleanText(value);
-  if (/pronta entrega/i.test(text)) return "Pronta entrega";
-  if (stock <= 0 && /indispon/i.test(text)) return "Indisponivel";
-  return "Sob encomenda";
+function normalizeStatus(product: Pick<ProductMasterRecord, "availabilityMode"> & { status?: string | null }) {
+  const availabilityLabel = getPublicAvailabilityLabel(product);
+  if (availabilityLabel === "Pronta entrega") return "Pronta entrega";
+  if (availabilityLabel === "Sob encomenda") return "Sob encomenda";
+  return "Indisponivel";
 }
 
 function compactImages(values: Array<string | undefined>) {
@@ -38,6 +39,7 @@ export function normalizePublicCatalogProduct(product: Product): ProductMasterRe
   const images = compactImages([product.image, ...(product.images || [])]);
   const slug = product.slug || slugify(product.name);
   const productUrl = getProductUrl({ ...product, slug });
+  const availabilityMode = getProductAvailabilityMode(product);
 
   return {
     id: product.id,
@@ -50,8 +52,9 @@ export function normalizePublicCatalogProduct(product: Product): ProductMasterRe
     tags: Array.from(new Set(product.tags || [])),
     pricePix,
     priceCard: calculateCardPrice(pricePix),
-    stock: Math.max(0, Number(product.stock || 0)),
-    status: normalizeStatus(product.status, product.stock || 0),
+    stock: getPublicStockQuantity({ ...product, availabilityMode }),
+    availabilityMode,
+    status: normalizeStatus({ availabilityMode, status: product.status }),
     productionWindow: cleanText(product.productionWindow || product.printTime || "2 a 5 dias uteis"),
     dimensions: { label: cleanText(product.dimensions) },
     weightKg: product.grams ? Number((product.grams / 1000).toFixed(3)) : undefined,
@@ -68,6 +71,7 @@ export function normalizePublicCatalogProduct(product: Product): ProductMasterRe
 export function normalizeSmartStoreProduct(product: SmartStoreProduct): ProductMasterRecord {
   const pricePix = normalizeMoney(product.pixPrice);
   const images = compactImages([product.image, ...(product.gallery || [])]);
+  const availabilityMode: ProductMasterRecord["availabilityMode"] = product.stock > 0 ? "in_stock" : "out_of_stock";
 
   return {
     id: product.slug,
@@ -80,6 +84,7 @@ export function normalizeSmartStoreProduct(product: SmartStoreProduct): ProductM
     pricePix,
     priceCard: calculateCardPrice(pricePix),
     stock: Math.max(0, Number(product.stock || 0)),
+    availabilityMode,
     status: product.stock > 0 ? "Sob encomenda" : "Indisponivel",
     productionWindow: cleanText(product.productionWindow || "2 a 5 dias uteis"),
     dimensions: product.dimensions,

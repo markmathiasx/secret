@@ -73,12 +73,12 @@ export function buildSupportCatalogIndex() {
 function intentTerms(intent?: SupportIntent) {
   switch (intent) {
     case "chaveiro":
-      return ["chaveiro", "keychain", "pingente", "tag", "lembrancinha"];
+      return ["chaveiro", "keychain", "pingente", "tag", "lembrancinha", "brinde", "presente", "personalizado", "nome", "logo", "lote"];
     case "presente":
     case "presente_barato":
       return ["presente", "gift", "lembranca", "criativo", "kawaii"];
     case "geek":
-      return ["geek", "anime", "colecionavel", "colecionaveis", "chibi", "miniatura", "fandom", "desk toy"];
+      return ["geek", "anime", "colecionavel", "colecionaveis", "chibi", "miniatura", "fandom", "desk toy", "setup", "gamer", "porta copos", "controle", "headphone", "presente"];
     case "decoracao":
       return ["decoracao", "decor", "casa", "vaso", "luminaria", "parede", "porta copos"];
     case "setup":

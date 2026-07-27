@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { CatalogGrid } from "@/components/catalog-grid";
-import { getProductUrl, type Product } from "@/lib/catalog";
+import type { Product } from "@/lib/catalog";
+import { getProductUrl } from "@/lib/product-routing";
 import { getCatalogSnapshot } from "@/lib/catalog-repository";
 import { isProductVisualVerified } from "@/lib/product-visuals";
 
@@ -43,7 +44,7 @@ export async function ProductRelatedShelf({ product }: { product: Product }) {
         </Link>
       </div>
 
-      <CatalogGrid products={related} />
+      <CatalogGrid products={related} prioritizeFirstImages={false} />
     </section>
   );
 }

@@ -37,6 +37,11 @@ export type AdminProductOverride = {
   postProcessMinutes?: number;
   laborHourlyRate?: number;
   packagingCost?: number;
+  hardwareCost?: number;
+  retailPackagingCost?: number;
+  shippingSuppliesCost?: number;
+  failureReservePercent?: number;
+  designSetupCost?: number;
   overheadPercent?: number;
   profitMode?: ProfitMode;
   profitTargetPercent?: number;

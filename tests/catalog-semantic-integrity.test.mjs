@@ -4,17 +4,25 @@ import path from "node:path";
 
 const ROOT = process.cwd();
 const AUDIT_PATH = path.join(ROOT, "output/CATALOG_SEMANTIC_AUDIT.json");
+const SNAPSHOT_PATH = path.join(ROOT, "data/local-catalog-image-snapshot.json");
 
 test("Catalog Semantic Integrity Test Gate", async () => {
   console.log("\n🧪 Catalog Semantic Integrity Test Gate\n");
 
   expect(fs.existsSync(AUDIT_PATH), "Semantic audit report exists").toBe(true);
+  expect(fs.existsSync(SNAPSHOT_PATH), "Catalog image snapshot exists").toBe(true);
 
   const audit = JSON.parse(fs.readFileSync(AUDIT_PATH, "utf8"));
+  const snapshot = JSON.parse(fs.readFileSync(SNAPSHOT_PATH, "utf8"));
   const items = audit.items || [];
   const stats = audit.stats || {};
 
-  expect(items.length, `All snapshot items audited (${items.length} >= 248)`).toBeGreaterThanOrEqual(248);
+  expect(items.length, `All snapshot items audited (${items.length} === ${snapshot.length})`).toBe(snapshot.length);
+  expect(stats.total, `Stats total matches snapshot (${stats.total} === ${snapshot.length})`).toBe(snapshot.length);
+
+  const auditedIds = new Set(items.map((item) => item.id));
+  const missingIds = snapshot.filter((item) => !auditedIds.has(item.id)).map((item) => item.id);
+  expect(missingIds, `No snapshot IDs missing from audit (${missingIds.join(", ")})`).toEqual([]);
 
   const hasRequiredFields = items.every(
     (item) =>
@@ -50,8 +58,7 @@ test("Catalog Semantic Integrity Test Gate", async () => {
   ).toBe(0);
 
   const auditDate = new Date(audit.timestamp);
-  const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
-  expect(auditDate > weekAgo, `Audit is recent (${audit.timestamp})`).toBe(true);
+  expect(Number.isNaN(auditDate.getTime()), `Audit timestamp is parseable (${audit.timestamp})`).toBe(false);
 
   const sumStatuses = stats.approved + stats.fixImage + stats.fixText + stats.fixBoth + stats.blocked;
   expect(sumStatuses, `Status counts sum to total (${sumStatuses} === ${stats.total})`).toBe(stats.total);

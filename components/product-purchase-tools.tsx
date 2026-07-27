@@ -10,8 +10,17 @@ import { formatCurrency } from "@/lib/utils";
 import { PurchaseProtectionBanner } from "@/components/purchase-protection-banner";
 
 const PURCHASE_MEMORY_PREFIX = "mdh:product-config:";
-const GOAL_OPTIONS = ["Uso próprio", "Presente", "Lote", "Revenda"] as const;
+const GOAL_OPTIONS = ["Uso proprio", "Presente", "Lote", "Revenda"] as const;
 type PurchaseGoal = (typeof GOAL_OPTIONS)[number];
+
+type PurchaseMemory = {
+  quantity?: number;
+  goal?: PurchaseGoal;
+  selectedMaterial?: string;
+  selectedColor?: string;
+  selectedPrazo?: "normal" | "prioritario" | "express";
+  briefing?: string;
+};
 
 export function ProductPurchaseTools({
   productId,
@@ -26,6 +35,7 @@ export function ProductPurchaseTools({
   customizable,
   whatsappHref,
   customizationHref,
+  cardCheckoutReady,
 }: {
   productId: string;
   productName: string;
@@ -43,10 +53,11 @@ export function ProductPurchaseTools({
   cardCheckoutReady: boolean;
 }) {
   const [quantity, setQuantity] = useState(1);
-  const [goal, setGoal] = useState<PurchaseGoal>("Uso próprio");
+  const [goal, setGoal] = useState<PurchaseGoal>("Uso proprio");
   const [selectedMaterial, setSelectedMaterial] = useState(material || "PLA Premium");
   const [selectedColor, setSelectedColor] = useState(colors?.[0] || "Branco");
   const [selectedPrazo, setSelectedPrazo] = useState<"normal" | "prioritario" | "express">("normal");
+  const [briefing, setBriefing] = useState("");
   const [configuredPrice, setConfiguredPrice] = useState<{
     unitPix: number;
     unitCard: number;
@@ -56,7 +67,9 @@ export function ProductPurchaseTools({
   } | null>(null);
   const [copied, setCopied] = useState<"idle" | "sku" | "link">("idle");
   const [cartMessage, setCartMessage] = useState("");
+  const [validationMessage, setValidationMessage] = useState("");
   const [memoryReady, setMemoryReady] = useState(false);
+
   const unitPix = configuredPrice?.unitPix ?? pricePix;
   const unitCard = configuredPrice?.unitCard ?? calculateCardPrice(pricePix);
   const totalPix = useMemo(() => unitPix * quantity, [quantity, unitPix]);
@@ -64,40 +77,71 @@ export function ProductPurchaseTools({
   const quickQuantities = [1, 2, 5, 10];
   const materialOptions = Array.from(new Set([material || "PLA Premium", "PLA Silk", "PETG", "ABS"].filter(Boolean)));
   const colorOptions = Array.from(new Set([...(colors?.length ? colors : ["Branco", "Preto", "Cinza"]), "Preto", "Branco"].filter(Boolean)));
-  const checkoutHref = useMemo(
-    () => "/checkout",
-    []
-  );
+  const checkoutHref = "/checkout";
+  const priceDelta = unitPix - pricePix;
+
   const contextualWhatsappHref = useMemo(() => {
     try {
       const url = new URL(whatsappHref);
       const current = url.searchParams.get("text") || "";
-      const nextMessage = `${current}\nQuantidade desejada: ${quantity}\nPix: ${formatCurrency(unitPix)}\nCartão + R$ 1: ${formatCurrency(unitCard)}\nObjetivo: ${goal}.`.trim();
+      const nextMessage = [
+        current,
+        `Quantidade desejada: ${quantity}`,
+        `Pix: ${formatCurrency(unitPix)}`,
+        cardCheckoutReady ? `Cartao + R$ 1: ${formatCurrency(unitCard)}` : "Cartao sujeito a confirmacao operacional",
+        `Objetivo: ${goal}`,
+        `Material: ${selectedMaterial}`,
+        `Cor: ${selectedColor}`,
+        `Prazo: ${selectedPrazo}`,
+        briefing.trim() ? `Briefing: ${briefing.trim()}` : "",
+      ]
+        .filter(Boolean)
+        .join("\n")
+        .trim();
       url.searchParams.set("text", nextMessage);
       return url.toString();
     } catch {
       return whatsappHref;
     }
-  }, [goal, quantity, unitCard, unitPix, whatsappHref]);
+  }, [briefing, cardCheckoutReady, goal, quantity, selectedColor, selectedMaterial, selectedPrazo, unitCard, unitPix, whatsappHref]);
+
   const goalNote = useMemo(() => {
-    if (goal === "Presente") return "Boa rota para quem quer validar acabamento, prazo e apresentação antes de fechar.";
-    if (goal === "Lote") return "Vale subir quantidade e seguir no WhatsApp para condição comercial e repetição do pedido.";
-    if (goal === "Revenda") return "Ajuda a olhar ticket, margem e constância do item antes de ampliar compra.";
-    return "Fluxo enxuto para quem já quer sair do produto direto para o checkout.";
+    if (goal === "Presente") return "Boa rota para validar acabamento, prazo e apresentacao antes de fechar.";
+    if (goal === "Lote") return "Vale subir quantidade e seguir no WhatsApp para condicao comercial e repeticao do pedido.";
+    if (goal === "Revenda") return "Ajuda a olhar ticket, margem e constancia do item antes de ampliar compra.";
+    return "Fluxo enxuto para quem ja quer sair do produto direto para o checkout.";
   }, [goal]);
+
+  const briefingHint = useMemo(() => {
+    if (goal === "Lote") return "Informe logo, volume esperado, evento e variacoes por lote.";
+    if (goal === "Presente") return "Informe nome, frase, data, cor ou contexto de entrega.";
+    return "Descreva o que precisa mudar: nome, cor, tema, escala, medida ou acabamento.";
+  }, [goal]);
+
+  const priceDeltaLabel = useMemo(() => {
+    if (Math.abs(priceDelta) < 0.01) return "Sem impacto de preco nesta configuracao.";
+    if (priceDelta > 0) {
+      return `Configuracao atual soma ${formatCurrency(priceDelta)} por unidade sobre o Pix base.`;
+    }
+    return `Configuracao atual reduz ${formatCurrency(Math.abs(priceDelta))} por unidade sobre o Pix base.`;
+  }, [priceDelta]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
     try {
       const raw = window.localStorage.getItem(`${PURCHASE_MEMORY_PREFIX}${productId}`);
       if (raw) {
-        const parsed = JSON.parse(raw) as { quantity?: number; goal?: PurchaseGoal };
+        const parsed = JSON.parse(raw) as PurchaseMemory;
         if (Number.isFinite(parsed.quantity) && parsed.quantity && parsed.quantity >= 1 && parsed.quantity <= 20) {
           setQuantity(parsed.quantity);
         }
         if (parsed.goal && GOAL_OPTIONS.includes(parsed.goal)) {
           setGoal(parsed.goal);
         }
+        if (parsed.selectedMaterial) setSelectedMaterial(parsed.selectedMaterial);
+        if (parsed.selectedColor) setSelectedColor(parsed.selectedColor);
+        if (parsed.selectedPrazo) setSelectedPrazo(parsed.selectedPrazo);
+        if (parsed.briefing) setBriefing(parsed.briefing);
       }
     } catch {}
     setMemoryReady(true);
@@ -105,11 +149,16 @@ export function ProductPurchaseTools({
 
   useEffect(() => {
     if (typeof window === "undefined" || !memoryReady) return;
-    window.localStorage.setItem(
-      `${PURCHASE_MEMORY_PREFIX}${productId}`,
-      JSON.stringify({ quantity, goal })
-    );
-  }, [goal, memoryReady, productId, quantity]);
+    const payload: PurchaseMemory = {
+      quantity,
+      goal,
+      selectedMaterial,
+      selectedColor,
+      selectedPrazo,
+      briefing,
+    };
+    window.localStorage.setItem(`${PURCHASE_MEMORY_PREFIX}${productId}`, JSON.stringify(payload));
+  }, [briefing, goal, memoryReady, productId, quantity, selectedColor, selectedMaterial, selectedPrazo]);
 
   useEffect(() => {
     let active = true;
@@ -173,6 +222,14 @@ export function ProductPurchaseTools({
   }
 
   async function addToCart(redirectToCheckout = false) {
+    const normalizedBriefing = briefing.trim();
+    if (normalizedBriefing && normalizedBriefing.length < 8) {
+      setValidationMessage("Se for enviar briefing, escreva pelo menos 8 caracteres para evitar pedido ambiguo.");
+      return;
+    }
+
+    setValidationMessage("");
+
     const analyticsProduct = {
       id: productId,
       sku,
@@ -182,6 +239,15 @@ export function ProductPurchaseTools({
     };
     trackAddToCart(analyticsProduct, quantity);
 
+    const personalizationSummary = [
+      `Material: ${selectedMaterial}`,
+      `Cor: ${selectedColor}`,
+      `Prazo: ${selectedPrazo}`,
+      normalizedBriefing ? `Briefing: ${normalizedBriefing}` : "",
+    ]
+      .filter(Boolean)
+      .join("; ");
+
     addLocalCartItem({
       productId,
       quantity,
@@ -189,7 +255,7 @@ export function ProductPurchaseTools({
       pricePix: unitPix,
       priceCard: unitCard,
       image: productImage,
-      personalizationText: `Material: ${selectedMaterial}; Cor: ${selectedColor}; Prazo: ${selectedPrazo}`,
+      personalizationText: personalizationSummary,
     });
 
     await fetch("/api/cart", {
@@ -200,6 +266,7 @@ export function ProductPurchaseTools({
       body: JSON.stringify({
         productId,
         quantity,
+        personalizationText: personalizationSummary,
       }),
     }).catch(() => null);
 
@@ -242,7 +309,7 @@ export function ProductPurchaseTools({
       </div>
 
       <div className="mt-4">
-        <p className="text-xs uppercase tracking-[0.16em] text-white/45">Configuração</p>
+        <p className="text-xs uppercase tracking-[0.16em] text-white/45">Configuracao</p>
         <div className="mt-2 grid gap-3 sm:grid-cols-3">
           <label className="grid gap-2">
             <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-white/45">Material</span>
@@ -276,7 +343,7 @@ export function ProductPurchaseTools({
               className="rounded-[16px] border border-white/10 bg-black/25 px-3 py-3 text-sm text-white outline-none"
             >
               <option value="normal">Normal</option>
-              <option value="prioritario">Prioritário</option>
+              <option value="prioritario">Prioritario</option>
               <option value="express">Express</option>
             </select>
           </label>
@@ -302,6 +369,35 @@ export function ProductPurchaseTools({
           ))}
         </div>
       </div>
+
+      {customizable ? (
+        <div className="mt-4 rounded-[20px] border border-white/10 bg-black/20 p-4">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <p className="text-xs uppercase tracking-[0.16em] text-white/45">Briefing da personalizacao</p>
+              <p className="mt-2 text-sm leading-6 text-white/70">{briefingHint}</p>
+            </div>
+            <Link href="/imagem-para-impressao-3d" className="rounded-full border border-cyan-300/25 bg-cyan-300/10 px-3 py-2 text-xs font-semibold text-cyan-100 transition hover:border-cyan-300/35 hover:bg-cyan-300/15">
+              Enviar arquivo protegido
+            </Link>
+          </div>
+          <label className="mt-4 block">
+            <span className="sr-only">Briefing da personalizacao</span>
+            <textarea
+              value={briefing}
+              onChange={(event) => setBriefing(event.target.value)}
+              rows={4}
+              maxLength={280}
+              className="w-full rounded-[18px] border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none transition focus:border-cyan-300/35"
+              placeholder="Ex.: nome Lucas em branco com base preta, logo centralizado, entrega para evento em 15 dias."
+            />
+          </label>
+          <div className="mt-2 flex flex-wrap items-center justify-between gap-2 text-xs text-white/48">
+            <span>Preview final so e prometido quando a tecnica realmente sustenta isso.</span>
+            <span>{briefing.length}/280</span>
+          </div>
+        </div>
+      ) : null}
 
       <div className="mt-4 flex items-center gap-3">
         <button
@@ -332,21 +428,29 @@ export function ProductPurchaseTools({
           <p className="mt-2 text-2xl font-black text-white">{formatCurrency(totalPix)}</p>
         </div>
         <div className="rounded-[20px] border border-white/10 bg-white/5 p-4">
-          <p className="text-xs uppercase tracking-[0.16em] text-white/50">Total no cartão</p>
+          <p className="text-xs uppercase tracking-[0.16em] text-white/50">Total no cartao</p>
           <p className="mt-2 text-2xl font-black text-white">{formatCurrency(totalCard)}</p>
-          <p className="mt-1 text-xs text-white/55">Cada produto fica R$ 1,00 acima do Pix.</p>
+          <p className="mt-1 text-xs text-white/55">
+            {cardCheckoutReady ? "Cada produto fica R$ 1,00 acima do Pix." : "Cartao depende de confirmacao operacional."}
+          </p>
         </div>
+      </div>
+
+      <div className="mt-4 rounded-[20px] border border-white/10 bg-black/20 p-4 text-sm leading-7 text-white/68">
+        <p className="text-xs uppercase tracking-[0.16em] text-white/45">Impacto desta configuracao</p>
+        <p className="mt-2 text-white">{priceDeltaLabel}</p>
+        <p className="mt-1 text-white/58">Janela atual estimada: {configuredPrice?.productionWindow || productionWindow}.</p>
       </div>
 
       <div className="mt-4 grid gap-3 sm:grid-cols-2">
         <div className="rounded-[20px] border border-white/10 bg-black/20 p-4 text-sm text-white/72">
-          <p className="text-xs uppercase tracking-[0.16em] text-white/45">Prazo de produção</p>
+          <p className="text-xs uppercase tracking-[0.16em] text-white/45">Prazo de producao</p>
           <p className="mt-2 font-semibold text-white">{configuredPrice?.productionWindow || productionWindow}</p>
         </div>
         <div className="rounded-[20px] border border-white/10 bg-black/20 p-4 text-sm text-white/72">
           <p className="text-xs uppercase tracking-[0.16em] text-white/45">Entrega estimada</p>
           <p className="mt-2 font-semibold text-white">
-            {readyToShip ? "Pronta entrega quando houver estoque" : "Frete e prazo final são calculados no checkout"}
+            {readyToShip ? "Pronta entrega quando houver estoque" : "Frete e prazo final sao calculados no checkout"}
           </p>
         </div>
       </div>
@@ -366,6 +470,11 @@ export function ProductPurchaseTools({
       {cartMessage ? (
         <div className="mt-4 rounded-[18px] border border-emerald-300/20 bg-emerald-300/10 px-4 py-3 text-sm text-emerald-50">
           {cartMessage}
+        </div>
+      ) : null}
+      {validationMessage ? (
+        <div className="mt-4 rounded-[18px] border border-amber-300/20 bg-amber-300/10 px-4 py-3 text-sm text-amber-50">
+          {validationMessage}
         </div>
       ) : null}
 
@@ -396,7 +505,11 @@ export function ProductPurchaseTools({
           {copied === "link" ? <Check className="h-4 w-4" /> : <Share2 className="h-4 w-4" />}
           {copied === "link" ? "Link copiado" : "Compartilhar item"}
         </button>
-        <Link href={checkoutHref} onClick={() => trackBeginCheckout({ id: productId, sku, name: productName, pricePix: unitPix, priceCard: unitCard }, quantity, totalPix)} className="btn-glass justify-center">
+        <Link
+          href={checkoutHref}
+          onClick={() => trackBeginCheckout({ id: productId, sku, name: productName, pricePix: unitPix, priceCard: unitCard }, quantity, totalPix)}
+          className="btn-glass justify-center"
+        >
           Ir para checkout
         </Link>
       </div>

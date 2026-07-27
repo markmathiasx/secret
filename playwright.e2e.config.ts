@@ -1,7 +1,19 @@
 import { defineConfig, devices } from "@playwright/test";
+import { existsSync } from "node:fs";
 
 const BASE_URL = process.env.BASE_URL || process.env.SMOKE_BASE_URL || "http://localhost:3000";
-const useSystemChrome = process.env.PLAYWRIGHT_USE_SYSTEM_CHROME === "1";
+const systemChromePath = [
+  process.env.CHROME_PATH,
+  "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
+  "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+  "/usr/bin/google-chrome",
+  "/usr/bin/chromium-browser",
+  "/usr/bin/chromium",
+].filter(Boolean).find((candidate) => existsSync(candidate));
+const useSystemChrome =
+  process.env.PLAYWRIGHT_USE_SYSTEM_CHROME === "1" ||
+  (process.env.PLAYWRIGHT_USE_SYSTEM_CHROME !== "0" && Boolean(systemChromePath));
 
 export default defineConfig({
   testDir: "./e2e",

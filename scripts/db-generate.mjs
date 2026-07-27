@@ -1,8 +1,7 @@
 import { spawnSync } from "node:child_process";
 
-const result = spawnSync("npx", ["prisma", "generate"], {
+const result = spawnSync(process.execPath, ["scripts/prisma-local-cli.mjs", "generate"], {
   stdio: "inherit",
-  shell: true,
 });
 
 process.exit(result.status ?? 1);

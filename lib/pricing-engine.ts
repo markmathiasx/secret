@@ -47,7 +47,7 @@ export const CARD_MULTIPLIER = 1;
 export const BOLETO_MULTIPLIER = 1.08;
 export const MARKETPLACE_PRICE_MULTIPLIER = 1.15;
 export const REFERENCE_PRICE_MULTIPLIER = 1.18;
-export const FIXED_MARGIN_BADGE_LABEL = "Custo + 30%";
+export const FIXED_MARGIN_BADGE_LABEL = "Margem bruta mínima de 30%";
 export const LOCAL_PRODUCTION_BADGE_LABEL = "Atendimento direto";
 export const MIN_SITE_PRICE_PIX = 0.01;
 export const DEFAULT_SPOOL_PRICE_PER_KG = 100;
@@ -390,5 +390,5 @@ export function generatePricingCacheKey(slug: string, options: DynamicPricingOpt
 }
 
 export function buildFixedMarginNarrative(_costBase: number, pricePix: number) {
-  return `Pix ${pricePix.toFixed(2).replace(".", ",")} calculado com material, tempo de producao, acabamento e lucro de 30% estimados.`;
+  return `Pix ${pricePix.toFixed(2).replace(".", ",")} protegido por custo completo: material, máquina, acabamento, ferragens, embalagem e insumos de envio, reserva para falhas, despesas indiretas e margem bruta mínima de 30%. Frete real separado.`;
 }

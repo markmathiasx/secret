@@ -1,7 +1,7 @@
 {
   "config": {
-    "configFile": "M:\\LOJA\\mdh-prod-deploy\\playwright.config.ts",
-    "rootDir": "M:/LOJA/mdh-prod-deploy/tests",
+    "configFile": "M:\\LOJA\\.mdh3d-industrial-v62-worktree-20260727-005340\\playwright.config.ts",
+    "rootDir": "M:/LOJA/.mdh3d-industrial-v62-worktree-20260727-005340/tests",
     "forbidOnly": false,
     "fullyParallel": false,
     "globalSetup": null,
@@ -16,7 +16,7 @@
     "preserveOutput": "always",
     "projects": [
       {
-        "outputDir": "M:/LOJA/mdh-prod-deploy/test-results",
+        "outputDir": "M:/LOJA/.mdh3d-industrial-v62-worktree-20260727-005340/test-results",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
@@ -24,7 +24,7 @@
         },
         "id": "chromium",
         "name": "chromium",
-        "testDir": "M:/LOJA/mdh-prod-deploy/tests",
+        "testDir": "M:/LOJA/.mdh3d-industrial-v62-worktree-20260727-005340/tests",
         "testIgnore": [],
         "testMatch": [
           "**/*.@(spec|test).?(c|m)[jt]s?(x)"
@@ -56,10 +56,11 @@
     "version": "1.59.1",
     "workers": 1,
     "webServer": {
-      "command": "npm run start",
-      "url": "http://127.0.0.1:3019",
+      "command": "cmd.exe /d /s /c npm run start",
+      "url": "http://localhost:3000",
       "reuseExistingServer": true,
-      "timeout": 120000
+      "timeout": 120000,
+      "env": "[redacted-local-environment]"
     }
   },
   "suites": [
@@ -73,7 +74,7 @@
         {
           "title": "Cart UI",
           "file": "cart.spec.ts",
-          "line": 10,
+          "line": 11,
           "column": 6,
           "specs": [
             {
@@ -92,12 +93,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1987,
+                      "duration": 1964,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:03:51.957Z",
+                      "startTime": "2026-07-27T08:36:42.716Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -107,7 +108,7 @@
               ],
               "id": "1981448f0b79506fb670-6c32c2054e0f69ce2a88",
               "file": "cart.spec.ts",
-              "line": 11,
+              "line": 12,
               "column": 7
             },
             {
@@ -126,12 +127,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 3239,
+                      "duration": 2863,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:03:54.198Z",
+                      "startTime": "2026-07-27T08:36:44.923Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -141,7 +142,7 @@
               ],
               "id": "1981448f0b79506fb670-c3e398ab71860bdd3f89",
               "file": "cart.spec.ts",
-              "line": 21,
+              "line": 22,
               "column": 7
             },
             {
@@ -160,12 +161,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1455,
+                      "duration": 1529,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:03:57.454Z",
+                      "startTime": "2026-07-27T08:36:47.813Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -175,7 +176,7 @@
               ],
               "id": "1981448f0b79506fb670-3529e5253ace8d77b038",
               "file": "cart.spec.ts",
-              "line": 39,
+              "line": 40,
               "column": 7
             },
             {
@@ -194,12 +195,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 267,
+                      "duration": 336,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:03:58.924Z",
+                      "startTime": "2026-07-27T08:36:49.359Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -209,7 +210,7 @@
               ],
               "id": "1981448f0b79506fb670-d46e352710a1c66c9c24",
               "file": "cart.spec.ts",
-              "line": 48,
+              "line": 49,
               "column": 7
             },
             {
@@ -228,12 +229,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 21,
+                      "duration": 31,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:03:59.202Z",
+                      "startTime": "2026-07-27T08:36:49.707Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -243,7 +244,7 @@
               ],
               "id": "1981448f0b79506fb670-6a6a0602217c17317087",
               "file": "cart.spec.ts",
-              "line": 55,
+              "line": 56,
               "column": 7
             },
             {
@@ -262,12 +263,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 10,
+                      "duration": 14,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:03:59.233Z",
+                      "startTime": "2026-07-27T08:36:49.749Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -277,7 +278,7 @@
               ],
               "id": "1981448f0b79506fb670-ea5d90f81545d66ea508",
               "file": "cart.spec.ts",
-              "line": 63,
+              "line": 64,
               "column": 7
             }
           ]
@@ -306,7 +307,7 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 7,
+                  "duration": 13,
                   "errors": [],
                   "stdout": [
                     {
@@ -315,7 +316,7 @@
                   ],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-06-25T02:03:59.279Z",
+                  "startTime": "2026-07-27T08:36:49.807Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -325,7 +326,7 @@
           ],
           "id": "180deca44cf7c01fdee9-66fd8beaa84f14d8c164",
           "file": "catalog-semantic-integrity.test.mjs",
-          "line": 8,
+          "line": 9,
           "column": 1
         }
       ]
@@ -340,7 +341,7 @@
         {
           "title": "Checkout Flow",
           "file": "checkout.spec.ts",
-          "line": 32,
+          "line": 33,
           "column": 6,
           "specs": [
             {
@@ -359,12 +360,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 3715,
+                      "duration": 3214,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:03:59.299Z",
+                      "startTime": "2026-07-27T08:36:49.834Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -374,7 +375,7 @@
               ],
               "id": "25ab1bfc84c57e3e3a45-0880d0869f3f4f4a88eb",
               "file": "checkout.spec.ts",
-              "line": 33,
+              "line": 34,
               "column": 7
             },
             {
@@ -393,12 +394,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1609,
+                      "duration": 1718,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:04:03.029Z",
+                      "startTime": "2026-07-27T08:36:53.064Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -408,7 +409,7 @@
               ],
               "id": "25ab1bfc84c57e3e3a45-e57ba343d7814ffec47c",
               "file": "checkout.spec.ts",
-              "line": 64,
+              "line": 65,
               "column": 7
             },
             {
@@ -427,12 +428,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1389,
+                      "duration": 1395,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:04:04.650Z",
+                      "startTime": "2026-07-27T08:36:54.794Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -442,7 +443,7 @@
               ],
               "id": "25ab1bfc84c57e3e3a45-c5e06881ada91e5f1412",
               "file": "checkout.spec.ts",
-              "line": 77,
+              "line": 78,
               "column": 7
             }
           ]
@@ -450,7 +451,7 @@
         {
           "title": "Cart Operations",
           "file": "checkout.spec.ts",
-          "line": 94,
+          "line": 95,
           "column": 6,
           "specs": [
             {
@@ -469,12 +470,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1587,
+                      "duration": 1488,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:04:06.054Z",
+                      "startTime": "2026-07-27T08:36:56.204Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -484,7 +485,7 @@
               ],
               "id": "25ab1bfc84c57e3e3a45-e0e45d67fdda161e451e",
               "file": "checkout.spec.ts",
-              "line": 95,
+              "line": 96,
               "column": 7
             },
             {
@@ -503,12 +504,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1526,
+                      "duration": 1490,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:04:07.658Z",
+                      "startTime": "2026-07-27T08:36:57.704Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -518,7 +519,7 @@
               ],
               "id": "25ab1bfc84c57e3e3a45-fa5ef657c9a4b045a7ba",
               "file": "checkout.spec.ts",
-              "line": 104,
+              "line": 105,
               "column": 7
             }
           ]
@@ -554,12 +555,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1523,
+                      "duration": 1884,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:04:09.208Z",
+                      "startTime": "2026-07-27T08:36:59.211Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -605,12 +606,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 161,
+                      "duration": 337,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:04:10.746Z",
+                      "startTime": "2026-07-27T08:37:01.114Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -639,12 +640,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 17,
+                      "duration": 15,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:04:10.918Z",
+                      "startTime": "2026-07-27T08:37:01.460Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -673,12 +674,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 41,
+                      "duration": 13,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:04:10.949Z",
+                      "startTime": "2026-07-27T08:37:01.485Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -707,12 +708,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 25,
+                      "duration": 16,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:04:11.000Z",
+                      "startTime": "2026-07-27T08:37:01.506Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -739,11 +740,11 @@
         {
           "title": "Loja inteligente MDH3D",
           "file": "mdh-smart-store.spec.ts",
-          "line": 5,
+          "line": 6,
           "column": 6,
           "specs": [
             {
-              "title": "busca, filtro por categoria e carrinho local funcionam",
+              "title": "alias /loja redireciona para o catálogo canônico com produtos públicos",
               "ok": true,
               "tags": [],
               "tests": [
@@ -758,12 +759,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1971,
+                      "duration": 1080,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:04:11.041Z",
+                      "startTime": "2026-07-27T08:37:01.536Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -771,13 +772,13 @@
                   "status": "expected"
                 }
               ],
-              "id": "5f4be4bce4fd77a1909a-4085852b0e2f00e8a00d",
+              "id": "5f4be4bce4fd77a1909a-4d934de4f6a049a93206",
               "file": "mdh-smart-store.spec.ts",
-              "line": 6,
+              "line": 7,
               "column": 7
             },
             {
-              "title": "produto com link Nuvemshop usa checkout externo",
+              "title": "catálogo canônico adiciona produto ao carrinho global",
               "ok": true,
               "tags": [],
               "tests": [
@@ -792,12 +793,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 662,
+                      "duration": 2488,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:04:13.025Z",
+                      "startTime": "2026-07-27T08:37:02.628Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -805,13 +806,13 @@
                   "status": "expected"
                 }
               ],
-              "id": "5f4be4bce4fd77a1909a-608548c06676f435dc26",
+              "id": "5f4be4bce4fd77a1909a-5d06366665683b3c4c3f",
               "file": "mdh-smart-store.spec.ts",
-              "line": 39,
+              "line": 15,
               "column": 7
             },
             {
-              "title": "produto sem link Nuvemshop abre WhatsApp com mensagem codificada",
+              "title": "PDP público exibe compra, WhatsApp, JSON-LD e galeria real",
               "ok": true,
               "tags": [],
               "tests": [
@@ -826,12 +827,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 881,
+                      "duration": 3310,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:04:13.698Z",
+                      "startTime": "2026-07-27T08:37:05.132Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -839,13 +840,13 @@
                   "status": "expected"
                 }
               ],
-              "id": "5f4be4bce4fd77a1909a-c5375300552d49db3cde",
+              "id": "5f4be4bce4fd77a1909a-48170b4aaacf13f95896",
               "file": "mdh-smart-store.spec.ts",
-              "line": 57,
+              "line": 32,
               "column": 7
             },
             {
-              "title": "feeds locais retornam dados do CSV",
+              "title": "feeds públicos retornam apenas dados navegáveis do catálogo atual",
               "ok": true,
               "tags": [],
               "tests": [
@@ -860,12 +861,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 46,
+                      "duration": 362,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:04:14.588Z",
+                      "startTime": "2026-07-27T08:37:08.456Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -873,9 +874,9 @@
                   "status": "expected"
                 }
               ],
-              "id": "5f4be4bce4fd77a1909a-6b0a7e12e54f7202176d",
+              "id": "5f4be4bce4fd77a1909a-1e234835e2d497108e45",
               "file": "mdh-smart-store.spec.ts",
-              "line": 71,
+              "line": 51,
               "column": 7
             },
             {
@@ -894,12 +895,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 693,
+                      "duration": 1067,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:04:14.643Z",
+                      "startTime": "2026-07-27T08:37:08.842Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -909,10 +910,86 @@
               ],
               "id": "5f4be4bce4fd77a1909a-10251657452c1acd0935",
               "file": "mdh-smart-store.spec.ts",
-              "line": 98,
+              "line": 68,
               "column": 7
             }
           ]
+        }
+      ]
+    },
+    {
+      "title": "mercadopago-signature.spec.ts",
+      "file": "mercadopago-signature.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "mercado pago signatures stay valid inside the replay window",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-07-27T08:37:09.953Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "03161c1de00d8c5825f3-e4aa956aed7ea1fa2d4a",
+          "file": "mercadopago-signature.spec.ts",
+          "line": 14,
+          "column": 5
+        },
+        {
+          "title": "mercado pago signatures are rejected when the replay window is exceeded",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-07-27T08:37:09.973Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "03161c1de00d8c5825f3-e715b3ada5e10ff1e5db",
+          "file": "mercadopago-signature.spec.ts",
+          "line": 34,
+          "column": 5
         }
       ]
     },
@@ -941,7 +1018,7 @@
                       "type": "skip",
                       "description": "META_APP_SECRET and META_VERIFY_TOKEN are required for signed webhook tests",
                       "location": {
-                        "file": "M:\\LOJA\\mdh-prod-deploy\\tests\\meta-webhooks.spec.ts",
+                        "file": "M:\\LOJA\\.mdh3d-industrial-v62-worktree-20260727-005340\\tests\\meta-webhooks.spec.ts",
                         "line": 52,
                         "column": 8
                       }
@@ -960,13 +1037,13 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:04:15.347Z",
+                      "startTime": "2026-07-27T08:37:10.004Z",
                       "annotations": [
                         {
                           "type": "skip",
                           "description": "META_APP_SECRET and META_VERIFY_TOKEN are required for signed webhook tests",
                           "location": {
-                            "file": "M:\\LOJA\\mdh-prod-deploy\\tests\\meta-webhooks.spec.ts",
+                            "file": "M:\\LOJA\\.mdh3d-industrial-v62-worktree-20260727-005340\\tests\\meta-webhooks.spec.ts",
                             "line": 52,
                             "column": 8
                           }
@@ -995,7 +1072,7 @@
                       "type": "skip",
                       "description": "META_APP_SECRET and META_VERIFY_TOKEN are required for signed webhook tests",
                       "location": {
-                        "file": "M:\\LOJA\\mdh-prod-deploy\\tests\\meta-webhooks.spec.ts",
+                        "file": "M:\\LOJA\\.mdh3d-industrial-v62-worktree-20260727-005340\\tests\\meta-webhooks.spec.ts",
                         "line": 52,
                         "column": 8
                       }
@@ -1014,13 +1091,13 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:04:15.347Z",
+                      "startTime": "2026-07-27T08:37:10.004Z",
                       "annotations": [
                         {
                           "type": "skip",
                           "description": "META_APP_SECRET and META_VERIFY_TOKEN are required for signed webhook tests",
                           "location": {
-                            "file": "M:\\LOJA\\mdh-prod-deploy\\tests\\meta-webhooks.spec.ts",
+                            "file": "M:\\LOJA\\.mdh3d-industrial-v62-worktree-20260727-005340\\tests\\meta-webhooks.spec.ts",
                             "line": 52,
                             "column": 8
                           }
@@ -1049,7 +1126,7 @@
                       "type": "skip",
                       "description": "META_APP_SECRET and META_VERIFY_TOKEN are required for signed webhook tests",
                       "location": {
-                        "file": "M:\\LOJA\\mdh-prod-deploy\\tests\\meta-webhooks.spec.ts",
+                        "file": "M:\\LOJA\\.mdh3d-industrial-v62-worktree-20260727-005340\\tests\\meta-webhooks.spec.ts",
                         "line": 52,
                         "column": 8
                       }
@@ -1068,13 +1145,13 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:04:15.347Z",
+                      "startTime": "2026-07-27T08:37:10.004Z",
                       "annotations": [
                         {
                           "type": "skip",
                           "description": "META_APP_SECRET and META_VERIFY_TOKEN are required for signed webhook tests",
                           "location": {
-                            "file": "M:\\LOJA\\mdh-prod-deploy\\tests\\meta-webhooks.spec.ts",
+                            "file": "M:\\LOJA\\.mdh3d-industrial-v62-worktree-20260727-005340\\tests\\meta-webhooks.spec.ts",
                             "line": 52,
                             "column": 8
                           }
@@ -1103,7 +1180,7 @@
                       "type": "skip",
                       "description": "META_APP_SECRET and META_VERIFY_TOKEN are required for signed webhook tests",
                       "location": {
-                        "file": "M:\\LOJA\\mdh-prod-deploy\\tests\\meta-webhooks.spec.ts",
+                        "file": "M:\\LOJA\\.mdh3d-industrial-v62-worktree-20260727-005340\\tests\\meta-webhooks.spec.ts",
                         "line": 52,
                         "column": 8
                       }
@@ -1122,13 +1199,13 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:04:15.347Z",
+                      "startTime": "2026-07-27T08:37:10.005Z",
                       "annotations": [
                         {
                           "type": "skip",
                           "description": "META_APP_SECRET and META_VERIFY_TOKEN are required for signed webhook tests",
                           "location": {
-                            "file": "M:\\LOJA\\mdh-prod-deploy\\tests\\meta-webhooks.spec.ts",
+                            "file": "M:\\LOJA\\.mdh3d-industrial-v62-worktree-20260727-005340\\tests\\meta-webhooks.spec.ts",
                             "line": 52,
                             "column": 8
                           }
@@ -1157,7 +1234,7 @@
                       "type": "skip",
                       "description": "META_APP_SECRET and META_VERIFY_TOKEN are required for signed webhook tests",
                       "location": {
-                        "file": "M:\\LOJA\\mdh-prod-deploy\\tests\\meta-webhooks.spec.ts",
+                        "file": "M:\\LOJA\\.mdh3d-industrial-v62-worktree-20260727-005340\\tests\\meta-webhooks.spec.ts",
                         "line": 52,
                         "column": 8
                       }
@@ -1176,13 +1253,13 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:04:15.347Z",
+                      "startTime": "2026-07-27T08:37:10.005Z",
                       "annotations": [
                         {
                           "type": "skip",
                           "description": "META_APP_SECRET and META_VERIFY_TOKEN are required for signed webhook tests",
                           "location": {
-                            "file": "M:\\LOJA\\mdh-prod-deploy\\tests\\meta-webhooks.spec.ts",
+                            "file": "M:\\LOJA\\.mdh3d-industrial-v62-worktree-20260727-005340\\tests\\meta-webhooks.spec.ts",
                             "line": 52,
                             "column": 8
                           }
@@ -1211,7 +1288,7 @@
                       "type": "skip",
                       "description": "META_APP_SECRET and META_VERIFY_TOKEN are required for signed webhook tests",
                       "location": {
-                        "file": "M:\\LOJA\\mdh-prod-deploy\\tests\\meta-webhooks.spec.ts",
+                        "file": "M:\\LOJA\\.mdh3d-industrial-v62-worktree-20260727-005340\\tests\\meta-webhooks.spec.ts",
                         "line": 52,
                         "column": 8
                       }
@@ -1230,13 +1307,13 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:04:15.347Z",
+                      "startTime": "2026-07-27T08:37:10.005Z",
                       "annotations": [
                         {
                           "type": "skip",
                           "description": "META_APP_SECRET and META_VERIFY_TOKEN are required for signed webhook tests",
                           "location": {
-                            "file": "M:\\LOJA\\mdh-prod-deploy\\tests\\meta-webhooks.spec.ts",
+                            "file": "M:\\LOJA\\.mdh3d-industrial-v62-worktree-20260727-005340\\tests\\meta-webhooks.spec.ts",
                             "line": 52,
                             "column": 8
                           }
@@ -1265,7 +1342,7 @@
                       "type": "skip",
                       "description": "META_APP_SECRET and META_VERIFY_TOKEN are required for signed webhook tests",
                       "location": {
-                        "file": "M:\\LOJA\\mdh-prod-deploy\\tests\\meta-webhooks.spec.ts",
+                        "file": "M:\\LOJA\\.mdh3d-industrial-v62-worktree-20260727-005340\\tests\\meta-webhooks.spec.ts",
                         "line": 52,
                         "column": 8
                       }
@@ -1284,13 +1361,13 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:04:15.347Z",
+                      "startTime": "2026-07-27T08:37:10.005Z",
                       "annotations": [
                         {
                           "type": "skip",
                           "description": "META_APP_SECRET and META_VERIFY_TOKEN are required for signed webhook tests",
                           "location": {
-                            "file": "M:\\LOJA\\mdh-prod-deploy\\tests\\meta-webhooks.spec.ts",
+                            "file": "M:\\LOJA\\.mdh3d-industrial-v62-worktree-20260727-005340\\tests\\meta-webhooks.spec.ts",
                             "line": 52,
                             "column": 8
                           }
@@ -1333,12 +1410,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 5,
+                  "duration": 6,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-06-25T02:04:15.404Z",
+                  "startTime": "2026-07-27T08:37:10.089Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1367,12 +1444,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 3,
+                  "duration": 5,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-06-25T02:04:15.418Z",
+                  "startTime": "2026-07-27T08:37:10.108Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1401,12 +1478,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 2,
+                  "duration": 5,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-06-25T02:04:15.433Z",
+                  "startTime": "2026-07-27T08:37:10.127Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1435,12 +1512,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1,
+                  "duration": 3,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-06-25T02:04:15.443Z",
+                  "startTime": "2026-07-27T08:37:10.149Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1469,12 +1546,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1,
+                  "duration": 2,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-06-25T02:04:15.453Z",
+                  "startTime": "2026-07-27T08:37:10.170Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1490,6 +1567,82 @@
       ]
     },
     {
+      "title": "product-availability.spec.ts",
+      "file": "product-availability.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "made-to-order products keep preorder semantics without exposing fake stock",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-07-27T08:37:10.190Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a92c627f22594233e604-c39b16f3dde1f585ed27",
+          "file": "product-availability.spec.ts",
+          "line": 9,
+          "column": 5
+        },
+        {
+          "title": "ready-to-ship products keep in-stock semantics and public quantity",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-07-27T08:37:10.204Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a92c627f22594233e604-3c2445a4c7c62e1cea2a",
+          "file": "product-availability.spec.ts",
+          "line": 23,
+          "column": 5
+        }
+      ]
+    },
+    {
       "title": "smoke.spec.ts",
       "file": "smoke.spec.ts",
       "column": 0,
@@ -1499,7 +1652,7 @@
         {
           "title": "MDH 3D Store – Smoke Tests",
           "file": "smoke.spec.ts",
-          "line": 5,
+          "line": 6,
           "column": 6,
           "specs": [
             {
@@ -1518,12 +1671,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 524,
+                      "duration": 1090,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:04:15.467Z",
+                      "startTime": "2026-07-27T08:37:10.251Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1533,7 +1686,7 @@
               ],
               "id": "4219922fea2e2bd3c691-85cf882cad34767aa5b9",
               "file": "smoke.spec.ts",
-              "line": 6,
+              "line": 7,
               "column": 7
             },
             {
@@ -1552,12 +1705,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1548,
+                      "duration": 1326,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:04:16.003Z",
+                      "startTime": "2026-07-27T08:37:11.357Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1567,7 +1720,7 @@
               ],
               "id": "4219922fea2e2bd3c691-3360017f8191b137e6cd",
               "file": "smoke.spec.ts",
-              "line": 13,
+              "line": 14,
               "column": 7
             },
             {
@@ -1586,12 +1739,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1200,
+                      "duration": 730,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:04:17.567Z",
+                      "startTime": "2026-07-27T08:37:12.702Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1601,7 +1754,7 @@
               ],
               "id": "4219922fea2e2bd3c691-2972cacafecf1157d8f9",
               "file": "smoke.spec.ts",
-              "line": 21,
+              "line": 22,
               "column": 7
             },
             {
@@ -1620,12 +1773,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1208,
+                      "duration": 805,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:04:18.779Z",
+                      "startTime": "2026-07-27T08:37:13.447Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1635,7 +1788,7 @@
               ],
               "id": "4219922fea2e2bd3c691-d92450e9de7ed9d6c689",
               "file": "smoke.spec.ts",
-              "line": 27,
+              "line": 28,
               "column": 7
             },
             {
@@ -1654,12 +1807,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1186,
+                      "duration": 767,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:04:19.998Z",
+                      "startTime": "2026-07-27T08:37:14.267Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1669,7 +1822,7 @@
               ],
               "id": "4219922fea2e2bd3c691-e5deb06b414ea384e487",
               "file": "smoke.spec.ts",
-              "line": 33,
+              "line": 34,
               "column": 7
             },
             {
@@ -1688,12 +1841,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1804,
+                      "duration": 1238,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:04:21.195Z",
+                      "startTime": "2026-07-27T08:37:15.048Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1703,7 +1856,7 @@
               ],
               "id": "4219922fea2e2bd3c691-f43926a316f00792ba0a",
               "file": "smoke.spec.ts",
-              "line": 38,
+              "line": 39,
               "column": 7
             },
             {
@@ -1722,12 +1875,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1831,
+                      "duration": 1368,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:04:23.010Z",
+                      "startTime": "2026-07-27T08:37:16.303Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1737,7 +1890,7 @@
               ],
               "id": "4219922fea2e2bd3c691-1df3158ae80c8979c086",
               "file": "smoke.spec.ts",
-              "line": 50,
+              "line": 51,
               "column": 7
             },
             {
@@ -1756,12 +1909,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 951,
+                      "duration": 913,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:04:24.852Z",
+                      "startTime": "2026-07-27T08:37:17.686Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1771,7 +1924,7 @@
               ],
               "id": "4219922fea2e2bd3c691-90ded256e5404aa36277",
               "file": "smoke.spec.ts",
-              "line": 65,
+              "line": 66,
               "column": 7
             },
             {
@@ -1790,12 +1943,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 802,
+                      "duration": 1074,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:04:25.816Z",
+                      "startTime": "2026-07-27T08:37:18.614Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1805,7 +1958,7 @@
               ],
               "id": "4219922fea2e2bd3c691-edde1e0b71b654aecf82",
               "file": "smoke.spec.ts",
-              "line": 70,
+              "line": 71,
               "column": 7
             },
             {
@@ -1824,12 +1977,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 994,
+                      "duration": 1345,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:04:26.631Z",
+                      "startTime": "2026-07-27T08:37:19.705Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1839,7 +1992,7 @@
               ],
               "id": "4219922fea2e2bd3c691-2b283c99ee850ef437db",
               "file": "smoke.spec.ts",
-              "line": 78,
+              "line": 79,
               "column": 7
             },
             {
@@ -1858,12 +2011,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 413,
+                      "duration": 987,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:04:27.636Z",
+                      "startTime": "2026-07-27T08:37:21.061Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1873,7 +2026,7 @@
               ],
               "id": "4219922fea2e2bd3c691-ff690fa38cc658a4ce10",
               "file": "smoke.spec.ts",
-              "line": 85,
+              "line": 86,
               "column": 7
             },
             {
@@ -1892,12 +2045,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 370,
+                      "duration": 909,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:04:28.059Z",
+                      "startTime": "2026-07-27T08:37:22.063Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1907,7 +2060,7 @@
               ],
               "id": "4219922fea2e2bd3c691-09cdea1e2ec8b86ee638",
               "file": "smoke.spec.ts",
-              "line": 91,
+              "line": 92,
               "column": 7
             },
             {
@@ -1926,12 +2079,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 547,
+                      "duration": 762,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:04:28.441Z",
+                      "startTime": "2026-07-27T08:37:22.987Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1941,7 +2094,7 @@
               ],
               "id": "4219922fea2e2bd3c691-a5e520ee0f46b59d41ec",
               "file": "smoke.spec.ts",
-              "line": 96,
+              "line": 97,
               "column": 7
             },
             {
@@ -1960,12 +2113,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 187,
+                      "duration": 326,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:04:29.000Z",
+                      "startTime": "2026-07-27T08:37:23.761Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1975,7 +2128,7 @@
               ],
               "id": "4219922fea2e2bd3c691-9c3195ccb42d23451726",
               "file": "smoke.spec.ts",
-              "line": 102,
+              "line": 103,
               "column": 7
             },
             {
@@ -1994,12 +2147,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 9,
+                      "duration": 10,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:04:29.196Z",
+                      "startTime": "2026-07-27T08:37:24.098Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2009,7 +2162,7 @@
               ],
               "id": "4219922fea2e2bd3c691-f2ec499a7d71bffdb977",
               "file": "smoke.spec.ts",
-              "line": 109,
+              "line": 110,
               "column": 7
             },
             {
@@ -2028,12 +2181,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 135,
+                      "duration": 17,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:04:29.213Z",
+                      "startTime": "2026-07-27T08:37:24.117Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2043,7 +2196,7 @@
               ],
               "id": "4219922fea2e2bd3c691-dd6c715df4fe7c70b8e8",
               "file": "smoke.spec.ts",
-              "line": 118,
+              "line": 119,
               "column": 7
             },
             {
@@ -2062,12 +2215,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 99,
+                      "duration": 19,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:04:29.359Z",
+                      "startTime": "2026-07-27T08:37:24.143Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2077,7 +2230,7 @@
               ],
               "id": "4219922fea2e2bd3c691-3de0550051efebcd13f9",
               "file": "smoke.spec.ts",
-              "line": 134,
+              "line": 135,
               "column": 7
             },
             {
@@ -2096,12 +2249,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 12,
+                      "duration": 13,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:04:29.467Z",
+                      "startTime": "2026-07-27T08:37:24.170Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2111,7 +2264,7 @@
               ],
               "id": "4219922fea2e2bd3c691-c3e510b9f579955f2f89",
               "file": "smoke.spec.ts",
-              "line": 152,
+              "line": 153,
               "column": 7
             },
             {
@@ -2130,12 +2283,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1480,
+                      "duration": 1268,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:04:29.488Z",
+                      "startTime": "2026-07-27T08:37:24.192Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2145,7 +2298,7 @@
               ],
               "id": "4219922fea2e2bd3c691-f5e16554ae426dd160c6",
               "file": "smoke.spec.ts",
-              "line": 162,
+              "line": 163,
               "column": 7
             },
             {
@@ -2164,12 +2317,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 14,
+                      "duration": 19,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:04:30.977Z",
+                      "startTime": "2026-07-27T08:37:25.468Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2179,7 +2332,7 @@
               ],
               "id": "4219922fea2e2bd3c691-536f32f6600ce61b12c3",
               "file": "smoke.spec.ts",
-              "line": 179,
+              "line": 180,
               "column": 7
             },
             {
@@ -2198,12 +2351,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 8,
+                      "duration": 10,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:04:30.999Z",
+                      "startTime": "2026-07-27T08:37:25.496Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2213,7 +2366,7 @@
               ],
               "id": "4219922fea2e2bd3c691-cb71d6b72dae3de191fb",
               "file": "smoke.spec.ts",
-              "line": 187,
+              "line": 188,
               "column": 7
             },
             {
@@ -2232,12 +2385,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 7,
+                      "duration": 18,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:04:31.015Z",
+                      "startTime": "2026-07-27T08:37:25.516Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2247,7 +2400,7 @@
               ],
               "id": "4219922fea2e2bd3c691-79330e1bb0c7676a8cd3",
               "file": "smoke.spec.ts",
-              "line": 194,
+              "line": 195,
               "column": 7
             },
             {
@@ -2266,12 +2419,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 515,
+                      "duration": 800,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:04:31.030Z",
+                      "startTime": "2026-07-27T08:37:25.546Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2281,7 +2434,7 @@
               ],
               "id": "4219922fea2e2bd3c691-fcec78d4f86b5eb4b020",
               "file": "smoke.spec.ts",
-              "line": 201,
+              "line": 202,
               "column": 7
             },
             {
@@ -2300,12 +2453,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 407,
+                      "duration": 896,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:04:31.556Z",
+                      "startTime": "2026-07-27T08:37:26.362Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2315,7 +2468,7 @@
               ],
               "id": "4219922fea2e2bd3c691-53a315f2758f4eb7d80d",
               "file": "smoke.spec.ts",
-              "line": 206,
+              "line": 207,
               "column": 7
             },
             {
@@ -2334,12 +2487,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1064,
+                      "duration": 1082,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:04:31.973Z",
+                      "startTime": "2026-07-27T08:37:27.270Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2349,7 +2502,7 @@
               ],
               "id": "4219922fea2e2bd3c691-6a217e05d3c508a953c7",
               "file": "smoke.spec.ts",
-              "line": 211,
+              "line": 212,
               "column": 7
             },
             {
@@ -2368,12 +2521,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 401,
+                      "duration": 745,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:04:33.048Z",
+                      "startTime": "2026-07-27T08:37:28.364Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2383,7 +2536,7 @@
               ],
               "id": "4219922fea2e2bd3c691-961850c2c7c635d0f8c6",
               "file": "smoke.spec.ts",
-              "line": 216,
+              "line": 217,
               "column": 7
             },
             {
@@ -2402,12 +2555,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 2191,
+                      "duration": 1788,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:04:33.459Z",
+                      "startTime": "2026-07-27T08:37:29.123Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2417,7 +2570,7 @@
               ],
               "id": "4219922fea2e2bd3c691-064109753ae23239acd1",
               "file": "smoke.spec.ts",
-              "line": 225,
+              "line": 226,
               "column": 7
             },
             {
@@ -2436,12 +2589,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 9,
+                      "duration": 10,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:04:35.661Z",
+                      "startTime": "2026-07-27T08:37:30.931Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2451,7 +2604,7 @@
               ],
               "id": "4219922fea2e2bd3c691-fb4cb82155a2761db92b",
               "file": "smoke.spec.ts",
-              "line": 234,
+              "line": 235,
               "column": 7
             },
             {
@@ -2475,7 +2628,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:04:35.680Z",
+                      "startTime": "2026-07-27T08:37:30.951Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2485,7 +2638,7 @@
               ],
               "id": "4219922fea2e2bd3c691-347dfcdcadc9c0aee080",
               "file": "smoke.spec.ts",
-              "line": 239,
+              "line": 240,
               "column": 7
             },
             {
@@ -2509,7 +2662,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:04:35.697Z",
+                      "startTime": "2026-07-27T08:37:30.969Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2519,7 +2672,7 @@
               ],
               "id": "4219922fea2e2bd3c691-efc82241c527966c4b3d",
               "file": "smoke.spec.ts",
-              "line": 246,
+              "line": 247,
               "column": 7
             },
             {
@@ -2538,12 +2691,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 175,
+                      "duration": 489,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-06-25T02:04:35.716Z",
+                      "startTime": "2026-07-27T08:37:30.988Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2553,7 +2706,7 @@
               ],
               "id": "4219922fea2e2bd3c691-9ee02213f57a2c10bc4e",
               "file": "smoke.spec.ts",
-              "line": 254,
+              "line": 255,
               "column": 7
             }
           ]
@@ -2567,7 +2720,7 @@
       "line": 0,
       "specs": [
         {
-          "title": "PDP mostra imagens publicas visiveis em real-001",
+          "title": "PDP mostra imagens publicas visiveis em mdh-016",
           "ok": true,
           "tags": [],
           "tests": [
@@ -2582,12 +2735,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1815,
+                  "duration": 1749,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-06-25T02:04:35.907Z",
+                  "startTime": "2026-07-27T08:37:31.500Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -2595,13 +2748,13 @@
               "status": "expected"
             }
           ],
-          "id": "ba125c80e441cb68a830-21d4f25bc1d6c16f2d70",
+          "id": "ba125c80e441cb68a830-e2aa6e5bedd8e5f36df4",
           "file": "storefront-images.spec.ts",
-          "line": 145,
+          "line": 163,
           "column": 7
         },
         {
-          "title": "PDP mostra imagens publicas visiveis em real-002",
+          "title": "PDP mostra imagens publicas visiveis em mdh-014",
           "ok": true,
           "tags": [],
           "tests": [
@@ -2616,12 +2769,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1862,
+                  "duration": 1814,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-06-25T02:04:37.737Z",
+                  "startTime": "2026-07-27T08:37:33.265Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -2629,13 +2782,13 @@
               "status": "expected"
             }
           ],
-          "id": "ba125c80e441cb68a830-5a864be5b662604b21c5",
+          "id": "ba125c80e441cb68a830-621c482e267560907170",
           "file": "storefront-images.spec.ts",
-          "line": 145,
+          "line": 163,
           "column": 7
         },
         {
-          "title": "PDP mostra imagens publicas visiveis em real-003",
+          "title": "PDP mostra imagens publicas visiveis em mdh-015",
           "ok": true,
           "tags": [],
           "tests": [
@@ -2650,12 +2803,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1827,
+                  "duration": 1679,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-06-25T02:04:39.612Z",
+                  "startTime": "2026-07-27T08:37:35.095Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -2663,13 +2816,13 @@
               "status": "expected"
             }
           ],
-          "id": "ba125c80e441cb68a830-b65988188413df95f3f1",
+          "id": "ba125c80e441cb68a830-199cbb73afbc74b4b48c",
           "file": "storefront-images.spec.ts",
-          "line": 145,
+          "line": 163,
           "column": 7
         },
         {
-          "title": "PDP mostra imagens publicas visiveis em real-004",
+          "title": "PDP mostra imagens publicas visiveis em mdh-013",
           "ok": true,
           "tags": [],
           "tests": [
@@ -2684,12 +2837,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1921,
+                  "duration": 1786,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-06-25T02:04:41.450Z",
+                  "startTime": "2026-07-27T08:37:36.797Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -2697,13 +2850,13 @@
               "status": "expected"
             }
           ],
-          "id": "ba125c80e441cb68a830-69659542d3b5b226a627",
+          "id": "ba125c80e441cb68a830-4562731a5eb0f883de65",
           "file": "storefront-images.spec.ts",
-          "line": 145,
+          "line": 163,
           "column": 7
         },
         {
-          "title": "PDP mostra imagens publicas visiveis em real-005",
+          "title": "PDP mostra imagens publicas visiveis em mdh-017",
           "ok": true,
           "tags": [],
           "tests": [
@@ -2718,12 +2871,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1972,
+                  "duration": 1792,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-06-25T02:04:43.383Z",
+                  "startTime": "2026-07-27T08:37:38.600Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -2731,13 +2884,13 @@
               "status": "expected"
             }
           ],
-          "id": "ba125c80e441cb68a830-6f5932ecd43713f1ff74",
+          "id": "ba125c80e441cb68a830-621dea4f497a75049faf",
           "file": "storefront-images.spec.ts",
-          "line": 145,
+          "line": 163,
           "column": 7
         },
         {
-          "title": "PDP mostra imagens publicas visiveis em real-006",
+          "title": "PDP mostra imagens publicas visiveis em mdh-019",
           "ok": true,
           "tags": [],
           "tests": [
@@ -2752,12 +2905,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1845,
+                  "duration": 1739,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-06-25T02:04:45.367Z",
+                  "startTime": "2026-07-27T08:37:40.412Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -2765,13 +2918,13 @@
               "status": "expected"
             }
           ],
-          "id": "ba125c80e441cb68a830-42089038d2156eecabfb",
+          "id": "ba125c80e441cb68a830-5c0ed42a71c176153754",
           "file": "storefront-images.spec.ts",
-          "line": 145,
+          "line": 163,
           "column": 7
         },
         {
-          "title": "PDP mostra imagens publicas visiveis em real-007",
+          "title": "PDP mostra imagens publicas visiveis em mdh-022",
           "ok": true,
           "tags": [],
           "tests": [
@@ -2786,12 +2939,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1932,
+                  "duration": 1670,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-06-25T02:04:47.221Z",
+                  "startTime": "2026-07-27T08:37:42.166Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -2799,13 +2952,13 @@
               "status": "expected"
             }
           ],
-          "id": "ba125c80e441cb68a830-3ddce2fe528412d6c23e",
+          "id": "ba125c80e441cb68a830-8a426567517ad277438a",
           "file": "storefront-images.spec.ts",
-          "line": 145,
+          "line": 163,
           "column": 7
         },
         {
-          "title": "PDP mostra imagens publicas visiveis em real-008",
+          "title": "PDP mostra imagens publicas visiveis em mdh-025",
           "ok": true,
           "tags": [],
           "tests": [
@@ -2820,12 +2973,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1866,
+                  "duration": 1704,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-06-25T02:04:49.166Z",
+                  "startTime": "2026-07-27T08:37:43.856Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -2833,13 +2986,13 @@
               "status": "expected"
             }
           ],
-          "id": "ba125c80e441cb68a830-ac65702280a531b586e6",
+          "id": "ba125c80e441cb68a830-c528cc52c6bdb90a5f2e",
           "file": "storefront-images.spec.ts",
-          "line": 145,
+          "line": 163,
           "column": 7
         },
         {
-          "title": "PDP mostra imagens publicas visiveis em real-009",
+          "title": "PDP mostra imagens publicas visiveis em mdh-028",
           "ok": true,
           "tags": [],
           "tests": [
@@ -2854,12 +3007,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1982,
+                  "duration": 1746,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-06-25T02:04:51.041Z",
+                  "startTime": "2026-07-27T08:37:45.575Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -2867,13 +3020,13 @@
               "status": "expected"
             }
           ],
-          "id": "ba125c80e441cb68a830-80242cdfd1160988b119",
+          "id": "ba125c80e441cb68a830-3a9727ec71988db0800d",
           "file": "storefront-images.spec.ts",
-          "line": 145,
+          "line": 163,
           "column": 7
         },
         {
-          "title": "PDP mostra imagens publicas visiveis em real-010",
+          "title": "PDP mostra imagens publicas visiveis em mdh-029",
           "ok": true,
           "tags": [],
           "tests": [
@@ -2888,12 +3041,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1852,
+                  "duration": 1822,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-06-25T02:04:53.034Z",
+                  "startTime": "2026-07-27T08:37:47.336Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -2901,9 +3054,77 @@
               "status": "expected"
             }
           ],
-          "id": "ba125c80e441cb68a830-ed6df63bfa966c429005",
+          "id": "ba125c80e441cb68a830-291c5f35f8ddd4598b0e",
           "file": "storefront-images.spec.ts",
-          "line": 145,
+          "line": 163,
+          "column": 7
+        },
+        {
+          "title": "PDP mostra imagens publicas visiveis em mdh-038",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1713,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-07-27T08:37:49.172Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ba125c80e441cb68a830-8a69519a77f13e4b6a43",
+          "file": "storefront-images.spec.ts",
+          "line": 163,
+          "column": 7
+        },
+        {
+          "title": "PDP mostra imagens publicas visiveis em mdh-053",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1659,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-07-27T08:37:50.902Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ba125c80e441cb68a830-ad8849cf60d916b4c0f1",
+          "file": "storefront-images.spec.ts",
+          "line": 163,
           "column": 7
         },
         {
@@ -2922,12 +3143,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 3205,
+                  "duration": 3103,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-06-25T02:04:54.899Z",
+                  "startTime": "2026-07-27T08:37:52.575Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -2937,7 +3158,7 @@
           ],
           "id": "ba125c80e441cb68a830-353dcbddfea26ba02e82",
           "file": "storefront-images.spec.ts",
-          "line": 176,
+          "line": 194,
           "column": 5
         },
         {
@@ -2956,12 +3177,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 48,
+                  "duration": 54,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-06-25T02:04:58.115Z",
+                  "startTime": "2026-07-27T08:37:55.690Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -2971,7 +3192,7 @@
           ],
           "id": "ba125c80e441cb68a830-deedc7386de8aa26d071",
           "file": "storefront-images.spec.ts",
-          "line": 208,
+          "line": 226,
           "column": 5
         },
         {
@@ -2990,12 +3211,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 61,
+                  "duration": 68,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-06-25T02:04:58.172Z",
+                  "startTime": "2026-07-27T08:37:55.754Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -3005,7 +3226,7 @@
           ],
           "id": "ba125c80e441cb68a830-3adfc48d0a7f9fc14859",
           "file": "storefront-images.spec.ts",
-          "line": 227,
+          "line": 245,
           "column": 5
         },
         {
@@ -3024,12 +3245,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1553,
+                  "duration": 1358,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-06-25T02:04:58.242Z",
+                  "startTime": "2026-07-27T08:37:55.831Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -3039,7 +3260,7 @@
           ],
           "id": "ba125c80e441cb68a830-4693bc38cbf552ed34c3",
           "file": "storefront-images.spec.ts",
-          "line": 260,
+          "line": 278,
           "column": 5
         },
         {
@@ -3058,12 +3279,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1574,
+                  "duration": 1228,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-06-25T02:04:59.806Z",
+                  "startTime": "2026-07-27T08:37:57.203Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -3073,7 +3294,7 @@
           ],
           "id": "ba125c80e441cb68a830-94567445342e5492d014",
           "file": "storefront-images.spec.ts",
-          "line": 288,
+          "line": 306,
           "column": 5
         }
       ]
@@ -3081,9 +3302,9 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-06-25T02:03:47.190Z",
-    "duration": 74424.86,
-    "expected": 73,
+    "startTime": "2026-07-27T08:36:37.529Z",
+    "duration": 81171.165,
+    "expected": 79,
     "skipped": 7,
     "unexpected": 0,
     "flaky": 0

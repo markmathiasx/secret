@@ -1,5 +1,5 @@
 import { deliveryZones } from "@/lib/constants";
-import { slugify } from "@/lib/utils";
+import { getProductUrl } from "@/lib/product-routing";
 import { buildProductSearchText, getProductCardDescription, getProductSearchScore, normalizeProductCategory } from "@/lib/catalog-content";
 import { suggestPixPrice, type MarketBenchmark } from "@/lib/market-pricing";
 import { applyCatalogMedia } from "@/lib/catalog-media";
@@ -27,8 +27,15 @@ import {
   calculateSalePrice as calculateSalePriceFromEngine,
 } from "@/lib/pricing-engine";
 import { GLOBAL_PRICE_INCREASE, applyGlobalPriceIncrease, calculateCardPrice } from "@/lib/payment-pricing";
-import { getRecommendedPixPrice } from "@/lib/catalog-pricing-policy";
+import { getMinimumSafePrice } from "@/lib/catalog-pricing-policy";
 import { sanitizePublicCatalogProducts } from "@/lib/public-product-copy";
+import {
+  applyCommercialCatalogVisibility,
+  applyCommercialProductOverride,
+  assertCommercialCatalog,
+  hasCommercialProductOverride,
+} from "@/lib/commercial-catalog-policy";
+import type { ProductAvailabilityMode } from "@/lib/product-availability";
 
 export type PaymentMethod = "pix" | "cartao" | "boleto";
 export type SalesChannel = "site" | "mercadolivre" | "shopee" | "whatsapp";
@@ -66,6 +73,7 @@ export type Product = {
   variants?: { color: string; available: boolean }[];
   pricePix: number;
   priceCard: number;
+  availabilityMode?: ProductAvailabilityMode;
   pricePixBeforeGlobalIncrease?: number;
   priceCardBeforeGlobalIncrease?: number;
   globalPriceIncreaseApplied?: number;
@@ -90,6 +98,11 @@ export type Product = {
   postProcessMinutes?: number;
   laborHourlyRate?: number;
   packagingCost?: number;
+  hardwareCost?: number;
+  retailPackagingCost?: number;
+  shippingSuppliesCost?: number;
+  failureReservePercent?: number;
+  designSetupCost?: number;
   overheadPercent?: number;
   profitMode?: ProfitMode;
   profitTargetPercent?: number;
@@ -141,9 +154,7 @@ function applyAdminOverride(product: Product): Product {
   const derivedBaseCost =
     typeof override.costBase === "number"
       ? override.costBase
-      : typeof override.pricePix === "number"
-        ? Number(override.pricePix.toFixed(2))
-        : product.baseCost;
+      : product.baseCost;
   const nextStatus = override.status ?? product.status;
   const manualPriceOverride = override.pricePix !== undefined;
   const overridePricePix = override.pricePix ?? product.pricePix;
@@ -185,6 +196,11 @@ function applyAdminOverride(product: Product): Product {
     postProcessMinutes: override.postProcessMinutes ?? product.postProcessMinutes,
     laborHourlyRate: override.laborHourlyRate ?? product.laborHourlyRate,
     packagingCost: override.packagingCost ?? product.packagingCost,
+    hardwareCost: override.hardwareCost ?? product.hardwareCost,
+    retailPackagingCost: override.retailPackagingCost ?? product.retailPackagingCost,
+    shippingSuppliesCost: override.shippingSuppliesCost ?? product.shippingSuppliesCost,
+    failureReservePercent: override.failureReservePercent ?? product.failureReservePercent,
+    designSetupCost: override.designSetupCost ?? product.designSetupCost,
     overheadPercent: override.overheadPercent ?? product.overheadPercent,
     profitMode: override.profitMode ?? product.profitMode,
     profitTargetPercent: override.profitTargetPercent ?? product.profitTargetPercent,
@@ -197,13 +213,18 @@ function applyAdminOverride(product: Product): Product {
 }
 
 function enrichProduct(product: Product): Product {
-  const overridden = applyA1MiniProfile(applyAdminOverride(product));
+  const profiled = applyA1MiniProfile(applyAdminOverride(product));
+  const commerciallyCurated = applyCommercialProductOverride(profiled);
   const normalized = {
-    ...overridden,
-    category: normalizeProductCategory(overridden),
-    description: normalizePublicTaxonomyText(getProductCardDescription(overridden)),
+    ...commerciallyCurated,
+    category: normalizeProductCategory(commerciallyCurated),
+    description: normalizePublicTaxonomyText(
+      hasCommercialProductOverride(commerciallyCurated.id)
+        ? commerciallyCurated.description
+        : getProductCardDescription(commerciallyCurated)
+    ),
   };
-  const taxonomized = applyCatalogTaxonomy(normalized);
+  const taxonomized = applyCommercialProductOverride(applyCatalogTaxonomy(normalized));
 
   const visual = getProductVisual(taxonomized);
   const marketPricing = suggestPixPrice(
@@ -226,19 +247,22 @@ function enrichProduct(product: Product): Product {
     profitMode: taxonomized.profitMode,
     profitTargetPercent: taxonomized.profitTargetPercent,
   });
-  const policyPricePix = getRecommendedPixPrice({
+  const commercialPolicy = getMinimumSafePrice({
     ...taxonomized,
-    baseCost: pricing.costBase,
-    estimatedUnitCost: pricing.costBase,
+    baseCost: taxonomized.baseCost,
+    estimatedUnitCost: taxonomized.estimatedUnitCost,
   });
-  const pricePixBeforeGlobalIncrease = taxonomized.manualPriceOverride ? taxonomized.pricePix : policyPricePix;
+  const requestedPricePix = taxonomized.manualPriceOverride
+    ? taxonomized.pricePix
+    : commercialPolicy.recommendedPixPrice;
+  const pricePixBeforeGlobalIncrease = Math.max(
+    requestedPricePix,
+    commercialPolicy.recommendedPixPrice
+  );
   const priceCardBeforeGlobalIncrease = calculateCardPrice(pricePixBeforeGlobalIncrease);
   const pricePix = applyGlobalPriceIncrease(pricePixBeforeGlobalIncrease);
   const priceCard = calculateCardPrice(pricePix);
-  const costBase =
-    taxonomized.manualPriceOverride && typeof taxonomized.baseCost === "number"
-      ? taxonomized.baseCost
-      : pricing.costBase;
+  const costBase = commercialPolicy.totalCost;
   const profitAmount = Number((pricePix - costBase).toFixed(2));
 
   return {
@@ -250,7 +274,7 @@ function enrichProduct(product: Product): Product {
     pricePixBeforeGlobalIncrease,
     priceCardBeforeGlobalIncrease,
     globalPriceIncreaseApplied: GLOBAL_PRICE_INCREASE,
-    marketplaceSuggested: pricing.referencePrice,
+    marketplaceSuggested: Math.max(pricing.referencePrice, priceCard),
     estimatedUnitCost: costBase,
     estimatedUnitProfit: profitAmount,
     pricingMode: "faixa-auditada",
@@ -2855,21 +2879,27 @@ const fullCatalog = [
     })
   ),
 ];
-export const catalog = sanitizePublicCatalogProducts(getSafePublicCatalog(fullCatalog));
+const safePublicCatalog = sanitizePublicCatalogProducts(getSafePublicCatalog(fullCatalog));
+export const catalog = applyCommercialCatalogVisibility(safePublicCatalog);
+assertCommercialCatalog(catalog);
 export const featuredCatalog = catalog.filter((item) => item.featured).slice(0, 12);
 export const categories = Array.from(new Set(catalog.map((item) => item.category)));
 export const collections = Array.from(new Set(catalog.map((item) => item.collection)));
 
-export function getProductUrl(product: Product) {
-  return `/loja/${slugify(product.category)}/${product.id}-${product.slug || slugify(product.name)}`;
-}
+export { getProductUrl };
 
 export function findProduct(id: string) {
   return catalog.find((item) => item.id === id);
 }
 
 export function findProductBySlug(slug: string) {
-  return catalog.find((item) => slug === item.slug || slug.startsWith(`${item.id}-`) || getProductUrl(item).endsWith(slug));
+  return catalog.find(
+    (item) =>
+      slug === item.id ||
+      slug === item.slug ||
+      slug.startsWith(`${item.id}-`) ||
+      getProductUrl(item).endsWith(slug)
+  );
 }
 
 export function searchCatalog(query: string) {

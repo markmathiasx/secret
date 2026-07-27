@@ -5,6 +5,8 @@ import { updateOrderRecord } from "@/lib/storage";
 import { sendMail } from "@/lib/mailer";
 import { paymentConfirmedHtml } from "@/lib/email-templates";
 import {
+  getMercadoPagoSignatureTimestamp,
+  isMercadoPagoSignatureFresh,
   mapMercadoPagoPaymentStatus,
   normalizeMercadoPagoError,
   parseMercadoPagoSignature,
@@ -103,6 +105,16 @@ export async function POST(request: Request) {
 
   if (!signature) {
     return NextResponse.json({ ok: false, message: "Webhook sem assinatura." }, { status: 401 });
+  }
+
+  const signatureTimestamp = getMercadoPagoSignatureTimestamp(signature);
+  if (!signatureTimestamp || !isMercadoPagoSignatureFresh(signature)) {
+    logStructured("warn", "mercadopago_webhook_signature_expired", {
+      requestId,
+      dataId,
+      signatureTimestamp,
+    });
+    return NextResponse.json({ ok: false, message: "Assinatura expirada." }, { status: 401 });
   }
 
   const validSignature = verifyMercadoPagoSignature({

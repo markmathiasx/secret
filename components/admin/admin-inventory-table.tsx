@@ -25,11 +25,19 @@ export function AdminInventoryTable({ products }: { products: AdminCatalogProduc
       const payload: Record<string, number> = {};
       if (edit.quantity !== "") payload.quantity = Number(edit.quantity);
       if (edit.reorderLevel !== "") payload.reorderLevel = Number(edit.reorderLevel);
+      const delta = payload.quantity !== undefined ? payload.quantity - product.stock : 0;
+      const confirmationText =
+        payload.quantity !== undefined && Math.abs(delta) >= 5
+          ? window.prompt(`Digite "AJUSTAR ESTOQUE ${product.id}" para continuar.`) || undefined
+          : undefined;
+      if (payload.quantity !== undefined && Math.abs(delta) >= 5 && !confirmationText) {
+        throw new Error("Ajuste crítico abortado: confirmação obrigatória.");
+      }
 
       const res = await fetch(`/api/admin/inventory/${product.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({ ...payload, confirmationText }),
       });
 
       if (!res.ok) {

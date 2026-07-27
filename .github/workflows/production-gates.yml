@@ -8,11 +8,13 @@ on:
 jobs:
   deploy-production:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 75
     environment: production
     env:
       VERCEL_ORG_ID: team_bu1enqIdDCfFt5c3gRRE9Z4P
       VERCEL_PROJECT_ID: prj_2r7sVOUhfP3FQpNE5Aoocyg5pXDo
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      SMOKE_BASE_URL: "https://www.mdh3d.com.br"
     steps:
       - uses: actions/checkout@v4
 
@@ -23,49 +25,16 @@ jobs:
 
       - run: npm ci
 
-      - name: Generate Prisma client
-        run: npm run db:generate
+      - name: Install browser dependencies
+        run: npx playwright install --with-deps chromium
+
+      - name: Industrial release gate
+        run: npm run industrial:v6:gate
         env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          PLAYWRIGHT_USE_SYSTEM_CHROME: "1"
 
-      - name: Lint
-        run: npm run lint:check
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
-          NEXT_PUBLIC_SITE_URL: "https://mdh3d.com.br"
-          ADMIN_PASSWORD_HASH: ${{ secrets.ADMIN_PASSWORD_HASH }}
-          ADMIN_SESSION_SECRET: ${{ secrets.ADMIN_SESSION_SECRET }}
+      - name: Install Vercel CLI
+        run: npm i -g vercel@57.0.0
 
-      - name: Type-check
-        run: npm run typecheck
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
-          NEXT_PUBLIC_SITE_URL: "https://mdh3d.com.br"
-          ADMIN_PASSWORD_HASH: ${{ secrets.ADMIN_PASSWORD_HASH }}
-          ADMIN_SESSION_SECRET: ${{ secrets.ADMIN_SESSION_SECRET }}
-
-      - name: Build
-        run: npm run build
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
-          NEXT_PUBLIC_SITE_URL: "https://mdh3d.com.br"
-          ADMIN_PASSWORD_HASH: ${{ secrets.ADMIN_PASSWORD_HASH }}
-          ADMIN_SESSION_SECRET: ${{ secrets.ADMIN_SESSION_SECRET }}
-          PIX_KEY: ${{ secrets.PIX_KEY }}
-
-      - run: npm i -g vercel@latest
-
-      - run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
-      - run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
-      - run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
-
-      - name: Post-deploy smoke test (non-blocking)
-        run: |
-          npx playwright install --with-deps chromium
-          npm run test:smoke:prod
-        continue-on-error: true
-        env:
-          SMOKE_BASE_URL: "https://mdh3d.com.br"
+      - name: Deploy, smoke test, and rollback on failure
+        run: node scripts/production/vercel-deploy-with-smoke-and-rollback.mjs

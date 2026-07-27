@@ -6,7 +6,8 @@ import { useMemo, useState } from "react";
 import { ArrowRight, SlidersHorizontal, Sparkles } from "lucide-react";
 import { SafeProductImage } from "@/components/safe-product-image";
 import { ProductVisualBadge } from "@/components/product-visual-authenticity";
-import { catalog, getProductUrl, type Product } from "@/lib/catalog";
+import type { Product } from "@/lib/catalog";
+import { getProductUrl } from "@/lib/product-routing";
 import { formatCurrency } from "@/lib/utils";
 
 function shouldIgnoreCardActivation(target: EventTarget | null) {
@@ -110,7 +111,7 @@ function buildAdvisorHref(goal: Goal, speed: Speed, budget: Budget, needCustom: 
   return `/catalogo?${params.toString()}`;
 }
 
-export function QuickMatchAdvisor() {
+export function QuickMatchAdvisor({ products }: { products: Product[] }) {
   const router = useRouter();
   const [goal, setGoal] = useState<Goal>("presente");
   const [speed, setSpeed] = useState<Speed>("rapido");
@@ -120,14 +121,14 @@ export function QuickMatchAdvisor() {
   const advisorHref = useMemo(() => buildAdvisorHref(goal, speed, budget, needCustom), [budget, goal, needCustom, speed]);
 
   const recommendations = useMemo(() => {
-    return catalog
+    return products
       .map((product) => {
         const scored = scoreProduct(product, goal, speed, budget, needCustom);
         return { product, score: scored.score, reason: scored.reason };
       })
       .sort((a, b) => b.score - a.score || a.product.pricePix - b.product.pricePix)
       .slice(0, 3);
-  }, [budget, goal, needCustom, speed]);
+  }, [budget, goal, needCustom, products, speed]);
 
   function openProduct(product: Product) {
     router.push(getProductUrl(product));

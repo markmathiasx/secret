@@ -43,3 +43,14 @@ export function listJobs() {
 export function getJob(id: string) {
   return listJobs().find((job) => job.id === id) || null;
 }
+
+export function findJobByIdempotencyKey(idempotencyKey: string) {
+  return listJobs().find((job) => job.idempotencyKey === idempotencyKey) || null;
+}
+
+export function findRunningJobByLock(lockKey: string, excludeId?: string) {
+  return (
+    listJobs().find((job) => job.lockKey === lockKey && job.status === "running" && (!excludeId || job.id !== excludeId)) ||
+    null
+  );
+}

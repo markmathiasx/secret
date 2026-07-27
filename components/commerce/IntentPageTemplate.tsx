@@ -38,6 +38,11 @@ export function IntentPageTemplate({ configKey }: { configKey: keyof typeof inte
           <div className="max-w-3xl">
             <h1 className="text-4xl font-black leading-tight text-white sm:text-5xl">{config.title}</h1>
             <p className="mt-4 text-base leading-7 text-white/68">{config.description}</p>
+            {configKey === "chaveiros-personalizados" ? (
+              <div className="mt-5 rounded-2xl border border-emerald-400/25 bg-emerald-400/10 p-4 text-sm leading-6 text-emerald-50">
+                <strong>Incluso no preço:</strong> peça impressa, argola metálica, corrente, montagem, embalagem individual e insumos para preparar o envio. O frete real é calculado separadamente.
+              </div>
+            ) : null}
             <div className="mt-6 flex flex-col gap-3 sm:flex-row">
               <Link href="/catalogo" className="btn-primary justify-center gap-2 px-5 py-3">
                 <ShoppingBag className="h-4 w-4" />

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { SafeProductImage } from "@/components/safe-product-image";
 import { ProductVisualBadge } from "@/components/product-visual-authenticity";
 import { whatsappNumber } from "@/lib/constants";
-import { getProductUrl } from "@/lib/catalog";
+import { getProductUrl } from "@/lib/product-routing";
 import { getCatalogSnapshot } from "@/lib/catalog-repository";
 import { isProductRealPhoto } from "@/lib/product-visuals";
 import { resolveProductImage } from "@/lib/product-images";

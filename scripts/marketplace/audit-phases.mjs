@@ -249,7 +249,7 @@ async function fetchHeaders(url) {
 }
 
 async function writePublicHttpReport() {
-  const routes = ["/", "/catalogo", "/loja", "/produto/chaveiro-rubro-negro-3d", "/checkout", "/jogue", "/feeds/meta-catalog.csv", "/meta/catalog.csv"];
+  const routes = ["/", "/catalogo", "/loja", "/catalogo/mdh-016-chaveiro-3d-personalizado-com-nome-ou-logo", "/checkout", "/jogue", "/feeds/meta-catalog.csv", "/meta/catalog.csv"];
   const checks = [];
   for (const route of routes) checks.push(await fetchHeaders(`${siteUrl}${route}`));
   const report = {

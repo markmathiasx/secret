@@ -15,7 +15,7 @@ Data: 2026-06-14.
 - `data/copa-theme-expansion-300.json`: expansao de 300 SKUs Copa/temas populares com imagens proprias.
 - `app/sitemap.ts`, `app/sitemap-products.xml/route.ts`, `app/robots.ts`: SEO tecnico e descoberta de produtos.
 - `app/ofertas/page.tsx`: cupons, combos e vitrines por faixa de preco.
-- `app/orcamento-personalizado/page.tsx`: personalizador/orcamento 3D sem API externa.
+- `app/orcamento-personalizado/page.tsx` e `/sob-medida`: personalizador/orcamento 3D sem API externa, com alias comercial curto para navegacao e SEO.
 
 ## Integracoes existentes
 
@@ -31,7 +31,7 @@ Data: 2026-06-14.
 - `/loja` ganhou busca com autocomplete, sinonimos, filtros por categoria, uso, material, cor, preco, personalizacao e ordenacao.
 - Carrinho local ganhou drawer, cupom local, barra de frete gratis e link individual de Nuvemshop quando existir.
 - `/produto/[slug]` ganhou galeria com zoom, frete por CEP, detalhes de material/cor/cuidados, reviews, Q&A, FAQ schema e breadcrumb schema.
-- Criados `/ofertas`, `/orcamento-personalizado`, `/feeds/tiktok-catalog.csv` e `/sitemap-products.xml`.
+- Criados `/ofertas`, `/sob-medida`, `/orcamento-personalizado`, `/feeds/tiktok-catalog.csv` e `/sitemap-products.xml`.
 - Criados dados locais em JSON para reviews e perguntas.
 - Criados docs operacionais e validadores.
 - Precos recalculados: catalogo grande via overrides e loja CSV com Pix = custo de producao + 30%, cartao = Pix + R$ 1.

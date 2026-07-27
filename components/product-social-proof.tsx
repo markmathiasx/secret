@@ -1,6 +1,7 @@
 "use client";
 
 import { BadgeCheck, Lock, Package, RotateCcw, ShieldCheck, ShoppingBag, Star, Zap } from "lucide-react";
+import type { ProductAvailabilityMode } from "@/lib/product-availability";
 
 export function TrustBadges() {
   return (
@@ -32,6 +33,7 @@ export function ProductSocialProof({
   soldTotal,
   soldLast30Days,
   stockLevel,
+  availabilityMode,
   protectedPurchaseHref = "/trocas-e-devolucoes",
 }: {
   productId: string;
@@ -40,11 +42,14 @@ export function ProductSocialProof({
   soldTotal?: number;
   soldLast30Days?: number;
   stockLevel: number;
+  availabilityMode?: ProductAvailabilityMode;
   protectedPurchaseHref?: string;
 }) {
   void productId;
-  const isLowStock = stockLevel > 0 && stockLevel <= 5;
-  const isOutOfStock = stockLevel <= 0;
+  const normalizedAvailability = availabilityMode || (stockLevel > 0 ? "in_stock" : "made_to_order");
+  const isLowStock = normalizedAvailability === "in_stock" && stockLevel > 0 && stockLevel <= 5;
+  const isMadeToOrder = normalizedAvailability === "made_to_order";
+  const isOutOfStock = normalizedAvailability === "out_of_stock";
   const hasReviews =
     typeof reviewCount === "number" && reviewCount > 0 && typeof averageRating === "number";
   const recentSales =
@@ -83,9 +88,14 @@ export function ProductSocialProof({
           Últimas {stockLevel} unidades
         </span>
       )}
-      {isOutOfStock && (
+      {isMadeToOrder && (
         <span className="flex items-center gap-1.5 rounded-full border border-white/15 bg-white/[0.08] px-3 py-1.5 text-xs font-semibold text-white/60">
           Sob encomenda
+        </span>
+      )}
+      {isOutOfStock && (
+        <span className="flex items-center gap-1.5 rounded-full border border-white/15 bg-white/[0.08] px-3 py-1.5 text-xs font-semibold text-white/60">
+          Sem estoque no momento
         </span>
       )}
 

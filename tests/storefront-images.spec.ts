@@ -4,7 +4,9 @@ import { test, expect } from "@playwright/test";
 
 const baseUrl = process.env.SMOKE_BASE_URL || "http://127.0.0.1:3000";
 const auditPath = path.join(process.cwd(), "output", "CATALOG_SEMANTIC_AUDIT.json");
+const storefrontPath = path.join(process.cwd(), "data", "commercial-storefront.json");
 const audit = JSON.parse(fs.readFileSync(auditPath, "utf8"));
+const storefront = JSON.parse(fs.readFileSync(storefrontPath, "utf8"));
 const valorantCuratedSkus = [
   "cha-001",
   "cha-002",
@@ -134,14 +136,30 @@ const storefrontHomeImages: Record<string, { primary: string; evidenceImages: st
   },
 };
 
-const realApprovedSkus = Array.isArray(audit.items)
-  ? audit.items.filter(
-      (item: { id?: string; slug?: string; name?: string; status?: string; imageCount?: number }) =>
-        String(item.id || "").startsWith("real-") && item.status === "APPROVED" && Number(item.imageCount || 0) >= 4
-    )
+function slugifyProductName(value: string) {
+  return value
+    .normalize("NFD")
+    .replace(/[^\w\s-]/g, "")
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, "-");
+}
+
+const publicStorefrontProducts = Array.isArray(storefront.publicProductIds)
+  ? storefront.publicProductIds
+      .map((id: string) => {
+        const product = storefront.products?.[id];
+        if (!product?.name) return null;
+        return {
+          id,
+          name: product.name,
+          slug: `${id}-${slugifyProductName(product.name)}`,
+        };
+      })
+      .filter(Boolean)
   : [];
 
-for (const product of realApprovedSkus) {
+for (const product of publicStorefrontProducts) {
   test(`PDP mostra imagens publicas visiveis em ${product.id}`, async ({ page }) => {
     await page.goto(`${baseUrl}/catalogo/${product.slug}`, { waitUntil: "networkidle" });
     const heading = page.locator("h1").first();

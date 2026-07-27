@@ -5,6 +5,7 @@ import { applyCatalogMedia, buildProductImageAlt } from "@/lib/catalog-media";
 import { catalog as staticCatalog, findProductBySlug as findStaticProductBySlug, type Product } from "@/lib/catalog";
 import { logStructured } from "@/lib/logger";
 import { canConnectToDatabase, prisma } from "@/lib/prisma";
+import { getProductAvailabilityMode, getPublicStockQuantity } from "@/lib/product-availability";
 import { filterPublicCatalogProducts, isPublicCatalogProduct } from "@/lib/public-catalog";
 import { getCachedJson, setCachedJson } from "@/lib/runtime-cache";
 
@@ -37,6 +38,13 @@ type PrismaProductRecord = Prisma.ProductGetPayload<{
 function getConfiguredCatalogSource(): CatalogSource {
   const raw = (process.env.CATALOG_SOURCE || process.env.NEXT_PUBLIC_CATALOG_SOURCE || "static").trim().toLowerCase();
   return raw === "database" || raw === "prisma" || raw === "db" ? "database" : "static";
+}
+
+function extractProductIdCandidate(slug: string) {
+  const normalized = slug.trim();
+  const match = normalized.match(/^([a-z]+-\d+)(?:-|$)/i);
+  if (match?.[1]) return match[1];
+  return normalized.includes("-") ? normalized.slice(0, normalized.indexOf("-")) : normalized;
 }
 
 function getDuplicateValues(values: string[]) {
@@ -90,7 +98,7 @@ function mapPrismaProduct(record: PrismaProductRecord): Product {
 
   const categoryName = record.category?.name || "Catálogo";
   const collectionName = record.collections[0]?.collection.name || "Marketplace";
-  const baseProduct: Product = {
+  const rawProduct: Product = {
     id: record.id,
     slug: record.slug,
     sku: record.sku,
@@ -162,6 +170,12 @@ function mapPrismaProduct(record: PrismaProductRecord): Product {
       colors: record.colors,
       images,
     } as Product),
+  };
+  const availabilityMode = getProductAvailabilityMode(rawProduct);
+  const baseProduct: Product = {
+    ...rawProduct,
+    availabilityMode,
+    stock: getPublicStockQuantity({ ...rawProduct, availabilityMode }),
   };
 
   return applyCatalogMedia(baseProduct, { preserveExisting: true });
@@ -264,7 +278,7 @@ export async function findCatalogProductBySlug(slug: string): Promise<Product | 
   }
 
   const normalized = slug.includes("-") ? slug.substring(slug.indexOf("-") + 1) : slug;
-  const idCandidate = slug.split("-")[0] || slug;
+  const idCandidate = extractProductIdCandidate(slug);
 
   try {
     const record = await prisma.product.findFirst({

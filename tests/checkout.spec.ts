@@ -9,6 +9,7 @@
 import { test, expect, Page } from "@playwright/test";
 
 const BASE_URL = process.env.PLAYWRIGHT_BASE_URL || process.env.SMOKE_BASE_URL || "http://localhost:3000";
+const PRODUCT_LINK_SELECTOR = 'a[href^="/catalogo/"]';
 
 /** Helper: intercept all MP payment API calls and return a mock success */
 async function mockMercadoPago(page: Page) {
@@ -35,11 +36,11 @@ test.describe("Checkout Flow", () => {
     await page.waitForLoadState("networkidle");
 
     // Find first product card and navigate to it
-    const productLink = page.locator('a[href^="/loja/"]').first();
+    const productLink = page.locator(PRODUCT_LINK_SELECTOR).first();
     await expect(productLink).toBeVisible({ timeout: 10000 });
     await productLink.click();
 
-    await page.waitForURL("**/loja/**");
+    await page.waitForURL("**/catalogo/**");
     await page.waitForLoadState("networkidle");
 
     // Add to cart — try various CTA selectors

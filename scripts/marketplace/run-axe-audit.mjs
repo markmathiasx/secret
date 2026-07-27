@@ -13,7 +13,7 @@ const pages = [
   { key: "home", path: "/" },
   { key: "catalog", path: "/catalogo" },
   { key: "smart_store", path: "/loja" },
-  { key: "product", path: "/produto/chaveiro-rubro-negro-3d" },
+  { key: "product", path: "/catalogo/mdh-016-chaveiro-3d-personalizado-com-nome-ou-logo" },
   { key: "checkout", path: "/checkout" },
   { key: "games", path: "/jogue" },
 ];

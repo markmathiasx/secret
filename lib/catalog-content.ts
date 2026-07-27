@@ -57,6 +57,48 @@ function normalizeSearchValue(value: string) {
     .trim();
 }
 
+function tokenizeSearchValue(value: string) {
+  return dedupe(
+    value
+      .split(/\s+/)
+      .map((token) => normalizeSearchValue(token))
+      .filter(Boolean)
+  );
+}
+
+function getLevenshteinDistance(left: string, right: string) {
+  if (left === right) return 0;
+  if (!left.length) return right.length;
+  if (!right.length) return left.length;
+
+  const rows = Array.from({ length: left.length + 1 }, (_, index) => [index]);
+  for (let column = 0; column <= right.length; column += 1) {
+    rows[0][column] = column;
+  }
+
+  for (let row = 1; row <= left.length; row += 1) {
+    for (let column = 1; column <= right.length; column += 1) {
+      const substitutionCost = left[row - 1] === right[column - 1] ? 0 : 1;
+      rows[row][column] = Math.min(
+        rows[row - 1][column] + 1,
+        rows[row][column - 1] + 1,
+        rows[row - 1][column - 1] + substitutionCost
+      );
+    }
+  }
+
+  return rows[left.length][right.length];
+}
+
+function hasNearTokenMatch(tokens: string[], queryToken: string) {
+  const maxDistance = queryToken.length >= 6 ? 2 : 1;
+  return tokens.some((token) => {
+    if (token === queryToken) return true;
+    if (Math.abs(token.length - queryToken.length) > maxDistance) return false;
+    return getLevenshteinDistance(token, queryToken) <= maxDistance;
+  });
+}
+
 function toSentenceList(values: string[]) {
   if (values.length <= 1) return values[0] || "";
   if (values.length === 2) return `${values[0]} e ${values[1]}`;
@@ -266,8 +308,11 @@ export function getProductSearchScore(product: Product, query: string) {
   const normalizedCategory = normalizeSearchValue(normalizeProductCategory(product));
   const searchText = buildProductSearchText(product);
   const tokens = dedupe(normalizedQuery.split(/\s+/).filter((token) => token.length >= 2));
+  const nameTokens = tokenizeSearchValue(`${product.name} ${product.category} ${product.subcategory}`);
+  const searchTokens = tokenizeSearchValue(searchText);
 
   let score = 0;
+  let nearMatches = 0;
 
   if (normalizedSku === normalizedQuery) score += 220;
   else if (normalizedSku.startsWith(normalizedQuery)) score += 150;
@@ -296,11 +341,24 @@ export function getProductSearchScore(product: Product, query: string) {
     if (searchText.includes(token)) {
       score += 10;
       matchedTokens += 1;
+      return;
+    }
+    if (hasNearTokenMatch(nameTokens, token)) {
+      score += 16;
+      matchedTokens += 1;
+      nearMatches += 1;
+      return;
+    }
+    if (hasNearTokenMatch(searchTokens, token)) {
+      score += 7;
+      matchedTokens += 1;
+      nearMatches += 1;
     }
   });
 
   if (tokens.length && matchedTokens === tokens.length) score += 36;
   if (tokens.length > 1 && matchedTokens >= Math.ceil(tokens.length / 2)) score += 14;
+  if (tokens.length && nearMatches === tokens.length) score += 9;
 
   return matchedTokens === 0 && !searchText.includes(normalizedQuery) ? 0 : score;
 }

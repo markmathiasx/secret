@@ -1,9 +1,11 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { ArrowRight, Gamepad2, Instagram, MessageCircleMore, Search, ShoppingBag, SlidersHorizontal, UploadCloud } from "lucide-react";
+import { Gamepad2, Instagram, MessageCircleMore, ShoppingBag, SlidersHorizontal, UploadCloud } from "lucide-react";
 import { CatalogExplorer } from "@/components/catalog-explorer";
 import { CinematicVideoBackground } from "@/components/media/CinematicVideoBackground";
+import { StorefrontSearchBox } from "@/components/storefront-search-box";
 import { getCatalogSnapshot } from "@/lib/catalog-repository";
+import { getProductUrl } from "@/lib/catalog";
 import { getSiteUrl } from "@/lib/env";
 import { brand, socialLinks, whatsappNumber } from "@/lib/constants";
 import { formatCurrency } from "@/lib/utils";
@@ -19,20 +21,10 @@ export const revalidate = 300;
 export const dynamic = "force-static";
 
 const priceStarts = [
-  { label: "Até R$ 29,90", href: "/catalogo?max=29.90&sort=Menor%20pre%C3%A7o" },
-  { label: "Até R$ 49,90", href: "/catalogo?max=49.90&sort=Menor%20pre%C3%A7o" },
-  { label: "Até R$ 79,90", href: "/catalogo?max=79.90&sort=Menor%20pre%C3%A7o" },
+  { label: "Até R$ 29,90", href: "/catalogo?max=29.90&sort=Preço" },
+  { label: "Até R$ 49,90", href: "/catalogo?max=49.90&sort=Preço" },
+  { label: "Até R$ 79,90", href: "/catalogo?max=79.90&sort=Preço" },
   { label: "Premium e sob medida", href: "/catalogo?min=99.90" },
-] as const;
-
-const categories = [
-  "Chaveiros e Acessórios",
-  "Geek & Colecionáveis",
-  "Casa e Organização",
-  "Setup Gamer e Home Office",
-  "Presentes Personalizados",
-  "Peças Sob Medida",
-  "Lotes e Brindes",
 ] as const;
 
 function whatsappHref(message: string) {
@@ -42,9 +34,25 @@ function whatsappHref(message: string) {
 export default async function CatalogPage() {
   const catalog = await getCatalogSnapshot();
   const siteUrl = getSiteUrl();
+  const searchEntries = catalog.map((product) => ({
+    id: product.id,
+    name: product.name,
+    category: product.category,
+    collection: product.collection,
+    tags: product.tags,
+    href: getProductUrl(product),
+  }));
   const publicStats = buildPublicCatalogStats(catalog);
   const minPrice = publicStats.minPrice || 19.9;
   const quickProducts = catalog.filter((product) => product.pricePix <= 39.9 || product.readyToShip).length;
+  const categoryLinks = [
+    ...Array.from(new Set(catalog.map((product) => product.category))).map((category) => ({
+      label: category,
+      href: `/catalogo?category=${encodeURIComponent(category)}`,
+    })),
+    { label: "Personalizacao", href: "/catalogo?custom=1" },
+    { label: "Brindes e lotes", href: "/brindes-e-lotes" },
+  ].slice(0, 7);
   const whatsapp = whatsappHref("Quero ajuda para escolher no Catálogo MDH 3D. Quero ver Pix, cartão e prazo.");
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
@@ -73,22 +81,14 @@ export default async function CatalogPage() {
               <p className="mt-4 max-w-2xl text-base leading-7 text-white/72 sm:text-lg">
                 Produtos em impressão 3D para presentear, organizar, decorar e personalizar.
               </p>
-              <form action="/catalogo" className="mt-7 flex max-w-3xl flex-col gap-2 rounded-[8px] border border-white/10 bg-white/[0.06] p-2 sm:flex-row">
-                <label htmlFor="catalog-search" className="sr-only">Buscar no catálogo</label>
-                <div className="flex min-h-14 flex-1 items-center gap-3 rounded-[8px] bg-black/28 px-4">
-                  <Search className="h-5 w-5 text-emerald-100" />
-                  <input
-                    id="catalog-search"
-                    type="search"
-                    name="q"
-                    placeholder="Busque por chaveiro, suporte, organizador, miniatura... Ctrl+K"
-                    className="w-full bg-transparent text-base text-white outline-none placeholder:text-white/42"
-                  />
-                </div>
-                <button type="submit" className="btn-primary min-h-14 justify-center gap-2 px-5">
-                  Buscar <ArrowRight className="h-4 w-4" />
-                </button>
-              </form>
+              <div className="mt-7 max-w-3xl">
+                <StorefrontSearchBox
+                  products={searchEntries}
+                  actionPath="/busca"
+                  placeholder="Busque por chaveiro, suporte, organizador, nome 3D ou lote..."
+                  quickQueries={["chaveiro personalizado", "organizador de mesa", "nome 3d", "luminaria personalizada"]}
+                />
+              </div>
               <div className="mt-4 flex flex-wrap gap-2">
                 <Link href="/catalogo?custom=1" className="btn-secondary gap-2 px-4 py-2 text-sm">
                   <SlidersHorizontal className="h-4 w-4" /> Personalizáveis
@@ -147,9 +147,9 @@ export default async function CatalogPage() {
               <h2 className="font-black text-white">Comprar por categoria</h2>
             </div>
             <div className="flex flex-wrap gap-2">
-              {categories.map((category) => (
-                <Link key={category} href={`/catalogo?category=${encodeURIComponent(category)}`} className="rounded-full border border-white/10 bg-black/20 px-3 py-2 text-xs font-bold text-white/76 transition hover:border-emerald-300/30 hover:text-white">
-                  {category}
+              {categoryLinks.map((category) => (
+                <Link key={category.href} href={category.href} className="rounded-full border border-white/10 bg-black/20 px-3 py-2 text-xs font-bold text-white/76 transition hover:border-emerald-300/30 hover:text-white">
+                  {category.label}
                 </Link>
               ))}
             </div>
@@ -172,7 +172,7 @@ export default async function CatalogPage() {
 
       <section id="catalogo-vitrine" className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="rounded-[8px] border border-white/10 bg-[#09121a] p-3 sm:p-4">
-          <CatalogExplorer products={catalog} initialOrder="Menor preço" />
+          <CatalogExplorer products={catalog} initialOrder="Preço" />
         </div>
       </section>
     </main>

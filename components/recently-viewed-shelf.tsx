@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { formatCurrency } from "@/lib/utils";
 import type { Product } from "@/lib/catalog";
-import { getProductUrl } from "@/lib/catalog";
+import { getProductUrl } from "@/lib/product-routing";
 
 const RECENT_KEY = "mdh_catalog_recent";
 

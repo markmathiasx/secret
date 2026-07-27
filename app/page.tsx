@@ -20,6 +20,7 @@ import { HomeTestimonials } from "@/components/home-testimonials";
 import { CinematicVideoBackground } from "@/components/media/CinematicVideoBackground";
 import { Reveal } from "@/components/reveal";
 import { RotatingProductHero, type RotatingHeroProduct } from "@/components/home/RotatingProductHero";
+import { StorefrontSearchBox } from "@/components/storefront-search-box";
 import { MagneticLink } from "@/components/ui/magnetic-link";
 import { getCatalogSnapshot } from "@/lib/catalog-repository";
 import type { Product } from "@/lib/catalog";
@@ -181,6 +182,14 @@ export default async function HomePage() {
   const catalog = await getCatalogSnapshot();
   const siteUrl = getSiteUrl();
   const available = catalog.filter((product) => product.pricePix > 0);
+  const searchEntries = available.map((product) => ({
+    id: product.id,
+    name: product.name,
+    category: product.category,
+    collection: product.collection,
+    tags: product.tags,
+    href: getProductUrl(product),
+  }));
   const publicStats = buildPublicCatalogStats(catalog);
   const minPix = [...available].sort((left, right) => left.pricePix - right.pricePix)[0]?.pricePix ?? 19.9;
   const quoteMessage = "Quero um orçamento na MDH 3D. Vim pela home e preciso de ajuda com produto, preço, prazo e personalização.";
@@ -212,6 +221,16 @@ export default async function HomePage() {
               <p className="mt-5 max-w-2xl text-base leading-7 text-white/72 sm:text-lg">
                 Chaveiros, presentes, organizadores, peças geek e projetos sob medida. Escolha um modelo ou mande sua ideia no WhatsApp.
               </p>
+            </Reveal>
+            <Reveal delay={170}>
+              <div className="mt-6 max-w-3xl">
+                <StorefrontSearchBox
+                  products={searchEntries}
+                  actionPath="/busca"
+                  placeholder="Busque por chaveiro, suporte, luminaria, nome 3D ou lote..."
+                  quickQueries={["chaveiro personalizado", "brindes em lote", "nome 3d", "organizador de mesa"]}
+                />
+              </div>
             </Reveal>
             <Reveal delay={200}>
               <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
@@ -273,6 +292,28 @@ export default async function HomePage() {
         </div>
       </section>
 
+      <section className="mx-auto max-w-7xl px-4 py-4 sm:px-6">
+        <Reveal>
+          <div className="grid gap-3 md:grid-cols-3">
+            <Link href="/catalogo?custom=1" className="rounded-[8px] border border-cyan-300/20 bg-cyan-300/10 p-4 transition hover:border-cyan-300/35 hover:bg-cyan-300/14">
+              <p className="section-kicker">Personalizacao</p>
+              <h2 className="mt-1 text-xl font-black text-white">Produtos com ajuste real de cor, nome, tema ou briefing</h2>
+              <p className="mt-2 text-sm text-white/62">Entre pelo catalogo curado e siga para briefing ou checkout sem cair em SKU oculto.</p>
+            </Link>
+            <Link href="/brindes-e-lotes" className="rounded-[8px] border border-emerald-300/20 bg-emerald-300/10 p-4 transition hover:border-emerald-300/35 hover:bg-emerald-300/14">
+              <p className="section-kicker">B2B e lotes</p>
+              <h2 className="mt-1 text-xl font-black text-white">Brindes, repeticao e tiragens sob capacidade real de producao</h2>
+              <p className="mt-2 text-sm text-white/62">A vitrine abre a conversa e o atendimento fecha prazo, quantidade e impacto comercial.</p>
+            </Link>
+            <Link href="/imagem-para-impressao-3d" className="rounded-[8px] border border-white/10 bg-white/[0.045] p-4 transition hover:border-white/20 hover:bg-white/[0.065]">
+              <p className="section-kicker">Arquivo e briefing</p>
+              <h2 className="mt-1 text-xl font-black text-white">Envie referencia, STL ou objetivo da peca sem fingir preview final</h2>
+              <p className="mt-2 text-sm text-white/62">A analise humana continua sendo o ponto de aprovacao antes da producao.</p>
+            </Link>
+          </div>
+        </Reveal>
+      </section>
+
       <TrustProofSection />
 
       <div id="categorias">
@@ -311,7 +352,7 @@ export default async function HomePage() {
         kicker="Entrada rápida"
         title="Ideias até R$ 50"
         description="Peças de entrada com Pix visível e cartão sempre calculado como Pix + R$ 1."
-        href="/catalogo?maxPrice=50"
+        href="/catalogo?max=50&sort=Preço"
         products={sections.entry}
         siteUrl={siteUrl}
       />
@@ -319,15 +360,15 @@ export default async function HomePage() {
         kicker="Rotina e setup"
         title="Casa, organização e mesa"
         description="Suportes, organizadores e utilidades para resolver problemas pequenos com acabamento limpo."
-        href="/catalogo?category=Casa%20e%20Organiza%C3%A7%C3%A3o"
+        href="/catalogo?category=Setup%20e%20Home%20Office"
         products={sections.setup}
         siteUrl={siteUrl}
       />
       <ProductRail
-        kicker="Geek e coleção"
-        title="Colecionáveis e presentes de personalidade"
-        description="Peças com apelo visual para setup, estante e presente criativo."
-        href="/catalogo?category=Geek%20%26%20Colecion%C3%A1veis"
+        kicker="Presentes e identidade"
+        title="Pecas personalizaveis e presentes com mais valor percebido"
+        description="Selecao para quem quer nome, tema, litofania, luminaria ou ajuste visual antes de fechar."
+        href="/catalogo?custom=1&intent=Presente"
         products={sections.geek}
         siteUrl={siteUrl}
       />

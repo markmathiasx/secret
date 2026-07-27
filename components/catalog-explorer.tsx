@@ -18,7 +18,8 @@ import {
   Target,
 } from 'lucide-react';
 import { useCart } from '@/lib/cart-context';
-import { getProductUrl, type Product } from '@/lib/catalog';
+import type { Product } from '@/lib/catalog';
+import { getProductUrl } from '@/lib/product-routing';
 import { getProductSearchScore } from '@/lib/catalog-content';
 import { ProductImageGallery } from '@/components/product-image-gallery';
 import { ProductPriceStack } from '@/components/product-price-stack';
@@ -202,6 +203,7 @@ function sanitizePage(value: number | undefined) {
 
 export function CatalogExplorer({
   products,
+  basePath = '/catalogo',
   initialQuery = '',
   initialCategory = 'Todas',
   initialCollection = 'Todas',
@@ -216,6 +218,7 @@ export function CatalogExplorer({
   initialPage = 1,
 }: {
   products: Product[];
+  basePath?: string;
   initialQuery?: string;
   initialCategory?: string;
   initialCollection?: string;
@@ -640,8 +643,8 @@ export function CatalogExplorer({
     if (priceRange[1] !== priceLimits.max) params.set('max', String(priceRange[1]));
     if (currentPage > 1) params.set('page', String(currentPage));
     const queryString = params.toString();
-    return queryString ? `/catalogo?${queryString}` : '/catalogo';
-  }, [availability, category, collection, currentPage, customizableOnly, order, priceLimits.max, priceLimits.min, priceRange, purchaseIntent, query, selectedMaterial, visualMode]);
+    return queryString ? `${basePath}?${queryString}` : basePath;
+  }, [availability, basePath, category, collection, currentPage, customizableOnly, order, priceLimits.max, priceLimits.min, priceRange, purchaseIntent, query, selectedMaterial, visualMode]);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;

@@ -6,6 +6,7 @@
 import { test, expect } from "@playwright/test";
 
 const BASE_URL = process.env.PLAYWRIGHT_BASE_URL || process.env.SMOKE_BASE_URL || "http://localhost:3000";
+const PRODUCT_LINK_SELECTOR = 'a[href^="/catalogo/"]';
 
 test.describe("Cart UI", () => {
   test("catálogo lista produtos", async ({ page }) => {
@@ -13,8 +14,8 @@ test.describe("Cart UI", () => {
     await page.waitForLoadState("networkidle");
 
     await expect(page).toHaveURL(/\/catalogo/);
-    // Should have at least one product link
-    const productLinks = page.locator('a[href^="/loja/"]');
+    // Should have at least one canonical product link
+    const productLinks = page.locator(PRODUCT_LINK_SELECTOR);
     await expect(productLinks.first()).toBeVisible({ timeout: 10000 });
   });
 
@@ -22,7 +23,7 @@ test.describe("Cart UI", () => {
     await page.goto(`${BASE_URL}/catalogo`);
     await page.waitForLoadState("networkidle");
 
-    const productLink = page.locator('a[href^="/loja/"]').first();
+    const productLink = page.locator(PRODUCT_LINK_SELECTOR).first();
     const href = await productLink.getAttribute("href");
     if (!href) return;
 

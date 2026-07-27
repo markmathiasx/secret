@@ -13,6 +13,7 @@ pnpm-debug.log*
 .vercel
 supabase/.temp
 coverage
+test-results/
 *.sqlite
 *.sqlite-journal
 tsconfig.tsbuildinfo
@@ -26,6 +27,10 @@ secret/
 build_output.txt
 CORRECAO-TYPECHECK-BUILD.txt
 output/
+tmp/
+reports/e2e-results.json
+reports/lighthouse/
+.codex/prompts/
 uploads/*
 !uploads/.gitkeep
 !uploads/products/

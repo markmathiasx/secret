@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { Eye, MessageCircleMore, ShoppingCart } from "lucide-react";
 import type { Product } from "@/lib/catalog";
-import { getProductUrl } from "@/lib/catalog";
+import { getProductUrl } from "@/lib/product-routing";
 import { whatsappNumber } from "@/lib/constants";
 import { calculateCardPrice } from "@/lib/payment-pricing";
 import { getProductCardImage, PRODUCT_CARD_PLACEHOLDER } from "@/lib/product-card-image";
@@ -17,6 +17,7 @@ import { fadeInUp } from "@/lib/animations";
 interface PremiumCardProps {
   product: Product;
   index?: number;
+  priority?: boolean;
 }
 
 function shortText(value: string, max = 90) {
@@ -34,10 +35,11 @@ function badgesFor(product: Product) {
   return badges.slice(0, 2);
 }
 
-export function PremiumCard({ product, index = 0 }: PremiumCardProps) {
+export function PremiumCard({ product, index = 0, priority }: PremiumCardProps) {
   const shouldReduce = useReducedMotion();
   const { addItem } = useCart();
   const cardImage = getProductCardImage(product);
+  const shouldPrioritizeImage = priority ?? index < 4;
   const [imageSrc, setImageSrc] = useState(cardImage.src);
   const productUrl = getProductUrl(product);
   const priceCard = calculateCardPrice(product.pricePix);
@@ -79,9 +81,9 @@ export function PremiumCard({ product, index = 0 }: PremiumCardProps) {
         <img
           src={imageSrc}
           alt={product.name}
-          loading={index < 4 ? "eager" : "lazy"}
+          loading={shouldPrioritizeImage ? "eager" : "lazy"}
           decoding="async"
-          fetchPriority={index < 4 ? "high" : "auto"}
+          fetchPriority={shouldPrioritizeImage ? "high" : "auto"}
           onError={() => {
             if (imageSrc !== PRODUCT_CARD_PLACEHOLDER) setImageSrc(PRODUCT_CARD_PLACEHOLDER);
           }}

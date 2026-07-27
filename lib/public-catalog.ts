@@ -1,6 +1,7 @@
 import { catalog, type Product } from "@/lib/catalog";
 import { isPublicSafe, validateProductMedia } from "@/lib/media-validation";
 import { getProductVisual } from "@/lib/product-visuals";
+import { getProductAvailabilityMode, getPublicStockQuantity, type ProductAvailabilityMode } from "@/lib/product-availability";
 
 export type PublicProductPayload = {
   id: string;
@@ -28,6 +29,7 @@ export type PublicProductPayload = {
   material: string;
   finish: string;
   status: Product["status"];
+  availabilityMode: ProductAvailabilityMode;
   stock: number;
   featured: boolean;
   customizable: boolean;
@@ -50,6 +52,7 @@ export function filterPublicCatalogProducts(products: Product[]) {
 export function serializePublicProduct(product: Product): PublicProductPayload {
   const visual = getProductVisual(product);
   const mediaRecord = validateProductMedia(product);
+  const availabilityMode = getProductAvailabilityMode(product);
 
   return {
     id: product.id,
@@ -77,7 +80,8 @@ export function serializePublicProduct(product: Product): PublicProductPayload {
     material: product.material,
     finish: product.finish,
     status: product.status,
-    stock: product.stock,
+    availabilityMode,
+    stock: getPublicStockQuantity({ ...product, availabilityMode }),
     featured: product.featured,
     customizable: product.customizable,
     readyToShip: product.readyToShip,

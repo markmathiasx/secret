@@ -1,8 +1,7 @@
 import { redirect } from "next/navigation";
-import { AdminDashboard } from "@/components/admin/admin-dashboard";
-import { getAdminDashboardSnapshot } from "@/lib/server-store";
-import { getAdminCatalogSnapshot } from "@/lib/server/admin-catalog-store";
+import { CommerceOsDashboard } from "@/components/admin/commerce-os-dashboard";
 import { getServerSessionUser, isAdminSession } from "@/lib/server-session";
+import { getCommerceOsDashboard } from "@/src/lib/commerce-os/service";
 
 export const dynamic = "force-dynamic";
 
@@ -13,14 +12,11 @@ export default async function AdminHome() {
     redirect("/admin/login");
   }
 
-  const [snapshot, catalogSnapshot] = await Promise.all([
-    getAdminDashboardSnapshot(),
-    getAdminCatalogSnapshot(),
-  ]);
+  const snapshot = await getCommerceOsDashboard();
 
   return (
     <section className="mx-auto max-w-[1500px] px-6 py-14">
-      <AdminDashboard initialProducts={catalogSnapshot} commerceSnapshot={snapshot} />
+      <CommerceOsDashboard snapshot={snapshot} />
     </section>
   );
 }

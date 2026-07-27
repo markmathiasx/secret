@@ -47,10 +47,20 @@ export default function AdminOrderDetail({ order }: OrderDetailProps) {
     setSaving(true);
     setStatusMessage('');
     try {
+      let confirmationText: string | undefined;
+      if (status === 'CANCELED') {
+        confirmationText = window.prompt(`Digite "CANCELAR PEDIDO ${order.orderNumber}" para continuar.`) || undefined;
+        if (!confirmationText) {
+          setStatusMessage('Cancelamento abortado: confirmação obrigatória.');
+          setSaving(false);
+          return;
+        }
+      }
+
       const res = await fetch(`/api/admin/orders/${order.id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status, notes }),
+        body: JSON.stringify({ status, notes, confirmationText }),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data?.error || 'Erro ao atualizar pedido.');
@@ -89,18 +99,26 @@ export default function AdminOrderDetail({ order }: OrderDetailProps) {
     setSaving(true);
     setStatusMessage('');
     try {
+      const confirmationText = window.prompt(`Digite "CONFIRMAR PAGAMENTO ${order.orderNumber}" para continuar.`) || undefined;
+      if (!confirmationText) {
+        setStatusMessage('Confirmação de pagamento abortada.');
+        setSaving(false);
+        return;
+      }
+
       const res = await fetch('/api/admin/payments/confirm', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           orderId: order.id,
           status: 'PAID',
+          confirmationText,
         }),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data?.error || 'Erro ao confirmar pagamento.');
       setStatus('PAID');
-      setStatusMessage('Pagamento confirmado.');
+      setStatusMessage('Pagamento confirmado com dupla confirmação.');
     } catch (err) {
       setStatusMessage(err instanceof Error ? err.message : 'Erro ao confirmar pagamento.');
     } finally {

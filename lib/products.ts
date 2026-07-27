@@ -1,6 +1,6 @@
-import { findProduct, getProductUrl, type Product as CatalogProduct } from "@/lib/catalog";
+import commercialStorefrontJson from "@/data/commercial-storefront.json";
 import { calculateCardPrice } from "@/lib/payment-pricing";
-import { slugify } from "@/lib/utils";
+import { getProductUrl } from "@/lib/product-routing";
 
 type ProductCopy = {
   shortDescription: string;
@@ -9,6 +9,26 @@ type ProductCopy = {
   acceptsPersonalizationText?: boolean;
   personalizationLabel?: string;
   personalizationPlaceholder?: string;
+};
+
+type StorefrontSourceProduct = {
+  name: string;
+  description: string;
+  category: string;
+  subcategory?: string;
+  tags?: string[];
+  pricePix: number;
+  material: string;
+  finish: string;
+  productionWindow: string;
+  stock?: number;
+  featured?: boolean;
+  customizable?: boolean;
+};
+
+type CommercialStorefrontJson = {
+  publicProductIds: string[];
+  products: Record<string, StorefrontSourceProduct>;
 };
 
 export type StorefrontProduct = {
@@ -38,22 +58,10 @@ export type StorefrontProduct = {
   personalizationPlaceholder?: string;
 };
 
-const curatedSourceIds = [
-  "mdh-013",
-  "mdh-014",
-  "mdh-015",
-  "mdh-016",
-  "mdh-017",
-  "mdh-019",
-  "mdh-022",
-  "mdh-025",
-  "mdh-026",
-  "mdh-028",
-  "mdh-029",
-  "mdh-030",
-] as const;
+const storefrontConfig = commercialStorefrontJson as CommercialStorefrontJson;
+const curatedSourceIds = [...storefrontConfig.publicProductIds];
 
-const copyBySourceId: Record<(typeof curatedSourceIds)[number] | "mdh-038", ProductCopy> = {
+const copyBySourceId: Record<string, ProductCopy> = {
   "mdh-013": {
     shortDescription: "Suporte 3D para headphone com acabamento limpo, base firme e visual profissional para setup.",
     longDescription:
@@ -101,11 +109,6 @@ const copyBySourceId: Record<(typeof curatedSourceIds)[number] | "mdh-038", Prod
     longDescription:
       "Produto de decoração com boa percepção de valor e compra direta. É indicado para clientes que querem presentear ou compor ambientes com uma peça leve e marcante.",
   },
-  "mdh-026": {
-    shortDescription: "Esfera colecionável em 3D para presente geek ou decoração de setup.",
-    longDescription:
-      "Item autoral com apelo visual imediato, boa taxa de clique e alta intenção de compra para público geek. Fecha bem em campanhas sazonais e kits com outros colecionáveis.",
-  },
   "mdh-028": {
     shortDescription: "Luminária LED personalizada para nome, frase, logo ou peça decorativa com alto impacto visual.",
     longDescription:
@@ -122,11 +125,6 @@ const copyBySourceId: Record<(typeof curatedSourceIds)[number] | "mdh-038", Prod
     personalizationLabel: "Texto ou contexto da foto",
     personalizationPlaceholder: "Ex.: foto de casal, homenagem para mãe ou aniversário de 15 anos",
   },
-  "mdh-030": {
-    shortDescription: "Quadro decorativo 3D para parede, setup, recepção ou presente com identidade visual forte.",
-    longDescription:
-      "Peça indicada para decorar ambientes e destacar temas geek, minimalistas ou personalizados. É um bom produto para tráfego comercial por unir prova visual, ticket claro e compra rápida.",
-  },
   "mdh-038": {
     shortDescription: "Projeto 3D personalizado para nome, frase, presente, peça decorativa ou pedido sob medida.",
     longDescription:
@@ -136,33 +134,77 @@ const copyBySourceId: Record<(typeof curatedSourceIds)[number] | "mdh-038", Prod
     personalizationLabel: "Descreva o que você quer personalizado",
     personalizationPlaceholder: "Ex.: nome em 3D para mesa, topo de bolo, peça com logotipo ou referência de presente",
   },
+  "mdh-053": {
+    shortDescription: "Caixa organizadora modular com tampa para mesa, armário, home office ou bancada.",
+    longDescription:
+      "Organiza pequenos objetos com leitura mais premium do que caixas genéricas e ajuda a compor kits de organização. Funciona bem para quem quer utilidade prática com acabamento consistente.",
+  },
 };
 
+function slugifyStorefrontName(value: string) {
+  return value
+    .normalize("NFD")
+    .replace(/[^\w\s-]/g, "")
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, "-");
+}
+
+function skuFromProductId(productId: string) {
+  const numeric = productId.match(/\d+/)?.[0] || productId;
+  return `MDH-${numeric.padStart(4, "0")}`;
+}
+
+function imagePathsForProduct(productId: string) {
+  return [
+    `/products/catalog/${productId}.webp`,
+    `/products/gallery/${productId}/2.webp`,
+    `/products/gallery/${productId}/3.webp`,
+  ];
+}
+
 function assertProduct(productId: string) {
-  const product = findProduct(productId);
+  const product = storefrontConfig.products[productId];
   if (!product) {
-    throw new Error(`Produto base não encontrado para ${productId}.`);
+    throw new Error(`Produto comercial não encontrado para ${productId}.`);
   }
   return product;
 }
 
-function buildStorefrontProduct(product: CatalogProduct, copy: ProductCopy, overrides?: Partial<StorefrontProduct>): StorefrontProduct {
-  const slug = overrides?.slug || product.slug || slugify(product.name);
+function getProductCopy(productId: string, product: StorefrontSourceProduct): ProductCopy {
+  return (
+    copyBySourceId[productId] || {
+      shortDescription: product.description,
+      longDescription: `${product.name} com produção local, preço claro e confirmação do prazo antes do envio.`,
+      featured: product.featured,
+      acceptsPersonalizationText: product.customizable,
+    }
+  );
+}
+
+function buildStorefrontProduct(
+  productId: string,
+  product: StorefrontSourceProduct,
+  copy: ProductCopy,
+  overrides?: Partial<StorefrontProduct>
+): StorefrontProduct {
+  const slug = overrides?.slug || slugifyStorefrontName(product.name);
   const pricePix = overrides?.pricePix ?? product.pricePix;
+  const id = overrides?.id || productId;
 
   return {
-    id: overrides?.id || product.id,
-    sourceId: overrides?.sourceId ?? product.id,
-    sku: overrides?.sku || product.sku,
+    id,
+    sourceId: overrides?.sourceId ?? productId,
+    sku: overrides?.sku || skuFromProductId(productId),
     slug,
-    href: overrides?.href || getProductUrl({ ...product, slug }),
+    href: overrides?.href || getProductUrl({ id: productId, slug, name: product.name }),
     name: overrides?.name || product.name,
     category: overrides?.category || product.category,
     shortDescription: copy.shortDescription,
     longDescription: copy.longDescription,
-    images: overrides?.images || product.images || [product.image || ""].filter(Boolean),
-    stock: overrides?.stock ?? Math.max(1, product.stock),
-    tags: overrides?.tags || product.tags,
+    images: overrides?.images || imagePathsForProduct(productId),
+    stock: overrides?.stock ?? product.stock ?? 0,
+    tags: overrides?.tags || product.tags || [],
     price: overrides?.price ?? pricePix,
     pricePix,
     priceCard: calculateCardPrice(pricePix),
@@ -170,8 +212,8 @@ function buildStorefrontProduct(product: CatalogProduct, copy: ProductCopy, over
     material: overrides?.material || product.material,
     finish: overrides?.finish || product.finish,
     productionWindow: overrides?.productionWindow || product.productionWindow,
-    featured: overrides?.featured ?? copy.featured ?? product.featured,
-    customizable: overrides?.customizable ?? product.customizable,
+    featured: overrides?.featured ?? copy.featured ?? product.featured ?? false,
+    customizable: overrides?.customizable ?? product.customizable ?? false,
     acceptsPersonalizationText:
       overrides?.acceptsPersonalizationText ?? copy.acceptsPersonalizationText ?? false,
     personalizationLabel: overrides?.personalizationLabel || copy.personalizationLabel,
@@ -180,15 +222,16 @@ function buildStorefrontProduct(product: CatalogProduct, copy: ProductCopy, over
   };
 }
 
-const curatedProducts = curatedSourceIds.map((sourceId) =>
-  buildStorefrontProduct(assertProduct(sourceId), copyBySourceId[sourceId])
-);
+const curatedProducts = curatedSourceIds.map((sourceId) => {
+  const product = assertProduct(sourceId);
+  return buildStorefrontProduct(sourceId, product, getProductCopy(sourceId, product));
+});
 
 const customBase = assertProduct("mdh-038");
 
 export const storefrontProducts: StorefrontProduct[] = [
   ...curatedProducts,
-  buildStorefrontProduct(customBase, copyBySourceId["mdh-038"], {
+  buildStorefrontProduct("mdh-038", customBase, copyBySourceId["mdh-038"], {
     id: "mdh-custom",
     sourceId: null,
     sku: "MDH-CUSTOM",
@@ -228,9 +271,8 @@ export function resolveStorefrontHref(productId: string) {
     return storefrontProduct.href;
   }
 
-  const catalogProduct = findProduct(productId);
-  if (catalogProduct) {
-    return getProductUrl(catalogProduct);
+  if (/^mdh-\d+$/i.test(productId)) {
+    return getProductUrl({ id: productId, name: productId });
   }
 
   return "/catalogo";

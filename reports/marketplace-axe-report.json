@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-19T09:54:00.618Z",
+  "generatedAt": "2026-07-27T08:34:52.749Z",
   "baseUrl": "http://127.0.0.1:3000",
   "results": [
     {
@@ -8,7 +8,7 @@
       "url": "http://127.0.0.1:3000/",
       "ok": true,
       "status": 200,
-      "bodyTextLength": 12264,
+      "bodyTextLength": 8062,
       "frameworkOverlay": false,
       "skipLink": {
         "exists": true,
@@ -26,7 +26,7 @@
       "url": "http://127.0.0.1:3000/catalogo",
       "ok": true,
       "status": 200,
-      "bodyTextLength": 18152,
+      "bodyTextLength": 12649,
       "frameworkOverlay": false,
       "skipLink": {
         "exists": true,
@@ -44,7 +44,7 @@
       "url": "http://127.0.0.1:3000/loja",
       "ok": true,
       "status": 200,
-      "bodyTextLength": 126311,
+      "bodyTextLength": 12649,
       "frameworkOverlay": false,
       "skipLink": {
         "exists": true,
@@ -59,10 +59,10 @@
     {
       "page": "product",
       "viewport": "mobile",
-      "url": "http://127.0.0.1:3000/produto/chaveiro-rubro-negro-3d",
+      "url": "http://127.0.0.1:3000/catalogo/mdh-016-chaveiro-3d-personalizado-com-nome-ou-logo",
       "ok": true,
       "status": 200,
-      "bodyTextLength": 3708,
+      "bodyTextLength": 11278,
       "frameworkOverlay": false,
       "skipLink": {
         "exists": true,
@@ -80,7 +80,7 @@
       "url": "http://127.0.0.1:3000/checkout",
       "ok": true,
       "status": 200,
-      "bodyTextLength": 1824,
+      "bodyTextLength": 1779,
       "frameworkOverlay": false,
       "skipLink": {
         "exists": true,
@@ -98,7 +98,7 @@
       "url": "http://127.0.0.1:3000/jogue",
       "ok": true,
       "status": 200,
-      "bodyTextLength": 2982,
+      "bodyTextLength": 2937,
       "frameworkOverlay": false,
       "skipLink": {
         "exists": true,
@@ -116,7 +116,7 @@
       "url": "http://127.0.0.1:3000/",
       "ok": true,
       "status": 200,
-      "bodyTextLength": 12464,
+      "bodyTextLength": 8241,
       "frameworkOverlay": false,
       "skipLink": {
         "exists": true,
@@ -134,7 +134,7 @@
       "url": "http://127.0.0.1:3000/catalogo",
       "ok": true,
       "status": 200,
-      "bodyTextLength": 18312,
+      "bodyTextLength": 12809,
       "frameworkOverlay": false,
       "skipLink": {
         "exists": true,
@@ -152,7 +152,7 @@
       "url": "http://127.0.0.1:3000/loja",
       "ok": true,
       "status": 200,
-      "bodyTextLength": 126471,
+      "bodyTextLength": 12809,
       "frameworkOverlay": false,
       "skipLink": {
         "exists": true,
@@ -167,10 +167,10 @@
     {
       "page": "product",
       "viewport": "desktop",
-      "url": "http://127.0.0.1:3000/produto/chaveiro-rubro-negro-3d",
+      "url": "http://127.0.0.1:3000/catalogo/mdh-016-chaveiro-3d-personalizado-com-nome-ou-logo",
       "ok": true,
       "status": 200,
-      "bodyTextLength": 3867,
+      "bodyTextLength": 11437,
       "frameworkOverlay": false,
       "skipLink": {
         "exists": true,
@@ -188,7 +188,7 @@
       "url": "http://127.0.0.1:3000/checkout",
       "ok": true,
       "status": 200,
-      "bodyTextLength": 1984,
+      "bodyTextLength": 1939,
       "frameworkOverlay": false,
       "skipLink": {
         "exists": true,
@@ -206,7 +206,7 @@
       "url": "http://127.0.0.1:3000/jogue",
       "ok": true,
       "status": 200,
-      "bodyTextLength": 3141,
+      "bodyTextLength": 3096,
       "frameworkOverlay": false,
       "skipLink": {
         "exists": true,

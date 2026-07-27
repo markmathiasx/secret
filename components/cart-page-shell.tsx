@@ -53,7 +53,7 @@ export function CartPageShell({ cardCheckoutReady = false }: { cardCheckoutReady
           <p className="section-kicker">Carrinho</p>
           <h1 className="section-title">Revise o pedido e escolha Pix ou cartão.</h1>
           <p className="section-copy mt-3 max-w-3xl">
-            Frete fixo de R$ 15,00, checkout sem cadastro e fallback imediato por WhatsApp se você quiser confirmar com a equipe.
+            Estimativa inicial de frete antes do CEP, checkout sem cadastro e fallback imediato por WhatsApp se você quiser confirmar com a equipe.
           </p>
         </div>
         {items.length > 0 ? (
@@ -227,7 +227,7 @@ export function CartPageShell({ cardCheckoutReady = false }: { cardCheckoutReady
                 <span>{formatCurrency(totals.subtotalCard)}</span>
               </div>
               <div className="flex items-center justify-between text-sm text-white/70">
-                <span>Frete fixo</span>
+                <span>Estimativa inicial de frete</span>
                 <span>{formatCurrency(totals.shipping)}</span>
               </div>
               <div className="h-px bg-white/10" />
@@ -240,7 +240,7 @@ export function CartPageShell({ cardCheckoutReady = false }: { cardCheckoutReady
                 <span className="text-xl font-black text-white">{formatCurrency(totals.totalCard)}</span>
               </div>
               <p className="text-xs leading-6 text-white/45">
-                No cartão, cada produto fica R$ 1,00 acima do Pix. Frete fixo de R$ 15,00.
+                No cartao, cada produto fica R$ 1,00 acima do Pix. O frete final e recalculado por CEP no checkout.
               </p>
             </div>
 

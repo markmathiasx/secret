@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useMemo, useState } from "react";
 import { Package, ShoppingCart, Wallet } from "lucide-react";
 import type { Product } from "@/lib/catalog";
-import { getProductUrl } from "@/lib/catalog";
+import { getProductUrl } from "@/lib/product-routing";
 import { addLocalCartItem } from "@/lib/cart-store";
 import { trackAddToCart, trackBeginCheckout } from "@/lib/analytics";
 import { formatCurrency } from "@/lib/utils";

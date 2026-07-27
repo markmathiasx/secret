@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-21T15:47:04.878Z",
+  "generatedAt": "2026-07-27T08:32:23.352Z",
   "ok": true,
   "total": 46,
   "failed": [],
@@ -207,7 +207,7 @@
     {
       "id": "catalog:official-public-count",
       "ok": true,
-      "detail": 843
+      "detail": 12
     },
     {
       "id": "games:11",
@@ -222,12 +222,12 @@
     {
       "id": "security:ok",
       "ok": true,
-      "detail": "2026-06-21T14:13:56.674Z"
+      "detail": "2026-06-25T02:05:41.380Z"
     },
     {
       "id": "secrets:ok",
       "ok": true,
-      "detail": 311
+      "detail": 322
     },
     {
       "id": "pricing:ok",
