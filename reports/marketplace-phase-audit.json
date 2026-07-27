@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-07-27T12:44:43.709Z",
+  "generatedAt": "2026-07-27T13:01:13.960Z",
   "branch": "industrial-ai-v62-20260727-005340",
-  "commit": "87206885",
+  "commit": "5bd1aab5",
   "worktreeDirty": true,
   "phases": [
     {
@@ -537,8 +537,8 @@
     },
     {
       "name": "13. Deploy/Infra",
-      "percent": 80,
-      "passed": 4,
+      "percent": 60,
+      "passed": 3,
       "total": 5,
       "criteria": [
         {
@@ -561,8 +561,8 @@
         },
         {
           "label": "deploy Vercel registrado",
-          "ok": true,
-          "evidence": "https://mdh-3d-store-gawprn2bq-markmathias.vercel.app",
+          "ok": false,
+          "evidence": "sem reports/vercel-deploy-report.json",
           "blocker": "Registrar deploy Vercel final desta rodada"
         },
         {
@@ -573,11 +573,12 @@
         }
       ],
       "blockers": [
-        "Rodar docker compose build/up e registrar log"
+        "Rodar docker compose build/up e registrar log",
+        "Registrar deploy Vercel final desta rodada"
       ]
     }
   ],
-  "generalPercent": 91.88,
+  "generalPercent": 90.55,
   "metrics": {
     "lighthouse": [
       {
@@ -588,7 +589,7 @@
           "bestPractices": 100,
           "seo": 100
         },
-        "lcp": "3.5 s",
+        "lcp": "3.4 s",
         "cls": "0"
       },
       {
@@ -599,7 +600,7 @@
           "bestPractices": 100,
           "seo": 100
         },
-        "lcp": "4.0 s",
+        "lcp": "3.9 s",
         "cls": "0"
       },
       {
@@ -621,18 +622,18 @@
           "bestPractices": 100,
           "seo": 100
         },
-        "lcp": "3.1 s",
+        "lcp": "3.2 s",
         "cls": "0"
       },
       {
         "key": "checkout",
         "categories": {
-          "performance": 89,
+          "performance": 90,
           "accessibility": 100,
           "bestPractices": 100,
           "seo": 58
         },
-        "lcp": "3.6 s",
+        "lcp": "3.4 s",
         "cls": "0.069"
       }
     ],
@@ -666,6 +667,10 @@
     {
       "phase": "13. Deploy/Infra",
       "blocker": "Rodar docker compose build/up e registrar log"
+    },
+    {
+      "phase": "13. Deploy/Infra",
+      "blocker": "Registrar deploy Vercel final desta rodada"
     }
   ]
 }

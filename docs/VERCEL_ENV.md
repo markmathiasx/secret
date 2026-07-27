@@ -60,6 +60,16 @@ Em Vercel Production, prefira `EMAIL_PROVIDER=resend`, `sendgrid` ou `mailgun`. 
 
 ## Validacao antes do deploy
 
+Instale a Vercel CLI no ambiente do operador ou do CI, nao como dependencia do app:
+
+```powershell
+npm i -g vercel
+vercel login
+vercel link --yes --project <project> --scope <team>
+```
+
+Se o CI usar token, configure `VERCEL_TOKEN`, `VERCEL_ORG_ID` e `VERCEL_PROJECT_ID` como secrets do provedor de CI. Nao commitar `.vercel/project.json`, `.vercel/.env.production.local`, tokens ou dumps de env.
+
 ```powershell
 npm run typecheck
 npm run lint:check
@@ -76,3 +86,13 @@ npm run production:readiness
 ```
 
 `production:readiness` nao imprime valores de secrets. Ele verifica chaves presentes em variaveis de ambiente locais ou no arquivo ignorado `.vercel/.env.production.local`, confirma vinculo Vercel por `.vercel/project.json` ou `VERCEL_ORG_ID`/`VERCEL_PROJECT_ID`, valida CLI Supabase via npm e bloqueia deploy com placeholders, chaves de teste do Mercado Pago, `DATABASE_URL`/`DIRECT_URL` invalidas ou policies Supabase sem papel explicito.
+
+O relatorio `output/production-release-readiness-report.json` inclui uma lista `remediation` com a acao exata para cada bloqueio, sem expor valores. A Vercel CLI deve ficar fora das dependencias do app enquanto o pacote `vercel` introduzir achados transitivos em `npm audit`; use instalacao global, imagem de CI ou ferramenta oficial do ambiente de deploy.
+
+Depois que `production:readiness` passar, publique somente pelo fluxo protegido:
+
+```powershell
+npm run deploy:vercel:prod
+```
+
+Esse comando executa o gate industrial, puxa env de producao, valida readiness, roda `vercel build --prod`, publica `--prebuilt --prod`, executa smoke em producao e solicita rollback se o smoke falhar.

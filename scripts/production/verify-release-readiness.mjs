@@ -12,6 +12,14 @@ const evidence = {
   envSources: {},
   cli: {},
   rlsTables: [],
+  envFilePrecedence: [
+    ".vercel/.env.production.local",
+    ".env.production.local",
+    ".env.vercel.production",
+    ".env.local",
+    ".env",
+  ],
+  secretPolicy: "Never print secret values; report only source file/process presence and validation errors.",
 };
 
 const PLACEHOLDER_MARKERS = [
@@ -156,11 +164,177 @@ function runCommand(name, command, args) {
     stdio: ["ignore", "pipe", "pipe"],
   });
   const ok = result.status === 0;
+  const error = result.error?.message || String(result.stderr || "").trim();
   evidence.cli[name] = {
     ok,
     version: ok ? String(result.stdout || result.stderr).trim().split(/\r?\n/).at(-1) : null,
+    error: ok ? null : error || null,
   };
   return ok;
+}
+
+function remediationFor(failure) {
+  if (failure.code === "missing_env") {
+    return {
+      code: failure.code,
+      target: failure.key,
+      action: `Configure ${failure.key} in Vercel Production or an ignored local production env file before deploy.`,
+    };
+  }
+
+  if (failure.code === "missing_env_group") {
+    return {
+      code: failure.code,
+      target: failure.label,
+      action: `Configure one valid value for: ${failure.keys.join(", ")}.`,
+    };
+  }
+
+  if (failure.code === "placeholder_env") {
+    return {
+      code: failure.code,
+      target: failure.key,
+      action: `Replace the placeholder value for ${failure.key} with the real production value outside git.`,
+    };
+  }
+
+  if (failure.code === "short_env") {
+    return {
+      code: failure.code,
+      target: failure.key,
+      action: `Replace ${failure.key} with a high-entropy value of at least ${failure.minimum} characters.`,
+    };
+  }
+
+  if (failure.code === "invalid_env_url" || failure.code === "invalid_env_protocol" || failure.code === "local_production_url") {
+    return {
+      code: failure.code,
+      target: failure.key,
+      action: `Set ${failure.key} to the HTTPS production URL, not localhost or a malformed URL.`,
+    };
+  }
+
+  if (failure.code === "vercel_default_canonical_url") {
+    return {
+      code: failure.code,
+      target: failure.key,
+      action: `Use the custom canonical domain in ${failure.key}; do not use a vercel.app URL for production SEO.`,
+    };
+  }
+
+  if (failure.code === "direct_url_equals_database_url") {
+    return {
+      code: failure.code,
+      target: failure.keys.join(", "),
+      action: "Use the pooled database URL for DATABASE_URL and the non-pooled direct connection for DIRECT_URL.",
+    };
+  }
+
+  if (failure.code === "test_payment_credential_in_production") {
+    return {
+      code: failure.code,
+      target: failure.key,
+      action: `Replace ${failure.key} with the Mercado Pago production credential; TEST-* is blocked for production deploy.`,
+    };
+  }
+
+  if (failure.code === "missing_vercel_project_link") {
+    return {
+      code: failure.code,
+      target: "vercel project",
+      action: "Run `vercel link --yes --project <project> --scope <team>` or set VERCEL_ORG_ID and VERCEL_PROJECT_ID in CI.",
+    };
+  }
+
+  if (failure.code === "missing_cli" && String(failure.command || "").startsWith("vercel")) {
+    return {
+      code: failure.code,
+      target: "Vercel CLI",
+      action: "Install Vercel CLI in the operator/CI environment with `npm i -g vercel`; keep it outside app dependencies unless npm audit is clean.",
+    };
+  }
+
+  if (failure.code === "missing_cli" && String(failure.command || "").includes("supabase")) {
+    return {
+      code: failure.code,
+      target: "Supabase CLI",
+      action: "Run `npm install` and verify `npm exec supabase -- --version` works in the release environment.",
+    };
+  }
+
+  if (failure.code === "missing_supabase_migrations") {
+    return {
+      code: failure.code,
+      target: "supabase/migrations",
+      action: "Restore Supabase migrations and rerun RLS validation before deploy.",
+    };
+  }
+
+  if (failure.code === "deprecated_auth_role_in_rls") {
+    return {
+      code: failure.code,
+      target: "Supabase RLS",
+      action: "Replace auth.role() checks with explicit policy TO clauses and ownership predicates.",
+    };
+  }
+
+  if (failure.code === "security_definer_in_supabase_migration") {
+    return {
+      code: failure.code,
+      target: "Supabase migrations",
+      action: "Remove SECURITY DEFINER or move it behind a reviewed non-public function with explicit auth checks.",
+    };
+  }
+
+  if (
+    failure.code === "rls_not_enabled" ||
+    failure.code === "authenticated_grant_missing" ||
+    failure.code === "owning_policy_missing_to_authenticated_or_with_check"
+  ) {
+    return {
+      code: failure.code,
+      target: failure.table,
+      action: `Add explicit RLS, authenticated grants, USING and WITH CHECK ownership policy for ${failure.table}.`,
+    };
+  }
+
+  if (failure.code === "public_product_storage_policy_missing") {
+    return {
+      code: failure.code,
+      target: "Supabase Storage",
+      action: "Add the public read policy for product-public assets in Supabase migrations.",
+    };
+  }
+
+  if (failure.code === "private_storage_update_policy_missing_with_check") {
+    return {
+      code: failure.code,
+      target: "Supabase Storage",
+      action: "Add private asset update policy with WITH CHECK in Supabase migrations.",
+    };
+  }
+
+  if (failure.code === "package_description_mojibake") {
+    return {
+      code: failure.code,
+      target: "package.json",
+      action: "Fix encoding/mojibake in package metadata.",
+    };
+  }
+
+  if (failure.code === "env_example_missing_key") {
+    return {
+      code: failure.code,
+      target: ".env.example",
+      action: `Document ${failure.key} in .env.example with a placeholder value only.`,
+    };
+  }
+
+  return {
+    code: failure.code,
+    target: failure.key || failure.table || failure.command || "release readiness",
+    action: "Review this readiness failure and update production configuration or migrations before deploy.",
+  };
 }
 
 function validateCoreEnv() {
@@ -345,6 +519,7 @@ const report = {
   ok: failures.length === 0,
   failures,
   warnings,
+  remediation: failures.map(remediationFor),
   evidence,
 };
 

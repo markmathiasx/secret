@@ -36,7 +36,16 @@ function run(name, rawCommand, args, options = {}) {
     status: result.status ?? 1,
     stdout: result.stdout || "",
     stderr: result.stderr || "",
+    error: result.error?.message || "",
     ok: result.status === 0,
+  };
+}
+
+function stepFor(result) {
+  return {
+    name: result.name,
+    status: result.status,
+    ...(result.error ? { error: result.error } : {}),
   };
 }
 
@@ -53,8 +62,26 @@ function extractDeploymentUrl(output) {
 
 const steps = [];
 
+const cli = run("Vercel CLI preflight", "vercel", ["--version"], { capture: true });
+process.stdout.write(cli.stdout);
+process.stderr.write(cli.stderr);
+steps.push(stepFor(cli));
+if (!cli.ok) {
+  writeReport({
+    generatedAt: new Date().toISOString(),
+    startedAt,
+    ok: false,
+    blockedAt: "vercel cli",
+    deploymentUrl: null,
+    smokeBaseUrl,
+    rollbackAttempted: false,
+    steps,
+  });
+  process.exit(cli.status || 1);
+}
+
 const pull = run("Vercel pull production env", "vercel", vercelArgs(["pull", "--yes", "--environment=production"]));
-steps.push({ name: pull.name, status: pull.status });
+steps.push(stepFor(pull));
 if (!pull.ok) {
   writeReport({
     generatedAt: new Date().toISOString(),
@@ -70,7 +97,7 @@ if (!pull.ok) {
 }
 
 const readiness = run("Production readiness", "npm", ["run", "production:readiness"]);
-steps.push({ name: readiness.name, status: readiness.status });
+steps.push(stepFor(readiness));
 if (!readiness.ok) {
   writeReport({
     generatedAt: new Date().toISOString(),
@@ -86,7 +113,7 @@ if (!readiness.ok) {
 }
 
 const build = run("Vercel build production", "vercel", vercelArgs(["build", "--prod"]));
-steps.push({ name: build.name, status: build.status });
+steps.push(stepFor(build));
 if (!build.ok) {
   writeReport({
     generatedAt: new Date().toISOString(),
@@ -104,7 +131,7 @@ if (!build.ok) {
 const deploy = run("Vercel deploy production", "vercel", vercelArgs(["deploy", "--prebuilt", "--prod"]), { capture: true });
 process.stdout.write(deploy.stdout);
 process.stderr.write(deploy.stderr);
-steps.push({ name: deploy.name, status: deploy.status });
+steps.push(stepFor(deploy));
 const deploymentUrl = extractDeploymentUrl(`${deploy.stdout}\n${deploy.stderr}`);
 
 if (!deploy.ok) {
@@ -124,7 +151,7 @@ if (!deploy.ok) {
 const smoke = run("Production smoke test", "npm", ["run", "test:smoke:prod"], {
   env: { SMOKE_BASE_URL: smokeBaseUrl || deploymentUrl || "" },
 });
-steps.push({ name: smoke.name, status: smoke.status });
+steps.push(stepFor(smoke));
 
 let rollback = null;
 if (!smoke.ok) {
@@ -134,7 +161,7 @@ if (!smoke.ok) {
   rollback = run("Vercel rollback after failed smoke", "vercel", vercelArgs(rollbackArgs), { capture: true });
   process.stdout.write(rollback.stdout);
   process.stderr.write(rollback.stderr);
-  steps.push({ name: rollback.name, status: rollback.status });
+  steps.push(stepFor(rollback));
 }
 
 const ok = deploy.ok && smoke.ok;

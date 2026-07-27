@@ -1,6 +1,6 @@
 # Relatório de Execução — MDH 3D nível Apple/ML/AliExpress/Shopee
-Data: 2026-07-27T12:44:43.709Z
-Commit avaliado: 87206885
+Data: 2026-07-27T13:01:13.960Z
+Commit avaliado: 5bd1aab5
 Worktree com alterações no momento da auditoria: sim
 
 ## 1. Reconciliação (Fase 0)
@@ -82,10 +82,10 @@ Worktree com alterações no momento da auditoria: sim
 | 10. Risco de PI | 100.00% | 3/3 critérios passaram | OK auditoria de termos de PI gerada: 0 achados<br>OK classificacao e proposta por item: cada achado tem risco e suggestedCopy<br>OK sem risco publico restante: 0 referencias publicas de risco |  |
 | 11. Integridade de catálogo | 100.00% | 5/5 critérios passaram | OK contagem catalogo atual: 12 publicos + 306 loja<br>OK preco Pix/cartao coerente: 848 produtos em pricing-validation; smart issues 0<br>OK sem duplicata slug: 0 duplicatas<br>OK sem Picsum publico: public 0, smart 0<br>OK regressao publica catalogo/jogos: ok=true |  |
 | 12. Testes | 100.00% | 5/5 critérios passaram | OK db:generate/typecheck/lint/build: npm run db:generate: exit 0, 2s; npm run typecheck: exit 0, 4s; npm run lint:check: exit 0, 8s; npm run build: exit 0, 110s<br>OK validadores publicos/privados: validadores obrigatorios com exit 0<br>OK npm audit: exit 0, 1s<br>OK Playwright existente: smoke=0 (10), smart=0 (5), e2e=0 (9)<br>OK testes loja inteligente: tests/mdh-smart-store.spec.ts: 6/6 specs passaram; cobre PDP smart /produto, WhatsApp, carrinho, feed e sitemap |  |
-| 13. Deploy/Infra | 80.00% | 4/5 critérios passaram | OK docs Vercel env atualizados: docs/VERCEL_ENV.md lista loja, analytics, checkout<br>OK Dockerfile/docker-compose presentes: Dockerfile + docker-compose.yml presentes<br>FALHA build Docker comprovado: dockerBuild ok=false<br>OK deploy Vercel registrado: https://mdh-3d-store-gawprn2bq-markmathias.vercel.app<br>OK producao responde e local/site comparados: publicHttp=true, local-vs-prod=true | Rodar docker compose build/up e registrar log |
+| 13. Deploy/Infra | 60.00% | 3/5 critérios passaram | OK docs Vercel env atualizados: docs/VERCEL_ENV.md lista loja, analytics, checkout<br>OK Dockerfile/docker-compose presentes: Dockerfile + docker-compose.yml presentes<br>FALHA build Docker comprovado: dockerBuild ok=false<br>FALHA deploy Vercel registrado: sem reports/vercel-deploy-report.json<br>OK producao responde e local/site comparados: publicHttp=true, local-vs-prod=true | Rodar docker compose build/up e registrar log<br>Registrar deploy Vercel final desta rodada |
 
 ## 3. Métricas antes → depois
-- Lighthouse mobile (home/produto/checkout): antes não medido nesta fase → depois home perf 91, a11y 96, best 100, seo 100; produto perf 90, a11y 99, best 100, seo 100; checkout perf 89, a11y 100, best 100, seo 58
+- Lighthouse mobile (home/produto/checkout): antes não medido nesta fase → depois home perf 91, a11y 96, best 100, seo 100; produto perf 90, a11y 99, best 100, seo 100; checkout perf 90, a11y 100, best 100, seo 58
 - LCP/INP/CLS: antes não medido nesta fase → depois registrado em `reports/marketplace-lighthouse-summary.json`; INP lab pode não existir em todas as versões do Lighthouse.
 - Bundle JS inicial: antes 103 kB → depois 103 kB (sem alteração de bundle comprovada nesta rodada).
 - Violações de acessibilidade (axe-core): antes não medido nesta fase → depois 0 violações, 0 sérias/críticas.
@@ -94,7 +94,7 @@ Worktree com alterações no momento da auditoria: sim
 
 ## 4. Percentual geral honesto
 Cálculo: média ponderada das 15 linhas da fase 2 (não arredondar para cima).
-Resultado: 91.88%
+Resultado: 90.55%
 
 ## 5. Pendências explícitas e o que falta para 100%
 - 1. Performance: Notas Lighthouse ou Web Vitals lab abaixo da meta
@@ -103,3 +103,4 @@ Resultado: 91.88%
 - 3. Motor de Comércio — avançado: Credenciais SMTP ausentes nesta execucao
 - 7. Analytics: Capturar eventos em navegador/Tag Assistant para 100%
 - 13. Deploy/Infra: Rodar docker compose build/up e registrar log
+- 13. Deploy/Infra: Registrar deploy Vercel final desta rodada
