@@ -13,7 +13,7 @@ export default function SobrePage() {
       <div className="grid gap-10 md:grid-cols-[1fr_2fr]">
         <div>
           <Image
-            src="/logo-mdh.jpg"
+            src="/logo-mdh-mark.webp"
             alt="Logo MDH 3D"
             width={200}
             height={200}

@@ -1,6 +1,6 @@
 # Relatório de Execução — MDH 3D nível Apple/ML/AliExpress/Shopee
-Data: 2026-07-27T10:12:14.714Z
-Commit avaliado: 09ecfa94
+Data: 2026-07-27T11:32:22.538Z
+Commit avaliado: f6a92d7a
 Worktree com alterações no momento da auditoria: sim
 
 ## 1. Reconciliação (Fase 0)
@@ -69,7 +69,7 @@ Worktree com alterações no momento da auditoria: sim
 | Fase | % concluído | Critério de aceite | Evidência (comando/print/log) | Bloqueio (se houver) |
 |---|---:|---|---|---|
 | 0. Reconciliação | 100.00% | 4/4 critérios passaram | OK fontes obrigatorias lidas: 18/18 fontes presentes<br>OK afirmacoes antigas classificadas: 58 afirmacoes<br>OK protocolo permanente: docs/CODEX_EXECUTION_PROTOCOL.md referenciado em AGENTS.md<br>OK gates obrigatorios base: 11/11 comandos passaram |  |
-| 1. Performance | 75.00% | 3/4 critérios passaram | OK Lighthouse mobile coletado: paginas: 5<br>FALHA metas Lighthouse >=95: home/produto/checkout/catalogo/categoria precisam bater performance/a11y/best/seo >=95 e LCP/CLS alvo<br>OK bundle JS inicial medido: First Load JS shared by all: 103 kB<br>OK cache por rota validado em producao: curl/HEAD publico capturou cache-control | Notas Lighthouse ou Web Vitals lab abaixo da meta |
+| 1. Performance | 75.00% | 3/4 critérios passaram | OK Lighthouse mobile coletado: paginas: 5<br>FALHA metas Lighthouse por tipo de rota: pendencias: home: performance/LCP; category: performance/LCP; product: performance/LCP; catalog: performance/LCP; checkout: performance/LCP. Checkout e auditado como noindex esperado; rotas indexaveis continuam exigindo SEO >=95.<br>OK bundle JS inicial medido: First Load JS shared by all: 103 kB<br>OK cache por rota validado em producao: curl/HEAD publico capturou cache-control | Notas Lighthouse ou Web Vitals lab abaixo da meta |
 | 2. Design System | 100.00% | 5/5 critérios passaram | OK axe-core executado: 12 combinacoes pagina/viewport<br>OK sem violacoes serias/criticas axe: 0 serias/criticas<br>OK Picsum removido da allowlist runtime: next.config.ts nao permite picsum.photos<br>OK placeholder honesto tem selo publico: selo presente em cards e PDP da loja inteligente<br>OK fundo/motion da loja centralizado: StoreAnimatedBackground usado em /loja e /produto/[slug] |  |
 | 3. Motor de Comércio — mínimo | 83.33% | 5/6 critérios passaram | OK modelos Cart/Order existem: Prisma tem Cart, Order e OrderItem<br>OK carrinho persistente/editavel: API /api/cart, /carrinho e carrinho local com add/update/remove<br>OK pedido criado antes do redirect: app/api/checkout/preference cria Order antes de preferencia Mercado Pago<br>OK rastreio de pedido existe: /pedidos, /pedidos/[id] e /api/orders/track presentes<br>OK e2e checkout/carrinho executado: smoke=0 (10), smart=0 (5), e2e=0 (9)<br>FALHA banco local/producao disponivel para prova runtime: DATABASE_URL presente no ambiente do script | Sem DATABASE_URL neste ambiente; criacao real no banco nao foi provada nesta execucao local |
 | 3. Motor de Comércio — avançado | 60.00% | 3/5 critérios passaram | OK Mercado Pago integrado em codigo: rotas chamam createMercadoPagoPreference/createMercadoPagoPayment<br>FALHA credenciais Mercado Pago presentes: MERCADOPAGO_ACCESS_TOKEN + NEXT_PUBLIC_MP_PUBLIC_KEY no ambiente<br>OK frete/CEP implementado: /api/shipping/quote e quoteBestShipping<br>OK email transacional implementado: sendMail + orderConfirmationHtml no fluxo<br>FALHA SMTP real configurado: SMTP_HOST + EMAIL_FROM no ambiente | Credenciais Mercado Pago ausentes nesta execucao; fica fallback/sandbox<br>Credenciais SMTP ausentes nesta execucao |
@@ -85,7 +85,7 @@ Worktree com alterações no momento da auditoria: sim
 | 13. Deploy/Infra | 80.00% | 4/5 critérios passaram | OK docs Vercel env atualizados: docs/VERCEL_ENV.md lista loja, analytics, checkout<br>OK Dockerfile/docker-compose presentes: Dockerfile + docker-compose.yml presentes<br>FALHA build Docker comprovado: dockerBuild ok=false<br>OK deploy Vercel registrado: https://mdh-3d-store-gawprn2bq-markmathias.vercel.app<br>OK producao responde e local/site comparados: publicHttp=true, local-vs-prod=true | Rodar docker compose build/up e registrar log |
 
 ## 3. Métricas antes → depois
-- Lighthouse mobile (home/produto/checkout): antes não medido nesta fase → depois home perf 80, a11y 96, best 100, seo 100; produto perf 78, a11y 99, best 100, seo 100; checkout perf 76, a11y 100, best 100, seo 58
+- Lighthouse mobile (home/produto/checkout): antes não medido nesta fase → depois home perf 78, a11y 96, best 100, seo 100; produto perf 79, a11y 99, best 100, seo 100; checkout perf 90, a11y 100, best 100, seo 58
 - LCP/INP/CLS: antes não medido nesta fase → depois registrado em `reports/marketplace-lighthouse-summary.json`; INP lab pode não existir em todas as versões do Lighthouse.
 - Bundle JS inicial: antes 103 kB → depois 103 kB (sem alteração de bundle comprovada nesta rodada).
 - Violações de acessibilidade (axe-core): antes não medido nesta fase → depois 0 violações, 0 sérias/críticas.

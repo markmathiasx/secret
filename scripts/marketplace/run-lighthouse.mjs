@@ -12,11 +12,11 @@ const baseUrl = (process.env.MARKETPLACE_BASE_URL || "http://127.0.0.1:3000").re
 const npxBin = process.platform === "win32" ? "npx.cmd" : "npx";
 
 const pages = [
-  { key: "home", label: "home", path: "/" },
-  { key: "category", label: "categoria", path: "/catalogo/categoria/geek-colecionaveis" },
-  { key: "product", label: "produto", path: "/catalogo/mdh-016-chaveiro-3d-personalizado-com-nome-ou-logo" },
-  { key: "catalog", label: "catalogo", path: "/catalogo" },
-  { key: "checkout", label: "checkout", path: "/checkout" },
+  { key: "home", label: "home", path: "/", indexable: true },
+  { key: "category", label: "categoria", path: "/catalogo/categoria/geek-colecionaveis", indexable: true },
+  { key: "product", label: "produto", path: "/catalogo/mdh-016-chaveiro-3d-personalizado-com-nome-ou-logo", indexable: true },
+  { key: "catalog", label: "catalogo", path: "/catalogo", indexable: true },
+  { key: "checkout", label: "checkout", path: "/checkout", indexable: false, expectedRobots: "noindex" },
 ];
 
 function chromePath() {
@@ -63,6 +63,8 @@ function readResult(file) {
       cls: auditValue(lhr, "cumulative-layout-shift"),
       tbt: auditValue(lhr, "total-blocking-time"),
       inp: auditValue(lhr, "experimental-interaction-to-next-paint"),
+      metaDescription: auditValue(lhr, "meta-description"),
+      isCrawlable: auditValue(lhr, "is-crawlable"),
     },
   };
 }
@@ -76,6 +78,48 @@ function hasValidScores(result) {
     typeof result.categories?.bestPractices === "number" &&
     typeof result.categories?.seo === "number"
   );
+}
+
+function pageTargets(page, result) {
+  const lcpValue = result.audits?.lcp?.numericValue ?? Number.POSITIVE_INFINITY;
+  const clsValue = result.audits?.cls?.numericValue ?? Number.POSITIVE_INFINITY;
+  const crawlableScore = result.audits?.isCrawlable?.score;
+  const performance = Boolean(
+    result.ok &&
+      result.categories?.performance >= 95 &&
+      lcpValue <= 2500 &&
+      clsValue <= 0.1
+  );
+  const accessibility = Boolean(result.ok && result.categories?.accessibility >= 95);
+  const bestPractices = Boolean(result.ok && result.categories?.bestPractices >= 95);
+  const seo = page.indexable === false
+    ? Boolean(crawlableScore === 0)
+    : Boolean(result.ok && result.categories?.seo >= 95 && crawlableScore !== 0);
+
+  return {
+    performance,
+    accessibility,
+    bestPractices,
+    seo,
+    all: performance && accessibility && bestPractices && seo,
+    policy: page.indexable === false ? "checkout-noindex" : "indexable",
+  };
+}
+
+function targetFailures(item) {
+  const failures = [];
+  const categories = item.categories || {};
+  const lcpValue = item.audits?.lcp?.numericValue ?? Number.POSITIVE_INFINITY;
+  const clsValue = item.audits?.cls?.numericValue ?? Number.POSITIVE_INFINITY;
+
+  if (!(item.ok && categories.performance >= 95)) failures.push("performance");
+  if (!(lcpValue <= 2500)) failures.push("LCP");
+  if (!(clsValue <= 0.1)) failures.push("CLS");
+  if (!(item.ok && categories.accessibility >= 95)) failures.push("a11y");
+  if (!(item.ok && categories.bestPractices >= 95)) failures.push("best");
+  if (!item.targets?.seo) failures.push(item.indexable === false ? "checkout noindex" : "seo indexavel");
+
+  return failures;
 }
 
 function runPage(page, chrome) {
@@ -117,7 +161,7 @@ function runPage(page, chrome) {
 
     if (result.status === 0 && existsSync(outputPath)) {
       const parsed = readResult(outputPath);
-      return {
+      const baseResult = {
         ...page,
         url,
         ok: hasValidScores(parsed),
@@ -126,6 +170,10 @@ function runPage(page, chrome) {
         reportPath: path.relative(root, outputPath).replaceAll("\\", "/"),
         ...parsed,
       };
+      return {
+        ...baseResult,
+        targets: pageTargets(page, baseResult),
+      };
     }
 
     lastError = result.error?.message || result.stderr || result.stdout || "lighthouse failed";
@@ -133,7 +181,7 @@ function runPage(page, chrome) {
 
   if (existsSync(outputPath)) {
     const parsed = readResult(outputPath);
-    return {
+    const baseResult = {
       ...page,
       url,
       ok: hasValidScores(parsed),
@@ -142,14 +190,22 @@ function runPage(page, chrome) {
       reportPath: path.relative(root, outputPath).replaceAll("\\", "/"),
       ...parsed,
     };
+    return {
+      ...baseResult,
+      targets: pageTargets(page, baseResult),
+    };
   }
 
-  return {
+  const failedResult = {
     ...page,
     url,
     ok: false,
     durationMs: Date.now() - startedAt,
     error: lastError.slice(-3000),
+  };
+  return {
+    ...failedResult,
+    targets: pageTargets(page, failedResult),
   };
 }
 
@@ -164,13 +220,16 @@ function writeReports(report) {
     `Base URL: ${report.baseUrl}`,
     `Chrome: ${report.chromePath || "auto"}`,
     "",
-    "| Page | Perf | A11y | Best practices | SEO | LCP | CLS | TBT | Status |",
-    "| --- | ---: | ---: | ---: | ---: | --- | --- | --- | --- |",
+    "| Page | Perf | A11y | Best practices | SEO | LCP | CLS | TBT | Targets | Status |",
+    "| --- | ---: | ---: | ---: | ---: | --- | --- | --- | --- | --- |",
   ];
 
   for (const item of report.pages) {
+    const seoCell = item.indexable === false ? `${item.categories?.seo ?? "-"} (noindex esperado)` : (item.categories?.seo ?? "-");
+    const failures = targetFailures(item);
+    const targetCell = failures.length ? failures.join(", ") : "OK";
     lines.push(
-      `| ${item.label} | ${item.categories?.performance ?? "-"} | ${item.categories?.accessibility ?? "-"} | ${item.categories?.bestPractices ?? "-"} | ${item.categories?.seo ?? "-"} | ${item.audits?.lcp?.displayValue ?? "-"} | ${item.audits?.cls?.displayValue ?? "-"} | ${item.audits?.tbt?.displayValue ?? "-"} | ${item.ok ? "OK" : `FAIL: ${(item.error || "").replace(/\s+/g, " ").slice(0, 120)}`} |`
+      `| ${item.label} | ${item.categories?.performance ?? "-"} | ${item.categories?.accessibility ?? "-"} | ${item.categories?.bestPractices ?? "-"} | ${seoCell} | ${item.audits?.lcp?.displayValue ?? "-"} | ${item.audits?.cls?.displayValue ?? "-"} | ${item.audits?.tbt?.displayValue ?? "-"} | ${targetCell || "-"} | ${item.ok ? "OK" : `FAIL: ${(item.error || "").replace(/\s+/g, " ").slice(0, 120)}`} |`
     );
   }
 
@@ -188,15 +247,9 @@ function main() {
     pages: pages.map((page) => runPage(page, chrome)),
   };
   report.ok = report.pages.every((page) => page.ok);
-  report.allTargetsMet = report.pages.every((page) =>
-    page.ok &&
-    page.categories.performance >= 95 &&
-    page.categories.accessibility >= 95 &&
-    page.categories.bestPractices >= 95 &&
-    page.categories.seo >= 95 &&
-    (page.audits.lcp?.numericValue ?? Number.POSITIVE_INFINITY) <= 2500 &&
-    (page.audits.cls?.numericValue ?? Number.POSITIVE_INFINITY) <= 0.1
-  );
+  report.allTargetsMet = report.pages.every((page) => page.targets?.all);
+  report.allPerformanceTargetsMet = report.pages.every((page) => page.targets?.performance);
+  report.allSeoTargetsMet = report.pages.every((page) => page.targets?.seo);
 
   writeReports(report);
   console.log(`Lighthouse audit written to ${path.relative(root, summaryMd).replaceAll("\\", "/")}`);

@@ -130,7 +130,7 @@ export function SiteHeader({
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-4 sm:px-6">
           <Link href="/" className="group flex w-[168px] flex-none items-center gap-3 sm:w-[190px] xl:w-[230px]">
             <Image
-              src="/logo-mdh.jpg"
+              src="/logo-mdh-mark.webp"
               alt="Logo MDH 3D"
               width={52}
               height={52}

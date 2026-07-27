@@ -30,7 +30,7 @@ export function CinematicVideoBackground({
   objectPosition = "center",
 }: CinematicVideoBackgroundProps) {
   const asset = getLicensedVideoAsset(variantAsset[variant]);
-  const homeMediaVisibility = variant === "home" ? "hidden md:block" : "";
+  const videoMediaVisibility = "hidden md:block";
 
   return (
     <div className={cn("pointer-events-none absolute inset-0 overflow-hidden", variantFallback[variant], className)} aria-hidden="true">
@@ -39,26 +39,27 @@ export function CinematicVideoBackground({
           src={asset.poster}
           alt=""
           fill
-          priority={variant === "home"}
-          fetchPriority={variant === "home" ? "high" : "auto"}
+          priority={variant === "home" || variant === "catalog"}
+          fetchPriority={variant === "home" || variant === "catalog" ? "high" : "auto"}
           sizes="100vw"
-          className={cn("absolute inset-0 object-cover opacity-85", homeMediaVisibility)}
+          className="absolute inset-0 object-cover opacity-85"
           style={{ objectPosition }}
         />
       ) : null}
 
       {asset.src ? (
         <video
-          className={cn("absolute inset-0 h-full w-full object-cover opacity-70 motion-reduce:hidden", homeMediaVisibility)}
-          src={asset.src}
+          className={cn("absolute inset-0 h-full w-full object-cover opacity-70 motion-reduce:hidden", videoMediaVisibility)}
           poster={asset.poster ?? undefined}
           muted
           autoPlay
           loop
           playsInline
-          preload="metadata"
+          preload="none"
           style={{ objectPosition }}
-        />
+        >
+          <source src={asset.src} type="video/mp4" media="(min-width: 768px)" />
+        </video>
       ) : null}
 
       <div

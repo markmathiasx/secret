@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-27T10:10:42.548Z",
+  "generatedAt": "2026-07-27T11:30:38.016Z",
   "baseUrl": "http://127.0.0.1:3000",
   "chromePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
   "pages": [
@@ -7,14 +7,15 @@
       "key": "home",
       "label": "home",
       "path": "/",
+      "indexable": true,
       "url": "http://127.0.0.1:3000/",
       "ok": true,
-      "durationMs": 14068,
+      "durationMs": 14487,
       "reportPath": "reports/lighthouse/home.json",
       "finalUrl": "http://127.0.0.1:3000/",
-      "fetchTime": "2026-07-27T10:10:46.654Z",
+      "fetchTime": "2026-07-27T11:30:42.344Z",
       "categories": {
-        "performance": 80,
+        "performance": 78,
         "accessibility": 96,
         "bestPractices": 100,
         "seo": 100
@@ -22,37 +23,58 @@
       "audits": {
         "lcp": {
           "title": "Largest Contentful Paint",
-          "score": 0.22,
-          "numericValue": 5265.441399999999,
-          "displayValue": "5.3 s"
+          "score": 0.16,
+          "numericValue": 5716.230499999999,
+          "displayValue": "5.7 s"
         },
         "cls": {
           "title": "Cumulative Layout Shift",
           "score": 1,
-          "numericValue": 0.008948341018598654,
-          "displayValue": "0.009"
+          "numericValue": 0,
+          "displayValue": "0"
         },
         "tbt": {
           "title": "Total Blocking Time",
-          "score": 0.99,
-          "numericValue": 84,
-          "displayValue": "80 ms"
+          "score": 0.96,
+          "numericValue": 135,
+          "displayValue": "140 ms"
         },
-        "inp": null
+        "inp": null,
+        "metaDescription": {
+          "title": "Document has a meta description",
+          "score": 1,
+          "numericValue": null,
+          "displayValue": ""
+        },
+        "isCrawlable": {
+          "title": "Page isn’t blocked from indexing",
+          "score": 1,
+          "numericValue": null,
+          "displayValue": ""
+        }
+      },
+      "targets": {
+        "performance": false,
+        "accessibility": true,
+        "bestPractices": true,
+        "seo": true,
+        "all": false,
+        "policy": "indexable"
       }
     },
     {
       "key": "category",
       "label": "categoria",
       "path": "/catalogo/categoria/geek-colecionaveis",
+      "indexable": true,
       "url": "http://127.0.0.1:3000/catalogo/categoria/geek-colecionaveis",
       "ok": true,
-      "durationMs": 13395,
+      "durationMs": 13519,
       "reportPath": "reports/lighthouse/category.json",
       "finalUrl": "http://127.0.0.1:3000/catalogo/categoria/geek-colecionaveis",
-      "fetchTime": "2026-07-27T10:11:00.500Z",
+      "fetchTime": "2026-07-27T11:30:56.378Z",
       "categories": {
-        "performance": 83,
+        "performance": 81,
         "accessibility": 100,
         "bestPractices": 100,
         "seo": 100
@@ -60,37 +82,59 @@
       "audits": {
         "lcp": {
           "title": "Largest Contentful Paint",
-          "score": 0.46,
-          "numericValue": 4145.052200000002,
-          "displayValue": "4.1 s"
+          "score": 0.32,
+          "numericValue": 4709.5072,
+          "displayValue": "4.7 s"
         },
         "cls": {
           "title": "Cumulative Layout Shift",
           "score": 1,
-          "numericValue": 0.008948341018598654,
-          "displayValue": "0.009"
+          "numericValue": 0,
+          "displayValue": "0"
         },
         "tbt": {
           "title": "Total Blocking Time",
-          "score": 0.9,
-          "numericValue": 194.5,
-          "displayValue": "190 ms"
+          "score": 0.92,
+          "numericValue": 172,
+          "displayValue": "170 ms"
         },
-        "inp": null
+        "inp": null,
+        "metaDescription": {
+          "title": "Document has a meta description",
+          "score": 1,
+          "numericValue": null,
+          "displayValue": ""
+        },
+        "isCrawlable": {
+          "title": "Page isn’t blocked from indexing",
+          "score": 1,
+          "numericValue": null,
+          "displayValue": ""
+        }
+      },
+      "targets": {
+        "performance": false,
+        "accessibility": true,
+        "bestPractices": true,
+        "seo": true,
+        "all": false,
+        "policy": "indexable"
       }
     },
     {
       "key": "product",
       "label": "produto",
       "path": "/catalogo/mdh-016-chaveiro-3d-personalizado-com-nome-ou-logo",
+      "indexable": true,
       "url": "http://127.0.0.1:3000/catalogo/mdh-016-chaveiro-3d-personalizado-com-nome-ou-logo",
       "ok": true,
-      "durationMs": 14884,
+      "warning": "ighthouse.93276283'\nError: EPERM, Permission denied: \\\\?\\C:\\Users\\markkk\\AppData\\Local\\Temp\\mdh-lighthouse-product-1785151866023\\lighthouse.93276283 '\\\\?\\C:\\Users\\markkk\\AppData\\Local\\Temp\\mdh-lighthouse-product-1785151866023\\lighthouse.93276283'\n    at rmSync (node:fs:1222:18)\n    at Launcher.destroyTmp (file:///C:/Users/markkk/AppData/Local/npm-cache/_npx/0f94ee7615faf582/node_modules/chrome-launcher/dist/chrome-launcher.js:367:9)\n    at Launcher.kill (file:///C:/Users/markkk/AppData/Local/npm-cache/_npx/0f94ee7615faf582/node_modules/chrome-launcher/dist/chrome-launcher.js:349:14)\n    at Object.kill (file:///C:/Users/markkk/AppData/Local/npm-cache/_npx/0f94ee7615faf582/node_modules/chrome-launcher/dist/chrome-launcher.js:39:18)\n    at runLighthouse (file:///C:/Users/markkk/AppData/Local/npm-cache/_npx/0f94ee7615faf582/node_modules/lighthouse/cli/run.js:217:21)\n    at async file:///C:/Users/markkk/AppData/Local/npm-cache/_npx/0f94ee7615faf582/node_modules/lighthouse/cli/index.js:10:1\n",
+      "durationMs": 24905,
       "reportPath": "reports/lighthouse/product.json",
       "finalUrl": "http://127.0.0.1:3000/catalogo/mdh-016-chaveiro-3d-personalizado-com-nome-ou-logo",
-      "fetchTime": "2026-07-27T10:11:14.309Z",
+      "fetchTime": "2026-07-27T11:31:22.407Z",
       "categories": {
-        "performance": 78,
+        "performance": 79,
         "accessibility": 99,
         "bestPractices": 100,
         "seo": 100
@@ -98,37 +142,58 @@
       "audits": {
         "lcp": {
           "title": "Largest Contentful Paint",
-          "score": 0.14,
-          "numericValue": 5943.197,
-          "displayValue": "5.9 s"
+          "score": 0.18,
+          "numericValue": 5563.800299999999,
+          "displayValue": "5.6 s"
         },
         "cls": {
           "title": "Cumulative Layout Shift",
           "score": 1,
-          "numericValue": 0.02013376729184697,
-          "displayValue": "0.02"
+          "numericValue": 0,
+          "displayValue": "0"
         },
         "tbt": {
           "title": "Total Blocking Time",
-          "score": 1,
-          "numericValue": 61.5,
-          "displayValue": "60 ms"
+          "score": 0.98,
+          "numericValue": 93,
+          "displayValue": "90 ms"
         },
-        "inp": null
+        "inp": null,
+        "metaDescription": {
+          "title": "Document has a meta description",
+          "score": 1,
+          "numericValue": null,
+          "displayValue": ""
+        },
+        "isCrawlable": {
+          "title": "Page isn’t blocked from indexing",
+          "score": 1,
+          "numericValue": null,
+          "displayValue": ""
+        }
+      },
+      "targets": {
+        "performance": false,
+        "accessibility": true,
+        "bestPractices": true,
+        "seo": true,
+        "all": false,
+        "policy": "indexable"
       }
     },
     {
       "key": "catalog",
       "label": "catalogo",
       "path": "/catalogo",
+      "indexable": true,
       "url": "http://127.0.0.1:3000/catalogo",
       "ok": true,
-      "durationMs": 14454,
+      "durationMs": 14543,
       "reportPath": "reports/lighthouse/catalog.json",
       "finalUrl": "http://127.0.0.1:3000/catalogo",
-      "fetchTime": "2026-07-27T10:11:28.870Z",
+      "fetchTime": "2026-07-27T11:31:34.787Z",
       "categories": {
-        "performance": 75,
+        "performance": 76,
         "accessibility": 100,
         "bestPractices": 100,
         "seo": 100
@@ -136,37 +201,59 @@
       "audits": {
         "lcp": {
           "title": "Largest Contentful Paint",
-          "score": 0.02,
-          "numericValue": 8110.9822,
-          "displayValue": "8.1 s"
+          "score": 0.06,
+          "numericValue": 7064.7729,
+          "displayValue": "7.1 s"
         },
         "cls": {
           "title": "Cumulative Layout Shift",
           "score": 1,
-          "numericValue": 0.008948341018598654,
-          "displayValue": "0.009"
+          "numericValue": 0,
+          "displayValue": "0"
         },
         "tbt": {
           "title": "Total Blocking Time",
           "score": 0.99,
-          "numericValue": 77.5,
-          "displayValue": "80 ms"
+          "numericValue": 89,
+          "displayValue": "90 ms"
         },
-        "inp": null
+        "inp": null,
+        "metaDescription": {
+          "title": "Document has a meta description",
+          "score": 1,
+          "numericValue": null,
+          "displayValue": ""
+        },
+        "isCrawlable": {
+          "title": "Page isn’t blocked from indexing",
+          "score": 1,
+          "numericValue": null,
+          "displayValue": ""
+        }
+      },
+      "targets": {
+        "performance": false,
+        "accessibility": true,
+        "bestPractices": true,
+        "seo": true,
+        "all": false,
+        "policy": "indexable"
       }
     },
     {
       "key": "checkout",
       "label": "checkout",
       "path": "/checkout",
+      "indexable": false,
+      "expectedRobots": "noindex",
       "url": "http://127.0.0.1:3000/checkout",
       "ok": true,
-      "durationMs": 13366,
+      "durationMs": 13200,
       "reportPath": "reports/lighthouse/checkout.json",
       "finalUrl": "http://127.0.0.1:3000/checkout",
-      "fetchTime": "2026-07-27T10:11:43.377Z",
+      "fetchTime": "2026-07-27T11:31:49.494Z",
       "categories": {
-        "performance": 76,
+        "performance": 90,
         "accessibility": 100,
         "bestPractices": 100,
         "seo": 58
@@ -174,26 +261,48 @@
       "audits": {
         "lcp": {
           "title": "Largest Contentful Paint",
-          "score": 0.31,
-          "numericValue": 4767.737500000001,
-          "displayValue": "4.8 s"
+          "score": 0.66,
+          "numericValue": 3416.566750000001,
+          "displayValue": "3.4 s"
         },
         "cls": {
           "title": "Cumulative Layout Shift",
-          "score": 0.76,
-          "numericValue": 0.15054311992220384,
-          "displayValue": "0.151"
+          "score": 0.96,
+          "numericValue": 0.06908976287741998,
+          "displayValue": "0.069"
         },
         "tbt": {
           "title": "Total Blocking Time",
-          "score": 0.97,
-          "numericValue": 122.5,
-          "displayValue": "120 ms"
+          "score": 0.99,
+          "numericValue": 80,
+          "displayValue": "80 ms"
         },
-        "inp": null
+        "inp": null,
+        "metaDescription": {
+          "title": "Document does not have a meta description",
+          "score": 0,
+          "numericValue": null,
+          "displayValue": ""
+        },
+        "isCrawlable": {
+          "title": "Page is blocked from indexing",
+          "score": 0,
+          "numericValue": null,
+          "displayValue": ""
+        }
+      },
+      "targets": {
+        "performance": false,
+        "accessibility": true,
+        "bestPractices": true,
+        "seo": true,
+        "all": false,
+        "policy": "checkout-noindex"
       }
     }
   ],
   "ok": true,
-  "allTargetsMet": false
+  "allTargetsMet": false,
+  "allPerformanceTargetsMet": false,
+  "allSeoTargetsMet": true
 }

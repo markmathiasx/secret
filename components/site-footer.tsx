@@ -57,7 +57,7 @@ export function SiteFooter({ cardCheckoutReady: _cardCheckoutReady = false }: { 
       <div className="relative mx-auto grid max-w-7xl gap-10 px-6 py-14 lg:grid-cols-[1.2fr_0.8fr_0.8fr_1fr]">
         <div>
           <Image
-            src="/logo-mdh.jpg"
+            src="/logo-mdh-mark.webp"
             alt="Logo MDH 3D"
             width={64}
             height={64}

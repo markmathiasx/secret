@@ -285,12 +285,12 @@ export function CheckoutPageShell({
 
   if (!hydrated) {
     return (
-      <section className="mx-auto max-w-7xl px-6 py-16">
-        <div className="glass-panel animate-pulse p-8">
+      <section className="mx-auto flex min-h-[760px] max-w-7xl items-center px-6 py-16">
+        <div className="glass-panel w-full animate-pulse p-8">
           <div className="h-8 w-48 rounded-full bg-white/10" />
           <div className="mt-6 grid gap-6 lg:grid-cols-[0.98fr_1.02fr]">
-            <div className="h-[540px] rounded-[28px] bg-white/10" />
-            <div className="h-[540px] rounded-[28px] bg-white/10" />
+            <div className="h-56 rounded-[28px] bg-white/10 md:h-72" />
+            <div className="h-56 rounded-[28px] bg-white/10 md:h-72" />
           </div>
         </div>
       </section>
@@ -299,8 +299,8 @@ export function CheckoutPageShell({
 
   if (items.length === 0) {
     return (
-      <section className="mx-auto max-w-7xl px-6 py-16">
-        <div className="glass-panel p-8 text-center md:p-10">
+      <section className="mx-auto flex min-h-[760px] max-w-7xl items-center px-6 py-16">
+        <div className="glass-panel w-full p-8 text-center md:p-10">
           <p className="section-kicker">Checkout</p>
           <h1 className="section-title">Seu checkout começa no carrinho.</h1>
           <p className="section-copy mx-auto mt-4 max-w-2xl">

@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-07-27T10:12:14.714Z",
+  "generatedAt": "2026-07-27T11:32:22.538Z",
   "branch": "industrial-ai-v62-20260727-005340",
-  "commit": "09ecfa94",
+  "commit": "f6a92d7a",
   "worktreeDirty": true,
   "phases": [
     {
@@ -50,9 +50,9 @@
           "blocker": "Rode npm run marketplace:lighthouse com servidor local em producao"
         },
         {
-          "label": "metas Lighthouse >=95",
+          "label": "metas Lighthouse por tipo de rota",
           "ok": false,
-          "evidence": "home/produto/checkout/catalogo/categoria precisam bater performance/a11y/best/seo >=95 e LCP/CLS alvo",
+          "evidence": "pendencias: home: performance/LCP; category: performance/LCP; product: performance/LCP; catalog: performance/LCP; checkout: performance/LCP. Checkout e auditado como noindex esperado; rotas indexaveis continuam exigindo SEO >=95.",
           "blocker": "Notas Lighthouse ou Web Vitals lab abaixo da meta"
         },
         {
@@ -583,57 +583,57 @@
       {
         "key": "home",
         "categories": {
-          "performance": 80,
+          "performance": 78,
           "accessibility": 96,
           "bestPractices": 100,
           "seo": 100
         },
-        "lcp": "5.3 s",
-        "cls": "0.009"
+        "lcp": "5.7 s",
+        "cls": "0"
       },
       {
         "key": "category",
         "categories": {
-          "performance": 83,
+          "performance": 81,
           "accessibility": 100,
           "bestPractices": 100,
           "seo": 100
         },
-        "lcp": "4.1 s",
-        "cls": "0.009"
+        "lcp": "4.7 s",
+        "cls": "0"
       },
       {
         "key": "product",
         "categories": {
-          "performance": 78,
+          "performance": 79,
           "accessibility": 99,
           "bestPractices": 100,
           "seo": 100
         },
-        "lcp": "5.9 s",
-        "cls": "0.02"
+        "lcp": "5.6 s",
+        "cls": "0"
       },
       {
         "key": "catalog",
         "categories": {
-          "performance": 75,
+          "performance": 76,
           "accessibility": 100,
           "bestPractices": 100,
           "seo": 100
         },
-        "lcp": "8.1 s",
-        "cls": "0.009"
+        "lcp": "7.1 s",
+        "cls": "0"
       },
       {
         "key": "checkout",
         "categories": {
-          "performance": 76,
+          "performance": 90,
           "accessibility": 100,
           "bestPractices": 100,
           "seo": 58
         },
-        "lcp": "4.8 s",
-        "cls": "0.151"
+        "lcp": "3.4 s",
+        "cls": "0.069"
       }
     ],
     "bundleInitialSharedJs": "103 kB",

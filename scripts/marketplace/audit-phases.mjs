@@ -281,6 +281,48 @@ function lighthouseTargetsMet(lighthouse) {
   return Boolean(lighthouse?.allTargetsMet);
 }
 
+function lighthouseTargetFailures(page) {
+  const targets = page.targets;
+  if (!targets) {
+    const categories = page.categories || {};
+    return [
+      categories.performance >= 95 ? "" : "performance",
+      categories.accessibility >= 95 ? "" : "a11y",
+      categories.bestPractices >= 95 ? "" : "best",
+      categories.seo >= 95 ? "" : "seo",
+      (page.audits?.lcp?.numericValue ?? Number.POSITIVE_INFINITY) <= 2500 ? "" : "LCP",
+      (page.audits?.cls?.numericValue ?? Number.POSITIVE_INFINITY) <= 0.1 ? "" : "CLS",
+    ].filter(Boolean);
+  }
+
+  const categories = page.categories || {};
+  const failures = [
+    page.ok && categories.performance >= 95 ? "" : "performance",
+    (page.audits?.lcp?.numericValue ?? Number.POSITIVE_INFINITY) <= 2500 ? "" : "LCP",
+    (page.audits?.cls?.numericValue ?? Number.POSITIVE_INFINITY) <= 0.1 ? "" : "CLS",
+    targets.accessibility ? "" : "a11y",
+    targets.bestPractices ? "" : "best",
+    targets.seo ? "" : (page.indexable === false ? "checkout noindex" : "seo indexavel"),
+  ].filter(Boolean);
+
+  return failures;
+}
+
+function lighthouseTargetEvidence(lighthouse) {
+  const pages = lighthouse?.pages || [];
+  if (!pages.length) return "sem paginas auditadas";
+
+  const failing = pages
+    .map((page) => {
+      const failures = lighthouseTargetFailures(page);
+      return failures.length ? `${page.key}: ${failures.join("/")}` : "";
+    })
+    .filter(Boolean);
+
+  if (!failing.length) return "todas as metas por pagina foram atingidas";
+  return `pendencias: ${failing.join("; ")}. Checkout e auditado como noindex esperado; rotas indexaveis continuam exigindo SEO >=95.`;
+}
+
 function lighthouseCollected(lighthouse) {
   return Boolean(lighthouse?.pages?.length >= 5 && lighthouse.pages.every((page) => page.ok));
 }
@@ -389,7 +431,7 @@ async function main() {
     ]),
     phase("1. Performance", [
       criterion("Lighthouse mobile coletado", lighthouseCollected(lighthouse), `paginas: ${lighthouse?.pages?.length || 0}`, "Rode npm run marketplace:lighthouse com servidor local em producao"),
-      criterion("metas Lighthouse >=95", lighthouseTargetsMet(lighthouse), "home/produto/checkout/catalogo/categoria precisam bater performance/a11y/best/seo >=95 e LCP/CLS alvo", "Notas Lighthouse ou Web Vitals lab abaixo da meta"),
+      criterion("metas Lighthouse por tipo de rota", lighthouseTargetsMet(lighthouse), lighthouseTargetEvidence(lighthouse), "Notas Lighthouse ou Web Vitals lab abaixo da meta"),
       criterion("bundle JS inicial medido", firstLoadJs !== "nao medido", `First Load JS shared by all: ${firstLoadJs}`, "Sem build atual com tamanho de bundle"),
       criterion("cache por rota validado em producao", publicHttp.checks.some((item) => item.url.includes("/catalogo") && item.headers["cache-control"]), "curl/HEAD publico capturou cache-control", "Sem prova de headers cache em producao"),
     ]),
