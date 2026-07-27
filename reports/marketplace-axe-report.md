@@ -1,6 +1,6 @@
 # Marketplace Axe Report
 
-Generated at: 2026-07-27T09:35:55.289Z
+Generated at: 2026-07-27T10:10:42.194Z
 Base URL: http://127.0.0.1:3000
 
 | Page | Viewport | Status | Body | Violations | Serious/Critical | Skip link |

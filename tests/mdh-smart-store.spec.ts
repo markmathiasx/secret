@@ -2,6 +2,7 @@ import { expect, test } from "@playwright/test";
 
 const BASE_URL = process.env.SMOKE_BASE_URL || "http://localhost:3000";
 const PRODUCT_LINK_SELECTOR = 'a[href^="/catalogo/"]';
+const SMART_PRODUCT_SLUG = "chaveiro-goleiro-comercial-copa-2026-copa-001";
 
 test.describe("Loja inteligente MDH3D", () => {
   test("alias /loja redireciona para o catálogo canônico com produtos públicos", async ({ page }) => {
@@ -48,6 +49,19 @@ test.describe("Loja inteligente MDH3D", () => {
     expect(productJsonLd.some((content) => content.includes('"Product"') || content.includes('"BreadcrumbList"'))).toBe(true);
   });
 
+  test("PDP da loja inteligente renderiza produto real em /produto sem cair na busca", async ({ page }) => {
+    const response = await page.goto(`${BASE_URL}/produto/${SMART_PRODUCT_SLUG}`, { waitUntil: "networkidle" });
+    expect(response?.status()).toBe(200);
+    await expect(page).toHaveURL(new RegExp(`/produto/${SMART_PRODUCT_SLUG}$`));
+    await expect(page.getByRole("heading", { name: /Chaveiro Goleiro Comercial Copa 2026/i })).toBeVisible();
+    await expect(page.getByText("Compra segura via checkout externo")).toBeVisible();
+    await expect(page.locator("a[href*='wa.me']").first()).toBeVisible();
+
+    const jsonLd = await page.locator('script[type="application/ld+json"]').allTextContents();
+    expect(jsonLd.some((content) => content.includes('"@type":"Product"') || content.includes('"@type": "Product"'))).toBe(true);
+    expect(jsonLd.some((content) => content.includes('"@type":"BreadcrumbList"') || content.includes('"@type": "BreadcrumbList"'))).toBe(true);
+  });
+
   test("feeds públicos retornam apenas dados navegáveis do catálogo atual", async ({ request }) => {
     const json = await request.get(`${BASE_URL}/feeds/produtos.json`);
     expect(json.status()).toBe(200);
@@ -63,6 +77,10 @@ test.describe("Loja inteligente MDH3D", () => {
     const sitemapProducts = await request.get(`${BASE_URL}/sitemap-products.xml`);
     expect(sitemapProducts.status()).toBe(200);
     expect(await sitemapProducts.text()).toContain("/catalogo/");
+
+    const sitemap = await request.get(`${BASE_URL}/sitemap.xml`);
+    expect(sitemap.status()).toBe(200);
+    expect(await sitemap.text()).toContain(`/produto/${SMART_PRODUCT_SLUG}`);
   });
 
   test("ofertas e orçamento personalizado carregam sem credenciais externas", async ({ page }) => {

@@ -1,7 +1,8 @@
 {
-  "generatedAt": "2026-07-27T09:37:27.383Z",
+  "generatedAt": "2026-07-27T10:12:14.714Z",
   "branch": "industrial-ai-v62-20260727-005340",
-  "commit": "01928c06",
+  "commit": "09ecfa94",
+  "worktreeDirty": true,
   "phases": [
     {
       "name": "0. Reconciliação",
@@ -57,7 +58,7 @@
         {
           "label": "bundle JS inicial medido",
           "ok": true,
-          "evidence": "First Load JS shared by all: 269 kB",
+          "evidence": "First Load JS shared by all: 103 kB",
           "blocker": "Sem build atual com tamanho de bundle"
         },
         {
@@ -240,8 +241,8 @@
     },
     {
       "name": "5. Confiança/Prova Social",
-      "percent": 50,
-      "passed": 2,
+      "percent": 100,
+      "passed": 4,
       "total": 4,
       "criteria": [
         {
@@ -252,8 +253,8 @@
         },
         {
           "label": "AggregateRating condicional",
-          "ok": false,
-          "evidence": "AggregateRating so entra quando ha average",
+          "ok": true,
+          "evidence": "AggregateRating so entra quando ha average/reviewCount real",
           "blocker": "Nota agregada pode ser ficticia"
         },
         {
@@ -264,60 +265,51 @@
         },
         {
           "label": "selos de confianca loja",
-          "ok": false,
-          "evidence": "/loja exibe selos exigidos",
+          "ok": true,
+          "evidence": "/catalogo e PDP smart exibem selos exigidos; /loja redireciona para /catalogo",
           "blocker": "Selos de confianca ausentes"
         }
       ],
-      "blockers": [
-        "Nota agregada pode ser ficticia",
-        "Selos de confianca ausentes"
-      ]
+      "blockers": []
     },
     {
       "name": "6. SEO técnico",
-      "percent": 0,
-      "passed": 0,
+      "percent": 100,
+      "passed": 5,
       "total": 5,
       "criteria": [
         {
           "label": "Product schema em PDP",
-          "ok": false,
-          "evidence": "/produto/[slug] inclui Product JSON-LD com BRL",
+          "ok": true,
+          "evidence": "/catalogo/[slug] e /produto/[slug] incluem Product JSON-LD com BRL",
           "blocker": "PDP sem schema Product"
         },
         {
           "label": "Review schema condicional",
-          "ok": false,
-          "evidence": "Reviews reais viram JSON-LD",
+          "ok": true,
+          "evidence": "Reviews reais viram JSON-LD quando existem",
           "blocker": "Review schema ausente"
         },
         {
           "label": "BreadcrumbList",
-          "ok": false,
-          "evidence": "PDP inclui BreadcrumbList",
+          "ok": true,
+          "evidence": "PDPs incluem BreadcrumbList",
           "blocker": "Breadcrumb schema ausente"
         },
         {
           "label": "sitemap dinamico",
-          "ok": false,
+          "ok": true,
           "evidence": "sitemap usa catalogo publico + loja inteligente",
           "blocker": "Sitemap nao vem do catalogo real"
         },
         {
           "label": "robots/canonical",
-          "ok": false,
-          "evidence": "robots.ts e canonical dinamico",
+          "ok": true,
+          "evidence": "robots.ts e canonical dinamico nas PDPs",
           "blocker": "robots/canonical incompletos"
         }
       ],
-      "blockers": [
-        "PDP sem schema Product",
-        "Review schema ausente",
-        "Breadcrumb schema ausente",
-        "Sitemap nao vem do catalogo real",
-        "robots/canonical incompletos"
-      ]
+      "blockers": []
     },
     {
       "name": "7. Analytics",
@@ -506,14 +498,14 @@
     },
     {
       "name": "12. Testes",
-      "percent": 80,
-      "passed": 4,
+      "percent": 100,
+      "passed": 5,
       "total": 5,
       "criteria": [
         {
           "label": "db:generate/typecheck/lint/build",
           "ok": true,
-          "evidence": "npm run db:generate: exit 0, 2s; npm run typecheck: exit 0, 15s; npm run lint:check: exit 0, 7s; npm run build: exit 0, 74s",
+          "evidence": "npm run db:generate: exit 0, 2s; npm run typecheck: exit 0, 4s; npm run lint:check: exit 0, 8s; npm run build: exit 0, 110s",
           "blocker": "Gates principais falharam"
         },
         {
@@ -536,14 +528,12 @@
         },
         {
           "label": "testes loja inteligente",
-          "ok": false,
-          "evidence": "tests/mdh-smart-store.spec.ts cobre Nuvemshop/WhatsApp/carrinho/feed e passou",
+          "ok": true,
+          "evidence": "tests/mdh-smart-store.spec.ts: 6/6 specs passaram; cobre PDP smart /produto, WhatsApp, carrinho, feed e sitemap",
           "blocker": "Cobertura loja inteligente incompleta"
         }
       ],
-      "blockers": [
-        "Cobertura loja inteligente incompleta"
-      ]
+      "blockers": []
     },
     {
       "name": "13. Deploy/Infra",
@@ -587,7 +577,7 @@
       ]
     }
   ],
-  "generalPercent": 80.55,
+  "generalPercent": 91.88,
   "metrics": {
     "lighthouse": [
       {
@@ -598,13 +588,13 @@
           "bestPractices": 100,
           "seo": 100
         },
-        "lcp": "5.4 s",
+        "lcp": "5.3 s",
         "cls": "0.009"
       },
       {
         "key": "category",
         "categories": {
-          "performance": 85,
+          "performance": 83,
           "accessibility": 100,
           "bestPractices": 100,
           "seo": 100
@@ -631,7 +621,7 @@
           "bestPractices": 100,
           "seo": 100
         },
-        "lcp": "8.3 s",
+        "lcp": "8.1 s",
         "cls": "0.009"
       },
       {
@@ -646,7 +636,7 @@
         "cls": "0.151"
       }
     ],
-    "bundleInitialSharedJs": "269 kB",
+    "bundleInitialSharedJs": "103 kB",
     "axeViolations": 0,
     "axeSeriousOrCritical": 0,
     "publicPhotoPercent": "100.00% (248/248)",
@@ -670,40 +660,8 @@
       "blocker": "Credenciais SMTP ausentes nesta execucao"
     },
     {
-      "phase": "5. Confiança/Prova Social",
-      "blocker": "Nota agregada pode ser ficticia"
-    },
-    {
-      "phase": "5. Confiança/Prova Social",
-      "blocker": "Selos de confianca ausentes"
-    },
-    {
-      "phase": "6. SEO técnico",
-      "blocker": "PDP sem schema Product"
-    },
-    {
-      "phase": "6. SEO técnico",
-      "blocker": "Review schema ausente"
-    },
-    {
-      "phase": "6. SEO técnico",
-      "blocker": "Breadcrumb schema ausente"
-    },
-    {
-      "phase": "6. SEO técnico",
-      "blocker": "Sitemap nao vem do catalogo real"
-    },
-    {
-      "phase": "6. SEO técnico",
-      "blocker": "robots/canonical incompletos"
-    },
-    {
       "phase": "7. Analytics",
       "blocker": "Capturar eventos em navegador/Tag Assistant para 100%"
-    },
-    {
-      "phase": "12. Testes",
-      "blocker": "Cobertura loja inteligente incompleta"
     },
     {
       "phase": "13. Deploy/Infra",

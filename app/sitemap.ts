@@ -3,12 +3,15 @@ import { getProductUrl } from "@/lib/catalog";
 import { getCatalogSnapshot } from "@/lib/catalog-repository";
 import { categoryPageConfigs } from "@/lib/category-pages";
 import { getSiteUrl } from "@/lib/env";
+import { buildProductPagePath } from "@/lib/mdh-store/links";
+import { getLocalStoreProducts } from "@/lib/mdh-store/products";
 import { salesLandings } from "@/lib/sales-landings";
 import { blogPosts } from "@/lib/blog";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = getSiteUrl();
   const catalog = await getCatalogSnapshot();
+  const smartProducts = getLocalStoreProducts();
 
   const buildDate = new Date();
   const landingPaths = Object.values(salesLandings).map((landing) => landing.slug);
@@ -66,6 +69,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     changeFrequency: "weekly" as const,
     priority: 0.6
   }));
+  const smartProductPages = smartProducts.slice(0, 1000).map((product) => ({
+    url: `${base}${buildProductPagePath(product)}`,
+    lastModified: buildDate,
+    changeFrequency: "weekly" as const,
+    priority: product.featured ? 0.65 : 0.55,
+  }));
   const blogPages = blogPosts.map((post) => ({
     url: `${base}/blog/${post.slug}`,
     lastModified: new Date(post.updatedAt),
@@ -73,5 +82,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.65,
   }));
 
-  return [...staticPages, ...productPages, ...blogPages];
+  return [...staticPages, ...productPages, ...smartProductPages, ...blogPages];
 }

@@ -292,6 +292,29 @@ function metricLine(lighthouse, key) {
   return `perf ${c.performance}, a11y ${c.accessibility}, best ${c.bestPractices}, seo ${c.seo}`;
 }
 
+function collectPlaywrightSpecs(report) {
+  const specs = [];
+
+  function visit(suite) {
+    for (const child of suite?.suites || []) visit(child);
+    for (const spec of suite?.specs || []) specs.push(spec);
+  }
+
+  visit(report);
+  return specs;
+}
+
+function summarizePlaywrightFile(report, fileName) {
+  const specs = collectPlaywrightSpecs(report).filter((spec) => spec.file === fileName);
+  const passed = specs.filter((spec) => spec.ok === true).length;
+  return {
+    total: specs.length,
+    passed,
+    ok: specs.length > 0 && passed === specs.length && Number(report?.stats?.unexpected || 0) === 0,
+    titles: specs.map((spec) => spec.title || ""),
+  };
+}
+
 function publicPhotoPercent(catalogIntegrity, catalogValidation) {
   const placeholderRisk = Number(catalogValidation?.placeholderRisk || 0);
   const total = Number(catalogValidation?.total || catalogIntegrity.publicCatalogCount || 0);
@@ -309,6 +332,8 @@ async function main() {
   const pricing = readJson("reports/pricing-validation-report.json");
   const publicRegressions = readJson("reports/public-regressions-validation-report.json");
   const playwright = readJson("reports/playwright-marketplace-run.json");
+  const smokeResults = readJson("reports/smoke-results.json");
+  const smartStoreSmoke = summarizePlaywrightFile(smokeResults, "mdh-smart-store.spec.ts");
   const catalogValidation = readJson("CATALOG_VALIDATION_REPORT.json");
   const dbStorage = readJson("reports/db-storage-validation-report.json");
   const securityAudit = readJson("reports/security-audit-report.json");
@@ -332,7 +357,10 @@ async function main() {
   const catalogIntegrity = analyzeCatalogIntegrity(catalog, getLocalStoreProducts());
   writeJson(catalogIntegrityJson, catalogIntegrity);
 
-  const appProduto = read("app/produto/[slug]/page.tsx");
+  const catalogPdp = read("app/catalogo/[slug]/page.tsx");
+  const smartPdp = read("app/produto/[slug]/page.tsx");
+  const pdpSeoSource = `${catalogPdp}\n${smartPdp}`;
+  const catalogPage = read("app/catalogo/page.tsx");
   const smartStore = read("components/mdh-store/SmartStorefront.tsx");
   const smartActions = read("components/mdh-store/SmartProductActions.tsx");
   const smartCart = read("components/mdh-store/smart-cart.ts");
@@ -401,16 +429,16 @@ async function main() {
     ]),
     phase("5. Confiança/Prova Social", [
       criterion("reviews reais por produto", schema.includes("model Review") && exists("app/api/products/[slug]/reviews/route.ts"), "Prisma Review + rota de reviews", "Sem sistema de avaliacao"),
-      criterion("AggregateRating condicional", appProduto.includes("reviewSummary.average") && appProduto.includes("AggregateRating"), "AggregateRating so entra quando ha average", "Nota agregada pode ser ficticia"),
+      criterion("AggregateRating condicional", catalogPdp.includes("productSignals && productSignals.reviewCount > 0") && smartPdp.includes("reviewSummary.average") && pdpSeoSource.includes("AggregateRating"), "AggregateRating so entra quando ha average/reviewCount real", "Nota agregada pode ser ficticia"),
       criterion("CDC art. 49 explicito", returnsPage.includes("art. 49") && trocaPage.includes("art. 49"), "/trocas-e-devolucoes e /politica-de-troca citam CDC art. 49", "Politica sem CDC art. 49"),
-      criterion("selos de confianca loja", read("app/loja/page.tsx").includes("Feito sob encomenda") && read("app/loja/page.tsx").includes("Compra segura via checkout externo"), "/loja exibe selos exigidos", "Selos de confianca ausentes"),
+      criterion("selos de confianca loja", (catalogPage + smartPdp).includes("Feito sob encomenda") && (catalogPage + smartPdp).includes("Compra segura via checkout externo"), "/catalogo e PDP smart exibem selos exigidos; /loja redireciona para /catalogo", "Selos de confianca ausentes"),
     ]),
     phase("6. SEO técnico", [
-      criterion("Product schema em PDP", appProduto.includes('"@type": "Product"') && appProduto.includes("priceCurrency"), "/produto/[slug] inclui Product JSON-LD com BRL", "PDP sem schema Product"),
-      criterion("Review schema condicional", appProduto.includes('"@type": "Review"') && appProduto.includes("reviews.map"), "Reviews reais viram JSON-LD", "Review schema ausente"),
-      criterion("BreadcrumbList", appProduto.includes("BreadcrumbList"), "PDP inclui BreadcrumbList", "Breadcrumb schema ausente"),
+      criterion("Product schema em PDP", catalogPdp.includes("'@type': 'Product'") && smartPdp.includes('"@type": "Product"') && pdpSeoSource.includes("priceCurrency"), "/catalogo/[slug] e /produto/[slug] incluem Product JSON-LD com BRL", "PDP sem schema Product"),
+      criterion("Review schema condicional", catalogPdp.includes("'@type': 'Review'") && catalogPdp.includes("reviewSnippets.map") && smartPdp.includes('"@type": "Review"') && smartPdp.includes("reviews.map"), "Reviews reais viram JSON-LD quando existem", "Review schema ausente"),
+      criterion("BreadcrumbList", catalogPdp.includes("BreadcrumbList") && smartPdp.includes("BreadcrumbList"), "PDPs incluem BreadcrumbList", "Breadcrumb schema ausente"),
       criterion("sitemap dinamico", read("app/sitemap.ts").includes("getCatalogSnapshot") && read("app/sitemap.ts").includes("getLocalStoreProducts"), "sitemap usa catalogo publico + loja inteligente", "Sitemap nao vem do catalogo real"),
-      criterion("robots/canonical", exists("app/robots.ts") && appProduto.includes("alternates: { canonical"), "robots.ts e canonical dinamico", "robots/canonical incompletos"),
+      criterion("robots/canonical", exists("app/robots.ts") && catalogPdp.includes("alternates:") && catalogPdp.includes("canonical") && smartPdp.includes("alternates:") && smartPdp.includes("canonical"), "robots.ts e canonical dinamico nas PDPs", "robots/canonical incompletos"),
     ]),
     phase("7. Analytics", [
       criterion("dataLayer seguro", read("lib/mdh-store/analytics.ts").includes("window.dataLayer = window.dataLayer || []"), "trackSmartStoreEvent inicializa dataLayer", "dataLayer pode quebrar sem GTM"),
@@ -455,7 +483,15 @@ async function main() {
         `smoke=${playwright?.testsExitCode} (${playwright?.testsExpected ?? "?"}), smart=${playwright?.smartStoreExitCode} (${playwright?.smartStoreExpected ?? "?"}), e2e=${playwright?.e2eExitCode} (${playwright?.e2eExpected ?? "?"})`,
         "Suítes Playwright nao passaram"
       ),
-      criterion("testes loja inteligente", read("tests/mdh-smart-store.spec.ts").includes("produto com link Nuvemshop") && read("tests/mdh-smart-store.spec.ts").includes("produto sem link Nuvemshop") && playwright?.smartStoreExitCode === 0, "tests/mdh-smart-store.spec.ts cobre Nuvemshop/WhatsApp/carrinho/feed e passou", "Cobertura loja inteligente incompleta"),
+      criterion(
+        "testes loja inteligente",
+        smartStoreSmoke.ok &&
+          smartStoreSmoke.total >= 6 &&
+          smartStoreSmoke.titles.some((title) => title.includes("/produto sem cair na busca")) &&
+          read("tests/mdh-smart-store.spec.ts").includes("SMART_PRODUCT_SLUG"),
+        `tests/mdh-smart-store.spec.ts: ${smartStoreSmoke.passed}/${smartStoreSmoke.total} specs passaram; cobre PDP smart /produto, WhatsApp, carrinho, feed e sitemap`,
+        "Cobertura loja inteligente incompleta"
+      ),
     ]),
     phase("13. Deploy/Infra", [
       criterion("docs Vercel env atualizados", envText.includes("VITE_GTM_ID") && envText.includes("MERCADOPAGO_ACCESS_TOKEN") && envText.includes("NEXT_PUBLIC_NUVEMSHOP_BASE_URL"), "docs/VERCEL_ENV.md lista loja, analytics, checkout", "docs/VERCEL_ENV.md incompleto"),
@@ -472,6 +508,7 @@ async function main() {
     generatedAt: new Date().toISOString(),
     branch: git(["branch", "--show-current"]),
     commit: git(["rev-parse", "--short", "HEAD"]),
+    worktreeDirty: Boolean(git(["status", "--porcelain"])),
     phases,
     generalPercent,
     metrics: {
@@ -489,7 +526,8 @@ async function main() {
   const lines = [];
   lines.push("# Relatório de Execução — MDH 3D nível Apple/ML/AliExpress/Shopee");
   lines.push(`Data: ${audit.generatedAt}`);
-  lines.push(`Commit final: ${audit.commit}`);
+  lines.push(`Commit avaliado: ${audit.commit}`);
+  lines.push(`Worktree com alterações no momento da auditoria: ${audit.worktreeDirty ? "sim" : "não"}`);
   lines.push("");
   lines.push("## 1. Reconciliação (Fase 0)");
   lines.push("| Item afirmado antes | Fonte | Status real | Evidência |");

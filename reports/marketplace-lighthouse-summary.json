@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-27T09:35:55.690Z",
+  "generatedAt": "2026-07-27T10:10:42.548Z",
   "baseUrl": "http://127.0.0.1:3000",
   "chromePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
   "pages": [
@@ -9,10 +9,10 @@
       "path": "/",
       "url": "http://127.0.0.1:3000/",
       "ok": true,
-      "durationMs": 14516,
+      "durationMs": 14068,
       "reportPath": "reports/lighthouse/home.json",
       "finalUrl": "http://127.0.0.1:3000/",
-      "fetchTime": "2026-07-27T09:36:00.030Z",
+      "fetchTime": "2026-07-27T10:10:46.654Z",
       "categories": {
         "performance": 80,
         "accessibility": 96,
@@ -22,9 +22,9 @@
       "audits": {
         "lcp": {
           "title": "Largest Contentful Paint",
-          "score": 0.2,
-          "numericValue": 5423.1899,
-          "displayValue": "5.4 s"
+          "score": 0.22,
+          "numericValue": 5265.441399999999,
+          "displayValue": "5.3 s"
         },
         "cls": {
           "title": "Cumulative Layout Shift",
@@ -34,9 +34,9 @@
         },
         "tbt": {
           "title": "Total Blocking Time",
-          "score": 1,
-          "numericValue": 35,
-          "displayValue": "40 ms"
+          "score": 0.99,
+          "numericValue": 84,
+          "displayValue": "80 ms"
         },
         "inp": null
       }
@@ -47,12 +47,12 @@
       "path": "/catalogo/categoria/geek-colecionaveis",
       "url": "http://127.0.0.1:3000/catalogo/categoria/geek-colecionaveis",
       "ok": true,
-      "durationMs": 13655,
+      "durationMs": 13395,
       "reportPath": "reports/lighthouse/category.json",
       "finalUrl": "http://127.0.0.1:3000/catalogo/categoria/geek-colecionaveis",
-      "fetchTime": "2026-07-27T09:36:14.356Z",
+      "fetchTime": "2026-07-27T10:11:00.500Z",
       "categories": {
-        "performance": 85,
+        "performance": 83,
         "accessibility": 100,
         "bestPractices": 100,
         "seo": 100
@@ -61,7 +61,7 @@
         "lcp": {
           "title": "Largest Contentful Paint",
           "score": 0.46,
-          "numericValue": 4130.562400000002,
+          "numericValue": 4145.052200000002,
           "displayValue": "4.1 s"
         },
         "cls": {
@@ -72,9 +72,9 @@
         },
         "tbt": {
           "title": "Total Blocking Time",
-          "score": 0.94,
-          "numericValue": 155,
-          "displayValue": "160 ms"
+          "score": 0.9,
+          "numericValue": 194.5,
+          "displayValue": "190 ms"
         },
         "inp": null
       }
@@ -85,10 +85,10 @@
       "path": "/catalogo/mdh-016-chaveiro-3d-personalizado-com-nome-ou-logo",
       "url": "http://127.0.0.1:3000/catalogo/mdh-016-chaveiro-3d-personalizado-com-nome-ou-logo",
       "ok": true,
-      "durationMs": 14616,
+      "durationMs": 14884,
       "reportPath": "reports/lighthouse/product.json",
       "finalUrl": "http://127.0.0.1:3000/catalogo/mdh-016-chaveiro-3d-personalizado-com-nome-ou-logo",
-      "fetchTime": "2026-07-27T09:36:27.671Z",
+      "fetchTime": "2026-07-27T10:11:14.309Z",
       "categories": {
         "performance": 78,
         "accessibility": 99,
@@ -99,7 +99,7 @@
         "lcp": {
           "title": "Largest Contentful Paint",
           "score": 0.14,
-          "numericValue": 5940.3501,
+          "numericValue": 5943.197,
           "displayValue": "5.9 s"
         },
         "cls": {
@@ -110,9 +110,9 @@
         },
         "tbt": {
           "title": "Total Blocking Time",
-          "score": 0.98,
-          "numericValue": 95,
-          "displayValue": "100 ms"
+          "score": 1,
+          "numericValue": 61.5,
+          "displayValue": "60 ms"
         },
         "inp": null
       }
@@ -123,10 +123,10 @@
       "path": "/catalogo",
       "url": "http://127.0.0.1:3000/catalogo",
       "ok": true,
-      "durationMs": 14741,
+      "durationMs": 14454,
       "reportPath": "reports/lighthouse/catalog.json",
       "finalUrl": "http://127.0.0.1:3000/catalogo",
-      "fetchTime": "2026-07-27T09:36:42.561Z",
+      "fetchTime": "2026-07-27T10:11:28.870Z",
       "categories": {
         "performance": 75,
         "accessibility": 100,
@@ -137,8 +137,8 @@
         "lcp": {
           "title": "Largest Contentful Paint",
           "score": 0.02,
-          "numericValue": 8265.923699999998,
-          "displayValue": "8.3 s"
+          "numericValue": 8110.9822,
+          "displayValue": "8.1 s"
         },
         "cls": {
           "title": "Cumulative Layout Shift",
@@ -148,9 +148,9 @@
         },
         "tbt": {
           "title": "Total Blocking Time",
-          "score": 0.98,
-          "numericValue": 105,
-          "displayValue": "110 ms"
+          "score": 0.99,
+          "numericValue": 77.5,
+          "displayValue": "80 ms"
         },
         "inp": null
       }
@@ -161,10 +161,10 @@
       "path": "/checkout",
       "url": "http://127.0.0.1:3000/checkout",
       "ok": true,
-      "durationMs": 13258,
+      "durationMs": 13366,
       "reportPath": "reports/lighthouse/checkout.json",
       "finalUrl": "http://127.0.0.1:3000/checkout",
-      "fetchTime": "2026-07-27T09:36:57.230Z",
+      "fetchTime": "2026-07-27T10:11:43.377Z",
       "categories": {
         "performance": 76,
         "accessibility": 100,
@@ -175,20 +175,20 @@
         "lcp": {
           "title": "Largest Contentful Paint",
           "score": 0.31,
-          "numericValue": 4761.7199,
+          "numericValue": 4767.737500000001,
           "displayValue": "4.8 s"
         },
         "cls": {
           "title": "Cumulative Layout Shift",
           "score": 0.76,
-          "numericValue": 0.15061375717558317,
+          "numericValue": 0.15054311992220384,
           "displayValue": "0.151"
         },
         "tbt": {
           "title": "Total Blocking Time",
-          "score": 0.99,
-          "numericValue": 90,
-          "displayValue": "90 ms"
+          "score": 0.97,
+          "numericValue": 122.5,
+          "displayValue": "120 ms"
         },
         "inp": null
       }
