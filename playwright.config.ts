@@ -29,7 +29,6 @@ export default defineConfig({
         reuseExistingServer: !process.env.CI,
         timeout: 120_000,
         env: {
-          ...process.env,
           AUTH_SECRET: process.env.AUTH_SECRET || "local-playwright-auth-secret-do-not-use-in-production",
           NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET || process.env.AUTH_SECRET || "local-playwright-auth-secret-do-not-use-in-production",
           NEXTAUTH_URL: process.env.NEXTAUTH_URL || BASE_URL,

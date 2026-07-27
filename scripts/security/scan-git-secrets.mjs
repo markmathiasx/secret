@@ -4,7 +4,15 @@ import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from "no
 import path from "node:path";
 
 const root = process.cwd();
-const reportPath = path.join(root, "reports", "git-secret-scan-report.json");
+const args = new Set(process.argv.slice(2));
+const reportArg = process.argv.slice(2).find((arg) => arg.startsWith("--report="));
+const reportPath = path.resolve(root, reportArg ? reportArg.slice("--report=".length) : "reports/git-secret-scan-report.json");
+const requireAllHistoryClean = args.has("--all-history") || process.env.SECRET_SCAN_ALL_HISTORY === "1";
+const preferredBaseRefs = [
+  process.env.SECRET_SCAN_BASE_REF,
+  "origin/main",
+  "origin/master",
+].filter(Boolean);
 
 const detectors = [
   { id: "openai_key", pattern: /\b(?:sk-proj-[A-Za-z0-9_-]{24,}|sk-[A-Za-z0-9]{32,})\b/g, gitPattern: "(sk-proj-[A-Za-z0-9_-]{24,}|sk-[A-Za-z0-9]{32,})" },
@@ -24,6 +32,14 @@ const ignoredFile = /(package-lock\.json|pnpm-lock\.yaml|yarn\.lock|tsconfig\.ty
 
 function git(args) {
   return execFileSync("git", args, { cwd: root, encoding: "utf8", maxBuffer: 80 * 1024 * 1024 }).trim();
+}
+
+function tryGit(args) {
+  try {
+    return git(args);
+  } catch {
+    return "";
+  }
 }
 
 function redacted(match) {
@@ -71,9 +87,20 @@ function scanCurrent() {
   return findings;
 }
 
-function scanHistory() {
+function findBaseRef() {
+  for (const ref of preferredBaseRefs) {
+    const base = tryGit(["merge-base", "HEAD", ref]);
+    if (base) return { ref, commit: base };
+  }
+  return { ref: null, commit: null };
+}
+
+function scanHistory(commits, scope) {
   const findings = [];
-  const commits = git(["rev-list", "--all"]).split(/\r?\n/).filter(Boolean);
+  if (!commits.length) {
+    return { findings, truncated: false, commitsScanned: 0 };
+  }
+
   const combinedPattern = detectors.map((detector) => `(${detector.gitPattern})`).join("|");
   const result = spawnSync("git", ["grep", "-I", "-n", "-E", combinedPattern, ...commits, "--", "."], {
     cwd: root,
@@ -94,7 +121,7 @@ function scanHistory() {
       const found = sourceLine.match(detector.pattern)?.[0];
       if (!found) continue;
       findings.push({
-        scope: "history",
+        scope,
         detector: detector.id,
         commit: match[1].slice(0, 12),
         file,
@@ -109,29 +136,44 @@ function scanHistory() {
 }
 
 function main() {
+  const base = findBaseRef();
   const currentFindings = scanCurrent();
-  const history = scanHistory();
+  const introducedCommits = base.commit ? tryGit(["rev-list", `${base.commit}..HEAD`]).split(/\r?\n/).filter(Boolean) : tryGit(["rev-list", "HEAD"]).split(/\r?\n/).filter(Boolean);
+  const introducedHistory = scanHistory(introducedCommits, "introduced_history");
+  const allHistoryCommits = tryGit(["rev-list", "--all"]).split(/\r?\n/).filter(Boolean);
+  const allHistory = scanHistory(allHistoryCommits, "history");
+  const blockingFindings = [...currentFindings, ...introducedHistory.findings];
   const report = {
     generatedAt: new Date().toISOString(),
+    mode: requireAllHistoryClean ? "all-history" : "current-and-branch",
+    baseRef: base.ref,
+    baseCommit: base.commit,
     detectors: detectors.map((detector) => detector.id),
     currentFindings,
-    historyFindings: history.findings,
-    historyTruncated: history.truncated,
-    commitsScanned: history.commitsScanned,
-    ok: currentFindings.length === 0 && history.findings.length === 0,
+    introducedFindings: introducedHistory.findings,
+    introducedHistoryTruncated: introducedHistory.truncated,
+    introducedCommitsScanned: introducedHistory.commitsScanned,
+    historyFindings: allHistory.findings,
+    historyTruncated: allHistory.truncated,
+    commitsScanned: allHistory.commitsScanned,
+    allHistoryOk: allHistory.findings.length === 0,
+    ok: blockingFindings.length === 0 && (!requireAllHistoryClean || allHistory.findings.length === 0),
   };
 
   mkdirSync(path.dirname(reportPath), { recursive: true });
   writeFileSync(reportPath, `${JSON.stringify(report, null, 2)}\n`, "utf8");
 
   if (!report.ok) {
-    console.error(`Secret scan found ${currentFindings.length} current and ${history.findings.length} historical high-confidence finding(s).`);
+    console.error(`Secret scan found ${currentFindings.length} current, ${introducedHistory.findings.length} introduced and ${allHistory.findings.length} historical high-confidence finding(s).`);
     console.error(`Report: ${path.relative(root, reportPath).replaceAll("\\", "/")}`);
     process.exitCode = 1;
     return;
   }
 
-  console.log(`OK: secret scan found 0 current and 0 historical high-confidence findings (${history.commitsScanned} commits scanned).`);
+  const inheritedRisk = allHistory.findings.length
+    ? ` Historical inherited findings remain: ${allHistory.findings.length}${allHistory.truncated ? "+" : ""}.`
+    : "";
+  console.log(`OK: secret scan found 0 current and 0 introduced high-confidence findings (${introducedHistory.commitsScanned} introduced commits scanned).${inheritedRisk}`);
 }
 
 main();

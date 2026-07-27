@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-27T08:34:53.083Z",
+  "generatedAt": "2026-07-27T09:35:55.690Z",
   "baseUrl": "http://127.0.0.1:3000",
   "chromePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
   "pages": [
@@ -9,10 +9,10 @@
       "path": "/",
       "url": "http://127.0.0.1:3000/",
       "ok": true,
-      "durationMs": 14429,
+      "durationMs": 14516,
       "reportPath": "reports/lighthouse/home.json",
       "finalUrl": "http://127.0.0.1:3000/",
-      "fetchTime": "2026-07-27T08:34:57.345Z",
+      "fetchTime": "2026-07-27T09:36:00.030Z",
       "categories": {
         "performance": 80,
         "accessibility": 96,
@@ -23,7 +23,7 @@
         "lcp": {
           "title": "Largest Contentful Paint",
           "score": 0.2,
-          "numericValue": 5417.263999999999,
+          "numericValue": 5423.1899,
           "displayValue": "5.4 s"
         },
         "cls": {
@@ -35,7 +35,7 @@
         "tbt": {
           "title": "Total Blocking Time",
           "score": 1,
-          "numericValue": 42,
+          "numericValue": 35,
           "displayValue": "40 ms"
         },
         "inp": null
@@ -47,12 +47,12 @@
       "path": "/catalogo/categoria/geek-colecionaveis",
       "url": "http://127.0.0.1:3000/catalogo/categoria/geek-colecionaveis",
       "ok": true,
-      "durationMs": 13605,
+      "durationMs": 13655,
       "reportPath": "reports/lighthouse/category.json",
       "finalUrl": "http://127.0.0.1:3000/catalogo/categoria/geek-colecionaveis",
-      "fetchTime": "2026-07-27T08:35:11.559Z",
+      "fetchTime": "2026-07-27T09:36:14.356Z",
       "categories": {
-        "performance": 83,
+        "performance": 85,
         "accessibility": 100,
         "bestPractices": 100,
         "seo": 100
@@ -61,7 +61,7 @@
         "lcp": {
           "title": "Largest Contentful Paint",
           "score": 0.46,
-          "numericValue": 4139.340200000001,
+          "numericValue": 4130.562400000002,
           "displayValue": "4.1 s"
         },
         "cls": {
@@ -72,9 +72,9 @@
         },
         "tbt": {
           "title": "Total Blocking Time",
-          "score": 0.89,
-          "numericValue": 206,
-          "displayValue": "210 ms"
+          "score": 0.94,
+          "numericValue": 155,
+          "displayValue": "160 ms"
         },
         "inp": null
       }
@@ -85,10 +85,10 @@
       "path": "/catalogo/mdh-016-chaveiro-3d-personalizado-com-nome-ou-logo",
       "url": "http://127.0.0.1:3000/catalogo/mdh-016-chaveiro-3d-personalizado-com-nome-ou-logo",
       "ok": true,
-      "durationMs": 14509,
+      "durationMs": 14616,
       "reportPath": "reports/lighthouse/product.json",
       "finalUrl": "http://127.0.0.1:3000/catalogo/mdh-016-chaveiro-3d-personalizado-com-nome-ou-logo",
-      "fetchTime": "2026-07-27T08:35:24.977Z",
+      "fetchTime": "2026-07-27T09:36:27.671Z",
       "categories": {
         "performance": 78,
         "accessibility": 99,
@@ -99,7 +99,7 @@
         "lcp": {
           "title": "Largest Contentful Paint",
           "score": 0.14,
-          "numericValue": 5939.5478,
+          "numericValue": 5940.3501,
           "displayValue": "5.9 s"
         },
         "cls": {
@@ -110,9 +110,9 @@
         },
         "tbt": {
           "title": "Total Blocking Time",
-          "score": 0.99,
-          "numericValue": 65.5,
-          "displayValue": "70 ms"
+          "score": 0.98,
+          "numericValue": 95,
+          "displayValue": "100 ms"
         },
         "inp": null
       }
@@ -123,12 +123,12 @@
       "path": "/catalogo",
       "url": "http://127.0.0.1:3000/catalogo",
       "ok": true,
-      "durationMs": 14607,
+      "durationMs": 14741,
       "reportPath": "reports/lighthouse/catalog.json",
       "finalUrl": "http://127.0.0.1:3000/catalogo",
-      "fetchTime": "2026-07-27T08:35:39.439Z",
+      "fetchTime": "2026-07-27T09:36:42.561Z",
       "categories": {
-        "performance": 69,
+        "performance": 75,
         "accessibility": 100,
         "bestPractices": 100,
         "seo": 100
@@ -136,9 +136,9 @@
       "audits": {
         "lcp": {
           "title": "Largest Contentful Paint",
-          "score": 0.01,
-          "numericValue": 8713.6446,
-          "displayValue": "8.7 s"
+          "score": 0.02,
+          "numericValue": 8265.923699999998,
+          "displayValue": "8.3 s"
         },
         "cls": {
           "title": "Cumulative Layout Shift",
@@ -148,9 +148,9 @@
         },
         "tbt": {
           "title": "Total Blocking Time",
-          "score": 0.8,
-          "numericValue": 287.9999999999991,
-          "displayValue": "290 ms"
+          "score": 0.98,
+          "numericValue": 105,
+          "displayValue": "110 ms"
         },
         "inp": null
       }
@@ -161,12 +161,12 @@
       "path": "/checkout",
       "url": "http://127.0.0.1:3000/checkout",
       "ok": true,
-      "durationMs": 12996,
+      "durationMs": 13258,
       "reportPath": "reports/lighthouse/checkout.json",
       "finalUrl": "http://127.0.0.1:3000/checkout",
-      "fetchTime": "2026-07-27T08:35:54.037Z",
+      "fetchTime": "2026-07-27T09:36:57.230Z",
       "categories": {
-        "performance": 77,
+        "performance": 76,
         "accessibility": 100,
         "bestPractices": 100,
         "seo": 58
@@ -174,21 +174,21 @@
       "audits": {
         "lcp": {
           "title": "Largest Contentful Paint",
-          "score": 0.33,
-          "numericValue": 4663.277050000002,
-          "displayValue": "4.7 s"
+          "score": 0.31,
+          "numericValue": 4761.7199,
+          "displayValue": "4.8 s"
         },
         "cls": {
           "title": "Cumulative Layout Shift",
           "score": 0.76,
-          "numericValue": 0.15054311992220384,
+          "numericValue": 0.15061375717558317,
           "displayValue": "0.151"
         },
         "tbt": {
           "title": "Total Blocking Time",
-          "score": 1,
-          "numericValue": 49,
-          "displayValue": "50 ms"
+          "score": 0.99,
+          "numericValue": 90,
+          "displayValue": "90 ms"
         },
         "inp": null
       }

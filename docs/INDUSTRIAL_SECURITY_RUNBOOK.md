@@ -25,4 +25,7 @@ Rules:
 Validate:
 
 - `npm run security:scan-secrets`
+- `npm run security:scan-secrets:all-history`
 - `npm run verify:industrial`
+
+`security:scan-secrets` bloqueia segredos no estado atual e nos commits introduzidos pela branch contra `origin/main`. Use `security:scan-secrets:all-history` para auditoria de reescrita/rotação global do repositório.

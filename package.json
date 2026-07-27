@@ -57,6 +57,7 @@
     "catalog:validate-public-copy": "node scripts/catalog/validate-public-copy.mjs",
     "security:audit": "node scripts/security/audit-security.mjs",
     "security:scan-secrets": "node scripts/security/scan-git-secrets.mjs",
+    "security:scan-secrets:all-history": "node scripts/security/scan-git-secrets.mjs --all-history --report=reports/git-secret-scan-all-history-report.json",
     "seo:validate": "node scripts/seo/validate-seo.mjs",
     "pwa:validate": "node scripts/pwa/validate-pwa.mjs",
     "ux:validate": "node scripts/ux/validate-ux.mjs",
@@ -208,7 +209,10 @@
     "postcss": "8.5.19",
     "fast-xml-parser": "^5.7.2",
     "@auth/core": "0.41.3",
+    "axios": "1.18.1",
+    "brace-expansion": "5.0.8",
     "dompurify": "3.4.12",
+    "js-yaml": "4.3.0",
     "jsdom": "25.0.1",
     "sharp": "0.35.3"
   }

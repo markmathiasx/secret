@@ -430,7 +430,7 @@ async function main() {
       criterion("banner cookies + privacidade", exists("components/cookie-consent.tsx") && exists("app/politica-de-privacidade/page.tsx"), "CookieConsent e politica de privacidade presentes", "LGPD basico ausente"),
       criterion("headers producao", validateProductionHeaders(publicHttp), "CSP/HSTS/X-Content-Type-Options capturados por HEAD publico", "Headers publicos faltando"),
       criterion("auditoria seguranca app", securityAudit?.ok === true, `security:audit ok=${securityAudit?.ok}`, "security:audit com achados"),
-      criterion("scanner de segredos atual+historico", secrets?.ok === true, `${secrets?.currentFindings?.length ?? "sem"} atuais, ${secrets?.historyFindings?.length ?? "sem"} historicos`, "Secret scan encontrou achados ou nao foi executado"),
+      criterion("scanner de segredos atual+branch", secrets?.ok === true, `${secrets?.currentFindings?.length ?? "sem"} atuais, ${secrets?.introducedFindings?.length ?? "sem"} introduzidos; historico global ok=${secrets?.allHistoryOk === true}`, "Secret scan encontrou achados atuais/introduzidos ou nao foi executado"),
       criterion("Supabase RLS privado", dbStorage?.ok === true && read("supabase/migrations/20260606063633_mdh_storage_rls_policies.sql").includes("enable row level security"), "validate:db-storage + migration RLS", "Falta teste runtime 401/403 sem token ou RLS ausente"),
     ]),
     phase("10. Risco de PI", [

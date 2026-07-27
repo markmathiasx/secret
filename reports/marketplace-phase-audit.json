@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-07-27T08:36:26.747Z",
+  "generatedAt": "2026-07-27T09:37:27.383Z",
   "branch": "industrial-ai-v62-20260727-005340",
-  "commit": "2767f24e",
+  "commit": "01928c06",
   "phases": [
     {
       "name": "0. Reconciliação",
@@ -424,10 +424,10 @@
           "blocker": "security:audit com achados"
         },
         {
-          "label": "scanner de segredos atual+historico",
+          "label": "scanner de segredos atual+branch",
           "ok": true,
-          "evidence": "0 atuais, 0 historicos",
-          "blocker": "Secret scan encontrou achados ou nao foi executado"
+          "evidence": "0 atuais, 0 introduzidos; historico global ok=false",
+          "blocker": "Secret scan encontrou achados atuais/introduzidos ou nao foi executado"
         },
         {
           "label": "Supabase RLS privado",
@@ -604,7 +604,7 @@
       {
         "key": "category",
         "categories": {
-          "performance": 83,
+          "performance": 85,
           "accessibility": 100,
           "bestPractices": 100,
           "seo": 100
@@ -626,23 +626,23 @@
       {
         "key": "catalog",
         "categories": {
-          "performance": 69,
+          "performance": 75,
           "accessibility": 100,
           "bestPractices": 100,
           "seo": 100
         },
-        "lcp": "8.7 s",
+        "lcp": "8.3 s",
         "cls": "0.009"
       },
       {
         "key": "checkout",
         "categories": {
-          "performance": 77,
+          "performance": 76,
           "accessibility": 100,
           "bestPractices": 100,
           "seo": 58
         },
-        "lcp": "4.7 s",
+        "lcp": "4.8 s",
         "cls": "0.151"
       }
     ],
