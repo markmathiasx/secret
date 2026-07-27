@@ -75,6 +75,7 @@ export function PremiumCard({ product, index = 0, priority }: PremiumCardProps) 
     >
       <Link
         href={productUrl}
+        prefetch={false}
         className="relative block aspect-square w-full overflow-hidden bg-[radial-gradient(circle_at_30%_20%,rgba(52,211,153,0.18),transparent_34%),linear-gradient(135deg,#111827,#020617)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300"
         aria-label={`Abrir ${product.name}`}
       >
@@ -102,7 +103,7 @@ export function PremiumCard({ product, index = 0, priority }: PremiumCardProps) 
       <div className="flex flex-1 flex-col gap-3 p-3.5">
         <div className="min-w-0">
           <p className="truncate text-[10px] font-black uppercase tracking-[0.12em] text-emerald-100/75">{product.category}</p>
-          <Link href={productUrl} className="mt-1 block line-clamp-2 min-h-[2.5rem] text-sm font-black leading-5 text-white hover:text-emerald-100">
+          <Link href={productUrl} prefetch={false} className="mt-1 block line-clamp-2 min-h-[2.5rem] text-sm font-black leading-5 text-white hover:text-emerald-100">
             {product.name}
           </Link>
           <p className="mt-1.5 line-clamp-2 min-h-[2.5rem] text-xs leading-5 text-white/58">{description}</p>
@@ -141,6 +142,7 @@ export function PremiumCard({ product, index = 0, priority }: PremiumCardProps) 
           </a>
           <Link
             href={productUrl}
+            prefetch={false}
             className="col-span-2 inline-flex min-h-10 items-center justify-center gap-2 rounded-[8px] border border-white/10 bg-white/[0.055] px-3 py-2 text-xs font-black text-white/82 transition hover:border-white/20 hover:bg-white/[0.08] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30"
             aria-label={`Ver produto ${product.name}`}
           >

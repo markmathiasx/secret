@@ -1,5 +1,5 @@
 "use client";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { AlertTriangle, Expand, Image as ImageIcon, X } from "lucide-react";
 import type { Product } from "@/lib/catalog";
 import { getProductGallery } from "@/lib/product-images";
@@ -30,7 +30,20 @@ export function ProductImageGallery({
   const isConceptual = visual.kind === "imagem-conceitual";
   const [active, setActive] = useState(0);
   const [expanded, setExpanded] = useState(false);
+  const [showThumbnails, setShowThumbnails] = useState(compact);
   const current = gallery[active] || gallery[0];
+
+  useEffect(() => {
+    if (compact) {
+      setShowThumbnails(true);
+      return;
+    }
+
+    setShowThumbnails(false);
+    const timer = window.setTimeout(() => setShowThumbnails(true), 2600);
+    return () => window.clearTimeout(timer);
+  }, [compact, product.id]);
+
   if (!current) {
     return <div className="aspect-square w-full rounded-[28px] border border-white/10 bg-white/5 animate-pulse" />;
   }
@@ -130,14 +143,20 @@ export function ProductImageGallery({
                 galleryIndex === active ? "border-cyan-300/40 bg-cyan-400/10 shadow-cyan" : "border-white/10 bg-white/5 hover:border-white/20"
               }`}
             >
-              <SafeProductImage
-                candidates={image.candidates}
-                alt={image.alt}
-                className="aspect-square w-full object-cover"
-                priority={false}
-                fetchPriority="low"
-                sizes={thumbSizes}
-              />
+              {showThumbnails ? (
+                <SafeProductImage
+                  candidates={image.candidates}
+                  alt={image.alt}
+                  className="aspect-square w-full object-cover"
+                  priority={false}
+                  fetchPriority="low"
+                  sizes={thumbSizes}
+                />
+              ) : (
+                <span className="flex aspect-square w-full items-center justify-center bg-white/[0.045] text-xs font-black text-white/45">
+                  {galleryIndex + 1}
+                </span>
+              )}
             </button>
             );
           })}

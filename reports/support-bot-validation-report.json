@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-27T11:27:49.994Z",
+  "generatedAt": "2026-07-27T12:40:11.642Z",
   "ok": true,
   "results": [
     {
@@ -133,16 +133,16 @@
           "url": "/catalogo/mdh-022-organizador-de-mesa-para-canetas-e-pequenos-objetos"
         },
         {
-          "name": "Kit 6 Organizadores de Cabos para Mesa",
-          "pricePix": 39.9,
-          "priceCard": 40.9,
-          "url": "/catalogo/mdh-014-kit-6-organizadores-de-cabos-para-mesa"
-        },
-        {
           "name": "Caixa Organizadora Modular com Tampa",
           "pricePix": 99.9,
           "priceCard": 100.9,
           "url": "/catalogo/mdh-053-caixa-organizadora-modular-com-tampa"
+        },
+        {
+          "name": "Kit 6 Organizadores de Cabos para Mesa",
+          "pricePix": 39.9,
+          "priceCard": 40.9,
+          "url": "/catalogo/mdh-014-kit-6-organizadores-de-cabos-para-mesa"
         },
         {
           "name": "Porta-Copos Geek para Mesa, Setup e Presente Criativo",

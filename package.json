@@ -81,6 +81,7 @@
     "report:weekly-growth": "node scripts/run-weekly-growth-report.mjs",
     "media:fetch": "node scripts/media/fetch-licensed-videos.mjs",
     "media:fetch-cinematic": "node scripts/media/fetch-cinematic-pexels-videos.mjs",
+    "media:generate-product-previews": "node scripts/media/generate-product-preview-images.mjs",
     "media:validate": "node scripts/media/validate-video-assets.mjs",
     "meta:validate-feed": "node scripts/meta/validate-commerce-feed.mjs",
     "validate:public-html": "node scripts/validate-local-vs-production.mjs",

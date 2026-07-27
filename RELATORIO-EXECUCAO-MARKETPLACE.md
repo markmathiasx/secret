@@ -1,6 +1,6 @@
 # Relatório de Execução — MDH 3D nível Apple/ML/AliExpress/Shopee
-Data: 2026-07-27T11:32:22.538Z
-Commit avaliado: f6a92d7a
+Data: 2026-07-27T12:44:43.709Z
+Commit avaliado: 87206885
 Worktree com alterações no momento da auditoria: sim
 
 ## 1. Reconciliação (Fase 0)
@@ -85,7 +85,7 @@ Worktree com alterações no momento da auditoria: sim
 | 13. Deploy/Infra | 80.00% | 4/5 critérios passaram | OK docs Vercel env atualizados: docs/VERCEL_ENV.md lista loja, analytics, checkout<br>OK Dockerfile/docker-compose presentes: Dockerfile + docker-compose.yml presentes<br>FALHA build Docker comprovado: dockerBuild ok=false<br>OK deploy Vercel registrado: https://mdh-3d-store-gawprn2bq-markmathias.vercel.app<br>OK producao responde e local/site comparados: publicHttp=true, local-vs-prod=true | Rodar docker compose build/up e registrar log |
 
 ## 3. Métricas antes → depois
-- Lighthouse mobile (home/produto/checkout): antes não medido nesta fase → depois home perf 78, a11y 96, best 100, seo 100; produto perf 79, a11y 99, best 100, seo 100; checkout perf 90, a11y 100, best 100, seo 58
+- Lighthouse mobile (home/produto/checkout): antes não medido nesta fase → depois home perf 91, a11y 96, best 100, seo 100; produto perf 90, a11y 99, best 100, seo 100; checkout perf 89, a11y 100, best 100, seo 58
 - LCP/INP/CLS: antes não medido nesta fase → depois registrado em `reports/marketplace-lighthouse-summary.json`; INP lab pode não existir em todas as versões do Lighthouse.
 - Bundle JS inicial: antes 103 kB → depois 103 kB (sem alteração de bundle comprovada nesta rodada).
 - Violações de acessibilidade (axe-core): antes não medido nesta fase → depois 0 violações, 0 sérias/críticas.

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-27T11:30:37.673Z",
+  "generatedAt": "2026-07-27T12:43:00.950Z",
   "baseUrl": "http://127.0.0.1:3000",
   "results": [
     {
@@ -62,7 +62,7 @@
       "url": "http://127.0.0.1:3000/catalogo/mdh-016-chaveiro-3d-personalizado-com-nome-ou-logo",
       "ok": true,
       "status": 200,
-      "bodyTextLength": 11278,
+      "bodyTextLength": 11285,
       "frameworkOverlay": false,
       "skipLink": {
         "exists": true,
@@ -170,7 +170,7 @@
       "url": "http://127.0.0.1:3000/catalogo/mdh-016-chaveiro-3d-personalizado-com-nome-ou-logo",
       "ok": true,
       "status": 200,
-      "bodyTextLength": 11437,
+      "bodyTextLength": 11444,
       "frameworkOverlay": false,
       "skipLink": {
         "exists": true,

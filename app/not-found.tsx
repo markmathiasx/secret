@@ -4,7 +4,7 @@ import { Home, Search, ShoppingBag, MessageCircleMore } from "lucide-react";
 import { getProductUrl } from "@/lib/catalog";
 import { getCatalogSnapshot } from "@/lib/catalog-repository";
 import { formatCurrency } from "@/lib/utils";
-import { resolveProductImage } from "@/lib/product-images";
+import { getPrimaryProductPreviewImage } from "@/lib/product-images";
 import { whatsappNumber } from "@/lib/constants";
 
 export default async function NotFound() {
@@ -51,7 +51,7 @@ export default async function NotFound() {
             >
               <div className="relative mb-3 h-32 overflow-hidden rounded-[18px]">
                 <Image
-                  src={resolveProductImage(product)}
+                  src={getPrimaryProductPreviewImage(product)}
                   alt={product.name}
                   fill
                   className="object-cover transition group-hover:scale-110"

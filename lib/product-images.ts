@@ -1,4 +1,5 @@
 import type { Product } from "@/lib/catalog";
+import { getProductPreviewImage, withProductPreviewCandidates } from "@/lib/product-image-variants";
 
 export const PRODUCT_IMAGE_PLACEHOLDER = "/placeholders/product-card.svg";
 export const productPlaceholderSrc = PRODUCT_IMAGE_PLACEHOLDER;
@@ -92,6 +93,11 @@ export function getPrimaryProductImage(product: Partial<Product> | null | undefi
   return getProductImageCandidates(product)[0] || PRODUCT_IMAGE_PLACEHOLDER;
 }
 
+export function getPrimaryProductPreviewImage(product: Partial<Product> | null | undefined): string {
+  const primary = getPrimaryProductImage(product);
+  return getProductPreviewImage(primary) || primary;
+}
+
 export function hasUsableProductImage(product: Partial<Product> | null | undefined): boolean {
   return getProductImageCandidates(product).some((src) => src !== PRODUCT_IMAGE_PLACEHOLDER);
 }
@@ -107,7 +113,7 @@ export function getProductGallery(product: Partial<Product> | null | undefined):
     id: `${readString(product?.id) || "product"}-${index}`,
     src,
     alt: index === 0 ? alt : `${alt} ${index + 1}`,
-    candidates: [src, PRODUCT_IMAGE_PLACEHOLDER],
+    candidates: withProductPreviewCandidates([src, PRODUCT_IMAGE_PLACEHOLDER]),
   }));
 }
 

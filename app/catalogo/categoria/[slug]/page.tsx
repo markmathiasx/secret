@@ -8,6 +8,7 @@ import { getProductUrl } from "@/lib/catalog";
 import { getCatalogSnapshot } from "@/lib/catalog-repository";
 import {
   categoryPageConfigs,
+  getCategoryPageProducts,
   getCategoryPageBySlug,
   getCategoryPageMetadata,
   getCategoryPageStaticParams,
@@ -55,7 +56,7 @@ export default async function CategoryLandingPage({
   const siteUrl = getSiteUrl();
   const pageUrl = `${siteUrl}/catalogo/categoria/${config.slug}`;
   const catalog = await getCatalogSnapshot();
-  const products = catalog.filter((product) => product.category === config.category);
+  const products = getCategoryPageProducts(catalog, config);
 
   if (!products.length) {
     notFound();
@@ -135,10 +136,10 @@ export default async function CategoryLandingPage({
               ))}
             </div>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link href={config.primaryCta.href} className="btn-primary px-6 py-3">
+              <Link href={config.primaryCta.href} prefetch={false} className="btn-primary px-6 py-3">
                 {config.primaryCta.label}
               </Link>
-              <Link href={config.secondaryCta.href} className="btn-secondary px-6 py-3">
+              <Link href={config.secondaryCta.href} prefetch={false} className="btn-secondary px-6 py-3">
                 {config.secondaryCta.label}
               </Link>
             </div>
@@ -184,7 +185,7 @@ export default async function CategoryLandingPage({
             A categoria abre com itens que ajudam a explicar melhor preco, prova visual e valor percebido para este tipo de compra.
           </p>
         </div>
-        <CatalogGrid products={showcase} />
+        <CatalogGrid products={showcase} prioritizeFirstImages={false} />
       </section>
 
       <section className="mt-12">
@@ -195,7 +196,7 @@ export default async function CategoryLandingPage({
             Esta pagina resolve indexacao e compartilhamento. O explorador abaixo resolve comparacao fina sem perder o contexto comercial.
           </p>
         </div>
-        <CatalogExplorer products={catalog} initialCategory={config.category} initialVisualMode="all" />
+        <CatalogExplorer products={products} basePath={`/catalogo/categoria/${config.slug}`} initialVisualMode="all" />
       </section>
 
       <div className="mt-14">
@@ -213,7 +214,7 @@ export default async function CategoryLandingPage({
             <p className="text-xs uppercase tracking-[0.2em] text-cyan-100/75">Mais categorias comerciais</p>
             <h2 className="mt-3 text-3xl font-black text-white">Outros recortes que ajudam a vender o catalogo com mais contexto.</h2>
           </div>
-          <Link href="/catalogo" className="btn-secondary">
+          <Link href="/catalogo" prefetch={false} className="btn-secondary">
             Abrir catalogo geral
           </Link>
         </div>
@@ -223,6 +224,7 @@ export default async function CategoryLandingPage({
             <Link
               key={item.slug}
               href={`/catalogo/categoria/${item.slug}`}
+              prefetch={false}
               className="rounded-[24px] border border-white/10 bg-black/20 p-5 transition hover:border-cyan-300/30 hover:bg-black/30"
             >
               <p className="text-xs uppercase tracking-[0.18em] text-cyan-100/75">{item.category}</p>

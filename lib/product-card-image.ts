@@ -5,6 +5,7 @@ import {
   getProductImageAlt,
   isPublicSafeImageSource,
 } from "@/lib/product-images";
+import { getProductPreviewImage, withProductPreviewCandidates } from "@/lib/product-image-variants";
 
 export const PRODUCT_CARD_PLACEHOLDER = PRODUCT_IMAGE_PLACEHOLDER;
 
@@ -84,13 +85,14 @@ export function getProductCardImage(product: FlexibleProduct | null | undefined)
   const ownCandidates = Array.from(
     new Set(getPrimaryImageFieldCandidates(product).filter((src) => src !== PRODUCT_CARD_PLACEHOLDER && isPublicSafeImageSource(src)))
   );
-  const src = selected?.src || PRODUCT_CARD_PLACEHOLDER;
+  const sourceSrc = selected?.src || PRODUCT_CARD_PLACEHOLDER;
+  const src = getProductPreviewImage(sourceSrc) || sourceSrc;
 
   return {
     src,
     alt: getProductImageAlt(product),
     source: selected?.source || "placeholder",
     usedPlaceholder: !selected,
-    candidates: [...ownCandidates, PRODUCT_CARD_PLACEHOLDER],
+    candidates: withProductPreviewCandidates([...ownCandidates, PRODUCT_CARD_PLACEHOLDER]),
   };
 }

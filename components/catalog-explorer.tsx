@@ -215,6 +215,7 @@ export function CatalogExplorer({
   initialCustomizableOnly = false,
   initialPriceMin,
   initialPriceMax,
+  prioritizeInitialImages = false,
   initialPage = 1,
 }: {
   products: Product[];
@@ -230,6 +231,7 @@ export function CatalogExplorer({
   initialCustomizableOnly?: boolean;
   initialPriceMin?: number;
   initialPriceMax?: number;
+  prioritizeInitialImages?: boolean;
   initialPage?: number;
 }) {
   const router = useRouter();
@@ -904,7 +906,7 @@ export function CatalogExplorer({
               <MessageCircleMore className="h-4 w-4" />
               Mandar seleção
             </a>
-            <Link href="/carrinho" className="btn-primary justify-center gap-2">
+            <Link href="/carrinho" prefetch={false} className="btn-primary justify-center gap-2">
               <ShoppingCart className="h-4 w-4" />
               Fechar carrinho
             </Link>
@@ -954,7 +956,7 @@ export function CatalogExplorer({
             <p className="text-xs uppercase tracking-[0.18em] text-white/45">Vitrines salvas</p>
             <div className="mt-2 grid gap-2 md:grid-cols-2 xl:grid-cols-3">
               {savedViews.map((view) => (
-                <Link key={view.id} href={view.path} className="rounded-[18px] border border-white/10 bg-white/5 px-4 py-3 text-sm text-white/78 transition hover:border-cyan-300/25 hover:text-cyan-100">
+                <Link key={view.id} href={view.path} prefetch={false} className="rounded-[18px] border border-white/10 bg-white/5 px-4 py-3 text-sm text-white/78 transition hover:border-cyan-300/25 hover:text-cyan-100">
                   <p className="font-semibold">{view.label}</p>
                   <p className="mt-1 text-xs text-white/50">{view.count} itens nesse recorte</p>
                 </Link>
@@ -1202,6 +1204,7 @@ export function CatalogExplorer({
                   <div className="mt-4 flex items-center justify-between gap-3">
                     <Link
                       href={getProductUrl(spotlight.product)}
+                      prefetch={false}
                       onClick={() => addRecent(spotlight.product.id)}
                       className="btn-secondary px-4 py-2 text-sm"
                     >
@@ -1264,7 +1267,7 @@ export function CatalogExplorer({
                   <Copy className="h-4 w-4" />
                   {shareCopied ? 'Link copiado' : 'Copiar seleção'}
                 </button>
-                <Link href="/imagem-para-impressao-3d" className="btn-glass justify-center gap-2">
+                <Link href="/imagem-para-impressao-3d" prefetch={false} className="btn-glass justify-center gap-2">
                   <ChevronRight className="h-4 w-4" />
                   Pedir sob medida
                 </Link>
@@ -1294,7 +1297,7 @@ export function CatalogExplorer({
                 <p className="text-xs text-white/60">Prazo: {product.productionWindow}</p>
                 <p className="text-xs text-white/60">{product.material} • {product.finish}</p>
                 <div className="mt-3 flex items-center justify-between gap-3">
-                  <Link href={getProductUrl(product)} onClick={() => addRecent(product.id)} className="text-xs font-semibold uppercase tracking-[0.16em] text-cyan-100 transition hover:text-cyan-50">
+                  <Link href={getProductUrl(product)} prefetch={false} onClick={() => addRecent(product.id)} className="text-xs font-semibold uppercase tracking-[0.16em] text-cyan-100 transition hover:text-cyan-50">
                     Abrir item
                   </Link>
                   <a href={buildWhatsAppQuote(product, quantity)} target="_blank" rel="noreferrer" className="text-xs font-semibold uppercase tracking-[0.16em] text-emerald-100 transition hover:text-emerald-50">
@@ -1326,6 +1329,7 @@ export function CatalogExplorer({
                 <Link
                   key={product.id}
                   href={buildProductHref(product)}
+                  prefetch={false}
                   onClick={() => {
                     addRecent(product.id);
                     saveCatalogReturnState(product.id);
@@ -1359,6 +1363,7 @@ export function CatalogExplorer({
                 <Link
                   key={product.id}
                   href={getProductUrl(product)}
+                  prefetch={false}
                   onClick={() => addRecent(product.id)}
                   className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/80"
                 >
@@ -1422,7 +1427,7 @@ export function CatalogExplorer({
                 }}
               >
                 <div className="mdh-cad-grid pointer-events-none absolute inset-0 opacity-20" />
-                <ProductImageGallery product={product} compact priority={index < 3} />
+                <ProductImageGallery product={product} compact priority={prioritizeInitialImages && index < 3} />
 
                 <div className="mt-3 flex flex-wrap gap-2">
                   <ProductVisualBadge product={product} />
@@ -1484,6 +1489,7 @@ export function CatalogExplorer({
                 <div className="mt-4 grid gap-2 sm:grid-cols-3">
                   <Link
                     href={buildProductHref(product)}
+                    prefetch={false}
                     onClick={() => {
                       addRecent(product.id);
                       saveCatalogReturnState(product.id);
@@ -1514,7 +1520,7 @@ export function CatalogExplorer({
                       Carrinho
                     </button>
                   ) : (
-                    <Link href="/imagem-para-impressao-3d" className="btn-primary px-3 py-2 text-center text-xs font-semibold">
+                    <Link href="/imagem-para-impressao-3d" prefetch={false} className="btn-primary px-3 py-2 text-center text-xs font-semibold">
                       Briefing
                     </Link>
                   )}
@@ -1571,7 +1577,7 @@ export function CatalogExplorer({
                         {editorial.cta}
                       </a>
                     ) : (
-                      <Link href={editorial.href} className="btn-secondary whitespace-nowrap">
+                      <Link href={editorial.href} prefetch={false} className="btn-secondary whitespace-nowrap">
                         {editorial.cta}
                       </Link>
                     )}
@@ -1603,7 +1609,7 @@ export function CatalogExplorer({
             <button type="button" onClick={resetFilters} className="btn-secondary">
               Limpar filtros
             </button>
-            <Link href="/imagem-para-impressao-3d" className="btn-primary">
+            <Link href="/imagem-para-impressao-3d" prefetch={false} className="btn-primary">
               Pedir sob medida
             </Link>
           </div>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { Product } from "@/lib/catalog";
+import { normalizeProductCategory } from "@/lib/catalog-content";
 import { getSiteUrl } from "@/lib/env";
 
 export type CategoryPageConfig = {
@@ -26,6 +27,107 @@ export type CategoryPageConfig = {
 
 function createCategoryConfig(config: CategoryPageConfig): CategoryPageConfig {
   return config;
+}
+
+function normalizeCategoryMatchText(value: string) {
+  return value
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}]+/gu, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function getProductMatchText(product: Product) {
+  return normalizeCategoryMatchText(
+    [
+      normalizeProductCategory(product),
+      product.category,
+      product.subcategory,
+      product.theme,
+      product.collection,
+      product.name,
+      ...product.tags,
+    ]
+      .filter(Boolean)
+      .join(" ")
+  );
+}
+
+const CATEGORY_PAGE_TERMS: Record<string, string[]> = {
+  "Presentes Criativos": [
+    "presente",
+    "personaliz",
+    "chaveiro",
+    "nome",
+    "litofania",
+    "luminaria",
+    "porta copos",
+    "brinde",
+    "lembranca",
+  ],
+  "Geek & Colecionáveis": [
+    "geek",
+    "gamer",
+    "controle gamer",
+    "porta copos geek",
+    "colecion",
+    "miniatura",
+    "personagem",
+    "fandom",
+    "game",
+  ],
+  "Setup & Organização": [
+    "setup",
+    "home office",
+    "organizacao",
+    "organizador",
+    "suporte",
+    "cabos",
+    "mesa",
+    "headphone",
+    "controle",
+    "caixa organizadora",
+  ],
+  "Utilidades Reais": [
+    "utilidade",
+    "funcional",
+    "organizacao",
+    "organizador",
+    "suporte",
+    "cabos",
+    "mesa",
+    "caixa",
+    "universal",
+    "headphone",
+    "controle",
+    "celular",
+  ],
+  "Casa & Decoração": [
+    "casa",
+    "decoracao",
+    "decorativo",
+    "vaso",
+    "luminaria",
+    "litofania",
+    "efeito de luz",
+    "geometrico",
+    "ambiente",
+  ],
+};
+
+export function isProductInCategoryPage(product: Product, config: CategoryPageConfig) {
+  if (normalizeProductCategory(product) === config.category) return true;
+  if (config.highlightMatch?.(product)) return true;
+
+  const terms = CATEGORY_PAGE_TERMS[config.category] || [];
+  const text = getProductMatchText(product);
+  return terms.some((term) => text.includes(term));
+}
+
+export function getCategoryPageProducts(products: Product[], config: CategoryPageConfig) {
+  return products.filter((product) => isProductInCategoryPage(product, config));
 }
 
 export const categoryPageConfigs = [

@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import type { Metadata } from "next";
 import {
   ArrowDown,
@@ -19,6 +18,7 @@ import { HomeCategoriesShowcase } from "@/components/home-categories-showcase";
 import { HomeTestimonials } from "@/components/home-testimonials";
 import { CinematicVideoBackground } from "@/components/media/CinematicVideoBackground";
 import { Reveal } from "@/components/reveal";
+import { SafeProductImage } from "@/components/safe-product-image";
 import { RotatingProductHero, type RotatingHeroProduct } from "@/components/home/RotatingProductHero";
 import { StorefrontSearchBox } from "@/components/storefront-search-box";
 import { MagneticLink } from "@/components/ui/magnetic-link";
@@ -29,7 +29,8 @@ import { brand, socialLinks, whatsappNumber } from "@/lib/constants";
 import { getSiteUrl } from "@/lib/env";
 import { buildUniqueHomeSections, getHomeDuplicateIds } from "@/lib/home-products";
 import { calculateCardPrice } from "@/lib/payment-pricing";
-import { getPrimaryProductImage, getProductImageAlt } from "@/lib/product-images";
+import { withProductPreviewCandidates } from "@/lib/product-image-variants";
+import { PRODUCT_IMAGE_PLACEHOLDER, getProductImageAlt, getProductImageCandidates } from "@/lib/product-images";
 import { formatCurrency } from "@/lib/utils";
 import { buildPublicCatalogStats } from "@/src/lib/catalog/stats";
 
@@ -52,23 +53,28 @@ function whatsappHref(message: string) {
   return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
 }
 
-function productImage(product?: Product) {
-  return product ? getPrimaryProductImage(product) : "/placeholders/product-card.svg";
+function productImageCandidates(product?: Product) {
+  if (!product) return [PRODUCT_IMAGE_PLACEHOLDER];
+  return withProductPreviewCandidates([...getProductImageCandidates(product), PRODUCT_IMAGE_PLACEHOLDER]);
 }
 
 function toRotatingHeroProducts(products: Product[]): RotatingHeroProduct[] {
-  return products.map((product) => ({
-    id: product.id,
-    sku: product.sku,
-    name: product.name,
-    category: product.category,
-    pricePix: product.pricePix,
-    image: productImage(product),
-    imageAlt: getProductImageAlt(product),
-    href: getProductUrl(product),
-    productionWindow: product.productionWindow,
-    material: product.material,
-  }));
+  return products.map((product) => {
+    const imageCandidates = productImageCandidates(product);
+    return {
+      id: product.id,
+      sku: product.sku,
+      name: product.name,
+      category: product.category,
+      pricePix: product.pricePix,
+      image: imageCandidates[0] || PRODUCT_IMAGE_PLACEHOLDER,
+      imageCandidates,
+      imageAlt: getProductImageAlt(product),
+      href: getProductUrl(product),
+      productionWindow: product.productionWindow,
+      material: product.material,
+    };
+  });
 }
 
 function shortText(product: Product) {
@@ -81,21 +87,22 @@ function HomeProductCard({ product, siteUrl, priority = false }: { product: Prod
   const cardPrice = calculateCardPrice(product.pricePix);
   const productUrl = `${siteUrl}${href}`;
   const message = `Quero comprar ${product.name}. Quantidade: 1. Pix: ${formatCurrency(product.pricePix)}. Cartão + R$ 1: ${formatCurrency(cardPrice)}. Categoria: ${product.category}. Link: ${productUrl}`;
+  const imageCandidates = productImageCandidates(product);
 
   return (
     <article
       data-product-id={product.id}
       className="group overflow-hidden rounded-[8px] border border-white/10 bg-white/[0.045] transition-all duration-300 hover:-translate-y-1 hover:border-emerald-300/30 hover:bg-white/[0.065] hover:shadow-[0_18px_48px_rgba(2,8,23,0.42)]"
     >
-      <Link href={href} className="block">
+      <Link href={href} prefetch={false} className="block">
         <div className="relative overflow-hidden bg-black/25" style={{ aspectRatio: "1 / 1" }}>
-          <Image
-            src={productImage(product)}
+          <SafeProductImage
+            candidates={imageCandidates}
             alt={getProductImageAlt(product)}
-            fill
             priority={priority}
+            fetchPriority={priority ? "high" : "low"}
             sizes="(max-width: 768px) 50vw, (max-width: 1280px) 25vw, 280px"
-            className="object-cover transition duration-500 group-hover:scale-105"
+            className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105"
           />
           <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-3 opacity-0 transition group-hover:opacity-100">
             <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-white/70">{product.productionWindow}</p>
@@ -106,7 +113,7 @@ function HomeProductCard({ product, siteUrl, priority = false }: { product: Prod
         <p className="line-clamp-1 text-[11px] font-bold uppercase tracking-[0.12em] text-emerald-100/80">
           {product.category}
         </p>
-        <Link href={href} className="mt-1 block">
+        <Link href={href} prefetch={false} className="mt-1 block">
           <h3 className="line-clamp-2 min-h-10 text-sm font-black leading-5 text-white">{product.name}</h3>
         </Link>
         <p className="mt-2 line-clamp-2 min-h-10 text-xs leading-5 text-white/58">{shortText(product)}</p>
@@ -116,7 +123,7 @@ function HomeProductCard({ product, siteUrl, priority = false }: { product: Prod
           <p className="mt-0.5 text-xs font-semibold text-white/58">Cartão + R$ 1 {formatCurrency(cardPrice)}</p>
         </div>
         <div className="mt-3 grid grid-cols-[1fr_auto] gap-2">
-          <Link href={href} className="btn-primary justify-center px-3 py-2 text-xs">
+          <Link href={href} prefetch={false} className="btn-primary justify-center px-3 py-2 text-xs">
             Comprar
           </Link>
           <a
@@ -162,7 +169,7 @@ function ProductRail({
             <h2 className="text-2xl font-black text-white sm:text-3xl">{title}</h2>
             <p className="mt-2 max-w-2xl text-sm leading-6 text-white/62">{description}</p>
           </div>
-          <Link href={href} className="hidden items-center gap-2 text-sm font-bold text-emerald-100 hover:text-white sm:inline-flex">
+          <Link href={href} prefetch={false} className="hidden items-center gap-2 text-sm font-bold text-emerald-100 hover:text-white sm:inline-flex">
             Ver mais <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
@@ -170,7 +177,7 @@ function ProductRail({
       <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
         {products.map((product, index) => (
           <Reveal key={product.id} delay={index * 45}>
-            <HomeProductCard product={product} siteUrl={siteUrl} priority={index < 2} />
+            <HomeProductCard product={product} siteUrl={siteUrl} />
           </Reveal>
         ))}
       </div>

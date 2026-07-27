@@ -39,8 +39,7 @@ export function CinematicVideoBackground({
           src={asset.poster}
           alt=""
           fill
-          priority={variant === "home" || variant === "catalog"}
-          fetchPriority={variant === "home" || variant === "catalog" ? "high" : "auto"}
+          fetchPriority="low"
           sizes="100vw"
           className="absolute inset-0 object-cover opacity-85"
           style={{ objectPosition }}

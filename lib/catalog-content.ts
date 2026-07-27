@@ -16,9 +16,14 @@ const CATEGORY_MAP = new Map<string, string>([
   ["acessório", "Geek & Colecionáveis"],
   ["geek & colecionáveis", "Geek & Colecionáveis"],
   ["setup & organização", "Setup & Organização"],
+  ["setup e home office", "Setup & Organização"],
+  ["organização", "Setup & Organização"],
+  ["organizacao", "Setup & Organização"],
   ["suporte", "Setup & Organização"],
   ["organizador", "Setup & Organização"],
   ["casa & decoração", "Casa & Decoração"],
+  ["casa e decoração", "Casa & Decoração"],
+  ["casa e decoracao", "Casa & Decoração"],
   ["vaso", "Casa & Decoração"],
   ["busto", "Casa & Decoração"],
   ["luminária", "Casa & Decoração"],
@@ -30,6 +35,7 @@ const CATEGORY_MAP = new Map<string, string>([
   ["prateleira", "Casa & Decoração"],
   ["espelho", "Casa & Decoração"],
   ["presentes criativos", "Presentes Criativos"],
+  ["presentes personalizados", "Presentes Criativos"],
   ["chaveiro", "Presentes Criativos"],
   ["nome", "Presentes Criativos"],
   ["caixa", "Presentes Criativos"],
@@ -226,7 +232,7 @@ function getCustomizationCopy(product: Product) {
 }
 
 export function normalizeProductCategory(product: Product) {
-  return CATEGORY_MAP.get(normalizeKey(product.category)) || product.category;
+  return CATEGORY_MAP.get(normalizeKey(product.category)) || CATEGORY_MAP.get(normalizeSearchValue(product.category)) || product.category;
 }
 
 export function isGenericProductDescription(description: string) {

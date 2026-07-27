@@ -16,6 +16,7 @@ export type RotatingHeroProduct = {
   category: string;
   pricePix: number;
   image: string;
+  imageCandidates?: string[];
   imageAlt: string;
   href: string;
   productionWindow: string;
@@ -23,6 +24,7 @@ export type RotatingHeroProduct = {
 };
 
 const ROTATION_MS = 3000;
+const INITIAL_ROTATION_DELAY_MS = 9000;
 const PRODUCT_IMAGE_PLACEHOLDER = "/placeholders/product-card.svg";
 
 function clampIndex(index: number, total: number) {
@@ -37,7 +39,8 @@ export function RotatingProductHero({ products }: { products: RotatingHeroProduc
   const [activeIndex, setActiveIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const active = items[clampIndex(activeIndex, items.length)];
-  const [imageSrc, setImageSrc] = useState(active?.image || PRODUCT_IMAGE_PLACEHOLDER);
+  const activeImageCandidates = active?.imageCandidates?.length ? active.imageCandidates : [active?.image || PRODUCT_IMAGE_PLACEHOLDER];
+  const [imageSrc, setImageSrc] = useState(activeImageCandidates[0] || PRODUCT_IMAGE_PLACEHOLDER);
   const [motionReady, setMotionReady] = useState(false);
   const enableMotion = motionReady && !shouldReduceMotion;
 
@@ -46,15 +49,22 @@ export function RotatingProductHero({ products }: { products: RotatingHeroProduc
   }, []);
 
   useEffect(() => {
-    setImageSrc(active?.image || PRODUCT_IMAGE_PLACEHOLDER);
-  }, [active?.image]);
+    const candidates = active?.imageCandidates?.length ? active.imageCandidates : [active?.image || PRODUCT_IMAGE_PLACEHOLDER];
+    setImageSrc(candidates[0] || PRODUCT_IMAGE_PLACEHOLDER);
+  }, [active?.id, active?.image, active?.imageCandidates]);
 
   useEffect(() => {
     if (!items.length || !enableMotion || paused) return undefined;
-    const timer = window.setInterval(() => {
-      setActiveIndex((value) => clampIndex(value + 1, items.length));
-    }, ROTATION_MS);
-    return () => window.clearInterval(timer);
+    let interval: number | undefined;
+    const delay = window.setTimeout(() => {
+      interval = window.setInterval(() => {
+        setActiveIndex((value) => clampIndex(value + 1, items.length));
+      }, ROTATION_MS);
+    }, INITIAL_ROTATION_DELAY_MS);
+    return () => {
+      window.clearTimeout(delay);
+      if (interval) window.clearInterval(interval);
+    };
   }, [enableMotion, items.length, paused]);
 
   if (!active) {
@@ -81,6 +91,13 @@ export function RotatingProductHero({ products }: { products: RotatingHeroProduc
     });
   }
 
+  function useNextImageCandidate() {
+    const candidates = active?.imageCandidates?.length ? active.imageCandidates : [active?.image || PRODUCT_IMAGE_PLACEHOLDER];
+    const currentIndex = candidates.indexOf(imageSrc);
+    const next = candidates[currentIndex + 1] || PRODUCT_IMAGE_PLACEHOLDER;
+    if (next !== imageSrc) setImageSrc(next);
+  }
+
   return (
     <section
       data-rotating-product-hero="true"
@@ -104,9 +121,7 @@ export function RotatingProductHero({ products }: { products: RotatingHeroProduc
             loading="eager"
             decoding="async"
             fetchPriority="high"
-            onError={() => {
-              if (imageSrc !== PRODUCT_IMAGE_PLACEHOLDER) setImageSrc(PRODUCT_IMAGE_PLACEHOLDER);
-            }}
+            onError={useNextImageCandidate}
             initial={enableMotion ? { scale: 1.04, opacity: 0.45 } : false}
             animate={enableMotion ? { scale: 1, opacity: 1 } : undefined}
             transition={{ duration: 0.45, ease: "easeOut" }}

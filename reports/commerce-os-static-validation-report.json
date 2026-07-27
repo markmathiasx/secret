@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-27T11:27:54.899Z",
+  "generatedAt": "2026-07-27T12:40:16.528Z",
   "ok": true,
   "total": 46,
   "failed": [],
@@ -227,7 +227,7 @@
     {
       "id": "secrets:ok",
       "ok": true,
-      "detail": 324
+      "detail": 325
     },
     {
       "id": "pricing:ok",
