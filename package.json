@@ -18,7 +18,7 @@
   },
   "scripts": {
     "dev": "next dev --turbo",
-    "build": "node scripts/next-build-inline-workers.mjs",
+    "build": "node --max-old-space-size=8192 scripts/next-build-inline-workers.mjs",
     "build:next-native": "next build",
     "start": "node scripts/start-standalone.mjs",
     "lint": "node scripts/lint.mjs --fix",
@@ -131,10 +131,10 @@
     "pricing:keychain": "node scripts/pricing/calculate-keychain.mjs",
     "pricing:validate-commercial": "node scripts/pricing/validate-commercial-pricing.mjs",
     "gate:commercial-v5": "npm run security:validate-patched-dependencies && npm run security:audit:production && npm run pricing:validate-commercial && npm run catalog:audit-commercial-costs:strict && npm run catalog:validate-commercial-storefront && npm run validate:first-sale && npm run validate:auth && npm run validate:db-storage && npm run validate:private-routes && npm run validate:public-regressions && npm run typecheck && npm run lint:check && npm run build",
-    "security:audit:production": "node scripts/security/validate-npm-audit.mjs --omit-dev --max-total=0 --report=output/npm-audit-production.json",
-    "security:audit:all": "node scripts/security/validate-npm-audit.mjs --max-total=0 --report=output/npm-audit-all.json",
+    "security:audit:production": "npm audit --omit=dev --json --audit-level=none > output/npm-audit-production.json && node scripts/security/validate-npm-audit.mjs --input=output/npm-audit-production.json --omit-dev --max-total=0 --report=output/npm-audit-production.json",
+    "security:audit:all": "npm audit --json --audit-level=none > output/npm-audit-all.json && node scripts/security/validate-npm-audit.mjs --input=output/npm-audit-all.json --max-total=0 --report=output/npm-audit-all.json",
     "security:validate-patched-dependencies": "node scripts/security/validate-patched-dependencies.mjs",
-    "security:audit:all:report": "node scripts/security/validate-npm-audit.mjs --max-total=9999 --report=output/npm-audit-all.json",
+    "security:audit:all:report": "npm audit --json --audit-level=none > output/npm-audit-all.json && node scripts/security/validate-npm-audit.mjs --input=output/npm-audit-all.json --max-total=9999 --report=output/npm-audit-all.json",
     "industrial:v6:verify": "node scripts/industrial/verify-industrial-v6.mjs",
     "industrial:v6:report": "node scripts/industrial/generate-industrial-report-v6.mjs",
     "industrial:v6:browser-gates": "node scripts/industrial/run-browser-gates.mjs",
@@ -178,7 +178,7 @@
     "sharp": "0.35.3",
     "tailwind-merge": "^2.5.5",
     "three": "^0.183.2",
-    "undici": "^6.19.8",
+    "undici": "^6.28.0",
     "web-push": "^3.6.7",
     "web-vitals": "^5.2.0",
     "zod": "^3.24.1",
@@ -199,7 +199,7 @@
     "eslint": "^9.17.0",
     "eslint-config-next": "15.5.21",
     "playwright": "^1.58.2",
-    "postcss": "8.5.19",
+    "postcss": "8.5.26",
     "prisma": "^6.19.3",
     "supabase": "^2.79.0",
     "tailwindcss": "^3.4.17",
@@ -207,14 +207,15 @@
     "wait-on": "^9.0.5"
   },
   "overrides": {
-    "postcss": "8.5.19",
+    "postcss": "8.5.26",
     "fast-xml-parser": "^5.7.2",
     "@auth/core": "0.41.3",
     "axios": "1.18.1",
-    "brace-expansion": "5.0.8",
-    "dompurify": "3.4.12",
-    "js-yaml": "4.3.0",
+    "brace-expansion": "5.0.9",
+    "dompurify": "3.4.13",
+    "js-yaml": "5.3.0",
     "jsdom": "25.0.1",
-    "sharp": "0.35.3"
+    "sharp": "0.35.3",
+    "nanoid": "3.3.18"
   }
 }

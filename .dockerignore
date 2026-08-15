@@ -28,13 +28,15 @@ build/
 *.db
 *.sqlite
 
-# Scripts and docs (not needed in container)
+# Scripts and docs (not needed in runtime container)
 *.ps1
 *.md
 APOS-EXTRAIR.txt
 AUDITORIA.md
 CORRECAO-TYPECHECK-BUILD.txt
-scripts/
+scripts/*
+!scripts/
+!scripts/next-build-inline-workers.mjs
 docs/
 
 # Secret files

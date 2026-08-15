@@ -1,5 +1,5 @@
 import { spawnSync } from 'node:child_process';
-import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 
 function parseNumberFlag(name, fallback = Number.POSITIVE_INFINITY) {
@@ -36,9 +36,14 @@ function runNpmAudit(args) {
     env: process.env,
   };
 
+  const npmCommand = process.env.NPM_COMMAND || (process.platform === 'win32' ? 'npm.cmd' : 'npm');
+  const direct = spawnSync(npmCommand, args, common);
+  if (!direct.error) return direct;
+
   const npmCli = resolveNpmCli();
   if (npmCli) {
-    return spawnSync(process.execPath, [npmCli, ...args], common);
+    const cli = spawnSync(process.execPath, [npmCli, ...args], common);
+    if (!cli.error) return cli;
   }
 
   if (process.platform === 'win32') {
@@ -46,11 +51,13 @@ function runNpmAudit(args) {
     return spawnSync(comspec, ['/d', '/s', '/c', 'npm', ...args], common);
   }
 
-  return spawnSync('npm', args, common);
+  return direct;
 }
 
 const omitDev = process.argv.includes('--omit-dev');
+const inputArg = process.argv.find((arg) => arg.startsWith('--input='));
 const reportArg = process.argv.find((arg) => arg.startsWith('--report='));
+const inputPath = inputArg ? resolve(inputArg.slice('--input='.length)) : null;
 const reportPath = resolve(reportArg ? reportArg.slice('--report='.length) : 'output/npm-audit.json');
 const limits = {
   total: parseNumberFlag('--max-total'),
@@ -64,15 +71,17 @@ const limits = {
 const args = ['audit', '--json'];
 if (omitDev) args.push('--omit=dev');
 
-const result = runNpmAudit(args);
-if (result.error) throw result.error;
-if (!result.stdout?.trim()) {
-  throw new Error(`npm audit não retornou JSON. ${result.stderr || ''}`.trim());
-}
-
 let report;
 try {
-  report = JSON.parse(result.stdout);
+  const rawReport = inputPath ? readFileSync(inputPath, 'utf8') : (() => {
+    const result = runNpmAudit(args);
+    if (result.error) throw result.error;
+    if (!result.stdout?.trim()) {
+      throw new Error(`npm audit não retornou JSON. ${result.stderr || ''}`.trim());
+    }
+    return result.stdout;
+  })();
+  report = JSON.parse(rawReport);
 } catch (error) {
   throw new Error(`Não foi possível interpretar o JSON do npm audit: ${error.message}`);
 }

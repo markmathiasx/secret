@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { execFileSync, spawnSync } from "node:child_process";
-import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import path from "node:path";
 
 const root = process.cwd();
@@ -29,9 +29,31 @@ const detectors = [
 
 const ignoredPath = /(^|\/)(node_modules|\.next|\.vercel|test-results|coverage)\//;
 const ignoredFile = /(package-lock\.json|pnpm-lock\.yaml|yarn\.lock|tsconfig\.typecheck\.tsbuildinfo|estrutura\.txt)$/;
+const fallbackIgnoredFile = /(^|\/)\.env(?:$|\.)/;
+const fallbackIgnoredDirs = new Set([
+  ".git",
+  ".next",
+  ".vercel",
+  "coverage",
+  "node_modules",
+  "output",
+  "test-results",
+  "tmp",
+]);
+const maxFallbackFileBytes = 2 * 1024 * 1024;
+const gitErrors = [];
 
 function git(args) {
-  return execFileSync("git", args, { cwd: root, encoding: "utf8", maxBuffer: 80 * 1024 * 1024 }).trim();
+  try {
+    return execFileSync("git", args, { cwd: root, encoding: "utf8", maxBuffer: 80 * 1024 * 1024 }).trim();
+  } catch (error) {
+    gitErrors.push({
+      args,
+      message: error?.message || String(error),
+      code: error?.code || null,
+    });
+    throw error;
+  }
 }
 
 function tryGit(args) {
@@ -52,8 +74,37 @@ function isPlaceholderLine(line) {
   return /(<[^>]+>|x{4,}|placeholder|example|dummy|sample|seu-|sua-)/i.test(line);
 }
 
+function isProbablyTextFile(absolute) {
+  const stat = statSync(absolute);
+  if (!stat.isFile() || stat.size > maxFallbackFileBytes) return false;
+  const sample = readFileSync(absolute, { encoding: null });
+  return !sample.includes(0);
+}
+
+function walkWorktree(dir = root, files = []) {
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    if (entry.isDirectory() && fallbackIgnoredDirs.has(entry.name)) continue;
+    const absolute = path.join(dir, entry.name);
+    const relative = path.relative(root, absolute).replaceAll("\\", "/");
+    if (ignoredPath.test(relative) || ignoredFile.test(relative) || fallbackIgnoredFile.test(relative)) continue;
+    if (entry.isDirectory()) {
+      walkWorktree(absolute, files);
+      continue;
+    }
+    if (entry.isFile() && isProbablyTextFile(absolute)) {
+      files.push(relative);
+    }
+  }
+  return files;
+}
+
 function trackedFiles() {
-  return git(["ls-files", "-z"])
+  const output = tryGit(["ls-files", "-z"]);
+  if (!output) {
+    return walkWorktree();
+  }
+
+  return output
     .split("\0")
     .filter(Boolean)
     .filter((file) => !ignoredPath.test(file.replaceAll("\\", "/")) && !ignoredFile.test(file));
@@ -98,7 +149,7 @@ function findBaseRef() {
 function scanHistory(commits, scope) {
   const findings = [];
   if (!commits.length) {
-    return { findings, truncated: false, commitsScanned: 0 };
+    return { findings, truncated: false, commitsScanned: 0, unavailable: gitErrors.length > 0, error: gitErrors[0]?.message || null };
   }
 
   const combinedPattern = detectors.map((detector) => `(${detector.gitPattern})`).join("|");
@@ -107,8 +158,16 @@ function scanHistory(commits, scope) {
     encoding: "utf8",
     maxBuffer: 80 * 1024 * 1024,
   });
+  if (result.error) {
+    gitErrors.push({
+      args: ["grep", "-I", "-n", "-E", combinedPattern, `${commits.length} commit(s)`, "--", "."],
+      message: result.error.message,
+      code: result.error.code || null,
+    });
+    return { findings, truncated: false, commitsScanned: 0, unavailable: true, error: result.error.message };
+  }
   const output = `${result.stdout || ""}\n${result.stderr || ""}`.trim();
-  if (!output) return { findings, truncated: false, commitsScanned: commits.length };
+  if (!output) return { findings, truncated: false, commitsScanned: commits.length, unavailable: false, error: null };
 
   for (const line of output.split(/\r?\n/)) {
     const match = line.match(/^([0-9a-f]{7,40}):(.+?):(\d+):(.*)$/);
@@ -130,9 +189,9 @@ function scanHistory(commits, scope) {
       });
       break;
     }
-    if (findings.length >= 200) return { findings, truncated: true, commitsScanned: commits.length };
+    if (findings.length >= 200) return { findings, truncated: true, commitsScanned: commits.length, unavailable: false, error: null };
   }
-  return { findings, truncated: false, commitsScanned: commits.length };
+  return { findings, truncated: false, commitsScanned: commits.length, unavailable: false, error: null };
 }
 
 function main() {
@@ -143,6 +202,7 @@ function main() {
   const allHistoryCommits = tryGit(["rev-list", "--all"]).split(/\r?\n/).filter(Boolean);
   const allHistory = scanHistory(allHistoryCommits, "history");
   const blockingFindings = [...currentFindings, ...introducedHistory.findings];
+  const allHistoryClean = !allHistory.unavailable && allHistory.findings.length === 0;
   const report = {
     generatedAt: new Date().toISOString(),
     mode: requireAllHistoryClean ? "all-history" : "current-and-branch",
@@ -153,11 +213,16 @@ function main() {
     introducedFindings: introducedHistory.findings,
     introducedHistoryTruncated: introducedHistory.truncated,
     introducedCommitsScanned: introducedHistory.commitsScanned,
+    introducedHistoryUnavailable: introducedHistory.unavailable,
+    introducedHistoryError: introducedHistory.error,
     historyFindings: allHistory.findings,
     historyTruncated: allHistory.truncated,
     commitsScanned: allHistory.commitsScanned,
-    allHistoryOk: allHistory.findings.length === 0,
-    ok: blockingFindings.length === 0 && (!requireAllHistoryClean || allHistory.findings.length === 0),
+    historyUnavailable: allHistory.unavailable,
+    historyError: allHistory.error,
+    gitErrors: gitErrors.slice(0, 5),
+    allHistoryOk: allHistoryClean,
+    ok: blockingFindings.length === 0 && (!requireAllHistoryClean || allHistoryClean),
   };
 
   mkdirSync(path.dirname(reportPath), { recursive: true });
@@ -172,6 +237,8 @@ function main() {
 
   const inheritedRisk = allHistory.findings.length
     ? ` Historical inherited findings remain: ${allHistory.findings.length}${allHistory.truncated ? "+" : ""}.`
+    : allHistory.unavailable
+      ? ` Historical scan unavailable in this environment: ${allHistory.error}.`
     : "";
   console.log(`OK: secret scan found 0 current and 0 introduced high-confidence findings (${introducedHistory.commitsScanned} introduced commits scanned).${inheritedRisk}`);
 }

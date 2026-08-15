@@ -1,8 +1,8 @@
 ---
 name: ecommerce-ops
+description: "Fluxo reutilizavel da MDH 3D para ecommerce-ops."
 summary: Checklist para operar site, SEO, conteúdo e automações com foco em venda.
 ---
-
 # Ecommerce Ops
 
 ## Sempre revisar
@@ -16,3 +16,4 @@ summary: Checklist para operar site, SEO, conteúdo e automações com foco em v
 - FAQ
 - política de entrega/troca
 - segurança básica
+
