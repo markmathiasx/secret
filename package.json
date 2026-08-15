@@ -17,6 +17,8 @@
     "npm": ">=10.0.0"
   },
   "scripts": {
+    "postinstall": "node scripts/db-generate.mjs",
+    "prebuild": "node scripts/db-generate.mjs",
     "dev": "next dev --turbo",
     "build": "node --max-old-space-size=8192 scripts/next-build-inline-workers.mjs",
     "build:next-native": "next build",

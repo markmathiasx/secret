@@ -1,6 +1,10 @@
 import type { NextConfig } from "next";
 import { withBundleAnalyzer } from '@next/bundle-analyzer';
 import { withSentryConfig } from "@sentry/nextjs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+const projectRoot = path.dirname(fileURLToPath(import.meta.url));
 
 function getHostname(value?: string) {
   if (!value) return null;
@@ -119,6 +123,7 @@ const nextConfig: NextConfig = {
     "/*": outputTraceExcludes,
     "/api/**/*": outputTraceExcludes,
   },
+  outputFileTracingRoot: projectRoot,
 
   // Images
   images: {

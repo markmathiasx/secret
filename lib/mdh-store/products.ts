@@ -52,6 +52,10 @@ const CSV_PATH = path.join(process.cwd(), "data", "produtos.csv");
 const DEFAULT_FILAMENT_PRICE_PER_KG = 100;
 const DEFAULT_PROFIT_MARKUP = 0.3;
 const CARD_FLAT_FEE = 1;
+const MAX_PUBLIC_SMART_STORE_PRODUCTS = 24;
+const MUST_KEEP_SMART_STORE_SLUGS = new Set([
+  "chaveiro-goleiro-comercial-copa-2026-copa-001",
+]);
 
 type CopaThemeStoreRow = {
   id: string;
@@ -476,7 +480,15 @@ export function getLocalStoreProducts() {
     const product = copaThemeRowToProduct(row, index);
     if (!products.has(product.slug)) products.set(product.slug, product);
   });
-  return Array.from(products.values()).sort((a, b) => Number(b.featured) - Number(a.featured) || b.marketplaceScore - a.marketplaceScore || a.name.localeCompare(b.name));
+  const sortedProducts = Array.from(products.values()).sort(
+    (a, b) => Number(b.featured) - Number(a.featured) || b.marketplaceScore - a.marketplaceScore || a.name.localeCompare(b.name)
+  );
+  const curated = [
+    ...sortedProducts.filter((product) => MUST_KEEP_SMART_STORE_SLUGS.has(product.slug)),
+    ...sortedProducts,
+  ];
+  const deduped = Array.from(new Map(curated.map((product) => [product.slug, product])).values());
+  return deduped.slice(0, MAX_PUBLIC_SMART_STORE_PRODUCTS);
 }
 
 export function getLocalStoreCategories(products = getLocalStoreProducts()) {

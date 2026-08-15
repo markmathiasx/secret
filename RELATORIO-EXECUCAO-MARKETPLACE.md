@@ -1,13 +1,73 @@
-# Relatório de Execução — MDH 3D nível Apple/ML/AliExpress/Shopee
-Data: 2026-07-27T13:01:13.960Z
-Commit avaliado: 5bd1aab5
-Worktree com alterações no momento da auditoria: sim
+# RELATORIO-EXECUCAO-MARKETPLACE
 
-## 1. Reconciliação (Fase 0)
-| Item afirmado antes | Fonte | Status real | Evidência |
-|---|---|---|---|
-| Nunca declarar tarefa concluída sem lint, typecheck, build, validate:assets e test:images. | AGENTS.md:4 | PARCIAL_COM_COMANDOS | testes_gates: Comandos registrados em 2026-07-27T10:00:37.918Z passaram: npm run db:generate, npm run typecheck, npm run lint:check, npm run build, npm run validate:industrial-ui, npm run validate:auth, npm run validate:db-storage, npm run validate:private-routes, npm run validate:public-regressions, npm run securit... |
-| Para execuções do marketplace MDH 3D nível Apple/ML/AliExpress/Shopee, seguir `docs/CODEX_EXECUTION_PROTOCOL.md`: executar a Fase 0 antes das demais, manter `RELATORIO-EXECUCAO-... | AGENTS.md:9 | A_VERIFICAR | Afirmação localizada no documento, mas sem regra estatica suficiente; precisa verificacao manual/runtime. |
+Atualizado em: 2026-08-15T18:16:25.292Z
+Branch: industrial-ai-v62-20260727-005340
+Commit atual: 3da8db84
+Remoto: https://github.com/markmathiasx/secret.git
+
+## Regra operacional
+
+Este relatorio e incremental. Nenhuma fase deve receber 100% sem evidencia objetiva em codigo, comandos e/ou validacao local/producao. Documentos antigos de conclusao sao tratados como hipoteses, nao como prova.
+
+## Progresso por fase
+
+| Fase | Percentual | Status | Evidencia |
+| --- | ---: | --- | --- |
+| Fase 0 - Reconciliacao | 90% | Fase 0 estatica criada; gates obrigatorios registrados | Fontes presentes: 18/18; afirmacoes classificadas: 58; gates registrados: sim. |
+| Fase 1 - Performance | 0% | Nao executada nesta rodada | Bloqueada pela ordem do TXT ate a conclusao objetiva da Fase 0 e seus gates. |
+| Fase 2 - Design System | 0% | Nao executada nesta rodada | Bloqueada pela ordem do TXT ate a conclusao objetiva da Fase 0 e seus gates. |
+| Fase 3 - Comercio e checkout | 0% | Nao executada nesta rodada | Bloqueada pela ordem do TXT ate a conclusao objetiva da Fase 0 e seus gates. |
+| Fase 4 - Busca, filtros e recomendacoes | 0% | Nao executada nesta rodada | Bloqueada pela ordem do TXT ate a conclusao objetiva da Fase 0 e seus gates. |
+| Fase 5 - Confianca e prova social | 0% | Nao executada nesta rodada | Bloqueada pela ordem do TXT ate a conclusao objetiva da Fase 0 e seus gates. |
+| Fase 6 - SEO e dados estruturados | 0% | Nao executada nesta rodada | Bloqueada pela ordem do TXT ate a conclusao objetiva da Fase 0 e seus gates. |
+| Fase 7 - Analytics | 0% | Nao executada nesta rodada | Bloqueada pela ordem do TXT ate a conclusao objetiva da Fase 0 e seus gates. |
+| Fase 8 - Acessibilidade | 0% | Nao executada nesta rodada | Bloqueada pela ordem do TXT ate a conclusao objetiva da Fase 0 e seus gates. |
+| Fase 9 - Seguranca, LGPD e infra | 0% | Nao executada nesta rodada | Bloqueada pela ordem do TXT ate a conclusao objetiva da Fase 0 e seus gates. |
+| Fase 10 - Risco de propriedade intelectual | 0% | Nao executada nesta rodada | Bloqueada pela ordem do TXT ate a conclusao objetiva da Fase 0 e seus gates. |
+| Fase 11 - Integridade do catalogo | 0% | Nao executada nesta rodada | Bloqueada pela ordem do TXT ate a conclusao objetiva da Fase 0 e seus gates. |
+| Fase 12 - Playwright e regressao | 0% | Nao executada nesta rodada | Bloqueada pela ordem do TXT ate a conclusao objetiva da Fase 0 e seus gates. |
+| Fase 13 - Vercel, Docker e deploy | 0% | Nao executada nesta rodada | Bloqueada pela ordem do TXT ate a conclusao objetiva da Fase 0 e seus gates. |
+
+## Fase 0 - Fontes exigidas
+
+| Fonte | Status | Evidencia |
+| --- | --- | --- |
+| AGENTS.md | PRESENTE | Arquivo encontrado em AGENTS.md |
+| 01-BACKLOG-PRIORIZADO.md | PRESENTE | Arquivo encontrado em 01-BACKLOG-PRIORIZADO.md |
+| 02-AUDITORIA-ABA-A-ABA.md | PRESENTE | Arquivo encontrado em 02-AUDITORIA-ABA-A-ABA.md |
+| 03-CURADORIA-COLECOES.md | PRESENTE | Arquivo encontrado em 03-CURADORIA-COLECOES.md |
+| 04-TEMPLATE-PRODUTO-PADRAO.md | PRESENTE | Arquivo encontrado em 04-TEMPLATE-PRODUTO-PADRAO.md |
+| 05-HOME-COPY-E-CONFIANCA.md | PRESENTE | Arquivo encontrado em 05-HOME-COPY-E-CONFIANCA.md |
+| 06-CHECKOUT-UX.md | PRESENTE | Arquivo encontrado em 06-CHECKOUT-UX.md |
+| 07-FAQ-ENTREGAS-TROCAS.md | PRESENTE | Arquivo encontrado em 07-FAQ-ENTREGAS-TROCAS.md |
+| 08-SEO-SCHEMA-PRODUCT.md | PRESENTE | Arquivo encontrado em 08-SEO-SCHEMA-PRODUCT.md |
+| 09-IMAGENS-NEXT.md | PRESENTE | Arquivo encontrado em 09-IMAGENS-NEXT.md |
+| 10-DOCKER-NODE24-REFERENCIA.md | PRESENTE | Arquivo encontrado em 10-DOCKER-NODE24-REFERENCIA.md |
+| AUDITORIA.md | PRESENTE | Arquivo encontrado em AUDITORIA.md |
+| CHECKLIST-MELHORIAS.md | PRESENTE | Arquivo encontrado em CHECKLIST-MELHORIAS.md |
+| COMPLETION-VERIFICATION.md | PRESENTE | Arquivo encontrado em COMPLETION-VERIFICATION.md |
+| FINAL_SUMMARY.md | PRESENTE | Arquivo encontrado em FINAL_SUMMARY.md |
+| CONCLUSION.md | PRESENTE | Arquivo encontrado em CONCLUSION.md |
+| IMPLEMENTATION-SUMMARY.md | PRESENTE | Arquivo encontrado em IMPLEMENTATION-SUMMARY.md |
+| CATALOG_VALIDATION_REPORT.json | PRESENTE | Arquivo encontrado em CATALOG_VALIDATION_REPORT.json |
+
+## Fase 0 - Inventario estatico por area
+
+| Area | Status | Evidencia | Observacao |
+| --- | --- | --- | --- |
+| Carrinho persistente | PRESENTE | Encontrados: app/api/cart/route.ts, app/carrinho/page.tsx, lib/cart-store.ts | Base estatica para carrinho local/API. |
+| Pedido antes do redirecionamento | PRESENTE | Encontrados: app/api/checkout/preference/route.ts, app/api/orders/route.ts | Rotas existem; precisa e2e para confirmar criacao real antes do redirect. |
+| Rastreio de pedidos | PRESENTE | Encontrados: app/pedidos/page.tsx, app/api/orders/track/route.ts, app/pedidos/[id]/page.tsx | Superficie de rastreio existe. |
+| Reviews reais | PRESENTE | Encontrados: app/api/products/[slug]/reviews/route.ts, components/product-reviews.tsx | Rota e componente existem; dados precisam vir de DB/catalogo real. |
+| Feeds e catalogo | PRESENTE | Encontrados: app/feeds/google-shopping.xml/route.ts, app/feeds/meta-catalog.csv/route.ts, app/feeds/produtos.json/route.ts, lib/meta-commerce-feed.ts | Feeds existem e exigem validacao de conteudo. |
+| Scripts obrigatorios | PRESENTE | Scripts presentes: db:generate, typecheck, lint:check, build, validate:industrial-ui, validate:auth, validate:db-storage, validate:private-routes, validate:public-regressions, security:audit | Presenca em package.json; sucesso depende do log de execucao. |
+
+## Fase 0 - Reconciliacao de afirmacoes antigas
+
+| Item afirmado | Fonte | Status real | Evidencia |
+| --- | --- | --- | --- |
+| Nunca declarar tarefa concluída sem lint, typecheck, build, validate:assets e test:images. | AGENTS.md:4 | PARCIAL_COM_COMANDOS | testes_gates: Comandos registrados em 2026-07-27T10:00:37.918Z passaram: npm run db:generate, npm run typecheck, npm run lint:check, npm run build, npm run validate:industrial-ui, npm run validate:auth, npm run validate:db-storage, npm run validate:private-routes, npm run validate:public-regressions, npm run security:audit, npm audit --audit-level=low. |
+| Para execuções do marketplace MDH 3D nível Apple/ML/AliExpress/Shopee, seguir `docs/CODEX_EXECUTION_PROTOCOL.md`: executar a Fase 0 antes das demais, manter `RELATORIO-EXECUCAO-MARKETPLACE.md` incremental e nunca marcar fase como 100% sem evidência objetiva em código, comandos e validação local/p... | AGENTS.md:9 | A_VERIFICAR | Afirmação localizada no documento, mas sem regra estatica suficiente; precisa verificacao manual/runtime. |
 | Confirmar domínio, SSL e deploy ativo em produção | 01-BACKLOG-PRIORIZADO.md:5 | PARCIAL_ESTATICO | vercel_docker: arquivos: docs/VERCEL_ENV.md, Dockerfile; Arquivos de deploy existem; deploy e build Docker exigem execucao atual. |
 | Entregas separando produção x transporte | 01-BACKLOG-PRIORIZADO.md:24 | A_VERIFICAR | Afirmação localizada no documento, mas sem regra estatica suficiente; precisa verificacao manual/runtime. |
 | Mistura prazo de produção com transporte. | 02-AUDITORIA-ABA-A-ABA.md:62 | A_VERIFICAR | Afirmação localizada no documento, mas sem regra estatica suficiente; precisa verificacao manual/runtime. |
@@ -20,7 +80,7 @@ Worktree com alterações no momento da auditoria: sim
 | Qual é o prazo de produção? | 07-FAQ-ENTREGAS-TROCAS.md:6 | A_VERIFICAR | Afirmação localizada no documento, mas sem regra estatica suficiente; precisa verificacao manual/runtime. |
 | Prazo de produção | 07-FAQ-ENTREGAS-TROCAS.md:14 | A_VERIFICAR | Afirmação localizada no documento, mas sem regra estatica suficiente; precisa verificacao manual/runtime. |
 | não publicar mais commits “final: loja pronta para produção” se o repositório ainda estiver inconsistente | AUDITORIA.md:33 | A_VERIFICAR | Afirmação localizada no documento, mas sem regra estatica suficiente; precisa verificacao manual/runtime. |
-| \| 🔴 CRÍTICO \| Corrigir vercel.json (remover gru1) \| ✅ Concluído (no arquivo `secret/vercel.json`) \| | CHECKLIST-MELHORIAS.md:5 | PARCIAL_ESTATICO | seguranca: arquivos: lib/security.ts, scripts/security/audit-security.mjs, scripts/validate-auth-flow.mjs, scripts/validate-db-storage.mjs; Checks de seguranca existem; headers e storage precisam de validacao local/producao. \| vercel_docker: arquivos: docs/VERCEL_ENV.md, Dockerfile; Arquivos de deploy existem; depl... |
+| \| 🔴 CRÍTICO \| Corrigir vercel.json (remover gru1) \| ✅ Concluído (no arquivo `secret/vercel.json`) \| | CHECKLIST-MELHORIAS.md:5 | PARCIAL_ESTATICO | seguranca: arquivos: lib/security.ts, scripts/security/audit-security.mjs, scripts/validate-auth-flow.mjs, scripts/validate-db-storage.mjs; Checks de seguranca existem; headers e storage precisam de validacao local/producao. \| vercel_docker: arquivos: docs/VERCEL_ENV.md, Dockerfile; Arquivos de deploy existem; deploy e build Docker exigem execucao atual. |
 | \| 🔴 CRÍTICO \| Verificar plano Vercel (Hobby vs Pro) \| ✅ Concluído (helper em `src/lib/env.ts` + env var `NEXT_PUBLIC_VERCEL_PLAN`) \| | CHECKLIST-MELHORIAS.md:6 | PARCIAL_ESTATICO | vercel_docker: arquivos: docs/VERCEL_ENV.md, Dockerfile; Arquivos de deploy existem; deploy e build Docker exigem execucao atual. |
 | \| 🟡 ALTA \| Implementar novo catálogo 20+ itens \| ✅ Concluído (77 itens no catálogo) \| | CHECKLIST-MELHORIAS.md:7 | PARCIAL_ESTATICO | catalogo_imagens: arquivos: CATALOG_VALIDATION_REPORT.json, lib/media-validation.ts, lib/product-images.ts, lib/catalog-media.ts; Governanca de catalogo/imagem existe; itens publicos devem ser auditados contra bloqueios. |
 | \| 🟡 ALTA \| Adicionar seção anime (10+ personagens) \| ✅ Concluído (10 personagens anime adicionados) \| | CHECKLIST-MELHORIAS.md:8 | A_VERIFICAR | Afirmação localizada no documento, mas sem regra estatica suficiente; precisa verificacao manual/runtime. |
@@ -65,42 +125,31 @@ Worktree com alterações no momento da auditoria: sim
 | [ ] Deploy to production | IMPLEMENTATION-SUMMARY.md:522 | PARCIAL_ESTATICO | vercel_docker: arquivos: docs/VERCEL_ENV.md, Dockerfile; Arquivos de deploy existem; deploy e build Docker exigem execucao atual. |
 | JSON carregavel com chaves de topo: timestamp, source, total, valid, missing, placeholderRisk, visualKinds, missingIds, placeholderRiskIds, passRate, validItems, missingItems | CATALOG_VALIDATION_REPORT.json:1 | A_VERIFICAR | Afirmação localizada no documento, mas sem regra estatica suficiente; precisa verificacao manual/runtime. |
 
-## 2. Progresso por fase
-| Fase | % concluído | Critério de aceite | Evidência (comando/print/log) | Bloqueio (se houver) |
-|---|---:|---|---|---|
-| 0. Reconciliação | 100.00% | 4/4 critérios passaram | OK fontes obrigatorias lidas: 18/18 fontes presentes<br>OK afirmacoes antigas classificadas: 58 afirmacoes<br>OK protocolo permanente: docs/CODEX_EXECUTION_PROTOCOL.md referenciado em AGENTS.md<br>OK gates obrigatorios base: 11/11 comandos passaram |  |
-| 1. Performance | 75.00% | 3/4 critérios passaram | OK Lighthouse mobile coletado: paginas: 5<br>FALHA metas Lighthouse por tipo de rota: pendencias: home: performance/LCP; category: performance/LCP; product: performance/LCP; catalog: performance/LCP; checkout: performance/LCP. Checkout e auditado como noindex esperado; rotas indexaveis continuam exigindo SEO >=95.<br>OK bundle JS inicial medido: First Load JS shared by all: 103 kB<br>OK cache por rota validado em producao: curl/HEAD publico capturou cache-control | Notas Lighthouse ou Web Vitals lab abaixo da meta |
-| 2. Design System | 100.00% | 5/5 critérios passaram | OK axe-core executado: 12 combinacoes pagina/viewport<br>OK sem violacoes serias/criticas axe: 0 serias/criticas<br>OK Picsum removido da allowlist runtime: next.config.ts nao permite picsum.photos<br>OK placeholder honesto tem selo publico: selo presente em cards e PDP da loja inteligente<br>OK fundo/motion da loja centralizado: StoreAnimatedBackground usado em /loja e /produto/[slug] |  |
-| 3. Motor de Comércio — mínimo | 83.33% | 5/6 critérios passaram | OK modelos Cart/Order existem: Prisma tem Cart, Order e OrderItem<br>OK carrinho persistente/editavel: API /api/cart, /carrinho e carrinho local com add/update/remove<br>OK pedido criado antes do redirect: app/api/checkout/preference cria Order antes de preferencia Mercado Pago<br>OK rastreio de pedido existe: /pedidos, /pedidos/[id] e /api/orders/track presentes<br>OK e2e checkout/carrinho executado: smoke=0 (10), smart=0 (5), e2e=0 (9)<br>FALHA banco local/producao disponivel para prova runtime: DATABASE_URL presente no ambiente do script | Sem DATABASE_URL neste ambiente; criacao real no banco nao foi provada nesta execucao local |
-| 3. Motor de Comércio — avançado | 60.00% | 3/5 critérios passaram | OK Mercado Pago integrado em codigo: rotas chamam createMercadoPagoPreference/createMercadoPagoPayment<br>FALHA credenciais Mercado Pago presentes: MERCADOPAGO_ACCESS_TOKEN + NEXT_PUBLIC_MP_PUBLIC_KEY no ambiente<br>OK frete/CEP implementado: /api/shipping/quote e quoteBestShipping<br>OK email transacional implementado: sendMail + orderConfirmationHtml no fluxo<br>FALHA SMTP real configurado: SMTP_HOST + EMAIL_FROM no ambiente | Credenciais Mercado Pago ausentes nesta execucao; fica fallback/sandbox<br>Credenciais SMTP ausentes nesta execucao |
-| 4. Busca/Filtro/Recomendação | 100.00% | 5/5 critérios passaram | OK busca API/catalogo: /api/catalog/search presente<br>OK autocomplete Ctrl K: HeaderCommandPalette consulta /api/catalog/search<br>OK filtros por categoria/preco/prazo/personalizacao: SmartStorefront tem categoria, preco, personalizacao e prazo<br>OK ordenacoes exigidas: ordenacoes no select da loja<br>OK recomendacoes/relacionados: /api/catalog/recommendations e relacionados na loja |  |
-| 5. Confiança/Prova Social | 100.00% | 4/4 critérios passaram | OK reviews reais por produto: Prisma Review + rota de reviews<br>OK AggregateRating condicional: AggregateRating so entra quando ha average/reviewCount real<br>OK CDC art. 49 explicito: /trocas-e-devolucoes e /politica-de-troca citam CDC art. 49<br>OK selos de confianca loja: /catalogo e PDP smart exibem selos exigidos; /loja redireciona para /catalogo |  |
-| 6. SEO técnico | 100.00% | 5/5 critérios passaram | OK Product schema em PDP: /catalogo/[slug] e /produto/[slug] incluem Product JSON-LD com BRL<br>OK Review schema condicional: Reviews reais viram JSON-LD quando existem<br>OK BreadcrumbList: PDPs incluem BreadcrumbList<br>OK sitemap dinamico: sitemap usa catalogo publico + loja inteligente<br>OK robots/canonical: robots.ts e canonical dinamico nas PDPs |  |
-| 7. Analytics | 80.00% | 4/5 critérios passaram | OK dataLayer seguro: trackSmartStoreEvent inicializa dataLayer<br>OK eventos loja exigidos: eventos da loja inteligente declarados<br>OK GA4 marketplace legado: GA4 view_item/add_to_cart/begin_checkout/purchase em lib/analytics.ts<br>OK Pixel opcional sem quebrar: layout carrega pixel via env opcional<br>FALHA captura runtime de eventos: nenhum DebugView/Tag Assistant capturado nesta execucao | Capturar eventos em navegador/Tag Assistant para 100% |
-| 8. Acessibilidade | 100.00% | 5/5 critérios passaram | OK axe em paginas-chave: 12 checks axe<br>OK violacoes axe zeradas: 0 violacoes<br>OK skip link funcional: skipLinkOk=true<br>OK alt em imagens de produto: PDP e cards usam alt de produto<br>OK teclado no carrinho/checkout: dialog de carrinho tem role/aria e e2e passou |  |
-| 9. Segurança/LGPD | 100.00% | 5/5 critérios passaram | OK banner cookies + privacidade: CookieConsent e politica de privacidade presentes<br>OK headers producao: CSP/HSTS/X-Content-Type-Options capturados por HEAD publico<br>OK auditoria seguranca app: security:audit ok=true<br>OK scanner de segredos atual+branch: 0 atuais, 0 introduzidos; historico global ok=false<br>OK Supabase RLS privado: validate:db-storage + migration RLS |  |
-| 10. Risco de PI | 100.00% | 3/3 critérios passaram | OK auditoria de termos de PI gerada: 0 achados<br>OK classificacao e proposta por item: cada achado tem risco e suggestedCopy<br>OK sem risco publico restante: 0 referencias publicas de risco |  |
-| 11. Integridade de catálogo | 100.00% | 5/5 critérios passaram | OK contagem catalogo atual: 12 publicos + 306 loja<br>OK preco Pix/cartao coerente: 848 produtos em pricing-validation; smart issues 0<br>OK sem duplicata slug: 0 duplicatas<br>OK sem Picsum publico: public 0, smart 0<br>OK regressao publica catalogo/jogos: ok=true |  |
-| 12. Testes | 100.00% | 5/5 critérios passaram | OK db:generate/typecheck/lint/build: npm run db:generate: exit 0, 2s; npm run typecheck: exit 0, 4s; npm run lint:check: exit 0, 8s; npm run build: exit 0, 110s<br>OK validadores publicos/privados: validadores obrigatorios com exit 0<br>OK npm audit: exit 0, 1s<br>OK Playwright existente: smoke=0 (10), smart=0 (5), e2e=0 (9)<br>OK testes loja inteligente: tests/mdh-smart-store.spec.ts: 6/6 specs passaram; cobre PDP smart /produto, WhatsApp, carrinho, feed e sitemap |  |
-| 13. Deploy/Infra | 60.00% | 3/5 critérios passaram | OK docs Vercel env atualizados: docs/VERCEL_ENV.md lista loja, analytics, checkout<br>OK Dockerfile/docker-compose presentes: Dockerfile + docker-compose.yml presentes<br>FALHA build Docker comprovado: dockerBuild ok=false<br>FALHA deploy Vercel registrado: sem reports/vercel-deploy-report.json<br>OK producao responde e local/site comparados: publicHttp=true, local-vs-prod=true | Rodar docker compose build/up e registrar log<br>Registrar deploy Vercel final desta rodada |
+## Gates obrigatorios atuais
 
-## 3. Métricas antes → depois
-- Lighthouse mobile (home/produto/checkout): antes não medido nesta fase → depois home perf 91, a11y 96, best 100, seo 100; produto perf 90, a11y 99, best 100, seo 100; checkout perf 90, a11y 100, best 100, seo 58
-- LCP/INP/CLS: antes não medido nesta fase → depois registrado em `reports/marketplace-lighthouse-summary.json`; INP lab pode não existir em todas as versões do Lighthouse.
-- Bundle JS inicial: antes 103 kB → depois 103 kB (sem alteração de bundle comprovada nesta rodada).
-- Violações de acessibilidade (axe-core): antes não medido nesta fase → depois 0 violações, 0 sérias/críticas.
-- % de produtos com foto real (não Picsum): antes não medido nesta fase → depois 100.00% (248/248) no relatório de validação de catálogo; loja inteligente tem 0 Picsum e 0 placeholders explícitos.
-- % de produtos com schema Product válido: antes não medido nesta fase → depois 100% por rota /produto/[slug] da loja inteligente; catalogo legado validado por codigo, nao por crawl total nesta execucao.
+| Comando | Exit code | Duração | Evidência |
+| --- | ---: | ---: | --- |
+| npm run db:generate | 0 | 2s | passou: Start by importing your Prisma Client (See: https://pris.ly/d/importing-client) Tip: Need your database queries to be 1000x faster? Accelerate offers you that and more: https://pris.ly/tip-2-accelerate |
+| npm run typecheck | 0 | 4s | passou: > mdh-3d-store@2.0.0 typecheck > node scripts/typecheck.mjs |
+| npm run lint:check | 0 | 8s | passou: > mdh-3d-store@2.0.0 lint:check > node scripts/lint.mjs |
+| npm run build | 0 | 110s | passou: ○ (Static) prerendered as static content ● (SSG) prerendered as static HTML (uses generateStaticParams) ƒ (Dynamic) server-rendered on demand |
+| npm run validate:industrial-ui | 0 | 0s | passou: > node scripts/validate-industrial-ui.mjs OK: fundacao visual industrial validada. |
+| npm run validate:auth | 0 | 0s | passou: > node scripts/validate-auth-flow.mjs OK: fluxo de auth validado. |
+| npm run validate:db-storage | 0 | 0s | passou: > node scripts/validate-db-storage.mjs OK: DB/storage validado. |
+| npm run validate:private-routes | 0 | 0s | passou: > node scripts/validate-private-routes.mjs OK: rotas privadas validadas. |
+| npm run validate:public-regressions | 0 | 1s | passou: > node scripts/validate-public-regressions.mjs OK: regressões públicas validadas (12 produtos públicos ativos, 11 jogos). |
+| npm run security:audit | 0 | 1s | passou: > node scripts/security/audit-security.mjs OK: auditoria de seguranca sem achados criticos. |
+| npm audit --audit-level=low | 0 | 1s | passou: found 0 vulnerabilities |
 
-## 4. Percentual geral honesto
-Cálculo: média ponderada das 15 linhas da fase 2 (não arredondar para cima).
-Resultado: 90.55%
+## Riscos operacionais conhecidos
 
-## 5. Pendências explícitas e o que falta para 100%
-- 1. Performance: Notas Lighthouse ou Web Vitals lab abaixo da meta
-- 3. Motor de Comércio — mínimo: Sem DATABASE_URL neste ambiente; criacao real no banco nao foi provada nesta execucao local
-- 3. Motor de Comércio — avançado: Credenciais Mercado Pago ausentes nesta execucao; fica fallback/sandbox
-- 3. Motor de Comércio — avançado: Credenciais SMTP ausentes nesta execucao
-- 7. Analytics: Capturar eventos em navegador/Tag Assistant para 100%
-- 13. Deploy/Infra: Rodar docker compose build/up e registrar log
-- 13. Deploy/Infra: Registrar deploy Vercel final desta rodada
+| Item | Status | Evidencia |
+| --- | --- | --- |
+| next-auth peer nodemailer | RISCO_UPSTREAM_MONITORADO | next-auth 5.0.0-beta.32 declara peer nodemailer ^7.0.7 no registry, mas nodemailer ^9.0.1 e necessario para zerar npm audit. auth.ts usa Credentials/Google/Apple e nao provider de email do NextAuth. |
+
+## Pendencias reais restantes
+
+- Fases 1-13 ainda nao foram marcadas como executadas nesta rodada porque a ordem do TXT exige Fase 0 primeiro.
+- Lighthouse mobile, axe-core e validacao publica ainda precisam de evidencias novas nesta execucao.
+- Qualquer falha nos gates deve manter a fase abaixo de 100% ate correcao e nova execucao.
+- Claims antigos de 100% permanecem nao comprovados ate passarem por codigo, comando e validacao runtime atuais.

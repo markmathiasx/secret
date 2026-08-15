@@ -1,5 +1,17 @@
 # Regras do repositório MDH 3D
 
+- Raiz real do projeto: `M:\LOJA\.mdh3d-industrial-v62-worktree-20260727-005340`.
+- Node suportado: `>=24 <26`; npm suportado: `>=10`.
+- Instalação padrão: `npm ci`.
+- Prisma Client deve ser gerado automaticamente no `postinstall` e no `prebuild`; validar com `npm run prisma:validate`, `npm run prisma:generate` e import real de `@prisma/client` antes de confiar no build.
+- Sequência mínima local antes de release: `npm ci` -> `npm run prisma:validate` -> `npm run typecheck` -> `npm run lint:check` -> `npm run test:images` -> `npm run validate:assets:fs` -> `npm run build`.
+- Para fluxo marketplace/industrial, executar `npm run marketplace:phase0` antes das fases funcionais e manter `RELATORIO-EXECUCAO-MARKETPLACE.md` incremental.
+- Não declarar deploy sem prova de SHA em `/api/release` no deployment staged e em `https://www.mdh3d.com.br`.
+- Não usar `supabase db reset --linked`; mudanças remotas exigem projeto confirmado, revisão de migrations, dry-run e SQL versionado.
+- Fluxo Supabase: revisar `supabase/config.toml`, `supabase/migrations/**` e compatibilidade do schema antes de qualquer alteração remota.
+- Fluxo Vercel: confirmar `vercel whoami`, `vercel link`, `vercel pull --environment=production`, checar Root Directory e evitar deploys simultâneos.
+- Smoke mínimo de release: `/`, `/catalogo`, busca, 3 PDPs, `/carrinho`, `/checkout`, `/login`, `/conta`, `/rastrear`, `/api/release`.
+- Segurança mínima: `npm run security:validate-patched-dependencies`, `npm run security:audit:production`, scan de secrets e nenhuma credencial em log ou Git.
 - Nunca tratar placeholder como foto real.
 - Nunca declarar tarefa concluída sem lint, typecheck, build, validate:assets e test:images.
 - Nunca expor SKU BLOCKED, placeholder ou needs_review no catálogo público.

@@ -3,6 +3,7 @@ import { MediaType, ProductStatus, ProductVisibility } from "@prisma/client";
 import { getProductLongDescription, buildProductSearchText } from "@/lib/catalog-content";
 import { applyCatalogMedia, buildProductImageAlt } from "@/lib/catalog-media";
 import { catalog as staticCatalog, findProductBySlug as findStaticProductBySlug, type Product } from "@/lib/catalog";
+import { applyCommercialCatalogVisibility, applyCommercialProductOverride, assertCommercialCatalog } from "@/lib/commercial-catalog-policy";
 import { logStructured } from "@/lib/logger";
 import { canConnectToDatabase, prisma } from "@/lib/prisma";
 import { getProductAvailabilityMode, getPublicStockQuantity } from "@/lib/product-availability";
@@ -205,7 +206,26 @@ async function getDatabaseCatalogSnapshot(): Promise<Product[]> {
     ],
   });
 
-  return filterPublicCatalogProducts(products.map(mapPrismaProduct));
+  return applyCommercialCatalogPolicy(products.map(mapPrismaProduct));
+}
+
+function applyCommercialCatalogPolicy(products: Product[]) {
+  const mergedById = new Map<string, Product>();
+
+  for (const product of products) {
+    mergedById.set(product.id, applyCommercialProductOverride(product));
+  }
+
+  for (const product of staticCatalog) {
+    if (!mergedById.has(product.id)) {
+      mergedById.set(product.id, applyCommercialProductOverride(product));
+    }
+  }
+
+  const curated = applyCommercialCatalogVisibility([...mergedById.values()]);
+  const publicSafeCatalog = filterPublicCatalogProducts(curated);
+  assertCommercialCatalog(publicSafeCatalog);
+  return publicSafeCatalog;
 }
 
 export async function getCatalogSnapshot(): Promise<Product[]> {
@@ -216,14 +236,14 @@ export async function getCatalogSnapshot(): Promise<Product[]> {
   let result: Product[];
 
   if (configuredSource === "static") {
-    result = filterPublicCatalogProducts(staticCatalog);
+    result = applyCommercialCatalogPolicy(staticCatalog);
     await setCachedJson("catalog:products", result, 300);
     return result;
   }
 
   if (!(await canConnectToDatabase())) {
     logStructured("error", "catalog_database_unavailable", { configuredSource });
-    result = filterPublicCatalogProducts(staticCatalog);
+    result = applyCommercialCatalogPolicy(staticCatalog);
     await setCachedJson("catalog:products", result, 300);
     return result;
   }
@@ -233,7 +253,7 @@ export async function getCatalogSnapshot(): Promise<Product[]> {
 
     if (!products.length) {
       logStructured("error", "catalog_database_empty", { configuredSource });
-      result = filterPublicCatalogProducts(staticCatalog);
+      result = applyCommercialCatalogPolicy(staticCatalog);
       await setCachedJson("catalog:products", result, 300);
       return result;
     }
@@ -244,7 +264,7 @@ export async function getCatalogSnapshot(): Promise<Product[]> {
     logStructured("error", "catalog_database_failed", {
       message: error instanceof Error ? error.message : "unknown",
     });
-    result = filterPublicCatalogProducts(staticCatalog);
+    result = applyCommercialCatalogPolicy(staticCatalog);
     await setCachedJson("catalog:products", result, 300);
     return result;
   }
@@ -272,37 +292,22 @@ export async function getCatalogStaticParams(): Promise<Array<{ slug: string }>>
 }
 
 export async function findCatalogProductBySlug(slug: string): Promise<Product | undefined> {
-  if (getConfiguredCatalogSource() === "static" || !(await canConnectToDatabase())) {
-    const product = findStaticProductBySlug(slug);
-    return product && isPublicCatalogProduct(product) ? product : undefined;
-  }
-
   const normalized = slug.includes("-") ? slug.substring(slug.indexOf("-") + 1) : slug;
-  const idCandidate = extractProductIdCandidate(slug);
+  const catalog = await getCatalogSnapshot();
+  const fromSnapshot = catalog.find((product) => {
+    const productSlug = product.slug || "";
+    return (
+      productSlug === normalized ||
+      product.id === slug ||
+      product.id === extractProductIdCandidate(slug) ||
+      `${product.id}-${productSlug}` === slug
+    );
+  });
 
-  try {
-    const record = await prisma.product.findFirst({
-      where: {
-        visibility: ProductVisibility.PUBLIC,
-        OR: [
-          { slug: normalized },
-          { id: idCandidate },
-        ],
-      },
-      include: defaultProductInclude,
-    });
+  if (fromSnapshot) return fromSnapshot;
 
-    if (!record) {
-      const fallback = findStaticProductBySlug(slug);
-      return fallback && isPublicCatalogProduct(fallback) ? fallback : undefined;
-    }
-
-    const product = mapPrismaProduct(record);
-    return isPublicCatalogProduct(product) ? product : undefined;
-  } catch {
-    const fallback = findStaticProductBySlug(slug);
-    return fallback && isPublicCatalogProduct(fallback) ? fallback : undefined;
-  }
+  const fallback = findStaticProductBySlug(slug);
+  return fallback && isPublicCatalogProduct(fallback) ? fallback : undefined;
 }
 
 export async function getCatalogDiagnostics() {
