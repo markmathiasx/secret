@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-06-21T14:14:41.7028104Z",
-  "command": "docker build --target runner -t mdh-prod-deploy:commerce-os .",
-  "exitCode": 1,
-  "ok": false,
-  "log": "reports/docker-build.log"
+    "generatedAt":  "2026-07-27T13:07:17.6496106Z",
+    "command":  "docker build --target runner -t mdh-prod-deploy:commerce-os .",
+    "exitCode":  1,
+    "ok":  false,
+    "log":  "reports/docker-build.log"
 }

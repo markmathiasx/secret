@@ -1,0 +1,7 @@
+{
+    "generatedAt":  "2026-08-15T17:49:28.4005464Z",
+    "command":  "npm run build",
+    "exitCode":  -1,
+    "ok":  false,
+    "log":  "reports/build-latest.log"
+}

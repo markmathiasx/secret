@@ -1,0 +1,7 @@
+{
+    "generatedAt":  "2026-08-15T02:18:49.9949188Z",
+    "command":  "npm run industrial:v6:gate",
+    "exitCode":  1,
+    "ok":  false,
+    "log":  "reports/industrial-v6-gate-latest.log"
+}

@@ -3,7 +3,7 @@ approval_policy = "on-request"
 sandbox_mode = "workspace-write"
 
 [features]
-hooks = false
+codex_hooks = false
 
 [projects]
 

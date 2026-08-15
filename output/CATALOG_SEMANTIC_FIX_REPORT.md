@@ -1,6 +1,6 @@
 # Catalog Semantic Audit Report
 
-**Generated:** 2026-06-19T04:54:26.901Z
+**Generated:** 2026-07-27T07:47:50.859Z
 **Total SKUs:** 248
 
 ## Summary

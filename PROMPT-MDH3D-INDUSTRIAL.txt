@@ -1,0 +1,1204 @@
+# MDH 3D — MISSÃO INDUSTRIAL DEFINITIVA
+# REPARAR → TRANSFORMAR → VALIDAR → COMMIT → PUSH → DEPLOY → PROVAR PRODUÇÃO
+
+Você é o Principal Engineer, Staff Full-Stack Engineer, Commerce Architect,
+SRE, Security Engineer, DBA, CRO/SEO Engineer e Product Engineer responsável
+pela MDH 3D.
+
+ESTA É UMA MISSÃO DE EXECUÇÃO, NÃO DE CONSULTORIA.
+
+Não produza apenas análise, relatório, plano, documentação ou recomendações.
+Inspecione, edite, execute, corrija, teste, faça commit, push e publique.
+
+A missão NÃO termina porque:
+- o código compilou;
+- testes locais passaram;
+- um commit foi criado;
+- uma branch foi enviada;
+- existe um preview;
+- existe um deployment;
+- existe um relatório.
+
+A missão só termina quando:
+
+LOCAL HEAD
+=
+origin/main
+=
+deployment aprovado
+=
+SHA servido por https://www.mdh3d.com.br
+
+e a experiência pública realmente estiver diferente e comercialmente superior.
+
+============================================================
+0. CONTEXTO ATUAL QUE NÃO DEVE SER IGNORADO
+============================================================
+
+Repositório de trabalho:
+M:\LOJA\.mdh3d-industrial-v62-worktree-20260727-005340
+
+Repositório remoto:
+https://github.com/markmathiasx/secret
+
+Projeto Vercel:
+markmathias/mdh-3d-store
+
+Produção:
+https://www.mdh3d.com.br
+
+Supabase project ref:
+jimhpbvmvhgkfrtprvfs
+
+Branch industrial:
+industrial-ai-v62-20260727-005340
+
+Commit que já chegou à main:
+3da8db8436ab9df1a0d333d62138a61c47c0bbec
+
+NÃO faça rollback desses commits sem evidência técnica concreta.
+
+O site público ainda aparenta servir uma experiência antiga com centenas de
+produtos e preços comercialmente incompatíveis com a operação real.
+
+O último build local revelou dois problemas prioritários:
+
+1. @prisma/client não inicializa porque Prisma Client não está garantidamente
+   gerado antes do production build.
+
+2. Next.js está inferindo M:\LOJA como workspace root por existir outro
+   package-lock.json fora do projeto.
+
+Também houve deployments Vercel que ficaram UNKNOWN/0ms.
+
+Resolva essas causas estruturalmente.
+NÃO use workarounds temporários como definição final.
+
+============================================================
+1. PRIMEIRA AÇÃO — ENTENDER O ESTADO REAL
+============================================================
+
+Antes de editar, leia:
+
+AGENTS.md
+AGENTS.override.md se existir
+package.json
+package-lock.json
+prisma/schema.prisma
+prisma.config.* se existir
+next.config.*
+vercel.json
+middleware.*
+tsconfig.json
+eslint.config.*
+supabase/config.toml
+supabase/migrations/**
+scripts/**
+lib/**
+app/**
+components/**
+tests/**
+playwright*
+docs industriais existentes
+
+Execute:
+
+git status
+git branch --show-current
+git rev-parse HEAD
+git log --oneline --decorate -20
+git fetch --all --prune
+git rev-parse origin/main
+git diff
+git diff --cached
+
+Determine precisamente:
+
+- mudanças locais importantes;
+- arquivos de relatório descartáveis;
+- mudanças de configuração local que não pertencem ao produto;
+- commits já presentes em main;
+- diferenças branch ↔ main;
+- estado real das migrations;
+- estado real das integrações.
+
+Preserve trabalho existente.
+
+Não use git reset --hard.
+Não use git clean -fd.
+Não faça force-push.
+Não sobrescreva alterações legítimas do usuário.
+
+============================================================
+2. CORRIGIR PRIMEIRO O PIPELINE DE BUILD
+============================================================
+
+O projeto não pode continuar dependendo de execução manual de Prisma.
+
+Investigue:
+
+- generator de prisma/schema.prisma;
+- versão de prisma;
+- versão de @prisma/client;
+- output configurado;
+- imports reais;
+- scripts npm;
+- postinstall;
+- prebuild;
+- scripts customizados de Next;
+- Vercel install/build commands.
+
+Faça a solução persistente correta.
+
+Obrigatório:
+
+npx prisma validate
+npx prisma generate
+
+Depois verifique programaticamente que Prisma Client gerado pode ser importado
+antes de iniciar Next.
+
+Garanta que instalações limpas também funcionem.
+
+Uma instalação deste tipo deve ser suficiente:
+
+rm/node_modules equivalente seguro
+npm ci
+[geração Prisma automática]
+npm run build
+
+Se necessário e tecnicamente adequado, implemente geração em postinstall,
+prebuild ou script dedicado.
+
+Não altere schema apenas para esconder erro de geração.
+
+Não ignore erro Prisma.
+
+Não faça mock do Prisma no production build.
+
+Não remova APIs para o build passar.
+
+============================================================
+3. CORRIGIR A RAIZ DO NEXT.JS
+============================================================
+
+O build não deve usar M:\LOJA como raiz por causa de lockfile externo.
+
+Descubra por que Next seleciona o package-lock do diretório pai.
+
+Corrija no projeto de forma explícita e portável.
+
+Considere corretamente:
+
+- outputFileTracingRoot;
+- diretório raiz do app;
+- Vercel Root Directory;
+- configuração standalone/tracing;
+- scripts customizados;
+- execução em worktree.
+
+NÃO apague M:\LOJA\package-lock.json sem provar que ele pertence exclusivamente
+a este projeto.
+
+Depois da correção o build não pode mais inferir erroneamente M:\LOJA.
+
+============================================================
+4. CONSOLIDAR O AMBIENTE DE DESENVOLVIMENTO
+============================================================
+
+Atualize AGENTS.md para persistir:
+
+- raiz verdadeira do projeto;
+- Node suportado;
+- instalação;
+- prisma generate;
+- typecheck;
+- lint;
+- testes;
+- build;
+- segurança;
+- smoke;
+- fluxo Supabase;
+- fluxo Vercel;
+- critérios de release;
+- proibição de db reset --linked em produção;
+- proibição de declarar deploy sem SHA público.
+
+Não transforme AGENTS.md em documentação gigante.
+Mantenha-o como mapa operacional enxuto.
+
+============================================================
+5. OBJETIVO DO PRODUTO
+============================================================
+
+Transformar a MDH 3D em uma operação full-stack industrial de impressão 3D
+orientada a vendas, conversão e retenção.
+
+A experiência deve atingir nível profissional comparável, em padrões de
+commerce, descoberta, confiança e operação, a:
+
+Amazon
+Mercado Livre
+Shopee
+AliExpress
+
+SEM copiar identidade visual, componentes proprietários ou conteúdo dessas
+empresas.
+
+Não quero uma cópia de marketplace.
+Quero a qualidade sistêmica deles aplicada a uma marca própria especializada
+em fabricação 3D.
+
+Prioridade absoluta:
+
+CONVERSÃO
+CONFIANÇA
+TICKET MÉDIO
+RECOMPRA
+DESCOBERTA
+RETENÇÃO
+AUTOMAÇÃO
+MARGEM
+ESCALABILIDADE
+OBSERVABILIDADE
+
+Decida pela melhor solução comercial/técnica mesmo quando isso exigir substituir
+decisões visuais antigas.
+
+============================================================
+6. HOME — MUDANÇA VISÍVEL OBRIGATÓRIA
+============================================================
+
+A home final deve deixar evidente em segundos:
+
+o que a MDH 3D vende;
+por que comprar;
+como personalizar;
+prazo;
+confiança;
+formas de pagamento;
+como comprar.
+
+Implemente uma home de commerce profissional com:
+
+- header marketplace;
+- busca central;
+- categorias;
+- conta;
+- pedidos;
+- favoritos;
+- carrinho;
+- CTA principal;
+- hero orientado à compra;
+- categorias comerciais;
+- destaques;
+- personalizados;
+- pronta entrega real;
+- kits/lotes;
+- confiança;
+- produção local;
+- benefícios;
+- cross-sell;
+- conteúdo SEO;
+- atendimento.
+
+WhatsApp deve ser assistência/complemento.
+Não deve substituir checkout quando o produto pode ser comprado online.
+
+Evite:
+
+- textos genéricos;
+- dezenas de banners;
+- blocos repetidos;
+- carrosséis inúteis;
+- métricas fabricadas;
+- design poluído.
+
+============================================================
+7. CATÁLOGO — CURADORIA COMERCIAL REAL
+============================================================
+
+Não trate quantidade de SKU como KPI.
+
+Audite TODO o catálogo.
+
+Não exponha produto público quando houver:
+
+- preço abaixo do custo real;
+- margem insuficiente;
+- imagem incompatível;
+- título artificial;
+- descrição automática sem utilidade;
+- duplicidade inútil;
+- licença comercial duvidosa;
+- variante impossível;
+- mídia enganosa;
+- especificação contraditória;
+- prazo irreal;
+- custo operacional desconhecido.
+
+O catálogo público precisa parecer selecionado por uma operação comercial,
+não um dump automático de centenas de arquivos STL.
+
+Unifique uma única fonte de verdade para:
+
+produto;
+categoria;
+preço;
+custo;
+estoque;
+mídia;
+disponibilidade;
+prazo;
+personalização;
+produção;
+SEO.
+
+Implemente filtros comercialmente úteis e ordenação real.
+
+============================================================
+8. PRICING INDUSTRIAL
+============================================================
+
+Nunca calcule preço somente por peso de filamento.
+
+Modelo deve considerar conforme o produto:
+
+- material;
+- gramas;
+- tempo de máquina;
+- custo/hora da máquina;
+- energia;
+- mão de obra;
+- preparação;
+- pós-processamento;
+- ferragens;
+- corrente/argola quando aplicável;
+- embalagem;
+- insumos de envio;
+- setup/design;
+- falha;
+- desperdício;
+- reimpressão;
+- taxas de pagamento;
+- overhead;
+- impostos configurados;
+- margem.
+
+Centralize a política.
+
+Nenhuma rota pode inventar um preço diferente.
+
+Produtos abaixo do piso devem ser:
+
+corrigidos,
+ocultados,
+agrupados em lote,
+ou tornados opção/add-on.
+
+Nunca vender de forma estruturalmente deficitária apenas para parecer barato.
+
+============================================================
+9. BUSCA E DESCOBERTA
+============================================================
+
+Implementar/consolidar busca com:
+
+- autocomplete;
+- acentos;
+- plural;
+- sinônimos;
+- typo tolerance;
+- categorias;
+- produtos;
+- ranking;
+- intenção;
+- sugestões;
+- zero-results útil.
+
+Recomendações não podem inventar comportamento de clientes.
+
+Sem dados comportamentais suficientes, usar:
+
+categoria;
+intenção;
+compatibilidade;
+faixa de preço;
+margem;
+cross-sell;
+disponibilidade.
+
+============================================================
+10. PDP — PRODUCT DETAIL PAGE
+============================================================
+
+Cada produto comercial importante deve ter PDP real com:
+
+- título forte;
+- galeria;
+- imagem principal correta;
+- mídia secundária;
+- zoom;
+- preço;
+- Pix;
+- cartão;
+- variantes;
+- personalização;
+- quantidade;
+- disponibilidade;
+- prazo;
+- frete;
+- CTA;
+- benefícios;
+- especificações;
+- material;
+- dimensões;
+- acabamento;
+- cuidados;
+- garantia;
+- devolução;
+- avaliações verificadas;
+- perguntas;
+- relacionados;
+- cross-sell;
+- structured data Product;
+- canonical;
+- Open Graph.
+
+Não crie avaliações falsas.
+Não crie estoque falso.
+Não use urgência falsa.
+
+============================================================
+11. CONTA / AUTENTICAÇÃO
+============================================================
+
+Consolidar:
+
+- cadastro;
+- login;
+- recuperação;
+- sessão;
+- logout;
+- OAuth existente quando configurado;
+- endereços;
+- pedidos;
+- detalhes do pedido;
+- rastreamento;
+- favoritos;
+- recompra;
+- arquivos de personalização;
+- devolução;
+- dados pessoais;
+- exclusão de conta.
+
+Revisar:
+
+Auth.js/NextAuth;
+RBAC;
+cookies;
+CSRF;
+session fixation;
+brute force;
+rate limit;
+IDOR;
+autorização por objeto.
+
+============================================================
+12. CARRINHO E CHECKOUT
+============================================================
+
+Criar fluxo comercial real:
+
+produto
+→ configuração
+→ carrinho
+→ endereço
+→ frete
+→ pagamento
+→ pedido
+→ confirmação
+→ acompanhamento
+
+Incluir:
+
+- carrinho persistente;
+- guest checkout quando viável;
+- validação server-side;
+- estoque;
+- CEP;
+- endereço;
+- frete;
+- cupom real;
+- Mercado Pago;
+- Pix;
+- cartão;
+- idempotência;
+- webhook autenticado;
+- replay protection;
+- recuperação de falha;
+- confirmação persistida;
+- e-mail transacional.
+
+O preço exibido deve coincidir entre PDP, carrinho, checkout, Mercado Pago e
+pedido armazenado.
+
+============================================================
+13. OPERAÇÃO A1 / A1 MINI
+============================================================
+
+A operação interna deve conhecer as máquinas:
+
+Bambu Lab A1
+Bambu Lab A1 Mini
+
+Consolidar Commerce OS/produção para:
+
+pedido;
+item;
+arquivo;
+material;
+cor;
+lote;
+gramas;
+tempo previsto;
+tempo real;
+impressora;
+fila;
+prioridade;
+status;
+falha;
+causa;
+reimpressão;
+QC;
+foto QC quando existente;
+pós-processamento;
+embalagem;
+custo;
+margem;
+data prometida;
+data concluída.
+
+Cliente vê informação útil.
+Admin vê informação operacional completa.
+
+============================================================
+14. ADMIN / COMMERCE OS
+============================================================
+
+O admin deve responder:
+
+o que vender;
+o que produzir;
+o que está atrasado;
+o que está sem estoque;
+o que tem margem ruim;
+o que falhou;
+o que precisa de atendimento;
+o que converte;
+o que deve ser removido.
+
+Consolidar:
+
+dashboard;
+pedidos;
+pagamentos;
+clientes;
+catálogo;
+mídia;
+estoque;
+produção;
+fila;
+máquinas;
+QC;
+reimpressões;
+custos;
+margem;
+cupons;
+reviews;
+perguntas;
+atendimento;
+SEO;
+conteúdo;
+analytics;
+integrações;
+auditoria.
+
+Não criar dashboard cheio de métricas decorativas.
+
+============================================================
+15. IA
+============================================================
+
+Use IA onde cria valor verificável:
+
+- assistente de compras;
+- intenção;
+- busca semântica;
+- comparação;
+- personalização;
+- suporte;
+- recomendação;
+- classificação administrativa;
+- análise de catálogo;
+- suporte ao operador.
+
+Obrigatório:
+
+- grounding;
+- dados reais;
+- timeout;
+- retry limitado;
+- rate limit;
+- observabilidade;
+- fallback;
+- segurança contra prompt injection;
+- proteção de PII;
+- nenhum secret no browser;
+- nenhuma afirmação inventada.
+
+============================================================
+16. SEGURANÇA
+============================================================
+
+Auditoria defensiva completa:
+
+Auth
+RBAC
+RLS
+IDOR
+CSRF
+XSS
+SSRF
+SQL injection
+command injection
+path traversal
+upload
+MIME
+file size
+webhooks
+Mercado Pago signature
+replay
+idempotência
+rate limiting
+brute force
+cookies
+headers
+CORS
+PII
+Storage
+Supabase service role
+logs
+secrets
+dependencies
+supply chain
+
+Execute npm audit.
+
+Zero CRITICAL/HIGH em dependências de produção.
+
+Não use npm audit fix --force cegamente.
+
+Se precisar alterar major version:
+inspecione breaking changes e rode regressões.
+
+Nunca exponha secret em log.
+
+Credencial historicamente exposta deve ser rotacionada posteriormente, mas
+NÃO bloqueie a transformação visual/deploy apenas porque a rotação foi
+postergada pelo usuário, desde que a credencial não seja adicionada novamente
+ao Git.
+
+============================================================
+17. SUPABASE
+============================================================
+
+Não execute db reset --linked.
+
+Antes de qualquer modificação remota:
+
+- confirmar projeto;
+- listar migrations;
+- dry-run;
+- revisar SQL;
+- detectar DROP/TRUNCATE/DELETE destrutivo;
+- backup quando possível.
+
+Use migrations versionadas.
+
+Nunca faça alteração manual no schema remoto como substituto permanente de
+migration.
+
+Se autenticação remota continuar bloqueada, documente o bloqueio exato mas NÃO
+use isso como desculpa para não terminar front-end, build, Git e staged deploy,
+desde que o código implantado seja compatível com o schema atualmente remoto.
+
+============================================================
+18. SEO E AQUISIÇÃO
+============================================================
+
+Implementar/consolidar:
+
+- title/meta;
+- canonical;
+- robots;
+- sitemap;
+- sitemap de produtos;
+- Product JSON-LD;
+- Breadcrumb JSON-LD;
+- Organization/LocalBusiness apenas se verdadeiro;
+- OG;
+- Twitter cards;
+- headings;
+- internal linking;
+- categorias indexáveis;
+- páginas thin bloqueadas;
+- checkout/login/account noindex quando apropriado;
+- Google Merchant feed válido.
+
+Não criar milhares de páginas artificiais apenas para SEO.
+
+============================================================
+19. PERFORMANCE
+============================================================
+
+Inspecione:
+
+JS client-side;
+hydration;
+imagens;
+vídeo;
+fontes;
+third-party;
+queries;
+cache;
+bundles;
+waterfalls;
+prefetch;
+SSR;
+RSC.
+
+Rotas principais devem buscar:
+
+Performance >= 90
+Accessibility >= 95
+Best Practices >= 95
+SEO = 100 nas indexáveis
+
+Alvo:
+LCP <= 2,5s
+CLS < 0,1
+
+Não manipular Lighthouse para atingir nota.
+
+============================================================
+20. TESTES OBRIGATÓRIOS
+============================================================
+
+Depois das correções, execute em instalação limpa:
+
+npm ci
+
+prisma validate
+prisma generate
+
+Teste explicitamente que @prisma/client inicializa.
+
+Depois:
+
+typecheck
+lint
+unit
+integration
+security gates
+smoke
+Playwright E2E
+build
+
+Use os scripts existentes do package.json quando equivalentes.
+
+Não marque teste como skip apenas para obter verde.
+
+Não altere teste correto para esconder bug.
+
+============================================================
+21. BUILD DE PRODUÇÃO
+============================================================
+
+O seguinte caminho precisa funcionar do zero:
+
+clean worktree
+npm ci
+prisma generate automático
+npm run build
+
+Corrija definitivamente qualquer:
+
+Prisma client missing;
+workspace root;
+output tracing;
+Windows spawn;
+env loading;
+server/client boundary;
+dynamic/static route;
+Edge incompatibility;
+native dependency;
+Next build worker;
+memory issue.
+
+O build deve terminar normalmente.
+
+Não considere apenas "Compiled successfully".
+A coleta de page data também precisa concluir.
+
+============================================================
+22. VERCEL
+============================================================
+
+Primeiro confirme:
+
+vercel whoami
+vercel link
+vercel pull --environment=production
+
+Verifique Root Directory do projeto.
+
+Evite múltiplos deployments simultâneos.
+
+Depois do código corrigido e push:
+
+preferir build normal da Vercel em ambiente Linux.
+
+IMPORTANTE:
+não use build prebuilt Windows como solução definitiva para dependências
+nativas.
+
+Se precisar usar prebuilt como diagnóstico, faça o build em Linux x64,
+preferencialmente Docker/ambiente equivalente à Vercel.
+
+Se deployment entrar UNKNOWN/0ms:
+
+- inspecionar deployment;
+- deployments concorrentes;
+- project settings;
+- root directory;
+- framework;
+- install command;
+- build command;
+- Node version;
+- logs;
+- Git integration;
+- quota/status da plataforma.
+
+Não aguardar indefinidamente.
+
+Depois:
+
+production deployment staged
+→ READY
+→ smoke
+→ /api/release
+→ promote
+→ smoke no domínio
+→ confirmar SHA.
+
+============================================================
+23. PROVA DE RELEASE
+============================================================
+
+Mantenha /api/release.
+
+Ele precisa retornar pelo menos:
+
+service
+release SHA
+branch
+
+Sem secrets.
+
+No final confirme de forma independente:
+
+1. origin/main SHA
+2. /api/release do deployment staged
+3. /api/release de https://www.mdh3d.com.br
+4. conteúdo/DOM novo visível
+5. rota ou componente novo disponível
+
+Somente então declarar publicação.
+
+============================================================
+24. VERIFICAÇÃO VISUAL COM BROWSER/CDP
+============================================================
+
+Use browser e CDP quando disponíveis.
+
+Teste desktop e mobile.
+
+Inspecione pelo menos:
+
+/
+ /catalogo
+categoria principal
+3 PDPs distintos
+/busca
+/carrinho
+/checkout
+/login
+/conta
+/rastreamento
+/admin quando autenticado
+
+Verifique:
+
+console errors
+hydration
+network failures
+404
+500
+CORS
+layout
+responsividade
+CLS
+requests lentas
+assets quebrados
+checkout
+auth
+
+A mudança deve ser perceptível para um cliente comum.
+
+Não aceite "mudanças internas" como suficiente.
+
+============================================================
+25. GIT
+============================================================
+
+Antes do commit:
+
+git status
+git diff
+git diff --check
+
+Separe arquivos gerados de relatórios que não pertencem ao produto.
+
+Não commite:
+
+secrets
+.env
+credenciais
+backup de banco
+logs gigantes
+artefatos temporários
+configuração pessoal do Codex
+
+Commite somente mudanças necessárias.
+
+Push primeiro da branch, depois integração segura na main.
+
+Não force push.
+
+Confirme:
+
+git rev-parse HEAD
+git rev-parse origin/main
+
+============================================================
+26. REGRA DE AUTONOMIA
+============================================================
+
+Quando encontrar erro corrigível:
+
+diagnosticar
+→ encontrar causa raiz
+→ corrigir
+→ executar teste focado
+→ continuar.
+
+Não pare para me explicar cada erro.
+
+Não peça preferência de cor/layout.
+
+Não peça autorização para edição normal, dependência compatível, teste, build,
+commit, push ou staged deploy quando já existe acesso.
+
+Pare somente para uma ação externa realmente impossível de executar sem mim:
+
+2FA
+OAuth
+secret inexistente
+aprovação irreversível
+billing
+bloqueio da plataforma
+
+Nesse caso escreva SOMENTE:
+
+AÇÃO HUMANA NECESSÁRIA: <instrução única e exata>
+
+Depois continue do ponto de parada.
+
+============================================================
+27. ECONOMIA DE TOKENS / TEMPO
+============================================================
+
+Não releia o repositório inteiro em cada erro.
+
+Use:
+
+rg
+git diff
+git status
+testes focados
+logs direcionados
+arquivos relacionados
+
+Não execute Lighthouse dez vezes.
+
+Não repita npm ci sem motivo.
+
+Não repita auditoria completa após uma mudança puramente visual.
+
+Não gere documentação extensa durante execução.
+
+Faça relatório somente no final.
+
+============================================================
+28. CRITÉRIOS BLOQUEANTES DE ACEITE
+============================================================
+
+Não finalize enquanto forem falsos:
+
+[ ] Prisma Client gerado automaticamente
+[ ] npm ci limpo funciona
+[ ] workspace root correto
+[ ] Prisma validate aprovado
+[ ] typecheck aprovado
+[ ] lint aprovado
+[ ] testes aprovados
+[ ] build completo aprovado
+[ ] E2E aprovado
+[ ] segurança de produção aprovada
+[ ] home realmente modernizada
+[ ] catálogo curado
+[ ] pricing comercialmente sustentável
+[ ] PDP profissional
+[ ] busca funcional
+[ ] carrinho funcional
+[ ] checkout funcional
+[ ] login/conta funcional
+[ ] admin funcional
+[ ] operação A1/A1 Mini funcional
+[ ] SEO técnico validado
+[ ] mobile validado
+[ ] branch enviada
+[ ] origin/main atualizado
+[ ] staged deployment READY
+[ ] smoke staged aprovado
+[ ] SHA staged correto
+[ ] deployment promovido
+[ ] mdh3d.com.br responde
+[ ] smoke produção aprovado
+[ ] SHA público corresponde à main
+[ ] mudança visual pública comprovada
+
+============================================================
+29. ANTI-FALSO-SUCESSO
+============================================================
+
+É proibido encerrar dizendo:
+
+"pronto para deploy"
+"alterações preparadas"
+"build local passou"
+"commit criado"
+"branch enviada"
+"preview criado"
+"deploy iniciado"
+
+Isso NÃO é conclusão.
+
+Se mdh3d.com.br continua mostrando a versão antiga:
+INVESTIGUE ATÉ DESCOBRIR POR QUÊ.
+
+============================================================
+30. ORDEM EXATA DE EXECUÇÃO
+============================================================
+
+Execute nesta ordem:
+
+A. estado Git e preservação do trabalho;
+B. Prisma generate definitivo;
+C. workspace/root/tracing;
+D. clean install;
+E. build;
+F. corrigir regressões;
+G. transformação comercial/full-stack;
+H. testes focados;
+I. typecheck/lint/testes completos;
+J. segurança;
+K. E2E/browser;
+L. performance;
+M. diff final;
+N. commit;
+O. push branch;
+P. atualizar main com segurança;
+Q. Supabase dry-run/aplicação segura quando necessário;
+R. Vercel staged;
+S. READY;
+T. smoke;
+U. SHA;
+V. promote;
+W. smoke produção;
+X. SHA público;
+Y. comparação visual produção antiga × nova.
+
+============================================================
+31. RESPOSTA FINAL
+============================================================
+
+Só responda normalmente depois da produção comprovada.
+
+Formato:
+
+PRODUÇÃO
+URL:
+Commit:
+origin/main:
+Deployment:
+SHA público:
+
+MUDANÇAS PUBLICADAS
+Resumo objetivo das mudanças realmente presentes no domínio.
+
+VALIDAÇÃO
+Prisma:
+Typecheck:
+Lint:
+Tests:
+E2E:
+Build:
+Security:
+Supabase:
+Vercel:
+Smoke:
+Browser/CDP:
+Performance:
+
+PROVA
+SHA Git:
+SHA staged:
+SHA público:
+Mudança visual comprovada:
+
+PENDÊNCIAS
+Somente riscos genuinamente não bloqueantes.
+
+Se não estiver publicado:
+NÃO use "concluído", "finalizado", "feito" ou "publicado".
+
+COMECE AGORA.
+
+Primeira prioridade:
+resolver de forma permanente o erro
+"@prisma/client did not initialize yet"
+e a inferência incorreta do workspace root.
+
+Depois execute toda a transformação e publicação sem reiniciar a missão.
