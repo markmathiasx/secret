@@ -3,8 +3,10 @@ import path from "node:path";
 import { createProjectRequire, ROOT, writeJson } from "./catalog/ts-runtime.mjs";
 
 const require = createProjectRequire();
-const { catalog } = require("@/lib/catalog");
+const { catalog, commercialFeaturedCatalog } = require("@/lib/catalog");
 const { COMMERCIAL_STOREFRONT_CONFIG } = require("@/lib/commercial-catalog-policy");
+const { filterPublicCatalogProducts } = require("@/lib/public-catalog");
+const publicCatalog = filterPublicCatalogProducts(catalog);
 
 const publicRoots = ["app", "components", "lib"].map((root) => path.join(ROOT, root));
 const files = [];
@@ -31,7 +33,8 @@ const forbiddenTerms = [
 
 const errors = [];
 const matches = [];
-const expectedPublicProducts = Number(COMMERCIAL_STOREFRONT_CONFIG.maximumPublicProducts || 12);
+const expectedPublicProducts = Number(COMMERCIAL_STOREFRONT_CONFIG.expectedFullCatalogProducts || 843);
+const expectedFeaturedProducts = Number(COMMERCIAL_STOREFRONT_CONFIG.maximumPublicProducts || 12);
 
 for (const file of files) {
   const relative = path.relative(ROOT, file).replaceAll("\\", "/");
@@ -62,15 +65,21 @@ if (!arcade.includes("Print Runner 3D")) errors.push("Print Runner ausente");
 if (!supportPage.includes("catálogo real") || !supportPage.includes("Central de Atendimento MDH 3D")) errors.push("/atendimento sem central de catalogo real");
 if (!layout.includes("Organization") || !layout.includes("WebSite")) errors.push("JSON-LD Organization/WebSite ausente");
 if (!sitemap.includes("/jogue") || !sitemap.includes("/atendimento")) errors.push("sitemap sem rotas criticas");
-if (catalog.length !== expectedPublicProducts) {
-  errors.push(`catalogo publico fora da curadoria industrial: ${catalog.length}/${expectedPublicProducts} produtos`);
+if (publicCatalog.length !== expectedPublicProducts) {
+  errors.push(`catalogo publico incompleto: ${publicCatalog.length}/${expectedPublicProducts} produtos`);
+}
+if (commercialFeaturedCatalog.length !== expectedFeaturedProducts) {
+  errors.push(`vitrine comercial fora da curadoria: ${commercialFeaturedCatalog.length}/${expectedFeaturedProducts} produtos`);
 }
 
 writeJson("reports/public-trust-validation-report.json", {
   generatedAt: new Date().toISOString(),
   ok: errors.length === 0,
-  catalogProducts: catalog.length,
+  catalogCandidates: catalog.length,
+  catalogProducts: publicCatalog.length,
   expectedPublicProducts,
+  featuredProducts: commercialFeaturedCatalog.length,
+  expectedFeaturedProducts,
   matches,
   errors,
 });
