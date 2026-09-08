@@ -2880,9 +2880,10 @@ const fullCatalog = [
   ),
 ];
 const safePublicCatalog = sanitizePublicCatalogProducts(getSafePublicCatalog(fullCatalog));
-export const catalog = applyCommercialCatalogVisibility(safePublicCatalog);
-assertCommercialCatalog(catalog);
-export const featuredCatalog = catalog.filter((item) => item.featured).slice(0, 12);
+export const catalog = safePublicCatalog;
+export const commercialFeaturedCatalog = applyCommercialCatalogVisibility(catalog);
+assertCommercialCatalog(commercialFeaturedCatalog);
+export const featuredCatalog = commercialFeaturedCatalog;
 export const categories = Array.from(new Set(catalog.map((item) => item.category)));
 export const collections = Array.from(new Set(catalog.map((item) => item.collection)));
 
