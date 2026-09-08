@@ -1,6 +1,8 @@
 {
   "version": "2026-07-26-industrial-v6",
   "brand": "MDH 3D",
+  "scope": "featured-storefront",
+  "expectedFullCatalogProducts": 843,
   "maximumPublicProducts": 12,
   "minimumGrossMarginPercent": 35,
   "idealMaterials": [

@@ -8,7 +8,7 @@ Data de consolidação: 2026-07-27
 
 - `data/commercial-storefront.json` define a lista pública curada de 12 SKUs comerciais e os overrides de cópia, custo operacional e preço.
 - `lib/commercial-catalog-policy.ts` é a política única de visibilidade comercial e de aplicação dos overrides públicos.
-- `lib/catalog.ts` continua sendo a composição principal do catálogo, mas a exportação pública final é reduzida por `applyCommercialCatalogVisibility(...)`.
+- `lib/catalog.ts` continua sendo a composição principal: `catalog` preserva os 848 candidatos, a camada pública entrega 843 itens seguros e `commercialFeaturedCatalog` aplica `applyCommercialCatalogVisibility(...)` somente aos 12 destaques de conversão.
 - `lib/catalog-repository.ts`, `lib/public-catalog.ts`, `src/lib/catalog/normalize.ts` e `lib/products.ts` passaram a consumir a mesma curadoria comercial em vez de listas paralelas divergentes.
 
 ### Disponibilidade e estoque público
