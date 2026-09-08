@@ -2,7 +2,7 @@
 
 ## Vitrine pública
 
-A vitrine pública fica limitada a 12 produtos funcionais, personalizados e sem dependência de personagens de terceiros.
+A vitrine comercial em destaque fica limitada a 12 produtos funcionais, personalizados e sem dependência de personagens de terceiros. O catálogo público completo permanece disponível; a curadoria não pode remover seus 843 itens seguros.
 
 ## Regra de preço
 
