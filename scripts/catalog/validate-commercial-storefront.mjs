@@ -24,6 +24,8 @@ function normalize(value) {
 if (config.publicProductIds.length !== 12) errors.push("A vitrine deve ter exatamente 12 produtos.");
 if (new Set(config.publicProductIds).size !== config.publicProductIds.length) errors.push("Há IDs duplicados.");
 if (config.maximumPublicProducts !== 12) errors.push("maximumPublicProducts deve ser 12.");
+if (config.scope !== "featured-storefront") errors.push("scope deve ser featured-storefront.");
+if (config.expectedFullCatalogProducts !== 843) errors.push("expectedFullCatalogProducts deve preservar os 843 produtos públicos.");
 if (config.minimumGrossMarginPercent < 35) errors.push("A margem bruta mínima deve ser pelo menos 35%.");
 
 for (const id of config.publicProductIds) {
@@ -60,6 +62,7 @@ for (const required of [
   "applyCommercialProductOverride",
   "assertCommercialCatalog",
   "hasCommercialProductOverride",
+  "commercialFeaturedCatalog",
 ]) {
   if (!catalogSource.includes(required)) errors.push(`lib/catalog.ts não usa ${required}.`);
 }
