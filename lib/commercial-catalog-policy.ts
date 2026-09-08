@@ -41,6 +41,8 @@ type CommercialProductOverride = Partial<CommercialProductLike> & {
 type CommercialStorefrontConfig = {
   version: string;
   brand: string;
+  scope: "featured-storefront";
+  expectedFullCatalogProducts: number;
   maximumPublicProducts: number;
   minimumGrossMarginPercent: number;
   idealMaterials: string[];
