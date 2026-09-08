@@ -189,7 +189,8 @@ export default async function HomePage() {
   const catalog = await getCatalogSnapshot();
   const siteUrl = getSiteUrl();
   const available = catalog.filter((product) => product.pricePix > 0);
-  const searchEntries = available.map((product) => ({
+  const sections = buildUniqueHomeSections(available);
+  const searchEntries = Object.values(sections).flat().map((product) => ({
     id: product.id,
     name: product.name,
     category: product.category,
@@ -200,7 +201,6 @@ export default async function HomePage() {
   const publicStats = buildPublicCatalogStats(catalog);
   const minPix = [...available].sort((left, right) => left.pricePix - right.pricePix)[0]?.pricePix ?? 19.9;
   const quoteMessage = "Quero um orçamento na MDH 3D. Vim pela home e preciso de ajuda com produto, preço, prazo e personalização.";
-  const sections = buildUniqueHomeSections(available);
   const duplicateIds = getHomeDuplicateIds(sections);
 
   return (

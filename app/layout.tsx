@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from 'next';
 import type { CSSProperties, ReactNode } from 'react';
 import Script from 'next/script';
+import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import './globals.css';
 import '@/src/styles/neoglass-preview.css';
 import { AccessibilityProvider, SkipLink } from '@/components/accessibility';
@@ -257,6 +259,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             </ToastProvider>
           </CartProvider>
         </div>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
