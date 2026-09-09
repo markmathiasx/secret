@@ -258,8 +258,8 @@ export function CatalogExplorer({
 
   const priceLimits = useMemo(() => {
     const values = products.map((item) => item.pricePix);
-    const min = Math.max(10, Math.floor(Math.min(...values) / 10) * 10);
-    const max = Math.max(120, Math.ceil(Math.max(...values) / 10) * 10);
+    const min = values.length ? Math.max(0, Math.floor(Math.min(...values) / 10) * 10) : 0;
+    const max = values.length ? Math.max(120, Math.ceil(Math.max(...values) / 10) * 10) : 120;
     return { min, max };
   }, [products]);
   const categoryOptions = useMemo(() => ['Todas', ...new Set(products.map((item) => item.category))], [products]);
