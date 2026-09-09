@@ -168,7 +168,7 @@ export function getProductVisual(product: Product): ProductVisualSummary {
   const override = PRODUCT_VISUAL_OVERRIDES[product.id];
   const catalogPhoto = getCatalogPhotoEntry(product.id);
   const realImageStatus = realImageStatusMap[product.id];
-  const kind = override?.kind || (realImageStatus?.status === "real" ? "foto-real" : undefined) || catalogPhoto?.kind || inferKindFromImages(product);
+  const kind = override?.kind || (realImageStatus?.status === "real" ? "foto-real" : undefined) || catalogPhoto?.kind || product.visualKind || inferKindFromImages(product);
   const defaults = getVisualDefaults(kind);
   const catalogPhotoCandidates = getCatalogPhotoCandidates(product.id);
   const modelReadyNote =
