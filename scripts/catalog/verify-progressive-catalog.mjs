@@ -43,9 +43,13 @@ try {
     await page.locator('[data-catalog-load-state="ready"]').waitFor({ timeout: 30000 });
     assert.equal(await page.locator("[data-catalog-loaded-count]").getAttribute("data-catalog-loaded-count"), "843");
   };
-  await page.goto(base + "/catalogo?category=" + encodeURIComponent("Presentes Criativos"));
+  const initialCategories = new Set(items.slice(0, 36).map(item => item.category));
+  const testCategory = (items.find(item => !initialCategories.has(item.category)) || items[0]).category;
+  const categoryCount = items.filter(item => item.category === testCategory).length;
+  await page.goto(base + "/catalogo?category=" + encodeURIComponent(testCategory));
   await ready();
-  await page.waitForFunction(() => new URL(location.href).searchParams.get("category") === "Presentes Criativos");
+  await page.getByText(categoryCount + " resultados neste recorte", { exact: true }).waitFor();
+  assert.equal(new URL(page.url()).searchParams.get("category"), testCategory);
   assert.ok(await page.locator("[data-product-card]").count() > 0, "Category still has products");
   assert.equal(new URL(page.url()).searchParams.has("max"), false, "Missing maximum must remain unbounded");
   await page.goto(base + "/busca?q=grinder");
