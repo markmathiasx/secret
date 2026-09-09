@@ -82,6 +82,7 @@ export type Product = {
   imageHint: string;
   image?: string;
   imageAlt?: string;
+  visualKind?: "foto-real" | "render-fiel" | "imagem-conceitual";
   material: string;
   finish: string;
   status: "Pronta entrega" | "Sob encomenda";

@@ -153,3 +153,15 @@ Este relatorio e incremental. Nenhuma fase deve receber 100% sem evidencia objet
 - Lighthouse mobile, axe-core e validacao publica ainda precisam de evidencias novas nesta execucao.
 - Qualquer falha nos gates deve manter a fase abaixo de 100% ate correcao e nova execucao.
 - Claims antigos de 100% permanecem nao comprovados ate passarem por codigo, comando e validacao runtime atuais.
+
+## Continuidade — 2026-09-09
+
+- Produção confirmada na Vercel: cccae79fa998071e79ba601c7a767b99286d2c83, READY, domínio www.mdh3d.com.br.
+- Restauração anterior: 843 produtos públicos; os 12 destaques não limitam mais o catálogo.
+- Fase 0 executada em 2026-09-08 antes desta alteração; o ambiente temporário reiniciou. Código recuperado da branch main e do registro de trabalho.
+- Medição da primeira versão local: HTML de /catalogo de 4.303.445 para 308.754 bytes (aprox. -92,8%). Esta medição não substitui validação da revisão final.
+- Alteração atual: 36 produtos iniciais, catálogo completo público via /catalog-data.json com ISR e cache de 5 minutos; payload sem custos e metadados de fornecedores.
+- Corrigidos preço máximo ausente na URL e sincronização prematura da URL durante o carregamento parcial.
+- Gate CI ampliado com Prisma, imagens, assets, regressões e teste de navegador para os 843 itens, categoria, busca e paginação.
+- Validação e publicação desta revisão: pendentes dos checks da PR. Nenhuma alegação de capacidade de 10k usuários simultâneos, LCP <1,2s ou retorno comercial garantido.
+- Pendência operacional da auditoria anterior: DATABASE_URL inválida em produção; persistência transacional e reviews precisam de conexão válida e teste ponta a ponta.

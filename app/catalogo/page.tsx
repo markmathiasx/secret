@@ -1,11 +1,12 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { Gamepad2, Instagram, MessageCircleMore, ShoppingBag, SlidersHorizontal, UploadCloud } from "lucide-react";
-import { CatalogExplorer } from "@/components/catalog-explorer";
+import { CatalogExplorerLoader } from "@/components/catalog-explorer-loader";
 import { CinematicVideoBackground } from "@/components/media/CinematicVideoBackground";
 import { StorefrontSearchBox } from "@/components/storefront-search-box";
 import { getCatalogSnapshot } from "@/lib/catalog-repository";
 import { getProductUrl } from "@/lib/catalog";
+import { CATALOG_INITIAL_PRODUCT_COUNT, toCatalogClientProducts } from "@/lib/catalog-client-product";
 import { getSiteUrl } from "@/lib/env";
 import { brand, socialLinks, whatsappNumber } from "@/lib/constants";
 import { formatCurrency } from "@/lib/utils";
@@ -34,7 +35,8 @@ function whatsappHref(message: string) {
 export default async function CatalogPage() {
   const catalog = await getCatalogSnapshot();
   const siteUrl = getSiteUrl();
-  const searchEntries = catalog.map((product) => ({
+  const initialProducts = toCatalogClientProducts(catalog.slice(0, CATALOG_INITIAL_PRODUCT_COUNT));
+  const searchEntries = initialProducts.map((product) => ({
     id: product.id,
     name: product.name,
     category: product.category,
@@ -172,7 +174,7 @@ export default async function CatalogPage() {
 
       <section id="catalogo-vitrine" className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="rounded-[8px] border border-white/10 bg-[#09121a] p-3 sm:p-4">
-          <CatalogExplorer products={catalog} initialOrder="Preço" />
+          <CatalogExplorerLoader initialProducts={initialProducts} expectedTotal={catalog.length} initialOrder="Preço" />
         </div>
       </section>
     </main>

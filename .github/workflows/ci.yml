@@ -26,7 +26,13 @@ jobs:
       - run: npm run db:generate
       - run: npm run lint:check
       - run: npm run typecheck
+      - run: npm run prisma:validate
+      - run: npm run test:images
+      - run: npm run validate:assets:fs
+      - run: npm run validate:public-regressions
       - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - run: node scripts/catalog/verify-progressive-catalog.mjs
 
   security-audit:
     runs-on: ubuntu-latest
