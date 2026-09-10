@@ -1,17 +1,3397 @@
 {
-  "generatedAt": "2026-07-27T13:01:13.957Z",
-  "publicCatalogCount": 12,
-  "smartStoreCount": 306,
-  "totalChecked": 318,
+  "generatedAt": "2026-09-10T04:55:36.000Z",
+  "publicCatalogCount": 848,
+  "smartStoreCount": 39,
+  "totalChecked": 887,
   "duplicatePublicSlugs": [],
   "publicPricingIssues": [],
-  "smartPricingIssues": [],
+  "smartPricingIssues": [
+    {
+      "slug": "grinder-3-partes-premium",
+      "name": "Grinder 3 Partes Premium",
+      "category": "Casa e Organização",
+      "material": "PLA Premium",
+      "colors": [
+        "Preto"
+      ],
+      "personalizable": true,
+      "price": 64.9,
+      "promotionalPrice": 63.9,
+      "pixPrice": 63.9,
+      "cardPrice": 64.9,
+      "productionCost": 41.21,
+      "profitAmount": 22.69,
+      "profitPercent": 23.08,
+      "pricingBasis": "Pix 63,90 protegido por custo completo: material, máquina, acabamento, ferragens, embalagem e insumos de envio, reserva para falhas, despesas indiretas e margem bruta mínima de 30%. Frete real separado.",
+      "filamentPricePerKg": 100,
+      "stock": 0,
+      "sku": "REAL-0001",
+      "description": "Grinder 3 Partes Premium selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento fosco em PLA Premium. Indicado para uso diario, organizacao leve e presente funcional, mantendo prazo claro e apresentacao pronta para venda online.",
+      "tags": [
+        "grinder",
+        "acessório",
+        "mídia validada",
+        "projeto real",
+        "a1-mini",
+        "bambu-lab-a1-mini",
+        "catalogo-100",
+        "utilidade leve",
+        "grinder partes 3d printed figure",
+        "grinder partes 3d print",
+        "grinder partes miniatura 3d",
+        "Casa e Organização",
+        "utilidade funcional",
+        "outro",
+        "sob_encomenda",
+        "personalizar",
+        "organizar",
+        "presentear",
+        "PLA Premium",
+        "Fosco",
+        "personalizável",
+        "Grinder 3 Partes Premium",
+        "partes",
+        "premium",
+        "impressão 3D",
+        "MDH 3D"
+      ],
+      "dimensions": {
+        "lengthCm": 7,
+        "widthCm": 7,
+        "heightCm": 4
+      },
+      "weightKg": 0.092,
+      "seoTitle": "Grinder 3 Partes Premium | MDH 3D",
+      "seoDescription": "Grinder 3 Partes Premium selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento fosco em PLA Premium. Indicad",
+      "brand": "MDH 3D",
+      "physical": true,
+      "image": "/products/foto-001-grinder-01.webp",
+      "gallery": [
+        "/products/foto-001-grinder-01.webp",
+        "/products/foto-002-grinder-02.webp",
+        "/products/render-real-001-grinder.webp",
+        "/products/foto-extra-real-001-01.jpg"
+      ],
+      "careInstructions": [
+        "Limpar com pano seco ou levemente úmido.",
+        "Evitar exposição prolongada ao sol forte ou calor intenso.",
+        "Não usar álcool, solventes ou abrasivos na peça.",
+        "PLA é indicado para uso decorativo e organizadores internos."
+      ],
+      "faqs": [
+        {
+          "question": "Posso escolher a cor?",
+          "answer": "Sim. A cor é confirmada no WhatsApp antes da produção, conforme disponibilidade de material."
+        },
+        {
+          "question": "Qual é o prazo de produção?",
+          "answer": "O prazo estimado para Grinder 3 Partes Premium é 2 a 4 dias, podendo variar conforme fila e acabamento."
+        },
+        {
+          "question": "Qual material é usado?",
+          "answer": "A peça usa PLA Premium por padrão, com alternativas sob consulta quando o projeto exigir."
+        }
+      ],
+      "productionWindow": "2 a 4 dias",
+      "featured": true,
+      "marketplaceScore": 40
+    },
+    {
+      "slug": "porta-creme-dental-de-bancada",
+      "name": "Porta Creme Dental de Bancada",
+      "category": "Casa e Organização",
+      "material": "PLA Premium",
+      "colors": [
+        "Preto"
+      ],
+      "personalizable": true,
+      "price": 46.9,
+      "promotionalPrice": 45.9,
+      "pixPrice": 45.9,
+      "cardPrice": 46.9,
+      "productionCost": 29.28,
+      "profitAmount": 16.62,
+      "profitPercent": 23.11,
+      "pricingBasis": "Pix 45,90 protegido por custo completo: material, máquina, acabamento, ferragens, embalagem e insumos de envio, reserva para falhas, despesas indiretas e margem bruta mínima de 30%. Frete real separado.",
+      "filamentPricePerKg": 100,
+      "stock": 0,
+      "sku": "REAL-0002",
+      "description": "Porta Creme Dental de Bancada selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento fosco em PLA Premium. Indicado para mesa, gaveta, bancada criativa e rotina de trabalho, mantendo prazo claro e apresentacao pronta para venda online.",
+      "tags": [
+        "banheiro",
+        "organizador",
+        "mídia validada",
+        "projeto real",
+        "a1-mini",
+        "bambu-lab-a1-mini",
+        "catalogo-100",
+        "creme dental bancada 3d printed organizer",
+        "creme dental bancada 3d printed holder",
+        "creme dental bancada impressao 3d",
+        "Casa e Organização",
+        "sob_encomenda",
+        "personalizar",
+        "organizar",
+        "PLA Premium",
+        "Fosco",
+        "personalizável",
+        "Porta Creme Dental de Bancada",
+        "porta",
+        "creme",
+        "dental",
+        "bancada",
+        "impressão 3D",
+        "MDH 3D"
+      ],
+      "dimensions": {
+        "lengthCm": 8,
+        "widthCm": 6,
+        "heightCm": 7
+      },
+      "weightKg": 0.058,
+      "seoTitle": "Porta Creme Dental de Bancada | MDH 3D",
+      "seoDescription": "Porta Creme Dental de Bancada selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento fosco em PLA Premium. In",
+      "brand": "MDH 3D",
+      "physical": true,
+      "image": "/products/foto-003-porta-creme-dental.webp",
+      "gallery": [
+        "/products/foto-003-porta-creme-dental.webp",
+        "/products/render-real-002-porta-creme.webp",
+        "/products/gallery/real-002/3.webp",
+        "/products/real-002-porta-creme-dental-de-bancada/04-packshot.jpg"
+      ],
+      "careInstructions": [
+        "Limpar com pano seco ou levemente úmido.",
+        "Evitar exposição prolongada ao sol forte ou calor intenso.",
+        "Não usar álcool, solventes ou abrasivos na peça.",
+        "PLA é indicado para uso decorativo e organizadores internos."
+      ],
+      "faqs": [
+        {
+          "question": "Posso escolher a cor?",
+          "answer": "Sim. A cor é confirmada no WhatsApp antes da produção, conforme disponibilidade de material."
+        },
+        {
+          "question": "Qual é o prazo de produção?",
+          "answer": "O prazo estimado para Porta Creme Dental de Bancada é 2 a 4 dias, podendo variar conforme fila e acabamento."
+        },
+        {
+          "question": "Qual material é usado?",
+          "answer": "A peça usa PLA Premium por padrão, com alternativas sob consulta quando o projeto exigir."
+        }
+      ],
+      "productionWindow": "2 a 4 dias",
+      "featured": true,
+      "marketplaceScore": 39
+    },
+    {
+      "slug": "demogorgon-decorativo-premium",
+      "name": "Demogorgon Decorativo Premium",
+      "category": "Geek & Colecionáveis",
+      "material": "PLA Premium",
+      "colors": [
+        "Vermelho",
+        "Marrom"
+      ],
+      "personalizable": true,
+      "price": 106.9,
+      "promotionalPrice": 105.9,
+      "pixPrice": 105.9,
+      "cardPrice": 106.9,
+      "productionCost": 68.19,
+      "profitAmount": 37.71,
+      "profitPercent": 23.07,
+      "pricingBasis": "Pix 105,90 protegido por custo completo: material, máquina, acabamento, ferragens, embalagem e insumos de envio, reserva para falhas, despesas indiretas e margem bruta mínima de 30%. Frete real separado.",
+      "filamentPricePerKg": 100,
+      "stock": 0,
+      "sku": "REAL-0003",
+      "description": "Demogorgon Decorativo Premium selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento pintado à mão em PLA Premium. Indicado para colecao, estante, nicho, setup gamer e presente tematico, mantendo prazo claro e apresentacao pronta para venda online.",
+      "tags": [
+        "demogorgon",
+        "terror",
+        "colecionável",
+        "mídia validada",
+        "a1-mini",
+        "bambu-lab-a1-mini",
+        "catalogo-100",
+        "miniatura",
+        "demogorgon 3d printed figure",
+        "demogorgon 3d print",
+        "demogorgon miniatura 3d",
+        "Geek & Colecionáveis",
+        "games",
+        "sob_encomenda",
+        "personalizar",
+        "colecionar",
+        "decorar",
+        "presentear",
+        "setup",
+        "PLA Premium",
+        "Pintado à mão",
+        "personalizável",
+        "Demogorgon Decorativo Premium",
+        "decorativo",
+        "premium",
+        "impressão 3D",
+        "MDH 3D"
+      ],
+      "dimensions": {
+        "lengthCm": 16,
+        "widthCm": 10,
+        "heightCm": 23
+      },
+      "weightKg": 0.148,
+      "seoTitle": "Demogorgon Decorativo Premium | MDH 3D",
+      "seoDescription": "Demogorgon Decorativo Premium selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento pintado à mão em PLA Pre",
+      "brand": "MDH 3D",
+      "physical": true,
+      "image": "/products/foto-004-demogorgon.webp",
+      "gallery": [
+        "/products/foto-004-demogorgon.webp",
+        "/products/render-real-003-demogorgon.webp",
+        "/products/gallery/real-003/3.webp",
+        "/products/foto-extra-real-003-01.jpg"
+      ],
+      "careInstructions": [
+        "Limpar com pano seco ou levemente úmido.",
+        "Evitar exposição prolongada ao sol forte ou calor intenso.",
+        "Não usar álcool, solventes ou abrasivos na peça.",
+        "PLA é indicado para uso decorativo e organizadores internos."
+      ],
+      "faqs": [
+        {
+          "question": "Posso escolher a cor?",
+          "answer": "Sim. A cor é confirmada no WhatsApp antes da produção, conforme disponibilidade de material."
+        },
+        {
+          "question": "Qual é o prazo de produção?",
+          "answer": "O prazo estimado para Demogorgon Decorativo Premium é 4 a 7 dias, podendo variar conforme fila e acabamento."
+        },
+        {
+          "question": "Qual material é usado?",
+          "answer": "A peça usa PLA Premium por padrão, com alternativas sob consulta quando o projeto exigir."
+        }
+      ],
+      "productionWindow": "4 a 7 dias",
+      "featured": true,
+      "marketplaceScore": 38
+    },
+    {
+      "slug": "hello-kitty-jedi-colecionavel",
+      "name": "mascote temática Jedi Colecionável",
+      "category": "Geek & Colecionáveis",
+      "material": "PLA Premium",
+      "colors": [
+        "Branco",
+        "Rosa",
+        "Marrom"
+      ],
+      "personalizable": true,
+      "price": 63.9,
+      "promotionalPrice": 62.9,
+      "pixPrice": 62.9,
+      "cardPrice": 63.9,
+      "productionCost": 40.24,
+      "profitAmount": 22.66,
+      "profitPercent": 23.08,
+      "pricingBasis": "Pix 62,90 protegido por custo completo: material, máquina, acabamento, ferragens, embalagem e insumos de envio, reserva para falhas, despesas indiretas e margem bruta mínima de 30%. Frete real separado.",
+      "filamentPricePerKg": 100,
+      "stock": 0,
+      "sku": "REAL-0004",
+      "description": "mascote temática Jedi Colecionável selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento pintado à mão em PLA Premium. Indicado para colecao, estante, nicho, setup gamer e presente tematico, mantendo prazo claro e apresentacao pronta para venda online.",
+      "tags": [
+        "mascote temática",
+        "colecionável",
+        "fan art",
+        "mídia validada",
+        "a1-mini",
+        "bambu-lab-a1-mini",
+        "catalogo-100",
+        "miniatura",
+        "mascote temática jedi 3d printed figure",
+        "mascote temática jedi 3d print",
+        "mascote temática jedi miniatura 3d",
+        "Geek & Colecionáveis",
+        "anime",
+        "sob_encomenda",
+        "personalizar",
+        "colecionar",
+        "decorar",
+        "presentear",
+        "setup",
+        "PLA Premium",
+        "Pintado à mão",
+        "personalizável",
+        "mascote temática Jedi Colecionável",
+        "hello",
+        "kitty",
+        "jedi",
+        "impressão 3D"
+      ],
+      "dimensions": {
+        "lengthCm": 10,
+        "widthCm": 8,
+        "heightCm": 15
+      },
+      "weightKg": 0.076,
+      "seoTitle": "mascote temática Jedi Colecionável | MDH 3D",
+      "seoDescription": "mascote temática Jedi Colecionável selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento pintado à mão em PL",
+      "brand": "MDH 3D",
+      "physical": true,
+      "image": "/products/gallery/real-004/3.webp",
+      "gallery": [
+        "/products/gallery/real-004/3.webp",
+        "/products/foto-extra-real-004-01.jpg"
+      ],
+      "careInstructions": [
+        "Limpar com pano seco ou levemente úmido.",
+        "Evitar exposição prolongada ao sol forte ou calor intenso.",
+        "Não usar álcool, solventes ou abrasivos na peça.",
+        "PLA é indicado para uso decorativo e organizadores internos."
+      ],
+      "faqs": [
+        {
+          "question": "Posso escolher a cor?",
+          "answer": "Sim. A cor é confirmada no WhatsApp antes da produção, conforme disponibilidade de material."
+        },
+        {
+          "question": "Qual é o prazo de produção?",
+          "answer": "O prazo estimado para mascote temática Jedi Colecionável é 3 a 6 dias, podendo variar conforme fila e acabamento."
+        },
+        {
+          "question": "Qual material é usado?",
+          "answer": "A peça usa PLA Premium por padrão, com alternativas sob consulta quando o projeto exigir."
+        }
+      ],
+      "productionWindow": "3 a 6 dias",
+      "featured": true,
+      "marketplaceScore": 37
+    },
+    {
+      "slug": "familia-customizada-em-miniatura",
+      "name": "Família Customizada em Miniatura",
+      "category": "Presentes Personalizados",
+      "material": "PLA Premium",
+      "colors": [
+        "Colorido"
+      ],
+      "personalizable": true,
+      "price": 127.9,
+      "promotionalPrice": 126.9,
+      "pixPrice": 126.9,
+      "cardPrice": 127.9,
+      "productionCost": 82.35,
+      "profitAmount": 44.55,
+      "profitPercent": 23.08,
+      "pricingBasis": "Pix 126,90 protegido por custo completo: material, máquina, acabamento, ferragens, embalagem e insumos de envio, reserva para falhas, despesas indiretas e margem bruta mínima de 30%. Frete real separado.",
+      "filamentPricePerKg": 100,
+      "stock": 0,
+      "sku": "REAL-0006",
+      "description": "Família Customizada em Miniatura selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento pintado à mão em PLA Premium. Indicado para colecao, estante, nicho, setup gamer e presente tematico, mantendo prazo claro e apresentacao pronta para venda online.",
+      "tags": [
+        "família",
+        "personalizado",
+        "presente",
+        "mídia validada",
+        "a1-mini",
+        "bambu-lab-a1-mini",
+        "catalogo-100",
+        "miniatura",
+        "familia customizada miniatura 3d printed figure",
+        "familia customizada miniatura 3d print",
+        "familia customizada miniatura miniatura 3d",
+        "Presentes Personalizados",
+        "bonecos personalizados",
+        "sob_encomenda",
+        "personalizar",
+        "presentear",
+        "decorar",
+        "setup",
+        "PLA Premium",
+        "Pintado à mão",
+        "personalizável",
+        "Família Customizada em Miniatura",
+        "customizada",
+        "impressão 3D",
+        "MDH 3D"
+      ],
+      "dimensions": {
+        "lengthCm": 14,
+        "widthCm": 10,
+        "heightCm": 19
+      },
+      "weightKg": 0.168,
+      "seoTitle": "Família Customizada em Miniatura | MDH 3D",
+      "seoDescription": "Família Customizada em Miniatura selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento pintado à mão em PLA ",
+      "brand": "MDH 3D",
+      "physical": true,
+      "image": "/products/foto-007-familia-custom.webp",
+      "gallery": [
+        "/products/foto-007-familia-custom.webp",
+        "/products/render-real-006-familia-custom.webp",
+        "/products/gallery/real-006/3.webp",
+        "/products/foto-extra-real-006-01.jpg"
+      ],
+      "careInstructions": [
+        "Limpar com pano seco ou levemente úmido.",
+        "Evitar exposição prolongada ao sol forte ou calor intenso.",
+        "Não usar álcool, solventes ou abrasivos na peça.",
+        "PLA é indicado para uso decorativo e organizadores internos."
+      ],
+      "faqs": [
+        {
+          "question": "Posso escolher a cor?",
+          "answer": "Sim. A cor é confirmada no WhatsApp antes da produção, conforme disponibilidade de material."
+        },
+        {
+          "question": "Qual é o prazo de produção?",
+          "answer": "O prazo estimado para Família Customizada em Miniatura é 5 a 10 dias, podendo variar conforme fila e acabamento."
+        },
+        {
+          "question": "Qual material é usado?",
+          "answer": "A peça usa PLA Premium por padrão, com alternativas sob consulta quando o projeto exigir."
+        }
+      ],
+      "productionWindow": "5 a 10 dias",
+      "featured": true,
+      "marketplaceScore": 35
+    },
+    {
+      "slug": "medalha-maconica-personalizada",
+      "name": "Medalha Maçônica Personalizada",
+      "category": "Presentes Personalizados",
+      "material": "PLA Premium",
+      "colors": [
+        "Preto",
+        "Azul",
+        "Dourado"
+      ],
+      "personalizable": true,
+      "price": 48.9,
+      "promotionalPrice": 47.9,
+      "pixPrice": 47.9,
+      "cardPrice": 48.9,
+      "productionCost": 31.04,
+      "profitAmount": 16.86,
+      "profitPercent": 23.11,
+      "pricingBasis": "Pix 47,90 protegido por custo completo: material, máquina, acabamento, ferragens, embalagem e insumos de envio, reserva para falhas, despesas indiretas e margem bruta mínima de 30%. Frete real separado.",
+      "filamentPricePerKg": 100,
+      "stock": 0,
+      "sku": "REAL-0010",
+      "description": "Medalha Maçônica Personalizada selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento colorido em PLA Premium. Indicado para venda por impulso, lembrancinha, mochila, chaves e kits de presente, mantendo prazo claro e apresentacao pronta para venda online.",
+      "tags": [
+        "maçonaria",
+        "medalha",
+        "chaveiro",
+        "mídia validada",
+        "a1-mini",
+        "bambu-lab-a1-mini",
+        "catalogo-100",
+        "medalha maconica personalizada 3d printed keychain",
+        "medalha maconica personalizada keychain 3d print",
+        "medalha maconica personalizada miniatura 3d",
+        "Presentes Personalizados",
+        "medalhas personalizadas",
+        "sob_encomenda",
+        "personalizar",
+        "presentear",
+        "PLA Premium",
+        "Colorido",
+        "personalizável",
+        "Medalha Maçônica Personalizada",
+        "maconica",
+        "personalizada",
+        "impressão 3D",
+        "MDH 3D"
+      ],
+      "dimensions": {
+        "lengthCm": 6,
+        "widthCm": 6,
+        "heightCm": 0.8
+      },
+      "weightKg": 0.042,
+      "seoTitle": "Medalha Maçônica Personalizada | MDH 3D",
+      "seoDescription": "Medalha Maçônica Personalizada selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento colorido em PLA Premium",
+      "brand": "MDH 3D",
+      "physical": true,
+      "image": "/products/foto-011-chaveiro-maconaria.webp",
+      "gallery": [
+        "/products/foto-011-chaveiro-maconaria.webp",
+        "/products/render-real-010-chaveiro-maconaria.webp",
+        "/products/gallery/real-010/3.webp",
+        "/products/foto-extra-real-010-01.jpg"
+      ],
+      "careInstructions": [
+        "Limpar com pano seco ou levemente úmido.",
+        "Evitar exposição prolongada ao sol forte ou calor intenso.",
+        "Não usar álcool, solventes ou abrasivos na peça.",
+        "PLA é indicado para uso decorativo e organizadores internos."
+      ],
+      "faqs": [
+        {
+          "question": "Posso escolher a cor?",
+          "answer": "Sim. A cor é confirmada no WhatsApp antes da produção, conforme disponibilidade de material."
+        },
+        {
+          "question": "Qual é o prazo de produção?",
+          "answer": "O prazo estimado para Medalha Maçônica Personalizada é 2 a 5 dias, podendo variar conforme fila e acabamento."
+        },
+        {
+          "question": "Qual material é usado?",
+          "answer": "A peça usa PLA Premium por padrão, com alternativas sob consulta quando o projeto exigir."
+        }
+      ],
+      "productionWindow": "2 a 5 dias",
+      "featured": true,
+      "marketplaceScore": 31
+    },
+    {
+      "slug": "suporte-de-mesa-para-headphone",
+      "name": "Suporte de Mesa para Headphone",
+      "category": "Setup Gamer e Home Office",
+      "material": "PLA Premium",
+      "colors": [
+        "Preto",
+        "Branco",
+        "Cinza"
+      ],
+      "personalizable": true,
+      "price": 75.9,
+      "promotionalPrice": 74.9,
+      "pixPrice": 74.9,
+      "cardPrice": 75.9,
+      "productionCost": 44.47,
+      "profitAmount": 30.43,
+      "profitPercent": 23.08,
+      "pricingBasis": "Pix 74,90 protegido por custo completo: material, máquina, acabamento, ferragens, embalagem e insumos de envio, reserva para falhas, despesas indiretas e margem bruta mínima de 30%. Frete real separado.",
+      "filamentPricePerKg": 100,
+      "stock": 0,
+      "sku": "MDH-0013",
+      "description": "Suporte para manter o headphone organizado e protegido sobre a mesa. Base estável, produção em PLA e acabamento manual antes do envio.",
+      "tags": [
+        "suporte para headphone",
+        "fone",
+        "mesa",
+        "setup",
+        "Setup Gamer e Home Office",
+        "suporte de fone",
+        "suporte",
+        "sob_encomenda",
+        "personalizar",
+        "organizar",
+        "PLA Premium",
+        "Acabamento fosco",
+        "personalizável",
+        "Suporte de Mesa para Headphone",
+        "headphone",
+        "impressão 3D",
+        "MDH 3D"
+      ],
+      "dimensions": {
+        "lengthCm": 15,
+        "widthCm": 10,
+        "heightCm": 22
+      },
+      "weightKg": 0.11,
+      "seoTitle": "Suporte de Mesa para Headphone | MDH 3D",
+      "seoDescription": "Suporte para manter o headphone organizado e protegido sobre a mesa. Base estável, produção em PLA e acabamento manual antes do envio.",
+      "brand": "MDH 3D",
+      "physical": true,
+      "image": "/products/setup/suporte-fone-headphone.webp",
+      "gallery": [
+        "/products/setup/suporte-fone-headphone.webp",
+        "/products/mdh-013-suporte-para-fone-headphone/02-closeup.jpg",
+        "/products/mdh-013-suporte-para-fone-headphone/03-in_use.jpg",
+        "/products/mdh-013-suporte-para-fone-headphone/04-packshot.jpg"
+      ],
+      "careInstructions": [
+        "Limpar com pano seco ou levemente úmido.",
+        "Evitar exposição prolongada ao sol forte ou calor intenso.",
+        "Não usar álcool, solventes ou abrasivos na peça.",
+        "PLA é indicado para uso decorativo e organizadores internos."
+      ],
+      "faqs": [
+        {
+          "question": "Posso escolher a cor?",
+          "answer": "Sim. A cor é confirmada no WhatsApp antes da produção, conforme disponibilidade de material."
+        },
+        {
+          "question": "Qual é o prazo de produção?",
+          "answer": "O prazo estimado para Suporte de Mesa para Headphone é 3 a 5 dias úteis, podendo variar conforme fila e acabamento."
+        },
+        {
+          "question": "Qual material é usado?",
+          "answer": "A peça usa PLA Premium por padrão, com alternativas sob consulta quando o projeto exigir."
+        }
+      ],
+      "productionWindow": "3 a 5 dias úteis",
+      "featured": true,
+      "marketplaceScore": 30
+    },
+    {
+      "slug": "chaveiro-3d-personalizado-com-nome-ou-logo",
+      "name": "Chaveiro 3D Personalizado com Nome ou Logo",
+      "category": "Chaveiros e Acessórios",
+      "material": "PLA Premium",
+      "colors": [
+        "Preto",
+        "Branco",
+        "Azul",
+        "Vermelho",
+        "Rosa"
+      ],
+      "personalizable": true,
+      "price": 30.9,
+      "promotionalPrice": 29.9,
+      "pixPrice": 29.9,
+      "cardPrice": 30.9,
+      "productionCost": 17.67,
+      "profitAmount": 12.23,
+      "profitPercent": 23.11,
+      "pricingBasis": "Pix 29,90 protegido por custo completo: material, máquina, acabamento, ferragens, embalagem e insumos de envio, reserva para falhas, despesas indiretas e margem bruta mínima de 30%. Frete real separado.",
+      "filamentPricePerKg": 100,
+      "stock": 0,
+      "sku": "MDH-0016",
+      "description": "Chaveiro sob encomenda com nome curto ou logotipo simplificado. Inclui peça impressa, argola com corrente, montagem, embalagem individual e insumos de postagem. O frete real é calculado separadamente.",
+      "tags": [
+        "chaveiro personalizado",
+        "nome",
+        "logo",
+        "brinde",
+        "presente",
+        "Chaveiros e Acessórios",
+        "tag",
+        "chaveiro",
+        "sob_encomenda",
+        "personalizar",
+        "presentear",
+        "PLA Premium",
+        "Acabamento manual",
+        "personalizável",
+        "Chaveiro 3D Personalizado com Nome ou Logo",
+        "personalizado",
+        "impressão 3D",
+        "MDH 3D"
+      ],
+      "dimensions": {
+        "lengthCm": 6,
+        "widthCm": 4,
+        "heightCm": 0.5
+      },
+      "weightKg": 0.015,
+      "seoTitle": "Chaveiro 3D Personalizado com Nome ou Logo | MDH 3D",
+      "seoDescription": "Chaveiro sob encomenda com nome curto ou logotipo simplificado. Inclui peça impressa, argola com corrente, montagem, embalagem individual e insumos de post",
+      "brand": "MDH 3D",
+      "physical": true,
+      "image": "/products/setup/chaveiro-personalizado.webp",
+      "gallery": [
+        "/products/setup/chaveiro-personalizado.webp",
+        "/products/mdh-016-chaveiro-personalizado/02-closeup.jpg",
+        "/products/mdh-016-chaveiro-personalizado/03-in_use.jpg",
+        "/products/mdh-016-chaveiro-personalizado/04-packshot.jpg"
+      ],
+      "careInstructions": [
+        "Limpar com pano seco ou levemente úmido.",
+        "Evitar exposição prolongada ao sol forte ou calor intenso.",
+        "Não usar álcool, solventes ou abrasivos na peça.",
+        "PLA é indicado para uso decorativo e organizadores internos."
+      ],
+      "faqs": [
+        {
+          "question": "Posso escolher a cor?",
+          "answer": "Sim. A cor é confirmada no WhatsApp antes da produção, conforme disponibilidade de material."
+        },
+        {
+          "question": "Qual é o prazo de produção?",
+          "answer": "O prazo estimado para Chaveiro 3D Personalizado com Nome ou Logo é 2 a 4 dias úteis, podendo variar conforme fila e acabamento."
+        },
+        {
+          "question": "Qual material é usado?",
+          "answer": "A peça usa PLA Premium por padrão, com alternativas sob consulta quando o projeto exigir."
+        }
+      ],
+      "productionWindow": "2 a 4 dias úteis",
+      "featured": true,
+      "marketplaceScore": 28
+    },
+    {
+      "slug": "organizador-de-mesa-para-canetas-e-pequenos-objetos",
+      "name": "Organizador de Mesa para Canetas e Pequenos Objetos",
+      "category": "Setup Gamer e Home Office",
+      "material": "PLA Premium",
+      "colors": [
+        "Preto",
+        "Branco",
+        "Cinza",
+        "Azul"
+      ],
+      "personalizable": true,
+      "price": 70.9,
+      "promotionalPrice": 69.9,
+      "pixPrice": 69.9,
+      "cardPrice": 70.9,
+      "productionCost": 42.05,
+      "profitAmount": 27.85,
+      "profitPercent": 23.05,
+      "pricingBasis": "Pix 69,90 protegido por custo completo: material, máquina, acabamento, ferragens, embalagem e insumos de envio, reserva para falhas, despesas indiretas e margem bruta mínima de 30%. Frete real separado.",
+      "filamentPricePerKg": 100,
+      "stock": 0,
+      "sku": "MDH-0022",
+      "description": "Organizador compacto para canetas, marcadores e pequenos acessórios de escritório. Ajuda a liberar espaço e manter os itens usados no dia a dia em um único lugar.",
+      "tags": [
+        "organizador de mesa",
+        "canetas",
+        "escritório",
+        "estudo",
+        "Setup Gamer e Home Office",
+        "base de mesa",
+        "organizador",
+        "sob_encomenda",
+        "personalizar",
+        "setup",
+        "organizar",
+        "PLA Premium",
+        "Acabamento fosco",
+        "personalizável",
+        "Organizador de Mesa para Canetas e Pequenos Objetos",
+        "mesa",
+        "pequenos",
+        "objetos",
+        "impressão 3D",
+        "MDH 3D"
+      ],
+      "dimensions": {
+        "lengthCm": 12,
+        "widthCm": 9,
+        "heightCm": 10
+      },
+      "weightKg": 0.09,
+      "seoTitle": "Organizador de Mesa para Canetas e Pequenos Objetos | MDH 3D",
+      "seoDescription": "Organizador compacto para canetas, marcadores e pequenos acessórios de escritório. Ajuda a liberar espaço e manter os itens usados no dia a dia em um único",
+      "brand": "MDH 3D",
+      "physical": true,
+      "image": "/products/mdh-022-organizador-de-canetas/01-hero.jpg",
+      "gallery": [
+        "/products/mdh-022-organizador-de-canetas/01-hero.jpg",
+        "/products/mdh-022-organizador-de-canetas/02-closeup.jpg",
+        "/products/mdh-022-organizador-de-canetas/03-in_use.jpg",
+        "/products/mdh-022-organizador-de-canetas/04-packshot.jpg"
+      ],
+      "careInstructions": [
+        "Limpar com pano seco ou levemente úmido.",
+        "Evitar exposição prolongada ao sol forte ou calor intenso.",
+        "Não usar álcool, solventes ou abrasivos na peça.",
+        "PLA é indicado para uso decorativo e organizadores internos."
+      ],
+      "faqs": [
+        {
+          "question": "Posso escolher a cor?",
+          "answer": "Sim. A cor é confirmada no WhatsApp antes da produção, conforme disponibilidade de material."
+        },
+        {
+          "question": "Qual é o prazo de produção?",
+          "answer": "O prazo estimado para Organizador de Mesa para Canetas e Pequenos Objetos é 3 a 5 dias úteis, podendo variar conforme fila e acabamento."
+        },
+        {
+          "question": "Qual material é usado?",
+          "answer": "A peça usa PLA Premium por padrão, com alternativas sob consulta quando o projeto exigir."
+        }
+      ],
+      "productionWindow": "3 a 5 dias úteis",
+      "featured": true,
+      "marketplaceScore": 28
+    },
+    {
+      "slug": "suporte-de-mesa-para-celular",
+      "name": "Suporte de Mesa para Celular",
+      "category": "Setup Gamer e Home Office",
+      "material": "PLA Premium",
+      "colors": [
+        "Preto",
+        "Branco",
+        "Cinza"
+      ],
+      "personalizable": true,
+      "price": 40.9,
+      "promotionalPrice": 39.9,
+      "pixPrice": 39.9,
+      "cardPrice": 40.9,
+      "productionCost": 23.9,
+      "profitAmount": 16,
+      "profitPercent": 23.11,
+      "pricingBasis": "Pix 39,90 protegido por custo completo: material, máquina, acabamento, ferragens, embalagem e insumos de envio, reserva para falhas, despesas indiretas e margem bruta mínima de 30%. Frete real separado.",
+      "filamentPricePerKg": 100,
+      "stock": 0,
+      "sku": "MDH-0015",
+      "description": "Suporte estável para apoiar o celular durante chamadas, vídeos e carregamento. Compatível com aparelhos de tamanhos comuns e produzido sob encomenda em PLA.",
+      "tags": [
+        "suporte de celular",
+        "mesa",
+        "home office",
+        "videochamada",
+        "Setup Gamer e Home Office",
+        "suporte",
+        "sob_encomenda",
+        "personalizar",
+        "setup",
+        "organizar",
+        "PLA Premium",
+        "Acabamento fosco",
+        "personalizável",
+        "Suporte de Mesa para Celular",
+        "celular",
+        "impressão 3D",
+        "MDH 3D"
+      ],
+      "dimensions": {
+        "lengthCm": 8,
+        "widthCm": 7,
+        "heightCm": 10
+      },
+      "weightKg": 0.045,
+      "seoTitle": "Suporte de Mesa para Celular | MDH 3D",
+      "seoDescription": "Suporte estável para apoiar o celular durante chamadas, vídeos e carregamento. Compatível com aparelhos de tamanhos comuns e produzido sob encomenda em PLA",
+      "brand": "MDH 3D",
+      "physical": true,
+      "image": "/products/setup/suporte-celular.webp",
+      "gallery": [
+        "/products/setup/suporte-celular.webp",
+        "/products/mdh-015-suporte-para-celular/02-closeup.jpg",
+        "/products/mdh-015-suporte-para-celular/03-in_use.jpg",
+        "/products/mdh-015-suporte-para-celular/04-packshot.jpg"
+      ],
+      "careInstructions": [
+        "Limpar com pano seco ou levemente úmido.",
+        "Evitar exposição prolongada ao sol forte ou calor intenso.",
+        "Não usar álcool, solventes ou abrasivos na peça.",
+        "PLA é indicado para uso decorativo e organizadores internos."
+      ],
+      "faqs": [
+        {
+          "question": "Posso escolher a cor?",
+          "answer": "Sim. A cor é confirmada no WhatsApp antes da produção, conforme disponibilidade de material."
+        },
+        {
+          "question": "Qual é o prazo de produção?",
+          "answer": "O prazo estimado para Suporte de Mesa para Celular é 2 a 4 dias úteis, podendo variar conforme fila e acabamento."
+        },
+        {
+          "question": "Qual material é usado?",
+          "answer": "A peça usa PLA Premium por padrão, com alternativas sob consulta quando o projeto exigir."
+        }
+      ],
+      "productionWindow": "2 a 4 dias úteis",
+      "featured": true,
+      "marketplaceScore": 28
+    },
+    {
+      "slug": "suporte-universal-de-mesa-para-controle-gamer",
+      "name": "Suporte Universal de Mesa para Controle Gamer",
+      "category": "Setup Gamer e Home Office",
+      "material": "PLA Premium",
+      "colors": [
+        "Preto",
+        "Branco",
+        "Cinza"
+      ],
+      "personalizable": true,
+      "price": 60.9,
+      "promotionalPrice": 59.9,
+      "pixPrice": 59.9,
+      "cardPrice": 60.9,
+      "productionCost": 34.19,
+      "profitAmount": 25.71,
+      "profitPercent": 23.11,
+      "pricingBasis": "Pix 59,90 protegido por custo completo: material, máquina, acabamento, ferragens, embalagem e insumos de envio, reserva para falhas, despesas indiretas e margem bruta mínima de 30%. Frete real separado.",
+      "filamentPricePerKg": 100,
+      "stock": 0,
+      "sku": "MDH-0017",
+      "description": "Suporte de mesa para organizar controles de videogame com formato semelhante aos modelos mais comuns. Não acompanha controle, cabo ou carregador.",
+      "tags": [
+        "suporte para controle",
+        "gamer",
+        "mesa",
+        "organização",
+        "Setup Gamer e Home Office",
+        "suporte de controle",
+        "suporte",
+        "sob_encomenda",
+        "personalizar",
+        "setup",
+        "organizar",
+        "PLA Premium",
+        "Acabamento fosco",
+        "personalizável",
+        "Suporte Universal de Mesa para Controle Gamer",
+        "universal",
+        "controle",
+        "impressão 3D",
+        "MDH 3D"
+      ],
+      "dimensions": {
+        "lengthCm": 12,
+        "widthCm": 9,
+        "heightCm": 8
+      },
+      "weightKg": 0.075,
+      "seoTitle": "Suporte Universal de Mesa para Controle Gamer | MDH 3D",
+      "seoDescription": "Suporte de mesa para organizar controles de videogame com formato semelhante aos modelos mais comuns. Não acompanha controle, cabo ou carregador.",
+      "brand": "MDH 3D",
+      "physical": true,
+      "image": "/products/setup/suporte-controle-ps5.webp",
+      "gallery": [
+        "/products/setup/suporte-controle-ps5.webp",
+        "/products/mdh-017-suporte-para-controle-ps5/02-closeup.jpg",
+        "/products/mdh-017-suporte-para-controle-ps5/03-in_use.jpg",
+        "/products/mdh-017-suporte-para-controle-ps5/04-packshot.jpg"
+      ],
+      "careInstructions": [
+        "Limpar com pano seco ou levemente úmido.",
+        "Evitar exposição prolongada ao sol forte ou calor intenso.",
+        "Não usar álcool, solventes ou abrasivos na peça.",
+        "PLA é indicado para uso decorativo e organizadores internos."
+      ],
+      "faqs": [
+        {
+          "question": "Posso escolher a cor?",
+          "answer": "Sim. A cor é confirmada no WhatsApp antes da produção, conforme disponibilidade de material."
+        },
+        {
+          "question": "Qual é o prazo de produção?",
+          "answer": "O prazo estimado para Suporte Universal de Mesa para Controle Gamer é 3 a 5 dias úteis, podendo variar conforme fila e acabamento."
+        },
+        {
+          "question": "Qual material é usado?",
+          "answer": "A peça usa PLA Premium por padrão, com alternativas sob consulta quando o projeto exigir."
+        }
+      ],
+      "productionWindow": "3 a 5 dias úteis",
+      "featured": true,
+      "marketplaceScore": 28
+    },
+    {
+      "slug": "kit-6-organizadores-de-cabos-para-mesa",
+      "name": "Kit 6 Organizadores de Cabos para Mesa",
+      "category": "Setup Gamer e Home Office",
+      "material": "PLA Premium",
+      "colors": [
+        "Preto",
+        "Branco",
+        "Cinza"
+      ],
+      "personalizable": false,
+      "price": 40.9,
+      "promotionalPrice": 39.9,
+      "pixPrice": 39.9,
+      "cardPrice": 40.9,
+      "productionCost": 23.3,
+      "profitAmount": 16.6,
+      "profitPercent": 23.11,
+      "pricingBasis": "Pix 39,90 protegido por custo completo: material, máquina, acabamento, ferragens, embalagem e insumos de envio, reserva para falhas, despesas indiretas e margem bruta mínima de 30%. Frete real separado.",
+      "filamentPricePerKg": 100,
+      "stock": 0,
+      "sku": "MDH-0014",
+      "description": "Kit com seis organizadores para manter cabos de carregamento e USB acessíveis na mesa. Produzido em PLA, conferido e embalado para envio. Fita adesiva não incluída.",
+      "tags": [
+        "kit",
+        "organizador de cabos",
+        "mesa",
+        "home office",
+        "setup",
+        "Setup Gamer e Home Office",
+        "organizador de cabo",
+        "organizador",
+        "sob_encomenda",
+        "organizar",
+        "PLA Premium",
+        "Acabamento fosco",
+        "Kit 6 Organizadores de Cabos para Mesa",
+        "organizadores",
+        "cabos",
+        "impressão 3D",
+        "MDH 3D"
+      ],
+      "dimensions": {
+        "lengthCm": 3,
+        "widthCm": 2,
+        "heightCm": 1.5
+      },
+      "weightKg": 0.045,
+      "seoTitle": "Kit 6 Organizadores de Cabos para Mesa | MDH 3D",
+      "seoDescription": "Kit com seis organizadores para manter cabos de carregamento e USB acessíveis na mesa. Produzido em PLA, conferido e embalado para envio. Fita adesiva não ",
+      "brand": "MDH 3D",
+      "physical": true,
+      "image": "/products/setup/organizador-cabos.webp",
+      "gallery": [
+        "/products/setup/organizador-cabos.webp",
+        "/products/mdh-014-organizador-de-cabos/02-closeup.jpg",
+        "/products/mdh-014-organizador-de-cabos/03-in_use.jpg",
+        "/products/mdh-014-organizador-de-cabos/04-packshot.jpg"
+      ],
+      "careInstructions": [
+        "Limpar com pano seco ou levemente úmido.",
+        "Evitar exposição prolongada ao sol forte ou calor intenso.",
+        "Não usar álcool, solventes ou abrasivos na peça.",
+        "PLA é indicado para uso decorativo e organizadores internos."
+      ],
+      "faqs": [
+        {
+          "question": "Posso escolher a cor?",
+          "answer": "Sim. A cor é confirmada no WhatsApp antes da produção, conforme disponibilidade de material."
+        },
+        {
+          "question": "Qual é o prazo de produção?",
+          "answer": "O prazo estimado para Kit 6 Organizadores de Cabos para Mesa é 2 a 4 dias úteis, podendo variar conforme fila e acabamento."
+        },
+        {
+          "question": "Qual material é usado?",
+          "answer": "A peça usa PLA Premium por padrão, com alternativas sob consulta quando o projeto exigir."
+        }
+      ],
+      "productionWindow": "2 a 4 dias úteis",
+      "featured": true,
+      "marketplaceScore": 21
+    },
+    {
+      "slug": "elsa-frozen-chibi",
+      "name": "Elsa Frozen Chibi",
+      "category": "Geek & Colecionáveis",
+      "material": "PLA Premium",
+      "colors": [
+        "Azul",
+        "Branco"
+      ],
+      "personalizable": false,
+      "price": 34.9,
+      "promotionalPrice": 33.9,
+      "pixPrice": 33.9,
+      "cardPrice": 34.9,
+      "productionCost": 21.9,
+      "profitAmount": 12,
+      "profitPercent": 23.11,
+      "pricingBasis": "Pix 33,90 protegido por custo completo: material, máquina, acabamento, ferragens, embalagem e insumos de envio, reserva para falhas, despesas indiretas e margem bruta mínima de 30%. Frete real separado.",
+      "filamentPricePerKg": 100,
+      "stock": 0,
+      "sku": "MDH-0065",
+      "description": "Elsa Frozen Chibi selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento premium em PLA Premium. Indicado para colecao, estante, nicho, setup gamer e presente tematico, mantendo prazo claro e apresentacao pronta para venda online.",
+      "tags": [
+        "elsa",
+        "frozen",
+        "anime",
+        "a1-mini",
+        "bambu-lab-a1-mini",
+        "catalogo-100",
+        "miniatura",
+        "elsa frozen chibi 3d printed figure",
+        "elsa frozen chibi 3d print",
+        "elsa frozen chibi miniatura 3d",
+        "Geek & Colecionáveis",
+        "sob_encomenda",
+        "personalizar",
+        "colecionar",
+        "decorar",
+        "presentear",
+        "setup",
+        "PLA Premium",
+        "Premium",
+        "Elsa Frozen Chibi",
+        "chibi",
+        "impressão 3D",
+        "MDH 3D"
+      ],
+      "dimensions": {
+        "lengthCm": 8,
+        "widthCm": 6,
+        "heightCm": 10
+      },
+      "weightKg": 0.033,
+      "seoTitle": "Elsa Frozen Chibi | MDH 3D",
+      "seoDescription": "Elsa Frozen Chibi selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento premium em PLA Premium. Indicado par",
+      "brand": "MDH 3D",
+      "physical": true,
+      "image": "/products/mdh-065-elsa-frozen-chibi/01-hero.jpg",
+      "gallery": [
+        "/products/mdh-065-elsa-frozen-chibi/01-hero.jpg",
+        "/products/mdh-065-elsa-frozen-chibi/02-closeup.jpg",
+        "/products/mdh-065-elsa-frozen-chibi/03-in_use.jpg",
+        "/products/mdh-065-elsa-frozen-chibi/04-packshot.jpg"
+      ],
+      "careInstructions": [
+        "Limpar com pano seco ou levemente úmido.",
+        "Evitar exposição prolongada ao sol forte ou calor intenso.",
+        "Não usar álcool, solventes ou abrasivos na peça.",
+        "PLA é indicado para uso decorativo e organizadores internos."
+      ],
+      "faqs": [
+        {
+          "question": "Posso escolher a cor?",
+          "answer": "Sim. A cor é confirmada no WhatsApp antes da produção, conforme disponibilidade de material."
+        },
+        {
+          "question": "Qual é o prazo de produção?",
+          "answer": "O prazo estimado para Elsa Frozen Chibi é 24h a 48h, podendo variar conforme fila e acabamento."
+        },
+        {
+          "question": "Qual material é usado?",
+          "answer": "A peça usa PLA Premium por padrão, com alternativas sob consulta quando o projeto exigir."
+        }
+      ],
+      "productionWindow": "24h a 48h",
+      "featured": true,
+      "marketplaceScore": 20
+    },
+    {
+      "slug": "mascote-veloz-chibi",
+      "name": "Mascote Veloz Chibi",
+      "category": "Geek & Colecionáveis",
+      "material": "PLA Premium",
+      "colors": [
+        "Azul",
+        "Vermelho"
+      ],
+      "personalizable": false,
+      "price": 34.9,
+      "promotionalPrice": 33.9,
+      "pixPrice": 33.9,
+      "cardPrice": 34.9,
+      "productionCost": 21.9,
+      "profitAmount": 12,
+      "profitPercent": 23.11,
+      "pricingBasis": "Pix 33,90 protegido por custo completo: material, máquina, acabamento, ferragens, embalagem e insumos de envio, reserva para falhas, despesas indiretas e margem bruta mínima de 30%. Frete real separado.",
+      "filamentPricePerKg": 100,
+      "stock": 0,
+      "sku": "MDH-0070",
+      "description": "Mascote Veloz Chibi selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento premium em PLA Premium. Indicado para colecao, estante, nicho, setup gamer e presente tematico, mantendo prazo claro e apresentacao pronta para venda online.",
+      "tags": [
+        "mascote veloz",
+        "gamer",
+        "anime",
+        "a1-mini",
+        "bambu-lab-a1-mini",
+        "catalogo-100",
+        "miniatura",
+        "mascote veloz chibi 3d printed figure",
+        "mascote veloz chibi 3d print",
+        "mascote veloz chibi miniatura 3d",
+        "Geek & Colecionáveis",
+        "sob_encomenda",
+        "personalizar",
+        "colecionar",
+        "decorar",
+        "presentear",
+        "setup",
+        "PLA Premium",
+        "Premium",
+        "Mascote Veloz Chibi",
+        "mascote",
+        "veloz",
+        "chibi",
+        "impressão 3D",
+        "MDH 3D"
+      ],
+      "dimensions": {
+        "lengthCm": 7,
+        "widthCm": 6,
+        "heightCm": 9
+      },
+      "weightKg": 0.033,
+      "seoTitle": "Mascote Veloz Chibi | MDH 3D",
+      "seoDescription": "Mascote Veloz Chibi selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento premium em PLA Premium. Indicado p",
+      "brand": "MDH 3D",
+      "physical": true,
+      "image": "/products/mdh-070-sonic-hedgehog-chibi/01-hero.jpg",
+      "gallery": [
+        "/products/mdh-070-sonic-hedgehog-chibi/01-hero.jpg",
+        "/products/mdh-070-sonic-hedgehog-chibi/02-closeup.jpg",
+        "/products/mdh-070-sonic-hedgehog-chibi/03-in_use.jpg",
+        "/products/mdh-070-sonic-hedgehog-chibi/04-packshot.jpg"
+      ],
+      "careInstructions": [
+        "Limpar com pano seco ou levemente úmido.",
+        "Evitar exposição prolongada ao sol forte ou calor intenso.",
+        "Não usar álcool, solventes ou abrasivos na peça.",
+        "PLA é indicado para uso decorativo e organizadores internos."
+      ],
+      "faqs": [
+        {
+          "question": "Posso escolher a cor?",
+          "answer": "Sim. A cor é confirmada no WhatsApp antes da produção, conforme disponibilidade de material."
+        },
+        {
+          "question": "Qual é o prazo de produção?",
+          "answer": "O prazo estimado para Mascote Veloz Chibi é 24h a 48h, podendo variar conforme fila e acabamento."
+        },
+        {
+          "question": "Qual material é usado?",
+          "answer": "A peça usa PLA Premium por padrão, com alternativas sob consulta quando o projeto exigir."
+        }
+      ],
+      "productionWindow": "24h a 48h",
+      "featured": true,
+      "marketplaceScore": 20
+    },
+    {
+      "slug": "organizador-de-cabo-usb",
+      "name": "Organizador de Cabo USB",
+      "category": "Setup Gamer e Home Office",
+      "material": "PLA Premium",
+      "colors": [
+        "Preto",
+        "Branco"
+      ],
+      "personalizable": false,
+      "price": 35.9,
+      "promotionalPrice": 34.9,
+      "pixPrice": 34.9,
+      "cardPrice": 35.9,
+      "productionCost": 21,
+      "profitAmount": 13.9,
+      "profitPercent": 23.11,
+      "pricingBasis": "Pix 34,90 protegido por custo completo: material, máquina, acabamento, ferragens, embalagem e insumos de envio, reserva para falhas, despesas indiretas e margem bruta mínima de 30%. Frete real separado.",
+      "filamentPricePerKg": 100,
+      "stock": 0,
+      "sku": "MDH-0050",
+      "description": "Organizador compacto para manter cabos USB acessíveis e alinhados na mesa. Produzido sob encomenda em PLA Premium, com acabamento conferido e dimensões adequadas para setups domésticos ou profissionais.",
+      "tags": [
+        "organizador",
+        "cabo",
+        "usb",
+        "mesa",
+        "setup",
+        "Setup Gamer e Home Office",
+        "organizador de cabo",
+        "sob_encomenda",
+        "organizar",
+        "PLA Premium",
+        "Premium",
+        "Organizador de Cabo USB",
+        "impressão 3D",
+        "MDH 3D"
+      ],
+      "dimensions": {
+        "lengthCm": 10,
+        "widthCm": 8,
+        "heightCm": 3
+      },
+      "weightKg": 0.035,
+      "seoTitle": "Organizador de Cabo USB | MDH 3D",
+      "seoDescription": "Organizador compacto para manter cabos USB acessíveis e alinhados na mesa. Produzido sob encomenda em PLA Premium, com acabamento conferido e dimensões ade",
+      "brand": "MDH 3D",
+      "physical": true,
+      "image": "/products/mdh-050-organizador-de-cabo-usb/01-hero.jpg",
+      "gallery": [
+        "/products/mdh-050-organizador-de-cabo-usb/01-hero.jpg",
+        "/products/mdh-050-organizador-de-cabo-usb/02-closeup.jpg",
+        "/products/mdh-050-organizador-de-cabo-usb/03-in_use.jpg",
+        "/products/mdh-050-organizador-de-cabo-usb/04-packshot.jpg"
+      ],
+      "careInstructions": [
+        "Limpar com pano seco ou levemente úmido.",
+        "Evitar exposição prolongada ao sol forte ou calor intenso.",
+        "Não usar álcool, solventes ou abrasivos na peça.",
+        "PLA é indicado para uso decorativo e organizadores internos."
+      ],
+      "faqs": [
+        {
+          "question": "Posso escolher a cor?",
+          "answer": "Sim. A cor é confirmada no WhatsApp antes da produção, conforme disponibilidade de material."
+        },
+        {
+          "question": "Qual é o prazo de produção?",
+          "answer": "O prazo estimado para Organizador de Cabo USB é 2 a 4 dias úteis, podendo variar conforme fila e acabamento."
+        },
+        {
+          "question": "Qual material é usado?",
+          "answer": "A peça usa PLA Premium por padrão, com alternativas sob consulta quando o projeto exigir."
+        }
+      ],
+      "productionWindow": "2 a 4 dias úteis",
+      "featured": true,
+      "marketplaceScore": 20
+    },
+    {
+      "slug": "pirata-de-anime-chibi",
+      "name": "Pirata de Anime Chibi",
+      "category": "Geek & Colecionáveis",
+      "material": "PLA Premium",
+      "colors": [
+        "Vermelho",
+        "Amarelo"
+      ],
+      "personalizable": false,
+      "price": 38.9,
+      "promotionalPrice": 37.9,
+      "pixPrice": 37.9,
+      "cardPrice": 38.9,
+      "productionCost": 24.56,
+      "profitAmount": 13.34,
+      "profitPercent": 23.05,
+      "pricingBasis": "Pix 37,90 protegido por custo completo: material, máquina, acabamento, ferragens, embalagem e insumos de envio, reserva para falhas, despesas indiretas e margem bruta mínima de 30%. Frete real separado.",
+      "filamentPricePerKg": 100,
+      "stock": 0,
+      "sku": "MDH-0064",
+      "description": "Pirata de Anime Chibi selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento premium em PLA Premium. Indicado para colecao, estante, nicho, setup gamer e presente tematico, mantendo prazo claro e apresentacao pronta para venda online.",
+      "tags": [
+        "pirata de anime",
+        "chibi",
+        "anime",
+        "a1-mini",
+        "bambu-lab-a1-mini",
+        "catalogo-100",
+        "miniatura",
+        "pirata anime chibi 3d printed figure",
+        "pirata anime chibi 3d print",
+        "pirata anime chibi miniatura 3d",
+        "Geek & Colecionáveis",
+        "sob_encomenda",
+        "personalizar",
+        "colecionar",
+        "decorar",
+        "presentear",
+        "setup",
+        "PLA Premium",
+        "Premium",
+        "Pirata de Anime Chibi",
+        "pirata",
+        "impressão 3D",
+        "MDH 3D"
+      ],
+      "dimensions": {
+        "lengthCm": 8,
+        "widthCm": 6,
+        "heightCm": 10
+      },
+      "weightKg": 0.037,
+      "seoTitle": "Pirata de Anime Chibi | MDH 3D",
+      "seoDescription": "Pirata de Anime Chibi selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento premium em PLA Premium. Indicado",
+      "brand": "MDH 3D",
+      "physical": true,
+      "image": "/products/mdh-064-luffy-one-piece-chibi/01-hero.jpg",
+      "gallery": [
+        "/products/mdh-064-luffy-one-piece-chibi/01-hero.jpg",
+        "/products/mdh-064-luffy-one-piece-chibi/02-closeup.jpg",
+        "/products/mdh-064-luffy-one-piece-chibi/03-in_use.jpg",
+        "/products/mdh-064-luffy-one-piece-chibi/04-packshot.jpg"
+      ],
+      "careInstructions": [
+        "Limpar com pano seco ou levemente úmido.",
+        "Evitar exposição prolongada ao sol forte ou calor intenso.",
+        "Não usar álcool, solventes ou abrasivos na peça.",
+        "PLA é indicado para uso decorativo e organizadores internos."
+      ],
+      "faqs": [
+        {
+          "question": "Posso escolher a cor?",
+          "answer": "Sim. A cor é confirmada no WhatsApp antes da produção, conforme disponibilidade de material."
+        },
+        {
+          "question": "Qual é o prazo de produção?",
+          "answer": "O prazo estimado para Pirata de Anime Chibi é 24h a 48h, podendo variar conforme fila e acabamento."
+        },
+        {
+          "question": "Qual material é usado?",
+          "answer": "A peça usa PLA Premium por padrão, com alternativas sob consulta quando o projeto exigir."
+        }
+      ],
+      "productionWindow": "24h a 48h",
+      "featured": true,
+      "marketplaceScore": 20
+    },
+    {
+      "slug": "totoro-my-neighbor-chibi",
+      "name": "Totoro My Neighbor Chibi",
+      "category": "Geek & Colecionáveis",
+      "material": "PLA Premium",
+      "colors": [
+        "Cinza",
+        "Branco"
+      ],
+      "personalizable": false,
+      "price": 41.9,
+      "promotionalPrice": 40.9,
+      "pixPrice": 40.9,
+      "cardPrice": 41.9,
+      "productionCost": 26.01,
+      "profitAmount": 14.89,
+      "profitPercent": 23.11,
+      "pricingBasis": "Pix 40,90 protegido por custo completo: material, máquina, acabamento, ferragens, embalagem e insumos de envio, reserva para falhas, despesas indiretas e margem bruta mínima de 30%. Frete real separado.",
+      "filamentPricePerKg": 100,
+      "stock": 0,
+      "sku": "MDH-0066",
+      "description": "Totoro My Neighbor Chibi selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento premium em PLA Premium. Indicado para colecao, estante, nicho, setup gamer e presente tematico, mantendo prazo claro e apresentacao pronta para venda online.",
+      "tags": [
+        "totoro",
+        "studio ghibli",
+        "anime",
+        "a1-mini",
+        "bambu-lab-a1-mini",
+        "catalogo-100",
+        "miniatura",
+        "totoro neighbor chibi 3d printed figure",
+        "totoro neighbor chibi 3d print",
+        "totoro neighbor chibi miniatura 3d",
+        "Geek & Colecionáveis",
+        "sob_encomenda",
+        "personalizar",
+        "colecionar",
+        "decorar",
+        "presentear",
+        "setup",
+        "PLA Premium",
+        "Premium",
+        "Totoro My Neighbor Chibi",
+        "neighbor",
+        "chibi",
+        "impressão 3D",
+        "MDH 3D"
+      ],
+      "dimensions": {
+        "lengthCm": 9,
+        "widthCm": 7,
+        "heightCm": 11
+      },
+      "weightKg": 0.04,
+      "seoTitle": "Totoro My Neighbor Chibi | MDH 3D",
+      "seoDescription": "Totoro My Neighbor Chibi selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento premium em PLA Premium. Indic",
+      "brand": "MDH 3D",
+      "physical": true,
+      "image": "/products/mdh-066-totoro-my-neighbor-chibi/01-hero.jpg",
+      "gallery": [
+        "/products/mdh-066-totoro-my-neighbor-chibi/01-hero.jpg",
+        "/products/mdh-066-totoro-my-neighbor-chibi/02-closeup.jpg",
+        "/products/mdh-066-totoro-my-neighbor-chibi/03-in_use.jpg",
+        "/products/mdh-066-totoro-my-neighbor-chibi/04-packshot.jpg"
+      ],
+      "careInstructions": [
+        "Limpar com pano seco ou levemente úmido.",
+        "Evitar exposição prolongada ao sol forte ou calor intenso.",
+        "Não usar álcool, solventes ou abrasivos na peça.",
+        "PLA é indicado para uso decorativo e organizadores internos."
+      ],
+      "faqs": [
+        {
+          "question": "Posso escolher a cor?",
+          "answer": "Sim. A cor é confirmada no WhatsApp antes da produção, conforme disponibilidade de material."
+        },
+        {
+          "question": "Qual é o prazo de produção?",
+          "answer": "O prazo estimado para Totoro My Neighbor Chibi é 24h a 48h, podendo variar conforme fila e acabamento."
+        },
+        {
+          "question": "Qual material é usado?",
+          "answer": "A peça usa PLA Premium por padrão, com alternativas sob consulta quando o projeto exigir."
+        }
+      ],
+      "productionWindow": "24h a 48h",
+      "featured": true,
+      "marketplaceScore": 20
+    },
+    {
+      "slug": "stencil-rick-and-morty-decorativo",
+      "name": "Stencil dupla sci-fi Decorativo",
+      "category": "Geek & Colecionáveis",
+      "material": "PLA Premium",
+      "colors": [
+        "Preto"
+      ],
+      "personalizable": true,
+      "price": 41.9,
+      "promotionalPrice": 40.9,
+      "pixPrice": 40.9,
+      "cardPrice": 41.9,
+      "productionCost": 26.08,
+      "profitAmount": 14.82,
+      "profitPercent": 23.09,
+      "pricingBasis": "Pix 40,90 protegido por custo completo: material, máquina, acabamento, ferragens, embalagem e insumos de envio, reserva para falhas, despesas indiretas e margem bruta mínima de 30%. Frete real separado.",
+      "filamentPricePerKg": 100,
+      "stock": 0,
+      "sku": "REAL-0005",
+      "description": "Stencil dupla sci-fi Decorativo selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento fosco em PLA Premium. Indicado para decoracao de quarto, escritorio, estante e composicao de ambiente, mantendo prazo claro e apresentacao pronta para venda online.",
+      "tags": [
+        "stencil",
+        "quadro",
+        "dupla sci-fi",
+        "mídia validada",
+        "a1-mini",
+        "bambu-lab-a1-mini",
+        "catalogo-100",
+        "decoracao",
+        "stencil rick and 3d printed figure",
+        "stencil rick and 3d print",
+        "stencil rick and miniatura 3d",
+        "Geek & Colecionáveis",
+        "filmes e séries",
+        "placa",
+        "sob_encomenda",
+        "personalizar",
+        "colecionar",
+        "decorar",
+        "presentear",
+        "PLA Premium",
+        "Fosco",
+        "personalizável",
+        "Stencil dupla sci-fi Decorativo",
+        "rick",
+        "and",
+        "morty",
+        "decorativo",
+        "impressão 3D"
+      ],
+      "dimensions": {
+        "lengthCm": 18,
+        "widthCm": 18,
+        "heightCm": 1
+      },
+      "weightKg": 0.044,
+      "seoTitle": "Stencil dupla sci-fi Decorativo | MDH 3D",
+      "seoDescription": "Stencil dupla sci-fi Decorativo selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento fosco em PLA Premium. ",
+      "brand": "MDH 3D",
+      "physical": true,
+      "image": "/products/render-real-005-stencil.webp",
+      "gallery": [
+        "/products/render-real-005-stencil.webp",
+        "/products/gallery/real-005/3.webp",
+        "/products/foto-extra-real-005-01.jpg"
+      ],
+      "careInstructions": [
+        "Limpar com pano seco ou levemente úmido.",
+        "Evitar exposição prolongada ao sol forte ou calor intenso.",
+        "Não usar álcool, solventes ou abrasivos na peça.",
+        "PLA é indicado para uso decorativo e organizadores internos."
+      ],
+      "faqs": [
+        {
+          "question": "Posso escolher a cor?",
+          "answer": "Sim. A cor é confirmada no WhatsApp antes da produção, conforme disponibilidade de material."
+        },
+        {
+          "question": "Qual é o prazo de produção?",
+          "answer": "O prazo estimado para Stencil dupla sci-fi Decorativo é 2 a 4 dias, podendo variar conforme fila e acabamento."
+        },
+        {
+          "question": "Qual material é usado?",
+          "answer": "A peça usa PLA Premium por padrão, com alternativas sob consulta quando o projeto exigir."
+        }
+      ],
+      "productionWindow": "2 a 4 dias",
+      "featured": false,
+      "marketplaceScore": 16
+    },
+    {
+      "slug": "boneca-infantil-personalizada",
+      "name": "Boneca Infantil Personalizada",
+      "category": "Presentes Personalizados",
+      "material": "PLA Premium",
+      "colors": [
+        "Rosa",
+        "Marrom",
+        "Colorido"
+      ],
+      "personalizable": true,
+      "price": 78.9,
+      "promotionalPrice": 77.9,
+      "pixPrice": 77.9,
+      "cardPrice": 78.9,
+      "productionCost": 50.46,
+      "profitAmount": 27.44,
+      "profitPercent": 23.09,
+      "pricingBasis": "Pix 77,90 protegido por custo completo: material, máquina, acabamento, ferragens, embalagem e insumos de envio, reserva para falhas, despesas indiretas e margem bruta mínima de 30%. Frete real separado.",
+      "filamentPricePerKg": 100,
+      "stock": 0,
+      "sku": "REAL-0007",
+      "description": "Boneca Infantil Personalizada selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento pintado à mão em PLA Premium. Indicado para presente personalizado, lembranca afetiva e encomenda sob medida, mantendo prazo claro e apresentacao pronta para venda online.",
+      "tags": [
+        "boneca",
+        "infantil",
+        "personalizado",
+        "mídia validada",
+        "a1-mini",
+        "bambu-lab-a1-mini",
+        "catalogo-100",
+        "presente",
+        "boneca infantil personalizada 3d printed figure",
+        "boneca infantil personalizada 3d print",
+        "boneca infantil personalizada miniatura 3d",
+        "Presentes Personalizados",
+        "bonecos personalizados",
+        "boneco",
+        "sob_encomenda",
+        "personalizar",
+        "presentear",
+        "PLA Premium",
+        "Pintado à mão",
+        "personalizável",
+        "Boneca Infantil Personalizada",
+        "personalizada",
+        "impressão 3D",
+        "MDH 3D"
+      ],
+      "dimensions": {
+        "lengthCm": 10,
+        "widthCm": 8,
+        "heightCm": 16
+      },
+      "weightKg": 0.094,
+      "seoTitle": "Boneca Infantil Personalizada | MDH 3D",
+      "seoDescription": "Boneca Infantil Personalizada selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento pintado à mão em PLA Pre",
+      "brand": "MDH 3D",
+      "physical": true,
+      "image": "/products/foto-008-boneca-crianca.webp",
+      "gallery": [
+        "/products/foto-008-boneca-crianca.webp",
+        "/products/render-real-007-boneca-crianca.webp",
+        "/products/gallery/real-007/3.webp",
+        "/products/real-007-boneca-infantil-personalizada/04-packshot.jpg"
+      ],
+      "careInstructions": [
+        "Limpar com pano seco ou levemente úmido.",
+        "Evitar exposição prolongada ao sol forte ou calor intenso.",
+        "Não usar álcool, solventes ou abrasivos na peça.",
+        "PLA é indicado para uso decorativo e organizadores internos."
+      ],
+      "faqs": [
+        {
+          "question": "Posso escolher a cor?",
+          "answer": "Sim. A cor é confirmada no WhatsApp antes da produção, conforme disponibilidade de material."
+        },
+        {
+          "question": "Qual é o prazo de produção?",
+          "answer": "O prazo estimado para Boneca Infantil Personalizada é 4 a 7 dias, podendo variar conforme fila e acabamento."
+        },
+        {
+          "question": "Qual material é usado?",
+          "answer": "A peça usa PLA Premium por padrão, com alternativas sob consulta quando o projeto exigir."
+        }
+      ],
+      "productionWindow": "4 a 7 dias",
+      "featured": false,
+      "marketplaceScore": 14
+    },
+    {
+      "slug": "case-de-isqueiro-caveira",
+      "name": "Case de Isqueiro Caveira",
+      "category": "Casa e Organização",
+      "material": "PLA Premium",
+      "colors": [
+        "Preto"
+      ],
+      "personalizable": true,
+      "price": 35.9,
+      "promotionalPrice": 34.9,
+      "pixPrice": 34.9,
+      "cardPrice": 35.9,
+      "productionCost": 22.26,
+      "profitAmount": 12.64,
+      "profitPercent": 23.05,
+      "pricingBasis": "Pix 34,90 protegido por custo completo: material, máquina, acabamento, ferragens, embalagem e insumos de envio, reserva para falhas, despesas indiretas e margem bruta mínima de 30%. Frete real separado.",
+      "filamentPricePerKg": 100,
+      "stock": 0,
+      "sku": "REAL-0008",
+      "description": "Case de Isqueiro Caveira selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento fosco em PLA Premium. Indicado para uso diario, organizacao leve e presente funcional, mantendo prazo claro e apresentacao pronta para venda online.",
+      "tags": [
+        "isqueiro",
+        "case",
+        "caveira",
+        "mídia validada",
+        "a1-mini",
+        "bambu-lab-a1-mini",
+        "catalogo-100",
+        "utilidade leve",
+        "case isqueiro caveira 3d printed figure",
+        "case isqueiro caveira 3d print",
+        "case isqueiro caveira miniatura 3d",
+        "Casa e Organização",
+        "utilidade funcional",
+        "sob_encomenda",
+        "personalizar",
+        "organizar",
+        "presentear",
+        "PLA Premium",
+        "Fosco",
+        "personalizável",
+        "Case de Isqueiro Caveira",
+        "impressão 3D",
+        "MDH 3D"
+      ],
+      "dimensions": {
+        "lengthCm": 3,
+        "widthCm": 3,
+        "heightCm": 8
+      },
+      "weightKg": 0.036,
+      "seoTitle": "Case de Isqueiro Caveira | MDH 3D",
+      "seoDescription": "Case de Isqueiro Caveira selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento fosco em PLA Premium. Indicad",
+      "brand": "MDH 3D",
+      "physical": true,
+      "image": "/products/foto-009-case-isqueiro-caveira.webp",
+      "gallery": [
+        "/products/foto-009-case-isqueiro-caveira.webp",
+        "/products/render-real-008-case-isqueiro.webp",
+        "/products/gallery/real-008/3.webp",
+        "/products/real-008-case-de-isqueiro-caveira/04-packshot.jpg"
+      ],
+      "careInstructions": [
+        "Limpar com pano seco ou levemente úmido.",
+        "Evitar exposição prolongada ao sol forte ou calor intenso.",
+        "Não usar álcool, solventes ou abrasivos na peça.",
+        "PLA é indicado para uso decorativo e organizadores internos."
+      ],
+      "faqs": [
+        {
+          "question": "Posso escolher a cor?",
+          "answer": "Sim. A cor é confirmada no WhatsApp antes da produção, conforme disponibilidade de material."
+        },
+        {
+          "question": "Qual é o prazo de produção?",
+          "answer": "O prazo estimado para Case de Isqueiro Caveira é 2 a 4 dias, podendo variar conforme fila e acabamento."
+        },
+        {
+          "question": "Qual material é usado?",
+          "answer": "A peça usa PLA Premium por padrão, com alternativas sob consulta quando o projeto exigir."
+        }
+      ],
+      "productionWindow": "2 a 4 dias",
+      "featured": false,
+      "marketplaceScore": 13
+    },
+    {
+      "slug": "personagem-de-humor-mascote-eletrico-mashup-colecionavel",
+      "name": "personagem de humor mascote elétrico Mashup Colecionável",
+      "category": "Geek & Colecionáveis",
+      "material": "PLA Premium",
+      "colors": [
+        "Amarelo",
+        "Rosa"
+      ],
+      "personalizable": true,
+      "price": 72.9,
+      "promotionalPrice": 71.9,
+      "pixPrice": 71.9,
+      "cardPrice": 72.9,
+      "productionCost": 46.46,
+      "profitAmount": 25.44,
+      "profitPercent": 23.08,
+      "pricingBasis": "Pix 71,90 protegido por custo completo: material, máquina, acabamento, ferragens, embalagem e insumos de envio, reserva para falhas, despesas indiretas e margem bruta mínima de 30%. Frete real separado.",
+      "filamentPricePerKg": 100,
+      "stock": 0,
+      "sku": "REAL-0009",
+      "description": "personagem de humor mascote elétrico Mashup Colecionável selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento pintado à mão em PLA Premium. Indicado para colecao, estante, nicho, setup gamer e presente tematico, mantendo prazo claro e apresentacao pronta para venda online.",
+      "tags": [
+        "mashup",
+        "cartoon",
+        "colecionável",
+        "mídia validada",
+        "a1-mini",
+        "bambu-lab-a1-mini",
+        "catalogo-100",
+        "miniatura",
+        "personagem de humor mascote elétrico mashup 3d printed figure",
+        "personagem de humor mascote elétrico mashup 3d print",
+        "personagem de humor mascote elétrico mashup miniatura 3d",
+        "Geek & Colecionáveis",
+        "games",
+        "sob_encomenda",
+        "personalizar",
+        "colecionar",
+        "decorar",
+        "presentear",
+        "setup",
+        "PLA Premium",
+        "Pintado à mão",
+        "personalizável",
+        "personagem de humor mascote elétrico Mashup Colecionável",
+        "personagem de humor",
+        "mascote elétrico",
+        "impressão 3D"
+      ],
+      "dimensions": {
+        "lengthCm": 9,
+        "widthCm": 8,
+        "heightCm": 16
+      },
+      "weightKg": 0.088,
+      "seoTitle": "personagem de humor mascote elétrico Mashup Colecionável | MDH 3D",
+      "seoDescription": "personagem de humor mascote elétrico Mashup Colecionável selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamen",
+      "brand": "MDH 3D",
+      "physical": true,
+      "image": "/products/gallery/real-009/3.webp",
+      "gallery": [
+        "/products/gallery/real-009/3.webp"
+      ],
+      "careInstructions": [
+        "Limpar com pano seco ou levemente úmido.",
+        "Evitar exposição prolongada ao sol forte ou calor intenso.",
+        "Não usar álcool, solventes ou abrasivos na peça.",
+        "PLA é indicado para uso decorativo e organizadores internos."
+      ],
+      "faqs": [
+        {
+          "question": "Posso escolher a cor?",
+          "answer": "Sim. A cor é confirmada no WhatsApp antes da produção, conforme disponibilidade de material."
+        },
+        {
+          "question": "Qual é o prazo de produção?",
+          "answer": "O prazo estimado para personagem de humor mascote elétrico Mashup Colecionável é 4 a 7 dias, podendo variar conforme fila e acabamento."
+        },
+        {
+          "question": "Qual material é usado?",
+          "answer": "A peça usa PLA Premium por padrão, com alternativas sob consulta quando o projeto exigir."
+        }
+      ],
+      "productionWindow": "4 a 7 dias",
+      "featured": false,
+      "marketplaceScore": 12
+    },
+    {
+      "slug": "caixa-organizadora-modular-com-tampa",
+      "name": "Caixa Organizadora Modular com Tampa",
+      "category": "Setup Gamer e Home Office",
+      "material": "PLA Premium",
+      "colors": [
+        "Preto",
+        "Branco",
+        "Cinza"
+      ],
+      "personalizable": true,
+      "price": 100.9,
+      "promotionalPrice": 99.9,
+      "pixPrice": 99.9,
+      "cardPrice": 100.9,
+      "productionCost": 54.76,
+      "profitAmount": 45.14,
+      "profitPercent": 23.08,
+      "pricingBasis": "Pix 99,90 protegido por custo completo: material, máquina, acabamento, ferragens, embalagem e insumos de envio, reserva para falhas, despesas indiretas e margem bruta mínima de 30%. Frete real separado.",
+      "filamentPricePerKg": 100,
+      "stock": 0,
+      "sku": "MDH-0053",
+      "description": "Caixa para organizar pequenos objetos, cabos, materiais de escritório ou acessórios. Produzida sob encomenda; confirme medidas internas antes da compra.",
+      "tags": [
+        "caixa organizadora",
+        "tampa",
+        "mesa",
+        "casa",
+        "Setup Gamer e Home Office",
+        "organizador de cabo",
+        "organizador",
+        "sob_encomenda",
+        "personalizar",
+        "setup",
+        "organizar",
+        "PLA Premium",
+        "Acabamento fosco",
+        "personalizável",
+        "Caixa Organizadora Modular com Tampa",
+        "caixa",
+        "organizadora",
+        "modular",
+        "impressão 3D",
+        "MDH 3D"
+      ],
+      "dimensions": {
+        "lengthCm": 20,
+        "widthCm": 15,
+        "heightCm": 10
+      },
+      "weightKg": 0.15,
+      "seoTitle": "Caixa Organizadora Modular com Tampa | MDH 3D",
+      "seoDescription": "Caixa para organizar pequenos objetos, cabos, materiais de escritório ou acessórios. Produzida sob encomenda; confirme medidas internas antes da compra.",
+      "brand": "MDH 3D",
+      "physical": true,
+      "image": "/products/mdh-053-caixa-organizadora/01-hero.jpg",
+      "gallery": [
+        "/products/mdh-053-caixa-organizadora/01-hero.jpg",
+        "/products/mdh-053-caixa-organizadora/02-closeup.jpg",
+        "/products/mdh-053-caixa-organizadora/03-in_use.jpg",
+        "/products/mdh-053-caixa-organizadora/04-packshot.jpg"
+      ],
+      "careInstructions": [
+        "Limpar com pano seco ou levemente úmido.",
+        "Evitar exposição prolongada ao sol forte ou calor intenso.",
+        "Não usar álcool, solventes ou abrasivos na peça.",
+        "PLA é indicado para uso decorativo e organizadores internos."
+      ],
+      "faqs": [
+        {
+          "question": "Posso escolher a cor?",
+          "answer": "Sim. A cor é confirmada no WhatsApp antes da produção, conforme disponibilidade de material."
+        },
+        {
+          "question": "Qual é o prazo de produção?",
+          "answer": "O prazo estimado para Caixa Organizadora Modular com Tampa é 3 a 6 dias úteis, podendo variar conforme fila e acabamento."
+        },
+        {
+          "question": "Qual material é usado?",
+          "answer": "A peça usa PLA Premium por padrão, com alternativas sob consulta quando o projeto exigir."
+        }
+      ],
+      "productionWindow": "3 a 6 dias úteis",
+      "featured": false,
+      "marketplaceScore": 8
+    },
+    {
+      "slug": "caixa-para-joias",
+      "name": "Caixa para Joias",
+      "category": "Casa e Organização",
+      "material": "PLA Premium",
+      "colors": [
+        "Preto",
+        "Branco"
+      ],
+      "personalizable": true,
+      "price": 71.9,
+      "promotionalPrice": 70.9,
+      "pixPrice": 70.9,
+      "cardPrice": 71.9,
+      "productionCost": 45.68,
+      "profitAmount": 25.22,
+      "profitPercent": 23.08,
+      "pricingBasis": "Pix 70,90 protegido por custo completo: material, máquina, acabamento, ferragens, embalagem e insumos de envio, reserva para falhas, despesas indiretas e margem bruta mínima de 30%. Frete real separado.",
+      "filamentPricePerKg": 100,
+      "stock": 0,
+      "sku": "MDH-0059",
+      "description": "Caixa para Joias selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento premium em PLA Premium. Indicado para mesa, gaveta, bancada criativa e rotina de trabalho, mantendo prazo claro e apresentacao pronta para venda online.",
+      "tags": [
+        "caixa",
+        "joias",
+        "organização",
+        "a1-mini",
+        "bambu-lab-a1-mini",
+        "catalogo-100",
+        "organizador",
+        "caixa joias 3d printed organizer",
+        "caixa joias 3d printed holder",
+        "caixa joias impressao 3d",
+        "Casa e Organização",
+        "gaveta",
+        "sob_encomenda",
+        "personalizar",
+        "organizar",
+        "PLA Premium",
+        "Premium",
+        "personalizável",
+        "Caixa para Joias",
+        "impressão 3D",
+        "MDH 3D"
+      ],
+      "dimensions": {
+        "lengthCm": 15,
+        "widthCm": 10,
+        "heightCm": 8
+      },
+      "weightKg": 0.12,
+      "seoTitle": "Caixa para Joias | MDH 3D",
+      "seoDescription": "Caixa para Joias selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento premium em PLA Premium. Indicado para",
+      "brand": "MDH 3D",
+      "physical": true,
+      "image": "/products/mdh-059-caixa-para-joias/01-hero.jpg",
+      "gallery": [
+        "/products/mdh-059-caixa-para-joias/01-hero.jpg",
+        "/products/mdh-059-caixa-para-joias/02-closeup.jpg",
+        "/products/mdh-059-caixa-para-joias/03-in_use.jpg",
+        "/products/mdh-059-caixa-para-joias/04-packshot.jpg"
+      ],
+      "careInstructions": [
+        "Limpar com pano seco ou levemente úmido.",
+        "Evitar exposição prolongada ao sol forte ou calor intenso.",
+        "Não usar álcool, solventes ou abrasivos na peça.",
+        "PLA é indicado para uso decorativo e organizadores internos."
+      ],
+      "faqs": [
+        {
+          "question": "Posso escolher a cor?",
+          "answer": "Sim. A cor é confirmada no WhatsApp antes da produção, conforme disponibilidade de material."
+        },
+        {
+          "question": "Qual é o prazo de produção?",
+          "answer": "O prazo estimado para Caixa para Joias é 3 a 5 dias, podendo variar conforme fila e acabamento."
+        },
+        {
+          "question": "Qual material é usado?",
+          "answer": "A peça usa PLA Premium por padrão, com alternativas sob consulta quando o projeto exigir."
+        }
+      ],
+      "productionWindow": "3 a 5 dias",
+      "featured": false,
+      "marketplaceScore": 8
+    },
+    {
+      "slug": "foto-litofania-personalizada-com-efeito-de-luz",
+      "name": "Foto Litofania Personalizada com Efeito de Luz",
+      "category": "Presentes Personalizados",
+      "material": "PLA Premium",
+      "colors": [
+        "Branco"
+      ],
+      "personalizable": true,
+      "price": 120.9,
+      "promotionalPrice": 119.9,
+      "pixPrice": 119.9,
+      "cardPrice": 120.9,
+      "productionCost": 73.81,
+      "profitAmount": 46.09,
+      "profitPercent": 23.08,
+      "pricingBasis": "Pix 119,90 protegido por custo completo: material, máquina, acabamento, ferragens, embalagem e insumos de envio, reserva para falhas, despesas indiretas e margem bruta mínima de 30%. Frete real separado.",
+      "filamentPricePerKg": 100,
+      "stock": 0,
+      "sku": "MDH-0029",
+      "description": "Litofania produzida sob encomenda a partir de foto enviada pelo cliente, com relevo pensado para destacar a imagem quando iluminada. O valor inclui revisão básica do arquivo e acabamento antes do envio.",
+      "tags": [
+        "foto litofania",
+        "presente personalizado",
+        "foto com luz",
+        "decoração",
+        "Presentes Personalizados",
+        "lembrança afetiva",
+        "outro",
+        "sob_encomenda",
+        "personalizar",
+        "presentear",
+        "decorar",
+        "PLA Premium",
+        "Camadas finas",
+        "personalizável",
+        "Foto Litofania Personalizada com Efeito de Luz",
+        "foto",
+        "litofania",
+        "personalizada",
+        "efeito",
+        "luz",
+        "impressão 3D",
+        "MDH 3D"
+      ],
+      "dimensions": {
+        "lengthCm": 20,
+        "widthCm": 15,
+        "heightCm": 5
+      },
+      "weightKg": 0.18,
+      "seoTitle": "Foto Litofania Personalizada com Efeito de Luz | MDH 3D",
+      "seoDescription": "Litofania produzida sob encomenda a partir de foto enviada pelo cliente, com relevo pensado para destacar a imagem quando iluminada. O valor inclui revisão",
+      "brand": "MDH 3D",
+      "physical": true,
+      "image": "/products/mdh-029-foto-litofania/01-hero.jpg",
+      "gallery": [
+        "/products/mdh-029-foto-litofania/01-hero.jpg",
+        "/products/mdh-029-foto-litofania/02-closeup.jpg",
+        "/products/mdh-029-foto-litofania/03-in_use.jpg",
+        "/products/mdh-029-foto-litofania/04-packshot.jpg"
+      ],
+      "careInstructions": [
+        "Limpar com pano seco ou levemente úmido.",
+        "Evitar exposição prolongada ao sol forte ou calor intenso.",
+        "Não usar álcool, solventes ou abrasivos na peça.",
+        "PLA é indicado para uso decorativo e organizadores internos."
+      ],
+      "faqs": [
+        {
+          "question": "Posso escolher a cor?",
+          "answer": "Sim. A cor é confirmada no WhatsApp antes da produção, conforme disponibilidade de material."
+        },
+        {
+          "question": "Qual é o prazo de produção?",
+          "answer": "O prazo estimado para Foto Litofania Personalizada com Efeito de Luz é 4 a 7 dias úteis, podendo variar conforme fila e acabamento."
+        },
+        {
+          "question": "Qual material é usado?",
+          "answer": "A peça usa PLA Premium por padrão, com alternativas sob consulta quando o projeto exigir."
+        }
+      ],
+      "productionWindow": "4 a 7 dias úteis",
+      "featured": false,
+      "marketplaceScore": 8
+    },
+    {
+      "slug": "gancho-para-chaves",
+      "name": "Gancho para Chaves",
+      "category": "Casa e Organização",
+      "material": "PLA Premium",
+      "colors": [
+        "Preto",
+        "Branco"
+      ],
+      "personalizable": true,
+      "price": 38.9,
+      "promotionalPrice": 37.9,
+      "pixPrice": 37.9,
+      "cardPrice": 38.9,
+      "productionCost": 24.39,
+      "profitAmount": 13.51,
+      "profitPercent": 23.11,
+      "pricingBasis": "Pix 37,90 protegido por custo completo: material, máquina, acabamento, ferragens, embalagem e insumos de envio, reserva para falhas, despesas indiretas e margem bruta mínima de 30%. Frete real separado.",
+      "filamentPricePerKg": 100,
+      "stock": 22,
+      "sku": "MDH-0051",
+      "description": "Gancho para Chaves selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento premium em PLA Premium. Indicado para uso diario, organizacao leve e presente funcional, mantendo prazo claro e apresentacao pronta para venda online.",
+      "tags": [
+        "gancho",
+        "chaves",
+        "organização",
+        "a1-mini",
+        "bambu-lab-a1-mini",
+        "catalogo-100",
+        "utilidade leve",
+        "gancho chaves 3d printed figure",
+        "gancho chaves 3d print",
+        "gancho chaves miniatura 3d",
+        "Casa e Organização",
+        "suporte doméstico",
+        "outro",
+        "pronta_entrega",
+        "personalizar",
+        "organizar",
+        "presentear",
+        "PLA Premium",
+        "Premium",
+        "personalizável",
+        "Gancho para Chaves",
+        "impressão 3D",
+        "MDH 3D"
+      ],
+      "dimensions": {
+        "lengthCm": 12,
+        "widthCm": 6,
+        "heightCm": 4
+      },
+      "weightKg": 0.04,
+      "seoTitle": "Gancho para Chaves | MDH 3D",
+      "seoDescription": "Gancho para Chaves selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento premium em PLA Premium. Indicado pa",
+      "brand": "MDH 3D",
+      "physical": true,
+      "image": "/products/mdh-051-gancho-para-chaves/01-hero.jpg",
+      "gallery": [
+        "/products/mdh-051-gancho-para-chaves/01-hero.jpg",
+        "/products/mdh-051-gancho-para-chaves/02-closeup.jpg",
+        "/products/mdh-051-gancho-para-chaves/03-in_use.jpg",
+        "/products/mdh-051-gancho-para-chaves/04-packshot.jpg"
+      ],
+      "careInstructions": [
+        "Limpar com pano seco ou levemente úmido.",
+        "Evitar exposição prolongada ao sol forte ou calor intenso.",
+        "Não usar álcool, solventes ou abrasivos na peça.",
+        "PLA é indicado para uso decorativo e organizadores internos."
+      ],
+      "faqs": [
+        {
+          "question": "Posso escolher a cor?",
+          "answer": "Sim. A cor é confirmada no WhatsApp antes da produção, conforme disponibilidade de material."
+        },
+        {
+          "question": "Qual é o prazo de produção?",
+          "answer": "O prazo estimado para Gancho para Chaves é 24h a 48h, podendo variar conforme fila e acabamento."
+        },
+        {
+          "question": "Qual material é usado?",
+          "answer": "A peça usa PLA Premium por padrão, com alternativas sob consulta quando o projeto exigir."
+        }
+      ],
+      "productionWindow": "24h a 48h",
+      "featured": false,
+      "marketplaceScore": 8
+    },
+    {
+      "slug": "luminaria-led-personalizada-para-nome-frase-ou-presente",
+      "name": "Luminária LED Personalizada para Nome, Frase ou Presente",
+      "category": "Presentes Personalizados",
+      "material": "PLA Premium",
+      "colors": [
+        "Branco",
+        "Preto"
+      ],
+      "personalizable": true,
+      "price": 130.9,
+      "promotionalPrice": 129.9,
+      "pixPrice": 129.9,
+      "cardPrice": 130.9,
+      "productionCost": 78.96,
+      "profitAmount": 50.94,
+      "profitPercent": 23.08,
+      "pricingBasis": "Pix 129,90 protegido por custo completo: material, máquina, acabamento, ferragens, embalagem e insumos de envio, reserva para falhas, despesas indiretas e margem bruta mínima de 30%. Frete real separado.",
+      "filamentPricePerKg": 100,
+      "stock": 0,
+      "sku": "MDH-0028",
+      "description": "Luminária LED sob encomenda com frente personalizada para nome, frase curta ou referência combinada no atendimento. Inclui corpo impresso, acabamento manual e preparação segura para transporte.",
+      "tags": [
+        "luminária personalizada",
+        "led",
+        "nome",
+        "presente",
+        "Presentes Personalizados",
+        "nome personalizado",
+        "decoração",
+        "sob_encomenda",
+        "personalizar",
+        "presentear",
+        "PLA Premium",
+        "Acabamento manual",
+        "personalizável",
+        "Luminária LED Personalizada para Nome, Frase ou Presente",
+        "luminaria",
+        "personalizada",
+        "frase",
+        "impressão 3D",
+        "MDH 3D"
+      ],
+      "dimensions": {
+        "lengthCm": 25,
+        "widthCm": 20,
+        "heightCm": 30
+      },
+      "weightKg": 0.2,
+      "seoTitle": "Luminária LED Personalizada para Nome, Frase ou Presente | MDH 3D",
+      "seoDescription": "Luminária LED sob encomenda com frente personalizada para nome, frase curta ou referência combinada no atendimento. Inclui corpo impresso, acabamento manua",
+      "brand": "MDH 3D",
+      "physical": true,
+      "image": "/products/mdh-028-luminaria-led-personalizada/01-hero.jpg",
+      "gallery": [
+        "/products/mdh-028-luminaria-led-personalizada/01-hero.jpg",
+        "/products/mdh-028-luminaria-led-personalizada/02-closeup.jpg",
+        "/products/mdh-028-luminaria-led-personalizada/03-in_use.jpg",
+        "/products/mdh-028-luminaria-led-personalizada/04-packshot.jpg"
+      ],
+      "careInstructions": [
+        "Limpar com pano seco ou levemente úmido.",
+        "Evitar exposição prolongada ao sol forte ou calor intenso.",
+        "Não usar álcool, solventes ou abrasivos na peça.",
+        "PLA é indicado para uso decorativo e organizadores internos."
+      ],
+      "faqs": [
+        {
+          "question": "Posso escolher a cor?",
+          "answer": "Sim. A cor é confirmada no WhatsApp antes da produção, conforme disponibilidade de material."
+        },
+        {
+          "question": "Qual é o prazo de produção?",
+          "answer": "O prazo estimado para Luminária LED Personalizada para Nome, Frase ou Presente é 4 a 7 dias úteis, podendo variar conforme fila e acabamento."
+        },
+        {
+          "question": "Qual material é usado?",
+          "answer": "A peça usa PLA Premium por padrão, com alternativas sob consulta quando o projeto exigir."
+        }
+      ],
+      "productionWindow": "4 a 7 dias úteis",
+      "featured": false,
+      "marketplaceScore": 8
+    },
+    {
+      "slug": "porta-copos-geek-para-mesa-setup-e-presente-criativo",
+      "name": "Porta-Copos Geek para Mesa, Setup e Presente Criativo",
+      "category": "Setup Gamer e Home Office",
+      "material": "PLA Premium",
+      "colors": [
+        "Preto",
+        "Branco"
+      ],
+      "personalizable": true,
+      "price": 40.9,
+      "promotionalPrice": 39.9,
+      "pixPrice": 39.9,
+      "cardPrice": 40.9,
+      "productionCost": 21,
+      "profitAmount": 18.9,
+      "profitPercent": 23.11,
+      "pricingBasis": "Pix 39,90 protegido por custo completo: material, máquina, acabamento, ferragens, embalagem e insumos de envio, reserva para falhas, despesas indiretas e margem bruta mínima de 30%. Frete real separado.",
+      "filamentPricePerKg": 100,
+      "stock": 0,
+      "sku": "MDH-0019",
+      "description": "Porta-copos produzido sob encomenda para proteger a mesa, compor o setup e servir como presente geek de baixo atrito. Inclui peça impressa, acabamento manual e embalagem adequada para envio.",
+      "tags": [
+        "porta-copos",
+        "mesa",
+        "setup",
+        "presente geek",
+        "Setup Gamer e Home Office",
+        "decoração de setup",
+        "outro",
+        "sob_encomenda",
+        "personalizar",
+        "organizar",
+        "presentear",
+        "PLA Premium",
+        "Acabamento fosco",
+        "personalizável",
+        "Porta-Copos Geek para Mesa, Setup e Presente Criativo",
+        "porta",
+        "copos",
+        "geek",
+        "impressão 3D",
+        "MDH 3D"
+      ],
+      "dimensions": {
+        "lengthCm": 10,
+        "widthCm": 10,
+        "heightCm": 0.5
+      },
+      "weightKg": 0.035,
+      "seoTitle": "Porta-Copos Geek para Mesa, Setup e Presente Criativo | MDH 3D",
+      "seoDescription": "Porta-copos produzido sob encomenda para proteger a mesa, compor o setup e servir como presente geek de baixo atrito. Inclui peça impressa, acabamento manu",
+      "brand": "MDH 3D",
+      "physical": true,
+      "image": "/products/setup/porta-copos-geek.webp",
+      "gallery": [
+        "/products/setup/porta-copos-geek.webp",
+        "/products/mdh-019-porta-copos-geek/02-closeup.jpg",
+        "/products/mdh-019-porta-copos-geek/03-in_use.jpg",
+        "/products/mdh-019-porta-copos-geek/04-packshot.jpg"
+      ],
+      "careInstructions": [
+        "Limpar com pano seco ou levemente úmido.",
+        "Evitar exposição prolongada ao sol forte ou calor intenso.",
+        "Não usar álcool, solventes ou abrasivos na peça.",
+        "PLA é indicado para uso decorativo e organizadores internos."
+      ],
+      "faqs": [
+        {
+          "question": "Posso escolher a cor?",
+          "answer": "Sim. A cor é confirmada no WhatsApp antes da produção, conforme disponibilidade de material."
+        },
+        {
+          "question": "Qual é o prazo de produção?",
+          "answer": "O prazo estimado para Porta-Copos Geek para Mesa, Setup e Presente Criativo é 2 a 4 dias úteis, podendo variar conforme fila e acabamento."
+        },
+        {
+          "question": "Qual material é usado?",
+          "answer": "A peça usa PLA Premium por padrão, com alternativas sob consulta quando o projeto exigir."
+        }
+      ],
+      "productionWindow": "2 a 4 dias úteis",
+      "featured": false,
+      "marketplaceScore": 8
+    },
+    {
+      "slug": "prateleira-flutuante",
+      "name": "Prateleira Flutuante",
+      "category": "Casa e Organização",
+      "material": "PLA Premium",
+      "colors": [
+        "Preto",
+        "Branco"
+      ],
+      "personalizable": true,
+      "price": 95.9,
+      "promotionalPrice": 94.9,
+      "pixPrice": 94.9,
+      "cardPrice": 95.9,
+      "productionCost": 61.41,
+      "profitAmount": 33.49,
+      "profitPercent": 23.06,
+      "pricingBasis": "Pix 94,90 protegido por custo completo: material, máquina, acabamento, ferragens, embalagem e insumos de envio, reserva para falhas, despesas indiretas e margem bruta mínima de 30%. Frete real separado.",
+      "filamentPricePerKg": 100,
+      "stock": 0,
+      "sku": "MDH-0055",
+      "description": "Prateleira Flutuante feito em PLA Premium para resolver uso diário com impressão 3D funcional e acabamento limpo, priorizando resistência, encaixe e rotina prática.",
+      "tags": [
+        "prateleira",
+        "flutuante",
+        "decoração",
+        "Casa e Organização",
+        "utilidade funcional",
+        "outro",
+        "sob_encomenda",
+        "personalizar",
+        "organizar",
+        "decorar",
+        "PLA Premium",
+        "Premium",
+        "personalizável",
+        "Prateleira Flutuante",
+        "impressão 3D",
+        "MDH 3D"
+      ],
+      "dimensions": {
+        "lengthCm": 40,
+        "widthCm": 10,
+        "heightCm": 5
+      },
+      "weightKg": 0.18,
+      "seoTitle": "Prateleira Flutuante | MDH 3D",
+      "seoDescription": "Prateleira Flutuante feito em PLA Premium para resolver uso diário com impressão 3D funcional e acabamento limpo, priorizando resistência, encaixe e rotina",
+      "brand": "MDH 3D",
+      "physical": true,
+      "image": "/products/mdh-055-prateleira-flutuante/01-hero.jpg",
+      "gallery": [
+        "/products/mdh-055-prateleira-flutuante/01-hero.jpg",
+        "/products/mdh-055-prateleira-flutuante/02-closeup.jpg",
+        "/products/mdh-055-prateleira-flutuante/03-in_use.jpg",
+        "/products/mdh-055-prateleira-flutuante/04-packshot.jpg"
+      ],
+      "careInstructions": [
+        "Limpar com pano seco ou levemente úmido.",
+        "Evitar exposição prolongada ao sol forte ou calor intenso.",
+        "Não usar álcool, solventes ou abrasivos na peça.",
+        "PLA é indicado para uso decorativo e organizadores internos."
+      ],
+      "faqs": [
+        {
+          "question": "Posso escolher a cor?",
+          "answer": "Sim. A cor é confirmada no WhatsApp antes da produção, conforme disponibilidade de material."
+        },
+        {
+          "question": "Qual é o prazo de produção?",
+          "answer": "O prazo estimado para Prateleira Flutuante é 5 a 7 dias, podendo variar conforme fila e acabamento."
+        },
+        {
+          "question": "Qual material é usado?",
+          "answer": "A peça usa PLA Premium por padrão, com alternativas sob consulta quando o projeto exigir."
+        }
+      ],
+      "productionWindow": "5 a 7 dias",
+      "featured": false,
+      "marketplaceScore": 8
+    },
+    {
+      "slug": "quadro-decorativo",
+      "name": "Quadro Decorativo",
+      "category": "Decoração",
+      "material": "PLA Premium",
+      "colors": [
+        "Preto",
+        "Branco"
+      ],
+      "personalizable": true,
+      "price": 63.9,
+      "promotionalPrice": 62.9,
+      "pixPrice": 62.9,
+      "cardPrice": 63.9,
+      "productionCost": 40.24,
+      "profitAmount": 22.66,
+      "profitPercent": 23.07,
+      "pricingBasis": "Pix 62,90 protegido por custo completo: material, máquina, acabamento, ferragens, embalagem e insumos de envio, reserva para falhas, despesas indiretas e margem bruta mínima de 30%. Frete real separado.",
+      "filamentPricePerKg": 100,
+      "stock": 10,
+      "sku": "MDH-0030",
+      "description": "Quadro Decorativo selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento premium em PLA Premium. Indicado para decoracao de quarto, escritorio, estante e composicao de ambiente, mantendo prazo claro e apresentacao pronta para venda online.",
+      "tags": [
+        "quadro",
+        "decorativo",
+        "parede",
+        "a1-mini",
+        "bambu-lab-a1-mini",
+        "catalogo-100",
+        "decoracao",
+        "quadro 3d printed figure",
+        "quadro 3d print",
+        "quadro miniatura 3d",
+        "quadro/placa decorativa",
+        "placa",
+        "pronta_entrega",
+        "personalizar",
+        "decorar",
+        "PLA Premium",
+        "Premium",
+        "personalizável",
+        "Quadro Decorativo",
+        "impressão 3D",
+        "MDH 3D"
+      ],
+      "dimensions": {
+        "lengthCm": 30,
+        "widthCm": 20,
+        "heightCm": 3
+      },
+      "weightKg": 0.1,
+      "seoTitle": "Quadro Decorativo | MDH 3D",
+      "seoDescription": "Quadro Decorativo selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento premium em PLA Premium. Indicado par",
+      "brand": "MDH 3D",
+      "physical": true,
+      "image": "/products/mdh-030-quadro-decorativo/01-hero.jpg",
+      "gallery": [
+        "/products/mdh-030-quadro-decorativo/01-hero.jpg",
+        "/products/mdh-030-quadro-decorativo/02-closeup.jpg",
+        "/products/mdh-030-quadro-decorativo/03-in_use.jpg",
+        "/products/mdh-030-quadro-decorativo/04-packshot.jpg"
+      ],
+      "careInstructions": [
+        "Limpar com pano seco ou levemente úmido.",
+        "Evitar exposição prolongada ao sol forte ou calor intenso.",
+        "Não usar álcool, solventes ou abrasivos na peça.",
+        "PLA é indicado para uso decorativo e organizadores internos."
+      ],
+      "faqs": [
+        {
+          "question": "Posso escolher a cor?",
+          "answer": "Sim. A cor é confirmada no WhatsApp antes da produção, conforme disponibilidade de material."
+        },
+        {
+          "question": "Qual é o prazo de produção?",
+          "answer": "O prazo estimado para Quadro Decorativo é 3 a 5 dias, podendo variar conforme fila e acabamento."
+        },
+        {
+          "question": "Qual material é usado?",
+          "answer": "A peça usa PLA Premium por padrão, com alternativas sob consulta quando o projeto exigir."
+        }
+      ],
+      "productionWindow": "3 a 5 dias",
+      "featured": false,
+      "marketplaceScore": 8
+    },
+    {
+      "slug": "robo-transformador-box",
+      "name": "Robô Transformador BOX",
+      "category": "Geek & Colecionáveis",
+      "material": "PLA Premium",
+      "colors": [
+        "Azul",
+        "Cinza",
+        "Preto"
+      ],
+      "personalizable": true,
+      "price": 78.9,
+      "promotionalPrice": 77.9,
+      "pixPrice": 77.9,
+      "cardPrice": 78.9,
+      "productionCost": 50.22,
+      "profitAmount": 27.68,
+      "profitPercent": 23.07,
+      "pricingBasis": "Pix 77,90 protegido por custo completo: material, máquina, acabamento, ferragens, embalagem e insumos de envio, reserva para falhas, despesas indiretas e margem bruta mínima de 30%. Frete real separado.",
+      "filamentPricePerKg": 100,
+      "stock": 0,
+      "sku": "MDH-0078",
+      "description": "Robô Transformador BOX selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento premium em PLA Premium. Indicado para colecao, estante, nicho, setup gamer e presente tematico, mantendo prazo claro e apresentacao pronta para venda online.",
+      "tags": [
+        "robô",
+        "transformador",
+        "box",
+        "colecionável",
+        "geek",
+        "a1-mini",
+        "bambu-lab-a1-mini",
+        "catalogo-100",
+        "miniatura",
+        "robo transformador box 3d printed figure",
+        "robo transformador box 3d print",
+        "robo transformador box miniatura 3d",
+        "Geek & Colecionáveis",
+        "games",
+        "caixa",
+        "sob_encomenda",
+        "personalizar",
+        "colecionar",
+        "decorar",
+        "presentear",
+        "setup",
+        "PLA Premium",
+        "Premium",
+        "personalizável",
+        "Robô Transformador BOX",
+        "impressão 3D",
+        "MDH 3D"
+      ],
+      "dimensions": {
+        "lengthCm": 11,
+        "widthCm": 9,
+        "heightCm": 15
+      },
+      "weightKg": 0.092,
+      "seoTitle": "Robô Transformador BOX | MDH 3D",
+      "seoDescription": "Robô Transformador BOX selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento premium em PLA Premium. Indicad",
+      "brand": "MDH 3D",
+      "physical": true,
+      "image": "/products/mdh-078-robo-transformador-box/01-hero.jpg",
+      "gallery": [
+        "/products/mdh-078-robo-transformador-box/01-hero.jpg",
+        "/products/mdh-078-robo-transformador-box/02-closeup.jpg",
+        "/products/mdh-078-robo-transformador-box/03-in_use.jpg",
+        "/products/mdh-078-robo-transformador-box/04-packshot.jpg"
+      ],
+      "careInstructions": [
+        "Limpar com pano seco ou levemente úmido.",
+        "Evitar exposição prolongada ao sol forte ou calor intenso.",
+        "Não usar álcool, solventes ou abrasivos na peça.",
+        "PLA é indicado para uso decorativo e organizadores internos."
+      ],
+      "faqs": [
+        {
+          "question": "Posso escolher a cor?",
+          "answer": "Sim. A cor é confirmada no WhatsApp antes da produção, conforme disponibilidade de material."
+        },
+        {
+          "question": "Qual é o prazo de produção?",
+          "answer": "O prazo estimado para Robô Transformador BOX é 3 a 6 dias, podendo variar conforme fila e acabamento."
+        },
+        {
+          "question": "Qual material é usado?",
+          "answer": "A peça usa PLA Premium por padrão, com alternativas sob consulta quando o projeto exigir."
+        }
+      ],
+      "productionWindow": "3 a 6 dias",
+      "featured": false,
+      "marketplaceScore": 8
+    },
+    {
+      "slug": "suporte-para-livros",
+      "name": "Suporte para Livros",
+      "category": "Casa e Organização",
+      "material": "PLA Premium",
+      "colors": [
+        "Preto",
+        "Branco"
+      ],
+      "personalizable": true,
+      "price": 85.9,
+      "promotionalPrice": 84.9,
+      "pixPrice": 84.9,
+      "cardPrice": 85.9,
+      "productionCost": 54.76,
+      "profitAmount": 30.14,
+      "profitPercent": 23.07,
+      "pricingBasis": "Pix 84,90 protegido por custo completo: material, máquina, acabamento, ferragens, embalagem e insumos de envio, reserva para falhas, despesas indiretas e margem bruta mínima de 30%. Frete real separado.",
+      "filamentPricePerKg": 100,
+      "stock": 0,
+      "sku": "MDH-0052",
+      "description": "Suporte para Livros selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento premium em PLA Premium. Indicado para setup, home office, mesa gamer e organizacao de bancada, mantendo prazo claro e apresentacao pronta para venda online.",
+      "tags": [
+        "suporte",
+        "livros",
+        "estante",
+        "a1-mini",
+        "bambu-lab-a1-mini",
+        "catalogo-100",
+        "livros 3d printed holder",
+        "livros 3d printed stand",
+        "livros impressao 3d",
+        "Casa e Organização",
+        "suporte doméstico",
+        "sob_encomenda",
+        "personalizar",
+        "organizar",
+        "decorar",
+        "setup",
+        "PLA Premium",
+        "Premium",
+        "personalizável",
+        "Suporte para Livros",
+        "impressão 3D",
+        "MDH 3D"
+      ],
+      "dimensions": {
+        "lengthCm": 25,
+        "widthCm": 15,
+        "heightCm": 20
+      },
+      "weightKg": 0.15,
+      "seoTitle": "Suporte para Livros | MDH 3D",
+      "seoDescription": "Suporte para Livros selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento premium em PLA Premium. Indicado p",
+      "brand": "MDH 3D",
+      "physical": true,
+      "image": "/products/mdh-052-suporte-para-livros/01-hero.jpg",
+      "gallery": [
+        "/products/mdh-052-suporte-para-livros/01-hero.jpg",
+        "/products/mdh-052-suporte-para-livros/02-closeup.jpg",
+        "/products/mdh-052-suporte-para-livros/03-in_use.jpg",
+        "/products/mdh-052-suporte-para-livros/04-packshot.jpg"
+      ],
+      "careInstructions": [
+        "Limpar com pano seco ou levemente úmido.",
+        "Evitar exposição prolongada ao sol forte ou calor intenso.",
+        "Não usar álcool, solventes ou abrasivos na peça.",
+        "PLA é indicado para uso decorativo e organizadores internos."
+      ],
+      "faqs": [
+        {
+          "question": "Posso escolher a cor?",
+          "answer": "Sim. A cor é confirmada no WhatsApp antes da produção, conforme disponibilidade de material."
+        },
+        {
+          "question": "Qual é o prazo de produção?",
+          "answer": "O prazo estimado para Suporte para Livros é 3 a 5 dias, podendo variar conforme fila e acabamento."
+        },
+        {
+          "question": "Qual material é usado?",
+          "answer": "A peça usa PLA Premium por padrão, com alternativas sob consulta quando o projeto exigir."
+        }
+      ],
+      "productionWindow": "3 a 5 dias",
+      "featured": false,
+      "marketplaceScore": 8
+    },
+    {
+      "slug": "vaso-geometrico-decorativo",
+      "name": "Vaso Geométrico Decorativo",
+      "category": "Decoração",
+      "material": "PLA Premium",
+      "colors": [
+        "Preto",
+        "Branco",
+        "Cinza",
+        "Terracota"
+      ],
+      "personalizable": true,
+      "price": 90.9,
+      "promotionalPrice": 89.9,
+      "pixPrice": 89.9,
+      "cardPrice": 90.9,
+      "productionCost": 53.55,
+      "profitAmount": 36.35,
+      "profitPercent": 23.09,
+      "pricingBasis": "Pix 89,90 protegido por custo completo: material, máquina, acabamento, ferragens, embalagem e insumos de envio, reserva para falhas, despesas indiretas e margem bruta mínima de 30%. Frete real separado.",
+      "filamentPricePerKg": 100,
+      "stock": 0,
+      "sku": "MDH-0025",
+      "description": "Vaso decorativo para arranjos secos ou para uso com recipiente interno. A peça impressa em PLA não é vendida como totalmente impermeável.",
+      "tags": [
+        "vaso geométrico",
+        "decoração",
+        "arranjo seco",
+        "casa",
+        "vaso",
+        "sob_encomenda",
+        "personalizar",
+        "decorar",
+        "PLA Premium",
+        "Acabamento fosco",
+        "personalizável",
+        "Vaso Geométrico Decorativo",
+        "geometrico",
+        "decorativo",
+        "impressão 3D",
+        "MDH 3D"
+      ],
+      "dimensions": {
+        "lengthCm": 15,
+        "widthCm": 15,
+        "heightCm": 20
+      },
+      "weightKg": 0.14,
+      "seoTitle": "Vaso Geométrico Decorativo | MDH 3D",
+      "seoDescription": "Vaso decorativo para arranjos secos ou para uso com recipiente interno. A peça impressa em PLA não é vendida como totalmente impermeável.",
+      "brand": "MDH 3D",
+      "physical": true,
+      "image": "/products/mdh-025-vaso-geometrico/01-hero.jpg",
+      "gallery": [
+        "/products/mdh-025-vaso-geometrico/01-hero.jpg",
+        "/products/mdh-025-vaso-geometrico/02-closeup.jpg",
+        "/products/mdh-025-vaso-geometrico/03-in_use.jpg",
+        "/products/mdh-025-vaso-geometrico/04-packshot.jpg"
+      ],
+      "careInstructions": [
+        "Limpar com pano seco ou levemente úmido.",
+        "Evitar exposição prolongada ao sol forte ou calor intenso.",
+        "Não usar álcool, solventes ou abrasivos na peça.",
+        "PLA é indicado para uso decorativo e organizadores internos."
+      ],
+      "faqs": [
+        {
+          "question": "Posso escolher a cor?",
+          "answer": "Sim. A cor é confirmada no WhatsApp antes da produção, conforme disponibilidade de material."
+        },
+        {
+          "question": "Qual é o prazo de produção?",
+          "answer": "O prazo estimado para Vaso Geométrico Decorativo é 3 a 6 dias úteis, podendo variar conforme fila e acabamento."
+        },
+        {
+          "question": "Qual material é usado?",
+          "answer": "A peça usa PLA Premium por padrão, com alternativas sob consulta quando o projeto exigir."
+        }
+      ],
+      "productionWindow": "3 a 6 dias úteis",
+      "featured": false,
+      "marketplaceScore": 8
+    },
+    {
+      "slug": "cavaleiro-medieval-mini",
+      "name": "Cavaleiro Medieval Mini",
+      "category": "Geek & Colecionáveis",
+      "material": "PLA Premium",
+      "colors": [
+        "Cinza",
+        "Dourado"
+      ],
+      "personalizable": false,
+      "price": 47.9,
+      "promotionalPrice": 46.9,
+      "pixPrice": 46.9,
+      "cardPrice": 47.9,
+      "productionCost": 30.01,
+      "profitAmount": 16.89,
+      "profitPercent": 23.11,
+      "pricingBasis": "Pix 46,90 protegido por custo completo: material, máquina, acabamento, ferragens, embalagem e insumos de envio, reserva para falhas, despesas indiretas e margem bruta mínima de 30%. Frete real separado.",
+      "filamentPricePerKg": 100,
+      "stock": 0,
+      "sku": "MDH-0077",
+      "description": "Cavaleiro Medieval Mini selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento premium em PLA Premium. Indicado para colecao, estante, nicho, setup gamer e presente tematico, mantendo prazo claro e apresentacao pronta para venda online.",
+      "tags": [
+        "cavaleiro",
+        "medieval",
+        "mini",
+        "a1-mini",
+        "bambu-lab-a1-mini",
+        "catalogo-100",
+        "miniatura",
+        "cavaleiro medieval 3d printed figure",
+        "cavaleiro medieval 3d print",
+        "cavaleiro medieval miniatura 3d",
+        "Geek & Colecionáveis",
+        "games",
+        "sob_encomenda",
+        "personalizar",
+        "colecionar",
+        "decorar",
+        "presentear",
+        "setup",
+        "PLA Premium",
+        "Premium",
+        "Cavaleiro Medieval Mini",
+        "impressão 3D",
+        "MDH 3D"
+      ],
+      "dimensions": {
+        "lengthCm": 10,
+        "widthCm": 7,
+        "heightCm": 13
+      },
+      "weightKg": 0.048,
+      "seoTitle": "Cavaleiro Medieval Mini | MDH 3D",
+      "seoDescription": "Cavaleiro Medieval Mini selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento premium em PLA Premium. Indica",
+      "brand": "MDH 3D",
+      "physical": true,
+      "image": "/products/mdh-077-cavaleiro-medieval-mini/01-hero.jpg",
+      "gallery": [
+        "/products/mdh-077-cavaleiro-medieval-mini/01-hero.jpg",
+        "/products/mdh-077-cavaleiro-medieval-mini/02-closeup.jpg",
+        "/products/mdh-077-cavaleiro-medieval-mini/03-in_use.jpg",
+        "/products/mdh-077-cavaleiro-medieval-mini/04-packshot.jpg"
+      ],
+      "careInstructions": [
+        "Limpar com pano seco ou levemente úmido.",
+        "Evitar exposição prolongada ao sol forte ou calor intenso.",
+        "Não usar álcool, solventes ou abrasivos na peça.",
+        "PLA é indicado para uso decorativo e organizadores internos."
+      ],
+      "faqs": [
+        {
+          "question": "Posso escolher a cor?",
+          "answer": "Sim. A cor é confirmada no WhatsApp antes da produção, conforme disponibilidade de material."
+        },
+        {
+          "question": "Qual é o prazo de produção?",
+          "answer": "O prazo estimado para Cavaleiro Medieval Mini é 3 a 5 dias, podendo variar conforme fila e acabamento."
+        },
+        {
+          "question": "Qual material é usado?",
+          "answer": "A peça usa PLA Premium por padrão, com alternativas sob consulta quando o projeto exigir."
+        }
+      ],
+      "productionWindow": "3 a 5 dias",
+      "featured": false,
+      "marketplaceScore": 0
+    },
+    {
+      "slug": "coruja-floresta-articulada",
+      "name": "Coruja Floresta Articulada",
+      "category": "Geek & Colecionáveis",
+      "material": "PLA Premium",
+      "colors": [
+        "Marrom",
+        "Branco"
+      ],
+      "personalizable": false,
+      "price": 38.9,
+      "promotionalPrice": 37.9,
+      "pixPrice": 37.9,
+      "cardPrice": 38.9,
+      "productionCost": 24.44,
+      "profitAmount": 13.46,
+      "profitPercent": 23.09,
+      "pricingBasis": "Pix 37,90 protegido por custo completo: material, máquina, acabamento, ferragens, embalagem e insumos de envio, reserva para falhas, despesas indiretas e margem bruta mínima de 30%. Frete real separado.",
+      "filamentPricePerKg": 100,
+      "stock": 0,
+      "sku": "MDH-0075",
+      "description": "Coruja Floresta Articulada selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento premium em PLA Premium. Indicado para colecao, presente geek e peca divertida de mesa, mantendo prazo claro e apresentacao pronta para venda online.",
+      "tags": [
+        "coruja",
+        "floresta",
+        "articulada",
+        "a1-mini",
+        "bambu-lab-a1-mini",
+        "catalogo-100",
+        "articulado",
+        "coruja floresta articulada 3d printed figure",
+        "coruja floresta articulada 3d print",
+        "coruja floresta articulada miniatura 3d",
+        "Geek & Colecionáveis",
+        "miniaturas",
+        "miniatura",
+        "sob_encomenda",
+        "personalizar",
+        "colecionar",
+        "decorar",
+        "presentear",
+        "PLA Premium",
+        "Premium",
+        "Coruja Floresta Articulada",
+        "impressão 3D",
+        "MDH 3D"
+      ],
+      "dimensions": {
+        "lengthCm": 8,
+        "widthCm": 6,
+        "heightCm": 10
+      },
+      "weightKg": 0.035,
+      "seoTitle": "Coruja Floresta Articulada | MDH 3D",
+      "seoDescription": "Coruja Floresta Articulada selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento premium em PLA Premium. Ind",
+      "brand": "MDH 3D",
+      "physical": true,
+      "image": "/products/mdh-075-coruja-floresta-articulada/01-hero.jpg",
+      "gallery": [
+        "/products/mdh-075-coruja-floresta-articulada/01-hero.jpg",
+        "/products/mdh-075-coruja-floresta-articulada/02-closeup.jpg",
+        "/products/mdh-075-coruja-floresta-articulada/03-in_use.jpg",
+        "/products/mdh-075-coruja-floresta-articulada/04-packshot.jpg"
+      ],
+      "careInstructions": [
+        "Limpar com pano seco ou levemente úmido.",
+        "Evitar exposição prolongada ao sol forte ou calor intenso.",
+        "Não usar álcool, solventes ou abrasivos na peça.",
+        "PLA é indicado para uso decorativo e organizadores internos."
+      ],
+      "faqs": [
+        {
+          "question": "Posso escolher a cor?",
+          "answer": "Sim. A cor é confirmada no WhatsApp antes da produção, conforme disponibilidade de material."
+        },
+        {
+          "question": "Qual é o prazo de produção?",
+          "answer": "O prazo estimado para Coruja Floresta Articulada é 24h a 48h, podendo variar conforme fila e acabamento."
+        },
+        {
+          "question": "Qual material é usado?",
+          "answer": "A peça usa PLA Premium por padrão, com alternativas sob consulta quando o projeto exigir."
+        }
+      ],
+      "productionWindow": "24h a 48h",
+      "featured": false,
+      "marketplaceScore": 0
+    },
+    {
+      "slug": "dragao-oriental-articulado",
+      "name": "Dragão Oriental Articulado",
+      "category": "Geek & Colecionáveis",
+      "material": "PLA Premium",
+      "colors": [
+        "Verde",
+        "Dourado"
+      ],
+      "personalizable": false,
+      "price": 55.9,
+      "promotionalPrice": 54.9,
+      "pixPrice": 54.9,
+      "cardPrice": 55.9,
+      "productionCost": 35.09,
+      "profitAmount": 19.81,
+      "profitPercent": 23.09,
+      "pricingBasis": "Pix 54,90 protegido por custo completo: material, máquina, acabamento, ferragens, embalagem e insumos de envio, reserva para falhas, despesas indiretas e margem bruta mínima de 30%. Frete real separado.",
+      "filamentPricePerKg": 100,
+      "stock": 0,
+      "sku": "MDH-0073",
+      "description": "Dragão Oriental Articulado selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento premium em PLA Premium. Indicado para colecao, presente geek e peca divertida de mesa, mantendo prazo claro e apresentacao pronta para venda online.",
+      "tags": [
+        "dragão",
+        "oriental",
+        "articulado",
+        "a1-mini",
+        "bambu-lab-a1-mini",
+        "catalogo-100",
+        "dragao oriental articulado 3d printed figure",
+        "dragao oriental articulado 3d print",
+        "dragao oriental articulado miniatura 3d",
+        "Geek & Colecionáveis",
+        "fantasia/medieval",
+        "miniatura",
+        "sob_encomenda",
+        "personalizar",
+        "colecionar",
+        "decorar",
+        "presentear",
+        "PLA Premium",
+        "Premium",
+        "Dragão Oriental Articulado",
+        "impressão 3D",
+        "MDH 3D"
+      ],
+      "dimensions": {
+        "lengthCm": 12,
+        "widthCm": 8,
+        "heightCm": 15
+      },
+      "weightKg": 0.055,
+      "seoTitle": "Dragão Oriental Articulado | MDH 3D",
+      "seoDescription": "Dragão Oriental Articulado selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento premium em PLA Premium. Ind",
+      "brand": "MDH 3D",
+      "physical": true,
+      "image": "/products/mdh-073-dragao-oriental-articulado/01-hero.jpg",
+      "gallery": [
+        "/products/mdh-073-dragao-oriental-articulado/01-hero.jpg",
+        "/products/mdh-073-dragao-oriental-articulado/02-closeup.jpg",
+        "/products/mdh-073-dragao-oriental-articulado/03-in_use.jpg",
+        "/products/mdh-073-dragao-oriental-articulado/04-packshot.jpg"
+      ],
+      "careInstructions": [
+        "Limpar com pano seco ou levemente úmido.",
+        "Evitar exposição prolongada ao sol forte ou calor intenso.",
+        "Não usar álcool, solventes ou abrasivos na peça.",
+        "PLA é indicado para uso decorativo e organizadores internos."
+      ],
+      "faqs": [
+        {
+          "question": "Posso escolher a cor?",
+          "answer": "Sim. A cor é confirmada no WhatsApp antes da produção, conforme disponibilidade de material."
+        },
+        {
+          "question": "Qual é o prazo de produção?",
+          "answer": "O prazo estimado para Dragão Oriental Articulado é 3 a 5 dias, podendo variar conforme fila e acabamento."
+        },
+        {
+          "question": "Qual material é usado?",
+          "answer": "A peça usa PLA Premium por padrão, com alternativas sob consulta quando o projeto exigir."
+        }
+      ],
+      "productionWindow": "3 a 5 dias",
+      "featured": false,
+      "marketplaceScore": 0
+    },
+    {
+      "slug": "esfera-colecionavel",
+      "name": "esfera colecionável",
+      "category": "Decoração",
+      "material": "PLA Premium",
+      "colors": [
+        "Vermelho",
+        "Branco",
+        "Preto"
+      ],
+      "personalizable": false,
+      "price": 33.9,
+      "promotionalPrice": 32.9,
+      "pixPrice": 32.9,
+      "cardPrice": 33.9,
+      "productionCost": 21,
+      "profitAmount": 11.9,
+      "profitPercent": 23.11,
+      "pricingBasis": "Pix 32,90 protegido por custo completo: material, máquina, acabamento, ferragens, embalagem e insumos de envio, reserva para falhas, despesas indiretas e margem bruta mínima de 30%. Frete real separado.",
+      "filamentPricePerKg": 100,
+      "stock": 20,
+      "sku": "MDH-0026",
+      "description": "esfera colecionável selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento premium em PLA Premium. Indicado para colecao, estante, nicho, setup gamer e presente tematico, mantendo prazo claro e apresentacao pronta para venda online.",
+      "tags": [
+        "esfera colecionável",
+        "criatura colecionável",
+        "decoração",
+        "a1-mini",
+        "bambu-lab-a1-mini",
+        "catalogo-100",
+        "miniatura",
+        "esfera colecionável 3d printed figure",
+        "esfera colecionável 3d print",
+        "esfera colecionável miniatura 3d",
+        "decoração de estante",
+        "pronta_entrega",
+        "personalizar",
+        "decorar",
+        "presentear",
+        "setup",
+        "PLA Premium",
+        "Premium",
+        "impressão 3D",
+        "MDH 3D"
+      ],
+      "dimensions": {
+        "lengthCm": 8,
+        "widthCm": 8,
+        "heightCm": 8
+      },
+      "weightKg": 0.03,
+      "seoTitle": "esfera colecionável | MDH 3D",
+      "seoDescription": "esfera colecionável selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento premium em PLA Premium. Indicado p",
+      "brand": "MDH 3D",
+      "physical": true,
+      "image": "/products/mdh-026-pokebola/01-hero.jpg",
+      "gallery": [
+        "/products/mdh-026-pokebola/01-hero.jpg",
+        "/products/mdh-026-pokebola/02-closeup.jpg",
+        "/products/mdh-026-pokebola/03-in_use.jpg",
+        "/products/mdh-026-pokebola/04-packshot.jpg"
+      ],
+      "careInstructions": [
+        "Limpar com pano seco ou levemente úmido.",
+        "Evitar exposição prolongada ao sol forte ou calor intenso.",
+        "Não usar álcool, solventes ou abrasivos na peça.",
+        "PLA é indicado para uso decorativo e organizadores internos."
+      ],
+      "faqs": [
+        {
+          "question": "Posso escolher a cor?",
+          "answer": "Sim. A cor é confirmada no WhatsApp antes da produção, conforme disponibilidade de material."
+        },
+        {
+          "question": "Qual é o prazo de produção?",
+          "answer": "O prazo estimado para esfera colecionável é 24h a 48h, podendo variar conforme fila e acabamento."
+        },
+        {
+          "question": "Qual material é usado?",
+          "answer": "A peça usa PLA Premium por padrão, com alternativas sob consulta quando o projeto exigir."
+        }
+      ],
+      "productionWindow": "24h a 48h",
+      "featured": false,
+      "marketplaceScore": 0
+    },
+    {
+      "slug": "polvo-oceano-articulado",
+      "name": "Polvo Oceano Articulado",
+      "category": "Geek & Colecionáveis",
+      "material": "PLA Premium",
+      "colors": [
+        "Roxo",
+        "Azul"
+      ],
+      "personalizable": false,
+      "price": 46.9,
+      "promotionalPrice": 45.9,
+      "pixPrice": 45.9,
+      "cardPrice": 46.9,
+      "productionCost": 29.77,
+      "profitAmount": 16.13,
+      "profitPercent": 23.09,
+      "pricingBasis": "Pix 45,90 protegido por custo completo: material, máquina, acabamento, ferragens, embalagem e insumos de envio, reserva para falhas, despesas indiretas e margem bruta mínima de 30%. Frete real separado.",
+      "filamentPricePerKg": 100,
+      "stock": 0,
+      "sku": "MDH-0071",
+      "description": "Polvo Oceano Articulado selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento premium em PLA Premium. Indicado para colecao, presente geek e peca divertida de mesa, mantendo prazo claro e apresentacao pronta para venda online.",
+      "tags": [
+        "polvo",
+        "oceano",
+        "articulado",
+        "a1-mini",
+        "bambu-lab-a1-mini",
+        "catalogo-100",
+        "polvo oceano articulado 3d printed figure",
+        "polvo oceano articulado 3d print",
+        "polvo oceano articulado miniatura 3d",
+        "Geek & Colecionáveis",
+        "miniaturas",
+        "miniatura",
+        "sob_encomenda",
+        "personalizar",
+        "colecionar",
+        "decorar",
+        "presentear",
+        "PLA Premium",
+        "Premium",
+        "Polvo Oceano Articulado",
+        "impressão 3D",
+        "MDH 3D"
+      ],
+      "dimensions": {
+        "lengthCm": 10,
+        "widthCm": 8,
+        "heightCm": 12
+      },
+      "weightKg": 0.045,
+      "seoTitle": "Polvo Oceano Articulado | MDH 3D",
+      "seoDescription": "Polvo Oceano Articulado selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento premium em PLA Premium. Indica",
+      "brand": "MDH 3D",
+      "physical": true,
+      "image": "/products/mdh-071-polvo-oceano-articulado/01-hero.jpg",
+      "gallery": [
+        "/products/mdh-071-polvo-oceano-articulado/01-hero.jpg",
+        "/products/mdh-071-polvo-oceano-articulado/02-closeup.jpg",
+        "/products/mdh-071-polvo-oceano-articulado/03-in_use.jpg",
+        "/products/mdh-071-polvo-oceano-articulado/04-packshot.jpg"
+      ],
+      "careInstructions": [
+        "Limpar com pano seco ou levemente úmido.",
+        "Evitar exposição prolongada ao sol forte ou calor intenso.",
+        "Não usar álcool, solventes ou abrasivos na peça.",
+        "PLA é indicado para uso decorativo e organizadores internos."
+      ],
+      "faqs": [
+        {
+          "question": "Posso escolher a cor?",
+          "answer": "Sim. A cor é confirmada no WhatsApp antes da produção, conforme disponibilidade de material."
+        },
+        {
+          "question": "Qual é o prazo de produção?",
+          "answer": "O prazo estimado para Polvo Oceano Articulado é 3 a 5 dias, podendo variar conforme fila e acabamento."
+        },
+        {
+          "question": "Qual material é usado?",
+          "answer": "A peça usa PLA Premium por padrão, com alternativas sob consulta quando o projeto exigir."
+        }
+      ],
+      "productionWindow": "3 a 5 dias",
+      "featured": false,
+      "marketplaceScore": 0
+    },
+    {
+      "slug": "suporte-para-bicicleta",
+      "name": "Suporte para Bicicleta",
+      "category": "Casa e Organização",
+      "material": "PLA Premium",
+      "colors": [
+        "Preto",
+        "Branco"
+      ],
+      "personalizable": false,
+      "price": 121.9,
+      "promotionalPrice": 120.9,
+      "pixPrice": 120.9,
+      "cardPrice": 121.9,
+      "productionCost": 78.35,
+      "profitAmount": 42.55,
+      "profitPercent": 23.09,
+      "pricingBasis": "Pix 120,90 protegido por custo completo: material, máquina, acabamento, ferragens, embalagem e insumos de envio, reserva para falhas, despesas indiretas e margem bruta mínima de 30%. Frete real separado.",
+      "filamentPricePerKg": 100,
+      "stock": 0,
+      "sku": "MDH-0056",
+      "description": "Suporte para Bicicleta feito em PLA Premium para resolver uso diário com impressão 3D funcional e acabamento limpo, priorizando resistência, encaixe e rotina prática.",
+      "tags": [
+        "suporte",
+        "bicicleta",
+        "esporte",
+        "Casa e Organização",
+        "suporte doméstico",
+        "sob_encomenda",
+        "organizar",
+        "PLA Premium",
+        "Premium",
+        "Suporte para Bicicleta",
+        "impressão 3D",
+        "MDH 3D"
+      ],
+      "dimensions": {
+        "lengthCm": 30,
+        "widthCm": 20,
+        "heightCm": 15
+      },
+      "weightKg": 0.25,
+      "seoTitle": "Suporte para Bicicleta | MDH 3D",
+      "seoDescription": "Suporte para Bicicleta feito em PLA Premium para resolver uso diário com impressão 3D funcional e acabamento limpo, priorizando resistência, encaixe e roti",
+      "brand": "MDH 3D",
+      "physical": true,
+      "image": "/products/mdh-056-suporte-para-bicicleta/01-hero.jpg",
+      "gallery": [
+        "/products/mdh-056-suporte-para-bicicleta/01-hero.jpg",
+        "/products/mdh-056-suporte-para-bicicleta/02-closeup.jpg",
+        "/products/mdh-056-suporte-para-bicicleta/03-in_use.jpg",
+        "/products/mdh-056-suporte-para-bicicleta/04-packshot.jpg"
+      ],
+      "careInstructions": [
+        "Limpar com pano seco ou levemente úmido.",
+        "Evitar exposição prolongada ao sol forte ou calor intenso.",
+        "Não usar álcool, solventes ou abrasivos na peça.",
+        "PLA é indicado para uso decorativo e organizadores internos."
+      ],
+      "faqs": [
+        {
+          "question": "Posso escolher a cor?",
+          "answer": "Sim. A cor é confirmada no WhatsApp antes da produção, conforme disponibilidade de material."
+        },
+        {
+          "question": "Qual é o prazo de produção?",
+          "answer": "O prazo estimado para Suporte para Bicicleta é 7 a 10 dias, podendo variar conforme fila e acabamento."
+        },
+        {
+          "question": "Qual material é usado?",
+          "answer": "A peça usa PLA Premium por padrão, com alternativas sob consulta quando o projeto exigir."
+        }
+      ],
+      "productionWindow": "7 a 10 dias",
+      "featured": false,
+      "marketplaceScore": 0
+    },
+    {
+      "slug": "suporte-para-plantas",
+      "name": "Suporte para Plantas",
+      "category": "Casa e Organização",
+      "material": "PLA Premium",
+      "colors": [
+        "Preto",
+        "Branco"
+      ],
+      "personalizable": false,
+      "price": 63.9,
+      "promotionalPrice": 62.9,
+      "pixPrice": 62.9,
+      "cardPrice": 63.9,
+      "productionCost": 40.24,
+      "profitAmount": 22.66,
+      "profitPercent": 23.08,
+      "pricingBasis": "Pix 62,90 protegido por custo completo: material, máquina, acabamento, ferragens, embalagem e insumos de envio, reserva para falhas, despesas indiretas e margem bruta mínima de 30%. Frete real separado.",
+      "filamentPricePerKg": 100,
+      "stock": 0,
+      "sku": "MDH-0054",
+      "description": "Suporte para Plantas selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento premium em PLA Premium. Indicado para setup, home office, mesa gamer e organizacao de bancada, mantendo prazo claro e apresentacao pronta para venda online.",
+      "tags": [
+        "suporte",
+        "plantas",
+        "jardim",
+        "a1-mini",
+        "bambu-lab-a1-mini",
+        "catalogo-100",
+        "plantas 3d printed holder",
+        "plantas 3d printed stand",
+        "plantas impressao 3d",
+        "Casa e Organização",
+        "suporte doméstico",
+        "sob_encomenda",
+        "personalizar",
+        "organizar",
+        "setup",
+        "PLA Premium",
+        "Premium",
+        "Suporte para Plantas",
+        "impressão 3D",
+        "MDH 3D"
+      ],
+      "dimensions": {
+        "lengthCm": 20,
+        "widthCm": 10,
+        "heightCm": 5
+      },
+      "weightKg": 0.1,
+      "seoTitle": "Suporte para Plantas | MDH 3D",
+      "seoDescription": "Suporte para Plantas selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento premium em PLA Premium. Indicado ",
+      "brand": "MDH 3D",
+      "physical": true,
+      "image": "/products/mdh-054-suporte-para-plantas/01-hero.jpg",
+      "gallery": [
+        "/products/mdh-054-suporte-para-plantas/01-hero.jpg",
+        "/products/mdh-054-suporte-para-plantas/02-closeup.jpg",
+        "/products/mdh-054-suporte-para-plantas/03-in_use.jpg",
+        "/products/mdh-054-suporte-para-plantas/04-packshot.jpg"
+      ],
+      "careInstructions": [
+        "Limpar com pano seco ou levemente úmido.",
+        "Evitar exposição prolongada ao sol forte ou calor intenso.",
+        "Não usar álcool, solventes ou abrasivos na peça.",
+        "PLA é indicado para uso decorativo e organizadores internos."
+      ],
+      "faqs": [
+        {
+          "question": "Posso escolher a cor?",
+          "answer": "Sim. A cor é confirmada no WhatsApp antes da produção, conforme disponibilidade de material."
+        },
+        {
+          "question": "Qual é o prazo de produção?",
+          "answer": "O prazo estimado para Suporte para Plantas é 3 a 5 dias, podendo variar conforme fila e acabamento."
+        },
+        {
+          "question": "Qual material é usado?",
+          "answer": "A peça usa PLA Premium por padrão, com alternativas sob consulta quando o projeto exigir."
+        }
+      ],
+      "productionWindow": "3 a 5 dias",
+      "featured": false,
+      "marketplaceScore": 0
+    }
+  ],
   "publicPicsumCount": 0,
   "smartPicsumCount": 0,
   "smartUnsafeLinkCount": 0,
-  "genericDescriptionCount": 0,
-  "publicWithCategory": 12,
-  "smartWithCategory": 306,
+  "genericDescriptionCount": 31,
+  "publicWithCategory": 848,
+  "smartWithCategory": 39,
   "smartPlaceholderCount": 0,
-  "ok": true
+  "ok": false
 }

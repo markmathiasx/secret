@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-27T12:59:25.440Z",
+  "generatedAt": "2026-09-10T04:53:56.878Z",
   "baseUrl": "http://127.0.0.1:3000",
   "results": [
     {
@@ -8,7 +8,7 @@
       "url": "http://127.0.0.1:3000/",
       "ok": true,
       "status": 200,
-      "bodyTextLength": 8062,
+      "bodyTextLength": 8400,
       "frameworkOverlay": false,
       "skipLink": {
         "exists": true,
@@ -26,7 +26,7 @@
       "url": "http://127.0.0.1:3000/catalogo",
       "ok": true,
       "status": 200,
-      "bodyTextLength": 12649,
+      "bodyTextLength": 18535,
       "frameworkOverlay": false,
       "skipLink": {
         "exists": true,
@@ -44,7 +44,7 @@
       "url": "http://127.0.0.1:3000/loja",
       "ok": true,
       "status": 200,
-      "bodyTextLength": 12649,
+      "bodyTextLength": 18535,
       "frameworkOverlay": false,
       "skipLink": {
         "exists": true,
@@ -62,7 +62,7 @@
       "url": "http://127.0.0.1:3000/catalogo/mdh-016-chaveiro-3d-personalizado-com-nome-ou-logo",
       "ok": true,
       "status": 200,
-      "bodyTextLength": 11285,
+      "bodyTextLength": 11196,
       "frameworkOverlay": false,
       "skipLink": {
         "exists": true,
@@ -116,7 +116,7 @@
       "url": "http://127.0.0.1:3000/",
       "ok": true,
       "status": 200,
-      "bodyTextLength": 8241,
+      "bodyTextLength": 8579,
       "frameworkOverlay": false,
       "skipLink": {
         "exists": true,
@@ -134,7 +134,7 @@
       "url": "http://127.0.0.1:3000/catalogo",
       "ok": true,
       "status": 200,
-      "bodyTextLength": 12809,
+      "bodyTextLength": 18695,
       "frameworkOverlay": false,
       "skipLink": {
         "exists": true,
@@ -152,7 +152,7 @@
       "url": "http://127.0.0.1:3000/loja",
       "ok": true,
       "status": 200,
-      "bodyTextLength": 12809,
+      "bodyTextLength": 18695,
       "frameworkOverlay": false,
       "skipLink": {
         "exists": true,
@@ -170,7 +170,7 @@
       "url": "http://127.0.0.1:3000/catalogo/mdh-016-chaveiro-3d-personalizado-com-nome-ou-logo",
       "ok": true,
       "status": 200,
-      "bodyTextLength": 11444,
+      "bodyTextLength": 11355,
       "frameworkOverlay": false,
       "skipLink": {
         "exists": true,

@@ -35,8 +35,8 @@ for (const item of curated) {
 }
 
 [
-  "Impressão 3D personalizada no Rio de Janeiro",
-  "Chaveiros, presentes, organizadores, peças geek e projetos sob medida. Escolha um modelo ou mande sua ideia no WhatsApp.",
+  "Ideias digitais. Objetos extraordinários.",
+  "Impressão 3D sob demanda no Rio de Janeiro, com catálogo validado, acabamento preciso e atendimento humano do briefing à entrega.",
   "Ver mais pedidos",
   "Pedir orçamento no WhatsApp",
   "Presentes até R$ 50",

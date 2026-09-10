@@ -1,6 +1,110 @@
 {
-  "generatedAt": "2026-07-27T13:01:13.953Z",
-  "totalFindings": 0,
-  "findings": [],
-  "ok": true
+  "generatedAt": "2026-09-10T04:55:35.997Z",
+  "totalFindings": 7,
+  "findings": [
+    {
+      "source": "catalogo_publico",
+      "id": "mw-a1-174",
+      "name": "Suporte para Controle Ajustável para setup",
+      "url": "/catalogo/mw-a1-174-suporte-para-controle-ajustavel-para-setup",
+      "matches": [
+        {
+          "term": "playstation",
+          "risk": "brand",
+          "proposal": "console gamer"
+        }
+      ],
+      "suggestedCopy": "Suporte para Controle Ajustável para setup"
+    },
+    {
+      "source": "catalogo_publico",
+      "id": "mw-a1-176",
+      "name": "Base Gamer Compacta de Encaixe para organizar controles",
+      "url": "/catalogo/mw-a1-176-base-gamer-compacta-de-encaixe-para-organizar-controles",
+      "matches": [
+        {
+          "term": "xbox",
+          "risk": "brand",
+          "proposal": "console gamer"
+        }
+      ],
+      "suggestedCopy": "Base Gamer Compacta de Encaixe para organizar controles"
+    },
+    {
+      "source": "catalogo_publico",
+      "id": "mw-a1-312",
+      "name": "Figura Decorativa Compacto para setup",
+      "url": "/catalogo/mw-a1-312-figura-decorativa-compacto-para-setup",
+      "matches": [
+        {
+          "term": "harry potter",
+          "risk": "franchise",
+          "proposal": "fantasia escolar"
+        }
+      ],
+      "suggestedCopy": "Figura Decorativa Compacto para setup"
+    },
+    {
+      "source": "catalogo_publico",
+      "id": "mw-a1-343",
+      "name": "Decoração Gamer para Uso Diário para quarto e setup",
+      "url": "/catalogo/mw-a1-343-decoracao-gamer-para-uso-diario-para-quarto-e-setup",
+      "matches": [
+        {
+          "term": "playstation",
+          "risk": "brand",
+          "proposal": "console gamer"
+        }
+      ],
+      "suggestedCopy": "Decoração Gamer para Uso Diário para quarto e setup"
+    },
+    {
+      "source": "catalogo_publico",
+      "id": "mw-a1-356",
+      "name": "Chaveiro Geek Modular para presente rápido",
+      "url": "/catalogo/mw-a1-356-chaveiro-geek-modular-para-presente-rapido",
+      "matches": [
+        {
+          "term": "playstation",
+          "risk": "brand",
+          "proposal": "console gamer"
+        },
+        {
+          "term": "xbox",
+          "risk": "brand",
+          "proposal": "console gamer"
+        }
+      ],
+      "suggestedCopy": "Chaveiro Geek Modular para presente rápido"
+    },
+    {
+      "source": "catalogo_publico",
+      "id": "mw-a1-360",
+      "name": "Chaveiro Gamer Dobrável para mochila e chave",
+      "url": "/catalogo/mw-a1-360-chaveiro-gamer-dobravel-para-mochila-e-chave",
+      "matches": [
+        {
+          "term": "xbox",
+          "risk": "brand",
+          "proposal": "console gamer"
+        }
+      ],
+      "suggestedCopy": "Chaveiro Gamer Dobrável para mochila e chave"
+    },
+    {
+      "source": "catalogo_publico",
+      "id": "mw-a1-362",
+      "name": "Chaveiro Geek de Bancada para presente rápido",
+      "url": "/catalogo/mw-a1-362-chaveiro-geek-de-bancada-para-presente-rapido",
+      "matches": [
+        {
+          "term": "playstation",
+          "risk": "brand",
+          "proposal": "console gamer"
+        }
+      ],
+      "suggestedCopy": "Chaveiro Geek de Bancada para presente rápido"
+    }
+  ],
+  "ok": false
 }
