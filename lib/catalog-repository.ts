@@ -91,6 +91,54 @@ function mapStatusToLegacy(status: ProductStatus): Product["status"] {
   return status === ProductStatus.READY_TO_SHIP ? "Pronta entrega" : "Sob encomenda";
 }
 
+async function applyDatabaseCommerceOverrides(products: Product[]) {
+  if (!(await canConnectToDatabase())) return products;
+  try {
+    const overrides = await prisma.product.findMany({
+      where: { id: { in: products.map((product) => product.id) } },
+      select: {
+        id: true,
+        pricePix: true,
+        priceCard: true,
+        status: true,
+        visibility: true,
+        stock: true,
+        readyToShip: true,
+        customizable: true,
+        featured: true,
+      },
+    });
+    const byId = new Map(overrides.map((product) => [product.id, product]));
+    return products.flatMap((product) => {
+      const override = byId.get(product.id);
+      if (!override) return [product];
+      if (
+        override.visibility !== ProductVisibility.PUBLIC ||
+        override.status === ProductStatus.DRAFT ||
+        override.status === ProductStatus.ARCHIVED
+      ) return [];
+      const pricePix = decimalToNumber(override.pricePix);
+      const priceCard = decimalToNumber(override.priceCard);
+      return [{
+        ...product,
+        price: pricePix,
+        pricePix,
+        priceCard,
+        status: mapStatusToLegacy(override.status),
+        stock: override.stock,
+        readyToShip: override.readyToShip,
+        customizable: override.customizable,
+        featured: override.featured,
+      }];
+    });
+  } catch (error) {
+    logStructured("warn", "catalog_static_override_failed", {
+      message: error instanceof Error ? error.message : "unknown",
+    });
+    return products;
+  }
+}
+
 function mapPrismaProduct(record: PrismaProductRecord): Product {
   const images = record.media
     .filter((item) => item.type === MediaType.IMAGE || item.type === MediaType.THUMBNAIL)
@@ -216,7 +264,7 @@ export async function getCatalogSnapshot(): Promise<Product[]> {
   let result: Product[];
 
   if (configuredSource === "static") {
-    result = filterPublicCatalogProducts(staticCatalog);
+    result = await applyDatabaseCommerceOverrides(filterPublicCatalogProducts(staticCatalog));
     await setCachedJson("catalog:products", result, 300);
     return result;
   }
@@ -272,7 +320,12 @@ export async function getCatalogStaticParams(): Promise<Array<{ slug: string }>>
 }
 
 export async function findCatalogProductBySlug(slug: string): Promise<Product | undefined> {
-  if (getConfiguredCatalogSource() === "static" || !(await canConnectToDatabase())) {
+  if (getConfiguredCatalogSource() === "static") {
+    const product = findStaticProductBySlug(slug);
+    if (!product || !isPublicCatalogProduct(product)) return undefined;
+    return (await getCatalogSnapshot()).find((candidate) => candidate.id === product.id);
+  }
+  if (!(await canConnectToDatabase())) {
     const product = findStaticProductBySlug(slug);
     return product && isPublicCatalogProduct(product) ? product : undefined;
   }
