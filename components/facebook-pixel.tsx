@@ -2,6 +2,8 @@
 
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
+import { hasMarketingConsent } from "@/lib/marketing-consent";
+import { useMarketingConsent } from "@/lib/use-marketing-consent";
 
 declare global {
   interface Window {
@@ -36,37 +38,24 @@ function load(pixelId: string) {
 }
 
 export function fbqEvent(event: string, params?: Record<string, unknown>) {
-  if (typeof window !== "undefined" && window.fbq) {
+  if (hasMarketingConsent() && window.fbq) {
     window.fbq("track", event, params);
   }
 }
 
 export function FacebookPixel() {
   const pathname = usePathname();
+  const consent = useMarketingConsent();
 
   useEffect(() => {
-    if (!PIXEL_ID) return;
+    if (!consent || !PIXEL_ID) return;
     load(PIXEL_ID);
-  }, []);
+  }, [consent]);
 
   useEffect(() => {
-    if (!PIXEL_ID || typeof window === "undefined" || !window.fbq) return;
+    if (!consent || !PIXEL_ID || typeof window === "undefined" || !window.fbq) return;
     window.fbq("track", "PageView");
-  }, [pathname]);
+  }, [pathname, consent]);
 
-  if (!PIXEL_ID) return null;
-
-  return (
-    <noscript>
-      {/* Meta Pixel requires a noscript image beacon fallback for non-JS clients. */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        alt=""
-        height={1}
-        width={1}
-        style={{ display: "none" }}
-        src={`https://www.facebook.com/tr?id=${PIXEL_ID}&ev=PageView&noscript=1`}
-      />
-    </noscript>
-  );
+  return null;
 }

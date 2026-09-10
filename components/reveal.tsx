@@ -24,7 +24,7 @@ export function Reveal({
   className?: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(true);
 
   useEffect(() => {
     const element = ref.current;
@@ -33,6 +33,10 @@ export function Reveal({
       setVisible(true);
       return;
     }
+
+    if (element.getBoundingClientRect().top < window.innerHeight) return;
+    if (!("IntersectionObserver" in window)) return;
+    setVisible(false);
 
     const observer = new IntersectionObserver(
       ([entry]) => {

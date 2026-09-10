@@ -50,9 +50,10 @@ export async function POST(request: Request) {
   const normalizedPaymentData = normalizeMpPaymentFormData(parsed.data.paymentData);
   const paymentMethodId = normalizedPaymentData.paymentMethodId || (parsed.data.paymentData?.payment_method_id as string | undefined) || (parsed.data.paymentData?.paymentMethodId as string | undefined) || (parsed.data.paymentData?.type as string | undefined) || (parsed.data.orderCode ? "pix" : "visa");
 
-  // Idempotency key: dedup retries in same 5-min window from same IP + order
-  const idempotencyBucket = Math.floor(Date.now() / (5 * 60_000));
-  const idempotencyKey = `mdh-checkout-${ip}-${parsed.data.productId}-${parsed.data.orderCode ?? "new"}-${idempotencyBucket}`;
+  if (!paymentContext) {
+    return NextResponse.json({ ok: false, message: "Pedido indisponível para pagamento. Use a sessão que criou o pedido ou entre na conta vinculada." }, { status: 403 });
+  }
+  const idempotencyKey = `mdh-payment-${paymentContext.orderCode}-${paymentMethodId}`;
 
   const payment = await createMercadoPagoPayment({
     title: paymentContext.title,

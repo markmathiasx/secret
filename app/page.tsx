@@ -1,27 +1,11 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import {
-  ArrowDown,
-  ArrowRight,
-  Gamepad2,
-  Instagram,
-  MessageCircleMore,
-  Search,
-  ShoppingBag,
-  Sparkles,
-  UploadCloud,
-} from "lucide-react";
+import { ArrowRight, Box, Clock3, Instagram, MessageCircleMore, UploadCloud } from "lucide-react";
 import { HowItWorksSection } from "@/components/commerce/HowItWorksSection";
 import { TrustProofSection } from "@/components/commerce/TrustProofSection";
-import { WhatsAppQuoteCta } from "@/components/commerce/WhatsAppQuoteCta";
 import { HomeCategoriesShowcase } from "@/components/home-categories-showcase";
-import { HomeTestimonials } from "@/components/home-testimonials";
-import { CinematicVideoBackground } from "@/components/media/CinematicVideoBackground";
 import { Reveal } from "@/components/reveal";
 import { SafeProductImage } from "@/components/safe-product-image";
-import { RotatingProductHero, type RotatingHeroProduct } from "@/components/home/RotatingProductHero";
-import { StorefrontSearchBox } from "@/components/storefront-search-box";
-import { MagneticLink } from "@/components/ui/magnetic-link";
 import { getCatalogSnapshot } from "@/lib/catalog-repository";
 import type { Product } from "@/lib/catalog";
 import { getProductUrl } from "@/lib/catalog";
@@ -31,7 +15,6 @@ import { buildUniqueHomeSections, getHomeDuplicateIds } from "@/lib/home-product
 import { calculateCardPrice } from "@/lib/payment-pricing";
 import { COMMERCIAL_STOREFRONT_IDS } from "@/lib/commercial-catalog-policy";
 import { isDirectSaleCatalogProduct } from "@/lib/public-catalog";
-import { withProductPreviewCandidates } from "@/lib/product-image-variants";
 import { PRODUCT_IMAGE_PLACEHOLDER, getProductImageAlt, getProductImageCandidates } from "@/lib/product-images";
 import { formatCurrency } from "@/lib/utils";
 import { buildPublicCatalogStats } from "@/src/lib/catalog/stats";
@@ -44,12 +27,6 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
 };
 
-const trustBar = [
-  "Feito sob encomenda",
-  "Impressão 3D personalizada",
-  "Atendimento via WhatsApp",
-  "Checkout externo quando disponível",
-] as const;
 
 const homeProductIds = new Set(COMMERCIAL_STOREFRONT_IDS);
 
@@ -59,26 +36,7 @@ function whatsappHref(message: string) {
 
 function productImageCandidates(product?: Product) {
   if (!product) return [PRODUCT_IMAGE_PLACEHOLDER];
-  return withProductPreviewCandidates([...getProductImageCandidates(product), PRODUCT_IMAGE_PLACEHOLDER]);
-}
-
-function toRotatingHeroProducts(products: Product[]): RotatingHeroProduct[] {
-  return products.map((product) => {
-    const imageCandidates = productImageCandidates(product);
-    return {
-      id: product.id,
-      sku: product.sku,
-      name: product.name,
-      category: product.category,
-      pricePix: product.pricePix,
-      image: imageCandidates[0] || PRODUCT_IMAGE_PLACEHOLDER,
-      imageCandidates,
-      imageAlt: getProductImageAlt(product),
-      href: getProductUrl(product),
-      productionWindow: product.productionWindow,
-      material: product.material,
-    };
-  });
+  return [...getProductImageCandidates(product), PRODUCT_IMAGE_PLACEHOLDER];
 }
 
 function shortText(product: Product) {
@@ -99,14 +57,14 @@ function HomeProductCard({ product, siteUrl, priority = false }: { product: Prod
       className="group overflow-hidden rounded-[24px] border border-white/10 bg-white/[0.045] shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] transition-all duration-500 hover:-translate-y-1.5 hover:border-emerald-300/30 hover:bg-white/[0.065] hover:shadow-[0_24px_64px_rgba(2,8,23,0.48)]"
     >
       <Link href={href} prefetch={false} className="block">
-        <div className="relative overflow-hidden bg-black/25" style={{ aspectRatio: "1 / 1" }}>
+        <div className="relative overflow-hidden bg-[#e7e9ed]" style={{ aspectRatio: "1 / 1" }}>
           <SafeProductImage
             candidates={imageCandidates}
             alt={getProductImageAlt(product)}
             priority={priority}
             fetchPriority={priority ? "high" : "low"}
             sizes="(max-width: 768px) 50vw, (max-width: 1280px) 25vw, 280px"
-            className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105"
+            className="absolute inset-0 h-full w-full object-contain transition duration-300 group-hover:scale-[1.02]"
           />
           <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-3 opacity-0 transition group-hover:opacity-100">
             <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-white/70">{product.productionWindow}</p>
@@ -123,8 +81,9 @@ function HomeProductCard({ product, siteUrl, priority = false }: { product: Prod
         <p className="mt-2 line-clamp-2 min-h-10 text-xs leading-5 text-white/58">{shortText(product)}</p>
         <div className="mt-3">
           <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-white/42">Pix</p>
-          <p className="text-xl font-black text-emerald-100">{formatCurrency(product.pricePix)}</p>
-          <p className="mt-0.5 text-xs font-semibold text-white/58">Cartão + R$ 1 {formatCurrency(cardPrice)}</p>
+          <p className="text-xl font-semibold text-white">{formatCurrency(product.pricePix)}</p>
+          <p className="mt-0.5 text-xs text-slate-300">ou {formatCurrency(cardPrice)} no cartão</p>
+          <p className="mt-2 text-xs text-slate-300">Produção: {product.productionWindow}</p>
         </div>
         <div className="mt-3 grid grid-cols-[1fr_auto] gap-2">
           <Link href={href} prefetch={false} className="btn-primary justify-center px-3 py-2 text-xs">
@@ -165,7 +124,7 @@ function ProductRail({
   if (!products.length) return null;
 
   return (
-    <section id={id} className="mx-auto max-w-[90rem] px-4 py-14 sm:px-6 lg:py-20">
+    <section id={id} className="experience-container py-12 lg:py-16">
       <Reveal>
         <div className="mb-5 flex items-end justify-between gap-4">
           <div>
@@ -192,292 +151,76 @@ function ProductRail({
 export default async function HomePage() {
   const catalog = await getCatalogSnapshot();
   const siteUrl = getSiteUrl();
-  const available = catalog
-    .filter(isDirectSaleCatalogProduct)
-    .filter((product) => homeProductIds.has(product.id));
+  const available = catalog.filter(isDirectSaleCatalogProduct).filter((product) => homeProductIds.has(product.id));
   const sections = buildUniqueHomeSections(available);
-  const searchEntries = Object.values(sections).flat().map((product) => ({
-    id: product.id,
-    name: product.name,
-    category: product.category,
-    collection: product.collection,
-    tags: product.tags,
-    href: getProductUrl(product),
-  }));
   const publicStats = buildPublicCatalogStats(catalog);
-  const minPix = available.reduce(
-    (minimum, product) => Math.min(minimum, product.pricePix),
-    Number.POSITIVE_INFINITY,
-  );
-  const entryPixPrice = Number.isFinite(minPix) ? minPix : 19.9;
-  const quoteMessage = "Quero um orçamento na MDH 3D. Vim pela home e preciso de ajuda com produto, preço, prazo e personalização.";
+  const hero = sections.hero[0];
+  const featured = [...sections.hero.slice(1), ...sections.featured, ...sections.entry, ...sections.setup, ...sections.geek, ...sections.custom];
   const duplicateIds = getHomeDuplicateIds(sections);
+  const entryPixPrice = available.length ? Math.min(...available.map((product) => product.pricePix)) : null;
 
   return (
-    <main className="min-h-screen bg-[#050b11] text-white" data-home-duplicate-count={duplicateIds.length} data-official-product-count={publicStats.activeProductCount}>
-      <section className="relative isolate overflow-hidden border-b border-white/10 bg-[#050b11]">
-        <CinematicVideoBackground
-          variant="home"
-          overlayClassName="bg-[radial-gradient(circle_at_72%_18%,rgba(34,211,238,0.10),transparent_28%),linear-gradient(90deg,rgba(2,6,14,0.97),rgba(2,6,14,0.72)_52%,rgba(2,6,14,0.88)),linear-gradient(180deg,rgba(2,6,14,0.18),rgba(2,6,14,0.98))]"
-          objectPosition="center"
-        />
-        <div className="relative z-10 mx-auto grid min-h-[calc(100svh-9rem)] max-w-[90rem] gap-12 px-4 pb-14 pt-12 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:pb-20 lg:pt-16">
-          <div className="max-w-3xl">
-            <Reveal>
-              <div className="inline-flex items-center gap-2 rounded-full border border-emerald-300/20 bg-emerald-300/10 px-3 py-1 text-xs font-black uppercase tracking-[0.12em] text-emerald-50">
-                <Sparkles className="h-3.5 w-3.5" />
-                Pix claro, cartão Pix + R$ 1,00
-              </div>
-            </Reveal>
-            <Reveal delay={80}>
-              <h1 className="mt-6 max-w-[11ch] text-5xl font-black leading-[0.94] tracking-[-0.055em] text-white sm:text-6xl lg:text-7xl xl:text-[5.4rem]">
-                Ideias digitais. Objetos extraordinários.
-              </h1>
-            </Reveal>
-            <Reveal delay={140}>
-              <p className="mt-5 max-w-2xl text-base leading-7 text-white/72 sm:text-lg">
-                Impressão 3D sob demanda no Rio de Janeiro, com catálogo validado, acabamento preciso e atendimento humano do briefing à entrega.
-              </p>
-            </Reveal>
-            <Reveal delay={170}>
-              <div className="mt-6 max-w-3xl">
-                <StorefrontSearchBox
-                  products={searchEntries}
-                  actionPath="/busca"
-                  placeholder="Busque por chaveiro, suporte, luminaria, nome 3D ou lote..."
-                  quickQueries={["chaveiro personalizado", "brindes em lote", "nome 3d", "organizador de mesa"]}
-                />
-              </div>
-            </Reveal>
-            <Reveal delay={200}>
-              <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-                <MagneticLink href="#mais-pedidos" className="btn-primary justify-center gap-2 px-5 py-3">
-                  <Search className="h-4 w-4" />
-                  Ver mais pedidos
-                </MagneticLink>
-                <MagneticLink href={whatsappHref(quoteMessage)} external className="btn-whatsapp justify-center gap-2 px-5 py-3">
-                  <MessageCircleMore className="h-4 w-4" />
-                  Pedir personalização
-                </MagneticLink>
-                <MagneticLink href="/jogue" className="btn-secondary justify-center gap-2 px-5 py-3">
-                  <Gamepad2 className="h-4 w-4" />
-                  Jogue no site
-                </MagneticLink>
-              </div>
-            </Reveal>
-
-            <Reveal delay={260}>
-              <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
-                <div className="rounded-2xl border border-white/10 bg-white/[0.045] p-4 backdrop-blur-xl">
-                  <p className="text-[11px] uppercase tracking-[0.12em] text-white/48">A partir de</p>
-                  <p className="mt-1 text-xl font-black text-emerald-100">{formatCurrency(entryPixPrice)}</p>
-                </div>
-                <div className="rounded-2xl border border-white/10 bg-white/[0.045] p-4 backdrop-blur-xl">
-                  <p className="text-[11px] uppercase tracking-[0.12em] text-white/48">Produtos</p>
-                  <p className="mt-1 text-xl font-black text-white">{publicStats.activeProductCount}</p>
-                </div>
-                <div className="rounded-2xl border border-white/10 bg-white/[0.045] p-4 backdrop-blur-xl">
-                  <p className="text-[11px] uppercase tracking-[0.12em] text-white/48">Cartão</p>
-                  <p className="mt-1 text-xl font-black text-white">+ R$ 1</p>
-                </div>
-                <div className="rounded-2xl border border-white/10 bg-white/[0.045] p-4 backdrop-blur-xl">
-                  <p className="text-[11px] uppercase tracking-[0.12em] text-white/48">Atendimento</p>
-                  <p className="mt-1 text-xl font-black text-white">humano</p>
-                </div>
-              </div>
-            </Reveal>
+    <div className="experience-home" data-home-duplicate-count={duplicateIds.length} data-official-product-count={publicStats.activeProductCount}>
+      <section className="experience-container experience-hero" aria-labelledby="home-title">
+        <div>
+          <p className="experience-eyebrow">Design que ganha forma</p>
+          <h1 id="home-title">Pequenos objetos.<br /><span>Grandes ideias.</span></h1>
+          <p className="experience-hero-copy">Presentes com a sua cara, um setup mais organizado e peças feitas para resolver. Impressão 3D sob encomenda, com atendimento de gente de verdade.</p>
+          <div className="experience-hero-actions">
+            <Link href="/catalogo" className="btn-primary gap-3">Encontrar minha peça <ArrowRight size={17} /></Link>
+            <Link href="/sob-medida" className="btn-secondary">Criar algo meu</Link>
           </div>
-
-          <Reveal direction="left" className="lg:pl-4">
-            <RotatingProductHero products={toRotatingHeroProducts(sections.hero)} />
-          </Reveal>
-        </div>
-
-        <div className="relative z-10 border-t border-white/10 bg-black/20 px-4 py-3 backdrop-blur-md sm:px-6">
-          <div className="mx-auto flex max-w-7xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex flex-wrap gap-2">
-              {trustBar.map((item) => (
-                <span key={item} className="rounded-[8px] border border-white/10 bg-white/[0.055] px-3 py-1 text-xs font-bold text-white/70">
-                  {item}
-                </span>
-              ))}
-            </div>
-            <a href="#categorias" className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-[0.12em] text-emerald-100">
-              Explorar <ArrowDown className="h-4 w-4" />
-            </a>
+          <div className="experience-hero-note">
+            {entryPixPrice !== null ? <span>Seleção a partir de {formatCurrency(entryPixPrice)}</span> : null}
+            <span>Produção no Rio de Janeiro</span>
           </div>
         </div>
-      </section>
-
-      <section className="mx-auto max-w-[90rem] px-4 py-12 sm:px-6 lg:py-16">
-        <Reveal>
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 lg:grid-rows-2">
-            <Link href="/catalogo?custom=1" className="group relative overflow-hidden rounded-[28px] border border-cyan-300/20 bg-[linear-gradient(145deg,rgba(34,211,238,0.16),rgba(255,255,255,0.035))] p-7 transition duration-500 hover:-translate-y-1 hover:border-cyan-300/40 lg:col-span-2 lg:row-span-2 lg:min-h-[24rem] lg:p-10">
-              <p className="section-kicker">Personalizacao</p>
-              <h2 className="mt-4 max-w-[13ch] text-3xl font-black leading-tight tracking-[-0.035em] text-white sm:text-4xl">Sua ideia, refinada antes da primeira camada.</h2>
-              <p className="mt-5 max-w-lg text-base leading-7 text-white/62">Cor, nome, tema, escala e uso são confirmados antes da produção. Sem prévia enganosa e sem SKU oculto.</p>
-              <span className="mt-10 inline-flex items-center gap-2 text-sm font-black text-cyan-100">Iniciar projeto <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" /></span>
+        {hero ? (
+          <article className="experience-hero-display" data-product-id={hero.id}>
+            <Link className="experience-hero-image" href={getProductUrl(hero)} aria-label={hero.name}>
+              <SafeProductImage candidates={productImageCandidates(hero)} alt={getProductImageAlt(hero)} priority fetchPriority="high" sizes="(max-width: 620px) 95vw, 45vw" className="absolute inset-0 h-full w-full object-contain" />
             </Link>
-            <Link href="/brindes-e-lotes" className="group rounded-[28px] border border-emerald-300/20 bg-emerald-300/[0.09] p-7 transition duration-500 hover:-translate-y-1 hover:border-emerald-300/40 lg:col-span-2">
-              <p className="section-kicker">B2B e lotes</p>
-              <h2 className="mt-2 text-2xl font-black tracking-[-0.025em] text-white">Escala comercial com capacidade real.</h2>
-              <p className="mt-3 text-sm leading-6 text-white/62">Quantidade, prazo e repetição fechados com atendimento humano.</p>
-            </Link>
-            <Link href="/imagem-para-impressao-3d" className="group rounded-[28px] border border-white/10 bg-white/[0.045] p-7 transition duration-500 hover:-translate-y-1 hover:border-white/20 hover:bg-white/[0.065] lg:col-span-2">
-              <p className="section-kicker">Arquivo e briefing</p>
-              <h2 className="mt-2 text-2xl font-black tracking-[-0.025em] text-white">STL, referência ou apenas um problema.</h2>
-              <p className="mt-3 text-sm leading-6 text-white/62">A análise humana transforma o material enviado em um plano de produção.</p>
-            </Link>
-          </div>
-        </Reveal>
-      </section>
-
-      <TrustProofSection />
-
-      <div id="categorias">
-        <HomeCategoriesShowcase catalogCount={publicStats.activeProductCount} />
-      </div>
-
-      <section className="mx-auto max-w-7xl px-4 py-4 sm:px-6">
-        <Reveal>
-          <div className="grid gap-3 rounded-[8px] border border-white/10 bg-[linear-gradient(135deg,rgba(236,72,153,0.12),rgba(34,211,238,0.08))] p-4 lg:grid-cols-[1fr_auto_auto] lg:items-center">
-            <div>
-              <p className="section-kicker">Bastidores da impressão</p>
-              <h2 className="mt-1 text-xl font-black text-white">Produtos prontos, testes e novidades no @{brand.instagramHandle}</h2>
+            <div className="experience-hero-caption">
+              <div><p className="section-kicker">Uma peça, muitas possibilidades</p><h2><Link href={getProductUrl(hero)}>{hero.name}</Link></h2><p>Produção: {hero.productionWindow}</p></div>
+              <div className="experience-hero-price"><p>No Pix</p><strong>{formatCurrency(hero.pricePix)}</strong><p>{formatCurrency(calculateCardPrice(hero.pricePix))} no cartão</p></div>
             </div>
-            <a href={socialLinks.instagram} target="_blank" rel="noopener noreferrer" className="btn-secondary justify-center gap-2">
-              <Instagram className="h-4 w-4" />
-              Ver bastidores no Instagram
-            </a>
-            <Link href="/jogue" className="btn-primary justify-center gap-2">
-              <Gamepad2 className="h-4 w-4" />
-              Print Quest
-            </Link>
-          </div>
-        </Reveal>
+          </article>
+        ) : null}
       </section>
-
-      <ProductRail
-        id="mais-pedidos"
-        kicker="Vitrine curada"
-        title="Produtos em destaque"
-        description="Seleção única da home: cada card aparece uma vez para evitar repetição visual e facilitar a decisão."
-        href="/catalogo"
-        products={sections.featured}
-        siteUrl={siteUrl}
-      />
-      <ProductRail
-        kicker="Entrada rápida"
-        title="Ideias até R$ 50"
-        description="Peças de entrada com Pix visível e cartão sempre calculado como Pix + R$ 1."
-        href="/catalogo?max=50&sort=Preço"
-        products={sections.entry}
-        siteUrl={siteUrl}
-      />
-      <ProductRail
-        kicker="Rotina e setup"
-        title="Casa, organização e mesa"
-        description="Suportes, organizadores e utilidades para resolver problemas pequenos com acabamento limpo."
-        href="/catalogo?category=Setup%20e%20Home%20Office"
-        products={sections.setup}
-        siteUrl={siteUrl}
-      />
-      <ProductRail
-        kicker="Presentes e identidade"
-        title="Pecas personalizaveis e presentes com mais valor percebido"
-        description="Selecao para quem quer nome, tema, litofania, luminaria ou ajuste visual antes de fechar."
-        href="/catalogo?custom=1&intent=Presente"
-        products={sections.geek}
-        siteUrl={siteUrl}
-      />
-
+      <section className="experience-container experience-benefits" aria-label="Antes de comprar">
+        <article><Box size={23} /><div><h2>Feito para o seu pedido</h2><p>Confira material, tamanho e opções em cada peça.</p></div></article>
+        <article><Clock3 size={23} /><div><h2>Prazo explicado</h2><p>Produção e entrega são etapas diferentes.</p></div></article>
+        <article><MessageCircleMore size={23} /><div><h2>Uma conversa resolve</h2><p><a href={whatsappHref("Olá! Preciso de ajuda para escolher uma peça na MDH 3D.")}>Fale com a equipe antes de escolher →</a></p></div></article>
+      </section>
+      <HomeCategoriesShowcase catalogCount={publicStats.activeProductCount} />
+      <ProductRail id="mais-pedidos" kicker="Escolhidos para o seu dia" title="Detalhes que fazem diferença." description="Conheça as peças, compare os tamanhos e escolha o acabamento que combina com você." href="/catalogo" products={featured} siteUrl={siteUrl} />
+      <section className="experience-container py-8" id="sob-medida">
+        <div className="experience-custom">
+          <div><p className="section-kicker">Do seu jeito</p><h2>A próxima peça pode começar com uma ideia sua.</h2><p>Tem um nome, uma referência ou um arquivo 3D? Conte o que você precisa. Combinamos as medidas, o material e o prazo antes de produzir.</p><Link href="/sob-medida" className="btn-primary gap-3">Pedir peça sob medida <UploadCloud size={18} /></Link><p className="!mb-0 !text-sm">Precisa de quantidade? <Link href="/brindes-e-lotes" className="underline underline-offset-4">Conheça brindes e lotes.</Link></p></div>
+          <ol>
+            <li><span>01</span><div><strong>Conte sua ideia</strong><br />Envie referência, medidas e como pretende usar.</div></li>
+            <li><span>02</span><div><strong>Confirme os detalhes</strong><br />Você recebe o orçamento e aprova o que será feito.</div></li>
+            <li><span>03</span><div><strong>Acompanhe a criação</strong><br />A equipe orienta a produção, a retirada ou o envio.</div></li>
+          </ol>
+        </div>
+      </section>
       <HowItWorksSection />
-      <HomeTestimonials />
-
-      <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
-        <Reveal>
-          <div className="grid gap-4 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-            <div>
-              <p className="section-kicker">Sob medida</p>
-              <h2 className="text-3xl font-black text-white">Tem uma ideia, nome, cor, tema ou arquivo?</h2>
-              <p className="mt-3 max-w-xl text-sm leading-7 text-white/66">
-                Envie o briefing pelo WhatsApp. A MDH confirma material, prazo, Pix e cartão antes de fechar.
-              </p>
-              <div className="mt-5 flex flex-col gap-3 sm:flex-row">
-                <Link href="/imagem-para-impressao-3d" className="btn-primary justify-center gap-2">
-                  <UploadCloud className="h-4 w-4" />
-                  Pedir peça personalizada
-                </Link>
-                <a href={whatsappHref("Quero pedir uma peça personalizada na MDH 3D. Tenho uma ideia para orçamento.")} target="_blank" rel="noopener noreferrer" className="btn-whatsapp justify-center gap-2">
-                  <MessageCircleMore className="h-4 w-4" />
-                  Enviar ideia
-                </a>
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-3">
-              {sections.custom.map((product, index) => (
-                <Reveal key={product.id} delay={index * 70}>
-                  <HomeProductCard product={product} siteUrl={siteUrl} />
-                </Reveal>
-              ))}
-            </div>
-          </div>
-        </Reveal>
+      <TrustProofSection />
+      <section className="experience-container py-12">
+        <div className="experience-section-heading"><div><p className="section-kicker">Por trás de cada camada</p><h2>Conheça quem faz.</h2><p>Peças, processos e novidades da MDH. Veja nosso trabalho e converse com a equipe pelo Instagram.</p></div><a href={socialLinks.instagram} target="_blank" rel="noopener noreferrer" className="btn-secondary gap-2"><Instagram size={18} />@{brand.instagramHandle}</a></div>
       </section>
-
-      <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
-        <div className="grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
-          <Reveal>
-            <div>
-              <h2 className="text-2xl font-black text-white sm:text-3xl">Atendimento humano e FAQ curto</h2>
-              <p className="mt-3 max-w-xl text-sm leading-7 text-white/62">
-                O bot ajuda a encontrar produto real, mas orçamento, urgência, lote e personalização sensível passam por uma pessoa da MDH 3D.
-              </p>
-              <div className="mt-5 flex flex-col gap-3 sm:flex-row">
-                <Link href="/atendimento" className="btn-primary justify-center gap-2">
-                  <MessageCircleMore className="h-4 w-4" />
-                  Abrir atendimento
-                </Link>
-                <WhatsAppQuoteCta
-                  message="Quero atendimento humano na MDH 3D. Vim pela home e preciso confirmar produto, prazo e pagamento."
-                  label="Chamar no WhatsApp"
-                  className="btn-whatsapp justify-center gap-2 px-4 py-2"
-                />
-              </div>
-            </div>
-          </Reveal>
-          <div className="grid gap-3">
-            {[
-              ["Qual é o preço no Pix?", "O Pix é o valor principal exibido no produto e no card."],
-              ["Quanto fica no cartão?", "Cartão é sempre Pix + R$ 1,00 por item."],
-              ["Posso personalizar?", "Quando o item permitir, confirme nome, cor, tema, quantidade e prazo pelo atendimento."],
-              ["Qual o prazo?", "Cada produto mostra janela de produção; urgência precisa ser confirmada antes de fechar."],
-            ].map(([question, answer], index) => (
-              <Reveal key={question} delay={index * 60}>
-                <article className="rounded-[8px] border border-white/10 bg-white/[0.045] p-4">
-                  <h3 className="font-black text-white">{question}</h3>
-                  <p className="mt-2 text-sm leading-6 text-white/62">{answer}</p>
-                </article>
-              </Reveal>
-            ))}
-          </div>
+      <section className="experience-container experience-faq">
+        <div><p className="section-kicker">Pode perguntar</p><h2>Escolher bem começa sem dúvidas.</h2><p>Você não precisa entender de impressão 3D. Conte o que procura e ajudamos a encontrar uma opção.</p><Link href="/atendimento" className="btn-secondary">Atendimento humano <ArrowRight size={16} className="ml-2" /></Link></div>
+        <div>
+          {[
+            ["Como escolher o tamanho e o material?", "As páginas dos produtos trazem as medidas e o material. Se a peça precisar encaixar em algo, confirme as medidas com a equipe antes de comprar."],
+            ["Posso mudar a cor ou colocar um nome?", "Nos itens personalizáveis, confirme as opções e envie a referência. Alterações de tamanho ou projeto precisam de orçamento e aprovação antes da produção."],
+            ["Quanto vou pagar?", "O preço no Pix aparece em cada produto. No cartão há acréscimo de R$ 1 por item. Frete e detalhes do pedido são informados antes da confirmação."],
+            ["Quando minha peça fica pronta?", "Cada produto informa seu prazo de produção. O transporte tem prazo próprio, conforme destino e serviço. Para urgências, consulte a equipe antes de fechar."],
+            ["Como acompanho ou resolvo um problema?", "Use Acompanhar pedido ou sua conta. Para dúvidas, trocas e pós-venda, nossos contatos e políticas ficam disponíveis no rodapé."],
+          ].map(([question, answer]) => <details key={question}><summary>{question}</summary><p>{answer}</p></details>)}
         </div>
       </section>
-
-      <section className="mx-auto max-w-7xl px-4 pb-12 sm:px-6">
-        <Reveal>
-          <div className="rounded-[8px] border border-white/10 bg-white/[0.045] p-5 sm:flex sm:items-center sm:justify-between">
-            <div>
-              <p className="section-kicker">Checkout direto</p>
-              <h2 className="mt-1 text-2xl font-black text-white">Carrinho, Pix, cartão e WhatsApp no mesmo fluxo.</h2>
-            </div>
-            <Link href="/catalogo" className="btn-primary mt-4 justify-center gap-2 sm:mt-0">
-              <ShoppingBag className="h-4 w-4" />
-              Começar compra
-            </Link>
-          </div>
-        </Reveal>
-      </section>
-    </main>
+    </div>
   );
 }

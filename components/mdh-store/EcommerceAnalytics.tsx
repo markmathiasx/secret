@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
+import { useMarketingConsent } from "@/lib/use-marketing-consent";
 import { trackSmartStoreEvent, type SmartStoreEventName } from "@/lib/mdh-store/analytics";
 
 type FacebookPixelQueue = ((...args: unknown[]) => void) & {
@@ -50,8 +51,10 @@ function installMetaPixel(pixelId: string) {
 
 export function EcommerceAnalytics({ gtmId, metaPixelId }: { gtmId?: string; metaPixelId?: string }) {
   const pathname = usePathname();
+  const consent = useMarketingConsent();
 
   useEffect(() => {
+    if (!consent) return;
     window.dataLayer = window.dataLayer || [];
     window.mdhSmartStoreTrack = (eventName: SmartStoreEventName, payload?: Record<string, unknown>) => {
       trackSmartStoreEvent(eventName, payload);
@@ -65,13 +68,13 @@ export function EcommerceAnalytics({ gtmId, metaPixelId }: { gtmId?: string; met
     if (metaPixelId) {
       installMetaPixel(metaPixelId);
     }
-  }, [gtmId, metaPixelId]);
+  }, [gtmId, metaPixelId, consent]);
 
   useEffect(() => {
-    if (metaPixelId && typeof window !== "undefined" && window.fbq) {
+    if (consent && metaPixelId && typeof window !== "undefined" && window.fbq) {
       window.fbq("track", "PageView", { path: pathname });
     }
-  }, [metaPixelId, pathname]);
+  }, [metaPixelId, pathname, consent]);
 
   return null;
 }

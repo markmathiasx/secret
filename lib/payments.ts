@@ -47,7 +47,7 @@ export async function createMercadoPagoPreference(input: {
     return {
       ok: false,
       reason: 'missing_access_token',
-      fallbackMessage: `Configure o MERCADOPAGO_ACCESS_TOKEN para gerar checkout real. Valor estimado: ${formatCurrency(total)}.`
+      fallbackMessage: `Pagamento online indisponível. Nenhum pagamento foi confirmado. Consulte o atendimento sobre as opções disponíveis. Total: ${formatCurrency(total)}.`
     } as const;
   }
 
@@ -83,7 +83,7 @@ export async function createMercadoPagoPreference(input: {
     return {
       ok: false,
       reason: 'mercadopago_error',
-      fallbackMessage: `Não foi possível abrir o checkout agora. Continue por Pix ou WhatsApp. Valor estimado: ${formatCurrency(total)}.`,
+      fallbackMessage: `Não foi possível abrir o checkout. Nenhum pagamento foi confirmado. Consulte seu pedido e o atendimento antes de tentar novamente. Total: ${formatCurrency(total)}.`,
       details: error instanceof Error ? error.message : 'Falha desconhecida no Mercado Pago.'
     } as const;
   }
@@ -114,6 +114,7 @@ export async function createMercadoPagoPixPayment(input: {
   try {
     const response = await mercadoPagoRequest<Record<string, any>>("/v1/payments", {
       method: "POST",
+      idempotencyKey: `mdh-payment-${input.externalReference}-pix`,
       body: JSON.stringify({
         transaction_amount: Number(input.amount.toFixed(2)),
         description: input.title,
@@ -149,7 +150,7 @@ export async function createMercadoPagoPixPayment(input: {
     return {
       ok: false,
       reason: "mercadopago_error",
-      fallbackMessage: `Não foi possível abrir o Pix dinâmico agora. Continue com o Pix manual temporário. Valor estimado: ${formatCurrency(input.amount)}.`,
+      fallbackMessage: `Não foi possível confirmar a geração do Pix. Consulte o pedido antes de tentar novamente. Total: ${formatCurrency(input.amount)}.`,
       details: error instanceof Error ? error.message : "Falha desconhecida ao criar o Pix dinâmico.",
     } as const;
   }

@@ -3,13 +3,7 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
-
-function getSafeCatalogBackHref(from?: string | null, focus?: string | null) {
-  const fallback = '/catalogo';
-  if (!from || !from.startsWith('/catalogo')) return fallback;
-  if (from.startsWith('//') || from.includes('://')) return fallback;
-  return focus ? `${from}#produto-${encodeURIComponent(focus)}` : from;
-}
+import { getSafeCatalogBackHref } from '@/lib/catalog-filters';
 
 export function ProductCatalogBackLink({ className }: { className?: string }) {
   const [href, setHref] = useState('/catalogo');

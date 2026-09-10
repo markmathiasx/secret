@@ -1,4 +1,5 @@
 import { canConnectToDatabase, prisma } from "@/lib/prisma";
+import { canAccessOrder } from "@/lib/server/order-authorization";
 
 export type PaymentOrderContext = {
   orderCode: string | null;
@@ -34,6 +35,8 @@ export async function resolveOrderPaymentContext(input: {
     });
 
     if (order) {
+      if (!(await canAccessOrder(order)) || order.status !== "PENDING_PAYMENT") return null;
+      if (!Number.isFinite(Number(order.grandTotal)) || Number(order.grandTotal) <= 0) return null;
       const title = order.items[0]?.title
         ? `${order.items[0].title} • ${order.orderNumber}`
         : `${input.fallbackTitle} • ${order.orderNumber}`;
@@ -49,12 +52,5 @@ export async function resolveOrderPaymentContext(input: {
     }
   }
 
-  return {
-    orderCode: normalizedOrderCode,
-    orderId: null,
-    title: normalizedOrderCode ? `${input.fallbackTitle} • ${normalizedOrderCode}` : input.fallbackTitle,
-    amount: Number(input.fallbackAmount.toFixed(2)),
-    customerEmail: input.fallbackEmail || null,
-    customerName: input.fallbackCustomerName || null,
-  } satisfies PaymentOrderContext;
+  return null;
 }

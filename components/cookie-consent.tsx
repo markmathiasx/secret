@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Cookie, X } from "lucide-react";
 
-const CONSENT_KEY = "mdh_cookie_consent";
+import { CONSENT_KEY, setMarketingConsent } from "@/lib/marketing-consent";
 
 type ConsentState = "accepted" | "rejected" | null;
 
@@ -14,27 +14,18 @@ export function CookieConsent() {
   useEffect(() => {
     try {
       const stored = localStorage.getItem(CONSENT_KEY) as ConsentState | null;
-      setConsent(stored);
+      setConsent(stored === "accepted" || stored === "rejected" ? stored : null);
     } catch {
       setConsent(null);
     }
   }, []);
 
   function accept() {
-    try {
-      localStorage.setItem(CONSENT_KEY, "accepted");
-    } catch {
-      // ignore storage errors
-    }
-    setConsent("accepted");
+    if (setMarketingConsent("accepted")) setConsent("accepted");
   }
 
   function reject() {
-    try {
-      localStorage.setItem(CONSENT_KEY, "rejected");
-    } catch {
-      // ignore storage errors
-    }
+    setMarketingConsent("rejected");
     setConsent("rejected");
   }
 
@@ -51,8 +42,8 @@ export function CookieConsent() {
       <div className="flex min-w-0 flex-1 items-start gap-3">
         <Cookie className="mt-0.5 h-5 w-5 shrink-0 text-cyan-300" aria-hidden="true" />
         <p className="text-sm leading-6 text-white/75">
-          Usamos cookies para melhorar sua experiência, lembrar o carrinho e analisar acessos.
-          Ao continuar navegando você concorda com nossa{" "}
+          O carrinho usa armazenamento essencial. Cookies de análise e marketing só serão ativados se você aceitar.
+          Recusar não impede a compra. Consulte nossa{" "}
           <Link
             href="/politica-de-privacidade"
             className="font-semibold text-cyan-200 underline underline-offset-2 hover:text-white focus:outline-none focus:ring-2 focus:ring-cyan-300 focus:ring-offset-2 focus:ring-offset-slate-950"

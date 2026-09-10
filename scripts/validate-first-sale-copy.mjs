@@ -35,18 +35,14 @@ for (const item of curated) {
 }
 
 [
-  "Ideias digitais. Objetos extraordinários.",
-  "Impressão 3D sob demanda no Rio de Janeiro, com catálogo validado, acabamento preciso e atendimento humano do briefing à entrega.",
-  "Ver mais pedidos",
-  "Pedir orçamento no WhatsApp",
-  "Presentes até R$ 50",
-  "Mais pedidos",
-  "Chaveiros personalizados",
-  "Organização e setup",
-  "Peça sob medida",
-  "Como funciona",
+  "Pequenos objetos.",
+  "Grandes ideias.",
+  "Encontrar minha peça",
+  "Criar algo meu",
+  "Prazo explicado",
+  "Pedir peça sob medida",
+  "Escolher bem começa sem dúvidas.",
   "Atendimento humano",
-  "FAQ curto",
 ].forEach((copy) => expect(home.includes(copy), `home sem copy obrigatoria: ${copy}`));
 
 const report = {

@@ -7,6 +7,7 @@ import { createClient } from "@supabase/supabase-js";
 import { isOrderBlobConfigured, readSecureBlobJson, writeSecureBlobJson } from "@/lib/blob-store";
 import { getSupabaseEnv } from "@/lib/env";
 import { canConnectToDatabase, prisma } from "@/lib/prisma";
+import { verifyTwoFactorCode } from "@/lib/marketplace-auth";
 
 export type AuthRole = "customer" | "admin";
 
@@ -304,6 +305,7 @@ async function createPrismaAuthUser(input: {
 async function authenticatePrismaCustomer(input: {
   email: string;
   password: string;
+  twoFactorCode?: string;
 }) {
   const email = normalizeEmail(input.email);
   const user = await prisma.user.findUnique({
@@ -314,6 +316,8 @@ async function authenticatePrismaCustomer(input: {
       name: true,
       role: true,
       passwordHash: true,
+      emailVerified: true,
+      twoFactorEnabled: true,
       isActive: true,
       disabledAt: true,
       createdAt: true,
@@ -324,8 +328,10 @@ async function authenticatePrismaCustomer(input: {
     return null;
   }
 
+  if (process.env.NODE_ENV === "production" && !user.emailVerified) return null;
   const valid = await compare(input.password, user.passwordHash);
   if (!valid) return null;
+  if (user.twoFactorEnabled && (!input.twoFactorCode || !(await verifyTwoFactorCode(user.id, input.twoFactorCode)))) return null;
 
   const lastLoginAt = new Date();
   await prisma.user.update({
@@ -469,10 +475,10 @@ export async function createCustomerAccount(input: {
 export async function authenticateCustomerUser(input: {
   email: string;
   password: string;
+  twoFactorCode?: string;
 }) {
   if (await canConnectToDatabase()) {
-    const prismaUser = await authenticatePrismaCustomer(input);
-    if (prismaUser) return prismaUser;
+    return authenticatePrismaCustomer(input);
   }
 
   const supabasePublic = getSupabasePublic();

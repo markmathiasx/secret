@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-10T04:53:56.878Z",
+  "generatedAt": "2026-09-10T15:10:53.718Z",
   "baseUrl": "http://127.0.0.1:3000",
   "results": [
     {
@@ -8,7 +8,7 @@
       "url": "http://127.0.0.1:3000/",
       "ok": true,
       "status": 200,
-      "bodyTextLength": 8400,
+      "bodyTextLength": 6697,
       "frameworkOverlay": false,
       "skipLink": {
         "exists": true,
@@ -26,7 +26,7 @@
       "url": "http://127.0.0.1:3000/catalogo",
       "ok": true,
       "status": 200,
-      "bodyTextLength": 18535,
+      "bodyTextLength": 4808,
       "frameworkOverlay": false,
       "skipLink": {
         "exists": true,
@@ -44,7 +44,7 @@
       "url": "http://127.0.0.1:3000/loja",
       "ok": true,
       "status": 200,
-      "bodyTextLength": 18535,
+      "bodyTextLength": 4808,
       "frameworkOverlay": false,
       "skipLink": {
         "exists": true,
@@ -62,7 +62,7 @@
       "url": "http://127.0.0.1:3000/catalogo/mdh-016-chaveiro-3d-personalizado-com-nome-ou-logo",
       "ok": true,
       "status": 200,
-      "bodyTextLength": 11196,
+      "bodyTextLength": 10470,
       "frameworkOverlay": false,
       "skipLink": {
         "exists": true,
@@ -80,7 +80,7 @@
       "url": "http://127.0.0.1:3000/checkout",
       "ok": true,
       "status": 200,
-      "bodyTextLength": 1779,
+      "bodyTextLength": 1054,
       "frameworkOverlay": false,
       "skipLink": {
         "exists": true,
@@ -98,7 +98,7 @@
       "url": "http://127.0.0.1:3000/jogue",
       "ok": true,
       "status": 200,
-      "bodyTextLength": 2937,
+      "bodyTextLength": 2211,
       "frameworkOverlay": false,
       "skipLink": {
         "exists": true,
@@ -116,7 +116,7 @@
       "url": "http://127.0.0.1:3000/",
       "ok": true,
       "status": 200,
-      "bodyTextLength": 8579,
+      "bodyTextLength": 6844,
       "frameworkOverlay": false,
       "skipLink": {
         "exists": true,
@@ -134,7 +134,7 @@
       "url": "http://127.0.0.1:3000/catalogo",
       "ok": true,
       "status": 200,
-      "bodyTextLength": 18695,
+      "bodyTextLength": 5358,
       "frameworkOverlay": false,
       "skipLink": {
         "exists": true,
@@ -152,7 +152,7 @@
       "url": "http://127.0.0.1:3000/loja",
       "ok": true,
       "status": 200,
-      "bodyTextLength": 18695,
+      "bodyTextLength": 5358,
       "frameworkOverlay": false,
       "skipLink": {
         "exists": true,
@@ -170,7 +170,7 @@
       "url": "http://127.0.0.1:3000/catalogo/mdh-016-chaveiro-3d-personalizado-com-nome-ou-logo",
       "ok": true,
       "status": 200,
-      "bodyTextLength": 11355,
+      "bodyTextLength": 10607,
       "frameworkOverlay": false,
       "skipLink": {
         "exists": true,
@@ -188,7 +188,7 @@
       "url": "http://127.0.0.1:3000/checkout",
       "ok": true,
       "status": 200,
-      "bodyTextLength": 1939,
+      "bodyTextLength": 1191,
       "frameworkOverlay": false,
       "skipLink": {
         "exists": true,
@@ -206,7 +206,7 @@
       "url": "http://127.0.0.1:3000/jogue",
       "ok": true,
       "status": 200,
-      "bodyTextLength": 3096,
+      "bodyTextLength": 2348,
       "frameworkOverlay": false,
       "skipLink": {
         "exists": true,

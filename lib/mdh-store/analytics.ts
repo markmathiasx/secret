@@ -1,4 +1,5 @@
 "use client";
+import { hasMarketingConsent } from "@/lib/marketing-consent";
 
 export type SmartStoreEventName =
   | "view_home"
@@ -46,7 +47,7 @@ const tiktokEventMap: Partial<Record<SmartStoreEventName, string>> = {
 };
 
 export function trackSmartStoreEvent(eventName: SmartStoreEventName, payload: Record<string, unknown> = {}) {
-  if (typeof window === "undefined") return;
+  if (!hasMarketingConsent()) return;
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({ event: eventName, ecommerce: payload });
 

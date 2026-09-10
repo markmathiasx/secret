@@ -1,4 +1,5 @@
 "use client";
+import { hasMarketingConsent } from "@/lib/marketing-consent";
 
 export const commerceEventNames = [
   "view_item",
@@ -58,7 +59,7 @@ function sanitizePayload(payload?: CommerceEventPayload) {
 }
 
 export function trackCommerceEvent(eventName: CommerceEventName, payload?: CommerceEventPayload) {
-  if (typeof window === "undefined") return;
+  if (!hasMarketingConsent()) return;
 
   const safePayload = sanitizePayload(payload);
 

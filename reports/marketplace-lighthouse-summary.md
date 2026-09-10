@@ -1,14 +1,14 @@
 # Marketplace Lighthouse Summary
 
-Generated at: 2026-09-10T04:53:57.203Z
+Generated at: 2026-09-10T15:10:54.046Z
 Base URL: http://127.0.0.1:3000
 Chrome: C:\Program Files\Google\Chrome\Application\chrome.exe
 
 | Page | Perf | A11y | Best practices | SEO | LCP | CLS | TBT | Targets | Status |
 | --- | ---: | ---: | ---: | ---: | --- | --- | --- | --- | --- |
-| home | 86 | 96 | 96 | 100 | 3.8 s | 0 | 190 ms | performance, LCP | OK |
-| categoria | 77 | 100 | 96 | 100 | 4.4 s | 0 | 330 ms | performance, LCP | OK |
-| produto | 90 | 99 | 96 | 100 | 3.6 s | 0 | 90 ms | performance, LCP | OK |
-| catalogo | 66 | 100 | 96 | 100 | 4.8 s | 0 | 600 ms | performance, LCP | OK |
-| checkout | 90 | 100 | 96 | 58 (noindex esperado) | 3.5 s | 0.069 | 90 ms | performance, LCP | OK |
+| home | 88 | 100 | 96 | 100 | 3.8 s | 0 | 100 ms | performance, LCP | OK |
+| categoria | 83 | 100 | 96 | 100 | 4.1 s | 0 | 210 ms | performance, LCP | OK |
+| produto | 77 | 99 | 96 | 100 | 4.9 s | 0 | 260 ms | performance, LCP | OK |
+| catalogo | 74 | 99 | 96 | 100 | 5.4 s | 0 | 300 ms | performance, LCP | OK |
+| checkout | 83 | 100 | 96 | 54 (noindex esperado) | 4.3 s | 0.064 | 130 ms | performance, LCP | OK |
 

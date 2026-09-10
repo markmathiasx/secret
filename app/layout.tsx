@@ -5,6 +5,7 @@ import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import './globals.css';
 import '@/src/styles/neoglass-preview.css';
+import './experience.css';
 import { AccessibilityProvider, SkipLink } from '@/components/accessibility';
 import { AnalyticsBridge } from '@/components/analytics/AnalyticsBridge';
 import { EcommerceAnalytics } from '@/components/mdh-store/EcommerceAnalytics';
@@ -12,6 +13,7 @@ import { CartProvider } from '@/lib/cart-context';
 import { DeferredLayoutWidgets } from '@/components/deferred-layout-widgets';
 import { SiteFooter } from '@/components/site-footer';
 import { SiteHeader } from '@/components/site-header';
+import { StorefrontInteractions } from '@/components/storefront-interactions';
 import { ToastProvider } from '@/components/toast';
 import { brand, socialLinks, supportEmail, whatsappNumber } from '@/lib/constants';
 import {
@@ -30,7 +32,7 @@ import { getStorefrontGtmId, getStorefrontMetaPixelId } from '@/lib/mdh-store/co
 const siteUrl = getSiteUrl();
 const fontVariables: CSSProperties & Record<"--font-sans" | "--font-display", string> = {
   "--font-sans": '"Segoe UI", "Helvetica Neue", Arial, sans-serif',
-  "--font-display": '"Trebuchet MS", "Aptos", "Segoe UI", sans-serif',
+  "--font-display": '"Segoe UI", "Helvetica Neue", Arial, sans-serif',
 };
 const cardCheckoutReady = isCardCheckoutConfigured();
 const aiAssistantReady = isAiAssistantConfigured();
@@ -211,6 +213,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <link rel="dns-prefetch" href="https://sdk.mercadopago.com" />
       </head>
       <body>
+        <StorefrontInteractions />
         {gaMeasurementId ? (
           <>
             <Script
