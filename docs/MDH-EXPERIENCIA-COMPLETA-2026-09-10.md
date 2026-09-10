@@ -145,4 +145,4 @@ A redefinição abrange todo o site, mas cada bloco precisa de validação antes
 ## Situação desta entrega
 Produzido: direção visual e contrato de execução para a loja inteira.
 Não produzido nesta revisão: mudança funcional, migration, checkout validado, nova publicação ou campanha paga.
-A inspeção ocorreu pelo GitHub; o clone pelo terminal não ficou utilizável durante esta revisão. Nenhum gate local foi declarado aprovado.
+A inspeção ocorreu pelo GitHub e o clone local foi concluído. A tentativa de executar marketplace:phase0 foi interrompida pelo ambiente com a mensagem 'network approval was cancelled before a decision was returned'. Nenhum gate local foi declarado aprovado; executar a reconciliação antes da fase funcional.
