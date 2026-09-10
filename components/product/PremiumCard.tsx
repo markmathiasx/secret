@@ -46,7 +46,10 @@ export function PremiumCard({ product, index = 0, priority }: PremiumCardProps) 
   const badges = badgesFor(product);
   const description = shortText(product.description || "Produto em impressão 3D para uso, presente ou decoração.");
   const publicUrl = `https://www.mdh3d.com.br${productUrl}`;
-  const whatsappMessage = `Quero comprar ${product.name}. Quantidade: 1. Pix: ${formatCurrency(product.pricePix)}. Cartão + R$ 1: ${formatCurrency(priceCard)}. Categoria: ${product.category}. Intenção: compra pelo catálogo. Link: ${publicUrl}`;
+  const quoteOnly = product.pricingMode !== "faixa-auditada";
+  const whatsappMessage = quoteOnly
+    ? `Quero solicitar orçamento para ${product.name}. Referência inicial no Pix: ${formatCurrency(product.pricePix)}. Categoria: ${product.category}. Preciso validar modelo, licença e acabamento. Link: ${publicUrl}`
+    : `Quero comprar ${product.name}. Quantidade: 1. Pix: ${formatCurrency(product.pricePix)}. Cartão + R$ 1: ${formatCurrency(priceCard)}. Categoria: ${product.category}. Intenção: compra pelo catálogo. Link: ${publicUrl}`;
   const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
 
   function handleAddToCart(e: React.MouseEvent) {
@@ -121,21 +124,34 @@ export function PremiumCard({ product, index = 0, priority }: PremiumCardProps) 
         </div>
 
         <div className="grid grid-cols-2 gap-2">
-          <button
-            type="button"
-            onClick={handleAddToCart}
-            className="inline-flex min-h-10 items-center justify-center gap-2 rounded-[8px] bg-emerald-300 px-3 py-2 text-xs font-black text-slate-950 transition hover:bg-emerald-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-100"
-            aria-label={`Comprar ${product.name}`}
-          >
-            <ShoppingCart className="h-3.5 w-3.5" aria-hidden="true" />
-            Comprar
-          </button>
+          {quoteOnly ? (
+            <a
+              href={whatsappHref}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex min-h-10 items-center justify-center gap-2 rounded-[8px] bg-cyan-300 px-3 py-2 text-xs font-black text-slate-950 transition hover:bg-cyan-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-100"
+              aria-label={`Solicitar orçamento para ${product.name}`}
+            >
+              <MessageCircleMore className="h-3.5 w-3.5" aria-hidden="true" />
+              Orçar
+            </a>
+          ) : (
+            <button
+              type="button"
+              onClick={handleAddToCart}
+              className="inline-flex min-h-10 items-center justify-center gap-2 rounded-[8px] bg-emerald-300 px-3 py-2 text-xs font-black text-slate-950 transition hover:bg-emerald-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-100"
+              aria-label={`Comprar ${product.name}`}
+            >
+              <ShoppingCart className="h-3.5 w-3.5" aria-hidden="true" />
+              Comprar
+            </button>
+          )}
           <a
             href={whatsappHref}
             target="_blank"
             rel="noreferrer"
             className="inline-flex min-h-10 items-center justify-center gap-2 rounded-[8px] border border-emerald-300/30 bg-emerald-300/10 px-3 py-2 text-xs font-black text-emerald-50 transition hover:bg-emerald-300/16 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-200"
-            aria-label={`Comprar ${product.name} pelo WhatsApp`}
+            aria-label={quoteOnly ? `Falar sobre o orçamento de ${product.name}` : `Comprar ${product.name} pelo WhatsApp`}
           >
             <MessageCircleMore className="h-3.5 w-3.5" aria-hidden="true" />
             WhatsApp

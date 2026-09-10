@@ -1,9 +1,9 @@
 import "server-only";
 
-import fs from "node:fs";
-import path from "node:path";
 import copaThemeRows from "@/data/copa-theme-expansion-300.json";
 import { getNuvemshopBaseUrl } from "@/lib/mdh-store/config";
+import { directSaleCatalog } from "@/lib/public-catalog";
+import { getPublicStockQuantity } from "@/lib/product-availability";
 import { slugify } from "@/lib/utils";
 
 export type SmartStoreProduct = {
@@ -48,7 +48,6 @@ export type SmartStoreProduct = {
   marketplaceScore: number;
 };
 
-const CSV_PATH = path.join(process.cwd(), "data", "produtos.csv");
 const DEFAULT_FILAMENT_PRICE_PER_KG = 100;
 const DEFAULT_PROFIT_MARKUP = 0.3;
 const CARD_FLAT_FEE = 1;
@@ -469,14 +468,54 @@ export function parseProductsCsv(csvText: string) {
   return Array.from(products.values()).sort((a, b) => Number(b.featured) - Number(a.featured) || a.name.localeCompare(b.name));
 }
 
+function catalogProductToSmartStoreProduct(
+  product: (typeof directSaleCatalog)[number],
+  index: number
+): SmartStoreProduct {
+  const productionCost = product.estimatedUnitCost ?? product.baseCost;
+  const gallery = Array.from(new Set([product.image, ...(product.images || [])].filter(Boolean))) as string[];
+
+  return {
+    slug: product.slug || product.id,
+    name: product.name,
+    category: product.category,
+    material: product.material,
+    colors: product.colors,
+    personalizable: product.customizable,
+    price: product.priceCard,
+    promotionalPrice: product.pricePix,
+    pixPrice: product.pricePix,
+    cardPrice: product.priceCard,
+    productionCost,
+    filamentCost: product.filamentCostBrl,
+    profitAmount: product.estimatedUnitProfit,
+    profitPercent: product.estimatedProfitPercent ?? product.profitTargetPercent ?? 0,
+    pricingBasis: product.pricingNarrative || "Preço confirmado no catálogo comercial MDH 3D",
+    filamentPricePerKg: product.spoolPricePerKg || getDefaultFilamentPricePerKg(),
+    stock: getPublicStockQuantity(product),
+    sku: product.sku,
+    description: product.description,
+    tags: product.tags,
+    dimensions: parseDimensionsLabel(product.dimensions),
+    weightKg: (product.estimatedGrams || product.grams) / 1000,
+    seoTitle: `${product.name} | MDH 3D`,
+    seoDescription: product.description.slice(0, 155),
+    brand: "MDH 3D",
+    physical: true,
+    image: product.image || gallery[0],
+    gallery,
+    careInstructions: buildCareInstructions(product.material),
+    faqs: buildProductFaqs(product.name, product.productionWindow, product.material),
+    productionWindow: product.productionWindow,
+    featured: product.featured,
+    marketplaceScore: Number(product.featured) * 20 + Number(product.customizable) * 8 + Math.max(0, 12 - index),
+  };
+}
+
 export function getLocalStoreProducts() {
-  const csvProducts = fs.existsSync(CSV_PATH) ? parseProductsCsv(fs.readFileSync(CSV_PATH, "utf8")) : [];
-  const products = new Map(csvProducts.map((product) => [product.slug, product]));
-  (copaThemeRows as CopaThemeStoreRow[]).forEach((row, index) => {
-    const product = copaThemeRowToProduct(row, index);
-    if (!products.has(product.slug)) products.set(product.slug, product);
-  });
-  return Array.from(products.values()).sort((a, b) => Number(b.featured) - Number(a.featured) || b.marketplaceScore - a.marketplaceScore || a.name.localeCompare(b.name));
+  return directSaleCatalog
+    .map(catalogProductToSmartStoreProduct)
+    .sort((a, b) => Number(b.featured) - Number(a.featured) || b.marketplaceScore - a.marketplaceScore || a.name.localeCompare(b.name));
 }
 
 export function getLocalStoreCategories(products = getLocalStoreProducts()) {

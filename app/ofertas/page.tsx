@@ -93,7 +93,7 @@ export default function OfertasPage() {
             </div>
             <div className="grid gap-4 md:grid-cols-3">
               {section.products.slice(0, 6).map((product) => (
-                <Link key={product.slug} href={`/produto/${product.slug}`} className="rounded-[8px] border border-white/10 bg-white/[0.035] p-4 transition hover:border-cyan-200/30">
+                <Link key={product.slug} href={`/catalogo/${product.slug}`} className="rounded-[8px] border border-white/10 bg-white/[0.035] p-4 transition hover:border-cyan-200/30">
                   <p className="text-sm font-black text-white">{product.name}</p>
                   <p className="mt-1 text-xs text-white/50">{product.category}</p>
                   <p className="mt-2 text-lg font-black text-emerald-100">{formatCurrency(product.pixPrice)}</p>

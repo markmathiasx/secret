@@ -1,5 +1,6 @@
 import type { Product } from "@/lib/catalog";
-import { catalog, getProductUrl } from "@/lib/catalog";
+import { getProductUrl } from "@/lib/catalog";
+import { publicCatalog as catalog } from "@/lib/public-catalog";
 import { buildProductSearchText, normalizeProductCategory } from "@/lib/catalog-content";
 import { brand, deliveryZones, pix, supportEmail, whatsappNumber } from "@/lib/constants";
 import { getAiAssistantModel, getAiAssistantProviderLabel, getPixKey, getSiteUrl, isCardCheckoutConfigured } from "@/lib/env";

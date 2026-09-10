@@ -8,26 +8,30 @@ const lock = JSON.parse(readFileSync(lockPath, 'utf8'));
 
 const expectedDirect = {
   '@auth/prisma-adapter': '2.11.3',
+  fflate: '0.8.3',
   'isomorphic-dompurify': '3.19.0',
-  next: '15.5.21',
+  next: '15.5.25',
   'next-auth': '5.0.0-beta.32',
-  sharp: '0.35.3',
+  nodemailer: '9.1.1',
+  sharp: '0.35.4',
   undici: '^6.28.0',
 };
 const expectedDev = {
-  '@next/bundle-analyzer': '15.5.21',
-  'eslint-config-next': '15.5.21',
+  '@next/bundle-analyzer': '15.5.25',
+  'eslint-config-next': '15.5.25',
   postcss: '8.5.26',
 };
 const expectedOverrides = {
   '@auth/core': '0.41.3',
+  'baseline-browser-mapping': '2.11.21',
   'brace-expansion': '5.0.9',
+  browserslist: '4.28.9',
   dompurify: '3.4.13',
   'js-yaml': '5.3.0',
   jsdom: '25.0.1',
   nanoid: '3.3.18',
   postcss: '8.5.26',
-  sharp: '0.35.3',
+  sharp: '0.35.4',
 };
 
 const failures = [];
@@ -70,11 +74,15 @@ function requireExactInLock(packageName, expected) {
   }
 }
 
-requireExactInLock('next', '15.5.21');
+requireExactInLock('next', '15.5.25');
 requireExactInLock('next-auth', '5.0.0-beta.32');
 requireExactInLock('@auth/core', '0.41.3');
 requireExactInLock('@auth/prisma-adapter', '2.11.3');
-requireExactInLock('sharp', '0.35.3');
+requireExactInLock('sharp', '0.35.4');
+requireExactInLock('fflate', '0.8.3');
+requireExactInLock('nodemailer', '9.1.1');
+requireExactInLock('baseline-browser-mapping', '2.11.21');
+requireExactInLock('browserslist', '4.28.9');
 requireExactInLock('undici', '6.28.0');
 requireExactInLock('brace-expansion', '5.0.9');
 requireExactInLock('dompurify', '3.4.13');

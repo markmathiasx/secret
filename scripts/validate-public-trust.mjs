@@ -33,7 +33,7 @@ const forbiddenTerms = [
 
 const errors = [];
 const matches = [];
-const expectedPublicProducts = Number(COMMERCIAL_STOREFRONT_CONFIG.expectedFullCatalogProducts || 843);
+const expectedPublicProducts = Number(COMMERCIAL_STOREFRONT_CONFIG.expectedFullCatalogProducts || 538);
 const expectedFeaturedProducts = Number(COMMERCIAL_STOREFRONT_CONFIG.maximumPublicProducts || 12);
 
 for (const file of files) {

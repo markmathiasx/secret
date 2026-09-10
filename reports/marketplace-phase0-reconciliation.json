@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-08-15T18:16:25.292Z",
+  "generatedAt": "2026-09-10T00:00:48.670Z",
   "branch": "industrial-ai-v62-20260727-005340",
-  "commit": "3da8db84",
+  "commit": "70d5adc2",
   "remote": "https://github.com/markmathiasx/secret.git",
   "requiredInventory": [
     {
@@ -96,9 +96,9 @@
     }
   ],
   "statusCounts": {
+    "PARCIAL_ESTATICO": 17,
     "PARCIAL_COM_COMANDOS": 1,
     "A_VERIFICAR": 33,
-    "PARCIAL_ESTATICO": 16,
     "NAO_COMPROVADO": 8
   },
   "phaseProgress": [
@@ -106,7 +106,7 @@
       "phase": "Fase 0 - Reconciliacao",
       "percent": "90%",
       "status": "Fase 0 estatica criada; gates obrigatorios registrados",
-      "evidence": "Fontes presentes: 18/18; afirmacoes classificadas: 58; gates registrados: sim."
+      "evidence": "Fontes presentes: 18/18; afirmacoes classificadas: 59; gates registrados: sim."
     },
     {
       "phase": "Fase 1 - Performance",
@@ -229,19 +229,25 @@
     {
       "item": "next-auth peer nodemailer",
       "status": "RISCO_UPSTREAM_MONITORADO",
-      "evidence": "next-auth 5.0.0-beta.32 declara peer nodemailer ^7.0.7 no registry, mas nodemailer ^9.0.1 e necessario para zerar npm audit. auth.ts usa Credentials/Google/Apple e nao provider de email do NextAuth."
+      "evidence": "next-auth 5.0.0-beta.32 declara peer nodemailer ^7.0.7 no registry, mas nodemailer 9.1.1 e necessario para zerar npm audit. auth.ts usa Credentials/Google/Apple e nao provider de email do NextAuth."
     }
   ],
   "claims": [
     {
+      "item": "Não declarar deploy sem prova de SHA em `/api/release` no deployment staged e em `https://www.mdh3d.com.br`.",
+      "source": "AGENTS.md:9",
+      "status": "PARCIAL_ESTATICO",
+      "evidence": "vercel_docker: arquivos: docs/VERCEL_ENV.md, Dockerfile; Arquivos de deploy existem; deploy e build Docker exigem execucao atual."
+    },
+    {
       "item": "Nunca declarar tarefa concluída sem lint, typecheck, build, validate:assets e test:images.",
-      "source": "AGENTS.md:4",
+      "source": "AGENTS.md:16",
       "status": "PARCIAL_COM_COMANDOS",
       "evidence": "testes_gates: Comandos registrados em 2026-07-27T10:00:37.918Z passaram: npm run db:generate, npm run typecheck, npm run lint:check, npm run build, npm run validate:industrial-ui, npm run validate:auth, npm run validate:db-storage, npm run validate:private-routes, npm run validate:public-regressions, npm run security:audit, npm audit --audit-level=low."
     },
     {
       "item": "Para execuções do marketplace MDH 3D nível Apple/ML/AliExpress/Shopee, seguir `docs/CODEX_EXECUTION_PROTOCOL.md`: executar a Fase 0 antes das demais, manter `RELATORIO-EXECUCAO-MARKETPLACE.md` incremental e nunca marcar fase como 100% sem evidência objetiva em código, comandos e validação local/produção.",
-      "source": "AGENTS.md:9",
+      "source": "AGENTS.md:21",
       "status": "A_VERIFICAR",
       "evidence": "Afirmação localizada no documento, mas sem regra estatica suficiente; precisa verificacao manual/runtime."
     },

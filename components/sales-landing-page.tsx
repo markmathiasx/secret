@@ -3,7 +3,7 @@ import { CatalogExplorer } from "@/components/catalog-explorer";
 import { CatalogGrid } from "@/components/catalog-grid";
 import { CommerceFaq } from "@/components/commerce-faq";
 import { SafeProductImage } from "@/components/safe-product-image";
-import { catalog } from "@/lib/catalog";
+import { publicCatalog as catalog } from "@/lib/public-catalog";
 import { getProductUrl } from "@/lib/product-routing";
 import {
   getLandingHighlights,

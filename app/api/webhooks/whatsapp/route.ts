@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { catalog, getProductUrl } from "@/lib/catalog";
+import { getProductUrl } from "@/lib/catalog";
+import { publicCatalog as catalog } from "@/lib/public-catalog";
 import { estimateDeliveryFeeKm } from "@/lib/delivery";
 import { getSiteUrl } from "@/lib/env";
 import { isMetaVerifyTokenConfigured, isWhatsAppOutboundReady } from "@/lib/meta/config";

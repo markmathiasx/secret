@@ -1,11 +1,17 @@
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
+import { createProjectRequire } from "./catalog/ts-runtime.mjs";
 
 const root = process.cwd();
 const publicRoot = path.join(root, "public");
 const auditPath = path.join(root, "output", "CATALOG_SEMANTIC_AUDIT.json");
 const audit = JSON.parse(fs.readFileSync(auditPath, "utf8"));
+const require = createProjectRequire();
+const { publicCatalog } = require("@/lib/public-catalog");
+const { getProductVisual } = require("@/lib/product-visuals");
+const a1ExpansionRows = JSON.parse(fs.readFileSync(path.join(root, "data", "a1-mini-expansion-500.json"), "utf8"));
+const a1ExpansionById = new Map(a1ExpansionRows.map((row) => [row.id, row]));
 
 const storefrontHomeImages = {
   "Suporte para Fone Headphone": {
@@ -204,6 +210,24 @@ for (const sku of valorantCuratedSkus) {
   }
 }
 
+assert.ok(publicCatalog.length >= 500, `public catalog unexpectedly small: ${publicCatalog.length}`);
+assert.equal(
+  publicCatalog.every((product) => getProductVisual(product).merchantReady),
+  true,
+  "public catalog leaked non-merchant-ready products",
+);
+
+const publicA1Products = publicCatalog.filter((product) => product.mediaProvenance?.provider === "MakerWorld");
+assert.ok(publicA1Products.length >= 490, `A1 catalog unexpectedly small: ${publicA1Products.length}`);
+for (const product of publicA1Products) {
+  assert.deepEqual(product.images, [product.image], `${product.id}: synthetic gallery leaked`);
+  assert.match(product.image || "", /\/cover\.webp$/i, `${product.id}: canonical cover`);
+  assert.match(product.mediaProvenance.sourceProductUrl, /^https:\/\/makerworld\.com\//i, `${product.id}: source product`);
+  const sourceImageUrl = a1ExpansionById.get(product.id)?.sourceImageUrl || "";
+  assert.ok(/^https:\/\//i.test(sourceImageUrl) || sourceImageUrl === "local-manual-photo-override", `${product.id}: source image`);
+  ensureFile(product.image, 1_000);
+}
+
 console.log(
   JSON.stringify(
     {
@@ -211,6 +235,8 @@ console.log(
       checkedApprovedProducts: realApprovedSkus.length,
       checkedHomeProducts: Object.keys(storefrontHomeImages).length,
       checkedValorantProducts: valorantCuratedSkus.length,
+      checkedPublicProducts: publicCatalog.length,
+      checkedMakerWorldProducts: publicA1Products.length,
     },
     null,
     2,

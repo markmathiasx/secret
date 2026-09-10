@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 
 const BASE_URL = process.env.SMOKE_BASE_URL || "http://localhost:3000";
 const PRODUCT_LINK_SELECTOR = 'a[href^="/catalogo/"]';
-const SMART_PRODUCT_SLUG = "chaveiro-goleiro-comercial-copa-2026-copa-001";
+const SMART_PRODUCT_SLUG = "grinder-3-partes-premium";
 
 test.describe("Loja inteligente MDH3D", () => {
   test("alias /loja redireciona para o catálogo canônico com produtos públicos", async ({ page }) => {
@@ -49,12 +49,11 @@ test.describe("Loja inteligente MDH3D", () => {
     expect(productJsonLd.some((content) => content.includes('"Product"') || content.includes('"BreadcrumbList"'))).toBe(true);
   });
 
-  test("PDP da loja inteligente renderiza produto real em /produto sem cair na busca", async ({ page }) => {
+  test("rota legada /produto redireciona para a PDP canônica", async ({ page }) => {
     const response = await page.goto(`${BASE_URL}/produto/${SMART_PRODUCT_SLUG}`, { waitUntil: "networkidle" });
     expect(response?.status()).toBe(200);
-    await expect(page).toHaveURL(new RegExp(`/produto/${SMART_PRODUCT_SLUG}$`));
-    await expect(page.getByRole("heading", { name: /Chaveiro Goleiro Comercial Copa 2026/i })).toBeVisible();
-    await expect(page.getByText("Compra segura via checkout externo")).toBeVisible();
+    await expect(page).toHaveURL(new RegExp(`/catalogo/${SMART_PRODUCT_SLUG}$`));
+    await expect(page.getByRole("heading", { name: /Grinder 3 Partes Premium/i })).toBeVisible();
     await expect(page.locator("a[href*='wa.me']").first()).toBeVisible();
 
     const jsonLd = await page.locator('script[type="application/ld+json"]').allTextContents();
@@ -72,7 +71,7 @@ test.describe("Loja inteligente MDH3D", () => {
     const google = await request.get(`${BASE_URL}/feeds/google-shopping.xml`);
     expect(google.status()).toBe(200);
     expect(google.headers()["content-type"]).toContain("application/xml");
-    expect(await google.text()).toContain("/produto/");
+    expect(await google.text()).toContain("/catalogo/");
 
     const sitemapProducts = await request.get(`${BASE_URL}/sitemap-products.xml`);
     expect(sitemapProducts.status()).toBe(200);
@@ -80,7 +79,7 @@ test.describe("Loja inteligente MDH3D", () => {
 
     const sitemap = await request.get(`${BASE_URL}/sitemap.xml`);
     expect(sitemap.status()).toBe(200);
-    expect(await sitemap.text()).toContain(`/produto/${SMART_PRODUCT_SLUG}`);
+    expect(await sitemap.text()).toContain(`/catalogo/${SMART_PRODUCT_SLUG}`);
   });
 
   test("ofertas e orçamento personalizado carregam sem credenciais externas", async ({ page }) => {

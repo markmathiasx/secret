@@ -108,6 +108,18 @@ const PRODUCT_VISUAL_OVERRIDES: Record<string, ProductVisualOverride> = {
     recommendedNextStep: "Fotografar o organizador de maquiagem real ou gerar render a partir do arquivo 3MF/STL. Remover imagem conceitual enganosa.",
     merchantReady: false,
   },
+  "mdh-038": {
+    kind: "imagem-conceitual",
+    note: "A mídia principal coincide com a luminária personalizada e não comprova a versão sem iluminação deste produto.",
+    recommendedNextStep: "Fotografar ou renderizar o nome 3D sem iluminação antes de recolocar o item na venda direta.",
+    merchantReady: false,
+  },
+  "mw-a1-369": {
+    kind: "imagem-conceitual",
+    note: "A fonte original está sob licença não comercial e a mídia local não corresponde ao estojo anunciado.",
+    recommendedNextStep: "Manter fora da venda até substituir a mídia e obter autorização comercial do autor.",
+    merchantReady: false,
+  },
 };
 
 const realImageStatusMap = realImageStatusJson as Record<string, RealImageStatusRecord>;

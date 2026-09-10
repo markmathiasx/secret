@@ -29,6 +29,8 @@ import { brand, socialLinks, whatsappNumber } from "@/lib/constants";
 import { getSiteUrl } from "@/lib/env";
 import { buildUniqueHomeSections, getHomeDuplicateIds } from "@/lib/home-products";
 import { calculateCardPrice } from "@/lib/payment-pricing";
+import { COMMERCIAL_STOREFRONT_IDS } from "@/lib/commercial-catalog-policy";
+import { isDirectSaleCatalogProduct } from "@/lib/public-catalog";
 import { withProductPreviewCandidates } from "@/lib/product-image-variants";
 import { PRODUCT_IMAGE_PLACEHOLDER, getProductImageAlt, getProductImageCandidates } from "@/lib/product-images";
 import { formatCurrency } from "@/lib/utils";
@@ -48,6 +50,8 @@ const trustBar = [
   "Atendimento via WhatsApp",
   "Checkout externo quando disponível",
 ] as const;
+
+const homeProductIds = new Set(COMMERCIAL_STOREFRONT_IDS);
 
 function whatsappHref(message: string) {
   return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
@@ -92,7 +96,7 @@ function HomeProductCard({ product, siteUrl, priority = false }: { product: Prod
   return (
     <article
       data-product-id={product.id}
-      className="group overflow-hidden rounded-[8px] border border-white/10 bg-white/[0.045] transition-all duration-300 hover:-translate-y-1 hover:border-emerald-300/30 hover:bg-white/[0.065] hover:shadow-[0_18px_48px_rgba(2,8,23,0.42)]"
+      className="group overflow-hidden rounded-[24px] border border-white/10 bg-white/[0.045] shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] transition-all duration-500 hover:-translate-y-1.5 hover:border-emerald-300/30 hover:bg-white/[0.065] hover:shadow-[0_24px_64px_rgba(2,8,23,0.48)]"
     >
       <Link href={href} prefetch={false} className="block">
         <div className="relative overflow-hidden bg-black/25" style={{ aspectRatio: "1 / 1" }}>
@@ -109,12 +113,12 @@ function HomeProductCard({ product, siteUrl, priority = false }: { product: Prod
           </div>
         </div>
       </Link>
-      <div className="p-3">
+      <div className="p-4 sm:p-5">
         <p className="line-clamp-1 text-[11px] font-bold uppercase tracking-[0.12em] text-emerald-100/80">
           {product.category}
         </p>
         <Link href={href} prefetch={false} className="mt-1 block">
-          <h3 className="line-clamp-2 min-h-10 text-sm font-black leading-5 text-white">{product.name}</h3>
+          <h3 className="line-clamp-2 min-h-12 text-base font-black leading-6 tracking-[-0.015em] text-white">{product.name}</h3>
         </Link>
         <p className="mt-2 line-clamp-2 min-h-10 text-xs leading-5 text-white/58">{shortText(product)}</p>
         <div className="mt-3">
@@ -130,7 +134,7 @@ function HomeProductCard({ product, siteUrl, priority = false }: { product: Prod
             href={whatsappHref(message)}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center rounded-[8px] border border-emerald-300/25 bg-emerald-300/10 px-3 text-emerald-100 transition hover:border-emerald-300/40 hover:bg-emerald-300/15"
+            className="inline-flex items-center justify-center rounded-xl border border-emerald-300/25 bg-emerald-300/10 px-3 text-emerald-100 transition hover:border-emerald-300/40 hover:bg-emerald-300/15"
             aria-label={`Comprar ${product.name} pelo WhatsApp`}
           >
             <MessageCircleMore className="h-4 w-4" />
@@ -161,12 +165,12 @@ function ProductRail({
   if (!products.length) return null;
 
   return (
-    <section id={id} className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
+    <section id={id} className="mx-auto max-w-[90rem] px-4 py-14 sm:px-6 lg:py-20">
       <Reveal>
         <div className="mb-5 flex items-end justify-between gap-4">
           <div>
             <p className="section-kicker">{kicker}</p>
-            <h2 className="text-2xl font-black text-white sm:text-3xl">{title}</h2>
+            <h2 className="text-3xl font-black tracking-[-0.035em] text-white sm:text-4xl">{title}</h2>
             <p className="mt-2 max-w-2xl text-sm leading-6 text-white/62">{description}</p>
           </div>
           <Link href={href} prefetch={false} className="hidden items-center gap-2 text-sm font-bold text-emerald-100 hover:text-white sm:inline-flex">
@@ -174,7 +178,7 @@ function ProductRail({
           </Link>
         </div>
       </Reveal>
-      <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 sm:gap-5 md:grid-cols-3 lg:grid-cols-4">
         {products.map((product, index) => (
           <Reveal key={product.id} delay={index * 45}>
             <HomeProductCard product={product} siteUrl={siteUrl} />
@@ -188,7 +192,9 @@ function ProductRail({
 export default async function HomePage() {
   const catalog = await getCatalogSnapshot();
   const siteUrl = getSiteUrl();
-  const available = catalog.filter((product) => product.pricePix > 0);
+  const available = catalog
+    .filter(isDirectSaleCatalogProduct)
+    .filter((product) => homeProductIds.has(product.id));
   const sections = buildUniqueHomeSections(available);
   const searchEntries = Object.values(sections).flat().map((product) => ({
     id: product.id,
@@ -199,19 +205,23 @@ export default async function HomePage() {
     href: getProductUrl(product),
   }));
   const publicStats = buildPublicCatalogStats(catalog);
-  const minPix = [...available].sort((left, right) => left.pricePix - right.pricePix)[0]?.pricePix ?? 19.9;
+  const minPix = available.reduce(
+    (minimum, product) => Math.min(minimum, product.pricePix),
+    Number.POSITIVE_INFINITY,
+  );
+  const entryPixPrice = Number.isFinite(minPix) ? minPix : 19.9;
   const quoteMessage = "Quero um orçamento na MDH 3D. Vim pela home e preciso de ajuda com produto, preço, prazo e personalização.";
   const duplicateIds = getHomeDuplicateIds(sections);
 
   return (
-    <main className="min-h-screen bg-[#071016] text-white" data-home-duplicate-count={duplicateIds.length} data-official-product-count={publicStats.activeProductCount}>
-      <section className="relative isolate overflow-hidden border-b border-white/10 bg-[#071016]">
+    <main className="min-h-screen bg-[#050b11] text-white" data-home-duplicate-count={duplicateIds.length} data-official-product-count={publicStats.activeProductCount}>
+      <section className="relative isolate overflow-hidden border-b border-white/10 bg-[#050b11]">
         <CinematicVideoBackground
           variant="home"
-          overlayClassName="bg-[linear-gradient(90deg,rgba(2,6,23,0.94),rgba(2,6,23,0.66)_48%,rgba(2,6,23,0.86)),linear-gradient(180deg,rgba(2,6,23,0.08),rgba(2,6,23,0.95))]"
+          overlayClassName="bg-[radial-gradient(circle_at_72%_18%,rgba(34,211,238,0.10),transparent_28%),linear-gradient(90deg,rgba(2,6,14,0.97),rgba(2,6,14,0.72)_52%,rgba(2,6,14,0.88)),linear-gradient(180deg,rgba(2,6,14,0.18),rgba(2,6,14,0.98))]"
           objectPosition="center"
         />
-        <div className="relative z-10 mx-auto grid max-w-7xl gap-8 px-4 pb-10 pt-8 sm:px-6 lg:grid-cols-[1.02fr_0.98fr] lg:items-center lg:pb-14 lg:pt-12">
+        <div className="relative z-10 mx-auto grid min-h-[calc(100svh-9rem)] max-w-[90rem] gap-12 px-4 pb-14 pt-12 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:pb-20 lg:pt-16">
           <div className="max-w-3xl">
             <Reveal>
               <div className="inline-flex items-center gap-2 rounded-full border border-emerald-300/20 bg-emerald-300/10 px-3 py-1 text-xs font-black uppercase tracking-[0.12em] text-emerald-50">
@@ -220,13 +230,13 @@ export default async function HomePage() {
               </div>
             </Reveal>
             <Reveal delay={80}>
-              <h1 className="mt-5 text-4xl font-black leading-[1.02] text-white sm:text-5xl lg:text-6xl">
-                Impressão 3D personalizada no Rio de Janeiro
+              <h1 className="mt-6 max-w-[11ch] text-5xl font-black leading-[0.94] tracking-[-0.055em] text-white sm:text-6xl lg:text-7xl xl:text-[5.4rem]">
+                Ideias digitais. Objetos extraordinários.
               </h1>
             </Reveal>
             <Reveal delay={140}>
               <p className="mt-5 max-w-2xl text-base leading-7 text-white/72 sm:text-lg">
-                Chaveiros, presentes, organizadores, peças geek e projetos sob medida. Escolha um modelo ou mande sua ideia no WhatsApp.
+                Impressão 3D sob demanda no Rio de Janeiro, com catálogo validado, acabamento preciso e atendimento humano do briefing à entrega.
               </p>
             </Reveal>
             <Reveal delay={170}>
@@ -257,20 +267,20 @@ export default async function HomePage() {
             </Reveal>
 
             <Reveal delay={260}>
-              <div className="mt-7 grid grid-cols-2 gap-2 sm:grid-cols-4">
-                <div className="rounded-[8px] border border-white/10 bg-white/[0.045] p-3">
+              <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
+                <div className="rounded-2xl border border-white/10 bg-white/[0.045] p-4 backdrop-blur-xl">
                   <p className="text-[11px] uppercase tracking-[0.12em] text-white/48">A partir de</p>
-                  <p className="mt-1 text-xl font-black text-emerald-100">{formatCurrency(minPix)}</p>
+                  <p className="mt-1 text-xl font-black text-emerald-100">{formatCurrency(entryPixPrice)}</p>
                 </div>
-                <div className="rounded-[8px] border border-white/10 bg-white/[0.045] p-3">
+                <div className="rounded-2xl border border-white/10 bg-white/[0.045] p-4 backdrop-blur-xl">
                   <p className="text-[11px] uppercase tracking-[0.12em] text-white/48">Produtos</p>
                   <p className="mt-1 text-xl font-black text-white">{publicStats.activeProductCount}</p>
                 </div>
-                <div className="rounded-[8px] border border-white/10 bg-white/[0.045] p-3">
+                <div className="rounded-2xl border border-white/10 bg-white/[0.045] p-4 backdrop-blur-xl">
                   <p className="text-[11px] uppercase tracking-[0.12em] text-white/48">Cartão</p>
                   <p className="mt-1 text-xl font-black text-white">+ R$ 1</p>
                 </div>
-                <div className="rounded-[8px] border border-white/10 bg-white/[0.045] p-3">
+                <div className="rounded-2xl border border-white/10 bg-white/[0.045] p-4 backdrop-blur-xl">
                   <p className="text-[11px] uppercase tracking-[0.12em] text-white/48">Atendimento</p>
                   <p className="mt-1 text-xl font-black text-white">humano</p>
                 </div>
@@ -299,23 +309,24 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 py-4 sm:px-6">
+      <section className="mx-auto max-w-[90rem] px-4 py-12 sm:px-6 lg:py-16">
         <Reveal>
-          <div className="grid gap-3 md:grid-cols-3">
-            <Link href="/catalogo?custom=1" className="rounded-[8px] border border-cyan-300/20 bg-cyan-300/10 p-4 transition hover:border-cyan-300/35 hover:bg-cyan-300/14">
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 lg:grid-rows-2">
+            <Link href="/catalogo?custom=1" className="group relative overflow-hidden rounded-[28px] border border-cyan-300/20 bg-[linear-gradient(145deg,rgba(34,211,238,0.16),rgba(255,255,255,0.035))] p-7 transition duration-500 hover:-translate-y-1 hover:border-cyan-300/40 lg:col-span-2 lg:row-span-2 lg:min-h-[24rem] lg:p-10">
               <p className="section-kicker">Personalizacao</p>
-              <h2 className="mt-1 text-xl font-black text-white">Produtos com ajuste real de cor, nome, tema ou briefing</h2>
-              <p className="mt-2 text-sm text-white/62">Entre pelo catalogo curado e siga para briefing ou checkout sem cair em SKU oculto.</p>
+              <h2 className="mt-4 max-w-[13ch] text-3xl font-black leading-tight tracking-[-0.035em] text-white sm:text-4xl">Sua ideia, refinada antes da primeira camada.</h2>
+              <p className="mt-5 max-w-lg text-base leading-7 text-white/62">Cor, nome, tema, escala e uso são confirmados antes da produção. Sem prévia enganosa e sem SKU oculto.</p>
+              <span className="mt-10 inline-flex items-center gap-2 text-sm font-black text-cyan-100">Iniciar projeto <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" /></span>
             </Link>
-            <Link href="/brindes-e-lotes" className="rounded-[8px] border border-emerald-300/20 bg-emerald-300/10 p-4 transition hover:border-emerald-300/35 hover:bg-emerald-300/14">
+            <Link href="/brindes-e-lotes" className="group rounded-[28px] border border-emerald-300/20 bg-emerald-300/[0.09] p-7 transition duration-500 hover:-translate-y-1 hover:border-emerald-300/40 lg:col-span-2">
               <p className="section-kicker">B2B e lotes</p>
-              <h2 className="mt-1 text-xl font-black text-white">Brindes, repeticao e tiragens sob capacidade real de producao</h2>
-              <p className="mt-2 text-sm text-white/62">A vitrine abre a conversa e o atendimento fecha prazo, quantidade e impacto comercial.</p>
+              <h2 className="mt-2 text-2xl font-black tracking-[-0.025em] text-white">Escala comercial com capacidade real.</h2>
+              <p className="mt-3 text-sm leading-6 text-white/62">Quantidade, prazo e repetição fechados com atendimento humano.</p>
             </Link>
-            <Link href="/imagem-para-impressao-3d" className="rounded-[8px] border border-white/10 bg-white/[0.045] p-4 transition hover:border-white/20 hover:bg-white/[0.065]">
+            <Link href="/imagem-para-impressao-3d" className="group rounded-[28px] border border-white/10 bg-white/[0.045] p-7 transition duration-500 hover:-translate-y-1 hover:border-white/20 hover:bg-white/[0.065] lg:col-span-2">
               <p className="section-kicker">Arquivo e briefing</p>
-              <h2 className="mt-1 text-xl font-black text-white">Envie referencia, STL ou objetivo da peca sem fingir preview final</h2>
-              <p className="mt-2 text-sm text-white/62">A analise humana continua sendo o ponto de aprovacao antes da producao.</p>
+              <h2 className="mt-2 text-2xl font-black tracking-[-0.025em] text-white">STL, referência ou apenas um problema.</h2>
+              <p className="mt-3 text-sm leading-6 text-white/62">A análise humana transforma o material enviado em um plano de produção.</p>
             </Link>
           </div>
         </Reveal>

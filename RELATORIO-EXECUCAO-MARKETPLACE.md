@@ -1,8 +1,8 @@
 # RELATORIO-EXECUCAO-MARKETPLACE
 
-Atualizado em: 2026-08-15T18:16:25.292Z
+Atualizado em: 2026-09-10T00:00:48.670Z
 Branch: industrial-ai-v62-20260727-005340
-Commit atual: 3da8db84
+Commit atual: 70d5adc2
 Remoto: https://github.com/markmathiasx/secret.git
 
 ## Regra operacional
@@ -13,7 +13,7 @@ Este relatorio e incremental. Nenhuma fase deve receber 100% sem evidencia objet
 
 | Fase | Percentual | Status | Evidencia |
 | --- | ---: | --- | --- |
-| Fase 0 - Reconciliacao | 90% | Fase 0 estatica criada; gates obrigatorios registrados | Fontes presentes: 18/18; afirmacoes classificadas: 58; gates registrados: sim. |
+| Fase 0 - Reconciliacao | 90% | Fase 0 estatica criada; gates obrigatorios registrados | Fontes presentes: 18/18; afirmacoes classificadas: 59; gates registrados: sim. |
 | Fase 1 - Performance | 0% | Nao executada nesta rodada | Bloqueada pela ordem do TXT ate a conclusao objetiva da Fase 0 e seus gates. |
 | Fase 2 - Design System | 0% | Nao executada nesta rodada | Bloqueada pela ordem do TXT ate a conclusao objetiva da Fase 0 e seus gates. |
 | Fase 3 - Comercio e checkout | 0% | Nao executada nesta rodada | Bloqueada pela ordem do TXT ate a conclusao objetiva da Fase 0 e seus gates. |
@@ -66,8 +66,9 @@ Este relatorio e incremental. Nenhuma fase deve receber 100% sem evidencia objet
 
 | Item afirmado | Fonte | Status real | Evidencia |
 | --- | --- | --- | --- |
-| Nunca declarar tarefa concluída sem lint, typecheck, build, validate:assets e test:images. | AGENTS.md:4 | PARCIAL_COM_COMANDOS | testes_gates: Comandos registrados em 2026-07-27T10:00:37.918Z passaram: npm run db:generate, npm run typecheck, npm run lint:check, npm run build, npm run validate:industrial-ui, npm run validate:auth, npm run validate:db-storage, npm run validate:private-routes, npm run validate:public-regressions, npm run security:audit, npm audit --audit-level=low. |
-| Para execuções do marketplace MDH 3D nível Apple/ML/AliExpress/Shopee, seguir `docs/CODEX_EXECUTION_PROTOCOL.md`: executar a Fase 0 antes das demais, manter `RELATORIO-EXECUCAO-MARKETPLACE.md` incremental e nunca marcar fase como 100% sem evidência objetiva em código, comandos e validação local/p... | AGENTS.md:9 | A_VERIFICAR | Afirmação localizada no documento, mas sem regra estatica suficiente; precisa verificacao manual/runtime. |
+| Não declarar deploy sem prova de SHA em `/api/release` no deployment staged e em `https://www.mdh3d.com.br`. | AGENTS.md:9 | PARCIAL_ESTATICO | vercel_docker: arquivos: docs/VERCEL_ENV.md, Dockerfile; Arquivos de deploy existem; deploy e build Docker exigem execucao atual. |
+| Nunca declarar tarefa concluída sem lint, typecheck, build, validate:assets e test:images. | AGENTS.md:16 | PARCIAL_COM_COMANDOS | testes_gates: Comandos registrados em 2026-07-27T10:00:37.918Z passaram: npm run db:generate, npm run typecheck, npm run lint:check, npm run build, npm run validate:industrial-ui, npm run validate:auth, npm run validate:db-storage, npm run validate:private-routes, npm run validate:public-regressions, npm run security:audit, npm audit --audit-level=low. |
+| Para execuções do marketplace MDH 3D nível Apple/ML/AliExpress/Shopee, seguir `docs/CODEX_EXECUTION_PROTOCOL.md`: executar a Fase 0 antes das demais, manter `RELATORIO-EXECUCAO-MARKETPLACE.md` incremental e nunca marcar fase como 100% sem evidência objetiva em código, comandos e validação local/p... | AGENTS.md:21 | A_VERIFICAR | Afirmação localizada no documento, mas sem regra estatica suficiente; precisa verificacao manual/runtime. |
 | Confirmar domínio, SSL e deploy ativo em produção | 01-BACKLOG-PRIORIZADO.md:5 | PARCIAL_ESTATICO | vercel_docker: arquivos: docs/VERCEL_ENV.md, Dockerfile; Arquivos de deploy existem; deploy e build Docker exigem execucao atual. |
 | Entregas separando produção x transporte | 01-BACKLOG-PRIORIZADO.md:24 | A_VERIFICAR | Afirmação localizada no documento, mas sem regra estatica suficiente; precisa verificacao manual/runtime. |
 | Mistura prazo de produção com transporte. | 02-AUDITORIA-ABA-A-ABA.md:62 | A_VERIFICAR | Afirmação localizada no documento, mas sem regra estatica suficiente; precisa verificacao manual/runtime. |
@@ -145,7 +146,7 @@ Este relatorio e incremental. Nenhuma fase deve receber 100% sem evidencia objet
 
 | Item | Status | Evidencia |
 | --- | --- | --- |
-| next-auth peer nodemailer | RISCO_UPSTREAM_MONITORADO | next-auth 5.0.0-beta.32 declara peer nodemailer ^7.0.7 no registry, mas nodemailer ^9.0.1 e necessario para zerar npm audit. auth.ts usa Credentials/Google/Apple e nao provider de email do NextAuth. |
+| next-auth peer nodemailer | RISCO_UPSTREAM_MONITORADO | next-auth 5.0.0-beta.32 declara peer nodemailer ^7.0.7 no registry, mas nodemailer 9.1.1 e necessario para zerar npm audit. auth.ts usa Credentials/Google/Apple e nao provider de email do NextAuth. |
 
 ## Pendencias reais restantes
 

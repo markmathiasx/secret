@@ -261,7 +261,7 @@ export function validateProductMedia(product: Product): ProductMediaRecord {
       : status === "placeholder"
         ? `Image is a generic placeholder/AI-generated conceptual. Does not represent the actual product.`
         : hasVerifiedHeroStatus && !galleryReady
-          ? `Gallery has ${gallery.length}/4 images. Add more verified photos to reach 4-image target.`
+          ? `Galeria com ${gallery.length}/4 imagens. A referência principal está validada; novos ângulos ainda serão adicionados.`
           : undefined,
     lastAuditedAt: new Date().toISOString(),
   };

@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import process from "node:process";
+import { createProjectRequire } from "./ts-runtime.mjs";
 
 const root = process.cwd();
 const configPath = path.join(root, "data", "commercial-storefront.json");
@@ -13,6 +14,12 @@ const catalogSource = fs.readFileSync(catalogPath, "utf8");
 const policySource = fs.readFileSync(policyPath, "utf8");
 const firstSaleSource = fs.readFileSync(firstSalePath, "utf8");
 const errors = [];
+const require = createProjectRequire();
+const { catalog, commercialFeaturedCatalog } = require("@/lib/catalog");
+const { filterDirectSaleCatalogProducts, filterPublicCatalogProducts } = require("@/lib/public-catalog");
+const { getProductVisual } = require("@/lib/product-visuals");
+const publicCatalog = filterPublicCatalogProducts(catalog);
+const directSaleCatalog = filterDirectSaleCatalogProducts(catalog);
 
 function normalize(value) {
   return String(value ?? "")
@@ -25,7 +32,9 @@ if (config.publicProductIds.length !== 12) errors.push("A vitrine deve ter exata
 if (new Set(config.publicProductIds).size !== config.publicProductIds.length) errors.push("Há IDs duplicados.");
 if (config.maximumPublicProducts !== 12) errors.push("maximumPublicProducts deve ser 12.");
 if (config.scope !== "featured-storefront") errors.push("scope deve ser featured-storefront.");
-if (config.expectedFullCatalogProducts !== 843) errors.push("expectedFullCatalogProducts deve preservar os 843 produtos públicos.");
+if (config.expectedFullCatalogProducts !== publicCatalog.length) {
+  errors.push(`expectedFullCatalogProducts deve preservar os ${publicCatalog.length} produtos públicos.`);
+}
 if (config.minimumGrossMarginPercent < 35) errors.push("A margem bruta mínima deve ser pelo menos 35%.");
 
 for (const id of config.publicProductIds) {
@@ -67,6 +76,29 @@ for (const required of [
   if (!catalogSource.includes(required)) errors.push(`lib/catalog.ts não usa ${required}.`);
 }
 
+if (commercialFeaturedCatalog.length !== config.maximumPublicProducts) {
+  errors.push(`Curadoria principal incompleta: ${commercialFeaturedCatalog.length}/${config.maximumPublicProducts}.`);
+}
+
+if (publicCatalog.length < 500) errors.push(`Catálogo público reduzido indevidamente para ${publicCatalog.length} itens.`);
+if (directSaleCatalog.length < 12) errors.push(`Vitrine de compra direta insuficiente: ${directSaleCatalog.length} itens.`);
+
+for (const product of directSaleCatalog) {
+  if (product.pricingMode !== "faixa-auditada") errors.push(`${product.id}: item de orçamento vazou na compra direta.`);
+  if (product.mediaProvenance?.commercialUse === "review-required") {
+    errors.push(`${product.id}: licença comercial pendente vazou na compra direta.`);
+  }
+}
+
+for (const id of config.publicProductIds) {
+  const product = catalog.find((item) => item.id === id);
+  if (!product) continue;
+  const visible = publicCatalog.some((item) => item.id === id);
+  if (!visible && getProductVisual(product).merchantReady) {
+    errors.push(`${id}: item curado foi ocultado sem justificativa de mídia.`);
+  }
+}
+
 for (const required of [
   "CURADORIA COMERCIAL BLOQUEADA",
   "minimumGrossMarginPercent",
@@ -83,6 +115,8 @@ if (errors.length) {
 }
 
 console.log("VALIDAÇÃO DA VITRINE: OK");
-console.log(`Produtos públicos: ${config.publicProductIds.length}`);
+console.log(`Produtos públicos: ${publicCatalog.length}`);
+console.log(`Compra direta: ${directSaleCatalog.length}`);
+console.log(`Curadoria principal: ${config.publicProductIds.length}`);
 console.log(`Margem bruta mínima: ${config.minimumGrossMarginPercent}%`);
 console.log(`Versão: ${config.version}`);

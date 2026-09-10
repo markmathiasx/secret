@@ -4,6 +4,7 @@ import { getProductUrl } from "@/lib/catalog";
 import { resolveProductImage } from "@/lib/product-images";
 import { getSiteUrl } from "@/lib/env";
 import { getCommerceFeedAvailability } from "@/lib/product-availability";
+import { isDirectSaleCatalogProduct } from "@/lib/public-catalog";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 3600; // 1 hour
@@ -19,7 +20,7 @@ function escape(text: string) {
 
 export async function GET() {
   const siteUrl = getSiteUrl();
-  const products = await getCatalogSnapshot();
+  const products = (await getCatalogSnapshot()).filter(isDirectSaleCatalogProduct);
 
   const items = products
     .map((p) => {

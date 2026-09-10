@@ -184,6 +184,10 @@ export function buildMetaCommerceFeedData(): MetaCommerceFeedData {
       if (!description || description.length < 8) reasons.push("missing_description");
       if (pricePix <= 0) reasons.push("missing_fixed_pix_price");
       if (hasBudgetOnlyCopy(product)) reasons.push("budget_only_product");
+      if (product.pricingMode !== "faixa-auditada") reasons.push("quote_only_product");
+      if (product.mediaProvenance?.commercialUse === "review-required") {
+        reasons.push("commercial_use_review_required");
+      }
       if (!link || !/^https:\/\/www\.mdh3d\.com\.br\//i.test(link)) reasons.push("invalid_product_url");
       if (!imageLink) reasons.push("missing_public_image");
 

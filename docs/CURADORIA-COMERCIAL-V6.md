@@ -1,8 +1,8 @@
 # Curadoria comercial e segurança MDH 3D Industrial V6
 
-## Vitrine pública
+## Catálogo público e vitrine
 
-A vitrine comercial em destaque fica limitada a 12 produtos funcionais, personalizados e sem dependência de personagens de terceiros. O catálogo público completo permanece disponível; a curadoria não pode remover seus 843 itens seguros.
+O catálogo público preserva 538 itens com mídia autenticada e segura. A home destaca uma curadoria de 12 produtos de compra direta, funcionais e sem dependência de personagens de terceiros; referências MakerWorld permanecem somente para orçamento assistido.
 
 ## Regra de preço
 
@@ -20,12 +20,13 @@ A política comercial prioriza PLA, PETG, TPU e PVA, materiais classificados com
 
 ## Dependências de segurança
 
-- Next.js 15.5.21
+- Next.js 15.5.25
 - NextAuth 5.0.0-beta.32
 - Auth.js Core 0.41.3
-- Sharp 0.35.3
-- DOMPurify 3.4.12
-- PostCSS 8.5.19
+- Sharp 0.35.4
+- DOMPurify 3.4.13
+- PostCSS 8.5.26
+- Nodemailer 9.1.1
 
 ## Validações
 

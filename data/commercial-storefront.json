@@ -2,7 +2,7 @@
   "version": "2026-07-26-industrial-v6",
   "brand": "MDH 3D",
   "scope": "featured-storefront",
-  "expectedFullCatalogProducts": 843,
+  "expectedFullCatalogProducts": 538,
   "maximumPublicProducts": 12,
   "minimumGrossMarginPercent": 35,
   "idealMaterials": [
@@ -50,7 +50,7 @@
     "mdh-025",
     "mdh-028",
     "mdh-029",
-    "mdh-038",
+    "mdh-050",
     "mdh-053"
   ],
   "products": {
@@ -461,48 +461,45 @@
       ],
       "imageHint": "Foto litofania personalizada"
     },
-    "mdh-038": {
-      "name": "Nome 3D Personalizado de Mesa",
-      "description": "Nome decorativo produzido sob encomenda para quarto, escritório, festa ou presente. O orçamento considera tamanho, quantidade de letras, cores e base escolhida.",
-      "category": "Presentes Personalizados",
-      "subcategory": "Nomes 3D",
-      "theme": "Personalizado",
-      "collection": "Presentes personalizados",
+    "mdh-050": {
+      "name": "Organizador de Cabo USB",
+      "description": "Organizador compacto para manter cabos USB acessíveis e alinhados na mesa. Produzido sob encomenda em PLA Premium, com acabamento conferido e dimensões adequadas para setups domésticos ou profissionais.",
+      "category": "Setup Gamer e Home Office",
+      "subcategory": "Organizador de cabo",
+      "theme": "Home office",
+      "collection": "Organização e setup",
       "tags": [
-        "nome 3d",
-        "personalizado",
-        "decoração",
-        "presente"
+        "organizador",
+        "cabo",
+        "usb",
+        "mesa",
+        "setup"
       ],
       "material": "PLA Premium",
-      "finish": "Acabamento manual",
+      "finish": "Premium",
       "availabilityMode": "made_to_order",
       "status": "Sob encomenda",
       "stock": 0,
       "readyToShip": false,
-      "customizable": true,
-      "featured": false,
-      "grams": 100,
-      "hours": 4,
-      "estimatedGrams": 100,
-      "estimatedHours": 4,
-      "postProcessMinutes": 25,
-      "packagingCost": 2.5,
-      "shippingSuppliesCost": 1.5,
-      "designSetupCost": 8,
+      "customizable": false,
+      "featured": true,
+      "grams": 35,
+      "hours": 2,
+      "estimatedGrams": 35,
+      "estimatedHours": 2,
+      "postProcessMinutes": 10,
+      "packagingCost": 1.5,
+      "shippingSuppliesCost": 0.85,
       "failureReservePercent": 10,
       "overheadPercent": 10,
-      "pricePix": 94.9,
-      "productionWindow": "3 a 7 dias úteis",
-      "dimensions": "Até 30 cm de largura na configuração padrão",
+      "pricePix": 34.9,
+      "productionWindow": "2 a 4 dias úteis",
+      "dimensions": "10 × 8 × 3 cm",
       "colors": [
         "Preto",
-        "Branco",
-        "Azul",
-        "Rosa",
-        "Dourado"
+        "Branco"
       ],
-      "imageHint": "Nome 3D personalizado de mesa"
+      "imageHint": "Organizador de cabo USB"
     },
     "mdh-053": {
       "name": "Caixa Organizadora Modular com Tampa",

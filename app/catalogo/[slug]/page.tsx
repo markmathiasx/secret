@@ -30,7 +30,8 @@ import { Metadata } from 'next';
 import { getSiteUrl, isCardCheckoutConfigured } from '@/lib/env';
 import { getProductHighlights, getProductLongDescription } from '@/lib/catalog-content';
 import { resolveProductImage } from '@/lib/product-images';
-import { catalog, featuredCatalog, getProductUrl } from '@/lib/catalog';
+import { getProductUrl } from '@/lib/catalog';
+import { publicCatalog as catalog, publicFeaturedCatalog as featuredCatalog } from '@/lib/public-catalog';
 import { getProductMarketplaceSignals, getStoreReputationSummary, getProductReviewSnippets } from '@/lib/marketplace-signals';
 import { validateProductMedia, isPublicSafe } from '@/lib/media-validation';
 import { getProductVisual } from '@/lib/product-visuals';
@@ -124,6 +125,8 @@ export default async function ProductPage({
   const publicStockLevel = getPublicStockQuantity({ ...product, availabilityMode });
   const showBackInStockButton = isOutOfStockProduct({ ...product, availabilityMode });
   const cardCheckoutReady = isCardCheckoutConfigured();
+  const requiresCommercialReview =
+    product.pricingMode !== 'faixa-auditada' || product.mediaProvenance?.commercialUse === 'review-required';
   const productPath = getProductUrl(product);
   const productUrl = `${siteUrl}${productPath}`;
   const resolvedImage = resolveProductImage(product);
@@ -175,7 +178,7 @@ export default async function ProductPage({
       '@type': 'Brand',
       name: 'MDH 3D Store',
     },
-    offers: {
+    ...(requiresCommercialReview ? {} : { offers: {
       '@type': 'Offer',
       url: productUrl,
       price: product.pricePix,
@@ -229,7 +232,7 @@ export default async function ProductPage({
         { '@type': 'PaymentMethod', name: 'Pix' },
         ...(cardCheckoutReady ? [{ '@type': 'PaymentMethod', name: 'Cartão de Crédito' }] : []),
       ],
-    },
+    } }),
     category: product.category,
     material: product.material,
     additionalProperty: [
@@ -558,22 +561,35 @@ export default async function ProductPage({
           </div>
 
           <div id="pdp-purchase-tools" className="mt-6">
-            <ProductPurchaseTools
-              productId={product.id}
-              productName={product.name}
-              sku={product.sku}
-              pricePix={product.pricePix}
-              priceCard={product.priceCard}
-              productionWindow={product.productionWindow}
-              readyToShip={product.readyToShip ?? false}
-              productImage={resolvedImage}
-              material={product.material}
-              colors={product.colors}
-              customizable={product.customizable}
-              whatsappHref={whatsappHref}
-              customizationHref={customizationHref}
-              cardCheckoutReady={cardCheckoutReady}
-            />
+            {requiresCommercialReview ? (
+              <div className="rounded-[24px] border border-cyan-300/25 bg-cyan-300/10 p-5">
+                <p className="text-xs font-black uppercase tracking-[0.16em] text-cyan-100/70">Venda assistida</p>
+                <h3 className="mt-2 text-2xl font-black text-white">Confirme modelo, licença e acabamento antes de pagar.</h3>
+                <p className="mt-3 text-sm leading-7 text-white/68">
+                  Esta referência vem de um autor externo. A MDH valida a autorização comercial e adapta o projeto ao seu pedido antes de abrir o pagamento.
+                </p>
+                <a href={whatsappHref} target="_blank" rel="noreferrer" className="btn-whatsapp mt-5 justify-center gap-2">
+                  <MessageCircleMore className="h-4 w-4" /> Solicitar validação e orçamento
+                </a>
+              </div>
+            ) : (
+              <ProductPurchaseTools
+                productId={product.id}
+                productName={product.name}
+                sku={product.sku}
+                pricePix={product.pricePix}
+                priceCard={product.priceCard}
+                productionWindow={product.productionWindow}
+                readyToShip={product.readyToShip ?? false}
+                productImage={resolvedImage}
+                material={product.material}
+                colors={product.colors}
+                customizable={product.customizable}
+                whatsappHref={whatsappHref}
+                customizationHref={customizationHref}
+                cardCheckoutReady={cardCheckoutReady}
+              />
+            )}
             {showBackInStockButton && (
               <div className="mt-4">
                 <BackInStockButton productId={product.id} productName={product.name} />
@@ -684,14 +700,14 @@ export default async function ProductPage({
         <DeliveryCalculator />
       </div>
 
-      <div className="mt-12">
+      {!requiresCommercialReview ? <div className="mt-12">
         <ProductBundleSuggestion
           currentProduct={product}
           relatedProducts={catalog
             .filter((p) => (p.category === product.category || p.collection === product.collection) && p.id !== product.id && p.pricingMode === "faixa-auditada")
             .slice(0, 3)}
         />
-      </div>
+      </div> : null}
 
       <div className="mt-12">
         <ProductReviews productSlug={slug} productSku={product.sku} />
@@ -721,6 +737,8 @@ export default async function ProductPage({
         productImage={resolvedImage}
         sku={product.sku}
         checkoutHref="/checkout"
+        whatsappHref={whatsappHref}
+        quoteOnly={requiresCommercialReview}
       />
 
     </section>

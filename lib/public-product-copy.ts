@@ -79,6 +79,7 @@ type PublicProductLike = {
   priceCard?: number;
   variants?: Array<Record<string, unknown>>;
   makerWorldMeta?: Record<string, unknown>;
+  mediaProvenance?: Record<string, unknown>;
   csvMeta?: Record<string, unknown>;
 };
 
@@ -89,7 +90,7 @@ export function sanitizePublicText(value: unknown) {
 
 function sanitizeDimensions(value: unknown) {
   if (typeof value !== "string") return value;
-  return value.replace(/(\d)\s*x\s*(\d)/gi, "$1 x $2");
+  return value.replace(/\s*[x×]\s*/gi, " × ");
 }
 
 function sanitizeStringArray(value: unknown) {
@@ -172,6 +173,7 @@ export function sanitizePublicProduct<T extends PublicProductLike>(product: T): 
       ? product.variants.map((variant) => sanitizeNestedObject(variant) as Record<string, unknown>)
       : product.variants,
     makerWorldMeta: undefined as T["makerWorldMeta"],
+    mediaProvenance: sanitizeNestedObject(product.mediaProvenance) as T["mediaProvenance"],
     csvMeta: undefined as T["csvMeta"],
   };
 }

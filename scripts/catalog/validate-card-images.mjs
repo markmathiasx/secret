@@ -6,6 +6,9 @@ const require = createProjectRequire();
 const { catalog } = require("@/lib/catalog");
 const { filterPublicCatalogProducts } = require("@/lib/public-catalog");
 const { getProductCardImage, PRODUCT_CARD_PLACEHOLDER } = require("@/lib/product-card-image");
+const { getProductVisual } = require("@/lib/product-visuals");
+const a1ExpansionRows = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "a1-mini-expansion-500.json"), "utf8"));
+const a1ExpansionById = new Map(a1ExpansionRows.map((row) => [row.id, row]));
 
 const placeholderPath = path.join(ROOT, "public", PRODUCT_CARD_PLACEHOLDER.replace(/^\//, ""));
 const cardPath = path.join(ROOT, "components", "product", "PremiumCard.tsx");
@@ -42,10 +45,45 @@ const withOwnImage = rows.filter((row) => !row.usedPlaceholder);
 const usingPlaceholder = rows.filter((row) => row.usedPlaceholder);
 const possibleCardWithoutImage = rows.filter((row) => !row.src);
 const cardFallbackOk = Object.values(cardFallback).every(Boolean);
+const unsafeVisuals = publicProducts.filter((product) => !getProductVisual(product).merchantReady);
+const a1Products = publicProducts.filter((product) => product.mediaProvenance?.provider === "MakerWorld");
+const a1MediaIssues = a1Products.filter((product) => {
+  const images = product.images || [];
+  const source = a1ExpansionById.get(product.id);
+  return (
+    images.length !== 1 ||
+    !/\/cover\.webp$/i.test(images[0] || "") ||
+    images.some((source) => /02-closeup|03-angle|04-alt-color/i.test(source)) ||
+    !/^https:\/\/makerworld\.com\//i.test(product.mediaProvenance?.sourceProductUrl || "") ||
+    !isAuditableSourceImage(source?.sourceImageUrl)
+  );
+});
+const normalizedA1Sources = a1Products.map((product) => {
+  const source = a1ExpansionById.get(product.id)?.sourceImageUrl || "";
+  try {
+    return decodeURIComponent(source);
+  } catch {
+    return source;
+  }
+});
+const duplicateA1Sources = normalizedA1Sources.filter((source, index) => normalizedA1Sources.indexOf(source) !== index);
+const minimumCatalogSize = 500;
+
+function isAuditableSourceImage(value) {
+  return /^https:\/\//i.test(value || "") || value === "local-manual-photo-override";
+}
 
 const report = {
   generatedAt: new Date().toISOString(),
-  ok: placeholderExists && cardFallbackOk && possibleCardWithoutImage.length === 0,
+  ok:
+    placeholderExists &&
+    cardFallbackOk &&
+    publicProducts.length >= minimumCatalogSize &&
+    possibleCardWithoutImage.length === 0 &&
+    usingPlaceholder.length === 0 &&
+    unsafeVisuals.length === 0 &&
+    a1MediaIssues.length === 0 &&
+    duplicateA1Sources.length === 0,
   placeholder: {
     src: PRODUCT_CARD_PLACEHOLDER,
     exists: placeholderExists,
@@ -56,6 +94,11 @@ const report = {
   totalWithOwnImage: withOwnImage.length,
   totalUsingPlaceholder: usingPlaceholder.length,
   possibleCardWithoutImage: possibleCardWithoutImage.length,
+  minimumCatalogSize,
+  unsafeVisuals: unsafeVisuals.map((product) => product.id),
+  a1Products: a1Products.length,
+  a1MediaIssues: a1MediaIssues.map((product) => product.id),
+  duplicateA1Sources: [...new Set(duplicateA1Sources)],
   examplesWithImage: withOwnImage.slice(0, 20),
   examplesUsingPlaceholder: usingPlaceholder.slice(0, 20),
 };
@@ -68,7 +111,7 @@ const rootCauseReport = {
     productCardReadsCorrectField:
       "Corrigido. O card agora usa getProductCardImage(product), que tenta imageGallery[0].url, imageGallery[0].src, gallery[0].url, gallery[0].src, images[0], image, imageUrl, primaryImage, thumbnail e por fim placeholder.",
     mediaValidationWasHidingProducts:
-      "Sim. Antes, PremiumCard retornava null quando validateProductMedia não era public safe, e lib/public-catalog filtrava por isPublicSafe + gallery. Agora mídia não decide se o card/produto público aparece.",
+      "A vitrine agora bloqueia somente mídia conceitual, placeholder ou inconsistente e mantém no mínimo 500 produtos com origem auditável.",
     cssWasHidingImages:
       "Não foi encontrada regra de card com opacity 0, display none, height 0 ou z-index escondendo a mídia. O card novo força aspect-square, img visível, object-cover e opacity-100.",
     nextImageRemoteBlocking:
@@ -106,5 +149,18 @@ if (possibleCardWithoutImage.length) {
   process.exit(1);
 }
 
-console.log(`OK: ${publicProducts.length} cards públicos sempre têm imagem ou placeholder.`);
-console.log(`${withOwnImage.length} com imagem própria; ${usingPlaceholder.length} usando placeholder.`);
+if (!report.ok) {
+  console.error("Falha: catálogo público não atende ao gate de autenticidade e cobertura.");
+  console.error(JSON.stringify({
+    totalPublicProducts: publicProducts.length,
+    minimumCatalogSize,
+    totalUsingPlaceholder: usingPlaceholder.length,
+    unsafeVisuals: report.unsafeVisuals,
+    a1MediaIssues: report.a1MediaIssues,
+    duplicateA1Sources: report.duplicateA1Sources,
+  }, null, 2));
+  process.exit(1);
+}
+
+console.log(`OK: ${publicProducts.length} cards públicos com mídia própria e auditável.`);
+console.log(`${a1Products.length} referências MakerWorld sem galerias sintéticas; 0 placeholders.`);

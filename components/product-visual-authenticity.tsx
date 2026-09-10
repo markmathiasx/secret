@@ -60,6 +60,25 @@ export function ProductVisualNotice({ product }: { product: Product }) {
           {mediaRecord.reviewNote}
         </p>
       )}
+      {product.mediaProvenance?.sourceProductUrl ? (
+        <div className="mt-4 rounded-[16px] border border-white/10 bg-black/20 p-3">
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-white/55">Origem auditável</p>
+          <p className="mt-2 text-sm text-white/80">Imagem original do modelo “{product.mediaProvenance.sourceTitle}”.</p>
+          <a
+            href={product.mediaProvenance.sourceProductUrl}
+            target="_blank"
+            rel="noreferrer noopener"
+            className="mt-2 inline-flex text-sm font-semibold text-cyan-200 transition hover:text-cyan-100"
+          >
+            Conferir modelo e licença no MakerWorld →
+          </a>
+          <p className="mt-2 text-xs leading-5 text-white/55">
+            {product.mediaProvenance.commercialUse === "verified"
+              ? "Uso comercial verificado."
+              : "A autorização comercial é confirmada antes da produção."}
+          </p>
+        </div>
+      ) : null}
     </div>
   );
 }

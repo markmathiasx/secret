@@ -1,24 +1,25 @@
 {
-  "generatedAt": "2026-06-21T15:46:43.565Z",
+  "generatedAt": "2026-09-10T04:26:24.303Z",
   "ok": true,
   "expectedHeader": "id,title,description,availability,condition,price,link,image_link,brand,google_product_category,product_type",
-  "productsInFeed": 840,
-  "publicProducts": 843,
-  "productsWithOwnImage": 840,
-  "productsUsingPlaceholder": 3,
-  "skippedProducts": 3,
+  "productsInFeed": 39,
+  "publicProducts": 538,
+  "productsWithOwnImage": 538,
+  "productsUsingPlaceholder": 0,
+  "skippedProducts": 499,
   "skippedByReason": {
-    "missing_public_image": 3
+    "quote_only_product": 499,
+    "commercial_use_review_required": 499
   },
   "sampleProducts": [
     {
       "id": "REAL-0001",
       "title": "Grinder 3 Partes Premium",
       "description": "Grinder 3 Partes Premium selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento fosco em PLA Premium. Indicado para uso diario, organizacao leve e presente funcional, mantendo prazo claro e apresentacao pronta para venda online.",
-      "availability": "in stock",
+      "availability": "preorder",
       "condition": "new",
-      "price": "14.30 BRL",
-      "link": "https://www.mdh3d.com.br/loja/casa-e-organizacao/real-001-grinder-3-partes-premium",
+      "price": "63.90 BRL",
+      "link": "https://www.mdh3d.com.br/catalogo/real-001-grinder-3-partes-premium",
       "image_link": "https://www.mdh3d.com.br/products/foto-001-grinder-01.webp",
       "brand": "MDH 3D",
       "google_product_category": "Home & Garden > Decor",
@@ -28,10 +29,10 @@
       "id": "REAL-0002",
       "title": "Porta Creme Dental de Bancada",
       "description": "Porta Creme Dental de Bancada selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento fosco em PLA Premium. Indicado para mesa, gaveta, bancada criativa e rotina de trabalho, mantendo prazo claro e apresentacao pronta para venda online.",
-      "availability": "in stock",
+      "availability": "preorder",
       "condition": "new",
-      "price": "9.52 BRL",
-      "link": "https://www.mdh3d.com.br/loja/casa-e-organizacao/real-002-porta-creme-dental-de-bancada",
+      "price": "45.90 BRL",
+      "link": "https://www.mdh3d.com.br/catalogo/real-002-porta-creme-dental-de-bancada",
       "image_link": "https://www.mdh3d.com.br/products/foto-003-porta-creme-dental.webp",
       "brand": "MDH 3D",
       "google_product_category": "Home & Garden > Decor",
@@ -41,10 +42,10 @@
       "id": "REAL-0003",
       "title": "Demogorgon Decorativo Premium",
       "description": "Demogorgon Decorativo Premium selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento pintado à mão em PLA Premium. Indicado para colecao, estante, nicho, setup gamer e presente tematico, mantendo prazo claro e apresentacao pronta para venda online.",
-      "availability": "in stock",
+      "availability": "preorder",
       "condition": "new",
-      "price": "21.46 BRL",
-      "link": "https://www.mdh3d.com.br/loja/geek-colecionaveis/real-003-demogorgon-decorativo-premium",
+      "price": "105.90 BRL",
+      "link": "https://www.mdh3d.com.br/catalogo/real-003-demogorgon-decorativo-premium",
       "image_link": "https://www.mdh3d.com.br/products/foto-004-demogorgon.webp",
       "brand": "MDH 3D",
       "google_product_category": "Arts & Entertainment > Hobbies & Creative Arts",
@@ -54,10 +55,10 @@
       "id": "REAL-0004",
       "title": "mascote temática Jedi Colecionável",
       "description": "mascote temática Jedi Colecionável selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento pintado à mão em PLA Premium. Indicado para colecao, estante, nicho, setup gamer e presente tematico, mantendo prazo claro e apresentacao pronta para venda online.",
-      "availability": "in stock",
+      "availability": "preorder",
       "condition": "new",
-      "price": "14.30 BRL",
-      "link": "https://www.mdh3d.com.br/loja/geek-colecionaveis/real-004-hello-kitty-jedi-colecionavel",
+      "price": "62.90 BRL",
+      "link": "https://www.mdh3d.com.br/catalogo/real-004-hello-kitty-jedi-colecionavel",
       "image_link": "https://www.mdh3d.com.br/products/gallery/real-004/3.webp",
       "brand": "MDH 3D",
       "google_product_category": "Arts & Entertainment > Hobbies & Creative Arts",
@@ -67,10 +68,10 @@
       "id": "REAL-0005",
       "title": "Stencil dupla sci-fi Decorativo",
       "description": "Stencil dupla sci-fi Decorativo selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento fosco em PLA Premium. Indicado para decoracao de quarto, escritorio, estante e composicao de ambiente, mantendo prazo claro e apresentacao pronta para venda online.",
-      "availability": "in stock",
+      "availability": "preorder",
       "condition": "new",
-      "price": "23.86 BRL",
-      "link": "https://www.mdh3d.com.br/loja/geek-colecionaveis/real-005-stencil-rick-and-morty-decorativo",
+      "price": "40.90 BRL",
+      "link": "https://www.mdh3d.com.br/catalogo/real-005-stencil-rick-and-morty-decorativo",
       "image_link": "https://www.mdh3d.com.br/products/render-real-005-stencil.webp",
       "brand": "MDH 3D",
       "google_product_category": "Arts & Entertainment > Hobbies & Creative Arts",
@@ -80,10 +81,10 @@
       "id": "REAL-0006",
       "title": "Família Customizada em Miniatura",
       "description": "Família Customizada em Miniatura selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento pintado à mão em PLA Premium. Indicado para colecao, estante, nicho, setup gamer e presente tematico, mantendo prazo claro e apresentacao pronta para venda online.",
-      "availability": "in stock",
+      "availability": "preorder",
       "condition": "new",
-      "price": "28.64 BRL",
-      "link": "https://www.mdh3d.com.br/loja/presentes-personalizados/real-006-familia-customizada-em-miniatura",
+      "price": "126.90 BRL",
+      "link": "https://www.mdh3d.com.br/catalogo/real-006-familia-customizada-em-miniatura",
       "image_link": "https://www.mdh3d.com.br/products/foto-007-familia-custom.webp",
       "brand": "MDH 3D",
       "google_product_category": "Arts & Entertainment > Hobbies & Creative Arts",
@@ -93,10 +94,10 @@
       "id": "REAL-0007",
       "title": "Boneca Infantil Personalizada",
       "description": "Boneca Infantil Personalizada selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento pintado à mão em PLA Premium. Indicado para presente personalizado, lembranca afetiva e encomenda sob medida, mantendo prazo claro e apresentacao pronta para venda online.",
-      "availability": "in stock",
+      "availability": "preorder",
       "condition": "new",
-      "price": "23.86 BRL",
-      "link": "https://www.mdh3d.com.br/loja/presentes-personalizados/real-007-boneca-infantil-personalizada",
+      "price": "77.90 BRL",
+      "link": "https://www.mdh3d.com.br/catalogo/real-007-boneca-infantil-personalizada",
       "image_link": "https://www.mdh3d.com.br/products/foto-008-boneca-crianca.webp",
       "brand": "MDH 3D",
       "google_product_category": "Arts & Entertainment > Hobbies & Creative Arts",
@@ -106,10 +107,10 @@
       "id": "REAL-0008",
       "title": "Case de Isqueiro Caveira",
       "description": "Case de Isqueiro Caveira selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento fosco em PLA Premium. Indicado para uso diario, organizacao leve e presente funcional, mantendo prazo claro e apresentacao pronta para venda online.",
-      "availability": "in stock",
+      "availability": "preorder",
       "condition": "new",
-      "price": "8.33 BRL",
-      "link": "https://www.mdh3d.com.br/loja/casa-e-organizacao/real-008-case-de-isqueiro-caveira",
+      "price": "34.90 BRL",
+      "link": "https://www.mdh3d.com.br/catalogo/real-008-case-de-isqueiro-caveira",
       "image_link": "https://www.mdh3d.com.br/products/foto-009-case-isqueiro-caveira.webp",
       "brand": "MDH 3D",
       "google_product_category": "Home & Garden > Decor",
@@ -119,10 +120,10 @@
       "id": "REAL-0009",
       "title": "personagem de humor mascote elétrico Mashup Colecionável",
       "description": "personagem de humor mascote elétrico Mashup Colecionável selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento pintado à mão em PLA Premium. Indicado para colecao, estante, nicho, setup gamer e presente tematico, mantendo prazo claro e apresentacao pronta para venda online.",
-      "availability": "in stock",
+      "availability": "preorder",
       "condition": "new",
-      "price": "14.30 BRL",
-      "link": "https://www.mdh3d.com.br/loja/geek-colecionaveis/real-009-personagem-de-humor-mascote-eletrico-mashup-colecionavel",
+      "price": "71.90 BRL",
+      "link": "https://www.mdh3d.com.br/catalogo/real-009-personagem-de-humor-mascote-eletrico-mashup-colecionavel",
       "image_link": "https://www.mdh3d.com.br/products/gallery/real-009/3.webp",
       "brand": "MDH 3D",
       "google_product_category": "Arts & Entertainment > Hobbies & Creative Arts",
@@ -132,10 +133,10 @@
       "id": "REAL-0010",
       "title": "Medalha Maçônica Personalizada",
       "description": "Medalha Maçônica Personalizada selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento colorido em PLA Premium. Indicado para venda por impulso, lembrancinha, mochila, chaves e kits de presente, mantendo prazo claro e apresentacao pronta para venda online.",
-      "availability": "in stock",
+      "availability": "preorder",
       "condition": "new",
-      "price": "9.52 BRL",
-      "link": "https://www.mdh3d.com.br/loja/presentes-personalizados/real-010-medalha-maconica-personalizada",
+      "price": "47.90 BRL",
+      "link": "https://www.mdh3d.com.br/catalogo/real-010-medalha-maconica-personalizada",
       "image_link": "https://www.mdh3d.com.br/products/foto-011-chaveiro-maconaria.webp",
       "brand": "MDH 3D",
       "google_product_category": "Arts & Entertainment > Hobbies & Creative Arts",
@@ -143,12 +144,12 @@
     },
     {
       "id": "MDH-0013",
-      "title": "Suporte para Fone Headphone",
-      "description": "Suporte para Fone Headphone selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento premium em PLA Premium. Indicado para setup, home office, mesa gamer e organizacao de bancada, mantendo prazo claro e apresentacao pronta para venda online.",
-      "availability": "in stock",
+      "title": "Suporte de Mesa para Headphone",
+      "description": "Suporte para manter o headphone organizado e protegido sobre a mesa. Base estável, produção em PLA e acabamento manual antes do envio.",
+      "availability": "preorder",
       "condition": "new",
-      "price": "14.30 BRL",
-      "link": "https://www.mdh3d.com.br/loja/setup-gamer-e-home-office/mdh-013-suporte-para-fone-headphone",
+      "price": "74.90 BRL",
+      "link": "https://www.mdh3d.com.br/catalogo/mdh-013-suporte-de-mesa-para-headphone",
       "image_link": "https://www.mdh3d.com.br/products/setup/suporte-fone-headphone.webp",
       "brand": "MDH 3D",
       "google_product_category": "Home & Garden > Decor",
@@ -156,12 +157,12 @@
     },
     {
       "id": "MDH-0014",
-      "title": "Organizador de Cabos",
-      "description": "Organizador de Cabos selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento premium em PLA Premium. Indicado para mesa, gaveta, bancada criativa e rotina de trabalho, mantendo prazo claro e apresentacao pronta para venda online.",
-      "availability": "in stock",
+      "title": "Kit 6 Organizadores de Cabos para Mesa",
+      "description": "Kit com seis organizadores para manter cabos de carregamento e USB acessíveis na mesa. Produzido em PLA, conferido e embalado para envio. Fita adesiva não incluída.",
+      "availability": "preorder",
       "condition": "new",
-      "price": "7.14 BRL",
-      "link": "https://www.mdh3d.com.br/loja/setup-gamer-e-home-office/mdh-014-organizador-de-cabos",
+      "price": "39.90 BRL",
+      "link": "https://www.mdh3d.com.br/catalogo/mdh-014-kit-6-organizadores-de-cabos-para-mesa",
       "image_link": "https://www.mdh3d.com.br/products/setup/organizador-cabos.webp",
       "brand": "MDH 3D",
       "google_product_category": "Home & Garden > Decor",
@@ -169,12 +170,12 @@
     },
     {
       "id": "MDH-0015",
-      "title": "Suporte para Celular",
-      "description": "Suporte para Celular selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento premium em PLA Premium. Indicado para setup, home office, mesa gamer e organizacao de bancada, mantendo prazo claro e apresentacao pronta para venda online.",
-      "availability": "in stock",
+      "title": "Suporte de Mesa para Celular",
+      "description": "Suporte estável para apoiar o celular durante chamadas, vídeos e carregamento. Compatível com aparelhos de tamanhos comuns e produzido sob encomenda em PLA.",
+      "availability": "preorder",
       "condition": "new",
-      "price": "7.14 BRL",
-      "link": "https://www.mdh3d.com.br/loja/setup-gamer-e-home-office/mdh-015-suporte-para-celular",
+      "price": "39.90 BRL",
+      "link": "https://www.mdh3d.com.br/catalogo/mdh-015-suporte-de-mesa-para-celular",
       "image_link": "https://www.mdh3d.com.br/products/setup/suporte-celular.webp",
       "brand": "MDH 3D",
       "google_product_category": "Home & Garden > Decor",
@@ -182,12 +183,12 @@
     },
     {
       "id": "MDH-0016",
-      "title": "Chaveiro Personalizado",
-      "description": "Chaveiro Personalizado selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento premium em PLA Premium. Indicado para venda por impulso, lembrancinha, mochila, chaves e kits de presente, mantendo prazo claro e apresentacao pronta para venda online.",
-      "availability": "in stock",
+      "title": "Chaveiro 3D Personalizado com Nome ou Logo",
+      "description": "Chaveiro sob encomenda com nome curto ou logotipo simplificado. Inclui peça impressa, argola com corrente, montagem, embalagem individual e insumos de postagem. O frete real é calculado separadamente.",
+      "availability": "preorder",
       "condition": "new",
-      "price": "7.14 BRL",
-      "link": "https://www.mdh3d.com.br/loja/chaveiros-e-acessorios/mdh-016-chaveiro-personalizado",
+      "price": "29.90 BRL",
+      "link": "https://www.mdh3d.com.br/catalogo/mdh-016-chaveiro-3d-personalizado-com-nome-ou-logo",
       "image_link": "https://www.mdh3d.com.br/products/setup/chaveiro-personalizado.webp",
       "brand": "MDH 3D",
       "google_product_category": "Arts & Entertainment > Hobbies & Creative Arts",
@@ -195,12 +196,12 @@
     },
     {
       "id": "MDH-0017",
-      "title": "Suporte para Controle PS5",
-      "description": "Suporte para Controle PS5 selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento premium em PLA Premium. Indicado para setup, home office, mesa gamer e organizacao de bancada, mantendo prazo claro e apresentacao pronta para venda online.",
-      "availability": "in stock",
+      "title": "Suporte Universal de Mesa para Controle Gamer",
+      "description": "Suporte de mesa para organizar controles de videogame com formato semelhante aos modelos mais comuns. Não acompanha controle, cabo ou carregador.",
+      "availability": "preorder",
       "condition": "new",
-      "price": "10.73 BRL",
-      "link": "https://www.mdh3d.com.br/loja/setup-gamer-e-home-office/mdh-017-suporte-para-controle-ps5",
+      "price": "59.90 BRL",
+      "link": "https://www.mdh3d.com.br/catalogo/mdh-017-suporte-universal-de-mesa-para-controle-gamer",
       "image_link": "https://www.mdh3d.com.br/products/setup/suporte-controle-ps5.webp",
       "brand": "MDH 3D",
       "google_product_category": "Home & Garden > Decor",
@@ -208,12 +209,12 @@
     },
     {
       "id": "MDH-0019",
-      "title": "Porta-Copos Geek",
-      "description": "Porta-Copos Geek selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento premium em PLA Premium. Indicado para uso diario, organizacao leve e presente funcional, mantendo prazo claro e apresentacao pronta para venda online.",
-      "availability": "in stock",
+      "title": "Porta-Copos Geek para Mesa, Setup e Presente Criativo",
+      "description": "Porta-copos produzido sob encomenda para proteger a mesa, compor o setup e servir como presente geek de baixo atrito. Inclui peça impressa, acabamento manual e embalagem adequada para envio.",
+      "availability": "preorder",
       "condition": "new",
-      "price": "7.14 BRL",
-      "link": "https://www.mdh3d.com.br/loja/setup-gamer-e-home-office/mdh-019-porta-copos-geek",
+      "price": "39.90 BRL",
+      "link": "https://www.mdh3d.com.br/catalogo/mdh-019-porta-copos-geek-para-mesa-setup-e-presente-criativo",
       "image_link": "https://www.mdh3d.com.br/products/setup/porta-copos-geek.webp",
       "brand": "MDH 3D",
       "google_product_category": "Home & Garden > Decor",
@@ -221,12 +222,12 @@
     },
     {
       "id": "MDH-0022",
-      "title": "Organizador de Canetas",
-      "description": "Organizador de Canetas selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento premium em PLA Premium. Indicado para mesa, gaveta, bancada criativa e rotina de trabalho, mantendo prazo claro e apresentacao pronta para venda online.",
-      "availability": "in stock",
+      "title": "Organizador de Mesa para Canetas e Pequenos Objetos",
+      "description": "Organizador compacto para canetas, marcadores e pequenos acessórios de escritório. Ajuda a liberar espaço e manter os itens usados no dia a dia em um único lugar.",
+      "availability": "preorder",
       "condition": "new",
-      "price": "8.33 BRL",
-      "link": "https://www.mdh3d.com.br/loja/setup-gamer-e-home-office/mdh-022-organizador-de-canetas",
+      "price": "69.90 BRL",
+      "link": "https://www.mdh3d.com.br/catalogo/mdh-022-organizador-de-mesa-para-canetas-e-pequenos-objetos",
       "image_link": "https://www.mdh3d.com.br/products/mdh-022-organizador-de-canetas/01-hero.jpg",
       "brand": "MDH 3D",
       "google_product_category": "Home & Garden > Decor",
@@ -234,12 +235,12 @@
     },
     {
       "id": "MDH-0025",
-      "title": "Vaso Geométrico",
-      "description": "Vaso Geométrico selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento premium em PLA Premium. Indicado para decoracao de quarto, escritorio, estante e composicao de ambiente, mantendo prazo claro e apresentacao pronta para venda online.",
-      "availability": "in stock",
+      "title": "Vaso Geométrico Decorativo",
+      "description": "Vaso decorativo para arranjos secos ou para uso com recipiente interno. A peça impressa em PLA não é vendida como totalmente impermeável.",
+      "availability": "preorder",
       "condition": "new",
-      "price": "23.86 BRL",
-      "link": "https://www.mdh3d.com.br/loja/decoracao/mdh-025-vaso-geometrico",
+      "price": "89.90 BRL",
+      "link": "https://www.mdh3d.com.br/catalogo/mdh-025-vaso-geometrico-decorativo",
       "image_link": "https://www.mdh3d.com.br/products/mdh-025-vaso-geometrico/01-hero.jpg",
       "brand": "MDH 3D",
       "google_product_category": "Home & Garden > Decor",
@@ -251,8 +252,8 @@
       "description": "esfera colecionável selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento premium em PLA Premium. Indicado para colecao, estante, nicho, setup gamer e presente tematico, mantendo prazo claro e apresentacao pronta para venda online.",
       "availability": "in stock",
       "condition": "new",
-      "price": "7.14 BRL",
-      "link": "https://www.mdh3d.com.br/loja/decoracao/mdh-026-esfera-colecionavel",
+      "price": "32.90 BRL",
+      "link": "https://www.mdh3d.com.br/catalogo/mdh-026-esfera-colecionavel",
       "image_link": "https://www.mdh3d.com.br/products/mdh-026-pokebola/01-hero.jpg",
       "brand": "MDH 3D",
       "google_product_category": "Home & Garden > Decor",
@@ -260,38 +261,4009 @@
     },
     {
       "id": "MDH-0028",
-      "title": "Luminária LED Personalizada",
-      "description": "Luminária LED Personalizada selecionado para producao em Bambu Lab A1 Mini, com volume compacto, boa leitura visual e acabamento premium em PLA Premium. Indicado para decoracao de quarto, escritorio, estante e composicao de ambiente, mantendo prazo claro e apresentacao pronta para venda online.",
-      "availability": "in stock",
+      "title": "Luminária LED Personalizada para Nome, Frase ou Presente",
+      "description": "Luminária LED sob encomenda com frente personalizada para nome, frase curta ou referência combinada no atendimento. Inclui corpo impresso, acabamento manual e preparação segura para transporte.",
+      "availability": "preorder",
       "condition": "new",
-      "price": "28.64 BRL",
-      "link": "https://www.mdh3d.com.br/loja/decoracao/mdh-028-luminaria-led-personalizada",
+      "price": "129.90 BRL",
+      "link": "https://www.mdh3d.com.br/catalogo/mdh-028-luminaria-led-personalizada-para-nome-frase-ou-presente",
       "image_link": "https://www.mdh3d.com.br/products/mdh-028-luminaria-led-personalizada/01-hero.jpg",
       "brand": "MDH 3D",
-      "google_product_category": "Home & Garden > Decor",
-      "product_type": "Decoração"
+      "google_product_category": "Arts & Entertainment > Hobbies & Creative Arts",
+      "product_type": "Presentes Personalizados"
     }
   ],
   "warnings": [
     {
-      "product": "mdh-067",
-      "title": "mascote elétrico tema geek Chibi",
+      "product": "mw-a1-001",
+      "title": "Organizador de Gaveta Modular para talheres e peças pequenas",
       "reasons": [
-        "missing_public_image"
+        "quote_only_product",
+        "commercial_use_review_required"
       ]
     },
     {
-      "product": "mdh-068",
-      "title": "mascote retrô tema clássico Chibi",
+      "product": "mw-a1-002",
+      "title": "Divisória de Gaveta Gridfinity para escritório e miudezas",
       "reasons": [
-        "missing_public_image"
+        "quote_only_product",
+        "commercial_use_review_required"
       ]
     },
     {
-      "product": "mdh-069",
-      "title": "herói retrô tema clássico Chibi",
+      "product": "mw-a1-003",
+      "title": "Bandeja Modular de Gaveta de Produção Rápida para cozinha e rotina",
       "reasons": [
-        "missing_public_image"
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-004",
+      "title": "Organizador de Gaveta Ajustável para talheres e peças pequenas",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-005",
+      "title": "Divisória de Gaveta Dobrável para escritório e miudezas",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-006",
+      "title": "Bandeja Modular de Gaveta de Encaixe para cozinha e rotina",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-007",
+      "title": "Organizador de Gaveta de Bancada para talheres e peças pequenas",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-008",
+      "title": "Divisória de Gaveta de Mesa para escritório e miudezas",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-009",
+      "title": "Bandeja Modular de Gaveta Empilhável para cozinha e rotina",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-010",
+      "title": "Organizador de Gaveta Empilhável para talheres e peças pequenas",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-011",
+      "title": "Divisória de Gaveta Multiuso para escritório e miudezas",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-012",
+      "title": "Bandeja Modular de Gaveta com Divisórias para cozinha e rotina",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-013",
+      "title": "Organizador de Gaveta para Uso Diário para talheres e peças pequenas",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-014",
+      "title": "Divisória de Gaveta de Produção Rápida para escritório e miudezas",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-015",
+      "title": "Bandeja Modular de Gaveta Gridfinity para cozinha e rotina",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-016",
+      "title": "Organizador de Gaveta com Pegada Prática para talheres e peças pequenas",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-017",
+      "title": "Divisória de Gaveta para Kit Presente para escritório e miudezas",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-018",
+      "title": "Bandeja Modular de Gaveta com Acabamento Limpo para cozinha e rotina",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-019",
+      "title": "Organizador de Cabos Modular para carregadores",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-020",
+      "title": "Enrolador de Fio Compacto para mesa e gaveta",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-021",
+      "title": "Clipe Passa-Cabo Slim para cabos de rotina",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-022",
+      "title": "Organizador de Cabos Ajustável para carregadores",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-023",
+      "title": "Enrolador de Fio Dobrável para mesa e gaveta",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-024",
+      "title": "Clipe Passa-Cabo de Encaixe para cabos de rotina",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-025",
+      "title": "Organizador de Cabos de Bancada para carregadores",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-026",
+      "title": "Enrolador de Fio de Mesa para mesa e gaveta",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-027",
+      "title": "Clipe Passa-Cabo Leve para cabos de rotina",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-028",
+      "title": "Organizador de Cabos Minimalista para carregadores",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-029",
+      "title": "Enrolador de Fio Multiuso para mesa e gaveta",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-030",
+      "title": "Clipe Passa-Cabo com Divisórias para cabos de rotina",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-031",
+      "title": "Organizador de Cabos para Uso Diário para carregadores",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-032",
+      "title": "Enrolador de Fio de Produção Rápida para mesa e gaveta",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-033",
+      "title": "Clipe Passa-Cabo Fácil de Limpar para cabos de rotina",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-034",
+      "title": "Organizador de Cabos com Pegada Prática para carregadores",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-035",
+      "title": "Enrolador de Fio para Kit Presente para mesa e gaveta",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-036",
+      "title": "Clipe Passa-Cabo com Acabamento Limpo para cabos de rotina",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-037",
+      "title": "Gancho de Parede com Divisórias para entrada de casa",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-038",
+      "title": "Porta-Chaves de Parede Compacto para chaves e acessórios",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-039",
+      "title": "Suporte de Parede de Produção Rápida para organização leve",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-040",
+      "title": "Gancho de Parede Mini para entrada de casa",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-041",
+      "title": "Porta-Chaves de Parede com Pegada Prática para chaves e acessórios",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-042",
+      "title": "Suporte de Parede de Encaixe para organização leve",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-043",
+      "title": "Gancho de Parede com Acabamento Limpo para entrada de casa",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-044",
+      "title": "Porta-Chaves de Parede para Rotina Organizada para chaves e acessórios",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-045",
+      "title": "Suporte de Parede Leve para organização leve",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-046",
+      "title": "Gancho de Parede Empilhável para entrada de casa",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-047",
+      "title": "Porta-Chaves de Parede Multiuso para chaves e acessórios",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-048",
+      "title": "Suporte de Parede com Divisórias para organização leve",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-049",
+      "title": "Gancho de Parede para Uso Diário para entrada de casa",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-050",
+      "title": "Porta-Chaves de Parede de Produção Rápida para chaves e acessórios",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-051",
+      "title": "Suporte de Parede Essencial para organização leve",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-052",
+      "title": "Gancho de Parede com Pegada Prática para entrada de casa",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-053",
+      "title": "Porta-Chaves de Parede para Kit Presente para chaves e acessórios",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-054",
+      "title": "Suporte de Parede Modular para organização leve",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-055",
+      "title": "Clipe de Cozinha Modular para embalagens",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-056",
+      "title": "Funil Compacto para Uso Diário para preparo rápido",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-057",
+      "title": "Suporte de Cozinha Slim para bancada e armário",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-058",
+      "title": "Clipe de Cozinha Ajustável para embalagens",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-059",
+      "title": "Funil Compacto Dobrável para preparo rápido",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-060",
+      "title": "Suporte de Cozinha de Encaixe para bancada e armário",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-061",
+      "title": "Clipe de Cozinha com Ímã para embalagens",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-062",
+      "title": "Funil Compacto de Mesa para preparo rápido",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-063",
+      "title": "Suporte de Cozinha de Mesa para bancada e armário",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-064",
+      "title": "Clipe de Cozinha de Baixo Volume para embalagens",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-065",
+      "title": "Funil Compacto Multiuso para preparo rápido",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-066",
+      "title": "Suporte de Cozinha com Divisórias para bancada e armário",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-067",
+      "title": "Clipe de Cozinha para Uso Diário para embalagens",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-068",
+      "title": "Funil Compacto de Produção Rápida para preparo rápido",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-069",
+      "title": "Suporte de Cozinha Fácil de Limpar para bancada e armário",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-070",
+      "title": "Clipe de Cozinha com Pegada Prática para embalagens",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-071",
+      "title": "Funil Compacto para Kit Presente para preparo rápido",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-072",
+      "title": "Suporte de Cozinha com Acabamento Limpo para bancada e armário",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-073",
+      "title": "Porta-Escova Modular para bancada",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-074",
+      "title": "Porta-Creme Dental Compacto para pia e armário",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-075",
+      "title": "Organizador de Banheiro de Parede para rotina de higiene",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-076",
+      "title": "Porta-Escova Ajustável para bancada",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-077",
+      "title": "Porta-Creme Dental Dobrável para pia e armário",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-078",
+      "title": "Organizador de Banheiro de Encaixe para rotina de higiene",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-079",
+      "title": "Porta-Escova de Bancada para bancada",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-080",
+      "title": "Porta-Creme Dental de Parede para pia e armário",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-081",
+      "title": "Organizador de Banheiro Leve para rotina de higiene",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-082",
+      "title": "Porta-Escova Minimalista para bancada",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-083",
+      "title": "Porta-Creme Dental Multiuso para pia e armário",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-084",
+      "title": "Organizador de Banheiro com Divisórias para rotina de higiene",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-085",
+      "title": "Porta-Escova de Parede para bancada",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-086",
+      "title": "Porta-Creme Dental de Produção Rápida para pia e armário",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-087",
+      "title": "Organizador de Lavanderia Modular para área de serviço",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-088",
+      "title": "Guia para Varal com Clipe para varal e cabides",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-089",
+      "title": "Suporte para Prendedores Slim para rotina doméstica",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-090",
+      "title": "Organizador de Lavanderia Ajustável para área de serviço",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-091",
+      "title": "Guia para Varal Empilhável para varal e cabides",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-092",
+      "title": "Suporte para Prendedores de Encaixe para rotina doméstica",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-093",
+      "title": "Organizador de Lavanderia de Bancada para área de serviço",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-094",
+      "title": "Guia para Varal Dobrável para varal e cabides",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-095",
+      "title": "Suporte para Prendedores Leve para rotina doméstica",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-096",
+      "title": "Organizador de Lavanderia com Clipe para área de serviço",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-097",
+      "title": "Caixa Organizadora Gridfinity para mesa e gaveta",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-098",
+      "title": "Bandeja Porta-Objetos Compacto para bijuterias e peças pequenas",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-099",
+      "title": "Porta-Miudezas Slim para entrada de casa",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-100",
+      "title": "Caixa Organizadora Mini para mesa e gaveta",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-101",
+      "title": "Bandeja Porta-Objetos Dobrável para bijuterias e peças pequenas",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-102",
+      "title": "Porta-Miudezas Gridfinity para entrada de casa",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-103",
+      "title": "Caixa Organizadora Mini para mesa e gaveta com uso intuitivo",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-104",
+      "title": "Bandeja Porta-Objetos Empilhável para bijuterias e peças pequenas",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-105",
+      "title": "Porta-Miudezas Leve para entrada de casa",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-106",
+      "title": "Caixa Organizadora Empilhável para mesa e gaveta",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-107",
+      "title": "Bandeja Porta-Objetos Empilhável para bijuterias e peças pequenas com leitura visual limpa",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-108",
+      "title": "Porta-Miudezas com Divisórias para entrada de casa",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-109",
+      "title": "Caixa Organizadora Gridfinity para mesa e gaveta com corpo reforçado",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-110",
+      "title": "Bandeja Porta-Objetos de Produção Rápida para bijuterias e peças pequenas",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-111",
+      "title": "Porta-Miudezas Gridfinity para entrada de casa com perfil discreto",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-112",
+      "title": "Caixa Organizadora com Pegada Prática para mesa e gaveta",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-113",
+      "title": "Bandeja Porta-Objetos para Kit Presente para bijuterias e peças pequenas",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-114",
+      "title": "Porta-Miudezas com Acabamento Limpo para entrada de casa",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-115",
+      "title": "Suporte Doméstico Modular para uso diário",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-116",
+      "title": "Organizador Multiuso Compacto para armário e bancada",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-117",
+      "title": "Apoio Compacto Slim para resolver pequenas rotinas",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-118",
+      "title": "Suporte Doméstico Mini para uso diário",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-119",
+      "title": "Organizador Multiuso Dobrável para armário e bancada",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-120",
+      "title": "Apoio Compacto de Encaixe para resolver pequenas rotinas",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-121",
+      "title": "Suporte Doméstico de Bancada para uso diário",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-122",
+      "title": "Organizador Multiuso de Mesa para armário e bancada",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-123",
+      "title": "Apoio Compacto Gridfinity para resolver pequenas rotinas",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-124",
+      "title": "Suporte Doméstico Minimalista para uso diário",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-125",
+      "title": "Organizador Multiuso para Pequenos Espaços para armário e bancada",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-126",
+      "title": "Apoio Compacto com Divisórias para resolver pequenas rotinas",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-127",
+      "title": "Suporte Doméstico de Mesa para uso diário",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-128",
+      "title": "Organizador Multiuso de Mesa para armário e bancada com base estável",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-129",
+      "title": "Apoio Compacto Fácil de Limpar para resolver pequenas rotinas",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-130",
+      "title": "Suporte Doméstico com Pegada Prática para uso diário",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-131",
+      "title": "Organizador Multiuso Gridfinity para armário e bancada",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-132",
+      "title": "Apoio Compacto com Acabamento Limpo para resolver pequenas rotinas",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-133",
+      "title": "Suporte Doméstico para Rotina Organizada para uso diário",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-134",
+      "title": "Organizador Multiuso Versátil para armário e bancada",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-135",
+      "title": "Apoio Compacto de Baixo Volume para resolver pequenas rotinas",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-136",
+      "title": "Suporte Doméstico Mini para uso diário para kits compactos",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-137",
+      "title": "Organizador Multiuso com Visual Neutro para armário e bancada",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-138",
+      "title": "Apoio Compacto Mini para resolver pequenas rotinas",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-139",
+      "title": "Suporte Doméstico Prático para uso diário",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-140",
+      "title": "Organizador Multiuso Essencial para armário e bancada",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-141",
+      "title": "Suporte para Celular Modular para mesa",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-142",
+      "title": "Base para Smartphone Compacto para videochamada",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-143",
+      "title": "Dock de Celular Slim para carregamento",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-144",
+      "title": "Suporte para Celular Ajustável para mesa",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-145",
+      "title": "Base para Smartphone Dobrável para videochamada",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-146",
+      "title": "Dock de Celular de Encaixe para carregamento",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-147",
+      "title": "Suporte para Celular de Bancada para mesa",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-148",
+      "title": "Base para Smartphone Dobrável para videochamada para kits compactos",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-149",
+      "title": "Dock de Celular Leve para carregamento",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-150",
+      "title": "Suporte para Celular Mini para mesa",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-151",
+      "title": "Base para Smartphone de Mesa para videochamada",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-152",
+      "title": "Dock de Celular com Divisórias para carregamento",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-153",
+      "title": "Suporte para Tablet Modular para mesa de trabalho",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-154",
+      "title": "Base de Tablet Compacto para leitura e vídeo",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-155",
+      "title": "Apoio para iPad de Parede para apoio compacto",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-156",
+      "title": "Suporte para Tablet Dobrável para mesa de trabalho",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-157",
+      "title": "Base de Tablet Ajustável para leitura e vídeo",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-158",
+      "title": "Apoio para iPad Dobrável para apoio compacto",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-159",
+      "title": "Suporte para Tablet de Bancada para mesa de trabalho",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-160",
+      "title": "Base de Tablet de Mesa para leitura e vídeo",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-161",
+      "title": "Suporte para Headset Modular para setup gamer",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-162",
+      "title": "Gancho para Fone Compacto para lateral da mesa",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-163",
+      "title": "Base para Headphone Slim para home office",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-164",
+      "title": "Suporte para Headset Ajustável para setup gamer",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-165",
+      "title": "Gancho para Fone Dobrável para lateral da mesa",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-166",
+      "title": "Base para Headphone de Encaixe para home office",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-167",
+      "title": "Suporte para Headset de Bancada para setup gamer",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-168",
+      "title": "Gancho para Fone de Mesa para lateral da mesa",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-169",
+      "title": "Base para Headphone Leve para home office",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-170",
+      "title": "Suporte para Headset Minimalista para setup gamer",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-171",
+      "title": "Suporte para Controle Modular para setup",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-172",
+      "title": "Dock para Controle Modular para console e mesa",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-173",
+      "title": "Base Gamer Compacta Slim para organizar controles",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-174",
+      "title": "Suporte para Controle Ajustável para setup",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-175",
+      "title": "Dock para Controle Dobrável para console e mesa",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-176",
+      "title": "Base Gamer Compacta de Encaixe para organizar controles",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-177",
+      "title": "Suporte para Controle de Bancada para setup",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-178",
+      "title": "Dock para Controle de Mesa para console e mesa",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-179",
+      "title": "Base Gamer Compacta Leve para organizar controles",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-180",
+      "title": "Suporte para Controle Minimalista para setup",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-181",
+      "title": "Porta-Canetas de Mesa para escritório",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-182",
+      "title": "Organizador de Mesa para Uso Diário para estudo",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-183",
+      "title": "Porta-Lápis Modular de Mesa para mesa limpa",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-184",
+      "title": "Porta-Canetas de Mesa para escritório para kits compactos",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-185",
+      "title": "Organizador de Mesa Modular para estudo",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-186",
+      "title": "Porta-Lápis Modular para Kit Presente para mesa limpa",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-187",
+      "title": "Porta-Canetas de Mesa para escritório com uso intuitivo",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-188",
+      "title": "Organizador de Mesa para Rotina Organizada para estudo",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-189",
+      "title": "Porta-Lápis Modular de Mesa para mesa limpa para gaveta rasa",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-190",
+      "title": "Porta-Canetas Minimalista para escritório",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-191",
+      "title": "Organizador de Mesa Multiuso para estudo",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-192",
+      "title": "Porta-Lápis Modular de Mesa para mesa limpa com acesso rápido",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-193",
+      "title": "Organizador de Carregador de Mesa para carregadores",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-194",
+      "title": "Passa-Cabo de Mesa Compacto para mesa de trabalho",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-195",
+      "title": "Dock de Cabos Slim para setup limpo",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-196",
+      "title": "Organizador de Carregador de Mesa para carregadores para kits compactos",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-197",
+      "title": "Passa-Cabo de Mesa Dobrável para mesa de trabalho",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-198",
+      "title": "Dock de Cabos de Mesa para setup limpo",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-199",
+      "title": "Organizador de Carregador de Bancada para carregadores",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-200",
+      "title": "Passa-Cabo de Mesa para Rotina Organizada para mesa de trabalho",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-201",
+      "title": "Dock de Cabos de Mesa para setup limpo para gaveta rasa",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-202",
+      "title": "Organizador de Carregador com Clipe para carregadores",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-203",
+      "title": "Suporte para Notebook Modular para home office",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-204",
+      "title": "Elevador de Notebook Dobrável para ventilação e ergonomia",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-205",
+      "title": "Apoio Desk Slim para bancada compacta",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-206",
+      "title": "Suporte para Notebook Ajustável para home office",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-207",
+      "title": "Elevador de Notebook Dobrável para ventilação e ergonomia com perfil discreto",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-208",
+      "title": "Apoio Desk de Mesa para bancada compacta",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-209",
+      "title": "Suporte para Notebook de Bancada para home office",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-210",
+      "title": "Elevador de Notebook de Mesa para ventilação e ergonomia",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-211",
+      "title": "Stand para Relógio de Parede para mesa e criado",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-212",
+      "title": "Porta-Óculos Compacto para acessórios pessoais",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-213",
+      "title": "Organizador de Cartões Slim para pequenos eletrônicos",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-214",
+      "title": "Stand para Relógio Modular para mesa e criado",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-215",
+      "title": "Porta-Óculos Dobrável para acessórios pessoais",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-216",
+      "title": "Organizador de Cartões de Encaixe para pequenos eletrônicos",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-217",
+      "title": "Stand para Relógio de Bancada para mesa e criado",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-218",
+      "title": "Porta-Óculos de Mesa para acessórios pessoais",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-219",
+      "title": "Organizador de Cartões Leve para pequenos eletrônicos",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-220",
+      "title": "Stand para Relógio Minimalista para mesa e criado",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-221",
+      "title": "Acessório de Teclado de Mesa para setup",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-222",
+      "title": "Suporte de Webcam Compacto para monitor e mesa",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-223",
+      "title": "Organizador de Mouse Slim para produtividade",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-224",
+      "title": "Acessório de Teclado Modular para setup",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-225",
+      "title": "Suporte de Webcam Modular para monitor e mesa",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-226",
+      "title": "Organizador de Mouse de Encaixe para produtividade",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-227",
+      "title": "Acessório de Teclado de Bancada para setup",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-228",
+      "title": "Suporte de Webcam Ajustável para monitor e mesa",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-229",
+      "title": "Organizador de Mouse Leve para produtividade",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-230",
+      "title": "Acessório de Teclado Minimalista para setup",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-231",
+      "title": "Suporte de Brocas Modular para bancada maker",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-232",
+      "title": "Organizador de Bits de Parede para oficina leve",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-233",
+      "title": "Porta-Brocas Compacto Gridfinity para gaveta de ferramentas",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-234",
+      "title": "Suporte de Brocas Gridfinity para bancada maker",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-235",
+      "title": "Organizador de Bits Dobrável para oficina leve",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-236",
+      "title": "Porta-Brocas Compacto Gridfinity para gaveta de ferramentas com base estável",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-237",
+      "title": "Suporte de Brocas de Bancada para bancada maker",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-238",
+      "title": "Organizador de Bits de Mesa para oficina leve",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-239",
+      "title": "Porta-Brocas Compacto Leve para gaveta de ferramentas",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-240",
+      "title": "Suporte de Brocas Minimalista para bancada maker",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-241",
+      "title": "Organizador de Chaves Allen de Parede para bancada",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-242",
+      "title": "Porta-Chaves Pequenas Compacto para kit maker",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-243",
+      "title": "Suporte de Ferramentas Mini Slim para gaveta técnica",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-244",
+      "title": "Organizador de Chaves Allen Ajustável para bancada",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-245",
+      "title": "Porta-Chaves Pequenas Dobrável para kit maker",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-246",
+      "title": "Suporte de Ferramentas Mini de Encaixe para gaveta técnica",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-247",
+      "title": "Organizador de Chaves Allen de Bancada para bancada",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-248",
+      "title": "Porta-Chaves Pequenas Gridfinity para kit maker",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-249",
+      "title": "Suporte de Ferramentas Mini Gridfinity para gaveta técnica",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-250",
+      "title": "Organizador de Chaves Allen Minimalista para bancada",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-251",
+      "title": "Presilha Impressa Modular para fixação leve",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-252",
+      "title": "Trava Compacta Compacto para organização técnica",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-253",
+      "title": "Braçadeira Leve Slim para bancada e cabos",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-254",
+      "title": "Presilha Impressa com Clipe para fixação leve",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-255",
+      "title": "Trava Compacta Dobrável para organização técnica",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-256",
+      "title": "Braçadeira Leve com Clipe para bancada e cabos",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-257",
+      "title": "Presilha Impressa de Bancada para fixação leve",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-258",
+      "title": "Trava Compacta de Mesa para organização técnica",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-259",
+      "title": "Braçadeira Leve com Ímã para bancada e cabos",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-260",
+      "title": "Presilha Impressa Minimalista para fixação leve",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-261",
+      "title": "Trava Compacta Multiuso para organização técnica",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-262",
+      "title": "Braçadeira Leve com Clipe para bancada e cabos para bancada pequena",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-263",
+      "title": "Presilha Impressa para Uso Diário para fixação leve",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-264",
+      "title": "Trava Compacta de Produção Rápida para organização técnica",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-265",
+      "title": "Guia de Cabo Técnico com Clipe para bancada maker",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-266",
+      "title": "Passador de Fio Mini para fixação leve",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-267",
+      "title": "Clipe Técnico de Produção Rápida para organização de fios",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-268",
+      "title": "Guia de Cabo Técnico Ajustável para bancada maker",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-269",
+      "title": "Passador de Fio Mini para fixação leve para venda em lote",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-270",
+      "title": "Clipe Técnico para Kit Presente para organização de fios",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-271",
+      "title": "Guia de Cabo Técnico com Clipe para bancada maker com uso intuitivo",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-272",
+      "title": "Passador de Fio com Clipe para fixação leve",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-273",
+      "title": "Clipe Técnico Versátil para organização de fios",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-274",
+      "title": "Guia de Cabo Técnico Minimalista para bancada maker",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-275",
+      "title": "Passador de Fio Multiuso para fixação leve",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-276",
+      "title": "Clipe Técnico Mini para organização de fios",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-277",
+      "title": "Guia de Cabo Técnico de Mesa para bancada maker",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-278",
+      "title": "Passador de Fio com Clipe para fixação leve com frente baixa",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-279",
+      "title": "Porta-Ferramentas de Bancada Modular para ferramentas leves",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-280",
+      "title": "Suporte de Bancada Compacto para bancada de trabalho",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-281",
+      "title": "Organizador Maker Slim para manutenção simples",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-282",
+      "title": "Porta-Ferramentas de Bancada Ajustável para ferramentas leves",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-283",
+      "title": "Suporte de Bancada Dobrável para bancada de trabalho",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-284",
+      "title": "Organizador Maker de Encaixe para manutenção simples",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-285",
+      "title": "Porta-Ferramentas de Bancada com Acabamento Limpo para ferramentas leves",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-286",
+      "title": "Suporte de Bancada de Mesa para bancada de trabalho",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-287",
+      "title": "Organizador Maker de Mesa para manutenção simples",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-288",
+      "title": "Porta-Ferramentas de Bancada Minimalista para ferramentas leves",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-289",
+      "title": "Suporte de Bancada Multiuso para bancada de trabalho",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-290",
+      "title": "Organizador Maker Gridfinity para manutenção simples",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-291",
+      "title": "Caixa Técnica Modular para parafusos e componentes",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-292",
+      "title": "Estojo de Peças Compacto para bancada maker",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-293",
+      "title": "Divisória Funcional Slim para kits pequenos",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-294",
+      "title": "Caixa Técnica Ajustável para parafusos e componentes",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-295",
+      "title": "Estojo de Peças Dobrável para bancada maker",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-296",
+      "title": "Divisória Funcional de Encaixe para kits pequenos",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-297",
+      "title": "Caixa Técnica Empilhável para parafusos e componentes",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-298",
+      "title": "Estojo de Peças de Mesa para bancada maker",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-299",
+      "title": "Divisória Funcional Leve para kits pequenos",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-300",
+      "title": "Caixa Técnica Minimalista para parafusos e componentes",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-301",
+      "title": "Acessório de Bancada Maker Mini para rotina maker",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-302",
+      "title": "Suporte Maker Compacto para Uso Diário para bancada compacta",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-303",
+      "title": "Organizador de Oficina Leve Slim para impressão 3D e ferramentas",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-304",
+      "title": "Acessório de Bancada Maker Ajustável para rotina maker",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-305",
+      "title": "Suporte Maker Compacto Mini para bancada compacta",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-306",
+      "title": "Organizador de Oficina Leve de Encaixe para impressão 3D e ferramentas",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-307",
+      "title": "Acessório de Bancada Maker com Acabamento Limpo para rotina maker",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-308",
+      "title": "Suporte Maker Compacto de Mesa para bancada compacta",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-309",
+      "title": "Organizador de Oficina Leve para impressão 3D e ferramentas",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-310",
+      "title": "Acessório de Bancada Maker com Clipe para rotina maker",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-311",
+      "title": "Miniatura Geek com Divisórias para estante",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-312",
+      "title": "Figura Decorativa Compacto para setup",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-313",
+      "title": "Colecionável de Mesa Slim para presente geek neutro",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-314",
+      "title": "Miniatura Geek Ajustável para estante",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-315",
+      "title": "Figura Decorativa Dobrável para setup",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-316",
+      "title": "Colecionável de Mesa de Encaixe para presente geek neutro",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-317",
+      "title": "Miniatura Geek de Bancada para estante",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-318",
+      "title": "Figura Decorativa de Mesa para setup",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-319",
+      "title": "Colecionável de Mesa Leve para presente geek neutro",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-320",
+      "title": "Miniatura Geek Minimalista para estante",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-321",
+      "title": "Figura Decorativa Multiuso para setup",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-322",
+      "title": "Colecionável de Mesa com Divisórias para presente geek neutro",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-323",
+      "title": "Miniatura Geek para Uso Diário para estante",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-324",
+      "title": "Figura Decorativa de Produção Rápida para setup",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-325",
+      "title": "Colecionável de Mesa Fácil de Limpar para presente geek neutro",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-326",
+      "title": "Miniatura Geek com Pegada Prática para estante",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-327",
+      "title": "Figura Decorativa para Kit Presente para setup",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-328",
+      "title": "Colecionável de Mesa Mini para presente geek neutro",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-329",
+      "title": "Miniatura Geek para Rotina Organizada para estante",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-330",
+      "title": "Figura Decorativa Versátil para setup",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-331",
+      "title": "Decoração Gamer de Parede para quarto e setup",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-332",
+      "title": "Adorno de Setup Compacto para mesa gamer",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-333",
+      "title": "Peça Decorativa Gamer de Parede para estante",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-334",
+      "title": "Decoração Gamer de Parede para quarto e setup para bancada pequena",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-335",
+      "title": "Adorno de Setup Dobrável para mesa gamer",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-336",
+      "title": "Peça Decorativa Gamer Mini para estante",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-337",
+      "title": "Decoração Gamer de Bancada para quarto e setup",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-338",
+      "title": "Adorno de Setup Mini para mesa gamer",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-339",
+      "title": "Peça Decorativa Gamer Leve para estante",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-340",
+      "title": "Decoração Gamer Minimalista para quarto e setup",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-341",
+      "title": "Adorno de Setup Multiuso para mesa gamer",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-342",
+      "title": "Peça Decorativa Gamer Empilhável para estante",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-343",
+      "title": "Decoração Gamer para Uso Diário para quarto e setup",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-344",
+      "title": "Adorno de Setup de Mesa para mesa gamer",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-345",
+      "title": "Peça Decorativa Gamer Fácil de Limpar para estante",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-346",
+      "title": "Keycap Decorativa Modular para teclado e setup",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-347",
+      "title": "Adorno Geek de Mesa Compacto para mesa geek",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-348",
+      "title": "Desk Decor Compacto Slim para detalhe visual",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-349",
+      "title": "Keycap Decorativa Ajustável para teclado e setup",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-350",
+      "title": "Adorno Geek de Mesa com Pegada Prática para mesa geek",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-351",
+      "title": "Desk Decor Compacto de Encaixe para detalhe visual",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-352",
+      "title": "Keycap Decorativa de Bancada para teclado e setup",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-353",
+      "title": "Adorno Geek de Mesa para Rotina Organizada para mesa geek",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-354",
+      "title": "Desk Decor Compacto Leve para detalhe visual",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-355",
+      "title": "Keycap Decorativa Minimalista para teclado e setup",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-356",
+      "title": "Chaveiro Geek Modular para presente rápido",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-357",
+      "title": "Chaveiro Gamer Compacto para mochila e chave",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-358",
+      "title": "Pingente de Mochila Slim para brinde geek",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-359",
+      "title": "Chaveiro Geek Ajustável para presente rápido",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-360",
+      "title": "Chaveiro Gamer Dobrável para mochila e chave",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-361",
+      "title": "Pingente de Mochila de Encaixe para brinde geek",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-362",
+      "title": "Chaveiro Geek de Bancada para presente rápido",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-363",
+      "title": "Chaveiro Gamer de Mesa para mochila e chave",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-364",
+      "title": "Pingente de Mochila Leve para brinde geek",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-365",
+      "title": "Chaveiro Geek Mini para presente rápido",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-366",
+      "title": "Chaveiro Gamer Multiuso para mochila e chave",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-367",
+      "title": "Pingente de Mochila com Divisórias para brinde geek",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-368",
+      "title": "Chaveiro Geek Mini para presente rápido com base estável",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-370",
+      "title": "Pingente de Mochila Fácil de Limpar para brinde geek",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-371",
+      "title": "Fidget de Mesa com Divisórias para mesa e presente",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-372",
+      "title": "Desk Toy Articulado Mini para relaxar no setup",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-373",
+      "title": "Brinquedo de Mesa Slim para brinde criativo",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-374",
+      "title": "Fidget de Mesa Ajustável para mesa e presente",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-375",
+      "title": "Desk Toy Articulado Dobrável para relaxar no setup",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-376",
+      "title": "Brinquedo de Mesa para Kit Presente para brinde criativo",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-377",
+      "title": "Fidget de Mesa de Bancada para mesa e presente",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-378",
+      "title": "Desk Toy Articulado de Mesa para relaxar no setup",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-379",
+      "title": "Brinquedo de Mesa Leve para brinde criativo",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-380",
+      "title": "Fidget de Mesa Minimalista para mesa e presente",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-381",
+      "title": "Placa Retrô Geek Modular para quarto e estante",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-382",
+      "title": "Suporte Decorativo Retrô Compacto para setup retrô",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-383",
+      "title": "Decoração Geek de Parede de Produção Rápida para presente nerd",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-384",
+      "title": "Placa Retrô Geek Ajustável para quarto e estante",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-385",
+      "title": "Suporte Decorativo Retrô Dobrável para setup retrô",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-386",
+      "title": "Decoração Geek de Parede de Encaixe para presente nerd",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-387",
+      "title": "Placa Retrô Geek de Bancada para quarto e estante",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-388",
+      "title": "Suporte Decorativo Retrô Mini para setup retrô",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-389",
+      "title": "Decoração Geek de Parede Leve para presente nerd",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-390",
+      "title": "Placa Retrô Geek Mini para quarto e estante",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-391",
+      "title": "Nome 3D Personalizado Modular para quarto e porta",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-392",
+      "title": "Placa de Nome Compacto para presente personalizado",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-393",
+      "title": "Letreiro de Mesa Slim para mesa e evento",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-394",
+      "title": "Nome 3D Personalizado de Mesa para quarto e porta",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-395",
+      "title": "Placa de Nome Dobrável para presente personalizado",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-396",
+      "title": "Letreiro de Mesa de Encaixe para mesa e evento",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-397",
+      "title": "Nome 3D Personalizado de Bancada para quarto e porta",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-398",
+      "title": "Placa de Nome de Mesa para presente personalizado",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-399",
+      "title": "Letreiro de Mesa Leve para mesa e evento",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-400",
+      "title": "Nome 3D Personalizado Minimalista para quarto e porta",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-401",
+      "title": "Placa de Nome Multiuso para presente personalizado",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-402",
+      "title": "Letreiro de Mesa com Divisórias para mesa e evento",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-403",
+      "title": "Chaveiro Personalizado Modular para lembrança",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-404",
+      "title": "Chaveiro com Nome Compacto para evento",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-405",
+      "title": "Pingente Personalizado Slim para presente rápido",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-406",
+      "title": "Chaveiro Personalizado Ajustável para lembrança",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-407",
+      "title": "Chaveiro com Nome Dobrável para evento",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-408",
+      "title": "Pingente Personalizado de Encaixe para presente rápido",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-409",
+      "title": "Chaveiro Personalizado de Bancada para lembrança",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-410",
+      "title": "Chaveiro com Nome de Mesa para evento",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-411",
+      "title": "Pingente Personalizado Leve para presente rápido",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-412",
+      "title": "Chaveiro Personalizado Minimalista para lembrança",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-413",
+      "title": "Chaveiro com Nome Multiuso para evento",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-414",
+      "title": "Pingente Personalizado com Divisórias para presente rápido",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-415",
+      "title": "Lembrança 3D Modular para festa e evento",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-416",
+      "title": "Brinde Simples Compacto para marca e turma",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-417",
+      "title": "Mini Presente Personalizável Slim para kit promocional",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-418",
+      "title": "Lembrança 3D Ajustável para festa e evento",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-419",
+      "title": "Brinde Simples Dobrável para marca e turma",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-420",
+      "title": "Mini Presente Personalizável de Encaixe para kit promocional",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-421",
+      "title": "Lembrança 3D de Bancada para festa e evento",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-422",
+      "title": "Brinde Simples de Mesa para marca e turma",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-423",
+      "title": "Mini Presente Personalizável Leve para kit promocional",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-424",
+      "title": "Lembrança 3D Minimalista para festa e evento",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-425",
+      "title": "Brinde Simples Multiuso para marca e turma",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-426",
+      "title": "Mini Presente Personalizável com Divisórias para kit promocional",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-427",
+      "title": "Porta-Retrato 3D Mini para presente",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-428",
+      "title": "Tag de Presente Compacto para lembrança afetiva",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-429",
+      "title": "Marcador Personalizável Slim para embalagem especial",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-430",
+      "title": "Porta-Retrato 3D Ajustável para presente",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-431",
+      "title": "Tag de Presente Dobrável para lembrança afetiva",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-432",
+      "title": "Marcador Personalizável de Encaixe para embalagem especial",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-433",
+      "title": "Porta-Retrato 3D de Bancada para presente",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-434",
+      "title": "Tag de Presente de Mesa para lembrança afetiva",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-435",
+      "title": "Marcador Personalizável Leve para embalagem especial",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-436",
+      "title": "Porta-Retrato 3D Minimalista para presente",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-437",
+      "title": "Tag de Presente Multiuso para lembrança afetiva",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-438",
+      "title": "Marcador Personalizável com Divisórias para embalagem especial",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-439",
+      "title": "Enfeite Comemorativo Modular para datas comemorativas",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-440",
+      "title": "Presente Sazonal Compacto para mesa e decoração",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-441",
+      "title": "Lembrança de Data Especial Empilhável para presente temático",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-442",
+      "title": "Enfeite Comemorativo Ajustável para datas comemorativas",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-443",
+      "title": "Presente Sazonal Dobrável para mesa e decoração",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-444",
+      "title": "Lembrança de Data Especial de Encaixe para presente temático",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-445",
+      "title": "Enfeite Comemorativo de Bancada para datas comemorativas",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-446",
+      "title": "Presente Sazonal de Mesa para mesa e decoração",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-447",
+      "title": "Lembrança de Data Especial Leve para presente temático",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-448",
+      "title": "Enfeite Comemorativo Minimalista para datas comemorativas",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-449",
+      "title": "Presente Sazonal Multiuso para mesa e decoração",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-450",
+      "title": "Lembrança de Data Especial com Divisórias para presente temático",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-451",
+      "title": "Acessório Leve para Pet Modular para identificação",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-452",
+      "title": "Tag para Pet Compacto para rotina do pet",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-453",
+      "title": "Clipe Organizador Pet Slim para pote e guia",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-454",
+      "title": "Acessório Leve para Pet Ajustável para identificação",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-455",
+      "title": "Tag para Pet Dobrável para rotina do pet",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-456",
+      "title": "Clipe Organizador Pet de Encaixe para pote e guia",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-457",
+      "title": "Acessório Leve para Pet de Bancada para identificação",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-458",
+      "title": "Tag para Pet de Mesa para rotina do pet",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-459",
+      "title": "Clipe Organizador Pet Leve para pote e guia",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-460",
+      "title": "Acessório Leve para Pet com Clipe para identificação",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-461",
+      "title": "Organizador Infantil de Mesa para estudo",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-462",
+      "title": "Porta-Lápis de Estudo de Mesa para quarto infantil",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-463",
+      "title": "Apoio de Mesa Infantil de Produção Rápida para materiais escolares",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-464",
+      "title": "Organizador Infantil Ajustável para estudo",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-465",
+      "title": "Porta-Lápis de Estudo Modular para quarto infantil",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-466",
+      "title": "Apoio de Mesa Infantil para Kit Presente para materiais escolares",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-467",
+      "title": "Organizador Infantil de Mesa para estudo com leitura visual limpa",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-468",
+      "title": "Porta-Lápis de Estudo de Mesa para quarto infantil com acesso rápido",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-469",
+      "title": "Apoio de Mesa Infantil Versátil para materiais escolares",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-470",
+      "title": "Organizador Infantil de Mesa para estudo com frente baixa",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-471",
+      "title": "Acessório de Boardgame Modular para mesa de jogo",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-472",
+      "title": "Bandeja de Dados Compacto para RPG e boardgame",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-473",
+      "title": "Organizador de Peças de Jogo Slim para hobby criativo",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-474",
+      "title": "Acessório de Boardgame Ajustável para mesa de jogo",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-475",
+      "title": "Bandeja de Dados Dobrável para RPG e boardgame",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-476",
+      "title": "Organizador de Peças de Jogo de Encaixe para hobby criativo",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-477",
+      "title": "Acessório de Boardgame com Ímã para mesa de jogo",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-478",
+      "title": "Bandeja de Dados de Mesa para RPG e boardgame",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-479",
+      "title": "Organizador de Peças de Jogo com Ímã para hobby criativo",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-480",
+      "title": "Acessório de Boardgame Minimalista para mesa de jogo",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-481",
+      "title": "Organizador de Artesanato Modular para artesanato",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-482",
+      "title": "Porta-Ferramentas de Hobby Compacto para pintura e hobby",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-483",
+      "title": "Bandeja Criativa Slim para peças pequenas",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-484",
+      "title": "Organizador de Artesanato Ajustável para artesanato",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-485",
+      "title": "Porta-Ferramentas de Hobby Gridfinity para pintura e hobby",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-486",
+      "title": "Bandeja Criativa de Encaixe para peças pequenas",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-487",
+      "title": "Organizador de Artesanato de Bancada para artesanato",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-488",
+      "title": "Porta-Ferramentas de Hobby de Mesa para pintura e hobby",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-489",
+      "title": "Bandeja Criativa Leve para peças pequenas",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-490",
+      "title": "Organizador de Artesanato Minimalista para artesanato",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-491",
+      "title": "Item Educativo 3D Modular para estudo e presente",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-492",
+      "title": "Quebra-Cabeça Lúdico Compacto para atividade criativa",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-493",
+      "title": "Brinquedo Educativo Compacto Slim para brincadeira guiada",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-494",
+      "title": "Item Educativo 3D Ajustável para estudo e presente",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-495",
+      "title": "Quebra-Cabeça Lúdico Dobrável para atividade criativa",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-496",
+      "title": "Brinquedo Educativo Compacto de Encaixe para brincadeira guiada",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-497",
+      "title": "Item Educativo 3D de Bancada para estudo e presente",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-498",
+      "title": "Quebra-Cabeça Lúdico de Mesa para atividade criativa",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-499",
+      "title": "Brinquedo Educativo Compacto Leve para brincadeira guiada",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
+      ]
+    },
+    {
+      "product": "mw-a1-500",
+      "title": "Item Educativo 3D Minimalista para estudo e presente",
+      "reasons": [
+        "quote_only_product",
+        "commercial_use_review_required"
       ]
     }
   ],

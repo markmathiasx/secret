@@ -5,6 +5,7 @@ import { getSiteUrl } from "@/lib/env";
 import { resolveProductImage } from "@/lib/product-images";
 import { getMerchantFeedAvailability } from "@/lib/product-availability";
 import { getProductLongDescription } from "@/lib/catalog-content";
+import { isDirectSaleCatalogProduct } from "@/lib/public-catalog";
 
 export const revalidate = 3600;
 
@@ -31,7 +32,10 @@ function merchantResponse(xml: string, headers: Record<string, string> = {}) {
 export async function GET() {
   try {
     const siteUrl = getSiteUrl();
-    const products = (await getCatalogSnapshot()).filter((product) => product.pricePix > 0).slice(0, 1000);
+    const products = (await getCatalogSnapshot())
+      .filter(isDirectSaleCatalogProduct)
+      .filter((product) => product.pricePix > 0)
+      .slice(0, 1000);
     const items = products
       .map((product) => {
         const image = resolveProductImage(product);

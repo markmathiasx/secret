@@ -1,4 +1,5 @@
-import { catalog, getProductUrl, type Product } from "@/lib/catalog";
+import { getProductUrl, type Product } from "@/lib/catalog";
+import { directSaleCatalog as catalog } from "@/lib/public-catalog";
 import { getPrimaryProductImage, getProductImageAlt } from "@/lib/product-images";
 
 export type FirstSaleIntent =
@@ -86,11 +87,11 @@ export const firstSaleSlots: SlotConfig[] = [
     whyBuy: "Peça decorativa para arranjos secos ou uso com recipiente interno.",
   },
   {
-    slot: "Nome 3D personalizado",
-    intent: "peca-sob-medida",
-    preferredIds: ["mdh-038"],
-    fallbackTerms: ["nome 3d", "personalizado", "mesa"],
-    whyBuy: "Produto sob encomenda com tamanho, base e cores definidos no pedido.",
+    slot: "Organizador de cabo USB",
+    intent: "organizacao-setup",
+    preferredIds: ["mdh-050"],
+    fallbackTerms: ["organizador", "cabo", "usb", "mesa"],
+    whyBuy: "Mantém cabos USB acessíveis, alinhados e fora da área principal da mesa.",
   },
   {
     slot: "Luminária LED personalizada",

@@ -7,7 +7,7 @@ export type WhatsappProduct = {
 };
 
 export function buildProductPagePath(product: Pick<WhatsappProduct, "slug">) {
-  return `/produto/${product.slug}`;
+  return `/catalogo/${product.slug}`;
 }
 
 export function buildWhatsappUrl(

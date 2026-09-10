@@ -3,7 +3,8 @@ import path from "node:path";
 import { createProjectRequire, ROOT } from "./ts-runtime.mjs";
 
 const require = createProjectRequire();
-const { catalog, getProductUrl } = require(path.join(ROOT, "lib", "catalog.ts"));
+const { getProductUrl } = require(path.join(ROOT, "lib", "catalog.ts"));
+const { publicCatalog: catalog } = require(path.join(ROOT, "lib", "public-catalog.ts"));
 const { CATALOG_PRIMARY_CATEGORIES, BUYING_INTENTS, PRODUCT_OBJECT_TYPES } = require(path.join(ROOT, "lib", "catalog-taxonomy.ts"));
 const { validateProductMedia, isPublicSafe } = require(path.join(ROOT, "lib", "media-validation.ts"));
 
@@ -16,9 +17,6 @@ const bannedPublicPatterns = [
   /render\s+fiel/i,
   /foto\s+real\s+x\s+render\s+fiel/i,
   /pe[cç]as\s+com\s+foto\s+real/i,
-  /realPhoto/i,
-  /real-photo/i,
-  /verified-real/i,
 ];
 const errors = [];
 

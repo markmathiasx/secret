@@ -125,14 +125,11 @@ const copyBySourceId: Record<string, ProductCopy> = {
     personalizationLabel: "Texto ou contexto da foto",
     personalizationPlaceholder: "Ex.: foto de casal, homenagem para mãe ou aniversário de 15 anos",
   },
-  "mdh-038": {
-    shortDescription: "Projeto 3D personalizado para nome, frase, presente, peça decorativa ou pedido sob medida.",
+  "mdh-050": {
+    shortDescription: "Organizador compacto para manter cabos USB alinhados e acessíveis na mesa.",
     longDescription:
-      "Entrada comercial para quem ainda não encontrou a peça certa no catálogo. O cliente pode enviar texto, referência, logo, uso esperado ou briefing curto para receber uma proposta clara e seguir para produção.",
+      "Peça funcional para home office e setup, produzida sob encomenda em PLA Premium com acabamento conferido e duas opções de cor.",
     featured: true,
-    acceptsPersonalizationText: true,
-    personalizationLabel: "Descreva o que você quer personalizado",
-    personalizationPlaceholder: "Ex.: nome em 3D para mesa, topo de bolo, peça com logotipo ou referência de presente",
   },
   "mdh-053": {
     shortDescription: "Caixa organizadora modular com tampa para mesa, armário, home office ou bancada.",
@@ -155,12 +152,83 @@ function skuFromProductId(productId: string) {
   return `MDH-${numeric.padStart(4, "0")}`;
 }
 
+const curatedProductImages: Record<string, string[]> = {
+  "mdh-013": [
+    "/products/setup/suporte-fone-headphone.webp",
+    "/products/mdh-013-suporte-para-fone-headphone/02-closeup.jpg",
+    "/products/mdh-013-suporte-para-fone-headphone/03-in_use.jpg",
+    "/products/mdh-013-suporte-para-fone-headphone/04-packshot.jpg",
+  ],
+  "mdh-014": [
+    "/products/setup/organizador-cabos.webp",
+    "/products/mdh-014-organizador-de-cabos/02-closeup.jpg",
+    "/products/mdh-014-organizador-de-cabos/03-in_use.jpg",
+    "/products/mdh-014-organizador-de-cabos/04-packshot.jpg",
+  ],
+  "mdh-015": [
+    "/products/setup/suporte-celular.webp",
+    "/products/mdh-015-suporte-para-celular/02-closeup.jpg",
+    "/products/mdh-015-suporte-para-celular/03-in_use.jpg",
+    "/products/mdh-015-suporte-para-celular/04-packshot.jpg",
+  ],
+  "mdh-016": [
+    "/products/setup/chaveiro-personalizado.webp",
+    "/products/mdh-016-chaveiro-personalizado/02-closeup.jpg",
+    "/products/mdh-016-chaveiro-personalizado/03-in_use.jpg",
+    "/products/mdh-016-chaveiro-personalizado/04-packshot.jpg",
+  ],
+  "mdh-017": [
+    "/products/setup/suporte-controle-ps5.webp",
+    "/products/mdh-017-suporte-para-controle-ps5/02-closeup.jpg",
+    "/products/mdh-017-suporte-para-controle-ps5/03-in_use.jpg",
+    "/products/mdh-017-suporte-para-controle-ps5/04-packshot.jpg",
+  ],
+  "mdh-019": [
+    "/products/setup/porta-copos-geek.webp",
+    "/products/mdh-019-porta-copos-geek/02-closeup.jpg",
+    "/products/mdh-019-porta-copos-geek/03-in_use.jpg",
+    "/products/mdh-019-porta-copos-geek/04-packshot.jpg",
+  ],
+  "mdh-022": [
+    "/products/mdh-022-organizador-de-canetas/01-hero.jpg",
+    "/products/mdh-022-organizador-de-canetas/02-closeup.jpg",
+    "/products/mdh-022-organizador-de-canetas/03-in_use.jpg",
+    "/products/mdh-022-organizador-de-canetas/04-packshot.jpg",
+  ],
+  "mdh-025": [
+    "/products/mdh-025-vaso-geometrico/01-hero.jpg",
+    "/products/mdh-025-vaso-geometrico/02-closeup.jpg",
+    "/products/mdh-025-vaso-geometrico/03-in_use.jpg",
+    "/products/mdh-025-vaso-geometrico/04-packshot.jpg",
+  ],
+  "mdh-028": [
+    "/products/mdh-028-luminaria-led-personalizada/01-hero.jpg",
+    "/products/mdh-028-luminaria-led-personalizada/02-closeup.jpg",
+    "/products/mdh-028-luminaria-led-personalizada/03-in_use.jpg",
+    "/products/mdh-028-luminaria-led-personalizada/04-packshot.jpg",
+  ],
+  "mdh-029": [
+    "/products/mdh-029-foto-litofania/01-hero.jpg",
+    "/products/mdh-029-foto-litofania/02-closeup.jpg",
+    "/products/mdh-029-foto-litofania/03-in_use.jpg",
+    "/products/mdh-029-foto-litofania/04-packshot.jpg",
+  ],
+  "mdh-050": [
+    "/products/mdh-050-organizador-de-cabo-usb/01-hero.jpg",
+    "/products/mdh-050-organizador-de-cabo-usb/02-closeup.jpg",
+    "/products/mdh-050-organizador-de-cabo-usb/03-in_use.jpg",
+    "/products/mdh-050-organizador-de-cabo-usb/04-packshot.jpg",
+  ],
+  "mdh-053": [
+    "/products/mdh-053-caixa-organizadora/01-hero.jpg",
+    "/products/mdh-053-caixa-organizadora/02-closeup.jpg",
+    "/products/mdh-053-caixa-organizadora/03-in_use.jpg",
+    "/products/mdh-053-caixa-organizadora/04-packshot.jpg",
+  ],
+};
+
 function imagePathsForProduct(productId: string) {
-  return [
-    `/products/catalog/${productId}.webp`,
-    `/products/gallery/${productId}/2.webp`,
-    `/products/gallery/${productId}/3.webp`,
-  ];
+  return curatedProductImages[productId] || [];
 }
 
 function assertProduct(productId: string) {
@@ -227,31 +295,7 @@ const curatedProducts = curatedSourceIds.map((sourceId) => {
   return buildStorefrontProduct(sourceId, product, getProductCopy(sourceId, product));
 });
 
-const customBase = assertProduct("mdh-038");
-
-export const storefrontProducts: StorefrontProduct[] = [
-  ...curatedProducts,
-  buildStorefrontProduct("mdh-038", customBase, copyBySourceId["mdh-038"], {
-    id: "mdh-custom",
-    sourceId: null,
-    sku: "MDH-CUSTOM",
-    slug: "projeto-3d-personalizado",
-    href: "/checkout",
-    name: "Projeto 3D Personalizado",
-    category: "Sob medida",
-    stock: 99,
-    price: 89.9,
-    pricePix: 89.9,
-    priceCard: calculateCardPrice(89.9),
-    priceFromLabel: "Projetos a partir de R$ 89,90",
-    material: "PLA Premium ou sob análise",
-    finish: "Sob medida",
-    productionWindow: "3 a 7 dias úteis",
-    featured: true,
-    customizable: true,
-    acceptsPersonalizationText: true,
-  }),
-];
+export const storefrontProducts: StorefrontProduct[] = curatedProducts;
 
 export const featuredStorefrontProducts = storefrontProducts.filter((product) => product.featured);
 export const bestsellerStorefrontProducts = storefrontProducts.slice(0, 6);

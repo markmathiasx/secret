@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-07-27T12:56:35.429Z",
+  "generatedAt": "2026-09-10T04:27:04.376Z",
   "ok": true,
   "pages": [
     {
       "slug": "/chaveiros-personalizados",
       "title": "Chaveiros personalizados completos em impressão 3D",
-      "products": 6
+      "products": 12
     },
     {
       "slug": "/presentes-ate-50",
@@ -15,22 +15,22 @@
     {
       "slug": "/organizadores",
       "title": "Organizadores 3D para casa, cabos e mesa",
-      "products": 8
+      "products": 12
     },
     {
       "slug": "/setup-gamer",
       "title": "Acessórios 3D para setup gamer e home office",
-      "products": 8
+      "products": 12
     },
     {
       "slug": "/brindes-e-lotes",
       "title": "Brindes e lotes em impressão 3D",
-      "products": 11
+      "products": 12
     },
     {
       "slug": "/peca-sob-medida",
       "title": "Peça sob medida em impressão 3D",
-      "products": 11
+      "products": 12
     }
   ],
   "errors": []

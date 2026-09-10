@@ -1,15 +1,15 @@
 {
-  "generatedAt": "2026-07-27T12:56:40.787Z",
+  "generatedAt": "2026-09-10T04:26:25.827Z",
   "ok": true,
-  "catalogCount": 12,
-  "rawCatalogCount": 12,
-  "expectedCatalogCount": 12,
+  "catalogCount": 538,
+  "rawCatalogCount": 848,
+  "expectedCatalogCount": 538,
   "publicBaseline": {
     "source": "reports/public-regressions-baseline.json",
     "reason": "A auditoria semantica atualizada bloqueou 16 itens que antes estavam como FIX_TEXT/probable, pois apontavam para placeholder text cards em vez de midia curada. Nenhum produto BLOCKED permanece publico."
   },
-  "metaProducts": 12,
-  "metaSkipped": 0,
+  "metaProducts": 39,
+  "metaSkipped": 499,
   "games": [
     "pinball-star",
     "print-runner",

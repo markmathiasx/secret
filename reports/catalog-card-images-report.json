@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-27T12:15:48.127Z",
+  "generatedAt": "2026-09-09T23:59:41.708Z",
   "ok": true,
   "placeholder": {
     "src": "/placeholders/product-card.svg",
@@ -14,30 +14,175 @@
     "noNullReturn": true,
     "hasNativeImage": true
   },
-  "totalPublicProducts": 12,
-  "totalWithOwnImage": 12,
+  "totalPublicProducts": 538,
+  "totalWithOwnImage": 538,
   "totalUsingPlaceholder": 0,
   "possibleCardWithoutImage": 0,
+  "minimumCatalogSize": 500,
+  "unsafeVisuals": [],
+  "a1Products": 499,
+  "a1MediaIssues": [],
+  "duplicateA1Sources": [],
   "examplesWithImage": [
     {
-      "id": "mdh-016",
-      "sku": "MDH-0016",
-      "name": "Chaveiro 3D Personalizado com Nome ou Logo",
-      "category": "Presentes Personalizados",
-      "src": "/products/_preview/setup/chaveiro-personalizado.webp",
+      "id": "real-001",
+      "sku": "REAL-0001",
+      "name": "Grinder 3 Partes Premium",
+      "category": "Casa e Organização",
+      "src": "/products/_preview/foto-001-grinder-01.webp",
       "source": "images[0]",
       "usedPlaceholder": false,
       "ownCandidateCount": 2,
       "ownCandidates": [
-        "/products/_preview/setup/chaveiro-personalizado.webp",
-        "/products/setup/chaveiro-personalizado.webp"
+        "/products/_preview/foto-001-grinder-01.webp",
+        "/products/foto-001-grinder-01.webp"
+      ]
+    },
+    {
+      "id": "real-002",
+      "sku": "REAL-0002",
+      "name": "Porta Creme Dental de Bancada",
+      "category": "Casa e Organização",
+      "src": "/products/_preview/foto-003-porta-creme-dental.webp",
+      "source": "images[0]",
+      "usedPlaceholder": false,
+      "ownCandidateCount": 2,
+      "ownCandidates": [
+        "/products/_preview/foto-003-porta-creme-dental.webp",
+        "/products/foto-003-porta-creme-dental.webp"
+      ]
+    },
+    {
+      "id": "real-003",
+      "sku": "REAL-0003",
+      "name": "Demogorgon Decorativo Premium",
+      "category": "Geek & Colecionáveis",
+      "src": "/products/_preview/foto-004-demogorgon.webp",
+      "source": "images[0]",
+      "usedPlaceholder": false,
+      "ownCandidateCount": 2,
+      "ownCandidates": [
+        "/products/_preview/foto-004-demogorgon.webp",
+        "/products/foto-004-demogorgon.webp"
+      ]
+    },
+    {
+      "id": "real-004",
+      "sku": "REAL-0004",
+      "name": "mascote temática Jedi Colecionável",
+      "category": "Geek & Colecionáveis",
+      "src": "/products/_preview/gallery/real-004/3.webp",
+      "source": "images[0]",
+      "usedPlaceholder": false,
+      "ownCandidateCount": 2,
+      "ownCandidates": [
+        "/products/_preview/gallery/real-004/3.webp",
+        "/products/gallery/real-004/3.webp"
+      ]
+    },
+    {
+      "id": "real-005",
+      "sku": "REAL-0005",
+      "name": "Stencil dupla sci-fi Decorativo",
+      "category": "Geek & Colecionáveis",
+      "src": "/products/_preview/render-real-005-stencil.webp",
+      "source": "images[0]",
+      "usedPlaceholder": false,
+      "ownCandidateCount": 2,
+      "ownCandidates": [
+        "/products/_preview/render-real-005-stencil.webp",
+        "/products/render-real-005-stencil.webp"
+      ]
+    },
+    {
+      "id": "real-006",
+      "sku": "REAL-0006",
+      "name": "Família Customizada em Miniatura",
+      "category": "Presentes Personalizados",
+      "src": "/products/_preview/foto-007-familia-custom.webp",
+      "source": "images[0]",
+      "usedPlaceholder": false,
+      "ownCandidateCount": 2,
+      "ownCandidates": [
+        "/products/_preview/foto-007-familia-custom.webp",
+        "/products/foto-007-familia-custom.webp"
+      ]
+    },
+    {
+      "id": "real-007",
+      "sku": "REAL-0007",
+      "name": "Boneca Infantil Personalizada",
+      "category": "Presentes Personalizados",
+      "src": "/products/_preview/foto-008-boneca-crianca.webp",
+      "source": "images[0]",
+      "usedPlaceholder": false,
+      "ownCandidateCount": 2,
+      "ownCandidates": [
+        "/products/_preview/foto-008-boneca-crianca.webp",
+        "/products/foto-008-boneca-crianca.webp"
+      ]
+    },
+    {
+      "id": "real-008",
+      "sku": "REAL-0008",
+      "name": "Case de Isqueiro Caveira",
+      "category": "Casa e Organização",
+      "src": "/products/_preview/foto-009-case-isqueiro-caveira.webp",
+      "source": "images[0]",
+      "usedPlaceholder": false,
+      "ownCandidateCount": 2,
+      "ownCandidates": [
+        "/products/_preview/foto-009-case-isqueiro-caveira.webp",
+        "/products/foto-009-case-isqueiro-caveira.webp"
+      ]
+    },
+    {
+      "id": "real-009",
+      "sku": "REAL-0009",
+      "name": "personagem de humor mascote elétrico Mashup Colecionável",
+      "category": "Geek & Colecionáveis",
+      "src": "/products/_preview/gallery/real-009/3.webp",
+      "source": "images[0]",
+      "usedPlaceholder": false,
+      "ownCandidateCount": 2,
+      "ownCandidates": [
+        "/products/_preview/gallery/real-009/3.webp",
+        "/products/gallery/real-009/3.webp"
+      ]
+    },
+    {
+      "id": "real-010",
+      "sku": "REAL-0010",
+      "name": "Medalha Maçônica Personalizada",
+      "category": "Presentes Personalizados",
+      "src": "/products/_preview/foto-011-chaveiro-maconaria.webp",
+      "source": "images[0]",
+      "usedPlaceholder": false,
+      "ownCandidateCount": 2,
+      "ownCandidates": [
+        "/products/_preview/foto-011-chaveiro-maconaria.webp",
+        "/products/foto-011-chaveiro-maconaria.webp"
+      ]
+    },
+    {
+      "id": "mdh-013",
+      "sku": "MDH-0013",
+      "name": "Suporte de Mesa para Headphone",
+      "category": "Setup Gamer e Home Office",
+      "src": "/products/_preview/setup/suporte-fone-headphone.webp",
+      "source": "images[0]",
+      "usedPlaceholder": false,
+      "ownCandidateCount": 2,
+      "ownCandidates": [
+        "/products/_preview/setup/suporte-fone-headphone.webp",
+        "/products/setup/suporte-fone-headphone.webp"
       ]
     },
     {
       "id": "mdh-014",
       "sku": "MDH-0014",
       "name": "Kit 6 Organizadores de Cabos para Mesa",
-      "category": "Organização",
+      "category": "Setup Gamer e Home Office",
       "src": "/products/_preview/setup/organizador-cabos.webp",
       "source": "images[0]",
       "usedPlaceholder": false,
@@ -51,7 +196,7 @@
       "id": "mdh-015",
       "sku": "MDH-0015",
       "name": "Suporte de Mesa para Celular",
-      "category": "Setup e Home Office",
+      "category": "Setup Gamer e Home Office",
       "src": "/products/_preview/setup/suporte-celular.webp",
       "source": "images[0]",
       "usedPlaceholder": false,
@@ -62,24 +207,24 @@
       ]
     },
     {
-      "id": "mdh-013",
-      "sku": "MDH-0013",
-      "name": "Suporte de Mesa para Headphone",
-      "category": "Setup e Home Office",
-      "src": "/products/_preview/setup/suporte-fone-headphone.webp",
+      "id": "mdh-016",
+      "sku": "MDH-0016",
+      "name": "Chaveiro 3D Personalizado com Nome ou Logo",
+      "category": "Chaveiros e Acessórios",
+      "src": "/products/_preview/setup/chaveiro-personalizado.webp",
       "source": "images[0]",
       "usedPlaceholder": false,
       "ownCandidateCount": 2,
       "ownCandidates": [
-        "/products/_preview/setup/suporte-fone-headphone.webp",
-        "/products/setup/suporte-fone-headphone.webp"
+        "/products/_preview/setup/chaveiro-personalizado.webp",
+        "/products/setup/chaveiro-personalizado.webp"
       ]
     },
     {
       "id": "mdh-017",
       "sku": "MDH-0017",
       "name": "Suporte Universal de Mesa para Controle Gamer",
-      "category": "Setup e Home Office",
+      "category": "Setup Gamer e Home Office",
       "src": "/products/_preview/setup/suporte-controle-ps5.webp",
       "source": "images[0]",
       "usedPlaceholder": false,
@@ -93,7 +238,7 @@
       "id": "mdh-019",
       "sku": "MDH-0019",
       "name": "Porta-Copos Geek para Mesa, Setup e Presente Criativo",
-      "category": "Presentes Personalizados",
+      "category": "Setup Gamer e Home Office",
       "src": "/products/_preview/setup/porta-copos-geek.webp",
       "source": "images[0]",
       "usedPlaceholder": false,
@@ -107,7 +252,7 @@
       "id": "mdh-022",
       "sku": "MDH-0022",
       "name": "Organizador de Mesa para Canetas e Pequenos Objetos",
-      "category": "Organização",
+      "category": "Setup Gamer e Home Office",
       "src": "/products/_preview/mdh-022-organizador-de-canetas/01-hero.webp",
       "source": "images[0]",
       "usedPlaceholder": false,
@@ -121,7 +266,7 @@
       "id": "mdh-025",
       "sku": "MDH-0025",
       "name": "Vaso Geométrico Decorativo",
-      "category": "Casa e Decoração",
+      "category": "Decoração",
       "src": "/products/_preview/mdh-025-vaso-geometrico/01-hero.webp",
       "source": "images[0]",
       "usedPlaceholder": false,
@@ -129,6 +274,20 @@
       "ownCandidates": [
         "/products/_preview/mdh-025-vaso-geometrico/01-hero.webp",
         "/products/mdh-025-vaso-geometrico/01-hero.jpg"
+      ]
+    },
+    {
+      "id": "mdh-026",
+      "sku": "MDH-0026",
+      "name": "esfera colecionável",
+      "category": "Decoração",
+      "src": "/products/_preview/mdh-026-pokebola/01-hero.webp",
+      "source": "images[0]",
+      "usedPlaceholder": false,
+      "ownCandidateCount": 2,
+      "ownCandidates": [
+        "/products/_preview/mdh-026-pokebola/01-hero.webp",
+        "/products/mdh-026-pokebola/01-hero.jpg"
       ]
     },
     {
@@ -143,48 +302,6 @@
       "ownCandidates": [
         "/products/_preview/mdh-028-luminaria-led-personalizada/01-hero.webp",
         "/products/mdh-028-luminaria-led-personalizada/01-hero.jpg"
-      ]
-    },
-    {
-      "id": "mdh-029",
-      "sku": "MDH-0029",
-      "name": "Foto Litofania Personalizada com Efeito de Luz",
-      "category": "Presentes Personalizados",
-      "src": "/products/_preview/mdh-029-foto-litofania/01-hero.webp",
-      "source": "images[0]",
-      "usedPlaceholder": false,
-      "ownCandidateCount": 2,
-      "ownCandidates": [
-        "/products/_preview/mdh-029-foto-litofania/01-hero.webp",
-        "/products/mdh-029-foto-litofania/01-hero.jpg"
-      ]
-    },
-    {
-      "id": "mdh-038",
-      "sku": "MDH-0038",
-      "name": "Nome 3D Personalizado de Mesa",
-      "category": "Presentes Personalizados",
-      "src": "/products/_preview/mdh-038-nome-3d-personalizado/01-hero.webp",
-      "source": "images[0]",
-      "usedPlaceholder": false,
-      "ownCandidateCount": 2,
-      "ownCandidates": [
-        "/products/_preview/mdh-038-nome-3d-personalizado/01-hero.webp",
-        "/products/mdh-038-nome-3d-personalizado/01-hero.jpg"
-      ]
-    },
-    {
-      "id": "mdh-053",
-      "sku": "MDH-0053",
-      "name": "Caixa Organizadora Modular com Tampa",
-      "category": "Organização",
-      "src": "/products/_preview/mdh-053-caixa-organizadora/01-hero.webp",
-      "source": "images[0]",
-      "usedPlaceholder": false,
-      "ownCandidateCount": 2,
-      "ownCandidates": [
-        "/products/_preview/mdh-053-caixa-organizadora/01-hero.webp",
-        "/products/mdh-053-caixa-organizadora/01-hero.jpg"
       ]
     }
   ],

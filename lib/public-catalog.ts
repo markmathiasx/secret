@@ -34,6 +34,9 @@ export type PublicProductPayload = {
   featured: boolean;
   customizable: boolean;
   readyToShip?: boolean;
+  pricingMode: NonNullable<Product["pricingMode"]>;
+  requiresCommercialReview: boolean;
+  mediaProvenance?: Product["mediaProvenance"];
   visualKind: string;
   visualLabel: string;
   visualStatus: string;
@@ -42,11 +45,25 @@ export type PublicProductPayload = {
 
 export function isPublicCatalogProduct(product: Product) {
   const mediaRecord = validateProductMedia(product);
-  return isPublicSafe(mediaRecord.status) && mediaRecord.gallery.length >= 1;
+  const visual = getProductVisual(product);
+  const hasProductMedia = mediaRecord.gallery.some((item) => !/placeholder/i.test(item.url));
+  return visual.merchantReady && isPublicSafe(mediaRecord.status) && hasProductMedia;
 }
 
 export function filterPublicCatalogProducts(products: Product[]) {
   return products.filter(isPublicCatalogProduct);
+}
+
+export function isDirectSaleCatalogProduct(product: Product) {
+  return (
+    isPublicCatalogProduct(product) &&
+    product.pricingMode === "faixa-auditada" &&
+    product.mediaProvenance?.commercialUse !== "review-required"
+  );
+}
+
+export function filterDirectSaleCatalogProducts(products: Product[]) {
+  return products.filter(isDirectSaleCatalogProduct);
 }
 
 export function serializePublicProduct(product: Product): PublicProductPayload {
@@ -85,6 +102,10 @@ export function serializePublicProduct(product: Product): PublicProductPayload {
     featured: product.featured,
     customizable: product.customizable,
     readyToShip: product.readyToShip,
+    pricingMode: product.pricingMode || "faixa-auditada",
+    requiresCommercialReview:
+      product.pricingMode !== "faixa-auditada" || product.mediaProvenance?.commercialUse === "review-required",
+    mediaProvenance: product.mediaProvenance,
     visualKind: visual.kind,
     visualLabel: visual.label,
     visualStatus: mediaRecord.status,
@@ -97,4 +118,5 @@ export function serializePublicProducts(products: Product[]) {
 }
 
 export const publicCatalog = filterPublicCatalogProducts(catalog);
+export const directSaleCatalog = filterDirectSaleCatalogProducts(catalog);
 export const publicFeaturedCatalog = publicCatalog.filter((product) => product.featured);

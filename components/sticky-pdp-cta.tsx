@@ -15,6 +15,7 @@ export function StickyPdpCta({
   quantity = 1,
   checkoutHref,
   whatsappHref,
+  quoteOnly = false,
 }: {
   productId: string;
   productName: string;
@@ -25,6 +26,7 @@ export function StickyPdpCta({
   quantity?: number;
   checkoutHref: string;
   whatsappHref?: string;
+  quoteOnly?: boolean;
 }) {
   const [visible, setVisible] = useState(false);
   const normalizedPriceCard = calculateCardPrice(pricePix);
@@ -66,10 +68,12 @@ export function StickyPdpCta({
         <div className="min-w-0 flex-1">
           <p className="truncate text-sm font-semibold text-white">{productName}</p>
           <p className="text-xs font-black text-emerald-100">{formatCurrency(pricePix * quantity)} Pix</p>
-          <p className="text-[11px] text-white/55">Cartão + R$ 1 {formatCurrency(normalizedPriceCard * quantity)}</p>
+          <p className="text-[11px] text-white/55">
+            {quoteOnly ? "Estimativa sujeita à validação do modelo" : `Cartão + R$ 1 ${formatCurrency(normalizedPriceCard * quantity)}`}
+          </p>
         </div>
         <div className="flex flex-shrink-0 items-center gap-2">
-          {whatsappHref ? (
+          {whatsappHref && !quoteOnly ? (
             <a
               href={whatsappHref}
               target="_blank"
@@ -80,10 +84,17 @@ export function StickyPdpCta({
               <MessageCircleMore className="h-4 w-4" />
             </a>
           ) : null}
-          <button type="button" onClick={buyNow} className="btn-primary gap-2 py-2.5">
-            <Wallet className="h-4 w-4" />
-            Comprar agora
-          </button>
+          {quoteOnly && whatsappHref ? (
+            <a href={whatsappHref} target="_blank" rel="noreferrer" className="btn-primary gap-2 py-2.5">
+              <MessageCircleMore className="h-4 w-4" />
+              Validar e orçar
+            </a>
+          ) : (
+            <button type="button" onClick={buyNow} className="btn-primary gap-2 py-2.5">
+              <Wallet className="h-4 w-4" />
+              Comprar agora
+            </button>
+          )}
           <button
             type="button"
             onClick={() => document.getElementById("pdp-purchase-tools")?.scrollIntoView({ behavior: "smooth", block: "center" })}

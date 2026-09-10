@@ -143,6 +143,12 @@ export type Product = {
     pricingPreset: string;
     longDescription: string;
   };
+  mediaProvenance?: {
+    provider: "MakerWorld" | "MDH 3D";
+    sourceTitle: string;
+    sourceProductUrl?: string;
+    commercialUse: "verified" | "review-required";
+  };
 };
 
 const adminProductOverrides = adminProductOverridesJson as unknown as Record<string, AdminProductOverride>;
@@ -224,7 +230,7 @@ function enrichProduct(product: Product): Product {
         : getProductCardDescription(commerciallyCurated)
     ),
   };
-  const taxonomized = applyCommercialProductOverride(applyCatalogTaxonomy(normalized));
+  const taxonomized = applyCatalogTaxonomy(normalized);
 
   const visual = getProductVisual(taxonomized);
   const marketPricing = suggestPixPrice(
@@ -277,8 +283,8 @@ function enrichProduct(product: Product): Product {
     marketplaceSuggested: Math.max(pricing.referencePrice, priceCard),
     estimatedUnitCost: costBase,
     estimatedUnitProfit: profitAmount,
-    pricingMode: "faixa-auditada",
-    pricingNarrative: buildFixedMarginNarrative(costBase, pricePix),
+    pricingMode: taxonomized.pricingMode || "faixa-auditada",
+    pricingNarrative: taxonomized.pricingNarrative || buildFixedMarginNarrative(costBase, pricePix),
     marketBenchmark: marketPricing.benchmark,
   };
 }
