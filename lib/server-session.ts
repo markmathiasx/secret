@@ -44,15 +44,17 @@ async function getAuthJsSession(): Promise<ServerSession | null> {
       return null;
     }
 
-    if (await canConnectToDatabase()) {
+    if (!(await canConnectToDatabase())) return null;
+    {
       const currentUser = await prisma.user.findUnique({
         where: { email: session.user.email },
-        select: { isActive: true, passwordUpdatedAt: true },
+        select: { id: true, role: true, isActive: true, disabledAt: true, passwordUpdatedAt: true },
       });
 
-      if (!currentUser?.isActive) {
+      if (!currentUser?.isActive || currentUser.disabledAt || currentUser.id !== session.user.id) {
         return null;
       }
+      if (normalizeRole(currentUser.role.toLowerCase()) !== normalizeRole(session.user.role)) return null;
 
       if (
         currentUser.passwordUpdatedAt &&
@@ -101,17 +103,26 @@ async function getCookieSession(
     return null;
   }
 
-  if (await canConnectToDatabase()) {
+  if (source === "admin-cookie" && payload.role !== "admin") return null;
+  if (source === "customer-cookie" && payload.role !== "customer") return null;
+  const isEnvironmentAdmin = source === "admin-cookie" && payload.sub === "admin-env" &&
+    payload.email.toLowerCase() === adminConfig.email.toLowerCase() && Boolean(process.env.ADMIN_PASSWORD_HASH);
+  const databaseAvailable = await canConnectToDatabase();
+  if (!databaseAvailable && !isEnvironmentAdmin) return null;
+
+  if (databaseAvailable) {
     const currentUser = await prisma.user.findUnique({
       where: { email: payload.email },
-      select: { isActive: true, passwordUpdatedAt: true },
+      select: { id: true, role: true, isActive: true, disabledAt: true, passwordUpdatedAt: true },
     });
 
-    if (!currentUser?.isActive) {
+    if ((!currentUser && !isEnvironmentAdmin) || (currentUser && (!currentUser.isActive || currentUser.disabledAt))) {
       return null;
     }
 
-    if (currentUser.passwordUpdatedAt && payload.iat * 1000 < currentUser.passwordUpdatedAt.getTime()) {
+    if (!isEnvironmentAdmin && currentUser?.id !== payload.sub) return null;
+    if (source === "admin-cookie" && currentUser && currentUser.role !== "ADMIN") return null;
+    if (currentUser?.passwordUpdatedAt && payload.iat * 1000 < currentUser.passwordUpdatedAt.getTime()) {
       return null;
     }
   }
@@ -130,11 +141,6 @@ async function getCookieSession(
 }
 
 export async function getServerSession() {
-  const authJsSession = await getAuthJsSession();
-  if (authJsSession) {
-    return authJsSession;
-  }
-
   const adminSession = await getCookieSession(
     adminConfig.sessionCookieName,
     adminConfig.sessionSecret,
@@ -144,6 +150,9 @@ export async function getServerSession() {
   if (adminSession) {
     return adminSession;
   }
+
+  const authJsSession = await getAuthJsSession();
+  if (authJsSession) return authJsSession;
 
   return getCookieSession(
     customerSessionCookieName,

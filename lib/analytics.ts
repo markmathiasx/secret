@@ -1,4 +1,5 @@
 "use client";
+import { hasMarketingConsent } from "@/lib/marketing-consent";
 
 import { useEffect } from 'react';
 
@@ -86,6 +87,7 @@ function toGa4Item(product: AnalyticsProduct, quantity = 1, index?: number, item
 }
 
 export const trackEvent = (event: string, properties?: Record<string, unknown>) => {
+  if (!hasMarketingConsent()) return;
   if (typeof window !== 'undefined') {
     const safeProperties = sanitizeProperties(properties);
 

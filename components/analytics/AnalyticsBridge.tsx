@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { useMarketingConsent } from "@/lib/use-marketing-consent";
 import { trackCommerceEvent, type CommerceEventName, type CommerceEventPayload } from "@/lib/analytics/events";
 
 const metaPixelId = process.env.NEXT_PUBLIC_META_PIXEL_ID?.trim();
@@ -30,7 +31,9 @@ function appendScript(id: string, src: string) {
 }
 
 export function AnalyticsBridge() {
+  const consent = useMarketingConsent();
   useEffect(() => {
+    if (!consent) return;
     const analyticsWindow = window as AnalyticsWindow;
 
     window.mdhTrack = (eventName: CommerceEventName, payload?: CommerceEventPayload) => {
@@ -63,7 +66,7 @@ export function AnalyticsBridge() {
       };
       appendScript("mdh-clarity", `https://www.clarity.ms/tag/${clarityProjectId}`);
     }
-  }, []);
+  }, [consent]);
 
   return null;
 }

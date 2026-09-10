@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { ProductStatus, ProductVisibility } from "@prisma/client";
 import { applyNoStoreHeaders } from "@/lib/http-cache";
 import { getServerSessionUser, isAdminSession } from "@/lib/server-session";
-import { updateAdminCatalogProduct } from "@/lib/server/admin-catalog-store";
 import { canConnectToDatabase, prisma } from "@/lib/prisma";
 import { recordAdminAction } from "@/lib/admin-audit";
 import { invalidateCatalogCache } from "@/lib/runtime-cache";
@@ -24,7 +23,7 @@ const ADMIN_MONEY_LIMIT = 100000;
 const ADMIN_STOCK_LIMIT = 1000000;
 
 const NUMERIC_LIMITS: Record<string, { min: number; max: number; integer?: boolean }> = {
-  pricePix: { min: 0, max: ADMIN_MONEY_LIMIT },
+  pricePix: { min: 0.01, max: ADMIN_MONEY_LIMIT },
   priceCard: { min: 0, max: ADMIN_MONEY_LIMIT },
   stock: { min: 0, max: ADMIN_STOCK_LIMIT, integer: true },
   costBase: { min: 0, max: ADMIN_MONEY_LIMIT },
@@ -79,7 +78,8 @@ function cleanStringList(value: unknown, allowed?: readonly string[], maxItems =
 function readNumber(body: Record<string, unknown>, key: keyof NormalizedProductPatch) {
   if (!(key in body)) return undefined;
   const raw = body[key as string];
-  if (raw === null || raw === "") return null;
+  if (raw === null || (typeof raw === "string" && !raw.trim())) throw new Error(`Informe um valor para ${String(key)}.`);
+  if (typeof raw !== "string" && typeof raw !== "number") throw new Error(`Campo numérico inválido: ${String(key)}.`);
   const numberValue = typeof raw === "number" ? raw : Number(String(raw).replace(",", "."));
   const limits = NUMERIC_LIMITS[key as string];
   if (!Number.isFinite(numberValue) || !limits) {
@@ -232,7 +232,7 @@ async function applyDatabaseUpdate(id: string, patch: NormalizedProductPatch) {
       },
     });
 
-    if (!current) throw new Error("Produto não encontrado no banco.");
+    if (!current) throw new Error("PRODUCT_NOT_FOUND");
 
     let categoryId: string | undefined;
     if (patch.category !== undefined) {
@@ -326,22 +326,33 @@ async function applyDatabaseUpdate(id: string, patch: NormalizedProductPatch) {
   });
 }
 
-function fallbackPatchForOverrides(patch: NormalizedProductPatch): Partial<AdminProductOverride> {
-  const { visibility: _visibility, ...overridePatch } = patch;
-  return overridePatch;
-}
-
 import { revalidatePath } from "next/cache";
+
+async function refreshProductViews() {
+  try {
+    await invalidateCatalogCache();
+    revalidatePath("/catalogo");
+    revalidatePath("/catalogo/[slug]", "page");
+    revalidatePath("/catalog-data.json");
+    revalidatePath("/busca");
+    revalidatePath("/produto/[slug]", "page");
+    revalidatePath("/admin/products", "layout");
+    revalidatePath("/");
+    return null;
+  } catch {
+    return "Preço salvo no banco, mas a atualização do cache falhou. Não reenvie a alteração; confira a vitrine antes de divulgar.";
+  }
+}
 
 export async function PUT(req: NextRequest, context: RouteContext) {
   const user = await getServerSessionUser();
   if (!isAdminSession(user)) {
-    return NextResponse.json({ ok: false, error: "Unauthorized" }, { status: 401 });
+    return applyNoStoreHeaders(NextResponse.json({ ok: false, error: user ? "Sua conta não tem permissão para editar produtos." : "Sessão expirada. Entre novamente no admin." }, { status: user ? 403 : 401 }));
   }
 
   const { id } = await context.params;
   const body = await readJson(req);
-  if (!body || typeof body !== "object") {
+  if (!body || typeof body !== "object" || Array.isArray(body)) {
     return NextResponse.json({ ok: false, error: "Body inválido. Envie JSON com os campos do produto." }, { status: 400 });
   }
 
@@ -358,6 +369,7 @@ export async function PUT(req: NextRequest, context: RouteContext) {
   if (await canConnectToDatabase()) {
     try {
       const updated = await applyDatabaseUpdate(id, patch);
+      let auditWarning: string | null = null;
       await recordAdminAction({
         actorId: user?.id,
         actorEmail: user?.email,
@@ -374,127 +386,57 @@ export async function PUT(req: NextRequest, context: RouteContext) {
         requestId: req.headers.get("x-request-id"),
         ipAddress: req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip"),
         userAgent: req.headers.get("user-agent"),
-      });
-      await invalidateCatalogCache();
-      revalidatePath("/catalogo");
-      revalidatePath("/admin/products");
-      revalidatePath("/");
+      }).catch(() => { auditWarning = "Produto salvo, mas o registro de auditoria falhou. Verifique a operação."; });
+      const warning = (await refreshProductViews()) || auditWarning || (!["database", "prisma", "db"].includes((process.env.CATALOG_SOURCE || process.env.NEXT_PUBLIC_CATALOG_SOURCE || "static").toLowerCase()) ? "Salvo no banco. A vitrine está em catálogo estático: esta alteração exige reconciliação e publicação antes de aparecer ao cliente." : null);
       return applyNoStoreHeaders(
         NextResponse.json({
           ok: true,
           persisted: true,
           source: "database",
           message: "Produto atualizado no banco.",
+          warning,
           product: updated,
         })
       );
-    } catch {
-      // Fall through to catalog override for static/local products not present in the database.
+    } catch (error) {
+      const notFound = error instanceof Error && error.message === "PRODUCT_NOT_FOUND";
+      return applyNoStoreHeaders(NextResponse.json({
+        ok: false,
+        persisted: false,
+        code: notFound ? "PRODUCT_NOT_IN_DATABASE" : "DATABASE_UPDATE_FAILED",
+        error: notFound ? "Este produto não está no banco. Reconcilie o cadastro antes de editar o preço; nenhum arquivo foi alterado." : "Não foi possível salvar no banco. Nenhuma gravação alternativa foi feita. Tente novamente ou contate a operação.",
+      }, { status: notFound ? 404 : 503 }));
     }
   }
 
-  if (process.env.VERCEL === "1") {
+  {
     return applyNoStoreHeaders(
       NextResponse.json(
         {
           ok: false,
           code: "DATABASE_PERSISTENCE_REQUIRED",
           error:
-            "Este ambiente não permite persistência segura em arquivo. Configure o banco de produção para salvar preço e descrição.",
-          details: { productId: id, source: "vercel" },
+            "Banco indisponível ou não configurado. A edição exige persistência no banco; nenhum preço foi salvo em arquivo local.",
+          persisted: false,
         },
         { status: 503 }
       )
     );
   }
 
-  try {
-    const fallbackPatch = {
-      ...fallbackPatchForOverrides(patch),
-      costingUpdatedAt: new Date().toISOString(),
-    };
-    const updated = await updateAdminCatalogProduct(id, fallbackPatch);
-    await invalidateCatalogCache();
-    revalidatePath("/catalogo");
-    revalidatePath("/admin/products");
-    revalidatePath("/");
-    await recordAdminAction({
-      actorId: user?.id,
-      actorEmail: user?.email,
-      action: "admin.product.update_fallback",
-      entityType: "Product",
-      entityId: id,
-      summary: `Atualizou produto via fallback ${id}`,
-      metadata: fallbackPatch as Record<string, unknown>,
-      requestId: req.headers.get("x-request-id"),
-      ipAddress: req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip"),
-      userAgent: req.headers.get("user-agent"),
-    });
-    return applyNoStoreHeaders(
-      NextResponse.json({
-        ok: true,
-        persisted: true,
-        source: "safe-fallback",
-        message: "Produto atualizado no fallback local.",
-        product: updated,
-      })
-    );
-  } catch (error) {
-    return applyNoStoreHeaders(NextResponse.json(
-      {
-        ok: false,
-        code: "PRODUCT_UPDATE_FAILED",
-        error: error instanceof Error ? error.message : "Não foi possível salvar o produto.",
-      },
-      { status: 400 }
-    ));
-  }
 }
 
 export async function DELETE(_req: NextRequest, context: RouteContext) {
   const user = await getServerSessionUser();
-  if (!isAdminSession(user)) {
-    return NextResponse.json({ ok: false, error: "Unauthorized" }, { status: 401 });
-  }
-
+  if (!isAdminSession(user)) return applyNoStoreHeaders(NextResponse.json({ ok: false, error: "Não autorizado." }, { status: user ? 403 : 401 }));
   const { id } = await context.params;
-
-  if (await canConnectToDatabase()) {
-    try {
-      await prisma.product.update({
-        where: { id },
-        data: { visibility: "PRIVATE", updatedAt: new Date() },
-      });
-      await invalidateCatalogCache();
-      await recordAdminAction({
-        actorId: user?.id,
-        actorEmail: user?.email,
-        action: "admin.product.archive",
-        entityType: "Product",
-        entityId: id,
-        summary: `Arquivou produto ${id}`,
-        requestId: _req.headers.get("x-request-id"),
-        ipAddress: _req.headers.get("x-forwarded-for") || _req.headers.get("x-real-ip"),
-        userAgent: _req.headers.get("user-agent"),
-      });
-      return NextResponse.json({ ok: true });
-    } catch {
-      // Fall through
-    }
+  if (!(await canConnectToDatabase())) return applyNoStoreHeaders(NextResponse.json({ ok: false, persisted: false, error: "Banco indisponível. Nenhum produto foi arquivado." }, { status: 503 }));
+  try {
+    await prisma.product.update({ where: { id }, data: { visibility: "PRIVATE", updatedAt: new Date() } });
+  } catch {
+    return applyNoStoreHeaders(NextResponse.json({ ok: false, persisted: false, error: "Não foi possível arquivar no banco." }, { status: 503 }));
   }
-
-  await updateAdminCatalogProduct(id, { status: "Sob encomenda" });
-  await invalidateCatalogCache();
-  await recordAdminAction({
-    actorId: user?.id,
-    actorEmail: user?.email,
-    action: "admin.product.archive_fallback",
-    entityType: "Product",
-    entityId: id,
-    summary: `Arquivou produto via fallback ${id}`,
-    requestId: _req.headers.get("x-request-id"),
-    ipAddress: _req.headers.get("x-forwarded-for") || _req.headers.get("x-real-ip"),
-    userAgent: _req.headers.get("user-agent"),
-  });
-  return NextResponse.json({ ok: true });
+  const warning = await refreshProductViews();
+  await recordAdminAction({ actorId: user?.id, actorEmail: user?.email, action: "admin.product.archive", entityType: "Product", entityId: id, summary: `Arquivou produto ${id}` }).catch(() => undefined);
+  return applyNoStoreHeaders(NextResponse.json({ ok: true, persisted: true, warning: warning || "Arquivado no banco. Confira a publicação da vitrine antes de considerar o produto removido." }));
 }

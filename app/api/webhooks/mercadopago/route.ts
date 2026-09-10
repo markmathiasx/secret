@@ -1,252 +1,62 @@
 import { NextResponse } from "next/server";
-import { Prisma } from "@prisma/client";
 import { canConnectToDatabase, prisma } from "@/lib/prisma";
-import { updateOrderRecord } from "@/lib/storage";
+import { getMercadoPagoAccessToken, getMercadoPagoWebhookSecret } from "@/lib/env";
+import { isMercadoPagoSignatureFresh, verifyMercadoPagoSignature } from "@/lib/mercadopago";
+import { getMercadoPagoPayment } from "@/lib/payments";
+import { reconcilePayment } from "@/lib/server/reconcile-payment";
 import { sendMail } from "@/lib/mailer";
 import { paymentConfirmedHtml } from "@/lib/email-templates";
-import {
-  getMercadoPagoSignatureTimestamp,
-  isMercadoPagoSignatureFresh,
-  mapMercadoPagoPaymentStatus,
-  normalizeMercadoPagoError,
-  parseMercadoPagoSignature,
-  verifyMercadoPagoSignature,
-} from "@/lib/mercadopago";
-import { getMercadoPagoPayment } from "@/lib/payments";
 import { logStructured } from "@/lib/logger";
-import { getMercadoPagoAccessToken, getMercadoPagoWebhookSecret } from "@/lib/env";
-import { withRetry } from "@/lib/retry";
 
 export const runtime = "nodejs";
 
-function readWebhookSignature(request: Request) {
-  return request.headers.get("x-signature") || request.headers.get("x-mercadopago-signature") || "";
-}
-
-function getWebhookEventKey(topic: string, dataId: string, requestId: string, signature: string) {
-  const parsed = signature ? parseMercadoPagoSignature(signature) : {};
-  const ts = parsed.ts || "0";
-  return `${topic}:${dataId}:${requestId || ts}`;
-}
-
-function toJsonValue(value: unknown) {
-  return JSON.parse(JSON.stringify(value ?? {})) as Prisma.InputJsonValue;
-}
-
-async function markWebhookEventProcessed(orderCode: string, eventKey: string, payload: Record<string, unknown>) {
-  if (!(await canConnectToDatabase())) {
-    return;
-  }
-
-  const payment = await prisma.payment.findFirst({
-    where: {
-      externalReference: orderCode,
-    },
-    select: {
-      id: true,
-      metadata: true,
-    },
-  });
-
-  if (!payment) return;
-
-  const existingMetadata = (payment.metadata && typeof payment.metadata === "object" ? payment.metadata : {}) as Record<string, unknown>;
-  const processedIds = Array.isArray(existingMetadata.processedWebhookEventIds)
-    ? existingMetadata.processedWebhookEventIds.filter((item): item is string => typeof item === "string")
-    : [];
-
-  if (processedIds.includes(eventKey)) {
-    return;
-  }
-
-  await prisma.payment.update({
-    where: { id: payment.id },
-    data: {
-      metadata: {
-        ...existingMetadata,
-        lastWebhookAt: new Date().toISOString(),
-        rawLastPayload: toJsonValue(payload),
-        processedWebhookEventIds: [...processedIds, eventKey].slice(-25),
-      },
-    },
-  });
-}
-
 export async function POST(request: Request) {
   const secret = getMercadoPagoWebhookSecret();
-  if (!secret) {
-    return NextResponse.json(
-      {
-        ok: false,
-        message: "MERCADOPAGO_WEBHOOK_SECRET não configurado. Configure o secret antes de receber webhooks.",
-      },
-      { status: 503 }
-    );
+  if (!secret || !getMercadoPagoAccessToken()) {
+    return NextResponse.json({ ok: false }, { status: 503 });
   }
-
-  if (!getMercadoPagoAccessToken()) {
-    return NextResponse.json(
-      {
-        ok: false,
-        message: "MERCADOPAGO_ACCESS_TOKEN não configurado. O webhook precisa consultar o pagamento no Mercado Pago.",
-      },
-      { status: 503 }
-    );
-  }
-
-  const signature = readWebhookSignature(request);
+  const signature = request.headers.get("x-signature") || request.headers.get("x-mercadopago-signature") || "";
   const requestId = request.headers.get("x-request-id") || request.headers.get("x-mercadopago-request-id") || "";
   const url = new URL(request.url);
-  const payload = await request.json().catch(() => ({}));
-  const dataId =
-    url.searchParams.get("data.id") ||
-    url.searchParams.get("id") ||
-    String((payload as { data?: { id?: string | number } })?.data?.id || "");
-
-  if (!signature) {
-    return NextResponse.json({ ok: false, message: "Webhook sem assinatura." }, { status: 401 });
+  const payload = await request.json().catch(() => null);
+  const dataId = url.searchParams.get("data.id") || url.searchParams.get("id") || String(payload?.data?.id || "");
+  if (!dataId || !requestId || !isMercadoPagoSignatureFresh(signature) ||
+      !verifyMercadoPagoSignature({ secret, signature, requestId, dataId })) {
+    return NextResponse.json({ ok: false }, { status: 401 });
   }
-
-  const signatureTimestamp = getMercadoPagoSignatureTimestamp(signature);
-  if (!signatureTimestamp || !isMercadoPagoSignatureFresh(signature)) {
-    logStructured("warn", "mercadopago_webhook_signature_expired", {
-      requestId,
-      dataId,
-      signatureTimestamp,
-    });
-    return NextResponse.json({ ok: false, message: "Assinatura expirada." }, { status: 401 });
+  const topic = String(payload?.type || payload?.action || url.searchParams.get("type") || payload?.topic || "");
+  if (topic !== "payment" && !topic.startsWith("payment.")) {
+    return NextResponse.json({ ok: true, ignored: true });
   }
-
-  const validSignature = verifyMercadoPagoSignature({
-    secret,
-    signature,
-    requestId,
-    dataId,
-  });
-
-  if (!validSignature) {
-    return NextResponse.json({ ok: false, message: "Assinatura inválida." }, { status: 401 });
-  }
-
-  const topic = String(
-    (payload as { type?: string; action?: string; topic?: string })?.type ||
-      (payload as { type?: string; action?: string; topic?: string })?.action ||
-      (payload as { type?: string; action?: string; topic?: string })?.topic ||
-      "unknown"
-  );
-
-  if (!dataId || !topic.includes("payment")) {
-    return NextResponse.json({ ok: true, received: true, ignored: true, topic });
-  }
-
-  const eventKey = getWebhookEventKey(topic, dataId, requestId, signature);
-  const paymentResult = await getMercadoPagoPayment(dataId);
-
-  if (!paymentResult.ok) {
-    logStructured("warn", "mercadopago_webhook_payment_lookup_failed", {
-      topic,
-      dataId,
-      requestId,
-      reason: paymentResult.reason,
-    });
-    return NextResponse.json({ ok: true, received: true, ignored: true, topic, reason: paymentResult.reason });
-  }
-
-  const payment = paymentResult.payment;
-  const orderCode = String(payment.external_reference || "").trim().toUpperCase();
-
-  if (!orderCode) {
-    return NextResponse.json({ ok: true, received: true, ignored: true, topic, reason: "missing_external_reference" });
-  }
-
-  if (await canConnectToDatabase()) {
-    const existingPayment = await prisma.payment.findFirst({
-      where: {
-        OR: [{ externalReference: orderCode }, { providerPaymentId: String(payment.id) }],
-      },
-      select: { id: true, metadata: true, status: true },
-    });
-
-    const processedIds = Array.isArray((existingPayment?.metadata as Record<string, unknown> | null)?.processedWebhookEventIds)
-      ? ((existingPayment?.metadata as Record<string, unknown>)?.processedWebhookEventIds as unknown[]).filter((item): item is string => typeof item === "string")
-      : [];
-
-    if (processedIds.includes(eventKey)) {
-      return NextResponse.json({ ok: true, received: true, ignored: true, topic, orderCode, duplicate: true });
+  try {
+    const result = await getMercadoPagoPayment(dataId);
+    if (!result.ok || !(await canConnectToDatabase())) {
+      return NextResponse.json({ ok: false, retry: true }, { status: 503 });
     }
-  }
-
-  const mappedStatus = mapMercadoPagoPaymentStatus(payment.status, payment.status_detail);
-  const normalizedPaymentType = String(payment.payment_type_id || "").toLowerCase();
-  const normalizedPaymentMethod = String(payment.payment_method_id || "").toLowerCase();
-  const mappedPaymentMethod =
-    normalizedPaymentMethod === "pix"
-      ? "pix"
-      : normalizedPaymentType.includes("card") || normalizedPaymentMethod
-        ? "cartao"
-        : undefined;
-
-  // Retry order update — transient DB failures must not lose payment confirmations
-  const updated = await withRetry(
-    () =>
-      updateOrderRecord(orderCode, {
-        status: mappedStatus,
-        payment_method: mappedPaymentMethod,
-        payment_provider: "mercado-pago",
-        payment_reference: payment.id ? String(payment.id) : dataId,
-        payment_status: payment.status || "unknown",
-        payment_status_detail: payment.status_detail || null,
-        payment_approved_at: payment.date_approved || null,
-        payment_payload: payment,
-        updated_at: new Date().toISOString(),
-      }),
-    { maxAttempts: 3, baseDelayMs: 400 },
-  );
-
-  await markWebhookEventProcessed(orderCode, eventKey, payload as Record<string, unknown>);
-
-  if (payment.status === "approved" && await canConnectToDatabase()) {
-    try {
-      const order = await prisma.order.findFirst({
-        where: { orderNumber: orderCode },
-        select: {
-          customerEmail: true,
-          customerName: true,
-          grandTotal: true,
-          items: { select: { title: true }, take: 1 },
-        },
-      });
-      if (order?.customerEmail) {
-        void sendMail({
-          to: order.customerEmail,
-          subject: `Pagamento confirmado — Pedido ${orderCode}`,
-          html: paymentConfirmedHtml({
-            orderCode,
-            customerName: order.customerName ?? "Cliente",
-            productName: order.items[0]?.title ?? "Produto MDH 3D",
-            totalPix: Number(order.grandTotal),
-          }),
-        }).catch((error) => {
-          logStructured("warn", "mercadopago_webhook_email_failed", {
-            orderCode,
-            message: normalizeMercadoPagoError(error).message,
-          });
-        });
-      }
-    } catch (error) {
-      logStructured("warn", "mercadopago_webhook_email_lookup_failed", {
-        orderCode,
-        message: normalizeMercadoPagoError(error).message,
-      });
+    if (String(result.payment.id) !== dataId) {
+      return NextResponse.json({ ok: false }, { status: 409 });
     }
+    const reconciled = await prisma.$transaction(
+      (transaction) => reconcilePayment(transaction, result.payment),
+      { isolationLevel: "Serializable" },
+    );
+    if (reconciled.notify && reconciled.order.customerEmail) {
+      await sendMail({
+        to: reconciled.order.customerEmail,
+        subject: `Pagamento confirmado — Pedido ${reconciled.order.orderNumber}`,
+        html: paymentConfirmedHtml({
+          orderCode: reconciled.order.orderNumber,
+          customerName: reconciled.order.customerName || "Cliente",
+          productName: "Pedido MDH 3D",
+          totalPix: Number(reconciled.order.grandTotal),
+        }),
+      }).catch(() => logStructured("warn", "payment_confirmation_email_failed", { orderCode: reconciled.order.orderNumber }));
+    }
+    return NextResponse.json({ ok: true, duplicate: reconciled.duplicate });
+  } catch (error) {
+    logStructured("warn", "payment_reconciliation_failed", {
+      reason: error instanceof Error ? error.message : "unknown",
+    });
+    return NextResponse.json({ ok: false, retry: true }, { status: 503 });
   }
-
-  return NextResponse.json({
-    ok: true,
-    received: true,
-    topic,
-    orderCode,
-    status: mappedStatus,
-    updated: updated.ok,
-  });
 }

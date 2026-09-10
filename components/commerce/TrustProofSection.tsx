@@ -4,8 +4,8 @@ import { socialLinks, whatsappNumber } from "@/lib/constants";
 
 const items = [
   { title: "Contato real", text: `WhatsApp +${whatsappNumber}`, icon: ShieldCheck },
-  { title: "Preço legível", text: "Pix no card e cartão sempre Pix + R$ 1.", icon: CreditCard },
-  { title: "Prazo por produto", text: "Cada card mostra janela de produção antes do contato.", icon: Clock3 },
+  { title: "Preço explicado", text: "Confira o preço no Pix e no cartão antes de confirmar.", icon: CreditCard },
+  { title: "Prazo por produto", text: "Consulte o tempo de produção e o prazo de transporte.", icon: Clock3 },
   { title: "Produção local RJ", text: "Atendimento humano para urgência, cor, material e retirada/envio.", icon: Truck },
 ];
 
@@ -15,13 +15,13 @@ export function TrustProofSection() {
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-4 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
           <div>
-            <h2 className="text-2xl font-black text-white sm:text-3xl">Por que confiar antes de comprar</h2>
+            <h2 className="text-2xl font-semibold text-white sm:text-3xl">Você sabe com quem está comprando.</h2>
             <p className="mt-3 max-w-xl text-sm leading-7 text-white/62">
-              A MDH 3D evita pedido confuso: produto real do catálogo, preço visível, regra de cartão simples, prazo explicado e canal humano.
+              Do primeiro contato ao pós-venda, encontre as informações do pedido e os canais da nossa equipe no mesmo lugar.
             </p>
             <div className="mt-5 flex flex-wrap gap-3">
               <Link href="/trocas-e-devolucoes" className="btn-secondary px-4 py-2 text-sm">Trocas e devoluções</Link>
-              <a href={socialLinks.instagram} target="_blank" rel="noreferrer" className="btn-secondary px-4 py-2 text-sm">Instagram correto</a>
+              <a href={socialLinks.instagram} target="_blank" rel="noreferrer" className="btn-secondary px-4 py-2 text-sm">Conheça nosso trabalho</a>
             </div>
           </div>
           <div className="grid gap-3 sm:grid-cols-2">

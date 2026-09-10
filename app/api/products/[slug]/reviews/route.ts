@@ -1,3 +1,4 @@
+import { getServerSessionUser } from "@/lib/server-session";
 import { NextResponse } from "next/server";
 import { OrderStatus } from "@prisma/client";
 import { z } from "zod";
@@ -18,12 +19,12 @@ const postSchema = z.object({
 
 type Params = { params: Promise<{ slug: string }> };
 
-async function hasVerifiedPurchase(productId: string, productSku: string, authorEmail?: string) {
-  if (!authorEmail) return false;
+async function hasVerifiedPurchase(productId: string, productSku: string, buyerId?: string) {
+  if (!buyerId) return false;
 
   const order = await prisma.order.findFirst({
     where: {
-      customerEmail: { equals: authorEmail, mode: "insensitive" },
+      buyerId,
       status: {
         in: [OrderStatus.PAID, OrderStatus.PRINTING, OrderStatus.READY_TO_SHIP, OrderStatus.SHIPPED, OrderStatus.DELIVERED],
       },
@@ -120,12 +121,13 @@ export async function POST(req: Request, { params }: Params) {
   }
 
   try {
-    const verifiedPurchase = await hasVerifiedPurchase(product.id, product.sku, parsed.data.authorEmail?.trim());
+    const user = await getServerSessionUser();
+    const verifiedPurchase = await hasVerifiedPurchase(product.id, product.sku, user?.id);
     const review = await prisma.catalogReview.create({
       data: {
         catalogSku: product.sku,
         authorName: parsed.data.authorName,
-        authorEmail: parsed.data.authorEmail,
+        authorEmail: user?.email || parsed.data.authorEmail,
         rating: parsed.data.rating,
         title: parsed.data.title,
         body: parsed.data.body,

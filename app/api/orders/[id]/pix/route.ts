@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { makePixPayload } from '@/lib/pix';
 import QRCode from 'qrcode';
+import { canAccessOrder } from '@/lib/server/order-authorization';
+import { getPixKey } from '@/lib/env';
 
 export async function POST(req: NextRequest, context: { params: Promise<{ id: string }> }) {
   const { id } = await context.params;
@@ -15,6 +17,20 @@ export async function POST(req: NextRequest, context: { params: Promise<{ id: st
 
     if (!order) {
       return NextResponse.json({ error: 'Order not found' }, { status: 404 });
+    }
+
+    if (!(await canAccessOrder(order))) {
+      return NextResponse.json({ error: 'Sem acesso ao pedido.' }, { status: 403 });
+    }
+    if (order.status !== 'PENDING_PAYMENT') {
+      return NextResponse.json({ error: 'Pedido indisponível para pagamento.' }, { status: 409 });
+    }
+    if (!getPixKey()) {
+      return NextResponse.json({ error: 'Pix indisponível. Consulte o atendimento.' }, { status: 503 });
+    }
+    const onlinePayment = await prisma.payment.findFirst({ where: { orderId, provider: { not: 'MANUAL' } } });
+    if (onlinePayment) {
+      return NextResponse.json({ error: 'Consulte o pagamento existente antes de gerar outro Pix.' }, { status: 409 });
     }
 
     // Generate PIX payload
@@ -74,7 +90,7 @@ export async function POST(req: NextRequest, context: { params: Promise<{ id: st
   } catch (err: any) {
     console.error('Error generating PIX:', err);
     return NextResponse.json(
-      { error: 'Failed to generate PIX', details: err.message },
+      { error: 'Não foi possível gerar o Pix.' },
       { status: 500 }
     );
   }

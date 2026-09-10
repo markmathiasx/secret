@@ -1,230 +1,28 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { Fragment, startTransition, useDeferredValue, useEffect, useMemo, useState } from 'react';
-import {
-  BadgeCheck,
-  ChevronRight,
-  Clock3,
-  Copy,
-  Filter,
-  Heart,
-  History,
-  MessageCircleMore,
-  RotateCcw,
-  ShoppingCart,
-  Sparkles,
-  Target,
-} from 'lucide-react';
-import { useCart } from '@/lib/cart-context';
-import type { Product } from '@/lib/catalog';
-import { getProductUrl } from '@/lib/product-routing';
-import { getProductSearchScore } from '@/lib/catalog-content';
-import { ProductImageGallery } from '@/components/product-image-gallery';
-import { ProductPriceStack } from '@/components/product-price-stack';
-import { ProductVisualBadge } from '@/components/product-visual-authenticity';
-import { isProductRealPhoto, isProductVisualVerified } from '@/lib/product-visuals';
-import { formatCurrency } from '@/lib/utils';
-import {
-  trackBackToCatalogRestored,
-  trackAddToCart,
-  trackCatalogPageChange,
-  trackFilterApplied,
-  trackSelectItem,
-  trackViewItemList,
-  trackWhatsAppClick,
-} from '@/lib/analytics';
+import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useMemo, useState, type FormEvent } from "react";
+import { ArrowRight, Check, Copy, Heart, Search, ShoppingBag, X } from "lucide-react";
+import type { Product } from "@/lib/catalog";
+import { getProductUrl } from "@/lib/product-routing";
+import { getProductSearchScore } from "@/lib/catalog-content";
+import { matchesCatalogFacets, matchesCatalogGroup, readCatalogFacets, getCatalogGameIdentity, parseCatalogPrice } from "@/lib/catalog-filters";
+import { SafeProductImage } from "@/components/safe-product-image";
+import { ProductPriceStack } from "@/components/product-price-stack";
+import { getProductImageCandidates, getProductImageAlt } from "@/lib/product-images";
+import { isProductRealPhoto, isProductVisualVerified } from "@/lib/product-visuals";
+import { useCart } from "@/lib/cart-context";
+import { trackAddToCart, trackSelectItem } from "@/lib/analytics";
 
-const PAGE_SIZE = 18;
-const FAVORITES_KEY = 'mdh_catalog_favorites';
-const RECENT_KEY = 'mdh_catalog_recent';
-const RECENT_SEARCHES_KEY = 'mdh_catalog_recent_searches';
-const SAVED_VIEWS_KEY = 'mdh_catalog_saved_views';
-const RETURN_STATE_KEY = 'mdh_catalog_return_state';
-const ORDER_OPTIONS = ['Mais Recentes', 'Preço', 'Nome', 'Destaques', 'Menor prazo'] as const;
-const PURCHASE_INTENTS = ['Geral', 'Compra rápida', 'Economia', 'Presente', 'Atacado'] as const;
-
-type CatalogAvailability = 'Todos' | Product['status'];
-type PurchaseIntent = (typeof PURCHASE_INTENTS)[number];
-type CatalogOrder = (typeof ORDER_OPTIONS)[number];
-type VisualMode = 'all' | 'verified' | 'real';
-type SavedCatalogView = {
-  id: string;
-  label: string;
-  path: string;
-  count: number;
-};
-
-function sanitizeOption(value: string | undefined, options: string[]) {
-  return value && options.includes(value) ? value : 'Todas';
-}
-
-function sanitizeAvailability(value: CatalogAvailability | undefined): CatalogAvailability {
-  return value === 'Pronta entrega' || value === 'Sob encomenda' ? value : 'Todos';
-}
-
-function sanitizeVisualMode(value: string | undefined): VisualMode {
-  return value === 'verified' || value === 'real' ? value : 'all';
-}
-
-function sanitizePurchaseIntent(value: string | undefined): PurchaseIntent {
-  return PURCHASE_INTENTS.includes(value as PurchaseIntent) ? (value as PurchaseIntent) : 'Geral';
-}
-
-function sanitizeOrder(value: string | undefined): CatalogOrder {
-  return ORDER_OPTIONS.includes(value as CatalogOrder) ? (value as CatalogOrder) : 'Mais Recentes';
-}
-
-function sanitizeMaterial(value: string | undefined, materialOptions: string[]) {
-  return value && materialOptions.includes(value) ? value : 'Todos';
-}
-
-function clampRangeValue(value: number | undefined, min: number, max: number) {
-  if (!Number.isFinite(value)) return undefined;
-  return Math.min(max, Math.max(min, Number(value)));
-}
-
-function parseMinProductionDays(windowLabel: string) {
-  const values = [...windowLabel.matchAll(/\d+/g)].map((match) => Number(match[0])).filter(Number.isFinite);
-  return values.length ? Math.min(...values) : 7;
-}
-
-function getQuantityDiscount(quantity: number) {
-  if (quantity >= 20) return 0.15;
-  if (quantity >= 10) return 0.1;
-  if (quantity >= 5) return 0.05;
-  return 0;
-}
-
-function getStockUrgency(product: Product) {
-  if (product.readyToShip && product.stock <= 2) return 'Últimas unidades';
-  if (product.readyToShip && product.stock <= 5) return 'Estoque enxuto';
-  if (!product.readyToShip && parseMinProductionDays(product.productionWindow) <= 2) return 'Produção rápida';
-  return '';
-}
-
-function buildWhatsAppQuote(product: Product, quantity: number) {
-  const message = `Oi! Quero fechar ${quantity}x ${product.name} (${product.sku}).`;
-  return `https://wa.me/5521974137662?text=${encodeURIComponent(message)}`;
-}
-
-function buildSelectionWhatsApp(items: Product[], quantity: number) {
-  const shortlist = items.slice(0, 6);
-  const lines = shortlist.map((item, index) => `${index + 1}. ${item.name} (${item.sku}) - ${formatCurrency(item.pricePix)}`);
-  const message = [
-    `Oi! Quero revisar esta seleção da MDH 3D para ${quantity} unidade(s):`,
-    ...lines,
-    'Pode me ajudar a fechar a melhor opção?',
-  ].join('\n');
-  return `https://wa.me/5521974137662?text=${encodeURIComponent(message)}`;
-}
-
-function buildFavoritesWhatsApp(items: Product[]) {
-  const shortlist = items.slice(0, 8);
-  const lines = shortlist.map((item, index) => `${index + 1}. ${item.name} (${item.sku})`);
-  const message = [
-    'Oi! Quero revisar meus favoritos da MDH 3D:',
-    ...lines,
-    'Pode me orientar sobre prazo, material e melhor fechamento?',
-  ].join('\n');
-  return `https://wa.me/5521974137662?text=${encodeURIComponent(message)}`;
-}
-
-function shouldIgnoreCardActivation(target: EventTarget | null) {
-  return target instanceof Element && Boolean(target.closest("a, button, input, select, textarea, [role='button'], [data-card-interactive='true']"));
-}
-
-function getVisiblePagination(currentPage: number, totalPages: number) {
-  if (totalPages <= 7) {
-    return Array.from({ length: totalPages }, (_, index) => index + 1);
-  }
-
-  const pages = new Set<number>([1, totalPages, currentPage, currentPage - 1, currentPage + 1]);
-  const ordered = [...pages].filter((page) => page >= 1 && page <= totalPages).sort((a, b) => a - b);
-  const output: Array<number | string> = [];
-
-  ordered.forEach((page, index) => {
-    output.push(page);
-    const next = ordered[index + 1];
-    if (next && next - page > 1) {
-      output.push(`ellipsis-${page}`);
-    }
-  });
-
-  return output;
-}
-
-function safeReadIds(key: string) {
-  if (typeof window === 'undefined') return [] as string[];
-  try {
-    const raw = window.localStorage.getItem(key);
-    const parsed = raw ? JSON.parse(raw) : [];
-    return Array.isArray(parsed) ? parsed.filter((value) => typeof value === 'string') : [];
-  } catch {
-    return [] as string[];
-  }
-}
-
-function saveIds(key: string, value: string[]) {
-  if (typeof window !== 'undefined') {
-    window.localStorage.setItem(key, JSON.stringify(value));
-  }
-}
-
-function safeReadViews() {
-  if (typeof window === 'undefined') return [] as SavedCatalogView[];
-  try {
-    const raw = window.localStorage.getItem(SAVED_VIEWS_KEY);
-    const parsed = raw ? JSON.parse(raw) : [];
-    if (!Array.isArray(parsed)) return [] as SavedCatalogView[];
-    return parsed.filter((item) =>
-      item &&
-      typeof item === 'object' &&
-      typeof item.id === 'string' &&
-      typeof item.label === 'string' &&
-      typeof item.path === 'string' &&
-      typeof item.count === 'number'
-    ) as SavedCatalogView[];
-  } catch {
-    return [] as SavedCatalogView[];
-  }
-}
-
-function saveViews(value: SavedCatalogView[]) {
-  if (typeof window !== 'undefined') {
-    window.localStorage.setItem(SAVED_VIEWS_KEY, JSON.stringify(value));
-  }
-}
-
-function sanitizePage(value: number | undefined) {
-  return Number.isFinite(value) && value && value > 0 ? Math.floor(value) : 1;
-}
-
-export function CatalogExplorer({
-  products,
-  basePath = '/catalogo',
-  initialQuery = '',
-  initialCategory = 'Todas',
-  initialCollection = 'Todas',
-  initialVisualMode = 'all',
-  initialAvailability = 'Todos',
-  initialMaterial = 'Todos',
-  initialIntent = 'Geral',
-  initialOrder = 'Mais Recentes',
-  initialCustomizableOnly = false,
-  initialPriceMin,
-  initialPriceMax,
-  prioritizeInitialImages = false,
-  initialPage = 1,
-}: {
+type Props = {
   products: Product[];
   basePath?: string;
   initialQuery?: string;
   initialCategory?: string;
   initialCollection?: string;
-  initialVisualMode?: VisualMode;
-  initialAvailability?: CatalogAvailability;
+  initialVisualMode?: "all" | "verified" | "real";
+  initialAvailability?: string;
   initialMaterial?: string;
   initialIntent?: string;
   initialOrder?: string;
@@ -233,1448 +31,170 @@ export function CatalogExplorer({
   initialPriceMax?: number;
   prioritizeInitialImages?: boolean;
   initialPage?: number;
-}) {
+};
+const PAGE_SIZE = 18;
+const FAVORITES_KEY = "mdh_catalog_favorites";
+const labels: Record<string, string> = { type: "Tipo", style: "Estilo", universe: "Universo", character: "Personagem", useCase: "Uso", category: "Categoria", collection: "Coleção", custom: "Personalizáveis", min: "Preço mínimo", max: "Preço máximo", q: "Busca", material: "Material", status: "Disponibilidade", favorites: "Favoritos", mode: "Imagem", intent: "Finalidade" };
+const displayValues: Record<string, string> = { keychain: "Chaveiros", chibi: "Chibis", home: "Casa", games: "Games", "league-of-legends": "League of Legends", valorant: "Valorant", "1": "Sim" };
+
+export function CatalogExplorer(props: Props) {
+  return <Suspense fallback={<p role="status">Carregando filtros…</p>}><Explorer {...props} /></Suspense>;
+}
+
+function Explorer({ products, basePath = "/catalogo", ...defaults }: Props) {
   const router = useRouter();
-  const { addItem: addToCart } = useCart();
-
-  function openProduct(product: Product) {
-    addRecent(product.id);
-    trackSelectItem(product, 'Catalogo', (currentPage - 1) * PAGE_SIZE + visibleItems.findIndex((item) => item.id === product.id));
-    saveCatalogReturnState(product.id);
-    router.push(buildProductHref(product));
-  }
-
-  function compareBySelectedOrder(a: Product, b: Product, selectedOrder: CatalogOrder) {
-    if (selectedOrder === 'Preço') return a.pricePix - b.pricePix;
-    if (selectedOrder === 'Nome') return a.name.localeCompare(b.name);
-    if (selectedOrder === 'Destaques') {
-      return Number(b.featured) - Number(a.featured) || Number(isProductVisualVerified(b)) - Number(isProductVisualVerified(a)) || a.pricePix - b.pricePix;
-    }
-    if (selectedOrder === 'Menor prazo') return parseMinProductionDays(a.productionWindow) - parseMinProductionDays(b.productionWindow);
-    return b.id.localeCompare(a.id);
-  }
-
-  const priceLimits = useMemo(() => {
-    const values = products.map((item) => item.pricePix);
-    const min = Math.max(10, Math.floor(Math.min(...values) / 10) * 10);
-    const max = Math.max(120, Math.ceil(Math.max(...values) / 10) * 10);
-    return { min, max };
-  }, [products]);
-  const categoryOptions = useMemo(() => ['Todas', ...new Set(products.map((item) => item.category))], [products]);
-  const collectionOptions = useMemo(() => ['Todas', ...new Set(products.map((item) => item.collection))], [products]);
-
-  const economyThreshold = useMemo(() => {
-    const sorted = [...products].sort((a, b) => a.pricePix - b.pricePix);
-    const index = Math.max(0, Math.floor(sorted.length * 0.35) - 1);
-    return sorted[index]?.pricePix ?? priceLimits.max;
-  }, [priceLimits.max, products]);
-
-  const materialOptions = useMemo(() => ['Todos', ...new Set(products.map((item) => item.material))], [products]);
-
-  const [query, setQuery] = useState(initialQuery);
-  const [category, setCategory] = useState(sanitizeOption(initialCategory, categoryOptions));
-  const [collection, setCollection] = useState(sanitizeOption(initialCollection, collectionOptions));
-  const [availability, setAvailability] = useState<CatalogAvailability>(sanitizeAvailability(initialAvailability));
-  const [visualMode, setVisualMode] = useState<VisualMode>(sanitizeVisualMode(initialVisualMode));
-  const [selectedMaterial, setSelectedMaterial] = useState('Todos');
-  const [purchaseIntent, setPurchaseIntent] = useState<PurchaseIntent>('Geral');
-  const [customizableOnly, setCustomizableOnly] = useState(initialCustomizableOnly);
-  const [order, setOrder] = useState<CatalogOrder>('Mais Recentes');
-  const [priceRange, setPriceRange] = useState<[number, number]>([priceLimits.min, priceLimits.max]);
-  const [quantity, setQuantity] = useState(1);
-  const [page, setPage] = useState(sanitizePage(initialPage));
-  const [pageInput, setPageInput] = useState(String(sanitizePage(initialPage)));
-  const [favoriteIds, setFavoriteIds] = useState<string[]>([]);
-  const [recentIds, setRecentIds] = useState<string[]>([]);
-  const [recentSearches, setRecentSearches] = useState<string[]>([]);
-  const [savedViews, setSavedViews] = useState<SavedCatalogView[]>([]);
-  const [compareIds, setCompareIds] = useState<string[]>([]);
-  const [shareCopied, setShareCopied] = useState(false);
-  const deferredQuery = useDeferredValue(query);
-
+  const searchParams = useSearchParams();
+  const searchKey = searchParams.toString();
+  const { addItem } = useCart();
+  const [favorites, setFavorites] = useState<string[]>([]);
+  const [copied, setCopied] = useState(false);
+  const [added, setAdded] = useState("");
+  const [filtersOpen, setFiltersOpen] = useState(false);
+  const [query, setQuery] = useState(searchParams.get("q") ?? defaults.initialQuery ?? "");
+  useEffect(() => { setQuery(searchParams.get("q") ?? defaults.initialQuery ?? ""); }, [searchParams, defaults.initialQuery]);
   useEffect(() => {
-    setFavoriteIds(safeReadIds(FAVORITES_KEY));
-    setRecentIds(safeReadIds(RECENT_KEY));
-    setRecentSearches(safeReadIds(RECENT_SEARCHES_KEY));
-    setSavedViews(safeReadViews());
+    setFiltersOpen(window.matchMedia("(min-width: 1001px)").matches);
+    try {
+      const stored: unknown = JSON.parse(localStorage.getItem(FAVORITES_KEY) || "[]");
+      if (Array.isArray(stored)) setFavorites(stored.filter((value): value is string => typeof value === "string"));
+    } catch {}
   }, []);
-
   useEffect(() => {
-    saveIds(FAVORITES_KEY, favoriteIds);
-  }, [favoriteIds]);
+    if (!added) return;
+    const timer = window.setTimeout(() => setAdded(""), 2500);
+    return () => window.clearTimeout(timer);
+  }, [added]);
 
-  useEffect(() => {
-    saveIds(RECENT_KEY, recentIds);
-  }, [recentIds]);
-
-  useEffect(() => {
-    saveIds(RECENT_SEARCHES_KEY, recentSearches);
-  }, [recentSearches]);
-
-  useEffect(() => {
-    saveViews(savedViews);
-  }, [savedViews]);
-
-  useEffect(() => {
-    const minValue = clampRangeValue(initialPriceMin, priceLimits.min, priceLimits.max) ?? priceLimits.min;
-    const maxValue = clampRangeValue(initialPriceMax, priceLimits.min, priceLimits.max) ?? priceLimits.max;
-
-    setQuery(initialQuery);
-    setCategory(sanitizeOption(initialCategory, categoryOptions));
-    setCollection(sanitizeOption(initialCollection, collectionOptions));
-    setVisualMode(sanitizeVisualMode(initialVisualMode));
-    setAvailability(sanitizeAvailability(initialAvailability));
-    setSelectedMaterial(sanitizeMaterial(initialMaterial, materialOptions));
-    setPurchaseIntent(sanitizePurchaseIntent(initialIntent));
-    setOrder(sanitizeOrder(initialOrder));
-    setCustomizableOnly(initialCustomizableOnly);
-    setPriceRange([Math.min(minValue, maxValue), Math.max(minValue, maxValue)]);
-    setPage(sanitizePage(initialPage));
-  }, [
-    initialAvailability,
-    initialCategory,
-    initialCollection,
-    initialCustomizableOnly,
-    initialIntent,
-    initialMaterial,
-    initialOrder,
-    initialPage,
-    initialPriceMax,
-    initialPriceMin,
-    initialQuery,
-    initialVisualMode,
-    categoryOptions,
-    collectionOptions,
-    materialOptions,
-    priceLimits.max,
-    priceLimits.min,
-  ]);
-
-  useEffect(() => {
-    if (typeof window === 'undefined' || !window.location.search) return;
-
-    const params = new URLSearchParams(window.location.search);
-    const minValue = clampRangeValue(Number(params.get('min')), priceLimits.min, priceLimits.max) ?? priceLimits.min;
-    const maxValue = clampRangeValue(Number(params.get('max')), priceLimits.min, priceLimits.max) ?? priceLimits.max;
-
-    setQuery(params.get('q')?.trim() || '');
-    setCategory(sanitizeOption(params.get('category') || undefined, categoryOptions));
-    setCollection(sanitizeOption(params.get('collection') || undefined, collectionOptions));
-    setVisualMode(sanitizeVisualMode(params.get('mode') || undefined));
-    setAvailability(sanitizeAvailability((params.get('status') || undefined) as CatalogAvailability | undefined));
-    setSelectedMaterial(sanitizeMaterial(params.get('material') || undefined, materialOptions));
-    setPurchaseIntent(sanitizePurchaseIntent(params.get('intent') || undefined));
-    setOrder(sanitizeOrder(params.get('sort') || undefined));
-    setCustomizableOnly(params.get('custom') === '1');
-    setPriceRange([Math.min(minValue, maxValue), Math.max(minValue, maxValue)]);
-    setPage(sanitizePage(Number(params.get('page'))));
-  }, [categoryOptions, collectionOptions, materialOptions, priceLimits.max, priceLimits.min]);
-
+  const facets = readCatalogFacets(searchParams);
+  const category = searchParams.get("category") ?? defaults.initialCategory ?? "Todas";
+  const collection = searchParams.get("collection") ?? defaults.initialCollection ?? "Todas";
+  const intent = searchParams.get("intent") ?? defaults.initialIntent ?? "";
+  const material = searchParams.get("material") ?? defaults.initialMaterial ?? "Todos";
+  const availability = searchParams.get("status") ?? defaults.initialAvailability ?? "Todos";
+  const mode = searchParams.get("mode") ?? defaults.initialVisualMode ?? "all";
+  const sort = searchParams.get("sort") ?? defaults.initialOrder ?? "Destaques";
+  const term = searchParams.get("q") ?? defaults.initialQuery ?? "";
+  const minPrice = parseCatalogPrice(searchParams.get("min") ?? searchParams.get("minPrice")) ?? defaults.initialPriceMin;
+  const maxPrice = parseCatalogPrice(searchParams.get("max") ?? searchParams.get("maxPrice")) ?? defaults.initialPriceMax;
+  const custom = searchParams.has("custom") ? searchParams.get("custom") === "1" : defaults.initialCustomizableOnly;
+  const categories = [...new Set(products.map((product) => product.category))];
+  const universes = [...new Set(products.map((product) => getCatalogGameIdentity(product).universe).filter(Boolean))];
+  const characters = [...new Set(products.flatMap((product) => {
+    const identity = getCatalogGameIdentity(product);
+    return !facets.universe || facets.universe === identity.universe ? identity.characters : [];
+  }))];
+  const materials = [...new Set(products.map((product) => product.material).filter(Boolean))];
   const filtered = useMemo(() => {
-    const normalizedQuery = deferredQuery.trim();
-    let items = products
-      .map((item) => {
-        const searchScore = normalizedQuery ? getProductSearchScore(item, normalizedQuery) : 1;
-        return { item, searchScore };
-      })
-      .filter(({ item, searchScore }) => {
-      const matchQuery = !normalizedQuery || searchScore > 0;
-      const matchCategory = category === 'Todas' || item.category === category;
-      const matchCollection = collection === 'Todas' || item.collection === collection;
-      const matchAvailability = availability === 'Todos' || item.status === availability;
-      const matchPrice = item.pricePix >= priceRange[0] && item.pricePix <= priceRange[1];
-      const matchVisual =
-        visualMode === 'all' ? true : visualMode === 'real' ? isProductRealPhoto(item) : isProductVisualVerified(item);
-      const matchMaterial = selectedMaterial === 'Todos' || item.material === selectedMaterial;
-      const matchCustomizable = !customizableOnly || item.customizable;
-
-      let matchIntent = true;
-      if (purchaseIntent === 'Compra rápida') {
-        matchIntent = item.readyToShip || parseMinProductionDays(item.productionWindow) <= 2;
-      } else if (purchaseIntent === 'Economia') {
-        matchIntent = item.pricePix <= economyThreshold;
-      } else if (purchaseIntent === 'Presente') {
-        matchIntent = item.category === 'Presentes Criativos' || item.tags.some((tag) => tag.toLowerCase().includes('presente'));
-      } else if (purchaseIntent === 'Atacado') {
-        matchIntent = item.customizable || item.category === 'Utilidades Reais' || item.category === 'Setup & Organização';
-      }
-
-      return matchQuery && matchCategory && matchCollection && matchAvailability && matchPrice && matchVisual && matchMaterial && matchCustomizable && matchIntent;
+    const params = new URLSearchParams(searchKey);
+    const activeFacets = readCatalogFacets(params);
+    const matched = products.map((product) => ({ product, score: term.trim() ? getProductSearchScore(product, term.trim()) : 1 })).filter(({ product, score }) =>
+      score > 0 &&
+      matchesCatalogGroup(product, category, "category") &&
+      matchesCatalogGroup(product, collection, "collection") &&
+      (!intent || (product.buyingIntents || []).some((value) => value === intent)) &&
+      matchesCatalogFacets(product, activeFacets) &&
+      (material === "Todos" || material === product.material) &&
+      (availability === "Todos" || availability === product.status) &&
+      (minPrice === undefined || product.pricePix >= minPrice) &&
+      (maxPrice === undefined || product.pricePix <= maxPrice) &&
+      (!custom || product.customizable) &&
+      (params.get("favorites") !== "1" || favorites.includes(product.id)) &&
+      (mode === "all" || (mode === "real" ? isProductRealPhoto(product) : isProductVisualVerified(product)))
+    );
+    matched.sort((left, right) => {
+      if (term && left.score !== right.score) return right.score - left.score;
+      if (sort === "Preço" || sort === "Menor preço") return left.product.pricePix - right.product.pricePix;
+      if (sort === "Maior preço") return right.product.pricePix - left.product.pricePix;
+      if (sort === "Nome") return left.product.name.localeCompare(right.product.name, "pt-BR");
+      if (sort === "Menor prazo") return Number(left.product.productionWindow.match(/\d+/)?.[0] || 999) - Number(right.product.productionWindow.match(/\d+/)?.[0] || 999);
+      if (sort === "Mais Recentes") return right.product.id.localeCompare(left.product.id);
+      return Number(right.product.featured) - Number(left.product.featured);
     });
-
-    items = items.sort((left, right) => {
-      if (normalizedQuery && right.searchScore !== left.searchScore) {
-        return right.searchScore - left.searchScore;
-      }
-      return compareBySelectedOrder(left.item, right.item, order);
-    });
-
-    return items.map(({ item }) => item);
-  }, [products, deferredQuery, category, collection, availability, priceRange, visualMode, selectedMaterial, customizableOnly, purchaseIntent, economyThreshold, order]);
-
+    return matched.map(({ product }) => product);
+  }, [products, searchKey, term, category, collection, intent, material, availability, minPrice, maxPrice, custom, mode, favorites, sort]);
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
-  const currentPage = Math.min(page, totalPages);
-  const visibleItems = filtered.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
-  const readyCount = filtered.filter((item) => item.status === 'Pronta entrega').length;
-  const realPhotoCount = filtered.filter((item) => isProductRealPhoto(item)).length;
-  const verifiedCount = filtered.filter((item) => isProductVisualVerified(item)).length;
-  const customizableCount = filtered.filter((item) => item.customizable).length;
-  const bundleDiscount = getQuantityDiscount(quantity);
-  const fastestLeadTime = filtered.length ? Math.min(...filtered.map((item) => parseMinProductionDays(item.productionWindow))) : null;
-  const averageTicket = filtered.length ? Math.round(filtered.reduce((sum, item) => sum + item.pricePix, 0) / filtered.length) : null;
-  const activeFilterCount = [query.trim(), category !== 'Todas', collection !== 'Todas', availability !== 'Todos', visualMode !== 'all', selectedMaterial !== 'Todos', purchaseIntent !== 'Geral', customizableOnly, priceRange[0] !== priceLimits.min, priceRange[1] !== priceLimits.max, order !== 'Mais Recentes'].filter(Boolean).length;
+  const requestedPage = Number(searchParams.get("page") ?? defaults.initialPage ?? 1);
+  const page = Math.min(totalPages, Number.isFinite(requestedPage) ? Math.max(1, Math.floor(requestedPage)) : 1);
+  const visible = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
-  const compareProducts = useMemo(() => compareIds.map((id) => products.find((item) => item.id === id)).filter(Boolean) as Product[], [compareIds, products]);
-  const favoriteProducts = useMemo(() => favoriteIds.map((id) => products.find((item) => item.id === id)).filter(Boolean) as Product[], [favoriteIds, products]);
-  const recentProducts = useMemo(() => recentIds.map((id) => products.find((item) => item.id === id)).filter(Boolean) as Product[], [recentIds, products]);
-  const paginationItems = useMemo(() => getVisiblePagination(currentPage, totalPages), [currentPage, totalPages]);
-  const selectionWhatsAppUrl = useMemo(() => buildSelectionWhatsApp(filtered, quantity), [filtered, quantity]);
-  const favoritesWhatsAppUrl = useMemo(() => buildFavoritesWhatsApp(favoriteProducts), [favoriteProducts]);
-  const selectionNarrative = useMemo(() => {
-    if (!filtered.length) {
-      return 'A combinação atual ficou apertada. Vale abrir preço, material ou disponibilidade para recuperar opções mais próximas.';
-    }
-    if (purchaseIntent === 'Presente') {
-      return 'A seleção está puxando itens com leitura mais rápida e bom apelo visual para presentear sem precisar explicar demais.';
-    }
-    if (purchaseIntent === 'Compra rápida') {
-      return 'O recorte atual prioriza itens com saída mais curta para encurtar a conversa e acelerar o fechamento.';
-    }
-    if (purchaseIntent === 'Economia') {
-      return 'A vitrine está inclinada para ticket mais enxuto, sem perder referências com potencial de conversão.';
-    }
-    if (purchaseIntent === 'Atacado') {
-      return 'O foco atual é em itens que conseguem conversar melhor com lote, personalização e repetição de pedido.';
-    }
-    if (visualMode === 'real') {
-      return 'A curadoria está filtrando apenas itens com mídia validada do objeto físico para reduzir qualquer ambiguidade visual antes da compra.';
-    }
-    if (visualMode === 'verified') {
-      return 'A curadoria está filtrando por mídia validada e prévia técnica para manter prova visual forte sem misturar referência conceitual.';
-    }
-    return `A seleção mistura ${readyCount} itens de pronta entrega, ${realPhotoCount} mídias validadas e ${customizableCount} opções com espaço para ajuste.`;
-  }, [customizableCount, filtered.length, purchaseIntent, readyCount, realPhotoCount, visualMode]);
-  const activeFilterChips = [
-    query.trim()
-      ? {
-          id: 'query',
-          label: `Busca: ${query.trim()}`,
-          clear: () => {
-            setQuery('');
-            safeSetPage(1);
-          },
-        }
-      : null,
-    category !== 'Todas'
-      ? {
-          id: 'category',
-          label: category,
-          clear: () => {
-            setCategory('Todas');
-            safeSetPage(1);
-          },
-        }
-      : null,
-    collection !== 'Todas'
-      ? {
-          id: 'collection',
-          label: collection,
-          clear: () => {
-            setCollection('Todas');
-            safeSetPage(1);
-          },
-        }
-      : null,
-    availability !== 'Todos'
-      ? {
-          id: 'availability',
-          label: availability,
-          clear: () => {
-            setAvailability('Todos');
-            safeSetPage(1);
-          },
-        }
-      : null,
-    selectedMaterial !== 'Todos'
-      ? {
-          id: 'material',
-          label: selectedMaterial,
-          clear: () => {
-            setSelectedMaterial('Todos');
-            safeSetPage(1);
-          },
-        }
-      : null,
-    purchaseIntent !== 'Geral'
-      ? {
-          id: 'intent',
-          label: purchaseIntent,
-          clear: () => {
-            setPurchaseIntent('Geral');
-            safeSetPage(1);
-          },
-        }
-      : null,
-    visualMode === 'real'
-      ? {
-          id: 'visual-real',
-          label: 'Só mídia validada',
-          clear: () => {
-            setVisualMode('all');
-            safeSetPage(1);
-          },
-        }
-      : visualMode === 'verified'
-      ? {
-          id: 'visual-verified',
-          label: 'Mídia validada',
-          clear: () => {
-            setVisualMode('all');
-            safeSetPage(1);
-          },
-        }
-      : null,
-    customizableOnly
-      ? {
-          id: 'custom',
-          label: 'Personalizáveis',
-          clear: () => {
-            setCustomizableOnly(false);
-            safeSetPage(1);
-          },
-        }
-      : null,
-    priceRange[0] !== priceLimits.min || priceRange[1] !== priceLimits.max
-      ? {
-          id: 'price',
-          label: `Faixa ${formatCurrency(priceRange[0])} - ${formatCurrency(priceRange[1])}`,
-          clear: () => {
-            setPriceRange([priceLimits.min, priceLimits.max]);
-            safeSetPage(1);
-          },
-        }
-      : null,
-  ].filter(Boolean) as { id: string; label: string; clear: () => void }[];
-  const smartSpotlights = useMemo(() => {
-    const picks: Array<{
-      id: string;
-      title: string;
-      description: string;
-      badge: string;
-      accent: string;
-      product: Product;
-    }> = [];
-    const seen = new Set<string>();
-
-    const register = (
-      id: string,
-      title: string,
-      description: string,
-      badge: string,
-      accent: string,
-      product?: Product
-    ) => {
-      if (!product || seen.has(product.id)) return;
-      seen.add(product.id);
-      picks.push({ id, title, description, badge, accent, product });
-    };
-
-    const cheapest = [...filtered].sort((a, b) => a.pricePix - b.pricePix)[0];
-    const fastest = [...filtered].sort(
-      (a, b) => parseMinProductionDays(a.productionWindow) - parseMinProductionDays(b.productionWindow)
-    )[0];
-    const verifiedPick = filtered.find((item) => isProductVisualVerified(item));
-    const customPick = filtered.find((item) => item.customizable);
-
-    register(
-      'best-entry',
-      'Melhor porta de entrada',
-      'A peça que está mais alinhada com o recorte atual e tende a explicar bem a curadoria.',
-      'entrada',
-      'border-cyan-300/20 bg-cyan-300/10 text-cyan-100',
-      filtered[0]
-    );
-    register(
-      'fastest',
-      'Opção mais rápida',
-      'A melhor escolha para quem quer reduzir conversa e encurtar janela de produção.',
-      'agilidade',
-      'border-emerald-300/20 bg-emerald-300/10 text-emerald-100',
-      fastest
-    );
-    register(
-      'cheapest',
-      'Menor ticket',
-      'Ajuda a iniciar a compra com um valor mais leve e menos barreira de entrada.',
-      'economia',
-      'border-amber-300/20 bg-amber-300/10 text-amber-100',
-      cheapest
-    );
-    register(
-      'verified',
-      'Prova visual forte',
-      'Quando a conversa pede mais confiança, esta é a peça que melhor sustenta a decisão.',
-      'confiança',
-      'border-violet-300/20 bg-violet-300/10 text-violet-100',
-      verifiedPick
-    );
-    register(
-      'custom',
-      'Espaço para personalizar',
-      'Boa referência para quem quer adaptar cor, escala, acabamento ou briefing.',
-      'sob medida',
-      'border-white/12 bg-white/5 text-white/80',
-      customPick
-    );
-
-    return picks.slice(0, 4);
-  }, [filtered]);
-
-  const sharePath = useMemo(() => {
-    const params = new URLSearchParams();
-    if (query.trim()) params.set('q', query.trim());
-    if (category !== 'Todas') params.set('category', category);
-    if (collection !== 'Todas') params.set('collection', collection);
-    if (availability !== 'Todos') params.set('status', availability);
-    if (visualMode !== 'all') params.set('mode', visualMode);
-    if (selectedMaterial !== 'Todos') params.set('material', selectedMaterial);
-    if (purchaseIntent !== 'Geral') params.set('intent', purchaseIntent);
-    if (customizableOnly) params.set('custom', '1');
-    if (order !== 'Mais Recentes') params.set('sort', order);
-    if (priceRange[0] !== priceLimits.min) params.set('min', String(priceRange[0]));
-    if (priceRange[1] !== priceLimits.max) params.set('max', String(priceRange[1]));
-    if (currentPage > 1) params.set('page', String(currentPage));
-    const queryString = params.toString();
-    return queryString ? `${basePath}?${queryString}` : basePath;
-  }, [availability, basePath, category, collection, currentPage, customizableOnly, order, priceLimits.max, priceLimits.min, priceRange, purchaseIntent, query, selectedMaterial, visualMode]);
-
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    window.history.replaceState({}, '', sharePath);
-  }, [sharePath]);
-
-  useEffect(() => {
-    setPageInput(String(currentPage));
-  }, [currentPage]);
-
-  useEffect(() => {
-    trackViewItemList(visibleItems, 'Catalogo');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPage, category, collection, availability, visualMode, selectedMaterial, purchaseIntent, customizableOnly, order, deferredQuery]);
-
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-
-    try {
-      const raw = window.sessionStorage.getItem(RETURN_STATE_KEY);
-      if (!raw) return;
-      const state = JSON.parse(raw) as { path?: string; productId?: string; scrollY?: number };
-      const currentPath = `${window.location.pathname}${window.location.search}`;
-      if (state.path !== currentPath) return;
-
-      window.setTimeout(() => {
-        const target = state.productId ? document.getElementById(`produto-${state.productId}`) : null;
-        if (target) {
-          target.scrollIntoView({ block: 'center' });
-          target.focus({ preventScroll: true });
-        } else if (Number.isFinite(state.scrollY)) {
-          window.scrollTo({ top: state.scrollY || 0, behavior: 'instant' as ScrollBehavior });
-        }
-        trackBackToCatalogRestored(state.productId);
-        window.sessionStorage.removeItem(RETURN_STATE_KEY);
-      }, 120);
-    } catch {
-      window.sessionStorage.removeItem(RETURN_STATE_KEY);
-    }
-  }, []);
-
-  useEffect(() => {
-    const normalized = deferredQuery.trim();
-    if (normalized.length < 2 || filtered.length === 0) return;
-    setRecentSearches((previous) => [normalized, ...previous.filter((item) => item !== normalized)].slice(0, 8));
-  }, [deferredQuery, filtered.length]);
-
-  function safeSetPage(nextPage: number) {
-    startTransition(() => {
-      const targetPage = Math.max(1, Math.min(totalPages, nextPage));
-      setPage(targetPage);
-      trackCatalogPageChange(targetPage, totalPages);
-    });
+  function update(changes: Record<string, string | null>, paging = false) {
+    const params = new URLSearchParams(searchKey);
+    Object.entries(changes).forEach(([key, value]) => { if (value === null || value === "") params.delete(key); else params.set(key, value); });
+    if (!paging) params.delete("page");
+    router.push(`${basePath}${params.size ? "?" + params.toString() : ""}`, { scroll: false });
   }
-
-  function buildProductHref(product: Product) {
-    const params = new URLSearchParams();
-    params.set('from', sharePath);
-    params.set('focus', product.id);
-    return `${getProductUrl(product)}?${params.toString()}`;
+  function submitSearch(event: FormEvent<HTMLFormElement>) { event.preventDefault(); update({ q: query.trim() || null }); }
+  function toggleFavorite(id: string) {
+    const next = favorites.includes(id) ? favorites.filter((value) => value !== id) : [...favorites, id];
+    setFavorites(next);
+    try { localStorage.setItem(FAVORITES_KEY, JSON.stringify(next)); } catch {}
   }
-
-  function saveCatalogReturnState(productId: string) {
-    if (typeof window === 'undefined') return;
-
-    window.sessionStorage.setItem(
-      RETURN_STATE_KEY,
-      JSON.stringify({
-        path: sharePath,
-        productId,
-        scrollY: window.scrollY,
-      })
-    );
+  function productHref(product: Product) {
+    const from = basePath + (searchKey ? "?" + searchKey : "");
+    return getProductUrl(product) + "?" + new URLSearchParams({ from, focus: product.id }).toString();
   }
-
-  function resetFilters() {
-    setQuery(initialQuery);
-    setCategory(sanitizeOption(initialCategory, categoryOptions));
-    setCollection(sanitizeOption(initialCollection, collectionOptions));
-    setOrder(sanitizeOrder(initialOrder));
-    setPriceRange([priceLimits.min, priceLimits.max]);
-    setVisualMode(sanitizeVisualMode(initialVisualMode));
-    setAvailability(sanitizeAvailability(initialAvailability));
-    setSelectedMaterial(sanitizeMaterial(initialMaterial, materialOptions));
-    setPurchaseIntent(sanitizePurchaseIntent(initialIntent));
-    setCustomizableOnly(initialCustomizableOnly);
-    setPage(1);
-  }
-
-  function applyTrackedFilter(filterName: string, filterValue: string, apply: () => void) {
-    apply();
-    trackFilterApplied(filterName, filterValue, filtered.length);
-  }
-
-  function toggleFavorite(productId: string) {
-    setFavoriteIds((previous) => previous.includes(productId) ? previous.filter((id) => id !== productId) : [productId, ...previous].slice(0, 20));
-  }
-
-  function addRecent(productId: string) {
-    setRecentIds((previous) => [productId, ...previous.filter((id) => id !== productId)].slice(0, 12));
-  }
-
-  function toggleCompare(productId: string) {
-    setCompareIds((previous) => {
-      if (previous.includes(productId)) return previous.filter((id) => id !== productId);
-      if (previous.length >= 3) return [...previous.slice(1), productId];
-      return [...previous, productId];
-    });
-  }
-
-  async function copyShareLink() {
-    if (typeof window === 'undefined') return;
-    const absoluteUrl = new URL(sharePath, window.location.origin).toString();
-    try {
-      await navigator.clipboard.writeText(absoluteUrl);
-      setShareCopied(true);
-      window.setTimeout(() => setShareCopied(false), 1800);
-    } catch {
-      setShareCopied(false);
-    }
-  }
-
-  function buildViewLabel() {
-    const parts = [
-      query.trim() || null,
-      category !== 'Todas' ? category : null,
-      availability !== 'Todos' ? availability : null,
-      purchaseIntent !== 'Geral' ? purchaseIntent : null,
-      visualMode === 'real' ? 'só mídia validada' : visualMode === 'verified' ? 'foto + render' : null,
-    ].filter(Boolean);
-
-    if (!parts.length) return 'Vitrine geral';
-    return parts.slice(0, 3).join(' • ');
-  }
-
-  function saveCurrentView() {
-    const nextView: SavedCatalogView = {
-      id: `${Date.now()}`,
-      label: buildViewLabel(),
-      path: sharePath,
-      count: filtered.length,
-    };
-
-    setSavedViews((previous) => [nextView, ...previous.filter((item) => item.path !== sharePath)].slice(0, 6));
-  }
-
-  const quickPresets = [
-    { id: 'real', label: 'Só mídia validada', active: visualMode === 'real', onClick: () => { setVisualMode((value) => value === 'real' ? 'all' : 'real'); safeSetPage(1); } },
-    { id: 'verified', label: 'Mídia validada', active: visualMode === 'verified', onClick: () => { setVisualMode((value) => value === 'verified' ? 'all' : 'verified'); safeSetPage(1); } },
-    { id: 'ready', label: 'Pronta entrega', active: availability === 'Pronta entrega', onClick: () => { setAvailability((value) => value === 'Pronta entrega' ? 'Todos' : 'Pronta entrega'); safeSetPage(1); } },
-    { id: 'gift', label: 'Presentes', active: purchaseIntent === 'Presente', onClick: () => { setPurchaseIntent((value) => value === 'Presente' ? 'Geral' : 'Presente'); safeSetPage(1); } },
-    { id: 'fast', label: 'Compra rápida', active: purchaseIntent === 'Compra rápida', onClick: () => { setPurchaseIntent((value) => value === 'Compra rápida' ? 'Geral' : 'Compra rápida'); safeSetPage(1); } },
-    { id: 'custom', label: 'Personalizáveis', active: customizableOnly, onClick: () => { setCustomizableOnly((value) => !value); safeSetPage(1); } },
-  ];
-  const editorialBreaks = [
-    {
-      afterIndex: 4,
-      title: 'Não encontrou o encaixe exato?',
-      body: 'Mande foto, STL, medida ou referência. A equipe valida material, escala e acabamento antes de prometer prazo.',
-      href: '/imagem-para-impressao-3d',
-      cta: 'Enviar projeto',
-      tone: 'border-cyan-300/25 bg-[linear-gradient(135deg,rgba(34,211,238,0.16),rgba(124,58,237,0.10),rgba(2,6,23,0.72))]',
-    },
-    {
-      afterIndex: 11,
-      title: 'Comprando para evento, empresa ou kit?',
-      body: 'Separe uma seleção e mande no WhatsApp. O atendimento revisa quantidade, acabamento e melhor faixa de fechamento.',
-      href: selectionWhatsAppUrl,
-      cta: 'Mandar seleção',
-      tone: 'border-emerald-300/25 bg-[linear-gradient(135deg,rgba(16,185,129,0.16),rgba(245,158,11,0.10),rgba(2,6,23,0.72))]',
-      external: true,
-    },
-  ] as const;
-  const rescueActions = [
-    visualMode === 'real'
-      ? { id: 'relax-real', label: 'Aceitar prévia técnica', onClick: () => { setVisualMode('verified'); safeSetPage(1); } }
-      : visualMode === 'verified'
-      ? { id: 'relax-verified', label: 'Ver imagens conceituais', onClick: () => { setVisualMode('all'); safeSetPage(1); } }
-      : null,
-    availability !== 'Todos'
-      ? { id: 'all-availability', label: 'Voltar disponibilidade', onClick: () => { setAvailability('Todos'); safeSetPage(1); } }
-      : null,
-    purchaseIntent !== 'Geral'
-      ? { id: 'general-intent', label: 'Buscar sem intenção fixa', onClick: () => { setPurchaseIntent('Geral'); safeSetPage(1); } }
-      : null,
-    category !== 'Todas'
-      ? { id: 'all-category', label: 'Abrir todas as categorias', onClick: () => { setCategory('Todas'); safeSetPage(1); } }
-      : null,
-    query.trim()
-      ? { id: 'clear-query', label: 'Limpar busca digitada', onClick: () => { setQuery(''); safeSetPage(1); } }
-      : null,
-  ].filter(Boolean) as { id: string; label: string; onClick: () => void }[];
+  const chips = [...searchParams.entries()].filter(([key, value]) => key !== "sort" && key !== "page" && value);
+  const categoryValue = category === "Todas" ? "" : category;
 
   return (
-    <div className="catalog-explorer-root space-y-6">
-      <div className="catalog-filter-shell mdh-filter-command p-3 sm:p-4 md:p-5">
-        <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-          <div className="max-w-2xl">
-            <p className="text-xs uppercase tracking-[0.2em] text-cyan-100/75">Mesa de curadoria</p>
-            <h2 className="mt-2 text-2xl font-black text-white md:text-4xl">
-              Filtre como um comprador real: intenção, prova visual, prazo e faixa.
-            </h2>
-            <p className="mt-3 text-sm leading-7 text-white/68">
-              A grade abaixo muda de ritmo com blocos editoriais, produtos com hierarquia maior e CTAs diretos para carrinho, WhatsApp ou sob medida.
-            </p>
-          </div>
-
-          <div className="flex flex-wrap gap-2">
-            <button type="button" onClick={copyShareLink} className="btn-secondary gap-2 px-4 py-3 text-sm">
-              <Copy className="h-4 w-4" />
-              {shareCopied ? 'Link copiado' : 'Copiar vitrine'}
-            </button>
-            <button type="button" onClick={saveCurrentView} className="btn-secondary gap-2 px-4 py-3 text-sm">
-              <Sparkles className="h-4 w-4" />
-              Salvar recorte
-            </button>
-            <button type="button" onClick={resetFilters} className="btn-glass gap-2 px-4 py-3 text-sm">
-              <Filter className="h-4 w-4" />
-              Limpar filtros
-            </button>
-          </div>
-        </div>
-
-        <div className="mt-5 grid gap-3 lg:grid-cols-4">
-          <div className="surface-stat rounded-[22px] px-4 py-4">
-            <p className="text-[11px] uppercase tracking-[0.18em] text-white/50">Resultados atuais</p>
-            <p className="mt-3 text-2xl font-black text-white">{filtered.length}</p>
-            <p className="mt-1 text-xs text-white/60">com {activeFilterCount} filtros ativos</p>
-          </div>
-          <div className="surface-stat rounded-[22px] px-4 py-4">
-            <p className="text-[11px] uppercase tracking-[0.18em] text-white/50">Mídias validadas</p>
-            <p className="mt-3 text-2xl font-black text-white">{realPhotoCount}</p>
-            <p className="mt-1 text-xs text-white/60">{verifiedCount} com foto ou prévia técnica</p>
-          </div>
-          <div className="surface-stat rounded-[22px] px-4 py-4">
-            <p className="text-[11px] uppercase tracking-[0.18em] text-white/50">Velocidade</p>
-            <p className="mt-3 text-2xl font-black text-white">{fastestLeadTime ? `${fastestLeadTime}d` : '--'}</p>
-            <p className="mt-1 text-xs text-white/60">menor prazo base encontrado</p>
-          </div>
-          <div className="surface-stat rounded-[22px] px-4 py-4">
-            <p className="text-[11px] uppercase tracking-[0.18em] text-white/50">Ticket médio</p>
-            <p className="mt-3 text-2xl font-black text-white">{averageTicket ? formatCurrency(averageTicket) : '--'}</p>
-            <p className="mt-1 text-xs text-white/60">{customizableCount} personalizáveis</p>
-          </div>
-        </div>
-
-        <div className="mt-4 grid gap-4 rounded-[24px] border border-emerald-300/18 bg-[linear-gradient(135deg,rgba(16,185,129,0.12),rgba(34,211,238,0.08))] p-4 lg:grid-cols-[1fr_auto] lg:items-center">
-          <div>
-            <p className="text-xs uppercase tracking-[0.18em] text-emerald-100/78">Compra assistida</p>
-            <p className="mt-2 text-sm leading-7 text-white/72">
-              Este recorte tem {readyCount} item(ns) de pronta entrega, {realPhotoCount} com mídia validada e menor prazo base de {fastestLeadTime ? `${fastestLeadTime} dia(s)` : "consulta"}.
-              Salve a seleção, mande no WhatsApp ou avance para o carrinho sem cadastro.
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-2 lg:justify-end">
-            <a href={selectionWhatsAppUrl} target="_blank" rel="noreferrer" className="btn-whatsapp justify-center gap-2">
-              <MessageCircleMore className="h-4 w-4" />
-              Mandar seleção
-            </a>
-            <Link href="/carrinho" prefetch={false} className="btn-primary justify-center gap-2">
-              <ShoppingCart className="h-4 w-4" />
-              Fechar carrinho
-            </Link>
-          </div>
-        </div>
-
-        <div className="mt-4 flex flex-wrap gap-2">
-          {quickPresets.map((preset) => (
-            <button
-              key={preset.id}
-              type="button"
-              onClick={preset.onClick}
-              className={`rounded-full border px-4 py-2 text-sm font-semibold transition ${
-                preset.active
-                  ? 'border-cyan-300/35 bg-cyan-300/12 text-cyan-50'
-                  : 'border-white/10 bg-white/5 text-white/75'
-              }`}
-            >
-              {preset.label}
-            </button>
-          ))}
-        </div>
-
-        {recentSearches.length > 0 ? (
-          <div className="mt-4">
-            <p className="text-xs uppercase tracking-[0.18em] text-white/45">Buscas recentes que deram resultado</p>
-            <div className="mt-2 flex flex-wrap gap-2">
-              {recentSearches.map((item) => (
-                <button
-                  key={item}
-                  type="button"
-                  onClick={() => {
-                    setQuery(item);
-                    safeSetPage(1);
-                  }}
-                  className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs font-semibold text-white/75 transition hover:border-cyan-300/25 hover:text-cyan-100"
-                >
-                  {item}
-                </button>
-              ))}
-            </div>
-          </div>
-        ) : null}
-
-        {savedViews.length > 0 ? (
-          <div className="mt-4">
-            <p className="text-xs uppercase tracking-[0.18em] text-white/45">Vitrines salvas</p>
-            <div className="mt-2 grid gap-2 md:grid-cols-2 xl:grid-cols-3">
-              {savedViews.map((view) => (
-                <Link key={view.id} href={view.path} prefetch={false} className="rounded-[18px] border border-white/10 bg-white/5 px-4 py-3 text-sm text-white/78 transition hover:border-cyan-300/25 hover:text-cyan-100">
-                  <p className="font-semibold">{view.label}</p>
-                  <p className="mt-1 text-xs text-white/50">{view.count} itens nesse recorte</p>
-                </Link>
-              ))}
-            </div>
-          </div>
-        ) : null}
-
-        {activeFilterChips.length > 0 ? (
-          <div className="mt-4 flex flex-wrap gap-2">
-            {activeFilterChips.map((chip) => (
-              <button
-                key={chip.id}
-                type="button"
-                onClick={chip.clear}
-                className="inline-flex items-center gap-2 rounded-full border border-cyan-300/20 bg-cyan-300/10 px-3 py-2 text-xs font-semibold text-cyan-100 transition hover:border-cyan-300/35 hover:bg-cyan-300/15"
-              >
-                {chip.label}
-                <RotateCcw className="h-3.5 w-3.5" />
-              </button>
-            ))}
-          </div>
-        ) : null}
-
-        <div className="catalog-filter-grid mt-4 grid gap-3 md:gap-4 xl:grid-cols-3 2xl:grid-cols-[1.1fr_0.42fr_0.42fr_0.42fr_0.42fr_0.42fr_0.42fr]">
-          <label className="text-sm text-white/70">
-            <span className="mb-2 block">Buscar</span>
-            <input
-              value={query}
-              onChange={(event) => {
-                setQuery(event.target.value);
-                safeSetPage(1);
-              }}
-              placeholder="Ex: vaso, suporte, anime..."
-              className="field-base"
-            />
-          </label>
-
-          <label className="text-sm text-white/70">
-            <span className="mb-2 block">Categoria</span>
-            <select
-              value={category}
-              onChange={(event) => {
-                applyTrackedFilter('category', event.target.value, () => {
-                  setCategory(event.target.value);
-                  safeSetPage(1);
-                });
-              }}
-              className="field-base"
-            >
-              <option>Todas</option>
-              {categoryOptions.slice(1).map((item) => (
-                <option key={item}>{item}</option>
-              ))}
-            </select>
-          </label>
-
-          <label className="text-sm text-white/70">
-            <span className="mb-2 block">Coleção</span>
-            <select
-              value={collection}
-              onChange={(event) => {
-                applyTrackedFilter('collection', event.target.value, () => {
-                  setCollection(event.target.value);
-                  safeSetPage(1);
-                });
-              }}
-              className="field-base"
-            >
-              <option>Todas</option>
-              {collectionOptions.slice(1).map((item) => (
-                <option key={item}>{item}</option>
-              ))}
-            </select>
-          </label>
-
-          <label className="text-sm text-white/70">
-            <span className="mb-2 block">Disponibilidade</span>
-            <select
-              value={availability}
-              onChange={(event) => {
-                applyTrackedFilter('availability', event.target.value, () => {
-                  setAvailability(event.target.value as CatalogAvailability);
-                  safeSetPage(1);
-                });
-              }}
-              className="field-base"
-            >
-              <option>Todos</option>
-              <option>Pronta entrega</option>
-              <option>Sob encomenda</option>
-            </select>
-          </label>
-
-          <label className="text-sm text-white/70">
-            <span className="mb-2 block">Material</span>
-            <select
-              value={selectedMaterial}
-              onChange={(event) => {
-                applyTrackedFilter('material', event.target.value, () => {
-                  setSelectedMaterial(event.target.value);
-                  safeSetPage(1);
-                });
-              }}
-              className="field-base"
-            >
-              {materialOptions.map((item) => (
-                <option key={item}>{item}</option>
-              ))}
-            </select>
-          </label>
-
-          <label className="text-sm text-white/70">
-            <span className="mb-2 block">Intenção</span>
-            <select
-              value={purchaseIntent}
-              onChange={(event) => {
-                applyTrackedFilter('intent', event.target.value, () => {
-                  setPurchaseIntent(event.target.value as PurchaseIntent);
-                  safeSetPage(1);
-                });
-              }}
-              className="field-base"
-            >
-              {PURCHASE_INTENTS.map((option) => (
-                <option key={option}>{option}</option>
-              ))}
-            </select>
-          </label>
-
-          <label className="text-sm text-white/70">
-            <span className="mb-2 block">Ordenar</span>
-            <select
-              value={order}
-              onChange={(event) => applyTrackedFilter('sort', event.target.value, () => setOrder(event.target.value as CatalogOrder))}
-              className="field-base"
-            >
-              {ORDER_OPTIONS.map((option) => (
-                <option key={option}>{option}</option>
-              ))}
-            </select>
-          </label>
-        </div>
-
-        <div className="mt-4 grid gap-4 lg:grid-cols-3">
-          <label className="text-sm text-white/70">
-            <span className="mb-2 block">Preço</span>
-            <input
-              type="range"
-              min={priceLimits.min}
-              max={priceLimits.max}
-              step={5}
-              value={priceRange[0]}
-              onChange={(event) => setPriceRange([Number(event.target.value), priceRange[1]])}
-              className="w-full accent-cyan-400"
-            />
-            <input
-              type="range"
-              min={priceLimits.min}
-              max={priceLimits.max}
-              step={5}
-              value={priceRange[1]}
-              onChange={(event) => setPriceRange([priceRange[0], Number(event.target.value)])}
-              className="mt-2 w-full accent-cyan-400"
-            />
-            <div className="mt-1 flex justify-between text-xs text-white/60">
-              <span>R$ {priceRange[0]}</span>
-              <span>R$ {priceRange[1]}</span>
-            </div>
-          </label>
-
-          <label className="text-sm text-white/70">
-            <span className="mb-2 block">Quantidade</span>
-            <input
-              type="range"
-              min={1}
-              max={30}
-              step={1}
-              value={quantity}
-              onChange={(event) => setQuantity(Number(event.target.value))}
-              className="w-full accent-emerald-400"
-            />
-            <div className="mt-1 flex justify-between text-xs text-white/60">
-              <span>{quantity} un.</span>
-              <span>{Math.round(bundleDiscount * 100)}% off</span>
-            </div>
-          </label>
-
-          <div className="surface-stat rounded-[20px] px-4 py-4 text-xs text-emerald-100">
-            <div className="flex items-center gap-2">
-              <Sparkles className="h-4 w-4" />
-              <span className="font-semibold uppercase tracking-[0.18em]">Simulador ativo</span>
-            </div>
-            <p className="mt-3 leading-6 text-white/72">
-              A quantidade já recalcula economia estimada e ajuda a separar compra unitária, presente, revenda ou lote.
-            </p>
-          </div>
-        </div>
-
-        <div className="mt-4 flex flex-wrap items-center gap-3 text-sm text-white/60">
-          <span>{filtered.length} resultados neste recorte</span>
-          <span className="h-1 w-1 rounded-full bg-white/30" />
-          <span>{readyCount} pronta entrega</span>
-          <span className="h-1 w-1 rounded-full bg-white/30" />
-          <span>{realPhotoCount} mídia validada</span>
-          <span className="h-1 w-1 rounded-full bg-white/30" />
-          <span>{verifiedCount} validados</span>
-          <span className="h-1 w-1 rounded-full bg-white/30" />
-          <span>Página {currentPage} de {totalPages}</span>
-          <span className="h-1 w-1 rounded-full bg-white/30" />
-          <span>Busca ativa: {deferredQuery || 'tudo'}</span>
+    <div className="experience-catalog" data-catalog-results={filtered.length}>
+      <form onSubmit={submitSearch} className="experience-search mb-5"><Search size={18} aria-hidden="true" /><input aria-label="Buscar no catálogo" type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Busque uma peça, personagem ou ideia" /><button type="submit" aria-label="Pesquisar"><ArrowRight size={18} /></button></form>
+      <div className="experience-catalog-toolbar">
+        <div role="status" aria-live="polite"><strong>{filtered.length}</strong> {filtered.length === 1 ? "peça encontrada" : "peças encontradas"}</div>
+        <div className="flex flex-wrap items-center gap-3">
+          <button type="button" className="btn-secondary gap-2 px-3 py-2 text-xs" aria-pressed={searchParams.get("favorites") === "1"} onClick={() => update({ favorites: searchParams.get("favorites") === "1" ? null : "1" })}><Heart size={15} />Favoritos ({favorites.length})</button>
+          <button type="button" className="experience-copy-button" aria-label="Copiar link desta seleção" onClick={async () => { try { await navigator.clipboard.writeText(window.location.href); setCopied(true); } catch { setCopied(false); } }}>{copied ? <Check size={18} /> : <Copy size={18} />}</button>
+          <label className="text-sm">Ordenar <select className="experience-select ml-2" aria-label="Ordenar produtos" value={sort} onChange={(event) => update({ sort: event.target.value })}>{["Destaques", "Preço", "Maior preço", "Nome", "Mais Recentes", "Menor prazo"].map((value) => <option key={value}>{value}</option>)}</select></label>
         </div>
       </div>
-
-      {filtered.length > 0 ? (
-        <div className="grid gap-4 xl:grid-cols-[1.12fr_0.88fr]">
-          <div className="glass-panel rounded-[24px] border border-white/10 bg-black/20 p-4">
-            <div className="mb-4 flex items-center gap-2">
-              <Target className="h-4 w-4 text-cyan-100" />
-              <p className="text-sm font-semibold text-cyan-100">Sugestões inteligentes da seleção</p>
+      <div className="experience-catalog-layout">
+        <aside aria-label="Filtros de produtos">
+          <details className="experience-filter-panel" open={filtersOpen} onToggle={(event) => setFiltersOpen(event.currentTarget.open)}>
+            <summary>Filtrar produtos</summary>
+            <div className="experience-filter-fields">
+              <label>Categoria<select aria-label="Categoria" value={categoryValue} onChange={(event) => update({ category: event.target.value || null })}><option value="">Todas</option>{categoryValue && !categories.includes(categoryValue) ? <option value={categoryValue}>{displayValues[categoryValue] || categoryValue}</option> : null}{categories.map((value) => <option key={value}>{value}</option>)}</select></label>
+              <label>Tipo<select value={facets.type} onChange={(event) => update({ type: event.target.value || null })}><option value="">Todos</option><option value="keychain">Chaveiros</option></select></label>
+              <label>Estilo<select value={facets.style} onChange={(event) => update({ style: event.target.value || null })}><option value="">Todos</option><option value="chibi">Chibi</option></select></label>
+              <label>Universo<select value={facets.universe} onChange={(event) => update({ universe: event.target.value || null, character: null })}><option value="">Todos</option>{universes.map((value) => <option key={value} value={value}>{displayValues[value] || value.replaceAll("-", " ")}</option>)}</select></label>
+              {characters.length ? <label>Personagem<select value={facets.character} onChange={(event) => update({ character: event.target.value || null })}><option value="">Todos</option>{characters.map((value) => <option key={value} value={value}>{value.charAt(0).toUpperCase() + value.slice(1)}</option>)}</select></label> : null}
+              <label>Material<select value={material} onChange={(event) => update({ material: event.target.value === "Todos" ? null : event.target.value })}><option>Todos</option>{materials.map((value) => <option key={value}>{value}</option>)}</select></label>
+              <label>Disponibilidade<select value={availability} onChange={(event) => update({ status: event.target.value === "Todos" ? null : event.target.value })}><option>Todos</option><option>Pronta entrega</option><option>Sob encomenda</option></select></label>
+              <form key={searchKey} onSubmit={(event) => { event.preventDefault(); const form = new FormData(event.currentTarget); update({ min: String(form.get("min") || "") || null, max: String(form.get("max") || "") || null, minPrice: null, maxPrice: null }); }}>
+                <div className="grid grid-cols-2 gap-2"><label>De (R$)<input type="number" name="min" min="0" step=".01" defaultValue={minPrice ?? ""} placeholder="0" /></label><label>Até (R$)<input type="number" name="max" min="0" step=".01" defaultValue={maxPrice ?? ""} placeholder="Sem limite" /></label></div>
+                <button className="btn-secondary mt-2 w-full text-xs" type="submit">Aplicar preço</button>
+              </form>
+              <label className="!flex items-center gap-2"><input type="checkbox" checked={Boolean(custom)} onChange={(event) => update({ custom: event.target.checked ? "1" : "0" })} /> Personalizáveis</label>
+              <button className="text-left text-sm text-blue-200 underline underline-offset-4 min-h-11" type="button" onClick={() => router.push(basePath, { scroll: false })}>Limpar filtros</button>
             </div>
-            <div className="grid gap-3 md:grid-cols-2">
-              {smartSpotlights.map((spotlight) => (
-                <article key={spotlight.id} className="rounded-[20px] border border-white/10 bg-white/5 p-4">
-                  <div className="flex items-start justify-between gap-3">
-                    <div>
-                      <p className={`inline-flex rounded-full border px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] ${spotlight.accent}`}>
-                        {spotlight.badge}
-                      </p>
-                      <h3 className="mt-3 text-lg font-bold text-white">{spotlight.title}</h3>
-                    </div>
-                    <BadgeCheck className="h-4 w-4 text-cyan-100/80" />
+          </details>
+        </aside>
+        <div className="min-w-0">
+          {chips.length ? <div className="mb-5 flex flex-wrap gap-2" aria-label="Filtros ativos">{chips.map(([key, value]) => <button key={key} className="experience-filter-chip" onClick={() => update({ [key]: null })}>{labels[key] || key}: {displayValues[value] || value}<X size={13} aria-hidden="true" /><span className="sr-only">Remover filtro</span></button>)}</div> : null}
+          <div className="experience-product-grid">
+            {visible.map((product, index) => (
+              <article className="experience-product" id={`produto-${product.id}`} data-product-card={product.id} key={product.id}>
+                <div className="experience-product-image">
+                  <Link href={productHref(product)} prefetch={false} onClick={() => trackSelectItem(product, "Catalogo", index)}><SafeProductImage candidates={getProductImageCandidates(product)} alt={getProductImageAlt(product)} priority={Boolean(defaults.prioritizeInitialImages && index < 3)} sizes="(max-width: 620px) 48vw, (max-width: 1000px) 32vw, 280px" className="absolute inset-0 h-full w-full object-contain" /></Link>
+                  <button type="button" className="experience-favorite" aria-pressed={favorites.includes(product.id)} aria-label={`Favoritar ${product.name}`} onClick={() => toggleFavorite(product.id)}><Heart size={18} fill={favorites.includes(product.id) ? "currentColor" : "none"} /></button>
+                </div>
+                <div className="experience-product-body">
+                  <p className="experience-product-category">{product.category}</p>
+                  <h3><Link href={productHref(product)} prefetch={false}>{product.name}</Link></h3>
+                  <p className="experience-product-detail">{product.material} · {product.productionWindow}</p>
+                  <ProductPriceStack product={product} compact />
+                  <div className="mt-auto pt-4 flex gap-2">
+                    <Link href={productHref(product)} prefetch={false} className="btn-secondary flex-1 px-2 text-xs">{product.pricingMode === "faixa-auditada" ? "Ver peça" : "Pedir orçamento"}</Link>
+                    {product.pricingMode === "faixa-auditada" ? <button className="btn-primary !px-3" type="button" aria-label={`Adicionar ${product.name} ao carrinho`} onClick={() => { addItem({ productId: product.id, quantity: 1, title: product.name, pricePix: product.pricePix, priceCard: product.priceCard, image: product.images?.[0] || product.image }); trackAddToCart(product, 1); setAdded(product.id); }}>{added === product.id ? <Check size={17} /> : <ShoppingBag size={17} />}</button> : null}
                   </div>
-                  <p className="mt-3 text-sm leading-6 text-white/66">{spotlight.description}</p>
-                  <div className="mt-4 rounded-[16px] border border-white/10 bg-black/20 p-3">
-                    <p className="text-sm font-semibold text-white">{spotlight.product.name}</p>
-                    <div className="mt-2 flex flex-wrap gap-2 text-xs text-white/58">
-                      <span>{formatCurrency(spotlight.product.pricePix)}</span>
-                      <span>•</span>
-                      <span>{spotlight.product.productionWindow}</span>
-                      <span>•</span>
-                      <span>{spotlight.product.material}</span>
-                    </div>
-                  </div>
-                  <div className="mt-4 flex items-center justify-between gap-3">
-                    <Link
-                      href={getProductUrl(spotlight.product)}
-                      prefetch={false}
-                      onClick={() => addRecent(spotlight.product.id)}
-                      className="btn-secondary px-4 py-2 text-sm"
-                    >
-                      Abrir produto
-                    </Link>
-                    <a
-                      href={buildWhatsAppQuote(spotlight.product, quantity)}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-xs font-semibold uppercase tracking-[0.16em] text-emerald-100 transition hover:text-emerald-50"
-                    >
-                      Pedir no WhatsApp
-                    </a>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </div>
-
-          <div className="glass-panel rounded-[24px] border border-white/10 bg-black/20 p-4">
-            <div className="flex items-center gap-2">
-              <Sparkles className="h-4 w-4 text-emerald-100" />
-              <p className="text-sm font-semibold text-emerald-100">Leitura comercial da vitrine</p>
-            </div>
-            <h3 className="mt-4 text-2xl font-black text-white">
-              {purchaseIntent === 'Geral' ? 'A seleção está pronta para virar atendimento ou checkout.' : `Foco atual: ${purchaseIntent}.`}
-            </h3>
-            <p className="mt-4 text-sm leading-7 text-white/68">{selectionNarrative}</p>
-
-            <div className="mt-5 grid gap-3 sm:grid-cols-3">
-              <div className="surface-stat rounded-[18px] px-4 py-4">
-                <p className="text-[11px] uppercase tracking-[0.16em] text-white/50">Seleção para WhatsApp</p>
-                <p className="mt-2 text-lg font-black text-white">{Math.min(filtered.length, 6)} itens</p>
-              </div>
-              <div className="surface-stat rounded-[18px] px-4 py-4">
-                <p className="text-[11px] uppercase tracking-[0.16em] text-white/50">Simulação</p>
-                <p className="mt-2 text-lg font-black text-white">{quantity} unidade(s)</p>
-              </div>
-              <div className="surface-stat rounded-[18px] px-4 py-4">
-                <p className="text-[11px] uppercase tracking-[0.16em] text-white/50">Economia em lote</p>
-                <p className="mt-2 text-lg font-black text-white">{Math.round(bundleDiscount * 100)}%</p>
-              </div>
-            </div>
-
-            <div className="mt-5 flex flex-wrap gap-2">
-              {Array.from(new Set(filtered.slice(0, 10).map((item) => item.category))).slice(0, 4).map((label) => (
-                <span key={label} className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/72">
-                  {label}
-                </span>
-              ))}
-            </div>
-
-            <div className="mt-6 grid gap-3">
-              <a href={selectionWhatsAppUrl} target="_blank" rel="noreferrer" className="btn-whatsapp justify-center gap-2">
-                <MessageCircleMore className="h-4 w-4" />
-                Mandar seleção no WhatsApp
-              </a>
-              <div className="grid gap-3 sm:grid-cols-2">
-                <button type="button" onClick={copyShareLink} className="btn-secondary justify-center gap-2">
-                  <Copy className="h-4 w-4" />
-                  {shareCopied ? 'Link copiado' : 'Copiar seleção'}
-                </button>
-                <Link href="/imagem-para-impressao-3d" prefetch={false} className="btn-glass justify-center gap-2">
-                  <ChevronRight className="h-4 w-4" />
-                  Pedir sob medida
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      ) : null}
-
-      {compareProducts.length > 0 ? (
-        <div className="glass-panel rounded-[24px] border border-cyan-300/20 bg-cyan-300/8 p-4">
-          <div className="mb-3 flex items-center justify-between gap-3">
-            <p className="text-sm font-semibold text-cyan-100">Comparador ({compareProducts.length}/3)</p>
-            <button
-              type="button"
-              onClick={() => setCompareIds([])}
-              className="rounded-full border border-cyan-300/30 bg-cyan-300/10 px-3 py-1 text-xs font-semibold text-cyan-100"
-            >
-              Limpar
-            </button>
-          </div>
-          <div className="grid gap-3 md:grid-cols-3">
-            {compareProducts.map((product) => (
-              <article key={product.id} className="rounded-[18px] border border-white/10 bg-black/20 p-3">
-                <h3 className="line-clamp-2 text-sm font-semibold text-white">{product.name}</h3>
-                <p className="mt-1 text-xs text-white/60">{formatCurrency(product.pricePix)} no Pix</p>
-                <p className="text-xs text-white/60">Prazo: {product.productionWindow}</p>
-                <p className="text-xs text-white/60">{product.material} • {product.finish}</p>
-                <div className="mt-3 flex items-center justify-between gap-3">
-                  <Link href={getProductUrl(product)} prefetch={false} onClick={() => addRecent(product.id)} className="text-xs font-semibold uppercase tracking-[0.16em] text-cyan-100 transition hover:text-cyan-50">
-                    Abrir item
-                  </Link>
-                  <a href={buildWhatsAppQuote(product, quantity)} target="_blank" rel="noreferrer" className="text-xs font-semibold uppercase tracking-[0.16em] text-emerald-100 transition hover:text-emerald-50">
-                    Pedir
-                  </a>
                 </div>
               </article>
             ))}
           </div>
+          {!visible.length ? <div className="experience-empty" role="status"><Search size={30} /><h3>Nenhuma peça nesta combinação.</h3><p>Remova um filtro ou tente outra palavra. Sua seleção continua disponível para ajustar.</p><button className="btn-primary mt-5" onClick={() => router.push(basePath, { scroll: false })}>Ver todo o catálogo</button></div> : null}
+          {totalPages > 1 ? <nav className="experience-pagination" aria-label="Páginas do catálogo"><button className="btn-secondary" disabled={page <= 1} onClick={() => update({ page: String(page - 1) }, true)}>Anterior</button><label>Página <select className="experience-select" aria-label="Selecionar página" value={page} onChange={(event) => update({ page: event.target.value }, true)}>{Array.from({ length: totalPages }, (_, index) => <option key={index + 1} value={index + 1}>{index + 1}</option>)}</select> de {totalPages}</label><button className="btn-secondary" disabled={page >= totalPages} onClick={() => update({ page: String(page + 1) }, true)}>Próxima</button></nav> : null}
+          <p className="sr-only" role="status">{added ? "Produto adicionado ao carrinho" : copied ? "Link copiado" : ""}</p>
         </div>
-      ) : null}
-
-      {favoriteProducts.length > 0 || recentProducts.length > 0 ? (
-        <div className="grid gap-4 lg:grid-cols-2">
-          <div className="glass-panel rounded-[20px] border border-white/10 bg-black/20 p-4">
-            <div className="flex items-center justify-between gap-3">
-              <p className="flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-white/55">
-                <Heart className="h-3.5 w-3.5 text-amber-200" />
-                Favoritos
-              </p>
-              {favoriteProducts.length > 0 ? (
-                <a href={favoritesWhatsAppUrl} target="_blank" rel="noreferrer" className="text-xs font-semibold uppercase tracking-[0.16em] text-emerald-100 transition hover:text-emerald-50">
-                  Enviar favoritos
-                </a>
-              ) : null}
-            </div>
-            <div className="mt-3 flex flex-wrap gap-2">
-              {favoriteProducts.slice(0, 8).map((product) => (
-                <Link
-                  key={product.id}
-                  href={buildProductHref(product)}
-                  prefetch={false}
-                  onClick={() => {
-                    addRecent(product.id);
-                    saveCatalogReturnState(product.id);
-                    trackSelectItem(product, 'Catalogo');
-                  }}
-                  className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/80"
-                >
-                  {product.name}
-                </Link>
-              ))}
-            </div>
-          </div>
-          <div className="glass-panel rounded-[20px] border border-white/10 bg-black/20 p-4">
-            <div className="flex items-center justify-between gap-3">
-              <p className="flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-white/55">
-                <History className="h-3.5 w-3.5 text-cyan-100" />
-                Vistos recentemente
-              </p>
-              {recentProducts.length > 0 ? (
-                <button
-                  type="button"
-                  onClick={() => setRecentIds([])}
-                  className="text-xs font-semibold uppercase tracking-[0.16em] text-white/52 transition hover:text-white/80"
-                >
-                  Limpar
-                </button>
-              ) : null}
-            </div>
-            <div className="mt-3 flex flex-wrap gap-2">
-              {recentProducts.slice(0, 8).map((product) => (
-                <Link
-                  key={product.id}
-                  href={getProductUrl(product)}
-                  prefetch={false}
-                  onClick={() => addRecent(product.id)}
-                  className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/80"
-                >
-                  {product.name}
-                </Link>
-              ))}
-            </div>
-          </div>
-        </div>
-      ) : null}
-
-      <div className="catalog-products-grid grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-        {visibleItems.map((product, index) => {
-          const isFavorite = favoriteIds.includes(product.id);
-          const isCompared = compareIds.includes(product.id);
-          const urgency = getStockUrgency(product);
-          const subtotal = product.pricePix * quantity;
-          const total = subtotal * (1 - bundleDiscount);
-          const savings = subtotal - total;
-          const editorial = editorialBreaks.find((item) => item.afterIndex === index);
-          const variant =
-            product.readyToShip && isProductRealPhoto(product)
-              ? 'readyToShip'
-              : product.customizable
-              ? 'customProject'
-              : product.pricePix >= 150
-              ? 'premium'
-              : product.pricingMode !== 'faixa-auditada'
-              ? 'lote'
-              : index % 5 === 0
-              ? 'realPhoto'
-              : 'compact';
-          const cardSize = index % 9 === 0 ? 'xl:col-span-2' : '';
-
-          return (
-            <Fragment key={product.id}>
-              <article
-                id={`produto-${product.id}`}
-                data-product-card={product.id}
-                data-card-variant={variant}
-                className={`catalog-product-card mdh-product-card-2026 group relative overflow-hidden rounded-[8px] border p-3 transition-all duration-500 md:p-4 ${cardSize} ${
-                  isProductRealPhoto(product)
-                    ? 'border-emerald-300/24 bg-[linear-gradient(180deg,rgba(16,185,129,0.11),rgba(3,7,13,0.84))]'
-                    : isProductVisualVerified(product)
-                    ? 'border-cyan-300/18 bg-[linear-gradient(180deg,rgba(34,211,238,0.09),rgba(3,7,13,0.84))]'
-                    : 'border-amber-300/22 bg-[linear-gradient(180deg,rgba(245,158,11,0.10),rgba(3,7,13,0.84))]'
-                }`}
-                role="link"
-                tabIndex={0}
-                aria-label={`Abrir ${product.name}`}
-                onClick={(event) => {
-                  if (shouldIgnoreCardActivation(event.target)) return;
-                  openProduct(product);
-                }}
-                onKeyDown={(event) => {
-                  if (shouldIgnoreCardActivation(event.target)) return;
-                  if (event.key === 'Enter' || event.key === ' ') {
-                    event.preventDefault();
-                    openProduct(product);
-                  }
-                }}
-              >
-                <div className="mdh-cad-grid pointer-events-none absolute inset-0 opacity-20" />
-                <ProductImageGallery product={product} compact priority={prioritizeInitialImages && index < 3} />
-
-                <div className="mt-3 flex flex-wrap gap-2">
-                  <ProductVisualBadge product={product} />
-                  {product.featured ? (
-                    <span className="rounded-full border border-amber-300/25 bg-amber-300/10 px-3 py-1 text-[11px] font-semibold text-amber-100">
-                      Destaque
-                    </span>
-                  ) : null}
-                  {urgency ? (
-                    <span className="rounded-full border border-rose-300/25 bg-rose-300/10 px-3 py-1 text-[11px] font-semibold text-rose-100">
-                      {urgency}
-                    </span>
-                  ) : null}
-                  {product.readyToShip ? (
-                    <span className="rounded-full border border-emerald-300/25 bg-emerald-300/10 px-3 py-1 text-[11px] font-semibold text-emerald-100">
-                      Pronta entrega
-                    </span>
-                  ) : null}
-                </div>
-
-                <div className="mt-4 min-w-0">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-cyan-100/66">{product.category}</p>
-                  <h3 className="mt-2 line-clamp-2 break-words text-xl font-black leading-tight text-white">
-                    {product.name}
-                  </h3>
-                  <p className="mt-3 line-clamp-2 text-sm leading-6 text-white/62">
-                    {product.description}
-                  </p>
-                </div>
-
-                <div className="mt-4 grid grid-cols-3 gap-2">
-                  {[
-                    ['Material', product.material],
-                    ['Acab.', product.finish],
-                    ['Prazo', product.productionWindow],
-                  ].map(([label, value]) => (
-                    <div key={label} className="rounded-[8px] border border-white/10 bg-white/[0.045] p-2">
-                      <p className="text-[9px] font-semibold uppercase tracking-[0.16em] text-white/38">{label}</p>
-                      <p className="mt-1 line-clamp-1 text-xs font-semibold text-white/74">{value}</p>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="mt-4 rounded-[8px] border border-white/10 bg-black/28 p-3">
-                  <div className="flex flex-wrap items-end justify-between gap-3">
-                    <div>
-                      <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-emerald-100/60">
-                        {product.pricingMode === 'faixa-auditada' ? 'Pix no site' : 'Orçamento inicial'}
-                      </p>
-                      <ProductPriceStack product={product} compact />
-                    </div>
-                    <div className="text-right text-xs text-white/56">
-                      <p>{quantity}x {formatCurrency(total)}</p>
-                      <p>{bundleDiscount > 0 ? `Economia ${formatCurrency(savings)}` : product.customizable ? 'aceita briefing' : 'pronto para decidir'}</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mt-4 grid gap-2 sm:grid-cols-3">
-                  <Link
-                    href={buildProductHref(product)}
-                    prefetch={false}
-                    onClick={() => {
-                      addRecent(product.id);
-                      saveCatalogReturnState(product.id);
-                      trackSelectItem(product, 'Catalogo', (currentPage - 1) * PAGE_SIZE + index);
-                    }}
-                    className="btn-secondary px-3 py-2 text-center text-sm font-semibold text-cyan-100"
-                  >
-                    {product.pricingMode === 'faixa-auditada' ? 'Comprar' : 'Orçar'}
-                  </Link>
-                  {product.pricingMode === 'faixa-auditada' ? (
-                    <button
-                      type="button"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        addToCart({
-                          productId: product.id,
-                          quantity: 1,
-                          title: product.name,
-                          pricePix: product.pricePix,
-                          priceCard: product.priceCard,
-                          image: product.images?.[0] || product.image,
-                        });
-                        trackAddToCart(product, 1);
-                      }}
-                      className="btn-primary px-3 py-2 text-center text-xs font-semibold"
-                    >
-                      <ShoppingCart className="mr-1.5 inline h-3.5 w-3.5" />
-                      Carrinho
-                    </button>
-                  ) : (
-                    <Link href="/imagem-para-impressao-3d" prefetch={false} className="btn-primary px-3 py-2 text-center text-xs font-semibold">
-                      Briefing
-                    </Link>
-                  )}
-                  <a
-                    href={buildWhatsAppQuote(product, quantity)}
-                    target="_blank"
-                    rel="noreferrer"
-                    onClick={() => trackWhatsAppClick('catalog_card')}
-                    className="btn-glass px-3 py-2 text-center text-xs font-semibold text-emerald-100"
-                  >
-                    WhatsApp
-                  </a>
-                </div>
-
-                <div className="mt-4 flex flex-wrap gap-2">
-                  <button
-                    type="button"
-                    onClick={(event) => {
-                      event.stopPropagation();
-                      toggleFavorite(product.id);
-                    }}
-                    className={`rounded-full border px-3 py-1 text-xs font-semibold ${
-                      isFavorite ? 'border-amber-300/30 bg-amber-300/12 text-amber-100' : 'border-white/10 bg-white/5 text-white/70'
-                    }`}
-                  >
-                    {isFavorite ? 'Favoritado' : 'Favoritar'}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={(event) => {
-                      event.stopPropagation();
-                      toggleCompare(product.id);
-                    }}
-                    className={`rounded-full border px-3 py-1 text-xs font-semibold ${
-                      isCompared ? 'border-cyan-300/30 bg-cyan-300/12 text-cyan-100' : 'border-white/10 bg-white/5 text-white/70'
-                    }`}
-                  >
-                    {isCompared ? 'No comparador' : 'Comparar'}
-                  </button>
-                </div>
-              </article>
-
-              {editorial ? (
-                <div className={`mdh-catalog-breakout relative overflow-hidden rounded-[8px] border p-5 sm:col-span-2 xl:col-span-3 ${editorial.tone}`}>
-                  <div className="mdh-cad-grid absolute inset-0 opacity-35" />
-                  <div className="relative flex flex-col justify-between gap-5 md:flex-row md:items-end">
-                    <div className="max-w-2xl">
-                      <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-cyan-100/70">Atalho comercial</p>
-                      <h3 className="mt-3 text-3xl font-black leading-tight text-white">{editorial.title}</h3>
-                      <p className="mt-3 text-sm leading-7 text-white/68">{editorial.body}</p>
-                    </div>
-                    {'external' in editorial && editorial.external ? (
-                      <a href={editorial.href} target="_blank" rel="noreferrer" className="btn-whatsapp whitespace-nowrap">
-                        {editorial.cta}
-                      </a>
-                    ) : (
-                      <Link href={editorial.href} prefetch={false} className="btn-secondary whitespace-nowrap">
-                        {editorial.cta}
-                      </Link>
-                    )}
-                  </div>
-                </div>
-              ) : null}
-            </Fragment>
-          );
-        })}
       </div>
-
-      {visibleItems.length === 0 ? (
-        <div className="glass-panel rounded-[28px] border border-white/10 bg-white/5 p-8 text-center">
-          <p className="text-sm uppercase tracking-[0.18em] text-cyan-200/80">Sem resultado</p>
-          <h3 className="mt-3 text-2xl font-bold text-white">Nenhum item bateu com esse filtro.</h3>
-          <p className="mt-3 text-sm leading-7 text-white/65">
-            Ajuste intenção, material, faixa de preço ou disponibilidade para encontrar peças com mais fit comercial.
-          </p>
-          {rescueActions.length > 0 ? (
-            <div className="mt-5 flex flex-wrap justify-center gap-2">
-              {rescueActions.map((action) => (
-                <button key={action.id} type="button" onClick={action.onClick} className="rounded-full border border-cyan-300/20 bg-cyan-300/10 px-4 py-2 text-xs font-semibold text-cyan-100 transition hover:border-cyan-300/35 hover:bg-cyan-300/15">
-                  {action.label}
-                </button>
-              ))}
-            </div>
-          ) : null}
-          <div className="mt-6 flex flex-wrap justify-center gap-3">
-            <button type="button" onClick={resetFilters} className="btn-secondary">
-              Limpar filtros
-            </button>
-            <Link href="/imagem-para-impressao-3d" prefetch={false} className="btn-primary">
-              Pedir sob medida
-            </Link>
-          </div>
-        </div>
-      ) : null}
-
-      {totalPages > 1 ? (
-        <div className="flex flex-wrap items-center justify-center gap-2">
-          <button
-            onClick={() => safeSetPage(currentPage - 1)}
-            className="btn-glass px-4 py-2 text-sm font-semibold text-white/75 disabled:opacity-50"
-            disabled={currentPage === 1}
-          >
-            Anterior
-          </button>
-          {paginationItems.map((item) =>
-            typeof item === 'string' ? (
-              <span key={item} className="px-2 text-sm font-semibold text-white/45">
-                ...
-              </span>
-            ) : (
-              <button
-                key={item}
-                onClick={() => safeSetPage(item)}
-                className={`rounded-full border px-4 py-2 text-sm font-semibold ${
-                  currentPage === item ? 'border-cyan-300/35 bg-cyan-300/12 text-cyan-50' : 'border-white/10 bg-white/5 text-white/75'
-                }`}
-              >
-                {item}
-              </button>
-            )
-          )}
-          <button
-            onClick={() => safeSetPage(currentPage + 1)}
-            className="btn-glass px-4 py-2 text-sm font-semibold text-white/75 disabled:opacity-50"
-            disabled={currentPage === totalPages}
-          >
-            Próxima
-          </button>
-          <form
-            className="flex min-h-11 items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1"
-            onSubmit={(event) => {
-              event.preventDefault();
-              safeSetPage(Number(pageInput));
-            }}
-          >
-            <label htmlFor="catalog-page-jump" className="text-xs font-semibold text-white/60">
-              Ir para
-            </label>
-            <input
-              id="catalog-page-jump"
-              type="number"
-              min={1}
-              max={totalPages}
-              value={pageInput}
-              onChange={(event) => setPageInput(event.target.value)}
-              className="h-9 w-16 rounded-full border border-white/10 bg-black/20 px-3 text-center text-sm font-semibold text-white outline-none focus:border-cyan-300/50"
-              aria-label="Ir para página do catálogo"
-            />
-            <button type="submit" className="rounded-full bg-cyan-300 px-3 py-2 text-xs font-bold text-slate-950">
-              Abrir
-            </button>
-          </form>
-        </div>
-      ) : null}
     </div>
   );
 }

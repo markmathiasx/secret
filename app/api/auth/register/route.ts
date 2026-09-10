@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { registerBuyerAccount } from "@/lib/marketplace-auth";
 import { applyNoStoreHeaders } from "@/lib/http-cache";
-import { createCustomerAccount } from "@/lib/auth-store";
 import { canConnectToDatabase } from "@/lib/prisma";
 import { getClientIp, sanitizeTextInput, isValidEmail } from "@/lib/security";
 import { rateLimitRequest } from "@/lib/redis";
@@ -43,35 +42,7 @@ export async function POST(req: Request) {
     const hasDatabase = await canConnectToDatabase();
 
     if (!hasDatabase) {
-      const user = await createCustomerAccount({
-        email,
-        password,
-        displayName: name,
-      });
-      await recordAuthAudit({
-        actorUserId: user.id,
-        action: "auth.customer.register_success",
-        targetType: "User",
-        targetId: user.id,
-        ip,
-        userAgent: req.headers.get("user-agent"),
-      });
-
-      return applyNoStoreHeaders(
-        NextResponse.json(
-          {
-            success: true,
-            needsVerification: false,
-            message: "Conta criada com sucesso.",
-            user: {
-              id: user.id,
-              email: user.email,
-              name: user.displayName,
-            },
-          },
-          { status: 201 }
-        )
-      );
+      return applyNoStoreHeaders(NextResponse.json({ error: "Banco de clientes indisponível. Nenhuma conta temporária foi criada. Tente novamente mais tarde." }, { status: 503 }));
     }
 
     const result = await registerBuyerAccount({

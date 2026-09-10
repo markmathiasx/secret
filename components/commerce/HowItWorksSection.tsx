@@ -1,8 +1,8 @@
 const steps = [
-  ["Escolha", "Abra um produto, página por intenção ou fale no atendimento."],
+  ["Escolha", "Encontre uma peça no catálogo ou conte sua ideia para a equipe."],
   ["Confirme", "Veja Pix, cartão, prazo, personalização e material."],
   ["Envie", "Para sob medida, mande uso, medidas, quantidade, cor e referência."],
-  ["Produza", "A equipe confirma o pedido e orienta pagamento em canal oficial."],
+  ["Acompanhe", "Após a confirmação, acompanhe a produção e as orientações de envio."],
 ];
 
 export function HowItWorksSection() {

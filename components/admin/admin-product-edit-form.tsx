@@ -108,8 +108,8 @@ async function parseSaveResponse(response: Response) {
   } catch {
     return {
       error: response.ok
-        ? "O servidor salvou, mas retornou uma resposta não-JSON."
-        : `Resposta inesperada do servidor: ${text.slice(0, 240)}`,
+        ? "Não foi possível confirmar a gravação. Recarregue e confira o preço antes de tentar novamente."
+        : `Resposta inesperada do servidor (HTTP ${response.status}). Entre novamente se a sessão expirou.`,
     };
   }
 }
@@ -276,7 +276,7 @@ export function AdminProductEditForm({ product }: { product: AdminCatalogProduct
     }));
   }
 
-  async function handleSubmit(e: FormEvent) {
+  async function handleSubmit(e: FormEvent, priceOnly = false) {
     e.preventDefault();
     setLoading(true);
     setError("");
@@ -286,9 +286,9 @@ export function AdminProductEditForm({ product }: { product: AdminCatalogProduct
       const res = await fetch(`/api/admin/products/${product.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
+        body: JSON.stringify(priceOnly ? { pricePix: String(form.pricePix) } : {
           ...form,
-          pricePix: parseNumber(String(form.pricePix)),
+          pricePix: String(form.pricePix),
           priceCard: parseNumber(String(form.priceCard)),
           stock: parseNumber(String(form.stock)),
           subcategory: String(form.subcategory),
@@ -321,10 +321,10 @@ export function AdminProductEditForm({ product }: { product: AdminCatalogProduct
         }),
       });
       const data = await parseSaveResponse(res);
-      if (!res.ok) {
+      if (!res.ok || data.ok !== true || data.persisted !== true) {
         throw new Error(String(data?.error || `Erro ao salvar. Status HTTP ${res.status}.`));
       }
-      setSuccess(String(data?.message || "Produto atualizado com sucesso!"));
+      setSuccess(String(data.warning || data.message || "Produto atualizado no banco."));
       router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Erro ao salvar produto.");
@@ -346,9 +346,14 @@ export function AdminProductEditForm({ product }: { product: AdminCatalogProduct
 
   return (
     <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_420px]">
-      <form onSubmit={handleSubmit} className="glass-card space-y-4">
-        {error && <p className="rounded-[16px] border border-rose-300/20 bg-rose-300/10 p-3 text-sm text-rose-200">{error}</p>}
-        {success && <p className="rounded-[16px] border border-emerald-300/20 bg-emerald-300/10 p-3 text-sm text-emerald-200">{success}</p>}
+      <form onSubmit={handleSubmit} aria-busy={loading} className="mdh-instrument-panel space-y-4 p-5">
+        <div className="rounded-lg border border-white/10 p-4 text-sm text-white/70">
+          <h2 className="font-semibold text-white">Editar produto e preços</h2>
+          <p>Pix é o preço base; cartão é calculado automaticamente. O salvamento exige banco disponível.</p>
+          <p className="mt-2">Pix carregado: {formatCurrency(product.pricePix)} → Em edição: {formatCurrency(currentPix)}</p>
+        </div>
+        {error && <p role="alert" className="rounded-lg border border-rose-300/20 bg-rose-300/10 p-3 text-sm text-rose-200">{error}</p>}
+        {success && <p role="status" className="rounded-lg border border-emerald-300/20 bg-emerald-300/10 p-3 text-sm text-emerald-200">{success}</p>}
 
         <label className="block">
           <span className="mb-1 block text-sm text-white/70">Título</span>
@@ -532,6 +537,9 @@ export function AdminProductEditForm({ product }: { product: AdminCatalogProduct
         </div>
 
         <div className="flex flex-wrap gap-3 pt-2">
+          <button type="button" disabled={loading} onClick={(event) => handleSubmit(event, true)} className="btn-secondary">
+            Salvar somente preço
+          </button>
           <button type="submit" disabled={loading} className="btn-primary">
             {loading ? "Salvando..." : "Salvar alterações"}
           </button>

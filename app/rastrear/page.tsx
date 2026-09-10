@@ -47,7 +47,7 @@ export default function RastrearPage() {
 
   async function handleSearch(e: React.FormEvent) {
     e.preventDefault();
-    if (!code.trim() || !email.trim()) return;
+    if (!code.trim()) return;
     setLoading(true);
     setError("");
     setOrder(null);
@@ -55,7 +55,6 @@ export default function RastrearPage() {
     try {
       const params = new URLSearchParams({
         code: code.trim().toUpperCase(),
-        email: email.trim().toLowerCase(),
       });
       const res = await fetch(`/api/orders/track?${params.toString()}`);
       const data = await res.json();
@@ -76,7 +75,7 @@ export default function RastrearPage() {
       <div className="mb-8">
         <p className="section-kicker">Acompanhar pedido</p>
         <h1 className="section-title">Rastrear</h1>
-        <p className="section-copy">Digite o código e o e-mail usado na compra para acompanhar o status.</p>
+        <p className="section-copy">Use o código na sessão que criou o pedido ou entre na conta vinculada. Se perdeu o acesso, contate o atendimento.</p>
       </div>
 
       <div className="mb-6">

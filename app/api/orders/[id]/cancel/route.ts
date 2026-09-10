@@ -26,7 +26,7 @@ export async function POST(_req: NextRequest, context: RouteContext) {
 
   // Only buyer or admin can cancel
   const isAdmin = user.role === "admin";
-  const isBuyer = order.buyerId === user.id || order.customerEmail?.toLowerCase() === user.email.toLowerCase();
+  const isBuyer = order.buyerId === user.id;
   if (!isAdmin && !isBuyer) {
     return NextResponse.json({ ok: false, error: "Sem permissão para cancelar este pedido." }, { status: 403 });
   }
@@ -38,10 +38,13 @@ export async function POST(_req: NextRequest, context: RouteContext) {
     );
   }
 
-  const updated = await prisma.order.update({
-    where: { id },
+  const updated = await prisma.order.updateMany({
+    where: { id, status: "PENDING_PAYMENT" },
     data: { status: "CANCELED", updatedAt: new Date() },
   });
 
-  return applyNoStoreHeaders(NextResponse.json({ ok: true, order: { id: updated.id, status: updated.status } }));
+  if (!updated.count) {
+    return NextResponse.json({ ok: false, error: "O pedido mudou. Atualize antes de cancelar." }, { status: 409 });
+  }
+  return applyNoStoreHeaders(NextResponse.json({ ok: true, order: { id, status: "CANCELED" } }));
 }

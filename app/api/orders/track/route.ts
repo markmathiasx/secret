@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { applyNoStoreHeaders } from "@/lib/http-cache";
-import { verifyOrderAccessToken, orderAccessCookieName } from "@/lib/order-access";
+import { canAccessOrder } from "@/lib/server/order-authorization";
 import { canConnectToDatabase, prisma } from "@/lib/prisma";
 import { checkRateLimit, getClientIp } from "@/lib/security";
-import { getServerSessionUser, isAdminSession } from "@/lib/server-session";
 import { getMemoryRecords } from "@/lib/storage";
 
 export const dynamic = "force-dynamic";
@@ -22,7 +21,6 @@ const STATUS_LABELS: Record<string, string> = {
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const requestedCode = searchParams.get("code")?.trim().toUpperCase();
-  const email = searchParams.get("email")?.trim().toLowerCase() || "";
   const ip = getClientIp(req.headers);
   const rateLimit = checkRateLimit(`order-track:${ip}`, 10, 60_000);
 
@@ -36,35 +34,6 @@ export async function GET(req: NextRequest) {
     return applyNoStoreHeaders(NextResponse.json({ ok: false, error: "Informe o código do pedido." }, { status: 400 }));
   }
   const code = requestedCode;
-
-  const sessionUser = await getServerSessionUser();
-  const accessToken = req.cookies.get(orderAccessCookieName)?.value || "";
-
-  async function isAuthorizedOrder(input: { buyerId?: string | null; customerEmail?: string | null }) {
-    if (sessionUser && isAdminSession(sessionUser)) {
-      return true;
-    }
-
-    if (sessionUser?.id && input.buyerId && sessionUser.id === input.buyerId) {
-      return true;
-    }
-
-    if (sessionUser?.email && input.customerEmail && sessionUser.email.toLowerCase() === input.customerEmail.toLowerCase()) {
-      return true;
-    }
-
-    if (input.customerEmail && accessToken) {
-      const cookieAuthorized = await verifyOrderAccessToken(accessToken, {
-        orderCode: code,
-        customerEmail: input.customerEmail,
-      });
-      if (cookieAuthorized) {
-        return true;
-      }
-    }
-
-    return Boolean(input.customerEmail && email && input.customerEmail.toLowerCase() === email);
-  }
 
   if (await canConnectToDatabase()) {
     const order = await prisma.order.findFirst({
@@ -106,7 +75,8 @@ export async function GET(req: NextRequest) {
       });
 
     if (order) {
-      const authorized = await isAuthorizedOrder({
+      const authorized = await canAccessOrder({
+        orderNumber: code,
         buyerId: order.buyerId,
         customerEmail: order.customerEmail,
       });
@@ -114,7 +84,7 @@ export async function GET(req: NextRequest) {
       if (!authorized) {
         return applyNoStoreHeaders(
           NextResponse.json(
-            { ok: false, error: "Confirme o e-mail usado no pedido para continuar." },
+            { ok: false, error: "Use a sessão que criou o pedido ou entre na conta vinculada. Se perdeu o acesso, contate o atendimento." },
             { status: 403 }
           )
         );
@@ -142,7 +112,6 @@ export async function GET(req: NextRequest) {
                   pixQrCode: order.payments[0].pixQrCode,
                   boletoUrl: order.payments[0].boletoUrl,
                   paidAt: order.payments[0].paidAt,
-                  metadata: order.payments[0].metadata,
                 }
               : null,
             items: order.items.map((item) => ({
@@ -172,16 +141,12 @@ export async function GET(req: NextRequest) {
 
   if (found) {
     const foundEmail = String(found.email || found.customer_email || "").trim().toLowerCase() || null;
-    const authorized =
-      (foundEmail && accessToken
-        ? await verifyOrderAccessToken(accessToken, { orderCode: code, customerEmail: foundEmail })
-        : false) ||
-      (foundEmail ? foundEmail === email : false);
+    const authorized = await canAccessOrder({ orderNumber: code, customerEmail: foundEmail });
 
     if (!authorized) {
       return applyNoStoreHeaders(
         NextResponse.json(
-          { ok: false, error: "Confirme o e-mail usado no pedido para continuar." },
+          { ok: false, error: "Use a sessão que criou o pedido ou entre na conta vinculada. Se perdeu o acesso, contate o atendimento." },
           { status: 403 }
         )
       );

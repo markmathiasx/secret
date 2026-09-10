@@ -6,7 +6,7 @@ import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { z } from "zod";
-import { prisma } from "@/lib/prisma";
+import { isDatabaseConfigured, prisma } from "@/lib/prisma";
 import { canUserAccessRole, getPublicRole, getUserByEmail, shouldAutoVerifyEmail, verifyPasswordHash, verifyTwoFactorCode } from "@/lib/marketplace-auth";
 import { getAuthSecret } from "@/lib/env";
 
@@ -58,11 +58,13 @@ const providers: Provider[] = [
   }),
 ];
 
-if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
+const googleClientId = process.env.AUTH_GOOGLE_ID || process.env.GOOGLE_CLIENT_ID;
+const googleClientSecret = process.env.AUTH_GOOGLE_SECRET || process.env.GOOGLE_CLIENT_SECRET;
+if (googleClientId && googleClientSecret && isDatabaseConfigured() && getAuthSecret()) {
   providers.push(
     Google({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      clientId: googleClientId,
+      clientSecret: googleClientSecret,
     })
   );
 }
@@ -77,21 +79,37 @@ if (process.env.APPLE_ID && process.env.APPLE_SECRET) {
 }
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
-  adapter: PrismaAdapter(prisma),
+  adapter: {
+    ...PrismaAdapter(prisma),
+    async createUser(user) {
+      return prisma.user.create({
+        data: {
+          name: user.name,
+          email: user.email.trim().toLowerCase(),
+          image: user.image,
+          emailVerified: user.emailVerified,
+          role: "BUYER",
+          buyerProfile: { create: {} },
+          wishlist: { create: {} },
+        },
+      }) as ReturnType<NonNullable<ReturnType<typeof PrismaAdapter>["createUser"]>>;
+    },
+  },
   session: {
     strategy: "jwt",
   },
   pages: {
     signIn: "/login",
+    error: "/login",
   },
   secret: getAuthSecret(),
   trustHost: true,
   providers,
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, account }) {
       if (user) {
         token.userId = user.id;
-        token.role = (user as { role?: string }).role || "buyer";
+        token.role = account?.provider === "credentials" ? (user as { role?: string }).role || "buyer" : "buyer";
         token.twoFactorEnabled = Boolean((user as { twoFactorEnabled?: boolean }).twoFactorEnabled);
         token.passwordUpdatedAt = (user as { passwordUpdatedAt?: string | null }).passwordUpdatedAt || null;
         token.sessionIssuedAt = Math.floor(Date.now() / 1000);
@@ -110,16 +128,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       }
       return session;
     },
-    async signIn({ user, account }) {
+    async signIn({ user, account, profile }) {
       if (account?.provider !== "credentials" && user.email) {
-        await prisma.user.updateMany({
-          where: {
-            email: user.email.toLowerCase(),
-          },
-          data: {
-            emailVerified: new Date(),
-          },
-        });
+        if (account?.provider === "google" && profile?.email_verified !== true) return false;
+        const existing = await prisma.user.findUnique({ where: { email: user.email.toLowerCase() } });
+        if (existing && (!existing.isActive || existing.disabledAt || existing.twoFactorEnabled || existing.role !== "BUYER")) return false;
       }
 
       return true;

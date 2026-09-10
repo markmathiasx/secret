@@ -2,9 +2,9 @@
 
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 
 const CartDrawer = dynamic(() => import("@/components/cart-drawer").then((module) => module.CartDrawer), { ssr: false });
-const CartRecoveryDock = dynamic(() => import("@/components/cart-recovery-dock").then((module) => module.CartRecoveryDock), { ssr: false });
 const CartSessionBridge = dynamic(() => import("@/components/cart-session-bridge").then((module) => module.CartSessionBridge), { ssr: false });
 const ChatwootWidget = dynamic(() => import("@/components/chatwoot-widget").then((module) => module.ChatwootWidget), { ssr: false });
 const CookieConsent = dynamic(() => import("@/components/cookie-consent").then((module) => module.CookieConsent), { ssr: false });
@@ -12,9 +12,6 @@ const FacebookPixel = dynamic(() => import("@/components/facebook-pixel").then((
 const LiveChatWidget = dynamic(() => import("@/components/live-chat-widget").then((module) => module.LiveChatWidget), { ssr: false });
 const NetworkStatusBanner = dynamic(() => import("@/components/network-status-banner").then((module) => module.NetworkStatusBanner), { ssr: false });
 const PwaRegister = dynamic(() => import("@/components/pwa-register").then((module) => module.PwaRegister), { ssr: false });
-const RouteActionDock = dynamic(() => import("@/components/route-action-dock").then((module) => module.RouteActionDock), { ssr: false });
-const ScrollToTop = dynamic(() => import("@/components/scroll-to-top").then((module) => module.ScrollToTop), { ssr: false });
-const SiteAssistant = dynamic(() => import("@/components/site-assistant").then((module) => module.SiteAssistant), { ssr: false });
 const TikTokPixel = dynamic(() => import("@/components/tiktok-pixel").then((module) => module.TikTokPixel), { ssr: false });
 const WebVitals = dynamic(() => import("@/components/web-vitals").then((module) => module.WebVitals), { ssr: false });
 
@@ -30,16 +27,14 @@ type DeferredLayoutWidgetsProps = {
 };
 
 export function DeferredLayoutWidgets({
-  cardCheckoutReady,
-  aiAssistantReady,
-  aiAssistantModel,
-  aiAssistantProvider,
   chatwootEnabled,
   chatwootBaseUrl,
   chatwootWebsiteToken,
   liveChatMode,
 }: DeferredLayoutWidgetsProps) {
   const [ready, setReady] = useState(false);
+  const pathname = usePathname();
+  const showChat = pathname === "/atendimento";
 
   useEffect(() => {
     if (ready) return;
@@ -62,25 +57,14 @@ export function DeferredLayoutWidgets({
     };
   }, [ready]);
 
-  if (!ready) return null;
+  if (!ready) return <><CartDrawer /><CookieConsent /></>;
 
   return (
     <>
       <CartSessionBridge />
-      <RouteActionDock />
-      <ScrollToTop />
-      <SiteAssistant
-        cardCheckoutReady={cardCheckoutReady}
-        aiAssistantReady={aiAssistantReady}
-        aiAssistantModel={aiAssistantModel}
-        aiAssistantProvider={aiAssistantProvider}
-        liveChatMode={liveChatMode}
-      />
-      <ChatwootWidget enabled={chatwootEnabled} baseUrl={chatwootBaseUrl} websiteToken={chatwootWebsiteToken} />
-      <LiveChatWidget defaultMode={liveChatMode} />
+      {showChat ? <><ChatwootWidget enabled={chatwootEnabled} baseUrl={chatwootBaseUrl} websiteToken={chatwootWebsiteToken} /><LiveChatWidget defaultMode={liveChatMode} /></> : null}
       <PwaRegister />
       <CartDrawer />
-      <CartRecoveryDock />
       <CookieConsent />
       <FacebookPixel />
       <TikTokPixel />

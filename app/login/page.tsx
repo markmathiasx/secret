@@ -7,6 +7,7 @@ import { emitCustomerAuthChange } from '@/lib/customer-session-client';
 import { whatsappMessage, whatsappNumber } from '@/lib/constants';
 import { PasswordInput } from '@/components/password-input';
 import { HoneypotField } from '@/components/honeypot';
+import { GoogleCustomerLogin } from '@/components/google-customer-login';
 
 const benefits = [
   'Salvar favoritos e voltar mais rápido aos produtos vistos',
@@ -15,6 +16,10 @@ const benefits = [
   'Comprar novamente com mais agilidade'
 ];
 const LOGIN_REDIRECT_KEY = 'mdh_login_redirect';
+
+function safeRedirect(value: string | null) {
+  return value && value.startsWith('/') && !value.startsWith('//') && !value.includes('\\') ? value : '';
+}
 
 function getPasswordStrength(password: string) {
   let score = 0;
@@ -37,6 +42,7 @@ export default function LoginPage({ initialMode = 'register' }: { initialMode?: 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [twoFactorCode, setTwoFactorCode] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
@@ -53,7 +59,7 @@ export default function LoginPage({ initialMode = 'register' }: { initialMode?: 
     if (typeof window === 'undefined') return;
     const params = new URLSearchParams(window.location.search);
     setQueryState({
-      redirectTo: params.get('redirect') || '',
+      redirectTo: safeRedirect(params.get('redirect')),
       verificationStatus: params.get('verified') || '',
     });
     const requestedMode = params.get('mode');
@@ -123,7 +129,7 @@ export default function LoginPage({ initialMode = 'register' }: { initialMode?: 
         method: 'POST',
         cache: 'no-store',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email, password, twoFactorCode }),
       });
       const loginData = await loginResponse.json().catch(() => ({}));
 
@@ -137,7 +143,7 @@ export default function LoginPage({ initialMode = 'register' }: { initialMode?: 
       const storedRedirect = typeof window !== 'undefined' ? window.sessionStorage.getItem(LOGIN_REDIRECT_KEY) : null;
       if (typeof window !== 'undefined') {
         window.sessionStorage.removeItem(LOGIN_REDIRECT_KEY);
-        window.location.assign(storedRedirect || redirectTo || '/conta');
+        window.location.assign(safeRedirect(storedRedirect) || redirectTo || '/conta');
       }
     } catch {
       setMessage('Erro de rede ao validar seu acesso.');
@@ -226,6 +232,7 @@ export default function LoginPage({ initialMode = 'register' }: { initialMode?: 
             </button>
           </div>
 
+          <GoogleCustomerLogin />
           <form onSubmit={handleEmailAuth} className="mt-6 space-y-4">
             {mode === 'register' ? (
               <label className="block">
@@ -252,6 +259,12 @@ export default function LoginPage({ initialMode = 'register' }: { initialMode?: 
               </div>
             </label>
 
+            {mode === 'login' && (
+              <label className="block">
+                <span className="mb-2 block text-sm text-white/70">Código 2FA (se ativado)</span>
+                <input value={twoFactorCode} onChange={(event) => setTwoFactorCode(event.target.value)} autoComplete="one-time-code" className="field-base w-full" />
+              </label>
+            )}
             {mode === 'register' ? (
               <div className="rounded-[20px] border border-white/10 bg-black/20 p-4">
                 <div className="flex items-center justify-between gap-3 text-xs uppercase tracking-[0.16em] text-white/50">

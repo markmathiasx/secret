@@ -6,6 +6,7 @@ import { rateLimitRequest } from "@/lib/redis";
 import { createSignedSessionToken, customerSessionCookieName, getCustomerSessionSecret } from "@/lib/session-token";
 import { logStructured } from "@/lib/logger";
 import { recordAuthAudit } from "@/lib/auth/audit";
+import { canConnectToDatabase } from "@/lib/prisma";
 
 export const runtime = "nodejs";
 
@@ -19,10 +20,10 @@ export async function POST(req: Request) {
       return applyNoStoreHeaders(NextResponse.json({ error: "Muitas tentativas. Aguarde um pouco antes de tentar de novo." }, { status: 429 }));
     }
 
-    const { email: rawEmail, password } = await req.json();
+    const { email: rawEmail, password, twoFactorCode } = await req.json();
     const email = typeof rawEmail === "string" ? rawEmail.trim().toLowerCase() : "";
 
-    if (!email || !password) {
+    if (!email || typeof password !== "string" || !password || password.length > 512) {
       logStructured("warn", "customer_login_invalid_payload", { requestId: req.headers.get("x-request-id") || null, ip });
       return applyNoStoreHeaders(NextResponse.json({ error: "Email e senha são obrigatórios" }, { status: 400 }));
     }
@@ -37,7 +38,10 @@ export async function POST(req: Request) {
       return applyNoStoreHeaders(NextResponse.json({ error: "Configure AUTH_CUSTOMER_SESSION_SECRET nas variáveis do projeto." }, { status: 500 }));
     }
 
-    const user = await authenticateCustomerUser({ email, password });
+    if (!(await canConnectToDatabase())) {
+      return applyNoStoreHeaders(NextResponse.json({ error: "Banco de clientes indisponível. Tente novamente mais tarde." }, { status: 503 }));
+    }
+    const user = await authenticateCustomerUser({ email, password, twoFactorCode: typeof twoFactorCode === "string" ? twoFactorCode.trim() : undefined });
 
     if (!user) {
       logStructured("warn", "customer_login_failed", { requestId: req.headers.get("x-request-id") || null, ip, emailDomain: email.split("@")[1] || "unknown" });
@@ -47,7 +51,7 @@ export async function POST(req: Request) {
         userAgent: req.headers.get("user-agent"),
         metadata: { emailDomain: email.split("@")[1] || "unknown" },
       });
-      return applyNoStoreHeaders(NextResponse.json({ error: "Email ou senha incorretos" }, { status: 401 }));
+      return applyNoStoreHeaders(NextResponse.json({ error: "Acesso não autorizado. Confira e-mail e senha, confirme seu e-mail e use o acesso com 2FA se estiver ativado." }, { status: 401 }));
     }
 
     const sessionToken = await createSignedSessionToken(

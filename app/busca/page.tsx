@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, SlidersHorizontal } from "lucide-react";
-import { CatalogExplorer } from "@/components/catalog-explorer";
+import { CatalogExplorerLoader } from "@/components/catalog-explorer-loader";
+import { CATALOG_INITIAL_PRODUCT_COUNT, toCatalogClientProducts } from "@/lib/catalog-client-product";
 import { StorefrontSearchBox } from "@/components/storefront-search-box";
 import { getCatalogSnapshot } from "@/lib/catalog-repository";
 import { getProductUrl } from "@/lib/catalog";
@@ -17,27 +18,9 @@ export const metadata: Metadata = {
   alternates: { canonical: `${getSiteUrl()}/busca` },
 };
 
-type SearchPageParams = {
-  q?: string;
-  category?: string;
-  collection?: string;
-  status?: string;
-  material?: string;
-  intent?: string;
-  sort?: string;
-  mode?: string;
-  custom?: string;
-  min?: string;
-  max?: string;
-  page?: string;
-};
-
-type Props = { searchParams: Promise<SearchPageParams> };
-
-export default async function BuscaPage({ searchParams }: Props) {
+export default async function BuscaPage() {
   const catalog = await getCatalogSnapshot();
-  const params = await searchParams;
-  const visualMode = params.mode === "real" || params.mode === "verified" ? params.mode : "all";
+  const initialProducts = toCatalogClientProducts(catalog.slice(0, CATALOG_INITIAL_PRODUCT_COUNT));
   const searchEntries = catalog.map((product) => ({
     id: product.id,
     name: product.name,
@@ -95,22 +78,7 @@ export default async function BuscaPage({ searchParams }: Props) {
       </section>
 
       <section className="mt-8">
-        <CatalogExplorer
-          products={catalog}
-          basePath="/busca"
-          initialQuery={params.q || ""}
-          initialCategory={params.category || "Todas"}
-          initialCollection={params.collection || "Todas"}
-          initialVisualMode={visualMode}
-          initialAvailability={(params.status as "Todos" | "Pronta entrega" | "Sob encomenda" | undefined) || "Todos"}
-          initialMaterial={params.material || "Todos"}
-          initialIntent={params.intent || "Geral"}
-          initialOrder={params.sort || "Destaques"}
-          initialCustomizableOnly={params.custom === "1"}
-          initialPriceMin={params.min ? Number(params.min) : undefined}
-          initialPriceMax={params.max ? Number(params.max) : undefined}
-          initialPage={params.page ? Number(params.page) : 1}
-        />
+        <CatalogExplorerLoader initialProducts={initialProducts} expectedTotal={catalog.length} basePath="/busca" initialOrder="Destaques" />
       </section>
     </main>
   );

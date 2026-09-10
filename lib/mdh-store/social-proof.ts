@@ -31,9 +31,8 @@ function readJson<T>(fileName: string, fallback: T): T {
 }
 
 export function getLocalReviews(productSlug?: string) {
-  const reviews = readJson<LocalReview[]>("mdh-store-reviews.json", []);
-  const normalized = reviews.filter((review) => review.rating >= 1 && review.rating <= 5);
-  return productSlug ? normalized.filter((review) => review.productSlug === productSlug) : normalized;
+  void productSlug;
+  return [] as LocalReview[];
 }
 
 export function getLocalQuestions(productSlug?: string) {

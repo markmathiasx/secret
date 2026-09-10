@@ -31,6 +31,10 @@ export async function POST(request: Request) {
     fallbackCustomerName: parsed.data.customerName,
   });
 
+  if (!paymentContext) {
+    return NextResponse.json({ ok: false, error: "Pedido indisponível para pagamento. Use a sessão que criou o pedido ou entre na conta vinculada." }, { status: 403 });
+  }
+
   const pixPayment = paymentContext.orderCode
     ? await createMercadoPagoPixPayment({
         title: paymentContext.title,
@@ -70,6 +74,10 @@ export async function POST(request: Request) {
     });
   }
 
+  if (pixPayment && !pixPayment.ok && pixPayment.reason !== "missing_access_token") {
+    return NextResponse.json({ ok: false, error: "Não foi possível confirmar a geração do Pix. Consulte o pedido antes de tentar novamente; não faça outro pagamento." }, { status: 503 });
+  }
+
   let payload: string;
   try {
     payload = makePixPayload({
@@ -80,7 +88,7 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         ok: false,
-        error: "PIX_KEY não configurada. Configure PIX_KEY no ambiente para gerar Pix manual.",
+        error: "Pix indisponível no momento. Consulte o atendimento para verificar as opções disponíveis.",
         fallbackMessage: pixPayment?.fallbackMessage,
       },
       { status: 503 }
