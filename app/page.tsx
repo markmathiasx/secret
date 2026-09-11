@@ -54,7 +54,7 @@ function HomeProductCard({ product, siteUrl, priority = false }: { product: Prod
   return (
     <article
       data-product-id={product.id}
-      className="group overflow-hidden rounded-[24px] border border-white/10 bg-white/[0.045] shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] transition-all duration-500 hover:-translate-y-1.5 hover:border-emerald-300/30 hover:bg-white/[0.065] hover:shadow-[0_24px_64px_rgba(2,8,23,0.48)]"
+      className="experience-home-product group overflow-hidden rounded-[24px] border border-white/10 bg-white/[0.045] shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] transition-all duration-500 hover:-translate-y-1.5 hover:bg-white/[0.065]"
     >
       <Link href={href} prefetch={false} className="block">
         <div className="relative overflow-hidden bg-[#e7e9ed]" style={{ aspectRatio: "1 / 1" }}>
@@ -72,7 +72,7 @@ function HomeProductCard({ product, siteUrl, priority = false }: { product: Prod
         </div>
       </Link>
       <div className="p-4 sm:p-5">
-        <p className="line-clamp-1 text-[11px] font-bold uppercase tracking-[0.12em] text-emerald-100/80">
+        <p className="experience-home-product-category line-clamp-1 text-[11px] font-bold uppercase tracking-[0.12em]">
           {product.category}
         </p>
         <Link href={href} prefetch={false} className="mt-1 block">
@@ -93,7 +93,7 @@ function HomeProductCard({ product, siteUrl, priority = false }: { product: Prod
             href={whatsappHref(message)}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center rounded-xl border border-emerald-300/25 bg-emerald-300/10 px-3 text-emerald-100 transition hover:border-emerald-300/40 hover:bg-emerald-300/15"
+            className="experience-home-whatsapp inline-flex items-center justify-center rounded-xl px-3 transition"
             aria-label={`Comprar ${product.name} pelo WhatsApp`}
           >
             <MessageCircleMore className="h-4 w-4" />
@@ -132,7 +132,7 @@ function ProductRail({
             <h2 className="text-3xl font-black tracking-[-0.035em] text-white sm:text-4xl">{title}</h2>
             <p className="mt-2 max-w-2xl text-sm leading-6 text-white/62">{description}</p>
           </div>
-          <Link href={href} prefetch={false} className="hidden items-center gap-2 text-sm font-bold text-emerald-100 hover:text-white sm:inline-flex">
+          <Link href={href} prefetch={false} className="experience-gold-link hidden items-center gap-2 text-sm font-bold hover:text-white sm:inline-flex">
             Ver mais <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
@@ -163,9 +163,9 @@ export default async function HomePage() {
     <div className="experience-home" data-home-duplicate-count={duplicateIds.length} data-official-product-count={publicStats.activeProductCount}>
       <section className="experience-container experience-hero" aria-labelledby="home-title">
         <div>
-          <p className="experience-eyebrow">Design que ganha forma</p>
-          <h1 id="home-title">Pequenos objetos.<br /><span>Grandes ideias.</span></h1>
-          <p className="experience-hero-copy">Presentes com a sua cara, um setup mais organizado e peças feitas para resolver. Impressão 3D sob encomenda, com atendimento de gente de verdade.</p>
+          <p className="experience-eyebrow">Engenharia criativa · Impressão 3D</p>
+          <h1 id="home-title">Dê forma ao<br /><span>extraordinário.</span></h1>
+          <p className="experience-hero-copy">Objetos autorais para colecionar, presentear e transformar o seu universo. Produção 3D sob encomenda com transparência em cada etapa.</p>
           <div className="experience-hero-actions">
             <Link href="/catalogo" className="btn-primary gap-3">Encontrar minha peça <ArrowRight size={17} /></Link>
             <Link href="/sob-medida" className="btn-secondary">Criar algo meu</Link>

@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { Menu, Search, ShoppingBag, UserRound, X } from "lucide-react";
 import { useCustomerSession } from "@/lib/customer-session-client";
 import { useCart } from "@/lib/cart-context";
+import { getCatalogDirectoryLinks } from "@/lib/catalog-directories";
 
 type SiteHeaderProps = {
   cardCheckoutReady: boolean;
@@ -17,10 +18,7 @@ type SiteHeaderProps = {
 
 const navigation = [
   { label: "Explorar catálogo", href: "/catalogo" },
-  { label: "Chaveiros", href: "/catalogo?type=keychain" },
-  { label: "Chibis", href: "/catalogo?style=chibi" },
-  { label: "Games", href: "/catalogo?category=games" },
-  { label: "Casa & organização", href: "/catalogo?useCase=home" },
+  ...getCatalogDirectoryLinks(),
   { label: "Feito para você", href: "/sob-medida" },
 ];
 
@@ -48,13 +46,13 @@ export function SiteHeader(_props: SiteHeaderProps) {
   return (
     <header className="experience-header">
       <div className="experience-announcement">
-        <span>Feito no Rio. Criado para o seu dia.</span>
+        <span>Produção autoral no Rio · Ideias ganham forma</span>
         <Link href="/como-funciona">Conheça a MDH 3D <span aria-hidden="true">↗</span></Link>
       </div>
       <div className="experience-header-main">
         <Link href="/" className="experience-wordmark" aria-label="MDH 3D — início">
-          <span className="experience-mark" aria-hidden="true">M<span>↗</span></span>
-          <span>MDH<span className="experience-wordmark-detail">3D · DESIGN & IMPRESSÃO</span></span>
+          <span className="experience-mark" aria-hidden="true"><i>M</i><span>◆</span></span>
+          <span>MDH <b>3D</b><span className="experience-wordmark-detail">OBJETOS · DESIGN · FUTURO</span></span>
         </Link>
         <form action="/catalogo" role="search" className="experience-search">
           <Search size={18} aria-hidden="true" />

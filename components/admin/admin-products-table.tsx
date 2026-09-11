@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { Search, Plus, Edit2, Eye } from "lucide-react";
 import type { AdminCatalogProduct } from "@/lib/server/admin-catalog-store";
+import { AdminPriceEditor } from "@/components/admin/admin-price-editor";
 
 const STATUS_COLORS: Record<string, string> = {
   "Pronta entrega": "border-emerald-300/30 bg-emerald-300/10 text-emerald-100",
@@ -16,18 +17,20 @@ const STATUS_COLORS: Record<string, string> = {
 
 export function AdminProductsTable({ products }: { products: AdminCatalogProduct[] }) {
   const [query, setQuery] = useState("");
+  const [rows, setRows] = useState(products);
 
   const filtered = query.trim()
-    ? products.filter(
+    ? rows.filter(
         (p) =>
           p.title.toLowerCase().includes(query.toLowerCase()) ||
           p.id.toLowerCase().includes(query.toLowerCase()) ||
           p.category.toLowerCase().includes(query.toLowerCase())
       )
-    : products;
+    : rows;
 
-  const fmt = (n: number) =>
-    new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(n);
+  function updatePrice(productId: string, pricePix: number) {
+    setRows((current) => current.map((product) => product.id === productId ? { ...product, pricePix } : product));
+  }
 
   return (
     <div>
@@ -48,7 +51,33 @@ export function AdminProductsTable({ products }: { products: AdminCatalogProduct
         </Link>
       </div>
 
-      <div className="overflow-x-auto rounded-[24px] border border-white/10">
+      <div className="grid gap-3 md:hidden">
+        {filtered.length === 0 && <p className="rounded-2xl border border-white/10 p-6 text-center text-white/45">Nenhum produto encontrado.</p>}
+        {filtered.map((product) => (
+          <article key={product.id} className="rounded-2xl border border-white/10 bg-white/[0.025] p-4">
+            <div className="flex items-start justify-between gap-3">
+              <div className="min-w-0">
+                <p className="truncate font-semibold text-white">{product.title}</p>
+                <p className="mt-0.5 truncate text-xs text-white/40">{product.id}</p>
+              </div>
+              <span className={`shrink-0 rounded-full border px-2 py-0.5 text-[11px] font-semibold ${STATUS_COLORS[product.status] || "border-white/10 bg-white/5 text-white/60"}`}>{product.status}</span>
+            </div>
+            <div className="mt-4 flex items-end justify-between gap-3 border-t border-white/10 pt-4">
+              <div>
+                <p className="text-[10px] uppercase tracking-[0.14em] text-white/40">{product.category}</p>
+                <p className="mt-1 text-xs text-white/60">Estoque: <span className={product.stock > 0 ? "text-white" : "text-rose-300"}>{product.stock}</span></p>
+              </div>
+              <AdminPriceEditor productId={product.id} value={product.pricePix} onSaved={({ pricePix }) => updatePrice(product.id, pricePix)} />
+            </div>
+            <div className="mt-3 flex justify-end gap-2">
+              <Link href={`/admin/products/${product.id}/edit`} className="btn-secondary min-h-11 px-4 text-xs"><Edit2 className="h-3.5 w-3.5" /> Editar tudo</Link>
+              <Link href={`/catalogo/${product.slug}`} target="_blank" className="btn-secondary min-h-11 px-4 text-xs"><Eye className="h-3.5 w-3.5" /> Vitrine</Link>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <div className="hidden overflow-x-auto rounded-[24px] border border-white/10 md:block">
         <table className="min-w-full text-sm">
           <thead className="border-b border-white/10 bg-white/5">
             <tr>
@@ -75,7 +104,7 @@ export function AdminProductsTable({ products }: { products: AdminCatalogProduct
                   <p className="text-xs text-white/40">{product.id}</p>
                 </td>
                 <td className="px-4 py-3 text-white/65">{product.category}</td>
-                <td className="px-4 py-3 text-right font-semibold text-emerald-200">{fmt(product.pricePix)}</td>
+                <td className="px-4 py-3"><AdminPriceEditor productId={product.id} value={product.pricePix} onSaved={({ pricePix }) => updatePrice(product.id, pricePix)} /></td>
                 <td className="px-4 py-3 text-right">
                   <span className={product.stock > 0 ? "text-white" : "text-rose-300"}>{product.stock}</span>
                 </td>
@@ -99,7 +128,7 @@ export function AdminProductsTable({ products }: { products: AdminCatalogProduct
           </tbody>
         </table>
       </div>
-      <p className="mt-3 text-right text-xs text-white/40">{filtered.length} de {products.length} produto(s)</p>
+      <p className="mt-3 text-right text-xs text-white/40">{filtered.length} de {rows.length} produto(s)</p>
     </div>
   );
 }

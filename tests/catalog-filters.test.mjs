@@ -7,7 +7,20 @@ const { publicCatalog, isPublicCatalogProduct } = require('@/lib/public-catalog'
 const { toCatalogClientProducts } = require('@/lib/catalog-client-product');
 const { getProductVisual } = require('@/lib/product-visuals');
 const { getProductSearchScore } = require('@/lib/catalog-content');
-const { EMPTY_CATALOG_FACETS, parseCatalogPrice, readCatalogFacets, matchesCatalogFacets, matchesCatalogGroup, getCatalogGameIdentity, getSafeCatalogBackHref } = require('@/lib/catalog-filters');
+const {
+  EMPTY_CATALOG_FACETS,
+  getCatalogGameIdentity,
+  isCatalogChibiProduct,
+  isCatalogGameProduct,
+  isCatalogHomeProduct,
+  isCatalogKeychainProduct,
+  matchesCatalogFacets,
+  matchesCatalogGroup,
+  parseCatalogPrice,
+  readCatalogFacets,
+  getSafeCatalogBackHref,
+} = require('@/lib/catalog-filters');
+const { CATALOG_DIRECTORIES, getCatalogDirectoryCounts } = require('@/lib/catalog-directories');
 const { isCompleteCatalogPayload } = require('@/lib/catalog-payload');
 const clients = toCatalogClientProducts(publicCatalog);
 
@@ -32,33 +45,60 @@ test('os 538 elegíveis mantêm IDs, procedência, preço, visual e pesquisa ap�
   });
 });
 
-test('links Chaveiros e Chibis são interseções estritas; Casa não mistura setup', () => {
-  const keychains = publicCatalog.filter((product) => matchesCatalogFacets(product, readCatalogFacets(new URLSearchParams('type=keychain'))));
-  assert.ok(keychains.length > 0);
-  assert.ok(keychains.every((product) => /^chaveiro\b/i.test(product.name)));
-  assert.ok(publicCatalog.filter((product) => matchesCatalogGroup(product, 'Chaveiros', 'collection')).every((product) => keychains.includes(product)));
-  assert.equal(matchesCatalogGroup({ ...publicCatalog[0], name: 'Porta-chaves de Parede', objectType: 'suporte' }, 'Chaveiros', 'collection'), false);
-  const chibis = publicCatalog.filter((product) => matchesCatalogFacets(product, { ...EMPTY_CATALOG_FACETS, style: 'chibi' }));
-  assert.ok(chibis.length > 0);
-  assert.ok(chibis.every((product) => /\bchibi\b/i.test(product.name)));
-  const home = publicCatalog.filter((product) => matchesCatalogFacets(product, { ...EMPTY_CATALOG_FACETS, useCase: 'home' }));
-  assert.ok(home.length > 0);
-  assert.ok(home.every((product) => product.category === 'Casa e Organização'));
+test('diretórios preservam as contagens do catálogo público autêntico', () => {
+  assert.equal(publicCatalog.length, 538);
+  assert.deepEqual(getCatalogDirectoryCounts(publicCatalog), {
+    chibis: 4,
+    games: 63,
+    chaveiros: 18,
+    casa: 235,
+  });
 });
 
-test('Games não inventa universos ou personagens para mascotes genéricos', () => {
-  for (const universe of ['valorant', 'league-of-legends']) {
-    assert.equal(publicCatalog.filter((product) => matchesCatalogFacets(product, { ...EMPTY_CATALOG_FACETS, universe })).length, 0);
+test('cada diretório usa o mesmo filtro do link público', () => {
+  for (const directory of CATALOG_DIRECTORIES) {
+    const url = new URL(directory.href, 'https://mdh3d.com.br');
+    const [field, value] = [...url.searchParams.entries()][0];
+    const viaUrl = publicCatalog.filter((product) => {
+      if (field === 'style' || field === 'type' || field === 'useCase') {
+        return matchesCatalogFacets(product, { ...EMPTY_CATALOG_FACETS, [field]: value });
+      }
+      return matchesCatalogGroup(product, value, field);
+    });
+    assert.equal(viaUrl.length, publicCatalog.filter(directory.matches).length, directory.id);
   }
-  const generic = { ...publicCatalog[0], name: 'Mascote Veloz Chibi', theme: 'Gamer', subcategory: 'Geek' };
-  assert.equal(getCatalogGameIdentity(generic).universe, '');
-  assert.equal(matchesCatalogGroup(generic, 'Games', 'collection'), false);
-  const explicit = { ...generic, name: 'Jett Valorant Chibi' };
-  assert.deepEqual(getCatalogGameIdentity(explicit), { universe: 'valorant', characters: ['jett'] });
-  assert.equal(matchesCatalogFacets(explicit, { ...EMPTY_CATALOG_FACETS, universe: 'league-of-legends' }), false);
-  assert.equal(matchesCatalogFacets(explicit, { ...EMPTY_CATALOG_FACETS, universe: 'valorant', character: 'jett' }), true);
-  assert.equal(matchesCatalogGroup(generic, 'Coleção inexistente', 'collection'), false);
-  assert.equal(matchesCatalogFacets(generic, { ...EMPTY_CATALOG_FACETS, type: 'invalid' }), false);
+});
+
+test('Games não usa categoria ampla e reconhece somente classificação ou universo real', () => {
+  const base = { name: 'Produto genérico', theme: '', subcategory: '', collection: '', tags: [] };
+  assert.equal(isCatalogGameProduct({ ...base, category: 'Games' }), false);
+  assert.equal(isCatalogGameProduct({ ...base, subcategory: 'games' }), true);
+  assert.equal(isCatalogGameProduct({ ...base, collection: 'Games' }), true);
+  assert.equal(isCatalogGameProduct({ ...base, name: 'Jett Valorant' }), true);
+});
+
+test('universo e personagem só aparecem quando constam nos dados do produto', () => {
+  assert.deepEqual(getCatalogGameIdentity({ name: 'Chaveiro Jett Valorant', theme: '', subcategory: '', collection: '', tags: [] }), {
+    universe: 'valorant', characters: ['jett'],
+  });
+  assert.deepEqual(getCatalogGameIdentity({ name: 'Personagem desconhecido', theme: '', subcategory: 'games', collection: 'Games', tags: [] }), {
+    universe: '', characters: [],
+  });
+});
+
+test('Chibis, Chaveiros e Casa usam critérios estritos', () => {
+  assert.equal(isCatalogChibiProduct({ name: 'Miniatura Chibi' }), true);
+  assert.equal(isCatalogChibiProduct({ name: 'Miniatura comum', category: 'Chibis' }), false);
+  assert.equal(isCatalogKeychainProduct({ name: 'Chaveiro personalizado' }), true);
+  assert.equal(isCatalogKeychainProduct({ name: 'Suporte', objectType: 'chaveiro' }), false);
+  assert.equal(isCatalogKeychainProduct({ name: 'Suporte para chaveiro' }), false);
+  assert.equal(isCatalogHomeProduct({ name: 'Organizador', primaryCategory: 'Casa e Organização' }), true);
+  assert.equal(isCatalogHomeProduct({ name: 'Organizador', category: 'Decoração' }), false);
+});
+
+test('objectType filtra pelo tipo taxonômico exato', () => {
+  assert.equal(matchesCatalogFacets({ name: 'Suporte', objectType: 'porta_objeto', theme: '', subcategory: '', collection: '', tags: [] }, { ...EMPTY_CATALOG_FACETS, objectType: 'porta-objeto' }), true);
+  assert.equal(matchesCatalogFacets({ name: 'Suporte', objectType: 'suporte', theme: '', subcategory: '', collection: '', tags: [] }, { ...EMPTY_CATALOG_FACETS, objectType: 'porta-objeto' }), false);
 });
 
 test('payload progressivo rejeita resposta incompleta, duplicada e malformada', () => {

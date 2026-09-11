@@ -7,7 +7,16 @@ import { ArrowRight, Check, Copy, Heart, Search, ShoppingBag, X } from "lucide-r
 import type { Product } from "@/lib/catalog";
 import { getProductUrl } from "@/lib/product-routing";
 import { getProductSearchScore } from "@/lib/catalog-content";
-import { matchesCatalogFacets, matchesCatalogGroup, readCatalogFacets, getCatalogGameIdentity, parseCatalogPrice } from "@/lib/catalog-filters";
+import {
+  CATALOG_OBJECT_TYPE_LABELS,
+  CATALOG_UNIVERSE_LABELS,
+  getCatalogGameIdentity,
+  matchesCatalogFacets,
+  matchesCatalogGroup,
+  normalizeCatalogFilter,
+  parseCatalogPrice,
+  readCatalogFacets,
+} from "@/lib/catalog-filters";
 import { SafeProductImage } from "@/components/safe-product-image";
 import { ProductPriceStack } from "@/components/product-price-stack";
 import { getProductImageCandidates, getProductImageAlt } from "@/lib/product-images";
@@ -34,7 +43,7 @@ type Props = {
 };
 const PAGE_SIZE = 18;
 const FAVORITES_KEY = "mdh_catalog_favorites";
-const labels: Record<string, string> = { type: "Tipo", style: "Estilo", universe: "Universo", character: "Personagem", useCase: "Uso", category: "Categoria", collection: "Coleção", custom: "Personalizáveis", min: "Preço mínimo", max: "Preço máximo", q: "Busca", material: "Material", status: "Disponibilidade", favorites: "Favoritos", mode: "Imagem", intent: "Finalidade" };
+const labels: Record<string, string> = { type: "Tipo", style: "Estilo", universe: "Universo", character: "Personagem", useCase: "Uso", objectType: "Tipo de objeto", category: "Categoria", collection: "Coleção", custom: "Personalizáveis", min: "Preço mínimo", max: "Preço máximo", q: "Busca", material: "Material", status: "Disponibilidade", favorites: "Favoritos", mode: "Imagem", intent: "Finalidade" };
 const displayValues: Record<string, string> = { keychain: "Chaveiros", chibi: "Chibis", home: "Casa", games: "Games", "league-of-legends": "League of Legends", valorant: "Valorant", "1": "Sim" };
 
 export function CatalogExplorer(props: Props) {
@@ -78,12 +87,13 @@ function Explorer({ products, basePath = "/catalogo", ...defaults }: Props) {
   const maxPrice = parseCatalogPrice(searchParams.get("max") ?? searchParams.get("maxPrice")) ?? defaults.initialPriceMax;
   const custom = searchParams.has("custom") ? searchParams.get("custom") === "1" : defaults.initialCustomizableOnly;
   const categories = [...new Set(products.map((product) => product.category))];
-  const universes = [...new Set(products.map((product) => getCatalogGameIdentity(product).universe).filter(Boolean))];
+  const universes = [...new Set(products.map((product) => getCatalogGameIdentity(product).universe).filter(Boolean))].sort((left, right) => (CATALOG_UNIVERSE_LABELS[left] || left).localeCompare(CATALOG_UNIVERSE_LABELS[right] || right, "pt-BR"));
   const characters = [...new Set(products.flatMap((product) => {
     const identity = getCatalogGameIdentity(product);
     return !facets.universe || facets.universe === identity.universe ? identity.characters : [];
   }))];
   const materials = [...new Set(products.map((product) => product.material).filter(Boolean))];
+  const objectTypes = [...new Set(products.map((product) => product.objectType).filter((value): value is NonNullable<Product["objectType"]> => Boolean(value)))].sort((left, right) => (CATALOG_OBJECT_TYPE_LABELS[left] || left).localeCompare(CATALOG_OBJECT_TYPE_LABELS[right] || right, "pt-BR"));
   const filtered = useMemo(() => {
     const params = new URLSearchParams(searchKey);
     const activeFacets = readCatalogFacets(params);
@@ -154,8 +164,9 @@ function Explorer({ products, basePath = "/catalogo", ...defaults }: Props) {
             <div className="experience-filter-fields">
               <label>Categoria<select aria-label="Categoria" value={categoryValue} onChange={(event) => update({ category: event.target.value || null })}><option value="">Todas</option>{categoryValue && !categories.includes(categoryValue) ? <option value={categoryValue}>{displayValues[categoryValue] || categoryValue}</option> : null}{categories.map((value) => <option key={value}>{value}</option>)}</select></label>
               <label>Tipo<select value={facets.type} onChange={(event) => update({ type: event.target.value || null })}><option value="">Todos</option><option value="keychain">Chaveiros</option></select></label>
+              <label>Tipo de objeto<select value={facets.objectType} onChange={(event) => update({ objectType: event.target.value || null })}><option value="">Todos</option>{objectTypes.map((value) => <option key={value} value={normalizeCatalogFilter(value)}>{CATALOG_OBJECT_TYPE_LABELS[value] || value}</option>)}</select></label>
               <label>Estilo<select value={facets.style} onChange={(event) => update({ style: event.target.value || null })}><option value="">Todos</option><option value="chibi">Chibi</option></select></label>
-              <label>Universo<select value={facets.universe} onChange={(event) => update({ universe: event.target.value || null, character: null })}><option value="">Todos</option>{universes.map((value) => <option key={value} value={value}>{displayValues[value] || value.replaceAll("-", " ")}</option>)}</select></label>
+              <label>Universo do game<select value={facets.universe} onChange={(event) => update({ universe: event.target.value || null, character: null })}><option value="">Todos</option>{universes.map((value) => <option key={value} value={value}>{CATALOG_UNIVERSE_LABELS[value] || value.replaceAll("-", " ")}</option>)}</select></label>
               {characters.length ? <label>Personagem<select value={facets.character} onChange={(event) => update({ character: event.target.value || null })}><option value="">Todos</option>{characters.map((value) => <option key={value} value={value}>{value.charAt(0).toUpperCase() + value.slice(1)}</option>)}</select></label> : null}
               <label>Material<select value={material} onChange={(event) => update({ material: event.target.value === "Todos" ? null : event.target.value })}><option>Todos</option>{materials.map((value) => <option key={value}>{value}</option>)}</select></label>
               <label>Disponibilidade<select value={availability} onChange={(event) => update({ status: event.target.value === "Todos" ? null : event.target.value })}><option>Todos</option><option>Pronta entrega</option><option>Sob encomenda</option></select></label>
@@ -190,7 +201,7 @@ function Explorer({ products, basePath = "/catalogo", ...defaults }: Props) {
               </article>
             ))}
           </div>
-          {!visible.length ? <div className="experience-empty" role="status"><Search size={30} /><h3>Nenhuma peça nesta combinação.</h3><p>Remova um filtro ou tente outra palavra. Sua seleção continua disponível para ajustar.</p><button className="btn-primary mt-5" onClick={() => router.push(basePath, { scroll: false })}>Ver todo o catálogo</button></div> : null}
+          {!visible.length ? <div className="experience-empty" role="status"><Search size={30} /><h3>Ainda não há uma peça autêntica nesta combinação.</h3><p>Não exibimos produtos inventados. Remova um filtro ou veja os itens reais já disponíveis no catálogo.</p><button className="btn-primary mt-5" onClick={() => router.push(basePath, { scroll: false })}>Ver todo o catálogo</button></div> : null}
           {totalPages > 1 ? <nav className="experience-pagination" aria-label="Páginas do catálogo"><button className="btn-secondary" disabled={page <= 1} onClick={() => update({ page: String(page - 1) }, true)}>Anterior</button><label>Página <select className="experience-select" aria-label="Selecionar página" value={page} onChange={(event) => update({ page: event.target.value }, true)}>{Array.from({ length: totalPages }, (_, index) => <option key={index + 1} value={index + 1}>{index + 1}</option>)}</select> de {totalPages}</label><button className="btn-secondary" disabled={page >= totalPages} onClick={() => update({ page: String(page + 1) }, true)}>Próxima</button></nav> : null}
           <p className="sr-only" role="status">{added ? "Produto adicionado ao carrinho" : copied ? "Link copiado" : ""}</p>
         </div>

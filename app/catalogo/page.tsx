@@ -4,6 +4,7 @@ import { CatalogExplorerLoader } from "@/components/catalog-explorer-loader";
 import { CATALOG_INITIAL_PRODUCT_COUNT, toCatalogClientProducts } from "@/lib/catalog-client-product";
 import { getCatalogSnapshot } from "@/lib/catalog-repository";
 import { getSiteUrl } from "@/lib/env";
+import { CatalogDirectories } from "@/components/catalog-directories";
 
 export const metadata: Metadata = {
   title: "Catálogo MDH 3D",
@@ -29,6 +30,7 @@ export default async function CatalogPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb).replace(/</g, "\\u003c") }} />
       <p className="text-xs text-slate-300"><Link href="/">Início</Link> / Catálogo</p>
       <div className="experience-section-heading mt-6"><div><p className="section-kicker">Explore as possibilidades</p><h1 className="!text-4xl !font-semibold !tracking-tight">Sua próxima peça está aqui.</h1><p>Escolha o que combina com você. Veja opções de tamanho, material e prazo em cada produto.</p></div><Link href="/sob-medida" className="btn-secondary">Quero algo sob medida ↗</Link></div>
+      <CatalogDirectories products={catalog} />
       <CatalogExplorerLoader initialProducts={initialProducts} expectedTotal={catalog.length} initialOrder="Destaques" prioritizeInitialImages />
     </div>
   );

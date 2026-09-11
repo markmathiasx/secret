@@ -105,26 +105,21 @@ async function getCookieSession(
 
   if (source === "admin-cookie" && payload.role !== "admin") return null;
   if (source === "customer-cookie" && payload.role !== "customer") return null;
-  const isEnvironmentAdmin = source === "admin-cookie" && payload.sub === "admin-env" &&
-    payload.email.toLowerCase() === adminConfig.email.toLowerCase() && Boolean(process.env.ADMIN_PASSWORD_HASH);
   const databaseAvailable = await canConnectToDatabase();
-  if (!databaseAvailable && !isEnvironmentAdmin) return null;
+  if (!databaseAvailable) return null;
 
-  if (databaseAvailable) {
-    const currentUser = await prisma.user.findUnique({
-      where: { email: payload.email },
-      select: { id: true, role: true, isActive: true, disabledAt: true, passwordUpdatedAt: true },
-    });
+  const currentUser = await prisma.user.findUnique({
+    where: { email: payload.email },
+    select: { id: true, role: true, isActive: true, disabledAt: true, passwordUpdatedAt: true },
+  });
 
-    if ((!currentUser && !isEnvironmentAdmin) || (currentUser && (!currentUser.isActive || currentUser.disabledAt))) {
-      return null;
-    }
+  if (!currentUser || !currentUser.isActive || currentUser.disabledAt) return null;
 
-    if (!isEnvironmentAdmin && currentUser?.id !== payload.sub) return null;
-    if (source === "admin-cookie" && currentUser && currentUser.role !== "ADMIN") return null;
-    if (currentUser?.passwordUpdatedAt && payload.iat * 1000 < currentUser.passwordUpdatedAt.getTime()) {
-      return null;
-    }
+  if (currentUser.id !== payload.sub) return null;
+  if (source === "admin-cookie" && currentUser.role !== "ADMIN") return null;
+  if (source === "customer-cookie" && currentUser.role !== "BUYER") return null;
+  if (currentUser.passwordUpdatedAt && payload.iat * 1000 < currentUser.passwordUpdatedAt.getTime()) {
+    return null;
   }
 
   return {

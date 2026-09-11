@@ -2,6 +2,9 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { updateAdminCatalogProduct } from "@/lib/server/admin-catalog-store";
 import { getServerSessionUser, isAdminSession } from "@/lib/server-session";
+import { invalidateCatalogCache } from "@/lib/runtime-cache";
+import { revalidatePath } from "next/cache";
+import { applyNoStoreHeaders } from "@/lib/http-cache";
 
 const ADMIN_CATALOG_MONEY_LIMIT = 100000;
 
@@ -57,11 +60,22 @@ export async function PATCH(request: Request, context: { params: Promise<{ id: s
 
   try {
     const product = await updateAdminCatalogProduct(id, parsed.data);
-    return NextResponse.json({ ok: true, product });
+    let warning: string | null = null;
+    try {
+      await invalidateCatalogCache();
+      revalidatePath("/");
+      revalidatePath("/catalogo");
+      revalidatePath("/catalogo/[slug]", "page");
+      revalidatePath("/produto/[slug]", "page");
+      revalidatePath("/admin/products", "layout");
+    } catch {
+      warning = "Produto salvo no banco, mas a atualização do cache falhou. Não salve novamente; confira a vitrine antes de divulgar.";
+    }
+    return applyNoStoreHeaders(NextResponse.json({ ok: true, persisted: true, source: "database", warning, product }));
   } catch (error) {
-    return NextResponse.json(
-      { ok: false, error: error instanceof Error ? error.message : "Não foi possível atualizar o produto." },
-      { status: 400 }
-    );
+    return applyNoStoreHeaders(NextResponse.json(
+      { ok: false, persisted: false, error: error instanceof Error ? error.message : "Não foi possível atualizar o produto." },
+      { status: 503 }
+    ));
   }
 }

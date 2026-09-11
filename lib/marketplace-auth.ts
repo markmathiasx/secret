@@ -6,12 +6,10 @@ import { Prisma, Role, type User } from "@prisma/client";
 import { getAuthBaseUrl } from "@/lib/env";
 import { sendMail } from "@/lib/mailer";
 import { canConnectToDatabase, prisma } from "@/lib/prisma";
-import { escapeHtml } from "@/lib/security";
 import { logStructured } from "@/lib/logger";
 
 const VERIFY_PREFIX = "verify";
 const RESET_PREFIX = "reset";
-const ADMIN_PASSWORD_RECOVERY_EMAIL = "markmathias02@gmail.com";
 
 export type PasswordResetRequestSource = "customer" | "admin";
 
@@ -293,7 +291,7 @@ export async function requestPasswordReset(email: string, meta?: PasswordResetRe
   }
 
   const token = await createPasswordResetToken(user);
-  const requestRecord = await createPasswordResetRequestRecord({
+  await createPasswordResetRequestRecord({
     email: normalizedEmail,
     userId: user.id,
     token,
@@ -312,41 +310,6 @@ export async function requestPasswordReset(email: string, meta?: PasswordResetRe
       error: emailErr instanceof Error ? emailErr.message : "unknown",
     });
   });
-
-  try {
-    await sendMail({
-      to: ADMIN_PASSWORD_RECOVERY_EMAIL,
-      subject: `[MDH 3D] Solicitação de recuperação de senha — ${user.name || user.email}`,
-      text: `Recuperação solicitada para ${user.name || user.email}.\nE-mail do usuário: ${user.email}\nLink: ${buildPasswordResetUrl(token)}\nExpira em 30 minutos.`,
-      html: `
-        <div style="font-family:Arial,sans-serif;line-height:1.6;color:#111827">
-          <h1 style="font-size:20px;margin-bottom:12px">Recuperação de senha solicitada</h1>
-          <p><strong>Usuário:</strong> ${escapeHtml(user.name || "—")}</p>
-          <p><strong>E-mail:</strong> ${escapeHtml(user.email)}</p>
-          <p style="margin-top:16px">Link operacional para revisão/manual:</p>
-          <p style="background:#f3f4f6;padding:12px 16px;border-radius:8px;word-break:break-all;font-size:14px;">
-            <a href="${buildPasswordResetUrl(token)}">${buildPasswordResetUrl(token)}</a>
-          </p>
-          <p style="margin-top:16px;font-size:13px;color:#6b7280">Este link expira em 30 minutos.</p>
-        </div>
-      `,
-    });
-  } catch (error) {
-    logStructured("error", "password_reset_admin_notice_failed", {
-      requestId: meta?.requestId ?? null,
-      error: error instanceof Error ? error.message : "unknown",
-    });
-  }
-
-  if (requestRecord) {
-    await prisma.passwordResetRequest.update({
-      where: { id: requestRecord.id },
-      data: {
-        adminEmail: ADMIN_PASSWORD_RECOVERY_EMAIL,
-        adminNotifiedAt: new Date(),
-      },
-    });
-  }
 
   logStructured("info", "password_reset_requested", {
     requestId: meta?.requestId ?? null,
