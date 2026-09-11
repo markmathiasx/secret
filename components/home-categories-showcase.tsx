@@ -1,12 +1,11 @@
 import Link from "next/link";
 import { Gamepad2, Home, KeyRound, Sparkles } from "lucide-react";
+import { CATALOG_DIRECTORIES } from "@/lib/catalog-directories";
 
-const categories = [
-  { icon: KeyRound, title: "Chaveiros", description: "Um detalhe que acompanha você. Encontre modelos e opções com nome.", href: "/catalogo?type=keychain" },
-  { icon: Sparkles, title: "Chibis", description: "Personagens em formato compacto para a sua coleção.", href: "/catalogo?style=chibi" },
-  { icon: Gamepad2, title: "Games", description: "Explore universos, personagens e peças para o seu setup.", href: "/catalogo?category=games" },
-  { icon: Home, title: "Casa & organização", description: "Soluções para colocar cada coisa no seu lugar.", href: "/catalogo?useCase=home" },
-];
+const icons = { chibis: Sparkles, games: Gamepad2, chaveiros: KeyRound, casa: Home };
+const categories = CATALOG_DIRECTORIES.map((directory) => ({
+  icon: icons[directory.id], title: directory.title, description: directory.description, href: directory.href,
+}));
 
 export function HomeCategoriesShowcase({ catalogCount }: { catalogCount: number }) {
   return (

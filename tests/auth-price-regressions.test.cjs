@@ -137,8 +137,9 @@ function sessionFixture(options = {}) {
   }, { ADMIN_PASSWORD_HASH: 'configured-test-only' });
 }
 
-test('validated env admin session takes precedence over customer Auth.js session', async () => {
-  assert.equal((await sessionFixture().getServerSessionUser()).source, 'admin-cookie');
+test('validated database admin session takes precedence over customer Auth.js session', async () => {
+  const record = { id: 'admin-env', role: 'ADMIN', isActive: true, disabledAt: null, passwordUpdatedAt: null };
+  assert.equal((await sessionFixture({ record }).getServerSessionUser()).source, 'admin-cookie');
 });
 
 test('customer payload cannot become admin by changing cookie name', async () => {
@@ -164,6 +165,7 @@ function authFixture(options = {}) {
   const prisma = { user: {
     findUnique: async () => options.user || null,
     create: async ({ data }) => { created.push(data); return { id: 'oauth-buyer', ...data }; },
+    update: async () => null,
   } };
   load('auth.ts', {
     'server-only': {},
@@ -210,6 +212,30 @@ test('Google denies unverified, disabled, privileged and 2FA identities', async 
 test('OAuth JWT never adopts a privileged profile claim', async () => {
   const token = await authFixture().configuration.callbacks.jwt({ token: {}, user: { id: 'buyer', role: 'ADMIN' }, account: { provider: 'google' } });
   assert.equal(token.role, 'buyer');
+});
+
+test('customer redirects stay inside approved storefront routes', () => {
+  const { sanitizeCustomerRedirect } = load('lib/auth-redirect.ts');
+  assert.equal(sanitizeCustomerRedirect('/checkout?step=payment'), '/checkout?step=payment');
+  assert.equal(sanitizeCustomerRedirect('/produto/chibi-1#detalhes'), '/produto/chibi-1#detalhes');
+  for (const unsafe of ['https://evil.test', '//evil.test', '/admin', '/api/private', '/\\evil.test']) {
+    assert.equal(sanitizeCustomerRedirect(unsafe), '/conta');
+  }
+});
+
+test('admin login delegates password and 2FA to persisted identity validation', () => {
+  const route = readFileSync(resolve(__dirname, '..', 'app/api/admin/login/route.ts'), 'utf8');
+  assert.match(route, /authenticateAdminUser\(\{ email, password, twoFactorCode \}\)/);
+  assert.match(route, /canConnectToDatabase/);
+  assert.doesNotMatch(route, /ADMIN_PASSWORD_HASH|verifyStoredPassword|admin-env/);
+});
+
+test('password reset links are delivered to the account owner, never copied to a hardcoded inbox', () => {
+  const authSource = readFileSync(resolve(__dirname, '..', 'lib/marketplace-auth.ts'), 'utf8');
+  const adminSource = readFileSync(resolve(__dirname, '..', 'app/api/admin/send-password-reset/route.ts'), 'utf8');
+  assert.doesNotMatch(authSource, /ADMIN_PASSWORD_RECOVERY_EMAIL/);
+  assert.match(adminSource, /sendPasswordResetEmail\(user, token\)/);
+  assert.doesNotMatch(adminSource, /const ADMIN_EMAIL|resetUrl/);
 });
 
 test('registration refuses offline storage without creating a temporary account', async () => {

@@ -1,33 +1,22 @@
 import { NextResponse } from 'next/server';
-import { scryptSync, timingSafeEqual } from 'node:crypto';
 import { getClientIp } from '@/lib/security';
 import { rateLimitRequest } from '@/lib/redis';
 import { adminConfig } from '@/lib/server-config';
-import { authenticateUser } from '@/lib/auth-store';
+import { authenticateAdminUser } from '@/lib/auth-store';
 import { createSignedSessionToken, isSessionSecretConfigured } from '@/lib/session-token';
 import { applyNoStoreHeaders } from '@/lib/http-cache';
 import { logStructured } from '@/lib/logger';
 import { sanitizeEmail } from '@/lib/sanitize';
 import { z } from 'zod';
+import { canConnectToDatabase } from '@/lib/prisma';
 
 export const runtime = 'nodejs';
 
 const loginSchema = z.object({
   email: z.string().email().max(320).transform((value) => sanitizeEmail(value)),
   password: z.string().min(1).max(512),
+  twoFactorCode: z.string().trim().max(32).optional(),
 });
-
-function verifyStoredPassword(password: string, storedHash: string) {
-  const [algorithm, salt, digest] = storedHash.split(':');
-  if (!salt || !digest) return false;
-  if (algorithm !== 'scrypt' && algorithm !== 's2') return false;
-
-  const computed = scryptSync(password, salt, 64);
-  const stored = Buffer.from(digest, 'hex');
-
-  if (computed.length !== stored.length) return false;
-  return timingSafeEqual(computed, stored);
-}
 
 export async function POST(request: Request) {
   const ip = getClientIp(request.headers);
@@ -45,42 +34,20 @@ export async function POST(request: Request) {
     return applyNoStoreHeaders(NextResponse.json({ ok: false, error: 'Informe e-mail e senha válidos.' }, { status: 400 }));
   }
 
-  const { email, password } = parsed.data;
+  const { email, password, twoFactorCode } = parsed.data;
 
   if (!isSessionSecretConfigured(adminConfig.sessionSecret)) {
     return applyNoStoreHeaders(NextResponse.json({ ok: false, error: 'Configure ADMIN_SESSION_SECRET nas variáveis do projeto.' }, { status: 500 }));
   }
 
-  let user = null;
-
-  if (email === adminConfig.email.toLowerCase()) {
-    const adminPasswordHash = process.env.ADMIN_PASSWORD_HASH || '';
-    if (!adminPasswordHash) {
-      return applyNoStoreHeaders(
-        NextResponse.json(
-          { ok: false, error: 'Configure ADMIN_PASSWORD_HASH nas variáveis do projeto para login admin por env.' },
-          { status: 500 }
-        )
-      );
-    }
-
-    const passwordOk = adminPasswordHash ? verifyStoredPassword(password, adminPasswordHash) : false;
-
-    if (passwordOk) {
-      user = {
-        id: 'admin-env',
-        email,
-        displayName: 'Administrador MDH',
-        role: 'admin' as const,
-        createdAt: new Date().toISOString(),
-        lastLoginAt: new Date().toISOString()
-      };
-    }
+  if (!(await canConnectToDatabase())) {
+    return applyNoStoreHeaders(NextResponse.json(
+      { ok: false, error: 'Banco administrativo indisponível. Tente novamente em instantes.' },
+      { status: 503 }
+    ));
   }
 
-  if (!user) {
-    user = await authenticateUser({ email, password, role: 'admin' });
-  }
+  const user = await authenticateAdminUser({ email, password, twoFactorCode });
 
   if (!user) {
     logStructured("warn", "admin_login_failed", { ip, requestId: request.headers.get("x-request-id") || null, emailDomain: email.split("@")[1] || "unknown" });

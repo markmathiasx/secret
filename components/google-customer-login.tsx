@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { getProviders, signIn } from "next-auth/react";
+import { sanitizeCustomerRedirect } from "@/lib/auth-redirect";
 
 export function GoogleCustomerLogin() {
   const [available, setAvailable] = useState<boolean | null>(null);
@@ -26,7 +27,9 @@ export function GoogleCustomerLogin() {
     setPending(true);
     setError("");
     try {
-      await signIn("google", { redirectTo: "/conta" });
+      const query = new URLSearchParams(window.location.search);
+      const redirectTo = sanitizeCustomerRedirect(query.get("next") || query.get("redirectTo"));
+      await signIn("google", { redirectTo });
     } catch {
       setError("Google indisponível agora. Tente novamente ou use e-mail e senha.");
       setPending(false);

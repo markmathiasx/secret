@@ -296,7 +296,7 @@ async function createPrismaAuthUser(input: {
     id: user.id,
     email: user.email || email,
     displayName: user.name || displayName,
-    role: user.role === Role.ADMIN ? "admin" : "customer",
+    role: "customer",
     createdAt: user.createdAt.toISOString(),
     lastLoginAt: user.lastLoginAt?.toISOString() ?? null,
   } satisfies AuthUser;
@@ -324,7 +324,7 @@ async function authenticatePrismaCustomer(input: {
     },
   });
 
-  if (!user?.email || !user.passwordHash || !user.isActive || user.disabledAt) {
+  if (!user?.email || user.role !== Role.BUYER || !user.passwordHash || !user.isActive || user.disabledAt) {
     return null;
   }
 
@@ -343,7 +343,59 @@ async function authenticatePrismaCustomer(input: {
     id: user.id,
     email: user.email,
     displayName: user.name || user.email.split("@")[0] || "cliente",
-    role: user.role === Role.ADMIN ? "admin" : "customer",
+    role: "customer",
+    createdAt: user.createdAt.toISOString(),
+    lastLoginAt: lastLoginAt.toISOString(),
+  } satisfies AuthUser;
+}
+
+async function authenticatePrismaAdmin(input: {
+  email: string;
+  password: string;
+  twoFactorCode?: string;
+}) {
+  const email = normalizeEmail(input.email);
+  const user = await prisma.user.findUnique({
+    where: { email },
+    select: {
+      id: true,
+      email: true,
+      name: true,
+      role: true,
+      passwordHash: true,
+      twoFactorEnabled: true,
+      isActive: true,
+      disabledAt: true,
+      createdAt: true,
+    },
+  });
+
+  if (
+    !user?.email ||
+    user.role !== Role.ADMIN ||
+    !user.passwordHash ||
+    !user.isActive ||
+    user.disabledAt
+  ) {
+    return null;
+  }
+
+  if (!(await compare(input.password, user.passwordHash))) return null;
+  if (
+    user.twoFactorEnabled &&
+    (!input.twoFactorCode || !(await verifyTwoFactorCode(user.id, input.twoFactorCode)))
+  ) {
+    return null;
+  }
+
+  const lastLoginAt = new Date();
+  await prisma.user.update({ where: { id: user.id }, data: { lastLoginAt } });
+
+  return {
+    id: user.id,
+    email: user.email,
+    displayName: user.name || user.email.split("@")[0] || "administrador",
+    role: "admin",
     createdAt: user.createdAt.toISOString(),
     lastLoginAt: lastLoginAt.toISOString(),
   } satisfies AuthUser;
@@ -503,6 +555,20 @@ export async function authenticateCustomerUser(input: {
   }
 
   return authenticateUser({ ...input, role: "customer" });
+}
+
+export async function authenticateAdminUser(input: {
+  email: string;
+  password: string;
+  twoFactorCode?: string;
+}) {
+  if (await canConnectToDatabase()) {
+    return authenticatePrismaAdmin(input);
+  }
+
+  // Produção nunca aceita identidade administrativa em armazenamento efêmero.
+  if (isProductionRuntime()) return null;
+  return authenticateUser({ ...input, role: "admin" });
 }
 
 export async function createUser(input: {

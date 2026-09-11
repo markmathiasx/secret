@@ -17,6 +17,10 @@ export const primaryNavigationLinks: NavigationLink[] = [
 ];
 
 export const commerceShortcutLinks: NavigationLink[] = [
+  { href: "/catalogo?style=chibi", label: "Chibis", public: true, surface: "commerce-shortcut" },
+  { href: "/catalogo?collection=Games", label: "Games", public: true, surface: "commerce-shortcut" },
+  { href: "/catalogo?type=keychain", label: "Chaveiros", public: true, surface: "commerce-shortcut" },
+  { href: "/catalogo?useCase=home", label: "Casa e organização", public: true, surface: "commerce-shortcut" },
   { href: "/catalogo?mode=verified", label: "Mídia validada", public: true, surface: "commerce-shortcut" },
   { href: "/catalogo?status=Pronta%20entrega", label: "Pronta entrega", public: true, surface: "commerce-shortcut" },
   { href: "/catalogo?intent=presentear", label: "Ideias de presente", public: true, surface: "commerce-shortcut" },

@@ -133,6 +133,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         if (account?.provider === "google" && profile?.email_verified !== true) return false;
         const existing = await prisma.user.findUnique({ where: { email: user.email.toLowerCase() } });
         if (existing && (!existing.isActive || existing.disabledAt || existing.twoFactorEnabled || existing.role !== "BUYER")) return false;
+        if (existing) {
+          await prisma.user.update({ where: { id: existing.id }, data: { lastLoginAt: new Date() } });
+        }
       }
 
       return true;

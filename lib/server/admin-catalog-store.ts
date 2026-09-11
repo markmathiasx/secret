@@ -85,11 +85,30 @@ const adminProductInclude = {
     },
   },
   inventory: true,
+  overrides: {
+    where: { active: true },
+    orderBy: { updatedAt: "desc" as const },
+    take: 1,
+  },
 } satisfies Prisma.ProductInclude;
 
 type AdminPrismaProduct = Prisma.ProductGetPayload<{
   include: typeof adminProductInclude;
 }>;
+
+function readDatabaseOverlay(value: Prisma.JsonValue | null | undefined) {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return undefined;
+  const overlay = { ...(value as AdminProductOverride) };
+  // These fields live on Product and must never be shadowed by an older override.
+  for (const key of [
+    "title", "description", "material", "finish", "status", "stock", "readyToShip",
+    "customizable", "featured", "pricePix", "priceCard", "estimatedGrams", "estimatedHours",
+    "complexity", "spoolPricePerKg", "machineHourlyRate", "postProcessMinutes",
+    "laborHourlyRate", "packagingCost", "overheadPercent", "profitMode",
+    "profitTargetPercent", "estimatedProfitAmount", "estimatedProfitPercent", "costingUpdatedAt",
+  ] as const) delete overlay[key];
+  return overlay;
+}
 
 function normalizeProductionStage(value: string | undefined, readyToShip: boolean): ProductionStage {
   if (value === "recebido" || value === "imprimindo" || value === "pronto") return value;
@@ -293,10 +312,6 @@ async function readOverridesFile() {
   }
 }
 
-async function writeOverridesFile(value: Record<string, AdminProductOverride>) {
-  await fs.writeFile(OVERRIDES_PATH, `${JSON.stringify(value, null, 2)}\n`, "utf8");
-}
-
 async function readRealImageStatusFile() {
   try {
     const raw = await fs.readFile(REAL_IMAGE_STATUS_PATH, "utf8");
@@ -320,7 +335,8 @@ export async function getAdminCatalogSnapshot() {
         return records
           .map((record) => {
             const product = mapPrismaProduct(record);
-            return buildAdminCatalogProduct(product, overrides[product.id], realImageStatusMap[product.id]);
+            const databaseOverride = readDatabaseOverlay(record.overrides[0]?.payload);
+            return buildAdminCatalogProduct(product, databaseOverride, realImageStatusMap[product.id]);
           })
           .sort(sortAdminProducts);
       }
@@ -341,23 +357,100 @@ function sortAdminProducts(left: AdminCatalogProduct, right: AdminCatalogProduct
 }
 
 export async function updateAdminCatalogProduct(productId: string, patch: Partial<AdminProductOverride>) {
-  const product = catalog.find((item) => item.id === productId);
-  if (!product) {
-    throw new Error("Produto não encontrado.");
+  if (!(await canConnectToDatabase())) {
+    throw new Error("Banco indisponível. Nenhuma alteração foi salva.");
   }
 
-  const overrides = await readOverridesFile();
-  const current = overrides[productId] || { id: productId };
-  const next: AdminProductOverride = {
-    ...current,
-    ...patch,
-    id: productId,
-    updatedAt: new Date().toISOString(),
-  };
+  const record = await prisma.$transaction(async (tx) => {
+    const current = await tx.product.findUnique({
+      where: { id: productId },
+      include: adminProductInclude,
+    });
+    if (!current) throw new Error("Produto não encontrado no banco. Nenhuma alteração foi salva.");
 
-  overrides[productId] = next;
-  await writeOverridesFile(overrides);
+    const previousPayload = current.overrides[0]?.payload;
+    const previous = previousPayload && typeof previousPayload === "object" && !Array.isArray(previousPayload)
+      ? previousPayload as AdminProductOverride
+      : { id: productId };
+    const now = new Date();
+    const next: AdminProductOverride = { ...previous, ...patch, id: productId, updatedAt: now.toISOString() };
+    const nextPricePix = patch.pricePix === undefined ? Number(current.pricePix) : roundCurrency(patch.pricePix);
+    if (!Number.isFinite(nextPricePix) || nextPricePix <= 0 || nextPricePix > 100000) {
+      throw new Error("Preço inválido. Informe um valor entre R$ 0,01 e R$ 100.000,00.");
+    }
+
+    await tx.product.update({
+      where: { id: productId },
+      data: {
+        ...(patch.title !== undefined && { title: patch.title }),
+        ...(patch.description !== undefined && { description: patch.description }),
+        ...(patch.material !== undefined && { material: patch.material }),
+        ...(patch.finish !== undefined && { finish: patch.finish }),
+        ...(patch.stock !== undefined && { stock: patch.stock }),
+        ...(patch.readyToShip !== undefined && { readyToShip: patch.readyToShip }),
+        ...(patch.customizable !== undefined && { customizable: patch.customizable }),
+        ...(patch.featured !== undefined && { featured: patch.featured }),
+        ...(patch.pricePix !== undefined && {
+          pricePix: nextPricePix,
+          priceCard: calculateCardPrice(nextPricePix),
+        }),
+        ...(patch.estimatedGrams !== undefined && { estimatedGrams: patch.estimatedGrams }),
+        ...(patch.estimatedHours !== undefined && { estimatedHours: patch.estimatedHours }),
+        ...(patch.complexity !== undefined && { complexity: patch.complexity }),
+        ...(patch.spoolPricePerKg !== undefined && { spoolPricePerKg: patch.spoolPricePerKg }),
+        ...(patch.machineHourlyRate !== undefined && { machineHourlyRate: patch.machineHourlyRate }),
+        ...(patch.postProcessMinutes !== undefined && { postProcessMinutes: patch.postProcessMinutes }),
+        ...(patch.laborHourlyRate !== undefined && { laborHourlyRate: patch.laborHourlyRate }),
+        ...(patch.packagingCost !== undefined && { packagingCost: patch.packagingCost }),
+        ...(patch.overheadPercent !== undefined && { overheadPercent: patch.overheadPercent }),
+        ...(patch.profitMode !== undefined && { profitMode: patch.profitMode }),
+        ...(patch.profitTargetPercent !== undefined && { profitTargetPercent: patch.profitTargetPercent }),
+        ...(patch.status !== undefined && {
+          status: patch.status === "Pronta entrega" ? ProductStatus.READY_TO_SHIP : ProductStatus.MADE_TO_ORDER,
+        }),
+        updatedAt: now,
+      },
+    });
+
+    if (patch.stock !== undefined) {
+      await tx.inventory.upsert({
+        where: { productId },
+        update: { quantity: patch.stock, updatedAt: now },
+        create: { productId, quantity: patch.stock },
+      });
+    }
+
+    await tx.productOverride.upsert({
+      where: { productId },
+      update: {
+        title: patch.title,
+        description: patch.description,
+        pricePix: patch.pricePix,
+        priceCard: patch.pricePix === undefined ? undefined : calculateCardPrice(nextPricePix),
+        payload: next as unknown as Prisma.InputJsonValue,
+        active: true,
+      },
+      create: {
+        productId,
+        title: patch.title,
+        description: patch.description,
+        pricePix: patch.pricePix,
+        priceCard: patch.pricePix === undefined ? undefined : calculateCardPrice(nextPricePix),
+        payload: next as unknown as Prisma.InputJsonValue,
+        active: true,
+      },
+    });
+
+    const confirmed = await tx.product.findUnique({ where: { id: productId }, include: adminProductInclude });
+    if (!confirmed) throw new Error("Não foi possível confirmar a gravação do produto.");
+    if (patch.pricePix !== undefined && Math.abs(Number(confirmed.pricePix) - nextPricePix) > 0.001) {
+      throw new Error("O banco não confirmou o novo preço.");
+    }
+    return confirmed;
+  });
 
   const realImageStatusMap = await readRealImageStatusFile();
-  return buildAdminCatalogProduct(product, next, realImageStatusMap[productId]);
+  const product = mapPrismaProduct(record);
+  const databaseOverride = readDatabaseOverlay(record.overrides[0]?.payload);
+  return buildAdminCatalogProduct(product, databaseOverride, realImageStatusMap[productId]);
 }

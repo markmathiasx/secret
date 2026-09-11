@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { Menu, Search, ShoppingBag, UserRound, X } from "lucide-react";
 import { useCustomerSession } from "@/lib/customer-session-client";
 import { useCart } from "@/lib/cart-context";
+import { getCatalogDirectoryLinks } from "@/lib/catalog-directories";
 
 type SiteHeaderProps = {
   cardCheckoutReady: boolean;
@@ -17,10 +18,7 @@ type SiteHeaderProps = {
 
 const navigation = [
   { label: "Explorar catálogo", href: "/catalogo" },
-  { label: "Chaveiros", href: "/catalogo?type=keychain" },
-  { label: "Chibis", href: "/catalogo?style=chibi" },
-  { label: "Games", href: "/catalogo?category=games" },
-  { label: "Casa & organização", href: "/catalogo?useCase=home" },
+  ...getCatalogDirectoryLinks(),
   { label: "Feito para você", href: "/sob-medida" },
 ];
 

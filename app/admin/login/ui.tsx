@@ -5,6 +5,7 @@ import { useState } from 'react';
 export function AdminLoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [twoFactorCode, setTwoFactorCode] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'error'>('idle');
   const [message, setMessage] = useState('');
 
@@ -22,6 +23,7 @@ export function AdminLoginForm() {
       body: JSON.stringify({
         email,
         password,
+        twoFactorCode: twoFactorCode.trim() || undefined,
       }),
     });
 
@@ -41,6 +43,19 @@ export function AdminLoginForm() {
       <label className="block">
         <span className="text-sm text-white/70">E-mail do admin</span>
         <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" required className="field-base mt-2" />
+      </label>
+
+      <label className="block">
+        <span className="text-sm text-white/70">Código de segurança (se ativado)</span>
+        <input
+          value={twoFactorCode}
+          onChange={(e) => setTwoFactorCode(e.target.value)}
+          type="text"
+          inputMode="numeric"
+          autoComplete="one-time-code"
+          maxLength={32}
+          className="field-base mt-2"
+        />
       </label>
 
       <label className="block">
