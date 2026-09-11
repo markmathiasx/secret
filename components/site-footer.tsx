@@ -6,7 +6,7 @@ export function SiteFooter(_props: { cardCheckoutReady?: boolean }) {
     <footer className="experience-footer">
       <div className="experience-footer-grid">
         <div>
-          <p className="!text-2xl !font-semibold !tracking-widest !text-white">MDH 3D</p>
+          <p className="experience-footer-brand !text-2xl !font-semibold !tracking-widest">MDH 3D</p>
           <p className="mt-4 max-w-xs">Ideias pessoais. Produção local.<br />Impressão 3D para presentear, organizar e criar novas possibilidades.</p>
           <a href={socialLinks.instagram} target="_blank" rel="noopener noreferrer" className="mt-3">@{brand.instagramHandle} ↗</a>
         </div>

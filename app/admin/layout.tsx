@@ -15,6 +15,7 @@ const adminLinkGroups = [
     title: "Catálogo e Atendimento",
     links: [
       ["/admin/products", "Produtos"],
+      ["/admin/market-intelligence", "Radar de mercado"],
       ["/admin/inbox", "Inbox"],
       ["/admin/support", "Suporte"],
       ["/admin/quotes", "Orçamentos"],
