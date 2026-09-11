@@ -176,6 +176,7 @@ function authFixture(options = {}) {
     '@auth/prisma-adapter': { PrismaAdapter: () => ({}) },
     '@/lib/prisma': { prisma, isDatabaseConfigured: () => !options.noDatabase },
     '@/lib/env': { getAuthSecret: () => options.noSecret ? '' : 'test' },
+    '@/lib/auth-url': { normalizeAuthUrlEnvironment: () => 'https://www.mdh3d.com.br' },
     '@/lib/marketplace-auth': {},
   }, options.environment || {});
   return { configuration, created };

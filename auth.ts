@@ -9,6 +9,11 @@ import { z } from "zod";
 import { isDatabaseConfigured, prisma } from "@/lib/prisma";
 import { canUserAccessRole, getPublicRole, getUserByEmail, shouldAutoVerifyEmail, verifyPasswordHash, verifyTwoFactorCode } from "@/lib/marketplace-auth";
 import { getAuthSecret } from "@/lib/env";
+import { normalizeAuthUrlEnvironment } from "@/lib/auth-url";
+
+// Auth.js exige uma URL absoluta. Protege produção contra valores como
+// "www.mdh3d.com.br" sem protocolo, que causariam ERR_INVALID_URL no OAuth.
+normalizeAuthUrlEnvironment();
 
 const credentialsSchema = z.object({
   email: z.string().email(),

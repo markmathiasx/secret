@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { normalizeAuthUrl } from "@/lib/auth-url";
 
 const PROD = process.env.NODE_ENV === 'production' || process.env.VERCEL_ENV === 'production';
 const DEFAULT_DEV_URL = 'http://localhost:3000';
@@ -403,7 +404,7 @@ export function getAuthSecret() {
 }
 
 export function getAuthBaseUrl() {
-  return (
+  return normalizeAuthUrl(
     process.env.AUTH_URL?.trim() ||
     process.env.NEXTAUTH_URL?.trim() ||
     getSiteUrl()
