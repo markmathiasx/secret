@@ -265,6 +265,29 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, message: "Produto não encontrado." }, { status: 404 });
   }
 
+  const databaseAvailable = await canConnectToDatabase();
+  const productionCommerce = process.env.NODE_ENV === "production" || process.env.VERCEL_ENV === "production";
+
+  if (productionCommerce && !databaseAvailable) {
+    logStructured("error", "checkout_blocked_database_unavailable", {
+      productId: product.id,
+      paymentMethod: parsed.data.paymentMethod,
+      requestId: request.headers.get("x-request-id") || null,
+    });
+
+    return NextResponse.json(
+      {
+        ok: false,
+        code: "COMMERCE_DATABASE_UNAVAILABLE",
+        message: "Checkout temporariamente indisponível. Nenhuma cobrança foi criada. Tente novamente em instantes.",
+      },
+      {
+        status: 503,
+        headers: { "Cache-Control": "no-store" },
+      }
+    );
+  }
+
   const address = normalizeAddressInput(parsed.data.address);
   const shippingQuote = buildShippingQuote({
     cep: address.zipCode,
@@ -282,14 +305,16 @@ export async function POST(request: Request) {
   const createdAt = new Date().toISOString();
   const orderState = buildOrderState(parsed.data.paymentMethod);
   const buyerId = user?.id || null;
-  const savedAddress = await maybePersistAddress({
-    userId: buyerId,
-    addressId: parsed.data.addressId,
-    saveAddress: parsed.data.saveAddress,
-    address: parsed.data.address,
-  });
+  const savedAddress = databaseAvailable
+    ? await maybePersistAddress({
+        userId: buyerId,
+        addressId: parsed.data.addressId,
+        saveAddress: parsed.data.saveAddress,
+        address: parsed.data.address,
+      })
+    : null;
 
-  if (await canConnectToDatabase()) {
+  if (databaseAvailable) {
     try {
       const productRecord = await prisma.product.findUnique({
         where: { id: product.id },
