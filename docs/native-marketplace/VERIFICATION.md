@@ -69,3 +69,11 @@ Evidências executadas neste checkout:
 Exceção conhecida de compatibilidade: NextAuth 5.0.0-beta.32 declara peer opcional Nodemailer `^7.0.7 || ^8.0.5`; o projeto já utilizava Nodemailer 9 fora dessa faixa e `legacy-peer-deps=true`. Nodemailer 10.0.16 exige Node >=20, compatível com Node >=24 requerido pelo repositório. O projeto usa transporte SMTP diretamente, sem provider de e-mail do NextAuth em auth.ts. Typecheck e smoke local passaram, mas isso não remove o descompasso formal de peer nem valida entrega por SMTP. Não habilitar provider de e-mail NextAuth sem resolver essa compatibilidade.
 
 Fonte primária revisada para a migração: https://github.com/nodemailer/nodemailer/blob/master/CHANGELOG.md (versões 10.0.0 e 10.0.16). `npm view nodemailer@10.0.16 engines types` e `npm view next-auth@5.0.0-beta.32 peerDependencies --json` confirmaram os requisitos e a exceção acima.
+
+## Atualização de chaves e envio — 2026-10-09 UTC
+
+O bloqueio de autenticação GitHub foi resolvido nesta rodada. Código anterior enviado em 6e2a9d6; bloco de segurança/conta enviado em 7d224cef. Árvores remotas conferidas como idênticas aos respectivos checkpoints locais. A narrativa de push bloqueado acima descreve a rodada anterior, não o estado atual. Não houve merge em main nem deploy do site.
+
+Política de segredos, 2 testes do gerador, typecheck, lint, imagens, assets e build passaram novamente após alterações. Secret scan: 0 current/introduced high-confidence (17 commits). Fonte Flutter ganhou pedidos/endereços reais sob autenticação; seus testes adicionados permanecem não executados. Leia DEVELOPMENT-SECRETS.md para geração local sem publicar valores ou credenciais externas fictícias. Sessões e OTP mantêm expiração; chaves de desenvolvimento sem expiração automática são rejeitadas em produção.
+
+O escopo integral continua parcial, independentemente da presença de chaves locais. Credenciais fictícias não homologam provedores, não substituem implementação e não garantem ausência absoluta de falhas.
