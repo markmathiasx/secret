@@ -5,13 +5,14 @@
  */
 import { cookies } from "next/headers";
 import { randomBytes, createHmac } from "crypto";
+import { requireSigningSecret } from "./security/secret-policy";
 
 const CSRF_COOKIE = "__csrf";
 const CSRF_HEADER = "x-csrf-token";
 const MAX_AGE = 4 * 60 * 60; // 4 hours
 
 function sign(token: string): string {
-  const secret = process.env.AUTH_SECRET ?? "csrf-default-secret";
+  const secret = requireSigningSecret([process.env.AUTH_SECRET, process.env.NEXTAUTH_SECRET]);
   return createHmac("sha256", secret).update(token).digest("hex");
 }
 

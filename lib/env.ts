@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { selectSigningSecret } from "./security/secret-policy";
 import { normalizeAuthUrl } from "@/lib/auth-url";
 
 const PROD = process.env.NODE_ENV === 'production' || process.env.VERCEL_ENV === 'production';
@@ -394,13 +395,12 @@ export function getRedisUrl() {
 }
 
 export function getAuthSecret() {
-  return (
-    process.env.AUTH_SECRET?.trim() ||
-    process.env.NEXTAUTH_SECRET?.trim() ||
-    process.env.AUTH_CUSTOMER_SESSION_SECRET?.trim() ||
-    process.env.ADMIN_SESSION_SECRET?.trim() ||
-    ""
-  );
+  return selectSigningSecret([
+    process.env.AUTH_SECRET,
+    process.env.NEXTAUTH_SECRET,
+    process.env.AUTH_CUSTOMER_SESSION_SECRET,
+    process.env.ADMIN_SESSION_SECRET,
+  ]) || "";
 }
 
 export function getAuthBaseUrl() {

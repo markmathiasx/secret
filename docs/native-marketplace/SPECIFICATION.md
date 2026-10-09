@@ -16,9 +16,9 @@ Identidade visual: grafite, superfícies discretas, dourado/âmbar como destaque
 | Google/Apple | Entrada configurável no app | Habilitar provedores, OAuth, domínios, certificados e testes em dispositivos |
 | Telefone/Facebook/OTP | Pendente | SMS, quotas, antiabuso, aprovação Facebook e fluxos completos |
 | Perfil comprador/vendedor | Identidade e papel no servidor | Foto, capa, bio, portfólio, verificação KYC e critérios dos selos |
-| Endereços | Consulta, cadastro e exclusão na API | Edição, endereço padrão, CEP validado e integração no checkout |
+| Endereços | Consulta, cadastro e exclusão na API e conta Flutter | Edição, endereço padrão, CEP validado e integração no checkout |
 | Favoritos | Persistência local no app | Lista cloud, compartilhamento e sincronização por conta |
-| Pedidos | Consulta autenticada na API | Compra real, detalhe, cancelamento, devolução e acompanhamento no app |
+| Pedidos | Consulta autenticada na API e conta Flutter | Compra real, detalhe, cancelamento, devolução e acompanhamento completo |
 | Privacidade/notificações | Pendente | Preferências granulares, consentimentos e histórico |
 | Catálogo/busca | Categorias, texto e paginação na API/app | Recomendações personalizadas, relevância e métricas sem dados sensíveis |
 | Voz/imagem | Pendente | Permissão de microfone, reconhecimento e índice de embeddings de fotos licenciadas |

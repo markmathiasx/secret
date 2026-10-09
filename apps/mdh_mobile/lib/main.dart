@@ -672,6 +672,7 @@ class _AccountScreenState extends State<AccountScreen> {
   bool busy = false, register = false;
   String? message;
   Map<String, dynamic>? profile;
+  List<Map<String, dynamic>>? addresses, orders;
   @override
   void dispose() {
     email.dispose();
@@ -691,8 +692,15 @@ class _AccountScreenState extends State<AccountScreen> {
       await operation();
       if (identityChanged) {
         await widget.onIdentityChanged();
-        if (mounted) setState(() => profile = null);
+        if (mounted)
+          setState(() {
+            profile = null;
+            addresses = null;
+            orders = null;
+          });
       }
+    } on StoreApiException catch (e) {
+      if (mounted) setState(() => message = e.message);
     } on FirebaseAuthException catch (e) {
       if (mounted)
         setState(
@@ -718,6 +726,188 @@ class _AccountScreenState extends State<AccountScreen> {
           message = 'Conta autenticada no servidor.';
         });
     });
+  }
+
+  Future<void> loadAccount() => act(() async {
+    final user = FirebaseAuth.instance.currentUser;
+    final token = await user?.getIdToken(true);
+    if (user == null || token == null) throw const StoreApiException(401);
+    final addressData = await widget.api.get('/api/addresses', token: token);
+    final orderData = await widget.api.get('/api/orders', token: token);
+    List<Map<String, dynamic>> rows(dynamic value) {
+      if (value is! List) throw const FormatException('Resposta inválida.');
+      return value.map((e) => Map<String, dynamic>.from(e as Map)).toList();
+    }
+
+    final nextAddresses = rows(addressData['items']);
+    final nextOrders = rows(orderData['items']);
+    for (final address in nextAddresses) {
+      for (final field in [
+        'id',
+        'recipient',
+        'street',
+        'number',
+        'city',
+        'state',
+        'postalCode',
+      ]) {
+        if (address[field] is! String)
+          throw const FormatException('Endereço inválido.');
+      }
+    }
+    for (final order in nextOrders) {
+      boundedInteger(order['totalCents'], 'totalCents');
+      for (final field in ['id', 'status', 'createdAt']) {
+        if (order[field] is! String)
+          throw const FormatException('Pedido inválido.');
+      }
+    }
+    if (mounted && FirebaseAuth.instance.currentUser?.uid == user.uid) {
+      setState(() {
+        addresses = nextAddresses;
+        orders = nextOrders;
+      });
+    }
+  });
+
+  Future<void> deleteAddress(String id) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Excluir endereço?'),
+        content: const Text('Este endereço será removido da sua conta.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Cancelar'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text('Excluir'),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true || !mounted) return;
+    var succeeded = false;
+    await act(() async {
+      final token = await FirebaseAuth.instance.currentUser?.getIdToken(true);
+      if (token == null) throw const StoreApiException(401);
+      await widget.api.send(
+        'DELETE',
+        '/api/addresses/${Uri.encodeComponent(id)}',
+        token: token,
+      );
+      succeeded = true;
+    });
+    if (mounted && succeeded) await loadAccount();
+  }
+
+  Future<void> createAddress() async {
+    final fields = <String, String>{
+      'recipient': 'Destinatário',
+      'postalCode': 'CEP (8 números)',
+      'street': 'Rua',
+      'number': 'Número',
+      'complement': 'Complemento (opcional)',
+      'district': 'Bairro (opcional)',
+      'city': 'Cidade',
+      'state': 'UF (2 letras)',
+    };
+    final controllers = {
+      for (final key in fields.keys) key: TextEditingController(),
+    };
+    final form = GlobalKey<FormState>();
+    Map<String, dynamic>? data;
+    try {
+      data = await showDialog<Map<String, dynamic>>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Novo endereço'),
+          content: SizedBox(
+            width: 420,
+            child: SingleChildScrollView(
+              child: Form(
+                key: form,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    for (final entry in fields.entries)
+                      TextFormField(
+                        controller: controllers[entry.key],
+                        maxLength: entry.key == 'state'
+                            ? 2
+                            : entry.key == 'postalCode'
+                            ? 8
+                            : entry.key == 'number'
+                            ? 30
+                            : entry.key == 'street'
+                            ? 200
+                            : 150,
+                        keyboardType: entry.key == 'postalCode'
+                            ? TextInputType.number
+                            : TextInputType.text,
+                        textCapitalization: entry.key == 'state'
+                            ? TextCapitalization.characters
+                            : TextCapitalization.words,
+                        decoration: InputDecoration(labelText: entry.value),
+                        validator: (value) {
+                          final text = (value ?? '').trim();
+                          if (entry.key == 'complement' ||
+                              entry.key == 'district')
+                            return null;
+                          if (entry.key == 'postalCode')
+                            return RegExp(r'^\d{8}$').hasMatch(text)
+                                ? null
+                                : 'Informe 8 números';
+                          if (entry.key == 'state')
+                            return RegExp(r'^[A-Za-z]{2}$').hasMatch(text)
+                                ? null
+                                : 'Informe a UF';
+                          return text.length >= (entry.key == 'number' ? 1 : 2)
+                              ? null
+                              : 'Campo obrigatório';
+                        },
+                      ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Cancelar'),
+            ),
+            FilledButton(
+              onPressed: () {
+                if (form.currentState!.validate())
+                  Navigator.pop(context, {
+                    for (final entry in controllers.entries)
+                      entry.key: entry.key == 'state'
+                          ? entry.value.text.trim().toUpperCase()
+                          : entry.value.text.trim(),
+                  });
+              },
+              child: const Text('Salvar'),
+            ),
+          ],
+        ),
+      );
+    } finally {
+      for (final controller in controllers.values) {
+        controller.dispose();
+      }
+    }
+    if (data == null || !mounted) return;
+    var succeeded = false;
+    await act(() async {
+      final token = await FirebaseAuth.instance.currentUser?.getIdToken(true);
+      if (token == null) throw const StoreApiException(401);
+      await widget.api.send('POST', '/api/addresses', token: token, body: data);
+      succeeded = true;
+    });
+    if (mounted && succeeded) await loadAccount();
   }
 
   @override
@@ -756,6 +946,55 @@ class _AccountScreenState extends State<AccountScreen> {
             child: const Text('Verificar acesso à API'),
           ),
           if (profile != null) Text('Perfil: ${profile!['role'] ?? 'cliente'}'),
+          FilledButton.tonal(
+            onPressed: busy ? null : loadAccount,
+            child: const Text('Atualizar pedidos e endereços'),
+          ),
+          if (addresses != null) ...[
+            Text(
+              'Seus endereços',
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            if (addresses!.isEmpty)
+              const Text('Você ainda não cadastrou endereços.'),
+            for (final address in addresses!)
+              ListTile(
+                title: Text('${address['recipient']}'),
+                subtitle: Text(
+                  '${address['street']}, ${address['number']}\n${address['city']} — ${address['state']} • CEP ${address['postalCode']}',
+                ),
+                trailing: IconButton(
+                  tooltip: 'Excluir endereço',
+                  onPressed: busy
+                      ? null
+                      : () => deleteAddress(address['id'] as String),
+                  icon: const Icon(Icons.delete_outline),
+                ),
+              ),
+          ],
+          OutlinedButton.icon(
+            onPressed: busy ? null : createAddress,
+            icon: const Icon(Icons.add_location_alt_outlined),
+            label: const Text('Cadastrar endereço'),
+          ),
+          if (orders != null) ...[
+            Text('Seus pedidos', style: Theme.of(context).textTheme.titleLarge),
+            if (orders!.isEmpty)
+              const Text('Nenhum pedido encontrado nesta conta.'),
+            for (final order in orders!)
+              ListTile(
+                title: Text('Pedido ${order['id']}'),
+                subtitle: Text(
+                  'Status: ${order['status']}\n${order['createdAt']}',
+                ),
+                trailing: Text(
+                  money(boundedInteger(order['totalCents'], 'totalCents')),
+                ),
+              ),
+            const Text(
+              'Exibidos até 100 pedidos retornados pelo servidor. Rastreamento ainda não integrado.',
+            ),
+          ],
           TextButton(
             onPressed: busy
                 ? null
@@ -850,7 +1089,7 @@ class _AccountScreenState extends State<AccountScreen> {
           ),
         const SizedBox(height: 24),
         const Text(
-          'As contas do site existente não são migradas automaticamente. Histórico, endereços, privacidade e exclusão da conta ainda precisam de integração antes do lançamento público.',
+          'As contas do site existente não são migradas automaticamente. Pedidos e endereços usam a API autenticada desta plataforma. Privacidade e exclusão da conta ainda precisam de integração antes do lançamento público.',
         ),
       ],
     );

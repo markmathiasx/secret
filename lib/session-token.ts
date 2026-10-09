@@ -12,12 +12,7 @@ export type SessionPayload = {
 
 export const customerSessionCookieName = "mdh_customer";
 
-const invalidSecretFragments = [
-  "troque-o-session-secret",
-  "mdh_troque_este_token_no_env",
-  "gere_uma_chave_aleatoria",
-  "cole_o_hash_gerado_aqui",
-];
+import { isSigningSecretValid } from "./security/secret-policy";
 
 const encoder = new TextEncoder();
 const decoder = new TextDecoder();
@@ -47,9 +42,7 @@ async function getHmacKey(secret: string) {
 }
 
 export function isSessionSecretConfigured(secret: string | null | undefined) {
-  const normalized = secret?.trim().toLowerCase() || "";
-  if (!normalized) return false;
-  return !invalidSecretFragments.some((fragment) => normalized.includes(fragment));
+  return isSigningSecretValid(secret);
 }
 
 export function getCustomerSessionSecret() {
@@ -73,6 +66,10 @@ export async function createSignedSessionToken(
   payload: Omit<SessionPayload, "iat" | "exp"> & { expiresInSeconds: number },
   secret: string
 ) {
+  if (!isSessionSecretConfigured(secret)) throw new Error("Session signing secret is missing or invalid.");
+  if (!Number.isSafeInteger(payload.expiresInSeconds) || payload.expiresInSeconds <= 0) {
+    throw new Error("Session expiry must be a positive integer.");
+  }
   const now = Math.floor(Date.now() / 1000);
   const fullPayload: SessionPayload = {
     sub: payload.sub,
@@ -92,7 +89,8 @@ export async function createSignedSessionToken(
 }
 
 export async function verifySignedSessionToken(token: string, secret: string) {
-  if (!token || !secret) return null;
+  if (!token || !isSessionSecretConfigured(secret)) return null;
+  if (token.split(".").length !== 2) return null;
 
   const [encodedPayload, encodedSignature] = token.split(".");
   if (!encodedPayload || !encodedSignature) return null;

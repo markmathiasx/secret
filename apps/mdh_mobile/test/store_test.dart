@@ -1,7 +1,91 @@
+import 'package:http/http.dart' as http;
+import 'package:http/testing.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mdh_mobile/store.dart';
 
 void main() {
+  test('Autenticação por requisição não vaza token entre sessões', () async {
+    final seen = <String?>[];
+    final api = StoreApi(
+      Uri.parse('https://api.example.com'),
+      client: MockClient((request) async {
+        seen.add(request.headers['Authorization']);
+        return http.Response('{"items":[]}', 200);
+      }),
+    );
+    await api.get('/api/orders', token: 'account-one');
+    await api.get('/api/orders', token: 'account-two');
+    await api.get('/api/categories');
+    expect(seen, ['Bearer account-one', 'Bearer account-two', null]);
+    api.close();
+  });
+  test(
+    'Mutação JSON respeita contrato e DELETE 204 não decodifica corpo',
+    () async {
+      var calls = 0;
+      final api = StoreApi(
+        Uri.parse('https://api.example.com'),
+        client: MockClient((request) async {
+          calls++;
+          if (request.method == 'POST') {
+            expect(request.headers['Content-Type'], 'application/json');
+            expect(request.body, '{"city":"Rio"}');
+            return http.Response('{"id":"a"}', 201);
+          }
+          expect(request.method, 'DELETE');
+          return http.Response('', 204);
+        }),
+      );
+      expect(
+        await api.send(
+          'POST',
+          '/api/addresses',
+          body: {'city': 'Rio'},
+          token: 'session',
+        ),
+        {'id': 'a'},
+      );
+      expect(
+        await api.send('DELETE', '/api/addresses/a', token: 'session'),
+        isEmpty,
+      );
+      expect(calls, 2);
+      api.close();
+    },
+  );
+  test(
+    'Erros de autorização, corpo inválido e falhas não viram lista vazia',
+    () async {
+      for (final status in [401, 403, 404, 500, 503]) {
+        final api = StoreApi(
+          Uri.parse('https://api.example.com'),
+          client: MockClient(
+            (_) async => http.Response('internal provider secret', status),
+          ),
+        );
+        await expectLater(
+          api.get('/api/orders'),
+          throwsA(
+            isA<StoreApiException>().having(
+              (e) => e.statusCode,
+              'status',
+              status,
+            ),
+          ),
+        );
+        api.close();
+      }
+      for (final body in ['[]', 'not-json']) {
+        final api = StoreApi(
+          Uri.parse('https://api.example.com'),
+          client: MockClient((_) async => http.Response(body, 200)),
+        );
+        await expectLater(api.get('/api/orders'), throwsFormatException);
+        api.close();
+      }
+    },
+  );
+
   test('Origem de API não aceita credenciais, caminhos ou HTTP público', () {
     expect(apiOrigin(''), isNull);
     expect(apiOrigin('https://user:secret@api.example.com'), isNull);

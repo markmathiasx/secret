@@ -4,7 +4,7 @@ Cliente Flutter Material 3 com temas claro/escuro, layout limitado a 1200px em t
 
 ## Estado verificável
 
-Este módulo contém código-fonte e testes, **não um binário homologado ou app publicado**. Dart do SDK Flutter 3.35.4 foi instalado e `dart format lib test` passou (4 arquivos). A preparação do Flutter/dependências foi interrompida após bloqueio da revisão automática de acesso à rede; nenhuma tentativa de contornar esse bloqueio foi realizada. `flutter analyze`, `flutter test`, compilação Android e iOS permanecem obrigatórios e não são apresentados como executados. O formatter sinalizou dependência `flutter_lints` ainda não resolvida; formatação não comprova tipagem ou compilação. O carrinho/favoritos são locais, isolados por origem de API e UID Firebase. Persistência é JSON em SharedPreferences, exclusivamente dados de catálogo; não grava senhas ou tokens nesse armazenamento. O SDK Firebase gerencia a persistência da sessão autenticada segundo a plataforma; essa persistência deve ser incluída na revisão de privacidade e segurança. Checkout é desabilitado. Não existe pagamento, histórico, sincronização de carrinho ou cache offline de catálogo nesta versão.
+Este módulo contém código-fonte e testes, **não um binário homologado ou app publicado**. Dart do SDK Flutter 3.35.4 foi instalado e `dart format lib test` passou (4 arquivos). A preparação do Flutter/dependências foi interrompida após bloqueio da revisão automática de acesso à rede; nenhuma tentativa de contornar esse bloqueio foi realizada. `flutter analyze`, `flutter test`, compilação Android e iOS permanecem obrigatórios e não são apresentados como executados. O formatter sinalizou dependência `flutter_lints` ainda não resolvida; formatação não comprova tipagem ou compilação. O carrinho/favoritos são locais, isolados por origem de API e UID Firebase. Persistência é JSON em SharedPreferences, exclusivamente dados de catálogo; não grava senhas ou tokens nesse armazenamento. O SDK Firebase gerencia a persistência da sessão autenticada segundo a plataforma; essa persistência deve ser incluída na revisão de privacidade e segurança. Checkout é desabilitado. Não existe pagamento, sincronização de carrinho ou cache offline de catálogo nesta versão. A conta permite consultar até 100 pedidos reais da API e consultar/cadastrar/excluir endereços, com token Firebase por requisição, validação de formulário e confirmação antes de excluir. E-mail verificado e permissões continuam sendo exigidos no servidor; nenhuma linha de pedido é simulada.
 
 ## Preparação e execução
 
@@ -43,6 +43,9 @@ Email/senha, cadastro, recuperação e envio de verificação estão implementad
 - `GET /api/products?limit=24&categoryId=...&q=...&cursor=...` → `{items,nextCursor}`.
 - Produto: `id,title,description,priceCents,stock,imageUrl,modelUrl`.
 - `GET /api/me` com token Firebase → perfil autorizado pelo servidor.
+- `GET /api/orders` → `{items}` com `id,status,totalCents,createdAt`, até 100 registros.
+- `GET /api/addresses` → `{items}`; `POST /api/addresses` cadastra; `DELETE /api/addresses/:id` exclui somente do proprietário autenticado.
+- Todas as operações têm timeout de 15 segundos incluindo o corpo da resposta; 401/403/404/503 recebem mensagens sem revelar o corpo interno. Testes MockClient cobrem serialização, token por requisição, erros HTTP e corpo inválido; são fonte ainda não executada neste ambiente.
 
 Sem resposta de rede válida, o app apresenta erro e retry, nunca catálogo vazio como falsa evidência de consulta bem-sucedida. Carrinho é estimativa; o servidor deve recalcular valores e estoque para qualquer pagamento futuro. Nenhuma chamada neste cliente cria pedidos.
 

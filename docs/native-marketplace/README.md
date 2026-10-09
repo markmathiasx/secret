@@ -9,6 +9,7 @@ Este diretório é o contrato de entrega do aplicativo. Código em `apps/mdh_mob
 - [Seis sprints com gates de saída](DELIVERY.md)
 - [Configuração, implantação e recuperação](OPERATIONS.md)
 - [Evidências desta entrega](VERIFICATION.md)
+- [Chaves locais e serviços reais](DEVELOPMENT-SECRETS.md)
 
 ## Regras comerciais
 
