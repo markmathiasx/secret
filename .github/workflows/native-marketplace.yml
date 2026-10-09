@@ -1,0 +1,57 @@
+name: Native marketplace checks
+on:
+  pull_request:
+    paths: ['apps/mdh_mobile/**', 'services/marketplace-api/**', '.github/workflows/native-marketplace.yml']
+  push:
+    branches: [main, 'codex/native-marketplace-20261007']
+    paths: ['apps/mdh_mobile/**', 'services/marketplace-api/**', '.github/workflows/native-marketplace.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  api:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: services/marketplace-api
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_DB: mdh_api_test
+          POSTGRES_USER: mdh_test
+          POSTGRES_PASSWORD: ci-disposable-only
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: services/marketplace-api/package-lock.json
+      - run: npm ci --ignore-scripts
+      - run: npm run check
+      - run: npm test
+        env:
+          TEST_DATABASE_URL: postgres://mdh_test:ci-disposable-only@127.0.0.1:5432/mdh_api_test
+      - run: npm audit --omit=dev --audit-level=low
+  mobile:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/mdh_mobile
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.35.4'
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      - run: flutter analyze
+      - run: flutter test --coverage

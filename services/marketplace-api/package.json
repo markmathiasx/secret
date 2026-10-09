@@ -1,0 +1,23 @@
+{
+  "name": "@mdh/marketplace-api",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24 <26"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "node --test",
+    "migrate": "node src/migrate.js",
+    "check": "node --check src/app.js && node --check src/server.js && node --check src/migrate.js"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "express-rate-limit": "^8.2.1",
+    "firebase-admin": "^14.5.0",
+    "helmet": "^8.1.0",
+    "pg": "^8.16.3",
+    "zod": "^4.1.12"
+  }
+}

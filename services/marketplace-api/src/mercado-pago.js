@@ -36,7 +36,8 @@ export function verifyPayment(payment, expected) {
 }
 
 export function verifyWebhook({ signature, requestId, dataId, secret, now = Date.now(), toleranceMs = 300_000 }) {
-  if (!secret || typeof signature !== 'string' || typeof requestId !== 'string' ||
+  if (!secret || !Number.isSafeInteger(now) || !Number.isSafeInteger(toleranceMs) || toleranceMs < 0 ||
+      typeof signature !== 'string' || typeof requestId !== 'string' ||
       !/^[a-zA-Z0-9_-]{1,200}$/.test(requestId) || !/^[a-zA-Z0-9_-]{1,200}$/.test(String(dataId))) {
     throw new PaymentProviderError('INVALID_WEBHOOK', 401);
   }
@@ -62,10 +63,11 @@ export function verifyWebhook({ signature, requestId, dataId, secret, now = Date
 }
 
 export class MercadoPagoPix {
-  constructor({ accessToken, notificationUrl, fetchImpl = fetch }) {
+  constructor({ accessToken, notificationUrl, fetchImpl = fetch, now = Date.now }) {
     this.accessToken = accessToken;
     this.notificationUrl = notificationUrl;
     this.fetchImpl = fetchImpl;
+    this.now = now;
   }
 
   async request(path, options = {}) {
@@ -91,7 +93,12 @@ export class MercadoPagoPix {
     try { callback = new URL(this.notificationUrl); }
     catch { throw new PaymentProviderError('PAYMENT_NOT_CONFIGURED', 503); }
     if (callback.protocol !== 'https:' || callback.username || callback.password) throw new PaymentProviderError('PAYMENT_NOT_CONFIGURED', 503);
-    if (!expiresAt || !Number.isFinite(Date.parse(expiresAt))) throw new PaymentProviderError('INVALID_EXPIRY', 400);
+    const expiry = Date.parse(expiresAt);
+    const currentTime = this.now();
+    if (typeof expiresAt !== 'string' || !Number.isFinite(expiry) ||
+        !Number.isSafeInteger(currentTime) || expiry <= currentTime) {
+      throw new PaymentProviderError('INVALID_EXPIRY', 400);
+    }
     const result = await this.request('/v1/payments', {
       method: 'POST', headers: { 'X-Idempotency-Key': idempotencyKey },
       body: JSON.stringify({

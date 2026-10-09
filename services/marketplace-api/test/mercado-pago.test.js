@@ -26,9 +26,20 @@ test('signed webhook rejects wrong secret, missing fields, duplicate fields and 
   const input = { signature: `ts=${ts},v1=${v1}`, requestId: 'req-1', dataId: 'ABC', secret, now: Number(ts) };
   assert.equal(verifyWebhook(input).dataId, 'abc');
   for (const patch of [{ secret: 'wrong' }, { dataId: 'def' }, { signature: `ts=${ts},ts=${ts},v1=${v1}` },
-    { signature: 'v1=bad' }, { requestId: '' }, { now: Number(ts) + 300001 }]) {
+    { signature: 'v1=bad' }, { requestId: '' }, { now: Number(ts) + 300001 },
+    { now: NaN }, { toleranceMs: Infinity }, { toleranceMs: -1 }]) {
     assert.throws(() => verifyWebhook({ ...input, ...patch }));
   }
+});
+test('expired Pix is rejected before any provider request', async () => {
+  let requests = 0;
+  const adapter = new MercadoPagoPix({ accessToken: 'fixture', notificationUrl: 'https://example.test/webhook',
+    now: () => Date.parse('2030-01-01T12:00:00Z'), fetchImpl: async () => { requests++; throw Error('must not run'); } });
+  for (const expiresAt of ['2029-12-31T12:00:00Z', '2030-01-01T12:00:00Z', 'invalid', null]) {
+    await assert.rejects(adapter.create({ orderId: 'fixture', totalCents: 1990, email: 'fixture@example.test',
+      idempotencyKey: '0123456789abcdef', expiresAt }), { code: 'INVALID_EXPIRY' });
+  }
+  assert.equal(requests, 0);
 });
 test('Pix request uses fixed provider host, integer source amount and caller durable idempotency key', async () => {
   let request;

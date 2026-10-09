@@ -1,8 +1,8 @@
 # RELATORIO-EXECUCAO-MARKETPLACE
 
-Atualizado em: 2026-10-07T06:44:15.984Z
+Atualizado em: 2026-10-09T01:02:44.533Z
 Branch: codex/native-marketplace-20261007
-Commit atual: afb9ed8
+Commit atual: ae5552e
 Remoto: https://github.com/markmathiasx/secret.git
 
 ## Regra operacional
@@ -154,3 +154,13 @@ Este relatorio e incremental. Nenhuma fase deve receber 100% sem evidencia objet
 - Lighthouse mobile, axe-core e validacao publica ainda precisam de evidencias novas nesta execucao.
 - Qualquer falha nos gates deve manter a fase abaixo de 100% ate correcao e nova execucao.
 - Claims antigos de 100% permanecem nao comprovados ate passarem por codigo, comando e validacao runtime atuais.
+
+## Bloco nativo — reconstrução e verificação em 2026-10-09 UTC
+
+Fonte implementada/verificada até `edd2350` na branch `codex/native-marketplace-20261007`. API separada Node24/Express/PostgreSQL/Firebase com catálogo, carrinho, endereços, consulta de pedidos e cadastro/edição de produtos sob ownership. App Flutter em fonte com catálogo, categorias, busca, detalhes, carrinho/favoritos locais e autenticação opcional. Documento integral, ER, seis sprints, OpenAPI e instruções de deploy em `docs/native-marketplace`.
+
+Gate local pós-atualização: npm ci, validação de dependências corrigidas, auditoria produção (0 achados), Prisma validate, typecheck, lint, imagens (538 produtos públicos), assets (248 arquivos) e build passaram. Smoke público local passou, conta anônima redirecionou307. API:18 testes passaram,1 integração PostgreSQL ignorada por falta de banco. Formatter Dart passou; analyze/test/build Flutter não executados após rejeição automática de acesso a metadados sensíveis da infraestrutura. Sem APK/AAB/IPA ou publicação nas lojas.
+
+Gate estrito do grafo completo npm audit: REPROVADO,16 achados (13 altos,3 moderados). Produção/auth/pagamento/banco reais não homologados. Checkout da nova API desativado. Não foi executada migration remota, importação de catálogo/contas, nem deploy. O catálogo do site não foi substituído por imagens geradas.
+
+Push dos novos commits BLOQUEADO por autenticação indisponível; commit remoto anterior confirmado `ae5552eb98fced90b1405730fab09ee4168b031a`. Site reportou release `57dbffea5785c5d053fb3b8c87b1239bd68a9e20`, que difere do checkout. Não declarar identidade site/local nem100%. Ver `reports/native-marketplace-verification.json` e `docs/native-marketplace/VERIFICATION.md` para evidência e pendências separadas.

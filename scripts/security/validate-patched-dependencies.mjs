@@ -10,28 +10,30 @@ const expectedDirect = {
   '@auth/prisma-adapter': '2.11.3',
   fflate: '0.8.3',
   'isomorphic-dompurify': '3.19.0',
-  next: '15.5.25',
+  next: '15.5.27',
   'next-auth': '5.0.0-beta.32',
-  nodemailer: '9.1.1',
-  sharp: '0.35.4',
-  undici: '^6.28.0',
+  nodemailer: '10.0.16',
+  sharp: '0.35.5',
+  undici: '6.28.1',
 };
 const expectedDev = {
-  '@next/bundle-analyzer': '15.5.25',
-  'eslint-config-next': '15.5.25',
+  '@next/bundle-analyzer': '15.5.27',
+  'eslint-config-next': '15.5.27',
   postcss: '8.5.26',
 };
 const expectedOverrides = {
   '@auth/core': '0.41.3',
   'baseline-browser-mapping': '2.11.21',
-  'brace-expansion': '5.0.9',
+  'brace-expansion': '5.0.12',
   browserslist: '4.28.9',
-  dompurify: '3.4.13',
+  dompurify: '3.4.16',
   'js-yaml': '5.3.0',
   jsdom: '25.0.1',
   nanoid: '3.3.18',
   postcss: '8.5.26',
-  sharp: '0.35.4',
+  sharp: '0.35.5',
+  'source-map-js': '1.2.2',
+  'postcss-selector-parser': '7.1.6',
 };
 
 const failures = [];
@@ -74,22 +76,24 @@ function requireExactInLock(packageName, expected) {
   }
 }
 
-requireExactInLock('next', '15.5.25');
+requireExactInLock('next', '15.5.27');
 requireExactInLock('next-auth', '5.0.0-beta.32');
 requireExactInLock('@auth/core', '0.41.3');
 requireExactInLock('@auth/prisma-adapter', '2.11.3');
-requireExactInLock('sharp', '0.35.4');
+requireExactInLock('sharp', '0.35.5');
 requireExactInLock('fflate', '0.8.3');
-requireExactInLock('nodemailer', '9.1.1');
+requireExactInLock('nodemailer', '10.0.16');
 requireExactInLock('baseline-browser-mapping', '2.11.21');
 requireExactInLock('browserslist', '4.28.9');
-requireExactInLock('undici', '6.28.0');
-requireExactInLock('brace-expansion', '5.0.9');
-requireExactInLock('dompurify', '3.4.13');
+requireExactInLock('undici', '6.28.1');
+requireExactInLock('brace-expansion', '5.0.12');
+requireExactInLock('dompurify', '3.4.16');
 requireExactInLock('js-yaml', '5.3.0');
 requireExactInLock('nanoid', '3.3.18');
 requireExactInLock('postcss', '8.5.26');
 requireExactInLock('jsdom', '25.0.1');
+requireExactInLock('source-map-js', '1.2.2');
+requireExactInLock('postcss-selector-parser', '7.1.6');
 
 if (failures.length) {
   console.error('VALIDAÇÃO DE DEPENDÊNCIAS CORRIGIDAS: REPROVADA');

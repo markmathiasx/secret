@@ -1,0 +1,46 @@
+{
+  "dateUtc": "2026-10-09",
+  "branch": "codex/native-marketplace-20261007",
+  "verifiedSourceCommit": "edd2350",
+  "remoteCheckpoint": "ae5552eb98fced90b1405730fab09ee4168b031a",
+  "productionReportedRelease": "57dbffea5785c5d053fb3b8c87b1239bd68a9e20",
+  "pushNewCommits": "blocked_missing_authentication",
+  "deploy": "not_performed",
+  "rootGate": {
+    "npmCi": "passed",
+    "patchedDependencyValidation": "passed",
+    "productionAudit": { "passed": true, "vulnerabilities": 0 },
+    "allDependencyAudit": { "passed": false, "exitCode": 1, "high": 13, "moderate": 3, "total": 16 },
+    "prismaValidate": "passed",
+    "typecheck": "passed",
+    "lint": "passed",
+    "images": { "passed": true, "publicProducts": 538 },
+    "assets": { "passed": true, "files": 248 },
+    "build": "passed",
+    "localPublicHttpSmoke": "passed_with_anonymous_account_redirect",
+    "authenticatedCommercialRuntime": "unverified_missing_configuration"
+  },
+  "api": {
+    "syntax": "passed",
+    "testsPassed": 18,
+    "testsSkipped": 1,
+    "productionAuditVulnerabilities": 0,
+    "postgresqlRuntime": "not_run",
+    "firebaseRuntime": "not_run",
+    "checkout": "disabled",
+    "mercadoPagoSandbox": "not_run"
+  },
+  "mobile": {
+    "dartFormatting": "passed",
+    "flutterAnalyze": "not_run_auto_review_block",
+    "flutterTest": "not_run_auto_review_block",
+    "nativeScaffolds": "not_generated",
+    "apk": "not_generated",
+    "aab": "not_generated",
+    "ipa": "not_generated",
+    "storePublication": "not_performed"
+  },
+  "ci": "source_added_not_executed",
+  "docker": "source_added_not_built",
+  "fullMarketplaceAcceptance": "not_complete"
+}

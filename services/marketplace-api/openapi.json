@@ -1,0 +1,820 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "MDH mobile API foundation",
+    "version": "0.1.0",
+    "description": "Checkout disabled. Isolated schema; existing website accounts not linked."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "Firebase ID token"
+      }
+    },
+    "schemas": {
+      "Product": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "priceCents": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "stock": {
+            "type": "integer"
+          },
+          "imageUrl": {
+            "type": "string",
+            "format": "uri"
+          },
+          "modelUrl": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uri"
+          },
+          "categoryId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "sellerId": {
+            "type": "string"
+          }
+        }
+      },
+      "Address": {
+        "type": "object",
+        "required": [
+          "recipient",
+          "postalCode",
+          "street",
+          "number",
+          "city",
+          "state"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "recipient": {
+            "type": "string"
+          },
+          "postalCode": {
+            "type": "string",
+            "pattern": "^\\d{8}$"
+          },
+          "street": {
+            "type": "string"
+          },
+          "number": {
+            "type": "string"
+          },
+          "complement": {
+            "type": "string"
+          },
+          "district": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string",
+            "pattern": "^[A-Z]{2}$"
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "Database liveness",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "401": {
+            "description": "Authentication required or invalid"
+          },
+          "403": {
+            "description": "Disabled account, unverified email, forbidden origin or insufficient role"
+          },
+          "500": {
+            "description": "Sanitized internal error"
+          }
+        }
+      }
+    },
+    "/api/capabilities": {
+      "get": {
+        "summary": "Accurate feature flags",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "401": {
+            "description": "Authentication required or invalid"
+          },
+          "403": {
+            "description": "Disabled account, unverified email, forbidden origin or insufficient role"
+          },
+          "500": {
+            "description": "Sanitized internal error"
+          }
+        }
+      }
+    },
+    "/api/categories": {
+      "get": {
+        "summary": "Categories envelope",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "401": {
+            "description": "Authentication required or invalid"
+          },
+          "403": {
+            "description": "Disabled account, unverified email, forbidden origin or insufficient role"
+          },
+          "500": {
+            "description": "Sanitized internal error"
+          }
+        }
+      }
+    },
+    "/api/products": {
+      "get": {
+        "summary": "Published real products from enabled sellers",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "401": {
+            "description": "Authentication required or invalid"
+          },
+          "403": {
+            "description": "Disabled account, unverified email, forbidden origin or insufficient role"
+          },
+          "500": {
+            "description": "Sanitized internal error"
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "categoryId",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "query",
+            "name": "cursor",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "query",
+            "name": "q",
+            "schema": {
+              "type": "string",
+              "maxLength": 100
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50,
+              "default": 20
+            }
+          }
+        ]
+      }
+    },
+    "/api/products/{id}": {
+      "get": {
+        "summary": "Published product detail",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "401": {
+            "description": "Authentication required or invalid"
+          },
+          "403": {
+            "description": "Disabled account, unverified email, forbidden origin or insufficient role"
+          },
+          "404": {
+            "description": "Not found or not owned"
+          },
+          "500": {
+            "description": "Sanitized internal error"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ]
+      }
+    },
+    "/api/me": {
+      "get": {
+        "summary": "Server-authorized profile",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "401": {
+            "description": "Authentication required or invalid"
+          },
+          "403": {
+            "description": "Disabled account, unverified email, forbidden origin or insufficient role"
+          },
+          "500": {
+            "description": "Sanitized internal error"
+          }
+        }
+      }
+    },
+    "/api/cart": {
+      "get": {
+        "summary": "Persistent own cart and source totals",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "401": {
+            "description": "Authentication required or invalid"
+          },
+          "403": {
+            "description": "Disabled account, unverified email, forbidden origin or insufficient role"
+          },
+          "500": {
+            "description": "Sanitized internal error"
+          }
+        }
+      }
+    },
+    "/api/cart/items/{id}": {
+      "put": {
+        "summary": "Set cart quantity with stock availability check",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Success without response body"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "401": {
+            "description": "Authentication required or invalid"
+          },
+          "403": {
+            "description": "Disabled account, unverified email, forbidden origin or insufficient role"
+          },
+          "404": {
+            "description": "Not found or not owned"
+          },
+          "409": {
+            "description": "Unavailable product/stock or cart limit"
+          },
+          "500": {
+            "description": "Sanitized internal error"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "quantity"
+                ],
+                "properties": {
+                  "quantity": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 99
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ]
+      },
+      "delete": {
+        "summary": "Remove own cart line",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Success without response body"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "401": {
+            "description": "Authentication required or invalid"
+          },
+          "403": {
+            "description": "Disabled account, unverified email, forbidden origin or insufficient role"
+          },
+          "404": {
+            "description": "Not found or not owned"
+          },
+          "500": {
+            "description": "Sanitized internal error"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ]
+      }
+    },
+    "/api/addresses": {
+      "get": {
+        "summary": "Own saved addresses",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "401": {
+            "description": "Authentication required or invalid"
+          },
+          "403": {
+            "description": "Disabled account, unverified email, forbidden origin or insufficient role"
+          },
+          "500": {
+            "description": "Sanitized internal error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create own address",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "401": {
+            "description": "Authentication required or invalid"
+          },
+          "403": {
+            "description": "Disabled account, unverified email, forbidden origin or insufficient role"
+          },
+          "500": {
+            "description": "Sanitized internal error"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Address"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/addresses/{id}": {
+      "delete": {
+        "summary": "Remove own address",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Success without response body"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "401": {
+            "description": "Authentication required or invalid"
+          },
+          "403": {
+            "description": "Disabled account, unverified email, forbidden origin or insufficient role"
+          },
+          "404": {
+            "description": "Not found or not owned"
+          },
+          "500": {
+            "description": "Sanitized internal error"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ]
+      }
+    },
+    "/api/orders": {
+      "get": {
+        "summary": "Own existing orders, newest 100",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "401": {
+            "description": "Authentication required or invalid"
+          },
+          "403": {
+            "description": "Disabled account, unverified email, forbidden origin or insufficient role"
+          },
+          "500": {
+            "description": "Sanitized internal error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Order creation deliberately disabled",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid input"
+          },
+          "401": {
+            "description": "Authentication required or invalid"
+          },
+          "403": {
+            "description": "Disabled account, unverified email, forbidden origin or insufficient role"
+          },
+          "500": {
+            "description": "Sanitized internal error"
+          },
+          "503": {
+            "description": "Intentionally unavailable until production prerequisites"
+          }
+        }
+      }
+    },
+    "/api/payments/pix": {
+      "post": {
+        "summary": "Pix route deliberately disabled",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid input"
+          },
+          "401": {
+            "description": "Authentication required or invalid"
+          },
+          "403": {
+            "description": "Disabled account, unverified email, forbidden origin or insufficient role"
+          },
+          "500": {
+            "description": "Sanitized internal error"
+          },
+          "503": {
+            "description": "Intentionally unavailable until production prerequisites"
+          }
+        }
+      }
+    },
+    "/api/seller/products": {
+      "get": {
+        "summary": "Own seller listings",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "401": {
+            "description": "Authentication required or invalid"
+          },
+          "403": {
+            "description": "Disabled account, unverified email, forbidden origin or insufficient role"
+          },
+          "500": {
+            "description": "Sanitized internal error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create own listing with server-assigned owner and audit transaction",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid input"
+          },
+          "401": {
+            "description": "Authentication required or invalid"
+          },
+          "403": {
+            "description": "Disabled account, unverified email, forbidden origin or insufficient role"
+          },
+          "500": {
+            "description": "Sanitized internal error"
+          },
+          "201": {
+            "description": "Success"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "title",
+                  "categoryId",
+                  "priceCents",
+                  "stock",
+                  "imageUrl"
+                ],
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "minLength": 2,
+                    "maxLength": 200
+                  },
+                  "description": {
+                    "type": "string",
+                    "maxLength": 10000
+                  },
+                  "categoryId": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "priceCents": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 100000000
+                  },
+                  "stock": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 1000000
+                  },
+                  "imageUrl": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "HTTPS, no URL credentials"
+                  },
+                  "modelUrl": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "format": "uri"
+                  },
+                  "published": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/seller/products/{id}": {
+      "put": {
+        "summary": "Replace own listing and audit transaction",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "401": {
+            "description": "Authentication required or invalid"
+          },
+          "403": {
+            "description": "Disabled account, unverified email, forbidden origin or insufficient role"
+          },
+          "404": {
+            "description": "Not found or not owned"
+          },
+          "500": {
+            "description": "Sanitized internal error"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "title",
+                  "categoryId",
+                  "priceCents",
+                  "stock",
+                  "imageUrl"
+                ],
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "minLength": 2,
+                    "maxLength": 200
+                  },
+                  "description": {
+                    "type": "string",
+                    "maxLength": 10000
+                  },
+                  "categoryId": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "priceCents": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 100000000
+                  },
+                  "stock": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 1000000
+                  },
+                  "imageUrl": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "HTTPS, no URL credentials"
+                  },
+                  "modelUrl": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "format": "uri"
+                  },
+                  "published": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

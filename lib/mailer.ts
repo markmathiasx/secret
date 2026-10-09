@@ -1,8 +1,8 @@
 import 'server-only';
-import nodemailer from "nodemailer";
+import nodemailer, { type Transporter } from "nodemailer";
 import { getSmtpConfig } from "@/lib/env";
 
-let transport: nodemailer.Transporter | null = null;
+let transport: Transporter | null = null;
 
 function getTransport() {
   if (transport) return transport;
