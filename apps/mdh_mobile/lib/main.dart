@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:model_viewer_plus/model_viewer_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'store.dart';
+import 'commerce_ui.dart';
 
 const apiBase = String.fromEnvironment('API_BASE_URL');
 const firebaseKey = String.fromEnvironment('FIREBASE_API_KEY');
@@ -51,19 +52,8 @@ class MdhApp extends StatelessWidget {
     locale: const Locale('pt', 'BR'),
     supportedLocales: const [Locale('pt', 'BR')],
     localizationsDelegates: GlobalMaterialLocalizations.delegates,
-    theme: ThemeData(
-      useMaterial3: true,
-      colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff986b22)),
-      scaffoldBackgroundColor: const Color(0xfffaf9f6),
-    ),
-    darkTheme: ThemeData(
-      useMaterial3: true,
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: const Color(0xffdfb770),
-        brightness: Brightness.dark,
-      ),
-      scaffoldBackgroundColor: const Color(0xff101419),
-    ),
+    theme: commerceTheme(Brightness.light),
+    darkTheme: commerceTheme(Brightness.dark),
     home: apiOrigin(apiBase) == null
         ? const SetupScreen()
         : StoreScreen(origin: apiOrigin(apiBase)!, authReady: authReady),
@@ -322,6 +312,11 @@ class _StoreScreenState extends State<StoreScreen> {
       ),
       actions: [
         IconButton(
+          tooltip: 'Seus favoritos',
+          onPressed: showFavorites,
+          icon: const Icon(Icons.favorite_border_rounded),
+        ),
+        IconButton(
           tooltip: 'Atualizar catálogo',
           onPressed: () {
             loadCategories();
@@ -336,16 +331,16 @@ class _StoreScreenState extends State<StoreScreen> {
       onDestinationSelected: (i) => setState(() => tab = i),
       destinations: const [
         NavigationDestination(
-          icon: Icon(Icons.explore_outlined),
-          label: 'Explorar',
+          icon: Icon(Icons.home_outlined),
+          label: 'Início',
         ),
         NavigationDestination(
-          icon: Icon(Icons.favorite_border),
-          label: 'Favoritos',
+          icon: Icon(Icons.grid_view_rounded),
+          label: 'Categorias',
         ),
         NavigationDestination(
           icon: Icon(Icons.shopping_bag_outlined),
-          label: 'Sacola',
+          label: 'Carrinho',
         ),
         NavigationDestination(icon: Icon(Icons.person_outline), label: 'Conta'),
       ],
@@ -355,10 +350,7 @@ class _StoreScreenState extends State<StoreScreen> {
         constraints: const BoxConstraints(maxWidth: 1200),
         child: switch (tab) {
           0 => catalog(),
-          1 => productGrid(
-            saved.values.where((p) => favorites.contains(p.id)).toList(),
-            empty: 'Seus favoritos aparecem aqui.',
-          ),
+          1 => categoryDirectory(),
           2 => bag(),
           _ => AccountScreen(
             api: api,
@@ -378,163 +370,196 @@ class _StoreScreenState extends State<StoreScreen> {
       ),
     ),
   );
-  Widget catalog() => CustomScrollView(
-    slivers: [
-      SliverToBoxAdapter(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(16, 24, 16, 8),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+  void selectCategory(String? id) {
+    search.clear();
+    setState(() {
+      category = id;
+      tab = 0;
+    });
+    load();
+  }
+
+  Future<void> showFavorites() async {
+    await showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      useSafeArea: true,
+      builder: (context) => FractionallySizedBox(
+        heightFactor: 0.9,
+        child: StatefulBuilder(
+          builder: (context, updateSheet) => Column(
             children: [
-              Text(
-                'Dê forma ao extraordinário.',
-                style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                  fontWeight: FontWeight.w800,
-                ),
-              ),
-              const SizedBox(height: 8),
-              const Text(
-                'Peças para colecionar, presentear e transformar seu espaço.',
-              ),
-              const SizedBox(height: 20),
-              TextField(
-                controller: search,
-                textInputAction: TextInputAction.search,
-                onSubmitted: (_) => load(),
-                decoration: InputDecoration(
-                  labelText: 'Buscar uma peça',
-                  prefixIcon: const Icon(Icons.search),
-                  suffixIcon: IconButton(
-                    tooltip: 'Buscar',
-                    onPressed: () => load(),
-                    icon: const Icon(Icons.arrow_forward),
-                  ),
-                  border: const OutlineInputBorder(),
-                ),
-              ),
-              const SizedBox(height: 12),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
+              Padding(
+                padding: const EdgeInsets.all(16),
                 child: Row(
                   children: [
-                    ChoiceChip(
-                      label: const Text('Todas'),
-                      selected: category == null,
-                      onSelected: (_) {
-                        setState(() => category = null);
-                        load();
-                      },
+                    Expanded(child: Text('Seus favoritos', style: Theme.of(context).textTheme.titleLarge)),
+                    IconButton(
+                      tooltip: 'Fechar favoritos',
+                      onPressed: () => Navigator.pop(context),
+                      icon: const Icon(Icons.close),
                     ),
-                    for (final c in categories)
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8),
-                        child: ChoiceChip(
-                          label: Text(c['name'] as String),
-                          selected: category == c['id'],
-                          onSelected: (_) {
-                            setState(() => category = c['id'] as String);
-                            load();
-                          },
-                        ),
-                      ),
                   ],
                 ),
               ),
-              if (error != null)
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  child: Column(
-                    children: [
-                      Text(
-                        error!,
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.error,
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () => load(),
-                        child: const Text('Tentar novamente'),
-                      ),
-                    ],
-                  ),
+              Expanded(
+                child: productGrid(
+                  saved.values.where((p) => favorites.contains(p.id)).toList(),
+                  empty: 'Salve as peças que você quer encontrar depois.',
+                  onFavorite: (p) {
+                    favorite(p);
+                    updateSheet(() {});
+                  },
                 ),
-              if (categoriesError != null)
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: Row(
-                    children: [
-                      Expanded(child: Text(categoriesError!)),
-                      TextButton(
-                        onPressed: loadCategories,
-                        child: const Text('Recarregar categorias'),
-                      ),
-                    ],
-                  ),
-                ),
-              if (!loading && error == null && products.isEmpty)
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 32),
-                  child: Text('Nenhuma peça encontrada nesta seleção.'),
-                ),
+              ),
             ],
           ),
         ),
       ),
-      SliverLayoutBuilder(
-        builder: (context, constraints) => SliverPadding(
-          padding: const EdgeInsets.all(16),
-          sliver: SliverGrid(
-            delegate: SliverChildBuilderDelegate(
-              (context, index) => productCard(products[index]),
-              childCount: products.length,
-            ),
-            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 320,
-              mainAxisExtent:
-                  330.0 *
-                  MediaQuery.textScalerOf(
-                    context,
-                  ).scale(1).clamp(1.0, 1.8).toDouble(),
-              mainAxisSpacing: 12,
-              crossAxisSpacing: 12,
-            ),
+    );
+  }
+
+  Widget categoryDirectory() => RefreshIndicator(
+    onRefresh: loadCategories,
+    child: ListView(
+      key: const PageStorageKey('category-directory'),
+      physics: const AlwaysScrollableScrollPhysics(),
+      padding: const EdgeInsets.all(20),
+      children: [
+        Text('Encontre seu universo', style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w800)),
+        const SizedBox(height: 8),
+        const Text('Explore por coleção. Cada seleção abre o catálogo filtrado.'),
+        const SizedBox(height: 24),
+        CollectionTile(name: 'Todas as peças', selected: category == null, onTap: () => selectCategory(null)),
+        for (final c in categories) ...[
+          const SizedBox(height: 12),
+          CollectionTile(
+            name: c['name'] as String,
+            selected: category == c['id'],
+            onTap: () => selectCategory(c['id'] as String),
           ),
-        ),
-      ),
-      SliverToBoxAdapter(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: loading
-              ? const Center(child: CircularProgressIndicator())
-              : cursor != null
-              ? OutlinedButton(
-                  onPressed: () => load(more: true),
-                  child: const Text('Ver mais peças'),
-                )
-              : const SizedBox.shrink(),
-        ),
-      ),
-    ],
+        ],
+        if (categoriesError != null) CommerceEmptyState(message: categoriesError!),
+        if (categoriesError == null && categories.isEmpty)
+          const CommerceEmptyState(message: 'As coleções ainda estão sendo carregadas ou não foram cadastradas.'),
+      ],
+    ),
   );
-  Widget productGrid(List<Product> items, {required String empty}) =>
-      items.isEmpty
-      ? Center(child: Text(empty))
-      : GridView.builder(
-          padding: const EdgeInsets.all(16),
-          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-            maxCrossAxisExtent: 320,
-            mainAxisExtent:
-                330.0 *
-                MediaQuery.textScalerOf(
-                  context,
-                ).scale(1).clamp(1.0, 1.8).toDouble(),
-            crossAxisSpacing: 12,
-            mainAxisSpacing: 12,
+
+  Widget catalog() => RefreshIndicator(
+    onRefresh: () async {
+      await Future.wait([loadCategories(), load()]);
+    },
+    child: CustomScrollView(
+      key: const PageStorageKey('store-catalog'),
+      physics: const AlwaysScrollableScrollPhysics(),
+      slivers: [
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextField(
+                  controller: search,
+                  textInputAction: TextInputAction.search,
+                  onSubmitted: (_) => load(),
+                  decoration: InputDecoration(
+                    hintText: 'O que você quer encontrar?',
+                    prefixIcon: const Icon(Icons.search_rounded),
+                    suffixIcon: IconButton(
+                      tooltip: 'Buscar peças',
+                      onPressed: () => load(),
+                      icon: const Icon(Icons.arrow_forward_rounded),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                if (category == null && appliedSearch.isEmpty) ...[
+                  CollectionIntro(onCollections: () => setState(() => tab = 1)),
+                  const SizedBox(height: 24),
+                ],
+                Row(
+                  children: [
+                    Expanded(child: Text('Explore as coleções', style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w800))),
+                    TextButton(onPressed: () => setState(() => tab = 1), child: const Text('Ver todas')),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      ChoiceChip(label: const Text('Todas'), selected: category == null, onSelected: (_) => selectCategory(null)),
+                      for (final c in categories)
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8),
+                          child: ChoiceChip(
+                            avatar: Icon(categoryIcon(c['name'] as String), size: 18),
+                            label: Text(c['name'] as String),
+                            selected: category == c['id'],
+                            onSelected: (_) {
+                              setState(() => category = c['id'] as String);
+                              load();
+                            },
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 24),
+                Text(
+                  appliedSearch.isNotEmpty ? 'Resultados para “$appliedSearch”' : category != null ? 'Peças desta coleção' : 'Descubra sua próxima peça',
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w800),
+                ),
+                const SizedBox(height: 6),
+                const Text('Veja os detalhes e a disponibilidade de cada produto.'),
+                if (error != null) ...[
+                  CommerceEmptyState(message: error!),
+                  Center(child: OutlinedButton(onPressed: () => load(), child: const Text('Tentar novamente'))),
+                ],
+                if (categoriesError != null)
+                  TextButton.icon(onPressed: loadCategories, icon: const Icon(Icons.refresh), label: const Text('Recarregar categorias')),
+                if (!loading && error == null && products.isEmpty)
+                  CommerceEmptyState(message: 'Nenhuma peça encontrada nesta seleção.', onReset: () => selectCategory(null)),
+              ],
+            ),
           ),
-          itemCount: items.length,
-          itemBuilder: (_, i) => productCard(items[i]),
+        ),
+        SliverLayoutBuilder(
+          builder: (context, constraints) => SliverPadding(
+            padding: const EdgeInsets.all(20),
+            sliver: SliverGrid(
+              delegate: SliverChildBuilderDelegate((context, index) => productCard(products[index]), childCount: products.length),
+              gridDelegate: commerceGrid(context, constraints.crossAxisExtent - 40),
+            ),
+          ),
+        ),
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: loading
+                ? const Center(child: CircularProgressIndicator())
+                : cursor != null
+                ? OutlinedButton(onPressed: () => load(more: true), child: const Text('Carregar mais peças'))
+                : const SizedBox.shrink(),
+          ),
+        ),
+      ],
+    ),
+  );
+  Widget productGrid(List<Product> items, {required String empty, void Function(Product)? onFavorite}) =>
+      items.isEmpty
+      ? Center(child: CommerceEmptyState(message: empty))
+      : LayoutBuilder(
+          builder: (context, constraints) => GridView.builder(
+            padding: const EdgeInsets.all(20),
+            gridDelegate: commerceGrid(context, constraints.maxWidth - 40),
+            itemCount: items.length,
+            itemBuilder: (_, i) => productCard(items[i], onFavorite: onFavorite),
+          ),
         );
-  Widget productCard(Product p) => Card(
+  Widget productCard(Product p, {void Function(Product)? onFavorite}) => Card(
     clipBehavior: Clip.antiAlias,
     child: InkWell(
       onTap: () => openProduct(p),
@@ -544,7 +569,12 @@ class _StoreScreenState extends State<StoreScreen> {
           Expanded(
             child: Stack(
               children: [
-                Positioned.fill(child: productImage(p)),
+                Positioned.fill(
+                  child: ColoredBox(
+                    color: Theme.of(context).colorScheme.surface,
+                    child: Padding(padding: const EdgeInsets.all(12), child: productImage(p)),
+                  ),
+                ),
                 Positioned(
                   right: 4,
                   top: 4,
@@ -552,7 +582,7 @@ class _StoreScreenState extends State<StoreScreen> {
                     tooltip: favorites.contains(p.id)
                         ? 'Remover dos favoritos'
                         : 'Favoritar',
-                    onPressed: () => favorite(p),
+                    onPressed: () => (onFavorite ?? favorite)(p),
                     icon: Icon(
                       favorites.contains(p.id)
                           ? Icons.favorite
@@ -577,11 +607,12 @@ class _StoreScreenState extends State<StoreScreen> {
                 const SizedBox(height: 8),
                 Text(
                   money(p.priceCents),
-                  style: Theme.of(context).textTheme.titleLarge,
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w800),
                 ),
+                const SizedBox(height: 6),
                 Text(
                   p.stock > 0
-                      ? 'Disponível • confira condições ao comprar'
+                      ? 'Disponível'
                       : 'Indisponível',
                   style: Theme.of(context).textTheme.bodySmall,
                 ),

@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-09T01:02:44.533Z",
+  "generatedAt": "2026-10-10T00:47:50.118Z",
   "branch": "codex/native-marketplace-20261007",
-  "commit": "ae5552e",
+  "commit": "387626f",
   "remote": "https://github.com/markmathiasx/secret.git",
   "requiredInventory": [
     {
@@ -225,13 +225,7 @@
       "detail": "Presenca em package.json; sucesso depende do log de execucao."
     }
   ],
-  "dependencyCaveats": [
-    {
-      "item": "next-auth peer nodemailer",
-      "status": "RISCO_UPSTREAM_MONITORADO",
-      "evidence": "next-auth 5.0.0-beta.32 declara peer nodemailer ^7.0.7 no registry, mas nodemailer 9.1.1 e necessario para zerar npm audit. auth.ts usa Credentials/Google/Apple e nao provider de email do NextAuth."
-    }
-  ],
+  "dependencyCaveats": [],
   "claims": [
     {
       "item": "Não declarar deploy sem prova de SHA em `/api/release` no deployment staged e em `https://www.mdh3d.com.br`.",

@@ -1,8 +1,8 @@
 # RELATORIO-EXECUCAO-MARKETPLACE
 
-Atualizado em: 2026-10-09T01:02:44.533Z
+Atualizado em: 2026-10-10T00:47:50.118Z
 Branch: codex/native-marketplace-20261007
-Commit atual: ae5552e
+Commit atual: 387626f
 Remoto: https://github.com/markmathiasx/secret.git
 
 ## Regra operacional
@@ -144,9 +144,7 @@ Este relatorio e incremental. Nenhuma fase deve receber 100% sem evidencia objet
 
 ## Riscos operacionais conhecidos
 
-| Item | Status | Evidencia |
-| --- | --- | --- |
-| next-auth peer nodemailer | RISCO_UPSTREAM_MONITORADO | next-auth 5.0.0-beta.32 declara peer nodemailer ^7.0.7 no registry, mas nodemailer 9.1.1 e necessario para zerar npm audit. auth.ts usa Credentials/Google/Apple e nao provider de email do NextAuth. |
+Nenhum caveat de dependencia mapeado pela Fase 0.
 
 ## Pendencias reais restantes
 
@@ -154,25 +152,3 @@ Este relatorio e incremental. Nenhuma fase deve receber 100% sem evidencia objet
 - Lighthouse mobile, axe-core e validacao publica ainda precisam de evidencias novas nesta execucao.
 - Qualquer falha nos gates deve manter a fase abaixo de 100% ate correcao e nova execucao.
 - Claims antigos de 100% permanecem nao comprovados ate passarem por codigo, comando e validacao runtime atuais.
-
-## Bloco nativo — reconstrução e verificação em 2026-10-09 UTC
-
-Fonte implementada/verificada até `edd2350` na branch `codex/native-marketplace-20261007`. API separada Node24/Express/PostgreSQL/Firebase com catálogo, carrinho, endereços, consulta de pedidos e cadastro/edição de produtos sob ownership. App Flutter em fonte com catálogo, categorias, busca, detalhes, carrinho/favoritos locais e autenticação opcional. Documento integral, ER, seis sprints, OpenAPI e instruções de deploy em `docs/native-marketplace`.
-
-Gate local pós-atualização: npm ci, validação de dependências corrigidas, auditoria produção (0 achados), Prisma validate, typecheck, lint, imagens (538 produtos públicos), assets (248 arquivos) e build passaram. Smoke público local passou, conta anônima redirecionou307. API:18 testes passaram,1 integração PostgreSQL ignorada por falta de banco. Formatter Dart passou; analyze/test/build Flutter não executados após rejeição automática de acesso a metadados sensíveis da infraestrutura. Sem APK/AAB/IPA ou publicação nas lojas.
-
-Gate estrito do grafo completo npm audit: REPROVADO,16 achados (13 altos,3 moderados). Produção/auth/pagamento/banco reais não homologados. Checkout da nova API desativado. Não foi executada migration remota, importação de catálogo/contas, nem deploy. O catálogo do site não foi substituído por imagens geradas.
-
-Push dos novos commits BLOQUEADO por autenticação indisponível; commit remoto anterior confirmado `ae5552eb98fced90b1405730fab09ee4168b031a`. Site reportou release `57dbffea5785c5d053fb3b8c87b1239bd68a9e20`, que difere do checkout. Não declarar identidade site/local nem100%. Ver `reports/native-marketplace-verification.json` e `docs/native-marketplace/VERIFICATION.md` para evidência e pendências separadas.
-
-## Bloco de chaves locais e conta mobile — 2026-10-09 UTC
-
-GitHub reconectado: checkpoint anterior enviado em 6e2a9d6fe7871cd2081e5eb9612f43f9fcacbef5, com árvore idêntica ao local 6606f53. Bloco de chaves/conta enviado em 7d224cefd36f3c736d864f582fe67acf685a8e72; árvore f092be58ae3306254dc7b33d944ea70bd3fc8330 idêntica ao checkpoint local ffe3ba9. Push confirmado via atualização com expected_sha, sem force. Não houve deploy/main merge.
-
-Chaves locais: quatro segredos independentes aleatórios de 384 bits gerados em arquivo de desenvolvimento ignorado pelo Git, sem impressão dos valores e sem expiração automática da chave. Sessões e OTP mantêm validade. Gerador recusa CI/hospedagem/produção; aplicação rejeita mdh_dev_ em produção. Removidos fallbacks fixos CSRF/OTP; OTP HMAC-SHA256 verdadeiro; códigos legados precisam ser renovados. Não foram inventadas credenciais externas Google/Firebase/gateway/logística.
-
-Conta Flutter ganhou consulta de pedidos e consulta/cadastro/exclusão de endereços autenticados. Formatação passou e testes de transporte foram acrescentados; Flutter analyze/test/native continuam não executados pelo bloqueio de segurança registrado anteriormente. Não declarar esses fluxos homologados em dispositivos.
-
-Verificação independente: teste de política de segredos PASS; 2 testes de geração PASS; typecheck PASS; lint PASS; test:images PASS (538 públicos); assets PASS (248 arquivos); build PASS. API: 18 testes PASS, 1 integraçãoPG ignorada. Secret scan: 0 current/introduced high-confidence, 17 commits analisados. Chaves locais confirmadas ignoradas pelo Git e contexto Docker. Não há promessa de zero falhas de segurança; grafo completo de dependências permanece com gate pendente registrado anteriormente.
-
-Escopo integral ainda incompleto conforme SPECIFICATION.md: ciclo financeiro, frete, split/cartão, chat/push/reviews, cashback, AR, administração completa, homologação/dispositivos e publicação continuam pendentes. A consulta de workflows pelo conector só filtra eventos pull_request e retornou lista vazia; isso não comprova resultado de CI acionado por push.
