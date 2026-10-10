@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:model_viewer_plus/model_viewer_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'store.dart';
+import 'commerce_ui.dart';
 
 const apiBase = String.fromEnvironment('API_BASE_URL');
 const firebaseKey = String.fromEnvironment('FIREBASE_API_KEY');
@@ -51,19 +52,9 @@ class MdhApp extends StatelessWidget {
     locale: const Locale('pt', 'BR'),
     supportedLocales: const [Locale('pt', 'BR')],
     localizationsDelegates: GlobalMaterialLocalizations.delegates,
-    theme: ThemeData(
-      useMaterial3: true,
-      colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff986b22)),
-      scaffoldBackgroundColor: const Color(0xfffaf9f6),
-    ),
-    darkTheme: ThemeData(
-      useMaterial3: true,
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: const Color(0xffdfb770),
-        brightness: Brightness.dark,
-      ),
-      scaffoldBackgroundColor: const Color(0xff101419),
-    ),
+    theme: commerceTheme(Brightness.light),
+    darkTheme: commerceTheme(Brightness.dark),
+    themeMode: ThemeMode.dark,
     home: apiOrigin(apiBase) == null
         ? const SetupScreen()
         : StoreScreen(origin: apiOrigin(apiBase)!, authReady: authReady),
@@ -262,9 +253,9 @@ class _StoreScreenState extends State<StoreScreen> {
   }
 
   void add(Product p) {
-    if (p.stock <= 0) return;
+    if (!p.isPurchasable) return;
     final quantity = (cart[p.id] ?? 0) + 1;
-    if (quantity > p.stock) return;
+    if (p.availabilityMode == 'in_stock' && quantity > p.stock) return;
     setState(() {
       saved[p.id] = p;
       cart[p.id] = quantity;
@@ -306,9 +297,28 @@ class _StoreScreenState extends State<StoreScreen> {
     }
     if (!mounted) return;
     await Navigator.of(context).push(
-      MaterialPageRoute<void>(
-        builder: (_) =>
+      PageRouteBuilder<void>(
+        transitionDuration: const Duration(milliseconds: 420),
+        reverseTransitionDuration: const Duration(milliseconds: 280),
+        pageBuilder: (_, animation, secondaryAnimation) =>
             ProductScreen(product: current, onAdd: () => add(current)),
+        transitionsBuilder: (_, animation, secondaryAnimation, child) =>
+            FadeTransition(
+              opacity: CurvedAnimation(
+                parent: animation,
+                curve: Curves.easeOutCubic,
+              ),
+              child: SlideTransition(
+                position: Tween(begin: const Offset(0, .035), end: Offset.zero)
+                    .animate(
+                      CurvedAnimation(
+                        parent: animation,
+                        curve: Curves.easeOutCubic,
+                      ),
+                    ),
+                child: child,
+              ),
+            ),
       ),
     );
   }
@@ -316,11 +326,39 @@ class _StoreScreenState extends State<StoreScreen> {
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(
-      title: const Text(
-        'MDH 3D',
-        style: TextStyle(fontWeight: FontWeight.w800, letterSpacing: 2),
+      title: const Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Color(0xffff7a18), Color(0xffffb15f)],
+              ),
+              borderRadius: BorderRadius.all(Radius.circular(9)),
+            ),
+            child: Padding(
+              padding: EdgeInsets.all(7),
+              child: Icon(
+                Icons.view_in_ar_rounded,
+                color: Colors.white,
+                size: 18,
+              ),
+            ),
+          ),
+          SizedBox(width: 10),
+          Text('MDH 3D'),
+        ],
       ),
       actions: [
+        IconButton(
+          tooltip: 'Seus favoritos',
+          onPressed: showFavorites,
+          icon: Badge(
+            isLabelVisible: favorites.isNotEmpty,
+            label: Text('${favorites.length}'),
+            child: const Icon(Icons.favorite_border_rounded),
+          ),
+        ),
         IconButton(
           tooltip: 'Atualizar catálogo',
           onPressed: () {
@@ -335,17 +373,14 @@ class _StoreScreenState extends State<StoreScreen> {
       selectedIndex: tab,
       onDestinationSelected: (i) => setState(() => tab = i),
       destinations: const [
+        NavigationDestination(icon: Icon(Icons.home_outlined), label: 'Início'),
         NavigationDestination(
-          icon: Icon(Icons.explore_outlined),
-          label: 'Explorar',
-        ),
-        NavigationDestination(
-          icon: Icon(Icons.favorite_border),
-          label: 'Favoritos',
+          icon: Icon(Icons.grid_view_rounded),
+          label: 'Categorias',
         ),
         NavigationDestination(
           icon: Icon(Icons.shopping_bag_outlined),
-          label: 'Sacola',
+          label: 'Carrinho',
         ),
         NavigationDestination(icon: Icon(Icons.person_outline), label: 'Conta'),
       ],
@@ -353,188 +388,300 @@ class _StoreScreenState extends State<StoreScreen> {
     body: Center(
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 1200),
-        child: switch (tab) {
-          0 => catalog(),
-          1 => productGrid(
-            saved.values.where((p) => favorites.contains(p.id)).toList(),
-            empty: 'Seus favoritos aparecem aqui.',
-          ),
-          2 => bag(),
-          _ => AccountScreen(
-            api: api,
-            authReady: widget.authReady,
-            onIdentityChanged: () async {
-              if (!mounted) return;
-              observedUid = uid;
-              setState(() {
-                cart = {};
-                saved = {};
-                favorites = {};
-              });
-              await restore();
+        child: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 280),
+          switchInCurve: Curves.easeOutCubic,
+          switchOutCurve: Curves.easeInCubic,
+          transitionBuilder: (child, animation) =>
+              FadeTransition(opacity: animation, child: child),
+          child: KeyedSubtree(
+            key: ValueKey(tab),
+            child: switch (tab) {
+              0 => catalog(),
+              1 => categoryDirectory(),
+              2 => bag(),
+              _ => AccountScreen(
+                api: api,
+                authReady: widget.authReady,
+                onIdentityChanged: () async {
+                  if (!mounted) return;
+                  observedUid = uid;
+                  setState(() {
+                    cart = {};
+                    saved = {};
+                    favorites = {};
+                  });
+                  await restore();
+                },
+              ),
             },
           ),
-        },
+        ),
       ),
     ),
   );
-  Widget catalog() => CustomScrollView(
-    slivers: [
-      SliverToBoxAdapter(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(16, 24, 16, 8),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+  void selectCategory(String? id) {
+    search.clear();
+    setState(() {
+      category = id;
+      tab = 0;
+    });
+    load();
+  }
+
+  Future<void> showFavorites() async {
+    await showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      useSafeArea: true,
+      builder: (context) => FractionallySizedBox(
+        heightFactor: 0.9,
+        child: StatefulBuilder(
+          builder: (context, updateSheet) => Column(
             children: [
-              Text(
-                'Dê forma ao extraordinário.',
-                style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                  fontWeight: FontWeight.w800,
-                ),
-              ),
-              const SizedBox(height: 8),
-              const Text(
-                'Peças para colecionar, presentear e transformar seu espaço.',
-              ),
-              const SizedBox(height: 20),
-              TextField(
-                controller: search,
-                textInputAction: TextInputAction.search,
-                onSubmitted: (_) => load(),
-                decoration: InputDecoration(
-                  labelText: 'Buscar uma peça',
-                  prefixIcon: const Icon(Icons.search),
-                  suffixIcon: IconButton(
-                    tooltip: 'Buscar',
-                    onPressed: () => load(),
-                    icon: const Icon(Icons.arrow_forward),
-                  ),
-                  border: const OutlineInputBorder(),
-                ),
-              ),
-              const SizedBox(height: 12),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
+              Padding(
+                padding: const EdgeInsets.all(16),
                 child: Row(
                   children: [
-                    ChoiceChip(
-                      label: const Text('Todas'),
-                      selected: category == null,
-                      onSelected: (_) {
-                        setState(() => category = null);
-                        load();
-                      },
-                    ),
-                    for (final c in categories)
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8),
-                        child: ChoiceChip(
-                          label: Text(c['name'] as String),
-                          selected: category == c['id'],
-                          onSelected: (_) {
-                            setState(() => category = c['id'] as String);
-                            load();
-                          },
-                        ),
+                    Expanded(
+                      child: Text(
+                        'Seus favoritos',
+                        style: Theme.of(context).textTheme.titleLarge,
                       ),
+                    ),
+                    IconButton(
+                      tooltip: 'Fechar favoritos',
+                      onPressed: () => Navigator.pop(context),
+                      icon: const Icon(Icons.close),
+                    ),
                   ],
                 ),
               ),
-              if (error != null)
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  child: Column(
-                    children: [
-                      Text(
-                        error!,
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.error,
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () => load(),
-                        child: const Text('Tentar novamente'),
-                      ),
-                    ],
-                  ),
+              Expanded(
+                child: productGrid(
+                  saved.values.where((p) => favorites.contains(p.id)).toList(),
+                  empty: 'Salve as peças que você quer encontrar depois.',
+                  onFavorite: (p) {
+                    favorite(p);
+                    updateSheet(() {});
+                  },
                 ),
-              if (categoriesError != null)
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: Row(
-                    children: [
-                      Expanded(child: Text(categoriesError!)),
-                      TextButton(
-                        onPressed: loadCategories,
-                        child: const Text('Recarregar categorias'),
-                      ),
-                    ],
-                  ),
-                ),
-              if (!loading && error == null && products.isEmpty)
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 32),
-                  child: Text('Nenhuma peça encontrada nesta seleção.'),
-                ),
+              ),
             ],
           ),
         ),
       ),
-      SliverLayoutBuilder(
-        builder: (context, constraints) => SliverPadding(
-          padding: const EdgeInsets.all(16),
-          sliver: SliverGrid(
-            delegate: SliverChildBuilderDelegate(
-              (context, index) => productCard(products[index]),
-              childCount: products.length,
-            ),
-            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 320,
-              mainAxisExtent:
-                  330.0 *
-                  MediaQuery.textScalerOf(
-                    context,
-                  ).scale(1).clamp(1.0, 1.8).toDouble(),
-              mainAxisSpacing: 12,
-              crossAxisSpacing: 12,
-            ),
+    );
+  }
+
+  Widget categoryDirectory() => RefreshIndicator(
+    onRefresh: loadCategories,
+    child: ListView(
+      key: const PageStorageKey('category-directory'),
+      physics: const AlwaysScrollableScrollPhysics(),
+      padding: const EdgeInsets.all(20),
+      children: [
+        Text(
+          'Encontre seu universo',
+          style: Theme.of(
+            context,
+          ).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w800),
+        ),
+        const SizedBox(height: 8),
+        const Text(
+          'Explore por coleção. Cada seleção abre o catálogo filtrado.',
+        ),
+        const SizedBox(height: 24),
+        CollectionTile(
+          name: 'Todas as peças',
+          selected: category == null,
+          onTap: () => selectCategory(null),
+        ),
+        for (final c in categories) ...[
+          const SizedBox(height: 12),
+          CollectionTile(
+            name: c['name'] as String,
+            selected: category == c['id'],
+            onTap: () => selectCategory(c['id'] as String),
           ),
-        ),
-      ),
-      SliverToBoxAdapter(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: loading
-              ? const Center(child: CircularProgressIndicator())
-              : cursor != null
-              ? OutlinedButton(
-                  onPressed: () => load(more: true),
-                  child: const Text('Ver mais peças'),
-                )
-              : const SizedBox.shrink(),
-        ),
-      ),
-    ],
+        ],
+        if (categoriesError != null)
+          CommerceEmptyState(message: categoriesError!),
+        if (categoriesError == null && categories.isEmpty)
+          const CommerceEmptyState(
+            message:
+                'As coleções ainda estão sendo carregadas ou não foram cadastradas.',
+          ),
+      ],
+    ),
   );
-  Widget productGrid(List<Product> items, {required String empty}) =>
-      items.isEmpty
-      ? Center(child: Text(empty))
-      : GridView.builder(
-          padding: const EdgeInsets.all(16),
-          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-            maxCrossAxisExtent: 320,
-            mainAxisExtent:
-                330.0 *
-                MediaQuery.textScalerOf(
-                  context,
-                ).scale(1).clamp(1.0, 1.8).toDouble(),
-            crossAxisSpacing: 12,
-            mainAxisSpacing: 12,
+
+  Widget catalog() => RefreshIndicator(
+    onRefresh: () async {
+      await Future.wait([loadCategories(), load()]);
+    },
+    child: CustomScrollView(
+      key: const PageStorageKey('store-catalog'),
+      physics: const AlwaysScrollableScrollPhysics(),
+      slivers: [
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextField(
+                  controller: search,
+                  textInputAction: TextInputAction.search,
+                  onSubmitted: (_) => load(),
+                  decoration: InputDecoration(
+                    hintText: 'O que você quer encontrar?',
+                    prefixIcon: const Icon(Icons.search_rounded),
+                    suffixIcon: IconButton(
+                      tooltip: 'Buscar peças',
+                      onPressed: () => load(),
+                      icon: const Icon(Icons.arrow_forward_rounded),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                if (category == null && appliedSearch.isEmpty) ...[
+                  CollectionIntro(
+                    catalogCount: products.length,
+                    onCollections: () => setState(() => tab = 1),
+                  ),
+                  const SizedBox(height: 24),
+                ],
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        'Explore as coleções',
+                        style: Theme.of(context).textTheme.titleMedium
+                            ?.copyWith(fontWeight: FontWeight.w800),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () => setState(() => tab = 1),
+                      child: const Text('Ver todas'),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      ChoiceChip(
+                        label: const Text('Todas'),
+                        selected: category == null,
+                        onSelected: (_) => selectCategory(null),
+                      ),
+                      for (final c in categories)
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8),
+                          child: ChoiceChip(
+                            avatar: Icon(
+                              categoryIcon(c['name'] as String),
+                              size: 18,
+                            ),
+                            label: Text(c['name'] as String),
+                            selected: category == c['id'],
+                            onSelected: (_) {
+                              setState(() => category = c['id'] as String);
+                              load();
+                            },
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 24),
+                Text(
+                  appliedSearch.isNotEmpty
+                      ? 'Resultados para “$appliedSearch”'
+                      : category != null
+                      ? 'Peças desta coleção'
+                      : 'Descubra sua próxima peça',
+                  style: Theme.of(
+                    context,
+                  ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w800),
+                ),
+                const SizedBox(height: 6),
+                const Text(
+                  'Veja os detalhes e a disponibilidade de cada produto.',
+                ),
+                if (error != null) ...[
+                  CommerceEmptyState(message: error!),
+                  Center(
+                    child: OutlinedButton(
+                      onPressed: () => load(),
+                      child: const Text('Tentar novamente'),
+                    ),
+                  ),
+                ],
+                if (categoriesError != null)
+                  TextButton.icon(
+                    onPressed: loadCategories,
+                    icon: const Icon(Icons.refresh),
+                    label: const Text('Recarregar categorias'),
+                  ),
+                if (!loading && error == null && products.isEmpty)
+                  CommerceEmptyState(
+                    message: 'Nenhuma peça encontrada nesta seleção.',
+                    onReset: () => selectCategory(null),
+                  ),
+              ],
+            ),
           ),
-          itemCount: items.length,
-          itemBuilder: (_, i) => productCard(items[i]),
+        ),
+        SliverLayoutBuilder(
+          builder: (context, constraints) => SliverPadding(
+            padding: const EdgeInsets.all(20),
+            sliver: SliverGrid(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) => productCard(products[index]),
+                childCount: products.length,
+              ),
+              gridDelegate: commerceGrid(
+                context,
+                constraints.crossAxisExtent - 40,
+              ),
+            ),
+          ),
+        ),
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: loading
+                ? const Center(child: CircularProgressIndicator())
+                : cursor != null
+                ? OutlinedButton(
+                    onPressed: () => load(more: true),
+                    child: const Text('Carregar mais peças'),
+                  )
+                : const SizedBox.shrink(),
+          ),
+        ),
+      ],
+    ),
+  );
+  Widget productGrid(
+    List<Product> items, {
+    required String empty,
+    void Function(Product)? onFavorite,
+  }) => items.isEmpty
+      ? Center(child: CommerceEmptyState(message: empty))
+      : LayoutBuilder(
+          builder: (context, constraints) => GridView.builder(
+            padding: const EdgeInsets.all(20),
+            gridDelegate: commerceGrid(context, constraints.maxWidth - 40),
+            itemCount: items.length,
+            itemBuilder: (_, i) =>
+                productCard(items[i], onFavorite: onFavorite),
+          ),
         );
-  Widget productCard(Product p) => Card(
+  Widget productCard(Product p, {void Function(Product)? onFavorite}) => Card(
     clipBehavior: Clip.antiAlias,
     child: InkWell(
       onTap: () => openProduct(p),
@@ -544,7 +691,43 @@ class _StoreScreenState extends State<StoreScreen> {
           Expanded(
             child: Stack(
               children: [
-                Positioned.fill(child: productImage(p)),
+                Positioned.fill(
+                  child: ColoredBox(
+                    color: const Color(0xff0b0e14),
+                    child: productImage(p, fit: BoxFit.cover),
+                  ),
+                ),
+                Positioned(
+                  left: 10,
+                  top: 10,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: p.isPurchasable
+                          ? const Color(0xdd10251d)
+                          : const Color(0xdd2c1515),
+                      borderRadius: BorderRadius.circular(999),
+                      border: Border.all(
+                        color: p.isPurchasable
+                            ? const Color(0xff3fce8a)
+                            : const Color(0xffff7169),
+                      ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 6,
+                      ),
+                      child: Text(
+                        p.availabilityLabel,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 11,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
                 Positioned(
                   right: 4,
                   top: 4,
@@ -552,7 +735,7 @@ class _StoreScreenState extends State<StoreScreen> {
                     tooltip: favorites.contains(p.id)
                         ? 'Remover dos favoritos'
                         : 'Favoritar',
-                    onPressed: () => favorite(p),
+                    onPressed: () => (onFavorite ?? favorite)(p),
                     icon: Icon(
                       favorites.contains(p.id)
                           ? Icons.favorite
@@ -572,18 +755,29 @@ class _StoreScreenState extends State<StoreScreen> {
                   p.title,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontWeight: FontWeight.w600),
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w800,
+                    height: 1.15,
+                  ),
                 ),
                 const SizedBox(height: 8),
                 Text(
                   money(p.priceCents),
-                  style: Theme.of(context).textTheme.titleLarge,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w800),
                 ),
+                const SizedBox(height: 6),
                 Text(
-                  p.stock > 0
-                      ? 'Disponível • confira condições ao comprar'
-                      : 'Indisponível',
-                  style: Theme.of(context).textTheme.bodySmall,
+                  p.productionWindow ??
+                      (p.isMadeToOrder
+                          ? 'Prazo confirmado antes da produção'
+                          : p.availabilityLabel),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
                 ),
               ],
             ),
@@ -612,8 +806,18 @@ class _StoreScreenState extends State<StoreScreen> {
         for (final e in entries)
           Card(
             child: ListTile(
+              leading: SizedBox(
+                width: 52,
+                height: 52,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: productImage(saved[e.key]!, fit: BoxFit.cover),
+                ),
+              ),
               title: Text(saved[e.key]!.title),
-              subtitle: Text('${e.value} × ${money(saved[e.key]!.priceCents)}'),
+              subtitle: Text(
+                '${saved[e.key]!.availabilityLabel} • ${e.value} × ${money(saved[e.key]!.priceCents)}',
+              ),
               trailing: IconButton(
                 tooltip: 'Remover produto',
                 icon: const Icon(Icons.delete_outline),
@@ -642,12 +846,13 @@ class _StoreScreenState extends State<StoreScreen> {
   }
 }
 
-Widget productImage(Product p) => p.imageUrl == null
+Widget productImage(Product p, {BoxFit fit = BoxFit.contain}) =>
+    p.imageUrl == null
     ? const Center(child: Text('Foto original indisponível'))
     : Image.network(
         p.imageUrl!,
-        fit: BoxFit.contain,
-        semanticLabel: 'Foto de ${p.title}',
+        fit: fit,
+        semanticLabel: p.imageAlt ?? 'Foto de ${p.title}',
         errorBuilder: (_, error, stack) =>
             const Center(child: Text('Não foi possível carregar a foto.')),
       );
@@ -657,53 +862,202 @@ class ProductScreen extends StatelessWidget {
   final Product product;
   final VoidCallback onAdd;
   @override
-  Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(title: Text(product.title)),
-    body: Center(
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 900),
-        child: ListView(
-          padding: const EdgeInsets.all(20),
-          children: [
-            AspectRatio(aspectRatio: 1.4, child: productImage(product)),
-            if (product.modelUrl != null)
-              SizedBox(
-                height: 320,
-                child: ModelViewer(
-                  src: product.modelUrl!,
-                  alt: 'Modelo 3D de ${product.title}',
-                  cameraControls: true,
-                  ar: false,
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+    final information = [
+      if (product.productionWindow != null)
+        (Icons.schedule_rounded, 'Produção', product.productionWindow!),
+      if (product.material != null)
+        (Icons.layers_outlined, 'Material', product.material!),
+      if (product.finish != null)
+        (Icons.auto_awesome_outlined, 'Acabamento', product.finish!),
+      if (product.dimensions != null)
+        (Icons.straighten_rounded, 'Dimensões', product.dimensions!),
+    ];
+    final media = Column(
+      children: [
+        AspectRatio(
+          aspectRatio: 1.08,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(28),
+            child: ColoredBox(
+              color: const Color(0xff0b0e14),
+              child: productImage(product, fit: BoxFit.cover),
+            ),
+          ),
+        ),
+        if (product.modelUrl != null) ...[
+          const SizedBox(height: 16),
+          SizedBox(
+            height: 320,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(28),
+              child: ModelViewer(
+                src: product.modelUrl!,
+                alt: 'Modelo 3D de ${product.title}',
+                cameraControls: true,
+                ar: false,
+                backgroundColor: const Color(0xff0b0e14),
+              ),
+            ),
+          ),
+        ],
+      ],
+    );
+    final details = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        DecoratedBox(
+          decoration: BoxDecoration(
+            color: product.isPurchasable
+                ? const Color(0x223fce8a)
+                : const Color(0x22ff7169),
+            borderRadius: BorderRadius.circular(999),
+            border: Border.all(
+              color: product.isPurchasable
+                  ? const Color(0x993fce8a)
+                  : const Color(0x99ff7169),
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+            child: Text(
+              product.availabilityLabel,
+              style: const TextStyle(fontWeight: FontWeight.w800),
+            ),
+          ),
+        ),
+        const SizedBox(height: 18),
+        Text(
+          product.title,
+          style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+            fontWeight: FontWeight.w900,
+            height: 1.02,
+            letterSpacing: -1.1,
+          ),
+        ),
+        const SizedBox(height: 14),
+        Text(
+          money(product.priceCents),
+          style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+            color: const Color(0xffff9b52),
+            fontWeight: FontWeight.w900,
+          ),
+        ),
+        const SizedBox(height: 18),
+        Text(
+          product.description,
+          style: Theme.of(context).textTheme.bodyLarge?.copyWith(height: 1.55),
+        ),
+        if (information.isNotEmpty) ...[
+          const SizedBox(height: 24),
+          Wrap(
+            spacing: 10,
+            runSpacing: 10,
+            children: [
+              for (final item in information)
+                Container(
+                  constraints: const BoxConstraints(minWidth: 150),
+                  padding: const EdgeInsets.all(14),
+                  decoration: BoxDecoration(
+                    color: colors.surfaceContainerHighest.withValues(
+                      alpha: .45,
+                    ),
+                    borderRadius: BorderRadius.circular(18),
+                    border: Border.all(
+                      color: colors.outlineVariant.withValues(alpha: .5),
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(item.$1, size: 19, color: const Color(0xff9ed8ff)),
+                      const SizedBox(width: 10),
+                      Flexible(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              item.$2,
+                              style: Theme.of(context).textTheme.labelSmall,
+                            ),
+                            Text(
+                              item.$3,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
+            ],
+          ),
+        ],
+        const SizedBox(height: 26),
+        SizedBox(
+          width: double.infinity,
+          child: FilledButton.icon(
+            onPressed: product.isPurchasable ? onAdd : null,
+            icon: const Icon(Icons.shopping_bag_outlined),
+            label: Text(
+              product.isMadeToOrder
+                  ? 'Adicionar para produzir'
+                  : product.isPurchasable
+                  ? 'Adicionar à sacola'
+                  : 'Indisponível',
+            ),
+          ),
+        ),
+        const SizedBox(height: 14),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Icon(Icons.verified_user_outlined, size: 20),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Text(
+                product.isMadeToOrder
+                    ? 'Esta peça é produzida após o pedido. O prazo exibido vem do catálogo; detalhes finais são confirmados antes da fabricação.'
+                    : 'Foto e disponibilidade vêm do catálogo publicado. Confirme medidas, acabamento e prazo antes de concluir o pedido.',
+                style: Theme.of(
+                  context,
+                ).textTheme.bodySmall?.copyWith(height: 1.45),
               ),
-            const SizedBox(height: 20),
-            Text(
-              product.title,
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-            Text(
-              money(product.priceCents),
-              style: Theme.of(context).textTheme.headlineSmall,
-            ),
-            const SizedBox(height: 16),
-            Text(product.description),
-            const SizedBox(height: 20),
-            FilledButton.icon(
-              onPressed: product.stock > 0 ? onAdd : null,
-              icon: const Icon(Icons.shopping_bag_outlined),
-              label: Text(
-                product.stock > 0 ? 'Adicionar à sacola' : 'Indisponível',
-              ),
-            ),
-            const SizedBox(height: 12),
-            const Text(
-              'As fotos e os modelos exibidos são os arquivos informados pelo catálogo. Consulte dimensões, material e prazo do produto antes da compra.',
             ),
           ],
         ),
+      ],
+    );
+    return Scaffold(
+      appBar: AppBar(title: const Text('DETALHES')),
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 1120),
+          child: LayoutBuilder(
+            builder: (context, constraints) => SingleChildScrollView(
+              padding: const EdgeInsets.fromLTRB(20, 12, 20, 40),
+              child: constraints.maxWidth >= 820
+                  ? Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(flex: 6, child: media),
+                        const SizedBox(width: 36),
+                        Expanded(flex: 5, child: details),
+                      ],
+                    )
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [media, const SizedBox(height: 28), details],
+                    ),
+            ),
+          ),
+        ),
       ),
-    ),
-  );
+    );
+  }
 }
 
 class AccountScreen extends StatefulWidget {
@@ -722,7 +1076,7 @@ class AccountScreen extends StatefulWidget {
 
 class _AccountScreenState extends State<AccountScreen> {
   final email = TextEditingController(), password = TextEditingController();
-  bool busy = false, register = false;
+  bool busy = false, register = false, obscurePassword = true;
   String? message;
   Map<String, dynamic>? profile;
   List<Map<String, dynamic>>? addresses, orders;
@@ -989,8 +1343,62 @@ class _AccountScreenState extends State<AccountScreen> {
     return ListView(
       padding: const EdgeInsets.all(24),
       children: [
-        Text('Sua conta', style: Theme.of(context).textTheme.headlineMedium),
-        const SizedBox(height: 16),
+        Container(
+          padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            gradient: const LinearGradient(
+              colors: [Color(0xff071b2a), Color(0xff21120d)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            borderRadius: BorderRadius.circular(28),
+            border: Border.all(color: const Color(0x33ffffff)),
+          ),
+          child: Row(
+            children: [
+              const DecoratedBox(
+                decoration: BoxDecoration(
+                  color: Color(0x22ffffff),
+                  shape: BoxShape.circle,
+                ),
+                child: Padding(
+                  padding: EdgeInsets.all(14),
+                  child: Icon(
+                    Icons.shield_outlined,
+                    color: Color(0xff9ed8ff),
+                    size: 28,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      user == null
+                          ? 'Sua conta MDH'
+                          : 'Olá, você está conectado',
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.w900,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      user == null
+                          ? 'Entre com segurança para acompanhar pedidos e endereços.'
+                          : 'Seus dados privados são carregados somente após autenticação.',
+                      style: Theme.of(
+                        context,
+                      ).textTheme.bodyMedium?.copyWith(height: 1.4),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 24),
         if (user != null) ...[
           Text(user.email ?? 'Conta conectada'),
           Text(
@@ -1109,9 +1517,22 @@ class _AccountScreenState extends State<AccountScreen> {
           const SizedBox(height: 12),
           TextField(
             controller: password,
-            obscureText: true,
+            obscureText: obscurePassword,
             autofillHints: const [AutofillHints.password],
-            decoration: const InputDecoration(labelText: 'Senha'),
+            decoration: InputDecoration(
+              labelText: 'Senha',
+              prefixIcon: const Icon(Icons.lock_outline_rounded),
+              suffixIcon: IconButton(
+                tooltip: obscurePassword ? 'Mostrar senha' : 'Ocultar senha',
+                onPressed: () =>
+                    setState(() => obscurePassword = !obscurePassword),
+                icon: Icon(
+                  obscurePassword
+                      ? Icons.visibility_outlined
+                      : Icons.visibility_off_outlined,
+                ),
+              ),
+            ),
           ),
           const SizedBox(height: 16),
           FilledButton(
@@ -1155,7 +1576,7 @@ class _AccountScreenState extends State<AccountScreen> {
             child: const Text('Esqueci minha senha'),
           ),
           if (googleEnabled)
-            OutlinedButton(
+            OutlinedButton.icon(
               onPressed: busy
                   ? null
                   : () => act(() async {
@@ -1163,7 +1584,23 @@ class _AccountScreenState extends State<AccountScreen> {
                         GoogleAuthProvider(),
                       );
                     }, identityChanged: true),
-              child: const Text('Entrar com Google'),
+              icon: const DecoratedBox(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle,
+                ),
+                child: Padding(
+                  padding: EdgeInsets.all(5),
+                  child: Text(
+                    'G',
+                    style: TextStyle(
+                      color: Color(0xff4285f4),
+                      fontWeight: FontWeight.w900,
+                    ),
+                  ),
+                ),
+              ),
+              label: const Text('Continuar com Google'),
             ),
           if (appleEnabled)
             OutlinedButton(
@@ -1185,7 +1622,7 @@ class _AccountScreenState extends State<AccountScreen> {
           ),
         const SizedBox(height: 24),
         const Text(
-          'As contas do site existente não são migradas automaticamente. Pedidos e endereços usam a API autenticada desta plataforma. Privacidade e exclusão da conta ainda precisam de integração antes do lançamento público.',
+          'As contas do site existente não são migradas automaticamente. Pedidos e endereços usam a API autenticada desta plataforma. Exclusão da conta ainda precisa de integração antes do lançamento público.',
         ),
       ],
     );

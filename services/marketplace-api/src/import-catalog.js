@@ -17,6 +17,7 @@ const {
   isCatalogHomeProduct,
   isCatalogKeychainProduct,
 } = require("@/lib/catalog-filters");
+const { getProductAvailabilityMode } = require("@/lib/product-availability");
 
 const siteOrigin = (process.env.CATALOG_SITE_ORIGIN || "https://www.mdh3d.com.br").replace(/\/$/, "");
 const reportArgument = process.argv.find((item) => item.startsWith("--report="));
@@ -35,6 +36,14 @@ function publicUrl(value) {
   if (!value) return null;
   const url = new URL(value, `${siteOrigin}/`);
   return url.protocol === "https:" && !url.username && !url.password ? url.toString() : null;
+}
+
+function normalizeDimensions(value) {
+  if (typeof value !== "string") return null;
+  const normalized = value
+    .replace(/\bapro\s*[x×]\s*imadamente\b/giu, "aproximadamente")
+    .trim();
+  return normalized || null;
 }
 
 function categoryFor(product) {
@@ -62,6 +71,12 @@ function importRecord(product) {
     description: product.description || "",
     priceCents,
     stock: Number.isSafeInteger(product.stock) && product.stock >= 0 ? product.stock : 0,
+    availabilityMode: getProductAvailabilityMode(product),
+    productionWindow: product.productionWindow || null,
+    material: product.material || null,
+    finish: product.finish || null,
+    dimensions: normalizeDimensions(product.dimensions),
+    imageAlt: product.imageAlt || null,
     imageUrl,
     productType: product.objectType || null,
     game: gameIdentity?.universe || null,
@@ -101,13 +116,16 @@ if (apply) {
       await db.query(
         `INSERT INTO mdh_marketplace.products(
           id,legacy_id,slug,seller_id,category_id,title,description,price_cents,stock,image_url,model_url,published,
-          product_type,game,character_name,tags,source_url,media_commercial_use,updated_at
-        ) VALUES($1,$2,$3,'mdh-catalog-importer',$4,$5,$6,$7,$8,$9,NULL,true,$10,$11,$12,$13,$14,'verified',now())
+          product_type,game,character_name,tags,source_url,media_commercial_use,availability_mode,
+          production_window,material,finish,dimensions,image_alt,updated_at
+        ) VALUES($1,$2,$3,'mdh-catalog-importer',$4,$5,$6,$7,$8,$9,NULL,true,$10,$11,$12,$13,$14,'verified',$15,$16,$17,$18,$19,$20,now())
         ON CONFLICT(legacy_id) WHERE legacy_id IS NOT NULL DO UPDATE SET
           slug=EXCLUDED.slug,category_id=EXCLUDED.category_id,title=EXCLUDED.title,description=EXCLUDED.description,
           price_cents=EXCLUDED.price_cents,stock=EXCLUDED.stock,image_url=EXCLUDED.image_url,product_type=EXCLUDED.product_type,
           game=EXCLUDED.game,character_name=EXCLUDED.character_name,tags=EXCLUDED.tags,source_url=EXCLUDED.source_url,
-          media_commercial_use=EXCLUDED.media_commercial_use,updated_at=now()`,
+          media_commercial_use=EXCLUDED.media_commercial_use,availability_mode=EXCLUDED.availability_mode,
+          production_window=EXCLUDED.production_window,material=EXCLUDED.material,finish=EXCLUDED.finish,
+          dimensions=EXCLUDED.dimensions,image_alt=EXCLUDED.image_alt,updated_at=now()`,
         [
           item.id,
           item.legacyId,
@@ -123,6 +141,12 @@ if (apply) {
           item.character,
           item.tags,
           item.sourceUrl,
+          item.availabilityMode,
+          item.productionWindow,
+          item.material,
+          item.finish,
+          item.dimensions,
+          item.imageAlt,
         ],
       );
     }

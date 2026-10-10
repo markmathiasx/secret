@@ -3,7 +3,7 @@ on:
   pull_request:
     paths: ['apps/mdh_mobile/**', 'services/marketplace-api/**', '.github/workflows/native-marketplace.yml']
   push:
-    branches: [main, 'codex/native-marketplace-20261007']
+    branches: [main, 'codex/native-marketplace-20261007', 'codex/mobile-storefront-redesign-*']
     paths: ['apps/mdh_mobile/**', 'services/marketplace-api/**', '.github/workflows/native-marketplace.yml']
   workflow_dispatch:
 permissions:
