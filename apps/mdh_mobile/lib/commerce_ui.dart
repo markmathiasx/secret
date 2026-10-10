@@ -3,40 +3,89 @@ import 'package:flutter/material.dart';
 ThemeData commerceTheme(Brightness brightness) {
   final dark = brightness == Brightness.dark;
   final scheme = ColorScheme.fromSeed(
-    seedColor: const Color(0xffa96b08),
+    seedColor: const Color(0xffff7a18),
     brightness: brightness,
-    surface: dark ? const Color(0xff171c25) : Colors.white,
+    surface: dark ? const Color(0xff11151d) : const Color(0xfffbfcfe),
   );
   return ThemeData(
     useMaterial3: true,
     colorScheme: scheme,
     scaffoldBackgroundColor: dark
-        ? const Color(0xff10141b)
-        : const Color(0xfff3f5f8),
+        ? const Color(0xff07090d)
+        : const Color(0xfff4f6f9),
+    fontFamily: 'Roboto',
+    visualDensity: VisualDensity.standard,
+    splashFactory: InkSparkle.splashFactory,
+    pageTransitionsTheme: const PageTransitionsTheme(
+      builders: {
+        TargetPlatform.android: PredictiveBackPageTransitionsBuilder(),
+        TargetPlatform.iOS: ZoomPageTransitionsBuilder(),
+      },
+    ),
     appBarTheme: AppBarTheme(
       backgroundColor: scheme.surface,
       surfaceTintColor: Colors.transparent,
       centerTitle: false,
       elevation: 0,
+      scrolledUnderElevation: 0,
+      titleTextStyle: TextStyle(
+        color: scheme.onSurface,
+        fontSize: 20,
+        fontWeight: FontWeight.w800,
+        letterSpacing: 1.5,
+      ),
     ),
     cardTheme: CardThemeData(
       color: scheme.surface,
       elevation: 0,
       margin: EdgeInsets.zero,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-        side: BorderSide(color: scheme.outlineVariant),
+        borderRadius: BorderRadius.circular(24),
+        side: BorderSide(color: scheme.outlineVariant.withValues(alpha: .55)),
       ),
     ),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
       fillColor: scheme.surface,
       contentPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
-      border: OutlineInputBorder(borderRadius: BorderRadius.circular(18)),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(20),
+        borderSide: BorderSide.none,
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(20),
+        borderSide: BorderSide(
+          color: scheme.outlineVariant.withValues(alpha: .55),
+        ),
+      ),
     ),
     navigationBarTheme: NavigationBarThemeData(
-      backgroundColor: scheme.surface,
-      indicatorColor: scheme.primaryContainer,
+      backgroundColor: dark ? const Color(0xff0d1118) : scheme.surface,
+      indicatorColor: const Color(0xffff7a18).withValues(alpha: .18),
+      height: 72,
+    ),
+    chipTheme: ChipThemeData(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+      side: BorderSide(color: scheme.outlineVariant.withValues(alpha: .55)),
+    ),
+    filledButtonTheme: FilledButtonThemeData(
+      style: FilledButton.styleFrom(
+        backgroundColor: const Color(0xffff7a18),
+        foregroundColor: const Color(0xff11151d),
+        minimumSize: const Size(48, 54),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        textStyle: const TextStyle(fontWeight: FontWeight.w800),
+      ),
+    ),
+    outlinedButtonTheme: OutlinedButtonThemeData(
+      style: OutlinedButton.styleFrom(
+        minimumSize: const Size(48, 52),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      ),
+    ),
+    snackBarTheme: SnackBarThemeData(
+      behavior: SnackBarBehavior.floating,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
     ),
   );
 }
@@ -49,7 +98,7 @@ SliverGridDelegate commerceGrid(BuildContext context, double width) {
   final columns = (width / minimumWidth).floor().clamp(1, 4).toInt();
   return SliverGridDelegateWithFixedCrossAxisCount(
     crossAxisCount: columns,
-    mainAxisExtent: 260 + 112 * scale,
+    mainAxisExtent: 270 + 126 * scale,
     mainAxisSpacing: 16,
     crossAxisSpacing: 16,
   );
@@ -127,64 +176,118 @@ class CollectionTile extends StatelessWidget {
 }
 
 class CollectionIntro extends StatelessWidget {
-  const CollectionIntro({super.key, required this.onCollections});
+  const CollectionIntro({
+    super.key,
+    required this.onCollections,
+    this.catalogCount,
+  });
   final VoidCallback onCollections;
+  final int? catalogCount;
 
   @override
   Widget build(BuildContext context) => Container(
     decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(24),
+      borderRadius: BorderRadius.circular(30),
       gradient: const LinearGradient(
-        colors: [Color(0xff142b36), Color(0xff20212c)],
+        colors: [Color(0xff071b2a), Color(0xff11131c), Color(0xff251109)],
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
       ),
+      border: Border.all(color: const Color(0x33ffffff)),
+      boxShadow: const [
+        BoxShadow(
+          color: Color(0x55000000),
+          blurRadius: 32,
+          offset: Offset(0, 18),
+        ),
+      ],
     ),
-    padding: const EdgeInsets.all(24),
+    padding: const EdgeInsets.all(26),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Row(
+        Row(
           children: [
-            Icon(Icons.view_in_ar_outlined, color: Color(0xffefc77d)),
-            SizedBox(width: 10),
-            Expanded(
-              child: Text(
-                'CRIADO EM 3D. ESCOLHIDO POR VOCÊ.',
-                style: TextStyle(
-                  color: Color(0xffefc77d),
-                  fontSize: 11,
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: 1.4,
+            const DecoratedBox(
+              decoration: BoxDecoration(
+                color: Color(0x22ffffff),
+                shape: BoxShape.circle,
+              ),
+              child: Padding(
+                padding: EdgeInsets.all(10),
+                child: Icon(
+                  Icons.auto_awesome_rounded,
+                  color: Color(0xffffa55f),
+                  size: 18,
                 ),
               ),
             ),
+            const SizedBox(width: 12),
+            const Expanded(
+              child: Text(
+                'MANUFATURA CRIATIVA • MDH 3D',
+                style: TextStyle(
+                  color: Color(0xffffb578),
+                  fontSize: 11,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: 1.25,
+                ),
+              ),
+            ),
+            if (catalogCount != null)
+              Text(
+                '$catalogCount carregadas',
+                style: const TextStyle(color: Color(0xffb9c6d1), fontSize: 12),
+              ),
           ],
         ),
         const SizedBox(height: 20),
         Text(
-          'Pequenos objetos.\nGrandes ideias.',
+          'Seu universo,\nimpresso em 3D.',
           style: Theme.of(context).textTheme.headlineMedium?.copyWith(
             color: Colors.white,
-            fontWeight: FontWeight.w800,
-            height: 1.1,
+            fontWeight: FontWeight.w900,
+            height: 1.02,
+            letterSpacing: -1.2,
           ),
         ),
         const SizedBox(height: 12),
         const Text(
-          'Encontre uma peça para sua coleção, sua casa ou seu próximo presente.',
+          'Peças autênticas, personalização clara e produção sob encomenda sem promessas inventadas.',
           style: TextStyle(color: Color(0xffd1dce2), height: 1.5),
         ),
         const SizedBox(height: 20),
-        FilledButton.icon(
-          style: FilledButton.styleFrom(
-            backgroundColor: const Color(0xffefc77d),
-            foregroundColor: const Color(0xff17212c),
-            minimumSize: const Size(48, 48),
-          ),
-          onPressed: onCollections,
-          icon: const Icon(Icons.arrow_forward_rounded),
-          label: const Text('Explorar coleções'),
+        Row(
+          children: [
+            Expanded(
+              child: FilledButton.icon(
+                style: FilledButton.styleFrom(
+                  backgroundColor: const Color(0xffff7a18),
+                  foregroundColor: const Color(0xff11151d),
+                ),
+                onPressed: onCollections,
+                icon: const Icon(Icons.arrow_forward_rounded),
+                label: const Text('Explorar coleções'),
+              ),
+            ),
+            const SizedBox(width: 12),
+            const Tooltip(
+              message: 'Catálogo com dados do produto',
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  color: Color(0x18ffffff),
+                  shape: BoxShape.circle,
+                ),
+                child: Padding(
+                  padding: EdgeInsets.all(14),
+                  child: Icon(
+                    Icons.verified_outlined,
+                    color: Color(0xff9ed8ff),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ],
     ),
@@ -192,11 +295,7 @@ class CollectionIntro extends StatelessWidget {
 }
 
 class CommerceEmptyState extends StatelessWidget {
-  const CommerceEmptyState({
-    super.key,
-    required this.message,
-    this.onReset,
-  });
+  const CommerceEmptyState({super.key, required this.message, this.onReset});
   final String message;
   final VoidCallback? onReset;
 

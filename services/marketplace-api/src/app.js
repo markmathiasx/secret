@@ -33,10 +33,13 @@ const product = z
     imageUrl: https,
     modelUrl: https.nullable().default(null),
     published: z.boolean().default(false),
+    availabilityMode: z
+      .enum(["in_stock", "made_to_order", "out_of_stock"])
+      .optional(),
   })
   .strict();
 const projection =
-  'p.id,p.legacy_id AS "legacyId",p.slug,p.title,p.description,p.price_cents AS "priceCents",p.stock,p.image_url AS "imageUrl",p.model_url AS "modelUrl",p.category_id AS "categoryId",p.seller_id AS "sellerId",p.product_type AS "productType",p.game,p.character_name AS "character",p.tags';
+  'p.id,p.legacy_id AS "legacyId",p.slug,p.title,p.description,p.price_cents AS "priceCents",p.stock,p.availability_mode AS "availabilityMode",p.production_window AS "productionWindow",p.material,p.finish,p.dimensions,p.image_alt AS "imageAlt",p.image_url AS "imageUrl",p.model_url AS "modelUrl",p.category_id AS "categoryId",p.seller_id AS "sellerId",p.product_type AS "productType",p.game,p.character_name AS "character",p.tags';
 export function createApp({
   db,
   verifyToken,
@@ -191,7 +194,11 @@ export function createApp({
   app.get("/api/cart", async (req, res) => {
     const items = (
       await db.query(
-        'SELECT c.product_id AS "productId",c.quantity,p.title,p.price_cents AS "priceCents",p.image_url AS "imageUrl",p.stock,(p.published AND NOT u.disabled) AS available FROM mdh_marketplace.cart_items c JOIN mdh_marketplace.products p ON p.id=c.product_id JOIN mdh_marketplace.users u ON u.id=p.seller_id WHERE c.user_id=$1 ORDER BY c.product_id',
+        `SELECT c.product_id AS "productId",c.quantity,p.title,p.price_cents AS "priceCents",p.image_url AS "imageUrl",p.stock,
+          p.availability_mode AS "availabilityMode",
+          (p.published AND NOT u.disabled AND (p.availability_mode='made_to_order' OR (p.availability_mode='in_stock' AND p.stock>=c.quantity))) AS available
+         FROM mdh_marketplace.cart_items c JOIN mdh_marketplace.products p ON p.id=c.product_id
+         JOIN mdh_marketplace.users u ON u.id=p.seller_id WHERE c.user_id=$1 ORDER BY c.product_id`,
         [req.user.id],
       )
     ).rows;
@@ -218,11 +225,15 @@ export function createApp({
       );
       const p = (
         await client.query(
-          "SELECT p.stock FROM mdh_marketplace.products p JOIN mdh_marketplace.users u ON u.id=p.seller_id WHERE p.id=$1 AND p.published AND NOT u.disabled",
+          'SELECT p.stock,p.availability_mode AS "availabilityMode" FROM mdh_marketplace.products p JOIN mdh_marketplace.users u ON u.id=p.seller_id WHERE p.id=$1 AND p.published AND NOT u.disabled',
           [id],
         )
       ).rows[0];
-      if (!p || p.stock < quantity) {
+      if (
+        !p ||
+        p.availabilityMode === "out_of_stock" ||
+        (p.availabilityMode === "in_stock" && p.stock < quantity)
+      ) {
         await client.query("ROLLBACK");
         return res.status(409).json({ error: "product_unavailable" });
       }
@@ -338,7 +349,7 @@ export function createApp({
     try {
       await client.query("BEGIN");
       await client.query(
-        "INSERT INTO mdh_marketplace.products(id,seller_id,category_id,title,description,price_cents,stock,image_url,model_url,published) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)",
+        "INSERT INTO mdh_marketplace.products(id,seller_id,category_id,title,description,price_cents,stock,image_url,model_url,published,availability_mode) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)",
         [
           id,
           req.user.id,
@@ -350,6 +361,7 @@ export function createApp({
           p.imageUrl,
           p.modelUrl,
           p.published,
+          p.availabilityMode ?? (p.stock > 0 ? "in_stock" : "out_of_stock"),
         ],
       );
       await client.query(
@@ -374,7 +386,7 @@ export function createApp({
     try {
       await client.query("BEGIN");
       const result = await client.query(
-        "UPDATE mdh_marketplace.products SET title=$1,description=$2,category_id=$3,price_cents=$4,stock=$5,image_url=$6,model_url=$7,published=$8,updated_at=now() WHERE id=$9 AND seller_id=$10 RETURNING id",
+        "UPDATE mdh_marketplace.products SET title=$1,description=$2,category_id=$3,price_cents=$4,stock=$5,image_url=$6,model_url=$7,published=$8,availability_mode=CASE WHEN $9::text IS NOT NULL THEN $9::text WHEN availability_mode='made_to_order' THEN availability_mode WHEN $5>0 THEN 'in_stock' ELSE 'out_of_stock' END,updated_at=now() WHERE id=$10 AND seller_id=$11 RETURNING id,availability_mode AS \"availabilityMode\"",
         [
           p.title,
           p.description,
@@ -384,6 +396,7 @@ export function createApp({
           p.imageUrl,
           p.modelUrl,
           p.published,
+          p.availabilityMode ?? null,
           id,
           req.user.id,
         ],
@@ -397,7 +410,7 @@ export function createApp({
         [req.user.id, id],
       );
       await client.query("COMMIT");
-      res.json({ id, ...p });
+      res.json({ id, ...p, availabilityMode: result.rows[0].availabilityMode });
     } catch (error) {
       await client.query("ROLLBACK");
       throw error;

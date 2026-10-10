@@ -1,8 +1,8 @@
 # RELATORIO-EXECUCAO-MARKETPLACE
 
-Atualizado em: 2026-10-10T00:47:50.118Z
-Branch: codex/native-marketplace-20261007
-Commit atual: 387626f
+Atualizado em: 2026-10-10T01:49:53.709Z
+Branch: codex/mobile-storefront-redesign-20261010
+Commit atual: ffeb7f55
 Remoto: https://github.com/markmathiasx/secret.git
 
 ## Regra operacional
@@ -152,3 +152,14 @@ Nenhum caveat de dependencia mapeado pela Fase 0.
 - Lighthouse mobile, axe-core e validacao publica ainda precisam de evidencias novas nesta execucao.
 - Qualquer falha nos gates deve manter a fase abaixo de 100% ate correcao e nova execucao.
 - Claims antigos de 100% permanecem nao comprovados ate passarem por codigo, comando e validacao runtime atuais.
+
+## Entrega nativa e API — 2026-10-09
+
+- Aplicativo Flutter recebeu interface industrial responsiva, navegação animada, catálogo com mídia real existente, página de produto, favoritos, sacola local por usuário e login Firebase opcional por e-mail/senha ou Google.
+- O modo comercial distingue `in_stock`, `made_to_order` e `out_of_stock`. Produtos sob encomenda continuam com estoque físico zero e permanecem compráveis; a migration preserva produtos existentes com estoque positivo.
+- Cache legado do aplicativo é migrado sem descartar produtos que ainda não possuíam `availabilityMode`. Dados carregados da API substituem a cópia local quando reencontrados.
+- Edição de produto preserva `made_to_order` quando o modo não é enviado e aceita alteração explícita validada. Leitura e mutação do carrinho usam a mesma regra de disponibilidade e quantidade.
+- Firebase `mdh3d-store`: aplicativo Android `br.com.mdh3d.mdh_mobile`, fingerprints debug cadastradas e provedores E-mail/senha e Google visivelmente ativos. Configuração cliente permanece privada fora do Git; não há credencial Firebase Admin.
+- API: `npm run check` passou; `npm test` com PostgreSQL local descartável passou **22/22**. Flutter: `flutter analyze` sem achados e `flutter test` passou **15/15**.
+- Repositório principal: Prisma validate/generate, typecheck, lint, imagens, assets, dependências corrigidas, auditoria de produção e build passaram. Secret scan encontrou **0 achados atuais e 0 introduzidos de alta confiança**; achados históricos herdados continuam separados.
+- Limites: checkout e pagamentos da API continuam fechados com 503; login humano, Firebase Admin, gateway, frete, assinatura release e publicação nas lojas não foram homologados. Esta entrega não equivale a produção comercial completa.

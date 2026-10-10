@@ -37,20 +37,46 @@ class Product {
     required this.description,
     required this.priceCents,
     required this.stock,
+    required this.availabilityMode,
     this.imageUrl,
     this.modelUrl,
+    this.productionWindow,
+    this.material,
+    this.finish,
+    this.dimensions,
+    this.imageAlt,
   });
   final String id, title, description;
   final int priceCents, stock;
-  final String? imageUrl, modelUrl;
+  final String availabilityMode;
+  final String? imageUrl,
+      modelUrl,
+      productionWindow,
+      material,
+      finish,
+      dimensions,
+      imageAlt;
+  bool get isPurchasable => availabilityMode != 'out_of_stock';
+  bool get isMadeToOrder => availabilityMode == 'made_to_order';
+  String get availabilityLabel => switch (availabilityMode) {
+    'in_stock' => 'Pronta entrega',
+    'made_to_order' => 'Produzido para você',
+    _ => 'Indisponível',
+  };
   factory Product.fromJson(Map<String, dynamic> j) => Product(
     id: j['id'] as String,
     title: j['title'] as String,
     description: j['description'] as String? ?? '',
     priceCents: boundedInteger(j['priceCents'], 'priceCents'),
     stock: boundedInteger(j['stock'], 'stock'),
+    availabilityMode: productAvailability(j['availabilityMode'], j['stock']),
     imageUrl: safeMedia(j['imageUrl']),
     modelUrl: safeMedia(j['modelUrl']),
+    productionWindow: optionalText(j['productionWindow']),
+    material: optionalText(j['material']),
+    finish: optionalText(j['finish']),
+    dimensions: optionalText(j['dimensions']),
+    imageAlt: optionalText(j['imageAlt']),
   );
   Map<String, dynamic> toJson() => {
     'id': id,
@@ -58,10 +84,30 @@ class Product {
     'description': description,
     'priceCents': priceCents,
     'stock': stock,
+    'availabilityMode': availabilityMode,
     'imageUrl': imageUrl,
     'modelUrl': modelUrl,
+    'productionWindow': productionWindow,
+    'material': material,
+    'finish': finish,
+    'dimensions': dimensions,
+    'imageAlt': imageAlt,
   };
 }
+
+String productAvailability(dynamic value, dynamic stock) {
+  if (value is String &&
+      const {'in_stock', 'made_to_order', 'out_of_stock'}.contains(value)) {
+    return value;
+  }
+  if (value == null && stock is int && stock >= 0) {
+    return stock > 0 ? 'in_stock' : 'out_of_stock';
+  }
+  throw const FormatException('Disponibilidade de produto inválida.');
+}
+
+String? optionalText(dynamic value) =>
+    value is String && value.trim().isNotEmpty ? value.trim() : null;
 
 String? safeMedia(dynamic value) {
   if (value is! String) return null;

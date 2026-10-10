@@ -122,6 +122,7 @@ test("cart calculations are server sourced and scoped to authenticated user", as
     );
   });
   assert.deepEqual(f.calls.at(-1).values, ["alice"]);
+  assert.match(f.calls.at(-1).sql, /p\.stock>=c\.quantity/);
 });
 test("cart mutation locks user and rejects unavailable stock without inserting", async () => {
   const f = fixture({ query: () => ({ rows: [] }) });
@@ -141,6 +142,33 @@ test("cart mutation locks user and rejects unavailable stock without inserting",
   assert(f.calls.some((x) => x.sql === "ROLLBACK"));
   assert(
     !f.calls.some((x) =>
+      x.sql.startsWith("INSERT INTO mdh_marketplace.cart_items"),
+    ),
+  );
+});
+test("made-to-order product can enter cart without fake stock", async () => {
+  const f = fixture({
+    query: (sql) => {
+      if (sql.includes("SELECT p.stock"))
+        return { rows: [{ stock: 0, availabilityMode: "made_to_order" }] };
+      if (sql.includes("count(*)")) return { rows: [{ count: "0" }] };
+      return { rows: [] };
+    },
+  });
+  await run(f, async (url) => {
+    assert.equal(
+      (
+        await fetch(url + "/api/cart/items/" + ID, {
+          method: "PUT",
+          headers: { ...auth, "Content-Type": "application/json" },
+          body: JSON.stringify({ quantity: 1 }),
+        })
+      ).status,
+      204,
+    );
+  });
+  assert(
+    f.calls.some((x) =>
       x.sql.startsWith("INSERT INTO mdh_marketplace.cart_items"),
     ),
   );
@@ -177,8 +205,35 @@ test("buyer cannot modify listings and seller update cannot cross owner boundary
     );
   });
   const q = f.calls.find((x) => x.sql.startsWith("UPDATE"));
-  assert.match(q.sql, /seller_id=\$10/);
-  assert.equal(q.values[9], "alice");
+  assert.match(q.sql, /seller_id=\$11/);
+  assert.equal(q.values[10], "alice");
+});
+test("seller update preserves made-to-order mode unless explicitly changed", async () => {
+  const f = fixture({
+    role: "seller",
+    query: (sql) =>
+      sql.startsWith("UPDATE")
+        ? { rows: [{ id: ID, availabilityMode: "made_to_order" }] }
+        : { rows: [] },
+  });
+  await run(f, async (url) => {
+    const response = await fetch(url + "/api/seller/products/" + ID, {
+      method: "PUT",
+      headers: { ...auth, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        title: "Sob encomenda",
+        categoryId: ID,
+        priceCents: 2500,
+        stock: 0,
+        imageUrl: "https://example.com/photo.jpg",
+      }),
+    });
+    assert.equal(response.status, 200);
+    assert.equal((await response.json()).availabilityMode, "made_to_order");
+  });
+  const update = f.calls.find((x) => x.sql.startsWith("UPDATE"));
+  assert.equal(update.values[8], null);
+  assert.match(update.sql, /availability_mode='made_to_order'/);
 });
 test("address payload rejects role injection and deletion is owner scoped", async () => {
   const f = fixture();

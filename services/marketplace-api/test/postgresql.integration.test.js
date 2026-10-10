@@ -27,7 +27,7 @@ test('PostgreSQL: schema, own cart/address, seller price update and ownership bo
     }
     await db.query("INSERT INTO mdh_marketplace.users(id,role) VALUES($1,'buyer'),($2,'buyer'),($3,'seller')", [alice, bob, seller]);
     await db.query('INSERT INTO mdh_marketplace.categories(id,name) VALUES($1,$2)', [categoryId, `Test ${suffix}`]);
-    await db.query('INSERT INTO mdh_marketplace.products(id,seller_id,category_id,title,price_cents,stock,image_url,published) VALUES($1,$2,$3,$4,1900,2,$5,true)',
+    await db.query("INSERT INTO mdh_marketplace.products(id,seller_id,category_id,title,price_cents,stock,image_url,published,availability_mode) VALUES($1,$2,$3,$4,1900,2,$5,true,'in_stock')",
       [productId, seller, categoryId, 'Peça de teste', 'https://example.test/original.jpg']);
     const ids = { alice, bob, seller };
     const app = createApp({ db, verifyToken: async token => {

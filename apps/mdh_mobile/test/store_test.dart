@@ -120,9 +120,41 @@ void main() {
       'description': 'Real',
       'priceCents': 1999,
       'stock': 2,
+      'availabilityMode': 'in_stock',
       'imageUrl': 'https://cdn.example.com/a.png',
     });
     expect(Product.fromJson(product.toJson()).priceCents, 1999);
+    expect(product.isPurchasable, isTrue);
     expect(product.modelUrl, isNull);
+  });
+  test('Produto sob encomenda é comprável sem inventar estoque', () {
+    final product = Product.fromJson({
+      'id': 'custom',
+      'title': 'Peça sob encomenda',
+      'description': 'Produção real',
+      'priceCents': 3990,
+      'stock': 0,
+      'availabilityMode': 'made_to_order',
+      'productionWindow': '3 a 7 dias úteis',
+    });
+    expect(product.isPurchasable, isTrue);
+    expect(product.isMadeToOrder, isTrue);
+    expect(product.availabilityLabel, 'Produzido para você');
+    expect(product.stock, 0);
+    expect(
+      () => Product.fromJson({...product.toJson(), 'availabilityMode': 'fake'}),
+      throwsFormatException,
+    );
+  });
+  test('Cache legado recupera disponibilidade sem perder o produto', () {
+    final product = Product.fromJson({
+      'id': 'legacy',
+      'title': 'Peça antiga',
+      'description': 'Salva antes da atualização',
+      'priceCents': 2500,
+      'stock': 2,
+    });
+    expect(product.availabilityMode, 'in_stock');
+    expect(product.isPurchasable, isTrue);
   });
 }
