@@ -36,7 +36,7 @@ const product = z
   })
   .strict();
 const projection =
-  'p.id,p.title,p.description,p.price_cents AS "priceCents",p.stock,p.image_url AS "imageUrl",p.model_url AS "modelUrl",p.category_id AS "categoryId",p.seller_id AS "sellerId"';
+  'p.id,p.legacy_id AS "legacyId",p.slug,p.title,p.description,p.price_cents AS "priceCents",p.stock,p.image_url AS "imageUrl",p.model_url AS "modelUrl",p.category_id AS "categoryId",p.seller_id AS "sellerId",p.product_type AS "productType",p.game,p.character_name AS "character",p.tags';
 export function createApp({
   db,
   verifyToken,
@@ -104,6 +104,9 @@ export function createApp({
     const query = z
       .object({
         categoryId: uuid.optional(),
+        productType: z.string().trim().min(1).max(80).optional(),
+        game: z.string().trim().min(1).max(120).optional(),
+        character: z.string().trim().min(1).max(120).optional(),
         cursor: uuid.optional(),
         q: z.string().trim().max(100).optional(),
         limit: z.coerce.number().int().min(1).max(50).default(20),
@@ -116,13 +119,25 @@ export function createApp({
       values.push(query.categoryId);
       clauses.push(`p.category_id=$${values.length}`);
     }
+    if (query.productType) {
+      values.push(query.productType);
+      clauses.push(`lower(p.product_type)=lower($${values.length})`);
+    }
+    if (query.game) {
+      values.push(query.game);
+      clauses.push(`lower(p.game)=lower($${values.length})`);
+    }
+    if (query.character) {
+      values.push(query.character);
+      clauses.push(`lower(p.character_name)=lower($${values.length})`);
+    }
     if (query.cursor) {
       values.push(query.cursor);
       clauses.push(`p.id>$${values.length}`);
     }
     if (query.q) {
       values.push(query.q);
-      clauses.push(`strpos(lower(p.title),lower($${values.length}))>0`);
+      clauses.push(`(strpos(lower(p.title),lower($${values.length}))>0 OR strpos(lower(p.description),lower($${values.length}))>0 OR EXISTS (SELECT 1 FROM unnest(p.tags) tag WHERE strpos(lower(tag),lower($${values.length}))>0))`);
     }
     values.push(query.limit + 1);
     const rows = (

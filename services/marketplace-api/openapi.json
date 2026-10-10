@@ -26,6 +26,12 @@
             "type": "string",
             "format": "uuid"
           },
+          "legacyId": {
+            "type": ["string", "null"]
+          },
+          "slug": {
+            "type": ["string", "null"]
+          },
           "title": {
             "type": "string"
           },
@@ -56,6 +62,19 @@
           },
           "sellerId": {
             "type": "string"
+          },
+          "productType": {
+            "type": ["string", "null"]
+          },
+          "game": {
+            "type": ["string", "null"]
+          },
+          "character": {
+            "type": ["string", "null"]
+          },
+          "tags": {
+            "type": "array",
+            "items": { "type": "string" }
           }
         }
       },
@@ -199,6 +218,30 @@
             "schema": {
               "type": "string",
               "format": "uuid"
+            }
+          },
+          {
+            "in": "query",
+            "name": "productType",
+            "schema": {
+              "type": "string",
+              "maxLength": 80
+            }
+          },
+          {
+            "in": "query",
+            "name": "game",
+            "schema": {
+              "type": "string",
+              "maxLength": 120
+            }
+          },
+          {
+            "in": "query",
+            "name": "character",
+            "schema": {
+              "type": "string",
+              "maxLength": 120
             }
           },
           {

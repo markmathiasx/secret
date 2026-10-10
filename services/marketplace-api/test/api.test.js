@@ -90,6 +90,22 @@ test("invalid product cursor and unknown filters are rejected before SQL", async
   });
   assert.equal(f.calls.length, 0);
 });
+test("catalog metadata filters are strict and parameterized", async () => {
+  const f = fixture({ query: () => ({ rows: [] }) });
+  await run(f, async (url) => {
+    const params = new URLSearchParams({
+      productType: "chaveiro",
+      game: "valorant",
+      character: "jett",
+      limit: "5",
+    });
+    assert.equal((await fetch(`${url}/api/products?${params}`)).status, 200);
+  });
+  assert.deepEqual(f.calls[0].values, ["chaveiro", "valorant", "jett", 6]);
+  assert.match(f.calls[0].sql, /lower\(p\.product_type\)=lower\(\$1\)/);
+  assert.match(f.calls[0].sql, /lower\(p\.game\)=lower\(\$2\)/);
+  assert.match(f.calls[0].sql, /lower\(p\.character_name\)=lower\(\$3\)/);
+});
 test("cart calculations are server sourced and scoped to authenticated user", async () => {
   const f = fixture({
     query: (sql) => ({

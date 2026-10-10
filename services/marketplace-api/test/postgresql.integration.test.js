@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
-import { readFile } from 'node:fs/promises';
+import { readdir, readFile } from 'node:fs/promises';
 import { once } from 'node:events';
 import pg from 'pg';
 import { createApp } from '../src/app.js';
@@ -20,7 +20,11 @@ test('PostgreSQL: schema, own cart/address, seller price update and ownership bo
   const categoryId = randomUUID(), productId = randomUUID();
   let server;
   try {
-    await db.query(await readFile(new URL('../migrations/001_initial.sql', import.meta.url), 'utf8'));
+    const migrationDirectory = new URL('../migrations/', import.meta.url);
+    const migrations = (await readdir(migrationDirectory)).filter(name => name.endsWith('.sql')).sort();
+    for (const migration of migrations) {
+      await db.query(await readFile(new URL(migration, migrationDirectory), 'utf8'));
+    }
     await db.query("INSERT INTO mdh_marketplace.users(id,role) VALUES($1,'buyer'),($2,'buyer'),($3,'seller')", [alice, bob, seller]);
     await db.query('INSERT INTO mdh_marketplace.categories(id,name) VALUES($1,$2)', [categoryId, `Test ${suffix}`]);
     await db.query('INSERT INTO mdh_marketplace.products(id,seller_id,category_id,title,price_cents,stock,image_url,published) VALUES($1,$2,$3,$4,1900,2,$5,true)',

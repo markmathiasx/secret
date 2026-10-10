@@ -11,6 +11,8 @@ export FIREBASE_PROJECT_ID='your-project'
 export GOOGLE_APPLICATION_CREDENTIALS='/private/path/service-account.json'
 export ALLOWED_ORIGIN='https://your-reviewed-web-admin.example'
 npm run migrate
+npm run catalog:dry-run
+npm run catalog:import
 npm start
 npm test
 npm audit --omit=dev
@@ -20,9 +22,11 @@ Execute dentro deste diretório. Nunca coloque credenciais no Git. A migration c
 
 Firebase Admin verifica revogação do token. Cadastro é gerenciado pelos SDKs Firebase no app; esta API materializa o perfil no primeiro acesso. E-mail não verificado recebe 403. Login por telefone pode não ter e-mail. Novos perfis são compradores. Papel de vendedor/admin só pode ser atribuído por operação confiável de administração do banco; não existe promoção pública. A configuração de Google/Apple/Facebook/SMS e apps autorizados é externa e ainda necessária.
 
+O importador usa `directSaleCatalog` do catálogo estático do site, mantém associação estável em `legacy_id`, aceita somente mídia já classificada para venda direta e grava relatório em `output/native-marketplace-catalog-import.json`. O modo padrão é `dry-run`; `catalog:import` exige `DATABASE_URL`, usa transação e upsert idempotente. Itens com licença ou mídia pendente permanecem rejeitados, sem substituição por imagens geradas.
+
 ## Contrato
 
-`openapi.json` documenta o contrato. Listagem de produtos aceita `categoryId`, `q`, `cursor` UUID e `limit` (1–50); resposta `{items,nextCursor}`. Busca é substring literal parametrizada e ordem por UUID, não relevância/personalização. Listas de endereços, categorias, produtos do vendedor e pedidos usam `{items}`. Carrinho usa `{items,totalCents}`. Dinheiro inteiro em centavos. Preço é sempre obtido do servidor, não do payload do comprador.
+`openapi.json` documenta o contrato. Listagem de produtos aceita `categoryId`, `productType`, `game`, `character`, `q`, `cursor` UUID e `limit` (1–50); resposta `{items,nextCursor}`. Busca é substring literal parametrizada em título, descrição e tags, com ordem por UUID, não relevância/personalização. Listas de endereços, categorias, produtos do vendedor e pedidos usam `{items}`. Carrinho usa `{items,totalCents}`. Dinheiro inteiro em centavos. Preço é sempre obtido do servidor, não do payload do comprador.
 
 O carrinho limita 100 linhas e 99 unidades por linha; adicionar não reserva estoque. Edição do vendedor exige propriedade do produto mesmo para papel admin; registra auditoria dentro da mesma transação. Criação pelo vendedor usa POST e proprietário atribuído pelo servidor, com auditoria transacional. Admin global, exclusão definitiva de produtos, uploads, logística, cupons, chat, reviews, pagamento, reserva, cancelamento e notificações ainda não estão implementados. Edição recebe objeto completo via PUT. Cadastro inicial pode ser realizado com POST por um vendedor autorizado; importação em lote e a interface administrativa permanecem pendentes.
 
