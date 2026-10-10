@@ -15,6 +15,24 @@ npm run check
 
 Consultar README da API para variáveis e comando de migration efetivamente implementados. Usar PostgreSQL descartável para validar SQL antes de staging. Revisar migration, backup e plano de reversão antes de qualquer banco remoto. Nunca executar reset na base do site.
 
+### Windows local reproduzível
+
+Na raiz do repositório, com PowerShell 7:
+
+```powershell
+pwsh -NoProfile -File scripts/native-marketplace/diagnose.ps1
+pwsh -NoProfile -File scripts/native-marketplace/prepare-local-db.ps1
+pwsh -NoProfile -File scripts/native-marketplace/import-catalog.ps1
+pwsh -NoProfile -File scripts/native-marketplace/start-api.ps1
+pwsh -NoProfile -File scripts/native-marketplace/verify-api.ps1
+pwsh -NoProfile -File scripts/native-marketplace/start-mobile.ps1
+pwsh -NoProfile -File scripts/native-marketplace/stop-api.ps1
+```
+
+Os scripts usam por padrão PostgreSQL 17 em `127.0.0.1:5433`, banco `mdh_mobile_test`, papel `mdh_app`, API `8080`, Flutter em `C:\Users\markkk\Downloads\flutter\bin\flutter.bat` e Android SDK em `%LOCALAPPDATA%\Android\Sdk`. Todos aceitam parâmetros para alterar esses caminhos. Configuração e backups ficam em `%LOCALAPPDATA%\MDH3D\private`, com ACL restrita; nenhum segredo é impresso ou lido automaticamente de `.env`.
+
+O arquivo privado opcional `firebase-client.json` usa as propriedades públicas `apiKey`, `appId`, `projectId`, `messagingSenderId` e `googleAuthEnabled`. O projeto deve ser exatamente `mdh3d-store`. Credencial administrativa, quando realmente necessária, fica somente em `%LOCALAPPDATA%\MDH3D\private\firebase-admin.json`.
+
 Foi incluído Dockerfile com Node24, usuário sem privilégios e healthcheck. Build da imagem **não executado neste ambiente**, que não tem Docker disponível. A imagem de runtime não contém migrations e não altera schema ao iniciar. Em máquina/CI com Docker, executar a partir do diretório da API:
 
 ```sh

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:model_viewer_plus/model_viewer_plus.dart';
@@ -47,6 +48,9 @@ class MdhApp extends StatelessWidget {
   Widget build(BuildContext context) => MaterialApp(
     title: 'MDH 3D',
     debugShowCheckedModeBanner: false,
+    locale: const Locale('pt', 'BR'),
+    supportedLocales: const [Locale('pt', 'BR')],
+    localizationsDelegates: GlobalMaterialLocalizations.delegates,
     theme: ThemeData(
       useMaterial3: true,
       colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff986b22)),
@@ -99,7 +103,8 @@ class _StoreScreenState extends State<StoreScreen> {
   Map<String, Product> saved = {};
   Map<String, int> cart = {};
   Set<String> favorites = {};
-  String? category, cursor, error;
+  String? category, cursor, error, categoriesError;
+  String appliedSearch = '';
   bool loading = false;
   int tab = 0, generation = 0;
   StreamSubscription<User?>? authSubscription;
@@ -160,8 +165,9 @@ class _StoreScreenState extends State<StoreScreen> {
         };
       });
     } catch (_) {
-      if (mounted)
+      if (mounted) {
         setState(() => error = 'O carrinho salvo não pôde ser restaurado.');
+      }
     }
   }
 
@@ -177,7 +183,7 @@ class _StoreScreenState extends State<StoreScreen> {
       final stored = await prefs.setString(key, payload);
       if (!stored) throw StateError('Armazenamento indisponível');
     } catch (_) {
-      if (mounted)
+      if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text(
@@ -185,26 +191,33 @@ class _StoreScreenState extends State<StoreScreen> {
             ),
           ),
         );
+      }
     }
   }
 
   Future<void> loadCategories() async {
     try {
       final result = await api.get('/api/categories');
-      if (mounted)
-        setState(
-          () => categories = (result['items'] as List)
+      if (mounted) {
+        setState(() {
+          categories = (result['items'] as List)
               .map((c) => Map<String, dynamic>.from(c))
-              .toList(),
-        );
+              .toList();
+          categoriesError = null;
+        });
+      }
     } catch (_) {
-      if (mounted)
-        setState(() => error = 'Categorias indisponíveis. Tente novamente.');
+      if (mounted) {
+        setState(
+          () => categoriesError = 'Categorias indisponíveis. Tente novamente.',
+        );
+      }
     }
   }
 
   Future<void> load({bool more = false}) async {
     if (more && (loading || cursor == null)) return;
+    final requestedSearch = more ? appliedSearch : search.text.trim();
     final ticket = ++generation;
     setState(() {
       loading = true;
@@ -212,6 +225,7 @@ class _StoreScreenState extends State<StoreScreen> {
       if (!more) {
         products = [];
         cursor = null;
+        appliedSearch = requestedSearch;
       }
     });
     try {
@@ -219,8 +233,8 @@ class _StoreScreenState extends State<StoreScreen> {
         '/api/products',
         query: {
           'limit': '24',
-          if (category != null) 'categoryId': category!,
-          if (search.text.trim().isNotEmpty) 'q': search.text.trim(),
+          'categoryId': ?category,
+          if (requestedSearch.isNotEmpty) 'q': requestedSearch,
           if (more && cursor != null) 'cursor': cursor!,
         },
       );
@@ -230,16 +244,20 @@ class _StoreScreenState extends State<StoreScreen> {
           .toList();
       setState(() {
         products = more ? [...products, ...items] : items;
+        for (final item in items) {
+          if (saved.containsKey(item.id)) saved[item.id] = item;
+        }
         cursor = result['nextCursor'] as String?;
         loading = false;
       });
     } catch (_) {
-      if (mounted && ticket == generation)
+      if (mounted && ticket == generation) {
         setState(() {
           loading = false;
           error =
               'Sem conexão com o catálogo. Verifique sua internet e tente novamente.';
         });
+      }
     }
   }
 
@@ -266,9 +284,31 @@ class _StoreScreenState extends State<StoreScreen> {
   }
 
   Future<void> openProduct(Product p) async {
+    Product current;
+    try {
+      current = Product.fromJson(
+        Map<String, dynamic>.from(await api.get('/api/products/${p.id}')),
+      );
+      if (saved.containsKey(current.id)) {
+        setState(() => saved[current.id] = current);
+        persist();
+      }
+    } catch (_) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Não foi possível atualizar esta peça. Tente novamente.',
+          ),
+        ),
+      );
+      return;
+    }
+    if (!mounted) return;
     await Navigator.of(context).push(
       MaterialPageRoute<void>(
-        builder: (_) => ProductScreen(product: p, onAdd: () => add(p)),
+        builder: (_) =>
+            ProductScreen(product: current, onAdd: () => add(current)),
       ),
     );
   }
@@ -414,6 +454,19 @@ class _StoreScreenState extends State<StoreScreen> {
                       TextButton(
                         onPressed: () => load(),
                         child: const Text('Tentar novamente'),
+                      ),
+                    ],
+                  ),
+                ),
+              if (categoriesError != null)
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: Row(
+                    children: [
+                      Expanded(child: Text(categoriesError!)),
+                      TextButton(
+                        onPressed: loadCategories,
+                        child: const Text('Recarregar categorias'),
                       ),
                     ],
                   ),
@@ -692,24 +745,27 @@ class _AccountScreenState extends State<AccountScreen> {
       await operation();
       if (identityChanged) {
         await widget.onIdentityChanged();
-        if (mounted)
+        if (mounted) {
           setState(() {
             profile = null;
             addresses = null;
             orders = null;
           });
+        }
       }
     } on StoreApiException catch (e) {
       if (mounted) setState(() => message = e.message);
     } on FirebaseAuthException catch (e) {
-      if (mounted)
+      if (mounted) {
         setState(
           () => message =
               'Não foi possível autenticar (${e.code}). Verifique os dados ou tente novamente.',
         );
+      }
     } catch (_) {
-      if (mounted)
+      if (mounted) {
         setState(() => message = 'Serviço indisponível. Tente novamente.');
+      }
     } finally {
       if (mounted) setState(() => busy = false);
     }
@@ -720,11 +776,12 @@ class _AccountScreenState extends State<AccountScreen> {
       final token = await FirebaseAuth.instance.currentUser?.getIdToken();
       if (token == null) throw StateError('Login necessário');
       final data = await widget.api.get('/api/me', token: token);
-      if (mounted)
+      if (mounted) {
         setState(() {
           profile = data;
           message = 'Conta autenticada no servidor.';
         });
+      }
     });
   }
 
@@ -751,15 +808,17 @@ class _AccountScreenState extends State<AccountScreen> {
         'state',
         'postalCode',
       ]) {
-        if (address[field] is! String)
+        if (address[field] is! String) {
           throw const FormatException('Endereço inválido.');
+        }
       }
     }
     for (final order in nextOrders) {
       boundedInteger(order['totalCents'], 'totalCents');
       for (final field in ['id', 'status', 'createdAt']) {
-        if (order[field] is! String)
+        if (order[field] is! String) {
           throw const FormatException('Pedido inválido.');
+        }
       }
     }
     if (mounted && FirebaseAuth.instance.currentUser?.uid == user.uid) {
@@ -854,16 +913,19 @@ class _AccountScreenState extends State<AccountScreen> {
                         validator: (value) {
                           final text = (value ?? '').trim();
                           if (entry.key == 'complement' ||
-                              entry.key == 'district')
+                              entry.key == 'district') {
                             return null;
-                          if (entry.key == 'postalCode')
+                          }
+                          if (entry.key == 'postalCode') {
                             return RegExp(r'^\d{8}$').hasMatch(text)
                                 ? null
                                 : 'Informe 8 números';
-                          if (entry.key == 'state')
+                          }
+                          if (entry.key == 'state') {
                             return RegExp(r'^[A-Za-z]{2}$').hasMatch(text)
                                 ? null
                                 : 'Informe a UF';
+                          }
                           return text.length >= (entry.key == 'number' ? 1 : 2)
                               ? null
                               : 'Campo obrigatório';
@@ -881,13 +943,14 @@ class _AccountScreenState extends State<AccountScreen> {
             ),
             FilledButton(
               onPressed: () {
-                if (form.currentState!.validate())
+                if (form.currentState!.validate()) {
                   Navigator.pop(context, {
                     for (final entry in controllers.entries)
                       entry.key: entry.key == 'state'
                           ? entry.value.text.trim().toUpperCase()
                           : entry.value.text.trim(),
                   });
+                }
               },
               child: const Text('Salvar'),
             ),
@@ -912,7 +975,7 @@ class _AccountScreenState extends State<AccountScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (!widget.authReady)
+    if (!widget.authReady) {
       return const Center(
         child: Padding(
           padding: EdgeInsets.all(24),
@@ -921,6 +984,7 @@ class _AccountScreenState extends State<AccountScreen> {
           ),
         ),
       );
+    }
     final user = FirebaseAuth.instance.currentUser;
     return ListView(
       padding: const EdgeInsets.all(24),
@@ -935,11 +999,39 @@ class _AccountScreenState extends State<AccountScreen> {
                 : 'E-mail ainda não verificado',
           ),
           if (!user.emailVerified)
-            TextButton(
-              onPressed: busy
-                  ? null
-                  : () => act(() => user.sendEmailVerification()),
-              child: const Text('Enviar verificação por e-mail'),
+            Wrap(
+              spacing: 8,
+              children: [
+                TextButton(
+                  onPressed: busy
+                      ? null
+                      : () => act(() => user.sendEmailVerification()),
+                  child: const Text('Enviar verificação por e-mail'),
+                ),
+                TextButton(
+                  onPressed: busy
+                      ? null
+                      : () => act(() async {
+                          await user.reload();
+                          await FirebaseAuth.instance.currentUser?.getIdToken(
+                            true,
+                          );
+                          if (mounted) {
+                            setState(
+                              () => message =
+                                  FirebaseAuth
+                                          .instance
+                                          .currentUser
+                                          ?.emailVerified ==
+                                      true
+                                  ? 'E-mail verificado com sucesso.'
+                                  : 'A verificação ainda não foi confirmada.',
+                            );
+                          }
+                        }, identityChanged: true),
+                  child: const Text('Já verifiquei'),
+                ),
+              ],
             ),
           OutlinedButton(
             onPressed: busy ? null : fetchProfile,
@@ -961,7 +1053,10 @@ class _AccountScreenState extends State<AccountScreen> {
               ListTile(
                 title: Text('${address['recipient']}'),
                 subtitle: Text(
-                  '${address['street']}, ${address['number']}\n${address['city']} — ${address['state']} • CEP ${address['postalCode']}',
+                  '${address['street']}, ${address['number']}'
+                  '${(address['complement'] as String? ?? '').isEmpty ? '' : ' • ${address['complement']}'}\n'
+                  '${(address['district'] as String? ?? '').isEmpty ? '' : '${address['district']} • '}'
+                  '${address['city']} — ${address['state']} • CEP ${address['postalCode']}',
                 ),
                 trailing: IconButton(
                   tooltip: 'Excluir endereço',
@@ -1050,11 +1145,12 @@ class _AccountScreenState extends State<AccountScreen> {
                     await FirebaseAuth.instance.sendPasswordResetEmail(
                       email: email.text.trim(),
                     );
-                    if (mounted)
+                    if (mounted) {
                       setState(
                         () => message =
                             'Confira seu e-mail para recuperar a senha.',
                       );
+                    }
                   }),
             child: const Text('Esqueci minha senha'),
           ),
@@ -1085,7 +1181,7 @@ class _AccountScreenState extends State<AccountScreen> {
         if (message != null)
           Padding(
             padding: const EdgeInsets.only(top: 16),
-            child: Text(message!),
+            child: Semantics(liveRegion: true, child: Text(message!)),
           ),
         const SizedBox(height: 24),
         const Text(

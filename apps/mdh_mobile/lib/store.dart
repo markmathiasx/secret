@@ -11,13 +11,15 @@ Uri? apiOrigin(String value, {bool debug = kDebugMode}) {
       uri.userInfo.isNotEmpty ||
       uri.hasQuery ||
       uri.hasFragment ||
-      (uri.path.isNotEmpty && uri.path != '/'))
+      (uri.path.isNotEmpty && uri.path != '/')) {
     return null;
+  }
   if (uri.scheme == 'https') return uri.replace(path: '');
   if (debug &&
       uri.scheme == 'http' &&
-      ['localhost', '127.0.0.1', '10.0.2.2'].contains(uri.host))
+      ['localhost', '127.0.0.1', '10.0.2.2'].contains(uri.host)) {
     return uri.replace(path: '');
+  }
   return null;
 }
 

@@ -2,6 +2,16 @@
 
 Data de início desta reconstrução: 2026-10-08 em America/Sao_Paulo (2026-10-09 UTC).
 
+## Execução local real — 2026-10-09
+
+- PostgreSQL 17.2 detectado no serviço `postgresql-x64-17`, porta local `5433`. Banco isolado `mdh_mobile_test` e papel runtime `mdh_app` criados; papel confirmado sem superusuário, `CREATEDB` ou `CREATEROLE`. Migration executou 2 arquivos, resultando em 7 tabelas e 13 índices no schema `mdh_marketplace`.
+- Suite API executada com PostgreSQL real: **19/19 testes passaram**. `npm run check` também passou. Firebase continua fora dessa comprovação enquanto não houver credencial/configuração cliente homologada.
+- Catálogo fonte: `lib/public-catalog.ts`. Leitura encontrou 538 itens públicos; importador conservador aceitou **39** com venda direta/mídia verificada e rejeitou **499** com `commercial_media_review_required`. Backup `pg_dump` privado foi criado antes da importação. Destino confirmou 39 IDs legados distintos e 39 mídias verificadas.
+- API real iniciada em `127.0.0.1:8080`: `/health`, `/api/capabilities`, `/api/categories` e `/api/products?limit=1` retornaram HTTP 200 e payload esperado. Foram encontradas 6 categorias; mídia da amostra respondeu HTTP 200 no domínio público da MDH3D.
+- Flutter 3.47.7: `pub get`, `analyze`, **8/8 testes**, build APK debug, instalação e abertura no `emulator-5554` passaram. Captura local confirmou catálogo e imagens, sem erros Flutter/AndroidRuntime no trecho de log consultado. Login permaneceu desabilitado por ausência deliberada da configuração Firebase pública.
+- Android debug aceita HTTP apenas para `10.0.2.2`, `localhost` e `127.0.0.1`; release não permite cleartext. Release não reutiliza mais chave debug e permanece sem assinatura até existir `android/key.properties` privado.
+- SHA debug: SHA-1 `A3:E6:8A:8E:51:C8:3C:38:34:B2:3A:69:C8:AF:10:09:4E:7F:44:7B`; SHA-256 `A2:91:CF:F3:2D:F8:08:B5:4E:78:59:BF:3D:AB:8A:D5:85:A7:D1:64:50:2D:C3:18:A3:27:D4:90:01:FB:A8:FB`.
+
 ## Recuperação
 
 Clone da branch `codex/native-marketplace-20261007` em `ae5552eb98fced90b1405730fab09ee4168b031a`, confirmado por `git ls-remote`. Esse commit continha somente o adaptador Pix e seus testes, além da base anterior do site e relatórios. Código de app/API não enviado em sessões interrompidas não é considerado entregue.
