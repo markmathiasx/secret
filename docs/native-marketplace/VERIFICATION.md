@@ -4,11 +4,13 @@ Data de início desta reconstrução: 2026-10-08 em America/Sao_Paulo (2026-10-0
 
 ## Execução local real — 2026-10-09
 
-- PostgreSQL 17.2 detectado no serviço `postgresql-x64-17`, porta local `5433`. Banco isolado `mdh_mobile_test` e papel runtime `mdh_app` criados; papel confirmado sem superusuário, `CREATEDB` ou `CREATEROLE`. Migration executou 2 arquivos, resultando em 7 tabelas e 13 índices no schema `mdh_marketplace`.
-- Suite API executada com PostgreSQL real: **19/19 testes passaram**. `npm run check` também passou. Firebase continua fora dessa comprovação enquanto não houver credencial/configuração cliente homologada.
+- PostgreSQL 17.2 detectado no serviço `postgresql-x64-17`, porta local `5433`. Banco isolado `mdh_mobile_test` e papel runtime `mdh_app` criados; papel confirmado sem superusuário, `CREATEDB` ou `CREATEROLE`. Migration executou 3 arquivos, resultando em 7 tabelas e 14 índices no schema `mdh_marketplace`.
+- Suite API atual: **21/21 testes passaram** com `TEST_DATABASE_URL` carregada da configuração privada, incluindo integração PostgreSQL e contrato `made_to_order`. `npm run check` e `npm audit --omit=dev --audit-level=low` passaram com zero vulnerabilidades reportadas.
 - Catálogo fonte: `lib/public-catalog.ts`. Leitura encontrou 538 itens públicos; importador conservador aceitou **39** com venda direta/mídia verificada e rejeitou **499** com `commercial_media_review_required`. Backup `pg_dump` privado foi criado antes da importação. Destino confirmou 39 IDs legados distintos e 39 mídias verificadas.
 - API real iniciada em `127.0.0.1:8080`: `/health`, `/api/capabilities`, `/api/categories` e `/api/products?limit=1` retornaram HTTP 200 e payload esperado. Foram encontradas 6 categorias; mídia da amostra respondeu HTTP 200 no domínio público da MDH3D.
-- Flutter 3.47.7: `pub get`, `analyze`, **8/8 testes**, build APK debug, instalação e abertura no `emulator-5554` passaram. Captura local confirmou catálogo e imagens, sem erros Flutter/AndroidRuntime no trecho de log consultado. Login permaneceu desabilitado por ausência deliberada da configuração Firebase pública.
+- Flutter 3.47.7: `pub get`, `analyze`, **14/14 testes**, build APK debug, instalação e abertura no `emulator-5554` passaram. Captura `output/mobile-evidence/catalog-final.png` confirmou o tema industrial escuro, catálogo e mídia autêntica; o trecho de log consultado não contém erro Flutter/AndroidRuntime.
+- Firebase `mdh3d-store`: app Android `br.com.mdh3d.mdh_mobile`, SHA-1 e SHA-256 debug registrados; provedores E-mail/senha e Google visivelmente confirmados como ativos. `google-services.json` oficial foi baixado e transformado em configuração pública de cliente somente em `%LOCALAPPDATA%\MDH3D\private`, com ACL restrita e sem commit. O app iniciou com Firebase cliente e Google habilitados. Nenhuma conta de teste foi criada e nenhum login humano foi automatizado; autenticação ponta a ponta e validação da API privada continuam pendentes de credencial administrativa/identidade de workload.
+- Catálogo mobile agora preserva `availabilityMode`. Produtos `Sob encomenda` continuam com estoque físico zero, mas são exibidos honestamente como `Produzido para você` e podem entrar na sacola; apenas `out_of_stock` é indisponível. Prazo de produção, material, acabamento, dimensões e texto alternativo são transportados quando existem.
 - Android debug aceita HTTP apenas para `10.0.2.2`, `localhost` e `127.0.0.1`; release não permite cleartext. Release não reutiliza mais chave debug e permanece sem assinatura até existir `android/key.properties` privado.
 - SHA debug: SHA-1 `A3:E6:8A:8E:51:C8:3C:38:34:B2:3A:69:C8:AF:10:09:4E:7F:44:7B`; SHA-256 `A2:91:CF:F3:2D:F8:08:B5:4E:78:59:BF:3D:AB:8A:D5:85:A7:D1:64:50:2D:C3:18:A3:27:D4:90:01:FB:A8:FB`.
 
@@ -87,3 +89,14 @@ O bloqueio de autenticação GitHub foi resolvido nesta rodada. Código anterior
 Política de segredos, 2 testes do gerador, typecheck, lint, imagens, assets e build passaram novamente após alterações. Secret scan: 0 current/introduced high-confidence (17 commits). Fonte Flutter ganhou pedidos/endereços reais sob autenticação; seus testes adicionados permanecem não executados. Leia DEVELOPMENT-SECRETS.md para geração local sem publicar valores ou credenciais externas fictícias. Sessões e OTP mantêm expiração; chaves de desenvolvimento sem expiração automática são rejeitadas em produção.
 
 O escopo integral continua parcial, independentemente da presença de chaves locais. Credenciais fictícias não homologam provedores, não substituem implementação e não garantem ausência absoluta de falhas.
+
+## Atualização final do aplicativo — 2026-10-09
+
+Esta seção substitui os resultados antigos de Flutter/API descritos acima:
+
+- API: `npm run check` passou; `TEST_DATABASE_URL=postgresql://mdh_app@127.0.0.1:5433/mdh_mobile_test npm test` passou **22/22**, incluindo integração PostgreSQL, propriedade de dados, carrinho, edição de preço e preservação de produto sob encomenda.
+- Flutter: `dart format lib test` não encontrou mudanças; `flutter analyze` retornou **No issues found**; `flutter test` passou **15/15**.
+- Compatibilidade: cache legado sem `availabilityMode` recebe modo conservador derivado do estoque e não elimina produtos/favoritos durante restauração.
+- A migration comercial preenche produtos existentes antes de impor `NOT NULL`; estoque positivo vira `in_stock`, estoque zero vira `out_of_stock`, sem fabricar estoque.
+- A auditoria independente identificou seis riscos; os três P1 e os três P2 foram tratados em código, texto e contraste antes da liberação. O botão laranja usa texto escuro e as mensagens não alegam verificação de mídia inexistente.
+- Firebase cliente foi inicializado no emulador Android e o catálogo foi aberto com mídia do catálogo. Nenhuma conta humana foi usada; login real e acesso autenticado à API privada continuam não homologados.

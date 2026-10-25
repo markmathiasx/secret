@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { once } from "node:events";
+import { createHmac } from "node:crypto";
 import { createApp } from "../src/app.js";
 const ID = "9d2d08fe-b933-4f8d-a24d-2a5fb5bb1832";
 function fixture({
@@ -8,6 +9,12 @@ function fixture({
   disabled = false,
   verified = true,
   query,
+  paymentProvider = null,
+  paymentSettings = null,
+  logger = { error() {}, info() {}, warn() {} },
+  rateLimits,
+  authTimeoutMs,
+  verifyToken,
 } = {}) {
   const calls = [];
   const db = {
@@ -23,11 +30,15 @@ function fixture({
   };
   const app = createApp({
     db,
-    verifyToken: async (t) => {
+    verifyToken: verifyToken || (async (t) => {
       if (t !== "good") throw Error("bad");
       return { uid: "alice", email: "a@example.com", email_verified: verified };
-    },
-    logger: { error() {} },
+    }),
+    logger,
+    paymentProvider,
+    paymentSettings,
+    rateLimits,
+    authTimeoutMs,
   });
   return { app, calls };
 }
@@ -122,6 +133,7 @@ test("cart calculations are server sourced and scoped to authenticated user", as
     );
   });
   assert.deepEqual(f.calls.at(-1).values, ["alice"]);
+  assert.match(f.calls.at(-1).sql, /p\.stock>=c\.quantity/);
 });
 test("cart mutation locks user and rejects unavailable stock without inserting", async () => {
   const f = fixture({ query: () => ({ rows: [] }) });
@@ -141,6 +153,33 @@ test("cart mutation locks user and rejects unavailable stock without inserting",
   assert(f.calls.some((x) => x.sql === "ROLLBACK"));
   assert(
     !f.calls.some((x) =>
+      x.sql.startsWith("INSERT INTO mdh_marketplace.cart_items"),
+    ),
+  );
+});
+test("made-to-order product can enter cart without fake stock", async () => {
+  const f = fixture({
+    query: (sql) => {
+      if (sql.includes("SELECT p.stock"))
+        return { rows: [{ stock: 0, availabilityMode: "made_to_order" }] };
+      if (sql.includes("count(*)")) return { rows: [{ count: "0" }] };
+      return { rows: [] };
+    },
+  });
+  await run(f, async (url) => {
+    assert.equal(
+      (
+        await fetch(url + "/api/cart/items/" + ID, {
+          method: "PUT",
+          headers: { ...auth, "Content-Type": "application/json" },
+          body: JSON.stringify({ quantity: 1 }),
+        })
+      ).status,
+      204,
+    );
+  });
+  assert(
+    f.calls.some((x) =>
       x.sql.startsWith("INSERT INTO mdh_marketplace.cart_items"),
     ),
   );
@@ -177,8 +216,35 @@ test("buyer cannot modify listings and seller update cannot cross owner boundary
     );
   });
   const q = f.calls.find((x) => x.sql.startsWith("UPDATE"));
-  assert.match(q.sql, /seller_id=\$10/);
-  assert.equal(q.values[9], "alice");
+  assert.match(q.sql, /seller_id=\$11/);
+  assert.equal(q.values[10], "alice");
+});
+test("seller update preserves made-to-order mode unless explicitly changed", async () => {
+  const f = fixture({
+    role: "seller",
+    query: (sql) =>
+      sql.startsWith("UPDATE")
+        ? { rows: [{ id: ID, availabilityMode: "made_to_order" }] }
+        : { rows: [] },
+  });
+  await run(f, async (url) => {
+    const response = await fetch(url + "/api/seller/products/" + ID, {
+      method: "PUT",
+      headers: { ...auth, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        title: "Sob encomenda",
+        categoryId: ID,
+        priceCents: 2500,
+        stock: 0,
+        imageUrl: "https://example.com/photo.jpg",
+      }),
+    });
+    assert.equal(response.status, 200);
+    assert.equal((await response.json()).availabilityMode, "made_to_order");
+  });
+  const update = f.calls.find((x) => x.sql.startsWith("UPDATE"));
+  assert.equal(update.values[8], null);
+  assert.match(update.sql, /availability_mode='made_to_order'/);
 });
 test("address payload rejects role injection and deletion is owner scoped", async () => {
   const f = fixture();
@@ -234,6 +300,30 @@ test("checkout fails closed and public capabilities do not imply production paym
     assert.equal(caps.payments, false);
     assert.equal(caps.existingWebsiteAccountsLinked, false);
   });
+});
+test("configured checkout advertises capability but still requires strict idempotency", async () => {
+  const paymentProvider = { create: async () => assert.fail("must not call provider"), get: async () => assert.fail("must not call provider") };
+  const paymentSettings = { collectorId: "999", liveMode: false, webhookSecret: "test-webhook-secret" };
+  const f = fixture({ paymentProvider, paymentSettings });
+  await run(f, async (url) => {
+    const caps = await (await fetch(url + "/api/capabilities")).json();
+    assert.equal(caps.checkout, true);
+    assert.equal(caps.payments, true);
+    const order = await fetch(url + "/api/orders", {
+      method: "POST",
+      headers: { ...auth, "Content-Type": "application/json" },
+      body: JSON.stringify({ addressId: ID }),
+    });
+    assert.equal(order.status, 400);
+    assert.deepEqual(await order.json(), { error: "invalid_idempotency_key" });
+    const webhook = await fetch(url + "/api/webhooks/mercadopago?data.id=123", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "x-request-id": "request-1", "x-signature": "invalid" },
+      body: JSON.stringify({ data: { id: "123" } }),
+    });
+    assert.equal(webhook.status, 401);
+  });
+  assert(!f.calls.some(({ sql }) => sql === "BEGIN ISOLATION LEVEL SERIALIZABLE"));
 });
 test("seller creation assigns authenticated owner and records transaction audit", async () => {
   const payload = {
@@ -332,4 +422,115 @@ test("invalid category creation rolls back and returns sanitized validation erro
     assert.deepEqual(await r.json(), { error: "invalid_reference" });
   });
   assert.equal(f.calls.at(-1).sql, "ROLLBACK");
+});
+
+test("REST mutations require JSON and enforce route and global payload limits", async () => {
+  await run(fixture(), async (url) => {
+    const unsupported = await fetch(url + "/api/addresses", {
+      method: "POST",
+      headers: { ...auth, "Content-Type": "text/plain" },
+      body: "not-json",
+    });
+    assert.equal(unsupported.status, 415);
+    assert.deepEqual(await unsupported.json(), { error: "json_required" });
+
+    const routeLimited = await fetch(url + "/api/cart/items/" + ID, {
+      method: "PUT",
+      headers: { ...auth, "Content-Type": "application/json" },
+      body: JSON.stringify({ quantity: 1, padding: "x".repeat(1200) }),
+    });
+    assert.equal(routeLimited.status, 413);
+
+    const globallyLimited = await fetch(url + "/api/addresses", {
+      method: "POST",
+      headers: { ...auth, "Content-Type": "application/json" },
+      body: JSON.stringify({ padding: "x".repeat(17 * 1024) }),
+    });
+    assert.equal(globallyLimited.status, 413);
+  });
+});
+
+test("checkout limiter is isolated and returns standard 429 responses", async () => {
+  const f = fixture({ rateLimits: { checkout: { limit: 1 } } });
+  await run(f, async (url) => {
+    const options = {
+      method: "POST",
+      headers: { ...auth, "Content-Type": "application/json" },
+      body: JSON.stringify({ addressId: ID }),
+    };
+    assert.equal((await fetch(url + "/api/orders", options)).status, 503);
+    const limited = await fetch(url + "/api/orders", options);
+    assert.equal(limited.status, 429);
+    assert.deepEqual(await limited.json(), { error: "rate_limited" });
+    assert(limited.headers.get("ratelimit"));
+  });
+});
+
+test("authentication verification has a hard deadline", async () => {
+  const f = fixture({
+    authTimeoutMs: 20,
+    verifyToken: async () => new Promise(() => {}),
+  });
+  await run(f, async (url) => {
+    const response = await fetch(url + "/api/me", { headers: auth });
+    assert.equal(response.status, 504);
+    assert.deepEqual(await response.json(), { error: "authentication_timeout" });
+  });
+});
+
+test("forensic request logs exclude query, credentials, body and exception messages", async () => {
+  const records = [];
+  const logger = {
+    info: (entry) => records.push(entry),
+    warn: (entry) => records.push(entry),
+    error: (entry) => records.push(entry),
+  };
+  const f = fixture({
+    logger,
+    query: (sql) => {
+      if (sql === "SELECT 1") throw Object.assign(new Error("postgres://admin:secret@db/private"), { code: "XX000" });
+      return { rows: [] };
+    },
+  });
+  await run(f, async (url) => {
+    await fetch(url + "/health?token=secret-query", {
+      headers: { Authorization: "Bearer secret-authorization" },
+    });
+  });
+  const serialized = JSON.stringify(records);
+  for (const secret of ["secret-query", "secret-authorization", "postgres://", "admin:secret"])
+    assert(!serialized.includes(secret));
+  assert(records.some((entry) => entry.event === "request_failed" && entry.code === "xx000"));
+  assert(records.some((entry) => entry.event === "request_complete" && entry.ipHash));
+});
+
+test("Mercado Pago webhook rejects body/query mismatch before provider access", async () => {
+  let providerCalls = 0;
+  const paymentProvider = {
+    get: async () => { providerCalls += 1; throw Error("must not run"); },
+  };
+  const secret = "test-webhook-secret";
+  const timestamp = String(Date.now());
+  const requestId = "request-mismatch-1";
+  const digest = createHmac("sha256", secret)
+    .update(`id:123;request-id:${requestId};ts:${timestamp};`)
+    .digest("hex");
+  const f = fixture({
+    paymentProvider,
+    paymentSettings: { collectorId: "999", liveMode: false, webhookSecret: secret },
+  });
+  await run(f, async (url) => {
+    const response = await fetch(url + "/api/webhooks/mercadopago?data.id=123&type=payment", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-request-id": requestId,
+        "x-signature": `ts=${timestamp},v1=${digest}`,
+      },
+      body: JSON.stringify({ type: "payment", data: { id: "124" } }),
+    });
+    assert.equal(response.status, 401);
+  });
+  assert.equal(providerCalls, 0);
+  assert.equal(f.calls.length, 0);
 });

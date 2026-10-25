@@ -33,6 +33,10 @@ Os scripts usam por padrão PostgreSQL 17 em `127.0.0.1:5433`, banco `mdh_mobile
 
 O arquivo privado opcional `firebase-client.json` usa as propriedades públicas `apiKey`, `appId`, `projectId`, `messagingSenderId` e `googleAuthEnabled`. O projeto deve ser exatamente `mdh3d-store`. Credencial administrativa, quando realmente necessária, fica somente em `%LOCALAPPDATA%\MDH3D\private\firebase-admin.json`.
 
+No estado local de 2026-10-09, o cliente Android oficial foi configurado nesse diretório privado e os provedores E-mail/senha e Google foram habilitados no Console Firebase. O arquivo `google-services.json` não é versionado. Para validar rotas autenticadas da API sem chave administrativa local, preferir Application Default Credentials/identidade de workload; não gerar chave de conta de serviço apenas para contornar a ausência de homologação.
+
+O catálogo diferencia três modos: `in_stock`, `made_to_order` e `out_of_stock`. Estoque numérico só limita `in_stock`; `made_to_order` mantém estoque zero e usa prazo de produção do catálogo. Nunca preencher estoque fictício para tornar a interface comprável.
+
 Foi incluído Dockerfile com Node24, usuário sem privilégios e healthcheck. Build da imagem **não executado neste ambiente**, que não tem Docker disponível. A imagem de runtime não contém migrations e não altera schema ao iniciar. Em máquina/CI com Docker, executar a partir do diretório da API:
 
 ```sh

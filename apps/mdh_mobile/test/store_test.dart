@@ -85,6 +85,30 @@ void main() {
       }
     },
   );
+  test('Erro preserva código público sem expor corpo interno', () async {
+    final api = StoreApi(
+      Uri.parse('https://api.example.com'),
+      client: MockClient(
+        (_) async => http.Response(
+          '{"error":"checkout_not_configured","secret":"não vazar"}',
+          503,
+        ),
+      ),
+    );
+    await expectLater(
+      api.send('POST', '/api/orders'),
+      throwsA(
+        isA<StoreApiException>()
+            .having((error) => error.code, 'code', 'checkout_not_configured')
+            .having(
+              (error) => error.message,
+              'mensagem',
+              'O checkout ainda não foi habilitado pelo servidor.',
+            ),
+      ),
+    );
+    api.close();
+  });
 
   test('Origem de API não aceita credenciais, caminhos ou HTTP público', () {
     expect(apiOrigin(''), isNull);
@@ -120,9 +144,41 @@ void main() {
       'description': 'Real',
       'priceCents': 1999,
       'stock': 2,
+      'availabilityMode': 'in_stock',
       'imageUrl': 'https://cdn.example.com/a.png',
     });
     expect(Product.fromJson(product.toJson()).priceCents, 1999);
+    expect(product.isPurchasable, isTrue);
     expect(product.modelUrl, isNull);
+  });
+  test('Produto sob encomenda é comprável sem inventar estoque', () {
+    final product = Product.fromJson({
+      'id': 'custom',
+      'title': 'Peça sob encomenda',
+      'description': 'Produção real',
+      'priceCents': 3990,
+      'stock': 0,
+      'availabilityMode': 'made_to_order',
+      'productionWindow': '3 a 7 dias úteis',
+    });
+    expect(product.isPurchasable, isTrue);
+    expect(product.isMadeToOrder, isTrue);
+    expect(product.availabilityLabel, 'Produzido para você');
+    expect(product.stock, 0);
+    expect(
+      () => Product.fromJson({...product.toJson(), 'availabilityMode': 'fake'}),
+      throwsFormatException,
+    );
+  });
+  test('Cache legado recupera disponibilidade sem perder o produto', () {
+    final product = Product.fromJson({
+      'id': 'legacy',
+      'title': 'Peça antiga',
+      'description': 'Salva antes da atualização',
+      'priceCents': 2500,
+      'stock': 2,
+    });
+    expect(product.availabilityMode, 'in_stock');
+    expect(product.isPurchasable, isTrue);
   });
 }

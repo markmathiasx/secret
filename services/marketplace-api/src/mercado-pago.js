@@ -36,17 +36,21 @@ export function verifyPayment(payment, expected) {
 }
 
 export function verifyWebhook({ signature, requestId, dataId, secret, now = Date.now(), toleranceMs = 300_000 }) {
-  if (!secret || !Number.isSafeInteger(now) || !Number.isSafeInteger(toleranceMs) || toleranceMs < 0 ||
+  if (typeof secret !== 'string' || secret.length < 16 || !Number.isSafeInteger(now) ||
+      !Number.isSafeInteger(toleranceMs) || toleranceMs < 1 || toleranceMs > 300_000 ||
       typeof signature !== 'string' || typeof requestId !== 'string' ||
-      !/^[a-zA-Z0-9_-]{1,200}$/.test(requestId) || !/^[a-zA-Z0-9_-]{1,200}$/.test(String(dataId))) {
+      signature.length > 256 || !/^[a-zA-Z0-9_-]{1,200}$/.test(requestId) ||
+      !/^\d{1,30}$/.test(String(dataId))) {
     throw new PaymentProviderError('INVALID_WEBHOOK', 401);
   }
   const fields = new Map();
   for (const pair of signature.split(',')) {
     const [key, value, extra] = pair.trim().split('=');
-    if (extra || !value || fields.has(key)) throw new PaymentProviderError('INVALID_WEBHOOK', 401);
+    if (extra || !value || !['ts', 'v1'].includes(key) || fields.has(key))
+      throw new PaymentProviderError('INVALID_WEBHOOK', 401);
     fields.set(key, value);
   }
+  if (fields.size !== 2) throw new PaymentProviderError('INVALID_WEBHOOK', 401);
   const ts = fields.get('ts');
   const digest = fields.get('v1');
   if (!/^\d{10,13}$/.test(ts || '') || !/^[a-f0-9]{64}$/i.test(digest || '')) {
@@ -63,11 +67,57 @@ export function verifyWebhook({ signature, requestId, dataId, secret, now = Date
 }
 
 export class MercadoPagoPix {
-  constructor({ accessToken, notificationUrl, fetchImpl = fetch, now = Date.now }) {
+  constructor({
+    accessToken,
+    notificationUrl,
+    fetchImpl = fetch,
+    now = Date.now,
+    requestTimeoutMs = 10_000,
+    responseMaxBytes = 256 * 1024,
+  }) {
     this.accessToken = accessToken;
     this.notificationUrl = notificationUrl;
     this.fetchImpl = fetchImpl;
     this.now = now;
+    this.requestTimeoutMs = Number.isSafeInteger(requestTimeoutMs) && requestTimeoutMs >= 10 && requestTimeoutMs <= 15_000
+      ? requestTimeoutMs
+      : 10_000;
+    this.responseMaxBytes = Number.isSafeInteger(responseMaxBytes) && responseMaxBytes >= 1024 && responseMaxBytes <= 1024 * 1024
+      ? responseMaxBytes
+      : 256 * 1024;
+  }
+
+  async readJson(response) {
+    const declaredLength = Number(response.headers?.get?.('content-length'));
+    if (Number.isFinite(declaredLength) && declaredLength > this.responseMaxBytes)
+      throw new PaymentProviderError('PAYMENT_PROVIDER_RESPONSE_TOO_LARGE');
+    const contentType = response.headers?.get?.('content-type');
+    if (contentType && !/^application\/json\b/i.test(contentType))
+      throw new PaymentProviderError('PAYMENT_PROVIDER_INVALID_RESPONSE');
+    if (!response.body?.getReader) {
+      try { return await response.json(); }
+      catch { throw new PaymentProviderError('PAYMENT_PROVIDER_INVALID_RESPONSE'); }
+    }
+    const reader = response.body.getReader();
+    const chunks = [];
+    let size = 0;
+    try {
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        size += value.byteLength;
+        if (size > this.responseMaxBytes) {
+          await reader.cancel();
+          throw new PaymentProviderError('PAYMENT_PROVIDER_RESPONSE_TOO_LARGE');
+        }
+        chunks.push(value);
+      }
+      const body = Buffer.concat(chunks.map((chunk) => Buffer.from(chunk))).toString('utf8');
+      return JSON.parse(body);
+    } catch (error) {
+      if (error instanceof PaymentProviderError) throw error;
+      throw new PaymentProviderError('PAYMENT_PROVIDER_INVALID_RESPONSE');
+    }
   }
 
   async request(path, options = {}) {
@@ -75,13 +125,12 @@ export class MercadoPagoPix {
     let response;
     try {
       response = await this.fetchImpl(`${API}${path}`, {
-        ...options, redirect: 'error', signal: AbortSignal.timeout(15_000),
+        ...options, redirect: 'error', signal: AbortSignal.timeout(this.requestTimeoutMs),
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${this.accessToken}`, ...options.headers },
       });
     } catch { throw new PaymentProviderError('PAYMENT_PROVIDER_UNAVAILABLE'); }
     if (!response.ok) throw new PaymentProviderError('PAYMENT_PROVIDER_REJECTED');
-    try { return await response.json(); }
-    catch { throw new PaymentProviderError('PAYMENT_PROVIDER_INVALID_RESPONSE'); }
+    return this.readJson(response);
   }
 
   async create({ orderId, totalCents, email, idempotencyKey, expiresAt }) {

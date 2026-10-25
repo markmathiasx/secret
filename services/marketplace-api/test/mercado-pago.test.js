@@ -22,9 +22,9 @@ test('approves only authoritative matching, unrefunded payment', () => {
 });
 test('signed webhook rejects wrong secret, missing fields, duplicate fields and replay window', () => {
   const ts = '1780000000000'; const secret = 'test-only-not-a-real-secret';
-  const v1 = createHmac('sha256', secret).update(`id:abc;request-id:req-1;ts:${ts};`).digest('hex');
-  const input = { signature: `ts=${ts},v1=${v1}`, requestId: 'req-1', dataId: 'ABC', secret, now: Number(ts) };
-  assert.equal(verifyWebhook(input).dataId, 'abc');
+  const v1 = createHmac('sha256', secret).update(`id:123;request-id:req-1;ts:${ts};`).digest('hex');
+  const input = { signature: `ts=${ts},v1=${v1}`, requestId: 'req-1', dataId: '123', secret, now: Number(ts) };
+  assert.equal(verifyWebhook(input).dataId, '123');
   for (const patch of [{ secret: 'wrong' }, { dataId: 'def' }, { signature: `ts=${ts},ts=${ts},v1=${v1}` },
     { signature: 'v1=bad' }, { requestId: '' }, { now: Number(ts) + 300001 },
     { now: NaN }, { toleranceMs: Infinity }, { toleranceMs: -1 }]) {
@@ -60,4 +60,34 @@ test('unconfigured, invalid callback and network failures never appear successfu
   await assert.rejects(new MercadoPagoPix({ accessToken: 'fixture', fetchImpl: async () => { throw Error('secret-diagnostic'); } }).get('123'), { code: 'PAYMENT_PROVIDER_UNAVAILABLE' });
   await assert.rejects(new MercadoPagoPix({ accessToken: 'fixture', fetchImpl: async () => ({ ok: false }) }).get('123'), { code: 'PAYMENT_PROVIDER_REJECTED' });
   await assert.rejects(new MercadoPagoPix({ accessToken: 'fixture', fetchImpl: async () => ({ ok: true, json: async () => { throw Error('parse'); } }) }).get('123'), { code: 'PAYMENT_PROVIDER_INVALID_RESPONSE' });
+});
+
+test('provider requests time out and response bodies are bounded', async () => {
+  const timed = new MercadoPagoPix({
+    accessToken: 'fixture',
+    requestTimeoutMs: 20,
+    fetchImpl: async (_url, { signal }) => new Promise((resolve, reject) => {
+      signal.addEventListener('abort', () => reject(signal.reason), { once: true });
+    }),
+  });
+  await assert.rejects(timed.get('123'), { code: 'PAYMENT_PROVIDER_UNAVAILABLE' });
+
+  const oversized = new MercadoPagoPix({
+    accessToken: 'fixture',
+    responseMaxBytes: 1024,
+    fetchImpl: async () => new Response(JSON.stringify({ payload: 'x'.repeat(2048) }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    }),
+  });
+  await assert.rejects(oversized.get('123'), { code: 'PAYMENT_PROVIDER_RESPONSE_TOO_LARGE' });
+
+  const nonJson = new MercadoPagoPix({
+    accessToken: 'fixture',
+    fetchImpl: async () => new Response('<html>proxy error</html>', {
+      status: 200,
+      headers: { 'Content-Type': 'text/html' },
+    }),
+  });
+  await assert.rejects(nonJson.get('123'), { code: 'PAYMENT_PROVIDER_INVALID_RESPONSE' });
 });

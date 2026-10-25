@@ -12,14 +12,18 @@
     "migrate": "node src/migrate.js",
     "catalog:dry-run": "node src/import-catalog.js",
     "catalog:import": "node src/import-catalog.js --apply",
-    "check": "node --check src/app.js && node --check src/server.js && node --check src/migrate.js && node --check src/import-catalog.js"
+    "check": "node --check src/app.js && node --check src/checkout.js && node --check src/http-security.js && node --check src/mercado-pago.js && node --check src/server.js && node --check src/migrate.js && node --check src/import-catalog.js"
   },
   "dependencies": {
-    "express": "^5.1.0",
+    "express": "^5.3.0",
     "express-rate-limit": "^8.2.1",
     "firebase-admin": "^14.5.0",
     "helmet": "^8.1.0",
     "pg": "^8.16.3",
-    "zod": "^4.1.12"
+    "zod": "^4.6.7"
+  },
+  "overrides": {
+    "body-parser": "2.4.0",
+    "ip-address": "10.7.4"
   }
 }
