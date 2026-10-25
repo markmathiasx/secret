@@ -261,6 +261,7 @@ class _StoreScreenState extends State<StoreScreen> {
       saved[p.id] = p;
       cart[p.id] = quantity;
     });
+    commerceImpactFeedback();
     persist();
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Adicionado à sua sacola local.')),
@@ -272,10 +273,12 @@ class _StoreScreenState extends State<StoreScreen> {
       saved[p.id] = p;
       if (!favorites.add(p.id)) favorites.remove(p.id);
     });
+    commerceSelectionFeedback();
     persist();
   }
 
   Future<void> openProduct(Product p) async {
+    commerceSelectionFeedback();
     Product current;
     try {
       current = Product.fromJson(
@@ -299,8 +302,8 @@ class _StoreScreenState extends State<StoreScreen> {
     if (!mounted) return;
     await Navigator.of(context).push(
       PageRouteBuilder<void>(
-        transitionDuration: const Duration(milliseconds: 420),
-        reverseTransitionDuration: const Duration(milliseconds: 280),
+        transitionDuration: commerceMotion(context, milliseconds: 420),
+        reverseTransitionDuration: commerceMotion(context),
         pageBuilder: (_, animation, secondaryAnimation) =>
             ProductScreen(product: current, onAdd: () => add(current)),
         transitionsBuilder: (_, animation, secondaryAnimation, child) =>
@@ -363,6 +366,7 @@ class _StoreScreenState extends State<StoreScreen> {
         IconButton(
           tooltip: 'Atualizar catálogo',
           onPressed: () {
+            commerceSelectionFeedback();
             loadCategories();
             load();
           },
@@ -372,7 +376,11 @@ class _StoreScreenState extends State<StoreScreen> {
     ),
     bottomNavigationBar: NavigationBar(
       selectedIndex: tab,
-      onDestinationSelected: (i) => setState(() => tab = i),
+      onDestinationSelected: (i) {
+        if (i == tab) return;
+        commerceSelectionFeedback();
+        setState(() => tab = i);
+      },
       destinations: const [
         NavigationDestination(icon: Icon(Icons.home_outlined), label: 'Início'),
         NavigationDestination(
@@ -390,7 +398,7 @@ class _StoreScreenState extends State<StoreScreen> {
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 1200),
         child: AnimatedSwitcher(
-          duration: const Duration(milliseconds: 280),
+          duration: commerceMotion(context),
           switchInCurve: Curves.easeOutCubic,
           switchOutCurve: Curves.easeInCubic,
           transitionBuilder: (child, animation) =>
@@ -422,6 +430,7 @@ class _StoreScreenState extends State<StoreScreen> {
     ),
   );
   void selectCategory(String? id) {
+    commerceSelectionFeedback();
     search.clear();
     setState(() {
       category = id;
@@ -462,6 +471,7 @@ class _StoreScreenState extends State<StoreScreen> {
                 child: productGrid(
                   saved.values.where((p) => favorites.contains(p.id)).toList(),
                   empty: 'Salve as peças que você quer encontrar depois.',
+                  heroEnabled: false,
                   onFavorite: (p) {
                     favorite(p);
                     updateSheet(() {});
@@ -641,8 +651,13 @@ class _StoreScreenState extends State<StoreScreen> {
             padding: const EdgeInsets.all(20),
             sliver: SliverGrid(
               delegate: SliverChildBuilderDelegate(
-                (context, index) => productCard(products[index]),
-                childCount: products.length,
+                (context, index) => loading && products.isEmpty
+                    ? const CommerceLoadingCard()
+                    : productCard(products[index]),
+                childCount: loading && products.isEmpty
+                    ? ((constraints.crossAxisExtent / 190).floor().clamp(1, 4) *
+                          2)
+                    : products.length,
               ),
               gridDelegate: commerceGrid(
                 context,
@@ -670,6 +685,7 @@ class _StoreScreenState extends State<StoreScreen> {
   Widget productGrid(
     List<Product> items, {
     required String empty,
+    bool heroEnabled = true,
     void Function(Product)? onFavorite,
   }) => items.isEmpty
       ? Center(child: CommerceEmptyState(message: empty))
@@ -678,11 +694,18 @@ class _StoreScreenState extends State<StoreScreen> {
             padding: const EdgeInsets.all(20),
             gridDelegate: commerceGrid(context, constraints.maxWidth - 40),
             itemCount: items.length,
-            itemBuilder: (_, i) =>
-                productCard(items[i], onFavorite: onFavorite),
+            itemBuilder: (_, i) => productCard(
+              items[i],
+              heroEnabled: heroEnabled,
+              onFavorite: onFavorite,
+            ),
           ),
         );
-  Widget productCard(Product p, {void Function(Product)? onFavorite}) => Card(
+  Widget productCard(
+    Product p, {
+    bool heroEnabled = true,
+    void Function(Product)? onFavorite,
+  }) => Card(
     clipBehavior: Clip.antiAlias,
     child: InkWell(
       onTap: () => openProduct(p),
@@ -693,9 +716,17 @@ class _StoreScreenState extends State<StoreScreen> {
             child: Stack(
               children: [
                 Positioned.fill(
-                  child: ColoredBox(
-                    color: const Color(0xff0b0e14),
-                    child: productImage(p, fit: BoxFit.cover),
+                  child: HeroMode(
+                    enabled: heroEnabled,
+                    child: Hero(
+                      tag: 'product-media-${p.id}',
+                      createRectTween: (begin, end) =>
+                          MaterialRectCenterArcTween(begin: begin, end: end),
+                      child: ColoredBox(
+                        color: const Color(0xff0b0e14),
+                        child: productImage(p, fit: BoxFit.cover),
+                      ),
+                    ),
                   ),
                 ),
                 Positioned(
@@ -982,13 +1013,18 @@ class ProductScreen extends StatelessWidget {
     ];
     final media = Column(
       children: [
-        AspectRatio(
-          aspectRatio: 1.08,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(28),
-            child: ColoredBox(
-              color: const Color(0xff0b0e14),
-              child: productImage(product, fit: BoxFit.cover),
+        Hero(
+          tag: 'product-media-${product.id}',
+          createRectTween: (begin, end) =>
+              MaterialRectCenterArcTween(begin: begin, end: end),
+          child: AspectRatio(
+            aspectRatio: 1.08,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(28),
+              child: ColoredBox(
+                color: const Color(0xff0b0e14),
+                child: productImage(product, fit: BoxFit.cover),
+              ),
             ),
           ),
         ),

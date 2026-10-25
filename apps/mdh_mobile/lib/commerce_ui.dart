@@ -1,4 +1,15 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+Duration commerceMotion(BuildContext context, {int milliseconds = 280}) =>
+    MediaQuery.disableAnimationsOf(context)
+    ? Duration.zero
+    : Duration(milliseconds: milliseconds);
+
+Future<void> commerceSelectionFeedback() => HapticFeedback.selectionClick();
+
+Future<void> commerceImpactFeedback() => HapticFeedback.lightImpact();
 
 ThemeData commerceTheme(Brightness brightness) {
   final dark = brightness == Brightness.dark;
@@ -13,13 +24,18 @@ ThemeData commerceTheme(Brightness brightness) {
     scaffoldBackgroundColor: dark
         ? const Color(0xff07090d)
         : const Color(0xfff4f6f9),
-    fontFamily: 'Roboto',
+    fontFamilyFallback: const [
+      'SF Pro Display',
+      'SF Pro Text',
+      'Inter',
+      'Roboto',
+    ],
     visualDensity: VisualDensity.standard,
     splashFactory: InkSparkle.splashFactory,
     pageTransitionsTheme: const PageTransitionsTheme(
       builders: {
         TargetPlatform.android: PredictiveBackPageTransitionsBuilder(),
-        TargetPlatform.iOS: ZoomPageTransitionsBuilder(),
+        TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
       },
     ),
     appBarTheme: AppBarTheme(
@@ -136,11 +152,25 @@ class CollectionTile extends StatelessWidget {
     final colors = Theme.of(context).colorScheme;
     return Semantics(
       selected: selected,
-      child: Card(
-        color: selected ? colors.primaryContainer : colors.surface,
+      button: true,
+      child: AnimatedContainer(
+        duration: commerceMotion(context, milliseconds: 220),
+        curve: Curves.easeOutCubic,
+        decoration: BoxDecoration(
+          color: selected ? colors.primaryContainer : colors.surface,
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(
+            color: selected
+                ? colors.primary.withValues(alpha: .5)
+                : colors.outlineVariant.withValues(alpha: .55),
+          ),
+        ),
         clipBehavior: Clip.antiAlias,
         child: InkWell(
-          onTap: onTap,
+          onTap: () {
+            commerceSelectionFeedback();
+            onTap();
+          },
           child: Padding(
             padding: const EdgeInsets.all(18),
             child: Row(
@@ -290,6 +320,96 @@ class CollectionIntro extends StatelessWidget {
           ],
         ),
       ],
+    ),
+  );
+}
+
+class CommerceLoadingCard extends StatefulWidget {
+  const CommerceLoadingCard({super.key});
+
+  @override
+  State<CommerceLoadingCard> createState() => _CommerceLoadingCardState();
+}
+
+class _CommerceLoadingCardState extends State<CommerceLoadingCard>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1200),
+      lowerBound: .45,
+      upperBound: .85,
+    )..repeat(reverse: true);
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+    final reduceMotion = MediaQuery.disableAnimationsOf(context);
+    final placeholder = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              color: colors.surfaceContainerHighest,
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(24),
+              ),
+            ),
+            child: const SizedBox.expand(),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(14),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _SkeletonLine(widthFactor: .82, color: colors.outlineVariant),
+              const SizedBox(height: 12),
+              _SkeletonLine(widthFactor: .46, color: colors.outlineVariant),
+              const SizedBox(height: 10),
+              _SkeletonLine(widthFactor: .64, color: colors.outlineVariant),
+            ],
+          ),
+        ),
+      ],
+    );
+    return ExcludeSemantics(
+      child: Card(
+        clipBehavior: Clip.antiAlias,
+        child: reduceMotion
+            ? Opacity(opacity: .65, child: placeholder)
+            : FadeTransition(opacity: controller, child: placeholder),
+      ),
+    );
+  }
+}
+
+class _SkeletonLine extends StatelessWidget {
+  const _SkeletonLine({required this.widthFactor, required this.color});
+  final double widthFactor;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) => FractionallySizedBox(
+    widthFactor: widthFactor,
+    child: DecoratedBox(
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(999),
+      ),
+      child: const SizedBox(height: 13),
     ),
   );
 }

@@ -5,6 +5,45 @@ import 'package:mdh_mobile/main.dart';
 import 'package:mdh_mobile/store.dart';
 
 void main() {
+  testWidgets('Preferência de reduzir movimento zera transições', (
+    tester,
+  ) async {
+    late Duration duration;
+    await tester.pumpWidget(
+      MaterialApp(
+        home: MediaQuery(
+          data: const MediaQueryData(disableAnimations: true),
+          child: Builder(
+            builder: (context) {
+              duration = commerceMotion(context, milliseconds: 420);
+              return const SizedBox();
+            },
+          ),
+        ),
+      ),
+    );
+    expect(duration, Duration.zero);
+  });
+
+  testWidgets('Skeleton respeita reduzir movimento sem animação infinita', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        home: MediaQuery(
+          data: const MediaQueryData(disableAnimations: true),
+          child: const SizedBox(
+            width: 280,
+            height: 396,
+            child: CommerceLoadingCard(),
+          ),
+        ),
+      ),
+    );
+    expect(find.byType(CommerceLoadingCard), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
   testWidgets('Fallback compacto de mídia não quebra cards estreitos', (
     tester,
   ) async {
