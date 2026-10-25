@@ -8,6 +8,8 @@ function fixture({
   disabled = false,
   verified = true,
   query,
+  paymentProvider = null,
+  paymentSettings = null,
 } = {}) {
   const calls = [];
   const db = {
@@ -28,6 +30,8 @@ function fixture({
       return { uid: "alice", email: "a@example.com", email_verified: verified };
     },
     logger: { error() {} },
+    paymentProvider,
+    paymentSettings,
   });
   return { app, calls };
 }
@@ -289,6 +293,30 @@ test("checkout fails closed and public capabilities do not imply production paym
     assert.equal(caps.payments, false);
     assert.equal(caps.existingWebsiteAccountsLinked, false);
   });
+});
+test("configured checkout advertises capability but still requires strict idempotency", async () => {
+  const paymentProvider = { create: async () => assert.fail("must not call provider"), get: async () => assert.fail("must not call provider") };
+  const paymentSettings = { collectorId: "999", liveMode: false, webhookSecret: "test-webhook-secret" };
+  const f = fixture({ paymentProvider, paymentSettings });
+  await run(f, async (url) => {
+    const caps = await (await fetch(url + "/api/capabilities")).json();
+    assert.equal(caps.checkout, true);
+    assert.equal(caps.payments, true);
+    const order = await fetch(url + "/api/orders", {
+      method: "POST",
+      headers: { ...auth, "Content-Type": "application/json" },
+      body: JSON.stringify({ addressId: ID }),
+    });
+    assert.equal(order.status, 400);
+    assert.deepEqual(await order.json(), { error: "invalid_idempotency_key" });
+    const webhook = await fetch(url + "/api/webhooks/mercadopago?data.id=123", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "x-request-id": "request-1", "x-signature": "invalid" },
+      body: JSON.stringify({ data: { id: "123" } }),
+    });
+    assert.equal(webhook.status, 401);
+  });
+  assert(!f.calls.some(({ sql }) => sql === "BEGIN ISOLATION LEVEL SERIALIZABLE"));
 });
 test("seller creation assigns authenticated owner and records transaction audit", async () => {
   const payload = {

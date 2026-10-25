@@ -3,6 +3,14 @@ import helmet from "helmet";
 import { rateLimit } from "express-rate-limit";
 import { randomUUID } from "node:crypto";
 import { z } from "zod";
+import {
+  CheckoutError,
+  createOrder,
+  createPixPayment,
+  reconcileMercadoPagoPayment,
+  requireIdempotencyKey,
+} from "./checkout.js";
+import { PaymentProviderError, verifyWebhook } from "./mercado-pago.js";
 const uuid = z.string().uuid();
 const https = z
   .string()
@@ -45,6 +53,8 @@ export function createApp({
   verifyToken,
   allowedOrigin = "",
   logger = console,
+  paymentProvider = null,
+  paymentSettings = null,
 }) {
   const app = express();
   app.disable("x-powered-by");
@@ -56,7 +66,7 @@ export function createApp({
       res
         .set("Access-Control-Allow-Origin", allowedOrigin)
         .set("Vary", "Origin")
-        .set("Access-Control-Allow-Headers", "Authorization,Content-Type")
+        .set("Access-Control-Allow-Headers", "Authorization,Content-Type,Idempotency-Key")
         .set(
           "Access-Control-Allow-Methods",
           "GET,POST,PUT,PATCH,DELETE,OPTIONS",
@@ -84,8 +94,8 @@ export function createApp({
       cart: true,
       addresses: true,
       orders: true,
-      checkout: false,
-      payments: false,
+      checkout: Boolean(paymentProvider && paymentSettings),
+      payments: Boolean(paymentProvider && paymentSettings),
       chat: false,
       reviews: false,
       shipping: false,
@@ -162,6 +172,24 @@ export function createApp({
     );
     if (!result.rows[0]) return res.status(404).json({ error: "not_found" });
     res.json(result.rows[0]);
+  });
+  app.post("/api/webhooks/mercadopago", async (req, res) => {
+    if (!paymentProvider || !paymentSettings?.webhookSecret)
+      return res.status(503).json({ error: "payments_not_configured" });
+    const dataId = req.query["data.id"];
+    const verified = verifyWebhook({
+      signature: req.headers["x-signature"],
+      requestId: req.headers["x-request-id"],
+      dataId,
+      secret: paymentSettings.webhookSecret,
+    });
+    await reconcileMercadoPagoPayment({
+      db,
+      provider: paymentProvider,
+      paymentData: verified.dataId,
+      requestId: verified.requestId,
+    });
+    res.sendStatus(204);
   });
   app.use("/api", async (req, res, next) => {
     const match = /^Bearer (\S+)$/.exec(req.headers.authorization || "");
@@ -322,12 +350,49 @@ export function createApp({
       ).rows,
     }),
   );
-  app.post("/api/orders", (req, res) =>
-    res.status(503).json({ error: "checkout_not_configured" }),
-  );
-  app.use("/api/payments", (req, res) =>
-    res.status(503).json({ error: "payments_not_configured" }),
-  );
+  app.post("/api/orders", async (req, res) => {
+    if (!paymentProvider || !paymentSettings)
+      return res.status(503).json({ error: "payments_not_configured" });
+    const input = z.object({ addressId: uuid }).strict().parse(req.body);
+    const idempotencyKey = requireIdempotencyKey(req.headers["idempotency-key"]);
+    const result = await createOrder({
+      db,
+      userId: req.user.id,
+      addressId: input.addressId,
+      idempotencyKey,
+    });
+    res.status(result.replayed ? 200 : 201).json(result);
+  });
+  app.post("/api/payments/pix", async (req, res) => {
+    if (!paymentProvider || !paymentSettings)
+      return res.status(503).json({ error: "payments_not_configured" });
+    const input = z.object({ orderId: uuid }).strict().parse(req.body);
+    const idempotencyKey = requireIdempotencyKey(req.headers["idempotency-key"]);
+    const result = await createPixPayment({
+      db,
+      provider: paymentProvider,
+      settings: paymentSettings,
+      userId: req.user.id,
+      email: req.user.email,
+      orderId: input.orderId,
+      idempotencyKey,
+    });
+    res.status(result.replayed ? 200 : 201).json(result);
+  });
+  app.get("/api/payments/:id", async (req, res) => {
+    const id = uuid.parse(req.params.id);
+    const payment = (
+      await db.query(
+        `SELECT id,order_id AS "orderId",status,provider_status AS "providerStatus",
+                amount_cents::float8 AS "amountCents",qr_code AS "qrCode",
+                qr_code_base64 AS "qrCodeBase64",expires_at AS "expiresAt",created_at AS "createdAt"
+         FROM mdh_marketplace.payments WHERE id=$1 AND user_id=$2`,
+        [id, req.user.id],
+      )
+    ).rows[0];
+    if (!payment) return res.status(404).json({ error: "not_found" });
+    res.json(payment);
+  });
   app.get("/api/seller/products", async (req, res) => {
     if (!["seller", "admin"].includes(req.user.role))
       return res.status(403).json({ error: "seller_required" });
@@ -427,6 +492,8 @@ export function createApp({
           error: "invalid_input",
           fields: error.issues.map((i) => i.path.join(".")),
         });
+    if (error instanceof CheckoutError || error instanceof PaymentProviderError)
+      return res.status(error.status || 500).json({ error: error.code.toLowerCase() });
     if (error.code === "23503")
       return res.status(400).json({ error: "invalid_reference" });
     if (error.type === "entity.too.large")

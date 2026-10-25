@@ -1,9 +1,9 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "MDH mobile API foundation",
-    "version": "0.1.0",
-    "description": "Checkout disabled. Isolated schema; existing website accounts not linked."
+    "title": "MDH mobile marketplace API",
+    "version": "0.2.0",
+    "description": "Transactional checkout and Mercado Pago Pix. Isolated schema; existing website accounts are not linked."
   },
   "servers": [
     {
@@ -598,13 +598,19 @@
         }
       },
       "post": {
-        "summary": "Order creation deliberately disabled",
+        "summary": "Create an order transactionally from the authenticated cart",
         "security": [
           {
             "bearer": []
           }
         ],
         "responses": {
+          "201": {
+            "description": "Order created; stock reserved and cart cleared"
+          },
+          "200": {
+            "description": "Idempotent replay of the existing order"
+          },
           "400": {
             "description": "Invalid input"
           },
@@ -618,20 +624,49 @@
             "description": "Sanitized internal error"
           },
           "503": {
-            "description": "Intentionally unavailable until production prerequisites"
+            "description": "Mercado Pago configuration is absent or incomplete"
+          }
+        },
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "pattern": "^[a-zA-Z0-9_-]{16,100}$" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["addressId"],
+                "properties": {
+                  "addressId": { "type": "string", "format": "uuid" }
+                }
+              }
+            }
           }
         }
       }
     },
     "/api/payments/pix": {
       "post": {
-        "summary": "Pix route deliberately disabled",
+        "summary": "Create a durable Mercado Pago Pix payment for an owned pending order",
         "security": [
           {
             "bearer": []
           }
         ],
         "responses": {
+          "201": {
+            "description": "Pix created at Mercado Pago and persisted"
+          },
+          "200": {
+            "description": "Idempotent replay of the existing Pix"
+          },
           "400": {
             "description": "Invalid input"
           },
@@ -645,8 +680,58 @@
             "description": "Sanitized internal error"
           },
           "503": {
-            "description": "Intentionally unavailable until production prerequisites"
+            "description": "Mercado Pago configuration is absent, incomplete or unavailable"
           }
+        },
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "pattern": "^[a-zA-Z0-9_-]{16,100}$" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["orderId"],
+                "properties": {
+                  "orderId": { "type": "string", "format": "uuid" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/payments/{id}": {
+      "get": {
+        "summary": "Read an owned persisted payment",
+        "security": [{ "bearer": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string", "format": "uuid" } }
+        ],
+        "responses": {
+          "200": { "description": "Persisted payment state" },
+          "401": { "description": "Authentication required or invalid" },
+          "404": { "description": "Payment not found or not owned" },
+          "500": { "description": "Sanitized internal error" }
+        }
+      }
+    },
+    "/api/webhooks/mercadopago": {
+      "post": {
+        "summary": "Verify Mercado Pago signature, fetch authoritative payment and reconcile state",
+        "security": [],
+        "responses": {
+          "204": { "description": "Webhook reconciled or safely ignored" },
+          "401": { "description": "Invalid, incomplete or expired signature" },
+          "409": { "description": "Provider payment does not match the persisted payment" },
+          "503": { "description": "Mercado Pago configuration is absent or incomplete" }
         }
       }
     },

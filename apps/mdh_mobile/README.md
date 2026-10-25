@@ -4,21 +4,22 @@ Cliente Flutter Material 3 com temas claro/escuro, layout limitado a 1200px em t
 
 ## Estado verificável
 
-Este módulo contém código-fonte e testes, **não um binário homologado ou app publicado**. Dart do SDK Flutter 3.35.4 foi instalado e `dart format lib test` passou (4 arquivos). A preparação do Flutter/dependências foi interrompida após bloqueio da revisão automática de acesso à rede; nenhuma tentativa de contornar esse bloqueio foi realizada. `flutter analyze`, `flutter test`, compilação Android e iOS permanecem obrigatórios e não são apresentados como executados. O formatter sinalizou dependência `flutter_lints` ainda não resolvida; formatação não comprova tipagem ou compilação. O carrinho/favoritos são locais, isolados por origem de API e UID Firebase. Persistência é JSON em SharedPreferences, exclusivamente dados de catálogo; não grava senhas ou tokens nesse armazenamento. O SDK Firebase gerencia a persistência da sessão autenticada segundo a plataforma; essa persistência deve ser incluída na revisão de privacidade e segurança. Checkout é desabilitado. Não existe pagamento, sincronização de carrinho ou cache offline de catálogo nesta versão. A conta permite consultar até 100 pedidos reais da API e consultar/cadastrar/excluir endereços, com token Firebase por requisição, validação de formulário e confirmação antes de excluir. E-mail verificado e permissões continuam sendo exigidos no servidor; nenhuma linha de pedido é simulada.
+Este módulo contém código-fonte e testes, **não um binário homologado ou app publicado**. O cliente de compra sincroniza a sacola autenticada, relê preços e disponibilidade do servidor, seleciona ou cadastra endereço, cria pedido com chave de idempotência, solicita Pix, apresenta QR/copia-e-cola, retoma pedido pendente e consulta o pagamento. A API declara `checkout:false` e `payments:false` quando o provedor ou suas configurações não estão ativos e responde HTTP 503; nesse estado a interface informa o bloqueio e não cria pedido fictício. A conta permite consultar até 100 pedidos reais e gerenciar endereços com token Firebase por requisição. E-mail verificado e permissões continuam sendo exigidos pelo servidor.
+
+A retomada grava em `SharedPreferences` somente IDs de endereço/pedido/pagamento e uma chave aleatória de idempotência, em chave escopada por origem e UID. Token Firebase, senha, endereço completo, código Pix e QR não são persistidos pelo módulo. A sessão continua sob responsabilidade do SDK Firebase da plataforma.
 
 ## Preparação e execução
 
 Requer Flutter stable com Dart >=3.9. No diretório do módulo:
 
 ```bash
-flutter create --platforms=android,ios --org br.com.mdh3d --project-name mdh_mobile .
 flutter pub get
 flutter analyze
 flutter test
 flutter run --dart-define=API_BASE_URL=https://api.seudominio.com
 ```
 
-O primeiro comando gera os projetos nativos padrão; não foi executado nesta entrega. Antes de executá-lo, mantenha este código versionado e revise o diff gerado. Configure permissão INTERNET no manifesto Android, rede HTTPS e políticas de privacidade. O visualizador usa WebView: valide carregamento de GLB real, Content Security Policy e CORS no storage. Nunca exponha arquivos de clientes publicamente.
+Os projetos nativos Android e iOS estão versionados. Configure rede HTTPS e políticas de privacidade. O visualizador usa WebView: valide carregamento de GLB real, Content Security Policy e CORS no storage. Nunca exponha arquivos de clientes publicamente.
 
 `API_BASE_URL` vazio abre tela de configuração; não se assume que o site atual tenha os endpoints novos. Aceita somente origem HTTPS sem credenciais, path, query ou fragmento. Em debug aceita HTTP exclusivamente localhost, 127.0.0.1 e 10.0.2.2; não distribuir essa configuração.
 
@@ -45,13 +46,16 @@ Email/senha, cadastro, recuperação e envio de verificação estão implementad
 - `GET /api/me` com token Firebase → perfil autorizado pelo servidor.
 - `GET /api/orders` → `{items}` com `id,status,totalCents,createdAt`, até 100 registros.
 - `GET /api/addresses` → `{items}`; `POST /api/addresses` cadastra; `DELETE /api/addresses/:id` exclui somente do proprietário autenticado.
-- Todas as operações têm timeout de 15 segundos incluindo o corpo da resposta; 401/403/404/503 recebem mensagens sem revelar o corpo interno. Testes MockClient cobrem serialização, token por requisição, erros HTTP e corpo inválido; são fonte ainda não executada neste ambiente.
+- `GET /api/cart`; `PUT /api/cart/items/:id`; `DELETE /api/cart/items/:id` sincronizam a sacola autenticada e devolvem totais recalculados.
+- `POST /api/orders` recebe `addressId` e `Idempotency-Key`; aceita pedido direto ou envelope `{order}`.
+- `POST /api/payments/pix` recebe `orderId` e chave idempotente própria; `GET /api/payments/:id` consulta o estado autoritativo. A resposta aceita pagamento direto ou envelope `{payment}` com `id`/`paymentId`, `status`, `qrCode`, `qrCodeBase64` e `expiresAt`.
+- Todas as operações têm timeout de 15 segundos incluindo o corpo da resposta; erros 400/401/403/404/409/422/503 recebem mensagens sem revelar o corpo interno. Testes MockClient cobrem serialização, token por requisição, idempotência, erros HTTP e corpo inválido.
 
-Sem resposta de rede válida, o app apresenta erro e retry, nunca catálogo vazio como falsa evidência de consulta bem-sucedida. Carrinho é estimativa; o servidor deve recalcular valores e estoque para qualquer pagamento futuro. Nenhuma chamada neste cliente cria pedidos.
+Sem resposta de rede válida, o app apresenta erro e retry, nunca catálogo vazio como falsa evidência de consulta bem-sucedida. A sacola local é apenas a intenção: o resumo do checkout sempre vem da releitura autenticada do servidor. O cliente só libera a criação quando `/api/capabilities` confirma carrinho, endereços, pedidos, checkout e pagamentos.
 
 ## Gates de lançamento
 
-Gerar e revisar scaffolds nativos, fixar `pubspec.lock` após `flutter pub get`, testar fonte e widget em SDK suportado, Android/iOS em dispositivos, acessibilidade e filtros; configurar Firebase/API reais; implementar checkout, privacidade/exclusão, notificações e operações obrigatórias. Só então:
+Em 25/10/2026, o projeto foi validado com Flutter 3.47.7/Dart 3.13.5: `flutter analyze` sem problemas e 22 testes aprovados. O target `ios/` foi gerado e revisado estruturalmente. A compilação Android produziu um AAB de 53,7 MB antes do bloqueio de assinatura; como não existe keystore privado neste computador, o Gradle agora falha fechado em qualquer nova tarefa release sem `android/key.properties`. A workflow manual `native-marketplace.yml` exige segredos, produz AAB assinado e compila iOS sem codesign em macOS. Publicação continua exigindo homologação em dispositivos, Firebase/API reais, privacidade/exclusão, notificações, Play Console, App Store Connect e credenciais dos proprietários.
 
 ```bash
 flutter build appbundle --release --dart-define=API_BASE_URL=https://api.seudominio.com

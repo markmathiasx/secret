@@ -11,6 +11,10 @@ val keystoreProperties = Properties()
 if (keystorePropertiesFile.exists()) {
     keystorePropertiesFile.inputStream().use(keystoreProperties::load)
 }
+val releaseRequested = gradle.startParameter.taskNames.any { it.contains("release", ignoreCase = true) }
+if (releaseRequested && !keystorePropertiesFile.exists()) {
+    throw GradleException("Release signing is required: configure android/key.properties and a private upload keystore.")
+}
 
 android {
     namespace = "br.com.mdh3d.mdh_mobile"
@@ -50,7 +54,9 @@ android {
 
     buildTypes {
         release {
-            signingConfig = signingConfigs.findByName("release")
+            if (keystorePropertiesFile.exists()) {
+                signingConfig = signingConfigs.getByName("release")
+            }
         }
     }
 }

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { randomUUID } from 'node:crypto';
+import { createHmac, randomUUID } from 'node:crypto';
 import { readdir, readFile } from 'node:fs/promises';
 import { once } from 'node:events';
 import pg from 'pg';
@@ -30,7 +30,29 @@ test('PostgreSQL: schema, own cart/address, seller price update and ownership bo
     await db.query("INSERT INTO mdh_marketplace.products(id,seller_id,category_id,title,price_cents,stock,image_url,published,availability_mode) VALUES($1,$2,$3,$4,1900,2,$5,true,'in_stock')",
       [productId, seller, categoryId, 'Peça de teste', 'https://example.test/original.jpg']);
     const ids = { alice, bob, seller };
-    const app = createApp({ db, verifyToken: async token => {
+    let providerCreates = 0;
+    let paidOrderId;
+    const paymentProvider = {
+      create: async ({ orderId, totalCents, idempotencyKey, expiresAt }) => {
+        providerCreates++;
+        paidOrderId = orderId;
+        assert.equal(totalCents, 4000);
+        assert.equal(idempotencyKey, 'payment-postgres-fixture-0001');
+        return { paymentId: '123456', status: 'pending', qrCode: 'pix-copy-paste', qrCodeBase64: null, expiresAt };
+      },
+      get: async paymentId => ({
+        id: paymentId,
+        external_reference: paidOrderId,
+        collector_id: 999,
+        transaction_amount: 40,
+        transaction_amount_refunded: 0,
+        currency_id: 'BRL',
+        live_mode: false,
+        status: 'approved',
+      }),
+    };
+    const paymentSettings = { collectorId: '999', liveMode: false, webhookSecret: 'postgres-test-webhook-secret' };
+    const app = createApp({ db, paymentProvider, paymentSettings, verifyToken: async token => {
       if (!ids[token]) throw Error('invalid');
       return { uid: ids[token] };
     }, logger: { error() {} } });
@@ -58,11 +80,50 @@ test('PostgreSQL: schema, own cart/address, seller price update and ownership bo
     assert.equal((await request(`/api/seller/products/${productId}`, 'seller', 'PUT', edit)).status, 200);
     assert.equal((await (await request('/api/cart', 'alice')).json()).totalCents, 4000);
     assert.equal((await db.query('SELECT count(*)::int AS count FROM mdh_marketplace.audit_log WHERE actor_id=$1', [seller])).rows[0].count, 1);
+    const checkoutKey = 'checkout-postgres-fixture-0001';
+    const checkout = await fetch(base + '/api/orders', {
+      method: 'POST',
+      headers: { Authorization: 'Bearer alice', 'Content-Type': 'application/json', 'Idempotency-Key': checkoutKey },
+      body: JSON.stringify({ addressId }),
+    });
+    assert.equal(checkout.status, 201);
+    const order = await checkout.json();
+    assert.equal(order.totalCents, 4000);
+    assert.equal((await db.query('SELECT stock FROM mdh_marketplace.products WHERE id=$1', [productId])).rows[0].stock, 0);
+    assert.equal((await db.query('SELECT count(*)::int AS count FROM mdh_marketplace.cart_items WHERE user_id=$1', [alice])).rows[0].count, 0);
+    assert.equal((await db.query('SELECT count(*)::int AS count FROM mdh_marketplace.order_items WHERE order_id=$1', [order.id])).rows[0].count, 1);
+    const checkoutReplay = await fetch(base + '/api/orders', {
+      method: 'POST',
+      headers: { Authorization: 'Bearer alice', 'Content-Type': 'application/json', 'Idempotency-Key': checkoutKey },
+      body: JSON.stringify({ addressId }),
+    });
+    assert.equal(checkoutReplay.status, 200);
+    assert.equal((await checkoutReplay.json()).id, order.id);
+    const paymentHeaders = { Authorization: 'Bearer alice', 'Content-Type': 'application/json', 'Idempotency-Key': 'payment-postgres-fixture-0001' };
+    const pix = await fetch(base + '/api/payments/pix', { method: 'POST', headers: paymentHeaders, body: JSON.stringify({ orderId: order.id }) });
+    assert.equal(pix.status, 201);
+    assert.equal((await pix.json()).qrCode, 'pix-copy-paste');
+    assert.equal((await fetch(base + '/api/payments/pix', { method: 'POST', headers: paymentHeaders, body: JSON.stringify({ orderId: order.id }) })).status, 200);
+    assert.equal(providerCreates, 1);
+    const timestamp = String(Date.now());
+    const requestId = `postgres-${suffix}`;
+    const digest = createHmac('sha256', paymentSettings.webhookSecret)
+      .update(`id:123456;request-id:${requestId};ts:${timestamp};`).digest('hex');
+    const webhook = await fetch(base + '/api/webhooks/mercadopago?data.id=123456', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-request-id': requestId, 'x-signature': `ts=${timestamp},v1=${digest}` },
+      body: JSON.stringify({ data: { id: '123456' } }),
+    });
+    assert.equal(webhook.status, 204);
+    assert.equal((await db.query('SELECT status FROM mdh_marketplace.orders WHERE id=$1', [order.id])).rows[0].status, 'paid');
     await db.query('UPDATE mdh_marketplace.users SET disabled=true WHERE id=$1', [alice]);
     assert.equal((await request('/api/cart', 'alice')).status, 403);
-    assert.equal((await request('/api/orders', 'bob', 'POST')).status, 503);
   } finally {
     if (server) { server.close(); await once(server, 'close'); }
+    await db.query("DELETE FROM mdh_marketplace.payment_webhook_events WHERE request_id LIKE 'postgres-%'");
+    await db.query('DELETE FROM mdh_marketplace.payments WHERE user_id = ANY($1)', [[alice, bob]]);
+    await db.query('DELETE FROM mdh_marketplace.order_items WHERE order_id IN (SELECT id FROM mdh_marketplace.orders WHERE user_id = ANY($1))', [[alice, bob]]);
+    await db.query('DELETE FROM mdh_marketplace.orders WHERE user_id = ANY($1)', [[alice, bob]]);
     await db.query('DELETE FROM mdh_marketplace.audit_log WHERE actor_id = ANY($1)', [[alice, bob, seller]]);
     await db.query('DELETE FROM mdh_marketplace.cart_items WHERE user_id = ANY($1)', [[alice, bob, seller]]);
     await db.query('DELETE FROM mdh_marketplace.addresses WHERE user_id = ANY($1)', [[alice, bob, seller]]);

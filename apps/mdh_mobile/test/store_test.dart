@@ -85,6 +85,30 @@ void main() {
       }
     },
   );
+  test('Erro preserva código público sem expor corpo interno', () async {
+    final api = StoreApi(
+      Uri.parse('https://api.example.com'),
+      client: MockClient(
+        (_) async => http.Response(
+          '{"error":"checkout_not_configured","secret":"não vazar"}',
+          503,
+        ),
+      ),
+    );
+    await expectLater(
+      api.send('POST', '/api/orders'),
+      throwsA(
+        isA<StoreApiException>()
+            .having((error) => error.code, 'code', 'checkout_not_configured')
+            .having(
+              (error) => error.message,
+              'mensagem',
+              'O checkout ainda não foi habilitado pelo servidor.',
+            ),
+      ),
+    );
+    api.close();
+  });
 
   test('Origem de API não aceita credenciais, caminhos ou HTTP público', () {
     expect(apiOrigin(''), isNull);

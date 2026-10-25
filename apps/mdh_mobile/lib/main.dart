@@ -8,6 +8,7 @@ import 'package:model_viewer_plus/model_viewer_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'store.dart';
 import 'commerce_ui.dart';
+import 'checkout_screen.dart';
 
 const apiBase = String.fromEnvironment('API_BASE_URL');
 const firebaseKey = String.fromEnvironment('FIREBASE_API_KEY');
@@ -786,6 +787,35 @@ class _StoreScreenState extends State<StoreScreen> {
       ),
     ),
   );
+  Future<void> openCheckout() async {
+    final user = widget.authReady ? FirebaseAuth.instance.currentUser : null;
+    if (user == null) {
+      setState(() => tab = 3);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Entre na sua conta para sincronizar e comprar.'),
+        ),
+      );
+      return;
+    }
+    await Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (_) => CheckoutScreen(
+          origin: widget.origin,
+          userId: user.uid,
+          api: api,
+          tokenProvider: () => user.getIdToken(true),
+          localCart: Map<String, int>.from(cart),
+          onOrderCreated: () {
+            if (!mounted) return;
+            setState(() => cart.clear());
+            persist();
+          },
+        ),
+      ),
+    );
+  }
+
   Widget bag() {
     final entries = cart.entries
         .where((e) => saved.containsKey(e.key))
@@ -805,26 +835,84 @@ class _StoreScreenState extends State<StoreScreen> {
         if (entries.isEmpty) const Text('Sua sacola está vazia.'),
         for (final e in entries)
           Card(
-            child: ListTile(
-              leading: SizedBox(
-                width: 52,
-                height: 52,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: productImage(saved[e.key]!, fit: BoxFit.cover),
-                ),
-              ),
-              title: Text(saved[e.key]!.title),
-              subtitle: Text(
-                '${saved[e.key]!.availabilityLabel} • ${e.value} × ${money(saved[e.key]!.priceCents)}',
-              ),
-              trailing: IconButton(
-                tooltip: 'Remover produto',
-                icon: const Icon(Icons.delete_outline),
-                onPressed: () {
-                  setState(() => cart.remove(e.key));
-                  persist();
-                },
+            child: Padding(
+              padding: const EdgeInsets.all(12),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 58,
+                        height: 58,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: productImage(saved[e.key]!, fit: BoxFit.cover),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              saved[e.key]!.title,
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
+                            Text(
+                              '${saved[e.key]!.availabilityLabel} • ${money(saved[e.key]!.priceCents)}',
+                            ),
+                          ],
+                        ),
+                      ),
+                      IconButton(
+                        tooltip: 'Remover produto',
+                        icon: const Icon(Icons.delete_outline),
+                        onPressed: () {
+                          setState(() => cart.remove(e.key));
+                          persist();
+                        },
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      const Text('Quantidade'),
+                      IconButton(
+                        tooltip: 'Diminuir quantidade',
+                        icon: const Icon(Icons.remove_circle_outline),
+                        onPressed: () {
+                          setState(() {
+                            if (e.value <= 1) {
+                              cart.remove(e.key);
+                            } else {
+                              cart[e.key] = e.value - 1;
+                            }
+                          });
+                          persist();
+                        },
+                      ),
+                      Semantics(
+                        liveRegion: true,
+                        label: 'Quantidade ${e.value}',
+                        child: Text('${e.value}'),
+                      ),
+                      IconButton(
+                        tooltip: 'Aumentar quantidade',
+                        icon: const Icon(Icons.add_circle_outline),
+                        onPressed:
+                            saved[e.key]!.availabilityMode == 'in_stock' &&
+                                e.value >= saved[e.key]!.stock
+                            ? null
+                            : () {
+                                setState(() => cart[e.key] = e.value + 1);
+                                persist();
+                              },
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
           ),
@@ -834,12 +922,13 @@ class _StoreScreenState extends State<StoreScreen> {
           style: Theme.of(context).textTheme.titleLarge,
         ),
         const SizedBox(height: 12),
-        const FilledButton(
-          onPressed: null,
-          child: Text('Pagamento ainda não habilitado'),
+        FilledButton.icon(
+          onPressed: entries.isEmpty ? null : openCheckout,
+          icon: const Icon(Icons.lock_outline_rounded),
+          label: const Text('Finalizar compra com segurança'),
         ),
         const Text(
-          'Frete, cupons e pagamento não estão disponíveis nesta versão. Nenhum pedido é criado aqui.',
+          'Ao continuar, a API revalida preço, disponibilidade e sua sessão antes de criar qualquer pedido.',
         ),
       ],
     );
@@ -1488,7 +1577,7 @@ class _AccountScreenState extends State<AccountScreen> {
               ListTile(
                 title: Text('Pedido ${order['id']}'),
                 subtitle: Text(
-                  'Status: ${order['status']}\n${order['createdAt']}',
+                  'Status: ${orderStatusLabel(order['status'] as String)}\n${order['createdAt']}',
                 ),
                 trailing: Text(
                   money(boundedInteger(order['totalCents'], 'totalCents')),

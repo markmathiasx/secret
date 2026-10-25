@@ -137,11 +137,14 @@ class StoreApi {
     Map<String, String>? query,
     String? token,
     Map<String, dynamic>? body,
+    String? idempotencyKey,
   }) async {
     if (!['GET', 'POST', 'PUT', 'PATCH', 'DELETE'].contains(method) ||
         !path.startsWith('/api/') ||
         path.contains('?') ||
-        path.contains('#')) {
+        path.contains('#') ||
+        (idempotencyKey != null &&
+            !RegExp(r'^[a-zA-Z0-9_-]{16,100}$').hasMatch(idempotencyKey))) {
       throw ArgumentError('Requisição inválida.');
     }
     final request = http.Request(
@@ -152,6 +155,9 @@ class StoreApi {
       'Accept': 'application/json',
       if (token != null) 'Authorization': 'Bearer $token',
       if (body != null) 'Content-Type': 'application/json',
+      ...idempotencyKey == null
+          ? const <String, String>{}
+          : <String, String>{'Idempotency-Key': idempotencyKey},
     });
     if (body != null) request.body = jsonEncode(body);
     final response = await (() async {
@@ -159,7 +165,14 @@ class StoreApi {
       return http.Response.fromStream(streamed);
     })().timeout(const Duration(seconds: 15));
     if (response.statusCode < 200 || response.statusCode >= 300) {
-      throw StoreApiException(response.statusCode);
+      String? code;
+      try {
+        final decoded = jsonDecode(response.body);
+        if (decoded is Map<String, dynamic> && decoded['error'] is String) {
+          code = decoded['error'] as String;
+        }
+      } catch (_) {}
+      throw StoreApiException(response.statusCode, code: code);
     }
     if (response.statusCode == 204) return <String, dynamic>{};
     final decoded = jsonDecode(response.body);
@@ -173,15 +186,39 @@ class StoreApi {
 }
 
 class StoreApiException implements Exception {
-  const StoreApiException(this.statusCode);
+  const StoreApiException(this.statusCode, {this.code});
   final int statusCode;
+  final String? code;
   String get message => switch (statusCode) {
     401 => 'Sessão expirada. Entre novamente.',
     403 =>
       'Acesso não autorizado. Verifique seu e-mail e a permissão da conta.',
     404 => 'Registro não encontrado. Atualize os dados.',
+    422 =>
+      code == 'payment_email_required'
+          ? 'Confirme um e-mail válido na sua conta antes de pagar.'
+          : 'Confira os dados necessários para continuar.',
+    409 => switch (code) {
+      'product_unavailable' =>
+        'Um item ficou indisponível. Revise a sacola antes de continuar.',
+      'cart_limit' => 'Sua sacola atingiu o limite de itens diferentes.',
+      'cart_empty' => 'Sua sacola está vazia no servidor.',
+      'order_expired' => 'Este pedido expirou. Atualize para recomeçar.',
+      'order_not_payable' => 'Este pedido não aceita um novo pagamento.',
+      'payment_already_exists' =>
+        'Já existe um pagamento ativo para este pedido.',
+      'idempotency_conflict' =>
+        'A tentativa segura conflitou com dados anteriores. Atualize a tela.',
+      _ => 'Os dados mudaram. Atualize e tente novamente.',
+    },
     400 => 'Confira os dados informados.',
-    503 => 'Serviço ainda indisponível. Tente novamente mais tarde.',
+    503 => switch (code) {
+      'checkout_not_configured' =>
+        'O checkout ainda não foi habilitado pelo servidor.',
+      'payments_not_configured' =>
+        'O pagamento ainda não foi habilitado pelo servidor.',
+      _ => 'Serviço ainda indisponível. Tente novamente mais tarde.',
+    },
     _ => 'Não foi possível concluir a solicitação ($statusCode).',
   };
   @override
