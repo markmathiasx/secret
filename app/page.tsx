@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { ArrowRight, Box, Clock3, Instagram, MessageCircleMore, UploadCloud } from "lucide-react";
+import { ArrowRight, Box, Camera, Clock3, MessageCircleMore, UploadCloud } from "lucide-react";
 import { HowItWorksSection } from "@/components/commerce/HowItWorksSection";
 import { TrustProofSection } from "@/components/commerce/TrustProofSection";
 import { HomeCategoriesShowcase } from "@/components/home-categories-showcase";
@@ -207,7 +207,7 @@ export default async function HomePage() {
       <HowItWorksSection />
       <TrustProofSection />
       <section className="experience-container py-12">
-        <div className="experience-section-heading"><div><p className="section-kicker">Por trás de cada camada</p><h2>Conheça quem faz.</h2><p>Peças, processos e novidades da MDH. Veja nosso trabalho e converse com a equipe pelo Instagram.</p></div><a href={socialLinks.instagram} target="_blank" rel="noopener noreferrer" className="btn-secondary gap-2"><Instagram size={18} />@{brand.instagramHandle}</a></div>
+        <div className="experience-section-heading"><div><p className="section-kicker">Por trás de cada camada</p><h2>Conheça quem faz.</h2><p>Peças, processos e novidades da MDH. Veja nosso trabalho e converse com a equipe pelo Instagram.</p></div><a href={socialLinks.instagram} target="_blank" rel="noopener noreferrer" className="btn-secondary gap-2"><Camera size={18} />@{brand.instagramHandle}</a></div>
       </section>
       <section className="experience-container experience-faq">
         <div><p className="section-kicker">Pode perguntar</p><h2>Escolher bem começa sem dúvidas.</h2><p>Você não precisa entender de impressão 3D. Conte o que procura e ajudamos a encontrar uma opção.</p><Link href="/atendimento" className="btn-secondary">Atendimento humano <ArrowRight size={16} className="ml-2" /></Link></div>

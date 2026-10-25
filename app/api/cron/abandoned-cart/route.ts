@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { timingSafeEqual } from "node:crypto";
 import { canConnectToDatabase, prisma } from "@/lib/prisma";
 import { sendAbandonedCartEmail, sendAbandonedCartNotification } from "@/lib/notifications-service";
 import { logStructured } from "@/lib/logger";
@@ -6,15 +7,20 @@ import { logStructured } from "@/lib/logger";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-function isAuthorized(request: Request) {
-  const expected = (process.env.CRON_SECRET || "").trim();
-  if (!expected) return true;
+function secretsMatch(received: string | null, expected: string) {
+  if (!received) return false;
+  const receivedBuffer = Buffer.from(received);
+  const expectedBuffer = Buffer.from(expected);
+  return receivedBuffer.length === expectedBuffer.length && timingSafeEqual(receivedBuffer, expectedBuffer);
+}
 
+function isAuthorized(request: Request, expected: string) {
   const url = new URL(request.url);
   const queryToken = url.searchParams.get("token");
   const headerToken = request.headers.get("x-cron-secret");
   const authHeader = request.headers.get("authorization");
-  return queryToken === expected || headerToken === expected || authHeader === `Bearer ${expected}`;
+  const bearerToken = authHeader?.startsWith("Bearer ") ? authHeader.slice(7).trim() : null;
+  return [queryToken, headerToken, bearerToken].some((token) => secretsMatch(token, expected));
 }
 
 /**
@@ -23,7 +29,13 @@ function isAuthorized(request: Request) {
  * Schedule: every 2 hours via Vercel Cron / external cron service.
  */
 export async function GET(request: Request) {
-  if (!isAuthorized(request)) {
+  const cronSecret = (process.env.CRON_SECRET || "").trim();
+  if (!cronSecret) {
+    logStructured("error", "abandoned_cart_cron_misconfigured", { reason: "missing_cron_secret" });
+    return NextResponse.json({ ok: false, error: "Cron unavailable" }, { status: 503 });
+  }
+
+  if (!isAuthorized(request, cronSecret)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-27T10:02:45.640Z",
+  "generatedAt": "2026-10-25T05:22:00.603Z",
   "ok": true,
   "headers": [
     {
@@ -256,6 +256,11 @@
     },
     {
       "file": "app/api/admin/products/[id]/route.ts",
+      "protected": true,
+      "mutates": true
+    },
+    {
+      "file": "app/api/admin/returns/route.ts",
       "protected": true,
       "mutates": true
     },
@@ -698,6 +703,19 @@
       "methods": [
         "PUT",
         "DELETE"
+      ],
+      "readsBody": true,
+      "readsQuery": true,
+      "protectedAdmin": true,
+      "hasValidation": true,
+      "hasRateLimit": false
+    },
+    {
+      "file": "app/api/admin/returns/route.ts",
+      "sensitive": true,
+      "methods": [
+        "GET",
+        "PATCH"
       ],
       "readsBody": true,
       "readsQuery": true,

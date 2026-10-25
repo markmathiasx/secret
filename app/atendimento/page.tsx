@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Clock, Instagram, Mail, MessageCircleMore, PackageSearch, ShieldCheck, Truck } from "lucide-react";
+import { Camera, Clock, Mail, MessageCircleMore, PackageSearch, ShieldCheck, Truck } from "lucide-react";
 import { MDHSupportChat } from "@/components/support/MDHSupportChat";
 import { brand, socialLinks, whatsappNumber, supportEmail } from "@/lib/constants";
 import { buildSupportCatalogIndex, getSupportCatalogStats } from "@/lib/support/catalog-support-index";
@@ -24,7 +24,7 @@ const contactCards = [
     title: "Instagram oficial",
     value: `@${brand.instagramHandle}`,
     detail: "Canal social oficial para acompanhar novidades e falar com a MDH 3D.",
-    icon: Instagram,
+    icon: Camera,
     href: socialLinks.instagram,
   },
   {

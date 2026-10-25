@@ -5,7 +5,7 @@ import { requireLocalAgentAuth } from "@/src/lib/platform/security/local-agent-a
 
 const schema = z.object({
   ok: z.boolean(),
-  result: z.record(z.unknown()).default({}),
+  result: z.record(z.string(), z.unknown()).default({}),
   error: z.string().optional(),
 });
 

@@ -4,14 +4,25 @@
  */
 
 import 'server-only';
+import type { Prisma } from '@prisma/client';
 import { prisma } from './prisma';
 import nodemailer from 'nodemailer';
 import { getSiteUrl } from '@/lib/env';
 import { sendWhatsAppText } from "@/lib/meta/whatsapp";
 import { formatCurrency } from "@/lib/utils";
+import { logStructured } from '@/lib/logger';
 
-export type NotificationChannel = 'EMAIL' | 'IN_APP' | 'PUSH' | 'SMS' | 'WHATSAPP';
+export type NotificationChannel = 'EMAIL' | 'IN_APP' | 'PUSH' | 'WHATSAPP';
 export type NotificationType = 'order_confirmed' | 'shipment_update' | 'product_available' | 'price_drop' | 'review_request' | 'abandoned_cart' | 'promotion' | 'message';
+
+export interface NotificationPreferences {
+  email_marketing: boolean;
+  email_orders: boolean;
+  push_enabled: boolean;
+  sms_enabled: boolean;
+  whatsapp_enabled: boolean;
+  digest_frequency: 'instant' | 'daily' | 'weekly' | 'never';
+}
 
 export interface NotificationPayload {
   type: NotificationType;
@@ -19,7 +30,7 @@ export interface NotificationPayload {
   title: string;
   message: string;
   channels: NotificationChannel[];
-  data?: Record<string, any>;
+  data?: Record<string, unknown>;
   urgency?: 'low' | 'normal' | 'high';
   expire_at?: Date;
 }
@@ -27,38 +38,139 @@ export interface NotificationPayload {
 /**
  * Send multi-channel notification
  */
-export async function sendNotification(payload: NotificationPayload): Promise<boolean> {
+const DEFAULT_NOTIFICATION_PREFERENCES: NotificationPreferences = {
+  email_marketing: true,
+  email_orders: true,
+  push_enabled: true,
+  sms_enabled: false,
+  whatsapp_enabled: false,
+  digest_frequency: 'daily',
+};
+
+const MARKETING_NOTIFICATION_TYPES = new Set<NotificationType>([
+  'product_available',
+  'price_drop',
+  'abandoned_cart',
+  'promotion',
+]);
+
+function asRecord(value: unknown): Record<string, unknown> {
+  return value !== null && typeof value === 'object' && !Array.isArray(value)
+    ? value as Record<string, unknown>
+    : {};
+}
+
+function normalizeNotificationPreferences(value: unknown): NotificationPreferences {
+  const root = asRecord(value);
+  const stored = asRecord(root.notificationPreferences ?? root);
+  const digest = stored.digest_frequency;
+
+  return {
+    email_marketing: typeof stored.email_marketing === 'boolean' ? stored.email_marketing : DEFAULT_NOTIFICATION_PREFERENCES.email_marketing,
+    email_orders: typeof stored.email_orders === 'boolean' ? stored.email_orders : DEFAULT_NOTIFICATION_PREFERENCES.email_orders,
+    push_enabled: typeof stored.push_enabled === 'boolean' ? stored.push_enabled : DEFAULT_NOTIFICATION_PREFERENCES.push_enabled,
+    sms_enabled: typeof stored.sms_enabled === 'boolean' ? stored.sms_enabled : DEFAULT_NOTIFICATION_PREFERENCES.sms_enabled,
+    whatsapp_enabled: typeof stored.whatsapp_enabled === 'boolean' ? stored.whatsapp_enabled : DEFAULT_NOTIFICATION_PREFERENCES.whatsapp_enabled,
+    digest_frequency: digest === 'instant' || digest === 'daily' || digest === 'weekly' || digest === 'never'
+      ? digest
+      : DEFAULT_NOTIFICATION_PREFERENCES.digest_frequency,
+  };
+}
+
+function sanitizeNotificationPreferencePatch(preferences: Partial<NotificationPreferences>) {
+  const patch: Partial<NotificationPreferences> = {};
+  const booleanKeys = [
+    'email_marketing',
+    'email_orders',
+    'push_enabled',
+    'sms_enabled',
+    'whatsapp_enabled',
+  ] as const;
+
+  for (const key of booleanKeys) {
+    if (typeof preferences[key] === 'boolean') patch[key] = preferences[key];
+  }
+
+  const digest = preferences.digest_frequency;
+  if (digest === 'instant' || digest === 'daily' || digest === 'weekly' || digest === 'never') {
+    patch.digest_frequency = digest;
+  }
+
+  return patch;
+}
+
+function channelAllowed(
+  channel: NotificationChannel,
+  type: NotificationType,
+  preferences: NotificationPreferences,
+) {
+  if (channel === 'EMAIL') {
+    return MARKETING_NOTIFICATION_TYPES.has(type) ? preferences.email_marketing : preferences.email_orders;
+  }
+  if (channel === 'PUSH') return preferences.push_enabled;
+  if (channel === 'WHATSAPP') return preferences.whatsapp_enabled;
+  return true;
+}
+
+async function persistDeliveryResult(
+  payload: NotificationPayload,
+  channel: 'EMAIL' | 'PUSH',
+  delivered: boolean,
+) {
   try {
-    // Store in database
-    const notification = await prisma.notification.create({
+    await prisma.notification.create({
       data: {
         userId: payload.user_id,
-        channel: payload.channels[0] as any || 'EMAIL',
+        channel,
         title: payload.title,
         body: payload.message,
-        payload: payload.data || {},
-        status: 'PENDING'
+        linkUrl: typeof payload.data?.url === 'string' ? payload.data.url : undefined,
+        payload: (payload.data || {}) as Prisma.InputJsonValue,
+        status: delivered ? 'SENT' : 'FAILED',
+        sentAt: delivered ? new Date() : undefined,
+      },
+    });
+  } catch (error) {
+    logStructured('warn', 'notification_delivery_persistence_failed', {
+      userId: payload.user_id,
+      channel,
+      message: error instanceof Error ? error.message : 'unknown',
+    });
+  }
+}
+
+export async function sendNotification(payload: NotificationPayload): Promise<boolean> {
+  try {
+    const preferences = await getNotificationPreferences(payload.user_id);
+    const channels = [...new Set(payload.channels)].filter((channel) => channelAllowed(channel, payload.type, preferences));
+    const results = await Promise.allSettled(channels.map(async (channel) => {
+      if (channel === 'IN_APP') return saveInAppNotification(payload);
+      if (channel === 'WHATSAPP') return sendWhatsAppNotification(payload);
+
+      const delivered = channel === 'EMAIL'
+        ? await sendEmailNotification(payload)
+        : await sendPushNotification(payload);
+      await persistDeliveryResult(payload, channel, delivered);
+      return delivered;
+    }));
+
+    results.forEach((result, index) => {
+      if (result.status === 'rejected') {
+        logStructured('warn', 'notification_channel_failed', {
+          userId: payload.user_id,
+          channel: channels[index],
+          message: result.reason instanceof Error ? result.reason.message : 'unknown',
+        });
       }
     });
 
-    // Send through channels in parallel
-    const results = await Promise.allSettled([
-      ...(payload.channels.includes('EMAIL') ? [sendEmailNotification(payload)] : []),
-      ...(payload.channels.includes('IN_APP') ? [saveInAppNotification(payload)] : []),
-      ...(payload.channels.includes('PUSH') ? [sendPushNotification(payload)] : []),
-      ...(payload.channels.includes('SMS') ? [sendSMSNotification(payload)] : []),
-      ...(payload.channels.includes('WHATSAPP') ? [sendWhatsAppNotification(payload)] : [])
-    ]);
-
-    // Log results
-    const failed = results.filter(r => r.status === 'rejected');
-    if (failed.length > 0) {
-      console.warn(`Failed to send ${failed.length} notifications:`, failed);
-    }
-
-    return failed.length < results.length; // Success if at least one channel worked
+    return results.some((result) => result.status === 'fulfilled' && result.value);
   } catch (error) {
-    console.error('Notification error:', error);
+    logStructured('error', 'notification_dispatch_failed', {
+      userId: payload.user_id,
+      type: payload.type,
+      message: error instanceof Error ? error.message : 'unknown',
+    });
     return false;
   }
 }
@@ -66,39 +178,48 @@ export async function sendNotification(payload: NotificationPayload): Promise<bo
 /**
  * Send email notification
  */
-async function sendEmailNotification(payload: NotificationPayload): Promise<void> {
+async function sendEmailNotification(payload: NotificationPayload): Promise<boolean> {
   const user = await prisma.user.findUnique({
     where: { id: payload.user_id },
     select: { email: true, name: true }
   });
 
-  if (!user?.email) return;
+  if (!user?.email) return false;
+
+  const smtpPassword = (process.env.SMTP_PASS || process.env.SMTP_PASSWORD || '').trim();
+  const smtpFrom = (
+    process.env.EMAIL_FROM ||
+    process.env.SMTP_FROM ||
+    `MDH 3D Store <noreply@${new URL(getSiteUrl()).hostname}>`
+  ).trim();
 
   const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST || 'localhost',
-    port: parseInt(process.env.SMTP_PORT || '587'),
+    host: process.env.SMTP_HOST || process.env.MAILHOG_HOST || '127.0.0.1',
+    port: Number(process.env.SMTP_PORT || process.env.MAILHOG_SMTP_PORT || 1025),
     secure: process.env.SMTP_SECURE === 'true',
     auth: process.env.SMTP_USER ? {
       user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASSWORD
+      pass: smtpPassword,
     } : undefined
   });
 
   const htmlContent = generateEmailTemplate(payload, user.name || 'Valued Customer');
 
   await transporter.sendMail({
-    from: process.env.SMTP_FROM || 'noreply@mdh3d.local',
+    from: smtpFrom,
     to: user.email,
     subject: payload.title,
     html: htmlContent,
     replyTo: process.env.SMTP_REPLY_TO
   });
+
+  return true;
 }
 
 /**
  * Save in-app notification
  */
-async function saveInAppNotification(payload: NotificationPayload): Promise<void> {
+async function saveInAppNotification(payload: NotificationPayload): Promise<boolean> {
   await prisma.notification.create({
     data: {
       userId: payload.user_id,
@@ -106,59 +227,43 @@ async function saveInAppNotification(payload: NotificationPayload): Promise<void
       status: 'PENDING',
       title: payload.title,
       body: payload.message,
-      linkUrl: payload.data?.link_url,
-      payload: payload.data || {}
+      linkUrl: typeof payload.data?.link_url === 'string' ? payload.data.link_url : undefined,
+      payload: (payload.data || {}) as Prisma.InputJsonValue,
     }
-  }).catch(() => null);
+  });
+  return true;
 }
 
 /**
  * Send push notification (Web Push API)
  */
-async function sendPushNotification(payload: NotificationPayload): Promise<void> {
-  try {
-    const { sendWebPushToUser } = await import("@/lib/web-push");
-    await sendWebPushToUser(payload.user_id, {
-      title: payload.title,
-      body: payload.message,
-      url: (payload.data?.url as string) ?? "/",
-      tag: payload.type,
-    });
-  } catch (error) {
-    console.error("Push send error:", error);
-  }
-}
-
-/**
- * Send SMS notification (Twilio integration)
- */
-async function sendSMSNotification(payload: NotificationPayload): Promise<void> {
-  const user = await prisma.user.findUnique({
-    where: { id: payload.user_id },
-    select: { phone: true }
+async function sendPushNotification(payload: NotificationPayload): Promise<boolean> {
+  const { sendWebPushToUser } = await import("@/lib/web-push");
+  const result = await sendWebPushToUser(payload.user_id, {
+    title: payload.title,
+    body: payload.message,
+    url: typeof payload.data?.url === 'string' ? payload.data.url : "/",
+    tag: payload.type,
   });
-
-  if (!user?.phone) return;
-
-  // Twilio integration would go here
-  console.log(`SMS to ${user.phone}: ${payload.message}`);
+  return result.sent > 0;
 }
 
 /**
  * Send WhatsApp notification
  */
-async function sendWhatsAppNotification(payload: NotificationPayload): Promise<void> {
+async function sendWhatsAppNotification(payload: NotificationPayload): Promise<boolean> {
   const user = await prisma.user.findUnique({
     where: { id: payload.user_id },
     select: { phone: true }
   });
 
-  if (!user?.phone) return;
+  if (!user?.phone) return false;
 
   const response = await sendWhatsAppText(user.phone, payload.message);
   if (!response.ok) {
     throw new Error(response.error?.message || "whatsapp_send_failed");
   }
+  return true;
 }
 
 /**
@@ -191,21 +296,11 @@ export async function markNotificationAsRead(notificationId: string): Promise<vo
  * Get notification preferences for user
  */
 export async function getNotificationPreferences(userId: string) {
-  const user = await prisma.user.findUnique({
-    where: { id: userId },
-    select: { id: true }
+  const profile = await prisma.userProfile.findUnique({
+    where: { userId },
+    select: { preferences: true },
   });
-
-  // For now, return default preferences
-  // In production, you'd have a separate preferences table/field
-  return {
-    email_marketing: true,
-    email_orders: true,
-    push_enabled: true,
-    sms_enabled: false,
-    whatsapp_enabled: false,
-    digest_frequency: 'daily'
-  };
+  return normalizeNotificationPreferences(profile?.preferences);
 }
 
 /**
@@ -213,30 +308,40 @@ export async function getNotificationPreferences(userId: string) {
  */
 export async function updateNotificationPreferences(
   userId: string,
-  preferences: Record<string, any>
+  preferences: Partial<NotificationPreferences>,
 ): Promise<void> {
-  // Notification preferences would be stored here if the model had this field
-  // For now, preferences are stored in the Notification records themselves
-  console.log(`Notification preferences updated for user ${userId}:`, preferences);
+  const currentProfile = await prisma.userProfile.findUnique({
+    where: { userId },
+    select: { preferences: true },
+  });
+  const currentRoot = asRecord(currentProfile?.preferences);
+  const currentPreferences = normalizeNotificationPreferences(currentRoot);
+  const preferencePatch = sanitizeNotificationPreferencePatch(preferences);
+  const nextPreferences = normalizeNotificationPreferences({
+    notificationPreferences: { ...currentPreferences, ...preferencePatch },
+  });
+  const nextRoot = {
+    ...currentRoot,
+    notificationPreferences: nextPreferences,
+  } as unknown as Prisma.InputJsonValue;
+
+  await prisma.userProfile.upsert({
+    where: { userId },
+    update: { preferences: nextRoot },
+    create: { userId, preferences: nextRoot },
+  });
 }
 
 /**
  * Send abandoned cart recovery notification
  */
 export async function sendAbandonedCartNotification(userId: string, cartValue: number): Promise<boolean> {
-  const user = await prisma.user.findUnique({
-    where: { id: userId },
-    select: { email: true, name: true, phone: true }
-  });
-
-  if (!user) return false;
-
   return sendNotification({
     type: 'abandoned_cart',
     user_id: userId,
     title: 'Seu carrinho MDH 3D está salvo',
     message: `Seu carrinho de ${formatCurrency(cartValue)} ainda está disponível. Finalize com Pix, cartão ou atendimento humano: ${getSiteUrl()}/checkout`,
-    channels: user.phone ? ['WHATSAPP', 'EMAIL', 'IN_APP'] : ['EMAIL', 'IN_APP'],
+    channels: ['WHATSAPP', 'EMAIL', 'IN_APP'],
     data: { cart_value: cartValue, discount_code: 'MDH5', url: `${getSiteUrl()}/checkout` },
     urgency: 'normal'
   });
@@ -271,7 +376,7 @@ export async function sendShipmentNotification(
     user_id: userId,
     title: `📦 Your order is ${status}`,
     message: `Tracking: ${tracking}`,
-    channels: ['EMAIL', 'IN_APP', 'SMS'],
+    channels: ['EMAIL', 'IN_APP', 'PUSH', 'WHATSAPP'],
     data: { tracking_number: tracking, status },
     urgency: 'high'
   });

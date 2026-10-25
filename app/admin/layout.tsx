@@ -6,6 +6,7 @@ const adminLinkGroups = [
     links: [
       ["/admin", "Cockpit"],
       ["/admin/orders", "Pedidos"],
+      ["/admin/returns", "Devoluções"],
       ["/admin/inventory", "Estoque"],
       ["/admin/finance", "Financeiro"],
       ["/admin/analytics", "Analytics"],

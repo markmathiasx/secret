@@ -1,20 +1,20 @@
 # Marketplace Verification Gates
 
-Generated at: 2026-07-27T10:00:37.918Z
+Generated at: 2026-10-25T05:19:07.134Z
 Branch: industrial-ai-v62-20260727-005340
-Commit: 09ecfa94
+Commit: 4b8bfdc1
 
 | Command | Exit code | Duration | Result |
 | --- | ---: | ---: | --- |
-| `npm run db:generate` | 0 | 2s | PASS |
-| `npm run typecheck` | 0 | 4s | PASS |
-| `npm run lint:check` | 0 | 8s | PASS |
-| `npm run build` | 0 | 110s | PASS |
+| `npm run db:generate` | 0 | 3s | PASS |
+| `npm run typecheck` | 0 | 6s | PASS |
+| `npm run lint:check` | 0 | 12s | PASS |
+| `npm run build` | 0 | 148s | PASS |
 | `npm run validate:industrial-ui` | 0 | 0s | PASS |
 | `npm run validate:auth` | 0 | 0s | PASS |
 | `npm run validate:db-storage` | 0 | 0s | PASS |
 | `npm run validate:private-routes` | 0 | 0s | PASS |
-| `npm run validate:public-regressions` | 0 | 1s | PASS |
+| `npm run validate:public-regressions` | 0 | 2s | PASS |
 | `npm run security:audit` | 0 | 1s | PASS |
 | `npm audit --audit-level=low` | 0 | 1s | PASS |
 
@@ -30,11 +30,11 @@ Exit code: 0
 
 Prisma schema loaded from prisma\schema.prisma
 
-✔ Generated Prisma Client (v6.19.3) to .\node_modules\@prisma\client in 409ms
+✔ Generated Prisma Client (v6.19.3) to .\node_modules\@prisma\client in 598ms
 
 Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
 
-Tip: Need your database queries to be 1000x faster? Accelerate offers you that and more: https://pris.ly/tip-2-accelerate
+Tip: Interested in query caching in just a few lines of code? Try Accelerate today! https://pris.ly/tip-3-accelerate
 ```
 
 ### npm run typecheck
@@ -60,80 +60,80 @@ Exit code: 0
 Exit code: 0
 
 ```text
-├ ○ /colecionaveis-geek-3d                                            472 B         226 kB
-├ ○ /como-funciona                                                  2.74 kB         109 kB
-├ ○ /compra-protegida                                                2.5 kB         113 kB
-├ ○ /comprar-na-mdh3d                                                 207 B         106 kB
-├ ○ /conta                                                            185 B         147 kB
-├ ƒ /conta/pedidos/[id]                                             5.27 kB         122 kB
-├ ○ /contato                                                        4.11 kB         107 kB
-├ ○ /decoracao-3d-para-casa                                           472 B         226 kB
-├ ○ /devolucoes                                                     4.31 kB         115 kB
-├ ○ /divulgacao                                                     1.39 kB         107 kB
-├ ○ /entregas                                                       3.98 kB         117 kB
-├ ƒ /falha                                                            858 B         122 kB
-├ ○ /faq                                                            2.99 kB         109 kB
-├ ○ /favoritos                                                      2.16 kB         108 kB
-├ ○ /feeds/google-shopping.csv                                        504 B         103 kB          5m      1y
-├ ○ /feeds/google-shopping.xml                                        504 B         103 kB          5m      1y
-├ ○ /feeds/meta-catalog.csv                                           504 B         103 kB          5m      1y
-├ ○ /feeds/products.json                                              504 B         103 kB          5m      1y
-├ ○ /feeds/produtos.json                                              504 B         103 kB          5m      1y
-├ ○ /feeds/tiktok-catalog.csv                                         504 B         103 kB          5m      1y
-├ ○ /guia-primeira-impressao-3d                                     2.74 kB         109 kB
-├ ○ /imagem-para-impressao-3d                                       8.07 kB         114 kB
-├ ○ /indicacao                                                        207 B         106 kB
-├ ○ /jogue                                                            21 kB         124 kB
-├ ○ /login                                                            167 B         114 kB
-├ ○ /loja                                                             504 B         103 kB
-├ ƒ /loja/[categoria]/[slug]                                          504 B         103 kB
-├ ○ /manifest.webmanifest                                             504 B         103 kB
-├ ○ /merchant/products.xml                                            504 B         103 kB          1h      1y
-├ ƒ /meta/catalog.csv                                                 504 B         103 kB
-├ ○ /ofertas                                                          207 B         106 kB
-├ ○ /orcamento-personalizado                                          135 B         119 kB
-├ ○ /organizadores                                                   2.2 kB         113 kB
-├ ○ /peca-sob-medida                                                 2.2 kB         113 kB
-├ ○ /pedidos                                                          189 B         147 kB
-├ ƒ /pedidos/[id]                                                     504 B         103 kB
-├ ƒ /pendente                                                         858 B         122 kB
-├ ○ /perfil                                                           189 B         147 kB
-├ ○ /politica-de-envio                                                207 B         106 kB
-├ ○ /politica-de-privacidade                                          504 B         103 kB
-├ ○ /politica-de-troca                                                207 B         106 kB
-├ ○ /prazo-de-producao                                                207 B         106 kB
-├ ○ /presentes-3d                                                     472 B         226 kB
-├ ○ /presentes-ate-50                                                2.2 kB         113 kB
-├ ○ /preview/neoglass-2026                                          9.21 kB         120 kB          5m      1y
-├ ƒ /product/[id]                                                     504 B         103 kB
-├ ● /produto/[slug]                                                 5.54 kB         122 kB          5m      1y
-├   ├ /produto/chaveiro-goleiro-comercial-copa-2026-copa-001                                        5m      1y
-├   ├ /produto/chaveiro-bola-para-presente-copa-2026-copa-002                                       5m      1y
-├   ├ /produto/chaveiro-camisa-mini-copa-2026-copa-003                                              5m      1y
-├   └ [+303 more paths]
-├ ○ /rastrear                                                       3.32 kB         114 kB
-├ ○ /recuperar-senha                                                2.42 kB         108 kB
-├ ƒ /recuperar-senha/confirmar                                        504 B         103 kB
-├ ○ /recuperar-senha/whatsapp                                        4.4 kB         110 kB
-├ ○ /robots.txt                                                       504 B         103 kB
-├ ƒ /seller                                                           207 B         106 kB
-├ ○ /setup-e-organizacao-3d                                           472 B         226 kB
-├ ○ /setup-gamer                                                     2.2 kB         113 kB
-├ ○ /sitemap-products.xml                                             504 B         103 kB          5m      1y
-├ ○ /sitemap.xml                                                      504 B         103 kB
-├ ○ /sob-medida                                                       135 B         119 kB
-├ ○ /sobre                                                            184 B         111 kB
-├ ƒ /sucesso                                                        1.08 kB         124 kB
-├ ○ /termos                                                           504 B         103 kB
-├ ○ /termos-de-compra                                                 207 B         106 kB
-└ ○ /trocas-e-devolucoes                                              504 B         103 kB
-+ First Load JS shared by all                                        103 kB
-  ├ chunks/1255-f5767ca0d1da046a.js                                   46 kB
-  ├ chunks/4bd1b696-100b9d70ed4e49c1.js                             54.2 kB
-  └ other shared chunks (total)                                      2.3 kB
+├ ƒ /checkout/falha                                       189 B         122 kB
+├ ƒ /checkout/pendente                                    189 B         122 kB
+├ ○ /checkout/success                                     500 B         103 kB
+├ ƒ /checkout/sucesso                                     189 B         122 kB
+├ ○ /colecionaveis-geek-3d                                765 B         201 kB
+├ ○ /como-funciona                                        128 B         110 kB
+├ ○ /compra-protegida                                   6.52 kB         113 kB
+├ ○ /comprar-na-mdh3d                                     195 B         106 kB
+├ ○ /conta                                                187 B         147 kB
+├ ƒ /conta/pedidos/[id]                                 9.16 kB         122 kB
+├ ○ /contato                                            3.85 kB         107 kB
+├ ○ /decoracao-3d-para-casa                               765 B         201 kB
+├ ○ /devolucoes                                         8.43 kB         115 kB
+├ ○ /divulgacao                                          2.5 kB         109 kB
+├ ○ /entregas                                           2.62 kB         116 kB
+├ ƒ /falha                                                189 B         122 kB
+├ ○ /faq                                                4.18 kB         110 kB
+├ ○ /favoritos                                          3.24 kB         109 kB
+├ ○ /feeds/google-shopping.csv                            500 B         103 kB          5m      1y
+├ ○ /feeds/google-shopping.xml                            500 B         103 kB          5m      1y
+├ ○ /feeds/meta-catalog.csv                               500 B         103 kB          5m      1y
+├ ○ /feeds/products.json                                  500 B         103 kB          5m      1y
+├ ○ /feeds/produtos.json                                  500 B         103 kB          5m      1y
+├ ○ /feeds/tiktok-catalog.csv                             500 B         103 kB          5m      1y
+├ ○ /guia-primeira-impressao-3d                           128 B         110 kB
+├ ○ /imagem-para-impressao-3d                           8.18 kB         114 kB
+├ ○ /indicacao                                           1.5 kB         108 kB
+├ ○ /jogue                                              20.3 kB         126 kB
+├ ○ /login                                                171 B         117 kB
+├ ○ /loja                                                 500 B         103 kB
+├ ƒ /loja/[categoria]/[slug]                              500 B         103 kB
+├ ○ /manifest.webmanifest                                 500 B         103 kB
+├ ○ /merchant/products.xml                                500 B         103 kB          1h      1y
+├ ƒ /meta/catalog.csv                                     500 B         103 kB
+├ ○ /ofertas                                             1.5 kB         108 kB
+├ ○ /orcamento-personalizado                              132 B         119 kB
+├ ○ /organizadores                                        133 B         115 kB
+├ ○ /peca-sob-medida                                      133 B         115 kB
+├ ○ /pedidos                                              192 B         147 kB
+├ ƒ /pedidos/[id]                                         500 B         103 kB
+├ ƒ /pendente                                             189 B         122 kB
+├ ○ /perfil                                               192 B         147 kB
+├ ○ /politica-de-envio                                    195 B         106 kB
+├ ○ /politica-de-privacidade                              500 B         103 kB
+├ ○ /politica-de-troca                                    195 B         106 kB
+├ ○ /prazo-de-producao                                    195 B         106 kB
+├ ○ /presentes-3d                                         765 B         201 kB
+├ ○ /presentes-ate-50                                     132 B         115 kB
+├ ○ /preview/neoglass-2026                              8.09 kB         122 kB          5m      1y
+├ ƒ /product/[id]                                         500 B         103 kB
+├ ƒ /produto/[slug]                                       500 B         103 kB
+├ ○ /rastrear                                           7.44 kB         114 kB
+├ ○ /recuperar-senha                                    3.58 kB         110 kB
+├ ƒ /recuperar-senha/confirmar                            500 B         103 kB
+├ ○ /recuperar-senha/whatsapp                           5.56 kB         112 kB
+├ ○ /robots.txt                                           500 B         103 kB
+├ ƒ /seller                                               195 B         106 kB
+├ ○ /setup-e-organizacao-3d                               765 B         201 kB
+├ ○ /setup-gamer                                          133 B         115 kB
+├ ○ /sitemap-products.xml                                 500 B         103 kB          5m      1y
+├ ○ /sitemap.xml                                          500 B         103 kB
+├ ○ /sob-medida                                           132 B         119 kB
+├ ○ /sobre                                                178 B         112 kB
+├ ƒ /sucesso                                               2 kB         124 kB
+├ ○ /termos                                               500 B         103 kB
+├ ○ /termos-de-compra                                     195 B         106 kB
+└ ○ /trocas-e-devolucoes                                  500 B         103 kB
++ First Load JS shared by all                            103 kB
+  ├ chunks/1255-60d8dc7c8c9309a1.js                     46.3 kB
+  ├ chunks/4bd1b696-100b9d70ed4e49c1.js                 54.2 kB
+  └ other shared chunks (total)                         2.27 kB
 
 
-ƒ Middleware                                                        63.9 kB
+ƒ Middleware                                            88.4 kB
 
 ○  (Static)   prerendered as static content
 ●  (SSG)      prerendered as static HTML (uses generateStaticParams)
@@ -192,7 +192,7 @@ Exit code: 0
 > mdh-3d-store@2.0.0 validate:public-regressions
 > node scripts/validate-public-regressions.mjs
 
-OK: regressões públicas validadas (12 produtos públicos ativos, 11 jogos).
+OK: regressões públicas validadas (538 produtos públicos ativos, 11 jogos).
 ```
 
 ### npm run security:audit

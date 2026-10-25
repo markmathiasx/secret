@@ -22,11 +22,14 @@ export default function DevolucoesPage() {
     orderCode: "",
     customerName: "",
     email: "",
+    type: "RETURN",
     reason: "",
     description: "",
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [protocol, setProtocol] = useState("");
+  const [notificationPending, setNotificationPending] = useState(false);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -53,6 +56,8 @@ export default function DevolucoesPage() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data?.error || "Falha ao registrar solicitação.");
+      setProtocol(data?.request?.protocol || "");
+      setNotificationPending(data?.notification === "pending");
       setStep(2);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Erro.");
@@ -94,7 +99,10 @@ export default function DevolucoesPage() {
           <h2 className="text-xl font-bold text-white">Solicitação registrada!</h2>
           <p className="mt-3 text-white/60 leading-7">
             Recebemos sua solicitação referente ao pedido <strong className="text-white">{form.orderCode}</strong>.
-            Você receberá um e-mail de confirmação e entraremos em contato pelo canal informado.
+            {protocol ? <> Protocolo: <strong className="text-white">{protocol}</strong>.</> : null}
+            {notificationPending
+              ? " Sua solicitação está segura, mas o e-mail de confirmação ainda está pendente."
+              : " Você receberá um e-mail de confirmação e entraremos em contato pelo canal informado."}
           </p>
         </div>
       ) : (
@@ -136,6 +144,14 @@ export default function DevolucoesPage() {
 
           {step === 1 && (
             <>
+              <label className="block">
+                <span className="mb-1 block text-sm text-white/70">O que você precisa? *</span>
+                <select name="type" required value={form.type} onChange={handleChange} className="field-base">
+                  <option value="RETURN">Devolução e reembolso</option>
+                  <option value="EXCHANGE">Troca do produto</option>
+                  <option value="WARRANTY">Atendimento de garantia</option>
+                </select>
+              </label>
               <label className="block">
                 <span className="mb-1 block text-sm text-white/70">Motivo da devolução *</span>
                 <select name="reason" required value={form.reason} onChange={handleChange} className="field-base">

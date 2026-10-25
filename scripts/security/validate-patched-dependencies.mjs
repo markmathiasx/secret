@@ -7,31 +7,39 @@ const packageJson = JSON.parse(readFileSync(packagePath, 'utf8'));
 const lock = JSON.parse(readFileSync(lockPath, 'utf8'));
 
 const expectedDirect = {
+  '@sentry/nextjs': '11.9.0',
   '@auth/prisma-adapter': '2.11.3',
   fflate: '0.8.3',
-  'isomorphic-dompurify': '3.19.0',
-  next: '15.5.25',
+  'isomorphic-dompurify': '4.6.0',
+  'lucide-react': '1.61.0',
+  next: '15.5.28',
   'next-auth': '5.0.0-beta.32',
-  nodemailer: '9.1.1',
-  sharp: '0.35.4',
-  undici: '^6.28.0',
+  nodemailer: '10.2.1',
+  sharp: '0.35.5',
+  undici: '8.12.3',
+  zod: '4.6.7',
 };
 const expectedDev = {
-  '@next/bundle-analyzer': '15.5.25',
-  'eslint-config-next': '15.5.25',
+  '@next/bundle-analyzer': '15.5.28',
+  'eslint-config-next': '15.5.28',
   postcss: '8.5.26',
+  'wait-on': '9.5.1',
 };
 const expectedOverrides = {
   '@auth/core': '0.41.3',
   'baseline-browser-mapping': '2.11.21',
-  'brace-expansion': '5.0.9',
+  axios: '1.20.0',
+  'brace-expansion': '5.0.12',
   browserslist: '4.28.9',
-  dompurify: '3.4.13',
-  'js-yaml': '5.3.0',
+  dompurify: '3.4.17',
+  'deepmerge-ts': '8.0.2',
+  'js-yaml': '5.5.0',
   jsdom: '25.0.1',
   nanoid: '3.3.18',
   postcss: '8.5.26',
-  sharp: '0.35.4',
+  'postcss-nested': '9.0.1',
+  'postcss-selector-parser': '7.1.7',
+  sharp: '0.35.5',
 };
 
 const failures = [];
@@ -74,21 +82,39 @@ function requireExactInLock(packageName, expected) {
   }
 }
 
-requireExactInLock('next', '15.5.25');
+function requireRootExactInLock(packageName, expected) {
+  const item = lock.packages?.[`node_modules/${packageName}`];
+  if (!item?.version) {
+    failures.push(`package-lock: dependência raiz ${packageName} não encontrada`);
+    return;
+  }
+  if (item.version !== expected) {
+    failures.push(`package-lock: dependência raiz ${packageName}@${item.version}; esperado ${expected}`);
+  }
+}
+
+requireRootExactInLock('@sentry/nextjs', '11.9.0');
+requireRootExactInLock('next', '15.5.28');
 requireExactInLock('next-auth', '5.0.0-beta.32');
 requireExactInLock('@auth/core', '0.41.3');
 requireExactInLock('@auth/prisma-adapter', '2.11.3');
-requireExactInLock('sharp', '0.35.4');
+requireRootExactInLock('sharp', '0.35.5');
 requireExactInLock('fflate', '0.8.3');
-requireExactInLock('nodemailer', '9.1.1');
+requireRootExactInLock('nodemailer', '10.2.1');
 requireExactInLock('baseline-browser-mapping', '2.11.21');
 requireExactInLock('browserslist', '4.28.9');
-requireExactInLock('undici', '6.28.0');
-requireExactInLock('brace-expansion', '5.0.9');
-requireExactInLock('dompurify', '3.4.13');
-requireExactInLock('js-yaml', '5.3.0');
+requireExactInLock('axios', '1.20.0');
+requireRootExactInLock('undici', '8.12.3');
+requireRootExactInLock('zod', '4.6.7');
+requireRootExactInLock('lucide-react', '1.61.0');
+requireExactInLock('brace-expansion', '5.0.12');
+requireExactInLock('dompurify', '3.4.17');
+requireExactInLock('deepmerge-ts', '8.0.2');
+requireExactInLock('js-yaml', '5.5.0');
 requireExactInLock('nanoid', '3.3.18');
 requireExactInLock('postcss', '8.5.26');
+requireExactInLock('postcss-nested', '9.0.1');
+requireExactInLock('postcss-selector-parser', '7.1.7');
 requireExactInLock('jsdom', '25.0.1');
 
 if (failures.length) {

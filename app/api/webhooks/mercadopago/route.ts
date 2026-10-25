@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { z } from "zod";
 import { canConnectToDatabase, prisma } from "@/lib/prisma";
 import { getMercadoPagoAccessToken, getMercadoPagoWebhookSecret } from "@/lib/env";
 import { isMercadoPagoSignatureFresh, verifyMercadoPagoSignature } from "@/lib/mercadopago";
@@ -10,6 +11,13 @@ import { logStructured } from "@/lib/logger";
 
 export const runtime = "nodejs";
 
+const MercadoPagoWebhookSchema = z.object({
+  type: z.string().max(100).optional(),
+  action: z.string().max(100).optional(),
+  topic: z.string().max(100).optional(),
+  data: z.object({ id: z.union([z.string(), z.number()]).optional() }).passthrough().optional(),
+}).passthrough();
+
 export async function POST(request: Request) {
   const secret = getMercadoPagoWebhookSecret();
   if (!secret || !getMercadoPagoAccessToken()) {
@@ -18,7 +26,15 @@ export async function POST(request: Request) {
   const signature = request.headers.get("x-signature") || request.headers.get("x-mercadopago-signature") || "";
   const requestId = request.headers.get("x-request-id") || request.headers.get("x-mercadopago-request-id") || "";
   const url = new URL(request.url);
-  const payload = await request.json().catch(() => null);
+  const contentLength = Number(request.headers.get("content-length") || 0);
+  if (!Number.isFinite(contentLength) || contentLength > 64 * 1024) {
+    return NextResponse.json({ ok: false }, { status: 413 });
+  }
+  const parsedPayload = MercadoPagoWebhookSchema.safeParse(await request.json().catch(() => null));
+  if (!parsedPayload.success) {
+    return NextResponse.json({ ok: false }, { status: 400 });
+  }
+  const payload = parsedPayload.data;
   const dataId = url.searchParams.get("data.id") || url.searchParams.get("id") || String(payload?.data?.id || "");
   if (!dataId || !requestId || !isMercadoPagoSignatureFresh(signature) ||
       !verifyMercadoPagoSignature({ secret, signature, requestId, dataId })) {

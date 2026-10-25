@@ -5,7 +5,7 @@ import { requireAdminPlatformAuth } from "@/src/lib/platform/security/admin-auth
 
 const schema = z.object({
   type: z.string(),
-  payload: z.record(z.unknown()).default({}),
+  payload: z.record(z.string(), z.unknown()).default({}),
 });
 
 export const dynamic = "force-dynamic";

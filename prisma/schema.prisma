@@ -150,6 +150,37 @@ enum CatalogEventType {
   CART_ADD
 }
 
+enum ReturnRequestType {
+  RETURN
+  EXCHANGE
+  WARRANTY
+}
+
+enum ReturnRequestStatus {
+  REQUESTED
+  UNDER_REVIEW
+  APPROVED
+  REJECTED
+  AWAITING_SHIPMENT
+  IN_TRANSIT
+  RECEIVED
+  REFUND_PENDING
+  REFUNDED
+  EXCHANGED
+  CANCELED
+}
+
+enum ReturnEventType {
+  REQUESTED
+  STATUS_CHANGED
+  CUSTOMER_MESSAGE
+  STAFF_MESSAGE
+  SHIPPING_LABEL_CREATED
+  ITEM_RECEIVED
+  REFUND_REQUESTED
+  REFUND_COMPLETED
+}
+
 model User {
   id                String         @id @default(cuid())
   name              String?
@@ -205,6 +236,7 @@ model User {
   ownedFiles        FileAsset[]       @relation("FileAssetOwner")
   supportConversations SupportConversation[]
   auditLogs         AuditLog[]        @relation("AuditLogActor")
+  returnRequests    ReturnRequest[]    @relation("ReturnRequestBuyer")
 }
 
 model UserProfile {
@@ -700,11 +732,54 @@ model Order {
   questions         Question[]
   chatThreads       ChatThread[]
   supportConversations SupportConversation[]
+  returnRequests    ReturnRequest[]
 
   @@index([buyerId, createdAt])
   @@index([sellerId, createdAt])
   @@index([sessionId, createdAt])
   @@index([status, createdAt])
+}
+
+model ReturnRequest {
+  id            String              @id @default(cuid())
+  protocol      String              @unique
+  requestKey    String              @unique
+  orderId       String
+  buyerId       String?
+  type          ReturnRequestType   @default(RETURN)
+  status        ReturnRequestStatus @default(REQUESTED)
+  customerName  String
+  customerEmail String
+  reason        String
+  description   String?
+  resolution    String?
+  requestedAt   DateTime            @default(now())
+  approvedAt    DateTime?
+  receivedAt    DateTime?
+  resolvedAt    DateTime?
+  createdAt     DateTime            @default(now())
+  updatedAt     DateTime            @updatedAt
+  order         Order               @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  buyer         User?               @relation("ReturnRequestBuyer", fields: [buyerId], references: [id], onDelete: SetNull)
+  events        ReturnRequestEvent[]
+
+  @@index([orderId, createdAt])
+  @@index([buyerId, createdAt])
+  @@index([status, createdAt])
+  @@index([customerEmail, createdAt])
+}
+
+model ReturnRequestEvent {
+  id              String          @id @default(cuid())
+  returnRequestId String
+  type            ReturnEventType
+  actorUserId     String?
+  message         String?
+  metadata        Json?
+  createdAt       DateTime        @default(now())
+  returnRequest   ReturnRequest   @relation(fields: [returnRequestId], references: [id], onDelete: Cascade)
+
+  @@index([returnRequestId, createdAt])
 }
 
 model OrderItem {
