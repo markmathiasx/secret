@@ -1,8 +1,10 @@
 import { createApp } from "./app.js";
+import { createServer } from "node:http";
 import pg from "pg";
 import { applicationDefault, initializeApp } from "firebase-admin/app";
 import { getAuth } from "firebase-admin/auth";
 import { MercadoPagoPix } from "./mercado-pago.js";
+import { hardenHttpServer, logForensic } from "./http-security.js";
 if (!process.env.DATABASE_URL || !process.env.FIREBASE_PROJECT_ID)
   throw new Error("DATABASE_URL and FIREBASE_PROJECT_ID required");
 initializeApp({
@@ -45,14 +47,27 @@ const app = createApp({
   db,
   verifyToken: (token) => getAuth().verifyIdToken(token, true),
   allowedOrigin: process.env.ALLOWED_ORIGIN || "",
+  trustProxy: process.env.TRUST_PROXY === "1" ? 1 : false,
   paymentProvider,
   paymentSettings,
 });
-const server = app.listen(Number(process.env.PORT || 8080));
+const server = hardenHttpServer(createServer({ maxHeaderSize: 16 * 1024 }, app));
+server.on("clientError", (_error, socket) => {
+  if (socket.writable) socket.end("HTTP/1.1 400 Bad Request\r\nConnection: close\r\n\r\n");
+});
+server.listen(Number(process.env.PORT || 8080));
 for (const signal of ["SIGTERM", "SIGINT"])
-  process.on(signal, () =>
+  process.on(signal, () => {
+    const forceExit = setTimeout(() => process.exit(1), 10_000);
+    forceExit.unref();
     server.close(async () => {
       await db.end();
+      clearTimeout(forceExit);
       process.exit(0);
-    }),
-  );
+    });
+  });
+db.on("error", (error) => {
+  logForensic(console, "error", "database_pool_error", {
+    code: typeof error?.code === "string" && /^[A-Z0-9_]{1,40}$/.test(error.code) ? error.code.toLowerCase() : "internal",
+  });
+});

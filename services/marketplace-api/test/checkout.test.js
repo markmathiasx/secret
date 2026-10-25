@@ -208,3 +208,47 @@ test("approved payment cannot silently revive a cancelled order", async () => {
   assert.equal(db.calls.at(-1).sql, "ROLLBACK");
   assert(!db.calls.some(({ sql }) => sql.includes("SET status='paid'")));
 });
+
+test("webhook duplicate is rejected before provider I/O and request-id reuse cannot change payment", async () => {
+  let providerCalls = 0;
+  const duplicateDb = scriptedDb((sql) => {
+    if (sql.includes("payment_webhook_events") && sql.startsWith("SELECT"))
+      return { rows: [{ id: "event", dataId: "123" }] };
+    return { rows: [] };
+  });
+  const provider = { get: async () => { providerCalls += 1; return { id: 123 }; } };
+  assert.deepEqual(await reconcileMercadoPagoPayment({
+    db: duplicateDb,
+    provider,
+    paymentData: "123",
+    requestId: "request-duplicate-1",
+  }), { duplicate: true });
+  assert.equal(providerCalls, 0);
+  assert(duplicateDb.calls.some(({ sql }) => sql.includes("pg_advisory_xact_lock")));
+
+  const conflictDb = scriptedDb((sql) => {
+    if (sql.includes("payment_webhook_events") && sql.startsWith("SELECT"))
+      return { rows: [{ id: "event", dataId: "999" }] };
+    return { rows: [] };
+  });
+  await assert.rejects(
+    reconcileMercadoPagoPayment({ db: conflictDb, provider, paymentData: "123", requestId: "request-duplicate-1" }),
+    { code: "webhook_idempotency_conflict", status: 409 },
+  );
+  assert.equal(providerCalls, 0);
+  assert.equal(conflictDb.calls.at(-1).sql, "ROLLBACK");
+});
+
+test("webhook provider response must match the signed payment id", async () => {
+  const db = scriptedDb((sql) => ({ rows: [] }));
+  await assert.rejects(
+    reconcileMercadoPagoPayment({
+      db,
+      provider: { get: async () => ({ id: 456 }) },
+      paymentData: "123",
+      requestId: "request-provider-mismatch-1",
+    }),
+    { code: "PAYMENT_WEBHOOK_MISMATCH", status: 409 },
+  );
+  assert.equal(db.calls.at(-1).sql, "ROLLBACK");
+});

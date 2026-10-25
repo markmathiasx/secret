@@ -1,8 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mdh_mobile/commerce_ui.dart';
+import 'package:mdh_mobile/main.dart';
+import 'package:mdh_mobile/store.dart';
 
 void main() {
+  testWidgets('Fallback compacto de mídia não quebra cards estreitos', (
+    tester,
+  ) async {
+    final product = Product(
+      id: 'product-1',
+      title: 'Produto sem foto',
+      description: '',
+      priceCents: 1000,
+      stock: 1,
+      availabilityMode: 'in_stock',
+    );
+    await tester.pumpWidget(
+      MaterialApp(
+        home: SizedBox(
+          width: 58,
+          height: 58,
+          child: productImage(product, compactFallback: true),
+        ),
+      ),
+    );
+    expect(find.byIcon(Icons.image_not_supported_outlined), findsOneWidget);
+    expect(find.text('Foto original indisponível'), findsNothing);
+    expect(tester.takeException(), isNull);
+  });
+
   testWidgets('Categoria executa a seleção e expõe estado acessível', (
     tester,
   ) async {

@@ -15,6 +15,7 @@ export MERCADOPAGO_NOTIFICATION_URL='https://api.example.com/api/webhooks/mercad
 export MERCADOPAGO_WEBHOOK_SECRET='read-from-secret-manager'
 export MERCADOPAGO_COLLECTOR_ID='numeric-account-id'
 export MERCADOPAGO_LIVE_MODE='false'
+export TRUST_PROXY='1' # somente quando houver exatamente um proxy/ingresso confiável
 npm run migrate
 npm run catalog:dry-run
 npm run catalog:import
@@ -41,16 +42,16 @@ O carrinho limita 100 linhas e 99 unidades por linha; adicionar não reserva est
 
 `POST /api/payments/pix` exige nova `Idempotency-Key` e `{orderId}`. A tentativa é persistida antes da chamada externa e a mesma chave é enviada ao Mercado Pago. Quedas entre o provedor e o banco podem ser repetidas sem criar cobrança nova. QR Code só é retornado após resposta real do provedor; falhas ficam gravadas com código sanitizado. Pedidos expirados são cancelados e o estoque físico é restituído uma única vez.
 
-`POST /api/webhooks/mercadopago` valida `x-signature`, `x-request-id` e janela antirreplay, consulta o pagamento diretamente no Mercado Pago e compara ID, pedido, moeda, recebedor, ambiente e valor persistidos. Somente essa reconciliação autoritativa move o pedido para `paid`; reembolso/chargeback move para `refunded`. A inbox durável torna reentregas idempotentes. O serviço não implementa cartão, split, estorno iniciado pela API ou repasse a vendedores.
+`POST /api/webhooks/mercadopago` exige JSON de até 8 KiB e correspondência entre `data.id` do corpo e da query. Valida `x-signature`, `x-request-id`, segredo mínimo e janela antirreplay antes de consultar banco ou provedor. Um advisory lock transacional serializa o mesmo `request-id`; reentrega idêntica não consulta novamente o Mercado Pago e reutilização do identificador para outro pagamento retorna 409. A resposta autoritativa do provedor também precisa corresponder ao ID assinado. Somente essa reconciliação move o pedido para `paid`; reembolso/chargeback move para `refunded`. O serviço não implementa cartão, split, estorno iniciado pela API ou repasse a vendedores.
 
 ## Segurança e operação
 
 - CORS aceita apenas a origem explicitamente configurada. Apps nativos usam bearer sem CORS. HTTPS é responsabilidade do ingresso/Cloud Run/ALB.
-- Helmet, payload máximo 32 KiB, validação estrita Zod, SQL parametrizado, owner scopes e erros sanitizados.
-- Rate limit é local: 120 requisições/minuto/IP. Para múltiplas instâncias configure limitador compartilhado Redis ou WAF. `trust proxy` não está habilitado: configure somente cadeia de proxies conhecida antes de ingressos compartilhados.
+- Helmet, JSON estrito, limite global de 16 KiB, webhook de 8 KiB e limites menores por mutação (1 KiB checkout/carrinho, 4 KiB endereço e 16 KiB produto). Tipo diferente de `application/json` recebe 415; excesso recebe 413.
+- Rate limits locais e separados: global 300/min/IP, health 30, catálogo 120, autenticação 60, leituras privadas 120/usuário, mutações 30/usuário, checkout 10/usuário e webhook 60/IP. Para múltiplas instâncias, o ingresso/WAF ou store compartilhado continua obrigatório. `TRUST_PROXY=1` só deve ser usado atrás de exatamente um proxy confiável.
 - O papel/disabled é relido do banco em cada requisição. Valores role/claims enviados pelo cliente não concedem privilégios.
-- Pool máximo 10 conexões, conexão 5 s e statement timeout 10 s. Dimensionar réplicas contra limite do PostgreSQL; 10 mil conexões simultâneas não foram testadas.
-- Logger não recebe token/body nem mensagens SQL; auditar/reter/excluir dados pessoais exige política operacional e rotas futuras.
+- Pool máximo 10 conexões, conexão 5 s e statement timeout 10 s. O servidor limita headers a 16 KiB, headers a 10 s, requisição a 20 s, keep-alive a 5 s e 100 requisições por socket. Firebase tem deadline de 5 s; Mercado Pago, 10 s e resposta máxima de 256 KiB.
+- Logs forenses registram request ID interno, rota sem query, status, duração e hashes curtos de IP/usuário. Token, corpo, e-mail, query, IDs dinâmicos e mensagens de exceção não são registrados. Política de retenção e acesso continua sendo obrigação operacional.
 - Credenciais Mercado Pago nunca são retornadas pela API. Injete-as por Secret Manager e use credenciais de teste com `MERCADOPAGO_LIVE_MODE=false` durante homologação.
 - Schema não contém dados iniciais: sem catálogo autenticado conectado ao banco, o feed legitimamente fica vazio.
 

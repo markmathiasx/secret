@@ -846,7 +846,11 @@ class _StoreScreenState extends State<StoreScreen> {
                         height: 58,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(12),
-                          child: productImage(saved[e.key]!, fit: BoxFit.cover),
+                          child: productImage(
+                            saved[e.key]!,
+                            fit: BoxFit.cover,
+                            compactFallback: true,
+                          ),
                         ),
                       ),
                       const SizedBox(width: 12),
@@ -935,16 +939,29 @@ class _StoreScreenState extends State<StoreScreen> {
   }
 }
 
-Widget productImage(Product p, {BoxFit fit = BoxFit.contain}) =>
-    p.imageUrl == null
-    ? const Center(child: Text('Foto original indisponível'))
-    : Image.network(
-        p.imageUrl!,
-        fit: fit,
-        semanticLabel: p.imageAlt ?? 'Foto de ${p.title}',
-        errorBuilder: (_, error, stack) =>
-            const Center(child: Text('Não foi possível carregar a foto.')),
-      );
+Widget productImage(
+  Product p, {
+  BoxFit fit = BoxFit.contain,
+  bool compactFallback = false,
+}) {
+  Widget fallback(String label) => compactFallback
+      ? Semantics(
+          label: label,
+          image: true,
+          child: const Center(child: Icon(Icons.image_not_supported_outlined)),
+        )
+      : Center(child: Text(label, textAlign: TextAlign.center));
+
+  return p.imageUrl == null
+      ? fallback('Foto original indisponível')
+      : Image.network(
+          p.imageUrl!,
+          fit: fit,
+          semanticLabel: p.imageAlt ?? 'Foto de ${p.title}',
+          errorBuilder: (_, error, stack) =>
+              fallback('Não foi possível carregar a foto.'),
+        );
+}
 
 class ProductScreen extends StatelessWidget {
   const ProductScreen({super.key, required this.product, required this.onAdd});

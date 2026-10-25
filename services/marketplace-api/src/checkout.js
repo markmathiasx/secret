@@ -318,20 +318,28 @@ export async function createPixPayment({
 }
 
 export async function reconcileMercadoPagoPayment({ db, provider, paymentData, requestId }) {
-  const providerPayment = await provider.get(paymentData);
   const client = await db.connect();
   try {
     await client.query("BEGIN");
+    await client.query(
+      "SELECT pg_advisory_xact_lock(hashtextextended($1,0))",
+      [`mercado_pago:${requestId}`],
+    );
     const duplicate = (
       await client.query(
-        "SELECT id FROM mdh_marketplace.payment_webhook_events WHERE provider='mercado_pago' AND request_id=$1",
+        "SELECT id,data_id AS \"dataId\" FROM mdh_marketplace.payment_webhook_events WHERE provider='mercado_pago' AND request_id=$1",
         [requestId],
       )
     ).rows[0];
     if (duplicate) {
+      if (String(duplicate.dataId) !== String(paymentData))
+        throw new CheckoutError("webhook_idempotency_conflict", 409);
       await client.query("COMMIT");
       return { duplicate: true };
     }
+    const providerPayment = await provider.get(paymentData);
+    if (String(providerPayment?.id) !== String(paymentData))
+      throw new PaymentProviderError("PAYMENT_WEBHOOK_MISMATCH", 409);
     const payment = (
       await client.query(
         `SELECT id,order_id AS "orderId",provider_payment_id AS "paymentId",amount_cents::float8 AS "totalCents",
@@ -394,7 +402,14 @@ export async function reconcileMercadoPagoPayment({ db, provider, paymentData, r
   } catch (error) {
     await rollbackQuietly(client);
     if (error.code === "23505" && error.constraint === "payment_webhook_request_unique") {
-      return { duplicate: true };
+      const existing = (
+        await db.query(
+          "SELECT data_id AS \"dataId\" FROM mdh_marketplace.payment_webhook_events WHERE provider='mercado_pago' AND request_id=$1",
+          [requestId],
+        )
+      ).rows[0];
+      if (existing && String(existing.dataId) === String(paymentData)) return { duplicate: true };
+      throw new CheckoutError("webhook_idempotency_conflict", 409);
     }
     throw error;
   } finally {

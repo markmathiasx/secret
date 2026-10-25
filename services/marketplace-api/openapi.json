@@ -2,8 +2,8 @@
   "openapi": "3.1.0",
   "info": {
     "title": "MDH mobile marketplace API",
-    "version": "0.2.0",
-    "description": "Transactional checkout and Mercado Pago Pix. Isolated schema; existing website accounts are not linked."
+    "version": "0.3.0",
+    "description": "Transactional checkout and Mercado Pago Pix with strict JSON limits, route-scoped rate limits, bounded upstream I/O and redacted forensic request IDs. Isolated schema; existing website accounts are not linked."
   },
   "servers": [
     {
@@ -727,10 +727,56 @@
       "post": {
         "summary": "Verify Mercado Pago signature, fetch authoritative payment and reconcile state",
         "security": [],
+        "parameters": [
+          {
+            "name": "data.id",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "pattern": "^\\d{1,30}$" }
+          },
+          {
+            "name": "x-request-id",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "pattern": "^[a-zA-Z0-9_-]{1,200}$" }
+          },
+          {
+            "name": "x-signature",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "maxLength": 256 }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["data"],
+                "properties": {
+                  "type": { "type": "string", "const": "payment" },
+                  "data": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": ["id"],
+                    "properties": { "id": { "type": ["string", "integer"], "pattern": "^\\d{1,30}$" } }
+                  }
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "204": { "description": "Webhook reconciled or safely ignored" },
-          "401": { "description": "Invalid, incomplete or expired signature" },
-          "409": { "description": "Provider payment does not match the persisted payment" },
+          "400": { "description": "Malformed or unknown JSON fields" },
+          "401": { "description": "Invalid, incomplete or expired signature; body/query mismatch" },
+          "409": { "description": "Provider mismatch or request-id reused for another payment" },
+          "413": { "description": "Payload exceeds 8 KiB" },
+          "415": { "description": "Content-Type must be application/json" },
+          "429": { "description": "Webhook rate limit exceeded" },
+          "502": { "description": "Mercado Pago timed out, rejected or returned an invalid/oversized response" },
           "503": { "description": "Mercado Pago configuration is absent or incomplete" }
         }
       }

@@ -12,7 +12,7 @@
     "migrate": "node src/migrate.js",
     "catalog:dry-run": "node src/import-catalog.js",
     "catalog:import": "node src/import-catalog.js --apply",
-    "check": "node --check src/app.js && node --check src/checkout.js && node --check src/mercado-pago.js && node --check src/server.js && node --check src/migrate.js && node --check src/import-catalog.js"
+    "check": "node --check src/app.js && node --check src/checkout.js && node --check src/http-security.js && node --check src/mercado-pago.js && node --check src/server.js && node --check src/migrate.js && node --check src/import-catalog.js"
   },
   "dependencies": {
     "express": "^5.3.0",
